@@ -1,5 +1,5 @@
 import type { Location as RouterLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 
@@ -10,6 +10,7 @@ const LoginPage = () => {
 
   const [isLoggingIn, setIsLoggingIn] = useState(false)
   const [loginSuccess, setLoginSuccess] = useState(false)
+  const redirectPathRef = useRef('/')
   // 1. Add state for login errors
   const [error, setError] = useState<string | null>(null)
 
@@ -28,25 +29,30 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
-    if (loginSuccess) return
+    if (loading) return
 
-    if (!loading && user) {
-      setLoginSuccess(true)
-      const redirectTo =
+    if (user) {
+      redirectPathRef.current =
         (location.state as { from?: RouterLocation } | undefined)?.from
           ?.pathname ?? '/'
-
-      const timer = setTimeout(() => {
-        navigate(redirectTo, { replace: true })
-      }, 1500)
-
-      return () => clearTimeout(timer)
+      setLoginSuccess(true)
+      return
     }
 
-    if (!loading && !user && isLoggingIn) {
+    if (isLoggingIn) {
       setIsLoggingIn(false)
     }
-  }, [loading, user, location, navigate, loginSuccess, isLoggingIn])
+  }, [loading, user, location, isLoggingIn])
+
+  useEffect(() => {
+    if (!loginSuccess) return
+
+    const timer = window.setTimeout(() => {
+      navigate(redirectPathRef.current, { replace: true })
+    }, 900)
+
+    return () => window.clearTimeout(timer)
+  }, [loginSuccess, navigate])
 
   const isBusy = loading || isLoggingIn || loginSuccess
 

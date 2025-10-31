@@ -14,54 +14,54 @@
       Implement auth logic hooks using Firebase Auth for:
   - [x] Google Sign-In
     - [x] Implement protected routes that redirect unauthenticated users.
-- [ ] **Profile Management (in "Settings" view):**
-  - [ ] Create the `Settings > Manage Children` view.
-  - [ ] Implement **CRUD** (Create, Read, Update, Delete) for **Child Profiles**.
-  - [ ] Form (using Zod) must include `displayName` and `avatarToken` (e.g., emoji/colour).
-  - [ ] Ensure `totalStars` is initialized to `0`.
-  - [ ] Ensure no photos or PII are requested (per `Privacy` section).
+- [x] **Profile Management (in "Settings" view):**
+  - [x] Create the `Settings > Manage Children` view.
+  - [x] Implement **CRUD** (Create, Read, Update, Delete) for **Child Profiles**.
+  - [x] Form (using Zod) must include `displayName` and `avatarToken` (e.g., emoji/colour).
+  - [x] Ensure `totalStars` is initialized to `0`.
+  - [x] Ensure no photos or PII are requested (per `Privacy` section).
 
 ### Core Data Setup (Tasks & Rewards)
 
-- [ ] Task Management (in "Settings" view):
-  - [ ] Create the `Settings > Manage Tasks` view.
-  - [ ] Implement **CRUD** for **Tasks**.
-  - [ ] Form must include `title`, `childId` (to link to a child), optional `category`, and `starValue` (1, 2, or 3).
-- [ ] Reward Management (in "Settings" view):\*\*
-  - [ ] Create the `Settings > Manage Rewards` view.
-  - [ ] Implement **CRUD** for **Rewards**.
-  - [ ] Form must include `title` and `costStars`.
-- [ ] Firestore Rules:
-  - [ ] Implement the user-scoped security rules to protect all user collections (`children`, `tasks`, `rewards`, etc.).
+- [x] Task Management (in "Settings" view):
+  - [x] Create the `Settings > Manage Tasks` view.
+  - [x] Implement **CRUD** for **Tasks**.
+  - [x] Form must include `title`, `childId` (to link to a child), optional `category`, and `starValue` (1, 2, or 3).
+- [x] Reward Management (in "Settings" view):\*\*
+  - [x] Create the `Settings > Manage Rewards` view.
+  - [x] Implement **CRUD** for **Rewards**.
+  - [x] Form must include `title` and `costStars`.
+- [x] Firestore Rules:
+  - [x] Implement the user-scoped security rules to protect all user collections (`children`, `tasks`, `rewards`, etc.).
 
 ### 4. The Core Loop: Awarding & Redeeming
 
-This is the "one-tap delight" and primary job-to-be-done.
-
-- **Home Screen UI:**
-  - [ ] Build the `Home` view.
-  - [ ] Implement a **Child Selector** (if more than one child exists).
-  - [ ] Display the selected child's **Current Star Balance** (reading `Child.totalStars`).
-  - [ ] Display the "Nearest Reward" based on the child's balance.
-- **Awarding Stars:**
-  - [ ] Build the `Tasks` view (checklist).
-  - [ ] Tapping a task checkbox should trigger the star award.
-  - [ ] Implement the large "Award Star" button on the `Home` view (for ad-hoc awards).
-  - [ ] **Core Logic:** On award, execute a function that:
-    - 1. Creates a `StarEvent` document (with `childId`, `delta`, `createdAt`).
-    - 2. Atomically increments the `totalStars` field on the corresponding `Child` document (using `FieldValue.increment`).
-  - [ ] Implement **Optimistic UI** (< 150ms feedback).
-  - [ ] Add confetti and Web Vibration API feedback on success.
-- **Redeeming Rewards:**
-  - [ ] Build the `Rewards` view (grid of available rewards).
-  - [ ] Tapping "Redeem" triggers the redemption flow.
-  - [ ] **Core Logic:** On redeem, execute a function (ideally a transaction) that:
-    - 1. Checks if `Child.totalStars >= Reward.costStars`.
-    - 2. If true, creates a `Redemption` document.
-    - 3. Atomically decrements the `totalStars` field on the `Child` document.
-  - [ ] Show a "celebration screen" on successful redemption.
+- [x] Home Screen UI
+  - [x] Build the Home view.
+    - [x] Implement a **Child Selector** (if more than one child exists).
+    - [x] Display the selected child's **Current Star Balance** (reading `Child.totalStars`).
+    - [x] Display the "Nearest Reward" based on the child's balance.
+- [x] Awarding Stars:
+  - [x] Build the `Tasks` view (checklist).
+  - [x] Tapping a task checkbox should trigger the star award.
+  - [x] Implement the large "Award Star" button on the `Home` view (for ad-hoc awards).
+  - [x] **Core Logic:** On award, execute a function that:
+    - [ ] Creates a `StarEvent` document (with `childId`, `delta`, `createdAt`).
+    - [ ] Atomically increments the `totalStars` field on the corresponding `Child` document (using `FieldValue.increment`).
+  - [x] Implement **Optimistic UI** (< 150ms feedback).
+  - [x] Add confetti and Web Vibration API feedback on success.
+- [x] Redeeming Rewards:\*\*
+  - [x] Build the `Rewards` view (grid of available rewards).
+  - [x] Tapping "Redeem" triggers the redemption flow.
+  - [x] **Core Logic:** On redeem, execute a function (ideally a transaction) that:
+    - [x] Checks if `Child.totalStars >= Reward.costStars`.
+    - [x] If true, creates a `Redemption` document.
+    - [x] Atomically decrements the `totalStars` field on the `Child` document.
+  - [x] Show a "celebration screen" on successful redemption.
 
 ---
+
+## 4.5 Things we Didn't Think About
 
 ### 5. Supporting Views & PWA
 
