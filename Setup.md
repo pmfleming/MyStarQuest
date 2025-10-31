@@ -32,18 +32,18 @@ npm run build
 firebase deploy
 ```
 
-1. Creates a new project using **Vite** (a fast web app build tool), right in the **current folder (`.`)**. It uses the **React + TypeScript** starter template.
-2. Installs the tools you need to use **Tailwind CSS** (a styling framework).
-3. Installs the **Tailwind CLI tool** this lets you run Tailwind directly from the command line (e.g. `npx tailwindcss build ...`) without needing a full PostCSS setup.
-4. Creates Tailwind’s **configuration files** so you can customize it.
+1. Create a new project using **Vite** (a fast web app build tool), right in the **current folder (`.`)**. It uses the **React + TypeScript** starter template.
+2. Install the tools you need to use **Tailwind CSS** (a styling framework).
+3. Install the **Tailwind CLI tool** this lets you run Tailwind directly from the command line (e.g. `npx tailwindcss build ...`) without needing a full PostCSS setup.
+4. Create Tailwind’s **configuration files** so you can customize it.
 5. **Husky** is a small tool that lets you automatically run scripts when you use **Git** for example, before you **commit** or **push** code.
 6. **Lint** (or “linting”) means **automatically checking your code for problems** like typos, style issues, or common bugs _before_ it runs.
 7. **Playwright** is a tool made by Microsoft that lets you **automate and test web browsers**
 8. Install the Firebase SDK - **Google’s all-in-one backend platform** for web and mobile apps
 9. Link the CLI to your Firebase projects
 10. Interactive setup of Furebase
-11. Builds your production-ready static files
-12. Uploads your built app (`dist/`) to Firebase Hosting
+11. Build your production-ready static files
+12. Upload your built app (`dist/`) to Firebase Hosting
 
 ### Tailwind
 

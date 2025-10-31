@@ -12,6 +12,10 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 }
 
+if (import.meta.env.DEV) {
+  console.log('Firebase API key in use:', import.meta.env.VITE_FIREBASE_API_KEY)
+}
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 
