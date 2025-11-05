@@ -1,11 +1,5 @@
 import React, { createContext, useState, useMemo } from 'react'
-import {
-  princessBackground,
-  princessTaskIcon,
-  princessRewardsIcon,
-  princessChildrenIcon,
-  princessDashboardIcon,
-} from '../assets/themes/princess/assets'
+import reactLogo from '../assets/react.svg'
 /* eslint-disable react-refresh/only-export-components */
 
 // Define the shape of a theme
@@ -53,12 +47,11 @@ export const themes: Record<string, Theme> = {
     ],
     confetti: ['crowns', 'stars'],
     emptyState: 'castle skyline with banner placeholders',
-    backgroundImage: princessBackground,
     icons: {
-      dashboard: princessDashboardIcon,
-      tasks: princessTaskIcon,
-      rewards: princessRewardsIcon,
-      children: princessChildrenIcon,
+      dashboard: reactLogo,
+      tasks: reactLogo,
+      rewards: reactLogo,
+      children: reactLogo,
     },
   },
   robot: {
