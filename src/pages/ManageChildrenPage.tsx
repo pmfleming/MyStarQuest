@@ -2,6 +2,7 @@ import type { FormEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
+import { THEME_OPTIONS, type ThemeId } from '../constants/themeOptions'
 import {
   addDoc,
   collection,
@@ -34,6 +35,7 @@ type ChildProfile = {
   displayName: string
   avatarToken: string
   totalStars: number
+  themeId?: ThemeId
   createdAt?: Date
 }
 
@@ -43,6 +45,7 @@ const ManageChildrenPage = () => {
   const [formValues, setFormValues] = useState({
     displayName: '',
     avatarToken: '',
+    themeId: 'princess' as ThemeId,
   })
   const [formErrors, setFormErrors] = useState<string[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -80,7 +83,7 @@ const ManageChildrenPage = () => {
   const heading = editingId ? 'Update Child Profile' : 'Add Child Profile'
 
   const resetForm = () => {
-    setFormValues({ displayName: '', avatarToken: '' })
+    setFormValues({ displayName: '', avatarToken: '', themeId: 'princess' })
     setFormErrors([])
     setEditingId(null)
   }
@@ -106,11 +109,13 @@ const ManageChildrenPage = () => {
         await updateDoc(doc(childCollection, editingId), {
           displayName: parsed.data.displayName,
           avatarToken: parsed.data.avatarToken,
+          themeId: formValues.themeId,
         })
       } else {
         await addDoc(childCollection, {
           displayName: parsed.data.displayName,
           avatarToken: parsed.data.avatarToken,
+          themeId: formValues.themeId,
           totalStars: 0,
           createdAt: serverTimestamp(),
         })
@@ -130,6 +135,7 @@ const ManageChildrenPage = () => {
     setFormValues({
       displayName: child.displayName,
       avatarToken: child.avatarToken,
+      themeId: child.themeId || 'princess',
     })
     setFormErrors([])
   }
@@ -210,24 +216,42 @@ const ManageChildrenPage = () => {
               />
             </label>
 
-            <label className="block text-sm font-medium">
-              Avatar token
-              <input
-                type="text"
-                value={formValues.avatarToken}
-                onChange={(event) =>
-                  setFormValues((prev) => ({
-                    ...prev,
-                    avatarToken: event.target.value,
-                  }))
-                }
-                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-base text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                placeholder="e.g. 🚀 or Lavender"
-                autoComplete="off"
-                maxLength={12}
-                required
-              />
-            </label>
+            <fieldset className="space-y-2">
+              <legend className="block text-sm font-medium">
+                Choose Avatar
+              </legend>
+              <div className="grid grid-cols-3 gap-3">
+                {THEME_OPTIONS.map((option) => (
+                  <button
+                    key={option.id}
+                    type="button"
+                    onClick={() => {
+                      setFormValues((prev) => ({
+                        ...prev,
+                        themeId: option.id,
+                        avatarToken: option.emoji,
+                      }))
+                    }}
+                    className={`flex flex-col items-center gap-2 rounded-lg border-2 p-4 transition-all ${
+                      formValues.themeId === option.id
+                        ? 'border-emerald-500 bg-emerald-500/20 shadow-lg shadow-emerald-500/20'
+                        : 'border-slate-700 bg-slate-900 hover:border-slate-500'
+                    }`}
+                  >
+                    <span
+                      className="text-4xl"
+                      role="img"
+                      aria-label={option.label}
+                    >
+                      {option.emoji}
+                    </span>
+                    <span className="text-xs font-medium text-slate-300">
+                      {option.label}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </fieldset>
 
             <div className="flex items-center justify-between gap-3">
               {editingId ? (
