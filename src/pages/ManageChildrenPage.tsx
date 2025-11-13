@@ -52,6 +52,9 @@ const ManageChildrenPage = () => {
   })
   const [formErrors, setFormErrors] = useState<Record<string, string[]>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [selectedExplorerId, setSelectedExplorerId] = useState<string>(() => {
+    return localStorage.getItem('selectedExplorerId') || ''
+  })
 
   useEffect(() => {
     if (!user) {
@@ -164,9 +167,19 @@ const ManageChildrenPage = () => {
 
     try {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'children'), id))
+      // Clear selection if deleting the selected explorer
+      if (id === selectedExplorerId) {
+        setSelectedExplorerId('')
+        localStorage.removeItem('selectedExplorerId')
+      }
     } catch (error) {
       console.error('Failed to delete child profile', error)
     }
+  }
+
+  const handleSelectExplorer = (childId: string) => {
+    setSelectedExplorerId(childId)
+    localStorage.setItem('selectedExplorerId', childId)
   }
 
   const childCountLabel = useMemo(() => {
@@ -344,6 +357,32 @@ const ManageChildrenPage = () => {
                     </div>
 
                     <div className="flex gap-2 self-end md:self-auto">
+                      {selectedExplorerId !== child.id && (
+                        <button
+                          type="button"
+                          onClick={() => handleSelectExplorer(child.id)}
+                          disabled={editingId !== null}
+                          className="rounded-lg border border-emerald-600 bg-emerald-500/10 px-3 py-2 text-xs font-medium text-emerald-200 transition hover:border-emerald-400 hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          Select Explorer
+                        </button>
+                      )}
+                      {selectedExplorerId === child.id && (
+                        <span className="flex items-center gap-1 rounded-lg border border-emerald-500 bg-emerald-500/20 px-3 py-2 text-xs font-medium text-emerald-300">
+                          <svg
+                            className="h-3 w-3"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          Selected
+                        </span>
+                      )}
                       <button
                         type="button"
                         onClick={() => startEdit(child)}

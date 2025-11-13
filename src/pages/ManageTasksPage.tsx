@@ -1,4 +1,3 @@
-import type { FormEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
@@ -49,14 +48,14 @@ const ManageTasksPage = () => {
   const { user } = useAuth()
   const [children, setChildren] = useState<ChildSummary[]>([])
   const [tasks, setTasks] = useState<TaskRecord[]>([])
-  const [formValues, setFormValues] = useState({
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editForm, setEditForm] = useState({
     title: '',
     childId: '',
     category: '',
     starValue: 1 as 1 | 2 | 3,
   })
-  const [editingId, setEditingId] = useState<string | null>(null)
-  const [formErrors, setFormErrors] = useState<string[]>([])
+  const [formErrors, setFormErrors] = useState<Record<string, string[]>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
@@ -110,85 +109,76 @@ const ManageTasksPage = () => {
     }
   }, [user])
 
-  useEffect(() => {
-    if (children.length === 0) {
-      setFormValues((prev) => ({ ...prev, childId: '' }))
-      return
-    }
-
-    if (!editingId && formValues.childId === '') {
-      setFormValues((prev) => ({ ...prev, childId: children[0].id }))
-    }
-  }, [children, editingId, formValues.childId])
-
-  const heading = editingId ? 'Update Task' : 'Add Task'
-
-  const resetForm = () => {
-    setFormValues({ title: '', childId: '', category: '', starValue: 1 })
-    setFormErrors([])
-    setEditingId(null)
-  }
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    if (!user) return
-
-    const parsed = taskSchema.safeParse({
-      ...formValues,
-      category:
-        formValues.category.trim() === '' ? undefined : formValues.category,
-    })
-
-    if (!parsed.success) {
-      setFormErrors(parsed.error.issues.map((issue) => issue.message))
-      return
-    }
-
-    setIsSubmitting(true)
-    setFormErrors([])
-
-    const tasksCollection = collection(db, 'users', user.uid, 'tasks')
-
-    try {
-      if (editingId) {
-        await updateDoc(doc(tasksCollection, editingId), {
-          title: parsed.data.title,
-          childId: parsed.data.childId,
-          category: parsed.data.category ?? '',
-          starValue: parsed.data.starValue,
-        })
-      } else {
-        await addDoc(tasksCollection, {
-          title: parsed.data.title,
-          childId: parsed.data.childId,
-          category: parsed.data.category ?? '',
-          starValue: parsed.data.starValue,
-          createdAt: serverTimestamp(),
-        })
-      }
-
-      resetForm()
-    } catch (error) {
-      console.error('Failed to save task', error)
-      setFormErrors(['Unable to save task. Please try again.'])
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
   const startEdit = (task: TaskRecord) => {
     setEditingId(task.id)
-    setFormValues({
+    setEditForm({
       title: task.title,
       childId: task.childId,
       category: task.category,
       starValue: task.starValue,
     })
-    setFormErrors([])
+    setFormErrors({})
+  }
+
+  const startCreate = () => {
+    if (!user) return
+    setEditingId('new')
+    setEditForm({
+      title: '',
+      childId: children[0]?.id || '',
+      category: '',
+      starValue: 1,
+    })
+    setFormErrors({})
+  }
+
+  const cancelEdit = () => {
+    setEditingId(null)
+    setEditForm({ title: '', childId: '', category: '', starValue: 1 })
+    setFormErrors({})
+  }
+
+  const saveTask = async (id: string) => {
+    if (!user) return
+
+    const parsed = taskSchema.safeParse(editForm)
+
+    if (!parsed.success) {
+      setFormErrors({
+        [id]: parsed.error.issues.map((issue) => issue.message),
+      })
+      return
+    }
+
+    setIsSubmitting(true)
+    setFormErrors({})
+
+    const taskCollection = collection(db, 'users', user.uid, 'tasks')
+
+    try {
+      if (id === 'new') {
+        await addDoc(taskCollection, {
+          ...parsed.data,
+          createdAt: serverTimestamp(),
+        })
+      } else {
+        await updateDoc(doc(taskCollection, id), parsed.data)
+      }
+
+      cancelEdit()
+    } catch (error) {
+      console.error('Failed to save task', error)
+      setFormErrors({
+        [id]: ['Unable to save task. Please try again.'],
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleDelete = async (id: string) => {
     if (!user) return
+
     const confirmDelete = window.confirm('Delete this task?')
     if (!confirmDelete) return
 
@@ -196,29 +186,17 @@ const ManageTasksPage = () => {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'tasks'), id))
     } catch (error) {
       console.error('Failed to delete task', error)
-      setFormErrors(['Unable to delete task. Please try again.'])
     }
   }
 
-  const childOptions = useMemo(() => {
-    return children.map((child) => (
-      <option key={child.id} value={child.id}>
-        {child.displayName}
-      </option>
-    ))
-  }, [children])
-
-  const childLookup = useMemo(() => {
-    const map = new Map<string, string>()
-    children.forEach((child) => {
-      map.set(child.id, child.displayName)
-    })
-    return map
-  }, [children])
-
-  const tasksCountLabel = useMemo(() => {
+  const taskCountLabel = useMemo(() => {
     return tasks.length === 1 ? '1 task' : `${tasks.length} tasks`
   }, [tasks.length])
+
+  const getChildName = (childId: string) => {
+    const child = children.find((c) => c.id === childId)
+    return child?.displayName || 'Unknown'
+  }
 
   return (
     <main className="flex min-h-screen flex-col bg-slate-950 p-6 text-slate-100">
@@ -229,8 +207,7 @@ const ManageTasksPage = () => {
           </p>
           <h1 className="text-3xl font-semibold">Manage Tasks</h1>
           <p className="mt-1 text-sm text-slate-400">
-            Link tasks to child profiles and set star rewards. No personal
-            information is collected.
+            Create and manage tasks that children can complete to earn stars.
           </p>
         </div>
         <Link
@@ -241,186 +218,345 @@ const ManageTasksPage = () => {
         </Link>
       </header>
 
-      <section className="grid gap-6 md:grid-cols-[minmax(0,360px)_1fr]">
-        <article className="space-y-4 rounded-xl bg-slate-900/70 p-6 shadow-lg shadow-slate-950/30">
-          <h2 className="text-xl font-semibold">{heading}</h2>
-          <p className="text-sm text-slate-400">
-            Define clear, privacy-safe tasks. Choose a child, optional category,
-            and star value (1-3).
-          </p>
-
-          {formErrors.length > 0 && (
-            <ul className="space-y-2 rounded-lg border border-red-700 bg-red-900/30 p-4 text-sm text-red-200">
-              {formErrors.map((message) => (
-                <li key={message}>{message}</li>
-              ))}
-            </ul>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <label className="block text-sm font-medium">
-              Title
-              <input
-                type="text"
-                value={formValues.title}
-                onChange={(event) =>
-                  setFormValues((prev) => ({
-                    ...prev,
-                    title: event.target.value,
-                  }))
-                }
-                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-base text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                placeholder="e.g. Complete homework"
-                autoComplete="off"
-                maxLength={80}
-                required
-              />
-            </label>
-
-            <label className="block text-sm font-medium">
-              Assigned child
-              <select
-                value={formValues.childId}
-                onChange={(event) =>
-                  setFormValues((prev) => ({
-                    ...prev,
-                    childId: event.target.value,
-                  }))
-                }
-                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-base text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                required
-                disabled={children.length === 0}
-              >
-                <option value="" disabled>
-                  {children.length === 0
-                    ? 'Add a child profile first'
-                    : 'Select a child'}
-                </option>
-                {childOptions}
-              </select>
-            </label>
-
-            <label className="block text-sm font-medium">
-              Category (optional)
-              <input
-                type="text"
-                value={formValues.category}
-                onChange={(event) =>
-                  setFormValues((prev) => ({
-                    ...prev,
-                    category: event.target.value,
-                  }))
-                }
-                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-base text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                placeholder="e.g. Chores"
-                autoComplete="off"
-                maxLength={40}
-              />
-            </label>
-
-            <label className="block text-sm font-medium">
-              Star value
-              <select
-                value={formValues.starValue}
-                onChange={(event) =>
-                  setFormValues((prev) => ({
-                    ...prev,
-                    starValue: Number(event.target.value) as 1 | 2 | 3,
-                  }))
-                }
-                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-base text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                required
-              >
-                <option value={1}>1 star</option>
-                <option value={2}>2 stars</option>
-                <option value={3}>3 stars</option>
-              </select>
-            </label>
-
-            <div className="flex items-center justify-between gap-3">
-              {editingId ? (
-                <button
-                  type="button"
-                  onClick={resetForm}
-                  className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 hover:text-slate-100"
-                >
-                  Cancel
-                </button>
-              ) : (
-                <span className="text-xs text-slate-500">
-                  Assign tasks to drive consistent habits.
-                </span>
-              )}
-
-              <button
-                type="submit"
-                disabled={isSubmitting || children.length === 0}
-                className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 focus:outline-none focus-visible:ring focus-visible:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                {isSubmitting
-                  ? 'Saving…'
-                  : editingId
-                    ? 'Update task'
-                    : 'Create task'}
-              </button>
-            </div>
-          </form>
-        </article>
-
+      <section className="max-w-4xl">
         <article className="space-y-4 rounded-xl bg-slate-900/50 p-6 shadow-inner shadow-slate-950/40">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">Tasks</h2>
             <span className="text-xs tracking-wide text-slate-500 uppercase">
-              {tasksCountLabel}
+              {taskCountLabel}
             </span>
           </div>
 
-          {tasks.length === 0 ? (
-            <p className="rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-6 text-center text-sm text-slate-400">
-              No tasks yet. Create one to start awarding stars.
-            </p>
+          {children.length === 0 ? (
+            <div className="rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-6 text-center text-sm text-slate-400">
+              <p className="mb-2">No children yet.</p>
+              <p className="text-xs text-slate-500">
+                Add a child profile first before creating tasks.
+              </p>
+            </div>
+          ) : tasks.length === 0 && editingId !== 'new' ? (
+            <div className="space-y-4">
+              <p className="rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-6 text-center text-sm text-slate-400">
+                No tasks yet. Click "Create Task" to add one.
+              </p>
+              <button
+                type="button"
+                onClick={startCreate}
+                className="w-full rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400"
+              >
+                Create Task
+              </button>
+            </div>
           ) : (
             <ul className="space-y-3">
-              {tasks.map((task) => (
-                <li
-                  key={task.id}
-                  className="flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-950/60 p-4 text-sm md:flex-row md:items-center md:justify-between"
-                >
-                  <div>
-                    <p className="text-base font-semibold text-slate-100">
-                      {task.title}
-                    </p>
-                    <p className="text-xs text-slate-400">
-                      Child: {childLookup.get(task.childId) ?? 'Unknown'}
-                    </p>
-                    {task.category && (
-                      <p className="text-xs text-slate-500">
-                        Category: {task.category}
+              {tasks.map((task) => {
+                const isEditing = editingId === task.id
+                const errors = formErrors[task.id]
+
+                if (isEditing) {
+                  return (
+                    <li
+                      key={task.id}
+                      className="space-y-3 rounded-lg border-2 border-emerald-500 bg-slate-900/80 p-4"
+                    >
+                      {errors && errors.length > 0 && (
+                        <div className="rounded border border-red-700 bg-red-900/30 p-2 text-xs text-red-200">
+                          {errors.map((err) => (
+                            <p key={err}>{err}</p>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="space-y-3">
+                        <label className="block text-sm">
+                          <span className="font-medium text-slate-300">
+                            Task title
+                          </span>
+                          <input
+                            type="text"
+                            value={editForm.title}
+                            onChange={(e) =>
+                              setEditForm((prev) => ({
+                                ...prev,
+                                title: e.target.value,
+                              }))
+                            }
+                            className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
+                            placeholder="e.g. Make bed"
+                            maxLength={80}
+                          />
+                        </label>
+
+                        <label className="block text-sm">
+                          <span className="font-medium text-slate-300">
+                            Assigned to
+                          </span>
+                          <select
+                            value={editForm.childId}
+                            onChange={(e) =>
+                              setEditForm((prev) => ({
+                                ...prev,
+                                childId: e.target.value,
+                              }))
+                            }
+                            className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
+                          >
+                            <option value="">Select child</option>
+                            {children.map((child) => (
+                              <option key={child.id} value={child.id}>
+                                {child.displayName}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+
+                        <label className="block text-sm">
+                          <span className="font-medium text-slate-300">
+                            Category (optional)
+                          </span>
+                          <input
+                            type="text"
+                            value={editForm.category}
+                            onChange={(e) =>
+                              setEditForm((prev) => ({
+                                ...prev,
+                                category: e.target.value,
+                              }))
+                            }
+                            className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
+                            placeholder="e.g. Chores"
+                            maxLength={40}
+                          />
+                        </label>
+
+                        <fieldset className="space-y-2">
+                          <legend className="text-sm font-medium text-slate-300">
+                            Star value
+                          </legend>
+                          <div className="flex gap-2">
+                            {[1, 2, 3].map((val) => (
+                              <button
+                                key={val}
+                                type="button"
+                                onClick={() =>
+                                  setEditForm((prev) => ({
+                                    ...prev,
+                                    starValue: val as 1 | 2 | 3,
+                                  }))
+                                }
+                                className={`flex-1 rounded-lg border-2 px-4 py-3 text-lg font-semibold transition-all ${
+                                  editForm.starValue === val
+                                    ? 'border-emerald-500 bg-emerald-500/20 text-emerald-300'
+                                    : 'border-slate-700 bg-slate-900/50 text-slate-300 hover:border-slate-500'
+                                }`}
+                              >
+                                {'⭐'.repeat(val)}
+                              </button>
+                            ))}
+                          </div>
+                        </fieldset>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => saveTask(task.id)}
+                          disabled={isSubmitting}
+                          className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
+                        >
+                          {isSubmitting ? 'Saving…' : 'Save'}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={cancelEdit}
+                          disabled={isSubmitting}
+                          className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 disabled:cursor-not-allowed disabled:opacity-70"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </li>
+                  )
+                }
+
+                return (
+                  <li
+                    key={task.id}
+                    className="flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-950/60 p-4 text-sm md:flex-row md:items-center md:justify-between"
+                  >
+                    <div className="flex-1">
+                      <div className="flex items-baseline gap-2">
+                        <p className="text-base font-semibold text-slate-100">
+                          {task.title}
+                        </p>
+                        <span className="text-lg">
+                          {'⭐'.repeat(task.starValue)}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-400">
+                        <span className="text-emerald-300">
+                          {getChildName(task.childId)}
+                        </span>
+                        {task.category && (
+                          <span className="ml-2">• {task.category}</span>
+                        )}
                       </p>
-                    )}
-                    <p className="text-xs text-emerald-300">
-                      Worth {task.starValue} star(s)
-                    </p>
+                    </div>
+
+                    <div className="flex gap-2 self-end md:self-auto">
+                      <button
+                        type="button"
+                        onClick={() => startEdit(task)}
+                        disabled={editingId !== null}
+                        className="rounded-lg border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 transition hover:border-slate-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(task.id)}
+                        disabled={editingId !== null}
+                        className="rounded-lg border border-red-600 px-3 py-2 text-xs font-medium text-red-200 transition hover:border-red-400 hover:text-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </li>
+                )
+              })}
+
+              {editingId === 'new' && (
+                <li className="space-y-3 rounded-lg border-2 border-emerald-500 bg-slate-900/80 p-4">
+                  {formErrors['new'] && formErrors['new'].length > 0 && (
+                    <div className="rounded border border-red-700 bg-red-900/30 p-2 text-xs text-red-200">
+                      {formErrors['new'].map((err) => (
+                        <p key={err}>{err}</p>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="space-y-3">
+                    <label className="block text-sm">
+                      <span className="font-medium text-slate-300">
+                        Task title
+                      </span>
+                      <input
+                        type="text"
+                        value={editForm.title}
+                        onChange={(e) =>
+                          setEditForm((prev) => ({
+                            ...prev,
+                            title: e.target.value,
+                          }))
+                        }
+                        className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
+                        placeholder="e.g. Make bed"
+                        maxLength={80}
+                      />
+                    </label>
+
+                    <label className="block text-sm">
+                      <span className="font-medium text-slate-300">
+                        Assigned to
+                      </span>
+                      <select
+                        value={editForm.childId}
+                        onChange={(e) =>
+                          setEditForm((prev) => ({
+                            ...prev,
+                            childId: e.target.value,
+                          }))
+                        }
+                        className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
+                      >
+                        <option value="">Select child</option>
+                        {children.map((child) => (
+                          <option key={child.id} value={child.id}>
+                            {child.displayName}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+
+                    <label className="block text-sm">
+                      <span className="font-medium text-slate-300">
+                        Category (optional)
+                      </span>
+                      <input
+                        type="text"
+                        value={editForm.category}
+                        onChange={(e) =>
+                          setEditForm((prev) => ({
+                            ...prev,
+                            category: e.target.value,
+                          }))
+                        }
+                        className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
+                        placeholder="e.g. Chores"
+                        maxLength={40}
+                      />
+                    </label>
+
+                    <fieldset className="space-y-2">
+                      <legend className="text-sm font-medium text-slate-300">
+                        Star value
+                      </legend>
+                      <div className="flex gap-2">
+                        {[1, 2, 3].map((val) => (
+                          <button
+                            key={val}
+                            type="button"
+                            onClick={() =>
+                              setEditForm((prev) => ({
+                                ...prev,
+                                starValue: val as 1 | 2 | 3,
+                              }))
+                            }
+                            className={`flex-1 rounded-lg border-2 px-4 py-3 text-lg font-semibold transition-all ${
+                              editForm.starValue === val
+                                ? 'border-emerald-500 bg-emerald-500/20 text-emerald-300'
+                                : 'border-slate-700 bg-slate-900/50 text-slate-300 hover:border-slate-500'
+                            }`}
+                          >
+                            {'⭐'.repeat(val)}
+                          </button>
+                        ))}
+                      </div>
+                    </fieldset>
                   </div>
 
-                  <div className="flex gap-2 self-end md:self-auto">
+                  <div className="flex gap-2">
                     <button
                       type="button"
-                      onClick={() => startEdit(task)}
-                      className="rounded-lg border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 transition hover:border-slate-500 hover:text-white"
+                      onClick={() => saveTask('new')}
+                      disabled={isSubmitting}
+                      className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                      Edit
+                      {isSubmitting ? 'Creating…' : 'Create Task'}
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleDelete(task.id)}
-                      className="rounded-lg border border-red-600 px-3 py-2 text-xs font-medium text-red-200 transition hover:border-red-400 hover:text-red-100"
+                      onClick={cancelEdit}
+                      disabled={isSubmitting}
+                      className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                      Delete
+                      Cancel
                     </button>
                   </div>
                 </li>
-              ))}
+              )}
+
+              {editingId === null && (
+                <li>
+                  <button
+                    type="button"
+                    onClick={startCreate}
+                    className="w-full rounded-lg border-2 border-dashed border-slate-700 bg-slate-900/40 px-4 py-4 text-sm font-medium text-slate-300 transition hover:border-emerald-500 hover:bg-slate-900/60 hover:text-emerald-300"
+                  >
+                    + Create Task
+                  </button>
+                </li>
+              )}
             </ul>
           )}
         </article>

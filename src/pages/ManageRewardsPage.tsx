@@ -1,4 +1,3 @@
-import type { FormEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
@@ -20,6 +19,7 @@ type RewardRecord = {
   id: string
   title: string
   costStars: number
+  createdAt?: Date
 }
 
 const rewardSchema = z.object({
@@ -38,9 +38,12 @@ const rewardSchema = z.object({
 const ManageRewardsPage = () => {
   const { user } = useAuth()
   const [rewards, setRewards] = useState<RewardRecord[]>([])
-  const [formValues, setFormValues] = useState({ title: '', costStars: 1 })
   const [editingId, setEditingId] = useState<string | null>(null)
-  const [formErrors, setFormErrors] = useState<string[]>([])
+  const [editForm, setEditForm] = useState({
+    title: '',
+    costStars: 1,
+  })
+  const [formErrors, setFormErrors] = useState<Record<string, string[]>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
@@ -62,6 +65,7 @@ const ManageRewardsPage = () => {
             id: docSnapshot.id,
             title: data.title ?? 'Untitled reward',
             costStars: data.costStars ?? 1,
+            createdAt: data.createdAt?.toDate?.(),
           }
         })
       )
@@ -70,60 +74,75 @@ const ManageRewardsPage = () => {
     return unsubscribe
   }, [user])
 
-  const heading = editingId ? 'Update Reward' : 'Add Reward'
-
-  const resetForm = () => {
-    setFormValues({ title: '', costStars: 1 })
-    setFormErrors([])
-    setEditingId(null)
+  const startEdit = (reward: RewardRecord) => {
+    setEditingId(reward.id)
+    setEditForm({
+      title: reward.title,
+      costStars: reward.costStars,
+    })
+    setFormErrors({})
   }
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const startCreate = () => {
+    if (!user) return
+    setEditingId('new')
+    setEditForm({
+      title: '',
+      costStars: 1,
+    })
+    setFormErrors({})
+  }
+
+  const cancelEdit = () => {
+    setEditingId(null)
+    setEditForm({ title: '', costStars: 1 })
+    setFormErrors({})
+  }
+
+  const saveReward = async (id: string) => {
     if (!user) return
 
     const parsed = rewardSchema.safeParse({
-      title: formValues.title,
-      costStars: Number(formValues.costStars),
+      title: editForm.title,
+      costStars: Number(editForm.costStars),
     })
 
     if (!parsed.success) {
-      setFormErrors(parsed.error.issues.map((issue) => issue.message))
+      setFormErrors({
+        [id]: parsed.error.issues.map((issue) => issue.message),
+      })
       return
     }
 
     setIsSubmitting(true)
-    setFormErrors([])
+    setFormErrors({})
 
     const rewardsCollection = collection(db, 'users', user.uid, 'rewards')
 
     try {
-      if (editingId) {
-        await updateDoc(doc(rewardsCollection, editingId), parsed.data)
-      } else {
+      if (id === 'new') {
         await addDoc(rewardsCollection, {
           ...parsed.data,
           createdAt: serverTimestamp(),
         })
+      } else {
+        await updateDoc(doc(rewardsCollection, id), parsed.data)
       }
 
-      resetForm()
+      cancelEdit()
     } catch (error) {
       console.error('Failed to save reward', error)
-      setFormErrors(['Unable to save reward. Please try again.'])
+      setFormErrors({
+        [id]: ['Unable to save reward. Please try again.'],
+      })
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const startEdit = (reward: RewardRecord) => {
-    setEditingId(reward.id)
-    setFormValues({ title: reward.title, costStars: reward.costStars })
-    setFormErrors([])
-  }
-
   const handleDelete = async (id: string) => {
     if (!user) return
+
     const confirmDelete = window.confirm('Delete this reward?')
     if (!confirmDelete) return
 
@@ -131,7 +150,6 @@ const ManageRewardsPage = () => {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'rewards'), id))
     } catch (error) {
       console.error('Failed to delete reward', error)
-      setFormErrors(['Unable to delete reward. Please try again.'])
     }
   }
 
@@ -148,8 +166,7 @@ const ManageRewardsPage = () => {
           </p>
           <h1 className="text-3xl font-semibold">Manage Rewards</h1>
           <p className="mt-1 text-sm text-slate-400">
-            Create rewards that children can exchange stars for. Only store
-            titles and star costs.
+            Create rewards that children can exchange stars for.
           </p>
         </div>
         <Link
@@ -160,90 +177,7 @@ const ManageRewardsPage = () => {
         </Link>
       </header>
 
-      <section className="grid gap-6 md:grid-cols-[minmax(0,360px)_1fr]">
-        <article className="space-y-4 rounded-xl bg-slate-900/70 p-6 shadow-lg shadow-slate-950/30">
-          <h2 className="text-xl font-semibold">{heading}</h2>
-          <p className="text-sm text-slate-400">
-            Keep rewards simple and privacy-safe: a name and how many stars they
-            cost.
-          </p>
-
-          {formErrors.length > 0 && (
-            <ul className="space-y-2 rounded-lg border border-red-700 bg-red-900/30 p-4 text-sm text-red-200">
-              {formErrors.map((message) => (
-                <li key={message}>{message}</li>
-              ))}
-            </ul>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <label className="block text-sm font-medium">
-              Title
-              <input
-                type="text"
-                value={formValues.title}
-                onChange={(event) =>
-                  setFormValues((prev) => ({
-                    ...prev,
-                    title: event.target.value,
-                  }))
-                }
-                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-base text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                placeholder="e.g. Movie night coupon"
-                autoComplete="off"
-                maxLength={80}
-                required
-              />
-            </label>
-
-            <label className="block text-sm font-medium">
-              Cost (stars)
-              <input
-                type="number"
-                min={1}
-                max={99}
-                value={formValues.costStars}
-                onChange={(event) =>
-                  setFormValues((prev) => ({
-                    ...prev,
-                    costStars: Number(event.target.value) || 1,
-                  }))
-                }
-                className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-base text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                required
-              />
-            </label>
-
-            <div className="flex items-center justify-between gap-3">
-              {editingId ? (
-                <button
-                  type="button"
-                  onClick={resetForm}
-                  className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 hover:text-slate-100"
-                >
-                  Cancel
-                </button>
-              ) : (
-                <span className="text-xs text-slate-500">
-                  Stars required must stay under 100.
-                </span>
-              )}
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 focus:outline-none focus-visible:ring focus-visible:ring-emerald-300 disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                {isSubmitting
-                  ? 'Saving…'
-                  : editingId
-                    ? 'Update reward'
-                    : 'Create reward'}
-              </button>
-            </div>
-          </form>
-        </article>
-
+      <section className="max-w-4xl">
         <article className="space-y-4 rounded-xl bg-slate-900/50 p-6 shadow-inner shadow-slate-950/40">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">Rewards</h2>
@@ -252,44 +186,220 @@ const ManageRewardsPage = () => {
             </span>
           </div>
 
-          {rewards.length === 0 ? (
-            <p className="rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-6 text-center text-sm text-slate-400">
-              No rewards yet. Create one to motivate star collection.
-            </p>
+          {rewards.length === 0 && editingId !== 'new' ? (
+            <div className="space-y-4">
+              <p className="rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-6 text-center text-sm text-slate-400">
+                No rewards yet. Click "Create Reward" to add one.
+              </p>
+              <button
+                type="button"
+                onClick={startCreate}
+                className="w-full rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400"
+              >
+                Create Reward
+              </button>
+            </div>
           ) : (
             <ul className="space-y-3">
-              {rewards.map((reward) => (
-                <li
-                  key={reward.id}
-                  className="flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-950/60 p-4 text-sm md:flex-row md:items-center md:justify-between"
-                >
-                  <div>
-                    <p className="text-base font-semibold text-slate-100">
-                      {reward.title}
-                    </p>
-                    <p className="text-xs text-emerald-300">
-                      Costs {reward.costStars} star(s)
-                    </p>
+              {rewards.map((reward) => {
+                const isEditing = editingId === reward.id
+                const errors = formErrors[reward.id]
+
+                if (isEditing) {
+                  return (
+                    <li
+                      key={reward.id}
+                      className="space-y-3 rounded-lg border-2 border-emerald-500 bg-slate-900/80 p-4"
+                    >
+                      {errors && errors.length > 0 && (
+                        <div className="rounded border border-red-700 bg-red-900/30 p-2 text-xs text-red-200">
+                          {errors.map((err) => (
+                            <p key={err}>{err}</p>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="space-y-3">
+                        <label className="block text-sm">
+                          <span className="font-medium text-slate-300">
+                            Reward title
+                          </span>
+                          <input
+                            type="text"
+                            value={editForm.title}
+                            onChange={(e) =>
+                              setEditForm((prev) => ({
+                                ...prev,
+                                title: e.target.value,
+                              }))
+                            }
+                            className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
+                            placeholder="e.g. Movie night coupon"
+                            maxLength={80}
+                          />
+                        </label>
+
+                        <label className="block text-sm">
+                          <span className="font-medium text-slate-300">
+                            Cost (stars)
+                          </span>
+                          <input
+                            type="number"
+                            min={1}
+                            max={99}
+                            value={editForm.costStars}
+                            onChange={(e) =>
+                              setEditForm((prev) => ({
+                                ...prev,
+                                costStars: Number(e.target.value) || 1,
+                              }))
+                            }
+                            className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
+                          />
+                        </label>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={() => saveReward(reward.id)}
+                          disabled={isSubmitting}
+                          className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
+                        >
+                          {isSubmitting ? 'Saving…' : 'Save'}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={cancelEdit}
+                          disabled={isSubmitting}
+                          className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 disabled:cursor-not-allowed disabled:opacity-70"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </li>
+                  )
+                }
+
+                return (
+                  <li
+                    key={reward.id}
+                    className="flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-950/60 p-4 text-sm md:flex-row md:items-center md:justify-between"
+                  >
+                    <div className="flex-1">
+                      <p className="text-base font-semibold text-slate-100">
+                        {reward.title}
+                      </p>
+                      <p className="text-xs text-emerald-300">
+                        Costs {reward.costStars} star
+                        {reward.costStars !== 1 ? 's' : ''}
+                      </p>
+                    </div>
+
+                    <div className="flex gap-2 self-end md:self-auto">
+                      <button
+                        type="button"
+                        onClick={() => startEdit(reward)}
+                        disabled={editingId !== null}
+                        className="rounded-lg border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 transition hover:border-slate-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(reward.id)}
+                        disabled={editingId !== null}
+                        className="rounded-lg border border-red-600 px-3 py-2 text-xs font-medium text-red-200 transition hover:border-red-400 hover:text-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </li>
+                )
+              })}
+
+              {editingId === 'new' && (
+                <li className="space-y-3 rounded-lg border-2 border-emerald-500 bg-slate-900/80 p-4">
+                  {formErrors['new'] && formErrors['new'].length > 0 && (
+                    <div className="rounded border border-red-700 bg-red-900/30 p-2 text-xs text-red-200">
+                      {formErrors['new'].map((err) => (
+                        <p key={err}>{err}</p>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="space-y-3">
+                    <label className="block text-sm">
+                      <span className="font-medium text-slate-300">
+                        Reward title
+                      </span>
+                      <input
+                        type="text"
+                        value={editForm.title}
+                        onChange={(e) =>
+                          setEditForm((prev) => ({
+                            ...prev,
+                            title: e.target.value,
+                          }))
+                        }
+                        className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
+                        placeholder="e.g. Movie night coupon"
+                        maxLength={80}
+                      />
+                    </label>
+
+                    <label className="block text-sm">
+                      <span className="font-medium text-slate-300">
+                        Cost (stars)
+                      </span>
+                      <input
+                        type="number"
+                        min={1}
+                        max={99}
+                        value={editForm.costStars}
+                        onChange={(e) =>
+                          setEditForm((prev) => ({
+                            ...prev,
+                            costStars: Number(e.target.value) || 1,
+                          }))
+                        }
+                        className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
+                      />
+                    </label>
                   </div>
 
-                  <div className="flex gap-2 self-end md:self-auto">
+                  <div className="flex gap-2">
                     <button
                       type="button"
-                      onClick={() => startEdit(reward)}
-                      className="rounded-lg border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 transition hover:border-slate-500 hover:text-white"
+                      onClick={() => saveReward('new')}
+                      disabled={isSubmitting}
+                      className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                      Edit
+                      {isSubmitting ? 'Creating…' : 'Create Reward'}
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleDelete(reward.id)}
-                      className="rounded-lg border border-red-600 px-3 py-2 text-xs font-medium text-red-200 transition hover:border-red-400 hover:text-red-100"
+                      onClick={cancelEdit}
+                      disabled={isSubmitting}
+                      className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                      Delete
+                      Cancel
                     </button>
                   </div>
                 </li>
-              ))}
+              )}
+
+              {editingId === null && (
+                <li>
+                  <button
+                    type="button"
+                    onClick={startCreate}
+                    className="w-full rounded-lg border-2 border-dashed border-slate-700 bg-slate-900/40 px-4 py-4 text-sm font-medium text-slate-300 transition hover:border-emerald-500 hover:bg-slate-900/60 hover:text-emerald-300"
+                  >
+                    + Create Reward
+                  </button>
+                </li>
+              )}
             </ul>
           )}
         </article>
