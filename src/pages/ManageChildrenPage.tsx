@@ -2,7 +2,11 @@ import type { FormEvent } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
-import { THEME_OPTIONS, type ThemeId } from '../constants/themeOptions'
+import {
+  THEME_OPTIONS,
+  THEME_ID_LOOKUP,
+  type ThemeId,
+} from '../constants/themeOptions'
 import {
   addDoc,
   collection,
@@ -70,6 +74,7 @@ const ManageChildrenPage = () => {
           displayName: data.displayName,
           avatarToken: data.avatarToken,
           totalStars: data.totalStars ?? 0,
+          themeId: data.themeId,
           createdAt: data.createdAt?.toDate?.(),
         }
       })
@@ -297,41 +302,51 @@ const ManageChildrenPage = () => {
             </p>
           ) : (
             <ul className="space-y-3">
-              {children.map((child) => (
-                <li
-                  key={child.id}
-                  className="flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-950/60 p-4 text-sm md:flex-row md:items-center md:justify-between"
-                >
-                  <div>
-                    <p className="text-base font-semibold text-slate-100">
-                      {child.displayName}{' '}
-                      <span className="ml-1 text-sm text-emerald-300">
-                        {child.avatarToken}
-                      </span>
-                    </p>
-                    <p className="text-xs text-slate-400">
-                      Total stars: {child.totalStars ?? 0}
-                    </p>
-                  </div>
+              {children.map((child) => {
+                const theme = child.themeId
+                  ? THEME_ID_LOOKUP.get(child.themeId)
+                  : null
+                return (
+                  <li
+                    key={child.id}
+                    className="flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-950/60 p-4 text-sm md:flex-row md:items-center md:justify-between"
+                  >
+                    <div>
+                      <p className="text-base font-semibold text-slate-100">
+                        {child.displayName}{' '}
+                        <span className="ml-1 text-2xl" role="img">
+                          {theme ? theme.emoji : child.avatarToken}
+                        </span>
+                      </p>
+                      <p className="text-xs text-slate-400">
+                        {theme && (
+                          <span className="mr-2 text-emerald-300">
+                            {theme.label}
+                          </span>
+                        )}
+                        Total stars: {child.totalStars ?? 0}
+                      </p>
+                    </div>
 
-                  <div className="flex gap-2 self-end md:self-auto">
-                    <button
-                      type="button"
-                      onClick={() => startEdit(child)}
-                      className="rounded-lg border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 transition hover:border-slate-500 hover:text-white"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(child.id)}
-                      className="rounded-lg border border-red-600 px-3 py-2 text-xs font-medium text-red-200 transition hover:border-red-400 hover:text-red-100"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </li>
-              ))}
+                    <div className="flex gap-2 self-end md:self-auto">
+                      <button
+                        type="button"
+                        onClick={() => startEdit(child)}
+                        className="rounded-lg border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 transition hover:border-slate-500 hover:text-white"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(child.id)}
+                        className="rounded-lg border border-red-600 px-3 py-2 text-xs font-medium text-red-200 transition hover:border-red-400 hover:text-red-100"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </li>
+                )
+              })}
             </ul>
           )}
         </article>
