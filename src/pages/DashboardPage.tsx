@@ -193,18 +193,7 @@ const DashboardPage = () => {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <Link
-            to="/tasks"
-            className="rounded-lg border border-slate-700 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-emerald-400 hover:text-emerald-200"
-          >
-            View tasks
-          </Link>
-          <Link
-            to="/rewards"
-            className="rounded-lg border border-slate-700 px-3 py-2 text-sm font-medium text-slate-200 transition hover:border-emerald-400 hover:text-emerald-200"
-          >
-            View rewards
-          </Link>
+          {/* Removed direct view links for tasks & rewards per request */}
           <div className="flex flex-wrap gap-2">
             <Link
               to="/settings/manage-children"
@@ -301,12 +290,7 @@ const DashboardPage = () => {
         <article className="space-y-4 rounded-xl bg-slate-900/50 p-6 shadow-inner shadow-slate-950/40">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">Nearest reward</h2>
-            <Link
-              to="/rewards"
-              className="text-xs font-medium text-emerald-300 hover:text-emerald-200"
-            >
-              Browse rewards
-            </Link>
+            {/* Removed browse rewards link */}
           </div>
           {selectedChild ? (
             nearestReward ? (
