@@ -14,11 +14,14 @@ import {
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
+import { useActiveChild } from '../contexts/ActiveChildContext'
+import { redeemReward } from '../services/starActions'
 
 type RewardRecord = {
   id: string
   title: string
   costStars: number
+  isRepeating: boolean
   createdAt?: Date
 }
 
@@ -33,15 +36,19 @@ const rewardSchema = z.object({
     .int('Cost must be a whole number')
     .min(1, 'Cost must be at least 1 star')
     .max(99, 'Cost must be fewer than 100 stars'),
+  isRepeating: z.boolean().default(false),
 })
 
 const ManageRewardsPage = () => {
   const { user } = useAuth()
+  const { activeChildId } = useActiveChild()
   const [rewards, setRewards] = useState<RewardRecord[]>([])
+  const [activeChildStars, setActiveChildStars] = useState<number>(0)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editForm, setEditForm] = useState({
     title: '',
     costStars: 1,
+    isRepeating: true,
   })
   const [formErrors, setFormErrors] = useState<Record<string, string[]>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -65,6 +72,7 @@ const ManageRewardsPage = () => {
             id: docSnapshot.id,
             title: data.title ?? 'Untitled reward',
             costStars: data.costStars ?? 1,
+            isRepeating: data.isRepeating ?? false,
             createdAt: data.createdAt?.toDate?.(),
           }
         })
@@ -74,11 +82,27 @@ const ManageRewardsPage = () => {
     return unsubscribe
   }, [user])
 
+  useEffect(() => {
+    if (!user || !activeChildId) {
+      setActiveChildStars(0)
+      return
+    }
+
+    const childRef = doc(db, 'users', user.uid, 'children', activeChildId)
+    const unsubscribe = onSnapshot(childRef, (snapshot) => {
+      const data = snapshot.data()
+      setActiveChildStars(data?.totalStars ?? 0)
+    })
+
+    return unsubscribe
+  }, [user, activeChildId])
+
   const startEdit = (reward: RewardRecord) => {
     setEditingId(reward.id)
     setEditForm({
       title: reward.title,
       costStars: reward.costStars,
+      isRepeating: reward.isRepeating,
     })
     setFormErrors({})
   }
@@ -89,13 +113,14 @@ const ManageRewardsPage = () => {
     setEditForm({
       title: '',
       costStars: 1,
+      isRepeating: true,
     })
     setFormErrors({})
   }
 
   const cancelEdit = () => {
     setEditingId(null)
-    setEditForm({ title: '', costStars: 1 })
+    setEditForm({ title: '', costStars: 1, isRepeating: true })
     setFormErrors({})
   }
 
@@ -105,6 +130,7 @@ const ManageRewardsPage = () => {
     const parsed = rewardSchema.safeParse({
       title: editForm.title,
       costStars: Number(editForm.costStars),
+      isRepeating: editForm.isRepeating,
     })
 
     if (!parsed.success) {
@@ -137,6 +163,39 @@ const ManageRewardsPage = () => {
       })
     } finally {
       setIsSubmitting(false)
+    }
+  }
+
+  const handleGiveReward = async (reward: RewardRecord) => {
+    if (!user || !activeChildId) {
+      alert('Please select a child from the dashboard first.')
+      return
+    }
+
+    const confirmGive = window.confirm(
+      `Give "${reward.title}" to the active child for ${reward.costStars} stars?`
+    )
+    if (!confirmGive) return
+
+    try {
+      await redeemReward({
+        userId: user.uid,
+        childId: activeChildId,
+        reward,
+      })
+
+      if (!reward.isRepeating) {
+        await deleteDoc(
+          doc(collection(db, 'users', user.uid, 'rewards'), reward.id)
+        )
+      }
+
+      alert('Reward given successfully!')
+    } catch (error) {
+      console.error('Failed to give reward', error)
+      const message =
+        error instanceof Error ? error.message : 'Failed to give reward'
+      alert(message)
     }
   }
 
@@ -204,6 +263,7 @@ const ManageRewardsPage = () => {
               {rewards.map((reward) => {
                 const isEditing = editingId === reward.id
                 const errors = formErrors[reward.id]
+                const canAfford = activeChildStars >= reward.costStars
 
                 if (isEditing) {
                   return (
@@ -257,6 +317,23 @@ const ManageRewardsPage = () => {
                             className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
                           />
                         </label>
+
+                        <label className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={editForm.isRepeating}
+                            onChange={(e) =>
+                              setEditForm((prev) => ({
+                                ...prev,
+                                isRepeating: e.target.checked,
+                              }))
+                            }
+                            className="h-4 w-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-slate-900"
+                          />
+                          <span className="text-sm font-medium text-slate-300">
+                            Repeating Reward
+                          </span>
+                        </label>
                       </div>
 
                       <div className="flex gap-2">
@@ -287,9 +364,16 @@ const ManageRewardsPage = () => {
                     className="flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-950/60 p-4 text-sm md:flex-row md:items-center md:justify-between"
                   >
                     <div className="flex-1">
-                      <p className="text-base font-semibold text-slate-100">
-                        {reward.title}
-                      </p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-base font-semibold text-slate-100">
+                          {reward.title}
+                        </p>
+                        {reward.isRepeating && (
+                          <span className="rounded-full bg-blue-900/50 px-2 py-0.5 text-[10px] font-medium tracking-wide text-blue-200 uppercase">
+                            Repeating
+                          </span>
+                        )}
+                      </div>
                       <p className="text-xs text-emerald-300">
                         Costs {reward.costStars} star
                         {reward.costStars !== 1 ? 's' : ''}
@@ -297,6 +381,18 @@ const ManageRewardsPage = () => {
                     </div>
 
                     <div className="flex gap-2 self-end md:self-auto">
+                      <button
+                        type="button"
+                        onClick={() => handleGiveReward(reward)}
+                        disabled={editingId !== null || !canAfford}
+                        className={`rounded-lg px-3 py-2 text-xs font-medium transition disabled:cursor-not-allowed disabled:opacity-50 ${
+                          canAfford
+                            ? 'bg-emerald-600 text-white hover:bg-emerald-500'
+                            : 'bg-slate-700 text-slate-400'
+                        }`}
+                      >
+                        {canAfford ? 'Give Reward' : 'Not enough stars'}
+                      </button>
                       <button
                         type="button"
                         onClick={() => startEdit(reward)}
@@ -365,6 +461,23 @@ const ManageRewardsPage = () => {
                         }
                         className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
                       />
+                    </label>
+
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={editForm.isRepeating}
+                        onChange={(e) =>
+                          setEditForm((prev) => ({
+                            ...prev,
+                            isRepeating: e.target.checked,
+                          }))
+                        }
+                        className="h-4 w-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-slate-900"
+                      />
+                      <span className="text-sm font-medium text-slate-300">
+                        Repeating Reward
+                      </span>
                     </label>
                   </div>
 

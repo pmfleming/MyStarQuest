@@ -60,7 +60,7 @@ const ManageTasksPage = () => {
     childId: '',
     category: '',
     starValue: 1 as 1 | 2 | 3,
-    isRepeating: false,
+    isRepeating: true,
   })
   const [formErrors, setFormErrors] = useState<Record<string, string[]>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -135,10 +135,10 @@ const ManageTasksPage = () => {
     setEditingId('new')
     setEditForm({
       title: '',
-      childId: children[0]?.id || '',
+      childId: '',
       category: '',
       starValue: 1,
-      isRepeating: false,
+      isRepeating: true,
     })
     setFormErrors({})
   }
