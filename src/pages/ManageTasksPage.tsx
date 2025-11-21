@@ -14,6 +14,9 @@ import {
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
+import { useActiveChild } from '../contexts/ActiveChildContext'
+import { awardStars } from '../services/starActions'
+import { celebrateSuccess } from '../utils/celebrate'
 
 type ChildSummary = {
   id: string
@@ -26,6 +29,7 @@ type TaskRecord = {
   childId: string
   category: string
   starValue: 1 | 2 | 3
+  isRepeating: boolean
   createdAt?: Date
 }
 
@@ -42,10 +46,12 @@ const taskSchema = z.object({
     .max(40, 'Category must be under 40 characters')
     .optional(),
   starValue: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  isRepeating: z.boolean(),
 })
 
 const ManageTasksPage = () => {
   const { user } = useAuth()
+  const { activeChildId } = useActiveChild()
   const [children, setChildren] = useState<ChildSummary[]>([])
   const [tasks, setTasks] = useState<TaskRecord[]>([])
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -54,9 +60,11 @@ const ManageTasksPage = () => {
     childId: '',
     category: '',
     starValue: 1 as 1 | 2 | 3,
+    isRepeating: false,
   })
   const [formErrors, setFormErrors] = useState<Record<string, string[]>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isAwarding, setIsAwarding] = useState(false)
 
   useEffect(() => {
     if (!user) {
@@ -97,6 +105,7 @@ const ManageTasksPage = () => {
             childId: data.childId ?? '',
             category: data.category ?? '',
             starValue: (data.starValue ?? 1) as 1 | 2 | 3,
+            isRepeating: data.isRepeating ?? false,
             createdAt: data.createdAt?.toDate?.(),
           }
         })
@@ -116,6 +125,7 @@ const ManageTasksPage = () => {
       childId: task.childId,
       category: task.category,
       starValue: task.starValue,
+      isRepeating: task.isRepeating,
     })
     setFormErrors({})
   }
@@ -128,13 +138,20 @@ const ManageTasksPage = () => {
       childId: children[0]?.id || '',
       category: '',
       starValue: 1,
+      isRepeating: false,
     })
     setFormErrors({})
   }
 
   const cancelEdit = () => {
     setEditingId(null)
-    setEditForm({ title: '', childId: '', category: '', starValue: 1 })
+    setEditForm({
+      title: '',
+      childId: '',
+      category: '',
+      starValue: 1,
+      isRepeating: false,
+    })
     setFormErrors({})
   }
 
@@ -186,6 +203,34 @@ const ManageTasksPage = () => {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'tasks'), id))
     } catch (error) {
       console.error('Failed to delete task', error)
+    }
+  }
+
+  const handleAwardTask = async (task: TaskRecord) => {
+    if (!user || !activeChildId) {
+      alert('Please select an explorer first.')
+      return
+    }
+
+    setIsAwarding(true)
+    try {
+      await awardStars({
+        userId: user.uid,
+        childId: activeChildId,
+        delta: task.starValue,
+      })
+      celebrateSuccess()
+
+      if (!task.isRepeating) {
+        await deleteDoc(
+          doc(collection(db, 'users', user.uid, 'tasks'), task.id)
+        )
+      }
+    } catch (error) {
+      console.error('Failed to award stars', error)
+      alert('Failed to award stars. Please try again.')
+    } finally {
+      setIsAwarding(false)
     }
   }
 
@@ -355,6 +400,23 @@ const ManageTasksPage = () => {
                             ))}
                           </div>
                         </fieldset>
+
+                        <label className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            checked={editForm.isRepeating}
+                            onChange={(e) =>
+                              setEditForm((prev) => ({
+                                ...prev,
+                                isRepeating: e.target.checked,
+                              }))
+                            }
+                            className="h-4 w-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-emerald-500"
+                          />
+                          <span className="text-sm font-medium text-slate-300">
+                            Repeating Task
+                          </span>
+                        </label>
                       </div>
 
                       <div className="flex gap-2">
@@ -400,10 +462,23 @@ const ManageTasksPage = () => {
                         {task.category && (
                           <span className="ml-2">• {task.category}</span>
                         )}
+                        {task.isRepeating && (
+                          <span className="ml-2 inline-flex items-center rounded bg-slate-800 px-1.5 py-0.5 text-[10px] font-medium text-slate-300">
+                            Repeating
+                          </span>
+                        )}
                       </p>
                     </div>
 
                     <div className="flex gap-2 self-end md:self-auto">
+                      <button
+                        type="button"
+                        onClick={() => handleAwardTask(task)}
+                        disabled={isAwarding || editingId !== null}
+                        className="rounded-lg bg-emerald-500 px-3 py-2 text-xs font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        Award Stars
+                      </button>
                       <button
                         type="button"
                         onClick={() => startEdit(task)}
@@ -523,6 +598,23 @@ const ManageTasksPage = () => {
                         ))}
                       </div>
                     </fieldset>
+
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={editForm.isRepeating}
+                        onChange={(e) =>
+                          setEditForm((prev) => ({
+                            ...prev,
+                            isRepeating: e.target.checked,
+                          }))
+                        }
+                        className="h-4 w-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-emerald-500"
+                      />
+                      <span className="text-sm font-medium text-slate-300">
+                        Repeating Task
+                      </span>
+                    </label>
                   </div>
 
                   <div className="flex gap-2">
