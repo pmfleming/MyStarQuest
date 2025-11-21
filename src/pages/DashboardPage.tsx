@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
+import { useActiveChild } from '../contexts/ActiveChildContext'
 import { awardStars } from '../services/starActions'
 import { celebrateSuccess } from '../utils/celebrate'
 
@@ -11,14 +12,13 @@ type ChildProfile = {
   displayName: string
   avatarToken: string
   totalStars: number
+  themeId?: string
 }
 
 const DashboardPage = () => {
   const { user, logout } = useAuth()
+  const { activeChildId, setActiveChild } = useActiveChild()
   const [children, setChildren] = useState<ChildProfile[]>([])
-  const [selectedChildId, setSelectedChildId] = useState(() => {
-    return localStorage.getItem('selectedExplorerId') || ''
-  })
   const [pendingDeltas, setPendingDeltas] = useState<Record<string, number>>({})
   const [isAwarding, setIsAwarding] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -26,7 +26,6 @@ const DashboardPage = () => {
   useEffect(() => {
     if (!user) {
       setChildren([])
-      setSelectedChildId('')
       return
     }
 
@@ -43,6 +42,7 @@ const DashboardPage = () => {
           displayName: data.displayName ?? 'Explorer',
           avatarToken: data.avatarToken ?? '⭐',
           totalStars: Number(data.totalStars ?? 0),
+          themeId: data.themeId,
         }
       })
 
@@ -62,18 +62,21 @@ const DashboardPage = () => {
 
   useEffect(() => {
     if (children.length === 0) {
-      setSelectedChildId('')
       return
     }
 
-    if (!children.some((child) => child.id === selectedChildId)) {
-      setSelectedChildId(children[0].id)
+    if (
+      !activeChildId ||
+      !children.some((child) => child.id === activeChildId)
+    ) {
+      const first = children[0]
+      setActiveChild({ id: first.id, themeId: first.themeId || 'princess' })
     }
-  }, [children, selectedChildId])
+  }, [children, activeChildId, setActiveChild])
 
   const selectedChild = useMemo(
-    () => children.find((child) => child.id === selectedChildId) ?? null,
-    [children, selectedChildId]
+    () => children.find((child) => child.id === activeChildId) ?? null,
+    [children, activeChildId]
   )
 
   const displayedStars = selectedChild
@@ -81,30 +84,32 @@ const DashboardPage = () => {
     : 0
 
   const handleAward = async (delta: number) => {
-    if (!user || !selectedChildId || delta <= 0) return
+    if (!user || !activeChildId || delta <= 0) return
 
     setError(null)
     setIsAwarding(true)
 
     setPendingDeltas((prev) => ({
       ...prev,
-      [selectedChildId]: (prev[selectedChildId] ?? 0) + delta,
+      [activeChildId]: (prev[activeChildId] ?? 0) + delta,
     }))
 
     const start = performance.now()
 
     try {
-      await awardStars({ userId: user.uid, childId: selectedChildId, delta })
+      await awardStars({ userId: user.uid, childId: activeChildId, delta })
       const elapsed = performance.now() - start
       if (elapsed < 150) {
         await new Promise((resolve) => setTimeout(resolve, 150 - elapsed))
       }
       celebrateSuccess()
     } catch (err) {
-      setPendingDeltas((prev) => ({
-        ...prev,
-        [selectedChildId]: Math.max((prev[selectedChildId] ?? 0) - delta, 0),
-      }))
+      if (activeChildId) {
+        setPendingDeltas((prev) => ({
+          ...prev,
+          [activeChildId]: Math.max((prev[activeChildId] ?? 0) - delta, 0),
+        }))
+      }
       setError(
         (err as Error)?.message ?? 'Unable to award stars. Please try again.'
       )
@@ -124,8 +129,9 @@ const DashboardPage = () => {
               : 'Mission control'}
           </h1>
           <p className="mt-1 text-sm text-slate-400">
-            Award stars, monitor progress, and celebrate milestones across every
-            explorer.
+            {selectedChild
+              ? `Award stars, monitor progress, and celebrate milestones for ${selectedChild.displayName}.`
+              : 'Award stars, monitor progress, and celebrate milestones across every explorer.'}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">

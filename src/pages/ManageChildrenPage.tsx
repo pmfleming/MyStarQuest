@@ -19,6 +19,7 @@ import {
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
+import { useActiveChild } from '../contexts/ActiveChildContext'
 
 const childSchema = z.object({
   displayName: z
@@ -44,6 +45,7 @@ type ChildProfile = {
 
 const ManageChildrenPage = () => {
   const { user } = useAuth()
+  const { activeChildId, setActiveChild, clearActiveChild } = useActiveChild()
   const [children, setChildren] = useState<ChildProfile[]>([])
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editForm, setEditForm] = useState({
@@ -52,9 +54,6 @@ const ManageChildrenPage = () => {
   })
   const [formErrors, setFormErrors] = useState<Record<string, string[]>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [selectedExplorerId, setSelectedExplorerId] = useState<string>(() => {
-    return localStorage.getItem('selectedExplorerId') || ''
-  })
 
   useEffect(() => {
     if (!user) {
@@ -168,9 +167,8 @@ const ManageChildrenPage = () => {
     try {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'children'), id))
       // Clear selection if deleting the selected explorer
-      if (id === selectedExplorerId) {
-        setSelectedExplorerId('')
-        localStorage.removeItem('selectedExplorerId')
+      if (id === activeChildId) {
+        clearActiveChild()
       }
     } catch (error) {
       console.error('Failed to delete child profile', error)
@@ -178,8 +176,10 @@ const ManageChildrenPage = () => {
   }
 
   const handleSelectExplorer = (childId: string) => {
-    setSelectedExplorerId(childId)
-    localStorage.setItem('selectedExplorerId', childId)
+    const child = children.find((c) => c.id === childId)
+    if (child) {
+      setActiveChild({ id: child.id, themeId: child.themeId || 'princess' })
+    }
   }
 
   const childCountLabel = useMemo(() => {
@@ -357,7 +357,7 @@ const ManageChildrenPage = () => {
                     </div>
 
                     <div className="flex gap-2 self-end md:self-auto">
-                      {selectedExplorerId !== child.id && (
+                      {activeChildId !== child.id && (
                         <button
                           type="button"
                           onClick={() => handleSelectExplorer(child.id)}
@@ -367,7 +367,7 @@ const ManageChildrenPage = () => {
                           Select Explorer
                         </button>
                       )}
-                      {selectedExplorerId === child.id && (
+                      {activeChildId === child.id && (
                         <span className="flex items-center gap-1 rounded-lg border border-emerald-500 bg-emerald-500/20 px-3 py-2 text-xs font-medium text-emerald-300">
                           <svg
                             className="h-3 w-3"
