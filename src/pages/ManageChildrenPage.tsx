@@ -147,6 +147,11 @@ const ManageChildrenPage = () => {
           avatarToken: parsed.data.avatarToken,
           themeId: editForm.themeId,
         })
+
+        // If this is the active child, update the theme immediately
+        if (id === activeChildId) {
+          setActiveChild({ id, themeId: editForm.themeId })
+        }
       }
 
       cancelEdit()
