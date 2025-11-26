@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import {
@@ -236,312 +236,139 @@ const ManageTasksPage = () => {
     }
   }
 
-  const taskCountLabel = useMemo(() => {
-    return tasks.length === 1 ? '1 task' : `${tasks.length} tasks`
-  }, [tasks.length])
-
   const getChildName = (childId: string) => {
     const child = children.find((c) => c.id === childId)
     return child?.displayName || 'Unknown'
   }
 
+  const isDarkTheme = theme.id === 'space'
+
   return (
-    <main
-      className="flex min-h-screen flex-col p-6"
+    <div
+      className="flex min-h-screen w-full items-center justify-center transition-colors duration-500"
       style={{
-        background: theme.colors.bg,
-        backgroundImage: theme.bgPattern,
-        color: theme.colors.text,
-        fontFamily: theme.fonts.body,
+        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+        padding: '20px',
       }}
     >
-      <header className="mb-6 flex items-center justify-between">
-        <div>
-          <p className="text-sm tracking-wide uppercase opacity-60">Settings</p>
-          <h1
-            className="text-3xl font-semibold"
-            style={{ fontFamily: theme.fonts.heading }}
+      {/* Device Frame - simulates mobile device with border */}
+      <div
+        className="relative flex min-h-[896px] w-full max-w-[414px] flex-col overflow-hidden"
+        style={{
+          borderRadius: '40px',
+          boxShadow:
+            '0 0 0 12px #1a1a2e, 0 0 0 14px #333, 0 25px 50px rgba(0, 0, 0, 0.5)',
+          background: theme.colors.bg,
+          backgroundImage: theme.bgPattern,
+        }}
+      >
+        {/* Top Navigation Bar */}
+        <div className="absolute top-0 right-0 left-0 z-50 flex items-center justify-between p-4">
+          <Link
+            to="/"
+            className="flex h-12 w-12 items-center justify-center rounded-full text-2xl transition hover:opacity-80"
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              backdropFilter: 'blur(10px)',
+            }}
           >
-            Manage Tasks
+            ←
+          </Link>
+          <h1
+            className="text-xl font-bold"
+            style={{
+              fontFamily: theme.fonts.heading,
+              color: theme.colors.text,
+            }}
+          >
+            📋 My Tasks
           </h1>
-          <p className="mt-1 text-sm opacity-70">
-            Create and manage tasks that children can complete to earn stars.
-          </p>
+          <div className="w-12" />
         </div>
-        <Link
-          to="/"
-          className="rounded-lg border px-3 py-2 text-sm font-medium transition hover:opacity-80"
+
+        {/* Content Area */}
+        <div
+          className="flex flex-1 flex-col gap-4 overflow-y-auto p-6 pt-20 pb-24"
           style={{
-            borderColor: theme.colors.primary,
             color: theme.colors.text,
+            fontFamily: theme.fonts.body,
           }}
         >
-          ← Dashboard
-        </Link>
-      </header>
-
-      <section className="max-w-4xl">
-        <article
-          className="space-y-4 rounded-xl p-6"
-          style={{
-            backgroundColor: theme.colors.surface,
-            boxShadow: `0 4px 20px ${theme.colors.primary}20`,
-            border: `2px solid ${theme.colors.primary}40`,
-          }}
-        >
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Tasks</h2>
-            <span className="text-xs tracking-wide uppercase opacity-50">
-              {taskCountLabel}
-            </span>
-          </div>
-
           {children.length === 0 ? (
             <div
-              className="rounded-lg border-2 border-dashed p-6 text-center text-sm"
-              style={{ borderColor: theme.colors.accent, opacity: 0.7 }}
+              className="flex flex-col items-center justify-center rounded-3xl p-8 text-center"
+              style={{
+                backgroundColor: theme.colors.surface,
+                border: `3px dashed ${theme.colors.accent}`,
+              }}
             >
-              <p className="mb-2">No children yet.</p>
-              <p className="text-xs opacity-70">
-                Add a child profile first before creating tasks.
-              </p>
+              <span className="mb-4 text-6xl">👶</span>
+              <p className="mb-2 text-lg font-semibold">No children yet!</p>
+              <p className="text-sm opacity-70">Add a child profile first</p>
             </div>
           ) : tasks.length === 0 && editingId !== 'new' ? (
-            <div className="space-y-4">
-              <p className="rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-6 text-center text-sm text-slate-400">
-                No tasks yet. Click "Create Task" to add one.
-              </p>
+            <>
+              <div
+                className="flex flex-col items-center justify-center rounded-3xl p-8 text-center"
+                style={{
+                  backgroundColor: theme.colors.surface,
+                  border: `3px dashed ${theme.colors.accent}`,
+                }}
+              >
+                <span className="mb-4 text-6xl">✨</span>
+                <p className="mb-2 text-lg font-semibold">No tasks yet!</p>
+                <p className="text-sm opacity-70">
+                  Create your first task below
+                </p>
+              </div>
               <button
                 type="button"
                 onClick={startCreate}
-                className="w-full rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400"
+                className="flex h-[72px] w-full items-center justify-center gap-3 rounded-3xl text-xl font-bold transition-all active:scale-95"
+                style={{
+                  backgroundColor: theme.colors.primary,
+                  color: isDarkTheme ? '#000' : '#FFF',
+                  fontFamily: '"Fredoka", "Comic Sans MS", sans-serif',
+                  boxShadow: `0 6px 0 ${theme.colors.accent}`,
+                  border: `3px solid ${theme.colors.accent}`,
+                }}
               >
-                Create Task
+                <span className="text-4xl">➕</span>
+                <span>Create Task</span>
               </button>
-            </div>
+            </>
           ) : (
-            <ul className="space-y-3">
+            <>
+              {/* Task List */}
               {tasks.map((task) => {
                 const isEditing = editingId === task.id
-                const errors = formErrors[task.id]
 
                 if (isEditing) {
                   return (
-                    <li
+                    <div
                       key={task.id}
-                      className="space-y-3 rounded-lg border-2 border-emerald-500 bg-slate-900/80 p-4"
+                      className="space-y-4 rounded-3xl p-6"
+                      style={{
+                        backgroundColor: theme.colors.surface,
+                        border: `4px solid ${theme.colors.primary}`,
+                        boxShadow: `0 8px 0 ${theme.colors.accent}`,
+                      }}
                     >
-                      {errors && errors.length > 0 && (
-                        <div className="rounded border border-red-700 bg-red-900/30 p-2 text-xs text-red-200">
-                          {errors.map((err) => (
+                      {/* Edit Form */}
+                      {formErrors[task.id] && (
+                        <div
+                          className="rounded-2xl p-4 text-center font-semibold"
+                          style={{
+                            backgroundColor: '#ff000020',
+                            color: '#ff6b6b',
+                          }}
+                        >
+                          {formErrors[task.id].map((err) => (
                             <p key={err}>{err}</p>
                           ))}
                         </div>
                       )}
 
-                      <div className="space-y-3">
-                        <label className="block text-sm">
-                          <span className="font-medium text-slate-300">
-                            Task title
-                          </span>
-                          <input
-                            type="text"
-                            value={editForm.title}
-                            onChange={(e) =>
-                              setEditForm((prev) => ({
-                                ...prev,
-                                title: e.target.value,
-                              }))
-                            }
-                            className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                            placeholder="e.g. Make bed"
-                            maxLength={80}
-                          />
-                        </label>
-
-                        <label className="block text-sm">
-                          <span className="font-medium text-slate-300">
-                            Assigned to
-                          </span>
-                          <select
-                            value={editForm.childId}
-                            onChange={(e) =>
-                              setEditForm((prev) => ({
-                                ...prev,
-                                childId: e.target.value,
-                              }))
-                            }
-                            className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                          >
-                            <option value="">Select child</option>
-                            {children.map((child) => (
-                              <option key={child.id} value={child.id}>
-                                {child.displayName}
-                              </option>
-                            ))}
-                          </select>
-                        </label>
-
-                        <label className="block text-sm">
-                          <span className="font-medium text-slate-300">
-                            Category (optional)
-                          </span>
-                          <input
-                            type="text"
-                            value={editForm.category}
-                            onChange={(e) =>
-                              setEditForm((prev) => ({
-                                ...prev,
-                                category: e.target.value,
-                              }))
-                            }
-                            className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                            placeholder="e.g. Chores"
-                            maxLength={40}
-                          />
-                        </label>
-
-                        <fieldset className="space-y-2">
-                          <legend className="text-sm font-medium text-slate-300">
-                            Star value
-                          </legend>
-                          <div className="flex gap-2">
-                            {[1, 2, 3].map((val) => (
-                              <button
-                                key={val}
-                                type="button"
-                                onClick={() =>
-                                  setEditForm((prev) => ({
-                                    ...prev,
-                                    starValue: val as 1 | 2 | 3,
-                                  }))
-                                }
-                                className={`flex-1 rounded-lg border-2 px-4 py-3 text-lg font-semibold transition-all ${
-                                  editForm.starValue === val
-                                    ? 'border-emerald-500 bg-emerald-500/20 text-emerald-300'
-                                    : 'border-slate-700 bg-slate-900/50 text-slate-300 hover:border-slate-500'
-                                }`}
-                              >
-                                {'⭐'.repeat(val)}
-                              </button>
-                            ))}
-                          </div>
-                        </fieldset>
-
-                        <label className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={editForm.isRepeating}
-                            onChange={(e) =>
-                              setEditForm((prev) => ({
-                                ...prev,
-                                isRepeating: e.target.checked,
-                              }))
-                            }
-                            className="h-4 w-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-emerald-500"
-                          />
-                          <span className="text-sm font-medium text-slate-300">
-                            Repeating Task
-                          </span>
-                        </label>
-                      </div>
-
-                      <div className="flex gap-2">
-                        <button
-                          type="button"
-                          onClick={() => saveTask(task.id)}
-                          disabled={isSubmitting}
-                          className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
-                        >
-                          {isSubmitting ? 'Saving…' : 'Save'}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={cancelEdit}
-                          disabled={isSubmitting}
-                          className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 disabled:cursor-not-allowed disabled:opacity-70"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </li>
-                  )
-                }
-
-                return (
-                  <li
-                    key={task.id}
-                    className="flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-950/60 p-4 text-sm md:flex-row md:items-center md:justify-between"
-                  >
-                    <div className="flex-1">
-                      <div className="flex items-baseline gap-2">
-                        <p className="text-base font-semibold text-slate-100">
-                          {task.title}
-                        </p>
-                        <span className="text-lg">
-                          {'⭐'.repeat(task.starValue)}
-                        </span>
-                      </div>
-                      <p className="text-xs text-slate-400">
-                        <span className="text-emerald-300">
-                          {getChildName(task.childId)}
-                        </span>
-                        {task.category && (
-                          <span className="ml-2">• {task.category}</span>
-                        )}
-                        {task.isRepeating && (
-                          <span className="ml-2 inline-flex items-center rounded bg-slate-800 px-1.5 py-0.5 text-[10px] font-medium text-slate-300">
-                            Repeating
-                          </span>
-                        )}
-                      </p>
-                    </div>
-
-                    <div className="flex gap-2 self-end md:self-auto">
-                      <button
-                        type="button"
-                        onClick={() => handleAwardTask(task)}
-                        disabled={isAwarding || editingId !== null}
-                        className="rounded-lg bg-emerald-500 px-3 py-2 text-xs font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        Award Stars
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => startEdit(task)}
-                        disabled={editingId !== null}
-                        className="rounded-lg border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 transition hover:border-slate-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(task.id)}
-                        disabled={editingId !== null}
-                        className="rounded-lg border border-red-600 px-3 py-2 text-xs font-medium text-red-200 transition hover:border-red-400 hover:text-red-100 disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </li>
-                )
-              })}
-
-              {editingId === 'new' && (
-                <li className="space-y-3 rounded-lg border-2 border-emerald-500 bg-slate-900/80 p-4">
-                  {formErrors['new'] && formErrors['new'].length > 0 && (
-                    <div className="rounded border border-red-700 bg-red-900/30 p-2 text-xs text-red-200">
-                      {formErrors['new'].map((err) => (
-                        <p key={err}>{err}</p>
-                      ))}
-                    </div>
-                  )}
-
-                  <div className="space-y-3">
-                    <label className="block text-sm">
-                      <span className="font-medium text-slate-300">
-                        Task title
-                      </span>
                       <input
                         type="text"
                         value={editForm.title}
@@ -551,16 +378,17 @@ const ManageTasksPage = () => {
                             title: e.target.value,
                           }))
                         }
-                        className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                        placeholder="e.g. Make bed"
+                        placeholder="Task name"
                         maxLength={80}
+                        className="w-full rounded-2xl border-4 px-6 py-4 text-xl font-bold outline-none"
+                        style={{
+                          borderColor: theme.colors.accent,
+                          backgroundColor: theme.colors.bg,
+                          color: theme.colors.text,
+                          fontFamily: '"Fredoka", sans-serif',
+                        }}
                       />
-                    </label>
 
-                    <label className="block text-sm">
-                      <span className="font-medium text-slate-300">
-                        Assigned to
-                      </span>
                       <select
                         value={editForm.childId}
                         onChange={(e) =>
@@ -569,118 +397,408 @@ const ManageTasksPage = () => {
                             childId: e.target.value,
                           }))
                         }
-                        className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
+                        className="w-full rounded-2xl border-4 px-6 py-4 text-lg font-semibold outline-none"
+                        style={{
+                          borderColor: theme.colors.accent,
+                          backgroundColor: theme.colors.bg,
+                          color: theme.colors.text,
+                          fontFamily: '"Fredoka", sans-serif',
+                        }}
                       >
-                        <option value="">Select child</option>
+                        <option value="">👤 Select child</option>
                         {children.map((child) => (
                           <option key={child.id} value={child.id}>
                             {child.displayName}
                           </option>
                         ))}
                       </select>
-                    </label>
 
-                    <label className="block text-sm">
-                      <span className="font-medium text-slate-300">
-                        Category (optional)
-                      </span>
-                      <input
-                        type="text"
-                        value={editForm.category}
-                        onChange={(e) =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            category: e.target.value,
-                          }))
-                        }
-                        className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                        placeholder="e.g. Chores"
-                        maxLength={40}
-                      />
-                    </label>
-
-                    <fieldset className="space-y-2">
-                      <legend className="text-sm font-medium text-slate-300">
-                        Star value
-                      </legend>
-                      <div className="flex gap-2">
-                        {[1, 2, 3].map((val) => (
-                          <button
-                            key={val}
-                            type="button"
-                            onClick={() =>
-                              setEditForm((prev) => ({
-                                ...prev,
-                                starValue: val as 1 | 2 | 3,
-                              }))
-                            }
-                            className={`flex-1 rounded-lg border-2 px-4 py-3 text-lg font-semibold transition-all ${
-                              editForm.starValue === val
-                                ? 'border-emerald-500 bg-emerald-500/20 text-emerald-300'
-                                : 'border-slate-700 bg-slate-900/50 text-slate-300 hover:border-slate-500'
-                            }`}
-                          >
-                            {'⭐'.repeat(val)}
-                          </button>
-                        ))}
+                      <div className="space-y-2">
+                        <p className="text-sm font-bold tracking-wider uppercase opacity-70">
+                          ⭐ Star Value
+                        </p>
+                        <div className="grid grid-cols-3 gap-3">
+                          {[1, 2, 3].map((val) => (
+                            <button
+                              key={val}
+                              type="button"
+                              onClick={() =>
+                                setEditForm((prev) => ({
+                                  ...prev,
+                                  starValue: val as 1 | 2 | 3,
+                                }))
+                              }
+                              className="flex h-[72px] flex-col items-center justify-center rounded-2xl text-3xl font-bold transition-all active:scale-95"
+                              style={{
+                                backgroundColor:
+                                  editForm.starValue === val
+                                    ? theme.colors.primary
+                                    : theme.colors.bg,
+                                border: `4px solid ${theme.colors.accent}`,
+                                color:
+                                  editForm.starValue === val
+                                    ? isDarkTheme
+                                      ? '#000'
+                                      : '#FFF'
+                                    : theme.colors.text,
+                              }}
+                            >
+                              {'⭐'.repeat(val)}
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                    </fieldset>
 
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={editForm.isRepeating}
-                        onChange={(e) =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            isRepeating: e.target.checked,
-                          }))
-                        }
-                        className="h-4 w-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-emerald-500"
-                      />
-                      <span className="text-sm font-medium text-slate-300">
-                        Repeating Task
+                      <label
+                        className="flex items-center gap-4 rounded-2xl p-4"
+                        style={{
+                          backgroundColor: theme.colors.bg,
+                          border: `3px solid ${theme.colors.accent}`,
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={editForm.isRepeating}
+                          onChange={(e) =>
+                            setEditForm((prev) => ({
+                              ...prev,
+                              isRepeating: e.target.checked,
+                            }))
+                          }
+                          className="h-8 w-8 rounded-lg"
+                          style={{
+                            accentColor: theme.colors.primary,
+                          }}
+                        />
+                        <span className="text-lg font-semibold">
+                          🔄 Repeating Task
+                        </span>
+                      </label>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <button
+                          type="button"
+                          onClick={() => saveTask(task.id)}
+                          disabled={isSubmitting}
+                          className="flex h-[72px] items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-all active:scale-95 disabled:opacity-50"
+                          style={{
+                            backgroundColor: theme.colors.primary,
+                            color: isDarkTheme ? '#000' : '#FFF',
+                            fontFamily: '"Fredoka", sans-serif',
+                            boxShadow: `0 6px 0 ${theme.colors.accent}`,
+                          }}
+                        >
+                          <span className="text-3xl">✅</span>
+                          <span>{isSubmitting ? 'Saving...' : 'Save'}</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={cancelEdit}
+                          disabled={isSubmitting}
+                          className="flex h-[72px] items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-all active:scale-95 disabled:opacity-50"
+                          style={{
+                            backgroundColor: theme.colors.bg,
+                            color: theme.colors.text,
+                            fontFamily: '"Fredoka", sans-serif',
+                            border: `4px solid ${theme.colors.accent}`,
+                          }}
+                        >
+                          <span className="text-3xl">✖️</span>
+                          <span>Cancel</span>
+                        </button>
+                      </div>
+                    </div>
+                  )
+                }
+
+                // Task Display Card
+                return (
+                  <div
+                    key={task.id}
+                    className="rounded-3xl p-6 transition-all"
+                    style={{
+                      backgroundColor: theme.colors.surface,
+                      border: `4px solid ${theme.colors.accent}`,
+                      boxShadow: `0 6px 0 ${theme.colors.accent}`,
+                    }}
+                  >
+                    <div className="mb-4 flex items-start justify-between">
+                      <div className="flex-1">
+                        <h3
+                          className="text-2xl leading-tight font-bold"
+                          style={{
+                            fontFamily: '"Fredoka", sans-serif',
+                            color: theme.colors.text,
+                          }}
+                        >
+                          {task.title}
+                        </h3>
+                        <div className="mt-2 flex flex-wrap items-center gap-2 text-base">
+                          <span className="opacity-70">
+                            👤 {getChildName(task.childId)}
+                          </span>
+                          {task.category && (
+                            <span
+                              className="rounded-full px-3 py-1 text-sm font-semibold"
+                              style={{
+                                backgroundColor: theme.colors.bg,
+                                color: theme.colors.text,
+                              }}
+                            >
+                              {task.category}
+                            </span>
+                          )}
+                          {task.isRepeating && (
+                            <span
+                              className="rounded-full px-3 py-1 text-sm font-semibold"
+                              style={{
+                                backgroundColor: theme.colors.primary + '40',
+                                color: theme.colors.text,
+                              }}
+                            >
+                              🔄 Repeating
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <span className="text-4xl">
+                        {'⭐'.repeat(task.starValue)}
                       </span>
-                    </label>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleAwardTask(task)}
+                        disabled={
+                          isAwarding || editingId !== null || !activeChildId
+                        }
+                        className="col-span-3 flex h-[72px] items-center justify-center gap-3 rounded-2xl text-xl font-bold transition-all active:scale-95 disabled:opacity-40"
+                        style={{
+                          backgroundColor: theme.colors.primary,
+                          color: isDarkTheme ? '#000' : '#FFF',
+                          fontFamily: '"Fredoka", sans-serif',
+                          boxShadow: `0 6px 0 ${theme.colors.accent}`,
+                        }}
+                      >
+                        <span className="text-4xl">🎉</span>
+                        <span>Award Stars!</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => startEdit(task)}
+                        disabled={editingId !== null}
+                        className="flex h-[60px] items-center justify-center rounded-xl text-3xl transition-all active:scale-95 disabled:opacity-40"
+                        style={{
+                          backgroundColor: theme.colors.bg,
+                          border: `3px solid ${theme.colors.accent}`,
+                        }}
+                      >
+                        ✏️
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(task.id)}
+                        disabled={editingId !== null}
+                        className="flex h-[60px] items-center justify-center rounded-xl text-3xl transition-all active:scale-95 disabled:opacity-40"
+                        style={{
+                          backgroundColor: theme.colors.bg,
+                          border: `3px solid ${theme.colors.accent}`,
+                        }}
+                      >
+                        🗑️
+                      </button>
+                      <div className="w-full" />
+                    </div>
+                  </div>
+                )
+              })}
+
+              {/* Create New Task Form or Button */}
+              {editingId === 'new' ? (
+                <div
+                  className="space-y-4 rounded-3xl p-6"
+                  style={{
+                    backgroundColor: theme.colors.surface,
+                    border: `4px solid ${theme.colors.primary}`,
+                    boxShadow: `0 8px 0 ${theme.colors.accent}`,
+                  }}
+                >
+                  {formErrors['new'] && (
+                    <div
+                      className="rounded-2xl p-4 text-center font-semibold"
+                      style={{
+                        backgroundColor: '#ff000020',
+                        color: '#ff6b6b',
+                      }}
+                    >
+                      {formErrors['new'].map((err) => (
+                        <p key={err}>{err}</p>
+                      ))}
+                    </div>
+                  )}
+
+                  <input
+                    type="text"
+                    value={editForm.title}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        title: e.target.value,
+                      }))
+                    }
+                    placeholder="Task name"
+                    maxLength={80}
+                    className="w-full rounded-2xl border-4 px-6 py-4 text-xl font-bold outline-none"
+                    style={{
+                      borderColor: theme.colors.accent,
+                      backgroundColor: theme.colors.bg,
+                      color: theme.colors.text,
+                      fontFamily: '"Fredoka", sans-serif',
+                    }}
+                  />
+
+                  <select
+                    value={editForm.childId}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        childId: e.target.value,
+                      }))
+                    }
+                    className="w-full rounded-2xl border-4 px-6 py-4 text-lg font-semibold outline-none"
+                    style={{
+                      borderColor: theme.colors.accent,
+                      backgroundColor: theme.colors.bg,
+                      color: theme.colors.text,
+                      fontFamily: '"Fredoka", sans-serif',
+                    }}
+                  >
+                    <option value="">👤 Select child</option>
+                    {children.map((child) => (
+                      <option key={child.id} value={child.id}>
+                        {child.displayName}
+                      </option>
+                    ))}
+                  </select>
+
+                  <div className="space-y-2">
+                    <p className="text-sm font-bold tracking-wider uppercase opacity-70">
+                      ⭐ Star Value
+                    </p>
+                    <div className="grid grid-cols-3 gap-3">
+                      {[1, 2, 3].map((val) => (
+                        <button
+                          key={val}
+                          type="button"
+                          onClick={() =>
+                            setEditForm((prev) => ({
+                              ...prev,
+                              starValue: val as 1 | 2 | 3,
+                            }))
+                          }
+                          className="flex h-[72px] flex-col items-center justify-center rounded-2xl text-3xl font-bold transition-all active:scale-95"
+                          style={{
+                            backgroundColor:
+                              editForm.starValue === val
+                                ? theme.colors.primary
+                                : theme.colors.bg,
+                            border: `4px solid ${theme.colors.accent}`,
+                            color:
+                              editForm.starValue === val
+                                ? isDarkTheme
+                                  ? '#000'
+                                  : '#FFF'
+                                : theme.colors.text,
+                          }}
+                        >
+                          {'⭐'.repeat(val)}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
-                  <div className="flex gap-2">
+                  <label
+                    className="flex items-center gap-4 rounded-2xl p-4"
+                    style={{
+                      backgroundColor: theme.colors.bg,
+                      border: `3px solid ${theme.colors.accent}`,
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={editForm.isRepeating}
+                      onChange={(e) =>
+                        setEditForm((prev) => ({
+                          ...prev,
+                          isRepeating: e.target.checked,
+                        }))
+                      }
+                      className="h-8 w-8 rounded-lg"
+                      style={{
+                        accentColor: theme.colors.primary,
+                      }}
+                    />
+                    <span className="text-lg font-semibold">
+                      🔄 Repeating Task
+                    </span>
+                  </label>
+
+                  <div className="grid grid-cols-2 gap-3">
                     <button
                       type="button"
                       onClick={() => saveTask('new')}
                       disabled={isSubmitting}
-                      className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
+                      className="flex h-[72px] items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-all active:scale-95 disabled:opacity-50"
+                      style={{
+                        backgroundColor: theme.colors.primary,
+                        color: isDarkTheme ? '#000' : '#FFF',
+                        fontFamily: '"Fredoka", sans-serif',
+                        boxShadow: `0 6px 0 ${theme.colors.accent}`,
+                      }}
                     >
-                      {isSubmitting ? 'Creating…' : 'Create Task'}
+                      <span className="text-3xl">✅</span>
+                      <span>{isSubmitting ? 'Creating...' : 'Create'}</span>
                     </button>
                     <button
                       type="button"
                       onClick={cancelEdit}
                       disabled={isSubmitting}
-                      className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 disabled:cursor-not-allowed disabled:opacity-70"
+                      className="flex h-[72px] items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-all active:scale-95 disabled:opacity-50"
+                      style={{
+                        backgroundColor: theme.colors.bg,
+                        color: theme.colors.text,
+                        fontFamily: '"Fredoka", sans-serif',
+                        border: `4px solid ${theme.colors.accent}`,
+                      }}
                     >
-                      Cancel
+                      <span className="text-3xl">✖️</span>
+                      <span>Cancel</span>
                     </button>
                   </div>
-                </li>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={startCreate}
+                  className="flex h-[72px] w-full items-center justify-center gap-3 rounded-3xl text-xl font-bold transition-all active:scale-95"
+                  style={{
+                    backgroundColor: theme.colors.primary,
+                    color: isDarkTheme ? '#000' : '#FFF',
+                    fontFamily: '"Fredoka", "Comic Sans MS", sans-serif',
+                    boxShadow: `0 6px 0 ${theme.colors.accent}`,
+                    border: `3px solid ${theme.colors.accent}`,
+                  }}
+                >
+                  <span className="text-4xl">➕</span>
+                  <span>Create Task</span>
+                </button>
               )}
-
-              {editingId === null && (
-                <li>
-                  <button
-                    type="button"
-                    onClick={startCreate}
-                    className="w-full rounded-lg border-2 border-dashed border-slate-700 bg-slate-900/40 px-4 py-4 text-sm font-medium text-slate-300 transition hover:border-emerald-500 hover:bg-slate-900/60 hover:text-emerald-300"
-                  >
-                    + Create Task
-                  </button>
-                </li>
-              )}
-            </ul>
+            </>
           )}
-        </article>
-      </section>
-    </main>
+        </div>
+      </div>
+    </div>
   )
 }
 
