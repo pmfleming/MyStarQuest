@@ -67,28 +67,37 @@ const DashboardPage = () => {
 
   // Determine text color contrast
   const isDarkTheme = theme.id === 'space'
-  const buttonTextColor = isDarkTheme ? '#000' : '#FFF'
 
   // --- Main Render ---
   return (
     <div
-      className="min-h-screen w-full transition-colors duration-500"
+      className="flex min-h-screen w-full items-start justify-center transition-colors duration-500"
       style={{
         background: theme.colors.bg,
         backgroundImage: theme.bgPattern,
         color: theme.colors.text,
         fontFamily: theme.fonts.body,
+        padding: '20px',
       }}
     >
-      {/* Mobile Container */}
-      <div className="mx-auto flex min-h-screen max-w-md flex-col p-6">
+      {/* Mobile Container - matches prototype max-width */}
+      <div
+        className="flex min-h-[calc(100vh-40px)] w-full max-w-[414px] flex-col rounded-[40px] p-6"
+        style={{
+          backgroundColor:
+            theme.id === 'space' ? 'transparent' : theme.colors.surface,
+          boxShadow:
+            theme.id === 'space' ? 'none' : '0 25px 50px rgba(0, 0, 0, 0.15)',
+        }}
+      >
         {/* Header / Profile */}
-        <header className="mb-8 flex items-center gap-4">
+        <header className="relative z-10 mb-8 flex items-center gap-4">
           <div
-            className="flex h-20 w-20 items-center justify-center rounded-full border-4 text-4xl shadow-lg"
+            className="flex h-20 w-20 items-center justify-center rounded-full border-4 text-4xl"
             style={{
               borderColor: theme.colors.primary,
               backgroundColor: theme.colors.surface,
+              boxShadow: `0 0 20px ${theme.colors.primary}40`,
             }}
           >
             {selectedChild?.avatarToken || theme.emoji}
@@ -106,10 +115,10 @@ const DashboardPage = () => {
 
         {/* Star Balance (Big & Fun) */}
         <section
-          className="mb-8 transform rounded-3xl p-6 text-center transition-transform hover:scale-[1.02]"
+          className="relative z-10 mb-8 transform rounded-3xl p-6 text-center transition-transform hover:scale-[1.02]"
           style={{
             backgroundColor: theme.colors.surface,
-            boxShadow: `0 10px 30px -10px ${theme.colors.primary}40`,
+            boxShadow: `0 8px 0 ${theme.colors.accent}, 0 10px 30px -10px ${theme.colors.primary}40`,
             border: `3px solid ${theme.colors.primary}`,
           }}
         >
@@ -123,7 +132,7 @@ const DashboardPage = () => {
               style={{
                 color: theme.colors.primary,
                 fontFamily: theme.fonts.heading,
-                textShadow: `2px 2px 0px ${theme.colors.accent}`,
+                textShadow: `3px 3px 0px ${theme.colors.accent}`,
               }}
             >
               {selectedChild?.totalStars || 0}
@@ -132,13 +141,23 @@ const DashboardPage = () => {
         </section>
 
         {/* Main Actions (Big Buttons for Motor Skills - 88px height) */}
-        <nav className="grid grid-cols-1 gap-5">
-          <Link to="/settings/manage-tasks" className="group relative">
-            <div
-              className={`flex h-[88px] w-full items-center justify-between px-8 text-xl font-bold transition-all active:translate-y-1 active:shadow-none ${theme.buttonStyle}`}
+        <nav className="relative z-10 grid grid-cols-1 gap-5">
+          <Link to="/settings/manage-tasks" className="group">
+            <button
+              type="button"
+              className="flex h-[88px] w-full items-center justify-between px-8 text-xl font-bold transition-all"
               style={{
                 backgroundColor: theme.colors.secondary,
-                color: buttonTextColor,
+                color: isDarkTheme ? '#000' : '#FFF',
+                borderRadius: theme.id === 'space' ? '50px' : '24px',
+                border:
+                  theme.id === 'space'
+                    ? `3px solid ${theme.colors.secondary}`
+                    : `4px solid ${theme.colors.accent}`,
+                boxShadow:
+                  theme.id === 'space'
+                    ? `0 0 20px ${theme.colors.secondary}40`
+                    : `0 6px 0 ${theme.colors.accent}`,
               }}
             >
               <span className="flex items-center gap-4">
@@ -148,15 +167,25 @@ const DashboardPage = () => {
               <span className="text-3xl opacity-50 transition-transform group-hover:translate-x-2">
                 →
               </span>
-            </div>
+            </button>
           </Link>
 
-          <Link to="/settings/manage-rewards" className="group relative">
-            <div
-              className={`flex h-[88px] w-full items-center justify-between px-8 text-xl font-bold transition-all active:translate-y-1 active:shadow-none ${theme.buttonStyle}`}
+          <Link to="/settings/manage-rewards" className="group">
+            <button
+              type="button"
+              className="flex h-[88px] w-full items-center justify-between px-8 text-xl font-bold transition-all"
               style={{
                 backgroundColor: theme.colors.primary,
-                color: buttonTextColor,
+                color: isDarkTheme ? '#000' : '#FFF',
+                borderRadius: theme.id === 'space' ? '50px' : '24px',
+                border:
+                  theme.id === 'space'
+                    ? `3px solid ${theme.colors.primary}`
+                    : `4px solid ${theme.colors.accent}`,
+                boxShadow:
+                  theme.id === 'space'
+                    ? `0 0 20px ${theme.colors.primary}40`
+                    : `0 6px 0 ${theme.colors.accent}`,
               }}
             >
               <span className="flex items-center gap-4">
@@ -166,17 +195,20 @@ const DashboardPage = () => {
               <span className="text-3xl opacity-50 transition-transform group-hover:translate-x-2">
                 →
               </span>
-            </div>
+            </button>
           </Link>
         </nav>
 
         {/* Parent Corner (Discreet) */}
-        <footer className="mt-auto pt-12 text-center">
-          <div className="flex justify-center gap-4 opacity-50">
-            <Link to="/settings/manage-children" className="text-xs underline">
-              Parent Settings
+        <footer className="relative z-10 mt-auto pt-12 text-center">
+          <div className="flex flex-col items-center gap-3 opacity-60">
+            <Link
+              to="/settings/manage-children"
+              className="rounded-lg border border-current px-4 py-2 text-sm underline-offset-2 transition hover:bg-black/10 hover:opacity-100"
+            >
+              👨‍👩‍👧 Manage Children
             </Link>
-            <button onClick={logout} className="text-xs underline">
+            <button onClick={logout} className="text-xs underline opacity-70">
               Log Out
             </button>
           </div>

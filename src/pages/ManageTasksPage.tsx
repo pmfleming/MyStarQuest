@@ -15,6 +15,7 @@ import {
 import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
+import { useTheme } from '../contexts/ThemeContext'
 import { awardStars } from '../services/starActions'
 import { celebrateSuccess } from '../utils/celebrate'
 
@@ -52,6 +53,7 @@ const taskSchema = z.object({
 const ManageTasksPage = () => {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
+  const { theme } = useTheme()
   const [children, setChildren] = useState<ChildSummary[]>([])
   const [tasks, setTasks] = useState<TaskRecord[]>([])
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -244,38 +246,63 @@ const ManageTasksPage = () => {
   }
 
   return (
-    <main className="flex min-h-screen flex-col bg-slate-950 p-6 text-slate-100">
+    <main
+      className="flex min-h-screen flex-col p-6"
+      style={{
+        background: theme.colors.bg,
+        backgroundImage: theme.bgPattern,
+        color: theme.colors.text,
+        fontFamily: theme.fonts.body,
+      }}
+    >
       <header className="mb-6 flex items-center justify-between">
         <div>
-          <p className="text-sm tracking-wide text-slate-400 uppercase">
-            Settings
-          </p>
-          <h1 className="text-3xl font-semibold">Manage Tasks</h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="text-sm tracking-wide uppercase opacity-60">Settings</p>
+          <h1
+            className="text-3xl font-semibold"
+            style={{ fontFamily: theme.fonts.heading }}
+          >
+            Manage Tasks
+          </h1>
+          <p className="mt-1 text-sm opacity-70">
             Create and manage tasks that children can complete to earn stars.
           </p>
         </div>
         <Link
           to="/"
-          className="rounded-lg border border-slate-700 px-3 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 hover:text-slate-100"
+          className="rounded-lg border px-3 py-2 text-sm font-medium transition hover:opacity-80"
+          style={{
+            borderColor: theme.colors.primary,
+            color: theme.colors.text,
+          }}
         >
-          Back to dashboard
+          ← Dashboard
         </Link>
       </header>
 
       <section className="max-w-4xl">
-        <article className="space-y-4 rounded-xl bg-slate-900/50 p-6 shadow-inner shadow-slate-950/40">
+        <article
+          className="space-y-4 rounded-xl p-6"
+          style={{
+            backgroundColor: theme.colors.surface,
+            boxShadow: `0 4px 20px ${theme.colors.primary}20`,
+            border: `2px solid ${theme.colors.primary}40`,
+          }}
+        >
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">Tasks</h2>
-            <span className="text-xs tracking-wide text-slate-500 uppercase">
+            <span className="text-xs tracking-wide uppercase opacity-50">
               {taskCountLabel}
             </span>
           </div>
 
           {children.length === 0 ? (
-            <div className="rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-6 text-center text-sm text-slate-400">
+            <div
+              className="rounded-lg border-2 border-dashed p-6 text-center text-sm"
+              style={{ borderColor: theme.colors.accent, opacity: 0.7 }}
+            >
               <p className="mb-2">No children yet.</p>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs opacity-70">
                 Add a child profile first before creating tasks.
               </p>
             </div>
