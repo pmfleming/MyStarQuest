@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>MyStarQuest - Design Prototype</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@700;800;900&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================
+       RESEARCH-BASED DESIGN SYSTEM
+       For Children Ages 4-6
+       =========================================
+       
+       KEY FINDINGS:
+       - Motor Skills: Min touch target 72x72px (19mm), 20px spacing
+       - Cognitive: Icons primary, text secondary (pre-literate)
+       - Colors: Saturated but not neon, high contrast
+       - Feedback: Immediate (<100ms), exaggerated animations
+    */
+
+    :root {
+      /* Theme A: Galactic Explorer (Space) */
+      --space-bg: #0B1026;
+      --space-surface: #1B2745;
+      --space-text: #FFFFFF;
+      --space-primary: #FFD700;
+      --space-secondary: #00E5FF;
+      --space-accent: #9C27B0;
+      
+      /* Theme B: Enchanted Forest (Nature) */
+      --nature-bg: #E8F5E9;
+      --nature-surface: #FFFFFF;
+      --nature-text: #33691E;
+      --nature-primary: #8BC34A;
+      --nature-secondary: #FF9800;
+      --nature-accent: #795548;
+      
+      /* Theme C: Superhero Squad (Cartoon) */
+      --cartoon-bg: #FFF8E1;
+      --cartoon-surface: #FFFFFF;
+      --cartoon-text: #212121;
+      --cartoon-primary: #F44336;
+      --cartoon-secondary: #2196F3;
+      --cartoon-accent: #FFEB3B;
+      
+      /* Theme D: Royal Princess */
+      --princess-bg: #FDF2F8;
+      --princess-surface: #FFFFFF;
+      --princess-text: #831843;
+      --princess-primary: #EC4899;
+      --princess-secondary: #A855F7;
+      --princess-accent: #F9A8D4;
+      
+      /* Child-Friendly Sizing */
+      --touch-target-min: 72px;
+      --button-height: 88px;
+      --icon-size: 48px;
+      --spacing-safe: 20px;
+      --font-size-large: 28px;
+      --font-size-xl: 48px;
+      --border-radius-soft: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Fredoka', 'Comic Sans MS', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      padding: 20px;
+    }
+
+    /* =========================================
+       THEME TOGGLE (Floating)
+    ========================================= */
+    .theme-toggle {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      display: flex;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 8px 12px;
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: rgba(255, 255, 255, 0.7);
+      background: transparent;
+    }
+
+    .theme-btn:hover {
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .theme-btn.active {
+      background: white;
+      color: #212121;
+      transform: scale(1.1);
+      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+    }
+
+    /* =========================================
+       MOBILE CONTAINER (Simulates Device)
+    ========================================= */
+    .device-frame {
+      width: 100%;
+      max-width: 414px; /* iPhone Plus width */
+      min-height: 896px; /* iPhone Plus height */
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 
+        0 0 0 12px #1a1a2e,
+        0 0 0 14px #333,
+        0 25px 50px rgba(0, 0, 0, 0.5);
+      margin-top: 70px;
+      position: relative;
+    }
+
+    .app-container {
+      width: 100%;
+      min-height: 896px;
+      padding: 24px;
+      padding-top: 48px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* =========================================
+       THEME A: GALACTIC EXPLORER (Space)
+    ========================================= */
+    .theme-space {
+      background: linear-gradient(180deg, #0B1026 0%, #1B2745 50%, #0B1026 100%);
+      color: var(--space-text);
+    }
+
+    .theme-space::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, white, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, white, transparent),
+        radial-gradient(2px 2px at 160px 120px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 230px 80px, white, transparent),
+        radial-gradient(2px 2px at 300px 150px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 350px 200px, white, transparent);
+      background-size: 400px 300px;
+      animation: twinkle 4s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .theme-space .profile-avatar {
+      background: linear-gradient(135deg, #1B2745, #2D3A5C);
+      border: 4px solid var(--space-primary);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    }
+
+    .theme-space .star-display {
+      background: linear-gradient(135deg, #1B2745, #2D3A5C);
+      border: 3px solid var(--space-secondary);
+      box-shadow: 
+        0 0 30px rgba(0, 229, 255, 0.3),
+        inset 0 0 30px rgba(0, 229, 255, 0.1);
+    }
+
+    .theme-space .action-btn {
+      border: 3px solid var(--space-secondary);
+      border-radius: 50px;
+      box-shadow: 
+        0 0 20px rgba(0, 229, 255, 0.4),
+        inset 0 0 20px rgba(0, 229, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    .theme-space .action-btn:active {
+      transform: scale(0.95);
+      box-shadow: 0 0 40px rgba(0, 229, 255, 0.6);
+    }
+
+    .theme-space .action-btn.tasks {
+      background: linear-gradient(135deg, #00BCD4, #00E5FF);
+      color: #000;
+    }
+
+    .theme-space .action-btn.rewards {
+      background: linear-gradient(135deg, #FFC107, #FFD54F);
+      color: #000;
+    }
+
+    /* =========================================
+       THEME B: ENCHANTED FOREST (Nature)
+    ========================================= */
+    .theme-nature {
+      background: linear-gradient(180deg, #81D4FA 0%, #E8F5E9 30%, #C8E6C9 100%);
+      color: var(--nature-text);
+      position: relative;
+    }
+
+    .theme-nature::after {
+      content: '🌳🌲🌳🌲🌳';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      font-size: 60px;
+      text-align: center;
+      letter-spacing: 20px;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .theme-nature .profile-avatar {
+      background: linear-gradient(135deg, #FFF9C4, #FFECB3);
+      border: 4px solid var(--nature-secondary);
+      box-shadow: 0 6px 0 var(--nature-accent);
+    }
+
+    .theme-nature .star-display {
+      background: white;
+      border: 4px solid var(--nature-accent);
+      border-radius: 30px;
+      box-shadow: 
+        0 8px 0 #5D4037,
+        inset 0 -5px 20px rgba(139, 195, 74, 0.2);
+    }
+
+    .theme-nature .action-btn {
+      border: 4px solid var(--nature-accent);
+      border-radius: 24px;
+      box-shadow: 0 8px 0 #5D4037;
+      transition: all 0.15s ease;
+    }
+
+    .theme-nature .action-btn:active {
+      transform: translateY(8px);
+      box-shadow: 0 0 0 #5D4037;
+    }
+
+    .theme-nature .action-btn.tasks {
+      background: linear-gradient(180deg, #8BC34A, #7CB342);
+      color: white;
+    }
+
+    .theme-nature .action-btn.rewards {
+      background: linear-gradient(180deg, #FF9800, #F57C00);
+      color: white;
+    }
+
+    /* =========================================
+       THEME C: SUPERHERO SQUAD (Cartoon)
+    ========================================= */
+    .theme-cartoon {
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(255,235,59,0.3) 0%, transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(33,150,243,0.2) 0%, transparent 30%),
+        linear-gradient(180deg, #FFF8E1 0%, #FFFFFF 100%);
+      color: var(--cartoon-text);
+    }
+
+    .theme-cartoon::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: radial-gradient(#ddd 1.5px, transparent 1.5px);
+      background-size: 15px 15px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .theme-cartoon .profile-avatar {
+      background: linear-gradient(135deg, var(--cartoon-accent), #FFF176);
+      border: 5px solid #212121;
+      box-shadow: 6px 6px 0 #212121;
+    }
+
+    .theme-cartoon .star-display {
+      background: white;
+      border: 5px solid #212121;
+      border-radius: 20px;
+      box-shadow: 8px 8px 0 #212121;
+    }
+
+    .theme-cartoon .action-btn {
+      border: 5px solid #212121;
+      border-radius: 16px;
+      box-shadow: 8px 8px 0 #212121;
+      transition: all 0.1s ease;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .theme-cartoon .action-btn:active {
+      transform: translate(8px, 8px);
+      box-shadow: 0 0 0 #212121;
+    }
+
+    .theme-cartoon .action-btn.tasks {
+      background: linear-gradient(180deg, #2196F3, #1976D2);
+      color: white;
+    }
+
+    .theme-cartoon .action-btn.rewards {
+      background: linear-gradient(180deg, #F44336, #D32F2F);
+      color: white;
+    }
+
+    /* =========================================
+       THEME D: ROYAL PRINCESS
+    ========================================= */
+    .theme-princess {
+      background: linear-gradient(180deg, #FDF2F8 0%, #FCE7F3 50%, #FBCFE8 100%);
+      color: var(--princess-text);
+      position: relative;
+    }
+
+    .theme-princess::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(236, 72, 153, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 50% 80%, rgba(249, 168, 212, 0.15) 0%, transparent 25%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .theme-princess::after {
+      content: '✨👑✨';
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      opacity: 0.4;
+      pointer-events: none;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0.4; transform: translateX(-50%) scale(1); }
+      50% { opacity: 0.7; transform: translateX(-50%) scale(1.1); }
+    }
+
+    .theme-princess .profile-avatar {
+      background: linear-gradient(135deg, #FBCFE8, #F9A8D4);
+      border: 4px solid var(--princess-primary);
+      box-shadow: 
+        0 0 20px rgba(236, 72, 153, 0.3),
+        0 6px 0 #DB2777;
+    }
+
+    .theme-princess .star-display {
+      background: linear-gradient(135deg, #FFFFFF, #FDF2F8);
+      border: 4px solid var(--princess-primary);
+      border-radius: 30px;
+      box-shadow: 
+        0 8px 0 #DB2777,
+        0 0 30px rgba(236, 72, 153, 0.2),
+        inset 0 0 20px rgba(249, 168, 212, 0.3);
+    }
+
+    .theme-princess .star-count {
+      color: var(--princess-primary);
+      text-shadow: 2px 2px 0 var(--princess-accent);
+    }
+
+    .theme-princess .action-btn {
+      border: 4px solid var(--princess-primary);
+      border-radius: 30px;
+      box-shadow: 
+        0 8px 0 #DB2777,
+        0 0 15px rgba(236, 72, 153, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .theme-princess .action-btn:active {
+      transform: translateY(8px);
+      box-shadow: 0 0 0 #DB2777;
+    }
+
+    .theme-princess .action-btn.tasks {
+      background: linear-gradient(180deg, #A855F7, #9333EA);
+      color: white;
+    }
+
+    .theme-princess .action-btn.rewards {
+      background: linear-gradient(180deg, #EC4899, #DB2777);
+      color: white;
+    }
+
+    .theme-princess .star-icon {
+      filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.5));
+    }
+
+    /* =========================================
+       SHARED COMPONENTS (All Themes)
+    ========================================= */
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    /* Profile Header */
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      flex-shrink: 0;
+    }
+
+    .profile-info h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .profile-info p {
+      font-size: 16px;
+      opacity: 0.8;
+    }
+
+    /* Star Display Card */
+    .star-display {
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .star-label {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+
+    .star-count-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .star-icon {
+      font-size: 56px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    .star-count {
+      font-size: 72px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .theme-space .star-count { color: var(--space-primary); text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+    .theme-nature .star-count { color: var(--nature-secondary); }
+    .theme-cartoon .star-count { color: var(--cartoon-primary); text-shadow: 3px 3px 0 var(--cartoon-accent); }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-safe);
+    }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: var(--button-height);
+      padding: 0 24px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: var(--font-size-large);
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .btn-content {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-icon {
+      font-size: var(--icon-size);
+    }
+
+    .btn-arrow {
+      font-size: 32px;
+      opacity: 0.6;
+      transition: transform 0.2s ease;
+    }
+
+    .action-btn:hover .btn-arrow {
+      transform: translateX(8px);
+    }
+
+    /* Parent Footer */
+    .parent-footer {
+      margin-top: auto;
+      padding-top: 40px;
+      text-align: center;
+    }
+
+    .parent-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .parent-link {
+      font-size: 12px;
+      opacity: 0.5;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: inherit;
+      font-family: inherit;
+    }
+
+    .parent-link:hover {
+      opacity: 0.8;
+    }
+
+    /* =========================================
+       RESEARCH NOTES PANEL
+    ========================================= */
+    .research-panel {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 320px;
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: 16px;
+      padding: 20px;
+      color: white;
+      font-family: system-ui, sans-serif;
+      font-size: 12px;
+      line-height: 1.6;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .research-panel h3 {
+      font-size: 14px;
+      margin-bottom: 12px;
+      color: #4CAF50;
+    }
+
+    .research-panel h4 {
+      font-size: 12px;
+      margin: 12px 0 6px;
+      color: #81D4FA;
+    }
+
+    .research-panel ul {
+      padding-left: 16px;
+      margin: 0;
+    }
+
+    .research-panel li {
+      margin-bottom: 4px;
+    }
+
+    .toggle-research {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: system-ui, sans-serif;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+    }
+
+    .research-panel.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Theme Toggle -->
+  <div class="theme-toggle">
+    <button class="theme-btn active" data-theme="space">🚀 Space</button>
+    <button class="theme-btn" data-theme="nature">🌿 Nature</button>
+    <button class="theme-btn" data-theme="cartoon">💥 Cartoon</button>
+    <button class="theme-btn" data-theme="princess">👑 Princess</button>
+  </div>
+
+  <!-- Device Frame -->
+  <div class="device-frame">
+    <div class="app-container theme-space" id="app">
+      <div class="content-wrapper">
+        
+        <!-- Profile Header -->
+        <header class="profile-header">
+          <div class="profile-avatar">🦸</div>
+          <div class="profile-info">
+            <h1>Hi, Emma!</h1>
+            <p>Ready for your quest?</p>
+          </div>
+        </header>
+
+        <!-- Star Balance -->
+        <section class="star-display">
+          <p class="star-label">Your Stars</p>
+          <div class="star-count-wrapper">
+            <span class="star-icon">⭐</span>
+            <span class="star-count">24</span>
+          </div>
+        </section>
+
+        <!-- Main Action Buttons -->
+        <nav class="action-buttons">
+          <button class="action-btn tasks">
+            <span class="btn-content">
+              <span class="btn-icon">📋</span>
+              <span>My Tasks</span>
+            </span>
+            <span class="btn-arrow">→</span>
+          </button>
+
+          <button class="action-btn rewards">
+            <span class="btn-content">
+              <span class="btn-icon">🎁</span>
+              <span>Rewards</span>
+            </span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </nav>
+
+        <!-- Parent Footer -->
+        <footer class="parent-footer">
+          <div class="parent-links">
+            <button class="parent-link">Parent Settings</button>
+            <button class="parent-link">Log Out</button>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Research Notes Toggle -->
+  <button class="toggle-research" id="toggleResearch">📚 Show Research</button>
+
+  <!-- Research Panel -->
+  <div class="research-panel hidden" id="researchPanel">
+    <h3>🔬 UI/UX Research: Ages 4-6</h3>
+    
+    <h4>🖐️ Motor Skills</h4>
+    <ul>
+      <li>Min touch target: <strong>72×72px</strong> (19mm)</li>
+      <li>Element spacing: <strong>≥20px</strong></li>
+      <li>Use tap gestures only (no swipe/pinch)</li>
+      <li>Large, forgiving hit areas</li>
+    </ul>
+    
+    <h4>🧠 Cognitive Load</h4>
+    <ul>
+      <li>Icons PRIMARY, text secondary</li>
+      <li>Max 3-4 nav items visible</li>
+      <li>Flat hierarchy (no nested menus)</li>
+      <li>Prominent "Home" button always</li>
+    </ul>
+    
+    <h4>🎨 Color Psychology</h4>
+    <ul>
+      <li>Saturated colors engage attention</li>
+      <li>Avoid neon (causes eye strain)</li>
+      <li>Green = positive/go, Red = stop</li>
+      <li>High contrast for readability</li>
+    </ul>
+    
+    <h4>✨ Feedback</h4>
+    <ul>
+      <li>Response time: <strong>&lt;100ms</strong></li>
+      <li>Exaggerated animations for success</li>
+      <li>Buttons should "press" visibly</li>
+      <li>Audio + visual combined</li>
+    </ul>
+
+    <h4>📐 This Prototype</h4>
+    <ul>
+      <li>Button height: 88px ✓</li>
+      <li>Icon size: 48px ✓</li>
+      <li>Touch targets: 88px (>72px min) ✓</li>
+      <li>Spacing: 20px ✓</li>
+    </ul>
+  </div>
+
+  <script>
+    // Theme Switching
+    const themeButtons = document.querySelectorAll('.theme-btn');
+    const app = document.getElementById('app');
+
+    themeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active button
+        themeButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Update theme class
+        const theme = btn.dataset.theme;
+        app.className = `app-container theme-${theme}`;
+      });
+    });
+
+    // Research Panel Toggle
+    const toggleBtn = document.getElementById('toggleResearch');
+    const researchPanel = document.getElementById('researchPanel');
+
+    toggleBtn.addEventListener('click', () => {
+      researchPanel.classList.toggle('hidden');
+      toggleBtn.textContent = researchPanel.classList.contains('hidden') 
+        ? '📚 Show Research' 
+        : '✕ Hide Research';
+    });
+
+    // Button Press Feedback (for demo)
+    const actionBtns = document.querySelectorAll('.action-btn');
+    actionBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          btn.style.transform = '';
+        }, 150);
+      });
+    });
+  </script>
+
+</body>
+</html>

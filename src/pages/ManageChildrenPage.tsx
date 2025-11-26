@@ -275,9 +275,9 @@ const ManageChildrenPage = () => {
 
                         <fieldset className="space-y-2">
                           <legend className="text-sm font-medium text-slate-300">
-                            Choose Avatar
+                            Choose Theme
                           </legend>
-                          <div className="grid grid-cols-5 gap-2">
+                          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                             {THEME_OPTIONS.map((option) => (
                               <button
                                 key={option.id}
@@ -301,8 +301,11 @@ const ManageChildrenPage = () => {
                                 >
                                   {option.emoji}
                                 </span>
-                                <span className="text-xs text-slate-400">
+                                <span className="text-xs font-medium text-slate-300">
                                   {option.label}
+                                </span>
+                                <span className="text-[10px] text-slate-500">
+                                  {option.description}
                                 </span>
                               </button>
                             ))}
@@ -436,9 +439,9 @@ const ManageChildrenPage = () => {
 
                     <fieldset className="space-y-2">
                       <legend className="text-sm font-medium text-slate-300">
-                        Choose Avatar
+                        Choose Theme
                       </legend>
-                      <div className="grid grid-cols-5 gap-2">
+                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                         {THEME_OPTIONS.map((option) => (
                           <button
                             key={option.id}
@@ -462,8 +465,11 @@ const ManageChildrenPage = () => {
                             >
                               {option.emoji}
                             </span>
-                            <span className="text-xs text-slate-400">
+                            <span className="text-xs font-medium text-slate-300">
                               {option.label}
+                            </span>
+                            <span className="text-[10px] text-slate-500">
+                              {option.description}
                             </span>
                           </button>
                         ))}

@@ -1,18 +1,30 @@
 // src/constants/themeOptions.ts
 
 // Define a type for the theme IDs for type safety
-export type ThemeId = 'princess' | 'robot' | 'forest' | 'ocean' | 'dino'
+export type ThemeId = 'space' | 'nature' | 'cartoon' | 'princess'
 
-export const THEME_OPTIONS: {
+export interface ThemeOption {
   id: ThemeId
   label: string
   emoji: string
-}[] = [
-  { id: 'princess', label: 'Princess', emoji: '👸' },
-  { id: 'robot', label: 'Robot', emoji: '🤖' },
-  { id: 'forest', label: 'Nature', emoji: '🌲' },
-  { id: 'ocean', label: 'Ocean', emoji: '🌊' },
-  { id: 'dino', label: 'Dinosaurs', emoji: '🦖' },
+  description: string
+}
+
+export const THEME_OPTIONS: ThemeOption[] = [
+  {
+    id: 'space',
+    label: 'Space',
+    emoji: '🚀',
+    description: 'Galactic Explorer',
+  },
+  { id: 'nature', label: 'Nature', emoji: '🌿', description: 'Sunny Meadow' },
+  { id: 'cartoon', label: 'Cartoon', emoji: '💥', description: 'Super Squad' },
+  {
+    id: 'princess',
+    label: 'Princess',
+    emoji: '👑',
+    description: 'Royal Kingdom',
+  },
 ]
 
 // A quick lookup map for getting theme details by ID

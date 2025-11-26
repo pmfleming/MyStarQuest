@@ -1,150 +1,130 @@
 import React, { createContext, useState, useMemo } from 'react'
-import {
-  princessBackground,
-  princessTaskIcon,
-  princessRewardsIcon,
-  princessChildrenIcon,
-  princessDashboardIcon,
-} from '../assets/themes/princess/assets'
+import type { ThemeId } from '../constants/themeOptions'
 /* eslint-disable react-refresh/only-export-components */
 
 // Define the shape of a theme
-export interface Theme {
-  name: string
-  palette: {
-    primary: string
-    secondary: string
-    accent: string
-    neutral: string
-    base: string
-  }
-  motifs: string[]
-  confetti: string[]
-  emptyState: string
-  backgroundImage?: string
-  icons?: {
-    dashboard?: string
-    tasks?: string
-    rewards?: string
-    children?: string
-  }
+export interface ThemeColors {
+  bg: string
+  surface: string
+  text: string
+  primary: string
+  secondary: string
+  accent: string
 }
 
-// Define the available themes
-export const themes: Record<string, Theme> = {
-  princess: {
-    name: 'Princess Kingdom',
-    palette: {
-      primary: '#F6B0D1',
-      secondary: '#C6B7F5',
-      accent: '#FFD76A',
-      neutral: '#B7F2D5',
-      base: '#1C1B2E',
-    },
-    motifs: [
-      'crowns',
-      'tiaras',
-      'castles',
-      'wands',
-      'carriages',
-      'hearts',
-      'stars',
-      'ribbons',
-    ],
-    confetti: ['crowns', 'stars'],
-    emptyState: 'castle skyline with banner placeholders',
-    backgroundImage: princessBackground,
-    icons: {
-      dashboard: princessDashboardIcon,
-      tasks: princessTaskIcon,
-      rewards: princessRewardsIcon,
-      children: princessChildrenIcon,
-    },
-  },
-  robot: {
-    name: 'Robot Factory',
-    palette: {
-      primary: '#9AA6B2',
-      secondary: '#66E0E0',
-      accent: '#FFC658',
-      neutral: '#C6F36B',
-      base: '#18202A',
-    },
-    motifs: [
-      'gears',
-      'bolts',
-      'robot heads',
-      'conveyor belts',
-      'circuit traces',
-    ],
-    confetti: ['bolts', 'gears'],
-    emptyState: 'assembly arm holding a blank panel',
-  },
+export interface Theme {
+  id: ThemeId
+  name: string
+  emoji: string
+  colors: ThemeColors
+  fonts: {
+    heading: string
+    body: string
+  }
+  buttonStyle: string
+  bgPattern?: string
+  confetti: string[]
+}
+
+// Define the available themes based on the prototype
+export const themes: Record<ThemeId, Theme> = {
   space: {
-    name: 'Space Adventure',
-    palette: {
-      primary: '#8B6CF6',
-      secondary: '#FFD06E',
-      accent: '#37D0C7',
-      neutral: '#E7ECF2',
-      base: '#0C0F1A',
+    id: 'space',
+    name: 'Galactic Explorer',
+    emoji: '🚀',
+    colors: {
+      bg: '#0B1026',
+      surface: '#1B2745',
+      text: '#FFFFFF',
+      primary: '#FFD700',
+      secondary: '#00E5FF',
+      accent: '#9C27B0',
     },
-    motifs: ['rockets', 'planets', 'badges', 'telescopes'],
-    confetti: ['stars', 'tiny rockets'],
-    emptyState: 'moon rover with flag placeholder',
+    fonts: {
+      heading: '"Fredoka", "Verdana", sans-serif',
+      body: '"Fredoka", "Verdana", sans-serif',
+    },
+    buttonStyle:
+      'rounded-full border-2 border-cyan-400 shadow-[0_0_15px_rgba(0,229,255,0.4)]',
+    bgPattern: 'radial-gradient(circle at 50% 50%, #1B2745 0%, #0B1026 100%)',
+    confetti: ['⭐', '🚀', '🌟', '✨'],
   },
-  forest: {
-    name: 'Forest Friends',
-    palette: {
-      primary: '#8CD67A',
-      secondary: '#5C4732',
-      accent: '#F58BAE',
-      neutral: '#FFD685',
-      base: '#BFE3FF',
+  nature: {
+    id: 'nature',
+    name: 'Sunny Meadow',
+    emoji: '🌿',
+    colors: {
+      bg: '#E8F5E9',
+      surface: '#FFFFFF',
+      text: '#33691E',
+      primary: '#8BC34A',
+      secondary: '#FF9800',
+      accent: '#795548',
     },
-    motifs: ['fox', 'owl', 'bear cub', 'leaves', 'acorns'],
-    confetti: ['leaves', 'acorns'],
-    emptyState: 'tree stump with signpost',
+    fonts: {
+      heading: '"Fredoka", "Comic Sans MS", sans-serif',
+      body: '"Fredoka", "Comic Sans MS", sans-serif',
+    },
+    buttonStyle:
+      'rounded-2xl border-4 border-amber-800 shadow-[4px_4px_0px_#5D4037]',
+    bgPattern: 'linear-gradient(180deg, #81D4FA 0%, #E8F5E9 30%, #C8E6C9 100%)',
+    confetti: ['🌻', '🍃', '🌈', '🦋'],
   },
-  ocean: {
-    name: 'Ocean/Pirates',
-    palette: {
-      primary: '#0D3B66',
-      secondary: '#3FA7D6',
-      accent: '#FF7A90',
-      neutral: '#F3D8A6',
-      base: '#F6F8FB',
+  cartoon: {
+    id: 'cartoon',
+    name: 'Super Squad',
+    emoji: '💥',
+    colors: {
+      bg: '#FFF8E1',
+      surface: '#FFFFFF',
+      text: '#212121',
+      primary: '#F44336',
+      secondary: '#2196F3',
+      accent: '#FFEB3B',
     },
-    motifs: ['treasure chests', 'anchors', 'spyglasses', 'sails'],
-    confetti: ['coins', 'anchors'],
-    emptyState: 'little ship with blank sail emblem',
+    fonts: {
+      heading: '"Fredoka", "Impact", sans-serif',
+      body: '"Fredoka", "Arial", sans-serif',
+    },
+    buttonStyle:
+      'rounded-xl border-4 border-black shadow-[6px_6px_0px_#000000]',
+    bgPattern: 'radial-gradient(#ddd 1.5px, transparent 1.5px)',
+    confetti: ['💥', '⚡', '🦸', '💪'],
   },
-  construction: {
-    name: 'Construction/Vehicles',
-    palette: {
-      primary: '#FFD54F',
-      secondary: '#2B2B2B',
-      accent: '#FF8A65',
-      neutral: '#BDE0FE',
-      base: '#9EE493',
+  princess: {
+    id: 'princess',
+    name: 'Royal Kingdom',
+    emoji: '👑',
+    colors: {
+      bg: '#FDF2F8',
+      surface: '#FFFFFF',
+      text: '#831843',
+      primary: '#EC4899',
+      secondary: '#A855F7',
+      accent: '#F9A8D4',
     },
-    motifs: ['excavators', 'cones', 'hard hats', 'road signs'],
-    confetti: ['triangles', 'bolts'],
-    emptyState: 'barricade with placeholder board',
+    fonts: {
+      heading: '"Fredoka", "Georgia", serif',
+      body: '"Fredoka", "Georgia", serif',
+    },
+    buttonStyle:
+      'rounded-3xl border-4 border-pink-500 shadow-[4px_4px_0px_#DB2777]',
+    bgPattern: 'linear-gradient(180deg, #FDF2F8 0%, #FCE7F3 50%, #FBCFE8 100%)',
+    confetti: ['👑', '✨', '💖', '🌸'],
   },
 }
 
 // Define the shape of the theme context
 export interface ThemeContextValue {
   theme: Theme
-  currentTheme: string
-  setTheme: (themeId: string) => void
+  currentTheme: ThemeId
+  setTheme: (themeId: ThemeId | string) => void
 }
 
 // Create the theme context
 export const ThemeContext = createContext<ThemeContextValue>({
-  theme: themes.princess,
-  currentTheme: 'princess',
+  theme: themes.space,
+  currentTheme: 'space',
   setTheme: () => {},
 })
 
@@ -152,15 +132,15 @@ export const ThemeContext = createContext<ThemeContextValue>({
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [currentThemeId, setCurrentThemeId] = useState<string>('princess')
+  const [currentThemeId, setCurrentThemeId] = useState<ThemeId>('space')
 
   const themeContextValue = useMemo(
     () => ({
-      theme: themes[currentThemeId] || themes.princess,
+      theme: themes[currentThemeId] || themes.space,
       currentTheme: currentThemeId,
-      setTheme: (themeId: string) => {
-        if (themes[themeId]) {
-          setCurrentThemeId(themeId)
+      setTheme: (themeId: ThemeId | string) => {
+        if (themes[themeId as ThemeId]) {
+          setCurrentThemeId(themeId as ThemeId)
         }
       },
     }),

@@ -4,7 +4,9 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
+import { useTheme } from '../contexts/ThemeContext'
 
+// --- Types ---
 type ChildProfile = {
   id: string
   displayName: string
@@ -16,19 +18,19 @@ type ChildProfile = {
 const DashboardPage = () => {
   const { user, logout } = useAuth()
   const { activeChildId, setActiveChild } = useActiveChild()
+  const { theme } = useTheme()
   const [children, setChildren] = useState<ChildProfile[]>([])
 
+  // --- Data Fetching ---
   useEffect(() => {
     if (!user) {
       setChildren([])
       return
     }
-
     const childrenQuery = query(
       collection(db, 'users', user.uid, 'children'),
       orderBy('createdAt', 'asc')
     )
-
     const unsubscribe = onSnapshot(childrenQuery, (snapshot) => {
       const nextChildren: ChildProfile[] = snapshot.docs.map((docSnapshot) => {
         const data = docSnapshot.data()
@@ -40,24 +42,21 @@ const DashboardPage = () => {
           themeId: data.themeId,
         }
       })
-
       setChildren(nextChildren)
     })
-
     return unsubscribe
   }, [user])
 
+  // --- Auto-select child ---
   useEffect(() => {
-    if (children.length === 0) {
-      return
-    }
-
     if (
-      !activeChildId ||
-      !children.some((child) => child.id === activeChildId)
+      children.length > 0 &&
+      (!activeChildId || !children.some((c) => c.id === activeChildId))
     ) {
-      const first = children[0]
-      setActiveChild({ id: first.id, themeId: first.themeId || 'princess' })
+      setActiveChild({
+        id: children[0].id,
+        themeId: children[0].themeId || 'space',
+      })
     }
   }, [children, activeChildId, setActiveChild])
 
@@ -66,76 +65,124 @@ const DashboardPage = () => {
     [children, activeChildId]
   )
 
-  const displayedStars = selectedChild ? selectedChild.totalStars : 0
+  // Determine text color contrast
+  const isDarkTheme = theme.id === 'space'
+  const buttonTextColor = isDarkTheme ? '#000' : '#FFF'
 
+  // --- Main Render ---
   return (
-    <main className="flex min-h-screen flex-col bg-slate-950 p-6 text-slate-100">
-      <header className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <p className="text-sm tracking-wide text-slate-400 uppercase">Home</p>
-          <h1 className="text-3xl font-semibold">
-            {selectedChild
-              ? `Mission control for ${selectedChild.displayName}`
-              : 'Mission control'}
-          </h1>
-          <p className="mt-1 text-sm text-slate-400">
-            {selectedChild
-              ? `Award stars, monitor progress, and celebrate milestones for ${selectedChild.displayName}.`
-              : 'Award stars, monitor progress, and celebrate milestones across every explorer.'}
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          {/* Removed direct view links for tasks & rewards per request */}
-          <div className="flex flex-wrap gap-2">
-            <Link
-              to="/settings/manage-children"
-              className="rounded-lg border border-dashed border-slate-700 px-3 py-2 text-xs font-semibold tracking-wide text-slate-300 uppercase transition hover:border-emerald-400 hover:text-emerald-200"
-            >
-              Manage children
-            </Link>
-            <Link
-              to="/settings/manage-tasks"
-              className="rounded-lg border border-dashed border-slate-700 px-3 py-2 text-xs font-semibold tracking-wide text-slate-300 uppercase transition hover:border-emerald-400 hover:text-emerald-200"
-            >
-              Manage tasks
-            </Link>
-            <Link
-              to="/settings/manage-rewards"
-              className="rounded-lg border border-dashed border-slate-700 px-3 py-2 text-xs font-semibold tracking-wide text-slate-300 uppercase transition hover:border-emerald-400 hover:text-emerald-200"
-            >
-              Manage rewards
-            </Link>
-          </div>
-          <button
-            type="button"
-            onClick={logout}
-            className="rounded-lg bg-slate-100 px-3 py-2 text-sm font-medium text-slate-950 transition hover:bg-slate-300"
+    <div
+      className="min-h-screen w-full transition-colors duration-500"
+      style={{
+        background: theme.colors.bg,
+        backgroundImage: theme.bgPattern,
+        color: theme.colors.text,
+        fontFamily: theme.fonts.body,
+      }}
+    >
+      {/* Mobile Container */}
+      <div className="mx-auto flex min-h-screen max-w-md flex-col p-6">
+        {/* Header / Profile */}
+        <header className="mb-8 flex items-center gap-4">
+          <div
+            className="flex h-20 w-20 items-center justify-center rounded-full border-4 text-4xl shadow-lg"
+            style={{
+              borderColor: theme.colors.primary,
+              backgroundColor: theme.colors.surface,
+            }}
           >
-            Sign out
-          </button>
-        </div>
-      </header>
+            {selectedChild?.avatarToken || theme.emoji}
+          </div>
+          <div>
+            <h1
+              className="text-3xl font-bold"
+              style={{ fontFamily: theme.fonts.heading }}
+            >
+              Hi, {selectedChild?.displayName || 'Explorer'}!
+            </h1>
+            <p className="opacity-80">Ready for your quest?</p>
+          </div>
+        </header>
 
-      <section className="max-w-sm">
-        <article className="space-y-4 rounded-xl bg-slate-900/70 p-6 shadow-lg shadow-slate-950/30">
-          <h2 className="text-xl font-semibold">Star balance</h2>
-          {selectedChild ? (
-            <>
-              <p className="text-5xl font-bold text-emerald-300">
-                {displayedStars.toLocaleString()}{' '}
-                <span className="text-base font-medium text-slate-400">
-                  stars
-                </span>
-              </p>
-            </>
-          ) : (
-            <p className="text-sm text-slate-400">
-              Add a child profile to start awarding stars.
-            </p>
-          )}
-        </article>
-      </section>
-    </main>
+        {/* Star Balance (Big & Fun) */}
+        <section
+          className="mb-8 transform rounded-3xl p-6 text-center transition-transform hover:scale-[1.02]"
+          style={{
+            backgroundColor: theme.colors.surface,
+            boxShadow: `0 10px 30px -10px ${theme.colors.primary}40`,
+            border: `3px solid ${theme.colors.primary}`,
+          }}
+        >
+          <h2 className="mb-2 text-lg font-bold tracking-widest uppercase opacity-70">
+            Your Stars
+          </h2>
+          <div className="flex items-center justify-center gap-3">
+            <span className="animate-bounce text-6xl">⭐</span>
+            <span
+              className="text-7xl font-black"
+              style={{
+                color: theme.colors.primary,
+                fontFamily: theme.fonts.heading,
+                textShadow: `2px 2px 0px ${theme.colors.accent}`,
+              }}
+            >
+              {selectedChild?.totalStars || 0}
+            </span>
+          </div>
+        </section>
+
+        {/* Main Actions (Big Buttons for Motor Skills - 88px height) */}
+        <nav className="grid grid-cols-1 gap-5">
+          <Link to="/settings/manage-tasks" className="group relative">
+            <div
+              className={`flex h-[88px] w-full items-center justify-between px-8 text-xl font-bold transition-all active:translate-y-1 active:shadow-none ${theme.buttonStyle}`}
+              style={{
+                backgroundColor: theme.colors.secondary,
+                color: buttonTextColor,
+              }}
+            >
+              <span className="flex items-center gap-4">
+                <span className="text-4xl">📋</span>
+                <span>My Tasks</span>
+              </span>
+              <span className="text-3xl opacity-50 transition-transform group-hover:translate-x-2">
+                →
+              </span>
+            </div>
+          </Link>
+
+          <Link to="/settings/manage-rewards" className="group relative">
+            <div
+              className={`flex h-[88px] w-full items-center justify-between px-8 text-xl font-bold transition-all active:translate-y-1 active:shadow-none ${theme.buttonStyle}`}
+              style={{
+                backgroundColor: theme.colors.primary,
+                color: buttonTextColor,
+              }}
+            >
+              <span className="flex items-center gap-4">
+                <span className="text-4xl">🎁</span>
+                <span>Rewards</span>
+              </span>
+              <span className="text-3xl opacity-50 transition-transform group-hover:translate-x-2">
+                →
+              </span>
+            </div>
+          </Link>
+        </nav>
+
+        {/* Parent Corner (Discreet) */}
+        <footer className="mt-auto pt-12 text-center">
+          <div className="flex justify-center gap-4 opacity-50">
+            <Link to="/settings/manage-children" className="text-xs underline">
+              Parent Settings
+            </Link>
+            <button onClick={logout} className="text-xs underline">
+              Log Out
+            </button>
+          </div>
+        </footer>
+      </div>
+    </div>
   )
 }
 
