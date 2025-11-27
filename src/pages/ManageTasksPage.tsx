@@ -19,6 +19,7 @@ import { useTheme } from '../contexts/ThemeContext'
 import { awardStars } from '../services/starActions'
 import { celebrateSuccess } from '../utils/celebrate'
 
+// --- Types & Schema ---
 type ChildSummary = {
   id: string
   displayName: string
@@ -57,6 +58,7 @@ const ManageTasksPage = () => {
   const [children, setChildren] = useState<ChildSummary[]>([])
   const [tasks, setTasks] = useState<TaskRecord[]>([])
   const [editingId, setEditingId] = useState<string | null>(null)
+
   const [editForm, setEditForm] = useState({
     title: '',
     childId: '',
@@ -64,10 +66,12 @@ const ManageTasksPage = () => {
     starValue: 1 as 1 | 2 | 3,
     isRepeating: true,
   })
+
   const [formErrors, setFormErrors] = useState<Record<string, string[]>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isAwarding, setIsAwarding] = useState(false)
 
+  // --- Data Fetching ---
   useEffect(() => {
     if (!user) {
       setChildren([])
@@ -82,13 +86,10 @@ const ManageTasksPage = () => {
 
     const unsubscribeChildren = onSnapshot(childQuery, (snapshot) => {
       setChildren(
-        snapshot.docs.map((docSnapshot) => {
-          const data = docSnapshot.data()
-          return {
-            id: docSnapshot.id,
-            displayName: data.displayName ?? 'Unnamed child',
-          }
-        })
+        snapshot.docs.map((docSnapshot) => ({
+          id: docSnapshot.id,
+          displayName: docSnapshot.data().displayName ?? 'Unnamed child',
+        }))
       )
     })
 
@@ -120,15 +121,10 @@ const ManageTasksPage = () => {
     }
   }, [user])
 
+  // --- Actions ---
   const startEdit = (task: TaskRecord) => {
     setEditingId(task.id)
-    setEditForm({
-      title: task.title,
-      childId: task.childId,
-      category: task.category,
-      starValue: task.starValue,
-      isRepeating: task.isRepeating,
-    })
+    setEditForm({ ...task })
     setFormErrors({})
   }
 
@@ -137,7 +133,7 @@ const ManageTasksPage = () => {
     setEditingId('new')
     setEditForm({
       title: '',
-      childId: '',
+      childId: activeChildId || '',
       category: '',
       starValue: 1,
       isRepeating: true,
@@ -197,7 +193,6 @@ const ManageTasksPage = () => {
 
   const handleDelete = async (id: string) => {
     if (!user) return
-
     const confirmDelete = window.confirm('Delete this task?')
     if (!confirmDelete) return
 
@@ -243,132 +238,123 @@ const ManageTasksPage = () => {
 
   const isDarkTheme = theme.id === 'space'
 
+  // --- Styles ---
+  const containerStyle = {
+    background: theme.colors.bg,
+    color: theme.colors.text,
+    fontFamily: '"Fredoka", sans-serif',
+  }
+
+  const actionBtnStyle = {
+    fontFamily: '"Fredoka", sans-serif',
+    height: '56px',
+    fontSize: '24px',
+    fontWeight: 700,
+    borderRadius: '16px',
+    borderWidth: '3px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'transform 0.15s ease',
+  }
+
+  // Large Prototype Font Style
+  const unifiedFontStyle =
+    "font-['Fredoka'] text-[28px] font-bold leading-tight"
+
   return (
     <div
-      className="flex min-h-screen w-full items-center justify-center transition-colors duration-500"
+      className="flex min-h-screen w-full items-center justify-center p-4 transition-colors duration-500"
       style={{
         background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-        padding: '20px',
       }}
     >
-      {/* Device Frame - simulates mobile device with border */}
+      {/* Device Frame */}
       <div
         className="relative flex min-h-[896px] w-full max-w-[414px] flex-col overflow-hidden"
         style={{
           borderRadius: '40px',
           boxShadow:
             '0 0 0 12px #1a1a2e, 0 0 0 14px #333, 0 25px 50px rgba(0, 0, 0, 0.5)',
-          background: theme.colors.bg,
-          backgroundImage: theme.bgPattern,
+          ...containerStyle,
         }}
       >
-        {/* Top Navigation Bar */}
-        <div className="absolute top-0 right-0 left-0 z-50 flex items-center justify-between p-4">
+        {/* Header */}
+        <div
+          className="bg-opacity-90 sticky top-0 z-50 flex items-center justify-between p-6 backdrop-blur-md"
+          style={{
+            backgroundColor: isDarkTheme
+              ? 'rgba(11, 16, 38, 0.8)'
+              : 'rgba(255, 255, 255, 0.8)',
+          }}
+        >
           <Link
             to="/"
-            className="flex h-12 w-12 items-center justify-center rounded-full text-2xl transition hover:opacity-80"
+            className="flex h-14 w-14 items-center justify-center rounded-full border-2 text-3xl transition hover:opacity-80"
             style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.3)',
-              backdropFilter: 'blur(10px)',
+              borderColor: theme.colors.text,
+              color: theme.colors.text,
             }}
           >
             ←
           </Link>
-          <h1
-            className="text-xl font-bold"
-            style={{
-              fontFamily: theme.fonts.heading,
-              color: theme.colors.text,
-            }}
-          >
-            📋 My Tasks
-          </h1>
-          <div className="w-12" />
+          <h1 className="text-3xl font-bold tracking-wide">My Tasks</h1>
+          <div className="w-14" />
         </div>
 
-        {/* Content Area */}
-        <div
-          className="flex flex-1 flex-col gap-4 overflow-y-auto p-6 pt-20 pb-24"
-          style={{
-            color: theme.colors.text,
-            fontFamily: theme.fonts.body,
-          }}
-        >
+        {/* Scrollable Content */}
+        <div className="flex flex-1 flex-col overflow-y-auto px-5 pt-2 pb-32">
           {children.length === 0 ? (
-            <div
-              className="flex flex-col items-center justify-center rounded-3xl p-8 text-center"
-              style={{
-                backgroundColor: theme.colors.surface,
-                border: `3px dashed ${theme.colors.accent}`,
-              }}
-            >
+            <div className="mt-10 flex flex-col items-center text-center opacity-70">
               <span className="mb-4 text-6xl">👶</span>
-              <p className="mb-2 text-lg font-semibold">No children yet!</p>
-              <p className="text-sm opacity-70">Add a child profile first</p>
+              <p className="text-2xl font-bold">No explorers yet!</p>
             </div>
-          ) : tasks.length === 0 && editingId !== 'new' ? (
-            <>
-              <div
-                className="flex flex-col items-center justify-center rounded-3xl p-8 text-center"
-                style={{
-                  backgroundColor: theme.colors.surface,
-                  border: `3px dashed ${theme.colors.accent}`,
-                }}
-              >
-                <span className="mb-4 text-6xl">✨</span>
-                <p className="mb-2 text-lg font-semibold">No tasks yet!</p>
-                <p className="text-sm opacity-70">
-                  Create your first task below
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={startCreate}
-                className="flex h-[72px] w-full items-center justify-center gap-3 rounded-3xl text-xl font-bold transition-all active:scale-95"
-                style={{
-                  backgroundColor: theme.colors.primary,
-                  color: isDarkTheme ? '#000' : '#FFF',
-                  fontFamily: '"Fredoka", "Comic Sans MS", sans-serif',
-                  boxShadow: `0 6px 0 ${theme.colors.accent}`,
-                  border: `3px solid ${theme.colors.accent}`,
-                }}
-              >
-                <span className="text-4xl">➕</span>
-                <span>Create Task</span>
-              </button>
-            </>
           ) : (
-            <>
+            // MAIN CONTENT CONTAINER
+            <div className="flex flex-col gap-8">
+              {/* Empty State Message */}
+              {tasks.length === 0 && editingId !== 'new' && (
+                <div className="mt-10 flex flex-col items-center text-center opacity-70">
+                  <span className="mb-4 text-6xl">✨</span>
+                  <p className="text-2xl font-bold">No tasks yet!</p>
+                  <p className="text-xl">Create one below!</p>
+                </div>
+              )}
+
               {/* Task List */}
-              {tasks.map((task) => {
+              {tasks.map((task, index) => {
                 const isEditing = editingId === task.id
+
+                // Alternating Colors
+                const isPrimary = index % 2 === 0
+                const activeColor = isPrimary
+                  ? theme.colors.primary
+                  : theme.colors.secondary
+                const activeShadow = isPrimary
+                  ? theme.colors.accent
+                  : theme.colors.primary
+
+                const cardStyle = {
+                  backgroundColor: theme.colors.surface,
+                  border: `5px solid ${activeColor}`,
+                  borderRadius: '24px',
+                  boxShadow: `0 8px 0 ${activeShadow}`,
+                }
 
                 if (isEditing) {
                   return (
                     <div
                       key={task.id}
-                      className="space-y-4 rounded-3xl p-6"
-                      style={{
-                        backgroundColor: theme.colors.surface,
-                        border: `4px solid ${theme.colors.primary}`,
-                        boxShadow: `0 8px 0 ${theme.colors.accent}`,
-                      }}
+                      style={cardStyle}
+                      className="flex flex-col gap-4 p-5"
                     >
-                      {/* Edit Form */}
                       {formErrors[task.id] && (
-                        <div
-                          className="rounded-2xl p-4 text-center font-semibold"
-                          style={{
-                            backgroundColor: '#ff000020',
-                            color: '#ff6b6b',
-                          }}
-                        >
-                          {formErrors[task.id].map((err) => (
-                            <p key={err}>{err}</p>
-                          ))}
+                        <div className="rounded-xl bg-red-100 p-3 text-center text-lg font-bold text-red-600">
+                          {formErrors[task.id][0]}
                         </div>
                       )}
 
+                      {/* Title Input */}
                       <input
                         type="text"
                         value={editForm.title}
@@ -378,17 +364,15 @@ const ManageTasksPage = () => {
                             title: e.target.value,
                           }))
                         }
-                        placeholder="Task name"
-                        maxLength={80}
-                        className="w-full rounded-2xl border-4 px-6 py-4 text-xl font-bold outline-none"
+                        placeholder="Task Name"
+                        className={`w-full border-b-4 bg-transparent outline-none ${unifiedFontStyle}`}
                         style={{
-                          borderColor: theme.colors.accent,
-                          backgroundColor: theme.colors.bg,
+                          borderColor: activeColor,
                           color: theme.colors.text,
-                          fontFamily: '"Fredoka", sans-serif',
                         }}
                       />
 
+                      {/* Child Select */}
                       <select
                         value={editForm.childId}
                         onChange={(e) =>
@@ -397,15 +381,13 @@ const ManageTasksPage = () => {
                             childId: e.target.value,
                           }))
                         }
-                        className="w-full rounded-2xl border-4 px-6 py-4 text-lg font-semibold outline-none"
+                        className={`w-full border-b-4 bg-transparent outline-none ${unifiedFontStyle}`}
                         style={{
-                          borderColor: theme.colors.accent,
-                          backgroundColor: theme.colors.bg,
+                          borderColor: activeColor,
                           color: theme.colors.text,
-                          fontFamily: '"Fredoka", sans-serif',
                         }}
                       >
-                        <option value="">👤 Select child</option>
+                        <option value="">Select Child</option>
                         {children.map((child) => (
                           <option key={child.id} value={child.id}>
                             {child.displayName}
@@ -413,49 +395,39 @@ const ManageTasksPage = () => {
                         ))}
                       </select>
 
-                      <div className="space-y-2">
-                        <p className="text-sm font-bold tracking-wider uppercase opacity-70">
-                          ⭐ Star Value
-                        </p>
-                        <div className="grid grid-cols-3 gap-3">
-                          {[1, 2, 3].map((val) => (
-                            <button
-                              key={val}
-                              type="button"
-                              onClick={() =>
-                                setEditForm((prev) => ({
-                                  ...prev,
-                                  starValue: val as 1 | 2 | 3,
-                                }))
-                              }
-                              className="flex h-[72px] flex-col items-center justify-center rounded-2xl text-3xl font-bold transition-all active:scale-95"
-                              style={{
-                                backgroundColor:
-                                  editForm.starValue === val
-                                    ? theme.colors.primary
-                                    : theme.colors.bg,
-                                border: `4px solid ${theme.colors.accent}`,
-                                color:
-                                  editForm.starValue === val
-                                    ? isDarkTheme
-                                      ? '#000'
-                                      : '#FFF'
-                                    : theme.colors.text,
-                              }}
-                            >
-                              {'⭐'.repeat(val)}
-                            </button>
-                          ))}
-                        </div>
+                      {/* Star Value */}
+                      <div className="flex gap-2 py-2">
+                        {[1, 2, 3].map((val) => (
+                          <button
+                            key={val}
+                            type="button"
+                            onClick={() =>
+                              setEditForm((prev) => ({
+                                ...prev,
+                                starValue: val as 1 | 2 | 3,
+                              }))
+                            }
+                            className={`flex flex-1 items-center justify-center rounded-xl border-4 py-2 text-xl font-bold transition-transform active:scale-95 ${
+                              editForm.starValue === val
+                                ? 'scale-105 opacity-100'
+                                : 'opacity-50'
+                            }`}
+                            style={{
+                              borderColor: activeColor,
+                              backgroundColor:
+                                editForm.starValue === val
+                                  ? activeColor
+                                  : 'transparent',
+                              color: theme.colors.text,
+                            }}
+                          >
+                            {'⭐'.repeat(val)}
+                          </button>
+                        ))}
                       </div>
 
-                      <label
-                        className="flex items-center gap-4 rounded-2xl p-4"
-                        style={{
-                          backgroundColor: theme.colors.bg,
-                          border: `3px solid ${theme.colors.accent}`,
-                        }}
-                      >
+                      {/* Checkbox */}
+                      <label className="flex items-center gap-3">
                         <input
                           type="checkbox"
                           checked={editForm.isRepeating}
@@ -465,178 +437,138 @@ const ManageTasksPage = () => {
                               isRepeating: e.target.checked,
                             }))
                           }
-                          className="h-8 w-8 rounded-lg"
-                          style={{
-                            accentColor: theme.colors.primary,
-                          }}
+                          className="h-8 w-8 accent-current"
+                          style={{ color: activeColor }}
                         />
-                        <span className="text-lg font-semibold">
-                          🔄 Repeating Task
-                        </span>
+                        <span className={unifiedFontStyle}>Repeating 🔄</span>
                       </label>
 
-                      <div className="grid grid-cols-2 gap-3">
+                      {/* Action Buttons */}
+                      <div className="mt-2 flex gap-3">
                         <button
-                          type="button"
                           onClick={() => saveTask(task.id)}
                           disabled={isSubmitting}
-                          className="flex h-[72px] items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-all active:scale-95 disabled:opacity-50"
                           style={{
-                            backgroundColor: theme.colors.primary,
+                            ...actionBtnStyle,
+                            backgroundColor: activeColor,
+                            borderColor: activeShadow,
                             color: isDarkTheme ? '#000' : '#FFF',
-                            fontFamily: '"Fredoka", sans-serif',
-                            boxShadow: `0 6px 0 ${theme.colors.accent}`,
+                            flex: 1,
                           }}
+                          className="active:translate-y-1 active:shadow-none"
                         >
                           <span className="text-3xl">✅</span>
-                          <span>{isSubmitting ? 'Saving...' : 'Save'}</span>
                         </button>
                         <button
-                          type="button"
                           onClick={cancelEdit}
-                          disabled={isSubmitting}
-                          className="flex h-[72px] items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-all active:scale-95 disabled:opacity-50"
                           style={{
+                            ...actionBtnStyle,
                             backgroundColor: theme.colors.bg,
+                            borderColor: activeShadow,
                             color: theme.colors.text,
-                            fontFamily: '"Fredoka", sans-serif',
-                            border: `4px solid ${theme.colors.accent}`,
+                            width: '60px',
                           }}
+                          className="active:translate-y-1 active:shadow-none"
                         >
-                          <span className="text-3xl">✖️</span>
-                          <span>Cancel</span>
+                          ✕
                         </button>
                       </div>
                     </div>
                   )
                 }
 
-                // Task Display Card
+                // --- VIEW MODE CARD ---
                 return (
                   <div
                     key={task.id}
-                    className="rounded-3xl p-6 transition-all"
-                    style={{
-                      backgroundColor: theme.colors.surface,
-                      border: `4px solid ${theme.colors.accent}`,
-                      boxShadow: `0 6px 0 ${theme.colors.accent}`,
-                    }}
+                    style={cardStyle}
+                    className="group relative overflow-hidden"
                   >
-                    <div className="mb-4 flex items-start justify-between">
-                      <div className="flex-1">
-                        <h3
-                          className="text-2xl leading-tight font-bold"
-                          style={{
-                            fontFamily: '"Fredoka", sans-serif',
-                            color: theme.colors.text,
-                          }}
-                        >
-                          {task.title}
-                        </h3>
-                        <div className="mt-2 flex flex-wrap items-center gap-2 text-base">
-                          <span className="opacity-70">
-                            👤 {getChildName(task.childId)}
-                          </span>
-                          {task.category && (
-                            <span
-                              className="rounded-full px-3 py-1 text-sm font-semibold"
-                              style={{
-                                backgroundColor: theme.colors.bg,
-                                color: theme.colors.text,
-                              }}
-                            >
-                              {task.category}
-                            </span>
-                          )}
+                    <div className="p-6">
+                      <div className="mb-4 flex items-start justify-between gap-2">
+                        <div className="flex flex-1 flex-col gap-2">
+                          {/* Title */}
+                          <h3 className={unifiedFontStyle}>{task.title}</h3>
+
+                          {/* Child Name */}
+                          <div className={unifiedFontStyle}>
+                            {getChildName(task.childId)}
+                          </div>
+
+                          {/* Repeating Text */}
                           {task.isRepeating && (
-                            <span
-                              className="rounded-full px-3 py-1 text-sm font-semibold"
-                              style={{
-                                backgroundColor: theme.colors.primary + '40',
-                                color: theme.colors.text,
-                              }}
-                            >
-                              🔄 Repeating
-                            </span>
+                            <div className={unifiedFontStyle}>Repeating 🔄</div>
                           )}
                         </div>
                       </div>
-                      <span className="text-4xl">
-                        {'⭐'.repeat(task.starValue)}
-                      </span>
-                    </div>
 
-                    <div className="grid grid-cols-3 gap-2">
-                      <button
-                        type="button"
-                        onClick={() => handleAwardTask(task)}
-                        disabled={
-                          isAwarding || editingId !== null || !activeChildId
-                        }
-                        className="col-span-3 flex h-[72px] items-center justify-center gap-3 rounded-2xl text-xl font-bold transition-all active:scale-95 disabled:opacity-40"
-                        style={{
-                          backgroundColor: theme.colors.primary,
-                          color: isDarkTheme ? '#000' : '#FFF',
-                          fontFamily: '"Fredoka", sans-serif',
-                          boxShadow: `0 6px 0 ${theme.colors.accent}`,
-                        }}
-                      >
-                        <span className="text-4xl">🎉</span>
-                        <span>Award Stars!</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => startEdit(task)}
-                        disabled={editingId !== null}
-                        className="flex h-[60px] items-center justify-center rounded-xl text-3xl transition-all active:scale-95 disabled:opacity-40"
-                        style={{
-                          backgroundColor: theme.colors.bg,
-                          border: `3px solid ${theme.colors.accent}`,
-                        }}
-                      >
-                        ✏️
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(task.id)}
-                        disabled={editingId !== null}
-                        className="flex h-[60px] items-center justify-center rounded-xl text-3xl transition-all active:scale-95 disabled:opacity-40"
-                        style={{
-                          backgroundColor: theme.colors.bg,
-                          border: `3px solid ${theme.colors.accent}`,
-                        }}
-                      >
-                        🗑️
-                      </button>
-                      <div className="w-full" />
+                      {/* Action Buttons Row */}
+                      <div className="mt-4 grid grid-cols-4 gap-3">
+                        <button
+                          onClick={() => handleAwardTask(task)}
+                          disabled={
+                            isAwarding || editingId !== null || !activeChildId
+                          }
+                          className="col-span-2 transition-transform active:scale-95"
+                          style={{
+                            ...actionBtnStyle,
+                            backgroundColor: activeColor,
+                            borderColor: activeShadow,
+                            color: isDarkTheme ? '#000' : '#FFF',
+                            boxShadow: '0 4px 0 rgba(0,0,0,0.2)',
+                          }}
+                        >
+                          {/* REWARD ICON IS NOW THE NUMBER */}
+                          <span className="text-3xl font-black">
+                            {task.starValue}
+                          </span>
+                        </button>
+
+                        <button
+                          onClick={() => startEdit(task)}
+                          className="col-span-1 transition-transform active:scale-95"
+                          style={{
+                            ...actionBtnStyle,
+                            backgroundColor: theme.colors.bg,
+                            borderColor: activeColor,
+                          }}
+                        >
+                          ✏️
+                        </button>
+
+                        <button
+                          onClick={() => handleDelete(task.id)}
+                          className="col-span-1 text-red-500 transition-transform active:scale-95"
+                          style={{
+                            ...actionBtnStyle,
+                            backgroundColor: theme.colors.bg,
+                            borderColor: activeColor,
+                          }}
+                        >
+                          🗑️
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )
               })}
 
-              {/* Create New Task Form or Button */}
+              {/* CREATE NEW TASK FORM */}
               {editingId === 'new' ? (
                 <div
-                  className="space-y-4 rounded-3xl p-6"
+                  className="animate-in slide-in-from-bottom-5 fade-in flex flex-col gap-4 p-5 duration-300"
                   style={{
                     backgroundColor: theme.colors.surface,
-                    border: `4px solid ${theme.colors.primary}`,
+                    border: `5px solid ${theme.colors.primary}`,
+                    borderRadius: '24px',
                     boxShadow: `0 8px 0 ${theme.colors.accent}`,
                   }}
                 >
-                  {formErrors['new'] && (
-                    <div
-                      className="rounded-2xl p-4 text-center font-semibold"
-                      style={{
-                        backgroundColor: '#ff000020',
-                        color: '#ff6b6b',
-                      }}
-                    >
-                      {formErrors['new'].map((err) => (
-                        <p key={err}>{err}</p>
-                      ))}
-                    </div>
-                  )}
+                  <h2
+                    className={`text-center uppercase opacity-80 ${unifiedFontStyle}`}
+                  >
+                    New Mission
+                  </h2>
 
                   <input
                     type="text"
@@ -647,14 +579,11 @@ const ManageTasksPage = () => {
                         title: e.target.value,
                       }))
                     }
-                    placeholder="Task name"
-                    maxLength={80}
-                    className="w-full rounded-2xl border-4 px-6 py-4 text-xl font-bold outline-none"
+                    placeholder="Task Name"
+                    className={`w-full border-b-4 bg-transparent outline-none ${unifiedFontStyle}`}
                     style={{
-                      borderColor: theme.colors.accent,
-                      backgroundColor: theme.colors.bg,
+                      borderColor: theme.colors.primary,
                       color: theme.colors.text,
-                      fontFamily: '"Fredoka", sans-serif',
                     }}
                   />
 
@@ -666,15 +595,13 @@ const ManageTasksPage = () => {
                         childId: e.target.value,
                       }))
                     }
-                    className="w-full rounded-2xl border-4 px-6 py-4 text-lg font-semibold outline-none"
+                    className={`w-full border-b-4 bg-transparent outline-none ${unifiedFontStyle}`}
                     style={{
-                      borderColor: theme.colors.accent,
-                      backgroundColor: theme.colors.bg,
+                      borderColor: theme.colors.primary,
                       color: theme.colors.text,
-                      fontFamily: '"Fredoka", sans-serif',
                     }}
                   >
-                    <option value="">👤 Select child</option>
+                    <option value="">Select Child</option>
                     {children.map((child) => (
                       <option key={child.id} value={child.id}>
                         {child.displayName}
@@ -682,49 +609,37 @@ const ManageTasksPage = () => {
                     ))}
                   </select>
 
-                  <div className="space-y-2">
-                    <p className="text-sm font-bold tracking-wider uppercase opacity-70">
-                      ⭐ Star Value
-                    </p>
-                    <div className="grid grid-cols-3 gap-3">
-                      {[1, 2, 3].map((val) => (
-                        <button
-                          key={val}
-                          type="button"
-                          onClick={() =>
-                            setEditForm((prev) => ({
-                              ...prev,
-                              starValue: val as 1 | 2 | 3,
-                            }))
-                          }
-                          className="flex h-[72px] flex-col items-center justify-center rounded-2xl text-3xl font-bold transition-all active:scale-95"
-                          style={{
-                            backgroundColor:
-                              editForm.starValue === val
-                                ? theme.colors.primary
-                                : theme.colors.bg,
-                            border: `4px solid ${theme.colors.accent}`,
-                            color:
-                              editForm.starValue === val
-                                ? isDarkTheme
-                                  ? '#000'
-                                  : '#FFF'
-                                : theme.colors.text,
-                          }}
-                        >
-                          {'⭐'.repeat(val)}
-                        </button>
-                      ))}
-                    </div>
+                  <div className="flex gap-2 py-2">
+                    {[1, 2, 3].map((val) => (
+                      <button
+                        key={val}
+                        type="button"
+                        onClick={() =>
+                          setEditForm((prev) => ({
+                            ...prev,
+                            starValue: val as 1 | 2 | 3,
+                          }))
+                        }
+                        className={`flex flex-1 items-center justify-center rounded-xl border-4 py-2 text-xl font-bold transition-transform active:scale-95 ${
+                          editForm.starValue === val
+                            ? 'scale-105 opacity-100'
+                            : 'opacity-50'
+                        }`}
+                        style={{
+                          borderColor: theme.colors.primary,
+                          backgroundColor:
+                            editForm.starValue === val
+                              ? theme.colors.primary
+                              : 'transparent',
+                          color: theme.colors.text,
+                        }}
+                      >
+                        {'⭐'.repeat(val)}
+                      </button>
+                    ))}
                   </div>
 
-                  <label
-                    className="flex items-center gap-4 rounded-2xl p-4"
-                    style={{
-                      backgroundColor: theme.colors.bg,
-                      border: `3px solid ${theme.colors.accent}`,
-                    }}
-                  >
+                  <label className="flex items-center gap-3">
                     <input
                       type="checkbox"
                       checked={editForm.isRepeating}
@@ -734,67 +649,62 @@ const ManageTasksPage = () => {
                           isRepeating: e.target.checked,
                         }))
                       }
-                      className="h-8 w-8 rounded-lg"
-                      style={{
-                        accentColor: theme.colors.primary,
-                      }}
+                      className="h-8 w-8 accent-current"
+                      style={{ color: theme.colors.primary }}
                     />
-                    <span className="text-lg font-semibold">
-                      🔄 Repeating Task
-                    </span>
+                    <span className={unifiedFontStyle}>Repeating 🔄</span>
                   </label>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="mt-2 flex gap-3">
                     <button
-                      type="button"
                       onClick={() => saveTask('new')}
                       disabled={isSubmitting}
-                      className="flex h-[72px] items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-all active:scale-95 disabled:opacity-50"
                       style={{
+                        ...actionBtnStyle,
                         backgroundColor: theme.colors.primary,
+                        borderColor: theme.colors.accent,
                         color: isDarkTheme ? '#000' : '#FFF',
-                        fontFamily: '"Fredoka", sans-serif',
-                        boxShadow: `0 6px 0 ${theme.colors.accent}`,
+                        flex: 1,
                       }}
+                      className="shadow-md active:translate-y-1 active:shadow-none"
                     >
                       <span className="text-3xl">✅</span>
-                      <span>{isSubmitting ? 'Creating...' : 'Create'}</span>
                     </button>
                     <button
-                      type="button"
                       onClick={cancelEdit}
-                      disabled={isSubmitting}
-                      className="flex h-[72px] items-center justify-center gap-2 rounded-2xl text-xl font-bold transition-all active:scale-95 disabled:opacity-50"
                       style={{
+                        ...actionBtnStyle,
                         backgroundColor: theme.colors.bg,
+                        borderColor: theme.colors.accent,
                         color: theme.colors.text,
-                        fontFamily: '"Fredoka", sans-serif',
-                        border: `4px solid ${theme.colors.accent}`,
+                        width: '60px',
                       }}
+                      className="shadow-md active:translate-y-1 active:shadow-none"
                     >
-                      <span className="text-3xl">✖️</span>
-                      <span>Cancel</span>
+                      ✕
                     </button>
                   </div>
                 </div>
               ) : (
-                <button
-                  type="button"
-                  onClick={startCreate}
-                  className="flex h-[72px] w-full items-center justify-center gap-3 rounded-3xl text-xl font-bold transition-all active:scale-95"
-                  style={{
-                    backgroundColor: theme.colors.primary,
-                    color: isDarkTheme ? '#000' : '#FFF',
-                    fontFamily: '"Fredoka", "Comic Sans MS", sans-serif',
-                    boxShadow: `0 6px 0 ${theme.colors.accent}`,
-                    border: `3px solid ${theme.colors.accent}`,
-                  }}
-                >
-                  <span className="text-4xl">➕</span>
-                  <span>Create Task</span>
-                </button>
+                // NEW TASK BUTTON - LIST ITEM, NOT FLOATING
+                <div className="flex justify-center pb-6">
+                  <button
+                    onClick={startCreate}
+                    className="flex items-center justify-center rounded-full shadow-2xl transition-transform active:scale-95"
+                    style={{
+                      width: '80px',
+                      height: '80px',
+                      backgroundColor: theme.colors.primary,
+                      border: `4px solid ${theme.colors.accent}`,
+                      color: isDarkTheme ? '#000' : '#FFF',
+                      boxShadow: `0 10px 20px -5px ${theme.colors.primary}90`,
+                    }}
+                  >
+                    <span className="text-5xl">➕</span>
+                  </button>
+                </div>
               )}
-            </>
+            </div>
           )}
         </div>
       </div>

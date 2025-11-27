@@ -2,7 +2,9 @@
 
 ## Executive Summary
 
-This document provides comprehensive, research-backed guidelines for designing interfaces for children aged 4-6 years old. These recommendations are based on child development research, WCAG accessibility standards, and industry best practices from Apple, Google, and the Nielsen Norman Group.
+This document provides comprehensive, research-backed guidelines for designing interfaces for children aged 4-6 years old. These recommendations are based on child development research, WCAG accessibility standards, and industry best practices.
+
+**Note:** The file `public/design-prototype.html` is the visual source of truth for this project. All implementation details (colors, spacing, animations) should align with the values defined in that prototype.
 
 ---
 
@@ -18,31 +20,31 @@ Children aged 4-6 are still developing fine motor control:
 
 ### Minimum Touch Target Sizes
 
-#### **Primary Recommendation: 11-13mm (60-72px)**
+#### **Project Standard: 72px (19mm)**
 
 - **Minimum**: 44×44 CSS pixels (≈11mm) - WCAG 2.1 AAA standard
 - **Recommended for children**: 48-60px (≈12-15mm)
-- **Ideal for ages 4-6**: 60-72px (≈15-18mm) or larger
+- **MyStarQuest Standard**: 72px (≈19mm)
 
 **Rationale**: Children have less precise motor control and larger fingertips relative to their ability to aim accurately. Research shows children need 20-40% larger targets than adults.
 
 #### Specific Recommendations:
 
 ```
-Primary buttons (frequent actions):     72×72px minimum (≈18mm)
-Secondary buttons:                      60×60px minimum (≈15mm)
-Interactive cards/tiles:                100×100px minimum (≈25mm)
-Draggable objects:                      80×80px minimum (≈20mm)
-Small icons (if necessary):             48×48px minimum (≈12mm)
+Primary buttons (frequent actions):     88px height (Prototype Standard)
+Secondary buttons:                      72×72px minimum
+Interactive cards/tiles:                100×100px minimum
+Draggable objects:                      80×80px minimum
+Small icons (if necessary):             48×48px minimum
 ```
 
 ### Spacing Between Interactive Elements
 
-#### **Minimum Spacing: 12-16px**
+#### **Project Standard: 20px**
 
-- **Between buttons**: 16-24px minimum
-- **Between interactive cards**: 20-32px minimum
-- **Edge margins**: 24-32px from screen edges
+- **Between buttons**: 20px minimum
+- **Between interactive cards**: 20px minimum
+- **Edge margins**: 24px from screen edges
 
 **Rationale**: Prevents accidental taps and reduces frustration. Children often overshoot or undershoot their intended target.
 
@@ -151,18 +153,20 @@ Always use **both icons and text labels** together:
 
 #### **Text Guidelines**
 
+#### Text Guidelines
+
 **Font Requirements:**
 
-- **Typeface**: Sans-serif, rounded letterforms
-  - Recommended: Quicksand, Nunito, Comic Neue, Fredoka, Baloo
-  - Avoid: Serif fonts, cursive/script fonts, condensed fonts
-- **Size**:
-  - Button labels: 18-22px minimum
-  - Body text: 16-18px minimum
-  - Headers: 24-32px minimum
-- **Weight**: Medium to Bold (500-700)
-- **Letter spacing**: Slightly increased (0.02-0.04em)
-- **Line height**: 1.5-1.8 for readability
+- **Primary Typeface**: **Fredoka** (Google Fonts)
+  - Fallbacks: 'Comic Sans MS', sans-serif
+  - **Rationale**: Rounded, friendly, highly legible for children.
+- **Size (Prototype Standards)**:
+  - **XL / Numbers**: 48px
+  - **Large / Headings**: 28px
+  - **Body / Buttons**: 20-24px
+- **Weight**: Semi-Bold (600) to Bold (700)
+- **Letter spacing**: Normal to slightly increased
+- **Line height**: 1.5 for readability
 
 **Text Content:**
 
@@ -211,38 +215,45 @@ Always use **both icons and text labels** together:
   - Pastel colors as primary - may appear washed out
   - Dark/muted colors - can feel sad or boring
 
-#### **Recommended Color Palettes**
+#### **Official Project Themes**
 
-**Primary Palette (High Energy, Engaging):**
+The application uses 4 distinct themes defined in the prototype. All designs must adhere to these palettes.
 
-```css
-Primary Blue:    #3B82F6 (rgb(59, 130, 246))
-Success Green:   #10B981 (rgb(16, 185, 129))
-Warning Yellow:  #F59E0B (rgb(245, 158, 11))
-Error Red:       #EF4444 (rgb(239, 68, 68))
-Purple:          #8B5CF6 (rgb(139, 92, 246))
-Pink:            #EC4899 (rgb(236, 72, 153))
-```
+**Theme A: Galactic Explorer (Space)**
 
-**Theme Colors (Example - Princess Theme):**
+- **Background**: `#0B1026` (Deep Navy)
+- **Surface**: `#1B2745`
+- **Text**: `#FFFFFF`
+- **Primary**: `#FFD700` (Gold)
+- **Secondary**: `#00E5FF` (Cyan)
+- **Accent**: `#9C27B0` (Purple)
 
-```css
-Primary:         #FF6B9D (Pink)
-Secondary:       #C44569 (Rose)
-Accent:          #FFA07A (Light Coral)
-Background:      #FFF5F7 (Very light pink)
-Success:         #F8B500 (Gold for stars/rewards)
-```
+**Theme B: Enchanted Forest (Nature)**
 
-**Background & Neutral Palette:**
+- **Background**: `#E8F5E9` (Light Green)
+- **Surface**: `#FFFFFF`
+- **Text**: `#33691E` (Dark Green)
+- **Primary**: `#8BC34A` (Leaf Green)
+- **Secondary**: `#FF9800` (Orange)
+- **Accent**: `#795548` (Brown)
 
-```css
-Background:      #FEFEFE (Off-white, warm)
-Surface:         #F8F9FA (Light gray)
-Text Primary:    #1F2937 (Dark gray, not black)
-Text Secondary:  #6B7280 (Medium gray)
-Borders:         #E5E7EB (Light gray)
-```
+**Theme C: Superhero Squad (Cartoon)**
+
+- **Background**: `#FFF8E1` (Light Yellow)
+- **Surface**: `#FFFFFF`
+- **Text**: `#212121` (Black)
+- **Primary**: `#F44336` (Red)
+- **Secondary**: `#2196F3` (Blue)
+- **Accent**: `#FFEB3B` (Yellow)
+
+**Theme D: Royal Princess**
+
+- **Background**: `#FDF2F8` (Light Pink)
+- **Surface**: `#FFFFFF`
+- **Text**: `#831843` (Dark Pink)
+- **Primary**: `#EC4899` (Hot Pink)
+- **Secondary**: `#A855F7` (Purple)
+- **Accent**: `#F9A8D4` (Light Pink)
 
 ### Contrast Ratios & Accessibility
 
@@ -722,6 +733,22 @@ function handleIncorrectAnswer() {
 
 ## 5. Additional Design Considerations
 
+### Mobile Device Frame (Core Constraint)
+
+**The "Device Frame" Concept:**
+To ensure a consistent experience across all devices (desktop, tablet, mobile), the application is contained within a simulated mobile device frame when viewed on larger screens.
+
+- **Max Width**: 414px (iPhone Plus width)
+- **Min Height**: 896px
+- **Border Radius**: 40px
+- **Shadow**: Deep shadow to simulate depth (`0 25px 50px rgba(0,0,0,0.5)`)
+
+**Rationale**:
+
+- Keeps touch targets reachable for small hands.
+- Prevents layout stretching on wide screens.
+- Creates a focused "toy-like" object feel.
+
 ### Reading Order & Layout
 
 **Left-to-Right, Top-to-Bottom:**
@@ -867,48 +894,36 @@ function handleIncorrectAnswer() {
 
 ## 8. Implementation Examples
 
-### CSS Variables for Child-Friendly Theme
+### CSS Variables for Child-Friendly Theme (Prototype Aligned)
 
 ```css
 :root {
   /* Touch Target Sizes */
-  --touch-target-min: 60px;
-  --touch-target-optimal: 72px;
-  --touch-target-spacing: 16px;
+  --touch-target-min: 72px;
+  --button-height: 88px;
+  --icon-size: 48px;
+  --spacing-safe: 20px;
 
   /* Typography */
-  --font-family: 'Quicksand', 'Nunito', sans-serif;
-  --font-size-button: 20px;
-  --font-size-body: 18px;
-  --font-size-heading: 28px;
-  --font-weight-normal: 500;
-  --font-weight-bold: 700;
-  --letter-spacing: 0.03em;
-  --line-height: 1.6;
+  --font-family: 'Fredoka', 'Comic Sans MS', sans-serif;
+  --font-size-xl: 48px;
+  --font-size-large: 28px;
+  --font-size-body: 20px;
+  --border-radius-soft: 24px;
+  --border-radius-frame: 40px;
 
-  /* Colors - Bright & Engaging */
-  --color-primary: #3b82f6;
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-reward: #ffd700;
-  --color-bg: #fefefe;
-  --color-surface: #f8f9fa;
-  --color-text: #1f2937;
-  --color-text-secondary: #6b7280;
-
-  /* Spacing */
-  --spacing-xs: 8px;
-  --spacing-sm: 12px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
+  /* Theme A: Galactic Explorer (Space) */
+  --space-bg: #0b1026;
+  --space-surface: #1b2745;
+  --space-text: #ffffff;
+  --space-primary: #ffd700;
+  --space-secondary: #00e5ff;
+  --space-accent: #9c27b0;
 
   /* Animation */
   --transition-fast: 150ms;
   --transition-medium: 300ms;
-  --transition-slow: 600ms;
-  --easing-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --easing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --scale-active: 0.95;
 }
 ```
 

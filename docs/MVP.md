@@ -11,7 +11,7 @@
 ### Auth UI:
 
 - [x] Create `Login` and `Sign-Up` pages (adult-only).  
-      Implement auth logic hooks using Firebase Auth for:
+       Implement auth logic hooks using Firebase Auth for:
   - [x] Google Sign-In
     - [x] Implement protected routes that redirect unauthenticated users.
 - [x] **Profile Management (in "Settings" view):**
