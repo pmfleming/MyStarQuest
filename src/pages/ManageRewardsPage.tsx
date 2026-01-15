@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import {
@@ -214,341 +214,441 @@ const ManageRewardsPage = () => {
     }
   }
 
-  const rewardCountLabel = useMemo(() => {
-    return rewards.length === 1 ? '1 reward' : `${rewards.length} rewards`
-  }, [rewards.length])
-
   return (
-    <main
-      className="flex min-h-screen flex-col p-6"
+    <div
+      className="flex min-h-screen w-full items-center justify-center transition-colors duration-500"
       style={{
-        background: theme.colors.bg,
-        backgroundImage: theme.bgPattern,
-        color: theme.colors.text,
-        fontFamily: theme.fonts.body,
+        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+        padding: '20px',
       }}
     >
-      <header className="mb-6 flex items-center justify-between">
-        <div>
-          <p className="text-sm tracking-wide uppercase opacity-60">Settings</p>
-          <h1
-            className="text-3xl font-semibold"
-            style={{ fontFamily: theme.fonts.heading }}
+      {/* Device Frame */}
+      <div
+        className="relative flex min-h-[896px] w-full max-w-[414px] flex-col overflow-hidden"
+        style={{
+          borderRadius: '40px',
+          boxShadow:
+            '0 0 0 12px #1a1a2e, 0 0 0 14px #333, 0 25px 50px rgba(0, 0, 0, 0.5)',
+          background: theme.colors.bg,
+          backgroundImage: theme.bgPattern,
+          fontFamily: theme.fonts.body,
+          color: theme.colors.text,
+        }}
+      >
+        {/* Header */}
+        <header className="flex items-center justify-between p-6 pt-12">
+          <Link
+            to="/"
+            className="flex h-[60px] w-[60px] items-center justify-center rounded-full text-3xl transition active:scale-95"
+            style={{
+              backgroundColor: theme.colors.surface,
+              color: theme.colors.text,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            }}
           >
-            Manage Rewards
+            🏠
+          </Link>
+          <h1
+            className="text-3xl font-bold tracking-wide"
+            style={{
+              fontFamily: theme.fonts.heading,
+              textShadow: '0 2px 4px rgba(0,0,0,0.2)',
+            }}
+          >
+            Rewards
           </h1>
-          <p className="mt-1 text-sm opacity-70">
-            Create rewards that children can exchange stars for.
-          </p>
-        </div>
-        <Link
-          to="/"
-          className="rounded-lg border px-3 py-2 text-sm font-medium transition hover:opacity-80"
-          style={{
-            borderColor: theme.colors.primary,
-            color: theme.colors.text,
-          }}
-        >
-          ← Dashboard
-        </Link>
-      </header>
-
-      <section className="max-w-4xl">
-        <article
-          className="space-y-4 rounded-xl p-6"
-          style={{
-            backgroundColor: theme.colors.surface,
-            boxShadow: `0 4px 20px ${theme.colors.primary}20`,
-            border: `2px solid ${theme.colors.primary}40`,
-          }}
-        >
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Rewards</h2>
-            <span className="text-xs tracking-wide uppercase opacity-50">
-              {rewardCountLabel}
-            </span>
+          <div
+            className="flex h-[60px] items-center gap-2 rounded-full px-6 font-bold"
+            style={{
+              backgroundColor: theme.colors.surface,
+              color: theme.colors.primary,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            }}
+          >
+            <span className="text-2xl">⭐</span>
+            <span className="text-2xl">{activeChildStars}</span>
           </div>
+        </header>
 
-          {rewards.length === 0 && editingId !== 'new' ? (
-            <div className="space-y-4">
-              <p
-                className="rounded-lg border-2 border-dashed p-6 text-center text-sm"
-                style={{ borderColor: theme.colors.accent, opacity: 0.7 }}
-              >
-                No rewards yet. Click "Create Reward" to add one.
-              </p>
-              <button
-                type="button"
-                onClick={startCreate}
-                className="w-full rounded-lg px-4 py-3 text-sm font-semibold transition hover:opacity-90"
+        {/* Main Content */}
+        <main className="flex-1 overflow-y-auto px-6 pb-24">
+          {/* Create New Button (if not editing) */}
+          {editingId === null && (
+            <button
+              type="button"
+              onClick={startCreate}
+              className="mb-6 flex w-full items-center justify-center gap-3 rounded-3xl py-4 text-xl font-bold transition active:scale-95"
+              style={{
+                backgroundColor: theme.colors.surface,
+                color: theme.colors.primary,
+                border: `3px dashed ${theme.colors.primary}`,
+                minHeight: '72px',
+              }}
+            >
+              <span>➕</span> New Reward
+            </button>
+          )}
+
+          {/* Edit/Create Form */}
+          {(editingId === 'new' || editingId !== null) &&
+            rewards.find((r) => r.id === editingId) && (
+              <div
+                className="mb-6 space-y-4 rounded-3xl p-6"
                 style={{
-                  backgroundColor: theme.colors.primary,
-                  color: theme.id === 'space' ? '#000' : '#FFF',
+                  backgroundColor: theme.colors.surface,
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+                  border: `2px solid ${theme.colors.primary}`,
                 }}
               >
-                Create Reward
-              </button>
-            </div>
-          ) : (
-            <ul className="space-y-3">
-              {rewards.map((reward) => {
-                const isEditing = editingId === reward.id
-                const errors = formErrors[reward.id]
-                const canAfford = activeChildStars >= reward.costStars
+                <h3
+                  className="text-center text-xl font-bold"
+                  style={{ fontFamily: theme.fonts.heading }}
+                >
+                  {editingId === 'new' ? 'New Reward' : 'Edit Reward'}
+                </h3>
 
-                if (isEditing) {
-                  return (
-                    <li
-                      key={reward.id}
-                      className="space-y-3 rounded-lg border-2 border-emerald-500 bg-slate-900/80 p-4"
-                    >
-                      {errors && errors.length > 0 && (
-                        <div className="rounded border border-red-700 bg-red-900/30 p-2 text-xs text-red-200">
-                          {errors.map((err) => (
-                            <p key={err}>{err}</p>
-                          ))}
-                        </div>
-                      )}
+                {/* Error Display */}
+                {(formErrors[editingId || 'new']?.length ?? 0) > 0 && (
+                  <div className="rounded-xl bg-red-500/20 p-4 text-center text-sm font-bold text-red-200">
+                    {formErrors[editingId || 'new']?.map((err) => (
+                      <p key={err}>{err}</p>
+                    ))}
+                  </div>
+                )}
 
-                      <div className="space-y-3">
-                        <label className="block text-sm">
-                          <span className="font-medium text-slate-300">
-                            Reward title
-                          </span>
-                          <input
-                            type="text"
-                            value={editForm.title}
-                            onChange={(e) =>
-                              setEditForm((prev) => ({
-                                ...prev,
-                                title: e.target.value,
-                              }))
-                            }
-                            className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                            placeholder="e.g. Movie night coupon"
-                            maxLength={80}
-                          />
-                        </label>
+                <div className="space-y-4">
+                  <div>
+                    <label className="mb-2 block text-sm font-bold opacity-80">
+                      What is the reward?
+                    </label>
+                    <input
+                      type="text"
+                      value={editForm.title}
+                      onChange={(e) =>
+                        setEditForm((prev) => ({
+                          ...prev,
+                          title: e.target.value,
+                        }))
+                      }
+                      className="w-full rounded-2xl border-none px-4 py-3 text-lg font-bold text-slate-900 focus:ring-4"
+                      style={{
+                        backgroundColor: '#FFF',
+                        minHeight: '60px',
+                      }}
+                      placeholder="e.g. Ice Cream"
+                      maxLength={80}
+                    />
+                  </div>
 
-                        <label className="block text-sm">
-                          <span className="font-medium text-slate-300">
-                            Cost (stars)
-                          </span>
-                          <input
-                            type="number"
-                            min={1}
-                            max={99}
-                            value={editForm.costStars}
-                            onChange={(e) =>
-                              setEditForm((prev) => ({
-                                ...prev,
-                                costStars: Number(e.target.value) || 1,
-                              }))
-                            }
-                            className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                          />
-                        </label>
-
-                        <label className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={editForm.isRepeating}
-                            onChange={(e) =>
-                              setEditForm((prev) => ({
-                                ...prev,
-                                isRepeating: e.target.checked,
-                              }))
-                            }
-                            className="h-4 w-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-slate-900"
-                          />
-                          <span className="text-sm font-medium text-slate-300">
-                            Repeating Reward
-                          </span>
-                        </label>
+                  <div>
+                    <label className="mb-2 block text-sm font-bold opacity-80">
+                      Cost (Stars)
+                    </label>
+                    <div className="flex items-center gap-4">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setEditForm((prev) => ({
+                            ...prev,
+                            costStars: Math.max(1, prev.costStars - 1),
+                          }))
+                        }
+                        className="flex h-[60px] w-[60px] items-center justify-center rounded-2xl text-3xl font-bold transition active:scale-90"
+                        style={{
+                          backgroundColor: theme.colors.secondary,
+                          color: '#FFF',
+                        }}
+                      >
+                        -
+                      </button>
+                      <div className="flex h-[60px] flex-1 items-center justify-center rounded-2xl bg-white text-2xl font-bold text-slate-900">
+                        {editForm.costStars} ⭐
                       </div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setEditForm((prev) => ({
+                            ...prev,
+                            costStars: Math.min(99, prev.costStars + 1),
+                          }))
+                        }
+                        className="flex h-[60px] w-[60px] items-center justify-center rounded-2xl text-3xl font-bold transition active:scale-90"
+                        style={{
+                          backgroundColor: theme.colors.secondary,
+                          color: '#FFF',
+                        }}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
 
-                      <div className="flex gap-2">
-                        <button
-                          type="button"
-                          onClick={() => saveReward(reward.id)}
-                          disabled={isSubmitting}
-                          className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
-                        >
-                          {isSubmitting ? 'Saving…' : 'Save'}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={cancelEdit}
-                          disabled={isSubmitting}
-                          className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 disabled:cursor-not-allowed disabled:opacity-70"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </li>
-                  )
-                }
+                  <label className="flex items-center gap-4 rounded-2xl bg-black/20 p-4">
+                    <input
+                      type="checkbox"
+                      checked={editForm.isRepeating}
+                      onChange={(e) =>
+                        setEditForm((prev) => ({
+                          ...prev,
+                          isRepeating: e.target.checked,
+                        }))
+                      }
+                      className="h-8 w-8 rounded-lg border-2"
+                      style={{ accentColor: theme.colors.primary }}
+                    />
+                    <span className="text-lg font-bold">
+                      Keep after buying?
+                    </span>
+                  </label>
+                </div>
 
-                return (
-                  <li
-                    key={reward.id}
-                    className="flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-950/60 p-4 text-sm md:flex-row md:items-center md:justify-between"
+                <div className="flex gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={cancelEdit}
+                    className="flex-1 rounded-2xl py-4 text-lg font-bold opacity-80 transition active:scale-95"
+                    style={{
+                      backgroundColor: 'rgba(0,0,0,0.2)',
+                      minHeight: '60px',
+                    }}
                   >
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <p className="text-base font-semibold text-slate-100">
-                          {reward.title}
-                        </p>
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => saveReward(editingId || 'new')}
+                    disabled={isSubmitting}
+                    className="flex-1 rounded-2xl py-4 text-lg font-bold shadow-lg transition active:scale-95"
+                    style={{
+                      backgroundColor: theme.colors.primary,
+                      color: theme.id === 'space' ? '#000' : '#FFF',
+                      minHeight: '60px',
+                    }}
+                  >
+                    {isSubmitting ? 'Saving...' : 'Save'}
+                  </button>
+                </div>
+              </div>
+            )}
+
+          {/* Create Form for New Item (if editingId is 'new') */}
+          {editingId === 'new' && !rewards.find((r) => r.id === editingId) && (
+            <div
+              className="mb-6 space-y-4 rounded-3xl p-6"
+              style={{
+                backgroundColor: theme.colors.surface,
+                boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+                border: `2px solid ${theme.colors.primary}`,
+              }}
+            >
+              <h3
+                className="text-center text-xl font-bold"
+                style={{ fontFamily: theme.fonts.heading }}
+              >
+                New Reward
+              </h3>
+
+              {/* Error Display */}
+              {(formErrors['new']?.length ?? 0) > 0 && (
+                <div className="rounded-xl bg-red-500/20 p-4 text-center text-sm font-bold text-red-200">
+                  {formErrors['new']?.map((err) => (
+                    <p key={err}>{err}</p>
+                  ))}
+                </div>
+              )}
+
+              <div className="space-y-4">
+                <div>
+                  <label className="mb-2 block text-sm font-bold opacity-80">
+                    What is the reward?
+                  </label>
+                  <input
+                    type="text"
+                    value={editForm.title}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        title: e.target.value,
+                      }))
+                    }
+                    className="w-full rounded-2xl border-none px-4 py-3 text-lg font-bold text-slate-900 focus:ring-4"
+                    style={{
+                      backgroundColor: '#FFF',
+                      minHeight: '60px',
+                    }}
+                    placeholder="e.g. Ice Cream"
+                    maxLength={80}
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-bold opacity-80">
+                    Cost (Stars)
+                  </label>
+                  <div className="flex items-center gap-4">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setEditForm((prev) => ({
+                          ...prev,
+                          costStars: Math.max(1, prev.costStars - 1),
+                        }))
+                      }
+                      className="flex h-[60px] w-[60px] items-center justify-center rounded-2xl text-3xl font-bold transition active:scale-90"
+                      style={{
+                        backgroundColor: theme.colors.secondary,
+                        color: '#FFF',
+                      }}
+                    >
+                      -
+                    </button>
+                    <div className="flex h-[60px] flex-1 items-center justify-center rounded-2xl bg-white text-2xl font-bold text-slate-900">
+                      {editForm.costStars} ⭐
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setEditForm((prev) => ({
+                          ...prev,
+                          costStars: Math.min(99, prev.costStars + 1),
+                        }))
+                      }
+                      className="flex h-[60px] w-[60px] items-center justify-center rounded-2xl text-3xl font-bold transition active:scale-90"
+                      style={{
+                        backgroundColor: theme.colors.secondary,
+                        color: '#FFF',
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <label className="flex items-center gap-4 rounded-2xl bg-black/20 p-4">
+                  <input
+                    type="checkbox"
+                    checked={editForm.isRepeating}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        isRepeating: e.target.checked,
+                      }))
+                    }
+                    className="h-8 w-8 rounded-lg border-2"
+                    style={{ accentColor: theme.colors.primary }}
+                  />
+                  <span className="text-lg font-bold">Keep after buying?</span>
+                </label>
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={cancelEdit}
+                  className="flex-1 rounded-2xl py-4 text-lg font-bold opacity-80 transition active:scale-95"
+                  style={{
+                    backgroundColor: 'rgba(0,0,0,0.2)',
+                    minHeight: '60px',
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => saveReward('new')}
+                  disabled={isSubmitting}
+                  className="flex-1 rounded-2xl py-4 text-lg font-bold shadow-lg transition active:scale-95"
+                  style={{
+                    backgroundColor: theme.colors.primary,
+                    color: theme.id === 'space' ? '#000' : '#FFF',
+                    minHeight: '60px',
+                  }}
+                >
+                  {isSubmitting ? 'Saving...' : 'Save'}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Rewards List */}
+          <div className="space-y-6">
+            {rewards.map((reward) => {
+              if (editingId === reward.id) return null // Handled above
+
+              const canAfford = activeChildStars >= reward.costStars
+              return (
+                <div
+                  key={reward.id}
+                  className="relative flex flex-col gap-4 p-6 transition-all"
+                  style={{
+                    borderRadius: '50px',
+                    background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
+                    boxShadow: `0 0 20px ${theme.colors.primary}`,
+                    color: theme.id === 'space' ? '#000' : '#FFF',
+                  }}
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="text-2xl leading-tight font-bold">
+                        {reward.title}
+                      </h3>
+                      <div className="mt-1 flex items-center gap-2">
+                        <span className="text-lg font-bold opacity-90">
+                          {reward.costStars} Star{reward.costStars !== 1 && 's'}
+                        </span>
                         {reward.isRepeating && (
-                          <span className="rounded-full bg-blue-900/50 px-2 py-0.5 text-[10px] font-medium tracking-wide text-blue-200 uppercase">
-                            Repeating
+                          <span
+                            className="rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase shadow-sm"
+                            style={{
+                              backgroundColor: 'rgba(255,255,255,0.3)',
+                              color: 'inherit',
+                            }}
+                          >
+                            ∞ Forever
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-emerald-300">
-                        Costs {reward.costStars} star
-                        {reward.costStars !== 1 ? 's' : ''}
-                      </p>
                     </div>
-
-                    <div className="flex gap-2 self-end md:self-auto">
+                    <div className="flex flex-col gap-2 sm:flex-row">
                       <button
-                        type="button"
-                        onClick={() => handleGiveReward(reward)}
-                        disabled={editingId !== null || !canAfford}
-                        className={`rounded-lg px-3 py-2 text-xs font-medium transition disabled:cursor-not-allowed disabled:opacity-50 ${
-                          canAfford
-                            ? 'bg-emerald-600 text-white hover:bg-emerald-500'
-                            : 'bg-slate-700 text-slate-400'
-                        }`}
-                      >
-                        {canAfford ? 'Give Reward' : 'Not enough stars'}
-                      </button>
-                      <button
-                        type="button"
                         onClick={() => startEdit(reward)}
-                        disabled={editingId !== null}
-                        className="rounded-lg border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 transition hover:border-slate-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-[60px] items-center justify-center gap-2 rounded-full bg-black/10 px-6 font-bold transition hover:bg-black/20"
+                        aria-label="Edit Reward"
                       >
-                        Edit
+                        <span>✏️</span> Edit
                       </button>
                       <button
-                        type="button"
                         onClick={() => handleDelete(reward.id)}
-                        disabled={editingId !== null}
-                        className="rounded-lg border border-red-600 px-3 py-2 text-xs font-medium text-red-200 transition hover:border-red-400 hover:text-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-[60px] items-center justify-center gap-2 rounded-full bg-red-500/20 px-6 font-bold text-red-700 transition hover:bg-red-500/30"
+                        style={{ color: '#900' }}
+                        aria-label="Delete Reward"
                       >
-                        Delete
+                        <span>🗑️</span> Delete
                       </button>
                     </div>
-                  </li>
-                )
-              })}
-
-              {editingId === 'new' && (
-                <li className="space-y-3 rounded-lg border-2 border-emerald-500 bg-slate-900/80 p-4">
-                  {formErrors['new'] && formErrors['new'].length > 0 && (
-                    <div className="rounded border border-red-700 bg-red-900/30 p-2 text-xs text-red-200">
-                      {formErrors['new'].map((err) => (
-                        <p key={err}>{err}</p>
-                      ))}
-                    </div>
-                  )}
-
-                  <div className="space-y-3">
-                    <label className="block text-sm">
-                      <span className="font-medium text-slate-300">
-                        Reward title
-                      </span>
-                      <input
-                        type="text"
-                        value={editForm.title}
-                        onChange={(e) =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            title: e.target.value,
-                          }))
-                        }
-                        className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                        placeholder="e.g. Movie night coupon"
-                        maxLength={80}
-                      />
-                    </label>
-
-                    <label className="block text-sm">
-                      <span className="font-medium text-slate-300">
-                        Cost (stars)
-                      </span>
-                      <input
-                        type="number"
-                        min={1}
-                        max={99}
-                        value={editForm.costStars}
-                        onChange={(e) =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            costStars: Number(e.target.value) || 1,
-                          }))
-                        }
-                        className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                      />
-                    </label>
-
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={editForm.isRepeating}
-                        onChange={(e) =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            isRepeating: e.target.checked,
-                          }))
-                        }
-                        className="h-4 w-4 rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-slate-900"
-                      />
-                      <span className="text-sm font-medium text-slate-300">
-                        Repeating Reward
-                      </span>
-                    </label>
                   </div>
 
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => saveReward('new')}
-                      disabled={isSubmitting}
-                      className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                      {isSubmitting ? 'Creating…' : 'Create Reward'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={cancelEdit}
-                      disabled={isSubmitting}
-                      className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </li>
-              )}
-
-              {editingId === null && (
-                <li>
                   <button
-                    type="button"
-                    onClick={startCreate}
-                    className="w-full rounded-lg border-2 border-dashed border-slate-700 bg-slate-900/40 px-4 py-4 text-sm font-medium text-slate-300 transition hover:border-emerald-500 hover:bg-slate-900/60 hover:text-emerald-300"
+                    onClick={() => handleGiveReward(reward)}
+                    disabled={!canAfford}
+                    className="flex w-full items-center justify-center gap-2 rounded-full py-4 text-xl font-bold shadow-lg transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                    style={{
+                      backgroundColor: canAfford
+                        ? theme.colors.surface
+                        : 'rgba(0,0,0,0.2)',
+                      color: canAfford ? theme.colors.text : 'inherit',
+                      minHeight: '72px',
+                    }}
                   >
-                    + Create Reward
+                    {canAfford ? '🎁 Buy Reward' : '🔒 Need more stars'}
                   </button>
-                </li>
-              )}
-            </ul>
-          )}
-        </article>
-      </section>
-    </main>
+                </div>
+              )
+            })}
+          </div>
+        </main>
+      </div>
+    </div>
   )
 }
 

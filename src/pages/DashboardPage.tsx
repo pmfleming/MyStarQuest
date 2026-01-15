@@ -6,6 +6,11 @@ import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 
+// --- Assets ---
+import princessChildrenIcon from '../assets/themes/princess/Children.svg'
+import princessExitIcon from '../assets/themes/princess/Exit.svg'
+// Note: Import other theme assets here as needed
+
 // --- Types ---
 type ChildProfile = {
   id: string
@@ -13,6 +18,24 @@ type ChildProfile = {
   avatarToken: string
   totalStars: number
   themeId?: string
+}
+
+// --- Helper: Theme Asset Mapping ---
+const getThemeAssets = (themeId: string) => {
+  switch (themeId) {
+    case 'princess':
+      return {
+        switchProfileIcon: princessChildrenIcon,
+        exitIcon: princessExitIcon,
+      }
+    case 'space':
+    default:
+      // Space theme and other themes use emoji fallbacks
+      return {
+        switchProfileIcon: null,
+        exitIcon: null,
+      }
+  }
 }
 
 const DashboardPage = () => {
@@ -31,6 +54,7 @@ const DashboardPage = () => {
       collection(db, 'users', user.uid, 'children'),
       orderBy('createdAt', 'asc')
     )
+
     const unsubscribe = onSnapshot(childrenQuery, (snapshot) => {
       const nextChildren: ChildProfile[] = snapshot.docs.map((docSnapshot) => {
         const data = docSnapshot.data()
@@ -47,16 +71,18 @@ const DashboardPage = () => {
     return unsubscribe
   }, [user])
 
-  // --- Auto-select child ---
+  // --- Auto-select child logic ---
   useEffect(() => {
-    if (
-      children.length > 0 &&
-      (!activeChildId || !children.some((c) => c.id === activeChildId))
-    ) {
-      setActiveChild({
-        id: children[0].id,
-        themeId: children[0].themeId || 'space',
-      })
+    if (children.length > 0) {
+      const isCurrentActiveValid =
+        activeChildId && children.some((c) => c.id === activeChildId)
+
+      if (!isCurrentActiveValid) {
+        setActiveChild({
+          id: children[0].id,
+          themeId: children[0].themeId || 'space',
+        })
+      }
     }
   }, [children, activeChildId, setActiveChild])
 
@@ -65,8 +91,41 @@ const DashboardPage = () => {
     [children, activeChildId]
   )
 
-  // Determine text color contrast
+  const themeAssets = getThemeAssets(theme.id)
   const isDarkTheme = theme.id === 'space'
+
+  // --- Styles ---
+  // Shared style for the top circular buttons
+  const topButtonStyle = {
+    backgroundColor: theme.colors.primary,
+    color: theme.colors.text,
+    backdropFilter: 'blur(10px)',
+    height: '72px',
+    width: '72px',
+    borderRadius: '9999px',
+    border: `4px solid ${theme.colors.accent}`,
+    boxShadow: `0 0 20px ${theme.colors.primary}`,
+    flexShrink: 0,
+    boxSizing: 'border-box' as const, // CRITICAL FIX: Ensures padding/border doesn't expand size
+  }
+
+  // Shared style for the big action buttons
+  const getBigButtonStyle = (baseColor: string) => ({
+    backgroundColor: baseColor,
+    color: isDarkTheme ? '#000' : '#FFF',
+    fontFamily: '"Fredoka", "Comic Sans MS", sans-serif',
+    fontWeight: 700,
+    borderRadius: theme.id === 'space' ? '50px' : '24px',
+    border:
+      theme.id === 'space'
+        ? `3px solid ${baseColor}`
+        : `4px solid ${theme.colors.accent}`,
+    boxShadow:
+      theme.id === 'space'
+        ? `0 0 20px ${baseColor}40`
+        : `0 6px 0 ${theme.colors.accent}`,
+    boxSizing: 'border-box' as const,
+  })
 
   // --- Main Render ---
   return (
@@ -77,7 +136,7 @@ const DashboardPage = () => {
         padding: '20px',
       }}
     >
-      {/* Device Frame - simulates mobile device with border */}
+      {/* Device Frame */}
       <div
         className="relative flex min-h-[896px] w-full max-w-[414px] flex-col overflow-hidden"
         style={{
@@ -89,34 +148,50 @@ const DashboardPage = () => {
         }}
       >
         {/* Top Navigation Bar */}
-        <div className="absolute top-0 right-0 z-50 flex gap-2 p-4">
+        {/* FIX: w-full + justify-end guarantees right alignment */}
+        <div className="absolute top-0 z-50 flex w-full justify-end gap-3 p-4">
+          {/* Switch Profile Link */}
           <Link
             to="/settings/manage-children"
-            className="rounded-full px-4 py-2 text-xs font-medium transition hover:opacity-80"
-            style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.3)',
-              color: theme.colors.text,
-              backdropFilter: 'blur(10px)',
-            }}
+            className="flex items-center justify-center transition hover:opacity-80"
+            style={topButtonStyle}
+            aria-label="Switch Profile"
           >
-            👨‍👩‍👧 Children
+            {themeAssets.switchProfileIcon ? (
+              <img
+                src={themeAssets.switchProfileIcon}
+                alt="Switch Child"
+                // FIX: h-9 balances visually against the Exit icon
+                className="h-9 w-auto object-contain"
+              />
+            ) : (
+              <span className="text-2xl">👥</span>
+            )}
           </Link>
+
+          {/* Logout Button */}
           <button
             onClick={logout}
-            className="rounded-full px-4 py-2 text-xs font-medium transition hover:opacity-80"
-            style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.3)',
-              color: theme.colors.text,
-              backdropFilter: 'blur(10px)',
-            }}
+            className="flex items-center justify-center transition hover:opacity-80"
+            style={topButtonStyle}
+            aria-label="Logout"
           >
-            Logout
+            {themeAssets.exitIcon ? (
+              <img
+                src={themeAssets.exitIcon}
+                alt="Logout"
+                className="h-10 w-auto object-contain"
+              />
+            ) : (
+              <span className="text-2xl">🚪</span>
+            )}
           </button>
         </div>
 
         {/* Content Area */}
+        {/* Spec: 24px edge padding (prototype/style guide) */}
         <div
-          className="flex flex-1 flex-col p-6 pt-20"
+          className="flex flex-1 flex-col p-6 pt-28"
           style={{
             color: theme.colors.text,
             fontFamily: theme.fonts.body,
@@ -145,28 +220,19 @@ const DashboardPage = () => {
             </div>
           </header>
 
-          {/* Star Balance (Big & Fun) */}
+          {/* Star Balance */}
           <section
-            className="relative z-10 mb-8 transform rounded-3xl p-6 text-center transition-transform hover:scale-[1.02]"
+            className="relative z-10 mt-[50px] mb-[50px] transform rounded-3xl p-6 text-center transition-transform hover:scale-[1.02]"
             style={{
               backgroundColor: theme.colors.surface,
               boxShadow: `0 8px 0 ${theme.colors.accent}, 0 10px 30px -10px ${theme.colors.primary}40`,
-              border: `3px solid ${theme.colors.primary}`,
+              border: `5px solid ${theme.colors.primary}`,
             }}
           >
             <h2 className="mb-2 text-sm font-semibold tracking-[3px] uppercase opacity-70">
               Your Stars
             </h2>
             <div className="flex items-center justify-center gap-3">
-              <style>{`
-              @keyframes starBounce {
-                0%, 100% { transform: translateY(0) rotate(-5deg); }
-                50% { transform: translateY(-10px) rotate(5deg); }
-              }
-              .star-bounce {
-                animation: starBounce 2s ease-in-out infinite;
-              }
-            `}</style>
               <span className="star-bounce text-[56px]">⭐</span>
               <span
                 style={{
@@ -176,11 +242,9 @@ const DashboardPage = () => {
                   color: theme.colors.primary,
                   fontFamily: theme.fonts.heading,
                   textShadow:
-                    theme.id === 'cartoon'
-                      ? `3px 3px 0px ${theme.colors.accent}`
-                      : theme.id === 'space'
-                        ? `0 0 20px ${theme.colors.primary}80`
-                        : `2px 2px 0px ${theme.colors.accent}`,
+                    theme.id === 'space'
+                      ? `0 0 20px ${theme.colors.primary}80`
+                      : `2px 2px 0px ${theme.colors.accent}`,
                 }}
               >
                 {selectedChild?.totalStars || 0}
@@ -188,27 +252,14 @@ const DashboardPage = () => {
             </div>
           </section>
 
-          {/* Main Actions (Big Buttons for Motor Skills - 88px height) */}
-          <nav className="relative z-10 grid grid-cols-1 gap-5">
+          {/* Main Actions */}
+          <nav className="relative z-10 grid grid-cols-1 gap-6">
+            {/* TASKS BUTTON */}
             <Link to="/settings/manage-tasks" className="group">
               <button
                 type="button"
                 className="flex h-[88px] w-full items-center justify-between px-6 text-[28px] font-bold transition-all"
-                style={{
-                  backgroundColor: theme.colors.secondary,
-                  color: isDarkTheme ? '#000' : '#FFF',
-                  fontFamily: '"Fredoka", "Comic Sans MS", sans-serif',
-                  fontWeight: 700,
-                  borderRadius: theme.id === 'space' ? '50px' : '24px',
-                  border:
-                    theme.id === 'space'
-                      ? `3px solid ${theme.colors.secondary}`
-                      : `4px solid ${theme.colors.accent}`,
-                  boxShadow:
-                    theme.id === 'space'
-                      ? `0 0 20px ${theme.colors.secondary}40`
-                      : `0 6px 0 ${theme.colors.accent}`,
-                }}
+                style={getBigButtonStyle(theme.colors.secondary)}
               >
                 <span className="flex items-center gap-4">
                   <span className="text-[48px]">📋</span>
@@ -220,25 +271,12 @@ const DashboardPage = () => {
               </button>
             </Link>
 
+            {/* REWARDS BUTTON */}
             <Link to="/settings/manage-rewards" className="group">
               <button
                 type="button"
                 className="flex h-[88px] w-full items-center justify-between px-6 text-[28px] font-bold transition-all"
-                style={{
-                  backgroundColor: theme.colors.primary,
-                  color: isDarkTheme ? '#000' : '#FFF',
-                  fontFamily: '"Fredoka", "Comic Sans MS", sans-serif',
-                  fontWeight: 700,
-                  borderRadius: theme.id === 'space' ? '50px' : '24px',
-                  border:
-                    theme.id === 'space'
-                      ? `3px solid ${theme.colors.primary}`
-                      : `4px solid ${theme.colors.accent}`,
-                  boxShadow:
-                    theme.id === 'space'
-                      ? `0 0 20px ${theme.colors.primary}40`
-                      : `0 6px 0 ${theme.colors.accent}`,
-                }}
+                style={getBigButtonStyle(theme.colors.primary)}
               >
                 <span className="flex items-center gap-4">
                   <span className="text-[48px]">🎁</span>

@@ -247,10 +247,10 @@ const ManageTasksPage = () => {
 
   const actionBtnStyle = {
     fontFamily: '"Fredoka", sans-serif',
-    height: '56px',
+    height: '72px',
     fontSize: '24px',
     fontWeight: 700,
-    borderRadius: '16px',
+    borderRadius: '20px',
     borderWidth: '3px',
     display: 'flex',
     alignItems: 'center',
@@ -290,7 +290,7 @@ const ManageTasksPage = () => {
         >
           <Link
             to="/"
-            className="flex h-14 w-14 items-center justify-center rounded-full border-2 text-3xl transition hover:opacity-80"
+            className="flex h-[72px] w-[72px] items-center justify-center rounded-full border-2 text-4xl transition hover:opacity-80"
             style={{
               borderColor: theme.colors.text,
               color: theme.colors.text,
@@ -299,7 +299,7 @@ const ManageTasksPage = () => {
             ←
           </Link>
           <h1 className="text-3xl font-bold tracking-wide">My Tasks</h1>
-          <div className="w-14" />
+          <div className="w-[72px]" />
         </div>
 
         {/* Scrollable Content */}
@@ -335,18 +335,25 @@ const ManageTasksPage = () => {
                   : theme.colors.primary
 
                 const cardStyle = {
-                  backgroundColor: theme.colors.surface,
-                  border: `5px solid ${activeColor}`,
-                  borderRadius: '24px',
-                  boxShadow: `0 8px 0 ${activeShadow}`,
+                  background: `linear-gradient(135deg, ${activeColor}, ${theme.colors.secondary})`,
+                  borderRadius: '50px',
+                  boxShadow: `0 0 20px ${activeColor}`,
+                  border: 'none',
+                  color: theme.id === 'space' ? '#000' : '#FFF',
+                  marginBottom: '24px',
                 }
 
                 if (isEditing) {
                   return (
                     <div
                       key={task.id}
-                      style={cardStyle}
-                      className="flex flex-col gap-4 p-5"
+                      style={{
+                        ...cardStyle,
+                        background: theme.colors.surface,
+                        border: `4px solid ${activeColor}`,
+                        color: theme.colors.text,
+                      }}
+                      className="flex flex-col gap-4 p-6"
                     >
                       {formErrors[task.id] && (
                         <div className="rounded-xl bg-red-100 p-3 text-center text-lg font-bold text-red-600">
@@ -419,6 +426,7 @@ const ManageTasksPage = () => {
                                   ? activeColor
                                   : 'transparent',
                               color: theme.colors.text,
+                              minHeight: '60px',
                             }}
                           >
                             {'⭐'.repeat(val)}
@@ -457,7 +465,7 @@ const ManageTasksPage = () => {
                           }}
                           className="active:translate-y-1 active:shadow-none"
                         >
-                          <span className="text-3xl">✅</span>
+                          <span className="mr-2 text-2xl">✅</span> Save
                         </button>
                         <button
                           onClick={cancelEdit}
@@ -466,11 +474,11 @@ const ManageTasksPage = () => {
                             backgroundColor: theme.colors.bg,
                             borderColor: activeShadow,
                             color: theme.colors.text,
-                            width: '60px',
+                            flex: 1,
                           }}
                           className="active:translate-y-1 active:shadow-none"
                         >
-                          ✕
+                          Cancel
                         </button>
                       </div>
                     </div>
@@ -503,13 +511,13 @@ const ManageTasksPage = () => {
                       </div>
 
                       {/* Action Buttons Row */}
-                      <div className="mt-4 grid grid-cols-4 gap-3">
+                      <div className="mt-4 grid grid-cols-2 gap-3">
                         <button
                           onClick={() => handleAwardTask(task)}
                           disabled={
                             isAwarding || editingId !== null || !activeChildId
                           }
-                          className="col-span-2 transition-transform active:scale-95"
+                          className="col-span-2 flex items-center justify-center gap-2 transition-transform active:scale-95"
                           style={{
                             ...actionBtnStyle,
                             backgroundColor: activeColor,
@@ -518,34 +526,37 @@ const ManageTasksPage = () => {
                             boxShadow: '0 4px 0 rgba(0,0,0,0.2)',
                           }}
                         >
-                          {/* REWARD ICON IS NOW THE NUMBER */}
+                          <span className="text-2xl font-bold">Give</span>
                           <span className="text-3xl font-black">
                             {task.starValue}
                           </span>
+                          <span className="text-2xl">⭐</span>
                         </button>
 
                         <button
                           onClick={() => startEdit(task)}
-                          className="col-span-1 transition-transform active:scale-95"
+                          className="col-span-1 flex items-center justify-center gap-2 transition-transform active:scale-95"
                           style={{
                             ...actionBtnStyle,
                             backgroundColor: theme.colors.bg,
                             borderColor: activeColor,
                           }}
+                          aria-label="Edit Task"
                         >
-                          ✏️
+                          <span>✏️</span> Edit
                         </button>
 
                         <button
                           onClick={() => handleDelete(task.id)}
-                          className="col-span-1 text-red-500 transition-transform active:scale-95"
+                          className="col-span-1 flex items-center justify-center gap-2 text-red-500 transition-transform active:scale-95"
                           style={{
                             ...actionBtnStyle,
                             backgroundColor: theme.colors.bg,
                             borderColor: activeColor,
                           }}
+                          aria-label="Delete Task"
                         >
-                          🗑️
+                          <span>🗑️</span> Delete
                         </button>
                       </div>
                     </div>
@@ -632,6 +643,7 @@ const ManageTasksPage = () => {
                               ? theme.colors.primary
                               : 'transparent',
                           color: theme.colors.text,
+                          minHeight: '60px',
                         }}
                       >
                         {'⭐'.repeat(val)}
@@ -668,7 +680,7 @@ const ManageTasksPage = () => {
                       }}
                       className="shadow-md active:translate-y-1 active:shadow-none"
                     >
-                      <span className="text-3xl">✅</span>
+                      <span className="mr-2 text-2xl">✅</span> Save
                     </button>
                     <button
                       onClick={cancelEdit}
@@ -677,11 +689,11 @@ const ManageTasksPage = () => {
                         backgroundColor: theme.colors.bg,
                         borderColor: theme.colors.accent,
                         color: theme.colors.text,
-                        width: '60px',
+                        flex: 1,
                       }}
                       className="shadow-md active:translate-y-1 active:shadow-none"
                     >
-                      ✕
+                      Cancel
                     </button>
                   </div>
                 </div>

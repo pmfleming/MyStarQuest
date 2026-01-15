@@ -92,6 +92,7 @@ const LoginPage = () => {
               type="button"
               onClick={handleLogin}
               className="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-3 text-lg font-medium text-emerald-950 transition hover:bg-emerald-400 focus:outline-none focus-visible:ring focus-visible:ring-emerald-300"
+              style={{ minHeight: '60px' }}
               disabled={isBusy}
             >
               {isLoggingIn ? (

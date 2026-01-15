@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import {
@@ -189,360 +189,302 @@ const ManageChildrenPage = () => {
     }
   }
 
-  const childCountLabel = useMemo(() => {
-    return children.length === 1
-      ? '1 child profile'
-      : `${children.length} child profiles`
-  }, [children.length])
-
   return (
-    <main
-      className="flex min-h-screen flex-col p-6"
+    <div
+      className="flex min-h-screen w-full items-center justify-center transition-colors duration-500"
       style={{
-        background: theme.colors.bg,
-        backgroundImage: theme.bgPattern,
-        color: theme.colors.text,
-        fontFamily: theme.fonts.body,
+        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+        padding: '20px',
       }}
     >
-      <header className="mb-6 flex items-center justify-between">
-        <div>
-          <p className="text-sm tracking-wide uppercase opacity-60">Settings</p>
+      {/* Device Frame */}
+      <div
+        className="relative flex min-h-[896px] w-full max-w-[414px] flex-col overflow-hidden"
+        style={{
+          borderRadius: '40px',
+          boxShadow:
+            '0 0 0 12px #1a1a2e, 0 0 0 14px #333, 0 25px 50px rgba(0, 0, 0, 0.5)',
+          background: theme.colors.bg,
+          backgroundImage: theme.bgPattern,
+          fontFamily: theme.fonts.body,
+          color: theme.colors.text,
+        }}
+      >
+        {/* Header */}
+        <header className="flex items-center justify-between p-6 pt-12">
+          <Link
+            to="/"
+            className="flex h-[60px] w-[60px] items-center justify-center rounded-full text-3xl transition active:scale-95"
+            style={{
+              backgroundColor: theme.colors.surface,
+              color: theme.colors.text,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            }}
+          >
+            🏠
+          </Link>
           <h1
-            className="text-3xl font-semibold"
-            style={{ fontFamily: theme.fonts.heading }}
+            className="text-3xl font-bold tracking-wide"
+            style={{
+              fontFamily: theme.fonts.heading,
+              textShadow: '0 2px 4px rgba(0,0,0,0.2)',
+            }}
           >
             Manage Children
           </h1>
-          <p className="mt-1 text-sm opacity-70">
-            Create and manage child profiles without sharing personal details.
-          </p>
-        </div>
-        <Link
-          to="/"
-          className="rounded-lg border px-3 py-2 text-sm font-medium transition hover:opacity-80"
-          style={{
-            borderColor: theme.colors.primary,
-            color: theme.colors.text,
-          }}
-        >
-          ← Dashboard
-        </Link>
-      </header>
+          <div className="w-[60px]" /> {/* Spacer for centering */}
+        </header>
 
-      <section className="max-w-4xl">
-        <article
-          className="space-y-4 rounded-xl p-6"
-          style={{
-            backgroundColor: theme.colors.surface,
-            boxShadow: `0 4px 20px ${theme.colors.primary}20`,
-            border: `2px solid ${theme.colors.primary}40`,
-          }}
-        >
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Child profiles</h2>
-            <span className="text-xs tracking-wide text-slate-500 uppercase">
-              {childCountLabel}
-            </span>
-          </div>
+        {/* Main Content */}
+        <main className="flex-1 overflow-y-auto px-6 pb-24">
+          {/* Create New Button (if not editing) */}
+          {editingId === null && (
+            <button
+              type="button"
+              onClick={startCreate}
+              className="mb-6 flex w-full items-center justify-center gap-3 rounded-3xl py-4 text-xl font-bold transition active:scale-95"
+              style={{
+                backgroundColor: theme.colors.surface,
+                color: theme.colors.primary,
+                border: `3px dashed ${theme.colors.primary}`,
+                minHeight: '72px',
+              }}
+            >
+              <span>➕</span> Add Child
+            </button>
+          )}
 
-          {children.length === 0 && editingId !== 'new' ? (
-            <div className="space-y-4">
-              <p className="rounded-lg border border-dashed border-slate-700 bg-slate-900/40 p-6 text-center text-sm text-slate-400">
-                No child profiles yet. Click "Create Profile" to add one.
-              </p>
-              <button
-                type="button"
-                onClick={startCreate}
-                className="w-full rounded-lg bg-emerald-500 px-4 py-3 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400"
+          {/* Edit/Create Form */}
+          {(editingId === 'new' || editingId !== null) &&
+            (editingId === 'new' ||
+              children.find((c) => c.id === editingId)) && (
+              <div
+                className="mb-6 space-y-4 rounded-3xl p-6"
+                style={{
+                  backgroundColor: theme.colors.surface,
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+                  border: `2px solid ${theme.colors.primary}`,
+                }}
               >
-                Create Profile
-              </button>
-            </div>
-          ) : (
-            <ul className="space-y-3">
-              {children.map((child) => {
-                const theme = child.themeId
-                  ? THEME_ID_LOOKUP.get(child.themeId)
-                  : null
-                const isEditing = editingId === child.id
-                const errors = formErrors[child.id]
+                <h3
+                  className="text-center text-xl font-bold"
+                  style={{ fontFamily: theme.fonts.heading }}
+                >
+                  {editingId === 'new' ? 'New Profile' : 'Edit Profile'}
+                </h3>
 
-                if (isEditing) {
-                  return (
-                    <li
-                      key={child.id}
-                      className="space-y-3 rounded-lg border-2 border-emerald-500 bg-slate-900/80 p-4"
-                    >
-                      {errors && errors.length > 0 && (
-                        <div className="rounded border border-red-700 bg-red-900/30 p-2 text-xs text-red-200">
-                          {errors.map((err) => (
-                            <p key={err}>{err}</p>
-                          ))}
-                        </div>
-                      )}
+                {/* Error Display */}
+                {(formErrors[editingId || 'new']?.length ?? 0) > 0 && (
+                  <div className="rounded-xl bg-red-500/20 p-4 text-center text-sm font-bold text-red-200">
+                    {formErrors[editingId || 'new']?.map((err) => (
+                      <p key={err}>{err}</p>
+                    ))}
+                  </div>
+                )}
 
-                      <div className="space-y-3">
-                        <label className="block text-sm">
-                          <span className="font-medium text-slate-300">
-                            Display name
+                <div className="space-y-4">
+                  <div>
+                    <label className="mb-2 block text-sm font-bold opacity-80">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      value={editForm.displayName}
+                      onChange={(e) =>
+                        setEditForm((prev) => ({
+                          ...prev,
+                          displayName: e.target.value,
+                        }))
+                      }
+                      className="w-full rounded-2xl border-none px-4 py-3 text-lg font-bold text-slate-900 focus:ring-4"
+                      style={{
+                        backgroundColor: '#FFF',
+                        minHeight: '60px',
+                      }}
+                      placeholder="e.g. Star Captain"
+                      maxLength={40}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="mb-2 block text-sm font-bold opacity-80">
+                      Choose Theme
+                    </label>
+                    <div className="grid grid-cols-2 gap-3">
+                      {THEME_OPTIONS.map((option) => (
+                        <button
+                          key={option.id}
+                          type="button"
+                          onClick={() =>
+                            setEditForm((prev) => ({
+                              ...prev,
+                              themeId: option.id,
+                            }))
+                          }
+                          className={`flex flex-col items-center gap-2 rounded-2xl p-4 transition-all ${
+                            editForm.themeId === option.id
+                              ? 'ring-4 ring-offset-2 ring-offset-slate-900'
+                              : 'opacity-70 hover:opacity-100'
+                          }`}
+                          style={{
+                            backgroundColor:
+                              editForm.themeId === option.id
+                                ? theme.colors.primary
+                                : 'rgba(0,0,0,0.2)',
+                            borderColor: theme.colors.primary,
+                            color:
+                              editForm.themeId === option.id
+                                ? theme.id === 'space'
+                                  ? '#000'
+                                  : '#FFF'
+                                : 'inherit',
+                          }}
+                        >
+                          <span className="text-4xl">{option.emoji}</span>
+                          <span className="text-sm font-bold">
+                            {option.label}
                           </span>
-                          <input
-                            type="text"
-                            value={editForm.displayName}
-                            onChange={(e) =>
-                              setEditForm((prev) => ({
-                                ...prev,
-                                displayName: e.target.value,
-                              }))
-                            }
-                            className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                            placeholder="e.g. Star Captain"
-                            maxLength={40}
-                          />
-                        </label>
-
-                        <fieldset className="space-y-2">
-                          <legend className="text-sm font-medium text-slate-300">
-                            Choose Theme
-                          </legend>
-                          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                            {THEME_OPTIONS.map((option) => (
-                              <button
-                                key={option.id}
-                                type="button"
-                                onClick={() =>
-                                  setEditForm((prev) => ({
-                                    ...prev,
-                                    themeId: option.id,
-                                  }))
-                                }
-                                className={`flex flex-col items-center gap-1 rounded-lg border-2 p-3 transition-all ${
-                                  editForm.themeId === option.id
-                                    ? 'border-emerald-500 bg-emerald-500/20'
-                                    : 'border-slate-700 bg-slate-900/50 hover:border-slate-500'
-                                }`}
-                              >
-                                <span
-                                  className="text-3xl"
-                                  role="img"
-                                  aria-label={option.label}
-                                >
-                                  {option.emoji}
-                                </span>
-                                <span className="text-xs font-medium text-slate-300">
-                                  {option.label}
-                                </span>
-                                <span className="text-[10px] text-slate-500">
-                                  {option.description}
-                                </span>
-                              </button>
-                            ))}
-                          </div>
-                        </fieldset>
-                      </div>
-
-                      <div className="flex gap-2">
-                        <button
-                          type="button"
-                          onClick={() => saveProfile(child.id)}
-                          disabled={isSubmitting}
-                          className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
-                        >
-                          {isSubmitting ? 'Saving…' : 'Save'}
                         </button>
-                        <button
-                          type="button"
-                          onClick={cancelEdit}
-                          disabled={isSubmitting}
-                          className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 disabled:cursor-not-allowed disabled:opacity-70"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </li>
-                  )
-                }
-
-                return (
-                  <li
-                    key={child.id}
-                    className="flex flex-col gap-3 rounded-lg border border-slate-800 bg-slate-950/60 p-4 text-sm md:flex-row md:items-center md:justify-between"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-4xl" role="img">
-                        {theme ? theme.emoji : child.avatarToken}
-                      </span>
-                      <div>
-                        <p className="text-base font-semibold text-slate-100">
-                          {child.displayName}
-                        </p>
-                        <p className="text-xs text-slate-400">
-                          {theme && (
-                            <span className="mr-2 text-emerald-300">
-                              {theme.label}
-                            </span>
-                          )}
-                          Total stars: {child.totalStars ?? 0}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-2 self-end md:self-auto">
-                      {activeChildId !== child.id && (
-                        <button
-                          type="button"
-                          onClick={() => handleSelectExplorer(child.id)}
-                          disabled={editingId !== null}
-                          className="rounded-lg border border-emerald-600 bg-emerald-500/10 px-3 py-2 text-xs font-medium text-emerald-200 transition hover:border-emerald-400 hover:bg-emerald-500/20 disabled:cursor-not-allowed disabled:opacity-50"
-                        >
-                          Select Explorer
-                        </button>
-                      )}
-                      {activeChildId === child.id && (
-                        <span className="flex items-center gap-1 rounded-lg border border-emerald-500 bg-emerald-500/20 px-3 py-2 text-xs font-medium text-emerald-300">
-                          <svg
-                            className="h-3 w-3"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          Selected
-                        </span>
-                      )}
-                      <button
-                        type="button"
-                        onClick={() => startEdit(child)}
-                        disabled={editingId !== null}
-                        className="rounded-lg border border-slate-700 px-3 py-2 text-xs font-medium text-slate-200 transition hover:border-slate-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(child.id)}
-                        disabled={editingId !== null}
-                        className="rounded-lg border border-red-600 px-3 py-2 text-xs font-medium text-red-200 transition hover:border-red-400 hover:text-red-100 disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </li>
-                )
-              })}
-
-              {editingId === 'new' && (
-                <li className="space-y-3 rounded-lg border-2 border-emerald-500 bg-slate-900/80 p-4">
-                  {formErrors['new'] && formErrors['new'].length > 0 && (
-                    <div className="rounded border border-red-700 bg-red-900/30 p-2 text-xs text-red-200">
-                      {formErrors['new'].map((err) => (
-                        <p key={err}>{err}</p>
                       ))}
                     </div>
-                  )}
-
-                  <div className="space-y-3">
-                    <label className="block text-sm">
-                      <span className="font-medium text-slate-300">
-                        Display name
-                      </span>
-                      <input
-                        type="text"
-                        value={editForm.displayName}
-                        onChange={(e) =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            displayName: e.target.value,
-                          }))
-                        }
-                        className="mt-1 w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-slate-100 focus:border-emerald-500 focus:ring focus:ring-emerald-400/40 focus:outline-none"
-                        placeholder="e.g. Star Captain"
-                        maxLength={40}
-                      />
-                    </label>
-
-                    <fieldset className="space-y-2">
-                      <legend className="text-sm font-medium text-slate-300">
-                        Choose Theme
-                      </legend>
-                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                        {THEME_OPTIONS.map((option) => (
-                          <button
-                            key={option.id}
-                            type="button"
-                            onClick={() =>
-                              setEditForm((prev) => ({
-                                ...prev,
-                                themeId: option.id,
-                              }))
-                            }
-                            className={`flex flex-col items-center gap-1 rounded-lg border-2 p-3 transition-all ${
-                              editForm.themeId === option.id
-                                ? 'border-emerald-500 bg-emerald-500/20'
-                                : 'border-slate-700 bg-slate-900/50 hover:border-slate-500'
-                            }`}
-                          >
-                            <span
-                              className="text-3xl"
-                              role="img"
-                              aria-label={option.label}
-                            >
-                              {option.emoji}
-                            </span>
-                            <span className="text-xs font-medium text-slate-300">
-                              {option.label}
-                            </span>
-                            <span className="text-[10px] text-slate-500">
-                              {option.description}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    </fieldset>
                   </div>
+                </div>
 
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => saveProfile('new')}
-                      disabled={isSubmitting}
-                      className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-emerald-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                      {isSubmitting ? 'Creating…' : 'Create Profile'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={cancelEdit}
-                      disabled={isSubmitting}
-                      className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-slate-500 disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </li>
-              )}
-
-              {editingId === null && (
-                <li>
+                <div className="flex gap-3 pt-2">
                   <button
                     type="button"
-                    onClick={startCreate}
-                    className="w-full rounded-lg border-2 border-dashed border-slate-700 bg-slate-900/40 px-4 py-4 text-sm font-medium text-slate-300 transition hover:border-emerald-500 hover:bg-slate-900/60 hover:text-emerald-300"
+                    onClick={cancelEdit}
+                    className="flex-1 rounded-2xl py-4 text-lg font-bold opacity-80 transition active:scale-95"
+                    style={{
+                      backgroundColor: 'rgba(0,0,0,0.2)',
+                      minHeight: '60px',
+                    }}
                   >
-                    + Create Profile
+                    Cancel
                   </button>
-                </li>
-              )}
-            </ul>
-          )}
-        </article>
-      </section>
-    </main>
+                  <button
+                    type="button"
+                    onClick={() => saveProfile(editingId || 'new')}
+                    disabled={isSubmitting}
+                    className="flex-1 rounded-2xl py-4 text-lg font-bold shadow-lg transition active:scale-95"
+                    style={{
+                      backgroundColor: theme.colors.primary,
+                      color: theme.id === 'space' ? '#000' : '#FFF',
+                      minHeight: '60px',
+                    }}
+                  >
+                    {isSubmitting ? 'Saving...' : 'Save'}
+                  </button>
+                </div>
+              </div>
+            )}
+
+          {/* Children List */}
+          <div className="space-y-4">
+            {children.map((child) => {
+              if (editingId === child.id) return null // Handled above
+
+              const isSelected = activeChildId === child.id
+              const childTheme = child.themeId
+                ? THEME_ID_LOOKUP.get(child.themeId)
+                : null
+
+              return (
+                <div
+                  key={child.id}
+                  className="relative mb-6 flex w-full flex-col gap-4 p-5 transition-all md:flex-row md:items-center md:justify-between"
+                  style={{
+                    borderRadius: '50px',
+                    background: isSelected
+                      ? `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`
+                      : theme.colors.surface,
+                    boxShadow: `0 0 20px ${theme.colors.primary}`,
+                    border: `3px solid ${theme.colors.primary}`,
+                    color: isSelected
+                      ? theme.id === 'space'
+                        ? '#000'
+                        : '#FFF'
+                      : theme.colors.text,
+                  }}
+                >
+                  <div className="flex items-center gap-4">
+                    <div
+                      className="flex h-16 w-16 items-center justify-center rounded-full text-4xl shadow-inner"
+                      style={{
+                        backgroundColor: isSelected
+                          ? 'rgba(255,255,255,0.3)'
+                          : 'rgba(0,0,0,0.1)',
+                      }}
+                    >
+                      {childTheme ? childTheme.emoji : child.avatarToken}
+                    </div>
+                    <div>
+                      <h3 className="text-xl leading-tight font-bold">
+                        {child.displayName}
+                      </h3>
+                      <p
+                        className="text-sm opacity-80"
+                        style={{
+                          color: isSelected
+                            ? theme.id === 'space'
+                              ? '#000'
+                              : '#FFF'
+                            : theme.colors.text,
+                        }}
+                      >
+                        {child.totalStars} Stars • {childTheme?.label}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {!isSelected && (
+                      <button
+                        onClick={() => handleSelectExplorer(child.id)}
+                        className="flex h-[60px] items-center rounded-full px-6 font-bold shadow-lg transition active:scale-95"
+                        style={{
+                          backgroundColor: theme.colors.primary,
+                          color: theme.id === 'space' ? '#000' : '#FFF',
+                        }}
+                      >
+                        Select
+                      </button>
+                    )}
+                    {isSelected && (
+                      <div
+                        className="flex h-[60px] items-center justify-center gap-2 rounded-full px-6 font-bold"
+                        style={{
+                          backgroundColor: 'rgba(255,255,255,0.2)',
+                        }}
+                      >
+                        <span>✅</span> Active
+                      </div>
+                    )}
+                    <button
+                      onClick={() => startEdit(child)}
+                      className="flex h-[60px] items-center gap-2 rounded-full bg-black/10 px-4 font-bold transition hover:bg-black/20"
+                      aria-label="Edit Child"
+                    >
+                      <span>✏️</span> Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(child.id)}
+                      className="flex h-[60px] items-center gap-2 rounded-full bg-red-500/20 px-4 font-bold text-red-600 transition hover:bg-red-500/30"
+                      style={{
+                        color: isSelected ? '#900' : undefined,
+                      }}
+                      aria-label="Delete Child"
+                    >
+                      <span>🗑️</span> Delete
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </main>
+      </div>
+    </div>
   )
 }
 
