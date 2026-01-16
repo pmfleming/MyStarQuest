@@ -2,9 +2,13 @@ import type { Location as RouterLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
+import { useTheme } from '../contexts/ThemeContext'
+import PageShell from '../components/PageShell'
+import { uiTokens } from '../ui/tokens'
 
 const LoginPage = () => {
   const { user, loading, loginWithGoogle } = useAuth()
+  const { theme } = useTheme()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -57,30 +61,35 @@ const LoginPage = () => {
   const isBusy = loading || isLoggingIn || loginSuccess
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-950 p-6 text-slate-100">
-      <section className="w-full max-w-md space-y-6 rounded-xl bg-slate-900/70 p-8 shadow-lg shadow-slate-950/30">
+    <PageShell
+      theme={theme}
+      contentClassName="flex flex-1 items-center justify-center"
+    >
+      <section
+        className="w-full space-y-6 rounded-xl bg-black/30 p-8 shadow-lg"
+        style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
+      >
         {loginSuccess ? (
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <span className="text-5xl" role="img" aria-label="Checkmark">
               ✅
             </span>
             <h2 className="text-2xl font-semibold">Login Successful!</h2>
-            <p className="text-slate-400">Redirecting you now...</p>
+            <p className="opacity-70">Redirecting you now...</p>
           </div>
         ) : (
           <>
             <header className="space-y-2 text-center">
               <h1 className="text-3xl font-semibold">Sign in to MyStarQuest</h1>
-              <p className="text-slate-400">
+              <p className="opacity-70">
                 Use your Google account to start awarding stars and track
                 progress in real time.
               </p>
             </header>
 
-            {/* 4. Conditionally render the error message */}
             {error && (
               <div
-                className="rounded-lg border border-red-700 bg-red-900/30 p-4 text-center text-red-300"
+                className="rounded-lg border border-red-700 bg-red-900/30 p-4 text-center text-red-200"
                 role="alert"
               >
                 <p className="font-medium">Error signing in</p>
@@ -91,8 +100,13 @@ const LoginPage = () => {
             <button
               type="button"
               onClick={handleLogin}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-3 text-lg font-medium text-emerald-950 transition hover:bg-emerald-400 focus:outline-none focus-visible:ring focus-visible:ring-emerald-300"
-              style={{ minHeight: '60px' }}
+              className="flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-lg font-semibold transition hover:opacity-90 focus:outline-none focus-visible:ring"
+              style={{
+                minHeight: '72px',
+                backgroundColor: theme.colors.primary,
+                color: theme.id === 'space' ? '#000' : '#FFF',
+                boxShadow: `0 0 20px ${theme.colors.primary}55`,
+              }}
               disabled={isBusy}
             >
               {isLoggingIn ? (
@@ -106,7 +120,7 @@ const LoginPage = () => {
           </>
         )}
       </section>
-    </main>
+    </PageShell>
   )
 }
 

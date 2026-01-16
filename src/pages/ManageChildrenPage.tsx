@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import {
   THEME_OPTIONS,
@@ -21,6 +20,11 @@ import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
+import PageShell from '../components/PageShell'
+import PageHeader from '../components/PageHeader'
+import TopIconButton from '../components/TopIconButton'
+import StandardActionList from '../components/StandardActionList'
+import { uiTokens } from '../ui/tokens'
 
 const childSchema = z.object({
   displayName: z
@@ -190,70 +194,26 @@ const ManageChildrenPage = () => {
   }
 
   return (
-    <div
-      className="flex min-h-screen w-full items-center justify-center transition-colors duration-500"
-      style={{
-        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-        padding: '20px',
-      }}
-    >
-      {/* Device Frame */}
-      <div
-        className="relative flex min-h-[896px] w-full max-w-[414px] flex-col overflow-hidden"
-        style={{
-          borderRadius: '40px',
-          boxShadow:
-            '0 0 0 12px #1a1a2e, 0 0 0 14px #333, 0 25px 50px rgba(0, 0, 0, 0.5)',
-          background: theme.colors.bg,
-          backgroundImage: theme.bgPattern,
-          fontFamily: theme.fonts.body,
-          color: theme.colors.text,
-        }}
-      >
-        {/* Header */}
-        <header className="flex items-center justify-between p-6 pt-12">
-          <Link
+    <PageShell theme={theme}>
+      <PageHeader
+        title="Manage Children"
+        fontFamily={theme.fonts.heading}
+        left={
+          <TopIconButton
+            theme={theme}
             to="/"
-            className="flex h-[60px] w-[60px] items-center justify-center rounded-full text-3xl transition active:scale-95"
-            style={{
-              backgroundColor: theme.colors.surface,
-              color: theme.colors.text,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            }}
-          >
-            🏠
-          </Link>
-          <h1
-            className="text-3xl font-bold tracking-wide"
-            style={{
-              fontFamily: theme.fonts.heading,
-              textShadow: '0 2px 4px rgba(0,0,0,0.2)',
-            }}
-          >
-            Manage Children
-          </h1>
-          <div className="w-[60px]" /> {/* Spacer for centering */}
-        </header>
+            ariaLabel="Home"
+            icon={<span className="text-2xl">🏠</span>}
+          />
+        }
+        right={<div style={{ width: `${uiTokens.topIconSize}px` }} />}
+      />
 
-        {/* Main Content */}
-        <main className="flex-1 overflow-y-auto px-6 pb-24">
-          {/* Create New Button (if not editing) */}
-          {editingId === null && (
-            <button
-              type="button"
-              onClick={startCreate}
-              className="mb-6 flex w-full items-center justify-center gap-3 rounded-3xl py-4 text-xl font-bold transition active:scale-95"
-              style={{
-                backgroundColor: theme.colors.surface,
-                color: theme.colors.primary,
-                border: `3px dashed ${theme.colors.primary}`,
-                minHeight: '72px',
-              }}
-            >
-              <span>➕</span> Add Child
-            </button>
-          )}
-
+      <main className="flex-1 overflow-y-auto pb-24">
+        <div
+          className="mx-auto flex w-full flex-col"
+          style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
+        >
           {/* Edit/Create Form */}
           {(editingId === 'new' || editingId !== null) &&
             (editingId === 'new' ||
@@ -380,111 +340,60 @@ const ManageChildrenPage = () => {
             )}
 
           {/* Children List */}
-          <div className="space-y-4">
-            {children.map((child) => {
-              if (editingId === child.id) return null // Handled above
-
-              const isSelected = activeChildId === child.id
+          <StandardActionList
+            theme={theme}
+            items={children.filter((child) => editingId !== child.id)}
+            getKey={(child) => child.id}
+            renderItem={(child) => {
               const childTheme = child.themeId
                 ? THEME_ID_LOOKUP.get(child.themeId)
                 : null
-
               return (
-                <div
-                  key={child.id}
-                  className="relative mb-6 flex w-full flex-col gap-4 p-5 transition-all md:flex-row md:items-center md:justify-between"
-                  style={{
-                    borderRadius: '50px',
-                    background: isSelected
-                      ? `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`
-                      : theme.colors.surface,
-                    boxShadow: `0 0 20px ${theme.colors.primary}`,
-                    border: `3px solid ${theme.colors.primary}`,
-                    color: isSelected
-                      ? theme.id === 'space'
-                        ? '#000'
-                        : '#FFF'
-                      : theme.colors.text,
-                  }}
-                >
-                  <div className="flex items-center gap-4">
-                    <div
-                      className="flex h-16 w-16 items-center justify-center rounded-full text-4xl shadow-inner"
-                      style={{
-                        backgroundColor: isSelected
+                <div className="flex items-center gap-4">
+                  <div
+                    className="flex h-16 w-16 items-center justify-center rounded-full text-4xl shadow-inner"
+                    style={{
+                      backgroundColor:
+                        activeChildId === child.id
                           ? 'rgba(255,255,255,0.3)'
                           : 'rgba(0,0,0,0.1)',
-                      }}
-                    >
-                      {childTheme ? childTheme.emoji : child.avatarToken}
-                    </div>
-                    <div>
-                      <h3 className="text-xl leading-tight font-bold">
-                        {child.displayName}
-                      </h3>
-                      <p
-                        className="text-sm opacity-80"
-                        style={{
-                          color: isSelected
-                            ? theme.id === 'space'
-                              ? '#000'
-                              : '#FFF'
-                            : theme.colors.text,
-                        }}
-                      >
-                        {child.totalStars} Stars • {childTheme?.label}
-                      </p>
-                    </div>
+                    }}
+                  >
+                    {childTheme ? childTheme.emoji : child.avatarToken}
                   </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {!isSelected && (
-                      <button
-                        onClick={() => handleSelectExplorer(child.id)}
-                        className="flex h-[60px] items-center rounded-full px-6 font-bold shadow-lg transition active:scale-95"
-                        style={{
-                          backgroundColor: theme.colors.primary,
-                          color: theme.id === 'space' ? '#000' : '#FFF',
-                        }}
-                      >
-                        Select
-                      </button>
-                    )}
-                    {isSelected && (
-                      <div
-                        className="flex h-[60px] items-center justify-center gap-2 rounded-full px-6 font-bold"
-                        style={{
-                          backgroundColor: 'rgba(255,255,255,0.2)',
-                        }}
-                      >
-                        <span>✅</span> Active
-                      </div>
-                    )}
-                    <button
-                      onClick={() => startEdit(child)}
-                      className="flex h-[60px] items-center gap-2 rounded-full bg-black/10 px-4 font-bold transition hover:bg-black/20"
-                      aria-label="Edit Child"
-                    >
-                      <span>✏️</span> Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(child.id)}
-                      className="flex h-[60px] items-center gap-2 rounded-full bg-red-500/20 px-4 font-bold text-red-600 transition hover:bg-red-500/30"
-                      style={{
-                        color: isSelected ? '#900' : undefined,
-                      }}
-                      aria-label="Delete Child"
-                    >
-                      <span>🗑️</span> Delete
-                    </button>
+                  <div>
+                    <div className="text-lg font-bold">{child.displayName}</div>
+                    <div className="text-sm opacity-80">
+                      {child.totalStars} Stars • {childTheme?.label}
+                    </div>
                   </div>
                 </div>
               )
-            })}
-          </div>
-        </main>
-      </div>
-    </div>
+            }}
+            primaryAction={{
+              label: (child) =>
+                activeChildId === child.id ? 'Active' : 'Select',
+              icon: (child) => (activeChildId === child.id ? '✅' : '⭐'),
+              onClick: (child) => handleSelectExplorer(child.id),
+              disabled: (child) =>
+                activeChildId === child.id || editingId !== null,
+              variant: 'primary',
+            }}
+            onEdit={(child) => startEdit(child)}
+            onDelete={(child) => handleDelete(child.id)}
+            addLabel="Add Child"
+            onAdd={startCreate}
+            addDisabled={editingId !== null}
+            isHighlighted={(child) => activeChildId === child.id}
+            emptyState={
+              <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
+                No explorers yet.
+              </div>
+            }
+          />
+        </div>
+      </main>
+    </PageShell>
   )
 }
 

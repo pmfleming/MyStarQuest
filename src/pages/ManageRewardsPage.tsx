@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { z } from 'zod'
 import {
   addDoc,
@@ -17,6 +16,11 @@ import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import { redeemReward } from '../services/starActions'
+import PageShell from '../components/PageShell'
+import PageHeader from '../components/PageHeader'
+import TopIconButton from '../components/TopIconButton'
+import StandardActionList from '../components/StandardActionList'
+import { uiTokens } from '../ui/tokens'
 
 type RewardRecord = {
   id: string
@@ -215,51 +219,23 @@ const ManageRewardsPage = () => {
   }
 
   return (
-    <div
-      className="flex min-h-screen w-full items-center justify-center transition-colors duration-500"
-      style={{
-        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-        padding: '20px',
-      }}
-    >
-      {/* Device Frame */}
-      <div
-        className="relative flex min-h-[896px] w-full max-w-[414px] flex-col overflow-hidden"
-        style={{
-          borderRadius: '40px',
-          boxShadow:
-            '0 0 0 12px #1a1a2e, 0 0 0 14px #333, 0 25px 50px rgba(0, 0, 0, 0.5)',
-          background: theme.colors.bg,
-          backgroundImage: theme.bgPattern,
-          fontFamily: theme.fonts.body,
-          color: theme.colors.text,
-        }}
-      >
-        {/* Header */}
-        <header className="flex items-center justify-between p-6 pt-12">
-          <Link
+    <PageShell theme={theme}>
+      <PageHeader
+        title="Rewards"
+        fontFamily={theme.fonts.heading}
+        left={
+          <TopIconButton
+            theme={theme}
             to="/"
-            className="flex h-[60px] w-[60px] items-center justify-center rounded-full text-3xl transition active:scale-95"
-            style={{
-              backgroundColor: theme.colors.surface,
-              color: theme.colors.text,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            }}
-          >
-            🏠
-          </Link>
-          <h1
-            className="text-3xl font-bold tracking-wide"
-            style={{
-              fontFamily: theme.fonts.heading,
-              textShadow: '0 2px 4px rgba(0,0,0,0.2)',
-            }}
-          >
-            Rewards
-          </h1>
+            ariaLabel="Home"
+            icon={<span className="text-2xl">🏠</span>}
+          />
+        }
+        right={
           <div
-            className="flex h-[60px] items-center gap-2 rounded-full px-6 font-bold"
+            className="flex items-center gap-2 rounded-full px-4 font-bold"
             style={{
+              height: `${uiTokens.topIconSize}px`,
               backgroundColor: theme.colors.surface,
               color: theme.colors.primary,
               boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
@@ -268,27 +244,14 @@ const ManageRewardsPage = () => {
             <span className="text-2xl">⭐</span>
             <span className="text-2xl">{activeChildStars}</span>
           </div>
-        </header>
+        }
+      />
 
-        {/* Main Content */}
-        <main className="flex-1 overflow-y-auto px-6 pb-24">
-          {/* Create New Button (if not editing) */}
-          {editingId === null && (
-            <button
-              type="button"
-              onClick={startCreate}
-              className="mb-6 flex w-full items-center justify-center gap-3 rounded-3xl py-4 text-xl font-bold transition active:scale-95"
-              style={{
-                backgroundColor: theme.colors.surface,
-                color: theme.colors.primary,
-                border: `3px dashed ${theme.colors.primary}`,
-                minHeight: '72px',
-              }}
-            >
-              <span>➕</span> New Reward
-            </button>
-          )}
-
+      <main className="flex-1 overflow-y-auto pb-24">
+        <div
+          className="mx-auto flex w-full flex-col"
+          style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
+        >
           {/* Edit/Create Form */}
           {(editingId === 'new' || editingId !== null) &&
             rewards.find((r) => r.id === editingId) && (
@@ -571,84 +534,56 @@ const ManageRewardsPage = () => {
           )}
 
           {/* Rewards List */}
-          <div className="space-y-6">
-            {rewards.map((reward) => {
-              if (editingId === reward.id) return null // Handled above
-
-              const canAfford = activeChildStars >= reward.costStars
-              return (
-                <div
-                  key={reward.id}
-                  className="relative flex flex-col gap-4 p-6 transition-all"
-                  style={{
-                    borderRadius: '50px',
-                    background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
-                    boxShadow: `0 0 20px ${theme.colors.primary}`,
-                    color: theme.id === 'space' ? '#000' : '#FFF',
-                  }}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="text-2xl leading-tight font-bold">
-                        {reward.title}
-                      </h3>
-                      <div className="mt-1 flex items-center gap-2">
-                        <span className="text-lg font-bold opacity-90">
-                          {reward.costStars} Star{reward.costStars !== 1 && 's'}
-                        </span>
-                        {reward.isRepeating && (
-                          <span
-                            className="rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase shadow-sm"
-                            style={{
-                              backgroundColor: 'rgba(255,255,255,0.3)',
-                              color: 'inherit',
-                            }}
-                          >
-                            ∞ Forever
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-2 sm:flex-row">
-                      <button
-                        onClick={() => startEdit(reward)}
-                        className="flex h-[60px] items-center justify-center gap-2 rounded-full bg-black/10 px-6 font-bold transition hover:bg-black/20"
-                        aria-label="Edit Reward"
-                      >
-                        <span>✏️</span> Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(reward.id)}
-                        className="flex h-[60px] items-center justify-center gap-2 rounded-full bg-red-500/20 px-6 font-bold text-red-700 transition hover:bg-red-500/30"
-                        style={{ color: '#900' }}
-                        aria-label="Delete Reward"
-                      >
-                        <span>🗑️</span> Delete
-                      </button>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => handleGiveReward(reward)}
-                    disabled={!canAfford}
-                    className="flex w-full items-center justify-center gap-2 rounded-full py-4 text-xl font-bold shadow-lg transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
-                    style={{
-                      backgroundColor: canAfford
-                        ? theme.colors.surface
-                        : 'rgba(0,0,0,0.2)',
-                      color: canAfford ? theme.colors.text : 'inherit',
-                      minHeight: '72px',
-                    }}
-                  >
-                    {canAfford ? '🎁 Buy Reward' : '🔒 Need more stars'}
-                  </button>
+          <StandardActionList
+            theme={theme}
+            items={rewards.filter((reward) => editingId !== reward.id)}
+            getKey={(reward) => reward.id}
+            renderItem={(reward) => (
+              <div>
+                <div className="text-lg font-bold">{reward.title}</div>
+                <div className="mt-1 flex items-center gap-2 text-sm font-bold opacity-90">
+                  <span>
+                    {reward.costStars} Star{reward.costStars !== 1 && 's'}
+                  </span>
+                  {reward.isRepeating && (
+                    <span
+                      className="rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase"
+                      style={{
+                        backgroundColor: 'rgba(0,0,0,0.1)',
+                      }}
+                    >
+                      ∞ Forever
+                    </span>
+                  )}
                 </div>
-              )
-            })}
-          </div>
-        </main>
-      </div>
-    </div>
+              </div>
+            )}
+            primaryAction={{
+              label: (reward) =>
+                activeChildStars >= reward.costStars
+                  ? 'Buy Reward'
+                  : 'Need Stars',
+              icon: (reward) =>
+                activeChildStars >= reward.costStars ? '🎁' : '🔒',
+              onClick: (reward) => handleGiveReward(reward),
+              disabled: (reward) =>
+                activeChildStars < reward.costStars || editingId !== null,
+              variant: 'primary',
+            }}
+            onEdit={(reward) => startEdit(reward)}
+            onDelete={(reward) => handleDelete(reward.id)}
+            addLabel="New Reward"
+            onAdd={startCreate}
+            addDisabled={editingId !== null}
+            emptyState={
+              <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
+                No rewards yet.
+              </div>
+            }
+          />
+        </div>
+      </main>
+    </PageShell>
   )
 }
 

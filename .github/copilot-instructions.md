@@ -7,6 +7,8 @@
 - Typecheck + build: `npm run build` (runs `tsc -b` then `vite build`)
 - Unit tests: `npm test` / `npm run test:watch` (Vitest + Testing Library)
 - Lint/format: `npm run lint`, `npm run format` (Husky + lint-staged runs on commit)
+- Format check (CI-friendly): `npm run format:check`
+- Preview prod build: `npm run preview`
 - E2E tests: `npx playwright test` (see `playwright.config.ts`)
 
 ## High-level architecture
