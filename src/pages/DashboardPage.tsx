@@ -10,8 +10,12 @@ import ActionButton from '../components/ActionButton'
 import { uiTokens } from '../ui/tokens'
 
 // --- Assets ---
-import princessChildrenIcon from '../assets/themes/princess/Children.svg'
-import princessExitIcon from '../assets/themes/princess/Exit.svg'
+import {
+  princessChildrenIcon,
+  princessChoresIcon,
+  princessExitIcon,
+  princessRewardsIcon,
+} from '../assets/themes/princess/assets'
 // Note: Import other theme assets here as needed
 
 // --- Types ---
@@ -207,15 +211,31 @@ const DashboardPage = () => {
         >
           <ActionButton
             to="/settings/manage-tasks"
-            label="My Tasks"
-            icon={<span>📋</span>}
+            label="Chores"
+            icon={
+              <img
+                src={princessChoresIcon}
+                alt="Chores"
+                className="h-10 w-10 object-contain"
+              />
+            }
             theme={theme}
             color={theme.colors.secondary}
           />
           <ActionButton
             to="/settings/manage-rewards"
             label="Rewards"
-            icon={<span>🎁</span>}
+            icon={
+              theme.id === 'princess' ? (
+                <img
+                  src={princessRewardsIcon}
+                  alt="Rewards"
+                  className="h-10 w-10 object-contain"
+                />
+              ) : (
+                <span>🎁</span>
+              )
+            }
             theme={theme}
             color={theme.colors.primary}
           />

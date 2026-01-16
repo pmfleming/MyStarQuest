@@ -36,12 +36,17 @@
 - Star-award and redemption logic is centralized in `src/services/starActions.ts` using Firestore transactions:
   - writes an audit doc (`starEvents`/`redemptions`) with `serverTimestamp()`
   - updates `children/{childId}.totalStars` with `increment(...)`
+- Standardized list rows use `src/components/StandardActionList.tsx` for Manage Children/Chores/Rewards.
+- Layout sizing should reference `uiTokens` (not hard-coded values).
 
 ## UI/UX conventions (kid-friendly)
 
 - Tailwind is used for layout, but many components use inline style objects driven by the active theme (`theme.colors`, `theme.bgPattern`).
 - The visual source of truth is `public/design-prototype.html` and the interaction sizing guidance is `docs/children-ui-ux-guidelines.md` (e.g., 72px minimum touch targets).
+- Use `uiTokens.contentMaxWidth` to keep page content and action buttons aligned and consistent.
 - Theme assets: the `princess` theme uses SVG assets in `src/assets/themes/princess/*` (see `src/pages/DashboardPage.tsx`).
+- Chores are the user-facing name for tasks (Dashboard button label is “Chores”).
+- In list action rows for the princess theme, use SVG icons for edit/delete (no text labels).
 
 ## Testing conventions
 

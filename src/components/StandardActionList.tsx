@@ -1,5 +1,9 @@
 import type { ReactNode } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
+import {
+  princessDeleteIcon,
+  princessEditIcon,
+} from '../assets/themes/princess/assets'
 import { uiTokens } from '../ui/tokens'
 
 type ActionConfig<T> = {
@@ -168,8 +172,15 @@ const StandardActionList = <T,>({
                       ...getActionStyle('neutral'),
                     }}
                   >
-                    <span>✏️</span>
-                    <span>Edit</span>
+                    {theme.id === 'princess' ? (
+                      <img
+                        src={princessEditIcon}
+                        alt="Edit"
+                        className="h-6 w-6 object-contain"
+                      />
+                    ) : (
+                      <span>✏️</span>
+                    )}
                   </button>
                   <button
                     type="button"
@@ -181,8 +192,15 @@ const StandardActionList = <T,>({
                       ...getActionStyle('danger'),
                     }}
                   >
-                    <span>🗑️</span>
-                    <span>Delete</span>
+                    {theme.id === 'princess' ? (
+                      <img
+                        src={princessDeleteIcon}
+                        alt="Delete"
+                        className="h-6 w-6 object-contain"
+                      />
+                    ) : (
+                      <span>🗑️</span>
+                    )}
                   </button>
                 </div>
               </div>

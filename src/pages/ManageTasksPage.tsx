@@ -108,7 +108,7 @@ const ManageTasksPage = () => {
           const data = docSnapshot.data()
           return {
             id: docSnapshot.id,
-            title: data.title ?? 'Untitled task',
+            title: data.title ?? 'Untitled chore',
             childId: data.childId ?? '',
             category: data.category ?? '',
             starValue: (data.starValue ?? 1) as 1 | 2 | 3,
@@ -186,9 +186,9 @@ const ManageTasksPage = () => {
 
       cancelEdit()
     } catch (error) {
-      console.error('Failed to save task', error)
+      console.error('Failed to save chore', error)
       setFormErrors({
-        [id]: ['Unable to save task. Please try again.'],
+        [id]: ['Unable to save chore. Please try again.'],
       })
     } finally {
       setIsSubmitting(false)
@@ -197,13 +197,13 @@ const ManageTasksPage = () => {
 
   const handleDelete = async (id: string) => {
     if (!user) return
-    const confirmDelete = window.confirm('Delete this task?')
+    const confirmDelete = window.confirm('Delete this chore?')
     if (!confirmDelete) return
 
     try {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'tasks'), id))
     } catch (error) {
-      console.error('Failed to delete task', error)
+      console.error('Failed to delete chore', error)
     }
   }
 
@@ -268,7 +268,7 @@ const ManageTasksPage = () => {
   return (
     <PageShell theme={theme}>
       <PageHeader
-        title="My Tasks"
+        title="Chores"
         fontFamily={theme.fonts.heading}
         left={
           <TopIconButton
@@ -319,7 +319,7 @@ const ManageTasksPage = () => {
                         title: e.target.value,
                       }))
                     }
-                    placeholder="Task Name"
+                    placeholder="Chore Name"
                     className={`w-full border-b-4 bg-transparent outline-none ${unifiedFontStyle}`}
                     style={{
                       borderColor: theme.colors.primary,
@@ -442,7 +442,7 @@ const ManageTasksPage = () => {
                   <h2
                     className={`text-center uppercase opacity-80 ${unifiedFontStyle}`}
                   >
-                    New Mission
+                    New Chore
                   </h2>
 
                   <input
@@ -454,7 +454,7 @@ const ManageTasksPage = () => {
                         title: e.target.value,
                       }))
                     }
-                    placeholder="Task Name"
+                    placeholder="Chore Name"
                     className={`w-full border-b-4 bg-transparent outline-none ${unifiedFontStyle}`}
                     style={{
                       borderColor: theme.colors.primary,
@@ -591,12 +591,12 @@ const ManageTasksPage = () => {
                 }}
                 onEdit={(task) => startEdit(task)}
                 onDelete={(task) => handleDelete(task.id)}
-                addLabel="New Task"
+                addLabel="New Chore"
                 onAdd={startCreate}
                 addDisabled={editingId !== null}
                 emptyState={
                   <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
-                    No tasks yet.
+                    No chores yet.
                   </div>
                 }
               />
