@@ -25,6 +25,10 @@ import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
+import {
+  princessActiveIcon,
+  princessSelectIcon,
+} from '../assets/themes/princess/assets'
 
 const childSchema = z.object({
   displayName: z
@@ -344,40 +348,58 @@ const ManageChildrenPage = () => {
             theme={theme}
             items={children.filter((child) => editingId !== child.id)}
             getKey={(child) => child.id}
-            renderItem={(child) => {
-              const childTheme = child.themeId
-                ? THEME_ID_LOOKUP.get(child.themeId)
-                : null
-              return (
-                <div className="flex items-center gap-4">
-                  <div
-                    className="flex h-16 w-16 items-center justify-center rounded-full text-4xl shadow-inner"
-                    style={{
-                      backgroundColor:
-                        activeChildId === child.id
-                          ? 'rgba(255,255,255,0.3)'
-                          : 'rgba(0,0,0,0.1)',
-                    }}
-                  >
-                    {childTheme ? childTheme.emoji : child.avatarToken}
-                  </div>
-                  <div>
-                    <div className="text-lg font-bold">{child.displayName}</div>
-                    <div className="text-sm opacity-80">
-                      {child.totalStars} Stars • {childTheme?.label}
-                    </div>
-                  </div>
+            renderItem={(child) => (
+              <div className="flex items-center justify-between gap-4">
+                <div
+                  style={{
+                    fontFamily: theme.fonts.heading,
+                    fontSize: `${uiTokens.actionButtonFontSize}px`,
+                    fontWeight: 700,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {child.displayName}
                 </div>
-              )
-            }}
+                <div
+                  className="flex items-center gap-2"
+                  style={{
+                    fontFamily: theme.fonts.heading,
+                    fontSize: `${uiTokens.actionButtonFontSize}px`,
+                    fontWeight: 700,
+                    lineHeight: 1,
+                  }}
+                >
+                  <span style={{ fontSize: '24px', lineHeight: 1 }}>⭐</span>
+                  <span>{child.totalStars}</span>
+                </div>
+              </div>
+            )}
             primaryAction={{
               label: (child) =>
                 activeChildId === child.id ? 'Active' : 'Select',
-              icon: (child) => (activeChildId === child.id ? '✅' : '⭐'),
+              ariaLabel: (child) =>
+                activeChildId === child.id ? 'Active child' : 'Select child',
+              icon: (child) =>
+                theme.id === 'princess' ? (
+                  <img
+                    src={
+                      activeChildId === child.id
+                        ? princessActiveIcon
+                        : princessSelectIcon
+                    }
+                    alt={activeChildId === child.id ? 'Active' : 'Select'}
+                    className="h-6 w-6 object-contain"
+                  />
+                ) : activeChildId === child.id ? (
+                  '✅'
+                ) : (
+                  '⭐'
+                ),
+              showLabel: false,
               onClick: (child) => handleSelectExplorer(child.id),
               disabled: (child) =>
                 activeChildId === child.id || editingId !== null,
-              variant: 'primary',
+              variant: theme.id === 'princess' ? 'neutral' : 'primary',
             }}
             onEdit={(child) => startEdit(child)}
             onDelete={(child) => handleDelete(child.id)}

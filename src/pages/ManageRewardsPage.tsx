@@ -21,6 +21,7 @@ import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
+import { princessBuyRewardIcon } from '../assets/themes/princess/assets'
 
 type RewardRecord = {
   id: string
@@ -539,22 +540,28 @@ const ManageRewardsPage = () => {
             items={rewards.filter((reward) => editingId !== reward.id)}
             getKey={(reward) => reward.id}
             renderItem={(reward) => (
-              <div>
-                <div className="text-lg font-bold">{reward.title}</div>
-                <div className="mt-1 flex items-center gap-2 text-sm font-bold opacity-90">
-                  <span>
-                    {reward.costStars} Star{reward.costStars !== 1 && 's'}
-                  </span>
-                  {reward.isRepeating && (
-                    <span
-                      className="rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase"
-                      style={{
-                        backgroundColor: 'rgba(0,0,0,0.1)',
-                      }}
-                    >
-                      ∞ Forever
-                    </span>
-                  )}
+              <div className="flex items-center justify-between gap-4">
+                <div
+                  style={{
+                    fontFamily: theme.fonts.heading,
+                    fontSize: `${uiTokens.actionButtonFontSize}px`,
+                    fontWeight: 700,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {reward.title}
+                </div>
+                <div
+                  className="flex items-center gap-2"
+                  style={{
+                    fontFamily: theme.fonts.heading,
+                    fontSize: `${uiTokens.actionButtonFontSize}px`,
+                    fontWeight: 700,
+                    lineHeight: 1,
+                  }}
+                >
+                  <span style={{ fontSize: '24px', lineHeight: 1 }}>⭐</span>
+                  <span>{reward.costStars}</span>
                 </div>
               </div>
             )}
@@ -564,11 +571,20 @@ const ManageRewardsPage = () => {
                   ? 'Buy Reward'
                   : 'Need Stars',
               icon: (reward) =>
-                activeChildStars >= reward.costStars ? '🎁' : '🔒',
+                activeChildStars >= reward.costStars ? (
+                  <img
+                    src={princessBuyRewardIcon}
+                    alt="Buy Reward"
+                    className="h-6 w-6 object-contain"
+                  />
+                ) : (
+                  '🔒'
+                ),
               onClick: (reward) => handleGiveReward(reward),
               disabled: (reward) =>
                 activeChildStars < reward.costStars || editingId !== null,
               variant: 'primary',
+              showLabel: false,
             }}
             onEdit={(reward) => startEdit(reward)}
             onDelete={(reward) => handleDelete(reward.id)}

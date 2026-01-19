@@ -22,6 +22,7 @@ import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
+import { princessGiveStarIcon } from '../assets/themes/princess/assets'
 
 // --- Types & Schema ---
 type ChildSummary = {
@@ -233,11 +234,6 @@ const ManageTasksPage = () => {
     } finally {
       setIsAwarding(false)
     }
-  }
-
-  const getChildName = (childId: string) => {
-    const child = children.find((c) => c.id === childId)
-    return child?.displayName || 'Unknown'
   }
 
   const isDarkTheme = theme.id === 'space'
@@ -569,25 +565,47 @@ const ManageTasksPage = () => {
                 items={tasks.filter((task) => editingId !== task.id)}
                 getKey={(task) => task.id}
                 renderItem={(task) => (
-                  <div>
-                    <div className="text-lg font-bold">{task.title}</div>
-                    <div className="text-sm opacity-80">
-                      {getChildName(task.childId)}
+                  <div className="flex items-center justify-between gap-4">
+                    <div
+                      style={{
+                        fontFamily: theme.fonts.heading,
+                        fontSize: `${uiTokens.actionButtonFontSize}px`,
+                        fontWeight: 700,
+                        lineHeight: 1.1,
+                      }}
+                    >
+                      {task.title}
                     </div>
-                    {task.isRepeating && (
-                      <div className="text-sm font-bold opacity-80">
-                        Repeating 🔄
-                      </div>
-                    )}
+                    <div
+                      className="flex items-center gap-2"
+                      style={{
+                        fontFamily: theme.fonts.heading,
+                        fontSize: `${uiTokens.actionButtonFontSize}px`,
+                        fontWeight: 700,
+                        lineHeight: 1,
+                      }}
+                    >
+                      <span style={{ fontSize: '24px', lineHeight: 1 }}>
+                        ⭐
+                      </span>
+                      <span>{task.starValue}</span>
+                    </div>
                   </div>
                 )}
                 primaryAction={{
                   label: 'Give',
-                  icon: '⭐',
+                  icon: (
+                    <img
+                      src={princessGiveStarIcon}
+                      alt="Give star"
+                      className="h-6 w-6 object-contain"
+                    />
+                  ),
                   onClick: (task) => handleAwardTask(task),
                   disabled: () =>
                     isAwarding || editingId !== null || !activeChildId,
                   variant: 'primary',
+                  showLabel: false,
                 }}
                 onEdit={(task) => startEdit(task)}
                 onDelete={(task) => handleDelete(task.id)}

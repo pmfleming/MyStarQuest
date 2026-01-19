@@ -13,6 +13,7 @@ type ActionConfig<T> = {
   ariaLabel?: string | ((item: T) => string)
   disabled?: (item: T) => boolean
   variant?: 'primary' | 'neutral' | 'danger'
+  showLabel?: boolean
 }
 
 type StandardActionListProps<T> = {
@@ -85,7 +86,8 @@ const StandardActionList = <T,>({
         }
       case 'neutral':
         return {
-          backgroundColor: 'rgba(0,0,0,0.1)',
+          backgroundColor:
+            theme.id === 'princess' ? theme.colors.surface : 'rgba(0,0,0,0.1)',
           borderColor: theme.colors.primary,
           color: theme.colors.text,
         }
@@ -140,7 +142,7 @@ const StandardActionList = <T,>({
                 >
                   {renderItem(item)}
                 </div>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="mt-4 grid grid-cols-3 gap-3">
                   <button
                     type="button"
                     onClick={() => primaryAction.onClick(item)}
@@ -157,10 +159,10 @@ const StandardActionList = <T,>({
                       ...getActionStyle(primaryAction.variant),
                     }}
                   >
-                    <span>
-                      {resolveValue(primaryAction.icon ?? '⭐', item)}
-                    </span>
-                    <span>{resolveValue(primaryAction.label, item)}</span>
+                    {resolveValue(primaryAction.icon ?? '⭐', item)}
+                    {primaryAction.showLabel === false ? null : (
+                      <span>{resolveValue(primaryAction.label, item)}</span>
+                    )}
                   </button>
                   <button
                     type="button"
