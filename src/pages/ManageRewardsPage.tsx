@@ -21,7 +21,10 @@ import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
-import { princessBuyRewardIcon } from '../assets/themes/princess/assets'
+import {
+  princessBuyRewardIcon,
+  princessHomeIcon,
+} from '../assets/themes/princess/assets'
 
 type RewardRecord = {
   id: string
@@ -224,27 +227,19 @@ const ManageRewardsPage = () => {
       <PageHeader
         title="Rewards"
         fontFamily={theme.fonts.heading}
-        left={
+        right={
           <TopIconButton
             theme={theme}
             to="/"
             ariaLabel="Home"
-            icon={<span className="text-2xl">🏠</span>}
+            icon={
+              <img
+                src={princessHomeIcon}
+                alt="Home"
+                className="h-10 w-10 object-contain"
+              />
+            }
           />
-        }
-        right={
-          <div
-            className="flex items-center gap-2 rounded-full px-4 font-bold"
-            style={{
-              height: `${uiTokens.topIconSize}px`,
-              backgroundColor: theme.colors.surface,
-              color: theme.colors.primary,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            }}
-          >
-            <span className="text-2xl">⭐</span>
-            <span className="text-2xl">{activeChildStars}</span>
-          </div>
         }
       />
 

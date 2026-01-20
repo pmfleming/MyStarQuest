@@ -5,6 +5,7 @@ import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
+import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import ActionButton from '../components/ActionButton'
 import { uiTokens } from '../ui/tokens'
@@ -101,75 +102,51 @@ const DashboardPage = () => {
   const themeAssets = getThemeAssets(theme.id)
   // --- Main Render ---
   return (
-    <PageShell
-      theme={theme}
-      topRight={
-        <>
-          <TopIconButton
-            theme={theme}
-            to="/settings/manage-children"
-            ariaLabel="Switch Profile"
-            icon={
-              themeAssets.switchProfileIcon ? (
-                <img
-                  src={themeAssets.switchProfileIcon}
-                  alt="Switch Child"
-                  className="h-9 w-auto object-contain"
-                />
-              ) : (
-                <span className="text-2xl">👥</span>
-              )
-            }
-          />
-          <TopIconButton
-            theme={theme}
-            onClick={logout}
-            ariaLabel="Logout"
-            icon={
-              themeAssets.exitIcon ? (
-                <img
-                  src={themeAssets.exitIcon}
-                  alt="Logout"
-                  className="h-10 w-auto object-contain"
-                />
-              ) : (
-                <span className="text-2xl">🚪</span>
-              )
-            }
-          />
-        </>
-      }
-      contentStyle={{ paddingTop: '112px' }}
-    >
+    <PageShell theme={theme}>
       <div
         className="mx-auto w-full"
         style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
       >
-        {/* Header / Profile */}
-        <header
-          className="relative z-10 flex items-center gap-4"
-          style={{ marginBottom: `${uiTokens.sectionGap}px` }}
-        >
-          <div
-            className="flex h-20 w-20 items-center justify-center rounded-full border-4 text-4xl"
-            style={{
-              borderColor: theme.colors.primary,
-              backgroundColor: theme.colors.surface,
-              boxShadow: `0 0 20px ${theme.colors.primary}40`,
-            }}
-          >
-            {selectedChild?.avatarToken || theme.emoji}
-          </div>
-          <div>
-            <h1
-              className="text-3xl font-bold"
-              style={{ fontFamily: theme.fonts.heading }}
-            >
-              Hi, {selectedChild?.displayName || 'Explorer'}!
-            </h1>
-            <p className="opacity-80">Ready for your quest?</p>
-          </div>
-        </header>
+        <PageHeader
+          title={selectedChild?.displayName || 'Explorer'}
+          fontFamily={theme.fonts.heading}
+          right={
+            <>
+              <TopIconButton
+                theme={theme}
+                to="/settings/manage-children"
+                ariaLabel="Children"
+                icon={
+                  themeAssets.switchProfileIcon ? (
+                    <img
+                      src={themeAssets.switchProfileIcon}
+                      alt="Children"
+                      className="h-10 w-10 object-contain"
+                    />
+                  ) : (
+                    <span className="text-2xl">👥</span>
+                  )
+                }
+              />
+              <TopIconButton
+                theme={theme}
+                onClick={logout}
+                ariaLabel="Exit"
+                icon={
+                  themeAssets.exitIcon ? (
+                    <img
+                      src={themeAssets.exitIcon}
+                      alt="Exit"
+                      className="h-10 w-10 object-contain"
+                    />
+                  ) : (
+                    <span className="text-2xl">🚪</span>
+                  )
+                }
+              />
+            </>
+          }
+        />
 
         {/* Star Balance */}
         <section

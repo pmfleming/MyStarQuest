@@ -22,7 +22,10 @@ import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
-import { princessGiveStarIcon } from '../assets/themes/princess/assets'
+import {
+  princessGiveStarIcon,
+  princessHomeIcon,
+} from '../assets/themes/princess/assets'
 
 // --- Types & Schema ---
 type ChildSummary = {
@@ -266,15 +269,20 @@ const ManageTasksPage = () => {
       <PageHeader
         title="Chores"
         fontFamily={theme.fonts.heading}
-        left={
+        right={
           <TopIconButton
             theme={theme}
             to="/"
             ariaLabel="Home"
-            icon={<span className="text-2xl">🏠</span>}
+            icon={
+              <img
+                src={princessHomeIcon}
+                alt="Home"
+                className="h-10 w-10 object-contain"
+              />
+            }
           />
         }
-        right={<div style={{ width: `${uiTokens.topIconSize}px` }} />}
       />
 
       <div className="flex flex-1 flex-col overflow-y-auto pb-32">

@@ -41,7 +41,13 @@ const PageShell = ({
         }}
       >
         {topRight && (
-          <div className="absolute top-0 z-50 flex w-full justify-end gap-3 p-4">
+          <div
+            className="absolute z-50 flex justify-end gap-3"
+            style={{
+              top: `${uiTokens.pagePaddingTop}px`,
+              right: `${uiTokens.pagePaddingX}px`,
+            }}
+          >
             {topRight}
           </div>
         )}

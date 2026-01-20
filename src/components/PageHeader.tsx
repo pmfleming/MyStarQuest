@@ -3,12 +3,11 @@ import { uiTokens } from '../ui/tokens'
 
 interface PageHeaderProps {
   title: string
-  left?: ReactNode
   right?: ReactNode
   fontFamily?: string
 }
 
-const PageHeader = ({ title, left, right, fontFamily }: PageHeaderProps) => {
+const PageHeader = ({ title, right, fontFamily }: PageHeaderProps) => {
   return (
     <header
       className="flex items-center justify-between"
@@ -17,19 +16,19 @@ const PageHeader = ({ title, left, right, fontFamily }: PageHeaderProps) => {
         marginBottom: `${uiTokens.sectionGap}px`,
       }}
     >
-      <div className="flex items-center gap-3">{left}</div>
       <h1
-        className="text-3xl font-bold tracking-wide"
-        style={{ fontFamily: fontFamily || 'inherit', textAlign: 'center' }}
+        className="font-bold tracking-wide"
+        style={{
+          fontFamily: fontFamily || 'inherit',
+          textAlign: 'left',
+          fontSize: `${Math.round(uiTokens.topIconSize * 0.5)}px`,
+          lineHeight: `${uiTokens.topIconSize}px`,
+          height: `${uiTokens.topIconSize}px`,
+        }}
       >
         {title}
       </h1>
-      <div
-        className="flex items-center justify-end"
-        style={{ minWidth: `${uiTokens.topIconSize}px` }}
-      >
-        {right}
-      </div>
+      <div className="flex items-center justify-end gap-3">{right}</div>
     </header>
   )
 }
