@@ -5,15 +5,21 @@ interface PageHeaderProps {
   title: string
   right?: ReactNode
   fontFamily?: string
+  marginBottom?: number
 }
 
-const PageHeader = ({ title, right, fontFamily }: PageHeaderProps) => {
+const PageHeader = ({
+  title,
+  right,
+  fontFamily,
+  marginBottom,
+}: PageHeaderProps) => {
   return (
     <header
       className="flex items-center justify-between"
       style={{
         minHeight: `${uiTokens.topIconSize}px`,
-        marginBottom: `${uiTokens.sectionGap}px`,
+        marginBottom: `${marginBottom ?? uiTokens.sectionGap}px`,
       }}
     >
       <h1

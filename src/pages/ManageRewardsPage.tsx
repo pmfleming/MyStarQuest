@@ -23,6 +23,7 @@ import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
 import {
   princessBuyRewardIcon,
+  princessRewardsIcon,
   princessHomeIcon,
 } from '../assets/themes/princess/assets'
 
@@ -225,21 +226,42 @@ const ManageRewardsPage = () => {
   return (
     <PageShell theme={theme}>
       <PageHeader
-        title="Rewards"
+        title={
+          editingId
+            ? editingId === 'new'
+              ? 'New Reward'
+              : editForm.title || 'Reward'
+            : 'Rewards'
+        }
         fontFamily={theme.fonts.heading}
         right={
-          <TopIconButton
-            theme={theme}
-            to="/"
-            ariaLabel="Home"
-            icon={
-              <img
-                src={princessHomeIcon}
-                alt="Home"
-                className="h-10 w-10 object-contain"
-              />
-            }
-          />
+          editingId ? (
+            <TopIconButton
+              theme={theme}
+              onClick={cancelEdit}
+              ariaLabel="Rewards"
+              icon={
+                <img
+                  src={princessRewardsIcon}
+                  alt="Rewards"
+                  className="h-10 w-10 object-contain"
+                />
+              }
+            />
+          ) : (
+            <TopIconButton
+              theme={theme}
+              to="/"
+              ariaLabel="Home"
+              icon={
+                <img
+                  src={princessHomeIcon}
+                  alt="Home"
+                  className="h-10 w-10 object-contain"
+                />
+              }
+            />
+          )
         }
       />
 
@@ -248,150 +270,7 @@ const ManageRewardsPage = () => {
           className="mx-auto flex w-full flex-col"
           style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
         >
-          {/* Edit/Create Form */}
-          {(editingId === 'new' || editingId !== null) &&
-            rewards.find((r) => r.id === editingId) && (
-              <div
-                className="mb-6 space-y-4 rounded-3xl p-6"
-                style={{
-                  backgroundColor: theme.colors.surface,
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
-                  border: `2px solid ${theme.colors.primary}`,
-                }}
-              >
-                <h3
-                  className="text-center text-xl font-bold"
-                  style={{ fontFamily: theme.fonts.heading }}
-                >
-                  {editingId === 'new' ? 'New Reward' : 'Edit Reward'}
-                </h3>
-
-                {/* Error Display */}
-                {(formErrors[editingId || 'new']?.length ?? 0) > 0 && (
-                  <div className="rounded-xl bg-red-500/20 p-4 text-center text-sm font-bold text-red-200">
-                    {formErrors[editingId || 'new']?.map((err) => (
-                      <p key={err}>{err}</p>
-                    ))}
-                  </div>
-                )}
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="mb-2 block text-sm font-bold opacity-80">
-                      What is the reward?
-                    </label>
-                    <input
-                      type="text"
-                      value={editForm.title}
-                      onChange={(e) =>
-                        setEditForm((prev) => ({
-                          ...prev,
-                          title: e.target.value,
-                        }))
-                      }
-                      className="w-full rounded-2xl border-none px-4 py-3 text-lg font-bold text-slate-900 focus:ring-4"
-                      style={{
-                        backgroundColor: '#FFF',
-                        minHeight: '60px',
-                      }}
-                      placeholder="e.g. Ice Cream"
-                      maxLength={80}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="mb-2 block text-sm font-bold opacity-80">
-                      Cost (Stars)
-                    </label>
-                    <div className="flex items-center gap-4">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            costStars: Math.max(1, prev.costStars - 1),
-                          }))
-                        }
-                        className="flex h-[60px] w-[60px] items-center justify-center rounded-2xl text-3xl font-bold transition active:scale-90"
-                        style={{
-                          backgroundColor: theme.colors.secondary,
-                          color: '#FFF',
-                        }}
-                      >
-                        -
-                      </button>
-                      <div className="flex h-[60px] flex-1 items-center justify-center rounded-2xl bg-white text-2xl font-bold text-slate-900">
-                        {editForm.costStars} ⭐
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            costStars: Math.min(99, prev.costStars + 1),
-                          }))
-                        }
-                        className="flex h-[60px] w-[60px] items-center justify-center rounded-2xl text-3xl font-bold transition active:scale-90"
-                        style={{
-                          backgroundColor: theme.colors.secondary,
-                          color: '#FFF',
-                        }}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-
-                  <label className="flex items-center gap-4 rounded-2xl bg-black/20 p-4">
-                    <input
-                      type="checkbox"
-                      checked={editForm.isRepeating}
-                      onChange={(e) =>
-                        setEditForm((prev) => ({
-                          ...prev,
-                          isRepeating: e.target.checked,
-                        }))
-                      }
-                      className="h-8 w-8 rounded-lg border-2"
-                      style={{ accentColor: theme.colors.primary }}
-                    />
-                    <span className="text-lg font-bold">
-                      Keep after buying?
-                    </span>
-                  </label>
-                </div>
-
-                <div className="flex gap-3 pt-2">
-                  <button
-                    type="button"
-                    onClick={cancelEdit}
-                    className="flex-1 rounded-2xl py-4 text-lg font-bold opacity-80 transition active:scale-95"
-                    style={{
-                      backgroundColor: 'rgba(0,0,0,0.2)',
-                      minHeight: '60px',
-                    }}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => saveReward(editingId || 'new')}
-                    disabled={isSubmitting}
-                    className="flex-1 rounded-2xl py-4 text-lg font-bold shadow-lg transition active:scale-95"
-                    style={{
-                      backgroundColor: theme.colors.primary,
-                      color: theme.id === 'space' ? '#000' : '#FFF',
-                      minHeight: '60px',
-                    }}
-                  >
-                    {isSubmitting ? 'Saving...' : 'Save'}
-                  </button>
-                </div>
-              </div>
-            )}
-
-          {/* Create Form for New Item (if editingId is 'new') */}
-          {editingId === 'new' && !rewards.find((r) => r.id === editingId) && (
+          {editingId ? (
             <div
               className="mb-6 space-y-4 rounded-3xl p-6"
               style={{
@@ -404,13 +283,12 @@ const ManageRewardsPage = () => {
                 className="text-center text-xl font-bold"
                 style={{ fontFamily: theme.fonts.heading }}
               >
-                New Reward
+                {editingId === 'new' ? 'New Reward' : 'Edit Reward'}
               </h3>
 
-              {/* Error Display */}
-              {(formErrors['new']?.length ?? 0) > 0 && (
+              {(formErrors[editingId]?.length ?? 0) > 0 && (
                 <div className="rounded-xl bg-red-500/20 p-4 text-center text-sm font-bold text-red-200">
-                  {formErrors['new']?.map((err) => (
+                  {formErrors[editingId]?.map((err) => (
                     <p key={err}>{err}</p>
                   ))}
                 </div>
@@ -514,7 +392,7 @@ const ManageRewardsPage = () => {
                 </button>
                 <button
                   type="button"
-                  onClick={() => saveReward('new')}
+                  onClick={() => saveReward(editingId)}
                   disabled={isSubmitting}
                   className="flex-1 rounded-2xl py-4 text-lg font-bold shadow-lg transition active:scale-95"
                   style={{
@@ -527,71 +405,69 @@ const ManageRewardsPage = () => {
                 </button>
               </div>
             </div>
+          ) : (
+            <StandardActionList
+              theme={theme}
+              items={rewards}
+              getKey={(reward) => reward.id}
+              renderItem={(reward) => (
+                <div className="flex items-center justify-between gap-4">
+                  <div
+                    style={{
+                      fontFamily: theme.fonts.heading,
+                      fontSize: `${uiTokens.actionButtonFontSize}px`,
+                      fontWeight: 700,
+                      lineHeight: 1.1,
+                    }}
+                  >
+                    {reward.title}
+                  </div>
+                  <div
+                    className="flex items-center gap-2"
+                    style={{
+                      fontFamily: theme.fonts.heading,
+                      fontSize: `${uiTokens.actionButtonFontSize}px`,
+                      fontWeight: 700,
+                      lineHeight: 1,
+                    }}
+                  >
+                    <span style={{ fontSize: '24px', lineHeight: 1 }}>⭐</span>
+                    <span>{reward.costStars}</span>
+                  </div>
+                </div>
+              )}
+              primaryAction={{
+                label: (reward) =>
+                  activeChildStars >= reward.costStars
+                    ? 'Buy Reward'
+                    : 'Need Stars',
+                icon: (reward) =>
+                  activeChildStars >= reward.costStars ? (
+                    <img
+                      src={princessBuyRewardIcon}
+                      alt="Buy Reward"
+                      className="h-6 w-6 object-contain"
+                    />
+                  ) : (
+                    '🔒'
+                  ),
+                onClick: (reward) => handleGiveReward(reward),
+                disabled: (reward) => activeChildStars < reward.costStars,
+                variant: 'primary',
+                showLabel: false,
+              }}
+              onEdit={(reward) => startEdit(reward)}
+              onDelete={(reward) => handleDelete(reward.id)}
+              addLabel="New Reward"
+              onAdd={startCreate}
+              addDisabled={false}
+              emptyState={
+                <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
+                  No rewards yet.
+                </div>
+              }
+            />
           )}
-
-          {/* Rewards List */}
-          <StandardActionList
-            theme={theme}
-            items={rewards.filter((reward) => editingId !== reward.id)}
-            getKey={(reward) => reward.id}
-            renderItem={(reward) => (
-              <div className="flex items-center justify-between gap-4">
-                <div
-                  style={{
-                    fontFamily: theme.fonts.heading,
-                    fontSize: `${uiTokens.actionButtonFontSize}px`,
-                    fontWeight: 700,
-                    lineHeight: 1.1,
-                  }}
-                >
-                  {reward.title}
-                </div>
-                <div
-                  className="flex items-center gap-2"
-                  style={{
-                    fontFamily: theme.fonts.heading,
-                    fontSize: `${uiTokens.actionButtonFontSize}px`,
-                    fontWeight: 700,
-                    lineHeight: 1,
-                  }}
-                >
-                  <span style={{ fontSize: '24px', lineHeight: 1 }}>⭐</span>
-                  <span>{reward.costStars}</span>
-                </div>
-              </div>
-            )}
-            primaryAction={{
-              label: (reward) =>
-                activeChildStars >= reward.costStars
-                  ? 'Buy Reward'
-                  : 'Need Stars',
-              icon: (reward) =>
-                activeChildStars >= reward.costStars ? (
-                  <img
-                    src={princessBuyRewardIcon}
-                    alt="Buy Reward"
-                    className="h-6 w-6 object-contain"
-                  />
-                ) : (
-                  '🔒'
-                ),
-              onClick: (reward) => handleGiveReward(reward),
-              disabled: (reward) =>
-                activeChildStars < reward.costStars || editingId !== null,
-              variant: 'primary',
-              showLabel: false,
-            }}
-            onEdit={(reward) => startEdit(reward)}
-            onDelete={(reward) => handleDelete(reward.id)}
-            addLabel="New Reward"
-            onAdd={startCreate}
-            addDisabled={editingId !== null}
-            emptyState={
-              <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
-                No rewards yet.
-              </div>
-            }
-          />
         </div>
       </main>
     </PageShell>

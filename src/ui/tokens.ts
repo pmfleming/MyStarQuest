@@ -5,6 +5,8 @@ export const uiTokens = {
   pagePaddingTop: 48,
   pagePaddingBottom: 24,
   sectionGap: 24,
+  singleVerticalSpace: 24,
+  doubleVerticalSpace: 48,
   contentMaxWidth: 340,
   actionButtonHeight: 88,
   actionButtonRadius: 30,

@@ -102,129 +102,141 @@ const StandardActionList = <T,>({
   }
 
   return (
-    <div className="flex flex-col gap-4" style={{ width: '100%' }}>
+    <div className="flex flex-col" style={{ width: '100%' }}>
       {isLoading ? (
         <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
           Loading...
         </div>
-      ) : items.length === 0 ? (
-        (emptyState ?? (
-          <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
-            Nothing here yet.
-          </div>
-        ))
       ) : (
-        <div className="flex flex-col gap-4">
-          {items.map((item, index) => {
-            const isItemHighlighted = isHighlighted?.(item)
-            const primaryDisabled = primaryAction.disabled?.(item) ?? false
-            const rowStyle = isItemHighlighted
-              ? {
-                  ...rowBaseStyle,
-                  background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
-                  color: isDarkTheme ? '#000' : '#FFF',
-                }
-              : {
-                  ...rowBaseStyle,
-                  backgroundColor: theme.colors.surface,
-                  color: theme.colors.text,
-                }
-
-            return (
-              <div
-                key={getKey ? getKey(item) : `${index}`}
-                className="flex flex-col gap-4"
-                style={rowStyle}
-              >
-                <div
-                  className="flex flex-col gap-2"
-                  style={{ fontFamily: theme.fonts.heading }}
-                >
-                  {renderItem(item)}
+        <div
+          className="flex flex-col"
+          style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+        >
+          {items.length === 0
+            ? (emptyState ?? (
+                <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
+                  Nothing here yet.
                 </div>
-                <div className="mt-4 grid grid-cols-3 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => primaryAction.onClick(item)}
-                    disabled={primaryDisabled}
-                    className="active:scale-95 disabled:opacity-60"
-                    aria-label={
-                      resolveValue(
-                        primaryAction.ariaLabel ?? primaryAction.label,
-                        item
-                      ) as string
+              ))
+            : items.map((item, index) => {
+                const isItemHighlighted = isHighlighted?.(item)
+                const primaryDisabled = primaryAction.disabled?.(item) ?? false
+                const rowStyle = isItemHighlighted
+                  ? {
+                      ...rowBaseStyle,
+                      background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
+                      color: isDarkTheme ? '#000' : '#FFF',
                     }
-                    style={{
-                      ...actionBaseStyle,
-                      ...getActionStyle(primaryAction.variant),
-                    }}
+                  : {
+                      ...rowBaseStyle,
+                      backgroundColor: theme.colors.surface,
+                      color: theme.colors.text,
+                    }
+
+                return (
+                  <div
+                    key={getKey ? getKey(item) : `${index}`}
+                    className="flex flex-col gap-4"
+                    style={rowStyle}
                   >
-                    {resolveValue(primaryAction.icon ?? '⭐', item)}
-                    {primaryAction.showLabel === false ? null : (
-                      <span>{resolveValue(primaryAction.label, item)}</span>
-                    )}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onEdit(item)}
-                    className="active:scale-95"
-                    aria-label="Edit"
-                    style={{
-                      ...actionBaseStyle,
-                      ...getActionStyle('neutral'),
-                    }}
-                  >
-                    {theme.id === 'princess' ? (
-                      <img
-                        src={princessEditIcon}
-                        alt="Edit"
-                        className="h-6 w-6 object-contain"
-                      />
-                    ) : (
-                      <span>✏️</span>
-                    )}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onDelete(item)}
-                    className="active:scale-95"
-                    aria-label="Delete"
-                    style={{
-                      ...actionBaseStyle,
-                      ...getActionStyle('danger'),
-                    }}
-                  >
-                    {theme.id === 'princess' ? (
-                      <img
-                        src={princessDeleteIcon}
-                        alt="Delete"
-                        className="h-6 w-6 object-contain"
-                      />
-                    ) : (
-                      <span>🗑️</span>
-                    )}
-                  </button>
-                </div>
-              </div>
-            )
-          })}
+                    <div
+                      className="flex flex-col gap-2"
+                      style={{ fontFamily: theme.fonts.heading }}
+                    >
+                      {renderItem(item)}
+                    </div>
+                    <div className="mt-4 grid grid-cols-3 gap-3">
+                      <button
+                        type="button"
+                        onClick={() => primaryAction.onClick(item)}
+                        disabled={primaryDisabled}
+                        className="active:scale-95 disabled:opacity-60"
+                        aria-label={
+                          resolveValue(
+                            primaryAction.ariaLabel ?? primaryAction.label,
+                            item
+                          ) as string
+                        }
+                        style={{
+                          ...actionBaseStyle,
+                          ...getActionStyle(primaryAction.variant),
+                        }}
+                      >
+                        {resolveValue(primaryAction.icon ?? '⭐', item)}
+                        {primaryAction.showLabel === false ? null : (
+                          <span>{resolveValue(primaryAction.label, item)}</span>
+                        )}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onEdit(item)}
+                        className="active:scale-95"
+                        aria-label="Edit"
+                        style={{
+                          ...actionBaseStyle,
+                          ...getActionStyle('neutral'),
+                        }}
+                      >
+                        {theme.id === 'princess' ? (
+                          <img
+                            src={princessEditIcon}
+                            alt="Edit"
+                            className="h-6 w-6 object-contain"
+                          />
+                        ) : (
+                          <span>✏️</span>
+                        )}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onDelete(item)}
+                        className="active:scale-95"
+                        aria-label="Delete"
+                        style={{
+                          ...actionBaseStyle,
+                          ...getActionStyle('danger'),
+                        }}
+                      >
+                        {theme.id === 'princess' ? (
+                          <img
+                            src={princessDeleteIcon}
+                            alt="Delete"
+                            className="h-6 w-6 object-contain"
+                          />
+                        ) : (
+                          <span>🗑️</span>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                )
+              })}
+
+          <div
+            className="flex flex-col"
+            style={{
+              ...rowBaseStyle,
+              backgroundColor: theme.colors.surface,
+              border: `3px dashed ${theme.colors.primary}`,
+              boxShadow: `0 0 16px ${theme.colors.primary}33`,
+            }}
+          >
+            <button
+              type="button"
+              onClick={onAdd}
+              disabled={addDisabled}
+              className="flex w-full items-center justify-center gap-3 text-xl font-bold transition active:scale-95 disabled:opacity-60"
+              style={{
+                color: theme.colors.primary,
+                minHeight: `${uiTokens.actionButtonHeight}px`,
+                fontFamily: theme.fonts.heading,
+              }}
+            >
+              <span>➕</span> {addLabel}
+            </button>
+          </div>
         </div>
       )}
-
-      <button
-        type="button"
-        onClick={onAdd}
-        disabled={addDisabled}
-        className="flex w-full items-center justify-center gap-3 rounded-3xl py-4 text-xl font-bold transition active:scale-95 disabled:opacity-60"
-        style={{
-          backgroundColor: theme.colors.surface,
-          color: theme.colors.primary,
-          border: `3px dashed ${theme.colors.primary}`,
-          minHeight: `${uiTokens.actionButtonHeight}px`,
-        }}
-      >
-        <span>➕</span> {addLabel}
-      </button>
     </div>
   )
 }

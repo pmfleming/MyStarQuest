@@ -8,6 +8,7 @@ import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import ActionButton from '../components/ActionButton'
+import StarInfoBox from '../components/StarInfoBox'
 import { uiTokens } from '../ui/tokens'
 
 // --- Assets ---
@@ -110,6 +111,7 @@ const DashboardPage = () => {
         <PageHeader
           title={selectedChild?.displayName || 'Explorer'}
           fontFamily={theme.fonts.heading}
+          marginBottom={uiTokens.doubleVerticalSpace}
           right={
             <>
               <TopIconButton
@@ -149,42 +151,15 @@ const DashboardPage = () => {
         />
 
         {/* Star Balance */}
-        <section
-          className="relative z-10 transform rounded-3xl p-6 text-center transition-transform hover:scale-[1.02]"
-          style={{
-            backgroundColor: theme.colors.surface,
-            boxShadow: `0 8px 0 ${theme.colors.accent}, 0 10px 30px -10px ${theme.colors.primary}40`,
-            border: `5px solid ${theme.colors.primary}`,
-            marginBottom: `${uiTokens.sectionGap}px`,
-          }}
-        >
-          <h2 className="mb-2 text-sm font-semibold tracking-[3px] uppercase opacity-70">
-            Your Stars
-          </h2>
-          <div className="flex items-center justify-center gap-3">
-            <span className="star-bounce text-[56px]">⭐</span>
-            <span
-              style={{
-                fontSize: '72px',
-                fontWeight: 900,
-                lineHeight: 1,
-                color: theme.colors.primary,
-                fontFamily: theme.fonts.heading,
-                textShadow:
-                  theme.id === 'space'
-                    ? `0 0 20px ${theme.colors.primary}80`
-                    : `2px 2px 0px ${theme.colors.accent}`,
-              }}
-            >
-              {selectedChild?.totalStars || 0}
-            </span>
-          </div>
-        </section>
+        <StarInfoBox
+          theme={theme}
+          totalStars={selectedChild?.totalStars || 0}
+        />
 
         {/* Main Actions */}
         <nav
           className="relative z-10 grid grid-cols-1"
-          style={{ gap: `${uiTokens.sectionGap}px` }}
+          style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
         >
           <ActionButton
             to="/settings/manage-tasks"

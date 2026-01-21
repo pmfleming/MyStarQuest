@@ -24,6 +24,7 @@ import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
 import {
   princessGiveStarIcon,
+  princessChoresIcon,
   princessHomeIcon,
 } from '../assets/themes/princess/assets'
 
@@ -267,21 +268,42 @@ const ManageTasksPage = () => {
   return (
     <PageShell theme={theme}>
       <PageHeader
-        title="Chores"
+        title={
+          editingId
+            ? editingId === 'new'
+              ? 'New Chore'
+              : editForm.title || 'Chore'
+            : 'Chores'
+        }
         fontFamily={theme.fonts.heading}
         right={
-          <TopIconButton
-            theme={theme}
-            to="/"
-            ariaLabel="Home"
-            icon={
-              <img
-                src={princessHomeIcon}
-                alt="Home"
-                className="h-10 w-10 object-contain"
-              />
-            }
-          />
+          editingId ? (
+            <TopIconButton
+              theme={theme}
+              onClick={cancelEdit}
+              ariaLabel="Chores"
+              icon={
+                <img
+                  src={princessChoresIcon}
+                  alt="Chores"
+                  className="h-10 w-10 object-contain"
+                />
+              }
+            />
+          ) : (
+            <TopIconButton
+              theme={theme}
+              to="/"
+              ariaLabel="Home"
+              icon={
+                <img
+                  src={princessHomeIcon}
+                  alt="Home"
+                  className="h-10 w-10 object-contain"
+                />
+              }
+            />
+          )
         }
       />
 
@@ -290,15 +312,9 @@ const ManageTasksPage = () => {
           className="mx-auto w-full"
           style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
         >
-          {children.length === 0 ? (
-            <div className="mt-10 flex flex-col items-center text-center opacity-70">
-              <span className="mb-4 text-6xl">👶</span>
-              <p className="text-2xl font-bold">No explorers yet!</p>
-            </div>
-          ) : (
-            // MAIN CONTENT CONTAINER
+          {editingId ? (
             <div className="flex flex-col gap-8">
-              {editingTask && (
+              {editingId !== 'new' && editingTask && (
                 <div
                   className="flex flex-col gap-4 rounded-3xl p-6"
                   style={{
@@ -432,7 +448,6 @@ const ManageTasksPage = () => {
                 </div>
               )}
 
-              {/* CREATE NEW TASK FORM */}
               {editingId === 'new' && (
                 <div
                   className="animate-in slide-in-from-bottom-5 fade-in flex flex-col gap-4 p-5 duration-300"
@@ -566,11 +581,17 @@ const ManageTasksPage = () => {
                   </div>
                 </div>
               )}
-
-              {/* Task List */}
+            </div>
+          ) : children.length === 0 ? (
+            <div className="mt-10 flex flex-col items-center text-center opacity-70">
+              <span className="mb-4 text-6xl">👶</span>
+              <p className="text-2xl font-bold">No explorers yet!</p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-8">
               <StandardActionList
                 theme={theme}
-                items={tasks.filter((task) => editingId !== task.id)}
+                items={tasks}
                 getKey={(task) => task.id}
                 renderItem={(task) => (
                   <div className="flex items-center justify-between gap-4">
@@ -610,8 +631,7 @@ const ManageTasksPage = () => {
                     />
                   ),
                   onClick: (task) => handleAwardTask(task),
-                  disabled: () =>
-                    isAwarding || editingId !== null || !activeChildId,
+                  disabled: () => isAwarding || !activeChildId,
                   variant: 'primary',
                   showLabel: false,
                 }}
@@ -619,7 +639,7 @@ const ManageTasksPage = () => {
                 onDelete={(task) => handleDelete(task.id)}
                 addLabel="New Chore"
                 onAdd={startCreate}
-                addDisabled={editingId !== null}
+                addDisabled={false}
                 emptyState={
                   <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
                     No chores yet.
