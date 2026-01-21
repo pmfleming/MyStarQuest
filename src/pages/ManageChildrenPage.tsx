@@ -20,6 +20,8 @@ import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
+import Carousel from '../components/Carousel'
+import ActionTextInput from '../components/ActionTextInput'
 import { getActionButtonStyle, uiTokens } from '../ui/tokens'
 import {
   princessActiveIcon,
@@ -29,6 +31,9 @@ import {
   princessSelectIcon,
   princessThemeIcon,
 } from '../assets/themes/princess/assets'
+import spaceThemeIcon from '../assets/themes/space/space.svg'
+import natureThemeIcon from '../assets/themes/nature/nature.svg'
+import cartoonThemeIcon from '../assets/themes/cartoon/cartoon.svg'
 
 const childSchema = z.object({
   displayName: z
@@ -203,10 +208,44 @@ const ManageChildrenPage = () => {
       image: princessThemeIcon,
       enabled: true,
     },
-    { id: 'space' as ThemeId, label: 'Space', image: '', enabled: false },
-    { id: 'nature' as ThemeId, label: 'Nature', image: '', enabled: false },
-    { id: 'cartoon' as ThemeId, label: 'Cartoon', image: '', enabled: false },
+    {
+      id: 'space' as ThemeId,
+      label: 'Space',
+      image: spaceThemeIcon,
+      enabled: true,
+    },
+    {
+      id: 'nature' as ThemeId,
+      label: 'Nature',
+      image: natureThemeIcon,
+      enabled: true,
+    },
+    {
+      id: 'cartoon' as ThemeId,
+      label: 'Cartoon',
+      image: cartoonThemeIcon,
+      enabled: true,
+    },
   ]
+
+  const enabledThemeOptions = themeOptions.filter((option) => option.enabled)
+  const carouselItems = enabledThemeOptions.map((option) => ({
+    id: option.id,
+    label: option.label,
+    icon: option.image ? (
+      <img
+        src={option.image}
+        alt={option.label}
+        style={{ width: '70px', height: '70px', objectFit: 'contain' }}
+      />
+    ) : (
+      <span className="text-sm font-bold opacity-70">Coming soon</span>
+    ),
+  }))
+  const selectedThemeIndex = Math.max(
+    0,
+    enabledThemeOptions.findIndex((option) => option.id === editForm.themeId)
+  )
 
   return (
     <PageShell theme={theme}>
@@ -256,7 +295,10 @@ const ManageChildrenPage = () => {
           style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
         >
           {editingId ? (
-            <div className="flex flex-col gap-6">
+            <div
+              className="flex flex-col"
+              style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+            >
               {(formErrors[editingId]?.length ?? 0) > 0 && (
                 <div className="rounded-2xl bg-red-500/20 p-4 text-center text-sm font-bold text-red-200">
                   {formErrors[editingId]?.map((err) => (
@@ -265,81 +307,45 @@ const ManageChildrenPage = () => {
                 </div>
               )}
 
-              <div className="space-y-3">
-                <label className="text-sm font-bold opacity-80">
-                  Child Name
-                </label>
-                <input
-                  type="text"
+              <div
+                className="flex flex-col"
+                style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+              >
+                <ActionTextInput
+                  theme={theme}
+                  label="Name"
                   value={editForm.displayName}
-                  onChange={(e) =>
+                  onChange={(value) =>
                     setEditForm((prev) => ({
                       ...prev,
-                      displayName: e.target.value,
+                      displayName: value,
                     }))
                   }
-                  className="w-full rounded-2xl border-none px-4 py-3 text-lg font-bold text-slate-900 focus:ring-4"
-                  style={{
-                    backgroundColor: '#FFF',
-                    minHeight: '60px',
-                  }}
                   placeholder="e.g. Star Captain"
                   maxLength={40}
+                  baseColor={theme.colors.primary}
+                  inputAriaLabel="Child name"
                 />
               </div>
 
-              <div className="space-y-3">
-                <label className="text-sm font-bold opacity-80">Theme</label>
-                <div className="grid grid-cols-2 gap-4">
-                  {themeOptions.map((option) => {
-                    const isSelected = editForm.themeId === option.id
-                    const isDisabled = !option.enabled
-                    return (
-                      <button
-                        key={option.id}
-                        type="button"
-                        disabled={isDisabled}
-                        onClick={() =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            themeId: option.id,
-                          }))
-                        }
-                        className={`flex flex-col items-center justify-center gap-2 rounded-3xl p-4 transition-all ${
-                          isSelected
-                            ? 'ring-4 ring-offset-2 ring-offset-slate-900'
-                            : 'opacity-70 hover:opacity-100'
-                        } ${isDisabled ? 'opacity-40' : ''}`}
-                        style={{
-                          minHeight: '140px',
-                          backgroundColor: isSelected
-                            ? theme.colors.primary
-                            : 'rgba(0,0,0,0.1)',
-                          border: `2px solid ${theme.colors.primary}`,
-                          color:
-                            isSelected && theme.id !== 'space'
-                              ? '#FFF'
-                              : 'inherit',
-                        }}
-                      >
-                        {option.image ? (
-                          <img
-                            src={option.image}
-                            alt={option.label}
-                            className="h-16 w-16 object-contain"
-                          />
-                        ) : (
-                          <span className="text-sm font-bold opacity-70">
-                            Coming soon
-                          </span>
-                        )}
-                        <span className="text-sm font-bold">
-                          {option.label}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
+              <div
+                className="flex flex-col"
+                style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+              >
+                <Carousel
+                  key={`${editingId}-${editForm.themeId}`}
+                  items={carouselItems}
+                  title="Select Theme"
+                  initialIndex={selectedThemeIndex}
+                  onChange={(index) => {
+                    const selected = enabledThemeOptions[index]
+                    if (!selected) return
+                    setEditForm((prev) => ({
+                      ...prev,
+                      themeId: selected.id,
+                    }))
+                  }}
+                />
               </div>
 
               <button

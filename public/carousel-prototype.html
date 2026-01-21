@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odette Princess Carousel</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* --- GLOBAL & PAGE STYLES --- */
+    body {
+      margin: 0;
+      background-color: #222;
+      font-family: 'Georgia', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .phone-wrapper {
+      background-color: #1a1b26;
+      padding: 20px;
+      border-radius: 40px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .phone-screen {
+      background-color: #fff0f5; /* Lavender Blush */
+      width: 320px;
+      height: 600px;
+      border-radius: 30px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* --- HEADER --- */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .main-title {
+      color: #800040;
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    .header-icons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon-bubble {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: #ff69b4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 0 10px #ff69b4;
+      border: 2px solid white;
+      cursor: pointer;
+    }
+
+    /* --- FOOTER BUTTONS --- */
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: auto;
+    }
+
+    .action-btn {
+      width: 100%;
+      height: 60px;
+      border-radius: 30px;
+      border: none;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      color: white;
+      font-family: 'Georgia', serif;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .purple-btn {
+      background: linear-gradient(to right, #9c4dcc, #b388ff);
+      border-bottom: 4px solid #7b1fa2;
+    }
+
+    .pink-btn {
+      background: linear-gradient(to right, #ec407a, #f48fb1);
+      border-bottom: 4px solid #c2185b;
+    }
+
+    .btn-icon { margin-right: 15px; font-size: 1.5rem; }
+    .btn-text { flex: 1; text-align: left; }
+    .btn-arrow { font-family: monospace; }
+
+    /* --- COMPONENT: CAROUSEL STYLES --- */
+    .carousel-card {
+      background: linear-gradient(180deg, #ffe4ef 0%, #ffd6e7 100%);
+      border: 6px solid #ff69b4;
+      padding: 14px 10px 18px;
+      text-align: center;
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      margin-bottom: 10px;
+    }
+
+    .carousel-title {
+      color: #a0522d;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+
+    .carousel-stage {
+      position: relative;
+      width: 100%;
+      height: 190px; /* Tall enough for scale(1.3) + shadow */
+      display: flex;
+      align-items: center;
+      justify-content: center; /* Center the track */
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      align-items: center;
+      gap: 16px; /* Matches GAP constant in JS */
+      will-change: transform;
+    }
+
+    .carousel-item {
+      width: 90px;
+      height: 90px;
+      background: #fff;
+      border: 4px solid #ff69b4;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      flex-shrink: 0;
+      
+      /* NEIGHBOR STATE (Default) */
+      transform: scale(0.9);
+      opacity: 0.7;
+      transition: transform 0.35s ease, opacity 0.35s ease, border-color 0.35s;
+      z-index: 1;
+    }
+
+    /* ACTIVE CENTER STATE */
+    .carousel-item.active {
+      transform: scale(1.3);
+      opacity: 1;
+      z-index: 10;
+      border-color: #d81b60;
+      box-shadow: 0 10px 20px rgba(255, 105, 180, 0.3);
+    }
+
+    .carousel-icon {
+      font-size: 3.5rem;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .carousel-label {
+      margin-top: 10px;
+      color: #d81b60;
+      font-family: sans-serif;
+      font-weight: bold;
+      font-size: 1rem;
+      min-height: 1.2em;
+    }
+
+    /* ARROWS */
+    .arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #ff69b4;
+      border: 3px solid #ffb6d5;
+      color: #fff;
+      font-size: 2rem;
+      width: 40px;
+      height: 56px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+      z-index: 20;
+    }
+    .arrow-btn:active { transform: translateY(-50%) scale(0.95); }
+    .arrow-btn.left { left: 4px; }
+    .arrow-btn.right { right: 4px; }
+  </style>
+</head>
+<body>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // --- DATA ---
+    const ITEMS = [
+      { id: 1, label: 'Royal Crown', icon: '👑' },
+      { id: 2, label: 'Magic Castle', icon: '🏰' },
+      { id: 3, label: 'Crystal Shoe', icon: '👠' },
+      { id: 4, label: 'Fairy Wand', icon: '🪄' },
+      { id: 5, label: 'Love Potion', icon: '🧪' },
+    ];
+
+    // --- CAROUSEL COMPONENT ---
+    const PrincessCarousel = ({ items }) => {
+      const ITEM_SIZE = 90; 
+      const GAP = 16;
+      const SLIDE_DISTANCE = ITEM_SIZE + GAP;
+
+      const [currentIndex, setCurrentIndex] = useState(0);
+      const [isAnimating, setIsAnimating] = useState(false);
+      const [slideOffset, setSlideOffset] = useState(0);
+
+      // Helper functions for circular navigation
+      const getPrevIndex = (i) => (i === 0 ? items.length - 1 : i - 1);
+      const getNextIndex = (i) => (i === items.length - 1 ? 0 : i + 1);
+
+      // Create a window of 3 items: [Left, Center, Right]
+      const visibleItems = [
+        items[getPrevIndex(currentIndex)],
+        items[currentIndex],
+        items[getNextIndex(currentIndex)],
+      ];
+
+      const handleNext = () => {
+        if (isAnimating) return;
+        setIsAnimating(true);
+        // Move track LEFT to reveal next item
+        setSlideOffset(-SLIDE_DISTANCE);
+
+        setTimeout(() => {
+          setIsAnimating(false);
+          setSlideOffset(0); // Snap back to center
+          setCurrentIndex(getNextIndex(currentIndex)); // Update data
+        }, 350);
+      };
+
+      const handlePrev = () => {
+        if (isAnimating) return;
+        setIsAnimating(true);
+        // Move track RIGHT to reveal prev item
+        setSlideOffset(SLIDE_DISTANCE);
+
+        setTimeout(() => {
+          setIsAnimating(false);
+          setSlideOffset(0); // Snap back to center
+          setCurrentIndex(getPrevIndex(currentIndex)); // Update data
+        }, 350);
+      };
+
+      return (
+        <div className="carousel-card">
+          <div className="carousel-title">Select Your Item</div>
+
+          <div className="carousel-stage">
+            <button className="arrow-btn left" onClick={handlePrev}>‹</button>
+
+            <div
+              className="carousel-track"
+              style={{
+                transform: `translateX(${slideOffset}px)`,
+                transition: isAnimating ? 'transform 0.35s ease-out' : 'none',
+              }}
+            >
+              {visibleItems.map((item, index) => {
+                // The item at index 1 is always the center item in our window
+                const isCenter = index === 1;
+                return (
+                  <div
+                    key={`${item.id}-${index}`} 
+                    className={`carousel-item ${isCenter ? 'active' : ''}`}
+                    onClick={() => {
+                        // Optional: Click neighbors to navigate
+                        if (index === 0) handlePrev();
+                        if (index === 2) handleNext();
+                    }}
+                  >
+                    <span className="carousel-icon">{item.icon}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button className="arrow-btn right" onClick={handleNext}>›</button>
+          </div>
+
+          <div className="carousel-label">
+            {items[currentIndex].label}
+          </div>
+        </div>
+      );
+    };
+
+    // --- MAIN APP ---
+    const App = () => {
+      return (
+        <div className="phone-wrapper">
+          <div className="phone-screen">
+            
+            {/* Header */}
+            <div className="header">
+              <h1 className="main-title">Odette</h1>
+              <div className="header-icons">
+                <div className="icon-bubble">🤴</div>
+                <div className="icon-bubble">✨</div>
+              </div>
+            </div>
+
+            {/* Carousel */}
+            <PrincessCarousel items={ITEMS} />
+
+            {/* Footer Buttons */}
+            <div className="action-buttons">
+              <button className="action-btn purple-btn">
+                <span className="btn-icon">🧰</span>
+                <span className="btn-text">Chores</span>
+                <span className="btn-arrow">→</span>
+              </button>
+
+              <button className="action-btn pink-btn">
+                <span className="btn-icon">🍬</span>
+                <span className="btn-text">Rewards</span>
+                <span className="btn-arrow">→</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
