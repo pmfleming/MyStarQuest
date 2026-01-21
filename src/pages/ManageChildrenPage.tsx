@@ -22,7 +22,8 @@ import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import Carousel from '../components/Carousel'
 import ActionTextInput from '../components/ActionTextInput'
-import { getActionButtonStyle, uiTokens } from '../ui/tokens'
+import ActionButton from '../components/ActionButton'
+import { uiTokens } from '../ui/tokens'
 import {
   princessActiveIcon,
   princessChildrenIcon,
@@ -348,33 +349,20 @@ const ManageChildrenPage = () => {
                 />
               </div>
 
-              <button
-                type="button"
+              <ActionButton
+                theme={theme}
+                color={theme.colors.primary}
+                label={isSubmitting ? 'Saving...' : 'Save'}
+                icon={
+                  <img
+                    src={princessSaveIcon}
+                    alt="Save"
+                    className="h-12 w-12 object-contain"
+                  />
+                }
                 onClick={() => saveProfile(editingId)}
                 disabled={isSubmitting}
-                className="active:scale-95 disabled:opacity-70"
-                style={getActionButtonStyle(theme, theme.colors.primary)}
-              >
-                <span className="flex items-center gap-4">
-                  <span
-                    className="flex items-center justify-center"
-                    style={{
-                      fontSize: `${uiTokens.actionButtonIconSize}px`,
-                      width: `${uiTokens.actionButtonIconSize}px`,
-                      height: `${uiTokens.actionButtonIconSize}px`,
-                      lineHeight: 1,
-                      flexShrink: 0,
-                    }}
-                  >
-                    <img
-                      src={princessSaveIcon}
-                      alt="Save"
-                      className="h-12 w-12 object-contain"
-                    />
-                  </span>
-                  <span>{isSubmitting ? 'Saving...' : 'Save'}</span>
-                </span>
-              </button>
+              />
             </div>
           ) : (
             <StandardActionList

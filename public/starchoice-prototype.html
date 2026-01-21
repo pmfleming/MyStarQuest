@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Star Choice Prototype</title>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* --- CSS STYLES --- */
+
+    /* Variables for easy theming */
+    :root {
+      --star-size: 48px;
+      --star-color-inactive: #e2e8f0; /* Light Gray */
+      --star-color-active: #fbbf24;   /* Warm Gold */
+      --star-color-hover: #fcd34d;    /* Lighter Gold */
+      --bg-color: #f8fafc;
+      --text-color: #334155;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text-color);
+    }
+
+    .app-container {
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      font-weight: 600;
+    }
+
+    .star-rating-container {
+      display: inline-flex;
+      gap: 12px;
+      padding: 24px 32px;
+      background-color: #fff;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.02);
+    }
+
+    /* The clickable button wrapper */
+    .star-button {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      outline: none;
+      transition: transform 0.2s ease;
+      width: var(--star-size);
+      height: var(--star-size);
+      /* Remove tap highlight on mobile */
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Hover effect for the button */
+    .star-button:hover {
+      transform: translateY(-3px);
+    }
+
+    /* The SVG Icon */
+    .star-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      transition: fill 0.3s ease, filter 0.3s ease;
+    }
+
+    /* --- STATES --- */
+
+    /* Inactive (Gray) */
+    .star-svg.inactive {
+      fill: var(--star-color-inactive);
+      filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.05));
+    }
+
+    /* Active (Gold) */
+    .star-svg.active {
+      fill: var(--star-color-active);
+      filter: drop-shadow(0px 0px 6px rgba(251, 191, 36, 0.6));
+      /* Trigger the pop animation */
+      animation: popScale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    /* Hover State within the container */
+    .star-button:hover .star-svg.inactive {
+       fill: var(--star-color-hover);
+    }
+
+    /* Feedback Text */
+    .feedback-text {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #64748b;
+      min-height: 24px; /* Prevent layout jump */
+      transition: opacity 0.3s ease;
+    }
+
+    /* --- ANIMATION KEYFRAMES --- */
+    @keyframes popScale {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.35); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // --- COMPONENT: Star Icon (SVG) ---
+    const StarIcon = ({ isActive }) => {
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          className={`star-svg ${isActive ? 'active' : 'inactive'}`}
+        >
+          {/* Rounded Star Path for softer look */}
+          <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" />
+        </svg>
+      );
+    };
+
+    // --- COMPONENT: Star Input Logic ---
+    const StarRatingInput = () => {
+      const [rating, setRating] = useState(0);
+      const starIds = [1, 2, 3];
+
+      const handleStarClick = (selectedRating) => {
+        // Toggle off if clicking the current rating
+        if (selectedRating === rating) {
+            setRating(0);
+        } else {
+            setRating(selectedRating);
+        }
+      };
+
+      // Helper text logic
+      const getFeedbackText = () => {
+        if (rating === 0) return "Tap a star to rate";
+        if (rating === 1) return "Needs improvement";
+        if (rating === 2) return "Good job!";
+        if (rating === 3) return "Perfect score!";
+      };
+
+      return (
+        <div className="app-container">
+          <h2>How was your experience?</h2>
+
+          <div 
+            className="star-rating-container" 
+            role="radiogroup" 
+            aria-label="Rating input"
+          >
+            {starIds.map((starId) => {
+              const isActive = starId <= rating;
+              
+              return (
+                <button
+                  key={starId}
+                  type="button"
+                  className="star-button"
+                  onClick={() => handleStarClick(starId)}
+                  aria-checked={starId === rating}
+                  role="radio"
+                  aria-label={`${starId} Stars`}
+                >
+                  <StarIcon isActive={isActive} />
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="feedback-text">
+            {getFeedbackText()}
+          </div>
+        </div>
+      );
+    };
+
+    // --- RENDER ---
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<StarRatingInput />);
+  </script>
+
+</body>
+</html>

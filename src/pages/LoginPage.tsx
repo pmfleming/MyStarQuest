@@ -4,7 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
+import ActionButton from '../components/ActionButton'
 import { uiTokens } from '../ui/tokens'
+import googleIcon from '../assets/global/google.svg'
 
 const LoginPage = () => {
   const { user, loading, loginWithGoogle } = useAuth()
@@ -97,26 +99,30 @@ const LoginPage = () => {
               </div>
             )}
 
-            <button
-              type="button"
+            <ActionButton
+              theme={theme}
+              color={theme.colors.primary}
+              label={
+                isLoggingIn
+                  ? 'Signing in...'
+                  : loading
+                    ? 'Loading...'
+                    : 'Google Account'
+              }
+              icon={
+                <img
+                  src={googleIcon}
+                  alt="Google"
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    objectFit: 'contain',
+                  }}
+                />
+              }
               onClick={handleLogin}
-              className="flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-lg font-semibold transition hover:opacity-90 focus:outline-none focus-visible:ring"
-              style={{
-                minHeight: '72px',
-                backgroundColor: theme.colors.primary,
-                color: theme.id === 'space' ? '#000' : '#FFF',
-                boxShadow: `0 0 20px ${theme.colors.primary}55`,
-              }}
               disabled={isBusy}
-            >
-              {isLoggingIn ? (
-                <span>Signing in...</span>
-              ) : loading ? (
-                <span>Loading...</span>
-              ) : (
-                <span>Sign in with Google</span>
-              )}
-            </button>
+            />
           </>
         )}
       </section>

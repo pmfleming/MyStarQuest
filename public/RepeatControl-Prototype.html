@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repeat Control Prototype</title>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* --- CSS STYLES --- */
+    
+    /* Shared Theme Variables (Matching Star Component) */
+    :root {
+      --control-size: 60px;
+      --icon-size: 28px;
+      --inactive-color: #e2e8f0; /* Light Gray */
+      --active-color: #6366f1;   /* Indigo */
+      --active-bg: #e0e7ff;      /* Light Indigo BG */
+      --bg-color: #f8fafc;
+      --text-color: #334155;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text-color);
+    }
+
+    .app-container {
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+
+    /* The Main Card Container */
+    .control-container {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 40px;
+      background-color: #fff;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.02);
+      min-width: 200px;
+    }
+
+    /* The Toggle Button (Styled like the Star buttons but larger) */
+    .repeat-button {
+      background: none;
+      border: 4px solid var(--inactive-color);
+      padding: 0;
+      cursor: pointer;
+      outline: none;
+      width: var(--control-size);
+      height: var(--control-size);
+      border-radius: 50%; /* Circle shape */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .repeat-button:hover {
+      transform: scale(1.05);
+      border-color: #cbd5e1;
+    }
+
+    /* Active State for the Button Container */
+    .repeat-button.active {
+      border-color: var(--active-color);
+      background-color: var(--active-bg);
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+    }
+
+    /* The Icon SVG */
+    .icon-svg {
+      width: var(--icon-size);
+      height: var(--icon-size);
+      stroke: var(--inactive-color);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transition: all 0.4s ease;
+    }
+
+    /* Icon Animation States */
+    .repeat-button.active .icon-svg {
+      stroke: var(--active-color);
+      /* Rotate animation when active */
+      transform: rotate(180deg); 
+    }
+
+    /* Feedback Text */
+    .feedback-text {
+      margin-top: 24px;
+      font-size: 1rem;
+      color: #64748b;
+      min-height: 24px;
+      font-weight: 500;
+      transition: opacity 0.3s ease;
+    }
+    
+    .status-label {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // --- COMPONENT: Repeat Icon (SVG) ---
+    const RepeatIcon = () => (
+      <svg viewBox="0 0 24 24" className="icon-svg">
+        <polyline points="17 1 21 5 17 9"></polyline>
+        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+        <polyline points="7 23 3 19 7 15"></polyline>
+        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+      </svg>
+    );
+
+    // --- MAIN COMPONENT ---
+    const RepeatControl = () => {
+      const [isRepeating, setIsRepeating] = useState(false);
+
+      const toggleRepeat = () => {
+        setIsRepeating(!isRepeating);
+      };
+
+      return (
+        <div className="app-container">
+          <h2>Repeat Chore?</h2>
+
+          <div className="control-container">
+            <button 
+              className={`repeat-button ${isRepeating ? 'active' : ''}`}
+              onClick={toggleRepeat}
+              aria-pressed={isRepeating}
+              aria-label="Toggle Repeat"
+            >
+              <RepeatIcon />
+            </button>
+          </div>
+
+          <div className="feedback-text">
+            {isRepeating ? "Yes, repeat this chore" : "No, one-time only"}
+            <span className="status-label">
+              {isRepeating ? "Active" : "Off"}
+            </span>
+          </div>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<RepeatControl />);
+  </script>
+
+</body>
+</html>

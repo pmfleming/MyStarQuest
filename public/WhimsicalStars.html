@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whimsical Stars - Slower Gather</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    /* --- CSS RESET --- */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fdf2f8;
+      font-family: 'Georgia', serif;
+      overflow: hidden;
+    }
+
+    /* --- VARIABLES --- */
+    :root {
+      /* Increased duration to match the explosion feel */
+      --gather-duration: 3.6s;
+      --primary-color: #db2777;
+    }
+
+    /* --- ANIMATIONS --- */
+    
+    /* 1. Explosion Entrance */
+    @keyframes swarm-out {
+      from { opacity: 1; transform: scale(0.1) translate(0,0) rotate(0deg); }
+      to { opacity: 1; transform: scale(1) translate(var(--tx), var(--ty)) rotate(var(--rot)); }
+    }
+
+    /* 2. The Final Number Reveal */
+    @keyframes reveal-pop {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+      60% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+
+    /* 3. The Hero Star Pulse */
+    @keyframes pulse-soft {
+      0%, 100% { filter: drop-shadow(0 0 10px rgba(219, 39, 119, 0.5)); transform: scale(1); }
+      50% { filter: drop-shadow(0 0 25px rgba(219, 39, 119, 0.8)); transform: scale(1.05); }
+    }
+
+    /* --- COMPONENT STYLES --- */
+    
+    .visualizer-container {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    /* --- MINI STARS --- */
+    .mini-star-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        margin-left: -10px;
+        /* All animation controlled via inline styles from React */
+    }
+
+    /* --- THE HERO STAR --- */
+    .hero-star-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 150px;
+        height: 150px;
+        margin-top: -75px;
+        margin-left: -75px;
+        z-index: 10;
+        /* All animation controlled via inline styles from React */
+    }
+
+    .star-svg-element {
+        width: 100%;
+        height: 100%;
+        display: block;
+        fill: var(--primary-color);
+    }
+
+    /* The Final Number */
+    .result-number {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      font-size: 52px;
+      font-weight: 900;
+      color: white; 
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+      animation: reveal-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    /* --- INPUT CONTROL STYLES --- */
+    .input-wrapper {
+      background: white;
+      padding: 8px;
+      border-radius: 16px; 
+      display: flex;
+      gap: 10px;
+      box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1);
+      width: 220px;
+    }
+    .star-input {
+      width: 100%; border: none; font-size: 1.5rem; font-weight: bold; text-align: center; color: #333; outline: none;
+    }
+    .star-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .go-btn {
+      border: none; color: white; font-weight: bold; border-radius: 8px; padding: 0 20px; cursor: pointer; font-size: 1rem; transition: transform 0.1s;
+    }
+    .go-btn:active { transform: scale(0.95); }
+    .go-btn:disabled { opacity: 0.5; cursor: default; }
+
+  </style>
+</head>
+<body>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useMemo, useRef } = React;
+
+    const THEME = {
+      primary: '#db2777',
+      border: '#be185d',
+    };
+
+    const EXPLOSION_DURATION = 1500;  // ms for stars to explode outward
+    const GATHER_DURATION = 2000;     // ms for stars to congeal back
+    const PAUSE_DURATION = 600;       // ms pause between explosion and gather
+
+    const STAR_PATH = "M12 0L14.59 8.06L23.05 8.06L16.23 13.05L18.82 21.11L12 16.12L5.18 21.11L7.77 13.05L0.95 8.06L9.41 8.06L12 0Z";
+    
+    const StarSvg = () => (
+        <svg className="star-svg-element" viewBox="0 0 24 24">
+            <path d={STAR_PATH} />
+        </svg>
+    );
+
+    // Individual star component that manages its own animation state
+    const MiniStar = ({ targetPos, starState, index }) => {
+      // starState: 'hidden' | 'exploding' | 'exploded' | 'gathering' | 'gathered'
+      
+      const getTransform = () => {
+        switch (starState) {
+          case 'hidden':
+            return 'translate(0px, 0px) scale(0)';
+          case 'exploding':
+          case 'exploded':
+            return `translate(${targetPos.x}px, ${targetPos.y}px) rotate(${targetPos.rot}deg) scale(1)`;
+          case 'gathering':
+          case 'gathered':
+            return 'translate(0px, 0px) scale(0)';
+          default:
+            return 'translate(0px, 0px) scale(0)';
+        }
+      };
+
+      const getTransition = () => {
+        switch (starState) {
+          case 'hidden':
+            return 'none';
+          case 'exploding':
+            // Explosion: fast start, ease out
+            return `transform ${EXPLOSION_DURATION}ms cubic-bezier(0.16, 1, 0.3, 1)`;
+          case 'exploded':
+            return 'none';
+          case 'gathering':
+            // Gathering: slow start, accelerate into center (magnetic effect)
+            return `transform ${GATHER_DURATION}ms cubic-bezier(0.7, 0, 0.3, 1)`;
+          case 'gathered':
+            return 'none';
+          default:
+            return 'none';
+        }
+      };
+
+      const getOpacity = () => {
+        return starState === 'hidden' || starState === 'gathered' ? 0 : 1;
+      };
+
+      return (
+        <div 
+          className="mini-star-wrapper"
+          style={{
+            transform: getTransform(),
+            transition: getTransition(),
+            opacity: getOpacity(),
+            transitionDelay: starState === 'exploding' ? `${index * 15}ms` : `${index * 10}ms`,
+          }}
+        >
+          <StarSvg />
+        </div>
+      );
+    };
+
+    const App = () => {
+      const [inputValue, setInputValue] = useState(25);
+      const [targetCount, setTargetCount] = useState(0);
+      const [starStates, setStarStates] = useState([]); // Array of states for each star
+      const [heroState, setHeroState] = useState('hidden'); // 'hidden' | 'growing' | 'pulsing'
+      const [showResult, setShowResult] = useState(false);
+      const [isRunning, setIsRunning] = useState(false);
+      
+      const starsSpawnedRef = useRef(0);
+
+      const starPositions = useMemo(() => {
+        return Array.from({ length: 80 }, (_, i) => {
+          const angle = i * 137.5; 
+          const radius = 60 + (i * 2.5);
+          return {
+            x: Math.cos(angle * Math.PI / 180) * radius,
+            y: Math.sin(angle * Math.PI / 180) * radius,
+            rot: Math.random() * 360,
+          };
+        });
+      }, []);
+
+      const handleGo = (e) => {
+        e.preventDefault();
+        const num = parseInt(inputValue);
+        if (!num || num <= 0 || isRunning) return;
+        
+        setIsRunning(true);
+        setShowResult(false);
+        setHeroState('hidden');
+        setTargetCount(num);
+        starsSpawnedRef.current = 0;
+        
+        const visualCount = Math.min(num, 80);
+        
+        // Initialize all stars as hidden
+        setStarStates(Array(visualCount).fill('hidden'));
+        
+        // Phase 1: Spawn stars one by one (they explode outward)
+        const spawnInterval = setInterval(() => {
+          starsSpawnedRef.current += 1;
+          const spawned = starsSpawnedRef.current;
+          
+          setStarStates(prev => {
+            const next = [...prev];
+            if (spawned <= visualCount) {
+              next[spawned - 1] = 'exploding';
+            }
+            return next;
+          });
+          
+          if (spawned >= visualCount) {
+            clearInterval(spawnInterval);
+            
+            // After explosion animation completes, mark as exploded
+            setTimeout(() => {
+              setStarStates(Array(visualCount).fill('exploded'));
+              
+              // Phase 2: After pause, start gathering
+              setTimeout(() => {
+                setStarStates(Array(visualCount).fill('gathering'));
+                setHeroState('growing');
+                
+                // Phase 3: After gather completes, finish
+                setTimeout(() => {
+                  setStarStates(Array(visualCount).fill('gathered'));
+                  setHeroState('pulsing');
+                  setShowResult(true);
+                  setIsRunning(false);
+                }, GATHER_DURATION + 200);
+                
+              }, PAUSE_DURATION);
+              
+            }, EXPLOSION_DURATION);
+          }
+        }, 40); // Spawn rate
+        
+        return () => clearInterval(spawnInterval);
+      };
+
+      return (
+        <div className="flex flex-col items-center">
+
+          {/* VISUALIZER */}
+          <div className="visualizer-container">
+            
+            {/* Mini Stars */}
+            {starStates.map((state, i) => (
+              <MiniStar 
+                key={i}
+                index={i}
+                targetPos={starPositions[i]}
+                starState={state}
+              />
+            ))}
+
+            {/* Hero Star */}
+            <div 
+              className="hero-star-container"
+              style={{
+                opacity: heroState === 'hidden' ? 0 : 1,
+                transform: heroState === 'hidden' ? 'scale(0.1)' : 'scale(1)',
+                transition: heroState === 'growing' 
+                  ? `opacity 0.1s, transform ${GATHER_DURATION}ms cubic-bezier(0.7, 0, 0.3, 1)`
+                  : 'none',
+                animation: heroState === 'pulsing' ? 'pulse-soft 3s infinite ease-in-out' : 'none',
+              }}
+            >
+               <StarSvg />
+            </div>
+
+            {/* Result Number */}
+            {showResult && (
+              <div className="result-number">
+                {targetCount}
+              </div>
+            )}
+            
+          </div>
+
+          {/* CONTROLS */}
+          <form onSubmit={handleGo} className="input-wrapper" style={{ border: `4px solid ${THEME.border}` }}>
+            <input 
+              type="number" 
+              className="star-input"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              min="1" max="999"
+            />
+            <button 
+              type="submit" 
+              className="go-btn"
+              style={{ backgroundColor: THEME.primary }}
+              disabled={isRunning}
+            >
+              GO
+            </button>
+          </form>
+
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

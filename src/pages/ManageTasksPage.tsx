@@ -21,19 +21,19 @@ import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
+import StarCost from '../components/StarCost'
+import ActionTextInput from '../components/ActionTextInput'
+import ActionButton from '../components/ActionButton'
+import RepeatControl from '../components/RepeatControl'
 import { uiTokens } from '../ui/tokens'
 import {
   princessGiveStarIcon,
   princessChoresIcon,
   princessHomeIcon,
+  princessSaveIcon,
 } from '../assets/themes/princess/assets'
 
 // --- Types & Schema ---
-type ChildSummary = {
-  id: string
-  displayName: string
-}
-
 type TaskRecord = {
   id: string
   title: string
@@ -64,7 +64,6 @@ const ManageTasksPage = () => {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
-  const [children, setChildren] = useState<ChildSummary[]>([])
   const [tasks, setTasks] = useState<TaskRecord[]>([])
   const [editingId, setEditingId] = useState<string | null>(null)
 
@@ -83,24 +82,9 @@ const ManageTasksPage = () => {
   // --- Data Fetching ---
   useEffect(() => {
     if (!user) {
-      setChildren([])
       setTasks([])
       return
     }
-
-    const childQuery = query(
-      collection(db, 'users', user.uid, 'children'),
-      orderBy('createdAt', 'asc')
-    )
-
-    const unsubscribeChildren = onSnapshot(childQuery, (snapshot) => {
-      setChildren(
-        snapshot.docs.map((docSnapshot) => ({
-          id: docSnapshot.id,
-          displayName: docSnapshot.data().displayName ?? 'Unnamed child',
-        }))
-      )
-    })
 
     const taskQuery = query(
       collection(db, 'users', user.uid, 'tasks'),
@@ -125,7 +109,6 @@ const ManageTasksPage = () => {
     })
 
     return () => {
-      unsubscribeChildren()
       unsubscribeTasks()
     }
   }, [user])
@@ -133,7 +116,7 @@ const ManageTasksPage = () => {
   // --- Actions ---
   const startEdit = (task: TaskRecord) => {
     setEditingId(task.id)
-    setEditForm({ ...task })
+    setEditForm({ ...task, childId: activeChildId || task.childId })
     setFormErrors({})
   }
 
@@ -154,7 +137,7 @@ const ManageTasksPage = () => {
     setEditingId(null)
     setEditForm({
       title: '',
-      childId: '',
+      childId: activeChildId || '',
       category: '',
       starValue: 1,
       isRepeating: false,
@@ -165,7 +148,10 @@ const ManageTasksPage = () => {
   const saveTask = async (id: string) => {
     if (!user) return
 
-    const parsed = taskSchema.safeParse(editForm)
+    const parsed = taskSchema.safeParse({
+      ...editForm,
+      childId: activeChildId || editForm.childId,
+    })
 
     if (!parsed.success) {
       setFormErrors({
@@ -240,22 +226,6 @@ const ManageTasksPage = () => {
     }
   }
 
-  const isDarkTheme = theme.id === 'space'
-
-  // --- Styles ---
-  const actionBtnStyle = {
-    fontFamily: '"Fredoka", sans-serif',
-    height: `${uiTokens.actionButtonHeight}px`,
-    fontSize: `${uiTokens.actionButtonFontSize}px`,
-    fontWeight: 700,
-    borderRadius: `${uiTokens.actionButtonRadius}px`,
-    borderWidth: '3px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'transform 0.15s ease',
-  }
-
   // Large Prototype Font Style
   const unifiedFontStyle =
     "font-['Fredoka'] text-[28px] font-bold leading-tight"
@@ -313,16 +283,14 @@ const ManageTasksPage = () => {
           style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
         >
           {editingId ? (
-            <div className="flex flex-col gap-8">
+            <div
+              className="flex flex-col"
+              style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+            >
               {editingId !== 'new' && editingTask && (
                 <div
-                  className="flex flex-col gap-4 rounded-3xl p-6"
-                  style={{
-                    backgroundColor: theme.colors.surface,
-                    border: `4px solid ${theme.colors.primary}`,
-                    boxShadow: `0 0 18px ${theme.colors.primary}66`,
-                    color: theme.colors.text,
-                  }}
+                  className="flex flex-col"
+                  style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
                 >
                   {formErrors[editingTask.id] && (
                     <div className="rounded-xl bg-red-100 p-3 text-center text-lg font-bold text-red-600">
@@ -330,133 +298,76 @@ const ManageTasksPage = () => {
                     </div>
                   )}
 
-                  <input
-                    type="text"
+                  <ActionTextInput
+                    theme={theme}
+                    label="Chore"
                     value={editForm.title}
-                    onChange={(e) =>
+                    onChange={(value) =>
                       setEditForm((prev) => ({
                         ...prev,
-                        title: e.target.value,
+                        title: value,
                       }))
                     }
                     placeholder="Chore Name"
-                    className={`w-full border-b-4 bg-transparent outline-none ${unifiedFontStyle}`}
-                    style={{
-                      borderColor: theme.colors.primary,
-                      color: theme.colors.text,
-                    }}
+                    maxLength={80}
+                    baseColor={theme.colors.primary}
+                    inputAriaLabel="Chore name"
                   />
 
-                  <select
-                    value={editForm.childId}
-                    onChange={(e) =>
+                  {!activeChildId && (
+                    <div className="rounded-xl bg-black/10 p-3 text-center text-lg font-bold">
+                      Select a child on the dashboard to assign chores.
+                    </div>
+                  )}
+
+                  <StarCost
+                    theme={theme}
+                    value={editForm.starValue}
+                    onChange={(nextValue) =>
                       setEditForm((prev) => ({
                         ...prev,
-                        childId: e.target.value,
+                        starValue: (nextValue || 1) as 1 | 2 | 3,
                       }))
                     }
-                    className={`w-full border-b-4 bg-transparent outline-none ${unifiedFontStyle}`}
-                    style={{
-                      borderColor: theme.colors.primary,
-                      color: theme.colors.text,
-                    }}
-                  >
-                    <option value="">Select Child</option>
-                    {children.map((child) => (
-                      <option key={child.id} value={child.id}>
-                        {child.displayName}
-                      </option>
-                    ))}
-                  </select>
+                    maxStars={3}
+                    showLabel={false}
+                    showFeedback={false}
+                  />
 
-                  <div className="flex gap-2 py-2">
-                    {[1, 2, 3].map((val) => (
-                      <button
-                        key={val}
-                        type="button"
-                        onClick={() =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            starValue: val as 1 | 2 | 3,
-                          }))
-                        }
-                        className={`flex flex-1 items-center justify-center rounded-xl border-4 py-2 text-xl font-bold transition-transform active:scale-95 ${
-                          editForm.starValue === val
-                            ? 'scale-105 opacity-100'
-                            : 'opacity-50'
-                        }`}
-                        style={{
-                          borderColor: theme.colors.primary,
-                          backgroundColor:
-                            editForm.starValue === val
-                              ? theme.colors.primary
-                              : 'transparent',
-                          color: theme.colors.text,
-                          minHeight: '60px',
-                        }}
-                      >
-                        {'⭐'.repeat(val)}
-                      </button>
-                    ))}
-                  </div>
+                  <RepeatControl
+                    theme={theme}
+                    value={editForm.isRepeating}
+                    onChange={(nextValue) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        isRepeating: nextValue,
+                      }))
+                    }
+                    showLabel={false}
+                    showFeedback={false}
+                  />
 
-                  <label className="flex items-center gap-3">
-                    <input
-                      type="checkbox"
-                      checked={editForm.isRepeating}
-                      onChange={(e) =>
-                        setEditForm((prev) => ({
-                          ...prev,
-                          isRepeating: e.target.checked,
-                        }))
-                      }
-                      className="h-8 w-8 accent-current"
-                      style={{ color: theme.colors.primary }}
-                    />
-                    <span className={unifiedFontStyle}>Repeating 🔄</span>
-                  </label>
-
-                  <div className="mt-2 flex gap-3">
-                    <button
-                      onClick={() => saveTask(editingTask.id)}
-                      disabled={isSubmitting}
-                      style={{
-                        ...actionBtnStyle,
-                        backgroundColor: theme.colors.primary,
-                        borderColor: theme.colors.accent,
-                        color: isDarkTheme ? '#000' : '#FFF',
-                        flex: 1,
-                      }}
-                      className="active:translate-y-1 active:shadow-none"
-                    >
-                      <span className="mr-2 text-2xl">✅</span> Save
-                    </button>
-                    <button
-                      onClick={cancelEdit}
-                      style={{
-                        ...actionBtnStyle,
-                        backgroundColor: theme.colors.bg,
-                        borderColor: theme.colors.accent,
-                        color: theme.colors.text,
-                        flex: 1,
-                      }}
-                      className="active:translate-y-1 active:shadow-none"
-                    >
-                      Cancel
-                    </button>
-                  </div>
+                  <ActionButton
+                    theme={theme}
+                    color={theme.colors.primary}
+                    label="Save"
+                    icon={
+                      <img
+                        src={princessSaveIcon}
+                        alt="Save"
+                        className="h-10 w-10 object-contain"
+                      />
+                    }
+                    onClick={() => saveTask(editingTask.id)}
+                    disabled={isSubmitting || !activeChildId}
+                  />
                 </div>
               )}
 
               {editingId === 'new' && (
                 <div
-                  className="animate-in slide-in-from-bottom-5 fade-in flex flex-col gap-4 p-5 duration-300"
-                  style={{
-                    backgroundColor: theme.colors.surface,
-                    border: `5px solid ${theme.colors.primary}`,
-                    borderRadius: '24px',
-                    boxShadow: `0 8px 0 ${theme.colors.accent}`,
-                  }}
+                  className="animate-in slide-in-from-bottom-5 fade-in flex flex-col duration-300"
+                  style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
                 >
                   <h2
                     className={`text-center uppercase opacity-80 ${unifiedFontStyle}`}
@@ -464,131 +375,82 @@ const ManageTasksPage = () => {
                     New Chore
                   </h2>
 
-                  <input
-                    type="text"
+                  <ActionTextInput
+                    theme={theme}
+                    label="Name"
                     value={editForm.title}
-                    onChange={(e) =>
+                    onChange={(value) =>
                       setEditForm((prev) => ({
                         ...prev,
-                        title: e.target.value,
+                        title: value,
                       }))
                     }
                     placeholder="Chore Name"
-                    className={`w-full border-b-4 bg-transparent outline-none ${unifiedFontStyle}`}
-                    style={{
-                      borderColor: theme.colors.primary,
-                      color: theme.colors.text,
-                    }}
+                    maxLength={80}
+                    baseColor={theme.colors.primary}
+                    inputAriaLabel="Chore name"
                   />
 
-                  <select
-                    value={editForm.childId}
-                    onChange={(e) =>
+                  {!activeChildId && (
+                    <div className="rounded-xl bg-black/10 p-3 text-center text-lg font-bold">
+                      Select a child on the dashboard to assign chores.
+                    </div>
+                  )}
+
+                  <StarCost
+                    theme={theme}
+                    value={editForm.starValue}
+                    onChange={(nextValue) =>
                       setEditForm((prev) => ({
                         ...prev,
-                        childId: e.target.value,
+                        starValue: (nextValue || 1) as 1 | 2 | 3,
                       }))
                     }
-                    className={`w-full border-b-4 bg-transparent outline-none ${unifiedFontStyle}`}
-                    style={{
-                      borderColor: theme.colors.primary,
-                      color: theme.colors.text,
-                    }}
-                  >
-                    <option value="">Select Child</option>
-                    {children.map((child) => (
-                      <option key={child.id} value={child.id}>
-                        {child.displayName}
-                      </option>
-                    ))}
-                  </select>
+                    maxStars={3}
+                    showLabel={false}
+                    showFeedback={false}
+                  />
 
-                  <div className="flex gap-2 py-2">
-                    {[1, 2, 3].map((val) => (
-                      <button
-                        key={val}
-                        type="button"
-                        onClick={() =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            starValue: val as 1 | 2 | 3,
-                          }))
-                        }
-                        className={`flex flex-1 items-center justify-center rounded-xl border-4 py-2 text-xl font-bold transition-transform active:scale-95 ${
-                          editForm.starValue === val
-                            ? 'scale-105 opacity-100'
-                            : 'opacity-50'
-                        }`}
-                        style={{
-                          borderColor: theme.colors.primary,
-                          backgroundColor:
-                            editForm.starValue === val
-                              ? theme.colors.primary
-                              : 'transparent',
-                          color: theme.colors.text,
-                          minHeight: '60px',
-                        }}
-                      >
-                        {'⭐'.repeat(val)}
-                      </button>
-                    ))}
-                  </div>
+                  <RepeatControl
+                    theme={theme}
+                    value={editForm.isRepeating}
+                    onChange={(nextValue) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        isRepeating: nextValue,
+                      }))
+                    }
+                    showLabel={false}
+                    showFeedback={false}
+                  />
 
-                  <label className="flex items-center gap-3">
-                    <input
-                      type="checkbox"
-                      checked={editForm.isRepeating}
-                      onChange={(e) =>
-                        setEditForm((prev) => ({
-                          ...prev,
-                          isRepeating: e.target.checked,
-                        }))
-                      }
-                      className="h-8 w-8 accent-current"
-                      style={{ color: theme.colors.primary }}
-                    />
-                    <span className={unifiedFontStyle}>Repeating 🔄</span>
-                  </label>
-
-                  <div className="mt-2 flex gap-3">
-                    <button
-                      onClick={() => saveTask('new')}
-                      disabled={isSubmitting}
-                      style={{
-                        ...actionBtnStyle,
-                        backgroundColor: theme.colors.primary,
-                        borderColor: theme.colors.accent,
-                        color: isDarkTheme ? '#000' : '#FFF',
-                        flex: 1,
-                      }}
-                      className="shadow-md active:translate-y-1 active:shadow-none"
-                    >
-                      <span className="mr-2 text-2xl">✅</span> Save
-                    </button>
-                    <button
-                      onClick={cancelEdit}
-                      style={{
-                        ...actionBtnStyle,
-                        backgroundColor: theme.colors.bg,
-                        borderColor: theme.colors.accent,
-                        color: theme.colors.text,
-                        flex: 1,
-                      }}
-                      className="shadow-md active:translate-y-1 active:shadow-none"
-                    >
-                      Cancel
-                    </button>
-                  </div>
+                  <ActionButton
+                    theme={theme}
+                    color={theme.colors.primary}
+                    label="Save"
+                    icon={
+                      <img
+                        src={princessSaveIcon}
+                        alt="Save"
+                        className="h-10 w-10 object-contain"
+                      />
+                    }
+                    onClick={() => saveTask('new')}
+                    disabled={isSubmitting || !activeChildId}
+                  />
                 </div>
               )}
             </div>
-          ) : children.length === 0 ? (
+          ) : !activeChildId ? (
             <div className="mt-10 flex flex-col items-center text-center opacity-70">
               <span className="mb-4 text-6xl">👶</span>
               <p className="text-2xl font-bold">No explorers yet!</p>
             </div>
           ) : (
-            <div className="flex flex-col gap-8">
+            <div
+              className="flex flex-col"
+              style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+            >
               <StandardActionList
                 theme={theme}
                 items={tasks}
