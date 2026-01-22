@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Whimsical Stars - Slower Gather</title>
+  <title>Whimsical Stars - Swarm & Gather</title>
   
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -24,27 +24,19 @@
 
     /* --- VARIABLES --- */
     :root {
-      /* Increased duration to match the explosion feel */
-      --gather-duration: 3.6s;
       --primary-color: #db2777;
     }
 
     /* --- ANIMATIONS --- */
-    
-    /* 1. Explosion Entrance */
-    @keyframes swarm-out {
-      from { opacity: 1; transform: scale(0.1) translate(0,0) rotate(0deg); }
-      to { opacity: 1; transform: scale(1) translate(var(--tx), var(--ty)) rotate(var(--rot)); }
-    }
 
-    /* 2. The Final Number Reveal */
+    /* The Final Number Reveal */
     @keyframes reveal-pop {
       0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
       60% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
       100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
     }
 
-    /* 3. The Hero Star Pulse */
+    /* The Hero Star Pulse */
     @keyframes pulse-soft {
       0%, 100% { filter: drop-shadow(0 0 10px rgba(219, 39, 119, 0.5)); transform: scale(1); }
       50% { filter: drop-shadow(0 0 25px rgba(219, 39, 119, 0.8)); transform: scale(1.05); }
@@ -71,7 +63,6 @@
         height: 20px;
         margin-top: -10px;
         margin-left: -10px;
-        /* All animation controlled via inline styles from React */
     }
 
     /* --- THE HERO STAR --- */
@@ -84,7 +75,6 @@
         margin-top: -75px;
         margin-left: -75px;
         z-index: 10;
-        /* All animation controlled via inline styles from React */
     }
 
     .star-svg-element {
@@ -134,16 +124,16 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect, useMemo, useRef } = React;
+    const { useState, useMemo, useRef } = React;
 
     const THEME = {
       primary: '#db2777',
       border: '#be185d',
     };
 
-    const EXPLOSION_DURATION = 1500;  // ms for stars to explode outward
-    const GATHER_DURATION = 2000;     // ms for stars to congeal back
-    const PAUSE_DURATION = 600;       // ms pause between explosion and gather
+    // Swarming and gathering have the SAME duration
+    const PHASE_DURATION = 1800;      // ms for both swarm out AND gather back
+    const PAUSE_DURATION = 500;       // ms pause between swarm and gather
 
     const STAR_PATH = "M12 0L14.59 8.06L23.05 8.06L16.23 13.05L18.82 21.11L12 16.12L5.18 21.11L7.77 13.05L0.95 8.06L9.41 8.06L12 0Z";
     
@@ -155,16 +145,17 @@
 
     // Individual star component that manages its own animation state
     const MiniStar = ({ targetPos, starState, index }) => {
-      // starState: 'hidden' | 'exploding' | 'exploded' | 'gathering' | 'gathered'
+      // starState: 'hidden' | 'swarming' | 'swarmed' | 'gathering' | 'gathered'
       
       const getTransform = () => {
         switch (starState) {
           case 'hidden':
-            return 'translate(0px, 0px) scale(0)';
-          case 'exploding':
-          case 'exploded':
+            return 'translate(0px, 0px) scale(0.1)';
+          case 'swarming':
+          case 'swarmed':
             return `translate(${targetPos.x}px, ${targetPos.y}px) rotate(${targetPos.rot}deg) scale(1)`;
           case 'gathering':
+            return 'translate(0px, 0px) rotate(0deg) scale(0.1)';
           case 'gathered':
             return 'translate(0px, 0px) scale(0)';
           default:
@@ -176,23 +167,27 @@
         switch (starState) {
           case 'hidden':
             return 'none';
-          case 'exploding':
-            // Explosion: fast start, ease out
-            return `transform ${EXPLOSION_DURATION}ms cubic-bezier(0.16, 1, 0.3, 1)`;
-          case 'exploded':
+          case 'swarming':
+            // Swarming: start slow, accelerate outward (ease-in = magnetic repulsion)
+            return `transform ${PHASE_DURATION}ms cubic-bezier(0.55, 0, 1, 0.45)`;
+          case 'swarmed':
             return 'none';
           case 'gathering':
-            // Gathering: slow start, accelerate into center (magnetic effect)
-            return `transform ${GATHER_DURATION}ms cubic-bezier(0.7, 0, 0.3, 1)`;
+            // Gathering: start slow, accelerate into center (ease-in = magnetic attraction)
+            return `transform ${PHASE_DURATION}ms cubic-bezier(0.55, 0, 1, 0.45)`;
           case 'gathered':
-            return 'none';
+            return 'opacity 0.05s';
           default:
             return 'none';
         }
       };
 
+      // Stars stay fully visible (opacity: 1) throughout swarming AND gathering
+      // Only disappear AFTER they've merged into center
       const getOpacity = () => {
-        return starState === 'hidden' || starState === 'gathered' ? 0 : 1;
+        if (starState === 'hidden') return 0;
+        if (starState === 'gathered') return 0;
+        return 1; // swarming, swarmed, gathering all stay at opacity 1
       };
 
       return (
@@ -202,7 +197,7 @@
             transform: getTransform(),
             transition: getTransition(),
             opacity: getOpacity(),
-            transitionDelay: starState === 'exploding' ? `${index * 15}ms` : `${index * 10}ms`,
+            transitionDelay: starState === 'swarming' ? `${index * 12}ms` : '0ms',
           }}
         >
           <StarSvg />
@@ -220,14 +215,24 @@
       
       const starsSpawnedRef = useRef(0);
 
+      // Generate pseudo-random looking positions using golden angle for natural spread
       const starPositions = useMemo(() => {
         return Array.from({ length: 80 }, (_, i) => {
-          const angle = i * 137.5; 
-          const radius = 60 + (i * 2.5);
+          // Golden angle gives a natural, pseudo-random spiral distribution
+          const goldenAngle = 137.508;
+          const angle = i * goldenAngle;
+          // Vary radius to create organic feel
+          const baseRadius = 70 + (i * 2.2);
+          // Add some "randomness" based on index
+          const radiusVariation = Math.sin(i * 0.7) * 15 + Math.cos(i * 1.3) * 10;
+          const radius = baseRadius + radiusVariation;
+          // Pseudo-random rotation based on index
+          const rot = (i * 47 + Math.sin(i * 2.1) * 180) % 360;
+          
           return {
             x: Math.cos(angle * Math.PI / 180) * radius,
             y: Math.sin(angle * Math.PI / 180) * radius,
-            rot: Math.random() * 360,
+            rot: rot,
           };
         });
       }, []);
@@ -248,7 +253,7 @@
         // Initialize all stars as hidden
         setStarStates(Array(visualCount).fill('hidden'));
         
-        // Phase 1: Spawn stars one by one (they explode outward)
+        // Phase 1: Spawn stars one by one (they swarm outward)
         const spawnInterval = setInterval(() => {
           starsSpawnedRef.current += 1;
           const spawned = starsSpawnedRef.current;
@@ -256,7 +261,7 @@
           setStarStates(prev => {
             const next = [...prev];
             if (spawned <= visualCount) {
-              next[spawned - 1] = 'exploding';
+              next[spawned - 1] = 'swarming';
             }
             return next;
           });
@@ -264,28 +269,29 @@
           if (spawned >= visualCount) {
             clearInterval(spawnInterval);
             
-            // After explosion animation completes, mark as exploded
+            // After swarm animation completes, mark as swarmed
             setTimeout(() => {
-              setStarStates(Array(visualCount).fill('exploded'));
+              setStarStates(Array(visualCount).fill('swarmed'));
               
               // Phase 2: After pause, start gathering
               setTimeout(() => {
-                setStarStates(Array(visualCount).fill('gathering'));
+                // Start hero star growing from zero
                 setHeroState('growing');
+                setStarStates(Array(visualCount).fill('gathering'));
                 
-                // Phase 3: After gather completes, finish
+                // Phase 3: After gather completes, stars have merged
                 setTimeout(() => {
                   setStarStates(Array(visualCount).fill('gathered'));
                   setHeroState('pulsing');
                   setShowResult(true);
                   setIsRunning(false);
-                }, GATHER_DURATION + 200);
+                }, PHASE_DURATION + 100);
                 
               }, PAUSE_DURATION);
               
-            }, EXPLOSION_DURATION);
+            }, PHASE_DURATION);
           }
-        }, 40); // Spawn rate
+        }, 35); // Spawn rate
         
         return () => clearInterval(spawnInterval);
       };
@@ -306,14 +312,14 @@
               />
             ))}
 
-            {/* Hero Star */}
+            {/* Hero Star - starts at size 0 and opacity 0, grows during gathering */}
             <div 
               className="hero-star-container"
               style={{
-                opacity: heroState === 'hidden' ? 0 : 1,
-                transform: heroState === 'hidden' ? 'scale(0.1)' : 'scale(1)',
+                opacity: heroState === 'hidden' ? 0 : heroState === 'growing' ? 1 : 1,
+                transform: heroState === 'hidden' ? 'scale(0)' : 'scale(1)',
                 transition: heroState === 'growing' 
-                  ? `opacity 0.1s, transform ${GATHER_DURATION}ms cubic-bezier(0.7, 0, 0.3, 1)`
+                  ? `opacity ${PHASE_DURATION * 0.3}ms ease-out, transform ${PHASE_DURATION}ms cubic-bezier(0.55, 0, 1, 0.45)`
                   : 'none',
                 animation: heroState === 'pulsing' ? 'pulse-soft 3s infinite ease-in-out' : 'none',
               }}
