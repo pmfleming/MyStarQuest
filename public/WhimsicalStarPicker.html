@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geometric Star Sky</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    /* --- CSS RESET & THEME --- */
+    :root {
+      --bg-start: #4f46e5;
+      --bg-end: #9333ea;
+      --star-gold: #fbbf24;
+      --star-stroke: #f59e0b;
+      --stage-size: 340px; /* Diameter of the circle */
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* --- THE STAGE (Circle) --- */
+    .sky-stage {
+      position: relative;
+      width: var(--stage-size);
+      height: var(--stage-size);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      backdrop-filter: blur(6px);
+      border: 4px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 
+        inset 0 0 50px rgba(0,0,0,0.2),
+        0 20px 40px rgba(0,0,0,0.3);
+      /* No overflow hidden, so buttons can stick out half-way */
+    }
+
+    /* --- SIDE BUTTONS (On the Edge) --- */
+    .control-btn {
+      position: absolute;
+      top: 50%;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.3);
+      background: white;
+      color: var(--bg-start);
+      font-size: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 6px; 
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 100;
+    }
+
+    /* Positioning logic: 
+       Move to edge (0 or 100%), then translate -50% to center button on the line */
+    .btn-minus {
+      left: 0;
+      transform: translate(-50%, -50%);
+    }
+
+    .btn-plus {
+      right: 0;
+      transform: translate(50%, -50%);
+    }
+
+    .control-btn:hover:not(:disabled) {
+      transform: translate(var(--tx), -50%) scale(1.1);
+      border-color: var(--star-gold);
+      color: var(--star-gold);
+    }
+    /* Specific hover adjustments due to different base translates */
+    .btn-minus:hover:not(:disabled) { --tx: -50%; }
+    .btn-plus:hover:not(:disabled) { --tx: 50%; }
+
+    .control-btn:active:not(:disabled) {
+      transform: translate(var(--tx), -50%) scale(0.95);
+    }
+
+    .control-btn:disabled {
+      opacity: 0.5;
+      background: #e5e7eb;
+      color: #9ca3af;
+      cursor: default;
+      border-color: #d1d5db;
+    }
+
+    /* --- THE STARS --- */
+    .star-wrapper {
+      position: absolute;
+      /* Base size, scaled via transform */
+      width: 60px; 
+      height: 60px;
+      margin-left: -30px; /* Center alignment adjustment */
+      margin-top: -30px;
+      
+      /* Smoothly glide to new geometric positions */
+      transition: top 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                  left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  transform 0.4s ease;
+      
+      cursor: pointer;
+      z-index: 10;
+      
+      /* Default State for Entrance Animation */
+      animation: pop-enter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    /* When a star is clicked to leave */
+    .star-wrapper.exiting {
+      animation: pop-exit 0.4s ease-in forwards;
+      pointer-events: none;
+    }
+
+    .star-svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--star-gold);
+      stroke: var(--star-stroke);
+      stroke-width: 1.5;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2));
+      transition: filter 0.2s;
+    }
+
+    .star-wrapper:hover .star-svg {
+      filter: drop-shadow(0 0 15px var(--star-gold));
+    }
+
+    /* --- MOON (Zero State) --- */
+    .moon-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 80px;
+      animation: float-sleep 4s ease-in-out infinite;
+      filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
+      pointer-events: none;
+    }
+
+    /* --- ANIMATIONS --- */
+    @keyframes pop-enter {
+      0% { transform: scale(0) rotate(-90deg); opacity: 0; }
+      60% { transform: scale(var(--target-scale)) rotate(10deg); opacity: 1; }
+      100% { transform: scale(var(--target-scale)) rotate(var(--rot)); }
+    }
+
+    @keyframes pop-exit {
+      0% { transform: scale(var(--target-scale)) rotate(var(--rot)); opacity: 1; }
+      40% { transform: scale(calc(var(--target-scale) * 1.2)); opacity: 1; }
+      100% { transform: scale(0) rotate(180deg); opacity: 0; }
+    }
+
+    @keyframes float-sleep {
+      0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+      50% { transform: translate(-50%, -60%) rotate(5deg); }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useMemo } = React;
+
+    const MAX_STARS = 10;
+    const CONTAINER_RADIUS = 170; // Half of 340px
+    const PADDING = 40; // Keep away from edges
+    const AVAILABLE_RADIUS = CONTAINER_RADIUS - PADDING;
+
+    // --- GEOMETRY HELPER ---
+    // Returns array of {x, y, scale} based on count
+    const getGeometricLayout = (count) => {
+      const positions = [];
+      
+      // CONFIG: How much area to fill (approx 80% visually)
+      // We adjust radius based on count to keep it looking balanced
+      let radius = AVAILABLE_RADIUS; 
+      let scale = 1.0;
+      let angleOffset = -Math.PI / 2; // Start at top (12 o'clock)
+
+      // Shape definitions
+      if (count === 1) {
+        return [{ x: 0, y: 0, scale: 2.5 }]; // Center, Huge
+      }
+      
+      if (count === 2) {
+        // Two stars beside each other (Horizontal line)
+        // Offset angle 0 to make them Left/Right
+        radius = AVAILABLE_RADIUS * 0.6;
+        scale = 1.6;
+        angleOffset = 0; 
+      }
+      else if (count === 3) {
+        radius = AVAILABLE_RADIUS * 0.65;
+        scale = 1.4;
+        angleOffset = -Math.PI / 2; // Triangle pointing up
+      }
+      else if (count === 4) {
+        radius = AVAILABLE_RADIUS * 0.75;
+        scale = 1.3;
+        angleOffset = -Math.PI / 4; // Square (rotated to look like a box, not diamond)
+      }
+      else if (count === 5) {
+        radius = AVAILABLE_RADIUS * 0.8;
+        scale = 1.2;
+        angleOffset = -Math.PI / 2; // Pentagon point up
+      }
+      else {
+        // 6+ (Hexagon to Decagon)
+        radius = AVAILABLE_RADIUS * 0.85;
+        scale = 1.0;
+        angleOffset = -Math.PI / 2; 
+      }
+
+      // Calculate coordinates for Regular Polygon
+      for (let i = 0; i < count; i++) {
+        // 2*PI / count = angle between points
+        const angle = (i * 2 * Math.PI / count) + angleOffset;
+        
+        positions.push({
+          x: radius * Math.cos(angle),
+          y: radius * Math.sin(angle),
+          scale: scale
+        });
+      }
+
+      return positions;
+    };
+
+
+    const App = () => {
+      // stars: Array of objects { id, randomSeed }
+      // The position is derived from the *index* in the active array
+      const [stars, setStars] = useState([]);
+      const idCounter = useRef(0);
+
+      // --- ADD ---
+      const addStar = () => {
+        const activeCount = stars.filter(s => s.status !== 'exiting').length;
+        if (activeCount >= MAX_STARS) return;
+
+        setStars(prev => [
+          ...prev, 
+          { 
+            id: idCounter.current++, 
+            status: 'active',
+            // Small random jitter per star so shape isn't perfectly rigid
+            jitterX: (Math.random() - 0.5) * 15, 
+            jitterY: (Math.random() - 0.5) * 15,
+            rotation: (Math.random() * 40) - 20 
+          }
+        ]);
+      };
+
+      // --- REMOVE BY ID ---
+      const removeStarById = (id) => {
+        setStars(prev => prev.map(s => s.id === id ? { ...s, status: 'exiting' } : s));
+      };
+
+      // --- REMOVE LAST (Button) ---
+      const removeLast = () => {
+        // Find last 'active' star
+        const activeStars = stars.filter(s => s.status === 'active');
+        if (activeStars.length === 0) return;
+        const last = activeStars[activeStars.length - 1];
+        removeStarById(last.id);
+      };
+
+      // --- CLEANUP EXITING ---
+      useEffect(() => {
+        const hasExiting = stars.some(s => s.status === 'exiting');
+        if (hasExiting) {
+          const timer = setTimeout(() => {
+            setStars(prev => prev.filter(s => s.status === 'active'));
+          }, 400); // Wait for exit animation
+          return () => clearTimeout(timer);
+        }
+      }, [stars]);
+
+      // --- CALCULATE POSITIONS ---
+      // 1. Get list of active stars
+      const activeStars = stars.filter(s => s.status === 'active');
+      const activeCount = activeStars.length;
+      
+      // 2. Get geometric layout for this count
+      const layout = getGeometricLayout(activeCount);
+
+      // 3. Map layout coordinates to the specific star instances
+      // We map activeStars[i] to layout[i]
+      
+      // We also need to handle 'exiting' stars. 
+      // To keep visual continuity, exiting stars should stay roughly where they were
+      // or just fade out. For simplicity in this prototype, exiting stars will
+      // maintain their *last known geometric index*, but since we recalc layout
+      // every render, let's just let them fade out at their current DOM position 
+      // (which CSS handles via 'exiting' class stopping layout updates if we wanted, 
+      // but simpler: just render them. They might slide while fading. That's whimsical!)
+
+      return (
+        <div className="sky-stage">
+          
+          {/* MINUS BTN (On Edge) */}
+          <button 
+            className="control-btn btn-minus" 
+            onClick={removeLast}
+            disabled={activeCount === 0}
+          >−</button>
+
+          {/* MOON (0 State) */}
+          {activeCount === 0 && <div className="moon-wrapper">🌙</div>}
+
+          {/* STARS */}
+          {stars.map((star) => {
+            // Find index among active stars to determine position
+            let index = activeStars.findIndex(s => s.id === star.id);
+            
+            // If star is exiting, it's not in activeStars list.
+            // Give it a dummy position (0,0) or last known? 
+            // Better visual hack: If exiting, we don't update top/left,
+            // we rely on the component not re-rendering coordinates or just 0,0.
+            // Actually, let's just check if index is -1.
+            
+            let pos = { x: 0, y: 0, scale: 0 };
+            
+            if (index !== -1) {
+              // It is active, get geometry
+              pos = layout[index];
+            } else {
+              // It is exiting. 
+              // In a full app we'd cache last pos. 
+              // Here, it will slide to center (0,0) while fading. 
+              // That actually looks like being sucked into a black hole! Cool effect.
+            }
+
+            // Convert geometry (0,0 is center) to CSS % (50% is center)
+            // 0,0 center -> 50%, 50%
+            // X pixels -> (X / 340 * 100) + 50
+            
+            // Add jitter
+            const finalX = pos.x + star.jitterX;
+            const finalY = pos.y + star.jitterY;
+
+            const leftPerc = ((finalX / 340) * 100) + 50;
+            const topPerc = ((finalY / 340) * 100) + 50;
+
+            return (
+              <div
+                key={star.id}
+                className={`star-wrapper ${star.status === 'exiting' ? 'exiting' : ''}`}
+                onClick={() => removeStarById(star.id)}
+                style={{
+                  left: `${leftPerc}%`,
+                  top: `${topPerc}%`,
+                  '--target-scale': pos.scale,
+                  '--rot': `${star.rotation}deg`
+                }}
+              >
+                <svg viewBox="0 0 24 24" className="star-svg">
+                  <path d="M12,1.5l3.09,6.26l6.91,1l-5,4.87l1.18,6.88L12,17.27l-6.18,3.25l1.18-6.88l-5-4.87l6.91-1L12,1.5z"/>
+                </svg>
+              </div>
+            );
+          })}
+
+          {/* PLUS BTN (On Edge) */}
+          <button 
+            className="control-btn btn-plus" 
+            onClick={addStar}
+            disabled={activeCount >= MAX_STARS}
+          >+</button>
+
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
