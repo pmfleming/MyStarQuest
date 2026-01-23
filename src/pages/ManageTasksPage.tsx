@@ -331,7 +331,6 @@ const ManageTasksPage = () => {
                     }
                     maxStars={3}
                     showLabel={false}
-                    showFeedback={false}
                   />
 
                   <RepeatControl
@@ -408,7 +407,6 @@ const ManageTasksPage = () => {
                     }
                     maxStars={3}
                     showLabel={false}
-                    showFeedback={false}
                   />
 
                   <RepeatControl

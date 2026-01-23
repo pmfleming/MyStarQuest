@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import type { CSSProperties } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import { uiTokens } from '../ui/tokens'
+import StepperButton from './StepperButton'
 
 type StarCostProps = {
   theme: Theme
@@ -23,7 +24,7 @@ const STAR_PATH =
 
 // Returns array of {x, y, scale} based on count
 const getGeometricLayout = (count: number) => {
-  const positions = []
+  const positions: Array<{ x: number; y: number; scale: number }> = []
 
   if (count === 0) return positions
 
@@ -132,60 +133,19 @@ const StarCost = ({
             height: ${STAGE_SIZE}px;
             border-radius: 50%;
           }
-          .control-btn {
+          .stepper-btn-left {
             position: absolute;
+            left: 16px;
             top: 50%;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            border: 3px solid ${theme.colors.primary};
-            background: ${theme.colors.surface};
-            color: ${theme.colors.primary};
-            font-size: 1.8rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-bottom: 4px;
-            box-shadow: 0 4px 0 ${theme.colors.accent};
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateY(-50%);
             z-index: 100;
-            -webkit-tap-highlight-color: transparent;
           }
-          .btn-minus {
-            left: 23px;
-            transform: translate(-50%, -50%);
-          }
-          .btn-plus {
-            right: 23px;
-            transform: translate(50%, -50%);
-          }
-          .control-btn:hover:not(:disabled) {
-            box-shadow: 0 6px 0 ${theme.colors.accent};
-          }
-          .btn-minus:hover:not(:disabled) {
-            transform: translate(-50%, -50%) scale(1.1);
-          }
-          .btn-plus:hover:not(:disabled) {
-            transform: translate(50%, -50%) scale(1.1);
-          }
-          .control-btn:active:not(:disabled) {
-            box-shadow: 0 2px 0 ${theme.colors.accent};
-          }
-          .btn-minus:active:not(:disabled) {
-            transform: translate(-50%, -50%) scale(0.95);
-          }
-          .btn-plus:active:not(:disabled) {
-            transform: translate(50%, -50%) scale(0.95);
-          }
-          .control-btn:disabled {
-            opacity: 0.4;
-            cursor: default;
-            background: #e5e7eb;
-            color: #9ca3af;
-            border-color: #d1d5db;
-            box-shadow: 0 4px 0 #d1d5db;
+          .stepper-btn-right {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
           }
           .star-wrapper {
             position: absolute;
@@ -234,15 +194,14 @@ const StarCost = ({
 
       <div className="star-cost-box">
         {/* MINUS BTN */}
-        <button
-          type="button"
-          className="control-btn btn-minus"
+        <StepperButton
+          theme={theme}
+          direction="prev"
           onClick={handleDecrement}
           disabled={value === 0}
-          aria-label="Decrease star cost"
-        >
-          −
-        </button>
+          ariaLabel="Decrease star cost"
+          className="stepper-btn-left"
+        />
 
         <div className="star-stage">
           {/* MOON (0 State) */}
@@ -270,15 +229,14 @@ const StarCost = ({
         </div>
 
         {/* PLUS BTN */}
-        <button
-          type="button"
-          className="control-btn btn-plus"
+        <StepperButton
+          theme={theme}
+          direction="next"
           onClick={handleIncrement}
           disabled={value >= maxStars}
-          aria-label="Increase star cost"
-        >
-          +
-        </button>
+          ariaLabel="Increase star cost"
+          className="stepper-btn-right"
+        />
       </div>
     </div>
   )

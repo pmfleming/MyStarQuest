@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
+import StepperButton from './StepperButton'
 
 type CarouselItem = {
   id: string | number
@@ -166,23 +167,10 @@ const Carousel = ({
     minHeight: '1.2em',
   }
 
-  const arrowStyle: CSSProperties = {
+  const arrowPositionStyle: CSSProperties = {
     position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
-    background: theme.colors.primary,
-    border: `3px solid ${theme.colors.accent}`,
-    color: theme.id === 'space' ? '#000' : '#fff',
-    fontSize: '2.5rem',
-    width: '46px',
-    height: '64px',
-    borderRadius: 12,
-    cursor: 'pointer',
-    lineHeight: 1,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    boxShadow: '0 6px 0 rgba(0, 0, 0, 0.12)',
     zIndex: 3,
   }
 
@@ -208,14 +196,15 @@ const Carousel = ({
       <div style={titleStyle}>{title}</div>
 
       <div style={stageStyle}>
-        <button
-          style={{ ...arrowStyle, left: '4px' }}
-          type="button"
+        <StepperButton
+          theme={theme}
+          direction="prev"
           onClick={handlePrev}
-          aria-label="Previous"
+          ariaLabel="Previous"
+          style={{ ...arrowPositionStyle, left: '4px' }}
         >
           ‹
-        </button>
+        </StepperButton>
 
         <div
           style={{
@@ -233,14 +222,15 @@ const Carousel = ({
           ))}
         </div>
 
-        <button
-          style={{ ...arrowStyle, right: '4px' }}
-          type="button"
+        <StepperButton
+          theme={theme}
+          direction="next"
           onClick={handleNext}
-          aria-label="Next"
+          ariaLabel="Next"
+          style={{ ...arrowPositionStyle, right: '4px' }}
         >
           ›
-        </button>
+        </StepperButton>
       </div>
 
       <div style={labelStyle}>{safeItems[currentIndex].label}</div>
