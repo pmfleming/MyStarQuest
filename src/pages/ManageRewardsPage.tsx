@@ -357,30 +357,17 @@ const ManageRewardsPage = () => {
               theme={theme}
               items={rewards}
               getKey={(reward) => reward.id}
+              getStarCount={(reward) => reward.costStars}
               renderItem={(reward) => (
-                <div className="flex items-center justify-between gap-4">
-                  <div
-                    style={{
-                      fontFamily: theme.fonts.heading,
-                      fontSize: `${uiTokens.actionButtonFontSize}px`,
-                      fontWeight: 700,
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    {reward.title}
-                  </div>
-                  <div
-                    className="flex items-center gap-2"
-                    style={{
-                      fontFamily: theme.fonts.heading,
-                      fontSize: `${uiTokens.actionButtonFontSize}px`,
-                      fontWeight: 700,
-                      lineHeight: 1,
-                    }}
-                  >
-                    <span style={{ fontSize: '24px', lineHeight: 1 }}>⭐</span>
-                    <span>{reward.costStars}</span>
-                  </div>
+                <div
+                  style={{
+                    fontFamily: theme.fonts.heading,
+                    fontSize: `${uiTokens.actionButtonFontSize}px`,
+                    fontWeight: 700,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {reward.title}
                 </div>
               )}
               primaryAction={{

@@ -369,30 +369,17 @@ const ManageChildrenPage = () => {
               theme={theme}
               items={children}
               getKey={(child) => child.id}
+              getStarCount={(child) => child.totalStars}
               renderItem={(child) => (
-                <div className="flex items-center justify-between gap-4">
-                  <div
-                    style={{
-                      fontFamily: theme.fonts.heading,
-                      fontSize: `${uiTokens.actionButtonFontSize}px`,
-                      fontWeight: 700,
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    {child.displayName}
-                  </div>
-                  <div
-                    className="flex items-center gap-2"
-                    style={{
-                      fontFamily: theme.fonts.heading,
-                      fontSize: `${uiTokens.actionButtonFontSize}px`,
-                      fontWeight: 700,
-                      lineHeight: 1,
-                    }}
-                  >
-                    <span style={{ fontSize: '24px', lineHeight: 1 }}>⭐</span>
-                    <span>{child.totalStars}</span>
-                  </div>
+                <div
+                  style={{
+                    fontFamily: theme.fonts.heading,
+                    fontSize: `${uiTokens.actionButtonFontSize}px`,
+                    fontWeight: 700,
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {child.displayName}
                 </div>
               )}
               primaryAction={{

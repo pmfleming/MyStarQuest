@@ -453,32 +453,17 @@ const ManageTasksPage = () => {
                 theme={theme}
                 items={tasks}
                 getKey={(task) => task.id}
+                getStarCount={(task) => task.starValue}
                 renderItem={(task) => (
-                  <div className="flex items-center justify-between gap-4">
-                    <div
-                      style={{
-                        fontFamily: theme.fonts.heading,
-                        fontSize: `${uiTokens.actionButtonFontSize}px`,
-                        fontWeight: 700,
-                        lineHeight: 1.1,
-                      }}
-                    >
-                      {task.title}
-                    </div>
-                    <div
-                      className="flex items-center gap-2"
-                      style={{
-                        fontFamily: theme.fonts.heading,
-                        fontSize: `${uiTokens.actionButtonFontSize}px`,
-                        fontWeight: 700,
-                        lineHeight: 1,
-                      }}
-                    >
-                      <span style={{ fontSize: '24px', lineHeight: 1 }}>
-                        ⭐
-                      </span>
-                      <span>{task.starValue}</span>
-                    </div>
+                  <div
+                    style={{
+                      fontFamily: theme.fonts.heading,
+                      fontSize: `${uiTokens.actionButtonFontSize}px`,
+                      fontWeight: 700,
+                      lineHeight: 1.1,
+                    }}
+                  >
+                    {task.title}
                   </div>
                 )}
                 primaryAction={{

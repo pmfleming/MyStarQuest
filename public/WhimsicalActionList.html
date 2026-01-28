@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whimsical Action List</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- VARIABLES --- */
+    :root {
+      --bg-gradient: linear-gradient(180deg, #8b5cf6 0%, #6366f1 100%);
+      --card-bg: #f8fafc;
+      --star-gold: #fbbf24;
+      --star-stroke: #d97706;
+      --primary-btn: #a855f7;
+      --primary-btn-shadow: #7e22ce;
+      --text-main: #334155;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Fredoka', sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      color: var(--text-main);
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    h1 {
+      text-align: center;
+      color: white;
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+      text-shadow: 0 4px 0 rgba(0,0,0,0.1);
+    }
+
+    /* --- CARD STYLES --- */
+    .action-card {
+      background: var(--card-bg);
+      border-radius: 32px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 
+        0 10px 20px -5px rgba(0,0,0,0.2),
+        0 6px 0 rgba(255,255,255,0.4) inset; /* Top highlight */
+      border: 4px solid white;
+      
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      /* Floating Animation */
+      animation: float-card 6s ease-in-out infinite;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    /* Offset animation for even cards so they don't move in unison */
+    .action-card:nth-child(even) {
+        animation-delay: 1s;
+    }
+
+    .action-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.25);
+      z-index: 10;
+    }
+
+    /* LINE 1: Header */
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      flex-shrink: 0;
+    }
+    
+    .icon-box svg { width: 32px; height: 32px; }
+
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0;
+      color: #1e293b;
+      line-height: 1.2;
+    }
+
+    /* LINE 2: The Star Field */
+    .star-field {
+      background: #f1f5f9;
+      border-radius: 20px;
+      padding: 12px;
+      min-height: 60px;
+      border: 2px dashed #cbd5e1;
+      
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      
+      transition: all 0.3s ease;
+    }
+
+    /* Density Logic */
+    .density-low .star-unit { width: 32px; height: 32px; }
+    .density-medium { gap: 4px; }
+    .density-medium .star-unit { width: 20px; height: 20px; }
+    .density-high { gap: 2px; padding: 8px; }
+    .density-high .star-unit { width: 12px; height: 12px; }
+
+    .star-unit {
+      flex-shrink: 0;
+      fill: var(--star-gold);
+      stroke: var(--star-stroke);
+      stroke-width: 1.5;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 2px 0 rgba(0,0,0,0.1));
+      
+      /* Entrance Pop */
+      animation: pop-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+    }
+
+    /* LINE 3: Buttons */
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    /* General Button Reset */
+    .btn {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Click "Squish" Effect */
+    .btn:active {
+      transform: scale(0.92) !important;
+    }
+
+    /* Main Action Button */
+    .btn-action {
+      flex: 1;
+      height: 60px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end; /* Text to right */
+      padding-right: 24px;
+      
+      background: linear-gradient(135deg, #a855f7, #9333ea);
+      box-shadow: 0 6px 0 #7e22ce;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-action:active {
+      box-shadow: 0 0 0 #7e22ce;
+      transform: translateY(6px);
+    }
+    
+    /* Big checkmark/icon on left of button */
+    .action-decoration {
+       position: absolute;
+       left: -10px;
+       bottom: -15px;
+       width: 80px;
+       height: 80px;
+       opacity: 0.2;
+       transform: rotate(-10deg);
+       color: white;
+    }
+    
+    /* Utility Buttons (Edit/Delete) */
+    .btn-utility {
+      width: 60px;
+      height: 60px;
+      border-radius: 20px;
+      background: white;
+      border: 2px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 0 #cbd5e1;
+      color: #94a3b8;
+    }
+
+    .btn-utility svg { width: 24px; height: 24px; stroke-width: 2.5; }
+
+    .btn-utility:hover {
+      transform: translateY(-2px);
+      border-color: #cbd5e1;
+      color: #64748b;
+    }
+
+    .btn-utility:active {
+      box-shadow: 0 0 0 #cbd5e1;
+      transform: translateY(6px);
+    }
+
+    .btn-utility.delete:hover {
+      background: #fef2f2;
+      color: #ef4444;
+      border-color: #fecaca;
+    }
+
+    /* --- ANIMATIONS --- */
+    @keyframes float-card {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes pop-in {
+      0% { transform: scale(0) rotate(-180deg); }
+      60% { transform: scale(1.3) rotate(10deg); }
+      100% { transform: scale(1) rotate(var(--rot)); }
+    }
+
+    @keyframes poof {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0) rotate(45deg); opacity: 0; }
+    }
+
+    .exiting {
+      animation: poof 0.4s ease-in forwards;
+      pointer-events: none;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // --- INLINE SVGs (No external dependencies) ---
+    const Icons = {
+      Check: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+      Edit: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
+      Delete: () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>,
+      Star: ({ className, style }) => (
+        <svg className={className} style={style} viewBox="0 0 24 24">
+           <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z" />
+        </svg>
+      ),
+      Crown: () => <svg viewBox="0 0 24 24" fill="#fbbf24" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>,
+      Broom: () => <svg viewBox="0 0 24 24" fill="#f87171" stroke="#b91c1c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 22l10-10"/><path d="M16 16l5-5"/><path d="M9.5 14.5L2 22"/><path d="M20 12l2-2a2.828 2.828 0 1 0-4-4l-2 2"/></svg>,
+      Gift: () => <svg viewBox="0 0 24 24" fill="#60a5fa" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+    };
+
+    // --- STAR FIELD COMPONENT ---
+    const StarField = ({ count }) => {
+      let densityClass = 'density-low';
+      if (count > 40) densityClass = 'density-high';
+      else if (count > 10) densityClass = 'density-medium';
+
+      const stars = Array.from({ length: count });
+
+      return (
+        <div className={`star-field ${densityClass}`}>
+          {count === 0 && <span style={{opacity: 0.5, fontStyle: 'italic'}}>No stars yet...</span>}
+          {stars.map((_, i) => {
+            const rot = (i * 33 % 40) - 20; 
+            return (
+              <Icons.Star 
+                key={i} 
+                className="star-unit" 
+                style={{ 
+                  '--rot': `${rot}deg`,
+                  animationDelay: `${i * 0.03}s` 
+                }}
+              />
+            );
+          })}
+        </div>
+      );
+    };
+
+    // --- ACTION CARD COMPONENT ---
+    const ActionCard = ({ id, type, title, stars, onDelete }) => {
+      const [isExiting, setIsExiting] = useState(false);
+
+      const handleDelete = () => {
+        setIsExiting(true);
+        setTimeout(() => onDelete(id), 400);
+      };
+
+      const getIcon = () => {
+        if (type === 'chore') return <Icons.Broom />;
+        if (type === 'reward') return <Icons.Gift />;
+        return <Icons.Crown />;
+      };
+
+      return (
+        <div className={`action-card ${isExiting ? 'exiting' : ''}`}>
+          
+          {/* Header */}
+          <div className="card-header">
+            <div className="icon-box">
+               {getIcon()}
+            </div>
+            <h3 className="card-title">{title}</h3>
+          </div>
+
+          {/* Stars */}
+          <StarField count={stars} />
+
+          {/* Actions */}
+          <div className="card-actions">
+            
+            <button className="btn btn-action">
+              <div className="action-decoration"><Icons.Check /></div>
+              <span>Go!</span>
+            </button>
+            
+            <button className="btn btn-utility" aria-label="Edit">
+              <Icons.Edit />
+            </button>
+            
+            <button className="btn btn-utility delete" onClick={handleDelete} aria-label="Delete">
+              <Icons.Delete />
+            </button>
+            
+          </div>
+        </div>
+      );
+    };
+
+    // --- MAIN APP ---
+    const App = () => {
+      const [items, setItems] = useState([
+        { id: 1, type: 'child', title: 'Princess Odette', stars: 2 }, 
+        { id: 2, type: 'chore', title: 'Tidy the Castle', stars: 12 }, 
+        { id: 3, type: 'reward', title: 'Grand Ball', stars: 99 },     
+      ]);
+
+      const removeItem = (id) => {
+        setItems(prev => prev.filter(i => i.id !== id));
+      };
+
+      return (
+        <div className="app-container">
+          <h1>My Actions</h1>
+          
+          {items.map(item => (
+            <ActionCard 
+              key={item.id} 
+              {...item} 
+              onDelete={removeItem} 
+            />
+          ))}
+
+          {items.length === 0 && (
+            <div style={{
+              textAlign:'center', 
+              color:'white', 
+              fontSize:'1.5rem', 
+              marginTop: 40,
+              fontWeight: 700
+            }}>
+              All clear! ✨
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
