@@ -1,6 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import { uiTokens } from '../ui/tokens'
+import starSvgUrl from '../assets/global/star.svg'
 
 type StarInfoBoxProps = {
   theme: Theme
@@ -11,31 +12,18 @@ type StarInfoBoxProps = {
 const PHASE_DURATION = 1800 // ms for both swarm out AND gather back
 const PAUSE_DURATION = 500 // ms pause between swarm and gather
 
-const STAR_PATH =
-  'M12 0L14.59 8.06L23.05 8.06L16.23 13.05L18.82 21.11L12 16.12L5.18 21.11L7.77 13.05L0.95 8.06L9.41 8.06L12 0Z'
-
 type StarState = 'hidden' | 'swarming' | 'swarmed' | 'gathering' | 'gathered'
 type HeroState = 'hidden' | 'growing' | 'pulsing'
 
-const StarSvg = ({ color }: { color: string }) => (
-  <svg
-    style={{ width: '100%', height: '100%', display: 'block', fill: color }}
-    viewBox="0 0 24 24"
-  >
-    <path d={STAR_PATH} />
-  </svg>
-)
-
+// Mini star for the swarm animation - uses the global star.svg
 const MiniStar = ({
   targetPos,
   starState,
   index,
-  color,
 }: {
   targetPos: { x: number; y: number; rot: number }
   starState: StarState
   index: number
-  color: string
 }) => {
   const getTransform = () => {
     switch (starState) {
@@ -94,7 +82,12 @@ const MiniStar = ({
         zIndex: 20, // Above the hero star so they're visible during gathering
       }}
     >
-      <StarSvg color={color} />
+      <img
+        src={starSvgUrl}
+        alt=""
+        style={{ width: '100%', height: '100%', display: 'block' }}
+        aria-hidden="true"
+      />
     </div>
   )
 }
@@ -238,7 +231,6 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
             index={i}
             targetPos={starPositions[i]}
             starState={state}
-            color={theme.colors.primary}
           />
         ))}
 
@@ -262,7 +254,12 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
                 : 'none',
           }}
         >
-          <StarSvg color={theme.colors.primary} />
+          <img
+            src={starSvgUrl}
+            alt=""
+            style={{ width: '100%', height: '100%', display: 'block' }}
+            aria-hidden="true"
+          />
         </div>
 
         {/* Result Number - to the right of the star */}
@@ -293,8 +290,8 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
           100% { transform: scale(1); opacity: 1; }
         }
         @keyframes pulse-soft {
-          0%, 100% { filter: drop-shadow(0 0 10px ${theme.colors.primary}80); transform: scale(1); }
-          50% { filter: drop-shadow(0 0 25px ${theme.colors.primary}cc); transform: scale(1.05); }
+          0%, 100% { filter: drop-shadow(0 0 10px #fbbf2480); transform: scale(1); }
+          50% { filter: drop-shadow(0 0 25px #fbbf24cc); transform: scale(1.05); }
         }
       `}</style>
     </section>

@@ -5,6 +5,7 @@ import {
   princessEditIcon,
 } from '../assets/themes/princess/assets'
 import { uiTokens } from '../ui/tokens'
+import StarDisplay from './StarDisplay'
 
 // Inject whimsical CSS animations once
 const WHIMSICAL_STYLES_ID = 'whimsical-action-list-styles'
@@ -16,11 +17,6 @@ const injectWhimsicalStyles = () => {
     @keyframes whimsical-float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-6px); }
-    }
-    @keyframes whimsical-star-pop {
-      0% { transform: scale(0) rotate(-180deg); opacity: 0; }
-      60% { transform: scale(1.3) rotate(10deg); opacity: 1; }
-      100% { transform: scale(1) rotate(var(--star-rot, 0deg)); opacity: 1; }
     }
     @keyframes whimsical-poof {
       0% { transform: scale(1); opacity: 1; }
@@ -38,9 +34,6 @@ const injectWhimsicalStyles = () => {
     .whimsical-card-exiting {
       animation: whimsical-poof 0.4s ease-in forwards !important;
       pointer-events: none;
-    }
-    .whimsical-star-unit {
-      animation: whimsical-star-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
     }
     .whimsical-btn {
       transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -98,107 +91,6 @@ const resolveValue = <T,>(
   value: string | ReactNode | ((item: T) => string | ReactNode),
   item: T
 ) => (typeof value === 'function' ? value(item) : value)
-
-// Star SVG component for the star field
-const StarIcon = ({
-  style,
-  className,
-  fill,
-  stroke,
-}: {
-  style?: CSSProperties
-  className?: string
-  fill: string
-  stroke: string
-}) => (
-  <svg viewBox="0 0 24 24" className={className} style={style}>
-    <path
-      d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.45 13.97L5.82 21L12 17.27Z"
-      fill={fill}
-      stroke={stroke}
-      strokeWidth="1.5"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
-
-// Gold star colors matching the prototype (consistent across all themes)
-const STAR_GOLD = '#fbbf24'
-const STAR_STROKE = '#d97706'
-
-// Dynamic Star Field Component with density system
-const StarField = ({ count }: { count: number }) => {
-  // Determine density based on count
-  let densityClass: 'low' | 'medium' | 'high' = 'low'
-  if (count > 40) densityClass = 'high'
-  else if (count > 10) densityClass = 'medium'
-
-  // Star sizing based on density (matching prototype exactly)
-  const starSizes = {
-    low: { width: 32, height: 32, gap: 8 },
-    medium: { width: 20, height: 20, gap: 4 },
-    high: { width: 12, height: 12, gap: 2 },
-  }
-  const { width, height, gap } = starSizes[densityClass]
-
-  const containerStyle: CSSProperties = {
-    background: '#f1f5f9',
-    borderRadius: '20px',
-    padding: densityClass === 'high' ? '8px' : '12px',
-    minHeight: '60px',
-    border: '2px dashed #cbd5e1',
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: `${gap}px`,
-  }
-
-  if (count === 0) {
-    return (
-      <div style={containerStyle}>
-        <span
-          style={{
-            opacity: 0.5,
-            fontStyle: 'italic',
-            color: '#64748b',
-            fontSize: '0.9rem',
-          }}
-        >
-          No stars yet...
-        </span>
-      </div>
-    )
-  }
-
-  const stars = Array.from({ length: count })
-
-  return (
-    <div style={containerStyle}>
-      {stars.map((_, i) => {
-        const rot = ((i * 33) % 40) - 20
-        return (
-          <StarIcon
-            key={i}
-            className="whimsical-star-unit"
-            fill={STAR_GOLD}
-            stroke={STAR_STROKE}
-            style={
-              {
-                width,
-                height,
-                flexShrink: 0,
-                filter: 'drop-shadow(0 2px 0 rgba(0,0,0,0.1))',
-                '--star-rot': `${rot}deg`,
-                animationDelay: `${i * 0.03}s`,
-              } as CSSProperties
-            }
-          />
-        )
-      })}
-    </div>
-  )
-}
 
 // Wrapper for individual action card with exit animation support
 const ActionCard = <T,>({
@@ -270,7 +162,9 @@ const ActionCard = <T,>({
       </div>
 
       {/* Star Field (if star count is provided) */}
-      {starCount !== undefined && <StarField count={starCount} />}
+      {starCount !== undefined && (
+        <StarDisplay count={starCount} variant="field" />
+      )}
 
       {/* Action Buttons - Horizontal row with spacing */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
