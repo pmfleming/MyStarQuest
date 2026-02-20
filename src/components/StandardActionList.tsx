@@ -66,7 +66,7 @@ type ActionConfig<T> = {
   ariaLabel?: string | ((item: T) => string)
   disabled?: (item: T) => boolean
   variant?: 'primary' | 'neutral' | 'danger'
-  showLabel?: boolean
+  showLabel?: boolean | ((item: T) => boolean)
 }
 
 type StandardActionListProps<T> = {
@@ -209,7 +209,9 @@ const ActionCard = <T,>({
               }}
             >
               {resolveValue(primaryAction.icon ?? '⭐', item)}
-              {primaryAction.showLabel === false ? null : (
+              {(typeof primaryAction.showLabel === 'function'
+                ? primaryAction.showLabel(item)
+                : primaryAction.showLabel) === false ? null : (
                 <span>{resolveValue(primaryAction.label, item)}</span>
               )}
             </button>

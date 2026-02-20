@@ -23,10 +23,14 @@ import StandardActionList from '../components/StandardActionList'
 import EditableStarDisplay from '../components/EditableStarDisplay'
 import ActionTextInput from '../components/ActionTextInput'
 import RepeatControl from '../components/RepeatControl'
+import DinnerCountdown from '../components/DinnerCountdown'
 import { uiTokens } from '../ui/tokens'
 import {
+  princessBiteIcon,
+  princessEatingFullImage,
   princessGiveStarIcon,
   princessHomeIcon,
+  princessPlateImage,
 } from '../assets/themes/princess/assets'
 
 // --- Types ---
@@ -35,10 +39,20 @@ type TaskRecord = {
   title: string
   childId: string
   category: string
-  starValue: 1 | 2 | 3
+  taskType: 'standard' | 'eating'
+  starValue: number
   isRepeating: boolean
+  dinnerDurationSeconds?: number
+  dinnerRemainingSeconds?: number
+  dinnerTotalBites?: number
+  dinnerBitesLeft?: number
+  dinnerCompletedAt?: number | null
   createdAt?: Date
 }
+
+const DEFAULT_DINNER_DURATION_SECONDS = 10 * 60
+const DEFAULT_DINNER_BITES = 2
+const DEFAULT_DINNER_STARS = 3
 
 const ManageTasksPage = () => {
   const { user } = useAuth()
@@ -46,6 +60,10 @@ const ManageTasksPage = () => {
   const { theme } = useTheme()
   const [tasks, setTasks] = useState<TaskRecord[]>([])
   const [isAwarding, setIsAwarding] = useState(false)
+  const [activeDinnerTaskId, setActiveDinnerTaskId] = useState<string | null>(
+    null
+  )
+  const [showAddChooser, setShowAddChooser] = useState(false)
 
   // Local title state keyed by task id, used for controlled inputs
   const [titleDrafts, setTitleDrafts] = useState<Record<string, string>>({})
@@ -65,13 +83,25 @@ const ManageTasksPage = () => {
     const unsubscribeTasks = onSnapshot(taskQuery, (snapshot) => {
       const newTasks = snapshot.docs.map((docSnapshot) => {
         const data = docSnapshot.data()
+        const taskType: TaskRecord['taskType'] =
+          data.taskType === 'eating' || data.category === 'eating'
+            ? 'eating'
+            : 'standard'
         return {
           id: docSnapshot.id,
           title: data.title ?? '',
           childId: data.childId ?? '',
           category: data.category ?? '',
-          starValue: (data.starValue ?? 1) as 1 | 2 | 3,
+          taskType,
+          starValue: Number(data.starValue ?? 1),
           isRepeating: data.isRepeating ?? false,
+          dinnerDurationSeconds:
+            data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
+          dinnerRemainingSeconds:
+            data.dinnerRemainingSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
+          dinnerTotalBites: data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
+          dinnerBitesLeft: data.dinnerBitesLeft ?? DEFAULT_DINNER_BITES,
+          dinnerCompletedAt: data.dinnerCompletedAt ?? null,
           createdAt: data.createdAt?.toDate?.(),
         }
       })
@@ -95,9 +125,23 @@ const ManageTasksPage = () => {
   }, [user])
 
   // --- Auto-save helpers ---
+  const isEatingTask = (task: TaskRecord) => task.taskType === 'eating'
+
   const updateTaskField = async (
     taskId: string,
-    field: Partial<Pick<TaskRecord, 'title' | 'starValue' | 'isRepeating'>>
+    field: Partial<
+      Pick<
+        TaskRecord,
+        | 'title'
+        | 'starValue'
+        | 'isRepeating'
+        | 'dinnerDurationSeconds'
+        | 'dinnerRemainingSeconds'
+        | 'dinnerTotalBites'
+        | 'dinnerBitesLeft'
+        | 'dinnerCompletedAt'
+      >
+    >
   ) => {
     if (!user) return
     try {
@@ -109,6 +153,68 @@ const ManageTasksPage = () => {
       console.error('Failed to update chore', error)
     }
   }
+
+  useEffect(() => {
+    if (!user || !activeDinnerTaskId) return
+
+    const timer = window.setInterval(async () => {
+      const dinnerTask = tasks.find((task) => task.id === activeDinnerTaskId)
+      if (!dinnerTask || !isEatingTask(dinnerTask)) {
+        setActiveDinnerTaskId(null)
+        return
+      }
+
+      const remaining = dinnerTask.dinnerRemainingSeconds ?? 0
+      const bitesLeft = dinnerTask.dinnerBitesLeft ?? 0
+
+      if (remaining <= 0 || bitesLeft <= 0) {
+        setActiveDinnerTaskId(null)
+        return
+      }
+
+      const nextRemaining = Math.max(0, remaining - 1)
+      await updateTaskField(dinnerTask.id, {
+        dinnerRemainingSeconds: nextRemaining,
+        ...(nextRemaining === 0 ? { dinnerCompletedAt: Date.now() } : {}),
+      })
+
+      if (nextRemaining === 0) {
+        setActiveDinnerTaskId(null)
+      }
+    }, 1000)
+
+    return () => window.clearInterval(timer)
+  }, [activeDinnerTaskId, tasks, user])
+
+  // Auto-reset eating tasks 1 hour after completion
+  useEffect(() => {
+    if (!user) return
+    const AUTO_RESET_MS = 60 * 60 * 1000
+
+    const checkAndReset = () => {
+      const now = Date.now()
+      for (const task of tasks) {
+        if (
+          isEatingTask(task) &&
+          task.dinnerCompletedAt &&
+          now - task.dinnerCompletedAt >= AUTO_RESET_MS
+        ) {
+          const totalBites = task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
+          const dur =
+            task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
+          updateTaskField(task.id, {
+            dinnerBitesLeft: totalBites,
+            dinnerRemainingSeconds: dur,
+            dinnerCompletedAt: null,
+          })
+        }
+      }
+    }
+
+    checkAndReset()
+    const interval = window.setInterval(checkAndReset, 60 * 1000)
+    return () => window.clearInterval(interval)
+  }, [tasks, user])
 
   const commitTitle = (taskId: string, title: string) => {
     const trimmed = title.trim()
@@ -123,19 +229,43 @@ const ManageTasksPage = () => {
   }
 
   // --- Actions ---
-  const handleCreate = async () => {
+  const handleCreateChore = async () => {
     if (!user || !activeChildId) return
     try {
       await addDoc(collection(db, 'users', user.uid, 'tasks'), {
         title: '',
         childId: activeChildId,
         category: '',
+        taskType: 'standard',
         starValue: 1,
         isRepeating: true,
         createdAt: serverTimestamp(),
       })
+      setShowAddChooser(false)
     } catch (error) {
       console.error('Failed to create chore', error)
+    }
+  }
+
+  const handleCreateEating = async () => {
+    if (!user || !activeChildId) return
+    try {
+      await addDoc(collection(db, 'users', user.uid, 'tasks'), {
+        title: 'Eating Dinner',
+        childId: activeChildId,
+        category: 'eating',
+        taskType: 'eating',
+        starValue: DEFAULT_DINNER_STARS,
+        isRepeating: true,
+        dinnerDurationSeconds: DEFAULT_DINNER_DURATION_SECONDS,
+        dinnerRemainingSeconds: DEFAULT_DINNER_DURATION_SECONDS,
+        dinnerTotalBites: DEFAULT_DINNER_BITES,
+        dinnerBitesLeft: DEFAULT_DINNER_BITES,
+        createdAt: serverTimestamp(),
+      })
+      setShowAddChooser(false)
+    } catch (error) {
+      console.error('Failed to create eating dinner chore', error)
     }
   }
 
@@ -146,6 +276,9 @@ const ManageTasksPage = () => {
 
     try {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'tasks'), id))
+      if (activeDinnerTaskId === id) {
+        setActiveDinnerTaskId(null)
+      }
       setTitleDrafts((prev) => {
         const next = { ...prev }
         delete next[id]
@@ -154,6 +287,39 @@ const ManageTasksPage = () => {
     } catch (error) {
       console.error('Failed to delete chore', error)
     }
+  }
+
+  const handleDinnerBite = async (task: TaskRecord) => {
+    if (!isEatingTask(task)) return
+    const bitesLeft = task.dinnerBitesLeft ?? 0
+    if (bitesLeft <= 0) return
+
+    const nextBites = Math.max(0, bitesLeft - 1)
+    await updateTaskField(task.id, { dinnerBitesLeft: nextBites })
+
+    if (nextBites === 0) {
+      setActiveDinnerTaskId(null)
+      // Award stars and celebrate on successful completion
+      if (user && activeChildId) {
+        await awardStars({
+          userId: user.uid,
+          childId: activeChildId,
+          delta: task.starValue,
+        })
+        celebrateSuccess()
+      }
+      await updateTaskField(task.id, { dinnerCompletedAt: Date.now() })
+    }
+  }
+
+  const handleDinnerReset = async (task: TaskRecord) => {
+    const totalBites = task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
+    const dur = task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
+    await updateTaskField(task.id, {
+      dinnerBitesLeft: totalBites,
+      dinnerRemainingSeconds: dur,
+      dinnerCompletedAt: null,
+    })
   }
 
   const handleAwardTask = async (task: TaskRecord) => {
@@ -224,71 +390,254 @@ const ManageTasksPage = () => {
                 theme={theme}
                 items={tasks}
                 getKey={(task) => task.id}
-                renderItem={(task) => (
-                  <div
-                    className="flex flex-col"
-                    style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-                  >
-                    <ActionTextInput
+                renderItem={(task) =>
+                  isEatingTask(task) ? (
+                    <DinnerCountdown
                       theme={theme}
-                      label="Chore Name"
-                      value={titleDrafts[task.id] ?? task.title}
-                      onChange={(value) =>
-                        setTitleDrafts((prev) => ({
-                          ...prev,
-                          [task.id]: value,
-                        }))
+                      duration={
+                        task.dinnerDurationSeconds ??
+                        DEFAULT_DINNER_DURATION_SECONDS
                       }
-                      onCommit={(value) => commitTitle(task.id, value)}
-                      maxLength={80}
-                      baseColor={theme.colors.primary}
-                      inputAriaLabel="Chore name"
-                      transparent
-                    />
-
-                    <EditableStarDisplay
-                      theme={theme}
-                      count={task.starValue}
-                      editable
-                      onChange={(nextValue) =>
+                      remaining={
+                        task.dinnerRemainingSeconds ??
+                        task.dinnerDurationSeconds ??
+                        DEFAULT_DINNER_DURATION_SECONDS
+                      }
+                      totalBites={task.dinnerTotalBites ?? DEFAULT_DINNER_BITES}
+                      bitesLeft={
+                        task.dinnerBitesLeft ??
+                        task.dinnerTotalBites ??
+                        DEFAULT_DINNER_BITES
+                      }
+                      starReward={task.starValue}
+                      isTimerRunning={activeDinnerTaskId === task.id}
+                      plateImage={
+                        theme.id === 'princess' ? princessPlateImage : undefined
+                      }
+                      onAdjustTime={(delta) => {
+                        const cur =
+                          task.dinnerDurationSeconds ??
+                          DEFAULT_DINNER_DURATION_SECONDS
+                        const next = Math.max(
+                          5 * 60,
+                          Math.min(30 * 60, cur + delta)
+                        )
                         updateTaskField(task.id, {
-                          starValue: (nextValue || 1) as 1 | 2 | 3,
+                          dinnerDurationSeconds: next,
+                          dinnerRemainingSeconds: next,
+                        })
+                      }}
+                      onAdjustBites={(delta) => {
+                        const cur =
+                          task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
+                        const next = Math.max(1, Math.min(16, cur + delta))
+                        updateTaskField(task.id, {
+                          dinnerTotalBites: next,
+                          dinnerBitesLeft: next,
+                        })
+                      }}
+                      onStarsChange={(value) =>
+                        updateTaskField(task.id, {
+                          starValue: value,
                         })
                       }
-                      min={1}
-                      max={3}
-                    />
-
-                    <RepeatControl
-                      theme={theme}
-                      value={task.isRepeating}
-                      onChange={(nextValue) =>
-                        updateTaskField(task.id, { isRepeating: nextValue })
+                      completionImage={
+                        theme.id === 'princess'
+                          ? princessEatingFullImage
+                          : undefined
                       }
-                      showLabel={false}
-                      showFeedback={false}
                     />
-                  </div>
-                )}
+                  ) : (
+                    <div
+                      className="flex flex-col"
+                      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+                    >
+                      <ActionTextInput
+                        theme={theme}
+                        label="Chore Name"
+                        value={titleDrafts[task.id] ?? task.title}
+                        onChange={(value) =>
+                          setTitleDrafts((prev) => ({
+                            ...prev,
+                            [task.id]: value,
+                          }))
+                        }
+                        onCommit={(value) => commitTitle(task.id, value)}
+                        maxLength={80}
+                        baseColor={theme.colors.primary}
+                        inputAriaLabel="Chore name"
+                        transparent
+                      />
+
+                      <EditableStarDisplay
+                        theme={theme}
+                        count={task.starValue}
+                        editable
+                        onChange={(nextValue) =>
+                          updateTaskField(task.id, {
+                            starValue: nextValue || 1,
+                          })
+                        }
+                        min={1}
+                        max={3}
+                      />
+
+                      <RepeatControl
+                        theme={theme}
+                        value={task.isRepeating}
+                        onChange={(nextValue) =>
+                          updateTaskField(task.id, { isRepeating: nextValue })
+                        }
+                        showLabel={false}
+                        showFeedback={false}
+                      />
+                    </div>
+                  )
+                }
                 primaryAction={{
-                  label: 'Give',
-                  icon: (
-                    <img
-                      src={princessGiveStarIcon}
-                      alt="Give star"
-                      className="h-6 w-6 object-contain"
-                    />
-                  ),
-                  onClick: (task) => handleAwardTask(task),
-                  disabled: () => isAwarding || !activeChildId,
+                  label: (task) => {
+                    if (isEatingTask(task)) {
+                      const bitesLeft = task.dinnerBitesLeft ?? 1
+                      const remaining = task.dinnerRemainingSeconds ?? 1
+                      const isFinished = bitesLeft <= 0 || remaining <= 0
+                      if (isFinished) return 'Again 🔁'
+                      return activeDinnerTaskId === task.id ? 'Bite' : 'Start'
+                    }
+                    return 'Give'
+                  },
+                  icon: (task) => {
+                    if (isEatingTask(task)) {
+                      const bitesLeft = task.dinnerBitesLeft ?? 1
+                      const remaining = task.dinnerRemainingSeconds ?? 1
+                      const isFinished = bitesLeft <= 0 || remaining <= 0
+                      const isRunning = activeDinnerTaskId === task.id
+                      if (!isFinished && !isRunning) {
+                        return (
+                          <img
+                            src={princessGiveStarIcon}
+                            alt="Start"
+                            className="h-6 w-6 object-contain"
+                          />
+                        )
+                      }
+                      if (isRunning) {
+                        return (
+                          <img
+                            src={princessBiteIcon}
+                            alt="Bite"
+                            className="h-6 w-6 object-contain"
+                          />
+                        )
+                      }
+                      return null
+                    }
+                    return (
+                      <img
+                        src={princessGiveStarIcon}
+                        alt="Give star"
+                        className="h-6 w-6 object-contain"
+                      />
+                    )
+                  },
+                  onClick: (task) => {
+                    if (isEatingTask(task)) {
+                      const bitesLeft = task.dinnerBitesLeft ?? 1
+                      const remaining = task.dinnerRemainingSeconds ?? 1
+                      const isFinished = bitesLeft <= 0 || remaining <= 0
+                      if (isFinished) {
+                        handleDinnerReset(task)
+                        return
+                      }
+                      if (activeDinnerTaskId === task.id) {
+                        handleDinnerBite(task)
+                      } else {
+                        setActiveDinnerTaskId(task.id)
+                      }
+                    } else {
+                      handleAwardTask(task)
+                    }
+                  },
+                  disabled: (task) => {
+                    if (isEatingTask(task)) return false
+                    return isAwarding || !activeChildId
+                  },
                   variant: 'primary',
-                  showLabel: false,
+                  showLabel: (task) => {
+                    if (!isEatingTask(task)) return false
+                    const bitesLeft = task.dinnerBitesLeft ?? 1
+                    const remaining = task.dinnerRemainingSeconds ?? 1
+                    const isFinished = bitesLeft <= 0 || remaining <= 0
+                    // Hide label for start & bite states (icon only), show for again
+                    return isFinished
+                  },
                 }}
                 hideEdit
                 onDelete={(task) => handleDelete(task.id)}
-                addLabel="New Chore"
-                onAdd={handleCreate}
+                addLabel="Add Chore"
+                onAdd={() => setShowAddChooser(true)}
                 addDisabled={false}
+                inlineNewRow={
+                  showAddChooser ? (
+                    <div
+                      className="grid grid-cols-1"
+                      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+                    >
+                      <button
+                        type="button"
+                        className="whimsical-btn"
+                        onClick={handleCreateChore}
+                        style={{
+                          minHeight: `${uiTokens.actionButtonHeight}px`,
+                          borderRadius: '20px',
+                          border: `3px solid ${theme.colors.accent}`,
+                          background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
+                          color: theme.id === 'space' ? '#000' : '#fff',
+                          fontFamily: theme.fonts.heading,
+                          fontWeight: 800,
+                          fontSize: '1.15rem',
+                        }}
+                      >
+                        Add Chore
+                      </button>
+
+                      <button
+                        type="button"
+                        className="whimsical-btn"
+                        onClick={handleCreateEating}
+                        style={{
+                          minHeight: `${uiTokens.actionButtonHeight}px`,
+                          borderRadius: '20px',
+                          border: `3px solid ${theme.colors.accent}`,
+                          background: theme.colors.surface,
+                          color: theme.colors.text,
+                          fontFamily: theme.fonts.heading,
+                          fontWeight: 800,
+                          fontSize: '1.15rem',
+                        }}
+                      >
+                        Add Eating
+                      </button>
+
+                      <button
+                        type="button"
+                        className="whimsical-btn"
+                        onClick={() => setShowAddChooser(false)}
+                        style={{
+                          minHeight: '60px',
+                          borderRadius: '16px',
+                          border: `2px solid ${theme.colors.primary}`,
+                          background: 'transparent',
+                          color: theme.colors.primary,
+                          fontFamily: theme.fonts.body,
+                          fontWeight: 700,
+                          fontSize: '1rem',
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : undefined
+                }
                 emptyState={
                   <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
                     No chores yet.

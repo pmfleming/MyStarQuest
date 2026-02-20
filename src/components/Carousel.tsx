@@ -26,7 +26,6 @@ const SIDE_SCALE = 1
 
 const Carousel = ({
   items,
-  title = 'Select Your Item',
   initialIndex = 0,
   onChange,
   className,
@@ -101,15 +100,6 @@ const Carousel = ({
     borderRadius: 16,
   }
 
-  const titleStyle: CSSProperties = {
-    color: theme.colors.text,
-    fontWeight: 700,
-    letterSpacing: '2px',
-    marginBottom: '10px',
-    fontSize: '0.85rem',
-    textTransform: 'uppercase',
-  }
-
   const stageStyle: CSSProperties = {
     position: 'relative',
     width: '100%',
@@ -158,15 +148,6 @@ const Carousel = ({
     height: '100%',
   }
 
-  const labelStyle: CSSProperties = {
-    marginTop: '10px',
-    color: theme.colors.primary,
-    fontFamily: theme.fonts.body,
-    fontWeight: 700,
-    fontSize: '1rem',
-    minHeight: '1.2em',
-  }
-
   const arrowPositionStyle: CSSProperties = {
     position: 'absolute',
     top: '50%',
@@ -193,8 +174,6 @@ const Carousel = ({
 
   return (
     <div className={className} style={{ ...rootStyle, ...style }}>
-      <div style={titleStyle}>{title}</div>
-
       <div style={stageStyle}>
         <StepperButton
           theme={theme}
@@ -232,8 +211,6 @@ const Carousel = ({
           ›
         </StepperButton>
       </div>
-
-      <div style={labelStyle}>{safeItems[currentIndex].label}</div>
     </div>
   )
 }
