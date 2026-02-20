@@ -97,7 +97,6 @@ const StarCost = ({
         {/* Star Field using unified StarDisplay component */}
         <StarDisplay
           count={value}
-          variant="field"
           emptyContent={<span style={{ fontSize: '48px' }}>🌙</span>}
           style={{
             background: 'transparent',

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { z } from 'zod'
 import {
   addDoc,
   collection,
@@ -20,15 +19,12 @@ import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
+import EditableStarDisplay from '../components/EditableStarDisplay'
 import ActionTextInput from '../components/ActionTextInput'
-import StarCost from '../components/StarCost'
 import RepeatControl from '../components/RepeatControl'
-import ActionButton from '../components/ActionButton'
 import { uiTokens } from '../ui/tokens'
 import {
   princessBuyRewardIcon,
-  princessSaveIcon,
-  princessRewardsIcon,
   princessHomeIcon,
 } from '../assets/themes/princess/assets'
 
@@ -40,34 +36,14 @@ type RewardRecord = {
   createdAt?: Date
 }
 
-const rewardSchema = z.object({
-  title: z
-    .string()
-    .trim()
-    .min(1, 'Title is required')
-    .max(80, 'Title must be under 80 characters'),
-  costStars: z
-    .number()
-    .int('Cost must be a whole number')
-    .min(0, 'Cost must be at least 0 stars')
-    .max(10, 'Cost must be at most 10 stars'),
-  isRepeating: z.boolean().default(false),
-})
-
 const ManageRewardsPage = () => {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
   const [rewards, setRewards] = useState<RewardRecord[]>([])
   const [activeChildStars, setActiveChildStars] = useState<number>(0)
-  const [editingId, setEditingId] = useState<string | null>(null)
-  const [editForm, setEditForm] = useState({
-    title: '',
-    costStars: 0,
-    isRepeating: true,
-  })
-  const [formErrors, setFormErrors] = useState<Record<string, string[]>>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isRedeeming, setIsRedeeming] = useState(false)
+  const [titleDrafts, setTitleDrafts] = useState<Record<string, string>>({})
 
   useEffect(() => {
     if (!user) {
@@ -77,22 +53,32 @@ const ManageRewardsPage = () => {
 
     const rewardsQuery = query(
       collection(db, 'users', user.uid, 'rewards'),
-      orderBy('title', 'asc')
+      orderBy('createdAt', 'asc')
     )
 
     const unsubscribe = onSnapshot(rewardsQuery, (snapshot) => {
-      setRewards(
-        snapshot.docs.map((docSnapshot) => {
-          const data = docSnapshot.data()
-          return {
-            id: docSnapshot.id,
-            title: data.title ?? 'Untitled reward',
-            costStars: data.costStars ?? 1,
-            isRepeating: data.isRepeating ?? false,
-            createdAt: data.createdAt?.toDate?.(),
+      const newRewards = snapshot.docs.map((docSnapshot) => {
+        const data = docSnapshot.data()
+        return {
+          id: docSnapshot.id,
+          title: data.title ?? '',
+          costStars: data.costStars ?? 0,
+          isRepeating: data.isRepeating ?? false,
+          createdAt: data.createdAt?.toDate?.(),
+        }
+      })
+
+      setRewards(newRewards)
+
+      setTitleDrafts((prev) => {
+        const next = { ...prev }
+        for (const reward of newRewards) {
+          if (!(reward.id in next)) {
+            next[reward.id] = reward.title
           }
-        })
-      )
+        }
+        return next
+      })
     })
 
     return unsubscribe
@@ -113,72 +99,45 @@ const ManageRewardsPage = () => {
     return unsubscribe
   }, [user, activeChildId])
 
-  const startEdit = (reward: RewardRecord) => {
-    setEditingId(reward.id)
-    setEditForm({
-      title: reward.title,
-      costStars: reward.costStars,
-      isRepeating: reward.isRepeating,
-    })
-    setFormErrors({})
-  }
-
-  const startCreate = () => {
+  const updateRewardField = async (
+    rewardId: string,
+    field: Partial<Pick<RewardRecord, 'title' | 'costStars' | 'isRepeating'>>
+  ) => {
     if (!user) return
-    setEditingId('new')
-    setEditForm({
-      title: '',
-      costStars: 0,
-      isRepeating: true,
-    })
-    setFormErrors({})
+    try {
+      await updateDoc(
+        doc(collection(db, 'users', user.uid, 'rewards'), rewardId),
+        field
+      )
+    } catch (error) {
+      console.error('Failed to update reward', error)
+    }
   }
 
-  const cancelEdit = () => {
-    setEditingId(null)
-    setEditForm({ title: '', costStars: 0, isRepeating: true })
-    setFormErrors({})
-  }
-
-  const saveReward = async (id: string) => {
-    if (!user) return
-
-    const parsed = rewardSchema.safeParse({
-      title: editForm.title,
-      costStars: Number(editForm.costStars),
-      isRepeating: editForm.isRepeating,
-    })
-
-    if (!parsed.success) {
-      setFormErrors({
-        [id]: parsed.error.issues.map((issue) => issue.message),
-      })
+  const commitTitle = (rewardId: string, title: string) => {
+    const trimmed = title.trim()
+    if (trimmed.length > 0 && trimmed.length <= 80) {
+      updateRewardField(rewardId, { title: trimmed })
       return
     }
 
-    setIsSubmitting(true)
-    setFormErrors({})
+    const saved = rewards.find((reward) => reward.id === rewardId)
+    if (saved) {
+      setTitleDrafts((prev) => ({ ...prev, [rewardId]: saved.title }))
+    }
+  }
 
-    const rewardsCollection = collection(db, 'users', user.uid, 'rewards')
-
+  const handleCreate = async () => {
+    if (!user) return
     try {
-      if (id === 'new') {
-        await addDoc(rewardsCollection, {
-          ...parsed.data,
-          createdAt: serverTimestamp(),
-        })
-      } else {
-        await updateDoc(doc(rewardsCollection, id), parsed.data)
-      }
-
-      cancelEdit()
-    } catch (error) {
-      console.error('Failed to save reward', error)
-      setFormErrors({
-        [id]: ['Unable to save reward. Please try again.'],
+      await addDoc(collection(db, 'users', user.uid, 'rewards'), {
+        title: '',
+        costStars: 0,
+        isRepeating: true,
+        createdAt: serverTimestamp(),
       })
-    } finally {
-      setIsSubmitting(false)
+    } catch (error) {
+      console.error('Failed to create reward', error)
     }
   }
 
@@ -193,6 +152,7 @@ const ManageRewardsPage = () => {
     )
     if (!confirmGive) return
 
+    setIsRedeeming(true)
     try {
       await redeemReward({
         userId: user.uid,
@@ -212,6 +172,8 @@ const ManageRewardsPage = () => {
       const message =
         error instanceof Error ? error.message : 'Failed to give reward'
       alert(message)
+    } finally {
+      setIsRedeeming(false)
     }
   }
 
@@ -223,6 +185,11 @@ const ManageRewardsPage = () => {
 
     try {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'rewards'), id))
+      setTitleDrafts((prev) => {
+        const next = { ...prev }
+        delete next[id]
+        return next
+      })
     } catch (error) {
       console.error('Failed to delete reward', error)
     }
@@ -231,42 +198,21 @@ const ManageRewardsPage = () => {
   return (
     <PageShell theme={theme}>
       <PageHeader
-        title={
-          editingId
-            ? editingId === 'new'
-              ? 'New Reward'
-              : editForm.title || 'Reward'
-            : 'Rewards'
-        }
+        title="Rewards"
         fontFamily={theme.fonts.heading}
         right={
-          editingId ? (
-            <TopIconButton
-              theme={theme}
-              onClick={cancelEdit}
-              ariaLabel="Rewards"
-              icon={
-                <img
-                  src={princessRewardsIcon}
-                  alt="Rewards"
-                  className="h-10 w-10 object-contain"
-                />
-              }
-            />
-          ) : (
-            <TopIconButton
-              theme={theme}
-              to="/"
-              ariaLabel="Home"
-              icon={
-                <img
-                  src={princessHomeIcon}
-                  alt="Home"
-                  className="h-10 w-10 object-contain"
-                />
-              }
-            />
-          )
+          <TopIconButton
+            theme={theme}
+            to="/"
+            ariaLabel="Home"
+            icon={
+              <img
+                src={princessHomeIcon}
+                alt="Home"
+                className="h-10 w-10 object-contain"
+              />
+            }
+          />
         }
       />
 
@@ -275,19 +221,11 @@ const ManageRewardsPage = () => {
           className="mx-auto flex w-full flex-col"
           style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
         >
-          {editingId ? (
-            <div
-              className="mb-6 flex flex-col"
-              style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-            >
-              {(formErrors[editingId]?.length ?? 0) > 0 && (
-                <div className="rounded-xl bg-red-500/20 p-4 text-center text-sm font-bold text-red-200">
-                  {formErrors[editingId]?.map((err) => (
-                    <p key={err}>{err}</p>
-                  ))}
-                </div>
-              )}
-
+          <StandardActionList
+            theme={theme}
+            items={rewards}
+            getKey={(reward) => reward.id}
+            renderItem={(reward) => (
               <div
                 className="flex flex-col"
                 style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
@@ -295,113 +233,79 @@ const ManageRewardsPage = () => {
                 <ActionTextInput
                   theme={theme}
                   label="Reward"
-                  value={editForm.title}
+                  value={titleDrafts[reward.id] ?? reward.title}
                   onChange={(value) =>
-                    setEditForm((prev) => ({
+                    setTitleDrafts((prev) => ({
                       ...prev,
-                      title: value,
+                      [reward.id]: value,
                     }))
                   }
-                  placeholder="e.g. Ice Cream"
+                  onCommit={(value) => commitTitle(reward.id, value)}
                   maxLength={80}
                   baseColor={theme.colors.secondary}
                   inputAriaLabel="Reward name"
+                  transparent
                 />
 
-                <StarCost
+                <EditableStarDisplay
                   theme={theme}
-                  value={editForm.costStars}
+                  count={reward.costStars}
+                  editable
                   onChange={(value) =>
-                    setEditForm((prev) => ({
-                      ...prev,
+                    updateRewardField(reward.id, {
                       costStars: Math.max(0, Math.min(10, value)),
-                    }))
+                    })
                   }
-                  maxStars={10}
-                  label="Reward Cost"
-                  showLabel={false}
+                  min={0}
+                  max={10}
                 />
 
                 <RepeatControl
                   theme={theme}
-                  value={editForm.isRepeating}
+                  value={reward.isRepeating}
                   onChange={(value) =>
-                    setEditForm((prev) => ({
-                      ...prev,
-                      isRepeating: value,
-                    }))
+                    updateRewardField(reward.id, { isRepeating: value })
                   }
                   label="Keep available after buying"
                   showLabel={false}
                   showFeedback={false}
                 />
               </div>
-
-              <ActionButton
-                theme={theme}
-                color={theme.colors.primary}
-                label={isSubmitting ? 'Saving...' : 'Save'}
-                icon={
+            )}
+            primaryAction={{
+              label: (reward) =>
+                activeChildStars >= reward.costStars
+                  ? 'Buy Reward'
+                  : 'Need Stars',
+              icon: (reward) =>
+                activeChildStars >= reward.costStars ? (
                   <img
-                    src={princessSaveIcon}
-                    alt="Save"
-                    className="h-10 w-10 object-contain"
+                    src={princessBuyRewardIcon}
+                    alt="Buy Reward"
+                    className="h-6 w-6 object-contain"
                   />
-                }
-                onClick={() => saveReward(editingId)}
-                disabled={isSubmitting}
-              />
-            </div>
-          ) : (
-            <StandardActionList
-              theme={theme}
-              items={rewards}
-              getKey={(reward) => reward.id}
-              getStarCount={(reward) => reward.costStars}
-              renderItem={(reward) => (
-                <div
-                  style={{
-                    fontFamily: theme.fonts.heading,
-                    fontSize: `${uiTokens.actionButtonFontSize}px`,
-                    fontWeight: 700,
-                    lineHeight: 1.1,
-                  }}
-                >
-                  {reward.title}
-                </div>
-              )}
-              primaryAction={{
-                label: (reward) =>
-                  activeChildStars >= reward.costStars
-                    ? 'Buy Reward'
-                    : 'Need Stars',
-                icon: (reward) =>
-                  activeChildStars >= reward.costStars ? (
-                    <img
-                      src={princessBuyRewardIcon}
-                      alt="Buy Reward"
-                      className="h-6 w-6 object-contain"
-                    />
-                  ) : (
-                    '🔒'
-                  ),
-                onClick: (reward) => handleGiveReward(reward),
-                disabled: (reward) => activeChildStars < reward.costStars,
-                variant: 'primary',
-                showLabel: false,
-              }}
-              onEdit={(reward) => startEdit(reward)}
-              onDelete={(reward) => handleDelete(reward.id)}
-              addLabel="New Reward"
-              onAdd={startCreate}
-              addDisabled={false}
-              emptyState={
-                <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
-                  No rewards yet.
-                </div>
-              }
-            />
-          )}
+                ) : (
+                  '🔒'
+                ),
+              onClick: (reward) => handleGiveReward(reward),
+              disabled: (reward) =>
+                isRedeeming ||
+                !activeChildId ||
+                activeChildStars < reward.costStars,
+              variant: 'primary',
+              showLabel: false,
+            }}
+            hideEdit
+            onDelete={(reward) => handleDelete(reward.id)}
+            addLabel="New Reward"
+            onAdd={handleCreate}
+            addDisabled={false}
+            emptyState={
+              <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
+                No rewards yet.
+              </div>
+            }
+          />
         </div>
       </main>
     </PageShell>

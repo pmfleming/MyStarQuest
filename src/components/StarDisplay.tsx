@@ -3,7 +3,7 @@ import starSvgUrl from '../assets/global/star.svg'
 
 // ============================================================================
 // UNIFIED STAR DISPLAY COMPONENT
-// Used by: StarInfoBox, StarCost, StandardActionList (StarField)
+// Used by: StarCost, StandardActionList (StarField)
 // ============================================================================
 
 // Inject CSS animations once
@@ -30,17 +30,9 @@ const injectStarDisplayStyles = () => {
 // TYPES
 // ============================================================================
 
-export type StarDisplayVariant = 'field' | 'hero'
-
 export type StarDisplayProps = {
   /** Number of stars to display */
   count: number
-  /** Visual variant - affects layout and sizing behavior */
-  variant?: StarDisplayVariant
-  /** Color tint for the stars (uses CSS filter). Default uses gold tint. */
-  tintColor?: string
-  /** Fixed star size in pixels (overrides density-based sizing) */
-  starSize?: number
   /** Whether to animate stars when count changes */
   animate?: boolean
   /** Custom container style */
@@ -49,8 +41,6 @@ export type StarDisplayProps = {
   className?: string
   /** Empty state content when count is 0 */
   emptyContent?: React.ReactNode
-  /** Max width for the container (for 'field' variant) */
-  maxWidth?: number
 }
 
 // ============================================================================
@@ -66,9 +56,9 @@ const getDensityClass = (count: number): DensityClass => {
 }
 
 const DENSITY_SIZES = {
-  low: { width: 32, height: 32, gap: 8 },
-  medium: { width: 20, height: 20, gap: 4 },
-  high: { width: 12, height: 12, gap: 2 },
+  low: { width: 32, gap: 8 },
+  medium: { width: 20, gap: 4 },
+  high: { width: 12, gap: 2 },
 }
 
 // ============================================================================
@@ -224,74 +214,30 @@ const FieldVariant = ({
 }
 
 // ============================================================================
-// HERO VARIANT - Single large star (for StarInfoBox)
-// ============================================================================
-
-const HeroVariant = ({
-  starSize = 100,
-  animate = true,
-  style,
-  className,
-}: Omit<StarDisplayProps, 'variant' | 'count'> & { count?: number }) => {
-  const containerStyle: CSSProperties = {
-    position: 'relative',
-    width: starSize,
-    height: starSize,
-    flexShrink: 0,
-    ...style,
-  }
-
-  return (
-    <div style={containerStyle} className={className}>
-      <StarIcon size={starSize} animate={animate} />
-    </div>
-  )
-}
-
-// ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 
 const StarDisplay = ({
   count,
-  variant = 'field',
   animate = true,
   style,
   className,
   emptyContent,
-  starSize,
 }: StarDisplayProps) => {
   // Inject styles on mount
   useEffect(() => {
     injectStarDisplayStyles()
   }, [])
 
-  switch (variant) {
-    case 'field':
-      return (
-        <FieldVariant
-          count={count}
-          animate={animate}
-          emptyContent={emptyContent}
-          style={style}
-          className={className}
-        />
-      )
-    case 'hero':
-      return (
-        <HeroVariant
-          count={count}
-          animate={animate}
-          starSize={starSize}
-          style={style}
-          className={className}
-        />
-      )
-    default:
-      return null
-  }
+  return (
+    <FieldVariant
+      count={count}
+      animate={animate}
+      emptyContent={emptyContent}
+      style={style}
+      className={className}
+    />
+  )
 }
 
-// Also export the StarIcon for direct use in complex animations
-export { StarIcon, injectStarDisplayStyles }
 export default StarDisplay

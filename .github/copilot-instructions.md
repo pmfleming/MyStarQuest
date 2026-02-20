@@ -31,19 +31,28 @@
 
 - Pages read live data with Firestore `onSnapshot(...)` inside `useEffect` and return the unsubscribe cleanup.
   - Examples: `src/pages/DashboardPage.tsx`, `src/pages/ManageTasksPage.tsx`.
-- CRUD forms validate with Zod `safeParse` and store errors keyed by record id.
+  - Always verify `user` exists before setting up subscriptions.
+- CRUD forms validate with Zod (`z.object(...)`) and store errors in component state.
   - Convention: `editingId === 'new'` means “create mode”.
 - Star-award and redemption logic is centralized in `src/services/starActions.ts` using Firestore transactions:
   - writes an audit doc (`starEvents`/`redemptions`) with `serverTimestamp()`
   - updates `children/{childId}.totalStars` with `increment(...)`
 - Standardized list rows use `src/components/StandardActionList.tsx` for Manage Children/Chores/Rewards.
+  - This component handles list animations ("whimsical") and standard CRUD actions.
 - Layout sizing should reference `uiTokens` (not hard-coded values).
+- User feedback often uses `src/utils/celebrate.ts` (confetti) for positive actionsrd CRUD actions.
+- Layout sizing should reference `uiTokens` (not hard-coded values).
+- User feedback often uses `src/utils/celebrate.ts` (confetti) for positive actions.
 
 ## UI/UX conventions (kid-friendly)
 
 - Tailwind is used for layout, but many components use inline style objects driven by the active theme (`theme.colors`, `theme.bgPattern`).
 - The visual source of truth is `public/design-prototype.html` and the interaction sizing guidance is `docs/children-ui-ux-guidelines.md` (e.g., 72px minimum touch targets).
 - Use `uiTokens.contentMaxWidth` to keep page content and action buttons aligned and consistent.
+- Reusable components:
+  - `src/components/ActionTextInput.tsx` for forms.
+  - `src/components/ActionButton.tsx` for primary page actions.
+  - `src/components/TopIconButton.tsx` for navigation/header actions.
 - Theme assets: the `princess` theme uses SVG assets in `src/assets/themes/princess/*` (see `src/pages/DashboardPage.tsx`).
 - Chores are the user-facing name for tasks (Dashboard button label is “Chores”).
 - In list action rows for the princess theme, use SVG icons for edit/delete (no text labels).

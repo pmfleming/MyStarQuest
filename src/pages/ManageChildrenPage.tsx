@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { z } from 'zod'
 import { THEME_ID_LOOKUP, type ThemeId } from '../constants/themeOptions'
 import {
   addDoc,
@@ -22,32 +21,16 @@ import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import Carousel from '../components/Carousel'
 import ActionTextInput from '../components/ActionTextInput'
-import ActionButton from '../components/ActionButton'
 import { uiTokens } from '../ui/tokens'
 import {
   princessActiveIcon,
-  princessChildrenIcon,
   princessHomeIcon,
-  princessSaveIcon,
   princessSelectIcon,
   princessThemeIcon,
 } from '../assets/themes/princess/assets'
 import spaceThemeIcon from '../assets/themes/space/space.svg'
 import natureThemeIcon from '../assets/themes/nature/nature.svg'
 import cartoonThemeIcon from '../assets/themes/cartoon/cartoon.svg'
-
-const childSchema = z.object({
-  displayName: z
-    .string()
-    .trim()
-    .min(1, 'Display name is required')
-    .max(40, 'Display name must be under 40 characters'),
-  avatarToken: z
-    .string()
-    .trim()
-    .min(1, 'Avatar token is required')
-    .max(12, 'Avatar token must be under 12 characters'),
-})
 
 type ChildProfile = {
   id: string
@@ -63,22 +46,7 @@ const ManageChildrenPage = () => {
   const { activeChildId, setActiveChild, clearActiveChild } = useActiveChild()
   const { theme } = useTheme()
   const [children, setChildren] = useState<ChildProfile[]>([])
-  const [editingId, setEditingId] = useState<string | null>(null)
-  const [editForm, setEditForm] = useState({
-    displayName: '',
-    themeId: 'princess' as ThemeId,
-  })
-  const [formErrors, setFormErrors] = useState<Record<string, string[]>>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const startEdit = (child: ChildProfile) => {
-    setEditingId(child.id)
-    setEditForm({
-      displayName: child.displayName,
-      themeId: child.themeId || 'princess',
-    })
-    setFormErrors({})
-  }
+  const [nameDrafts, setNameDrafts] = useState<Record<string, string>>({})
 
   useEffect(() => {
     if (!user) {
@@ -105,76 +73,75 @@ const ManageChildrenPage = () => {
       })
 
       setChildren(nextChildren)
+
+      setNameDrafts((prev) => {
+        const next = { ...prev }
+        for (const child of nextChildren) {
+          if (!(child.id in next)) {
+            next[child.id] = child.displayName
+          }
+        }
+        return next
+      })
     })
 
     return unsubscribe
   }, [user])
 
-  const startCreate = () => {
+  const updateChildField = async (
+    id: string,
+    field: Partial<
+      Pick<ChildProfile, 'displayName' | 'avatarToken' | 'themeId'>
+    >
+  ) => {
     if (!user) return
-    setEditingId('new')
-    setEditForm({
-      displayName: '',
-      themeId: 'princess',
-    })
-    setFormErrors({})
+    try {
+      const childCollection = collection(db, 'users', user.uid, 'children')
+      await updateDoc(doc(childCollection, id), field)
+    } catch (error) {
+      console.error('Failed to update child profile', error)
+    }
   }
 
-  const cancelEdit = () => {
-    setEditingId(null)
-    setEditForm({ displayName: '', themeId: 'princess' })
-    setFormErrors({})
-  }
-
-  const saveProfile = async (id: string) => {
-    if (!user) return
-
-    const parsed = childSchema.safeParse({
-      displayName: editForm.displayName,
-      avatarToken: THEME_ID_LOOKUP.get(editForm.themeId)?.emoji || '👤',
-    })
-
-    if (!parsed.success) {
-      setFormErrors({
-        [id]: parsed.error.issues.map((issue) => issue.message),
-      })
+  const commitDisplayName = (childId: string, value: string) => {
+    const trimmed = value.trim()
+    if (trimmed.length > 0 && trimmed.length <= 40) {
+      updateChildField(childId, { displayName: trimmed })
       return
     }
 
-    setIsSubmitting(true)
-    setFormErrors({})
+    const saved = children.find((child) => child.id === childId)
+    if (saved) {
+      setNameDrafts((prev) => ({ ...prev, [childId]: saved.displayName }))
+    }
+  }
 
-    const childCollection = collection(db, 'users', user.uid, 'children')
+  const handleThemeChange = (child: ChildProfile, nextThemeId: ThemeId) => {
+    if ((child.themeId || 'princess') === nextThemeId) return
 
+    const avatarToken = THEME_ID_LOOKUP.get(nextThemeId)?.emoji || '👤'
+    updateChildField(child.id, {
+      themeId: nextThemeId,
+      avatarToken,
+    })
+
+    if (child.id === activeChildId) {
+      setActiveChild({ id: child.id, themeId: nextThemeId })
+    }
+  }
+
+  const handleCreate = async () => {
+    if (!user) return
     try {
-      if (id === 'new') {
-        await addDoc(childCollection, {
-          displayName: parsed.data.displayName,
-          avatarToken: parsed.data.avatarToken,
-          themeId: editForm.themeId,
-          totalStars: 0,
-          createdAt: serverTimestamp(),
-        })
-      } else {
-        await updateDoc(doc(childCollection, id), {
-          displayName: parsed.data.displayName,
-          avatarToken: parsed.data.avatarToken,
-          themeId: editForm.themeId,
-        })
-
-        if (id === activeChildId) {
-          setActiveChild({ id, themeId: editForm.themeId })
-        }
-      }
-
-      cancelEdit()
-    } catch (error) {
-      console.error('Failed to save child profile', error)
-      setFormErrors({
-        [id]: ['Unable to save child profile. Please try again.'],
+      await addDoc(collection(db, 'users', user.uid, 'children'), {
+        displayName: '',
+        avatarToken: THEME_ID_LOOKUP.get('princess')?.emoji || '👤',
+        themeId: 'princess',
+        totalStars: 0,
+        createdAt: serverTimestamp(),
       })
-    } finally {
-      setIsSubmitting(false)
+    } catch (error) {
+      console.error('Failed to create child profile', error)
     }
   }
 
@@ -186,6 +153,11 @@ const ManageChildrenPage = () => {
 
     try {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'children'), id))
+      setNameDrafts((prev) => {
+        const next = { ...prev }
+        delete next[id]
+        return next
+      })
       // Clear selection if deleting the selected explorer
       if (id === activeChildId) {
         clearActiveChild()
@@ -243,50 +215,24 @@ const ManageChildrenPage = () => {
       <span className="text-sm font-bold opacity-70">Coming soon</span>
     ),
   }))
-  const selectedThemeIndex = Math.max(
-    0,
-    enabledThemeOptions.findIndex((option) => option.id === editForm.themeId)
-  )
-
   return (
     <PageShell theme={theme}>
       <PageHeader
-        title={
-          editingId
-            ? editingId === 'new'
-              ? 'New Child'
-              : editForm.displayName || 'Child'
-            : 'Children'
-        }
+        title="Children"
         fontFamily={theme.fonts.heading}
         right={
-          editingId ? (
-            <TopIconButton
-              theme={theme}
-              onClick={cancelEdit}
-              ariaLabel="Children"
-              icon={
-                <img
-                  src={princessChildrenIcon}
-                  alt="Children"
-                  className="h-10 w-10 object-contain"
-                />
-              }
-            />
-          ) : (
-            <TopIconButton
-              theme={theme}
-              to="/"
-              ariaLabel="Home"
-              icon={
-                <img
-                  src={princessHomeIcon}
-                  alt="Home"
-                  className="h-10 w-10 object-contain"
-                />
-              }
-            />
-          )
+          <TopIconButton
+            theme={theme}
+            to="/"
+            ariaLabel="Home"
+            icon={
+              <img
+                src={princessHomeIcon}
+                alt="Home"
+                className="h-10 w-10 object-contain"
+              />
+            }
+          />
         }
       />
 
@@ -295,132 +241,94 @@ const ManageChildrenPage = () => {
           className="mx-auto flex w-full flex-col"
           style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
         >
-          {editingId ? (
-            <div
-              className="flex flex-col"
-              style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-            >
-              {(formErrors[editingId]?.length ?? 0) > 0 && (
-                <div className="rounded-2xl bg-red-500/20 p-4 text-center text-sm font-bold text-red-200">
-                  {formErrors[editingId]?.map((err) => (
-                    <p key={err}>{err}</p>
-                  ))}
-                </div>
-              )}
+          <StandardActionList
+            theme={theme}
+            items={children}
+            getKey={(child) => child.id}
+            getStarCount={(child) => child.totalStars}
+            renderItem={(child) => {
+              const currentThemeId = child.themeId || 'princess'
+              const currentThemeIndex = Math.max(
+                0,
+                enabledThemeOptions.findIndex(
+                  (option) => option.id === currentThemeId
+                )
+              )
 
-              <div
-                className="flex flex-col"
-                style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-              >
-                <ActionTextInput
-                  theme={theme}
-                  label="Name"
-                  value={editForm.displayName}
-                  onChange={(value) =>
-                    setEditForm((prev) => ({
-                      ...prev,
-                      displayName: value,
-                    }))
-                  }
-                  placeholder="e.g. Star Captain"
-                  maxLength={40}
-                  baseColor={theme.colors.primary}
-                  inputAriaLabel="Child name"
-                />
-              </div>
-
-              <div
-                className="flex flex-col"
-                style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-              >
-                <Carousel
-                  key={`${editingId}-${editForm.themeId}`}
-                  items={carouselItems}
-                  title="Select Theme"
-                  initialIndex={selectedThemeIndex}
-                  onChange={(index) => {
-                    const selected = enabledThemeOptions[index]
-                    if (!selected) return
-                    setEditForm((prev) => ({
-                      ...prev,
-                      themeId: selected.id,
-                    }))
-                  }}
-                />
-              </div>
-
-              <ActionButton
-                theme={theme}
-                color={theme.colors.primary}
-                label={isSubmitting ? 'Saving...' : 'Save'}
-                icon={
-                  <img
-                    src={princessSaveIcon}
-                    alt="Save"
-                    className="h-12 w-12 object-contain"
-                  />
-                }
-                onClick={() => saveProfile(editingId)}
-                disabled={isSubmitting}
-              />
-            </div>
-          ) : (
-            <StandardActionList
-              theme={theme}
-              items={children}
-              getKey={(child) => child.id}
-              getStarCount={(child) => child.totalStars}
-              renderItem={(child) => (
+              return (
                 <div
-                  style={{
-                    fontFamily: theme.fonts.heading,
-                    fontSize: `${uiTokens.actionButtonFontSize}px`,
-                    fontWeight: 700,
-                    lineHeight: 1.1,
-                  }}
+                  className="flex flex-col"
+                  style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
                 >
-                  {child.displayName}
+                  <ActionTextInput
+                    theme={theme}
+                    label="Name"
+                    value={nameDrafts[child.id] ?? child.displayName}
+                    onChange={(value) =>
+                      setNameDrafts((prev) => ({
+                        ...prev,
+                        [child.id]: value,
+                      }))
+                    }
+                    onCommit={(value) => commitDisplayName(child.id, value)}
+                    maxLength={40}
+                    baseColor={theme.colors.primary}
+                    inputAriaLabel="Child name"
+                    transparent
+                  />
+
+                  <Carousel
+                    key={`${child.id}-${currentThemeId}`}
+                    items={carouselItems}
+                    title="Select Theme"
+                    initialIndex={currentThemeIndex}
+                    onChange={(index) => {
+                      const selected = enabledThemeOptions[index]
+                      if (!selected) return
+                      handleThemeChange(child, selected.id)
+                    }}
+                  />
                 </div>
-              )}
-              primaryAction={{
-                label: (child) =>
-                  activeChildId === child.id ? 'Active' : 'Select',
-                ariaLabel: (child) =>
-                  activeChildId === child.id ? 'Active child' : 'Select child',
-                icon: (child) =>
-                  theme.id === 'princess' ? (
-                    <img
-                      src={
-                        activeChildId === child.id
-                          ? princessActiveIcon
-                          : princessSelectIcon
-                      }
-                      alt={activeChildId === child.id ? 'Active' : 'Select'}
-                      className="h-6 w-6 object-contain"
-                    />
-                  ) : activeChildId === child.id ? (
-                    '✅'
-                  ) : (
-                    '⭐'
-                  ),
-                showLabel: false,
-                onClick: (child) => handleSelectExplorer(child.id),
-                disabled: (child) => activeChildId === child.id,
-                variant: theme.id === 'princess' ? 'neutral' : 'primary',
-              }}
-              onEdit={(child) => startEdit(child)}
-              onDelete={(child) => handleDelete(child.id)}
-              addLabel="Add Child"
-              onAdd={startCreate}
-              addDisabled={false}
-              isHighlighted={(child) => activeChildId === child.id}
-              emptyState={
-                <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
-                  No explorers yet.
-                </div>
-              }
-            />
-          )}
+              )
+            }}
+            primaryAction={{
+              label: (child) =>
+                activeChildId === child.id ? 'Active' : 'Select',
+              ariaLabel: (child) =>
+                activeChildId === child.id ? 'Active child' : 'Select child',
+              icon: (child) =>
+                theme.id === 'princess' ? (
+                  <img
+                    src={
+                      activeChildId === child.id
+                        ? princessActiveIcon
+                        : princessSelectIcon
+                    }
+                    alt={activeChildId === child.id ? 'Active' : 'Select'}
+                    className="h-6 w-6 object-contain"
+                  />
+                ) : activeChildId === child.id ? (
+                  '✅'
+                ) : (
+                  '⭐'
+                ),
+              showLabel: false,
+              onClick: (child) => handleSelectExplorer(child.id),
+              disabled: (child) => activeChildId === child.id,
+              variant: theme.id === 'princess' ? 'neutral' : 'primary',
+            }}
+            hideEdit
+            onDelete={(child) => handleDelete(child.id)}
+            addLabel="Add Child"
+            onAdd={handleCreate}
+            addDisabled={false}
+            isHighlighted={(child) => activeChildId === child.id}
+            emptyState={
+              <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
+                No explorers yet.
+              </div>
+            }
+          />
         </div>
       </main>
     </PageShell>

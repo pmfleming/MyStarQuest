@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { z } from 'zod'
 import {
   addDoc,
   collection,
@@ -21,19 +20,16 @@ import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
-import StarCost from '../components/StarCost'
+import EditableStarDisplay from '../components/EditableStarDisplay'
 import ActionTextInput from '../components/ActionTextInput'
-import ActionButton from '../components/ActionButton'
 import RepeatControl from '../components/RepeatControl'
 import { uiTokens } from '../ui/tokens'
 import {
   princessGiveStarIcon,
-  princessChoresIcon,
   princessHomeIcon,
-  princessSaveIcon,
 } from '../assets/themes/princess/assets'
 
-// --- Types & Schema ---
+// --- Types ---
 type TaskRecord = {
   id: string
   title: string
@@ -44,40 +40,15 @@ type TaskRecord = {
   createdAt?: Date
 }
 
-const taskSchema = z.object({
-  title: z
-    .string()
-    .trim()
-    .min(1, 'Title is required')
-    .max(80, 'Title must be under 80 characters'),
-  childId: z.string().trim().min(1, 'Select a child'),
-  category: z
-    .string()
-    .trim()
-    .max(40, 'Category must be under 40 characters')
-    .optional(),
-  starValue: z.union([z.literal(1), z.literal(2), z.literal(3)]),
-  isRepeating: z.boolean(),
-})
-
 const ManageTasksPage = () => {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
   const [tasks, setTasks] = useState<TaskRecord[]>([])
-  const [editingId, setEditingId] = useState<string | null>(null)
-
-  const [editForm, setEditForm] = useState({
-    title: '',
-    childId: '',
-    category: '',
-    starValue: 1 as 1 | 2 | 3,
-    isRepeating: true,
-  })
-
-  const [formErrors, setFormErrors] = useState<Record<string, string[]>>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [isAwarding, setIsAwarding] = useState(false)
+
+  // Local title state keyed by task id, used for controlled inputs
+  const [titleDrafts, setTitleDrafts] = useState<Record<string, string>>({})
 
   // --- Data Fetching ---
   useEffect(() => {
@@ -92,20 +63,30 @@ const ManageTasksPage = () => {
     )
 
     const unsubscribeTasks = onSnapshot(taskQuery, (snapshot) => {
-      setTasks(
-        snapshot.docs.map((docSnapshot) => {
-          const data = docSnapshot.data()
-          return {
-            id: docSnapshot.id,
-            title: data.title ?? 'Untitled chore',
-            childId: data.childId ?? '',
-            category: data.category ?? '',
-            starValue: (data.starValue ?? 1) as 1 | 2 | 3,
-            isRepeating: data.isRepeating ?? false,
-            createdAt: data.createdAt?.toDate?.(),
+      const newTasks = snapshot.docs.map((docSnapshot) => {
+        const data = docSnapshot.data()
+        return {
+          id: docSnapshot.id,
+          title: data.title ?? '',
+          childId: data.childId ?? '',
+          category: data.category ?? '',
+          starValue: (data.starValue ?? 1) as 1 | 2 | 3,
+          isRepeating: data.isRepeating ?? false,
+          createdAt: data.createdAt?.toDate?.(),
+        }
+      })
+      setTasks(newTasks)
+
+      // Initialise title drafts for any new tasks we haven't seen yet
+      setTitleDrafts((prev) => {
+        const next = { ...prev }
+        for (const t of newTasks) {
+          if (!(t.id in next)) {
+            next[t.id] = t.title
           }
-        })
-      )
+        }
+        return next
+      })
     })
 
     return () => {
@@ -113,76 +94,48 @@ const ManageTasksPage = () => {
     }
   }, [user])
 
-  // --- Actions ---
-  const startEdit = (task: TaskRecord) => {
-    setEditingId(task.id)
-    setEditForm({ ...task, childId: activeChildId || task.childId })
-    setFormErrors({})
-  }
-
-  const startCreate = () => {
+  // --- Auto-save helpers ---
+  const updateTaskField = async (
+    taskId: string,
+    field: Partial<Pick<TaskRecord, 'title' | 'starValue' | 'isRepeating'>>
+  ) => {
     if (!user) return
-    setEditingId('new')
-    setEditForm({
-      title: '',
-      childId: activeChildId || '',
-      category: '',
-      starValue: 1,
-      isRepeating: true,
-    })
-    setFormErrors({})
-  }
-
-  const cancelEdit = () => {
-    setEditingId(null)
-    setEditForm({
-      title: '',
-      childId: activeChildId || '',
-      category: '',
-      starValue: 1,
-      isRepeating: false,
-    })
-    setFormErrors({})
-  }
-
-  const saveTask = async (id: string) => {
-    if (!user) return
-
-    const parsed = taskSchema.safeParse({
-      ...editForm,
-      childId: activeChildId || editForm.childId,
-    })
-
-    if (!parsed.success) {
-      setFormErrors({
-        [id]: parsed.error.issues.map((issue) => issue.message),
-      })
-      return
-    }
-
-    setIsSubmitting(true)
-    setFormErrors({})
-
-    const taskCollection = collection(db, 'users', user.uid, 'tasks')
-
     try {
-      if (id === 'new') {
-        await addDoc(taskCollection, {
-          ...parsed.data,
-          createdAt: serverTimestamp(),
-        })
-      } else {
-        await updateDoc(doc(taskCollection, id), parsed.data)
-      }
-
-      cancelEdit()
+      await updateDoc(
+        doc(collection(db, 'users', user.uid, 'tasks'), taskId),
+        field
+      )
     } catch (error) {
-      console.error('Failed to save chore', error)
-      setFormErrors({
-        [id]: ['Unable to save chore. Please try again.'],
+      console.error('Failed to update chore', error)
+    }
+  }
+
+  const commitTitle = (taskId: string, title: string) => {
+    const trimmed = title.trim()
+    if (trimmed.length > 0 && trimmed.length <= 80) {
+      updateTaskField(taskId, { title: trimmed })
+    }
+    // If empty, revert draft to last saved value
+    const saved = tasks.find((t) => t.id === taskId)
+    if (trimmed.length === 0 && saved) {
+      setTitleDrafts((prev) => ({ ...prev, [taskId]: saved.title }))
+    }
+  }
+
+  // --- Actions ---
+  const handleCreate = async () => {
+    if (!user || !activeChildId) return
+    try {
+      await addDoc(collection(db, 'users', user.uid, 'tasks'), {
+        title: '',
+        childId: activeChildId,
+        category: '',
+        starValue: 1,
+        isRepeating: true,
+        createdAt: serverTimestamp(),
       })
-    } finally {
-      setIsSubmitting(false)
+    } catch (error) {
+      console.error('Failed to create chore', error)
     }
   }
 
@@ -193,6 +146,11 @@ const ManageTasksPage = () => {
 
     try {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'tasks'), id))
+      setTitleDrafts((prev) => {
+        const next = { ...prev }
+        delete next[id]
+        return next
+      })
     } catch (error) {
       console.error('Failed to delete chore', error)
     }
@@ -226,54 +184,24 @@ const ManageTasksPage = () => {
     }
   }
 
-  // Large Prototype Font Style
-  const unifiedFontStyle =
-    "font-['Fredoka'] text-[28px] font-bold leading-tight"
-
-  const editingTask =
-    editingId && editingId !== 'new'
-      ? (tasks.find((task) => task.id === editingId) ?? null)
-      : null
-
   return (
     <PageShell theme={theme}>
       <PageHeader
-        title={
-          editingId
-            ? editingId === 'new'
-              ? 'New Chore'
-              : editForm.title || 'Chore'
-            : 'Chores'
-        }
+        title="Chores"
         fontFamily={theme.fonts.heading}
         right={
-          editingId ? (
-            <TopIconButton
-              theme={theme}
-              onClick={cancelEdit}
-              ariaLabel="Chores"
-              icon={
-                <img
-                  src={princessChoresIcon}
-                  alt="Chores"
-                  className="h-10 w-10 object-contain"
-                />
-              }
-            />
-          ) : (
-            <TopIconButton
-              theme={theme}
-              to="/"
-              ariaLabel="Home"
-              icon={
-                <img
-                  src={princessHomeIcon}
-                  alt="Home"
-                  className="h-10 w-10 object-contain"
-                />
-              }
-            />
-          )
+          <TopIconButton
+            theme={theme}
+            to="/"
+            ariaLabel="Home"
+            icon={
+              <img
+                src={princessHomeIcon}
+                alt="Home"
+                className="h-10 w-10 object-contain"
+              />
+            }
+          />
         }
       />
 
@@ -282,164 +210,7 @@ const ManageTasksPage = () => {
           className="mx-auto w-full"
           style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
         >
-          {editingId ? (
-            <div
-              className="flex flex-col"
-              style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-            >
-              {editingId !== 'new' && editingTask && (
-                <div
-                  className="flex flex-col"
-                  style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-                >
-                  {formErrors[editingTask.id] && (
-                    <div className="rounded-xl bg-red-100 p-3 text-center text-lg font-bold text-red-600">
-                      {formErrors[editingTask.id][0]}
-                    </div>
-                  )}
-
-                  <ActionTextInput
-                    theme={theme}
-                    label="Chore"
-                    value={editForm.title}
-                    onChange={(value) =>
-                      setEditForm((prev) => ({
-                        ...prev,
-                        title: value,
-                      }))
-                    }
-                    placeholder="Chore Name"
-                    maxLength={80}
-                    baseColor={theme.colors.primary}
-                    inputAriaLabel="Chore name"
-                  />
-
-                  {!activeChildId && (
-                    <div className="rounded-xl bg-black/10 p-3 text-center text-lg font-bold">
-                      Select a child on the dashboard to assign chores.
-                    </div>
-                  )}
-
-                  <StarCost
-                    theme={theme}
-                    value={editForm.starValue}
-                    onChange={(nextValue) =>
-                      setEditForm((prev) => ({
-                        ...prev,
-                        starValue: (nextValue || 1) as 1 | 2 | 3,
-                      }))
-                    }
-                    maxStars={3}
-                    showLabel={false}
-                  />
-
-                  <RepeatControl
-                    theme={theme}
-                    value={editForm.isRepeating}
-                    onChange={(nextValue) =>
-                      setEditForm((prev) => ({
-                        ...prev,
-                        isRepeating: nextValue,
-                      }))
-                    }
-                    showLabel={false}
-                    showFeedback={false}
-                  />
-
-                  <ActionButton
-                    theme={theme}
-                    color={theme.colors.primary}
-                    label="Save"
-                    icon={
-                      <img
-                        src={princessSaveIcon}
-                        alt="Save"
-                        className="h-10 w-10 object-contain"
-                      />
-                    }
-                    onClick={() => saveTask(editingTask.id)}
-                    disabled={isSubmitting || !activeChildId}
-                  />
-                </div>
-              )}
-
-              {editingId === 'new' && (
-                <div
-                  className="animate-in slide-in-from-bottom-5 fade-in flex flex-col duration-300"
-                  style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-                >
-                  <h2
-                    className={`text-center uppercase opacity-80 ${unifiedFontStyle}`}
-                  >
-                    New Chore
-                  </h2>
-
-                  <ActionTextInput
-                    theme={theme}
-                    label="Name"
-                    value={editForm.title}
-                    onChange={(value) =>
-                      setEditForm((prev) => ({
-                        ...prev,
-                        title: value,
-                      }))
-                    }
-                    placeholder="Chore Name"
-                    maxLength={80}
-                    baseColor={theme.colors.primary}
-                    inputAriaLabel="Chore name"
-                  />
-
-                  {!activeChildId && (
-                    <div className="rounded-xl bg-black/10 p-3 text-center text-lg font-bold">
-                      Select a child on the dashboard to assign chores.
-                    </div>
-                  )}
-
-                  <StarCost
-                    theme={theme}
-                    value={editForm.starValue}
-                    onChange={(nextValue) =>
-                      setEditForm((prev) => ({
-                        ...prev,
-                        starValue: (nextValue || 1) as 1 | 2 | 3,
-                      }))
-                    }
-                    maxStars={3}
-                    showLabel={false}
-                  />
-
-                  <RepeatControl
-                    theme={theme}
-                    value={editForm.isRepeating}
-                    onChange={(nextValue) =>
-                      setEditForm((prev) => ({
-                        ...prev,
-                        isRepeating: nextValue,
-                      }))
-                    }
-                    showLabel={false}
-                    showFeedback={false}
-                  />
-
-                  <ActionButton
-                    theme={theme}
-                    color={theme.colors.primary}
-                    label="Save"
-                    icon={
-                      <img
-                        src={princessSaveIcon}
-                        alt="Save"
-                        className="h-10 w-10 object-contain"
-                      />
-                    }
-                    onClick={() => saveTask('new')}
-                    disabled={isSubmitting || !activeChildId}
-                  />
-                </div>
-              )}
-            </div>
-          ) : !activeChildId ? (
+          {!activeChildId ? (
             <div className="mt-10 flex flex-col items-center text-center opacity-70">
               <span className="mb-4 text-6xl">👶</span>
               <p className="text-2xl font-bold">No explorers yet!</p>
@@ -453,17 +224,50 @@ const ManageTasksPage = () => {
                 theme={theme}
                 items={tasks}
                 getKey={(task) => task.id}
-                getStarCount={(task) => task.starValue}
                 renderItem={(task) => (
                   <div
-                    style={{
-                      fontFamily: theme.fonts.heading,
-                      fontSize: `${uiTokens.actionButtonFontSize}px`,
-                      fontWeight: 700,
-                      lineHeight: 1.1,
-                    }}
+                    className="flex flex-col"
+                    style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
                   >
-                    {task.title}
+                    <ActionTextInput
+                      theme={theme}
+                      label="Chore Name"
+                      value={titleDrafts[task.id] ?? task.title}
+                      onChange={(value) =>
+                        setTitleDrafts((prev) => ({
+                          ...prev,
+                          [task.id]: value,
+                        }))
+                      }
+                      onCommit={(value) => commitTitle(task.id, value)}
+                      maxLength={80}
+                      baseColor={theme.colors.primary}
+                      inputAriaLabel="Chore name"
+                      transparent
+                    />
+
+                    <EditableStarDisplay
+                      theme={theme}
+                      count={task.starValue}
+                      editable
+                      onChange={(nextValue) =>
+                        updateTaskField(task.id, {
+                          starValue: (nextValue || 1) as 1 | 2 | 3,
+                        })
+                      }
+                      min={1}
+                      max={3}
+                    />
+
+                    <RepeatControl
+                      theme={theme}
+                      value={task.isRepeating}
+                      onChange={(nextValue) =>
+                        updateTaskField(task.id, { isRepeating: nextValue })
+                      }
+                      showLabel={false}
+                      showFeedback={false}
+                    />
                   </div>
                 )}
                 primaryAction={{
@@ -480,10 +284,10 @@ const ManageTasksPage = () => {
                   variant: 'primary',
                   showLabel: false,
                 }}
-                onEdit={(task) => startEdit(task)}
+                hideEdit
                 onDelete={(task) => handleDelete(task.id)}
                 addLabel="New Chore"
-                onAdd={startCreate}
+                onAdd={handleCreate}
                 addDisabled={false}
                 emptyState={
                   <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
