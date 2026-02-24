@@ -23,10 +23,13 @@ import StandardActionList from '../components/StandardActionList'
 import StarDisplay from '../components/StarDisplay'
 import ActionTextInput from '../components/ActionTextInput'
 import RepeatControl from '../components/RepeatControl'
-import DinnerCountdown from '../components/DinnerCountdown'
+import DinnerCountdown, {
+  BITE_COOLDOWN_SECONDS,
+} from '../components/DinnerCountdown'
 import { uiTokens } from '../ui/tokens'
 import {
   princessBiteIcon,
+  princessEatingFailImage,
   princessEatingFullImage,
   princessGiveStarIcon,
   princessHomeIcon,
@@ -65,8 +68,27 @@ const ManageTasksPage = () => {
   )
   const [showAddChooser, setShowAddChooser] = useState(false)
 
+  // Bite cooldown: prevents rapid tapping (one bite per 20 s)
+  const [biteCooldownSeconds, setBiteCooldownSeconds] = useState(0)
+
   // Local title state keyed by task id, used for controlled inputs
   const [titleDrafts, setTitleDrafts] = useState<Record<string, string>>({})
+
+  // Tick down bite cooldown every second
+  useEffect(() => {
+    if (biteCooldownSeconds <= 0) return
+    const timer = window.setTimeout(() => {
+      setBiteCooldownSeconds((prev) => Math.max(0, prev - 1))
+    }, 1000)
+    return () => window.clearTimeout(timer)
+  }, [biteCooldownSeconds])
+
+  // Clear cooldown when the dinner game ends (timer stops or bites finish)
+  useEffect(() => {
+    if (!activeDinnerTaskId) {
+      setBiteCooldownSeconds(0)
+    }
+  }, [activeDinnerTaskId])
 
   // --- Data Fetching ---
   useEffect(() => {
@@ -289,11 +311,17 @@ const ManageTasksPage = () => {
 
   const handleDinnerBite = async (task: TaskRecord) => {
     if (!isEatingTask(task)) return
+    if (biteCooldownSeconds > 0) return // still chewing
     const bitesLeft = task.dinnerBitesLeft ?? 0
     if (bitesLeft <= 0) return
 
     const nextBites = Math.max(0, bitesLeft - 1)
     await updateTaskField(task.id, { dinnerBitesLeft: nextBites })
+
+    // Start cooldown only if more bites remain
+    if (nextBites > 0) {
+      setBiteCooldownSeconds(BITE_COOLDOWN_SECONDS)
+    }
 
     if (nextBites === 0) {
       setActiveDinnerTaskId(null)
@@ -311,6 +339,7 @@ const ManageTasksPage = () => {
   }
 
   const handleDinnerReset = async (task: TaskRecord) => {
+    setBiteCooldownSeconds(0)
     const totalBites = task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
     const dur = task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
     await updateTaskField(task.id, {
@@ -444,6 +473,15 @@ const ManageTasksPage = () => {
                           ? princessEatingFullImage
                           : undefined
                       }
+                      failureImage={
+                        theme.id === 'princess'
+                          ? princessEatingFailImage
+                          : undefined
+                      }
+                      biteCooldownSeconds={biteCooldownSeconds}
+                      biteIcon={
+                        theme.id === 'princess' ? princessBiteIcon : undefined
+                      }
                     />
                   ) : (
                     <div
@@ -527,7 +565,14 @@ const ManageTasksPage = () => {
                           />
                         )
                       }
-                      return null
+                      // Finished — show plate icon for "play again"
+                      return (
+                        <img
+                          src={princessPlateImage}
+                          alt="Play again"
+                          className="h-6 w-6 object-contain"
+                        />
+                      )
                     }
                     return (
                       <img
@@ -556,18 +601,19 @@ const ManageTasksPage = () => {
                     }
                   },
                   disabled: (task) => {
-                    if (isEatingTask(task)) return false
+                    if (isEatingTask(task)) {
+                      // Disable bite button during chewing cooldown
+                      if (
+                        activeDinnerTaskId === task.id &&
+                        biteCooldownSeconds > 0
+                      )
+                        return true
+                      return false
+                    }
                     return isAwarding || !activeChildId
                   },
                   variant: 'primary',
-                  showLabel: (task) => {
-                    if (!isEatingTask(task)) return false
-                    const bitesLeft = task.dinnerBitesLeft ?? 1
-                    const remaining = task.dinnerRemainingSeconds ?? 1
-                    const isFinished = bitesLeft <= 0 || remaining <= 0
-                    // Hide label for start & bite states (icon only), show for again
-                    return isFinished
-                  },
+                  showLabel: () => false,
                 }}
                 hideEdit
                 onDelete={(task) => handleDelete(task.id)}

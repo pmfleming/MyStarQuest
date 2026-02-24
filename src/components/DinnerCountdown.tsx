@@ -21,6 +21,7 @@ const SLICE_COLORS = [
 
 const MIN_DURATION = 5 * 60 // 5 minutes
 const MAX_DURATION = 30 * 60 // 30 minutes
+export const BITE_COOLDOWN_SECONDS = 20
 const MIN_BITES = 1
 const MAX_BITES = 16
 const TIME_STEP = 5 * 60 // ±5 minutes
@@ -107,6 +108,12 @@ interface DinnerCountdownProps {
   onStarsChange: (value: number) => void
   /** Optional image to show when all bites are eaten (themed) */
   completionImage?: string
+  /** Optional image to show when time runs out (themed) */
+  failureImage?: string
+  /** Remaining cooldown seconds between bites (0 = ready) */
+  biteCooldownSeconds?: number
+  /** Icon shown during bite cooldown (themed) */
+  biteIcon?: string
 }
 
 const DinnerCountdown = ({
@@ -122,6 +129,9 @@ const DinnerCountdown = ({
   onAdjustBites,
   onStarsChange,
   completionImage,
+  failureImage,
+  biteCooldownSeconds = 0,
+  biteIcon,
 }: DinnerCountdownProps) => {
   /* --- derived game phase --- */
   const isSuccess = bitesLeft <= 0
@@ -133,6 +143,11 @@ const DinnerCountdown = ({
   const [animSlice, setAnimSlice] = useState<number | null>(null)
   const [biteVis, setBiteVis] = useState(false)
   const prevBites = useRef(bitesLeft)
+
+  /* --- clock display mode: 'minsec' = m:ss, 'seconds' = total seconds --- */
+  const [clockDisplayMode, setClockDisplayMode] = useState<
+    'minsec' | 'seconds'
+  >('minsec')
 
   useEffect(() => {
     if (bitesLeft < prevBites.current) {
@@ -198,6 +213,25 @@ const DinnerCountdown = ({
           <img
             src={completionImage}
             alt="All done!"
+            style={{
+              maxWidth: '240px',
+              maxHeight: '280px',
+              objectFit: 'contain',
+            }}
+          />
+        </div>
+      ) : isTimeout && failureImage ? (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '20px',
+          }}
+        >
+          <img
+            src={failureImage}
+            alt="Time's up!"
             style={{
               maxWidth: '240px',
               maxHeight: '280px',
@@ -307,6 +341,54 @@ const DinnerCountdown = ({
                   />
                 </>
               )}
+
+              {/* Remaining-seconds display box (bottom-aligned to semicircle baseline) */}
+              {(() => {
+                const displaySeconds = isTimerRunning ? remaining : duration
+                const mins = Math.floor(displaySeconds / 60)
+                const secs = displaySeconds % 60
+                const label =
+                  clockDisplayMode === 'minsec'
+                    ? `${mins}:${secs.toString().padStart(2, '0')}`
+                    : `${displaySeconds}`
+                const boxW = 120
+                const boxH = 54
+                const boxX = CLOCK_CENTER_X - boxW / 2
+                const boxY = CLOCK_CENTER_Y - 4 - boxH
+                return (
+                  <g
+                    style={{ cursor: 'pointer' }}
+                    onClick={() =>
+                      setClockDisplayMode((mode) =>
+                        mode === 'minsec' ? 'seconds' : 'minsec'
+                      )
+                    }
+                  >
+                    <rect
+                      x={boxX}
+                      y={boxY}
+                      width={boxW}
+                      height={boxH}
+                      rx={10}
+                      ry={10}
+                      fill="rgba(255,255,255,0.85)"
+                      stroke={theme.colors.primary}
+                      strokeWidth="2"
+                    />
+                    <text
+                      x={CLOCK_CENTER_X}
+                      y={CLOCK_CENTER_Y - 17}
+                      textAnchor="middle"
+                      fill={theme.colors.primary}
+                      fontFamily={theme.fonts.heading}
+                      fontWeight="bold"
+                      fontSize="36"
+                    >
+                      {label}
+                    </text>
+                  </g>
+                )
+              })()}
             </svg>
 
             <div
@@ -360,58 +442,21 @@ const DinnerCountdown = ({
               />
             </div>
 
-            <svg
-              width="200"
-              height="200"
-              viewBox="0 0 220 220"
-              style={{
-                margin: '0 6px',
-                overflow: 'visible',
-                position: 'relative',
-                zIndex: 1,
-              }}
-            >
-              {/* Per-slice clip paths (used when a plate image is provided) */}
-              {plateImage && (
-                <defs>
-                  {Array.from({ length: totalBites }, (_, i) => (
-                    <clipPath key={i} id={`slice-clip-${i}`}>
-                      <path
-                        d={slicePath(i, totalBites, PLATE_CENTER, PLATE_RADIUS)}
-                      />
-                    </clipPath>
-                  ))}
-                </defs>
-              )}
-
-              {Array.from({ length: totalBites }, (_, i) => {
-                const gone = i >= bitesLeft && i !== animSlice
-                const biting = i === animSlice
-
-                return (
-                  <g
-                    key={i}
-                    style={{
-                      transition:
-                        'transform 0.4s ease-in, opacity 0.4s ease-in',
-                      transformOrigin: '110px 110px',
-                      transform: gone || biting ? 'scale(0.7)' : 'scale(1)',
-                      opacity: gone ? 0 : biting ? 0.3 : 1,
-                    }}
-                  >
-                    {plateImage ? (
-                      /* Plate image clipped to this pie segment */
-                      <>
-                        <image
-                          href={plateImage}
-                          x={PLATE_IMAGE_OFFSET}
-                          y={PLATE_IMAGE_OFFSET}
-                          width={PLATE_IMAGE_SIZE}
-                          height={PLATE_IMAGE_SIZE}
-                          clipPath={`url(#slice-clip-${i})`}
-                          preserveAspectRatio="xMidYMid slice"
-                        />
-                        {/* Divider line between segments */}
+            <div style={{ position: 'relative', margin: '0 6px' }}>
+              <svg
+                width="200"
+                height="200"
+                viewBox="0 0 220 220"
+                style={{
+                  overflow: 'visible',
+                  display: 'block',
+                }}
+              >
+                {/* Per-slice clip paths (used when a plate image is provided) */}
+                {plateImage && (
+                  <defs>
+                    {Array.from({ length: totalBites }, (_, i) => (
+                      <clipPath key={i} id={`slice-clip-${i}`}>
                         <path
                           d={slicePath(
                             i,
@@ -419,52 +464,178 @@ const DinnerCountdown = ({
                             PLATE_CENTER,
                             PLATE_RADIUS
                           )}
-                          fill="none"
-                          stroke={theme.colors.primary}
+                        />
+                      </clipPath>
+                    ))}
+                  </defs>
+                )}
+
+                {Array.from({ length: totalBites }, (_, i) => {
+                  const gone = i >= bitesLeft && i !== animSlice
+                  const biting = i === animSlice
+
+                  return (
+                    <g
+                      key={i}
+                      style={{
+                        transition:
+                          'transform 0.4s ease-in, opacity 0.4s ease-in',
+                        transformOrigin: '110px 110px',
+                        transform: gone || biting ? 'scale(0.7)' : 'scale(1)',
+                        opacity: gone ? 0 : biting ? 0.3 : 1,
+                      }}
+                    >
+                      {plateImage ? (
+                        /* Plate image clipped to this pie segment */
+                        <>
+                          <image
+                            href={plateImage}
+                            x={PLATE_IMAGE_OFFSET}
+                            y={PLATE_IMAGE_OFFSET}
+                            width={PLATE_IMAGE_SIZE}
+                            height={PLATE_IMAGE_SIZE}
+                            clipPath={`url(#slice-clip-${i})`}
+                            preserveAspectRatio="xMidYMid slice"
+                          />
+                          {/* Divider line between segments */}
+                          <path
+                            d={slicePath(
+                              i,
+                              totalBites,
+                              PLATE_CENTER,
+                              PLATE_RADIUS
+                            )}
+                            fill="none"
+                            stroke={theme.colors.primary}
+                            strokeWidth="4"
+                          />
+                        </>
+                      ) : (
+                        /* Fallback: solid-colour slice */
+                        <path
+                          d={slicePath(
+                            i,
+                            totalBites,
+                            PLATE_CENTER,
+                            PLATE_RADIUS
+                          )}
+                          fill={SLICE_COLORS[i % SLICE_COLORS.length]}
+                          stroke={bg}
                           strokeWidth="4"
                         />
-                      </>
-                    ) : (
-                      /* Fallback: solid-colour slice */
-                      <path
-                        d={slicePath(i, totalBites, PLATE_CENTER, PLATE_RADIUS)}
-                        fill={SLICE_COLORS[i % SLICE_COLORS.length]}
-                        stroke={bg}
-                        strokeWidth="4"
-                      />
-                    )}
+                      )}
 
-                    {/* Bite-mark circles (3 crescents that pop in) */}
-                    {biting &&
-                      (() => {
-                        const ang = ((i + 0.5) / totalBites) * 360
-                        return [-15, 0, 15].map((off, j) => {
-                          const c = polar(
-                            PLATE_CENTER,
-                            PLATE_CENTER,
-                            PLATE_RADIUS - 5,
-                            ang + off
-                          )
-                          return (
-                            <circle
-                              key={j}
-                              cx={c.x}
-                              cy={c.y}
-                              r={j === 1 ? 32 : 25}
-                              fill={bg}
-                              style={{
-                                transformOrigin: `${c.x}px ${c.y}px`,
-                                transform: biteVis ? 'scale(1)' : 'scale(0)',
-                                transition: `transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275) ${j * 0.1}s`,
-                              }}
-                            />
-                          )
-                        })
-                      })()}
-                  </g>
-                )
-              })}
-            </svg>
+                      {/* Bite-mark circles (3 crescents that pop in) */}
+                      {biting &&
+                        (() => {
+                          const ang = ((i + 0.5) / totalBites) * 360
+                          return [-15, 0, 15].map((off, j) => {
+                            const c = polar(
+                              PLATE_CENTER,
+                              PLATE_CENTER,
+                              PLATE_RADIUS - 5,
+                              ang + off
+                            )
+                            return (
+                              <circle
+                                key={j}
+                                cx={c.x}
+                                cy={c.y}
+                                r={j === 1 ? 32 : 25}
+                                fill={bg}
+                                style={{
+                                  transformOrigin: `${c.x}px ${c.y}px`,
+                                  transform: biteVis ? 'scale(1)' : 'scale(0)',
+                                  transition: `transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275) ${j * 0.1}s`,
+                                }}
+                              />
+                            )
+                          })
+                        })()}
+                    </g>
+                  )
+                })}
+              </svg>
+
+              {/* ---- CHEWING COOLDOWN OVERLAY ---- */}
+              {biteCooldownSeconds > 0 &&
+                (() => {
+                  const RING_R = 55
+                  const CIRC = 2 * Math.PI * RING_R
+                  const offset =
+                    (1 - biteCooldownSeconds / BITE_COOLDOWN_SECONDS) * CIRC
+                  return (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: 200,
+                        height: 200,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        pointerEvents: 'none',
+                      }}
+                    >
+                      <svg width="160" height="160" viewBox="0 0 160 160">
+                        {/* Frosted backdrop */}
+                        <circle
+                          cx="80"
+                          cy="80"
+                          r="70"
+                          fill="rgba(255,255,255,0.85)"
+                        />
+                        {/* Track ring */}
+                        <circle
+                          cx="80"
+                          cy="80"
+                          r={RING_R}
+                          fill="none"
+                          stroke="#e8e8e8"
+                          strokeWidth="8"
+                        />
+                        {/* Countdown ring (empties clockwise) */}
+                        <circle
+                          cx="80"
+                          cy="80"
+                          r={RING_R}
+                          fill="none"
+                          stroke={theme.colors.secondary}
+                          strokeWidth="8"
+                          strokeLinecap="round"
+                          strokeDasharray={CIRC}
+                          strokeDashoffset={offset}
+                          transform="rotate(-90 80 80)"
+                          style={{ transition: 'stroke-dashoffset 1s linear' }}
+                        />
+                      </svg>
+                      {/* Centered bite icon */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {biteIcon && (
+                          <img
+                            src={biteIcon}
+                            alt="Chewing…"
+                            className="animate-bounce"
+                            style={{
+                              width: 64,
+                              height: 64,
+                              objectFit: 'contain',
+                            }}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  )
+                })()}
+            </div>
 
             <div
               style={{
