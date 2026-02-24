@@ -8,6 +8,7 @@ export const uiTokens = {
   singleVerticalSpace: 24,
   doubleVerticalSpace: 48,
   contentMaxWidth: 340,
+  controlRowWidth: 304,
   actionButtonHeight: 88,
   actionButtonRadius: 30,
   actionButtonFontSize: 28,

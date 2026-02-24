@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import StepperButton from './StepperButton'
 import EditableStarDisplay from './EditableStarDisplay'
+import { uiTokens } from '../ui/tokens'
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -23,6 +24,27 @@ const MAX_DURATION = 30 * 60 // 30 minutes
 const MIN_BITES = 1
 const MAX_BITES = 16
 const TIME_STEP = 5 * 60 // ±5 minutes
+const STEPPER_WIDTH = 46
+const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
+const PLATE_CENTER = 110
+const BASE_VIEWBOX_SIZE = 220
+const CONTROL_SVG_SIZE = 200
+const CONTROL_SVG_SCALE = CONTROL_SVG_SIZE / BASE_VIEWBOX_SIZE
+const PLATE_RADIUS = (CONTROL_ROW_WIDTH / 2 - STEPPER_WIDTH / 2) / (200 / 220)
+const PLATE_IMAGE_SIZE = PLATE_RADIUS * 2
+const PLATE_IMAGE_OFFSET = PLATE_CENTER - PLATE_RADIUS
+const PLATE_VERTICAL_OVERFLOW = Math.max(
+  0,
+  (PLATE_RADIUS - PLATE_CENTER) * CONTROL_SVG_SCALE
+)
+const CLOCK_CENTER_X = PLATE_CENTER
+const CLOCK_CENTER_Y = 110
+const CLOCK_RADIUS = PLATE_RADIUS
+const CLOCK_MARKER_INNER_RADIUS = CLOCK_RADIUS - 8
+const CLOCK_SECOND_HAND_LENGTH = CLOCK_RADIUS * 0.9375
+const CLOCK_VIEWBOX_Y = CLOCK_CENTER_Y - CLOCK_RADIUS
+const CLOCK_VIEWBOX_HEIGHT = CLOCK_CENTER_Y - CLOCK_VIEWBOX_Y
+const CLOCK_SVG_HEIGHT = CLOCK_VIEWBOX_HEIGHT * CONTROL_SVG_SCALE
 
 /* ------------------------------------------------------------------ */
 /*  SVG geometry helpers  (same maths as design prototype)             */
@@ -36,10 +58,17 @@ function polar(cx: number, cy: number, r: number, deg: number) {
 /** Half-circle wedge representing remaining time proportion against the fixed 30-min max. */
 function wedgePath(remaining: number): string {
   const pct = Math.max(0, Math.min(1, remaining / MAX_DURATION))
-  if (pct <= 0) return 'M 100 100 L 20 100 Z'
-  if (pct >= 1) return 'M 100 100 L 20 100 A 80 80 0 0 1 180 100 Z'
+  const leftX = CLOCK_CENTER_X - CLOCK_RADIUS
+  const baseY = CLOCK_CENTER_Y
+
+  if (pct <= 0) return `M ${CLOCK_CENTER_X} ${baseY} L ${leftX} ${baseY} Z`
+  if (pct >= 1) {
+    const rightX = CLOCK_CENTER_X + CLOCK_RADIUS
+    return `M ${CLOCK_CENTER_X} ${baseY} L ${leftX} ${baseY} A ${CLOCK_RADIUS} ${CLOCK_RADIUS} 0 0 1 ${rightX} ${baseY} Z`
+  }
+
   const a = pct * Math.PI
-  return `M 100 100 L 20 100 A 80 80 0 0 1 ${100 - 80 * Math.cos(a)} ${100 - 80 * Math.sin(a)} Z`
+  return `M ${CLOCK_CENTER_X} ${baseY} L ${leftX} ${baseY} A ${CLOCK_RADIUS} ${CLOCK_RADIUS} 0 0 1 ${CLOCK_CENTER_X - CLOCK_RADIUS * Math.cos(a)} ${CLOCK_CENTER_Y - CLOCK_RADIUS * Math.sin(a)} Z`
 }
 
 /** Pie-slice path for one bite on the plate. */
@@ -135,10 +164,10 @@ const DinnerCountdown = ({
     const f = val / maxMins
     const a = f * Math.PI
     return {
-      x1: 100 - 72 * Math.cos(a),
-      y1: 100 - 72 * Math.sin(a),
-      x2: 100 - 80 * Math.cos(a),
-      y2: 100 - 80 * Math.sin(a),
+      x1: CLOCK_CENTER_X - CLOCK_MARKER_INNER_RADIUS * Math.cos(a),
+      y1: CLOCK_CENTER_Y - CLOCK_MARKER_INNER_RADIUS * Math.sin(a),
+      x2: CLOCK_CENTER_X - CLOCK_RADIUS * Math.cos(a),
+      y2: CLOCK_CENTER_Y - CLOCK_RADIUS * Math.sin(a),
     }
   })
 
@@ -154,7 +183,7 @@ const DinnerCountdown = ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '12px',
+        gap: `${uiTokens.singleVerticalSpace}px`,
       }}
     >
       {isSuccess && completionImage ? (
@@ -184,7 +213,8 @@ const DinnerCountdown = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '100%',
+              width: `${CONTROL_ROW_WIDTH}px`,
+              maxWidth: '100%',
             }}
           >
             <div
@@ -192,6 +222,8 @@ const DinnerCountdown = ({
                 opacity: isSetup ? 1 : 0,
                 pointerEvents: isSetup ? 'auto' : 'none',
                 transition: 'opacity 0.3s',
+                position: 'relative',
+                zIndex: isSetup ? 3 : 1,
               }}
             >
               <StepperButton
@@ -200,23 +232,29 @@ const DinnerCountdown = ({
                 onClick={() => onAdjustTime(-TIME_STEP)}
                 disabled={!isSetup || duration <= MIN_DURATION}
                 ariaLabel="Decrease timer by 5 minutes"
+                style={{ position: 'relative', zIndex: 3 }}
               />
             </div>
 
             <svg
-              width="220"
-              height="120"
-              viewBox="0 0 200 120"
-              style={{ margin: '0 6px' }}
+              width="200"
+              height={CLOCK_SVG_HEIGHT}
+              viewBox={`0 ${CLOCK_VIEWBOX_Y} 220 ${CLOCK_VIEWBOX_HEIGHT}`}
+              style={{
+                margin: '0 6px',
+                overflow: 'visible',
+                position: 'relative',
+                zIndex: 1,
+              }}
             >
               {/* Full semicircle background (white) */}
               <path
-                d="M 100 100 L 20 100 A 80 80 0 0 1 180 100 Z"
+                d={`M ${CLOCK_CENTER_X} ${CLOCK_CENTER_Y} L ${CLOCK_CENTER_X - CLOCK_RADIUS} ${CLOCK_CENTER_Y} A ${CLOCK_RADIUS} ${CLOCK_RADIUS} 0 0 1 ${CLOCK_CENTER_X + CLOCK_RADIUS} ${CLOCK_CENTER_Y} Z`}
                 fill="#ffffff"
               />
               {/* Outline arc */}
               <path
-                d="M 20 100 A 80 80 0 0 1 180 100"
+                d={`M ${CLOCK_CENTER_X - CLOCK_RADIUS} ${CLOCK_CENTER_Y} A ${CLOCK_RADIUS} ${CLOCK_RADIUS} 0 0 1 ${CLOCK_CENTER_X + CLOCK_RADIUS} ${CLOCK_CENTER_Y}`}
                 fill="none"
                 stroke="#e0e0e0"
                 strokeWidth="4"
@@ -247,23 +285,23 @@ const DinnerCountdown = ({
               {isTimerRunning && (
                 <>
                   <line
-                    x1="100"
-                    y1="100"
-                    x2="25"
-                    y2="100"
+                    x1={CLOCK_CENTER_X}
+                    y1={CLOCK_CENTER_Y}
+                    x2={CLOCK_CENTER_X - CLOCK_SECOND_HAND_LENGTH}
+                    y2={CLOCK_CENTER_Y}
                     stroke={theme.colors.secondary}
                     strokeWidth="4"
                     strokeLinecap="round"
                     style={{
-                      transformOrigin: '100px 100px',
+                      transformOrigin: `${CLOCK_CENTER_X}px ${CLOCK_CENTER_Y}px`,
                       transform: `rotate(${secRot}deg)`,
                       transition:
                         'transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275)',
                     }}
                   />
                   <circle
-                    cx="100"
-                    cy="100"
+                    cx={CLOCK_CENTER_X}
+                    cy={CLOCK_CENTER_Y}
                     r="6"
                     fill={theme.colors.secondary}
                   />
@@ -276,6 +314,8 @@ const DinnerCountdown = ({
                 opacity: isSetup ? 1 : 0,
                 pointerEvents: isSetup ? 'auto' : 'none',
                 transition: 'opacity 0.3s',
+                position: 'relative',
+                zIndex: isSetup ? 3 : 1,
               }}
             >
               <StepperButton
@@ -284,6 +324,7 @@ const DinnerCountdown = ({
                 onClick={() => onAdjustTime(TIME_STEP)}
                 disabled={!isSetup || duration >= MAX_DURATION}
                 ariaLabel="Increase timer by 5 minutes"
+                style={{ position: 'relative', zIndex: 3 }}
               />
             </div>
           </div>
@@ -294,7 +335,10 @@ const DinnerCountdown = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '100%',
+              width: `${CONTROL_ROW_WIDTH}px`,
+              maxWidth: '100%',
+              marginTop: `${PLATE_VERTICAL_OVERFLOW}px`,
+              marginBottom: `${PLATE_VERTICAL_OVERFLOW}px`,
             }}
           >
             <div
@@ -302,6 +346,8 @@ const DinnerCountdown = ({
                 opacity: isSetup ? 1 : 0,
                 pointerEvents: isSetup ? 'auto' : 'none',
                 transition: 'opacity 0.3s',
+                position: 'relative',
+                zIndex: isSetup ? 3 : 1,
               }}
             >
               <StepperButton
@@ -310,6 +356,7 @@ const DinnerCountdown = ({
                 onClick={() => onAdjustBites(-1)}
                 disabled={!isSetup || totalBites <= MIN_BITES}
                 ariaLabel="Decrease bites"
+                style={{ position: 'relative', zIndex: 3 }}
               />
             </div>
 
@@ -317,14 +364,21 @@ const DinnerCountdown = ({
               width="200"
               height="200"
               viewBox="0 0 220 220"
-              style={{ margin: '0 6px', overflow: 'visible' }}
+              style={{
+                margin: '0 6px',
+                overflow: 'visible',
+                position: 'relative',
+                zIndex: 1,
+              }}
             >
               {/* Per-slice clip paths (used when a plate image is provided) */}
               {plateImage && (
                 <defs>
                   {Array.from({ length: totalBites }, (_, i) => (
                     <clipPath key={i} id={`slice-clip-${i}`}>
-                      <path d={slicePath(i, totalBites, 110, 100)} />
+                      <path
+                        d={slicePath(i, totalBites, PLATE_CENTER, PLATE_RADIUS)}
+                      />
                     </clipPath>
                   ))}
                 </defs>
@@ -350,16 +404,21 @@ const DinnerCountdown = ({
                       <>
                         <image
                           href={plateImage}
-                          x="10"
-                          y="10"
-                          width="200"
-                          height="200"
+                          x={PLATE_IMAGE_OFFSET}
+                          y={PLATE_IMAGE_OFFSET}
+                          width={PLATE_IMAGE_SIZE}
+                          height={PLATE_IMAGE_SIZE}
                           clipPath={`url(#slice-clip-${i})`}
                           preserveAspectRatio="xMidYMid slice"
                         />
                         {/* Divider line between segments */}
                         <path
-                          d={slicePath(i, totalBites, 110, 100)}
+                          d={slicePath(
+                            i,
+                            totalBites,
+                            PLATE_CENTER,
+                            PLATE_RADIUS
+                          )}
                           fill="none"
                           stroke={theme.colors.primary}
                           strokeWidth="4"
@@ -368,7 +427,7 @@ const DinnerCountdown = ({
                     ) : (
                       /* Fallback: solid-colour slice */
                       <path
-                        d={slicePath(i, totalBites, 110, 100)}
+                        d={slicePath(i, totalBites, PLATE_CENTER, PLATE_RADIUS)}
                         fill={SLICE_COLORS[i % SLICE_COLORS.length]}
                         stroke={bg}
                         strokeWidth="4"
@@ -380,7 +439,12 @@ const DinnerCountdown = ({
                       (() => {
                         const ang = ((i + 0.5) / totalBites) * 360
                         return [-15, 0, 15].map((off, j) => {
-                          const c = polar(110, 110, 95, ang + off)
+                          const c = polar(
+                            PLATE_CENTER,
+                            PLATE_CENTER,
+                            PLATE_RADIUS - 5,
+                            ang + off
+                          )
                           return (
                             <circle
                               key={j}
@@ -407,6 +471,8 @@ const DinnerCountdown = ({
                 opacity: isSetup ? 1 : 0,
                 pointerEvents: isSetup ? 'auto' : 'none',
                 transition: 'opacity 0.3s',
+                position: 'relative',
+                zIndex: isSetup ? 3 : 1,
               }}
             >
               <StepperButton
@@ -415,6 +481,7 @@ const DinnerCountdown = ({
                 onClick={() => onAdjustBites(1)}
                 disabled={!isSetup || totalBites >= MAX_BITES}
                 ariaLabel="Increase bites"
+                style={{ position: 'relative', zIndex: 3 }}
               />
             </div>
           </div>

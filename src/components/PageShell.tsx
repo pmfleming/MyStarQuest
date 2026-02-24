@@ -21,7 +21,7 @@ const PageShell = ({
     <div
       className="flex min-h-screen w-full items-center justify-center transition-colors duration-500"
       style={{
-        background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
+        background: '#000',
         padding: '20px',
       }}
     >
@@ -31,8 +31,7 @@ const PageShell = ({
           minHeight: `${uiTokens.deviceMinHeight}px`,
           maxWidth: `${uiTokens.deviceMaxWidth}px`,
           borderRadius: '40px',
-          boxShadow:
-            '0 0 0 12px #1a1a2e, 0 0 0 14px #333, 0 25px 50px rgba(0, 0, 0, 0.5)',
+          boxShadow: '0 0 0 12px #1a1a2e, 0 0 0 14px #333',
           background: theme.colors.bg,
           backgroundImage: theme.bgPattern,
           fontFamily: theme.fonts.body,

@@ -35,7 +35,6 @@ Scope: `src/**/*.{ts,tsx,css}`
 - [src/components/StandardActionList.tsx](../src/components/StandardActionList.tsx#L377) — list stack gap from token.
 - [src/components/StandardActionList.tsx](../src/components/StandardActionList.tsx#L430) — inline-new-row gap from token.
 - [src/components/StarInfoBox.tsx](../src/components/StarInfoBox.tsx#L208) — tokenized `marginBottom`.
-- [src/components/StarCost.tsx](../src/components/StarCost.tsx#L65) — tokenized `margin-bottom` in embedded CSS.
 
 ---
 
@@ -72,7 +71,6 @@ Scope: `src/**/*.{ts,tsx,css}`
 
 ### Hard-coded vertical margins / offsets
 
-- [src/components/StarCost.tsx](../src/components/StarCost.tsx#L48) — `margin-bottom: 12px`.
 - [src/components/StarInfoBox.tsx](../src/components/StarInfoBox.tsx#L76) — `marginTop: '-7px'` (intentional visual offset, keep only if required).
 
 ### Mixed shorthand containing vertical values
@@ -92,8 +90,7 @@ Scope: `src/**/*.{ts,tsx,css}`
 ## Quick normalization candidates (high value)
 
 1. Introduce shared token(s) for repeated inline gaps (`12px`, `8px`, optional `10px`).
-2. Replace `margin-bottom: 12px` in `StarCost` with tokenized value.
-3. Consider replacing `Carousel` vertical paddings (`14`/`18`) with token-backed values if carousel height still meets design intent.
+2. Consider replacing `Carousel` vertical paddings (`14`/`18`) with token-backed values if carousel height still meets design intent.
 
 ---
 

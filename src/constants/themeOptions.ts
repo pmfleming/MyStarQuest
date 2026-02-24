@@ -3,14 +3,14 @@
 // Define a type for the theme IDs for type safety
 export type ThemeId = 'space' | 'nature' | 'cartoon' | 'princess'
 
-export interface ThemeOption {
+interface ThemeOption {
   id: ThemeId
   label: string
   emoji: string
   description: string
 }
 
-export const THEME_OPTIONS: ThemeOption[] = [
+const themeOptions: ThemeOption[] = [
   {
     id: 'space',
     label: 'Space',
@@ -29,5 +29,5 @@ export const THEME_OPTIONS: ThemeOption[] = [
 
 // A quick lookup map for getting theme details by ID
 export const THEME_ID_LOOKUP = new Map(
-  THEME_OPTIONS.map((option) => [option.id, option])
+  themeOptions.map((option) => [option.id, option])
 )

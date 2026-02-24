@@ -179,40 +179,33 @@ const ManageChildrenPage = () => {
       id: 'princess' as ThemeId,
       label: 'Princess',
       image: princessThemeIcon,
-      enabled: true,
     },
     {
       id: 'space' as ThemeId,
       label: 'Space',
       image: spaceThemeIcon,
-      enabled: true,
     },
     {
       id: 'nature' as ThemeId,
       label: 'Nature',
       image: natureThemeIcon,
-      enabled: true,
     },
     {
       id: 'cartoon' as ThemeId,
       label: 'Cartoon',
       image: cartoonThemeIcon,
-      enabled: true,
     },
   ]
 
-  const enabledThemeOptions = themeOptions.filter((option) => option.enabled)
-  const carouselItems = enabledThemeOptions.map((option) => ({
+  const carouselItems = themeOptions.map((option) => ({
     id: option.id,
     label: option.label,
-    icon: option.image ? (
+    icon: (
       <img
         src={option.image}
         alt={option.label}
         style={{ width: '70px', height: '70px', objectFit: 'contain' }}
       />
-    ) : (
-      <span className="text-sm font-bold opacity-70">Coming soon</span>
     ),
   }))
   return (
@@ -250,9 +243,7 @@ const ManageChildrenPage = () => {
               const currentThemeId = child.themeId || 'princess'
               const currentThemeIndex = Math.max(
                 0,
-                enabledThemeOptions.findIndex(
-                  (option) => option.id === currentThemeId
-                )
+                themeOptions.findIndex((option) => option.id === currentThemeId)
               )
 
               return (
@@ -283,7 +274,7 @@ const ManageChildrenPage = () => {
                     title="Select Theme"
                     initialIndex={currentThemeIndex}
                     onChange={(index) => {
-                      const selected = enabledThemeOptions[index]
+                      const selected = themeOptions[index]
                       if (!selected) return
                       handleThemeChange(child, selected.id)
                     }}

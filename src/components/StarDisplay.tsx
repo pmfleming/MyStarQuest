@@ -3,7 +3,7 @@ import starSvgUrl from '../assets/global/star.svg'
 
 // ============================================================================
 // UNIFIED STAR DISPLAY COMPONENT
-// Used by: StarCost, StandardActionList (StarField)
+// Used by: StandardActionList (StarField)
 // ============================================================================
 
 // Inject CSS animations once

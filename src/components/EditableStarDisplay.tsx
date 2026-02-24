@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import StarDisplay from './StarDisplay'
 import StepperButton from './StepperButton'
+import { uiTokens } from '../ui/tokens'
 
 // ============================================================================
 // UNIFIED EDITABLE STAR DISPLAY
@@ -26,6 +27,13 @@ export type EditableStarDisplayProps = {
 }
 
 const CONTROLS_DELAY_MS = 550 // let stars animate before controls appear
+const STEPPER_WIDTH = 46
+const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
+const STAR_GEOMETRY_OVERHANG = 6
+const STAR_CONTROL_WIDTH =
+  CONTROL_ROW_WIDTH - STEPPER_WIDTH + STAR_GEOMETRY_OVERHANG * 2
+const STAR_CONTROL_LEFT = (CONTROL_ROW_WIDTH - STAR_CONTROL_WIDTH) / 2
+const STEPPER_OFFSET = STAR_CONTROL_LEFT - STEPPER_WIDTH / 2
 
 const EditableStarDisplay = ({
   count,
@@ -58,22 +66,33 @@ const EditableStarDisplay = ({
 
   const showControls = editable && controlsVisible
 
+  if (!editable) {
+    return <StarDisplay count={count} animate={animate} />
+  }
+
   return (
     <div
       style={{
+        position: 'relative',
+        width: `${CONTROL_ROW_WIDTH}px`,
+        maxWidth: '100%',
+        overflow: 'visible',
         display: 'flex',
         alignItems: 'center',
-        gap: '12px',
+        justifyContent: 'center',
       }}
     >
       {/* Minus button — fades in after star animation */}
       <div
         style={{
-          width: '46px',
-          flexShrink: 0,
+          position: 'absolute',
+          left: `${STEPPER_OFFSET}px`,
+          top: '50%',
+          transform: 'translateY(-50%)',
           opacity: showControls ? 1 : 0,
           transition: 'opacity 0.3s ease',
           pointerEvents: showControls ? 'auto' : 'none',
+          zIndex: showControls ? 3 : 1,
         }}
       >
         <StepperButton
@@ -82,22 +101,30 @@ const EditableStarDisplay = ({
           onClick={handleDecrement}
           disabled={count <= min}
           ariaLabel="Decrease star value"
+          style={{ position: 'relative', zIndex: 3 }}
         />
       </div>
 
       {/* Star field */}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <StarDisplay count={count} animate={animate} />
+      <div style={{ width: `${STAR_CONTROL_WIDTH}px`, minWidth: 0 }}>
+        <StarDisplay
+          count={count}
+          animate={animate}
+          style={{ width: '100%', boxSizing: 'border-box' }}
+        />
       </div>
 
       {/* Plus button — fades in after star animation */}
       <div
         style={{
-          width: '46px',
-          flexShrink: 0,
+          position: 'absolute',
+          right: `${STEPPER_OFFSET}px`,
+          top: '50%',
+          transform: 'translateY(-50%)',
           opacity: showControls ? 1 : 0,
           transition: 'opacity 0.3s ease',
           pointerEvents: showControls ? 'auto' : 'none',
+          zIndex: showControls ? 3 : 1,
         }}
       >
         <StepperButton
@@ -106,6 +133,7 @@ const EditableStarDisplay = ({
           onClick={handleIncrement}
           disabled={count >= max}
           ariaLabel="Increase star value"
+          style={{ position: 'relative', zIndex: 3 }}
         />
       </div>
     </div>

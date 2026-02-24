@@ -326,7 +326,7 @@ const StandardActionList = <T,>({
 
   const rowBaseStyle: CSSProperties = {
     borderRadius: '32px',
-    padding: '24px',
+    padding: `${uiTokens.singleVerticalSpace}px`,
     border: `4px solid ${theme.colors.surface}`,
     boxShadow: cardShadow,
     background: `linear-gradient(145deg, ${theme.colors.surface} 0%, ${theme.colors.bg} 100%)`,

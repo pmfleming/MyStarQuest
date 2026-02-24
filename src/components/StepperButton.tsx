@@ -14,7 +14,7 @@ type StepperButtonProps = {
 
 /**
  * Standardized rectangular stepper button used for increment/decrement
- * controls across the app (Carousel navigation, StarCost +/- buttons, etc.)
+ * controls across the app (Carousel navigation, editable star controls, etc.)
  */
 const StepperButton = ({
   theme,
