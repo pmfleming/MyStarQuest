@@ -1,4 +1,7 @@
 import { useState, useEffect, type CSSProperties } from 'react'
+import type { Theme } from '../contexts/ThemeContext'
+import StepperButton from './StepperButton'
+import { uiTokens } from '../ui/tokens'
 import starSvgUrl from '../assets/global/star.svg'
 
 // ============================================================================
@@ -41,24 +44,42 @@ export type StarDisplayProps = {
   className?: string
   /** Empty state content when count is 0 */
   emptyContent?: React.ReactNode
+  /** When true, renders +/- controls alongside the star field */
+  editable?: boolean
+  /** Called with the new value when +/- is pressed */
+  onChange?: (value: number) => void
+  /** Minimum value (inclusive). Defaults to 1. */
+  min?: number
+  /** Maximum value (inclusive). Defaults to 10. */
+  max?: number
+  /** Theme needed for editable stepper controls */
+  theme?: Theme
 }
+
+const CONTROLS_DELAY_MS = 550
+const STEPPER_WIDTH = 46
+const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
+const STAR_GEOMETRY_OVERHANG = 6
+const STAR_CONTROL_WIDTH =
+  CONTROL_ROW_WIDTH - STEPPER_WIDTH + STAR_GEOMETRY_OVERHANG * 2
+const STAR_CONTROL_LEFT = (CONTROL_ROW_WIDTH - STAR_CONTROL_WIDTH) / 2
+const STEPPER_OFFSET = STAR_CONTROL_LEFT - STEPPER_WIDTH / 2
 
 // ============================================================================
 // DENSITY CALCULATION
 // ============================================================================
 
-type DensityClass = 'low' | 'medium' | 'high'
+type DensityClass = 'low' | 'medium'
 
 const getDensityClass = (count: number): DensityClass => {
-  if (count > 40) return 'high'
-  if (count > 10) return 'medium'
+  if (count > 24) return 'medium'
   return 'low'
 }
 
 const DENSITY_SIZES = {
   low: { width: 32, gap: 8 },
   medium: { width: 20, gap: 4 },
-  high: { width: 12, gap: 2 },
+  // high: { width: 12, gap: 2 },
 }
 
 // ============================================================================
@@ -153,7 +174,7 @@ const FieldVariant = ({
   const containerStyle: CSSProperties = {
     background: '#f1f5f9',
     borderRadius: '20px',
-    padding: densityClass === 'high' ? '8px' : '12px',
+    padding: '12px',
     minHeight: '60px',
     border: '2px dashed #cbd5e1',
     display: 'flex',
@@ -223,11 +244,107 @@ const StarDisplay = ({
   style,
   className,
   emptyContent,
+  editable = false,
+  onChange,
+  min = 1,
+  max = 10,
+  theme,
 }: StarDisplayProps) => {
+  const [controlsVisible, setControlsVisible] = useState(false)
+
   // Inject styles on mount
   useEffect(() => {
     injectStarDisplayStyles()
   }, [])
+
+  useEffect(() => {
+    if (!editable) {
+      setControlsVisible(false)
+      return
+    }
+    const timer = setTimeout(() => setControlsVisible(true), CONTROLS_DELAY_MS)
+    return () => clearTimeout(timer)
+  }, [editable])
+
+  const handleDecrement = () => {
+    if (onChange && count > min) onChange(count - 1)
+  }
+
+  const handleIncrement = () => {
+    if (onChange && count < max) onChange(count + 1)
+  }
+
+  const showControls = editable && controlsVisible
+
+  if (editable && theme) {
+    return (
+      <div
+        style={{
+          position: 'relative',
+          width: `${CONTROL_ROW_WIDTH}px`,
+          maxWidth: '100%',
+          overflow: 'visible',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          ...style,
+        }}
+        className={className}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            left: `${STEPPER_OFFSET}px`,
+            top: '50%',
+            transform: 'translateY(-50%)',
+            opacity: showControls ? 1 : 0,
+            transition: 'opacity 0.3s ease',
+            pointerEvents: showControls ? 'auto' : 'none',
+            zIndex: showControls ? 3 : 1,
+          }}
+        >
+          <StepperButton
+            theme={theme}
+            direction="prev"
+            onClick={handleDecrement}
+            disabled={count <= min}
+            ariaLabel="Decrease star value"
+            style={{ position: 'relative', zIndex: 3 }}
+          />
+        </div>
+
+        <div style={{ width: `${STAR_CONTROL_WIDTH}px`, minWidth: 0 }}>
+          <FieldVariant
+            count={count}
+            animate={animate}
+            style={{ width: '100%', boxSizing: 'border-box' }}
+          />
+        </div>
+
+        <div
+          style={{
+            position: 'absolute',
+            right: `${STEPPER_OFFSET}px`,
+            top: '50%',
+            transform: 'translateY(-50%)',
+            opacity: showControls ? 1 : 0,
+            transition: 'opacity 0.3s ease',
+            pointerEvents: showControls ? 'auto' : 'none',
+            zIndex: showControls ? 3 : 1,
+          }}
+        >
+          <StepperButton
+            theme={theme}
+            direction="next"
+            onClick={handleIncrement}
+            disabled={count >= max}
+            ariaLabel="Increase star value"
+            style={{ position: 'relative', zIndex: 3 }}
+          />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <FieldVariant

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import StepperButton from './StepperButton'
-import EditableStarDisplay from './EditableStarDisplay'
+import StarDisplay from './StarDisplay'
 import { uiTokens } from '../ui/tokens'
 
 /* ------------------------------------------------------------------ */
@@ -488,7 +488,7 @@ const DinnerCountdown = ({
 
           {/* ---- STAR REWARD (editable, setup only) ---- */}
           {isSetup && (
-            <EditableStarDisplay
+            <StarDisplay
               theme={theme}
               count={starReward}
               editable

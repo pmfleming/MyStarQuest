@@ -20,7 +20,7 @@ import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
-import EditableStarDisplay from '../components/EditableStarDisplay'
+import StarDisplay from '../components/StarDisplay'
 import ActionTextInput from '../components/ActionTextInput'
 import RepeatControl from '../components/RepeatControl'
 import DinnerCountdown from '../components/DinnerCountdown'
@@ -271,8 +271,6 @@ const ManageTasksPage = () => {
 
   const handleDelete = async (id: string) => {
     if (!user) return
-    const confirmDelete = window.confirm('Delete this chore?')
-    if (!confirmDelete) return
 
     try {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'tasks'), id))
@@ -469,7 +467,7 @@ const ManageTasksPage = () => {
                         transparent
                       />
 
-                      <EditableStarDisplay
+                      <StarDisplay
                         theme={theme}
                         count={task.starValue}
                         editable

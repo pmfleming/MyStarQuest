@@ -19,7 +19,7 @@ import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
-import EditableStarDisplay from '../components/EditableStarDisplay'
+import StarDisplay from '../components/StarDisplay'
 import ActionTextInput from '../components/ActionTextInput'
 import RepeatControl from '../components/RepeatControl'
 import { uiTokens } from '../ui/tokens'
@@ -247,7 +247,7 @@ const ManageRewardsPage = () => {
                   transparent
                 />
 
-                <EditableStarDisplay
+                <StarDisplay
                   theme={theme}
                   count={reward.costStars}
                   editable

@@ -21,6 +21,7 @@ import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import Carousel from '../components/Carousel'
 import ActionTextInput from '../components/ActionTextInput'
+import StarDisplay from '../components/StarDisplay'
 import { uiTokens } from '../ui/tokens'
 import {
   princessActiveIcon,
@@ -91,7 +92,10 @@ const ManageChildrenPage = () => {
   const updateChildField = async (
     id: string,
     field: Partial<
-      Pick<ChildProfile, 'displayName' | 'avatarToken' | 'themeId'>
+      Pick<
+        ChildProfile,
+        'displayName' | 'avatarToken' | 'themeId' | 'totalStars'
+      >
     >
   ) => {
     if (!user) return
@@ -147,9 +151,6 @@ const ManageChildrenPage = () => {
 
   const handleDelete = async (id: string) => {
     if (!user) return
-
-    const confirmDelete = window.confirm('Delete this child profile?')
-    if (!confirmDelete) return
 
     try {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'children'), id))
@@ -238,7 +239,6 @@ const ManageChildrenPage = () => {
             theme={theme}
             items={children}
             getKey={(child) => child.id}
-            getStarCount={(child) => child.totalStars}
             renderItem={(child) => {
               const currentThemeId = child.themeId || 'princess'
               const currentThemeIndex = Math.max(
@@ -278,6 +278,17 @@ const ManageChildrenPage = () => {
                       if (!selected) return
                       handleThemeChange(child, selected.id)
                     }}
+                  />
+
+                  <StarDisplay
+                    theme={theme}
+                    count={child.totalStars}
+                    editable
+                    min={0}
+                    max={999}
+                    onChange={(value) =>
+                      updateChildField(child.id, { totalStars: value })
+                    }
                   />
                 </div>
               )
