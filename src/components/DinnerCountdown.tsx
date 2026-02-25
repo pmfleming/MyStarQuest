@@ -21,7 +21,7 @@ const SLICE_COLORS = [
 
 const MIN_DURATION = 5 * 60 // 5 minutes
 const MAX_DURATION = 30 * 60 // 30 minutes
-export const BITE_COOLDOWN_SECONDS = 20
+export const BITE_COOLDOWN_SECONDS = 15
 const MIN_BITES = 1
 const MAX_BITES = 16
 const TIME_STEP = 5 * 60 // ±5 minutes
