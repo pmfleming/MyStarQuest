@@ -10,6 +10,21 @@
 - Format check (CI-friendly): `npm run format:check`
 - Preview prod build: `npm run preview`
 - E2E tests: `npx playwright test` (see `playwright.config.ts`)
+- Android sync: `npx cap sync android` (after `npm run build`)
+- Open Android Studio project: `npx cap open android`
+
+## Android (Capacitor) workflow
+
+- This app ships as a web app and an Android wrapper via Capacitor.
+- Source of truth for product behavior/UI remains in `src/*` and web config files.
+- Typical Android update flow:
+  1. Make web changes in React/Tailwind/theme files.
+  2. Run `npm run build`.
+  3. Run `npx cap sync android`.
+  4. Open/run from Android Studio (`android/` project) as needed.
+- Treat `android/app/src/main/assets/public` as generated output from sync; do not hand-edit it.
+- Native-only changes (permissions, Gradle, manifest, plugins) belong under `android/*` and should be kept minimal/surgical.
+- Keep Firebase web config in `src/firebase.ts` for shared app logic; Android-specific Firebase files (for native services) live under `android/app/`.
 
 ## High-level architecture
 
@@ -39,8 +54,6 @@
   - updates `children/{childId}.totalStars` with `increment(...)`
 - Standardized list rows use `src/components/StandardActionList.tsx` for Manage Children/Chores/Rewards.
   - This component handles list animations ("whimsical") and standard CRUD actions.
-- Layout sizing should reference `uiTokens` (not hard-coded values).
-- User feedback often uses `src/utils/celebrate.ts` (confetti) for positive actionsrd CRUD actions.
 - Layout sizing should reference `uiTokens` (not hard-coded values).
 - User feedback often uses `src/utils/celebrate.ts` (confetti) for positive actions.
 

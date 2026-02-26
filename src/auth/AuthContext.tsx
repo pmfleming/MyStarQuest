@@ -1,7 +1,10 @@
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication'
+import { Capacitor } from '@capacitor/core'
 import type { User } from 'firebase/auth'
 import {
   GoogleAuthProvider,
   onAuthStateChanged,
+  signInWithCredential,
   signInWithPopup,
   signOut,
 } from 'firebase/auth'
@@ -39,8 +42,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   const loginWithGoogle = useCallback(async () => {
-    const provider = new GoogleAuthProvider()
-    await signInWithPopup(auth, provider)
+    if (Capacitor.isNativePlatform()) {
+      // Use the Capacitor plugin on Android/iOS — avoids WebView popup restrictions
+      const result = await FirebaseAuthentication.signInWithGoogle()
+      const idToken = result.credential?.idToken
+      if (!idToken)
+        throw new Error('Google Sign-In did not return an ID token.')
+      const credential = GoogleAuthProvider.credential(idToken)
+      await signInWithCredential(auth, credential)
+    } else {
+      // Standard web popup flow
+      const provider = new GoogleAuthProvider()
+      await signInWithPopup(auth, provider)
+    }
   }, [])
 
   const logout = useCallback(async () => {
