@@ -108,12 +108,16 @@ interface DinnerCountdownProps {
   onStarsChange: (value: number) => void
   /** Optional image to show when all bites are eaten (themed) */
   completionImage?: string
+  /** Explicit completion flag used to control when success is shown */
+  isCompleted?: boolean
   /** Optional image to show when time runs out (themed) */
   failureImage?: string
   /** Remaining cooldown seconds between bites (0 = ready) */
   biteCooldownSeconds?: number
   /** Icon shown during bite cooldown (themed) */
   biteIcon?: string
+  /** Optional test hook to cycle cooldown icon while visible */
+  onBiteIconClick?: () => void
 }
 
 const DinnerCountdown = ({
@@ -129,15 +133,18 @@ const DinnerCountdown = ({
   onAdjustBites,
   onStarsChange,
   completionImage,
+  isCompleted = false,
   failureImage,
   biteCooldownSeconds = 0,
   biteIcon,
+  onBiteIconClick,
 }: DinnerCountdownProps) => {
   /* --- derived game phase --- */
-  const isSuccess = bitesLeft <= 0
+  const isCoolingDown = biteCooldownSeconds > 0
+  const isSuccess = isCompleted && bitesLeft <= 0 && !isCoolingDown
   const isTimeout = remaining <= 0 && bitesLeft > 0
   const isFinished = isSuccess || isTimeout
-  const isSetup = !isTimerRunning && !isFinished
+  const isSetup = !isTimerRunning && !isFinished && !isCoolingDown
 
   /* --- bite animation tracking --- */
   const [animSlice, setAnimSlice] = useState<number | null>(null)
@@ -617,6 +624,7 @@ const DinnerCountdown = ({
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
+                          pointerEvents: biteIcon ? 'auto' : 'none',
                         }}
                       >
                         {biteIcon && (
@@ -624,10 +632,12 @@ const DinnerCountdown = ({
                             src={biteIcon}
                             alt="Chewing…"
                             className="animate-bounce"
+                            onClick={onBiteIconClick}
                             style={{
                               width: 64,
                               height: 64,
                               objectFit: 'contain',
+                              cursor: onBiteIconClick ? 'pointer' : 'default',
                             }}
                           />
                         )}

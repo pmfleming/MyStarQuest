@@ -56,6 +56,11 @@
   - This component handles list animations ("whimsical") and standard CRUD actions.
 - Layout sizing should reference `uiTokens` (not hard-coded values).
 - User feedback often uses `src/utils/celebrate.ts` (confetti) for positive actions.
+- Maths test behavior lives in `src/components/MathsTester.tsx` and is parent-driven from `src/pages/ManageTasksPage.tsx`:
+  - Parent action button triggers answer checks through `checkTrigger` (MathsTester does not own a standalone check button).
+  - Completion/failure end-state images are passed via `completionImage`/`failureImage` to match `DinnerCountdown` style.
+  - Failure threshold is 3 mistakes (`onFail`) with persisted task outcome (`mathLastOutcome`) used to render deterministic end states.
+  - Princess maths SVGs used in `<img>` contexts should use fixed dimensions (not `%`) to avoid invisible renders.
 
 ## UI/UX conventions (kid-friendly)
 

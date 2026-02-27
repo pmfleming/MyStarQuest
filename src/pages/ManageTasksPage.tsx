@@ -26,13 +26,20 @@ import RepeatControl from '../components/RepeatControl'
 import DinnerCountdown, {
   BITE_COOLDOWN_SECONDS,
 } from '../components/DinnerCountdown'
+import MathsTester from '../components/MathsTester'
 import { uiTokens } from '../ui/tokens'
 import {
   princessBiteIcon,
+  princessEatingBreakfastIcon,
+  princessEatingDinnerIcon,
   princessEatingFailImage,
   princessEatingFullImage,
+  princessEatingLunchIcon,
   princessGiveStarIcon,
   princessHomeIcon,
+  princessMathsIcon,
+  princessMathsCorrectImage,
+  princessMathsIncorrectImage,
   princessPlateImage,
 } from '../assets/themes/princess/assets'
 
@@ -42,7 +49,7 @@ type TaskRecord = {
   title: string
   childId: string
   category: string
-  taskType: 'standard' | 'eating'
+  taskType: 'standard' | 'eating' | 'math'
   starValue: number
   isRepeating: boolean
   dinnerDurationSeconds?: number
@@ -50,12 +57,30 @@ type TaskRecord = {
   dinnerTotalBites?: number
   dinnerBitesLeft?: number
   dinnerCompletedAt?: number | null
+  mathTotalProblems?: number
+  mathCompletedAt?: number | null
+  mathLastOutcome?: 'success' | 'failure' | null
   createdAt?: Date
 }
 
 const DEFAULT_DINNER_DURATION_SECONDS = 10 * 60
 const DEFAULT_DINNER_BITES = 2
 const DEFAULT_DINNER_STARS = 3
+const DEFAULT_MATH_PROBLEMS = 5
+const DEFAULT_MATH_STARS = 3
+
+const princessBiteIconCycle = [
+  princessBiteIcon,
+  princessEatingBreakfastIcon,
+  princessEatingLunchIcon,
+  princessEatingDinnerIcon,
+]
+
+const getPrincessCooldownIconForHour = (hour: number) => {
+  if (hour < 10) return princessEatingBreakfastIcon
+  if (hour < 16) return princessEatingLunchIcon
+  return princessEatingDinnerIcon
+}
 
 const ManageTasksPage = () => {
   const { user } = useAuth()
@@ -66,10 +91,20 @@ const ManageTasksPage = () => {
   const [activeDinnerTaskId, setActiveDinnerTaskId] = useState<string | null>(
     null
   )
+  const [activeMathTaskId, setActiveMathTaskId] = useState<string | null>(null)
+  const [mathCheckTriggerByTask, setMathCheckTriggerByTask] = useState<
+    Record<string, number>
+  >({})
   const [showAddChooser, setShowAddChooser] = useState(false)
 
   // Bite cooldown: prevents rapid tapping (one bite per 20 s)
   const [biteCooldownSeconds, setBiteCooldownSeconds] = useState(0)
+  const [pendingDinnerBiteTaskId, setPendingDinnerBiteTaskId] = useState<
+    string | null
+  >(null)
+  const [biteCooldownTestIconIndex, setBiteCooldownTestIconIndex] = useState<
+    number | null
+  >(null)
 
   // Local title state keyed by task id, used for controlled inputs
   const [titleDrafts, setTitleDrafts] = useState<Record<string, string>>({})
@@ -85,10 +120,70 @@ const ManageTasksPage = () => {
 
   // Clear cooldown when the dinner game ends (timer stops or bites finish)
   useEffect(() => {
-    if (!activeDinnerTaskId) {
+    if (!activeDinnerTaskId && !pendingDinnerBiteTaskId) {
       setBiteCooldownSeconds(0)
+      setBiteCooldownTestIconIndex(null)
     }
-  }, [activeDinnerTaskId])
+  }, [activeDinnerTaskId, pendingDinnerBiteTaskId])
+
+  // Apply bite only after cooldown completes
+  useEffect(() => {
+    if (!pendingDinnerBiteTaskId || biteCooldownSeconds > 0) return
+
+    const applyBiteAfterCooldown = async () => {
+      const taskId = pendingDinnerBiteTaskId
+      setPendingDinnerBiteTaskId(null)
+
+      const task = tasks.find((item) => item.id === taskId)
+      if (!task || !isEatingTask(task)) return
+
+      const remaining = task.dinnerRemainingSeconds ?? 0
+      const bitesLeft = task.dinnerBitesLeft ?? 0
+      if (remaining <= 0 || bitesLeft <= 0) return
+
+      const nextBites = Math.max(0, bitesLeft - 1)
+      await updateTaskField(task.id, { dinnerBitesLeft: nextBites })
+
+      if (nextBites === 0) {
+        await new Promise((resolve) => window.setTimeout(resolve, 850))
+        await updateTaskField(task.id, { dinnerCompletedAt: Date.now() })
+        setActiveDinnerTaskId(null)
+
+        if (user && activeChildId) {
+          await awardStars({
+            userId: user.uid,
+            childId: activeChildId,
+            delta: task.starValue,
+          })
+          celebrateSuccess()
+        }
+      }
+    }
+
+    applyBiteAfterCooldown()
+  }, [activeChildId, biteCooldownSeconds, pendingDinnerBiteTaskId, tasks, user])
+
+  const activePrincessCooldownIcon = (() => {
+    const defaultIcon = getPrincessCooldownIconForHour(new Date().getHours())
+    if (biteCooldownTestIconIndex === null) return defaultIcon
+    return princessBiteIconCycle[biteCooldownTestIconIndex] ?? defaultIcon
+  })()
+
+  const handleCycleCooldownTestIcon = () => {
+    if (biteCooldownSeconds <= 0) return
+    setBiteCooldownTestIconIndex((prev) => {
+      const currentIcon =
+        prev === null
+          ? activePrincessCooldownIcon
+          : (princessBiteIconCycle[prev] ?? activePrincessCooldownIcon)
+      const currentIndex = princessBiteIconCycle.indexOf(currentIcon)
+      const nextIndex =
+        currentIndex >= 0
+          ? (currentIndex + 1) % princessBiteIconCycle.length
+          : 0
+      return nextIndex
+    })
+  }
 
   // --- Data Fetching ---
   useEffect(() => {
@@ -106,9 +201,11 @@ const ManageTasksPage = () => {
       const newTasks = snapshot.docs.map((docSnapshot) => {
         const data = docSnapshot.data()
         const taskType: TaskRecord['taskType'] =
-          data.taskType === 'eating' || data.category === 'eating'
-            ? 'eating'
-            : 'standard'
+          data.taskType === 'math' || data.category === 'math'
+            ? 'math'
+            : data.taskType === 'eating' || data.category === 'eating'
+              ? 'eating'
+              : 'standard'
         return {
           id: docSnapshot.id,
           title: data.title ?? '',
@@ -124,6 +221,9 @@ const ManageTasksPage = () => {
           dinnerTotalBites: data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
           dinnerBitesLeft: data.dinnerBitesLeft ?? DEFAULT_DINNER_BITES,
           dinnerCompletedAt: data.dinnerCompletedAt ?? null,
+          mathTotalProblems: data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+          mathCompletedAt: data.mathCompletedAt ?? null,
+          mathLastOutcome: data.mathLastOutcome ?? null,
           createdAt: data.createdAt?.toDate?.(),
         }
       })
@@ -148,6 +248,7 @@ const ManageTasksPage = () => {
 
   // --- Auto-save helpers ---
   const isEatingTask = (task: TaskRecord) => task.taskType === 'eating'
+  const isMathTask = (task: TaskRecord) => task.taskType === 'math'
 
   const updateTaskField = async (
     taskId: string,
@@ -162,6 +263,9 @@ const ManageTasksPage = () => {
         | 'dinnerTotalBites'
         | 'dinnerBitesLeft'
         | 'dinnerCompletedAt'
+        | 'mathTotalProblems'
+        | 'mathCompletedAt'
+        | 'mathLastOutcome'
       >
     >
   ) => {
@@ -188,9 +292,14 @@ const ManageTasksPage = () => {
 
       const remaining = dinnerTask.dinnerRemainingSeconds ?? 0
       const bitesLeft = dinnerTask.dinnerBitesLeft ?? 0
+      const isCompleted = Boolean(dinnerTask.dinnerCompletedAt)
 
-      if (remaining <= 0 || bitesLeft <= 0) {
+      if (remaining <= 0 || (bitesLeft <= 0 && isCompleted)) {
         setActiveDinnerTaskId(null)
+        return
+      }
+
+      if (bitesLeft <= 0 && !isCompleted) {
         return
       }
 
@@ -291,6 +400,60 @@ const ManageTasksPage = () => {
     }
   }
 
+  const handleCreateMath = async () => {
+    if (!user || !activeChildId) return
+    try {
+      await addDoc(collection(db, 'users', user.uid, 'tasks'), {
+        title: 'Dot Math',
+        childId: activeChildId,
+        category: 'math',
+        taskType: 'math',
+        starValue: DEFAULT_MATH_STARS,
+        isRepeating: true,
+        mathTotalProblems: DEFAULT_MATH_PROBLEMS,
+        mathCompletedAt: null,
+        mathLastOutcome: null,
+        createdAt: serverTimestamp(),
+      })
+      setShowAddChooser(false)
+    } catch (error) {
+      console.error('Failed to create math chore', error)
+    }
+  }
+
+  const handleMathComplete = async (task: TaskRecord) => {
+    setActiveMathTaskId(null)
+    await updateTaskField(task.id, {
+      mathCompletedAt: Date.now(),
+      mathLastOutcome: 'success',
+    })
+
+    if (user && activeChildId) {
+      await awardStars({
+        userId: user.uid,
+        childId: activeChildId,
+        delta: task.starValue,
+      })
+      celebrateSuccess()
+    }
+  }
+
+  const handleMathFail = async (task: TaskRecord) => {
+    setActiveMathTaskId(null)
+    await updateTaskField(task.id, {
+      mathCompletedAt: Date.now(),
+      mathLastOutcome: 'failure',
+    })
+  }
+
+  const handleMathReset = async (task: TaskRecord) => {
+    setActiveMathTaskId(null)
+    await updateTaskField(task.id, {
+      mathCompletedAt: null,
+      mathLastOutcome: null,
+    })
+  }
+
   const handleDelete = async (id: string) => {
     if (!user) return
 
@@ -299,6 +462,17 @@ const ManageTasksPage = () => {
       if (activeDinnerTaskId === id) {
         setActiveDinnerTaskId(null)
       }
+      if (activeMathTaskId === id) {
+        setActiveMathTaskId(null)
+      }
+      if (pendingDinnerBiteTaskId === id) {
+        setPendingDinnerBiteTaskId(null)
+      }
+      setMathCheckTriggerByTask((prev) => {
+        const next = { ...prev }
+        delete next[id]
+        return next
+      })
       setTitleDrafts((prev) => {
         const next = { ...prev }
         delete next[id]
@@ -312,34 +486,20 @@ const ManageTasksPage = () => {
   const handleDinnerBite = async (task: TaskRecord) => {
     if (!isEatingTask(task)) return
     if (biteCooldownSeconds > 0) return // still chewing
+    if (pendingDinnerBiteTaskId) return
     const bitesLeft = task.dinnerBitesLeft ?? 0
     if (bitesLeft <= 0) return
 
-    const nextBites = Math.max(0, bitesLeft - 1)
-    await updateTaskField(task.id, { dinnerBitesLeft: nextBites })
-
-    // Start cooldown only if more bites remain
-    if (nextBites > 0) {
-      setBiteCooldownSeconds(BITE_COOLDOWN_SECONDS)
-    }
-
-    if (nextBites === 0) {
-      setActiveDinnerTaskId(null)
-      // Award stars and celebrate on successful completion
-      if (user && activeChildId) {
-        await awardStars({
-          userId: user.uid,
-          childId: activeChildId,
-          delta: task.starValue,
-        })
-        celebrateSuccess()
-      }
-      await updateTaskField(task.id, { dinnerCompletedAt: Date.now() })
-    }
+    // Queue bite and run cooldown first; bite is applied when cooldown reaches 0.
+    setPendingDinnerBiteTaskId(task.id)
+    setBiteCooldownTestIconIndex(null)
+    setBiteCooldownSeconds(BITE_COOLDOWN_SECONDS)
   }
 
   const handleDinnerReset = async (task: TaskRecord) => {
     setBiteCooldownSeconds(0)
+    setBiteCooldownTestIconIndex(null)
+    setPendingDinnerBiteTaskId(null)
     const totalBites = task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
     const dur = task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
     await updateTaskField(task.id, {
@@ -468,6 +628,7 @@ const ManageTasksPage = () => {
                           starValue: value,
                         })
                       }
+                      isCompleted={Boolean(task.dinnerCompletedAt)}
                       completionImage={
                         theme.id === 'princess'
                           ? princessEatingFullImage
@@ -480,7 +641,47 @@ const ManageTasksPage = () => {
                       }
                       biteCooldownSeconds={biteCooldownSeconds}
                       biteIcon={
-                        theme.id === 'princess' ? princessBiteIcon : undefined
+                        theme.id === 'princess'
+                          ? activePrincessCooldownIcon
+                          : undefined
+                      }
+                      onBiteIconClick={
+                        theme.id === 'princess'
+                          ? handleCycleCooldownTestIcon
+                          : undefined
+                      }
+                    />
+                  ) : isMathTask(task) ? (
+                    <MathsTester
+                      theme={theme}
+                      totalProblems={
+                        task.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
+                      }
+                      starReward={task.starValue}
+                      isRunning={activeMathTaskId === task.id}
+                      isCompleted={Boolean(task.mathCompletedAt)}
+                      isFailed={task.mathLastOutcome === 'failure'}
+                      onAdjustProblems={(delta) => {
+                        const cur =
+                          task.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
+                        const next = Math.max(1, Math.min(10, cur + delta))
+                        updateTaskField(task.id, { mathTotalProblems: next })
+                      }}
+                      onStarsChange={(value) =>
+                        updateTaskField(task.id, { starValue: value })
+                      }
+                      onComplete={() => handleMathComplete(task)}
+                      onFail={() => handleMathFail(task)}
+                      checkTrigger={mathCheckTriggerByTask[task.id] ?? 0}
+                      completionImage={
+                        theme.id === 'princess'
+                          ? princessMathsCorrectImage
+                          : undefined
+                      }
+                      failureImage={
+                        theme.id === 'princess'
+                          ? princessMathsIncorrectImage
+                          : undefined
                       }
                     />
                   ) : (
@@ -535,9 +736,17 @@ const ManageTasksPage = () => {
                     if (isEatingTask(task)) {
                       const bitesLeft = task.dinnerBitesLeft ?? 1
                       const remaining = task.dinnerRemainingSeconds ?? 1
-                      const isFinished = bitesLeft <= 0 || remaining <= 0
+                      const isFinished =
+                        Boolean(task.dinnerCompletedAt) ||
+                        (remaining <= 0 && bitesLeft > 0)
                       if (isFinished) return 'Again 🔁'
                       return activeDinnerTaskId === task.id ? 'Bite' : 'Start'
+                    }
+                    if (isMathTask(task)) {
+                      if (task.mathCompletedAt) return 'Again 🔁'
+                      return activeMathTaskId === task.id
+                        ? 'Check Answer'
+                        : 'Start'
                     }
                     return 'Give'
                   },
@@ -545,7 +754,9 @@ const ManageTasksPage = () => {
                     if (isEatingTask(task)) {
                       const bitesLeft = task.dinnerBitesLeft ?? 1
                       const remaining = task.dinnerRemainingSeconds ?? 1
-                      const isFinished = bitesLeft <= 0 || remaining <= 0
+                      const isFinished =
+                        Boolean(task.dinnerCompletedAt) ||
+                        (remaining <= 0 && bitesLeft > 0)
                       const isRunning = activeDinnerTaskId === task.id
                       if (!isFinished && !isRunning) {
                         return (
@@ -559,7 +770,11 @@ const ManageTasksPage = () => {
                       if (isRunning) {
                         return (
                           <img
-                            src={princessBiteIcon}
+                            src={
+                              theme.id === 'princess'
+                                ? activePrincessCooldownIcon
+                                : princessBiteIcon
+                            }
                             alt="Bite"
                             className="h-6 w-6 object-contain"
                           />
@@ -570,6 +785,30 @@ const ManageTasksPage = () => {
                         <img
                           src={princessPlateImage}
                           alt="Play again"
+                          className="h-6 w-6 object-contain"
+                        />
+                      )
+                    }
+                    if (isMathTask(task)) {
+                      const isFinished = Boolean(task.mathCompletedAt)
+                      const isRunning =
+                        activeMathTaskId === task.id && !isFinished
+                      return (
+                        <img
+                          src={
+                            isRunning
+                              ? princessMathsIcon
+                              : isFinished
+                                ? princessMathsIcon
+                                : princessGiveStarIcon
+                          }
+                          alt={
+                            isFinished
+                              ? 'Play again'
+                              : isRunning
+                                ? 'Check answer'
+                                : 'Start'
+                          }
                           className="h-6 w-6 object-contain"
                         />
                       )
@@ -586,7 +825,9 @@ const ManageTasksPage = () => {
                     if (isEatingTask(task)) {
                       const bitesLeft = task.dinnerBitesLeft ?? 1
                       const remaining = task.dinnerRemainingSeconds ?? 1
-                      const isFinished = bitesLeft <= 0 || remaining <= 0
+                      const isFinished =
+                        Boolean(task.dinnerCompletedAt) ||
+                        (remaining <= 0 && bitesLeft > 0)
                       if (isFinished) {
                         handleDinnerReset(task)
                         return
@@ -595,6 +836,19 @@ const ManageTasksPage = () => {
                         handleDinnerBite(task)
                       } else {
                         setActiveDinnerTaskId(task.id)
+                      }
+                    } else if (isMathTask(task)) {
+                      if (task.mathCompletedAt) {
+                        handleMathReset(task)
+                        return
+                      }
+                      if (activeMathTaskId === task.id) {
+                        setMathCheckTriggerByTask((prev) => ({
+                          ...prev,
+                          [task.id]: (prev[task.id] ?? 0) + 1,
+                        }))
+                      } else {
+                        setActiveMathTaskId(task.id)
                       }
                     } else {
                       handleAwardTask(task)
@@ -608,6 +862,9 @@ const ManageTasksPage = () => {
                         biteCooldownSeconds > 0
                       )
                         return true
+                      return false
+                    }
+                    if (isMathTask(task)) {
                       return false
                     }
                     return isAwarding || !activeChildId
@@ -660,6 +917,24 @@ const ManageTasksPage = () => {
                         }}
                       >
                         Add Eating
+                      </button>
+
+                      <button
+                        type="button"
+                        className="whimsical-btn"
+                        onClick={handleCreateMath}
+                        style={{
+                          minHeight: `${uiTokens.actionButtonHeight}px`,
+                          borderRadius: '20px',
+                          border: `3px solid ${theme.colors.accent}`,
+                          background: theme.colors.surface,
+                          color: theme.colors.text,
+                          fontFamily: theme.fonts.heading,
+                          fontWeight: 800,
+                          fontSize: '1.15rem',
+                        }}
+                      >
+                        Add Dot Math 🔢
                       </button>
 
                       <button
