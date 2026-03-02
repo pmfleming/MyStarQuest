@@ -3,9 +3,9 @@ import type { Theme } from '../contexts/ThemeContext'
 import StepperButton from './StepperButton'
 import StarDisplay from './StarDisplay'
 import { uiTokens } from '../ui/tokens'
-import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import mathsCorrectIcon from '../assets/themes/princess/maths-correct.svg'
 import mathsIncorrectIcon from '../assets/themes/princess/maths-incorrect.svg'
+import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import { celebrateSuccess } from '../utils/celebrate'
 
 /* ------------------------------------------------------------------ */
@@ -14,16 +14,11 @@ import { celebrateSuccess } from '../utils/celebrate'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 10
-const MAX_ANSWER = 20
-const DOT_SIZE = 28
-const DOT_GAP = 6
-const ANSWER_COUNTER_SIZE = 32
-const ANSWER_DOT_GAP = 8
-const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
 const CELEBRATION_DELAY_MS = 1500
 const SHAKE_DURATION_MS = 600
 const MAX_MISTAKES = 3
 const FAILURE_TRANSITION_DELAY_MS = 3000
+const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
 const STATUS_BAR_HEIGHT = 72
 const STATUS_ICON_SIZE = Math.round(STATUS_BAR_HEIGHT * 0.9)
 const STATUS_BAR_HORIZONTAL_PADDING = 16
@@ -33,23 +28,10 @@ const STATUS_ICON_GAP = 8
 /*  Helpers                                                            */
 /* ------------------------------------------------------------------ */
 
-function generateProblem(): {
-  a: number
-  b: number
-  op: '+' | '-'
-} {
-  const isAdd = Math.random() > 0.5
-  let a = Math.floor(Math.random() * 10) + 1
-  let b = Math.floor(Math.random() * 10) + 1
-
-  // Prevent negative results for subtraction
-  if (!isAdd && b > a) {
-    const temp = a
-    a = b
-    b = temp
-  }
-
-  return { a, b, op: isAdd ? '+' : '-' }
+function generatePositionalNotationProblem(): { target: number } {
+  // Random number 1–99 (tens and ones)
+  const target = Math.floor(Math.random() * 99) + 1
+  return { target }
 }
 
 function getStatusIconOverlap(iconCount: number): number {
@@ -70,7 +52,7 @@ function getStatusIconOverlap(iconCount: number): number {
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-export interface MathsTesterProps {
+export interface PositionalNotationTesterProps {
   theme: Theme
   totalProblems: number
   starReward: number
@@ -94,7 +76,7 @@ export interface MathsTesterProps {
   failureImage?: string
 }
 
-const MathsTester = ({
+const PositionalNotationTester = ({
   theme,
   totalProblems,
   starReward,
@@ -108,15 +90,14 @@ const MathsTester = ({
   checkTrigger = 0,
   completionImage,
   failureImage,
-}: MathsTesterProps) => {
+}: PositionalNotationTesterProps) => {
   /* --- game state --- */
   const [problemIndex, setProblemIndex] = useState(0)
   const [successCount, setSuccessCount] = useState(0)
   const [retryCount, setRetryCount] = useState(0)
-  const [valA, setValA] = useState(0)
-  const [valB, setValB] = useState(0)
-  const [op, setOp] = useState<'+' | '-'>('+')
-  const [userAnswer, setUserAnswer] = useState(0)
+  const [targetNumber, setTargetNumber] = useState(0)
+  const [userTens, setUserTens] = useState(0)
+  const [userOnes, setUserOnes] = useState(0)
   const [resultHistory, setResultHistory] = useState<
     Array<'correct' | 'incorrect'>
   >([])
@@ -126,36 +107,38 @@ const MathsTester = ({
   const prevCheckTrigger = useRef(checkTrigger)
 
   const isSetup = !isRunning && !isCompleted
-  const incorrectCount = resultHistory.filter(
-    (result) => result === 'incorrect'
-  ).length
+  const incorrectCount = resultHistory.filter((r) => r === 'incorrect').length
   const hasFailedByHistory = incorrectCount >= MAX_MISTAKES
   const isFailedState = isCompleted && (isFailed || hasFailedByHistory)
   const isSuccessState = isCompleted && !isFailedState
   const isFinished = isSuccessState || isFailedState
-  const expectedAnswer = op === '+' ? valA + valB : valA - valB
+  const currentTotal = userTens * 10 + userOnes
   const isCorrect = feedback === 'correct'
   const isWrong = feedback === 'wrong'
 
   /* --- generate a fresh problem --- */
   const nextProblem = useCallback(() => {
-    const p = generateProblem()
-    setValA(p.a)
-    setValB(p.b)
-    setOp(p.op)
-    setUserAnswer(0)
+    const p = generatePositionalNotationProblem()
+    setTargetNumber(p.target)
+    setUserTens(0)
+    setUserOnes(0)
     setFeedback('idle')
   }, [])
 
   /* --- reset when game starts --- */
   useEffect(() => {
-    if (isRunning && problemIndex === 0 && feedback === 'idle' && valA === 0) {
+    if (
+      isRunning &&
+      problemIndex === 0 &&
+      feedback === 'idle' &&
+      targetNumber === 0
+    ) {
       setProblemIndex(0)
       setSuccessCount(0)
       setRetryCount(0)
       nextProblem()
     }
-  }, [isRunning, problemIndex, feedback, valA, nextProblem])
+  }, [isRunning, problemIndex, feedback, targetNumber, nextProblem])
 
   /* --- cleanup timers --- */
   useEffect(() => {
@@ -173,7 +156,7 @@ const MathsTester = ({
       feedbackTimer.current = null
     }
 
-    if (userAnswer === expectedAnswer) {
+    if (currentTotal === targetNumber) {
       setFeedback('correct')
       celebrateSuccess()
       window.setTimeout(() => {
@@ -210,14 +193,14 @@ const MathsTester = ({
       )
     }
   }, [
-    expectedAnswer,
+    currentTotal,
+    targetNumber,
     feedback,
     nextProblem,
     onComplete,
     problemIndex,
     successCount,
     totalProblems,
-    userAnswer,
     isFailurePending,
     onFail,
     retryCount,
@@ -237,10 +220,9 @@ const MathsTester = ({
       setProblemIndex(0)
       setSuccessCount(0)
       setRetryCount(0)
-      setValA(0)
-      setValB(0)
-      setOp('+')
-      setUserAnswer(0)
+      setTargetNumber(0)
+      setUserTens(0)
+      setUserOnes(0)
       setResultHistory([])
       setIsFailurePending(false)
       setFeedback('idle')
@@ -248,27 +230,23 @@ const MathsTester = ({
   }, [isRunning, isCompleted])
 
   /* ---------------------------------------------------------------- */
-  /* Shared styles                                                     */
+  /* Visual helpers                                                    */
   /* ---------------------------------------------------------------- */
 
-  const counterStyle = (size: number, delay: number): React.CSSProperties => ({
-    width: size,
-    height: size,
-    objectFit: 'contain',
-    animation: `dotmath-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${delay}s both`,
+  const rodStyle = (delay: number): React.CSSProperties => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    border: `2px solid ${theme.colors.secondary}`,
+    borderRadius: 6,
+    background: `${theme.colors.secondary}22`,
+    padding: 2,
+    gap: 1,
+    animation: `pv-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${delay}s both`,
   })
 
-  const crossedCounterStyle = (
-    size: number,
-    delay: number
-  ): React.CSSProperties => ({
-    width: size,
-    height: size,
-    objectFit: 'contain',
-    opacity: 0.4,
-    position: 'relative' as const,
-    animation: `dotmath-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${delay}s both`,
-  })
+  const TEN_COUNTER_SIZE = 12
+  const ONE_COUNTER_SIZE = 28
 
   /* ---------------------------------------------------------------- */
   /* Render                                                            */
@@ -285,20 +263,20 @@ const MathsTester = ({
     >
       {/* Inject keyframe animations */}
       <style>{`
-        @keyframes dotmath-pop-in {
+        @keyframes pv-pop-in {
           0% { transform: scale(0); }
           100% { transform: scale(1); }
         }
-        @keyframes dotmath-bounce {
+        @keyframes pv-bounce {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-12px); }
         }
-        @keyframes dotmath-shake {
+        @keyframes pv-shake {
           0%, 100% { transform: translateX(0); }
           20%, 60% { transform: translateX(-8px); }
           40%, 80% { transform: translateX(8px); }
         }
-        @keyframes dotmath-slide-in-right {
+        @keyframes pv-slide-in-right {
           0% { transform: translateX(28px); opacity: 0; }
           100% { transform: translateX(0); opacity: 1; }
         }
@@ -370,7 +348,7 @@ const MathsTester = ({
                   key={i}
                   style={{
                     fontSize: 40,
-                    animation: `dotmath-bounce 0.6s ease ${i * 0.15}s both`,
+                    animation: `pv-bounce 0.6s ease ${i * 0.15}s both`,
                   }}
                 >
                   ⭐
@@ -493,9 +471,9 @@ const MathsTester = ({
                 width: `${CONTROL_ROW_WIDTH}px`,
                 maxWidth: '100%',
                 animation: isWrong
-                  ? 'dotmath-shake 0.5s ease'
+                  ? 'pv-shake 0.5s ease'
                   : isCorrect
-                    ? 'dotmath-pop-in 0.4s ease'
+                    ? 'pv-pop-in 0.4s ease'
                     : undefined,
               }}
               key={isWrong ? `shake-${retryCount}` : undefined}
@@ -545,7 +523,7 @@ const MathsTester = ({
                           marginLeft: index === 0 ? 0 : -overlap,
                           objectFit: 'contain',
                           animation: isLatest
-                            ? 'dotmath-slide-in-right 0.35s ease both'
+                            ? 'pv-slide-in-right 0.35s ease both'
                             : undefined,
                         }}
                       />
@@ -554,249 +532,256 @@ const MathsTester = ({
                 </div>
               </div>
 
-              {/* Term A */}
+              {/* Target number */}
               <div
                 style={{
                   background: `${theme.colors.surface}`,
-                  border: `3px dashed ${theme.colors.primary}44`,
+                  border: `4px dashed ${theme.colors.primary}44`,
                   borderRadius: 20,
-                  padding: '10px 16px',
+                  padding: '12px 20px',
                   display: 'flex',
+                  flexDirection: 'column',
                   alignItems: 'center',
-                  gap: 12,
-                  minHeight: 52,
+                  gap: 4,
                   width: '100%',
-                  justifyContent: 'center',
                   boxSizing: 'border-box',
                 }}
               >
                 <span
                   style={{
-                    fontSize: 44,
-                    fontWeight: 'bold',
+                    fontSize: 64,
+                    fontWeight: 900,
                     fontFamily: theme.fonts.heading,
                     color: theme.colors.primary,
                     lineHeight: 1,
                   }}
                 >
-                  {valA}
+                  {targetNumber}
                 </span>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: DOT_GAP,
-                    maxWidth: 160,
-                  }}
-                >
-                  {Array.from({ length: valA }).map((_, i) => (
-                    <img
-                      key={`a-${i}`}
-                      src={mathsCounterIcon}
-                      alt="Counter"
-                      style={counterStyle(DOT_SIZE, i * 0.05)}
-                    />
-                  ))}
-                </div>
               </div>
 
-              {/* Operator */}
-              <span
-                style={{
-                  fontSize: 52,
-                  fontWeight: 'bold',
-                  fontFamily: theme.fonts.heading,
-                  color:
-                    op === '+' ? theme.colors.secondary : theme.colors.accent,
-                  lineHeight: 0.9,
-                }}
-              >
-                {op === '+' ? '+' : '−'}
-              </span>
-
-              {/* Term B */}
+              {/* Builder columns */}
               <div
                 style={{
-                  background: `${theme.colors.surface}`,
-                  border: `3px dashed ${theme.colors.primary}44`,
-                  borderRadius: 20,
-                  padding: '10px 16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  minHeight: 52,
-                  width: '100%',
-                  justifyContent: 'center',
-                  boxSizing: 'border-box',
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: 44,
-                    fontWeight: 'bold',
-                    fontFamily: theme.fonts.heading,
-                    color:
-                      op === '+' ? theme.colors.secondary : theme.colors.accent,
-                    lineHeight: 1,
-                  }}
-                >
-                  {valB}
-                </span>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: DOT_GAP,
-                    maxWidth: 160,
-                  }}
-                >
-                  {Array.from({ length: valB }).map((_, i) =>
-                    op === '+' ? (
-                      <img
-                        key={`b-${i}`}
-                        src={mathsCounterIcon}
-                        alt="Counter"
-                        style={counterStyle(DOT_SIZE, i * 0.1)}
-                      />
-                    ) : (
-                      <div
-                        key={`b-${i}`}
-                        style={{
-                          position: 'relative',
-                          width: DOT_SIZE,
-                          height: DOT_SIZE,
-                        }}
-                      >
-                        <img
-                          src={mathsCounterIcon}
-                          alt="Counter"
-                          style={crossedCounterStyle(DOT_SIZE, 0.4 + i * 0.1)}
-                        />
-                        <span
-                          style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            fontSize: 16,
-                          }}
-                        >
-                          ❌
-                        </span>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-
-              {/* Equals sign */}
-              <span
-                style={{
-                  fontSize: 52,
-                  fontWeight: 'bold',
-                  fontFamily: theme.fonts.heading,
-                  color: theme.colors.text,
-                  lineHeight: 0.9,
-                }}
-              >
-                =
-              </span>
-
-              {/* Answer area */}
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 10,
+                  display: 'grid',
+                  gridTemplateColumns: '2fr 1fr',
+                  gap: 8,
                   width: '100%',
                 }}
               >
-                {/* Answer dot box */}
-                <div
-                  style={{
-                    border: `3px dashed ${theme.colors.accent}`,
-                    background: `${theme.colors.accent}0D`,
-                    borderRadius: 20,
-                    minHeight: 72,
-                    width: '100%',
-                    padding: 14,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    gap: ANSWER_DOT_GAP,
-                    boxSizing: 'border-box',
-                  }}
-                >
-                  {userAnswer === 0 ? (
-                    <span
-                      style={{
-                        color: theme.colors.accent,
-                        opacity: 0.5,
-                        fontStyle: 'italic',
-                        fontSize: 20,
-                        fontFamily: theme.fonts.body,
-                      }}
-                    >
-                      Empty
-                    </span>
-                  ) : (
-                    Array.from({ length: userAnswer }).map((_, i) => (
-                      <img
-                        key={`c-${i}`}
-                        src={mathsCounterIcon}
-                        alt="Counter"
-                        style={counterStyle(ANSWER_COUNTER_SIZE, 0)}
-                      />
-                    ))
-                  )}
-                </div>
-
-                {/* +/- answer controls */}
+                {/* TENS column */}
                 <div
                   style={{
                     display: 'flex',
+                    flexDirection: 'column',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
-                    width: '100%',
-                    gap: 12,
+                    background: `${theme.colors.secondary}18`,
+                    borderRadius: 16,
+                    padding: 10,
+                    border: `2px solid ${theme.colors.secondary}33`,
                   }}
                 >
-                  <StepperButton
-                    theme={theme}
-                    direction="prev"
-                    onClick={() => setUserAnswer(Math.max(0, userAnswer - 1))}
-                    disabled={userAnswer === 0 || isCorrect}
-                    ariaLabel="Remove one dot"
-                  />
-
                   <span
                     style={{
-                      flex: 1,
-                      fontSize: 44,
+                      fontSize: 20,
                       fontWeight: 'bold',
                       fontFamily: theme.fonts.heading,
-                      color: theme.colors.accent,
-                      minWidth: 0,
-                      textAlign: 'center',
-                      lineHeight: 1,
+                      color: theme.colors.secondary,
+                      marginBottom: 8,
                     }}
                   >
-                    {userAnswer}
+                    Tens
                   </span>
 
-                  <StepperButton
-                    theme={theme}
-                    direction="next"
-                    onClick={() => setUserAnswer(userAnswer + 1)}
-                    disabled={userAnswer >= MAX_ANSWER || isCorrect}
-                    ariaLabel="Add one dot"
-                  />
+                  {/* Stepper */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      marginBottom: 8,
+                    }}
+                  >
+                    <StepperButton
+                      theme={theme}
+                      direction="prev"
+                      onClick={() => setUserTens((p) => Math.max(0, p - 1))}
+                      disabled={userTens === 0 || isCorrect}
+                      ariaLabel="Remove ten"
+                      style={{ width: 38, height: 48, fontSize: '1.5rem' }}
+                    />
+                    <span
+                      style={{
+                        fontSize: 28,
+                        fontWeight: 'bold',
+                        fontFamily: theme.fonts.heading,
+                        color: theme.colors.secondary,
+                        width: 30,
+                        textAlign: 'center',
+                      }}
+                    >
+                      {userTens}
+                    </span>
+                    <StepperButton
+                      theme={theme}
+                      direction="next"
+                      onClick={() => setUserTens((p) => Math.min(9, p + 1))}
+                      disabled={userTens === 9 || isCorrect}
+                      ariaLabel="Add ten"
+                      style={{ width: 38, height: 48, fontSize: '1.5rem' }}
+                    />
+                  </div>
+
+                  {/* Rods visual */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      justifyContent: 'center',
+                      gap: 4,
+                      minHeight: 120,
+                      alignItems: 'flex-end',
+                      paddingBottom: 4,
+                    }}
+                  >
+                    {userTens === 0 ? (
+                      <span
+                        style={{
+                          color: theme.colors.secondary,
+                          opacity: 0.35,
+                          fontStyle: 'italic',
+                          fontFamily: theme.fonts.body,
+                          fontSize: 14,
+                        }}
+                      >
+                        Empty
+                      </span>
+                    ) : (
+                      Array.from({ length: userTens }).map((_, i) => (
+                        <div key={`ten-${i}`} style={rodStyle(i * 0.05)}>
+                          {Array.from({ length: 10 }).map((_, j) => (
+                            <img
+                              key={j}
+                              src={mathsCounterIcon}
+                              alt="Counter"
+                              style={{
+                                width: TEN_COUNTER_SIZE,
+                                height: TEN_COUNTER_SIZE,
+                                objectFit: 'contain',
+                              }}
+                            />
+                          ))}
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+
+                {/* ONES column */}
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    background: `${theme.colors.primary}18`,
+                    borderRadius: 16,
+                    padding: 10,
+                    border: `2px solid ${theme.colors.primary}33`,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 'bold',
+                      fontFamily: theme.fonts.heading,
+                      color: theme.colors.primary,
+                      marginBottom: 8,
+                    }}
+                  >
+                    Ones
+                  </span>
+
+                  {/* Stepper */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      marginBottom: 8,
+                    }}
+                  >
+                    <StepperButton
+                      theme={theme}
+                      direction="prev"
+                      onClick={() => setUserOnes((p) => Math.max(0, p - 1))}
+                      disabled={userOnes === 0 || isCorrect}
+                      ariaLabel="Remove one"
+                      style={{ width: 38, height: 48, fontSize: '1.5rem' }}
+                    />
+                    <span
+                      style={{
+                        fontSize: 28,
+                        fontWeight: 'bold',
+                        fontFamily: theme.fonts.heading,
+                        color: theme.colors.primary,
+                        width: 30,
+                        textAlign: 'center',
+                      }}
+                    >
+                      {userOnes}
+                    </span>
+                    <StepperButton
+                      theme={theme}
+                      direction="next"
+                      onClick={() => setUserOnes((p) => Math.min(9, p + 1))}
+                      disabled={userOnes === 9 || isCorrect}
+                      ariaLabel="Add one"
+                      style={{ width: 38, height: 48, fontSize: '1.5rem' }}
+                    />
+                  </div>
+
+                  {/* Units visual */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      justifyContent: 'center',
+                      alignItems: 'flex-end',
+                      minHeight: 120,
+                      paddingBottom: 4,
+                    }}
+                  >
+                    {userOnes === 0 ? (
+                      <span
+                        style={{
+                          color: theme.colors.primary,
+                          opacity: 0.35,
+                          fontStyle: 'italic',
+                          fontFamily: theme.fonts.body,
+                          fontSize: 14,
+                        }}
+                      >
+                        Empty
+                      </span>
+                    ) : (
+                      Array.from({ length: userOnes }).map((_, i) => (
+                        <img
+                          key={`one-${i}`}
+                          src={mathsCounterIcon}
+                          alt="Counter"
+                          style={{
+                            width: ONE_COUNTER_SIZE,
+                            height: ONE_COUNTER_SIZE,
+                            objectFit: 'contain',
+                            margin: 3,
+                            animation: `pv-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${i * 0.05}s both`,
+                          }}
+                        />
+                      ))
+                    )}
+                  </div>
                 </div>
               </div>
-
-              {/* Feedback area intentionally empty to keep layout stable */}
             </div>
           )}
         </>
@@ -805,4 +790,4 @@ const MathsTester = ({
   )
 }
 
-export default MathsTester
+export default PositionalNotationTester

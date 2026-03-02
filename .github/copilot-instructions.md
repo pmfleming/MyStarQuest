@@ -61,6 +61,11 @@
   - Completion/failure end-state images are passed via `completionImage`/`failureImage` to match `DinnerCountdown` style.
   - Failure threshold is 3 mistakes (`onFail`) with persisted task outcome (`mathLastOutcome`) used to render deterministic end states.
   - Princess maths SVGs used in `<img>` contexts should use fixed dimensions (not `%`) to avoid invisible renders.
+- Positional notation behavior lives in `src/components/PositionalNotationTester.tsx` and is parent-driven from `src/pages/ManageTasksPage.tsx`:
+  - Task type/category key is `positional-notation` with persisted fields `pvTotalProblems`, `pvCompletedAt`, and `pvLastOutcome`.
+  - Parent action button triggers answer checks through `checkTrigger` (same flow as MathsTester).
+  - Failure threshold is 3 mistakes (`onFail`) and completion/failure uses `maths-correct` / `maths-incorrect` themed assets.
+  - Builder layout uses a `2fr/1fr` Tens/Ones split; ones use `maths-counter` icons, and tens render as 10 stacked smaller `maths-counter` icons.
 
 ## UI/UX conventions (kid-friendly)
 

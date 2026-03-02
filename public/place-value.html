@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Place Value Builder Game</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* Custom bouncy animations */
+    @keyframes pop-in {
+      0% { transform: scale(0); opacity: 0; }
+      80% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop {
+      animation: pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes bounce-slight {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .animate-bounce-slight {
+      animation: bounce-slight 1s ease-in-out infinite;
+    }
+    
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-indigo-50 min-h-screen flex items-center justify-center font-sans p-4">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useCallback } = React;
+
+    /* ------------------------------------------------------------------ */
+    /* Helper Components                                                 */
+    /* ------------------------------------------------------------------ */
+
+    const StepperBtn = ({ onClick, disabled, icon, colorClass }) => (
+      <button
+        onClick={onClick}
+        disabled={disabled}
+        className={`w-12 h-12 rounded-full flex items-center justify-center text-3xl font-bold transition-all transform active:scale-90 shadow-md pb-1 ${
+          disabled 
+            ? 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none' 
+            : `${colorClass} text-white hover:brightness-110 hover:-translate-y-1`
+        }`}
+        aria-label={icon === '+' ? 'Add' : 'Remove'}
+      >
+        {icon}
+      </button>
+    );
+
+    const TenRod = ({ delay }) => (
+      <div 
+        className="flex flex-col border-2 border-emerald-600 rounded bg-emerald-400 animate-pop shadow-sm"
+        style={{ animationDelay: `${delay}ms` }}
+      >
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div key={i} className="w-6 h-6 border-b border-emerald-600 opacity-80 last:border-b-0"></div>
+        ))}
+      </div>
+    );
+
+    const OneUnit = ({ delay }) => (
+      <div 
+        className="w-6 h-6 border-2 border-blue-600 rounded bg-blue-400 animate-pop shadow-sm m-1"
+        style={{ animationDelay: `${delay}ms` }}
+      ></div>
+    );
+
+    /* ------------------------------------------------------------------ */
+    /* Main Application Component                                        */
+    /* ------------------------------------------------------------------ */
+
+    const PlaceValueGame = () => {
+      // Game State
+      const [targetNumber, setTargetNumber] = useState(0);
+      const [userTens, setUserTens] = useState(0);
+      const [userOnes, setUserOnes] = useState(0);
+      const [isSuccess, setIsSuccess] = useState(false);
+
+      // Current total built by the user
+      const currentTotal = userTens * 10 + userOnes;
+
+      // Initialize a new puzzle
+      const generateNewPuzzle = useCallback(() => {
+        // Random number between 1 and 99
+        const newTarget = Math.floor(Math.random() * 99) + 1;
+        setTargetNumber(newTarget);
+        setUserTens(0);
+        setUserOnes(0);
+        setIsSuccess(false);
+      }, []);
+
+      // Start the first puzzle on mount
+      useEffect(() => {
+        generateNewPuzzle();
+      }, [generateNewPuzzle]);
+
+      // Check for win condition
+      useEffect(() => {
+        if (targetNumber > 0 && currentTotal === targetNumber) {
+          // Add a tiny delay so the last block finishes popping in before success triggers
+          const timer = setTimeout(() => setIsSuccess(true), 300);
+          return () => clearTimeout(timer);
+        }
+      }, [currentTotal, targetNumber]);
+
+      // Control handlers (Restricted to 0-9 to enforce proper base-10 grouping)
+      const adjustTens = (delta) => setUserTens(prev => Math.max(0, Math.min(9, prev + delta)));
+      const adjustOnes = (delta) => setUserOnes(prev => Math.max(0, Math.min(9, prev + delta)));
+
+      return (
+        <div className="bg-white p-6 md:p-8 rounded-3xl shadow-xl border-4 border-indigo-100 max-w-2xl w-full flex flex-col items-center gap-6 relative overflow-hidden">
+          
+          {/* Header & Target Number */}
+          <div className="text-center w-full">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-indigo-600 mb-2">
+              Build the Number! 🧱
+            </h1>
+            <div className="mt-4 bg-indigo-50 border-4 border-dashed border-indigo-200 rounded-2xl p-4 w-full flex flex-col justify-center items-center">
+              <span className="text-gray-500 font-bold text-lg uppercase tracking-wide mb-1">Target Number</span>
+              <span className="text-7xl font-black text-slate-800 tracking-tight leading-none">
+                {targetNumber > 0 ? targetNumber : '?'}
+              </span>
+            </div>
+          </div>
+
+          {/* Builder Area */}
+          <div className="grid grid-cols-2 gap-4 md:gap-8 w-full">
+            
+            {/* TENS COLUMN */}
+            <div className="flex flex-col items-center bg-emerald-50 rounded-2xl p-4 border-2 border-emerald-100">
+              <h2 className="text-2xl font-bold text-emerald-600 mb-4">Tens</h2>
+              
+              <div className="flex items-center gap-3 mb-6 bg-white p-2 rounded-full shadow-sm">
+                <StepperBtn 
+                  icon="−" 
+                  colorClass="bg-emerald-500" 
+                  onClick={() => adjustTens(-1)} 
+                  disabled={userTens === 0 || isSuccess} 
+                />
+                <span className="text-3xl font-bold w-8 text-center text-emerald-700">{userTens}</span>
+                <StepperBtn 
+                  icon="+" 
+                  colorClass="bg-emerald-500" 
+                  onClick={() => adjustTens(1)} 
+                  disabled={userTens === 9 || isSuccess} 
+                />
+              </div>
+
+              <div className="flex flex-wrap justify-center gap-2 min-h-[250px] items-end pb-4 w-full">
+                {userTens === 0 ? (
+                  <span className="text-emerald-300 italic font-medium">Empty</span>
+                ) : (
+                  Array.from({ length: userTens }).map((_, i) => (
+                    <TenRod key={`ten-${i}`} delay={i * 50} />
+                  ))
+                )}
+              </div>
+            </div>
+
+            {/* ONES COLUMN */}
+            <div className="flex flex-col items-center bg-blue-50 rounded-2xl p-4 border-2 border-blue-100">
+              <h2 className="text-2xl font-bold text-blue-600 mb-4">Ones</h2>
+              
+              <div className="flex items-center gap-3 mb-6 bg-white p-2 rounded-full shadow-sm">
+                <StepperBtn 
+                  icon="−" 
+                  colorClass="bg-blue-500" 
+                  onClick={() => adjustOnes(-1)} 
+                  disabled={userOnes === 0 || isSuccess} 
+                />
+                <span className="text-3xl font-bold w-8 text-center text-blue-700">{userOnes}</span>
+                <StepperBtn 
+                  icon="+" 
+                  colorClass="bg-blue-500" 
+                  onClick={() => adjustOnes(1)} 
+                  disabled={userOnes === 9 || isSuccess} 
+                />
+              </div>
+
+              <div className="flex flex-wrap justify-center content-end min-h-[250px] pb-4 w-full px-2">
+                {userOnes === 0 ? (
+                  <span className="text-blue-300 italic font-medium self-end">Empty</span>
+                ) : (
+                  Array.from({ length: userOnes }).map((_, i) => (
+                    <OneUnit key={`one-${i}`} delay={i * 50} />
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Current Total Feedback */}
+          {!isSuccess && (
+            <div className="w-full bg-slate-100 rounded-xl p-4 text-center border-2 border-slate-200 transition-colors">
+              <p className="text-xl font-bold text-slate-600">
+                You have built: <span className="text-3xl text-indigo-600 ml-2">{currentTotal}</span>
+              </p>
+            </div>
+          )}
+
+          {/* Success Overlay / State */}
+          {isSuccess && (
+            <div className="absolute inset-0 bg-white/90 backdrop-blur-sm z-10 flex flex-col items-center justify-center rounded-3xl animate-pop">
+              <div className="text-8xl mb-4 animate-bounce-slight">🎉</div>
+              <h2 className="text-4xl font-black text-indigo-600 mb-2 text-center">You did it!</h2>
+              <p className="text-xl text-slate-600 font-bold mb-8">
+                <span className="text-emerald-500">{userTens} Tens</span> and <span className="text-blue-500">{userOnes} Ones</span> makes <span className="text-indigo-600 text-2xl">{targetNumber}</span>!
+              </p>
+              <button 
+                onClick={generateNewPuzzle}
+                className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold text-xl py-4 px-8 rounded-full shadow-lg transform transition-transform active:scale-95"
+              >
+                Next Puzzle ➔
+              </button>
+            </div>
+          )}
+
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<PlaceValueGame />);
+  </script>
+</body>
+</html>

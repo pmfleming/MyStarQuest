@@ -27,6 +27,7 @@ import DinnerCountdown, {
   BITE_COOLDOWN_SECONDS,
 } from '../components/DinnerCountdown'
 import MathsTester from '../components/MathsTester'
+import PositionalNotationTester from '../components/PositionalNotationTester'
 import { uiTokens } from '../ui/tokens'
 import {
   princessBiteIcon,
@@ -49,7 +50,7 @@ type TaskRecord = {
   title: string
   childId: string
   category: string
-  taskType: 'standard' | 'eating' | 'math'
+  taskType: 'standard' | 'eating' | 'math' | 'positional-notation'
   starValue: number
   isRepeating: boolean
   dinnerDurationSeconds?: number
@@ -60,6 +61,9 @@ type TaskRecord = {
   mathTotalProblems?: number
   mathCompletedAt?: number | null
   mathLastOutcome?: 'success' | 'failure' | null
+  pvTotalProblems?: number
+  pvCompletedAt?: number | null
+  pvLastOutcome?: 'success' | 'failure' | null
   createdAt?: Date
 }
 
@@ -68,6 +72,8 @@ const DEFAULT_DINNER_BITES = 2
 const DEFAULT_DINNER_STARS = 3
 const DEFAULT_MATH_PROBLEMS = 5
 const DEFAULT_MATH_STARS = 3
+const DEFAULT_PV_PROBLEMS = 5
+const DEFAULT_PV_STARS = 3
 
 const princessBiteIconCycle = [
   princessBiteIcon,
@@ -92,7 +98,11 @@ const ManageTasksPage = () => {
     null
   )
   const [activeMathTaskId, setActiveMathTaskId] = useState<string | null>(null)
+  const [activePVTaskId, setActivePVTaskId] = useState<string | null>(null)
   const [mathCheckTriggerByTask, setMathCheckTriggerByTask] = useState<
+    Record<string, number>
+  >({})
+  const [pvCheckTriggerByTask, setPVCheckTriggerByTask] = useState<
     Record<string, number>
   >({})
   const [showAddChooser, setShowAddChooser] = useState(false)
@@ -201,11 +211,14 @@ const ManageTasksPage = () => {
       const newTasks = snapshot.docs.map((docSnapshot) => {
         const data = docSnapshot.data()
         const taskType: TaskRecord['taskType'] =
-          data.taskType === 'math' || data.category === 'math'
-            ? 'math'
-            : data.taskType === 'eating' || data.category === 'eating'
-              ? 'eating'
-              : 'standard'
+          data.taskType === 'positional-notation' ||
+          data.category === 'positional-notation'
+            ? 'positional-notation'
+            : data.taskType === 'math' || data.category === 'math'
+              ? 'math'
+              : data.taskType === 'eating' || data.category === 'eating'
+                ? 'eating'
+                : 'standard'
         return {
           id: docSnapshot.id,
           title: data.title ?? '',
@@ -224,6 +237,9 @@ const ManageTasksPage = () => {
           mathTotalProblems: data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
           mathCompletedAt: data.mathCompletedAt ?? null,
           mathLastOutcome: data.mathLastOutcome ?? null,
+          pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
+          pvCompletedAt: data.pvCompletedAt ?? null,
+          pvLastOutcome: data.pvLastOutcome ?? null,
           createdAt: data.createdAt?.toDate?.(),
         }
       })
@@ -249,6 +265,8 @@ const ManageTasksPage = () => {
   // --- Auto-save helpers ---
   const isEatingTask = (task: TaskRecord) => task.taskType === 'eating'
   const isMathTask = (task: TaskRecord) => task.taskType === 'math'
+  const isPositionalNotationTask = (task: TaskRecord) =>
+    task.taskType === 'positional-notation'
 
   const updateTaskField = async (
     taskId: string,
@@ -266,6 +284,9 @@ const ManageTasksPage = () => {
         | 'mathTotalProblems'
         | 'mathCompletedAt'
         | 'mathLastOutcome'
+        | 'pvTotalProblems'
+        | 'pvCompletedAt'
+        | 'pvLastOutcome'
       >
     >
   ) => {
@@ -454,6 +475,61 @@ const ManageTasksPage = () => {
     })
   }
 
+  // --- Positional Notation handlers ---
+  const handleCreatePositionalNotation = async () => {
+    if (!user || !activeChildId) return
+    try {
+      await addDoc(collection(db, 'users', user.uid, 'tasks'), {
+        title: 'Position Notation',
+        childId: activeChildId,
+        category: 'positional-notation',
+        taskType: 'positional-notation',
+        starValue: DEFAULT_PV_STARS,
+        isRepeating: true,
+        pvTotalProblems: DEFAULT_PV_PROBLEMS,
+        pvCompletedAt: null,
+        pvLastOutcome: null,
+        createdAt: serverTimestamp(),
+      })
+      setShowAddChooser(false)
+    } catch (error) {
+      console.error('Failed to create positional-notation chore', error)
+    }
+  }
+
+  const handlePVComplete = async (task: TaskRecord) => {
+    setActivePVTaskId(null)
+    await updateTaskField(task.id, {
+      pvCompletedAt: Date.now(),
+      pvLastOutcome: 'success',
+    })
+
+    if (user && activeChildId) {
+      await awardStars({
+        userId: user.uid,
+        childId: activeChildId,
+        delta: task.starValue,
+      })
+      celebrateSuccess()
+    }
+  }
+
+  const handlePVFail = async (task: TaskRecord) => {
+    setActivePVTaskId(null)
+    await updateTaskField(task.id, {
+      pvCompletedAt: Date.now(),
+      pvLastOutcome: 'failure',
+    })
+  }
+
+  const handlePVReset = async (task: TaskRecord) => {
+    setActivePVTaskId(null)
+    await updateTaskField(task.id, {
+      pvCompletedAt: null,
+      pvLastOutcome: null,
+    })
+  }
+
   const handleDelete = async (id: string) => {
     if (!user) return
 
@@ -465,10 +541,18 @@ const ManageTasksPage = () => {
       if (activeMathTaskId === id) {
         setActiveMathTaskId(null)
       }
+      if (activePVTaskId === id) {
+        setActivePVTaskId(null)
+      }
       if (pendingDinnerBiteTaskId === id) {
         setPendingDinnerBiteTaskId(null)
       }
       setMathCheckTriggerByTask((prev) => {
+        const next = { ...prev }
+        delete next[id]
+        return next
+      })
+      setPVCheckTriggerByTask((prev) => {
         const next = { ...prev }
         delete next[id]
         return next
@@ -684,6 +768,38 @@ const ManageTasksPage = () => {
                           : undefined
                       }
                     />
+                  ) : isPositionalNotationTask(task) ? (
+                    <PositionalNotationTester
+                      theme={theme}
+                      totalProblems={
+                        task.pvTotalProblems ?? DEFAULT_PV_PROBLEMS
+                      }
+                      starReward={task.starValue}
+                      isRunning={activePVTaskId === task.id}
+                      isCompleted={Boolean(task.pvCompletedAt)}
+                      isFailed={task.pvLastOutcome === 'failure'}
+                      onAdjustProblems={(delta) => {
+                        const cur = task.pvTotalProblems ?? DEFAULT_PV_PROBLEMS
+                        const next = Math.max(1, Math.min(10, cur + delta))
+                        updateTaskField(task.id, { pvTotalProblems: next })
+                      }}
+                      onStarsChange={(value) =>
+                        updateTaskField(task.id, { starValue: value })
+                      }
+                      onComplete={() => handlePVComplete(task)}
+                      onFail={() => handlePVFail(task)}
+                      checkTrigger={pvCheckTriggerByTask[task.id] ?? 0}
+                      completionImage={
+                        theme.id === 'princess'
+                          ? princessMathsCorrectImage
+                          : undefined
+                      }
+                      failureImage={
+                        theme.id === 'princess'
+                          ? princessMathsIncorrectImage
+                          : undefined
+                      }
+                    />
                   ) : (
                     <div
                       className="flex flex-col"
@@ -745,6 +861,12 @@ const ManageTasksPage = () => {
                     if (isMathTask(task)) {
                       if (task.mathCompletedAt) return 'Again 🔁'
                       return activeMathTaskId === task.id
+                        ? 'Check Answer'
+                        : 'Start'
+                    }
+                    if (isPositionalNotationTask(task)) {
+                      if (task.pvCompletedAt) return 'Again 🔁'
+                      return activePVTaskId === task.id
                         ? 'Check Answer'
                         : 'Start'
                     }
@@ -813,6 +935,30 @@ const ManageTasksPage = () => {
                         />
                       )
                     }
+                    if (isPositionalNotationTask(task)) {
+                      const isFinished = Boolean(task.pvCompletedAt)
+                      const isRunning =
+                        activePVTaskId === task.id && !isFinished
+                      return (
+                        <img
+                          src={
+                            isRunning
+                              ? princessMathsIcon
+                              : isFinished
+                                ? princessMathsIcon
+                                : princessGiveStarIcon
+                          }
+                          alt={
+                            isFinished
+                              ? 'Play again'
+                              : isRunning
+                                ? 'Check answer'
+                                : 'Start'
+                          }
+                          className="h-6 w-6 object-contain"
+                        />
+                      )
+                    }
                     return (
                       <img
                         src={princessGiveStarIcon}
@@ -850,6 +996,19 @@ const ManageTasksPage = () => {
                       } else {
                         setActiveMathTaskId(task.id)
                       }
+                    } else if (isPositionalNotationTask(task)) {
+                      if (task.pvCompletedAt) {
+                        handlePVReset(task)
+                        return
+                      }
+                      if (activePVTaskId === task.id) {
+                        setPVCheckTriggerByTask((prev) => ({
+                          ...prev,
+                          [task.id]: (prev[task.id] ?? 0) + 1,
+                        }))
+                      } else {
+                        setActivePVTaskId(task.id)
+                      }
                     } else {
                       handleAwardTask(task)
                     }
@@ -865,6 +1024,9 @@ const ManageTasksPage = () => {
                       return false
                     }
                     if (isMathTask(task)) {
+                      return false
+                    }
+                    if (isPositionalNotationTask(task)) {
                       return false
                     }
                     return isAwarding || !activeChildId
@@ -934,7 +1096,25 @@ const ManageTasksPage = () => {
                           fontSize: '1.15rem',
                         }}
                       >
-                        Add Dot Math 🔢
+                        Add Maths
+                      </button>
+
+                      <button
+                        type="button"
+                        className="whimsical-btn"
+                        onClick={handleCreatePositionalNotation}
+                        style={{
+                          minHeight: `${uiTokens.actionButtonHeight}px`,
+                          borderRadius: '20px',
+                          border: `3px solid ${theme.colors.accent}`,
+                          background: theme.colors.surface,
+                          color: theme.colors.text,
+                          fontFamily: theme.fonts.heading,
+                          fontWeight: 800,
+                          fontSize: '1.15rem',
+                        }}
+                      >
+                        Add Position Notation
                       </button>
 
                       <button
