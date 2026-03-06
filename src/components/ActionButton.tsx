@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import type { Theme } from '../contexts/ThemeContext'
 import { getActionButtonStyle, uiTokens } from '../ui/tokens'
@@ -11,6 +11,10 @@ interface ActionButtonProps {
   color: string
   onClick?: () => void
   disabled?: boolean
+  hideArrow?: boolean
+  content?: ReactNode
+  ariaPressed?: boolean
+  styleOverride?: CSSProperties
 }
 
 const ActionButton = ({
@@ -21,8 +25,12 @@ const ActionButton = ({
   color,
   onClick,
   disabled,
+  hideArrow,
+  content,
+  ariaPressed,
+  styleOverride,
 }: ActionButtonProps) => {
-  const content = (
+  const defaultContent = (
     <>
       <span className="flex items-center gap-4">
         <span
@@ -39,12 +47,14 @@ const ActionButton = ({
         </span>
         <span>{label}</span>
       </span>
-      <span
-        className="opacity-60 transition-transform group-hover:translate-x-2"
-        style={{ fontSize: `${uiTokens.actionButtonArrowSize}px` }}
-      >
-        →
-      </span>
+      {!hideArrow && (
+        <span
+          className="opacity-60 transition-transform group-hover:translate-x-2"
+          style={{ fontSize: `${uiTokens.actionButtonArrowSize}px` }}
+        >
+          →
+        </span>
+      )}
     </>
   )
 
@@ -55,8 +65,12 @@ const ActionButton = ({
         className="group no-underline"
         style={{ textDecoration: 'none' }}
       >
-        <button type="button" style={getActionButtonStyle(theme, color)}>
-          {content}
+        <button
+          type="button"
+          style={{ ...getActionButtonStyle(theme, color), ...styleOverride }}
+          aria-pressed={ariaPressed}
+        >
+          {content ?? defaultContent}
         </button>
       </Link>
     )
@@ -66,11 +80,12 @@ const ActionButton = ({
     <button
       type="button"
       onClick={onClick}
-      style={getActionButtonStyle(theme, color)}
+      style={{ ...getActionButtonStyle(theme, color), ...styleOverride }}
       disabled={disabled}
       className="group"
+      aria-pressed={ariaPressed}
     >
-      {content}
+      {content ?? defaultContent}
     </button>
   )
 }

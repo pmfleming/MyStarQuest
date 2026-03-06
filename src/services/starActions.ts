@@ -39,6 +39,59 @@ export const awardStars = async (options: {
   })
 }
 
+export const completeTodoAndAwardStars = async (options: {
+  userId: string
+  childId: string
+  todoId: string
+  delta: number
+}) => {
+  const { userId, childId, todoId, delta } = options
+  if (!userId || !childId || !todoId || delta <= 0) {
+    throw new Error('Invalid todo completion request')
+  }
+
+  const childRef = doc(db, 'users', userId, 'children', childId)
+  const todoRef = doc(db, 'users', userId, 'todos', todoId)
+  const starEventsCollection = collection(db, 'users', userId, 'starEvents')
+  const newEventRef = doc(starEventsCollection)
+
+  return runTransaction(db, async (transaction) => {
+    const [childSnapshot, todoSnapshot] = await Promise.all([
+      transaction.get(childRef),
+      transaction.get(todoRef),
+    ])
+
+    if (!childSnapshot.exists()) {
+      throw new Error('Child not found')
+    }
+
+    if (!todoSnapshot.exists()) {
+      throw new Error('Todo not found')
+    }
+
+    if (todoSnapshot.data()?.completedAt) {
+      return false
+    }
+
+    transaction.set(newEventRef, {
+      childId,
+      delta,
+      createdAt: serverTimestamp(),
+      todoId,
+    })
+
+    transaction.update(childRef, {
+      totalStars: increment(delta),
+    })
+
+    transaction.update(todoRef, {
+      completedAt: Date.now(),
+    })
+
+    return true
+  })
+}
+
 type RedeemOptions = {
   userId: string
   childId: string

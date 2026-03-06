@@ -25,6 +25,11 @@ service cloud.firestore {
       match /tasks/{taskId} {
         allow read, write: if isOwner(userId);
       }
+
+      // Today todos subcollection
+      match /todos/{todoId} {
+        allow read, write: if isOwner(userId);
+      }
       
       // Rewards subcollection
       match /rewards/{rewardId} {

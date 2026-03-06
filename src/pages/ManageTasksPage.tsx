@@ -19,6 +19,7 @@ import { celebrateSuccess } from '../utils/celebrate'
 import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
+import ActionButton from '../components/ActionButton'
 import StandardActionList from '../components/StandardActionList'
 import StarDisplay from '../components/StarDisplay'
 import ActionTextInput from '../components/ActionTextInput'
@@ -29,6 +30,7 @@ import DinnerCountdown, {
 import MathsTester from '../components/MathsTester'
 import PositionalNotationTester from '../components/PositionalNotationTester'
 import { uiTokens } from '../ui/tokens'
+import { getSeasonForDate, normalizeChoreSchedule } from '../utils/today'
 import {
   princessBiteIcon,
   princessEatingBreakfastIcon,
@@ -41,7 +43,12 @@ import {
   princessMathsIcon,
   princessMathsCorrectImage,
   princessMathsIncorrectImage,
+  princessNonSchoolDayAutumnImage,
+  princessNonSchoolDaySpringImage,
+  princessNonSchoolDaySummerImage,
+  princessNonSchoolDayWinterImage,
   princessPlateImage,
+  princessSchoolDayImage,
 } from '../assets/themes/princess/assets'
 
 // --- Types ---
@@ -51,6 +58,8 @@ type TaskRecord = {
   childId: string
   category: string
   taskType: 'standard' | 'eating' | 'math' | 'positional-notation'
+  schoolDayEnabled: boolean
+  nonSchoolDayEnabled: boolean
   starValue: number
   isRepeating: boolean
   dinnerDurationSeconds?: number
@@ -88,6 +97,22 @@ const getPrincessCooldownIconForHour = (hour: number) => {
   return princessEatingDinnerIcon
 }
 
+const getPrincessNonSchoolDayImage = (
+  season: ReturnType<typeof getSeasonForDate>
+) => {
+  switch (season) {
+    case 'spring':
+      return princessNonSchoolDaySpringImage
+    case 'summer':
+      return princessNonSchoolDaySummerImage
+    case 'autumn':
+      return princessNonSchoolDayAutumnImage
+    case 'winter':
+    default:
+      return princessNonSchoolDayWinterImage
+  }
+}
+
 const ManageTasksPage = () => {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
@@ -118,6 +143,8 @@ const ManageTasksPage = () => {
 
   // Local title state keyed by task id, used for controlled inputs
   const [titleDrafts, setTitleDrafts] = useState<Record<string, string>>({})
+  const currentSeason = getSeasonForDate(new Date())
+  const princessNonSchoolDayImage = getPrincessNonSchoolDayImage(currentSeason)
 
   // Tick down bite cooldown every second
   useEffect(() => {
@@ -225,6 +252,7 @@ const ManageTasksPage = () => {
           childId: data.childId ?? '',
           category: data.category ?? '',
           taskType,
+          ...normalizeChoreSchedule(data),
           starValue: Number(data.starValue ?? 1),
           isRepeating: data.isRepeating ?? false,
           dinnerDurationSeconds:
@@ -274,6 +302,8 @@ const ManageTasksPage = () => {
       Pick<
         TaskRecord,
         | 'title'
+        | 'schoolDayEnabled'
+        | 'nonSchoolDayEnabled'
         | 'starValue'
         | 'isRepeating'
         | 'dinnerDurationSeconds'
@@ -380,6 +410,103 @@ const ManageTasksPage = () => {
     }
   }
 
+  const renderDayTypeControl = (task: TaskRecord) => {
+    const getScheduleButtonStyle = (isActive: boolean) => ({
+      background: theme.colors.surface,
+      border:
+        theme.id === 'space'
+          ? `3px solid ${isActive ? theme.colors.secondary : `${theme.colors.secondary}66`}`
+          : `4px solid ${isActive ? theme.colors.primary : theme.colors.accent}`,
+      boxShadow: isActive
+        ? theme.id === 'space'
+          ? `0 0 20px ${theme.colors.secondary}55, inset 0 0 20px ${theme.colors.secondary}12`
+          : `0 8px 0 ${theme.colors.primary}, 0 0 15px ${theme.colors.primary}22`
+        : theme.id === 'space'
+          ? `0 0 10px ${theme.colors.secondary}22, inset 0 0 12px ${theme.colors.secondary}10`
+          : `0 8px 0 ${theme.colors.accent}, 0 0 8px ${theme.colors.accent}22`,
+    })
+
+    return (
+      <div className="grid grid-cols-2 gap-2">
+        <ActionButton
+          label="Schoolday"
+          icon={null}
+          theme={theme}
+          color={theme.colors.surface}
+          onClick={() =>
+            updateTaskField(task.id, {
+              schoolDayEnabled: !task.schoolDayEnabled,
+            })
+          }
+          ariaPressed={task.schoolDayEnabled}
+          styleOverride={getScheduleButtonStyle(task.schoolDayEnabled)}
+          hideArrow
+          content={
+            <span className="flex h-full w-full items-center justify-center transition-transform group-hover:-translate-y-1">
+              {theme.id === 'princess' ? (
+                <img
+                  src={princessSchoolDayImage}
+                  alt="Schoolday"
+                  className="h-12 w-full object-contain"
+                  style={{ opacity: task.schoolDayEnabled ? 1 : 0.7 }}
+                />
+              ) : (
+                <span
+                  style={{
+                    color: theme.colors.text,
+                    fontFamily: theme.fonts.heading,
+                    fontWeight: 800,
+                    opacity: task.schoolDayEnabled ? 1 : 0.7,
+                  }}
+                >
+                  Schoolday
+                </span>
+              )}
+            </span>
+          }
+        />
+
+        <ActionButton
+          label="Non-school day"
+          icon={null}
+          theme={theme}
+          color={theme.colors.surface}
+          onClick={() =>
+            updateTaskField(task.id, {
+              nonSchoolDayEnabled: !task.nonSchoolDayEnabled,
+            })
+          }
+          ariaPressed={task.nonSchoolDayEnabled}
+          styleOverride={getScheduleButtonStyle(task.nonSchoolDayEnabled)}
+          hideArrow
+          content={
+            <span className="flex h-full w-full items-center justify-center transition-transform group-hover:-translate-y-1">
+              {theme.id === 'princess' ? (
+                <img
+                  src={princessNonSchoolDayImage}
+                  alt="Non-school day"
+                  className="h-12 w-full object-contain"
+                  style={{ opacity: task.nonSchoolDayEnabled ? 1 : 0.7 }}
+                />
+              ) : (
+                <span
+                  style={{
+                    color: theme.colors.text,
+                    fontFamily: theme.fonts.heading,
+                    fontWeight: 800,
+                    opacity: task.nonSchoolDayEnabled ? 1 : 0.7,
+                  }}
+                >
+                  Non-school day
+                </span>
+              )}
+            </span>
+          }
+        />
+      </div>
+    )
+  }
+
   // --- Actions ---
   const handleCreateChore = async () => {
     if (!user || !activeChildId) return
@@ -389,6 +516,8 @@ const ManageTasksPage = () => {
         childId: activeChildId,
         category: '',
         taskType: 'standard',
+        schoolDayEnabled: true,
+        nonSchoolDayEnabled: true,
         starValue: 1,
         isRepeating: true,
         createdAt: serverTimestamp(),
@@ -407,6 +536,8 @@ const ManageTasksPage = () => {
         childId: activeChildId,
         category: 'eating',
         taskType: 'eating',
+        schoolDayEnabled: true,
+        nonSchoolDayEnabled: true,
         starValue: DEFAULT_DINNER_STARS,
         isRepeating: true,
         dinnerDurationSeconds: DEFAULT_DINNER_DURATION_SECONDS,
@@ -429,6 +560,8 @@ const ManageTasksPage = () => {
         childId: activeChildId,
         category: 'math',
         taskType: 'math',
+        schoolDayEnabled: true,
+        nonSchoolDayEnabled: true,
         starValue: DEFAULT_MATH_STARS,
         isRepeating: true,
         mathTotalProblems: DEFAULT_MATH_PROBLEMS,
@@ -484,6 +617,8 @@ const ManageTasksPage = () => {
         childId: activeChildId,
         category: 'positional-notation',
         taskType: 'positional-notation',
+        schoolDayEnabled: true,
+        nonSchoolDayEnabled: true,
         starValue: DEFAULT_PV_STARS,
         isRepeating: true,
         pvTotalProblems: DEFAULT_PV_PROBLEMS,
@@ -663,143 +798,166 @@ const ManageTasksPage = () => {
                 getKey={(task) => task.id}
                 renderItem={(task) =>
                   isEatingTask(task) ? (
-                    <DinnerCountdown
-                      theme={theme}
-                      duration={
-                        task.dinnerDurationSeconds ??
-                        DEFAULT_DINNER_DURATION_SECONDS
-                      }
-                      remaining={
-                        task.dinnerRemainingSeconds ??
-                        task.dinnerDurationSeconds ??
-                        DEFAULT_DINNER_DURATION_SECONDS
-                      }
-                      totalBites={task.dinnerTotalBites ?? DEFAULT_DINNER_BITES}
-                      bitesLeft={
-                        task.dinnerBitesLeft ??
-                        task.dinnerTotalBites ??
-                        DEFAULT_DINNER_BITES
-                      }
-                      starReward={task.starValue}
-                      isTimerRunning={activeDinnerTaskId === task.id}
-                      plateImage={
-                        theme.id === 'princess' ? princessPlateImage : undefined
-                      }
-                      onAdjustTime={(delta) => {
-                        const cur =
+                    <div
+                      className="flex flex-col"
+                      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+                    >
+                      <DinnerCountdown
+                        theme={theme}
+                        duration={
                           task.dinnerDurationSeconds ??
                           DEFAULT_DINNER_DURATION_SECONDS
-                        const next = Math.max(
-                          5 * 60,
-                          Math.min(30 * 60, cur + delta)
-                        )
-                        updateTaskField(task.id, {
-                          dinnerDurationSeconds: next,
-                          dinnerRemainingSeconds: next,
-                        })
-                      }}
-                      onAdjustBites={(delta) => {
-                        const cur =
+                        }
+                        remaining={
+                          task.dinnerRemainingSeconds ??
+                          task.dinnerDurationSeconds ??
+                          DEFAULT_DINNER_DURATION_SECONDS
+                        }
+                        totalBites={
                           task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
-                        const next = Math.max(1, Math.min(16, cur + delta))
-                        updateTaskField(task.id, {
-                          dinnerTotalBites: next,
-                          dinnerBitesLeft: next,
-                        })
-                      }}
-                      onStarsChange={(value) =>
-                        updateTaskField(task.id, {
-                          starValue: value,
-                        })
-                      }
-                      isCompleted={Boolean(task.dinnerCompletedAt)}
-                      completionImage={
-                        theme.id === 'princess'
-                          ? princessEatingFullImage
-                          : undefined
-                      }
-                      failureImage={
-                        theme.id === 'princess'
-                          ? princessEatingFailImage
-                          : undefined
-                      }
-                      biteCooldownSeconds={biteCooldownSeconds}
-                      biteIcon={
-                        theme.id === 'princess'
-                          ? activePrincessCooldownIcon
-                          : undefined
-                      }
-                      onBiteIconClick={
-                        theme.id === 'princess'
-                          ? handleCycleCooldownTestIcon
-                          : undefined
-                      }
-                    />
+                        }
+                        bitesLeft={
+                          task.dinnerBitesLeft ??
+                          task.dinnerTotalBites ??
+                          DEFAULT_DINNER_BITES
+                        }
+                        starReward={task.starValue}
+                        isTimerRunning={activeDinnerTaskId === task.id}
+                        plateImage={
+                          theme.id === 'princess'
+                            ? princessPlateImage
+                            : undefined
+                        }
+                        onAdjustTime={(delta) => {
+                          const cur =
+                            task.dinnerDurationSeconds ??
+                            DEFAULT_DINNER_DURATION_SECONDS
+                          const next = Math.max(
+                            5 * 60,
+                            Math.min(30 * 60, cur + delta)
+                          )
+                          updateTaskField(task.id, {
+                            dinnerDurationSeconds: next,
+                            dinnerRemainingSeconds: next,
+                          })
+                        }}
+                        onAdjustBites={(delta) => {
+                          const cur =
+                            task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
+                          const next = Math.max(1, Math.min(16, cur + delta))
+                          updateTaskField(task.id, {
+                            dinnerTotalBites: next,
+                            dinnerBitesLeft: next,
+                          })
+                        }}
+                        onStarsChange={(value) =>
+                          updateTaskField(task.id, {
+                            starValue: value,
+                          })
+                        }
+                        isCompleted={Boolean(task.dinnerCompletedAt)}
+                        completionImage={
+                          theme.id === 'princess'
+                            ? princessEatingFullImage
+                            : undefined
+                        }
+                        failureImage={
+                          theme.id === 'princess'
+                            ? princessEatingFailImage
+                            : undefined
+                        }
+                        biteCooldownSeconds={biteCooldownSeconds}
+                        biteIcon={
+                          theme.id === 'princess'
+                            ? activePrincessCooldownIcon
+                            : undefined
+                        }
+                        onBiteIconClick={
+                          theme.id === 'princess'
+                            ? handleCycleCooldownTestIcon
+                            : undefined
+                        }
+                      />
+                      {renderDayTypeControl(task)}
+                    </div>
                   ) : isMathTask(task) ? (
-                    <MathsTester
-                      theme={theme}
-                      totalProblems={
-                        task.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
-                      }
-                      starReward={task.starValue}
-                      isRunning={activeMathTaskId === task.id}
-                      isCompleted={Boolean(task.mathCompletedAt)}
-                      isFailed={task.mathLastOutcome === 'failure'}
-                      onAdjustProblems={(delta) => {
-                        const cur =
+                    <div
+                      className="flex flex-col"
+                      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+                    >
+                      <MathsTester
+                        theme={theme}
+                        totalProblems={
                           task.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
-                        const next = Math.max(1, Math.min(10, cur + delta))
-                        updateTaskField(task.id, { mathTotalProblems: next })
-                      }}
-                      onStarsChange={(value) =>
-                        updateTaskField(task.id, { starValue: value })
-                      }
-                      onComplete={() => handleMathComplete(task)}
-                      onFail={() => handleMathFail(task)}
-                      checkTrigger={mathCheckTriggerByTask[task.id] ?? 0}
-                      completionImage={
-                        theme.id === 'princess'
-                          ? princessMathsCorrectImage
-                          : undefined
-                      }
-                      failureImage={
-                        theme.id === 'princess'
-                          ? princessMathsIncorrectImage
-                          : undefined
-                      }
-                    />
+                        }
+                        starReward={task.starValue}
+                        isRunning={activeMathTaskId === task.id}
+                        isCompleted={Boolean(task.mathCompletedAt)}
+                        isFailed={task.mathLastOutcome === 'failure'}
+                        onAdjustProblems={(delta) => {
+                          const cur =
+                            task.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
+                          const next = Math.max(1, Math.min(10, cur + delta))
+                          updateTaskField(task.id, { mathTotalProblems: next })
+                        }}
+                        onStarsChange={(value) =>
+                          updateTaskField(task.id, { starValue: value })
+                        }
+                        onComplete={() => handleMathComplete(task)}
+                        onFail={() => handleMathFail(task)}
+                        checkTrigger={mathCheckTriggerByTask[task.id] ?? 0}
+                        completionImage={
+                          theme.id === 'princess'
+                            ? princessMathsCorrectImage
+                            : undefined
+                        }
+                        failureImage={
+                          theme.id === 'princess'
+                            ? princessMathsIncorrectImage
+                            : undefined
+                        }
+                      />
+                      {renderDayTypeControl(task)}
+                    </div>
                   ) : isPositionalNotationTask(task) ? (
-                    <PositionalNotationTester
-                      theme={theme}
-                      totalProblems={
-                        task.pvTotalProblems ?? DEFAULT_PV_PROBLEMS
-                      }
-                      starReward={task.starValue}
-                      isRunning={activePVTaskId === task.id}
-                      isCompleted={Boolean(task.pvCompletedAt)}
-                      isFailed={task.pvLastOutcome === 'failure'}
-                      onAdjustProblems={(delta) => {
-                        const cur = task.pvTotalProblems ?? DEFAULT_PV_PROBLEMS
-                        const next = Math.max(1, Math.min(10, cur + delta))
-                        updateTaskField(task.id, { pvTotalProblems: next })
-                      }}
-                      onStarsChange={(value) =>
-                        updateTaskField(task.id, { starValue: value })
-                      }
-                      onComplete={() => handlePVComplete(task)}
-                      onFail={() => handlePVFail(task)}
-                      checkTrigger={pvCheckTriggerByTask[task.id] ?? 0}
-                      completionImage={
-                        theme.id === 'princess'
-                          ? princessMathsCorrectImage
-                          : undefined
-                      }
-                      failureImage={
-                        theme.id === 'princess'
-                          ? princessMathsIncorrectImage
-                          : undefined
-                      }
-                    />
+                    <div
+                      className="flex flex-col"
+                      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+                    >
+                      <PositionalNotationTester
+                        theme={theme}
+                        totalProblems={
+                          task.pvTotalProblems ?? DEFAULT_PV_PROBLEMS
+                        }
+                        starReward={task.starValue}
+                        isRunning={activePVTaskId === task.id}
+                        isCompleted={Boolean(task.pvCompletedAt)}
+                        isFailed={task.pvLastOutcome === 'failure'}
+                        onAdjustProblems={(delta) => {
+                          const cur =
+                            task.pvTotalProblems ?? DEFAULT_PV_PROBLEMS
+                          const next = Math.max(1, Math.min(10, cur + delta))
+                          updateTaskField(task.id, { pvTotalProblems: next })
+                        }}
+                        onStarsChange={(value) =>
+                          updateTaskField(task.id, { starValue: value })
+                        }
+                        onComplete={() => handlePVComplete(task)}
+                        onFail={() => handlePVFail(task)}
+                        checkTrigger={pvCheckTriggerByTask[task.id] ?? 0}
+                        completionImage={
+                          theme.id === 'princess'
+                            ? princessMathsCorrectImage
+                            : undefined
+                        }
+                        failureImage={
+                          theme.id === 'princess'
+                            ? princessMathsIncorrectImage
+                            : undefined
+                        }
+                      />
+                      {renderDayTypeControl(task)}
+                    </div>
                   ) : (
                     <div
                       className="flex flex-col"
@@ -844,6 +1002,8 @@ const ManageTasksPage = () => {
                         showLabel={false}
                         showFeedback={false}
                       />
+
+                      {renderDayTypeControl(task)}
                     </div>
                   )
                 }

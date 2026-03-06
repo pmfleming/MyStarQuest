@@ -13,6 +13,7 @@ import { uiTokens } from '../ui/tokens'
 
 // --- Assets ---
 import {
+  princessActiveIcon,
   princessChildrenIcon,
   princessChoresIcon,
   princessExitIcon,
@@ -162,6 +163,23 @@ const DashboardPage = () => {
           style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
         >
           <ActionButton
+            to="/today"
+            label="Today"
+            icon={
+              theme.id === 'princess' ? (
+                <img
+                  src={princessActiveIcon}
+                  alt="Today"
+                  className="h-10 w-10 object-contain"
+                />
+              ) : (
+                <span>✅</span>
+              )
+            }
+            theme={theme}
+            color={theme.colors.primary}
+          />
+          <ActionButton
             to="/settings/manage-tasks"
             label="Chores"
             icon={
@@ -189,7 +207,7 @@ const DashboardPage = () => {
               )
             }
             theme={theme}
-            color={theme.colors.primary}
+            color={theme.colors.secondary}
           />
         </nav>
       </div>

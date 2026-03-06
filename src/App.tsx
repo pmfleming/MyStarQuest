@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage'
 import ManageChildrenPage from './pages/ManageChildrenPage'
 import ManageRewardsPage from './pages/ManageRewardsPage'
 import ManageTasksPage from './pages/ManageTasksPage'
+import TodayPage from './pages/TodayPage'
 import ProtectedRoute from './routes/ProtectedRoute'
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<DashboardPage />} />
+                <Route path="/today" element={<TodayPage />} />
                 <Route
                   path="/settings/manage-children"
                   element={<ManageChildrenPage />}

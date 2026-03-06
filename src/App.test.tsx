@@ -26,7 +26,7 @@ describe('App', () => {
     render(<App />)
 
     expect(
-      await screen.findByRole('button', { name: /sign in with google/i })
+      await screen.findByRole('button', { name: /google account/i })
     ).toBeInTheDocument()
   })
 })
