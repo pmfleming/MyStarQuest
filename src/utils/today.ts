@@ -56,12 +56,18 @@ export const normalizeChoreSchedule = (value: {
     }
   }
 
-  if (value.dayType === 'weekday') {
+  const dayType = String(value.dayType ?? '').toLowerCase()
+
+  if (dayType === 'weekday' || dayType === 'schoolday') {
     return { schoolDayEnabled: true, nonSchoolDayEnabled: false }
   }
 
-  if (value.dayType === 'weekend') {
+  if (dayType === 'weekend' || dayType === 'nonschoolday') {
     return { schoolDayEnabled: false, nonSchoolDayEnabled: true }
+  }
+
+  if (dayType === 'both' || dayType === 'any') {
+    return { schoolDayEnabled: true, nonSchoolDayEnabled: true }
   }
 
   return { ...DEFAULT_CHORE_SCHEDULE }

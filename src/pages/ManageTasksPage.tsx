@@ -27,11 +27,12 @@ import RepeatControl from '../components/RepeatControl'
 import DinnerCountdown, {
   BITE_COOLDOWN_SECONDS,
 } from '../components/DinnerCountdown'
-import MathsTester from '../components/MathsTester'
-import PositionalNotationTester from '../components/PositionalNotationTester'
+import ArithmeticTester from '../components/ArithmeticTester'
+import PositionalNotationTester from '../components/PositionalNotationTaskTester'
 import { uiTokens } from '../ui/tokens'
 import { getSeasonForDate, normalizeChoreSchedule } from '../utils/today'
 import {
+  princessActiveIcon,
   princessBiteIcon,
   princessEatingBreakfastIcon,
   princessEatingDinnerIcon,
@@ -39,7 +40,6 @@ import {
   princessEatingFullImage,
   princessEatingLunchIcon,
   princessGiveStarIcon,
-  princessHomeIcon,
   princessMathsIcon,
   princessMathsCorrectImage,
   princessMathsIncorrectImage,
@@ -48,6 +48,7 @@ import {
   princessNonSchoolDaySummerImage,
   princessNonSchoolDayWinterImage,
   princessPlateImage,
+  princessResetIcon,
   princessSchoolDayImage,
 } from '../assets/themes/princess/assets'
 
@@ -62,17 +63,18 @@ type TaskRecord = {
   nonSchoolDayEnabled: boolean
   starValue: number
   isRepeating: boolean
+  manageCompletedAt?: number | null
   dinnerDurationSeconds?: number
-  dinnerRemainingSeconds?: number
   dinnerTotalBites?: number
-  dinnerBitesLeft?: number
-  dinnerCompletedAt?: number | null
+  manageDinnerRemainingSeconds?: number
+  manageDinnerBitesLeft?: number
+  manageDinnerCompletedAt?: number | null
   mathTotalProblems?: number
-  mathCompletedAt?: number | null
-  mathLastOutcome?: 'success' | 'failure' | null
+  manageMathCompletedAt?: number | null
+  manageMathLastOutcome?: 'success' | 'failure' | null
   pvTotalProblems?: number
-  pvCompletedAt?: number | null
-  pvLastOutcome?: 'success' | 'failure' | null
+  managePVCompletedAt?: number | null
+  managePVLastOutcome?: 'success' | 'failure' | null
   createdAt?: Date
 }
 
@@ -83,6 +85,7 @@ const DEFAULT_MATH_PROBLEMS = 5
 const DEFAULT_MATH_STARS = 3
 const DEFAULT_PV_PROBLEMS = 5
 const DEFAULT_PV_STARS = 3
+const MANAGE_STATUS_RESET_MS = 15 * 60 * 1000
 
 const princessBiteIconCycle = [
   princessBiteIcon,
@@ -174,16 +177,16 @@ const ManageTasksPage = () => {
       const task = tasks.find((item) => item.id === taskId)
       if (!task || !isEatingTask(task)) return
 
-      const remaining = task.dinnerRemainingSeconds ?? 0
-      const bitesLeft = task.dinnerBitesLeft ?? 0
+      const remaining = getManageDinnerRemaining(task)
+      const bitesLeft = getManageDinnerBitesLeft(task)
       if (remaining <= 0 || bitesLeft <= 0) return
 
       const nextBites = Math.max(0, bitesLeft - 1)
-      await updateTaskField(task.id, { dinnerBitesLeft: nextBites })
+      await updateTaskField(task.id, { manageDinnerBitesLeft: nextBites })
 
       if (nextBites === 0) {
         await new Promise((resolve) => window.setTimeout(resolve, 850))
-        await updateTaskField(task.id, { dinnerCompletedAt: Date.now() })
+        await updateTaskField(task.id, { manageDinnerCompletedAt: Date.now() })
         setActiveDinnerTaskId(null)
 
         if (user && activeChildId) {
@@ -255,19 +258,32 @@ const ManageTasksPage = () => {
           ...normalizeChoreSchedule(data),
           starValue: Number(data.starValue ?? 1),
           isRepeating: data.isRepeating ?? false,
+          manageCompletedAt: data.manageCompletedAt ?? null,
           dinnerDurationSeconds:
             data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
-          dinnerRemainingSeconds:
-            data.dinnerRemainingSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
           dinnerTotalBites: data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-          dinnerBitesLeft: data.dinnerBitesLeft ?? DEFAULT_DINNER_BITES,
-          dinnerCompletedAt: data.dinnerCompletedAt ?? null,
+          manageDinnerRemainingSeconds:
+            data.manageDinnerRemainingSeconds ??
+            data.dinnerRemainingSeconds ??
+            data.dinnerDurationSeconds ??
+            DEFAULT_DINNER_DURATION_SECONDS,
+          manageDinnerBitesLeft:
+            data.manageDinnerBitesLeft ??
+            data.dinnerBitesLeft ??
+            data.dinnerTotalBites ??
+            DEFAULT_DINNER_BITES,
+          manageDinnerCompletedAt:
+            data.manageDinnerCompletedAt ?? data.dinnerCompletedAt ?? null,
           mathTotalProblems: data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-          mathCompletedAt: data.mathCompletedAt ?? null,
-          mathLastOutcome: data.mathLastOutcome ?? null,
+          manageMathCompletedAt:
+            data.manageMathCompletedAt ?? data.mathCompletedAt ?? null,
+          manageMathLastOutcome:
+            data.manageMathLastOutcome ?? data.mathLastOutcome ?? null,
           pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
-          pvCompletedAt: data.pvCompletedAt ?? null,
-          pvLastOutcome: data.pvLastOutcome ?? null,
+          managePVCompletedAt:
+            data.managePVCompletedAt ?? data.pvCompletedAt ?? null,
+          managePVLastOutcome:
+            data.managePVLastOutcome ?? data.pvLastOutcome ?? null,
           createdAt: data.createdAt?.toDate?.(),
         }
       })
@@ -296,6 +312,24 @@ const ManageTasksPage = () => {
   const isPositionalNotationTask = (task: TaskRecord) =>
     task.taskType === 'positional-notation'
 
+  const getManageDinnerRemaining = (task: TaskRecord) =>
+    task.manageDinnerRemainingSeconds ??
+    task.dinnerDurationSeconds ??
+    DEFAULT_DINNER_DURATION_SECONDS
+
+  const getManageDinnerBitesLeft = (task: TaskRecord) =>
+    task.manageDinnerBitesLeft ?? task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
+
+  const getManageTaskCompletedAt = (task: TaskRecord) => {
+    if (isEatingTask(task)) return task.manageDinnerCompletedAt ?? null
+    if (isMathTask(task)) return task.manageMathCompletedAt ?? null
+    if (isPositionalNotationTask(task)) return task.managePVCompletedAt ?? null
+    return task.manageCompletedAt ?? null
+  }
+
+  const isManageTaskCompleted = (task: TaskRecord) =>
+    Boolean(getManageTaskCompletedAt(task))
+
   const updateTaskField = async (
     taskId: string,
     field: Partial<
@@ -306,17 +340,18 @@ const ManageTasksPage = () => {
         | 'nonSchoolDayEnabled'
         | 'starValue'
         | 'isRepeating'
+        | 'manageCompletedAt'
         | 'dinnerDurationSeconds'
-        | 'dinnerRemainingSeconds'
         | 'dinnerTotalBites'
-        | 'dinnerBitesLeft'
-        | 'dinnerCompletedAt'
+        | 'manageDinnerRemainingSeconds'
+        | 'manageDinnerBitesLeft'
+        | 'manageDinnerCompletedAt'
         | 'mathTotalProblems'
-        | 'mathCompletedAt'
-        | 'mathLastOutcome'
+        | 'manageMathCompletedAt'
+        | 'manageMathLastOutcome'
         | 'pvTotalProblems'
-        | 'pvCompletedAt'
-        | 'pvLastOutcome'
+        | 'managePVCompletedAt'
+        | 'managePVLastOutcome'
       >
     >
   ) => {
@@ -341,9 +376,9 @@ const ManageTasksPage = () => {
         return
       }
 
-      const remaining = dinnerTask.dinnerRemainingSeconds ?? 0
-      const bitesLeft = dinnerTask.dinnerBitesLeft ?? 0
-      const isCompleted = Boolean(dinnerTask.dinnerCompletedAt)
+      const remaining = getManageDinnerRemaining(dinnerTask)
+      const bitesLeft = getManageDinnerBitesLeft(dinnerTask)
+      const isCompleted = Boolean(dinnerTask.manageDinnerCompletedAt)
 
       if (remaining <= 0 || (bitesLeft <= 0 && isCompleted)) {
         setActiveDinnerTaskId(null)
@@ -356,8 +391,8 @@ const ManageTasksPage = () => {
 
       const nextRemaining = Math.max(0, remaining - 1)
       await updateTaskField(dinnerTask.id, {
-        dinnerRemainingSeconds: nextRemaining,
-        ...(nextRemaining === 0 ? { dinnerCompletedAt: Date.now() } : {}),
+        manageDinnerRemainingSeconds: nextRemaining,
+        ...(nextRemaining === 0 ? { manageDinnerCompletedAt: Date.now() } : {}),
       })
 
       if (nextRemaining === 0) {
@@ -368,26 +403,59 @@ const ManageTasksPage = () => {
     return () => window.clearInterval(timer)
   }, [activeDinnerTaskId, tasks, user])
 
-  // Auto-reset eating tasks 1 hour after completion
+  // Auto-reset manage-page completion state after 15 minutes
   useEffect(() => {
     if (!user) return
-    const AUTO_RESET_MS = 60 * 60 * 1000
 
     const checkAndReset = () => {
       const now = Date.now()
       for (const task of tasks) {
         if (
           isEatingTask(task) &&
-          task.dinnerCompletedAt &&
-          now - task.dinnerCompletedAt >= AUTO_RESET_MS
+          task.manageDinnerCompletedAt &&
+          now - task.manageDinnerCompletedAt >= MANAGE_STATUS_RESET_MS
         ) {
           const totalBites = task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
           const dur =
             task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
           updateTaskField(task.id, {
-            dinnerBitesLeft: totalBites,
-            dinnerRemainingSeconds: dur,
-            dinnerCompletedAt: null,
+            manageDinnerBitesLeft: totalBites,
+            manageDinnerRemainingSeconds: dur,
+            manageDinnerCompletedAt: null,
+          })
+        }
+
+        if (
+          isMathTask(task) &&
+          task.manageMathCompletedAt &&
+          now - task.manageMathCompletedAt >= MANAGE_STATUS_RESET_MS
+        ) {
+          updateTaskField(task.id, {
+            manageMathCompletedAt: null,
+            manageMathLastOutcome: null,
+          })
+        }
+
+        if (
+          isPositionalNotationTask(task) &&
+          task.managePVCompletedAt &&
+          now - task.managePVCompletedAt >= MANAGE_STATUS_RESET_MS
+        ) {
+          updateTaskField(task.id, {
+            managePVCompletedAt: null,
+            managePVLastOutcome: null,
+          })
+        }
+
+        if (
+          !isEatingTask(task) &&
+          !isMathTask(task) &&
+          !isPositionalNotationTask(task) &&
+          task.manageCompletedAt &&
+          now - task.manageCompletedAt >= MANAGE_STATUS_RESET_MS
+        ) {
+          updateTaskField(task.id, {
+            manageCompletedAt: null,
           })
         }
       }
@@ -520,6 +588,7 @@ const ManageTasksPage = () => {
         nonSchoolDayEnabled: true,
         starValue: 1,
         isRepeating: true,
+        manageCompletedAt: null,
         createdAt: serverTimestamp(),
       })
       setShowAddChooser(false)
@@ -541,9 +610,10 @@ const ManageTasksPage = () => {
         starValue: DEFAULT_DINNER_STARS,
         isRepeating: true,
         dinnerDurationSeconds: DEFAULT_DINNER_DURATION_SECONDS,
-        dinnerRemainingSeconds: DEFAULT_DINNER_DURATION_SECONDS,
         dinnerTotalBites: DEFAULT_DINNER_BITES,
-        dinnerBitesLeft: DEFAULT_DINNER_BITES,
+        manageDinnerRemainingSeconds: DEFAULT_DINNER_DURATION_SECONDS,
+        manageDinnerBitesLeft: DEFAULT_DINNER_BITES,
+        manageDinnerCompletedAt: null,
         createdAt: serverTimestamp(),
       })
       setShowAddChooser(false)
@@ -556,7 +626,7 @@ const ManageTasksPage = () => {
     if (!user || !activeChildId) return
     try {
       await addDoc(collection(db, 'users', user.uid, 'tasks'), {
-        title: 'Dot Math',
+        title: 'Arithmetic',
         childId: activeChildId,
         category: 'math',
         taskType: 'math',
@@ -565,8 +635,8 @@ const ManageTasksPage = () => {
         starValue: DEFAULT_MATH_STARS,
         isRepeating: true,
         mathTotalProblems: DEFAULT_MATH_PROBLEMS,
-        mathCompletedAt: null,
-        mathLastOutcome: null,
+        manageMathCompletedAt: null,
+        manageMathLastOutcome: null,
         createdAt: serverTimestamp(),
       })
       setShowAddChooser(false)
@@ -578,8 +648,8 @@ const ManageTasksPage = () => {
   const handleMathComplete = async (task: TaskRecord) => {
     setActiveMathTaskId(null)
     await updateTaskField(task.id, {
-      mathCompletedAt: Date.now(),
-      mathLastOutcome: 'success',
+      manageMathCompletedAt: Date.now(),
+      manageMathLastOutcome: 'success',
     })
 
     if (user && activeChildId) {
@@ -595,16 +665,16 @@ const ManageTasksPage = () => {
   const handleMathFail = async (task: TaskRecord) => {
     setActiveMathTaskId(null)
     await updateTaskField(task.id, {
-      mathCompletedAt: Date.now(),
-      mathLastOutcome: 'failure',
+      manageMathCompletedAt: Date.now(),
+      manageMathLastOutcome: 'failure',
     })
   }
 
   const handleMathReset = async (task: TaskRecord) => {
     setActiveMathTaskId(null)
     await updateTaskField(task.id, {
-      mathCompletedAt: null,
-      mathLastOutcome: null,
+      manageMathCompletedAt: null,
+      manageMathLastOutcome: null,
     })
   }
 
@@ -622,8 +692,8 @@ const ManageTasksPage = () => {
         starValue: DEFAULT_PV_STARS,
         isRepeating: true,
         pvTotalProblems: DEFAULT_PV_PROBLEMS,
-        pvCompletedAt: null,
-        pvLastOutcome: null,
+        managePVCompletedAt: null,
+        managePVLastOutcome: null,
         createdAt: serverTimestamp(),
       })
       setShowAddChooser(false)
@@ -635,8 +705,8 @@ const ManageTasksPage = () => {
   const handlePVComplete = async (task: TaskRecord) => {
     setActivePVTaskId(null)
     await updateTaskField(task.id, {
-      pvCompletedAt: Date.now(),
-      pvLastOutcome: 'success',
+      managePVCompletedAt: Date.now(),
+      managePVLastOutcome: 'success',
     })
 
     if (user && activeChildId) {
@@ -652,16 +722,16 @@ const ManageTasksPage = () => {
   const handlePVFail = async (task: TaskRecord) => {
     setActivePVTaskId(null)
     await updateTaskField(task.id, {
-      pvCompletedAt: Date.now(),
-      pvLastOutcome: 'failure',
+      managePVCompletedAt: Date.now(),
+      managePVLastOutcome: 'failure',
     })
   }
 
   const handlePVReset = async (task: TaskRecord) => {
     setActivePVTaskId(null)
     await updateTaskField(task.id, {
-      pvCompletedAt: null,
-      pvLastOutcome: null,
+      managePVCompletedAt: null,
+      managePVLastOutcome: null,
     })
   }
 
@@ -706,7 +776,7 @@ const ManageTasksPage = () => {
     if (!isEatingTask(task)) return
     if (biteCooldownSeconds > 0) return // still chewing
     if (pendingDinnerBiteTaskId) return
-    const bitesLeft = task.dinnerBitesLeft ?? 0
+    const bitesLeft = getManageDinnerBitesLeft(task)
     if (bitesLeft <= 0) return
 
     // Queue bite and run cooldown first; bite is applied when cooldown reaches 0.
@@ -722,9 +792,9 @@ const ManageTasksPage = () => {
     const totalBites = task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
     const dur = task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
     await updateTaskField(task.id, {
-      dinnerBitesLeft: totalBites,
-      dinnerRemainingSeconds: dur,
-      dinnerCompletedAt: null,
+      manageDinnerBitesLeft: totalBites,
+      manageDinnerRemainingSeconds: dur,
+      manageDinnerCompletedAt: null,
     })
   }
 
@@ -741,6 +811,7 @@ const ManageTasksPage = () => {
         childId: activeChildId,
         delta: task.starValue,
       })
+      await updateTaskField(task.id, { manageCompletedAt: Date.now() })
       celebrateSuccess()
 
       if (!task.isRepeating) {
@@ -764,12 +835,12 @@ const ManageTasksPage = () => {
         right={
           <TopIconButton
             theme={theme}
-            to="/"
-            ariaLabel="Home"
+            to="/today"
+            ariaLabel="Today"
             icon={
               <img
-                src={princessHomeIcon}
-                alt="Home"
+                src={princessActiveIcon}
+                alt="Today"
                 className="h-10 w-10 object-contain"
               />
             }
@@ -796,6 +867,7 @@ const ManageTasksPage = () => {
                 theme={theme}
                 items={tasks}
                 getKey={(task) => task.id}
+                isHighlighted={(task) => isManageTaskCompleted(task)}
                 renderItem={(task) =>
                   isEatingTask(task) ? (
                     <div
@@ -808,19 +880,11 @@ const ManageTasksPage = () => {
                           task.dinnerDurationSeconds ??
                           DEFAULT_DINNER_DURATION_SECONDS
                         }
-                        remaining={
-                          task.dinnerRemainingSeconds ??
-                          task.dinnerDurationSeconds ??
-                          DEFAULT_DINNER_DURATION_SECONDS
-                        }
+                        remaining={getManageDinnerRemaining(task)}
                         totalBites={
                           task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
                         }
-                        bitesLeft={
-                          task.dinnerBitesLeft ??
-                          task.dinnerTotalBites ??
-                          DEFAULT_DINNER_BITES
-                        }
+                        bitesLeft={getManageDinnerBitesLeft(task)}
                         starReward={task.starValue}
                         isTimerRunning={activeDinnerTaskId === task.id}
                         plateImage={
@@ -838,7 +902,7 @@ const ManageTasksPage = () => {
                           )
                           updateTaskField(task.id, {
                             dinnerDurationSeconds: next,
-                            dinnerRemainingSeconds: next,
+                            manageDinnerRemainingSeconds: next,
                           })
                         }}
                         onAdjustBites={(delta) => {
@@ -847,7 +911,7 @@ const ManageTasksPage = () => {
                           const next = Math.max(1, Math.min(16, cur + delta))
                           updateTaskField(task.id, {
                             dinnerTotalBites: next,
-                            dinnerBitesLeft: next,
+                            manageDinnerBitesLeft: next,
                           })
                         }}
                         onStarsChange={(value) =>
@@ -855,7 +919,7 @@ const ManageTasksPage = () => {
                             starValue: value,
                           })
                         }
-                        isCompleted={Boolean(task.dinnerCompletedAt)}
+                        isCompleted={Boolean(task.manageDinnerCompletedAt)}
                         completionImage={
                           theme.id === 'princess'
                             ? princessEatingFullImage
@@ -885,15 +949,32 @@ const ManageTasksPage = () => {
                       className="flex flex-col"
                       style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
                     >
-                      <MathsTester
+                      <ActionTextInput
+                        theme={theme}
+                        label="Chore Name"
+                        value={titleDrafts[task.id] ?? task.title}
+                        onChange={(value) =>
+                          setTitleDrafts((prev) => ({
+                            ...prev,
+                            [task.id]: value,
+                          }))
+                        }
+                        onCommit={(value) => commitTitle(task.id, value)}
+                        maxLength={80}
+                        baseColor={theme.colors.primary}
+                        inputAriaLabel="Chore name"
+                        transparent
+                      />
+
+                      <ArithmeticTester
                         theme={theme}
                         totalProblems={
                           task.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
                         }
                         starReward={task.starValue}
                         isRunning={activeMathTaskId === task.id}
-                        isCompleted={Boolean(task.mathCompletedAt)}
-                        isFailed={task.mathLastOutcome === 'failure'}
+                        isCompleted={Boolean(task.manageMathCompletedAt)}
+                        isFailed={task.manageMathLastOutcome === 'failure'}
                         onAdjustProblems={(delta) => {
                           const cur =
                             task.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
@@ -917,13 +998,33 @@ const ManageTasksPage = () => {
                             : undefined
                         }
                       />
-                      {renderDayTypeControl(task)}
+                      {!task.manageMathCompletedAt &&
+                      activeMathTaskId !== task.id
+                        ? renderDayTypeControl(task)
+                        : null}
                     </div>
                   ) : isPositionalNotationTask(task) ? (
                     <div
                       className="flex flex-col"
                       style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
                     >
+                      <ActionTextInput
+                        theme={theme}
+                        label="Chore Name"
+                        value={titleDrafts[task.id] ?? task.title}
+                        onChange={(value) =>
+                          setTitleDrafts((prev) => ({
+                            ...prev,
+                            [task.id]: value,
+                          }))
+                        }
+                        onCommit={(value) => commitTitle(task.id, value)}
+                        maxLength={80}
+                        baseColor={theme.colors.primary}
+                        inputAriaLabel="Chore name"
+                        transparent
+                      />
+
                       <PositionalNotationTester
                         theme={theme}
                         totalProblems={
@@ -931,15 +1032,15 @@ const ManageTasksPage = () => {
                         }
                         starReward={task.starValue}
                         isRunning={activePVTaskId === task.id}
-                        isCompleted={Boolean(task.pvCompletedAt)}
-                        isFailed={task.pvLastOutcome === 'failure'}
-                        onAdjustProblems={(delta) => {
+                        isCompleted={Boolean(task.managePVCompletedAt)}
+                        isFailed={task.managePVLastOutcome === 'failure'}
+                        onAdjustProblems={(delta: number) => {
                           const cur =
                             task.pvTotalProblems ?? DEFAULT_PV_PROBLEMS
                           const next = Math.max(1, Math.min(10, cur + delta))
                           updateTaskField(task.id, { pvTotalProblems: next })
                         }}
-                        onStarsChange={(value) =>
+                        onStarsChange={(value: number) =>
                           updateTaskField(task.id, { starValue: value })
                         }
                         onComplete={() => handlePVComplete(task)}
@@ -956,7 +1057,9 @@ const ManageTasksPage = () => {
                             : undefined
                         }
                       />
-                      {renderDayTypeControl(task)}
+                      {!task.managePVCompletedAt && activePVTaskId !== task.id
+                        ? renderDayTypeControl(task)
+                        : null}
                     </div>
                   ) : (
                     <div
@@ -1010,35 +1113,27 @@ const ManageTasksPage = () => {
                 primaryAction={{
                   label: (task) => {
                     if (isEatingTask(task)) {
-                      const bitesLeft = task.dinnerBitesLeft ?? 1
-                      const remaining = task.dinnerRemainingSeconds ?? 1
-                      const isFinished =
-                        Boolean(task.dinnerCompletedAt) ||
-                        (remaining <= 0 && bitesLeft > 0)
+                      const isFinished = Boolean(task.manageDinnerCompletedAt)
                       if (isFinished) return 'Again 🔁'
                       return activeDinnerTaskId === task.id ? 'Bite' : 'Start'
                     }
                     if (isMathTask(task)) {
-                      if (task.mathCompletedAt) return 'Again 🔁'
+                      if (task.manageMathCompletedAt) return 'Again 🔁'
                       return activeMathTaskId === task.id
                         ? 'Check Answer'
                         : 'Start'
                     }
                     if (isPositionalNotationTask(task)) {
-                      if (task.pvCompletedAt) return 'Again 🔁'
+                      if (task.managePVCompletedAt) return 'Again 🔁'
                       return activePVTaskId === task.id
                         ? 'Check Answer'
                         : 'Start'
                     }
-                    return 'Give'
+                    return task.manageCompletedAt ? 'Done' : 'Give'
                   },
                   icon: (task) => {
                     if (isEatingTask(task)) {
-                      const bitesLeft = task.dinnerBitesLeft ?? 1
-                      const remaining = task.dinnerRemainingSeconds ?? 1
-                      const isFinished =
-                        Boolean(task.dinnerCompletedAt) ||
-                        (remaining <= 0 && bitesLeft > 0)
+                      const isFinished = Boolean(task.manageDinnerCompletedAt)
                       const isRunning = activeDinnerTaskId === task.id
                       if (!isFinished && !isRunning) {
                         return (
@@ -1072,7 +1167,7 @@ const ManageTasksPage = () => {
                       )
                     }
                     if (isMathTask(task)) {
-                      const isFinished = Boolean(task.mathCompletedAt)
+                      const isFinished = Boolean(task.manageMathCompletedAt)
                       const isRunning =
                         activeMathTaskId === task.id && !isFinished
                       return (
@@ -1096,7 +1191,7 @@ const ManageTasksPage = () => {
                       )
                     }
                     if (isPositionalNotationTask(task)) {
-                      const isFinished = Boolean(task.pvCompletedAt)
+                      const isFinished = Boolean(task.managePVCompletedAt)
                       const isRunning =
                         activePVTaskId === task.id && !isFinished
                       return (
@@ -1121,19 +1216,19 @@ const ManageTasksPage = () => {
                     }
                     return (
                       <img
-                        src={princessGiveStarIcon}
-                        alt="Give star"
+                        src={
+                          task.manageCompletedAt
+                            ? princessActiveIcon
+                            : princessGiveStarIcon
+                        }
+                        alt={task.manageCompletedAt ? 'Completed' : 'Give star'}
                         className="h-6 w-6 object-contain"
                       />
                     )
                   },
                   onClick: (task) => {
                     if (isEatingTask(task)) {
-                      const bitesLeft = task.dinnerBitesLeft ?? 1
-                      const remaining = task.dinnerRemainingSeconds ?? 1
-                      const isFinished =
-                        Boolean(task.dinnerCompletedAt) ||
-                        (remaining <= 0 && bitesLeft > 0)
+                      const isFinished = Boolean(task.manageDinnerCompletedAt)
                       if (isFinished) {
                         handleDinnerReset(task)
                         return
@@ -1144,7 +1239,7 @@ const ManageTasksPage = () => {
                         setActiveDinnerTaskId(task.id)
                       }
                     } else if (isMathTask(task)) {
-                      if (task.mathCompletedAt) {
+                      if (task.manageMathCompletedAt) {
                         handleMathReset(task)
                         return
                       }
@@ -1157,7 +1252,7 @@ const ManageTasksPage = () => {
                         setActiveMathTaskId(task.id)
                       }
                     } else if (isPositionalNotationTask(task)) {
-                      if (task.pvCompletedAt) {
+                      if (task.managePVCompletedAt) {
                         handlePVReset(task)
                         return
                       }
@@ -1169,6 +1264,8 @@ const ManageTasksPage = () => {
                       } else {
                         setActivePVTaskId(task.id)
                       }
+                    } else if (task.manageCompletedAt) {
+                      return
                     } else {
                       handleAwardTask(task)
                     }
@@ -1189,14 +1286,90 @@ const ManageTasksPage = () => {
                     if (isPositionalNotationTask(task)) {
                       return false
                     }
-                    return isAwarding || !activeChildId
+                    return (
+                      isAwarding ||
+                      !activeChildId ||
+                      Boolean(task.manageCompletedAt)
+                    )
                   },
                   variant: 'primary',
                   showLabel: () => false,
                 }}
                 hideEdit
+                utilityAction={{
+                  label: (task) =>
+                    (isMathTask(task) &&
+                      activeMathTaskId === task.id &&
+                      !task.manageMathCompletedAt) ||
+                    (isPositionalNotationTask(task) &&
+                      activePVTaskId === task.id &&
+                      !task.managePVCompletedAt)
+                      ? 'Reset'
+                      : 'Delete',
+                  ariaLabel: (task) =>
+                    isMathTask(task) &&
+                    activeMathTaskId === task.id &&
+                    !task.manageMathCompletedAt
+                      ? 'Reset arithmetic chore'
+                      : isPositionalNotationTask(task) &&
+                          activePVTaskId === task.id &&
+                          !task.managePVCompletedAt
+                        ? 'Reset positional notation chore'
+                        : 'Delete chore',
+                  icon: (task) =>
+                    ((isMathTask(task) &&
+                      activeMathTaskId === task.id &&
+                      !task.manageMathCompletedAt) ||
+                      (isPositionalNotationTask(task) &&
+                        activePVTaskId === task.id &&
+                        !task.managePVCompletedAt)) &&
+                    theme.id === 'princess' ? (
+                      <img
+                        src={princessResetIcon}
+                        alt="Reset"
+                        className="h-6 w-6 object-contain"
+                      />
+                    ) : undefined,
+                  onClick: (task) => {
+                    if (
+                      isMathTask(task) &&
+                      activeMathTaskId === task.id &&
+                      !task.manageMathCompletedAt
+                    ) {
+                      handleMathReset(task)
+                      return
+                    }
+                    if (
+                      isPositionalNotationTask(task) &&
+                      activePVTaskId === task.id &&
+                      !task.managePVCompletedAt
+                    ) {
+                      handlePVReset(task)
+                      return
+                    }
+                    handleDelete(task.id)
+                  },
+                  exits: (task) =>
+                    !(
+                      (isMathTask(task) &&
+                        activeMathTaskId === task.id &&
+                        !task.manageMathCompletedAt) ||
+                      (isPositionalNotationTask(task) &&
+                        activePVTaskId === task.id &&
+                        !task.managePVCompletedAt)
+                    ),
+                  variant: (task) =>
+                    (isMathTask(task) &&
+                      activeMathTaskId === task.id &&
+                      !task.manageMathCompletedAt) ||
+                    (isPositionalNotationTask(task) &&
+                      activePVTaskId === task.id &&
+                      !task.managePVCompletedAt)
+                      ? 'neutral'
+                      : 'danger',
+                }}
                 onDelete={(task) => handleDelete(task.id)}
-                addLabel="Add Chore"
+                addLabel="Chore"
                 onAdd={() => setShowAddChooser(true)}
                 addDisabled={false}
                 inlineNewRow={
@@ -1220,7 +1393,7 @@ const ManageTasksPage = () => {
                           fontSize: '1.15rem',
                         }}
                       >
-                        Add Chore
+                        Chore
                       </button>
 
                       <button
@@ -1238,7 +1411,7 @@ const ManageTasksPage = () => {
                           fontSize: '1.15rem',
                         }}
                       >
-                        Add Eating
+                        Eating
                       </button>
 
                       <button
@@ -1256,7 +1429,7 @@ const ManageTasksPage = () => {
                           fontSize: '1.15rem',
                         }}
                       >
-                        Add Maths
+                        Arithmetic
                       </button>
 
                       <button
@@ -1274,7 +1447,7 @@ const ManageTasksPage = () => {
                           fontSize: '1.15rem',
                         }}
                       >
-                        Add Position Notation
+                        Place Notation
                       </button>
 
                       <button

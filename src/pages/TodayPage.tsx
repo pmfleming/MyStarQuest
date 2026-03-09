@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   addDoc,
   collection,
@@ -7,6 +7,7 @@ import {
   onSnapshot,
   query,
   serverTimestamp,
+  updateDoc,
   where,
 } from 'firebase/firestore'
 import { db } from '../firebase'
@@ -17,6 +18,11 @@ import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
+import DinnerCountdown, {
+  BITE_COOLDOWN_SECONDS,
+} from '../components/DinnerCountdown'
+import ArithmeticTester from '../components/ArithmeticTester'
+import PositionalNotationTester from '../components/PositionalNotationTaskTester'
 import { completeTodoAndAwardStars } from '../services/starActions'
 import { celebrateSuccess } from '../utils/celebrate'
 import {
@@ -30,19 +36,37 @@ import {
 import { uiTokens } from '../ui/tokens'
 import {
   princessActiveIcon,
+  princessBiteIcon,
   princessChoresIcon,
+  princessEatingFailImage,
+  princessEatingFullImage,
   princessGiveStarIcon,
   princessHomeIcon,
+  princessMathsCorrectImage,
+  princessMathsIcon,
+  princessMathsIncorrectImage,
+  princessNonSchoolDayAutumnImage,
+  princessNonSchoolDaySpringImage,
+  princessNonSchoolDaySummerImage,
+  princessNonSchoolDayWinterImage,
+  princessPlateImage,
+  princessSchoolDayImage,
 } from '../assets/themes/princess/assets'
+
+type TaskType = 'standard' | 'eating' | 'math' | 'positional-notation'
 
 type TaskTemplate = {
   id: string
   title: string
   childId: string
   starValue: number
-  taskType: 'standard' | 'eating' | 'math' | 'positional-notation'
+  taskType: TaskType
   schoolDayEnabled: boolean
   nonSchoolDayEnabled: boolean
+  dinnerDurationSeconds?: number
+  dinnerTotalBites?: number
+  mathTotalProblems?: number
+  pvTotalProblems?: number
   createdAt?: Date
 }
 
@@ -51,12 +75,27 @@ type TodoRecord = {
   title: string
   childId: string
   sourceTaskId: string
+  sourceTaskType?: TaskType
   starValue: number
   schoolDayEnabled: boolean
   nonSchoolDayEnabled: boolean
+  autoAdded: boolean
   completedAt: number | null
+  dinnerDurationSeconds?: number
+  dinnerRemainingSeconds?: number
+  dinnerTotalBites?: number
+  dinnerBitesLeft?: number
+  mathTotalProblems?: number
+  mathLastOutcome?: 'success' | 'failure' | null
+  pvTotalProblems?: number
+  pvLastOutcome?: 'success' | 'failure' | null
   createdAt?: Date
 }
+
+const DEFAULT_DINNER_DURATION_SECONDS = 10 * 60
+const DEFAULT_DINNER_BITES = 2
+const DEFAULT_MATH_PROBLEMS = 5
+const DEFAULT_PV_PROBLEMS = 5
 
 const getScheduleForItem = (item: ChoreSchedule) => ({
   schoolDayEnabled: item.schoolDayEnabled,
@@ -77,6 +116,22 @@ const sortByCreatedAtThenTitle = <
   return left.title.localeCompare(right.title)
 }
 
+const getPrincessNonSchoolDayImage = (
+  season: ReturnType<typeof getTodayDescriptor>['season']
+) => {
+  switch (season) {
+    case 'spring':
+      return princessNonSchoolDaySpringImage
+    case 'summer':
+      return princessNonSchoolDaySummerImage
+    case 'autumn':
+      return princessNonSchoolDayAutumnImage
+    case 'winter':
+    default:
+      return princessNonSchoolDayWinterImage
+  }
+}
+
 const TodayPage = () => {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
@@ -85,11 +140,59 @@ const TodayPage = () => {
   const [todos, setTodos] = useState<TodoRecord[]>([])
   const [showAddChooser, setShowAddChooser] = useState(false)
   const [pendingTodoId, setPendingTodoId] = useState<string | null>(null)
+  const [tasksLoaded, setTasksLoaded] = useState(false)
+  const [todosLoaded, setTodosLoaded] = useState(false)
+  const processedAutoAddIds = useRef(new Set<string>())
+  const [activeDinnerTodoId, setActiveDinnerTodoId] = useState<string | null>(
+    null
+  )
+  const [activeMathTodoId, setActiveMathTodoId] = useState<string | null>(null)
+  const [activePVTodoId, setActivePVTodoId] = useState<string | null>(null)
+  const [mathCheckTriggerByTodo, setMathCheckTriggerByTodo] = useState<
+    Record<string, number>
+  >({})
+  const [pvCheckTriggerByTodo, setPVCheckTriggerByTodo] = useState<
+    Record<string, number>
+  >({})
+  const [biteCooldownSeconds, setBiteCooldownSeconds] = useState(0)
+  const [pendingDinnerBiteTodoId, setPendingDinnerBiteTodoId] = useState<
+    string | null
+  >(null)
   const todayInfo = useMemo(() => getTodayDescriptor(), [])
+  const princessNonSchoolDayImage = getPrincessNonSchoolDayImage(
+    todayInfo.season
+  )
+
+  useEffect(() => {
+    processedAutoAddIds.current.clear()
+    setTodosLoaded(false)
+    setActiveDinnerTodoId(null)
+    setActiveMathTodoId(null)
+    setActivePVTodoId(null)
+    setMathCheckTriggerByTodo({})
+    setPVCheckTriggerByTodo({})
+    setBiteCooldownSeconds(0)
+    setPendingDinnerBiteTodoId(null)
+  }, [activeChildId, todayInfo.dateKey])
+
+  useEffect(() => {
+    if (biteCooldownSeconds <= 0) return
+    const timer = window.setTimeout(() => {
+      setBiteCooldownSeconds((prev) => Math.max(0, prev - 1))
+    }, 1000)
+    return () => window.clearTimeout(timer)
+  }, [biteCooldownSeconds])
+
+  useEffect(() => {
+    if (!activeDinnerTodoId && !pendingDinnerBiteTodoId) {
+      setBiteCooldownSeconds(0)
+    }
+  }, [activeDinnerTodoId, pendingDinnerBiteTodoId])
 
   useEffect(() => {
     if (!user) {
       setTasks([])
+      setTasksLoaded(false)
       return
     }
 
@@ -116,12 +219,24 @@ const TodayPage = () => {
               starValue: Number(data.starValue ?? 1),
               taskType,
               ...normalizeChoreSchedule(data),
+              dinnerDurationSeconds:
+                data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
+              dinnerTotalBites: data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
+              mathTotalProblems:
+                data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+              pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
               createdAt: data.createdAt?.toDate?.(),
             }
           })
           .sort(sortByCreatedAtThenTitle)
 
         setTasks(nextTasks)
+        setTasksLoaded(true)
+      },
+      (error) => {
+        console.error('Task snapshot failed', error)
+        setTasks([])
+        setTasksLoaded(true)
       }
     )
 
@@ -131,6 +246,7 @@ const TodayPage = () => {
   useEffect(() => {
     if (!user || !activeChildId) {
       setTodos([])
+      setTodosLoaded(false)
       return
     }
 
@@ -140,38 +256,89 @@ const TodayPage = () => {
       where('dateKey', '==', todayInfo.dateKey)
     )
 
-    const unsubscribe = onSnapshot(todoQuery, (snapshot) => {
-      const nextTodos = snapshot.docs
-        .map((docSnapshot) => {
-          const data = docSnapshot.data()
-          return {
-            id: docSnapshot.id,
-            title: data.title ?? '',
-            childId: data.childId ?? '',
-            sourceTaskId: data.sourceTaskId ?? '',
-            starValue: Number(data.starValue ?? 1),
-            ...normalizeChoreSchedule(data),
-            completedAt: data.completedAt ?? null,
-            createdAt: data.createdAt?.toDate?.(),
-          }
-        })
-        .sort(sortByCreatedAtThenTitle)
+    const unsubscribe = onSnapshot(
+      todoQuery,
+      (snapshot) => {
+        const nextTodos = snapshot.docs
+          .map((docSnapshot) => {
+            const data = docSnapshot.data()
+            return {
+              id: docSnapshot.id,
+              title: data.title ?? '',
+              childId: data.childId ?? '',
+              sourceTaskId: data.sourceTaskId ?? '',
+              sourceTaskType:
+                data.sourceTaskType === 'positional-notation' ||
+                data.sourceTaskType === 'math' ||
+                data.sourceTaskType === 'eating'
+                  ? data.sourceTaskType
+                  : 'standard',
+              starValue: Number(data.starValue ?? 1),
+              ...normalizeChoreSchedule(data),
+              autoAdded: data.autoAdded === true,
+              completedAt: data.completedAt ?? null,
+              dinnerDurationSeconds:
+                data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
+              dinnerRemainingSeconds:
+                data.dinnerRemainingSeconds ??
+                data.dinnerDurationSeconds ??
+                DEFAULT_DINNER_DURATION_SECONDS,
+              dinnerTotalBites: data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
+              dinnerBitesLeft:
+                data.dinnerBitesLeft ??
+                data.dinnerTotalBites ??
+                DEFAULT_DINNER_BITES,
+              mathTotalProblems:
+                data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+              mathLastOutcome:
+                data.mathLastOutcome === 'success' ||
+                data.mathLastOutcome === 'failure'
+                  ? data.mathLastOutcome
+                  : null,
+              pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
+              pvLastOutcome:
+                data.pvLastOutcome === 'success' ||
+                data.pvLastOutcome === 'failure'
+                  ? data.pvLastOutcome
+                  : null,
+              createdAt: data.createdAt?.toDate?.(),
+            }
+          })
+          .sort(sortByCreatedAtThenTitle)
 
-      setTodos(nextTodos)
-    })
+        setTodos(nextTodos)
+        setTodosLoaded(true)
+      },
+
+      (error) => {
+        console.error('Todo snapshot failed', error)
+        setTodos([])
+        setTodosLoaded(true)
+      }
+    )
 
     return unsubscribe
   }, [activeChildId, todayInfo.dateKey, user])
 
-  const choresForToday = useMemo(
+  const choreTemplates = useMemo(
     () =>
       tasks.filter(
-        (task) =>
-          task.childId === activeChildId &&
-          task.title.trim().length > 0 &&
-          isScheduledForDay(getScheduleForItem(task), todayInfo.dayType)
+        (task) => task.childId === activeChildId && task.title.trim().length > 0
       ),
-    [activeChildId, tasks, todayInfo.dayType]
+    [activeChildId, tasks]
+  )
+
+  const taskById = useMemo(
+    () => new Map(choreTemplates.map((task) => [task.id, task])),
+    [choreTemplates]
+  )
+
+  const choresForToday = useMemo(
+    () =>
+      choreTemplates.filter((task) =>
+        isScheduledForDay(getScheduleForItem(task), todayInfo.dayType)
+      ),
+    [choreTemplates, todayInfo.dayType]
   )
 
   const todoSourceIds = useMemo(
@@ -180,9 +347,209 @@ const TodayPage = () => {
   )
 
   const availableChores = useMemo(
-    () => choresForToday.filter((task) => !todoSourceIds.has(task.id)),
-    [choresForToday, todoSourceIds]
+    () =>
+      choreTemplates.filter(
+        (task) =>
+          !todoSourceIds.has(task.id) &&
+          !isScheduledForDay(getScheduleForItem(task), todayInfo.dayType)
+      ),
+    [choreTemplates, todoSourceIds, todayInfo.dayType]
   )
+
+  const resolveTaskType = (todo: TodoRecord): TaskType =>
+    todo.sourceTaskType ??
+    taskById.get(todo.sourceTaskId)?.taskType ??
+    'standard'
+
+  const isEatingTodo = (todo: TodoRecord) => resolveTaskType(todo) === 'eating'
+  const isMathTodo = (todo: TodoRecord) => resolveTaskType(todo) === 'math'
+  const isPositionalNotationTodo = (todo: TodoRecord) =>
+    resolveTaskType(todo) === 'positional-notation'
+
+  const getDinnerDuration = (todo: TodoRecord) =>
+    todo.dinnerDurationSeconds ??
+    taskById.get(todo.sourceTaskId)?.dinnerDurationSeconds ??
+    DEFAULT_DINNER_DURATION_SECONDS
+
+  const getDinnerRemaining = (todo: TodoRecord) =>
+    todo.dinnerRemainingSeconds ?? getDinnerDuration(todo)
+
+  const getDinnerTotalBites = (todo: TodoRecord) =>
+    todo.dinnerTotalBites ??
+    taskById.get(todo.sourceTaskId)?.dinnerTotalBites ??
+    DEFAULT_DINNER_BITES
+
+  const getDinnerBitesLeft = (todo: TodoRecord) =>
+    todo.dinnerBitesLeft ?? getDinnerTotalBites(todo)
+
+  const getMathTotalProblems = (todo: TodoRecord) =>
+    todo.mathTotalProblems ??
+    taskById.get(todo.sourceTaskId)?.mathTotalProblems ??
+    DEFAULT_MATH_PROBLEMS
+
+  const getPVTotalProblems = (todo: TodoRecord) =>
+    todo.pvTotalProblems ??
+    taskById.get(todo.sourceTaskId)?.pvTotalProblems ??
+    DEFAULT_PV_PROBLEMS
+
+  const updateTodoFields = async (
+    todoId: string,
+    field: Partial<
+      Pick<
+        TodoRecord,
+        | 'completedAt'
+        | 'dinnerRemainingSeconds'
+        | 'dinnerBitesLeft'
+        | 'mathLastOutcome'
+        | 'pvLastOutcome'
+      >
+    >
+  ) => {
+    if (!user) return
+    try {
+      await updateDoc(
+        doc(collection(db, 'users', user.uid, 'todos'), todoId),
+        field
+      )
+    } catch (error) {
+      console.error('Failed to update todo', error)
+    }
+  }
+
+  useEffect(() => {
+    if (!user || !activeChildId || !tasksLoaded || !todosLoaded) return
+
+    const existingSourceIds = new Set(todos.map((todo) => todo.sourceTaskId))
+    const missing = choresForToday.filter(
+      (task) =>
+        !existingSourceIds.has(task.id) &&
+        !processedAutoAddIds.current.has(task.id)
+    )
+
+    if (missing.length === 0) return
+
+    for (const task of missing) {
+      processedAutoAddIds.current.add(task.id)
+    }
+
+    Promise.all(
+      missing.map((task) =>
+        addDoc(collection(db, 'users', user.uid, 'todos'), {
+          title: task.title,
+          childId: activeChildId,
+          sourceTaskId: task.id,
+          sourceTaskType: task.taskType,
+          starValue: task.starValue,
+          schoolDayEnabled: task.schoolDayEnabled,
+          nonSchoolDayEnabled: task.nonSchoolDayEnabled,
+          dinnerDurationSeconds: task.dinnerDurationSeconds,
+          dinnerRemainingSeconds: task.dinnerDurationSeconds,
+          dinnerTotalBites: task.dinnerTotalBites,
+          dinnerBitesLeft: task.dinnerTotalBites,
+          mathTotalProblems: task.mathTotalProblems,
+          mathLastOutcome: null,
+          pvTotalProblems: task.pvTotalProblems,
+          pvLastOutcome: null,
+          autoAdded: true,
+          dateKey: todayInfo.dateKey,
+          createdAt: serverTimestamp(),
+          completedAt: null,
+        })
+      )
+    ).catch((error) => {
+      console.error('Failed to auto-add scheduled todos', error)
+      for (const task of missing) {
+        processedAutoAddIds.current.delete(task.id)
+      }
+    })
+  }, [
+    activeChildId,
+    choresForToday,
+    tasksLoaded,
+    todayInfo.dateKey,
+    todosLoaded,
+    todos,
+    user,
+  ])
+
+  useEffect(() => {
+    if (
+      !pendingDinnerBiteTodoId ||
+      biteCooldownSeconds > 0 ||
+      !user ||
+      !activeChildId
+    ) {
+      return
+    }
+
+    const applyBiteAfterCooldown = async () => {
+      const todo = todos.find((item) => item.id === pendingDinnerBiteTodoId)
+      setPendingDinnerBiteTodoId(null)
+
+      if (!todo || !isEatingTodo(todo) || todo.completedAt) return
+
+      const remaining = getDinnerRemaining(todo)
+      const bitesLeft = getDinnerBitesLeft(todo)
+      if (remaining <= 0 || bitesLeft <= 0) return
+
+      const nextBites = Math.max(0, bitesLeft - 1)
+      await updateTodoFields(todo.id, { dinnerBitesLeft: nextBites })
+
+      if (nextBites === 0) {
+        await new Promise((resolve) => window.setTimeout(resolve, 850))
+        try {
+          const completed = await completeTodoAndAwardStars({
+            userId: user.uid,
+            childId: activeChildId,
+            todoId: todo.id,
+            delta: todo.starValue,
+          })
+
+          if (completed) {
+            celebrateSuccess()
+          }
+        } catch (error) {
+          console.error('Failed to finish dinner todo', error)
+          alert('Failed to finish that chore. Please try again.')
+        }
+        setActiveDinnerTodoId(null)
+      }
+    }
+
+    applyBiteAfterCooldown()
+  }, [activeChildId, biteCooldownSeconds, pendingDinnerBiteTodoId, todos, user])
+
+  useEffect(() => {
+    if (!user || !activeDinnerTodoId) return
+
+    const timer = window.setInterval(async () => {
+      const todo = todos.find((item) => item.id === activeDinnerTodoId)
+      if (!todo || !isEatingTodo(todo) || todo.completedAt) {
+        setActiveDinnerTodoId(null)
+        return
+      }
+
+      const remaining = getDinnerRemaining(todo)
+      const bitesLeft = getDinnerBitesLeft(todo)
+
+      if (remaining <= 0 || bitesLeft <= 0) {
+        setActiveDinnerTodoId(null)
+        return
+      }
+
+      const nextRemaining = Math.max(0, remaining - 1)
+      await updateTodoFields(todo.id, {
+        dinnerRemainingSeconds: nextRemaining,
+        ...(nextRemaining === 0 ? { completedAt: Date.now() } : {}),
+      })
+
+      if (nextRemaining === 0) {
+        setActiveDinnerTodoId(null)
+      }
+    }, 1000)
+
+    return () => window.clearInterval(timer)
+  }, [activeDinnerTodoId, todos, user])
 
   const completedCount = todos.filter((todo) =>
     Boolean(todo.completedAt)
@@ -192,6 +559,7 @@ const TodayPage = () => {
     if (!user || !activeChildId || todoSourceIds.has(task.id)) return
 
     try {
+      processedAutoAddIds.current.delete(task.id)
       await addDoc(collection(db, 'users', user.uid, 'todos'), {
         title: task.title,
         childId: activeChildId,
@@ -200,6 +568,15 @@ const TodayPage = () => {
         starValue: task.starValue,
         schoolDayEnabled: task.schoolDayEnabled,
         nonSchoolDayEnabled: task.nonSchoolDayEnabled,
+        dinnerDurationSeconds: task.dinnerDurationSeconds,
+        dinnerRemainingSeconds: task.dinnerDurationSeconds,
+        dinnerTotalBites: task.dinnerTotalBites,
+        dinnerBitesLeft: task.dinnerTotalBites,
+        mathTotalProblems: task.mathTotalProblems,
+        mathLastOutcome: null,
+        pvTotalProblems: task.pvTotalProblems,
+        pvLastOutcome: null,
+        autoAdded: false,
         dateKey: todayInfo.dateKey,
         createdAt: serverTimestamp(),
         completedAt: null,
@@ -234,15 +611,100 @@ const TodayPage = () => {
     }
   }
 
-  const handleDeleteTodo = async (todoId: string) => {
+  const handleDeleteTodo = async (todo: TodoRecord) => {
     if (!user) return
 
     try {
-      await deleteDoc(doc(db, 'users', user.uid, 'todos', todoId))
+      if (activeDinnerTodoId === todo.id) {
+        setActiveDinnerTodoId(null)
+      }
+      if (activeMathTodoId === todo.id) {
+        setActiveMathTodoId(null)
+      }
+      if (activePVTodoId === todo.id) {
+        setActivePVTodoId(null)
+      }
+      if (pendingDinnerBiteTodoId === todo.id) {
+        setPendingDinnerBiteTodoId(null)
+      }
+      processedAutoAddIds.current.add(todo.sourceTaskId)
+
+      await deleteDoc(doc(db, 'users', user.uid, 'todos', todo.id))
     } catch (error) {
       console.error('Failed to delete todo', error)
       alert('Failed to remove that todo. Please try again.')
     }
+  }
+
+  const handleDinnerBite = async (todo: TodoRecord) => {
+    if (!isEatingTodo(todo) || todo.completedAt) return
+    if (biteCooldownSeconds > 0 || pendingDinnerBiteTodoId) return
+
+    const bitesLeft = getDinnerBitesLeft(todo)
+    if (bitesLeft <= 0) return
+
+    setPendingDinnerBiteTodoId(todo.id)
+    setBiteCooldownSeconds(BITE_COOLDOWN_SECONDS)
+  }
+
+  const handleMathComplete = async (todo: TodoRecord) => {
+    if (!user || !activeChildId) return
+
+    setActiveMathTodoId(null)
+    try {
+      const completed = await completeTodoAndAwardStars({
+        userId: user.uid,
+        childId: activeChildId,
+        todoId: todo.id,
+        delta: todo.starValue,
+        updates: { mathLastOutcome: 'success' },
+      })
+
+      if (completed) {
+        celebrateSuccess()
+      }
+    } catch (error) {
+      console.error('Failed to complete arithmetic todo', error)
+      alert('Failed to finish that chore. Please try again.')
+    }
+  }
+
+  const handleMathFail = async (todo: TodoRecord) => {
+    setActiveMathTodoId(null)
+    await updateTodoFields(todo.id, {
+      completedAt: Date.now(),
+      mathLastOutcome: 'failure',
+    })
+  }
+
+  const handlePVComplete = async (todo: TodoRecord) => {
+    if (!user || !activeChildId) return
+
+    setActivePVTodoId(null)
+    try {
+      const completed = await completeTodoAndAwardStars({
+        userId: user.uid,
+        childId: activeChildId,
+        todoId: todo.id,
+        delta: todo.starValue,
+        updates: { pvLastOutcome: 'success' },
+      })
+
+      if (completed) {
+        celebrateSuccess()
+      }
+    } catch (error) {
+      console.error('Failed to complete place-value todo', error)
+      alert('Failed to finish that chore. Please try again.')
+    }
+  }
+
+  const handlePVFail = async (todo: TodoRecord) => {
+    setActivePVTodoId(null)
+    await updateTodoFields(todo.id, {
+      completedAt: Date.now(),
+      pvLastOutcome: 'failure',
+    })
   }
 
   const summaryText =
@@ -364,50 +826,247 @@ const TodayPage = () => {
                     >
                       {todo.title}
                     </div>
-                    <span
-                      style={{
-                        borderRadius: '999px',
-                        padding: '6px 12px',
-                        fontSize: '0.8rem',
-                        fontWeight: 800,
-                        backgroundColor: todo.completedAt
-                          ? 'rgba(255, 255, 255, 0.26)'
-                          : `${theme.colors.accent}55`,
-                      }}
-                    >
-                      {todo.completedAt ? 'Done' : 'Ready'}
-                    </span>
+
+                    <div className="flex items-center gap-3">
+                      {todo.schoolDayEnabled && (
+                        <div
+                          style={{
+                            width: '60px',
+                            height: '60px',
+                            minWidth: '60px',
+                            borderRadius: '20px',
+                            border: `2px solid ${theme.colors.primary}`,
+                            background: theme.colors.surface,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '8px',
+                          }}
+                        >
+                          {theme.id === 'princess' ? (
+                            <img
+                              src={princessSchoolDayImage}
+                              alt="Schoolday"
+                              className="h-full w-full object-contain"
+                            />
+                          ) : (
+                            <span className="text-2xl">🏫</span>
+                          )}
+                        </div>
+                      )}
+
+                      {todo.nonSchoolDayEnabled && (
+                        <div
+                          style={{
+                            width: '60px',
+                            height: '60px',
+                            minWidth: '60px',
+                            borderRadius: '20px',
+                            border: `2px solid ${theme.colors.primary}`,
+                            background: theme.colors.surface,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '8px',
+                          }}
+                        >
+                          {theme.id === 'princess' ? (
+                            <img
+                              src={princessNonSchoolDayImage}
+                              alt="Non-school day"
+                              className="h-full w-full object-contain"
+                            />
+                          ) : (
+                            <span className="text-2xl">🌤️</span>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="text-sm font-semibold opacity-80">
-                    {getScheduleLabel(getScheduleForItem(todo))} chore •{' '}
-                    {todo.starValue} {todo.starValue === 1 ? 'star' : 'stars'}
-                  </div>
+                  {isEatingTodo(todo) &&
+                  (activeDinnerTodoId === todo.id ||
+                    Boolean(todo.completedAt)) ? (
+                    <DinnerCountdown
+                      theme={theme}
+                      duration={getDinnerDuration(todo)}
+                      remaining={getDinnerRemaining(todo)}
+                      totalBites={getDinnerTotalBites(todo)}
+                      bitesLeft={getDinnerBitesLeft(todo)}
+                      starReward={todo.starValue}
+                      isTimerRunning={activeDinnerTodoId === todo.id}
+                      plateImage={
+                        theme.id === 'princess' ? princessPlateImage : undefined
+                      }
+                      onAdjustTime={() => undefined}
+                      onAdjustBites={() => undefined}
+                      onStarsChange={() => undefined}
+                      isCompleted={Boolean(todo.completedAt)}
+                      completionImage={
+                        theme.id === 'princess'
+                          ? princessEatingFullImage
+                          : undefined
+                      }
+                      failureImage={
+                        theme.id === 'princess'
+                          ? princessEatingFailImage
+                          : undefined
+                      }
+                      biteCooldownSeconds={biteCooldownSeconds}
+                      biteIcon={
+                        theme.id === 'princess' ? princessBiteIcon : undefined
+                      }
+                    />
+                  ) : null}
+
+                  {isMathTodo(todo) &&
+                  (activeMathTodoId === todo.id ||
+                    Boolean(todo.completedAt)) ? (
+                    <ArithmeticTester
+                      theme={theme}
+                      totalProblems={getMathTotalProblems(todo)}
+                      starReward={todo.starValue}
+                      isRunning={activeMathTodoId === todo.id}
+                      isCompleted={Boolean(todo.completedAt)}
+                      isFailed={todo.mathLastOutcome === 'failure'}
+                      onAdjustProblems={() => undefined}
+                      onStarsChange={() => undefined}
+                      onComplete={() => handleMathComplete(todo)}
+                      onFail={() => handleMathFail(todo)}
+                      checkTrigger={mathCheckTriggerByTodo[todo.id] ?? 0}
+                      completionImage={
+                        theme.id === 'princess'
+                          ? princessMathsCorrectImage
+                          : undefined
+                      }
+                      failureImage={
+                        theme.id === 'princess'
+                          ? princessMathsIncorrectImage
+                          : undefined
+                      }
+                    />
+                  ) : null}
+
+                  {isPositionalNotationTodo(todo) &&
+                  (activePVTodoId === todo.id || Boolean(todo.completedAt)) ? (
+                    <PositionalNotationTester
+                      theme={theme}
+                      totalProblems={getPVTotalProblems(todo)}
+                      starReward={todo.starValue}
+                      isRunning={activePVTodoId === todo.id}
+                      isCompleted={Boolean(todo.completedAt)}
+                      isFailed={todo.pvLastOutcome === 'failure'}
+                      onAdjustProblems={() => undefined}
+                      onStarsChange={() => undefined}
+                      onComplete={() => handlePVComplete(todo)}
+                      onFail={() => handlePVFail(todo)}
+                      checkTrigger={pvCheckTriggerByTodo[todo.id] ?? 0}
+                      completionImage={
+                        theme.id === 'princess'
+                          ? princessMathsCorrectImage
+                          : undefined
+                      }
+                      failureImage={
+                        theme.id === 'princess'
+                          ? princessMathsIncorrectImage
+                          : undefined
+                      }
+                    />
+                  ) : null}
                 </div>
               )}
               primaryAction={{
-                label: (todo) => (todo.completedAt ? 'Completed' : 'Complete'),
-                icon: (todo) =>
-                  theme.id === 'princess' ? (
+                label: () => 'Open chore',
+                icon: (todo) => {
+                  if (theme.id !== 'princess') {
+                    if (todo.completedAt) return <span>✅</span>
+                    if (isEatingTodo(todo)) return <span>🍽️</span>
+                    if (isMathTodo(todo) || isPositionalNotationTodo(todo)) {
+                      return <span>🔢</span>
+                    }
+                    return <span>⭐</span>
+                  }
+
+                  const iconSrc = todo.completedAt
+                    ? princessActiveIcon
+                    : isEatingTodo(todo)
+                      ? princessBiteIcon
+                      : isMathTodo(todo) || isPositionalNotationTodo(todo)
+                        ? princessMathsIcon
+                        : princessGiveStarIcon
+
+                  return (
                     <img
-                      src={
-                        todo.completedAt
-                          ? princessActiveIcon
-                          : princessGiveStarIcon
-                      }
-                      alt={todo.completedAt ? 'Completed' : 'Complete'}
+                      src={iconSrc}
+                      alt={todo.completedAt ? 'Completed' : 'Open chore'}
                       className="h-6 w-6 object-contain"
                     />
-                  ) : (
-                    <span>{todo.completedAt ? '✅' : '⭐'}</span>
-                  ),
-                onClick: (todo) => handleCompleteTodo(todo),
-                disabled: (todo) =>
-                  Boolean(todo.completedAt) || pendingTodoId === todo.id,
+                  )
+                },
+                onClick: (todo) => {
+                  if (isEatingTodo(todo)) {
+                    if (todo.completedAt) return
+                    setActiveMathTodoId(null)
+                    setActivePVTodoId(null)
+                    if (activeDinnerTodoId === todo.id) {
+                      handleDinnerBite(todo)
+                    } else {
+                      setActiveDinnerTodoId(todo.id)
+                    }
+                    return
+                  }
+
+                  if (isMathTodo(todo)) {
+                    if (todo.completedAt) return
+                    setActiveDinnerTodoId(null)
+                    setActivePVTodoId(null)
+                    if (activeMathTodoId === todo.id) {
+                      setMathCheckTriggerByTodo((prev) => ({
+                        ...prev,
+                        [todo.id]: (prev[todo.id] ?? 0) + 1,
+                      }))
+                    } else {
+                      setActiveMathTodoId(todo.id)
+                    }
+                    return
+                  }
+
+                  if (isPositionalNotationTodo(todo)) {
+                    if (todo.completedAt) return
+                    setActiveDinnerTodoId(null)
+                    setActiveMathTodoId(null)
+                    if (activePVTodoId === todo.id) {
+                      setPVCheckTriggerByTodo((prev) => ({
+                        ...prev,
+                        [todo.id]: (prev[todo.id] ?? 0) + 1,
+                      }))
+                    } else {
+                      setActivePVTodoId(todo.id)
+                    }
+                    return
+                  }
+
+                  handleCompleteTodo(todo)
+                },
+                disabled: (todo) => {
+                  if (todo.completedAt) return true
+                  if (isEatingTodo(todo)) {
+                    return (
+                      pendingTodoId === todo.id ||
+                      (activeDinnerTodoId === todo.id &&
+                        biteCooldownSeconds > 0)
+                    )
+                  }
+                  if (isMathTodo(todo) || isPositionalNotationTodo(todo)) {
+                    return false
+                  }
+                  return pendingTodoId === todo.id
+                },
                 variant: 'primary',
+                showLabel: () => false,
               }}
               hideEdit
-              onDelete={(todo) => handleDeleteTodo(todo.id)}
+              onDelete={(todo) => handleDeleteTodo(todo)}
               addLabel="Add Todo"
               onAdd={() => setShowAddChooser(true)}
               inlineNewRow={

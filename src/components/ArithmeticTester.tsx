@@ -70,7 +70,7 @@ function getStatusIconOverlap(iconCount: number): number {
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-export interface MathsTesterProps {
+export interface ArithmeticTesterProps {
   theme: Theme
   totalProblems: number
   starReward: number
@@ -94,7 +94,7 @@ export interface MathsTesterProps {
   failureImage?: string
 }
 
-const MathsTester = ({
+const ArithmeticTester = ({
   theme,
   totalProblems,
   starReward,
@@ -108,7 +108,7 @@ const MathsTester = ({
   checkTrigger = 0,
   completionImage,
   failureImage,
-}: MathsTesterProps) => {
+}: ArithmeticTesterProps) => {
   /* --- game state --- */
   const [problemIndex, setProblemIndex] = useState(0)
   const [successCount, setSuccessCount] = useState(0)
@@ -805,4 +805,4 @@ const MathsTester = ({
   )
 }
 
-export default MathsTester
+export default ArithmeticTester

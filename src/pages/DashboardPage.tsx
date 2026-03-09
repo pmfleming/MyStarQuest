@@ -15,7 +15,6 @@ import { uiTokens } from '../ui/tokens'
 import {
   princessActiveIcon,
   princessChildrenIcon,
-  princessChoresIcon,
   princessExitIcon,
   princessRewardsIcon,
 } from '../assets/themes/princess/assets'
@@ -178,19 +177,6 @@ const DashboardPage = () => {
             }
             theme={theme}
             color={theme.colors.primary}
-          />
-          <ActionButton
-            to="/settings/manage-tasks"
-            label="Chores"
-            icon={
-              <img
-                src={princessChoresIcon}
-                alt="Chores"
-                className="h-10 w-10 object-contain"
-              />
-            }
-            theme={theme}
-            color={theme.colors.secondary}
           />
           <ActionButton
             to="/settings/manage-rewards"

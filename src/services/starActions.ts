@@ -44,8 +44,9 @@ export const completeTodoAndAwardStars = async (options: {
   childId: string
   todoId: string
   delta: number
+  updates?: Record<string, unknown>
 }) => {
-  const { userId, childId, todoId, delta } = options
+  const { userId, childId, todoId, delta, updates } = options
   if (!userId || !childId || !todoId || delta <= 0) {
     throw new Error('Invalid todo completion request')
   }
@@ -86,6 +87,7 @@ export const completeTodoAndAwardStars = async (options: {
 
     transaction.update(todoRef, {
       completedAt: Date.now(),
+      ...(updates ?? {}),
     })
 
     return true

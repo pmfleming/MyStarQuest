@@ -68,7 +68,7 @@ export interface PositionalNotationTesterProps {
   failureImage?: string
 }
 
-const PositionalNotationTester = ({
+const PositionalNotationTaskTester = ({
   theme,
   totalProblems,
   starReward,
@@ -731,4 +731,4 @@ const PositionalNotationTester = ({
   )
 }
 
-export default PositionalNotationTester
+export default PositionalNotationTaskTester

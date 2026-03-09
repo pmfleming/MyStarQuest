@@ -65,8 +65,16 @@ type ActionConfig<T> = {
   icon?: ReactNode | ((item: T) => ReactNode)
   ariaLabel?: string | ((item: T) => string)
   disabled?: (item: T) => boolean
-  variant?: 'primary' | 'neutral' | 'danger'
+  variant?:
+    | 'primary'
+    | 'neutral'
+    | 'danger'
+    | ((item: T) => 'primary' | 'neutral' | 'danger')
   showLabel?: boolean | ((item: T) => boolean)
+}
+
+type UtilityActionConfig<T> = ActionConfig<T> & {
+  exits?: boolean | ((item: T) => boolean)
 }
 
 type StandardActionListProps<T> = {
@@ -76,6 +84,7 @@ type StandardActionListProps<T> = {
   primaryAction: ActionConfig<T>
   onEdit?: (item: T) => void
   onDelete: (item: T) => void
+  utilityAction?: UtilityActionConfig<T>
   addLabel: string
   onAdd: () => void
   addDisabled?: boolean
@@ -114,6 +123,7 @@ const ActionCard = <T,>({
   primaryDisabled,
   onEdit,
   onDelete,
+  utilityAction,
   getActionStyle,
   actionBaseStyle,
   getKey,
@@ -133,6 +143,7 @@ const ActionCard = <T,>({
   primaryDisabled: boolean
   onEdit?: (item: T) => void
   onDelete: (item: T) => void
+  utilityAction?: UtilityActionConfig<T>
   getActionStyle: (variant?: ActionConfig<T>['variant']) => CSSProperties
   actionBaseStyle: CSSProperties
   getKey?: (item: T) => string
@@ -143,9 +154,57 @@ const ActionCard = <T,>({
 }) => {
   const [isExiting, setIsExiting] = useState(false)
 
-  const handleDelete = () => {
-    setIsExiting(true)
-    setTimeout(() => onDelete(item), 400)
+  const resolvedUtilityVariant =
+    typeof utilityAction?.variant === 'function'
+      ? utilityAction.variant(item)
+      : (utilityAction?.variant ?? 'danger')
+
+  const resolvedUtilityAriaLabel = utilityAction
+    ? (resolveValue(
+        utilityAction.ariaLabel ?? utilityAction.label,
+        item
+      ) as string)
+    : 'Delete'
+
+  const resolvedUtilityDisabled = utilityAction?.disabled?.(item) ?? false
+  const resolvedUtilityExits = utilityAction
+    ? typeof utilityAction.exits === 'function'
+      ? utilityAction.exits(item)
+      : (utilityAction.exits ?? false)
+    : true
+
+  const defaultDeleteIcon =
+    theme.id === 'princess' ? (
+      <img
+        src={princessDeleteIcon}
+        alt="Delete"
+        className="h-6 w-6 object-contain"
+      />
+    ) : (
+      <span>🗑️</span>
+    )
+
+  const resolvedUtilityIcon = utilityAction
+    ? resolveValue(utilityAction.icon ?? defaultDeleteIcon, item) ||
+      defaultDeleteIcon
+    : defaultDeleteIcon
+
+  const handleUtilityAction = () => {
+    const runAction = () => {
+      if (utilityAction) {
+        utilityAction.onClick(item)
+        return
+      }
+      onDelete(item)
+    }
+
+    if (resolvedUtilityExits) {
+      setIsExiting(true)
+      setTimeout(runAction, 400)
+      return
+    }
+
+    runAction()
   }
 
   const itemKey = getKey ? getKey(item) : `${index}`
@@ -203,7 +262,11 @@ const ActionCard = <T,>({
               }
               style={{
                 ...actionBaseStyle,
-                ...getActionStyle(primaryAction.variant),
+                ...getActionStyle(
+                  typeof primaryAction.variant === 'function'
+                    ? primaryAction.variant(item)
+                    : primaryAction.variant
+                ),
                 position: 'relative',
                 overflow: 'hidden',
               }}
@@ -246,26 +309,19 @@ const ActionCard = <T,>({
             {/* Delete Button */}
             <button
               type="button"
-              onClick={handleDelete}
-              className="whimsical-btn whimsical-btn-utility whimsical-btn-delete"
-              aria-label="Delete"
+              onClick={handleUtilityAction}
+              disabled={resolvedUtilityDisabled}
+              className={`whimsical-btn whimsical-btn-utility disabled:opacity-60 ${resolvedUtilityVariant === 'danger' ? 'whimsical-btn-delete' : ''}`}
+              aria-label={resolvedUtilityAriaLabel}
               style={{
                 ...actionBaseStyle,
-                ...getActionStyle('danger'),
+                ...getActionStyle(resolvedUtilityVariant),
                 width: '60px',
                 minWidth: '60px',
                 padding: 0,
               }}
             >
-              {theme.id === 'princess' ? (
-                <img
-                  src={princessDeleteIcon}
-                  alt="Delete"
-                  className="h-6 w-6 object-contain"
-                />
-              ) : (
-                <span>🗑️</span>
-              )}
+              {resolvedUtilityIcon}
             </button>
           </div>
         </>
@@ -281,6 +337,7 @@ const StandardActionList = <T,>({
   primaryAction,
   onEdit,
   onDelete,
+  utilityAction,
   addLabel,
   onAdd,
   addDisabled = false,
@@ -408,6 +465,7 @@ const StandardActionList = <T,>({
                     primaryDisabled={primaryDisabled}
                     onEdit={onEdit}
                     onDelete={onDelete}
+                    utilityAction={utilityAction}
                     getActionStyle={getActionStyle}
                     actionBaseStyle={actionBaseStyle}
                     getKey={getKey}

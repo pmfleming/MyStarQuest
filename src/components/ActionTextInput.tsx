@@ -41,6 +41,7 @@ const ActionTextInput = ({
         boxShadow: 'none',
         color: theme.colors.text,
         gap: '12px',
+        height: 'auto',
         justifyContent: 'flex-start',
         padding: 0,
       }
