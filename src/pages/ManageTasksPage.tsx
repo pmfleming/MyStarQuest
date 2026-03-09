@@ -1,21 +1,6 @@
 import { useEffect, useState } from 'react'
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp,
-  updateDoc,
-} from 'firebase/firestore'
-import { db } from '../firebase'
-import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
-import { awardStars } from '../services/starActions'
-import { celebrateSuccess } from '../utils/celebrate'
 import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
@@ -30,7 +15,21 @@ import DinnerCountdown, {
 import ArithmeticTester from '../components/ArithmeticTester'
 import PositionalNotationTester from '../components/PositionalNotationTaskTester'
 import { uiTokens } from '../ui/tokens'
-import { getSeasonForDate, normalizeChoreSchedule } from '../utils/today'
+import { getSeasonForDate } from '../utils/today'
+import { useTasks } from '../data/useTasks'
+import {
+  DEFAULT_DINNER_BITES,
+  DEFAULT_DINNER_DURATION_SECONDS,
+  DEFAULT_MATH_PROBLEMS,
+  DEFAULT_PV_PROBLEMS,
+  getManageDinnerBitesLeft,
+  getManageDinnerRemaining,
+  isEatingTask,
+  isManageTaskCompleted,
+  isMathTask,
+  isPositionalNotationTask,
+  type TaskRecord,
+} from '../data/types'
 import {
   princessActiveIcon,
   princessBiteIcon,
@@ -51,41 +50,6 @@ import {
   princessResetIcon,
   princessSchoolDayImage,
 } from '../assets/themes/princess/assets'
-
-// --- Types ---
-type TaskRecord = {
-  id: string
-  title: string
-  childId: string
-  category: string
-  taskType: 'standard' | 'eating' | 'math' | 'positional-notation'
-  schoolDayEnabled: boolean
-  nonSchoolDayEnabled: boolean
-  starValue: number
-  isRepeating: boolean
-  manageCompletedAt?: number | null
-  dinnerDurationSeconds?: number
-  dinnerTotalBites?: number
-  manageDinnerRemainingSeconds?: number
-  manageDinnerBitesLeft?: number
-  manageDinnerCompletedAt?: number | null
-  mathTotalProblems?: number
-  manageMathCompletedAt?: number | null
-  manageMathLastOutcome?: 'success' | 'failure' | null
-  pvTotalProblems?: number
-  managePVCompletedAt?: number | null
-  managePVLastOutcome?: 'success' | 'failure' | null
-  createdAt?: Date
-}
-
-const DEFAULT_DINNER_DURATION_SECONDS = 10 * 60
-const DEFAULT_DINNER_BITES = 2
-const DEFAULT_DINNER_STARS = 3
-const DEFAULT_MATH_PROBLEMS = 5
-const DEFAULT_MATH_STARS = 3
-const DEFAULT_PV_PROBLEMS = 5
-const DEFAULT_PV_STARS = 3
-const MANAGE_STATUS_RESET_MS = 15 * 60 * 1000
 
 const princessBiteIconCycle = [
   princessBiteIcon,
@@ -117,10 +81,32 @@ const getPrincessNonSchoolDayImage = (
 }
 
 const ManageTasksPage = () => {
-  const { user } = useAuth()
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
-  const [tasks, setTasks] = useState<TaskRecord[]>([])
+
+  const {
+    tasks,
+    titleDrafts,
+    setTitleDraft,
+    commitTitle,
+    updateTaskField,
+    createChore,
+    createEating,
+    createMath,
+    createPositionalNotation,
+    mathComplete,
+    mathFail,
+    mathReset,
+    pvComplete,
+    pvFail,
+    pvReset,
+    dinnerApplyBite,
+    dinnerTickTimer,
+    dinnerReset,
+    awardTask,
+    deleteTask,
+  } = useTasks()
+
   const [isAwarding, setIsAwarding] = useState(false)
   const [activeDinnerTaskId, setActiveDinnerTaskId] = useState<string | null>(
     null
@@ -144,8 +130,6 @@ const ManageTasksPage = () => {
     number | null
   >(null)
 
-  // Local title state keyed by task id, used for controlled inputs
-  const [titleDrafts, setTitleDrafts] = useState<Record<string, string>>({})
   const currentSeason = getSeasonForDate(new Date())
   const princessNonSchoolDayImage = getPrincessNonSchoolDayImage(currentSeason)
 
@@ -177,31 +161,12 @@ const ManageTasksPage = () => {
       const task = tasks.find((item) => item.id === taskId)
       if (!task || !isEatingTask(task)) return
 
-      const remaining = getManageDinnerRemaining(task)
-      const bitesLeft = getManageDinnerBitesLeft(task)
-      if (remaining <= 0 || bitesLeft <= 0) return
-
-      const nextBites = Math.max(0, bitesLeft - 1)
-      await updateTaskField(task.id, { manageDinnerBitesLeft: nextBites })
-
-      if (nextBites === 0) {
-        await new Promise((resolve) => window.setTimeout(resolve, 850))
-        await updateTaskField(task.id, { manageDinnerCompletedAt: Date.now() })
-        setActiveDinnerTaskId(null)
-
-        if (user && activeChildId) {
-          await awardStars({
-            userId: user.uid,
-            childId: activeChildId,
-            delta: task.starValue,
-          })
-          celebrateSuccess()
-        }
-      }
+      const done = await dinnerApplyBite(task)
+      if (done) setActiveDinnerTaskId(null)
     }
 
     applyBiteAfterCooldown()
-  }, [activeChildId, biteCooldownSeconds, pendingDinnerBiteTaskId, tasks, user])
+  }, [biteCooldownSeconds, dinnerApplyBite, pendingDinnerBiteTaskId, tasks])
 
   const activePrincessCooldownIcon = (() => {
     const defaultIcon = getPrincessCooldownIconForHour(new Date().getHours())
@@ -225,149 +190,9 @@ const ManageTasksPage = () => {
     })
   }
 
-  // --- Data Fetching ---
+  // Dinner timer: tick each second while active
   useEffect(() => {
-    if (!user) {
-      setTasks([])
-      return
-    }
-
-    const taskQuery = query(
-      collection(db, 'users', user.uid, 'tasks'),
-      orderBy('createdAt', 'asc')
-    )
-
-    const unsubscribeTasks = onSnapshot(taskQuery, (snapshot) => {
-      const newTasks = snapshot.docs.map((docSnapshot) => {
-        const data = docSnapshot.data()
-        const taskType: TaskRecord['taskType'] =
-          data.taskType === 'positional-notation' ||
-          data.category === 'positional-notation'
-            ? 'positional-notation'
-            : data.taskType === 'math' || data.category === 'math'
-              ? 'math'
-              : data.taskType === 'eating' || data.category === 'eating'
-                ? 'eating'
-                : 'standard'
-        return {
-          id: docSnapshot.id,
-          title: data.title ?? '',
-          childId: data.childId ?? '',
-          category: data.category ?? '',
-          taskType,
-          ...normalizeChoreSchedule(data),
-          starValue: Number(data.starValue ?? 1),
-          isRepeating: data.isRepeating ?? false,
-          manageCompletedAt: data.manageCompletedAt ?? null,
-          dinnerDurationSeconds:
-            data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
-          dinnerTotalBites: data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-          manageDinnerRemainingSeconds:
-            data.manageDinnerRemainingSeconds ??
-            data.dinnerRemainingSeconds ??
-            data.dinnerDurationSeconds ??
-            DEFAULT_DINNER_DURATION_SECONDS,
-          manageDinnerBitesLeft:
-            data.manageDinnerBitesLeft ??
-            data.dinnerBitesLeft ??
-            data.dinnerTotalBites ??
-            DEFAULT_DINNER_BITES,
-          manageDinnerCompletedAt:
-            data.manageDinnerCompletedAt ?? data.dinnerCompletedAt ?? null,
-          mathTotalProblems: data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-          manageMathCompletedAt:
-            data.manageMathCompletedAt ?? data.mathCompletedAt ?? null,
-          manageMathLastOutcome:
-            data.manageMathLastOutcome ?? data.mathLastOutcome ?? null,
-          pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
-          managePVCompletedAt:
-            data.managePVCompletedAt ?? data.pvCompletedAt ?? null,
-          managePVLastOutcome:
-            data.managePVLastOutcome ?? data.pvLastOutcome ?? null,
-          createdAt: data.createdAt?.toDate?.(),
-        }
-      })
-      setTasks(newTasks)
-
-      // Initialise title drafts for any new tasks we haven't seen yet
-      setTitleDrafts((prev) => {
-        const next = { ...prev }
-        for (const t of newTasks) {
-          if (!(t.id in next)) {
-            next[t.id] = t.title
-          }
-        }
-        return next
-      })
-    })
-
-    return () => {
-      unsubscribeTasks()
-    }
-  }, [user])
-
-  // --- Auto-save helpers ---
-  const isEatingTask = (task: TaskRecord) => task.taskType === 'eating'
-  const isMathTask = (task: TaskRecord) => task.taskType === 'math'
-  const isPositionalNotationTask = (task: TaskRecord) =>
-    task.taskType === 'positional-notation'
-
-  const getManageDinnerRemaining = (task: TaskRecord) =>
-    task.manageDinnerRemainingSeconds ??
-    task.dinnerDurationSeconds ??
-    DEFAULT_DINNER_DURATION_SECONDS
-
-  const getManageDinnerBitesLeft = (task: TaskRecord) =>
-    task.manageDinnerBitesLeft ?? task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
-
-  const getManageTaskCompletedAt = (task: TaskRecord) => {
-    if (isEatingTask(task)) return task.manageDinnerCompletedAt ?? null
-    if (isMathTask(task)) return task.manageMathCompletedAt ?? null
-    if (isPositionalNotationTask(task)) return task.managePVCompletedAt ?? null
-    return task.manageCompletedAt ?? null
-  }
-
-  const isManageTaskCompleted = (task: TaskRecord) =>
-    Boolean(getManageTaskCompletedAt(task))
-
-  const updateTaskField = async (
-    taskId: string,
-    field: Partial<
-      Pick<
-        TaskRecord,
-        | 'title'
-        | 'schoolDayEnabled'
-        | 'nonSchoolDayEnabled'
-        | 'starValue'
-        | 'isRepeating'
-        | 'manageCompletedAt'
-        | 'dinnerDurationSeconds'
-        | 'dinnerTotalBites'
-        | 'manageDinnerRemainingSeconds'
-        | 'manageDinnerBitesLeft'
-        | 'manageDinnerCompletedAt'
-        | 'mathTotalProblems'
-        | 'manageMathCompletedAt'
-        | 'manageMathLastOutcome'
-        | 'pvTotalProblems'
-        | 'managePVCompletedAt'
-        | 'managePVLastOutcome'
-      >
-    >
-  ) => {
-    if (!user) return
-    try {
-      await updateDoc(
-        doc(collection(db, 'users', user.uid, 'tasks'), taskId),
-        field
-      )
-    } catch (error) {
-      console.error('Failed to update chore', error)
-    }
-  }
-
-  useEffect(() => {
-    if (!user || !activeDinnerTaskId) return
+    if (!activeDinnerTaskId) return
 
     const timer = window.setInterval(async () => {
       const dinnerTask = tasks.find((task) => task.id === activeDinnerTaskId)
@@ -385,98 +210,14 @@ const ManageTasksPage = () => {
         return
       }
 
-      if (bitesLeft <= 0 && !isCompleted) {
-        return
-      }
+      if (bitesLeft <= 0 && !isCompleted) return
 
-      const nextRemaining = Math.max(0, remaining - 1)
-      await updateTaskField(dinnerTask.id, {
-        manageDinnerRemainingSeconds: nextRemaining,
-        ...(nextRemaining === 0 ? { manageDinnerCompletedAt: Date.now() } : {}),
-      })
-
-      if (nextRemaining === 0) {
-        setActiveDinnerTaskId(null)
-      }
+      const done = await dinnerTickTimer(dinnerTask)
+      if (done) setActiveDinnerTaskId(null)
     }, 1000)
 
     return () => window.clearInterval(timer)
-  }, [activeDinnerTaskId, tasks, user])
-
-  // Auto-reset manage-page completion state after 15 minutes
-  useEffect(() => {
-    if (!user) return
-
-    const checkAndReset = () => {
-      const now = Date.now()
-      for (const task of tasks) {
-        if (
-          isEatingTask(task) &&
-          task.manageDinnerCompletedAt &&
-          now - task.manageDinnerCompletedAt >= MANAGE_STATUS_RESET_MS
-        ) {
-          const totalBites = task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
-          const dur =
-            task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
-          updateTaskField(task.id, {
-            manageDinnerBitesLeft: totalBites,
-            manageDinnerRemainingSeconds: dur,
-            manageDinnerCompletedAt: null,
-          })
-        }
-
-        if (
-          isMathTask(task) &&
-          task.manageMathCompletedAt &&
-          now - task.manageMathCompletedAt >= MANAGE_STATUS_RESET_MS
-        ) {
-          updateTaskField(task.id, {
-            manageMathCompletedAt: null,
-            manageMathLastOutcome: null,
-          })
-        }
-
-        if (
-          isPositionalNotationTask(task) &&
-          task.managePVCompletedAt &&
-          now - task.managePVCompletedAt >= MANAGE_STATUS_RESET_MS
-        ) {
-          updateTaskField(task.id, {
-            managePVCompletedAt: null,
-            managePVLastOutcome: null,
-          })
-        }
-
-        if (
-          !isEatingTask(task) &&
-          !isMathTask(task) &&
-          !isPositionalNotationTask(task) &&
-          task.manageCompletedAt &&
-          now - task.manageCompletedAt >= MANAGE_STATUS_RESET_MS
-        ) {
-          updateTaskField(task.id, {
-            manageCompletedAt: null,
-          })
-        }
-      }
-    }
-
-    checkAndReset()
-    const interval = window.setInterval(checkAndReset, 60 * 1000)
-    return () => window.clearInterval(interval)
-  }, [tasks, user])
-
-  const commitTitle = (taskId: string, title: string) => {
-    const trimmed = title.trim()
-    if (trimmed.length > 0 && trimmed.length <= 80) {
-      updateTaskField(taskId, { title: trimmed })
-    }
-    // If empty, revert draft to last saved value
-    const saved = tasks.find((t) => t.id === taskId)
-    if (trimmed.length === 0 && saved) {
-      setTitleDrafts((prev) => ({ ...prev, [taskId]: saved.title }))
-    }
-  }
+  }, [activeDinnerTaskId, dinnerTickTimer, tasks])
 
   const renderDayTypeControl = (task: TaskRecord) => {
     const getScheduleButtonStyle = (isActive: boolean) => ({
@@ -575,211 +316,82 @@ const ManageTasksPage = () => {
     )
   }
 
-  // --- Actions ---
+  // --- Slim handler wrappers (UI state + data layer) ---
   const handleCreateChore = async () => {
-    if (!user || !activeChildId) return
-    try {
-      await addDoc(collection(db, 'users', user.uid, 'tasks'), {
-        title: '',
-        childId: activeChildId,
-        category: '',
-        taskType: 'standard',
-        schoolDayEnabled: true,
-        nonSchoolDayEnabled: true,
-        starValue: 1,
-        isRepeating: true,
-        manageCompletedAt: null,
-        createdAt: serverTimestamp(),
-      })
-      setShowAddChooser(false)
-    } catch (error) {
-      console.error('Failed to create chore', error)
-    }
+    await createChore()
+    setShowAddChooser(false)
   }
 
   const handleCreateEating = async () => {
-    if (!user || !activeChildId) return
-    try {
-      await addDoc(collection(db, 'users', user.uid, 'tasks'), {
-        title: 'Eating Dinner',
-        childId: activeChildId,
-        category: 'eating',
-        taskType: 'eating',
-        schoolDayEnabled: true,
-        nonSchoolDayEnabled: true,
-        starValue: DEFAULT_DINNER_STARS,
-        isRepeating: true,
-        dinnerDurationSeconds: DEFAULT_DINNER_DURATION_SECONDS,
-        dinnerTotalBites: DEFAULT_DINNER_BITES,
-        manageDinnerRemainingSeconds: DEFAULT_DINNER_DURATION_SECONDS,
-        manageDinnerBitesLeft: DEFAULT_DINNER_BITES,
-        manageDinnerCompletedAt: null,
-        createdAt: serverTimestamp(),
-      })
-      setShowAddChooser(false)
-    } catch (error) {
-      console.error('Failed to create eating dinner chore', error)
-    }
+    await createEating()
+    setShowAddChooser(false)
   }
 
   const handleCreateMath = async () => {
-    if (!user || !activeChildId) return
-    try {
-      await addDoc(collection(db, 'users', user.uid, 'tasks'), {
-        title: 'Arithmetic',
-        childId: activeChildId,
-        category: 'math',
-        taskType: 'math',
-        schoolDayEnabled: true,
-        nonSchoolDayEnabled: true,
-        starValue: DEFAULT_MATH_STARS,
-        isRepeating: true,
-        mathTotalProblems: DEFAULT_MATH_PROBLEMS,
-        manageMathCompletedAt: null,
-        manageMathLastOutcome: null,
-        createdAt: serverTimestamp(),
-      })
-      setShowAddChooser(false)
-    } catch (error) {
-      console.error('Failed to create math chore', error)
-    }
+    await createMath()
+    setShowAddChooser(false)
+  }
+
+  const handleCreatePositionalNotation = async () => {
+    await createPositionalNotation()
+    setShowAddChooser(false)
   }
 
   const handleMathComplete = async (task: TaskRecord) => {
     setActiveMathTaskId(null)
-    await updateTaskField(task.id, {
-      manageMathCompletedAt: Date.now(),
-      manageMathLastOutcome: 'success',
-    })
-
-    if (user && activeChildId) {
-      await awardStars({
-        userId: user.uid,
-        childId: activeChildId,
-        delta: task.starValue,
-      })
-      celebrateSuccess()
-    }
+    await mathComplete(task)
   }
 
   const handleMathFail = async (task: TaskRecord) => {
     setActiveMathTaskId(null)
-    await updateTaskField(task.id, {
-      manageMathCompletedAt: Date.now(),
-      manageMathLastOutcome: 'failure',
-    })
+    await mathFail(task)
   }
 
   const handleMathReset = async (task: TaskRecord) => {
     setActiveMathTaskId(null)
-    await updateTaskField(task.id, {
-      manageMathCompletedAt: null,
-      manageMathLastOutcome: null,
-    })
-  }
-
-  // --- Positional Notation handlers ---
-  const handleCreatePositionalNotation = async () => {
-    if (!user || !activeChildId) return
-    try {
-      await addDoc(collection(db, 'users', user.uid, 'tasks'), {
-        title: 'Position Notation',
-        childId: activeChildId,
-        category: 'positional-notation',
-        taskType: 'positional-notation',
-        schoolDayEnabled: true,
-        nonSchoolDayEnabled: true,
-        starValue: DEFAULT_PV_STARS,
-        isRepeating: true,
-        pvTotalProblems: DEFAULT_PV_PROBLEMS,
-        managePVCompletedAt: null,
-        managePVLastOutcome: null,
-        createdAt: serverTimestamp(),
-      })
-      setShowAddChooser(false)
-    } catch (error) {
-      console.error('Failed to create positional-notation chore', error)
-    }
+    await mathReset(task)
   }
 
   const handlePVComplete = async (task: TaskRecord) => {
     setActivePVTaskId(null)
-    await updateTaskField(task.id, {
-      managePVCompletedAt: Date.now(),
-      managePVLastOutcome: 'success',
-    })
-
-    if (user && activeChildId) {
-      await awardStars({
-        userId: user.uid,
-        childId: activeChildId,
-        delta: task.starValue,
-      })
-      celebrateSuccess()
-    }
+    await pvComplete(task)
   }
 
   const handlePVFail = async (task: TaskRecord) => {
     setActivePVTaskId(null)
-    await updateTaskField(task.id, {
-      managePVCompletedAt: Date.now(),
-      managePVLastOutcome: 'failure',
-    })
+    await pvFail(task)
   }
 
   const handlePVReset = async (task: TaskRecord) => {
     setActivePVTaskId(null)
-    await updateTaskField(task.id, {
-      managePVCompletedAt: null,
-      managePVLastOutcome: null,
-    })
+    await pvReset(task)
   }
 
   const handleDelete = async (id: string) => {
-    if (!user) return
-
-    try {
-      await deleteDoc(doc(collection(db, 'users', user.uid, 'tasks'), id))
-      if (activeDinnerTaskId === id) {
-        setActiveDinnerTaskId(null)
-      }
-      if (activeMathTaskId === id) {
-        setActiveMathTaskId(null)
-      }
-      if (activePVTaskId === id) {
-        setActivePVTaskId(null)
-      }
-      if (pendingDinnerBiteTaskId === id) {
-        setPendingDinnerBiteTaskId(null)
-      }
-      setMathCheckTriggerByTask((prev) => {
-        const next = { ...prev }
-        delete next[id]
-        return next
-      })
-      setPVCheckTriggerByTask((prev) => {
-        const next = { ...prev }
-        delete next[id]
-        return next
-      })
-      setTitleDrafts((prev) => {
-        const next = { ...prev }
-        delete next[id]
-        return next
-      })
-    } catch (error) {
-      console.error('Failed to delete chore', error)
-    }
+    await deleteTask(id)
+    if (activeDinnerTaskId === id) setActiveDinnerTaskId(null)
+    if (activeMathTaskId === id) setActiveMathTaskId(null)
+    if (activePVTaskId === id) setActivePVTaskId(null)
+    if (pendingDinnerBiteTaskId === id) setPendingDinnerBiteTaskId(null)
+    setMathCheckTriggerByTask((prev) => {
+      const next = { ...prev }
+      delete next[id]
+      return next
+    })
+    setPVCheckTriggerByTask((prev) => {
+      const next = { ...prev }
+      delete next[id]
+      return next
+    })
   }
 
-  const handleDinnerBite = async (task: TaskRecord) => {
+  const handleDinnerBite = (task: TaskRecord) => {
     if (!isEatingTask(task)) return
-    if (biteCooldownSeconds > 0) return // still chewing
+    if (biteCooldownSeconds > 0) return
     if (pendingDinnerBiteTaskId) return
     const bitesLeft = getManageDinnerBitesLeft(task)
     if (bitesLeft <= 0) return
 
-    // Queue bite and run cooldown first; bite is applied when cooldown reaches 0.
     setPendingDinnerBiteTaskId(task.id)
     setBiteCooldownTestIconIndex(null)
     setBiteCooldownSeconds(BITE_COOLDOWN_SECONDS)
@@ -789,36 +401,13 @@ const ManageTasksPage = () => {
     setBiteCooldownSeconds(0)
     setBiteCooldownTestIconIndex(null)
     setPendingDinnerBiteTaskId(null)
-    const totalBites = task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
-    const dur = task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
-    await updateTaskField(task.id, {
-      manageDinnerBitesLeft: totalBites,
-      manageDinnerRemainingSeconds: dur,
-      manageDinnerCompletedAt: null,
-    })
+    await dinnerReset(task)
   }
 
   const handleAwardTask = async (task: TaskRecord) => {
-    if (!user || !activeChildId) {
-      alert('Please select an explorer first.')
-      return
-    }
-
     setIsAwarding(true)
     try {
-      await awardStars({
-        userId: user.uid,
-        childId: activeChildId,
-        delta: task.starValue,
-      })
-      await updateTaskField(task.id, { manageCompletedAt: Date.now() })
-      celebrateSuccess()
-
-      if (!task.isRepeating) {
-        await deleteDoc(
-          doc(collection(db, 'users', user.uid, 'tasks'), task.id)
-        )
-      }
+      await awardTask(task)
     } catch (error) {
       console.error('Failed to award stars', error)
       alert('Failed to award stars. Please try again.')
@@ -953,12 +542,7 @@ const ManageTasksPage = () => {
                         theme={theme}
                         label="Chore Name"
                         value={titleDrafts[task.id] ?? task.title}
-                        onChange={(value) =>
-                          setTitleDrafts((prev) => ({
-                            ...prev,
-                            [task.id]: value,
-                          }))
-                        }
+                        onChange={(value) => setTitleDraft(task.id, value)}
                         onCommit={(value) => commitTitle(task.id, value)}
                         maxLength={80}
                         baseColor={theme.colors.primary}
@@ -1012,12 +596,7 @@ const ManageTasksPage = () => {
                         theme={theme}
                         label="Chore Name"
                         value={titleDrafts[task.id] ?? task.title}
-                        onChange={(value) =>
-                          setTitleDrafts((prev) => ({
-                            ...prev,
-                            [task.id]: value,
-                          }))
-                        }
+                        onChange={(value) => setTitleDraft(task.id, value)}
                         onCommit={(value) => commitTitle(task.id, value)}
                         maxLength={80}
                         baseColor={theme.colors.primary}
@@ -1070,12 +649,7 @@ const ManageTasksPage = () => {
                         theme={theme}
                         label="Chore Name"
                         value={titleDrafts[task.id] ?? task.title}
-                        onChange={(value) =>
-                          setTitleDrafts((prev) => ({
-                            ...prev,
-                            [task.id]: value,
-                          }))
-                        }
+                        onChange={(value) => setTitleDraft(task.id, value)}
                         onCommit={(value) => commitTitle(task.id, value)}
                         maxLength={80}
                         baseColor={theme.colors.primary}

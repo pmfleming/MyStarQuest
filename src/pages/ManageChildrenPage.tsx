@@ -1,18 +1,4 @@
-import { useEffect, useState } from 'react'
-import { THEME_ID_LOOKUP, type ThemeId } from '../constants/themeOptions'
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp,
-  updateDoc,
-} from 'firebase/firestore'
-import { db } from '../firebase'
-import { useAuth } from '../auth/AuthContext'
+import type { ThemeId } from '../constants/themeOptions'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
@@ -23,6 +9,7 @@ import Carousel from '../components/Carousel'
 import ActionTextInput from '../components/ActionTextInput'
 import StarDisplay from '../components/StarDisplay'
 import { uiTokens } from '../ui/tokens'
+import { useChildren } from '../data/useChildren'
 import {
   princessActiveIcon,
   princessHomeIcon,
@@ -33,145 +20,27 @@ import spaceThemeIcon from '../assets/themes/space/space.svg'
 import natureThemeIcon from '../assets/themes/nature/nature.svg'
 import cartoonThemeIcon from '../assets/themes/cartoon/cartoon.svg'
 
-type ChildProfile = {
-  id: string
-  displayName: string
-  avatarToken: string
-  totalStars: number
-  themeId?: ThemeId
-  createdAt?: Date
-}
-
 const ManageChildrenPage = () => {
-  const { user } = useAuth()
-  const { activeChildId, setActiveChild, clearActiveChild } = useActiveChild()
+  const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
-  const [children, setChildren] = useState<ChildProfile[]>([])
-  const [nameDrafts, setNameDrafts] = useState<Record<string, string>>({})
 
-  useEffect(() => {
-    if (!user) {
-      setChildren([])
-      return
-    }
-
-    const childQuery = query(
-      collection(db, 'users', user.uid, 'children'),
-      orderBy('createdAt', 'asc')
-    )
-
-    const unsubscribe = onSnapshot(childQuery, (snapshot) => {
-      const nextChildren: ChildProfile[] = snapshot.docs.map((docSnapshot) => {
-        const data = docSnapshot.data()
-        return {
-          id: docSnapshot.id,
-          displayName: data.displayName,
-          avatarToken: data.avatarToken,
-          totalStars: data.totalStars ?? 0,
-          themeId: data.themeId,
-          createdAt: data.createdAt?.toDate?.(),
-        }
-      })
-
-      setChildren(nextChildren)
-
-      setNameDrafts((prev) => {
-        const next = { ...prev }
-        for (const child of nextChildren) {
-          if (!(child.id in next)) {
-            next[child.id] = child.displayName
-          }
-        }
-        return next
-      })
-    })
-
-    return unsubscribe
-  }, [user])
-
-  const updateChildField = async (
-    id: string,
-    field: Partial<
-      Pick<
-        ChildProfile,
-        'displayName' | 'avatarToken' | 'themeId' | 'totalStars'
-      >
-    >
-  ) => {
-    if (!user) return
-    try {
-      const childCollection = collection(db, 'users', user.uid, 'children')
-      await updateDoc(doc(childCollection, id), field)
-    } catch (error) {
-      console.error('Failed to update child profile', error)
-    }
-  }
-
-  const commitDisplayName = (childId: string, value: string) => {
-    const trimmed = value.trim()
-    if (trimmed.length > 0 && trimmed.length <= 40) {
-      updateChildField(childId, { displayName: trimmed })
-      return
-    }
-
-    const saved = children.find((child) => child.id === childId)
-    if (saved) {
-      setNameDrafts((prev) => ({ ...prev, [childId]: saved.displayName }))
-    }
-  }
-
-  const handleThemeChange = (child: ChildProfile, nextThemeId: ThemeId) => {
-    if ((child.themeId || 'princess') === nextThemeId) return
-
-    const avatarToken = THEME_ID_LOOKUP.get(nextThemeId)?.emoji || '👤'
-    updateChildField(child.id, {
-      themeId: nextThemeId,
-      avatarToken,
-    })
-
-    if (child.id === activeChildId) {
-      setActiveChild({ id: child.id, themeId: nextThemeId })
-    }
-  }
-
-  const handleCreate = async () => {
-    if (!user) return
-    try {
-      await addDoc(collection(db, 'users', user.uid, 'children'), {
-        displayName: '',
-        avatarToken: THEME_ID_LOOKUP.get('princess')?.emoji || '👤',
-        themeId: 'princess',
-        totalStars: 0,
-        createdAt: serverTimestamp(),
-      })
-    } catch (error) {
-      console.error('Failed to create child profile', error)
-    }
-  }
+  const {
+    children,
+    nameDrafts,
+    setNameDraft,
+    commitDisplayName,
+    updateChildField,
+    changeTheme,
+    createChild,
+    deleteChild,
+    selectChild,
+  } = useChildren()
 
   const handleDelete = async (id: string) => {
-    if (!user) return
-
     try {
-      await deleteDoc(doc(collection(db, 'users', user.uid, 'children'), id))
-      setNameDrafts((prev) => {
-        const next = { ...prev }
-        delete next[id]
-        return next
-      })
-      // Clear selection if deleting the selected explorer
-      if (id === activeChildId) {
-        clearActiveChild()
-      }
+      await deleteChild(id)
     } catch (error) {
       console.error('Failed to delete child profile', error)
-    }
-  }
-
-  const handleSelectExplorer = (childId: string) => {
-    const child = children.find((c) => c.id === childId)
-    if (child) {
-      setActiveChild({ id: child.id, themeId: child.themeId || 'princess' })
     }
   }
 
@@ -255,12 +124,7 @@ const ManageChildrenPage = () => {
                     theme={theme}
                     label="Name"
                     value={nameDrafts[child.id] ?? child.displayName}
-                    onChange={(value) =>
-                      setNameDrafts((prev) => ({
-                        ...prev,
-                        [child.id]: value,
-                      }))
-                    }
+                    onChange={(value) => setNameDraft(child.id, value)}
                     onCommit={(value) => commitDisplayName(child.id, value)}
                     maxLength={40}
                     baseColor={theme.colors.primary}
@@ -276,7 +140,7 @@ const ManageChildrenPage = () => {
                     onChange={(index) => {
                       const selected = themeOptions[index]
                       if (!selected) return
-                      handleThemeChange(child, selected.id)
+                      changeTheme(child, selected.id)
                     }}
                   />
 
@@ -315,14 +179,14 @@ const ManageChildrenPage = () => {
                   '⭐'
                 ),
               showLabel: false,
-              onClick: (child) => handleSelectExplorer(child.id),
+              onClick: (child) => selectChild(child.id),
               disabled: (child) => activeChildId === child.id,
               variant: theme.id === 'princess' ? 'neutral' : 'primary',
             }}
             hideEdit
             onDelete={(child) => handleDelete(child.id)}
             addLabel="Add Child"
-            onAdd={handleCreate}
+            onAdd={createChild}
             addDisabled={false}
             isHighlighted={(child) => activeChildId === child.id}
             emptyState={

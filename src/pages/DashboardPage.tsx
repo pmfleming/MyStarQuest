@@ -1,6 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
-import { db } from '../firebase'
+import { useMemo } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -10,6 +8,7 @@ import TopIconButton from '../components/TopIconButton'
 import ActionButton from '../components/ActionButton'
 import StarInfoBox from '../components/StarInfoBox'
 import { uiTokens } from '../ui/tokens'
+import { useChildren } from '../data/useChildren'
 
 // --- Assets ---
 import {
@@ -18,16 +17,6 @@ import {
   princessExitIcon,
   princessRewardsIcon,
 } from '../assets/themes/princess/assets'
-// Note: Import other theme assets here as needed
-
-// --- Types ---
-type ChildProfile = {
-  id: string
-  displayName: string
-  avatarToken: string
-  totalStars: number
-  themeId?: string
-}
 
 // --- Helper: Theme Asset Mapping ---
 const getThemeAssets = (themeId: string) => {
@@ -39,7 +28,6 @@ const getThemeAssets = (themeId: string) => {
       }
     case 'space':
     default:
-      // Space theme and other themes use emoji fallbacks
       return {
         switchProfileIcon: null,
         exitIcon: null,
@@ -48,52 +36,10 @@ const getThemeAssets = (themeId: string) => {
 }
 
 const DashboardPage = () => {
-  const { user, logout } = useAuth()
-  const { activeChildId, setActiveChild } = useActiveChild()
+  const { logout } = useAuth()
+  const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
-  const [children, setChildren] = useState<ChildProfile[]>([])
-
-  // --- Data Fetching ---
-  useEffect(() => {
-    if (!user) {
-      setChildren([])
-      return
-    }
-    const childrenQuery = query(
-      collection(db, 'users', user.uid, 'children'),
-      orderBy('createdAt', 'asc')
-    )
-
-    const unsubscribe = onSnapshot(childrenQuery, (snapshot) => {
-      const nextChildren: ChildProfile[] = snapshot.docs.map((docSnapshot) => {
-        const data = docSnapshot.data()
-        return {
-          id: docSnapshot.id,
-          displayName: data.displayName ?? 'Explorer',
-          avatarToken: data.avatarToken ?? '⭐',
-          totalStars: Number(data.totalStars ?? 0),
-          themeId: data.themeId,
-        }
-      })
-      setChildren(nextChildren)
-    })
-    return unsubscribe
-  }, [user])
-
-  // --- Auto-select child logic ---
-  useEffect(() => {
-    if (children.length > 0) {
-      const isCurrentActiveValid =
-        activeChildId && children.some((c) => c.id === activeChildId)
-
-      if (!isCurrentActiveValid) {
-        setActiveChild({
-          id: children[0].id,
-          themeId: children[0].themeId || 'space',
-        })
-      }
-    }
-  }, [children, activeChildId, setActiveChild])
+  const { children } = useChildren()
 
   const selectedChild = useMemo(
     () => children.find((child) => child.id === activeChildId) ?? null,

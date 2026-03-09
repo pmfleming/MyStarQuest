@@ -1,20 +1,6 @@
-import { useEffect, useState } from 'react'
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp,
-  updateDoc,
-} from 'firebase/firestore'
-import { db } from '../firebase'
-import { useAuth } from '../auth/AuthContext'
+import { useState } from 'react'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
-import { redeemReward } from '../services/starActions'
 import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
@@ -23,130 +9,31 @@ import StarDisplay from '../components/StarDisplay'
 import ActionTextInput from '../components/ActionTextInput'
 import RepeatControl from '../components/RepeatControl'
 import { uiTokens } from '../ui/tokens'
+import { useRewards } from '../data/useRewards'
+import type { RewardRecord } from '../data/types'
 import {
   princessBuyRewardIcon,
   princessHomeIcon,
 } from '../assets/themes/princess/assets'
 
-type RewardRecord = {
-  id: string
-  title: string
-  costStars: number
-  isRepeating: boolean
-  createdAt?: Date
-}
-
 const ManageRewardsPage = () => {
-  const { user } = useAuth()
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
-  const [rewards, setRewards] = useState<RewardRecord[]>([])
-  const [activeChildStars, setActiveChildStars] = useState<number>(0)
   const [isRedeeming, setIsRedeeming] = useState(false)
-  const [titleDrafts, setTitleDrafts] = useState<Record<string, string>>({})
 
-  useEffect(() => {
-    if (!user) {
-      setRewards([])
-      return
-    }
-
-    const rewardsQuery = query(
-      collection(db, 'users', user.uid, 'rewards'),
-      orderBy('createdAt', 'asc')
-    )
-
-    const unsubscribe = onSnapshot(rewardsQuery, (snapshot) => {
-      const newRewards = snapshot.docs.map((docSnapshot) => {
-        const data = docSnapshot.data()
-        return {
-          id: docSnapshot.id,
-          title: data.title ?? '',
-          costStars: data.costStars ?? 0,
-          isRepeating: data.isRepeating ?? false,
-          createdAt: data.createdAt?.toDate?.(),
-        }
-      })
-
-      setRewards(newRewards)
-
-      setTitleDrafts((prev) => {
-        const next = { ...prev }
-        for (const reward of newRewards) {
-          if (!(reward.id in next)) {
-            next[reward.id] = reward.title
-          }
-        }
-        return next
-      })
-    })
-
-    return unsubscribe
-  }, [user])
-
-  useEffect(() => {
-    if (!user || !activeChildId) {
-      setActiveChildStars(0)
-      return
-    }
-
-    const childRef = doc(db, 'users', user.uid, 'children', activeChildId)
-    const unsubscribe = onSnapshot(childRef, (snapshot) => {
-      const data = snapshot.data()
-      setActiveChildStars(data?.totalStars ?? 0)
-    })
-
-    return unsubscribe
-  }, [user, activeChildId])
-
-  const updateRewardField = async (
-    rewardId: string,
-    field: Partial<Pick<RewardRecord, 'title' | 'costStars' | 'isRepeating'>>
-  ) => {
-    if (!user) return
-    try {
-      await updateDoc(
-        doc(collection(db, 'users', user.uid, 'rewards'), rewardId),
-        field
-      )
-    } catch (error) {
-      console.error('Failed to update reward', error)
-    }
-  }
-
-  const commitTitle = (rewardId: string, title: string) => {
-    const trimmed = title.trim()
-    if (trimmed.length > 0 && trimmed.length <= 80) {
-      updateRewardField(rewardId, { title: trimmed })
-      return
-    }
-
-    const saved = rewards.find((reward) => reward.id === rewardId)
-    if (saved) {
-      setTitleDrafts((prev) => ({ ...prev, [rewardId]: saved.title }))
-    }
-  }
-
-  const handleCreate = async () => {
-    if (!user) return
-    try {
-      await addDoc(collection(db, 'users', user.uid, 'rewards'), {
-        title: '',
-        costStars: 0,
-        isRepeating: true,
-        createdAt: serverTimestamp(),
-      })
-    } catch (error) {
-      console.error('Failed to create reward', error)
-    }
-  }
+  const {
+    rewards,
+    activeChildStars,
+    titleDrafts,
+    setTitleDraft,
+    commitTitle,
+    updateRewardField,
+    createReward,
+    giveReward,
+    deleteReward,
+  } = useRewards()
 
   const handleGiveReward = async (reward: RewardRecord) => {
-    if (!user || !activeChildId) {
-      alert('Please select a child from the dashboard first.')
-      return
-    }
-
     const confirmGive = window.confirm(
       `Give "${reward.title}" to the active child for ${reward.costStars} stars?`
     )
@@ -154,18 +41,7 @@ const ManageRewardsPage = () => {
 
     setIsRedeeming(true)
     try {
-      await redeemReward({
-        userId: user.uid,
-        childId: activeChildId,
-        reward,
-      })
-
-      if (!reward.isRepeating) {
-        await deleteDoc(
-          doc(collection(db, 'users', user.uid, 'rewards'), reward.id)
-        )
-      }
-
+      await giveReward(reward)
       alert('Reward given successfully!')
     } catch (error) {
       console.error('Failed to give reward', error)
@@ -178,18 +54,10 @@ const ManageRewardsPage = () => {
   }
 
   const handleDelete = async (id: string) => {
-    if (!user) return
-
     const confirmDelete = window.confirm('Delete this reward?')
     if (!confirmDelete) return
-
     try {
-      await deleteDoc(doc(collection(db, 'users', user.uid, 'rewards'), id))
-      setTitleDrafts((prev) => {
-        const next = { ...prev }
-        delete next[id]
-        return next
-      })
+      await deleteReward(id)
     } catch (error) {
       console.error('Failed to delete reward', error)
     }
@@ -234,12 +102,7 @@ const ManageRewardsPage = () => {
                   theme={theme}
                   label="Reward"
                   value={titleDrafts[reward.id] ?? reward.title}
-                  onChange={(value) =>
-                    setTitleDrafts((prev) => ({
-                      ...prev,
-                      [reward.id]: value,
-                    }))
-                  }
+                  onChange={(value) => setTitleDraft(reward.id, value)}
                   onCommit={(value) => commitTitle(reward.id, value)}
                   maxLength={80}
                   baseColor={theme.colors.secondary}
@@ -298,7 +161,7 @@ const ManageRewardsPage = () => {
             hideEdit
             onDelete={(reward) => handleDelete(reward.id)}
             addLabel="New Reward"
-            onAdd={handleCreate}
+            onAdd={createReward}
             addDisabled={false}
             emptyState={
               <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
