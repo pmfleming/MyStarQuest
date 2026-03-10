@@ -12,6 +12,8 @@
 - E2E tests: `npx playwright test` (see `playwright.config.ts`)
 - Android sync: `npx cap sync android` (after `npm run build`)
 - Open Android Studio project: `npx cap open android`
+- Cloud Functions install: `cd functions && npm install`
+- Cloud Functions build: `cd functions && npx tsc`
 
 ## Android (Capacitor) workflow
 
@@ -39,30 +41,71 @@
 
 - Firebase is initialized in `src/firebase.ts` and requires `VITE_FIREBASE_*` env vars.
 - Firestore is user-scoped. Collections follow:
-  - `/users/{uid}/children`, `/tasks`, `/rewards`, `/starEvents`, `/redemptions`
+  - `/users/{uid}/children`, `/tasks`, `/rewards`, `/starEvents`, `/redemptions`, `/todos`
   - Security rules are in `firestore.rules` (only the owning `uid` can read/write).
+- **Cloud Functions** live in `functions/` (Node 20, firebase-functions v2, firebase-admin).
+  - `generateDailyTodos` — scheduled function (`onSchedule`) that runs at 00:05 Europe/London to create daily `TodoRecord` documents. It iterates users → children → tasks, deduplicates via `(childId, dateKey)` query, and batch-creates only type-relevant fields per task type.
+  - The `functions/` directory has its own `package.json` and `tsconfig.json`; it compiles to CommonJS in `functions/lib/`.
+
+## Data model — discriminated unions
+
+All core domain types use **discriminated unions** (tagged unions) so TypeScript narrows correctly when you check `taskType` or `sourceTaskType`.
+
+### TaskRecord (stored in `/users/{uid}/tasks`)
+- Discriminant: `taskType`
+- Variants: `StandardTask`, `EatingTask`, `MathTask`, `PositionalNotationTask`
+- Type-specific fields only exist on their variant:
+  - `EatingTask` has `dinnerDurationSeconds`, `dinnerTotalBites`
+  - `MathTask` has `mathTotalProblems`
+  - `PositionalNotationTask` has `pvTotalProblems`
+  - `StandardTask` has no extra fields.
+
+### TodoRecord (stored in `/users/{uid}/todos`)
+- Discriminant: `sourceTaskType`
+- Variants: `StandardTodo`, `EatingTodo`, `MathTodo`, `PositionalNotationTodo`
+- Same pattern — dinner fields on `EatingTodo`, math fields on `MathTodo`, etc.
+
+### TaskTemplate (read-only view for the Today page)
+- Same discriminated union structure as `TaskRecord` but without `category` / `isRepeating`.
+
+### TaskWithEphemeral (Manage page)
+- Each `TaskRecord` variant is paired with only its matching ephemeral fields:
+  - `StandardTaskWithEphemeral` has `manageCompletedAt`
+  - `EatingTaskWithEphemeral` has `manageDinnerRemainingSeconds`, `manageDinnerBitesLeft`, `manageDinnerTimerStartedAt`, `manageDinnerCompletedAt`
+  - `MathTaskWithEphemeral` has `manageMathCompletedAt`, `manageMathLastOutcome`
+  - `PVTaskWithEphemeral` has `managePVCompletedAt`, `managePVLastOutcome`
+- Ephemeral state is held in-memory only (not in Firestore), auto-resets after 15 minutes.
+
+### Type guards
+- `isEatingTask`, `isMathTask`, `isPositionalNotationTask` — generic guards that narrow any `{ taskType: TaskType }` using `Extract<T, ...>`.
+- `isEatingTodo`, `isMathTodo`, `isPositionalNotationTodo` — narrow `TodoRecord` by `sourceTaskType`.
+- These are defined in `src/data/types.ts` and imported where needed.
+
+### Key rule: never access type-specific fields without narrowing first
+- Always use the type guard or a `switch` on the discriminant before accessing fields like `dinnerDurationSeconds`, `mathTotalProblems`, etc.
+- Handler functions accept the narrowed type (e.g., `dinnerApplyBite(task: EatingTaskWithEphemeral)`), not the full union.
 
 ## Data access & UI patterns used in this repo
 
 - Pages read live data with Firestore `onSnapshot(...)` inside `useEffect` and return the unsubscribe cleanup.
   - Examples: `src/pages/DashboardPage.tsx`, `src/pages/ManageTasksPage.tsx`.
   - Always verify `user` exists before setting up subscriptions.
-- CRUD forms validate with Zod (`z.object(...)`) and store errors in component state.
-  - Convention: `editingId === 'new'` means “create mode”.
 - Star-award and redemption logic is centralized in `src/services/starActions.ts` using Firestore transactions:
   - writes an audit doc (`starEvents`/`redemptions`) with `serverTimestamp()`
   - updates `children/{childId}.totalStars` with `increment(...)`
+- `src/data/useTasks.ts` manages task config from Firestore (`rawTasks: TaskRecord[]`) merged with local ephemeral state (`ephemeral: Record<string, TaskEphemeralState>`) producing `tasks: TaskWithEphemeral[]`. All manage-page mutations (math/dinner/pv handlers) write to ephemeral state only, not Firestore.
+- `src/data/useTodos.ts` manages today's todos from Firestore. Field accessors (`getDinnerDuration`, `getMathTotalProblems`, etc.) accept narrowed todo types. Daily todo creation is handled server-side by the Cloud Function; manual `addTodo` writes only type-relevant fields via a `switch` on `task.taskType`.
 - Standardized list rows use `src/components/StandardActionList.tsx` for Manage Children/Chores/Rewards.
   - This component handles list animations ("whimsical") and standard CRUD actions.
 - Layout sizing should reference `uiTokens` (not hard-coded values).
 - User feedback often uses `src/utils/celebrate.ts` (confetti) for positive actions.
+- Dinner timer uses a `timerStartedAt` approach — the client computes remaining time from `Date.now() - startedAt` in a `setInterval`, avoiding per-second Firestore writes. Both ManageTasksPage (ephemeral `manageDinnerTimerStartedAt`) and TodayPage (`dinnerTimerStartedAt` in Firestore) follow this pattern.
 - Maths test behavior lives in `src/components/ArithmeticTester.tsx` and is parent-driven from `src/pages/ManageTasksPage.tsx`:
   - Parent action button triggers answer checks through `checkTrigger` (ArithmeticTester does not own a standalone check button).
   - Completion/failure end-state images are passed via `completionImage`/`failureImage` to match `DinnerCountdown` style.
   - Failure threshold is 3 mistakes (`onFail`) with persisted task outcome (`mathLastOutcome`) used to render deterministic end states.
   - Princess maths SVGs used in `<img>` contexts should use fixed dimensions (not `%`) to avoid invisible renders.
 - Positional notation behavior lives in `src/components/PositionalNotationTester.tsx` and is parent-driven from `src/pages/ManageTasksPage.tsx`:
-  - Task type/category key is `positional-notation` with persisted fields `pvTotalProblems`, `pvCompletedAt`, and `pvLastOutcome`.
   - Parent action button triggers answer checks through `checkTrigger` (same flow as ArithmeticTester).
   - Failure threshold is 3 mistakes (`onFail`) and completion/failure uses `maths-correct` / `maths-incorrect` themed assets.
   - Builder layout uses a `2fr/1fr` Tens/Ones split; ones use `maths-counter` icons, and tens render as 10 stacked smaller `maths-counter` icons.
@@ -77,7 +120,7 @@
   - `src/components/ActionButton.tsx` for primary page actions.
   - `src/components/TopIconButton.tsx` for navigation/header actions.
 - Theme assets: the `princess` theme uses SVG assets in `src/assets/themes/princess/*` (see `src/pages/DashboardPage.tsx`).
-- Chores are the user-facing name for tasks (Dashboard button label is “Chores”).
+- Chores are the user-facing name for tasks (Dashboard button label is "Chores").
 - In list action rows for the princess theme, use SVG icons for edit/delete (no text labels).
 
 ## Testing conventions

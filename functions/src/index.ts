@@ -1,7 +1,7 @@
 /**
  * Scheduled Cloud Function: generateDailyTodos
  *
- * Runs every day at 00:05 (UTC) and creates TodoRecords for each user's
+ * Runs every day at 00:05 (Europe/London) and creates TodoRecords for each user's
  * children based on their task templates and the current day type.
  *
  * Uses a Firestore query on (sourceTaskId + dateKey) to prevent duplicates,
@@ -11,26 +11,41 @@
 import { initializeApp } from 'firebase-admin/app'
 import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
+import { onCall, HttpsError } from 'firebase-functions/v2/https'
 
 initializeApp()
 const db = getFirestore()
 
-// ── Day-type helpers (mirrors client-side today.ts) ──
+// ── Day-type & Timezone helpers ──
 
 type CurrentDayType = 'schoolday' | 'nonschoolday'
 
-const padDatePart = (value: number) => String(value).padStart(2, '0')
+/**
+ * Calculates the exact dateKey and dayType for a specific timezone.
+ * This prevents UTC-offset bugs where the server thinks it's a different day 
+ * than the user's local time (e.g., during British Summer Time).
+ */
+const getLocalizedDateInfo = (timeZone: string) => {
+  const now = new Date()
+  
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    weekday: 'short' // Outputs 'Mon', 'Tue', 'Sat', 'Sun', etc.
+  })
 
-const buildDateKey = (date: Date) => {
-  const year = date.getFullYear()
-  const month = padDatePart(date.getMonth() + 1)
-  const day = padDatePart(date.getDate())
-  return `${year}-${month}-${day}`
-}
+  const parts = formatter.formatToParts(now)
+  const year = parts.find(p => p.type === 'year')?.value
+  const month = parts.find(p => p.type === 'month')?.value
+  const day = parts.find(p => p.type === 'day')?.value
+  const weekday = parts.find(p => p.type === 'weekday')?.value
 
-const getCurrentDayType = (date: Date): CurrentDayType => {
-  const dow = date.getDay()
-  return dow === 0 || dow === 6 ? 'nonschoolday' : 'schoolday'
+  const dateKey = `${year}-${month}-${day}`
+  const dayType: CurrentDayType = (weekday === 'Sat' || weekday === 'Sun') ? 'nonschoolday' : 'schoolday'
+
+  return { dateKey, dayType }
 }
 
 const isScheduledForDay = (
@@ -53,9 +68,8 @@ const DEFAULT_PV_PROBLEMS = 5
 export const generateDailyTodos = onSchedule(
   { schedule: '5 0 * * *', timeZone: 'Europe/London' },
   async () => {
-    const now = new Date()
-    const dateKey = buildDateKey(now)
-    const dayType = getCurrentDayType(now)
+    // ⏰ Use the timezone-aware helper!
+    const { dateKey, dayType } = getLocalizedDateInfo('Europe/London')
 
     // Iterate all users
     const usersSnapshot = await db.collection('users').listDocuments()
@@ -94,7 +108,7 @@ export const generateDailyTodos = onSchedule(
           const title = (data.title ?? '').trim()
           if (!title) return false
           if (existingSourceIds.has(taskDoc.id)) return false
-          return isScheduledForDay(data, dayType)
+          return isScheduledForDay(data as any, dayType)
         })
 
         if (todosToCreate.length === 0) continue
@@ -169,3 +183,131 @@ export const generateDailyTodos = onSchedule(
     }
   }
 )
+
+// ── Callable function: reset today's todos for a specific child ──
+
+export const resetTodayTodos = onCall(async (request) => {
+  const uid = request.auth?.uid
+  if (!uid) {
+    throw new HttpsError('unauthenticated', 'Must be signed in.')
+  }
+
+  const { childId } = request.data as { childId?: string }
+  if (!childId || typeof childId !== 'string') {
+    throw new HttpsError('invalid-argument', 'childId is required.')
+  }
+
+  // Verify the child belongs to this user
+  const childDoc = await db.doc(`users/${uid}/children/${childId}`).get()
+  if (!childDoc.exists) {
+    throw new HttpsError('not-found', 'Child not found.')
+  }
+
+  // ⏰ Use the timezone-aware helper!
+  const { dateKey, dayType } = getLocalizedDateInfo('Europe/London')
+
+  // Delete all existing non-completed todos for today
+  const existingTodos = await db
+    .collection(`users/${uid}/todos`)
+    .where('childId', '==', childId)
+    .where('dateKey', '==', dateKey)
+    .get()
+
+  const deleteBatch = db.batch()
+  for (const todoDoc of existingTodos.docs) {
+    if (!todoDoc.data().completedAt) {
+      deleteBatch.delete(todoDoc.ref)
+    }
+  }
+  await deleteBatch.commit()
+
+  // Get completed source task IDs (so we don't recreate those)
+  const completedSourceIds = new Set(
+    existingTodos.docs
+      .filter((d) => d.data().completedAt)
+      .map((d) => d.data().sourceTaskId)
+  )
+
+  // Get all task templates for this child
+  const tasksSnapshot = await db
+    .collection(`users/${uid}/tasks`)
+    .where('childId', '==', childId)
+    .get()
+
+  const todosToCreate = tasksSnapshot.docs.filter((taskDoc) => {
+    const data = taskDoc.data()
+    const title = (data.title ?? '').trim()
+    if (!title) return false
+    if (completedSourceIds.has(taskDoc.id)) return false
+    return isScheduledForDay(data as any, dayType)
+  })
+
+  if (todosToCreate.length === 0) return { created: 0 }
+
+  const createBatch = db.batch()
+
+  for (const taskDoc of todosToCreate) {
+    const data = taskDoc.data()
+    const taskType =
+      data.taskType === 'positional-notation' ||
+      data.category === 'positional-notation'
+        ? 'positional-notation'
+        : data.taskType === 'math' || data.category === 'math'
+          ? 'math'
+          : data.taskType === 'eating' || data.category === 'eating'
+            ? 'eating'
+            : 'standard'
+
+    const dinnerDuration =
+      data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
+    const dinnerBites = data.dinnerTotalBites ?? DEFAULT_DINNER_BITES
+
+    const base = {
+      title: data.title ?? '',
+      childId,
+      sourceTaskId: taskDoc.id,
+      sourceTaskType: taskType,
+      starValue: Number(data.starValue ?? 1),
+      schoolDayEnabled: data.schoolDayEnabled ?? true,
+      nonSchoolDayEnabled: data.nonSchoolDayEnabled ?? true,
+      autoAdded: true,
+      dateKey,
+      createdAt: FieldValue.serverTimestamp(),
+      completedAt: null,
+    }
+
+    let taskSpecific: Record<string, unknown> = {}
+    switch (taskType) {
+      case 'eating':
+        taskSpecific = {
+          dinnerDurationSeconds: dinnerDuration,
+          dinnerRemainingSeconds: dinnerDuration,
+          dinnerTotalBites: dinnerBites,
+          dinnerBitesLeft: dinnerBites,
+        }
+        break
+      case 'math':
+        taskSpecific = {
+          mathTotalProblems:
+            data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+          mathLastOutcome: null,
+        }
+        break
+      case 'positional-notation':
+        taskSpecific = {
+          pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
+          pvLastOutcome: null,
+        }
+        break
+    }
+
+    const todoRef = db.collection(`users/${uid}/todos`).doc()
+    createBatch.set(todoRef, { ...base, ...taskSpecific })
+  }
+
+  await createBatch.commit()
+  console.log(
+    `Reset: created ${todosToCreate.length} todos for user=${uid} child=${childId} date=${dateKey}`
+  )
+  return { created: todosToCreate.length }
+})

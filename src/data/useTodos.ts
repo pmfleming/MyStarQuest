@@ -12,7 +12,8 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore'
-import { db } from '../firebase'
+import { db, functions } from '../firebase'
+import { httpsCallable } from 'firebase/functions'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { completeTodoAndAwardStars } from '../services/starActions'
@@ -415,6 +416,12 @@ export function useTodos() {
     })
   }
 
+  const resetTodayTodos = async () => {
+    if (!user || !activeChildId) return
+    const callable = httpsCallable(functions, 'resetTodayTodos')
+    await callable({ childId: activeChildId })
+  }
+
   return {
     todos,
     todayInfo,
@@ -441,5 +448,6 @@ export function useTodos() {
     mathFail,
     pvComplete,
     pvFail,
+    resetTodayTodos,
   }
 }

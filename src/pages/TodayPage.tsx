@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
@@ -34,6 +34,7 @@ import {
   princessEatingFullImage,
   princessGiveStarIcon,
   princessHomeIcon,
+  princessResetIcon,
   princessMathsCorrectImage,
   princessMathsIcon,
   princessMathsIncorrectImage,
@@ -65,9 +66,12 @@ const TodayPage = () => {
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
 
+  // 1. DATA PIPELINE FIX: Call getTodayDescriptor directly to guarantee todayInfo exists.
+  const todayInfo = getTodayDescriptor()
+
+  // Ensure your hook uses activeChildId and todayInfo.dateKey internally for its Firestore query!
   const {
     todos,
-    todayInfo,
     availableChores,
     completedCount,
     todoSourceIds,
@@ -87,30 +91,38 @@ const TodayPage = () => {
     mathFail,
     pvComplete,
     pvFail,
+    resetTodayTodos,
   } = useTodos()
 
   const [showAddChooser, setShowAddChooser] = useState(false)
   const [, setDinnerTimerTick] = useState(0)
   const [pendingTodoId, setPendingTodoId] = useState<string | null>(null)
-  const [activeDinnerTodoId, setActiveDinnerTodoId] = useState<string | null>(
-    null
-  )
+  
+  // Active UI States
+  const [activeDinnerTodoId, setActiveDinnerTodoId] = useState<string | null>(null)
   const [activeMathTodoId, setActiveMathTodoId] = useState<string | null>(null)
   const [activePVTodoId, setActivePVTodoId] = useState<string | null>(null)
-  const [mathCheckTriggerByTodo, setMathCheckTriggerByTodo] = useState<
-    Record<string, number>
-  >({})
-  const [pvCheckTriggerByTodo, setPVCheckTriggerByTodo] = useState<
-    Record<string, number>
-  >({})
+  
+  const [mathCheckTriggerByTodo, setMathCheckTriggerByTodo] = useState<Record<string, number>>({})
+  const [pvCheckTriggerByTodo, setPVCheckTriggerByTodo] = useState<Record<string, number>>({})
   const [biteCooldownSeconds, setBiteCooldownSeconds] = useState(0)
-  const [pendingDinnerBiteTodoId, setPendingDinnerBiteTodoId] = useState<
-    string | null
-  >(null)
+  const [pendingDinnerBiteTodoId, setPendingDinnerBiteTodoId] = useState<string | null>(null)
 
-  const princessNonSchoolDayImage = getPrincessNonSchoolDayImage(
-    todayInfo.season
-  )
+  // 2. MEMORY & REACTIVITY FIX: Keep a mutable ref of the latest todos so intervals don't reset.
+  const todosRef = useRef(todos)
+  useEffect(() => {
+    todosRef.current = todos
+  }, [todos])
+
+  // Track mount status to prevent setting state on unmounted components
+  const isMounted = useRef(true)
+  useEffect(() => {
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
+
+  const princessNonSchoolDayImage = getPrincessNonSchoolDayImage(todayInfo.season)
 
   // Reset UI state on child/date change
   useEffect(() => {
@@ -123,14 +135,18 @@ const TodayPage = () => {
     setPendingDinnerBiteTodoId(null)
   }, [activeChildId, todayInfo.dateKey])
 
+  // Bite Cooldown Timer
   useEffect(() => {
     if (biteCooldownSeconds <= 0) return
     const timer = window.setTimeout(() => {
-      setBiteCooldownSeconds((prev) => Math.max(0, prev - 1))
+      if (isMounted.current) {
+        setBiteCooldownSeconds((prev) => Math.max(0, prev - 1))
+      }
     }, 1000)
     return () => window.clearTimeout(timer)
   }, [biteCooldownSeconds])
 
+  // Clear cooldown early if no active bite is pending
   useEffect(() => {
     if (!activeDinnerTodoId && !pendingDinnerBiteTodoId) {
       setBiteCooldownSeconds(0)
@@ -142,30 +158,32 @@ const TodayPage = () => {
     if (!pendingDinnerBiteTodoId || biteCooldownSeconds > 0) return
 
     const applyBiteAfterCooldown = async () => {
-      const todo = todos.find((item) => item.id === pendingDinnerBiteTodoId)
-      setPendingDinnerBiteTodoId(null)
+      // Use todosRef instead of todos dependency to avoid race conditions during syncs
+      const todo = todosRef.current.find((item) => item.id === pendingDinnerBiteTodoId)
+      
+      if (isMounted.current) setPendingDinnerBiteTodoId(null)
 
       if (!todo || !isEatingTodo(todo) || todo.completedAt) return
 
-      const done = await dinnerApplyBite(todo)
-      if (done) setActiveDinnerTodoId(null)
+      try {
+        const done = await dinnerApplyBite(todo)
+        if (done && isMounted.current) setActiveDinnerTodoId(null)
+      } catch (error) {
+        console.error('Failed to apply bite', error)
+      }
     }
 
     applyBiteAfterCooldown()
-  }, [
-    biteCooldownSeconds,
-    dinnerApplyBite,
-    isEatingTodo,
-    pendingDinnerBiteTodoId,
-    todos,
-  ])
+  }, [biteCooldownSeconds, dinnerApplyBite, pendingDinnerBiteTodoId])
 
   // Dinner timer: tick each second while active (client-side only, no Firestore writes)
   useEffect(() => {
     if (!activeDinnerTodoId) return
 
     const timer = window.setInterval(() => {
-      const todo = todos.find((item) => item.id === activeDinnerTodoId)
+      // Use todosRef so we don't have to put 'todos' in the dependency array
+      const todo = todosRef.current.find((item) => item.id === activeDinnerTodoId)
+      
       if (!todo || !isEatingTodo(todo) || todo.completedAt) {
         setActiveDinnerTodoId(null)
         return
@@ -186,20 +204,13 @@ const TodayPage = () => {
       }
 
       // Force re-render to update displayed remaining time
-      setDinnerTimerTick((t) => t + 1)
+      if (isMounted.current) setDinnerTimerTick((t) => t + 1)
     }, 1000)
 
     return () => window.clearInterval(timer)
-  }, [
-    activeDinnerTodoId,
-    dinnerTimerExpired,
-    getDinnerBitesLeft,
-    getDinnerLiveRemaining,
-    isEatingTodo,
-    todos,
-  ])
+  }, [activeDinnerTodoId, dinnerTimerExpired, getDinnerBitesLeft, getDinnerLiveRemaining])
 
-  // --- Slim handler wrappers (UI state + data layer) ---
+  // --- Slim handler wrappers ---
   const handleAddTodo = async (task: { id: string }) => {
     if (todoSourceIds.has(task.id)) return
     await addTodo(task as Parameters<typeof addTodo>[0])
@@ -216,7 +227,7 @@ const TodayPage = () => {
       console.error('Failed to complete todo', error)
       alert('Failed to complete that todo. Please try again.')
     } finally {
-      setPendingTodoId(null)
+      if (isMounted.current) setPendingTodoId(null)
     }
   }
 
@@ -273,17 +284,27 @@ const TodayPage = () => {
           <>
             <TopIconButton
               theme={theme}
+              onClick={() => {
+                  if (activeChildId) resetTodayTodos()
+              }}
+              ariaLabel="Reset today"
+              icon={
+                theme.id === 'princess' ? (
+                  <img src={princessResetIcon} alt="Reset today" className="h-10 w-10 object-contain" />
+                ) : (
+                  <span className="text-2xl" role="img" aria-hidden="true">🔄</span>
+                )
+              }
+            />
+            <TopIconButton
+              theme={theme}
               to="/settings/manage-tasks"
               ariaLabel="Chores"
               icon={
                 theme.id === 'princess' ? (
-                  <img
-                    src={princessChoresIcon}
-                    alt="Chores"
-                    className="h-10 w-10 object-contain"
-                  />
+                  <img src={princessChoresIcon} alt="Chores" className="h-10 w-10 object-contain" />
                 ) : (
-                  <span className="text-2xl">🧹</span>
+                  <span className="text-2xl" role="img" aria-hidden="true">🧹</span>
                 )
               }
             />
@@ -293,13 +314,9 @@ const TodayPage = () => {
               ariaLabel="Home"
               icon={
                 theme.id === 'princess' ? (
-                  <img
-                    src={princessHomeIcon}
-                    alt="Home"
-                    className="h-10 w-10 object-contain"
-                  />
+                  <img src={princessHomeIcon} alt="Home" className="h-10 w-10 object-contain" />
                 ) : (
-                  <span className="text-2xl">🏠</span>
+                  <span className="text-2xl" role="img" aria-hidden="true">🏠</span>
                 )
               }
             />
@@ -338,20 +355,14 @@ const TodayPage = () => {
             >
               {todayInfo.dayName}
             </div>
-            <div className="mt-2 text-lg font-semibold">
-              {todayInfo.formattedDate}
-            </div>
-            <div className="mt-4 text-base font-semibold opacity-90">
-              {summaryText}
-            </div>
+            <div className="mt-2 text-lg font-semibold">{todayInfo.formattedDate}</div>
+            <div className="mt-4 text-base font-semibold opacity-90">{summaryText}</div>
           </section>
 
           {!activeChildId ? (
             <div className="mt-10 flex flex-col items-center text-center opacity-70">
-              <span className="mb-4 text-6xl">👶</span>
-              <p className="text-2xl font-bold">
-                Pick a child before planning today.
-              </p>
+              <span className="mb-4 text-6xl" role="img" aria-label="Child">👶</span>
+              <p className="text-2xl font-bold">Pick a child before planning today.</p>
             </div>
           ) : (
             <StandardActionList
@@ -361,21 +372,9 @@ const TodayPage = () => {
               getStarCount={(todo) => todo.starValue}
               isHighlighted={(todo) => Boolean(todo.completedAt)}
               renderItem={(todo) => (
-                <div
-                  className="flex flex-col"
-                  style={{
-                    gap: `${Math.max(12, uiTokens.singleVerticalSpace / 2)}px`,
-                  }}
-                >
+                <div className="flex flex-col" style={{ gap: `${Math.max(12, uiTokens.singleVerticalSpace / 2)}px` }}>
                   <div className="flex items-start justify-between gap-3">
-                    <div
-                      style={{
-                        fontFamily: theme.fonts.heading,
-                        fontSize: '1.25rem',
-                        fontWeight: 800,
-                        lineHeight: 1.2,
-                      }}
-                    >
+                    <div style={{ fontFamily: theme.fonts.heading, fontSize: '1.25rem', fontWeight: 800, lineHeight: 1.2 }}>
                       {todo.title}
                     </div>
 
@@ -383,26 +382,16 @@ const TodayPage = () => {
                       {todo.schoolDayEnabled && (
                         <div
                           style={{
-                            width: '60px',
-                            height: '60px',
-                            minWidth: '60px',
-                            borderRadius: '20px',
-                            border: `2px solid ${theme.colors.primary}`,
-                            background: theme.colors.surface,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '8px',
+                            width: '60px', height: '60px', minWidth: '60px',
+                            borderRadius: '20px', border: `2px solid ${theme.colors.primary}`,
+                            background: theme.colors.surface, display: 'flex',
+                            alignItems: 'center', justifyContent: 'center', padding: '8px',
                           }}
                         >
                           {theme.id === 'princess' ? (
-                            <img
-                              src={princessSchoolDayImage}
-                              alt="Schoolday"
-                              className="h-full w-full object-contain"
-                            />
+                            <img src={princessSchoolDayImage} alt="Schoolday" className="h-full w-full object-contain" />
                           ) : (
-                            <span className="text-2xl">🏫</span>
+                            <span className="text-2xl" role="img" aria-label="Schoolday">🏫</span>
                           )}
                         </div>
                       )}
@@ -410,35 +399,23 @@ const TodayPage = () => {
                       {todo.nonSchoolDayEnabled && (
                         <div
                           style={{
-                            width: '60px',
-                            height: '60px',
-                            minWidth: '60px',
-                            borderRadius: '20px',
-                            border: `2px solid ${theme.colors.primary}`,
-                            background: theme.colors.surface,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '8px',
+                            width: '60px', height: '60px', minWidth: '60px',
+                            borderRadius: '20px', border: `2px solid ${theme.colors.primary}`,
+                            background: theme.colors.surface, display: 'flex',
+                            alignItems: 'center', justifyContent: 'center', padding: '8px',
                           }}
                         >
                           {theme.id === 'princess' ? (
-                            <img
-                              src={princessNonSchoolDayImage}
-                              alt="Non-school day"
-                              className="h-full w-full object-contain"
-                            />
+                            <img src={princessNonSchoolDayImage} alt="Non-school day" className="h-full w-full object-contain" />
                           ) : (
-                            <span className="text-2xl">🌤️</span>
+                            <span className="text-2xl" role="img" aria-label="Non-school day">🌤️</span>
                           )}
                         </div>
                       )}
                     </div>
                   </div>
 
-                  {isEatingTodo(todo) &&
-                  (activeDinnerTodoId === todo.id ||
-                    Boolean(todo.completedAt)) ? (
+                  {isEatingTodo(todo) && (activeDinnerTodoId === todo.id || Boolean(todo.completedAt)) ? (
                     <DinnerCountdown
                       theme={theme}
                       duration={getDinnerDuration(todo)}
@@ -447,33 +424,19 @@ const TodayPage = () => {
                       bitesLeft={getDinnerBitesLeft(todo)}
                       starReward={todo.starValue}
                       isTimerRunning={activeDinnerTodoId === todo.id}
-                      plateImage={
-                        theme.id === 'princess' ? princessPlateImage : undefined
-                      }
+                      plateImage={theme.id === 'princess' ? princessPlateImage : undefined}
                       onAdjustTime={() => undefined}
                       onAdjustBites={() => undefined}
                       onStarsChange={() => undefined}
                       isCompleted={Boolean(todo.completedAt)}
-                      completionImage={
-                        theme.id === 'princess'
-                          ? princessEatingFullImage
-                          : undefined
-                      }
-                      failureImage={
-                        theme.id === 'princess'
-                          ? princessEatingFailImage
-                          : undefined
-                      }
+                      completionImage={theme.id === 'princess' ? princessEatingFullImage : undefined}
+                      failureImage={theme.id === 'princess' ? princessEatingFailImage : undefined}
                       biteCooldownSeconds={biteCooldownSeconds}
-                      biteIcon={
-                        theme.id === 'princess' ? princessBiteIcon : undefined
-                      }
+                      biteIcon={theme.id === 'princess' ? princessBiteIcon : undefined}
                     />
                   ) : null}
 
-                  {isMathTodo(todo) &&
-                  (activeMathTodoId === todo.id ||
-                    Boolean(todo.completedAt)) ? (
+                  {isMathTodo(todo) && (activeMathTodoId === todo.id || Boolean(todo.completedAt)) ? (
                     <ArithmeticTester
                       theme={theme}
                       totalProblems={getMathTotalProblems(todo)}
@@ -486,21 +449,12 @@ const TodayPage = () => {
                       onComplete={() => handleMathComplete(todo)}
                       onFail={() => handleMathFail(todo)}
                       checkTrigger={mathCheckTriggerByTodo[todo.id] ?? 0}
-                      completionImage={
-                        theme.id === 'princess'
-                          ? princessMathsCorrectImage
-                          : undefined
-                      }
-                      failureImage={
-                        theme.id === 'princess'
-                          ? princessMathsIncorrectImage
-                          : undefined
-                      }
+                      completionImage={theme.id === 'princess' ? princessMathsCorrectImage : undefined}
+                      failureImage={theme.id === 'princess' ? princessMathsIncorrectImage : undefined}
                     />
                   ) : null}
 
-                  {isPositionalNotationTodo(todo) &&
-                  (activePVTodoId === todo.id || Boolean(todo.completedAt)) ? (
+                  {isPositionalNotationTodo(todo) && (activePVTodoId === todo.id || Boolean(todo.completedAt)) ? (
                     <PositionalNotationTester
                       theme={theme}
                       totalProblems={getPVTotalProblems(todo)}
@@ -513,16 +467,8 @@ const TodayPage = () => {
                       onComplete={() => handlePVComplete(todo)}
                       onFail={() => handlePVFail(todo)}
                       checkTrigger={pvCheckTriggerByTodo[todo.id] ?? 0}
-                      completionImage={
-                        theme.id === 'princess'
-                          ? princessMathsCorrectImage
-                          : undefined
-                      }
-                      failureImage={
-                        theme.id === 'princess'
-                          ? princessMathsIncorrectImage
-                          : undefined
-                      }
+                      completionImage={theme.id === 'princess' ? princessMathsCorrectImage : undefined}
+                      failureImage={theme.id === 'princess' ? princessMathsIncorrectImage : undefined}
                     />
                   ) : null}
                 </div>
@@ -530,13 +476,14 @@ const TodayPage = () => {
               primaryAction={{
                 label: () => 'Open chore',
                 icon: (todo) => {
+                  // 3. A11y FIX: Added proper ARIA labeling to emoji fallbacks
                   if (theme.id !== 'princess') {
-                    if (todo.completedAt) return <span>✅</span>
-                    if (isEatingTodo(todo)) return <span>🍽️</span>
+                    if (todo.completedAt) return <span role="img" aria-label="Completed">✅</span>
+                    if (isEatingTodo(todo)) return <span role="img" aria-label="Eating task">🍽️</span>
                     if (isMathTodo(todo) || isPositionalNotationTodo(todo)) {
-                      return <span>🔢</span>
+                      return <span role="img" aria-label="Math task">🔢</span>
                     }
-                    return <span>⭐</span>
+                    return <span role="img" aria-label="Standard task">⭐</span>
                   }
 
                   const iconSrc = todo.completedAt
@@ -606,8 +553,7 @@ const TodayPage = () => {
                   if (isEatingTodo(todo)) {
                     return (
                       pendingTodoId === todo.id ||
-                      (activeDinnerTodoId === todo.id &&
-                        biteCooldownSeconds > 0)
+                      (activeDinnerTodoId === todo.id && biteCooldownSeconds > 0)
                     )
                   }
                   if (isMathTodo(todo) || isPositionalNotationTodo(todo)) {
@@ -624,10 +570,7 @@ const TodayPage = () => {
               onAdd={() => setShowAddChooser(true)}
               inlineNewRow={
                 showAddChooser ? (
-                  <div
-                    className="grid grid-cols-1"
-                    style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-                  >
+                  <div className="grid grid-cols-1" style={{ gap: `${uiTokens.singleVerticalSpace}px` }}>
                     {availableChores.length === 0 ? (
                       <div
                         className="rounded-3xl text-center"
@@ -663,8 +606,7 @@ const TodayPage = () => {
                         >
                           <span>{task.title}</span>
                           <span className="text-sm opacity-75">
-                            {getScheduleLabel(task)} • {task.starValue}{' '}
-                            {task.starValue === 1 ? 'star' : 'stars'}
+                            {getScheduleLabel(task)} • {task.starValue} {task.starValue === 1 ? 'star' : 'stars'}
                           </span>
                         </button>
                       ))
