@@ -23,12 +23,16 @@ import {
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
   getManageDinnerBitesLeft,
-  getManageDinnerRemaining,
+  getManageDinnerLiveRemaining,
   isEatingTask,
   isManageTaskCompleted,
   isMathTask,
   isPositionalNotationTask,
-  type TaskRecord,
+  type EatingTaskWithEphemeral,
+  type MathTaskWithEphemeral,
+  type PVTaskWithEphemeral,
+  type StandardTaskWithEphemeral,
+  type TaskWithEphemeral,
 } from '../data/types'
 import {
   princessActiveIcon,
@@ -90,6 +94,7 @@ const ManageTasksPage = () => {
     setTitleDraft,
     commitTitle,
     updateTaskField,
+    updateEphemeral,
     createChore,
     createEating,
     createMath,
@@ -101,7 +106,8 @@ const ManageTasksPage = () => {
     pvFail,
     pvReset,
     dinnerApplyBite,
-    dinnerTickTimer,
+    dinnerStartTimer,
+    dinnerTimerExpired,
     dinnerReset,
     awardTask,
     deleteTask,
@@ -120,6 +126,7 @@ const ManageTasksPage = () => {
     Record<string, number>
   >({})
   const [showAddChooser, setShowAddChooser] = useState(false)
+  const [, setDinnerTimerTick] = useState(0)
 
   // Bite cooldown: prevents rapid tapping (one bite per 20 s)
   const [biteCooldownSeconds, setBiteCooldownSeconds] = useState(0)
@@ -190,36 +197,39 @@ const ManageTasksPage = () => {
     })
   }
 
-  // Dinner timer: tick each second while active
+  // Dinner timer: tick each second while active (client-side only, no Firestore writes)
   useEffect(() => {
     if (!activeDinnerTaskId) return
 
-    const timer = window.setInterval(async () => {
+    const timer = window.setInterval(() => {
       const dinnerTask = tasks.find((task) => task.id === activeDinnerTaskId)
       if (!dinnerTask || !isEatingTask(dinnerTask)) {
         setActiveDinnerTaskId(null)
         return
       }
 
-      const remaining = getManageDinnerRemaining(dinnerTask)
+      const remaining = getManageDinnerLiveRemaining(dinnerTask)
       const bitesLeft = getManageDinnerBitesLeft(dinnerTask)
       const isCompleted = Boolean(dinnerTask.manageDinnerCompletedAt)
 
       if (remaining <= 0 || (bitesLeft <= 0 && isCompleted)) {
+        if (remaining <= 0 && !isCompleted) {
+          dinnerTimerExpired(dinnerTask)
+        }
         setActiveDinnerTaskId(null)
         return
       }
 
       if (bitesLeft <= 0 && !isCompleted) return
 
-      const done = await dinnerTickTimer(dinnerTask)
-      if (done) setActiveDinnerTaskId(null)
+      // Force re-render to update displayed remaining time
+      setDinnerTimerTick((t) => t + 1)
     }, 1000)
 
     return () => window.clearInterval(timer)
-  }, [activeDinnerTaskId, dinnerTickTimer, tasks])
+  }, [activeDinnerTaskId, dinnerTimerExpired, tasks])
 
-  const renderDayTypeControl = (task: TaskRecord) => {
+  const renderDayTypeControl = (task: TaskWithEphemeral) => {
     const getScheduleButtonStyle = (isActive: boolean) => ({
       background: theme.colors.surface,
       border:
@@ -337,32 +347,32 @@ const ManageTasksPage = () => {
     setShowAddChooser(false)
   }
 
-  const handleMathComplete = async (task: TaskRecord) => {
+  const handleMathComplete = async (task: MathTaskWithEphemeral) => {
     setActiveMathTaskId(null)
     await mathComplete(task)
   }
 
-  const handleMathFail = async (task: TaskRecord) => {
+  const handleMathFail = async (task: MathTaskWithEphemeral) => {
     setActiveMathTaskId(null)
     await mathFail(task)
   }
 
-  const handleMathReset = async (task: TaskRecord) => {
+  const handleMathReset = async (task: MathTaskWithEphemeral) => {
     setActiveMathTaskId(null)
     await mathReset(task)
   }
 
-  const handlePVComplete = async (task: TaskRecord) => {
+  const handlePVComplete = async (task: PVTaskWithEphemeral) => {
     setActivePVTaskId(null)
     await pvComplete(task)
   }
 
-  const handlePVFail = async (task: TaskRecord) => {
+  const handlePVFail = async (task: PVTaskWithEphemeral) => {
     setActivePVTaskId(null)
     await pvFail(task)
   }
 
-  const handlePVReset = async (task: TaskRecord) => {
+  const handlePVReset = async (task: PVTaskWithEphemeral) => {
     setActivePVTaskId(null)
     await pvReset(task)
   }
@@ -385,8 +395,7 @@ const ManageTasksPage = () => {
     })
   }
 
-  const handleDinnerBite = (task: TaskRecord) => {
-    if (!isEatingTask(task)) return
+  const handleDinnerBite = (task: EatingTaskWithEphemeral) => {
     if (biteCooldownSeconds > 0) return
     if (pendingDinnerBiteTaskId) return
     const bitesLeft = getManageDinnerBitesLeft(task)
@@ -397,14 +406,14 @@ const ManageTasksPage = () => {
     setBiteCooldownSeconds(BITE_COOLDOWN_SECONDS)
   }
 
-  const handleDinnerReset = async (task: TaskRecord) => {
+  const handleDinnerReset = async (task: EatingTaskWithEphemeral) => {
     setBiteCooldownSeconds(0)
     setBiteCooldownTestIconIndex(null)
     setPendingDinnerBiteTaskId(null)
     await dinnerReset(task)
   }
 
-  const handleAwardTask = async (task: TaskRecord) => {
+  const handleAwardTask = async (task: StandardTaskWithEphemeral) => {
     setIsAwarding(true)
     try {
       await awardTask(task)
@@ -469,7 +478,7 @@ const ManageTasksPage = () => {
                           task.dinnerDurationSeconds ??
                           DEFAULT_DINNER_DURATION_SECONDS
                         }
-                        remaining={getManageDinnerRemaining(task)}
+                        remaining={getManageDinnerLiveRemaining(task)}
                         totalBites={
                           task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
                         }
@@ -491,6 +500,8 @@ const ManageTasksPage = () => {
                           )
                           updateTaskField(task.id, {
                             dinnerDurationSeconds: next,
+                          })
+                          updateEphemeral(task.id, {
                             manageDinnerRemainingSeconds: next,
                           })
                         }}
@@ -500,6 +511,8 @@ const ManageTasksPage = () => {
                           const next = Math.max(1, Math.min(16, cur + delta))
                           updateTaskField(task.id, {
                             dinnerTotalBites: next,
+                          })
+                          updateEphemeral(task.id, {
                             manageDinnerBitesLeft: next,
                           })
                         }}
@@ -810,6 +823,7 @@ const ManageTasksPage = () => {
                       if (activeDinnerTaskId === task.id) {
                         handleDinnerBite(task)
                       } else {
+                        dinnerStartTimer(task)
                         setActiveDinnerTaskId(task.id)
                       }
                     } else if (isMathTask(task)) {

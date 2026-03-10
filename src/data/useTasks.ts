@@ -28,24 +28,35 @@ import {
   DEFAULT_PV_STARS,
   MANAGE_STATUS_RESET_MS,
   getManageDinnerBitesLeft,
-  getManageDinnerRemaining,
+  getManageDinnerLiveRemaining,
   isEatingTask,
   isMathTask,
   isPositionalNotationTask,
+  type EatingTaskWithEphemeral,
+  type MathTaskWithEphemeral,
+  type PVTaskWithEphemeral,
+  type StandardTaskWithEphemeral,
+  type TaskEphemeralState,
   type TaskRecord,
+  type TaskType,
   type TaskUpdatableFields,
+  type TaskWithEphemeral,
 } from './types'
 
 export function useTasks() {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
-  const [tasks, setTasks] = useState<TaskRecord[]>([])
+  const [rawTasks, setRawTasks] = useState<TaskRecord[]>([])
+  const [ephemeral, setEphemeral] = useState<
+    Record<string, TaskEphemeralState>
+  >({})
   const [titleDrafts, setTitleDrafts] = useState<Record<string, string>>({})
 
   // ── Subscription ──
   useEffect(() => {
     if (!user) {
-      setTasks([])
+      setRawTasks([])
+      setEphemeral({})
       return
     }
 
@@ -57,7 +68,7 @@ export function useTasks() {
     const unsubscribe = onSnapshot(taskQuery, (snapshot) => {
       const newTasks: TaskRecord[] = snapshot.docs.map((docSnapshot) => {
         const data = docSnapshot.data()
-        const taskType: TaskRecord['taskType'] =
+        const taskType: TaskType =
           data.taskType === 'positional-notation' ||
           data.category === 'positional-notation'
             ? 'positional-notation'
@@ -66,46 +77,44 @@ export function useTasks() {
               : data.taskType === 'eating' || data.category === 'eating'
                 ? 'eating'
                 : 'standard'
-        return {
+        const base = {
           id: docSnapshot.id,
           title: data.title ?? '',
           childId: data.childId ?? '',
           category: data.category ?? '',
-          taskType,
           ...normalizeChoreSchedule(data),
           starValue: Number(data.starValue ?? 1),
           isRepeating: data.isRepeating ?? false,
-          manageCompletedAt: data.manageCompletedAt ?? null,
-          dinnerDurationSeconds:
-            data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
-          dinnerTotalBites: data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-          manageDinnerRemainingSeconds:
-            data.manageDinnerRemainingSeconds ??
-            data.dinnerRemainingSeconds ??
-            data.dinnerDurationSeconds ??
-            DEFAULT_DINNER_DURATION_SECONDS,
-          manageDinnerBitesLeft:
-            data.manageDinnerBitesLeft ??
-            data.dinnerBitesLeft ??
-            data.dinnerTotalBites ??
-            DEFAULT_DINNER_BITES,
-          manageDinnerCompletedAt:
-            data.manageDinnerCompletedAt ?? data.dinnerCompletedAt ?? null,
-          mathTotalProblems: data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-          manageMathCompletedAt:
-            data.manageMathCompletedAt ?? data.mathCompletedAt ?? null,
-          manageMathLastOutcome:
-            data.manageMathLastOutcome ?? data.mathLastOutcome ?? null,
-          pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
-          managePVCompletedAt:
-            data.managePVCompletedAt ?? data.pvCompletedAt ?? null,
-          managePVLastOutcome:
-            data.managePVLastOutcome ?? data.pvLastOutcome ?? null,
           createdAt: data.createdAt?.toDate?.(),
+        }
+        switch (taskType) {
+          case 'eating':
+            return {
+              ...base,
+              taskType: 'eating' as const,
+              dinnerDurationSeconds:
+                data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
+              dinnerTotalBites: data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
+            }
+          case 'math':
+            return {
+              ...base,
+              taskType: 'math' as const,
+              mathTotalProblems:
+                data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+            }
+          case 'positional-notation':
+            return {
+              ...base,
+              taskType: 'positional-notation' as const,
+              pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
+            }
+          default:
+            return { ...base, taskType: 'standard' as const }
         }
       })
 
-      setTasks(newTasks)
+      setRawTasks(newTasks)
 
       setTitleDrafts((prev) => {
         const next = { ...prev }
@@ -118,6 +127,22 @@ export function useTasks() {
 
     return () => unsubscribe()
   }, [user])
+
+  // ── Merge config tasks with in-memory ephemeral state ──
+  const tasks = rawTasks.map(
+    (t) => ({ ...t, ...ephemeral[t.id] }) as TaskWithEphemeral
+  )
+
+  // ── Ephemeral state helper (local only, no Firestore) ──
+  const updateEphemeral = (
+    taskId: string,
+    patch: Partial<TaskEphemeralState>
+  ) => {
+    setEphemeral((prev) => ({
+      ...prev,
+      [taskId]: { ...prev[taskId], ...patch },
+    }))
+  }
 
   // ── Generic field update ──
   const updateTaskField = async (
@@ -144,7 +169,7 @@ export function useTasks() {
     if (trimmed.length > 0 && trimmed.length <= 80) {
       updateTaskField(taskId, { title: trimmed })
     }
-    const saved = tasks.find((t) => t.id === taskId)
+    const saved = rawTasks.find((t) => t.id === taskId)
     if (trimmed.length === 0 && saved) {
       setTitleDrafts((prev) => ({ ...prev, [taskId]: saved.title }))
     }
@@ -162,7 +187,6 @@ export function useTasks() {
       nonSchoolDayEnabled: true,
       starValue: 1,
       isRepeating: true,
-      manageCompletedAt: null,
       createdAt: serverTimestamp(),
     })
   }
@@ -180,9 +204,6 @@ export function useTasks() {
       isRepeating: true,
       dinnerDurationSeconds: DEFAULT_DINNER_DURATION_SECONDS,
       dinnerTotalBites: DEFAULT_DINNER_BITES,
-      manageDinnerRemainingSeconds: DEFAULT_DINNER_DURATION_SECONDS,
-      manageDinnerBitesLeft: DEFAULT_DINNER_BITES,
-      manageDinnerCompletedAt: null,
       createdAt: serverTimestamp(),
     })
   }
@@ -199,8 +220,6 @@ export function useTasks() {
       starValue: DEFAULT_MATH_STARS,
       isRepeating: true,
       mathTotalProblems: DEFAULT_MATH_PROBLEMS,
-      manageMathCompletedAt: null,
-      manageMathLastOutcome: null,
       createdAt: serverTimestamp(),
     })
   }
@@ -217,15 +236,13 @@ export function useTasks() {
       starValue: DEFAULT_PV_STARS,
       isRepeating: true,
       pvTotalProblems: DEFAULT_PV_PROBLEMS,
-      managePVCompletedAt: null,
-      managePVLastOutcome: null,
       createdAt: serverTimestamp(),
     })
   }
 
   // ── Math handlers ──
-  const mathComplete = async (task: TaskRecord) => {
-    await updateTaskField(task.id, {
+  const mathComplete = async (task: MathTaskWithEphemeral) => {
+    updateEphemeral(task.id, {
       manageMathCompletedAt: Date.now(),
       manageMathLastOutcome: 'success',
     })
@@ -239,23 +256,23 @@ export function useTasks() {
     }
   }
 
-  const mathFail = async (task: TaskRecord) => {
-    await updateTaskField(task.id, {
+  const mathFail = (task: MathTaskWithEphemeral) => {
+    updateEphemeral(task.id, {
       manageMathCompletedAt: Date.now(),
       manageMathLastOutcome: 'failure',
     })
   }
 
-  const mathReset = async (task: TaskRecord) => {
-    await updateTaskField(task.id, {
+  const mathReset = (task: MathTaskWithEphemeral) => {
+    updateEphemeral(task.id, {
       manageMathCompletedAt: null,
       manageMathLastOutcome: null,
     })
   }
 
   // ── PV handlers ──
-  const pvComplete = async (task: TaskRecord) => {
-    await updateTaskField(task.id, {
+  const pvComplete = async (task: PVTaskWithEphemeral) => {
+    updateEphemeral(task.id, {
       managePVCompletedAt: Date.now(),
       managePVLastOutcome: 'success',
     })
@@ -269,32 +286,35 @@ export function useTasks() {
     }
   }
 
-  const pvFail = async (task: TaskRecord) => {
-    await updateTaskField(task.id, {
+  const pvFail = (task: PVTaskWithEphemeral) => {
+    updateEphemeral(task.id, {
       managePVCompletedAt: Date.now(),
       managePVLastOutcome: 'failure',
     })
   }
 
-  const pvReset = async (task: TaskRecord) => {
-    await updateTaskField(task.id, {
+  const pvReset = (task: PVTaskWithEphemeral) => {
+    updateEphemeral(task.id, {
       managePVCompletedAt: null,
       managePVLastOutcome: null,
     })
   }
 
   // ── Dinner helpers ──
-  const dinnerApplyBite = async (task: TaskRecord) => {
-    const remaining = getManageDinnerRemaining(task)
+  const dinnerApplyBite = async (task: EatingTaskWithEphemeral) => {
+    const remaining = getManageDinnerLiveRemaining(task)
     const bitesLeft = getManageDinnerBitesLeft(task)
     if (remaining <= 0 || bitesLeft <= 0) return
 
     const nextBites = Math.max(0, bitesLeft - 1)
-    await updateTaskField(task.id, { manageDinnerBitesLeft: nextBites })
+    updateEphemeral(task.id, { manageDinnerBitesLeft: nextBites })
 
     if (nextBites === 0) {
       await new Promise((resolve) => window.setTimeout(resolve, 850))
-      await updateTaskField(task.id, { manageDinnerCompletedAt: Date.now() })
+      updateEphemeral(task.id, {
+        manageDinnerCompletedAt: Date.now(),
+        manageDinnerTimerStartedAt: null,
+      })
       if (user && activeChildId) {
         await awardStars({
           userId: user.uid,
@@ -308,30 +328,31 @@ export function useTasks() {
     return false
   }
 
-  const dinnerTickTimer = async (task: TaskRecord) => {
-    const remaining = getManageDinnerRemaining(task)
-    if (remaining <= 0) return true // already done
-
-    const nextRemaining = Math.max(0, remaining - 1)
-    await updateTaskField(task.id, {
-      manageDinnerRemainingSeconds: nextRemaining,
-      ...(nextRemaining === 0 ? { manageDinnerCompletedAt: Date.now() } : {}),
+  const dinnerStartTimer = (task: EatingTaskWithEphemeral) => {
+    updateEphemeral(task.id, {
+      manageDinnerTimerStartedAt: Date.now(),
     })
-    return nextRemaining === 0
   }
 
-  const dinnerReset = async (task: TaskRecord) => {
-    const totalBites = task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
-    const dur = task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
-    await updateTaskField(task.id, {
-      manageDinnerBitesLeft: totalBites,
-      manageDinnerRemainingSeconds: dur,
+  const dinnerTimerExpired = (task: EatingTaskWithEphemeral) => {
+    updateEphemeral(task.id, {
+      manageDinnerTimerStartedAt: null,
+      manageDinnerRemainingSeconds: 0,
+      manageDinnerCompletedAt: Date.now(),
+    })
+  }
+
+  const dinnerReset = (task: EatingTaskWithEphemeral) => {
+    updateEphemeral(task.id, {
+      manageDinnerBitesLeft: task.dinnerTotalBites,
+      manageDinnerRemainingSeconds: task.dinnerDurationSeconds,
       manageDinnerCompletedAt: null,
+      manageDinnerTimerStartedAt: null,
     })
   }
 
   // ── Standard task award ──
-  const awardTask = async (task: TaskRecord) => {
+  const awardTask = async (task: StandardTaskWithEphemeral) => {
     if (!user || !activeChildId) {
       alert('Please select an explorer first.')
       return
@@ -341,7 +362,7 @@ export function useTasks() {
       childId: activeChildId,
       delta: task.starValue,
     })
-    await updateTaskField(task.id, { manageCompletedAt: Date.now() })
+    updateEphemeral(task.id, { manageCompletedAt: Date.now() })
     celebrateSuccess()
     if (!task.isRepeating) {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'tasks'), task.id))
@@ -354,63 +375,75 @@ export function useTasks() {
     await deleteDoc(doc(collection(db, 'users', user.uid, 'tasks'), id))
   }
 
-  // ── Auto-reset manage-page completion state after 15 minutes ──
+  // ── Auto-reset manage-page completion state after 15 minutes (local only) ──
   useEffect(() => {
     if (!user) return
 
     const checkAndReset = () => {
       const now = Date.now()
-      for (const task of tasks) {
-        if (
-          isEatingTask(task) &&
-          task.manageDinnerCompletedAt &&
-          now - task.manageDinnerCompletedAt >= MANAGE_STATUS_RESET_MS
-        ) {
-          const totalBites = task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
-          const dur =
-            task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
-          updateTaskField(task.id, {
-            manageDinnerBitesLeft: totalBites,
-            manageDinnerRemainingSeconds: dur,
-            manageDinnerCompletedAt: null,
-          })
+      setEphemeral((prev) => {
+        let next = prev
+        for (const task of rawTasks) {
+          const e = prev[task.id]
+          if (!e) continue
+
+          if (
+            isEatingTask(task) &&
+            e.manageDinnerCompletedAt &&
+            now - e.manageDinnerCompletedAt >= MANAGE_STATUS_RESET_MS
+          ) {
+            if (next === prev) next = { ...prev }
+            next[task.id] = {
+              ...next[task.id],
+              manageDinnerBitesLeft: task.dinnerTotalBites,
+              manageDinnerRemainingSeconds: task.dinnerDurationSeconds,
+              manageDinnerCompletedAt: null,
+              manageDinnerTimerStartedAt: null,
+            }
+          }
+          if (
+            isMathTask(task) &&
+            e.manageMathCompletedAt &&
+            now - e.manageMathCompletedAt >= MANAGE_STATUS_RESET_MS
+          ) {
+            if (next === prev) next = { ...prev }
+            next[task.id] = {
+              ...next[task.id],
+              manageMathCompletedAt: null,
+              manageMathLastOutcome: null,
+            }
+          }
+          if (
+            isPositionalNotationTask(task) &&
+            e.managePVCompletedAt &&
+            now - e.managePVCompletedAt >= MANAGE_STATUS_RESET_MS
+          ) {
+            if (next === prev) next = { ...prev }
+            next[task.id] = {
+              ...next[task.id],
+              managePVCompletedAt: null,
+              managePVLastOutcome: null,
+            }
+          }
+          if (
+            !isEatingTask(task) &&
+            !isMathTask(task) &&
+            !isPositionalNotationTask(task) &&
+            e.manageCompletedAt &&
+            now - e.manageCompletedAt >= MANAGE_STATUS_RESET_MS
+          ) {
+            if (next === prev) next = { ...prev }
+            next[task.id] = { ...next[task.id], manageCompletedAt: null }
+          }
         }
-        if (
-          isMathTask(task) &&
-          task.manageMathCompletedAt &&
-          now - task.manageMathCompletedAt >= MANAGE_STATUS_RESET_MS
-        ) {
-          updateTaskField(task.id, {
-            manageMathCompletedAt: null,
-            manageMathLastOutcome: null,
-          })
-        }
-        if (
-          isPositionalNotationTask(task) &&
-          task.managePVCompletedAt &&
-          now - task.managePVCompletedAt >= MANAGE_STATUS_RESET_MS
-        ) {
-          updateTaskField(task.id, {
-            managePVCompletedAt: null,
-            managePVLastOutcome: null,
-          })
-        }
-        if (
-          !isEatingTask(task) &&
-          !isMathTask(task) &&
-          !isPositionalNotationTask(task) &&
-          task.manageCompletedAt &&
-          now - task.manageCompletedAt >= MANAGE_STATUS_RESET_MS
-        ) {
-          updateTaskField(task.id, { manageCompletedAt: null })
-        }
-      }
+        return next
+      })
     }
 
     checkAndReset()
     const interval = window.setInterval(checkAndReset, 60 * 1000)
     return () => window.clearInterval(interval)
-  }, [tasks, user])
+  }, [rawTasks, user])
 
   return {
     tasks,
@@ -418,6 +451,7 @@ export function useTasks() {
     setTitleDraft,
     commitTitle,
     updateTaskField,
+    updateEphemeral,
     createChore,
     createEating,
     createMath,
@@ -429,7 +463,8 @@ export function useTasks() {
     pvFail,
     pvReset,
     dinnerApplyBite,
-    dinnerTickTimer,
+    dinnerStartTimer,
+    dinnerTimerExpired,
     dinnerReset,
     awardTask,
     deleteTask,

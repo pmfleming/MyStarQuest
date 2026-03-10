@@ -17,7 +17,15 @@ import {
 } from '../utils/today'
 import { uiTokens } from '../ui/tokens'
 import { useTodos } from '../data/useTodos'
-import type { TodoRecord } from '../data/types'
+import {
+  isEatingTodo,
+  isMathTodo,
+  isPositionalNotationTodo,
+  type EatingTodo,
+  type MathTodo,
+  type PositionalNotationTodo,
+  type TodoRecord,
+} from '../data/types'
 import {
   princessActiveIcon,
   princessBiteIcon,
@@ -63,11 +71,8 @@ const TodayPage = () => {
     availableChores,
     completedCount,
     todoSourceIds,
-    isEatingTodo,
-    isMathTodo,
-    isPositionalNotationTodo,
     getDinnerDuration,
-    getDinnerRemaining,
+    getDinnerLiveRemaining,
     getDinnerTotalBites,
     getDinnerBitesLeft,
     getMathTotalProblems,
@@ -76,7 +81,8 @@ const TodayPage = () => {
     completeTodo,
     deleteTodo,
     dinnerApplyBite,
-    dinnerTickTimer,
+    dinnerStartTimer,
+    dinnerTimerExpired,
     mathComplete,
     mathFail,
     pvComplete,
@@ -84,6 +90,7 @@ const TodayPage = () => {
   } = useTodos()
 
   const [showAddChooser, setShowAddChooser] = useState(false)
+  const [, setDinnerTimerTick] = useState(0)
   const [pendingTodoId, setPendingTodoId] = useState<string | null>(null)
   const [activeDinnerTodoId, setActiveDinnerTodoId] = useState<string | null>(
     null
@@ -153,35 +160,41 @@ const TodayPage = () => {
     todos,
   ])
 
-  // Dinner timer: tick each second while active
+  // Dinner timer: tick each second while active (client-side only, no Firestore writes)
   useEffect(() => {
     if (!activeDinnerTodoId) return
 
-    const timer = window.setInterval(async () => {
+    const timer = window.setInterval(() => {
       const todo = todos.find((item) => item.id === activeDinnerTodoId)
       if (!todo || !isEatingTodo(todo) || todo.completedAt) {
         setActiveDinnerTodoId(null)
         return
       }
 
-      const remaining = getDinnerRemaining(todo)
+      const remaining = getDinnerLiveRemaining(todo)
       const bitesLeft = getDinnerBitesLeft(todo)
 
-      if (remaining <= 0 || bitesLeft <= 0) {
+      if (remaining <= 0) {
+        dinnerTimerExpired(todo)
         setActiveDinnerTodoId(null)
         return
       }
 
-      const done = await dinnerTickTimer(todo)
-      if (done) setActiveDinnerTodoId(null)
+      if (bitesLeft <= 0) {
+        setActiveDinnerTodoId(null)
+        return
+      }
+
+      // Force re-render to update displayed remaining time
+      setDinnerTimerTick((t) => t + 1)
     }, 1000)
 
     return () => window.clearInterval(timer)
   }, [
     activeDinnerTodoId,
-    dinnerTickTimer,
+    dinnerTimerExpired,
     getDinnerBitesLeft,
-    getDinnerRemaining,
+    getDinnerLiveRemaining,
     isEatingTodo,
     todos,
   ])
@@ -215,8 +228,8 @@ const TodayPage = () => {
     await deleteTodo(todo)
   }
 
-  const handleDinnerBite = (todo: TodoRecord) => {
-    if (!isEatingTodo(todo) || todo.completedAt) return
+  const handleDinnerBite = (todo: EatingTodo) => {
+    if (todo.completedAt) return
     if (biteCooldownSeconds > 0 || pendingDinnerBiteTodoId) return
 
     const bitesLeft = getDinnerBitesLeft(todo)
@@ -226,22 +239,22 @@ const TodayPage = () => {
     setBiteCooldownSeconds(BITE_COOLDOWN_SECONDS)
   }
 
-  const handleMathComplete = async (todo: TodoRecord) => {
+  const handleMathComplete = async (todo: MathTodo) => {
     setActiveMathTodoId(null)
     await mathComplete(todo)
   }
 
-  const handleMathFail = async (todo: TodoRecord) => {
+  const handleMathFail = async (todo: MathTodo) => {
     setActiveMathTodoId(null)
     await mathFail(todo)
   }
 
-  const handlePVComplete = async (todo: TodoRecord) => {
+  const handlePVComplete = async (todo: PositionalNotationTodo) => {
     setActivePVTodoId(null)
     await pvComplete(todo)
   }
 
-  const handlePVFail = async (todo: TodoRecord) => {
+  const handlePVFail = async (todo: PositionalNotationTodo) => {
     setActivePVTodoId(null)
     await pvFail(todo)
   }
@@ -429,7 +442,7 @@ const TodayPage = () => {
                     <DinnerCountdown
                       theme={theme}
                       duration={getDinnerDuration(todo)}
-                      remaining={getDinnerRemaining(todo)}
+                      remaining={getDinnerLiveRemaining(todo)}
                       totalBites={getDinnerTotalBites(todo)}
                       bitesLeft={getDinnerBitesLeft(todo)}
                       starReward={todo.starValue}
@@ -550,6 +563,7 @@ const TodayPage = () => {
                     if (activeDinnerTodoId === todo.id) {
                       handleDinnerBite(todo)
                     } else {
+                      dinnerStartTimer(todo)
                       setActiveDinnerTodoId(todo.id)
                     }
                     return

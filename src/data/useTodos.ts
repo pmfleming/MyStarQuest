@@ -1,6 +1,6 @@
 // ── Real-time todo subscription + all daily-todo mutations ──
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   addDoc,
   collection,
@@ -17,50 +17,33 @@ import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { completeTodoAndAwardStars } from '../services/starActions'
 import { celebrateSuccess } from '../utils/celebrate'
-import {
-  getTodayDescriptor,
-  isScheduledForDay,
-  normalizeChoreSchedule,
-  type ChoreSchedule,
-} from '../utils/today'
+import { getTodayDescriptor, normalizeChoreSchedule } from '../utils/today'
 import {
   DEFAULT_DINNER_BITES,
   DEFAULT_DINNER_DURATION_SECONDS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
   sortByCreatedAtThenTitle,
+  type EatingTodo,
+  type MathTodo,
+  type PositionalNotationTodo,
   type TaskTemplate,
   type TaskType,
   type TodoRecord,
   type TodoUpdatableFields,
 } from './types'
 
-const getScheduleForItem = (item: ChoreSchedule) => ({
-  schoolDayEnabled: item.schoolDayEnabled,
-  nonSchoolDayEnabled: item.nonSchoolDayEnabled,
-})
-
 export function useTodos() {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
   const [tasks, setTasks] = useState<TaskTemplate[]>([])
   const [todos, setTodos] = useState<TodoRecord[]>([])
-  const [tasksLoaded, setTasksLoaded] = useState(false)
-  const [todosLoaded, setTodosLoaded] = useState(false)
-  const processedAutoAddIds = useRef(new Set<string>())
   const todayInfo = useMemo(() => getTodayDescriptor(), [])
-
-  // Reset when child or date changes
-  useEffect(() => {
-    processedAutoAddIds.current.clear()
-    setTodosLoaded(false)
-  }, [activeChildId, todayInfo.dateKey])
 
   // ── Task template subscription (read-only for Today) ──
   useEffect(() => {
     if (!user) {
       setTasks([])
-      setTasksLoaded(false)
       return
     }
 
@@ -80,31 +63,50 @@ export function useTodos() {
                     ? 'eating'
                     : 'standard'
 
-            return {
+            const base = {
               id: docSnapshot.id,
               title: data.title ?? '',
               childId: data.childId ?? '',
               starValue: Number(data.starValue ?? 1),
-              taskType,
               ...normalizeChoreSchedule(data),
-              dinnerDurationSeconds:
-                data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
-              dinnerTotalBites: data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-              mathTotalProblems:
-                data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-              pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
               createdAt: data.createdAt?.toDate?.(),
+            }
+
+            switch (taskType) {
+              case 'eating':
+                return {
+                  ...base,
+                  taskType: 'eating' as const,
+                  dinnerDurationSeconds:
+                    data.dinnerDurationSeconds ??
+                    DEFAULT_DINNER_DURATION_SECONDS,
+                  dinnerTotalBites:
+                    data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
+                }
+              case 'math':
+                return {
+                  ...base,
+                  taskType: 'math' as const,
+                  mathTotalProblems:
+                    data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+                }
+              case 'positional-notation':
+                return {
+                  ...base,
+                  taskType: 'positional-notation' as const,
+                  pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
+                }
+              default:
+                return { ...base, taskType: 'standard' as const }
             }
           })
           .sort(sortByCreatedAtThenTitle)
 
         setTasks(nextTasks)
-        setTasksLoaded(true)
       },
       (error) => {
         console.error('Task snapshot failed', error)
         setTasks([])
-        setTasksLoaded(true)
       }
     )
 
@@ -115,7 +117,6 @@ export function useTodos() {
   useEffect(() => {
     if (!user || !activeChildId) {
       setTodos([])
-      setTodosLoaded(false)
       return
     }
 
@@ -131,57 +132,82 @@ export function useTodos() {
         const nextTodos: TodoRecord[] = snapshot.docs
           .map((docSnapshot) => {
             const data = docSnapshot.data()
-            return {
+            const sourceTaskType: TaskType =
+              data.sourceTaskType === 'positional-notation' ||
+              data.sourceTaskType === 'math' ||
+              data.sourceTaskType === 'eating'
+                ? data.sourceTaskType
+                : 'standard'
+
+            const base = {
               id: docSnapshot.id,
               title: data.title ?? '',
               childId: data.childId ?? '',
               sourceTaskId: data.sourceTaskId ?? '',
-              sourceTaskType:
-                data.sourceTaskType === 'positional-notation' ||
-                data.sourceTaskType === 'math' ||
-                data.sourceTaskType === 'eating'
-                  ? data.sourceTaskType
-                  : 'standard',
               starValue: Number(data.starValue ?? 1),
               ...normalizeChoreSchedule(data),
               autoAdded: data.autoAdded === true,
               completedAt: data.completedAt ?? null,
-              dinnerDurationSeconds:
-                data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
-              dinnerRemainingSeconds:
-                data.dinnerRemainingSeconds ??
-                data.dinnerDurationSeconds ??
-                DEFAULT_DINNER_DURATION_SECONDS,
-              dinnerTotalBites: data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-              dinnerBitesLeft:
-                data.dinnerBitesLeft ??
-                data.dinnerTotalBites ??
-                DEFAULT_DINNER_BITES,
-              mathTotalProblems:
-                data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-              mathLastOutcome:
-                data.mathLastOutcome === 'success' ||
-                data.mathLastOutcome === 'failure'
-                  ? data.mathLastOutcome
-                  : null,
-              pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
-              pvLastOutcome:
-                data.pvLastOutcome === 'success' ||
-                data.pvLastOutcome === 'failure'
-                  ? data.pvLastOutcome
-                  : null,
               createdAt: data.createdAt?.toDate?.(),
+            }
+
+            switch (sourceTaskType) {
+              case 'eating':
+                return {
+                  ...base,
+                  sourceTaskType: 'eating' as const,
+                  dinnerDurationSeconds:
+                    data.dinnerDurationSeconds ??
+                    DEFAULT_DINNER_DURATION_SECONDS,
+                  dinnerRemainingSeconds:
+                    data.dinnerRemainingSeconds ??
+                    data.dinnerDurationSeconds ??
+                    DEFAULT_DINNER_DURATION_SECONDS,
+                  dinnerTotalBites:
+                    data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
+                  dinnerBitesLeft:
+                    data.dinnerBitesLeft ??
+                    data.dinnerTotalBites ??
+                    DEFAULT_DINNER_BITES,
+                  dinnerTimerStartedAt: data.dinnerTimerStartedAt ?? null,
+                }
+              case 'math':
+                return {
+                  ...base,
+                  sourceTaskType: 'math' as const,
+                  mathTotalProblems:
+                    data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+                  mathLastOutcome:
+                    data.mathLastOutcome === 'success' ||
+                    data.mathLastOutcome === 'failure'
+                      ? data.mathLastOutcome
+                      : null,
+                }
+              case 'positional-notation':
+                return {
+                  ...base,
+                  sourceTaskType: 'positional-notation' as const,
+                  pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
+                  pvLastOutcome:
+                    data.pvLastOutcome === 'success' ||
+                    data.pvLastOutcome === 'failure'
+                      ? data.pvLastOutcome
+                      : null,
+                }
+              default:
+                return {
+                  ...base,
+                  sourceTaskType: 'standard' as const,
+                }
             }
           })
           .sort(sortByCreatedAtThenTitle)
 
         setTodos(nextTodos)
-        setTodosLoaded(true)
       },
       (error) => {
         console.error('Todo snapshot failed', error)
         setTodos([])
-        setTodosLoaded(true)
       }
     )
 
@@ -197,73 +223,39 @@ export function useTodos() {
     [activeChildId, tasks]
   )
 
-  const taskById = useMemo(
-    () => new Map(choreTemplates.map((task) => [task.id, task])),
-    [choreTemplates]
-  )
-
-  const choresForToday = useMemo(
-    () =>
-      choreTemplates.filter((task) =>
-        isScheduledForDay(getScheduleForItem(task), todayInfo.dayType)
-      ),
-    [choreTemplates, todayInfo.dayType]
-  )
-
   const todoSourceIds = useMemo(
     () => new Set(todos.map((todo) => todo.sourceTaskId)),
     [todos]
   )
 
   const availableChores = useMemo(
-    () =>
-      choreTemplates.filter(
-        (task) =>
-          !todoSourceIds.has(task.id) &&
-          !isScheduledForDay(getScheduleForItem(task), todayInfo.dayType)
-      ),
-    [choreTemplates, todoSourceIds, todayInfo.dayType]
+    () => choreTemplates.filter((task) => !todoSourceIds.has(task.id)),
+    [choreTemplates, todoSourceIds]
   )
 
   const completedCount = todos.filter((t) => Boolean(t.completedAt)).length
 
-  // ── Type helpers ──
-  const resolveTaskType = (todo: TodoRecord): TaskType =>
-    todo.sourceTaskType ??
-    taskById.get(todo.sourceTaskId)?.taskType ??
-    'standard'
+  // ── Field accessors (narrowed to specific todo types) ──
+  const getDinnerDuration = (todo: EatingTodo) => todo.dinnerDurationSeconds
 
-  const isEatingTodo = (todo: TodoRecord) => resolveTaskType(todo) === 'eating'
-  const isMathTodo = (todo: TodoRecord) => resolveTaskType(todo) === 'math'
-  const isPositionalNotationTodo = (todo: TodoRecord) =>
-    resolveTaskType(todo) === 'positional-notation'
+  const getDinnerRemaining = (todo: EatingTodo) => todo.dinnerRemainingSeconds
 
-  // ── Field accessors ──
-  const getDinnerDuration = (todo: TodoRecord) =>
-    todo.dinnerDurationSeconds ??
-    taskById.get(todo.sourceTaskId)?.dinnerDurationSeconds ??
-    DEFAULT_DINNER_DURATION_SECONDS
+  const getDinnerLiveRemaining = (todo: EatingTodo) => {
+    const frozen = getDinnerRemaining(todo)
+    const startedAt = todo.dinnerTimerStartedAt
+    if (!startedAt) return frozen
+    const elapsed = Math.floor((Date.now() - startedAt) / 1000)
+    return Math.max(0, frozen - elapsed)
+  }
 
-  const getDinnerRemaining = (todo: TodoRecord) =>
-    todo.dinnerRemainingSeconds ?? getDinnerDuration(todo)
+  const getDinnerTotalBites = (todo: EatingTodo) => todo.dinnerTotalBites
 
-  const getDinnerTotalBites = (todo: TodoRecord) =>
-    todo.dinnerTotalBites ??
-    taskById.get(todo.sourceTaskId)?.dinnerTotalBites ??
-    DEFAULT_DINNER_BITES
+  const getDinnerBitesLeft = (todo: EatingTodo) => todo.dinnerBitesLeft
 
-  const getDinnerBitesLeft = (todo: TodoRecord) =>
-    todo.dinnerBitesLeft ?? getDinnerTotalBites(todo)
+  const getMathTotalProblems = (todo: MathTodo) => todo.mathTotalProblems
 
-  const getMathTotalProblems = (todo: TodoRecord) =>
-    todo.mathTotalProblems ??
-    taskById.get(todo.sourceTaskId)?.mathTotalProblems ??
-    DEFAULT_MATH_PROBLEMS
-
-  const getPVTotalProblems = (todo: TodoRecord) =>
-    todo.pvTotalProblems ??
-    taskById.get(todo.sourceTaskId)?.pvTotalProblems ??
-    DEFAULT_PV_PROBLEMS
+  const getPVTotalProblems = (todo: PositionalNotationTodo) =>
+    todo.pvTotalProblems
 
   // ── Generic field update ──
   const updateTodoFields = async (
@@ -281,68 +273,10 @@ export function useTodos() {
     }
   }
 
-  // ── Auto-add scheduled todos for today ──
-  useEffect(() => {
-    if (!user || !activeChildId || !tasksLoaded || !todosLoaded) return
-
-    const existingSourceIds = new Set(todos.map((todo) => todo.sourceTaskId))
-    const missing = choresForToday.filter(
-      (task) =>
-        !existingSourceIds.has(task.id) &&
-        !processedAutoAddIds.current.has(task.id)
-    )
-
-    if (missing.length === 0) return
-
-    for (const task of missing) {
-      processedAutoAddIds.current.add(task.id)
-    }
-
-    Promise.all(
-      missing.map((task) =>
-        addDoc(collection(db, 'users', user.uid, 'todos'), {
-          title: task.title,
-          childId: activeChildId,
-          sourceTaskId: task.id,
-          sourceTaskType: task.taskType,
-          starValue: task.starValue,
-          schoolDayEnabled: task.schoolDayEnabled,
-          nonSchoolDayEnabled: task.nonSchoolDayEnabled,
-          dinnerDurationSeconds: task.dinnerDurationSeconds,
-          dinnerRemainingSeconds: task.dinnerDurationSeconds,
-          dinnerTotalBites: task.dinnerTotalBites,
-          dinnerBitesLeft: task.dinnerTotalBites,
-          mathTotalProblems: task.mathTotalProblems,
-          mathLastOutcome: null,
-          pvTotalProblems: task.pvTotalProblems,
-          pvLastOutcome: null,
-          autoAdded: true,
-          dateKey: todayInfo.dateKey,
-          createdAt: serverTimestamp(),
-          completedAt: null,
-        })
-      )
-    ).catch((error) => {
-      console.error('Failed to auto-add scheduled todos', error)
-      for (const task of missing) {
-        processedAutoAddIds.current.delete(task.id)
-      }
-    })
-  }, [
-    activeChildId,
-    choresForToday,
-    tasksLoaded,
-    todayInfo.dateKey,
-    todosLoaded,
-    todos,
-    user,
-  ])
-
   // ── Mutations ──
   const addTodo = async (task: TaskTemplate) => {
     if (!user || !activeChildId || todoSourceIds.has(task.id)) return
-    processedAutoAddIds.current.delete(task.id)
-    await addDoc(collection(db, 'users', user.uid, 'todos'), {
+    const base = {
       title: task.title,
       childId: activeChildId,
       sourceTaskId: task.id,
@@ -350,18 +284,39 @@ export function useTodos() {
       starValue: task.starValue,
       schoolDayEnabled: task.schoolDayEnabled,
       nonSchoolDayEnabled: task.nonSchoolDayEnabled,
-      dinnerDurationSeconds: task.dinnerDurationSeconds,
-      dinnerRemainingSeconds: task.dinnerDurationSeconds,
-      dinnerTotalBites: task.dinnerTotalBites,
-      dinnerBitesLeft: task.dinnerTotalBites,
-      mathTotalProblems: task.mathTotalProblems,
-      mathLastOutcome: null,
-      pvTotalProblems: task.pvTotalProblems,
-      pvLastOutcome: null,
       autoAdded: false,
       dateKey: todayInfo.dateKey,
       createdAt: serverTimestamp(),
       completedAt: null,
+    }
+
+    let taskSpecific: Record<string, unknown> = {}
+    switch (task.taskType) {
+      case 'eating':
+        taskSpecific = {
+          dinnerDurationSeconds: task.dinnerDurationSeconds,
+          dinnerRemainingSeconds: task.dinnerDurationSeconds,
+          dinnerTotalBites: task.dinnerTotalBites,
+          dinnerBitesLeft: task.dinnerTotalBites,
+        }
+        break
+      case 'math':
+        taskSpecific = {
+          mathTotalProblems: task.mathTotalProblems,
+          mathLastOutcome: null,
+        }
+        break
+      case 'positional-notation':
+        taskSpecific = {
+          pvTotalProblems: task.pvTotalProblems,
+          pvLastOutcome: null,
+        }
+        break
+    }
+
+    await addDoc(collection(db, 'users', user.uid, 'todos'), {
+      ...base,
+      ...taskSpecific,
     })
   }
 
@@ -379,13 +334,12 @@ export function useTodos() {
 
   const deleteTodo = async (todo: TodoRecord) => {
     if (!user) return
-    processedAutoAddIds.current.add(todo.sourceTaskId)
     await deleteDoc(doc(db, 'users', user.uid, 'todos', todo.id))
   }
 
   // ── Dinner helpers ──
-  const dinnerApplyBite = async (todo: TodoRecord) => {
-    const remaining = getDinnerRemaining(todo)
+  const dinnerApplyBite = async (todo: EatingTodo) => {
+    const remaining = getDinnerLiveRemaining(todo)
     const bitesLeft = getDinnerBitesLeft(todo)
     if (remaining <= 0 || bitesLeft <= 0) return false
 
@@ -399,6 +353,7 @@ export function useTodos() {
         childId: activeChildId!,
         todoId: todo.id,
         delta: todo.starValue,
+        updates: { dinnerTimerStartedAt: null },
       })
       if (completed) celebrateSuccess()
       return true // dinner complete
@@ -406,20 +361,22 @@ export function useTodos() {
     return false
   }
 
-  const dinnerTickTimer = async (todo: TodoRecord) => {
-    const remaining = getDinnerRemaining(todo)
-    if (remaining <= 0) return true
-
-    const nextRemaining = Math.max(0, remaining - 1)
+  const dinnerStartTimer = async (todo: EatingTodo) => {
     await updateTodoFields(todo.id, {
-      dinnerRemainingSeconds: nextRemaining,
-      ...(nextRemaining === 0 ? { completedAt: Date.now() } : {}),
+      dinnerTimerStartedAt: Date.now(),
     })
-    return nextRemaining === 0
+  }
+
+  const dinnerTimerExpired = async (todo: EatingTodo) => {
+    await updateTodoFields(todo.id, {
+      dinnerTimerStartedAt: null,
+      dinnerRemainingSeconds: 0,
+      completedAt: Date.now(),
+    })
   }
 
   // ── Math handlers ──
-  const mathComplete = async (todo: TodoRecord) => {
+  const mathComplete = async (todo: MathTodo) => {
     if (!user || !activeChildId) return
     const completed = await completeTodoAndAwardStars({
       userId: user.uid,
@@ -431,7 +388,7 @@ export function useTodos() {
     if (completed) celebrateSuccess()
   }
 
-  const mathFail = async (todo: TodoRecord) => {
+  const mathFail = async (todo: MathTodo) => {
     await updateTodoFields(todo.id, {
       completedAt: Date.now(),
       mathLastOutcome: 'failure',
@@ -439,7 +396,7 @@ export function useTodos() {
   }
 
   // ── PV handlers ──
-  const pvComplete = async (todo: TodoRecord) => {
+  const pvComplete = async (todo: PositionalNotationTodo) => {
     if (!user || !activeChildId) return
     const completed = await completeTodoAndAwardStars({
       userId: user.uid,
@@ -451,7 +408,7 @@ export function useTodos() {
     if (completed) celebrateSuccess()
   }
 
-  const pvFail = async (todo: TodoRecord) => {
+  const pvFail = async (todo: PositionalNotationTodo) => {
     await updateTodoFields(todo.id, {
       completedAt: Date.now(),
       pvLastOutcome: 'failure',
@@ -465,13 +422,9 @@ export function useTodos() {
     availableChores,
     completedCount,
     todoSourceIds,
-    // Type helpers
-    isEatingTodo,
-    isMathTodo,
-    isPositionalNotationTodo,
     // Field accessors
     getDinnerDuration,
-    getDinnerRemaining,
+    getDinnerLiveRemaining,
     getDinnerTotalBites,
     getDinnerBitesLeft,
     getMathTotalProblems,
@@ -482,7 +435,8 @@ export function useTodos() {
     deleteTodo,
     updateTodoFields,
     dinnerApplyBite,
-    dinnerTickTimer,
+    dinnerStartTimer,
+    dinnerTimerExpired,
     mathComplete,
     mathFail,
     pvComplete,
