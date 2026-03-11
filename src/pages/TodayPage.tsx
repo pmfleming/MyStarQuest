@@ -10,6 +10,7 @@ import DinnerCountdown, {
 } from '../components/DinnerCountdown'
 import ArithmeticTester from '../components/ArithmeticTester'
 import PositionalNotationTester from '../components/PositionalNotationTaskTester'
+import DayNightExplorer from '../components/DayNightExplorer'
 import {
   CURRENT_DAY_LABELS,
   getScheduleLabel,
@@ -20,6 +21,7 @@ import { useTodos } from '../data/useTodos'
 import {
   isEatingTodo,
   isMathTodo,
+  isDayNightTodo,
   isPositionalNotationTodo,
   type EatingTodo,
   type MathTodo,
@@ -470,6 +472,10 @@ const TodayPage = () => {
                       completionImage={theme.id === 'princess' ? princessMathsCorrectImage : undefined}
                       failureImage={theme.id === 'princess' ? princessMathsIncorrectImage : undefined}
                     />
+                  ) : null}
+
+                  {isDayNightTodo(todo) ? (
+                    <DayNightExplorer theme={theme} />
                   ) : null}
                 </div>
               )}

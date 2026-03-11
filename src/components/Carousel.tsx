@@ -32,7 +32,7 @@ const Carousel = ({
   style,
 }: CarouselProps) => {
   const { theme } = useTheme()
-  const safeItems = items ?? []
+  const safeItems = useMemo(() => items ?? [], [items])
   const [currentIndex, setCurrentIndex] = useState(
     Math.max(0, Math.min(initialIndex, safeItems.length - 1))
   )
@@ -57,8 +57,8 @@ const Carousel = ({
 
   const visibleItems = useMemo(() => {
     if (safeItems.length === 0) return []
-    const prevIndex = getPrevIndex(currentIndex)
-    const nextIndex = getNextIndex(currentIndex)
+    const prevIndex = currentIndex === 0 ? safeItems.length - 1 : currentIndex - 1
+    const nextIndex = currentIndex === safeItems.length - 1 ? 0 : currentIndex + 1
     return [safeItems[prevIndex], safeItems[currentIndex], safeItems[nextIndex]]
   }, [safeItems, currentIndex])
 

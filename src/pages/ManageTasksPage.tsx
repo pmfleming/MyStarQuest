@@ -14,6 +14,7 @@ import DinnerCountdown, {
 } from '../components/DinnerCountdown'
 import ArithmeticTester from '../components/ArithmeticTester'
 import PositionalNotationTester from '../components/PositionalNotationTaskTester'
+import DayNightExplorer from '../components/DayNightExplorer'
 import { uiTokens } from '../ui/tokens'
 import { getSeasonForDate } from '../utils/today'
 import { useTasks } from '../data/useTasks'
@@ -27,7 +28,9 @@ import {
   isEatingTask,
   isManageTaskCompleted,
   isMathTask,
+  isDayNightTask,
   isPositionalNotationTask,
+  type DayNightTaskWithEphemeral,
   type EatingTaskWithEphemeral,
   type MathTaskWithEphemeral,
   type PVTaskWithEphemeral,
@@ -99,6 +102,8 @@ const ManageTasksPage = () => {
     createEating,
     createMath,
     createPositionalNotation,
+    createDayNight,
+    awardDayNight,
     mathComplete,
     mathFail,
     mathReset,
@@ -347,6 +352,11 @@ const ManageTasksPage = () => {
     setShowAddChooser(false)
   }
 
+  const handleCreateDayNight = async () => {
+    await createDayNight()
+    setShowAddChooser(false)
+  }
+
   const handleMathComplete = async (task: MathTaskWithEphemeral) => {
     setActiveMathTaskId(null)
     await mathComplete(task)
@@ -411,6 +421,18 @@ const ManageTasksPage = () => {
     setBiteCooldownTestIconIndex(null)
     setPendingDinnerBiteTaskId(null)
     await dinnerReset(task)
+  }
+
+  const handleAwardDayNight = async (task: DayNightTaskWithEphemeral) => {
+    setIsAwarding(true)
+    try {
+      await awardDayNight(task)
+    } catch (error) {
+      console.error('Failed to award stars', error)
+      alert('Failed to award stars. Please try again.')
+    } finally {
+      setIsAwarding(false)
+    }
   }
 
   const handleAwardTask = async (task: StandardTaskWithEphemeral) => {
@@ -653,6 +675,13 @@ const ManageTasksPage = () => {
                         ? renderDayTypeControl(task)
                         : null}
                     </div>
+                  ) : isDayNightTask(task) ? (
+                    <div
+                      className="flex flex-col"
+                      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+                    >
+                      <DayNightExplorer theme={theme} />
+                    </div>
                   ) : (
                     <div
                       className="flex flex-col"
@@ -715,6 +744,9 @@ const ManageTasksPage = () => {
                       return activePVTaskId === task.id
                         ? 'Check Answer'
                         : 'Start'
+                    }
+                    if (isDayNightTask(task)) {
+                      return task.manageCompletedAt ? 'Done' : 'Give'
                     }
                     return task.manageCompletedAt ? 'Done' : 'Give'
                   },
@@ -801,6 +833,19 @@ const ManageTasksPage = () => {
                         />
                       )
                     }
+                    if (isDayNightTask(task)) {
+                      return (
+                        <img
+                          src={
+                            task.manageCompletedAt
+                              ? princessActiveIcon
+                              : princessGiveStarIcon
+                          }
+                          alt={task.manageCompletedAt ? 'Completed' : 'Give star'}
+                          className="h-6 w-6 object-contain"
+                        />
+                      )
+                    }
                     return (
                       <img
                         src={
@@ -852,6 +897,11 @@ const ManageTasksPage = () => {
                       } else {
                         setActivePVTaskId(task.id)
                       }
+                    } else if (isDayNightTask(task)) {
+                      if (task.manageCompletedAt) {
+                        return
+                      }
+                      handleAwardDayNight(task)
                     } else if (task.manageCompletedAt) {
                       return
                     } else {
@@ -873,6 +923,13 @@ const ManageTasksPage = () => {
                     }
                     if (isPositionalNotationTask(task)) {
                       return false
+                    }
+                    if (isDayNightTask(task)) {
+                      return (
+                        isAwarding ||
+                        !activeChildId ||
+                        Boolean(task.manageCompletedAt)
+                      )
                     }
                     return (
                       isAwarding ||
@@ -1036,6 +1093,24 @@ const ManageTasksPage = () => {
                         }}
                       >
                         Place Notation
+                      </button>
+
+                      <button
+                        type="button"
+                        className="whimsical-btn"
+                        onClick={handleCreateDayNight}
+                        style={{
+                          minHeight: `${uiTokens.actionButtonHeight}px`,
+                          borderRadius: '20px',
+                          border: `3px solid ${theme.colors.accent}`,
+                          background: theme.colors.surface,
+                          color: theme.colors.text,
+                          fontFamily: theme.fonts.heading,
+                          fontWeight: 800,
+                          fontSize: '1.15rem',
+                        }}
+                      >
+                        Day &amp; Night
                       </button>
 
                       <button

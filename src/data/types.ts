@@ -2,7 +2,7 @@
 
 import type { ThemeId } from '../constants/themeOptions'
 
-export type TaskType = 'standard' | 'eating' | 'math' | 'positional-notation'
+export type TaskType = 'standard' | 'eating' | 'math' | 'positional-notation' | 'daynight'
 
 // ── TaskRecord: discriminated union on `taskType` ──
 
@@ -33,11 +33,14 @@ export type PositionalNotationTask = TaskBase & {
   pvTotalProblems: number
 }
 
+export type DayNightTask = TaskBase & { taskType: 'daynight' }
+
 export type TaskRecord =
   | StandardTask
   | EatingTask
   | MathTask
   | PositionalNotationTask
+  | DayNightTask
 
 // ── TaskEphemeralState: flat bag for in-memory storage ──
 
@@ -73,11 +76,16 @@ export type PVTaskWithEphemeral = PositionalNotationTask & {
   managePVLastOutcome?: 'success' | 'failure' | null
 }
 
+export type DayNightTaskWithEphemeral = DayNightTask & {
+  manageCompletedAt?: number | null
+}
+
 export type TaskWithEphemeral =
   | StandardTaskWithEphemeral
   | EatingTaskWithEphemeral
   | MathTaskWithEphemeral
   | PVTaskWithEphemeral
+  | DayNightTaskWithEphemeral
 
 // ── TaskTemplate: discriminated union (read-only view for Today page) ──
 
@@ -106,11 +114,14 @@ export type PositionalNotationTaskTemplate = TaskTemplateBase & {
   pvTotalProblems: number
 }
 
+export type DayNightTaskTemplate = TaskTemplateBase & { taskType: 'daynight' }
+
 export type TaskTemplate =
   | StandardTaskTemplate
   | EatingTaskTemplate
   | MathTaskTemplate
   | PositionalNotationTaskTemplate
+  | DayNightTaskTemplate
 
 // ── TodoRecord: discriminated union on `sourceTaskType` ──
 
@@ -147,11 +158,14 @@ export type PositionalNotationTodo = TodoBase & {
   pvLastOutcome: 'success' | 'failure' | null
 }
 
+export type DayNightTodo = TodoBase & { sourceTaskType: 'daynight' }
+
 export type TodoRecord =
   | StandardTodo
   | EatingTodo
   | MathTodo
   | PositionalNotationTodo
+  | DayNightTodo
 
 // ── Updatable field subsets ──
 
@@ -207,6 +221,12 @@ export function isPositionalNotationTask<T extends { taskType: TaskType }>(
   return t.taskType === 'positional-notation'
 }
 
+export function isDayNightTask<T extends { taskType: TaskType }>(
+  t: T
+): t is Extract<T, { taskType: 'daynight' }> {
+  return t.taskType === 'daynight'
+}
+
 export function isEatingTodo(t: TodoRecord): t is EatingTodo {
   return t.sourceTaskType === 'eating'
 }
@@ -219,6 +239,10 @@ export function isPositionalNotationTodo(
   t: TodoRecord
 ): t is PositionalNotationTodo {
   return t.sourceTaskType === 'positional-notation'
+}
+
+export function isDayNightTodo(t: TodoRecord): t is DayNightTodo {
+  return t.sourceTaskType === 'daynight'
 }
 
 // ── TaskWithEphemeral helpers ──
@@ -246,6 +270,8 @@ export const getManageTaskCompletedAt = (task: TaskWithEphemeral) => {
     case 'positional-notation':
       return task.managePVCompletedAt ?? null
     case 'standard':
+      return task.manageCompletedAt ?? null
+    case 'daynight':
       return task.manageCompletedAt ?? null
   }
 }

@@ -1,5 +1,13 @@
 import React, { createContext, useState, useMemo } from 'react'
 import type { ThemeId } from '../constants/themeOptions'
+import bedtimeImg from '../assets/themes/princess/bedtime.svg'
+import eatingBreakfastImg from '../assets/themes/princess/eating-breakfast.svg'
+import commuteImg from '../assets/themes/princess/commute.svg'
+import schooltimeImg from '../assets/themes/princess/schooltime.svg'
+import playingImg from '../assets/themes/princess/playing.svg'
+import eatingDinnerImg from '../assets/themes/princess/eating-dinner.svg'
+import computergamesImg from '../assets/themes/princess/computergames.svg'
+import bathtimeImg from '../assets/themes/princess/bathtime.svg'
 /* eslint-disable react-refresh/only-export-components */
 
 // Define the shape of a theme
@@ -10,6 +18,17 @@ export interface ThemeColors {
   primary: string
   secondary: string
   accent: string
+}
+
+export interface ThemeActivityImages {
+  bedtime: string
+  eatingBreakfast: string
+  commute: string
+  schooltime: string
+  playing: string
+  eatingDinner: string
+  computergames: string
+  bathtime: string
 }
 
 export interface Theme {
@@ -24,6 +43,7 @@ export interface Theme {
   buttonStyle: string
   bgPattern?: string
   confetti: string[]
+  activityImages?: ThemeActivityImages
 }
 
 // Define the available themes based on the prototype
@@ -111,6 +131,16 @@ export const themes: Record<ThemeId, Theme> = {
       'rounded-3xl border-4 border-pink-500 shadow-[4px_4px_0px_#DB2777]',
     bgPattern: 'linear-gradient(180deg, #FDF2F8 0%, #FCE7F3 50%, #FBCFE8 100%)',
     confetti: ['👑', '✨', '💖', '🌸'],
+    activityImages: {
+      bedtime: bedtimeImg,
+      eatingBreakfast: eatingBreakfastImg,
+      commute: commuteImg,
+      schooltime: schooltimeImg,
+      playing: playingImg,
+      eatingDinner: eatingDinnerImg,
+      computergames: computergamesImg,
+      bathtime: bathtimeImg,
+    },
   },
 }
 

@@ -37,9 +37,23 @@ import {
 export function useTodos() {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
+  
   const [tasks, setTasks] = useState<TaskTemplate[]>([])
   const [todos, setTodos] = useState<TodoRecord[]>([])
-  const todayInfo = useMemo(() => getTodayDescriptor(), [])
+  
+  // ── Midnight Rollover Fix ──
+  // Evaluates the current date and automatically updates if the day changes
+  const [todayInfo, setTodayInfo] = useState(() => getTodayDescriptor())
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const current = getTodayDescriptor()
+      if (current.dateKey !== todayInfo.dateKey) {
+        setTodayInfo(current)
+      }
+    }, 60000) // Check every minute
+    return () => clearInterval(interval)
+  }, [todayInfo.dateKey])
 
   // ── Task template subscription (read-only for Today) ──
   useEffect(() => {
@@ -62,7 +76,9 @@ export function useTodos() {
                   ? 'math'
                   : data.taskType === 'eating' || data.category === 'eating'
                     ? 'eating'
-                    : 'standard'
+                    : data.taskType === 'daynight' || data.category === 'daynight'
+                      ? 'daynight'
+                      : 'standard'
 
             const base = {
               id: docSnapshot.id,
@@ -97,6 +113,8 @@ export function useTodos() {
                   taskType: 'positional-notation' as const,
                   pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
                 }
+              case 'daynight':
+                return { ...base, taskType: 'daynight' as const }
               default:
                 return { ...base, taskType: 'standard' as const }
             }
@@ -136,7 +154,8 @@ export function useTodos() {
             const sourceTaskType: TaskType =
               data.sourceTaskType === 'positional-notation' ||
               data.sourceTaskType === 'math' ||
-              data.sourceTaskType === 'eating'
+              data.sourceTaskType === 'eating' ||
+              data.sourceTaskType === 'daynight'
                 ? data.sourceTaskType
                 : 'standard'
 
@@ -194,6 +213,11 @@ export function useTodos() {
                     data.pvLastOutcome === 'failure'
                       ? data.pvLastOutcome
                       : null,
+                }
+              case 'daynight':
+                return {
+                  ...base,
+                  sourceTaskType: 'daynight' as const,
                 }
               default:
                 return {
@@ -267,7 +291,7 @@ export function useTodos() {
     try {
       await updateDoc(
         doc(collection(db, 'users', user.uid, 'todos'), todoId),
-        field
+        field as any // Typecast added in case TodoUpdatableFields doesn't expect FieldValue natively
       )
     } catch (error) {
       console.error('Failed to update todo', error)
@@ -295,21 +319,21 @@ export function useTodos() {
     switch (task.taskType) {
       case 'eating':
         taskSpecific = {
-          dinnerDurationSeconds: task.dinnerDurationSeconds,
-          dinnerRemainingSeconds: task.dinnerDurationSeconds,
-          dinnerTotalBites: task.dinnerTotalBites,
-          dinnerBitesLeft: task.dinnerTotalBites,
+          dinnerDurationSeconds: task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
+          dinnerRemainingSeconds: task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
+          dinnerTotalBites: task.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
+          dinnerBitesLeft: task.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
         }
         break
       case 'math':
         taskSpecific = {
-          mathTotalProblems: task.mathTotalProblems,
+          mathTotalProblems: task.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
           mathLastOutcome: null,
         }
         break
       case 'positional-notation':
         taskSpecific = {
-          pvTotalProblems: task.pvTotalProblems,
+          pvTotalProblems: task.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
           pvLastOutcome: null,
         }
         break
@@ -372,7 +396,7 @@ export function useTodos() {
     await updateTodoFields(todo.id, {
       dinnerTimerStartedAt: null,
       dinnerRemainingSeconds: 0,
-      completedAt: Date.now(),
+      completedAt: serverTimestamp() as any, // Replaced Date.now()
     })
   }
 
@@ -391,7 +415,7 @@ export function useTodos() {
 
   const mathFail = async (todo: MathTodo) => {
     await updateTodoFields(todo.id, {
-      completedAt: Date.now(),
+      completedAt: serverTimestamp() as any, // Replaced Date.now()
       mathLastOutcome: 'failure',
     })
   }
@@ -411,7 +435,7 @@ export function useTodos() {
 
   const pvFail = async (todo: PositionalNotationTodo) => {
     await updateTodoFields(todo.id, {
-      completedAt: Date.now(),
+      completedAt: serverTimestamp() as any, // Replaced Date.now()
       pvLastOutcome: 'failure',
     })
   }

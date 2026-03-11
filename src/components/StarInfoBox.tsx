@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from 'react'
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import { uiTokens } from '../ui/tokens'
 import starSvgUrl from '../assets/global/star.svg'
@@ -121,7 +121,7 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
     })
   }, [])
 
-  const runAnimation = (targetCount: number) => {
+  const runAnimation = useCallback((targetCount: number) => {
     if (isRunning) return
 
     setIsRunning(true)
@@ -171,7 +171,7 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
         }, PHASE_DURATION)
       }
     }, 35)
-  }
+  }, [isRunning])
 
   // Trigger animation when totalStars changes OR on initial mount
   useEffect(() => {
@@ -190,7 +190,7 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
       // Initial page visit with data ready - run animation
       runAnimation(totalStars)
     }
-  }, [totalStars])
+  }, [isRunning, runAnimation, totalStars])
 
   const handleClick = () => {
     if (!isRunning) {

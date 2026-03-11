@@ -20,6 +20,11 @@ const db = getFirestore()
 
 type CurrentDayType = 'schoolday' | 'nonschoolday'
 
+type ScheduledTaskData = {
+  schoolDayEnabled?: boolean
+  nonSchoolDayEnabled?: boolean
+}
+
 /**
  * Calculates the exact dateKey and dayType for a specific timezone.
  * This prevents UTC-offset bugs where the server thinks it's a different day 
@@ -108,7 +113,7 @@ export const generateDailyTodos = onSchedule(
           const title = (data.title ?? '').trim()
           if (!title) return false
           if (existingSourceIds.has(taskDoc.id)) return false
-          return isScheduledForDay(data as any, dayType)
+          return isScheduledForDay(data as ScheduledTaskData, dayType)
         })
 
         if (todosToCreate.length === 0) continue
@@ -126,7 +131,9 @@ export const generateDailyTodos = onSchedule(
                 ? 'math'
                 : data.taskType === 'eating' || data.category === 'eating'
                   ? 'eating'
-                  : 'standard'
+                  : data.taskType === 'daynight' || data.category === 'daynight'
+                    ? 'daynight'
+                    : 'standard'
 
           const dinnerDuration =
             data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
@@ -239,7 +246,7 @@ export const resetTodayTodos = onCall(async (request) => {
     const title = (data.title ?? '').trim()
     if (!title) return false
     if (completedSourceIds.has(taskDoc.id)) return false
-    return isScheduledForDay(data as any, dayType)
+    return isScheduledForDay(data as ScheduledTaskData, dayType)
   })
 
   if (todosToCreate.length === 0) return { created: 0 }
@@ -256,7 +263,9 @@ export const resetTodayTodos = onCall(async (request) => {
           ? 'math'
           : data.taskType === 'eating' || data.category === 'eating'
             ? 'eating'
-            : 'standard'
+            : data.taskType === 'daynight' || data.category === 'daynight'
+              ? 'daynight'
+              : 'standard'
 
     const dinnerDuration =
       data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS

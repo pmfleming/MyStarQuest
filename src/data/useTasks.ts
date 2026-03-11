@@ -29,9 +29,11 @@ import {
   MANAGE_STATUS_RESET_MS,
   getManageDinnerBitesLeft,
   getManageDinnerLiveRemaining,
+  isDayNightTask,
   isEatingTask,
   isMathTask,
   isPositionalNotationTask,
+  type DayNightTaskWithEphemeral,
   type EatingTaskWithEphemeral,
   type MathTaskWithEphemeral,
   type PVTaskWithEphemeral,
@@ -76,7 +78,9 @@ export function useTasks() {
               ? 'math'
               : data.taskType === 'eating' || data.category === 'eating'
                 ? 'eating'
-                : 'standard'
+                : data.taskType === 'daynight' || data.category === 'daynight'
+                  ? 'daynight'
+                  : 'standard'
         const base = {
           id: docSnapshot.id,
           title: data.title ?? '',
@@ -109,6 +113,8 @@ export function useTasks() {
               taskType: 'positional-notation' as const,
               pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
             }
+          case 'daynight':
+            return { ...base, taskType: 'daynight' as const }
           default:
             return { ...base, taskType: 'standard' as const }
         }
@@ -240,7 +246,23 @@ export function useTasks() {
     })
   }
 
+  const createDayNight = async () => {
+    if (!user || !activeChildId) return
+    await addDoc(collection(db, 'users', user.uid, 'tasks'), {
+      title: 'Day & Night Explorer',
+      childId: activeChildId,
+      category: 'daynight',
+      taskType: 'daynight',
+      schoolDayEnabled: false,
+      nonSchoolDayEnabled: false,
+      starValue: 1,
+      isRepeating: false,
+      createdAt: serverTimestamp(),
+    })
+  }
+
   // ── Math handlers ──
+
   const mathComplete = async (task: MathTaskWithEphemeral) => {
     updateEphemeral(task.id, {
       manageMathCompletedAt: Date.now(),
@@ -352,6 +374,20 @@ export function useTasks() {
   }
 
   // ── Standard task award ──
+  const awardDayNight = async (task: DayNightTaskWithEphemeral) => {
+    if (!user || !activeChildId) {
+      alert('Please select an explorer first.')
+      return
+    }
+    await awardStars({
+      userId: user.uid,
+      childId: activeChildId,
+      delta: 1,
+    })
+    updateEphemeral(task.id, { manageCompletedAt: Date.now() })
+    celebrateSuccess()
+  }
+
   const awardTask = async (task: StandardTaskWithEphemeral) => {
     if (!user || !activeChildId) {
       alert('Please select an explorer first.')
@@ -426,9 +462,18 @@ export function useTasks() {
             }
           }
           if (
+            isDayNightTask(task) &&
+            e.manageCompletedAt &&
+            now - e.manageCompletedAt >= MANAGE_STATUS_RESET_MS
+          ) {
+            if (next === prev) next = { ...prev }
+            next[task.id] = { ...next[task.id], manageCompletedAt: null }
+          }
+          if (
             !isEatingTask(task) &&
             !isMathTask(task) &&
             !isPositionalNotationTask(task) &&
+            !isDayNightTask(task) &&
             e.manageCompletedAt &&
             now - e.manageCompletedAt >= MANAGE_STATUS_RESET_MS
           ) {
@@ -456,6 +501,8 @@ export function useTasks() {
     createEating,
     createMath,
     createPositionalNotation,
+    createDayNight,
+    awardDayNight,
     mathComplete,
     mathFail,
     mathReset,
