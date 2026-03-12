@@ -434,6 +434,13 @@ export function useTodos() {
     })
   }
 
+  const mathReset = async (todo: MathTodo) => {
+    await updateTodoFields(todo.id, {
+      completedAt: null,
+      mathLastOutcome: null,
+    })
+  }
+
   // ── PV handlers ──
   const pvComplete = async (todo: PositionalNotationTodo) => {
     if (!user || !activeChildId) return
@@ -451,6 +458,13 @@ export function useTodos() {
     await updateTodoFields(todo.id, {
       completedAt: serverTimestamp() as unknown as number,
       pvLastOutcome: 'failure',
+    })
+  }
+
+  const pvReset = async (todo: PositionalNotationTodo) => {
+    await updateTodoFields(todo.id, {
+      completedAt: null,
+      pvLastOutcome: null,
     })
   }
 
@@ -485,8 +499,10 @@ export function useTodos() {
     dinnerReset,
     mathComplete,
     mathFail,
+    mathReset,
     pvComplete,
     pvFail,
+    pvReset,
     resetTodayTodos,
   }
 }

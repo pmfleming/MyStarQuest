@@ -7,13 +7,18 @@ import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import DinnerCountdown from '../components/DinnerCountdown'
 import ArithmeticTester from '../components/ArithmeticTester'
-import PositionalNotationTester from '../components/PositionalNotationTaskTester'
+import PositionalNotation from '../components/PositionalNotation'
 import DayNightExplorer from '../components/DayNightExplorer'
 import {
   CURRENT_DAY_LABELS,
   getScheduleLabel,
   getTodayDescriptor,
 } from '../utils/today'
+import {
+  resolveSetupStatusAction,
+  runSetupStatusAction,
+  type SetupStatusActionRule,
+} from '../utils/setupStatusActions'
 import { useDinnerActivity } from '../hooks/useDinnerActivity'
 import { uiTokens } from '../ui/tokens'
 import { useTodos } from '../data/useTodos'
@@ -78,8 +83,10 @@ const TodayPage = () => {
     dinnerReset,
     mathComplete,
     mathFail,
+    mathReset,
     pvComplete,
     pvFail,
+    pvReset,
     resetTodayTodos,
   } = useTodos()
 
@@ -174,6 +181,11 @@ const TodayPage = () => {
     await mathFail(todo)
   }
 
+  const handleMathReset = async (todo: MathTodo) => {
+    setActiveMathTodoId(null)
+    await mathReset(todo)
+  }
+
   const handlePVComplete = async (todo: PositionalNotationTodo) => {
     setActivePVTodoId(null)
     await pvComplete(todo)
@@ -183,6 +195,37 @@ const TodayPage = () => {
     setActivePVTodoId(null)
     await pvFail(todo)
   }
+
+  const handlePVReset = async (todo: PositionalNotationTodo) => {
+    setActivePVTodoId(null)
+    await pvReset(todo)
+  }
+
+  const setupStatusRules: SetupStatusActionRule<TodoRecord>[] = [
+    {
+      matches: isEatingTodo,
+      isInTask: (todo) => isDinnerTodoInActivity(todo as EatingTodo),
+      resetAriaLabel: 'Reset dinner todo',
+      onReset: (todo) => handleDinnerReset(todo as EatingTodo),
+    },
+    {
+      matches: isMathTodo,
+      isInTask: (todo) =>
+        activeMathTodoId === todo.id || Boolean(todo.completedAt),
+      resetAriaLabel: 'Reset arithmetic todo',
+      onReset: (todo) => handleMathReset(todo as MathTodo),
+    },
+    {
+      matches: isPositionalNotationTodo,
+      isInTask: (todo) =>
+        activePVTodoId === todo.id || Boolean(todo.completedAt),
+      resetAriaLabel: 'Reset positional notation todo',
+      onReset: (todo) => handlePVReset(todo as PositionalNotationTodo),
+    },
+  ]
+
+  const getSetupStatusAction = (todo: TodoRecord) =>
+    resolveSetupStatusAction(todo, setupStatusRules, 'Delete todo')
 
   const summaryText =
     todos.length === 0
@@ -400,7 +443,7 @@ const TodayPage = () => {
 
                   {isPositionalNotationTodo(todo) &&
                   (activePVTodoId === todo.id || Boolean(todo.completedAt)) ? (
-                    <PositionalNotationTester
+                    <PositionalNotation
                       theme={theme}
                       totalProblems={getPVTotalProblems(todo)}
                       starReward={todo.starValue}
@@ -551,17 +594,10 @@ const TodayPage = () => {
               }}
               hideEdit
               utilityAction={{
-                label: (todo) =>
-                  isEatingTodo(todo) && isDinnerTodoInActivity(todo)
-                    ? 'Reset'
-                    : 'Delete',
-                ariaLabel: (todo) =>
-                  isEatingTodo(todo) && isDinnerTodoInActivity(todo)
-                    ? 'Reset dinner todo'
-                    : 'Delete todo',
+                label: (todo) => getSetupStatusAction(todo).label,
+                ariaLabel: (todo) => getSetupStatusAction(todo).ariaLabel,
                 icon: (todo) =>
-                  isEatingTodo(todo) &&
-                  isDinnerTodoInActivity(todo) &&
+                  getSetupStatusAction(todo).isReset &&
                   theme.id === 'princess' ? (
                     <img
                       src={princessResetIcon}
@@ -569,19 +605,14 @@ const TodayPage = () => {
                       className="h-6 w-6 object-contain"
                     />
                   ) : undefined,
-                onClick: (todo) => {
-                  if (isEatingTodo(todo) && isDinnerTodoInActivity(todo)) {
-                    handleDinnerReset(todo)
-                    return
-                  }
-                  handleDeleteTodo(todo)
-                },
-                exits: (todo) =>
-                  !(isEatingTodo(todo) && isDinnerTodoInActivity(todo)),
-                variant: (todo) =>
-                  isEatingTodo(todo) && isDinnerTodoInActivity(todo)
-                    ? 'neutral'
-                    : 'danger',
+                onClick: (todo) =>
+                  runSetupStatusAction(
+                    todo,
+                    setupStatusRules,
+                    handleDeleteTodo
+                  ),
+                exits: (todo) => getSetupStatusAction(todo).exits,
+                variant: (todo) => getSetupStatusAction(todo).variant,
               }}
               onDelete={(todo) => handleDeleteTodo(todo)}
               addLabel="Add Todo"

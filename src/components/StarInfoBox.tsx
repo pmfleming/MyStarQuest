@@ -45,17 +45,41 @@ const MiniStar = ({
   const getTransition = () => {
     switch (starState) {
       case 'hidden':
-        return 'none'
+        return {
+          property: 'none',
+          duration: '0s',
+          timingFunction: 'ease',
+        }
       case 'swarming':
-        return `transform ${PHASE_DURATION}ms cubic-bezier(0.55, 0, 1, 0.45)`
+        return {
+          property: 'transform',
+          duration: `${PHASE_DURATION}ms`,
+          timingFunction: 'cubic-bezier(0.55, 0, 1, 0.45)',
+        }
       case 'swarmed':
-        return 'none'
+        return {
+          property: 'none',
+          duration: '0s',
+          timingFunction: 'ease',
+        }
       case 'gathering':
-        return `transform ${PHASE_DURATION}ms cubic-bezier(0.55, 0, 1, 0.45)`
+        return {
+          property: 'transform',
+          duration: `${PHASE_DURATION}ms`,
+          timingFunction: 'cubic-bezier(0.55, 0, 1, 0.45)',
+        }
       case 'gathered':
-        return 'transform 0.05s, opacity 0.05s'
+        return {
+          property: 'transform, opacity',
+          duration: '0.05s, 0.05s',
+          timingFunction: 'ease, ease',
+        }
       default:
-        return 'none'
+        return {
+          property: 'none',
+          duration: '0s',
+          timingFunction: 'ease',
+        }
     }
   }
 
@@ -64,6 +88,8 @@ const MiniStar = ({
     if (starState === 'gathered') return 0
     return 1
   }
+
+  const transition = getTransition()
 
   return (
     <div
@@ -76,7 +102,9 @@ const MiniStar = ({
         marginTop: '-7px',
         marginLeft: '-7px',
         transform: getTransform(),
-        transition: getTransition(),
+        transitionProperty: transition.property,
+        transitionDuration: transition.duration,
+        transitionTimingFunction: transition.timingFunction,
         opacity: getOpacity(),
         transitionDelay: starState === 'swarming' ? `${index * 12}ms` : '0ms',
         zIndex: 20, // Above the hero star so they're visible during gathering
@@ -100,6 +128,8 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
   const [displayedCount, setDisplayedCount] = useState(totalStars)
 
   const starsSpawnedRef = useRef(0)
+  const hasAnimatedRef = useRef(false)
+  const isRunningRef = useRef(false)
   const prevTotalStarsRef = useRef(totalStars)
 
   // Generate pseudo-random looking positions constrained to fit within the box
@@ -122,8 +152,9 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
   }, [])
 
   const runAnimation = useCallback((targetCount: number) => {
-    if (isRunning) return
+    if (isRunningRef.current) return
 
+    isRunningRef.current = true
     setIsRunning(true)
     setShowResult(false)
     setHeroState('hidden')
@@ -165,32 +196,41 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
               setHeroState('pulsing')
               setShowResult(true)
               setDisplayedCount(targetCount)
+              isRunningRef.current = false
               setIsRunning(false)
             }, PHASE_DURATION + 100)
           }, PAUSE_DURATION)
         }, PHASE_DURATION)
       }
     }, 35)
-  }, [isRunning])
+  }, [])
 
   // Trigger animation when totalStars changes OR on initial mount
   useEffect(() => {
     // Skip animation if totalStars is 0 (data not loaded yet)
     if (totalStars === 0) {
+      hasAnimatedRef.current = true
+      prevTotalStarsRef.current = 0
+      isRunningRef.current = false
       setDisplayedCount(0)
       setHeroState('pulsing')
       setShowResult(true)
+      setStarStates([])
+      setIsRunning(false)
       return
     }
 
     if (totalStars !== prevTotalStarsRef.current) {
       prevTotalStarsRef.current = totalStars
+      hasAnimatedRef.current = true
       runAnimation(totalStars)
-    } else if (!isRunning) {
+    } else if (!hasAnimatedRef.current) {
       // Initial page visit with data ready - run animation
+      hasAnimatedRef.current = true
+      prevTotalStarsRef.current = totalStars
       runAnimation(totalStars)
     }
-  }, [isRunning, runAnimation, totalStars])
+  }, [runAnimation, totalStars])
 
   const handleClick = () => {
     if (!isRunning) {

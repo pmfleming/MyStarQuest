@@ -8,10 +8,6 @@ import mathsIncorrectIcon from '../assets/themes/princess/maths-incorrect.svg'
 import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import { celebrateSuccess } from '../utils/celebrate'
 
-/* ------------------------------------------------------------------ */
-/*  Constants                                                          */
-/* ------------------------------------------------------------------ */
-
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 10
 const CELEBRATION_DELAY_MS = 1500
@@ -24,12 +20,7 @@ const STATUS_ICON_SIZE = Math.round(STATUS_BAR_HEIGHT * 0.9)
 const STATUS_BAR_HORIZONTAL_PADDING = 16
 const STATUS_ICON_GAP = 8
 
-/* ------------------------------------------------------------------ */
-/*  Helpers                                                            */
-/* ------------------------------------------------------------------ */
-
 function generatePositionalNotationProblem(): { target: number } {
-  // Random number 1-99 (tens and ones)
   const target = Math.floor(Math.random() * 99) + 1
   return { target }
 }
@@ -48,11 +39,7 @@ function getStatusIconOverlap(iconCount: number): number {
   return Math.min(STATUS_ICON_SIZE * 0.72, Math.max(0, requiredOverlap))
 }
 
-/* ------------------------------------------------------------------ */
-/*  Component                                                          */
-/* ------------------------------------------------------------------ */
-
-export interface PositionalNotationTesterProps {
+export interface PositionalNotationProps {
   theme: Theme
   totalProblems: number
   starReward: number
@@ -68,7 +55,7 @@ export interface PositionalNotationTesterProps {
   failureImage?: string
 }
 
-const PositionalNotationTester = ({
+const PositionalNotation = ({
   theme,
   totalProblems,
   starReward,
@@ -82,7 +69,7 @@ const PositionalNotationTester = ({
   checkTrigger = 0,
   completionImage,
   failureImage,
-}: PositionalNotationTesterProps) => {
+}: PositionalNotationProps) => {
   const [problemIndex, setProblemIndex] = useState(0)
   const [successCount, setSuccessCount] = useState(0)
   const [retryCount, setRetryCount] = useState(0)
@@ -305,17 +292,6 @@ const PositionalNotationTester = ({
       ) : (
         <>
           {isSetup && (
-            <StarDisplay
-              theme={theme}
-              count={starReward}
-              editable
-              onChange={(value) => onStarsChange(value)}
-              min={1}
-              max={3}
-            />
-          )}
-
-          {isSetup && (
             <div
               style={{
                 display: 'flex',
@@ -363,6 +339,17 @@ const PositionalNotationTester = ({
                 ariaLabel="More puzzles"
               />
             </div>
+          )}
+
+          {isSetup && (
+            <StarDisplay
+              theme={theme}
+              count={starReward}
+              editable
+              onChange={(value) => onStarsChange(value)}
+              min={1}
+              max={3}
+            />
           )}
 
           {isRunning && (
@@ -731,4 +718,4 @@ const PositionalNotationTester = ({
   )
 }
 
-export default PositionalNotationTester
+export default PositionalNotation

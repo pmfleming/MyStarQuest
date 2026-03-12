@@ -11,9 +11,14 @@ import ActionTextInput from '../components/ActionTextInput'
 import RepeatControl from '../components/RepeatControl'
 import DinnerCountdown from '../components/DinnerCountdown'
 import ArithmeticTester from '../components/ArithmeticTester'
-import PositionalNotationTester from '../components/PositionalNotationTaskTester'
+import PositionalNotation from '../components/PositionalNotation'
 import DayNightExplorer from '../components/DayNightExplorer'
 import { uiTokens } from '../ui/tokens'
+import {
+  resolveSetupStatusAction,
+  runSetupStatusAction,
+  type SetupStatusActionRule,
+} from '../utils/setupStatusActions'
 import { getSeasonForDate } from '../utils/today'
 import { useDinnerActivity } from '../hooks/useDinnerActivity'
 import { useTasks } from '../data/useTasks'
@@ -364,6 +369,47 @@ const ManageTasksPage = () => {
     await resetDinnerActivity(task, dinnerReset)
   }
 
+  const setupStatusRules: SetupStatusActionRule<TaskWithEphemeral>[] = [
+    {
+      matches: isEatingTask,
+      isInTask: (task) => {
+        const eatingTask = task as EatingTaskWithEphemeral
+        return (
+          isDinnerTaskRunning(eatingTask) ||
+          Boolean(eatingTask.manageDinnerCompletedAt)
+        )
+      },
+      resetAriaLabel: 'Reset dinner chore',
+      onReset: (task) => handleDinnerReset(task as EatingTaskWithEphemeral),
+    },
+    {
+      matches: isMathTask,
+      isInTask: (task) => {
+        const mathTask = task as MathTaskWithEphemeral
+        return (
+          activeMathTaskId === mathTask.id ||
+          Boolean(mathTask.manageMathCompletedAt)
+        )
+      },
+      resetAriaLabel: 'Reset arithmetic chore',
+      onReset: (task) => handleMathReset(task as MathTaskWithEphemeral),
+    },
+    {
+      matches: isPositionalNotationTask,
+      isInTask: (task) => {
+        const pvTask = task as PVTaskWithEphemeral
+        return (
+          activePVTaskId === pvTask.id || Boolean(pvTask.managePVCompletedAt)
+        )
+      },
+      resetAriaLabel: 'Reset positional notation chore',
+      onReset: (task) => handlePVReset(task as PVTaskWithEphemeral),
+    },
+  ]
+
+  const getSetupStatusAction = (task: TaskWithEphemeral) =>
+    resolveSetupStatusAction(task, setupStatusRules, 'Delete chore')
+
   const handleAwardDayNight = async (task: DayNightTaskWithEphemeral) => {
     setIsAwarding(true)
     try {
@@ -603,7 +649,7 @@ const ManageTasksPage = () => {
                         transparent
                       />
 
-                      <PositionalNotationTester
+                      <PositionalNotation
                         theme={theme}
                         totalProblems={
                           task.pvTotalProblems ?? DEFAULT_PV_PROBLEMS
@@ -895,42 +941,10 @@ const ManageTasksPage = () => {
                 }}
                 hideEdit
                 utilityAction={{
-                  label: (task) =>
-                    (isEatingTask(task) &&
-                      (isDinnerTaskRunning(task) ||
-                        Boolean(task.manageDinnerCompletedAt))) ||
-                    (isMathTask(task) &&
-                      activeMathTaskId === task.id &&
-                      !task.manageMathCompletedAt) ||
-                    (isPositionalNotationTask(task) &&
-                      activePVTaskId === task.id &&
-                      !task.managePVCompletedAt)
-                      ? 'Reset'
-                      : 'Delete',
-                  ariaLabel: (task) =>
-                    isEatingTask(task) &&
-                    (isDinnerTaskRunning(task) ||
-                      Boolean(task.manageDinnerCompletedAt))
-                      ? 'Reset dinner chore'
-                      : isMathTask(task) &&
-                          activeMathTaskId === task.id &&
-                          !task.manageMathCompletedAt
-                        ? 'Reset arithmetic chore'
-                        : isPositionalNotationTask(task) &&
-                            activePVTaskId === task.id &&
-                            !task.managePVCompletedAt
-                          ? 'Reset positional notation chore'
-                          : 'Delete chore',
+                  label: (task) => getSetupStatusAction(task).label,
+                  ariaLabel: (task) => getSetupStatusAction(task).ariaLabel,
                   icon: (task) =>
-                    ((isEatingTask(task) &&
-                      (isDinnerTaskRunning(task) ||
-                        Boolean(task.manageDinnerCompletedAt))) ||
-                      (isMathTask(task) &&
-                        activeMathTaskId === task.id &&
-                        !task.manageMathCompletedAt) ||
-                      (isPositionalNotationTask(task) &&
-                        activePVTaskId === task.id &&
-                        !task.managePVCompletedAt)) &&
+                    getSetupStatusAction(task).isReset &&
                     theme.id === 'princess' ? (
                       <img
                         src={princessResetIcon}
@@ -938,57 +952,12 @@ const ManageTasksPage = () => {
                         className="h-6 w-6 object-contain"
                       />
                     ) : undefined,
-                  onClick: (task) => {
-                    if (
-                      isEatingTask(task) &&
-                      (isDinnerTaskRunning(task) ||
-                        Boolean(task.manageDinnerCompletedAt))
-                    ) {
-                      handleDinnerReset(task)
-                      return
-                    }
-                    if (
-                      isMathTask(task) &&
-                      activeMathTaskId === task.id &&
-                      !task.manageMathCompletedAt
-                    ) {
-                      handleMathReset(task)
-                      return
-                    }
-                    if (
-                      isPositionalNotationTask(task) &&
-                      activePVTaskId === task.id &&
-                      !task.managePVCompletedAt
-                    ) {
-                      handlePVReset(task)
-                      return
-                    }
-                    handleDelete(task.id)
-                  },
-                  exits: (task) =>
-                    !(
-                      (isEatingTask(task) &&
-                        (isDinnerTaskRunning(task) ||
-                          Boolean(task.manageDinnerCompletedAt))) ||
-                      (isMathTask(task) &&
-                        activeMathTaskId === task.id &&
-                        !task.manageMathCompletedAt) ||
-                      (isPositionalNotationTask(task) &&
-                        activePVTaskId === task.id &&
-                        !task.managePVCompletedAt)
+                  onClick: (task) =>
+                    runSetupStatusAction(task, setupStatusRules, (item) =>
+                      handleDelete(item.id)
                     ),
-                  variant: (task) =>
-                    (isEatingTask(task) &&
-                      (isDinnerTaskRunning(task) ||
-                        Boolean(task.manageDinnerCompletedAt))) ||
-                    (isMathTask(task) &&
-                      activeMathTaskId === task.id &&
-                      !task.manageMathCompletedAt) ||
-                    (isPositionalNotationTask(task) &&
-                      activePVTaskId === task.id &&
-                      !task.managePVCompletedAt)
-                      ? 'neutral'
-                      : 'danger',
+                  exits: (task) => getSetupStatusAction(task).exits,
+                  variant: (task) => getSetupStatusAction(task).variant,
                 }}
                 onDelete={(task) => handleDelete(task.id)}
                 addLabel="Chore"

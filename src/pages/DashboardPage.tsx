@@ -97,10 +97,9 @@ const DashboardPage = () => {
         />
 
         {/* Star Balance */}
-        <StarInfoBox
-          theme={theme}
-          totalStars={selectedChild?.totalStars || 0}
-        />
+        {selectedChild && (
+          <StarInfoBox theme={theme} totalStars={selectedChild.totalStars} />
+        )}
 
         {/* Main Actions */}
         <nav
