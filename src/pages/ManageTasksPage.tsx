@@ -9,14 +9,13 @@ import StandardActionList from '../components/StandardActionList'
 import StarDisplay from '../components/StarDisplay'
 import ActionTextInput from '../components/ActionTextInput'
 import RepeatControl from '../components/RepeatControl'
-import DinnerCountdown, {
-  BITE_COOLDOWN_SECONDS,
-} from '../components/DinnerCountdown'
+import DinnerCountdown from '../components/DinnerCountdown'
 import ArithmeticTester from '../components/ArithmeticTester'
 import PositionalNotationTester from '../components/PositionalNotationTaskTester'
 import DayNightExplorer from '../components/DayNightExplorer'
 import { uiTokens } from '../ui/tokens'
 import { getSeasonForDate } from '../utils/today'
+import { useDinnerActivity } from '../hooks/useDinnerActivity'
 import { useTasks } from '../data/useTasks'
 import {
   DEFAULT_DINNER_BITES,
@@ -119,9 +118,6 @@ const ManageTasksPage = () => {
   } = useTasks()
 
   const [isAwarding, setIsAwarding] = useState(false)
-  const [activeDinnerTaskId, setActiveDinnerTaskId] = useState<string | null>(
-    null
-  )
   const [activeMathTaskId, setActiveMathTaskId] = useState<string | null>(null)
   const [activePVTaskId, setActivePVTaskId] = useState<string | null>(null)
   const [mathCheckTriggerByTask, setMathCheckTriggerByTask] = useState<
@@ -131,13 +127,7 @@ const ManageTasksPage = () => {
     Record<string, number>
   >({})
   const [showAddChooser, setShowAddChooser] = useState(false)
-  const [, setDinnerTimerTick] = useState(0)
 
-  // Bite cooldown: prevents rapid tapping (one bite per 20 s)
-  const [biteCooldownSeconds, setBiteCooldownSeconds] = useState(0)
-  const [pendingDinnerBiteTaskId, setPendingDinnerBiteTaskId] = useState<
-    string | null
-  >(null)
   const [biteCooldownTestIconIndex, setBiteCooldownTestIconIndex] = useState<
     number | null
   >(null)
@@ -145,40 +135,32 @@ const ManageTasksPage = () => {
   const currentSeason = getSeasonForDate(new Date())
   const princessNonSchoolDayImage = getPrincessNonSchoolDayImage(currentSeason)
 
-  // Tick down bite cooldown every second
-  useEffect(() => {
-    if (biteCooldownSeconds <= 0) return
-    const timer = window.setTimeout(() => {
-      setBiteCooldownSeconds((prev) => Math.max(0, prev - 1))
-    }, 1000)
-    return () => window.clearTimeout(timer)
-  }, [biteCooldownSeconds])
+  const {
+    activeItemId: activeDinnerTaskId,
+    biteCooldownSeconds,
+    pendingBiteItemId: pendingDinnerBiteTaskId,
+    startActivity: startDinnerActivity,
+    clearItemState: clearDinnerTaskState,
+    isRunning: isDinnerTaskRunning,
+    queueBite: queueDinnerBite,
+    resetActivity: resetDinnerActivity,
+  } = useDinnerActivity<EatingTaskWithEphemeral>({
+    items: tasks.filter(isEatingTask),
+    getId: (task) => task.id,
+    isCompleted: (task) => Boolean(task.manageDinnerCompletedAt),
+    getRemaining: getManageDinnerLiveRemaining,
+    getBitesLeft: getManageDinnerBitesLeft,
+    applyBite: async (task) => Boolean(await dinnerApplyBite(task)),
+    expireTimer: dinnerTimerExpired,
+    resetKeys: [activeChildId],
+  })
 
-  // Clear cooldown when the dinner game ends (timer stops or bites finish)
+  // Clear the princess cooldown test icon when the dinner game ends
   useEffect(() => {
     if (!activeDinnerTaskId && !pendingDinnerBiteTaskId) {
-      setBiteCooldownSeconds(0)
       setBiteCooldownTestIconIndex(null)
     }
   }, [activeDinnerTaskId, pendingDinnerBiteTaskId])
-
-  // Apply bite only after cooldown completes
-  useEffect(() => {
-    if (!pendingDinnerBiteTaskId || biteCooldownSeconds > 0) return
-
-    const applyBiteAfterCooldown = async () => {
-      const taskId = pendingDinnerBiteTaskId
-      setPendingDinnerBiteTaskId(null)
-
-      const task = tasks.find((item) => item.id === taskId)
-      if (!task || !isEatingTask(task)) return
-
-      const done = await dinnerApplyBite(task)
-      if (done) setActiveDinnerTaskId(null)
-    }
-
-    applyBiteAfterCooldown()
-  }, [biteCooldownSeconds, dinnerApplyBite, pendingDinnerBiteTaskId, tasks])
 
   const activePrincessCooldownIcon = (() => {
     const defaultIcon = getPrincessCooldownIconForHour(new Date().getHours())
@@ -201,38 +183,6 @@ const ManageTasksPage = () => {
       return nextIndex
     })
   }
-
-  // Dinner timer: tick each second while active (client-side only, no Firestore writes)
-  useEffect(() => {
-    if (!activeDinnerTaskId) return
-
-    const timer = window.setInterval(() => {
-      const dinnerTask = tasks.find((task) => task.id === activeDinnerTaskId)
-      if (!dinnerTask || !isEatingTask(dinnerTask)) {
-        setActiveDinnerTaskId(null)
-        return
-      }
-
-      const remaining = getManageDinnerLiveRemaining(dinnerTask)
-      const bitesLeft = getManageDinnerBitesLeft(dinnerTask)
-      const isCompleted = Boolean(dinnerTask.manageDinnerCompletedAt)
-
-      if (remaining <= 0 || (bitesLeft <= 0 && isCompleted)) {
-        if (remaining <= 0 && !isCompleted) {
-          dinnerTimerExpired(dinnerTask)
-        }
-        setActiveDinnerTaskId(null)
-        return
-      }
-
-      if (bitesLeft <= 0 && !isCompleted) return
-
-      // Force re-render to update displayed remaining time
-      setDinnerTimerTick((t) => t + 1)
-    }, 1000)
-
-    return () => window.clearInterval(timer)
-  }, [activeDinnerTaskId, dinnerTimerExpired, tasks])
 
   const renderDayTypeControl = (task: TaskWithEphemeral) => {
     const getScheduleButtonStyle = (isActive: boolean) => ({
@@ -389,10 +339,9 @@ const ManageTasksPage = () => {
 
   const handleDelete = async (id: string) => {
     await deleteTask(id)
-    if (activeDinnerTaskId === id) setActiveDinnerTaskId(null)
+    clearDinnerTaskState(id)
     if (activeMathTaskId === id) setActiveMathTaskId(null)
     if (activePVTaskId === id) setActivePVTaskId(null)
-    if (pendingDinnerBiteTaskId === id) setPendingDinnerBiteTaskId(null)
     setMathCheckTriggerByTask((prev) => {
       const next = { ...prev }
       delete next[id]
@@ -406,21 +355,13 @@ const ManageTasksPage = () => {
   }
 
   const handleDinnerBite = (task: EatingTaskWithEphemeral) => {
-    if (biteCooldownSeconds > 0) return
-    if (pendingDinnerBiteTaskId) return
-    const bitesLeft = getManageDinnerBitesLeft(task)
-    if (bitesLeft <= 0) return
-
-    setPendingDinnerBiteTaskId(task.id)
     setBiteCooldownTestIconIndex(null)
-    setBiteCooldownSeconds(BITE_COOLDOWN_SECONDS)
+    queueDinnerBite(task)
   }
 
   const handleDinnerReset = async (task: EatingTaskWithEphemeral) => {
-    setBiteCooldownSeconds(0)
     setBiteCooldownTestIconIndex(null)
-    setPendingDinnerBiteTaskId(null)
-    await dinnerReset(task)
+    await resetDinnerActivity(task, dinnerReset)
   }
 
   const handleAwardDayNight = async (task: DayNightTaskWithEphemeral) => {
@@ -494,6 +435,17 @@ const ManageTasksPage = () => {
                       className="flex flex-col"
                       style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
                     >
+                      <div
+                        style={{
+                          fontFamily: theme.fonts.heading,
+                          fontSize: '1.25rem',
+                          fontWeight: 800,
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        {task.title}
+                      </div>
+
                       <DinnerCountdown
                         theme={theme}
                         duration={
@@ -506,7 +458,7 @@ const ManageTasksPage = () => {
                         }
                         bitesLeft={getManageDinnerBitesLeft(task)}
                         starReward={task.starValue}
-                        isTimerRunning={activeDinnerTaskId === task.id}
+                        isTimerRunning={isDinnerTaskRunning(task)}
                         plateImage={
                           theme.id === 'princess'
                             ? princessPlateImage
@@ -565,8 +517,20 @@ const ManageTasksPage = () => {
                             ? handleCycleCooldownTestIcon
                             : undefined
                         }
+                        showSetupControls={
+                          !isDinnerTaskRunning(task) &&
+                          !task.manageDinnerCompletedAt
+                        }
+                        showStarReward={
+                          !isDinnerTaskRunning(task) &&
+                          !task.manageDinnerCompletedAt
+                        }
                       />
-                      {renderDayTypeControl(task)}
+
+                      {!isDinnerTaskRunning(task) &&
+                      !task.manageDinnerCompletedAt
+                        ? renderDayTypeControl(task)
+                        : null}
                     </div>
                   ) : isMathTask(task) ? (
                     <div
@@ -731,7 +695,7 @@ const ManageTasksPage = () => {
                     if (isEatingTask(task)) {
                       const isFinished = Boolean(task.manageDinnerCompletedAt)
                       if (isFinished) return 'Again 🔁'
-                      return activeDinnerTaskId === task.id ? 'Bite' : 'Start'
+                      return isDinnerTaskRunning(task) ? 'Bite' : 'Start'
                     }
                     if (isMathTask(task)) {
                       if (task.manageMathCompletedAt) return 'Again 🔁'
@@ -753,17 +717,7 @@ const ManageTasksPage = () => {
                   icon: (task) => {
                     if (isEatingTask(task)) {
                       const isFinished = Boolean(task.manageDinnerCompletedAt)
-                      const isRunning = activeDinnerTaskId === task.id
-                      if (!isFinished && !isRunning) {
-                        return (
-                          <img
-                            src={princessGiveStarIcon}
-                            alt="Start"
-                            className="h-6 w-6 object-contain"
-                          />
-                        )
-                      }
-                      if (isRunning) {
+                      if (!isFinished) {
                         return (
                           <img
                             src={
@@ -771,7 +725,7 @@ const ManageTasksPage = () => {
                                 ? activePrincessCooldownIcon
                                 : princessBiteIcon
                             }
-                            alt="Bite"
+                            alt={isDinnerTaskRunning(task) ? 'Bite' : 'Start'}
                             className="h-6 w-6 object-contain"
                           />
                         )
@@ -841,7 +795,9 @@ const ManageTasksPage = () => {
                               ? princessActiveIcon
                               : princessGiveStarIcon
                           }
-                          alt={task.manageCompletedAt ? 'Completed' : 'Give star'}
+                          alt={
+                            task.manageCompletedAt ? 'Completed' : 'Give star'
+                          }
                           className="h-6 w-6 object-contain"
                         />
                       )
@@ -865,11 +821,11 @@ const ManageTasksPage = () => {
                         handleDinnerReset(task)
                         return
                       }
-                      if (activeDinnerTaskId === task.id) {
+                      if (isDinnerTaskRunning(task)) {
                         handleDinnerBite(task)
                       } else {
                         dinnerStartTimer(task)
-                        setActiveDinnerTaskId(task.id)
+                        startDinnerActivity(task.id)
                       }
                     } else if (isMathTask(task)) {
                       if (task.manageMathCompletedAt) {
@@ -911,10 +867,7 @@ const ManageTasksPage = () => {
                   disabled: (task) => {
                     if (isEatingTask(task)) {
                       // Disable bite button during chewing cooldown
-                      if (
-                        activeDinnerTaskId === task.id &&
-                        biteCooldownSeconds > 0
-                      )
+                      if (isDinnerTaskRunning(task) && biteCooldownSeconds > 0)
                         return true
                       return false
                     }
@@ -943,6 +896,9 @@ const ManageTasksPage = () => {
                 hideEdit
                 utilityAction={{
                   label: (task) =>
+                    (isEatingTask(task) &&
+                      (isDinnerTaskRunning(task) ||
+                        Boolean(task.manageDinnerCompletedAt))) ||
                     (isMathTask(task) &&
                       activeMathTaskId === task.id &&
                       !task.manageMathCompletedAt) ||
@@ -952,19 +908,26 @@ const ManageTasksPage = () => {
                       ? 'Reset'
                       : 'Delete',
                   ariaLabel: (task) =>
-                    isMathTask(task) &&
-                    activeMathTaskId === task.id &&
-                    !task.manageMathCompletedAt
-                      ? 'Reset arithmetic chore'
-                      : isPositionalNotationTask(task) &&
-                          activePVTaskId === task.id &&
-                          !task.managePVCompletedAt
-                        ? 'Reset positional notation chore'
-                        : 'Delete chore',
+                    isEatingTask(task) &&
+                    (isDinnerTaskRunning(task) ||
+                      Boolean(task.manageDinnerCompletedAt))
+                      ? 'Reset dinner chore'
+                      : isMathTask(task) &&
+                          activeMathTaskId === task.id &&
+                          !task.manageMathCompletedAt
+                        ? 'Reset arithmetic chore'
+                        : isPositionalNotationTask(task) &&
+                            activePVTaskId === task.id &&
+                            !task.managePVCompletedAt
+                          ? 'Reset positional notation chore'
+                          : 'Delete chore',
                   icon: (task) =>
-                    ((isMathTask(task) &&
-                      activeMathTaskId === task.id &&
-                      !task.manageMathCompletedAt) ||
+                    ((isEatingTask(task) &&
+                      (isDinnerTaskRunning(task) ||
+                        Boolean(task.manageDinnerCompletedAt))) ||
+                      (isMathTask(task) &&
+                        activeMathTaskId === task.id &&
+                        !task.manageMathCompletedAt) ||
                       (isPositionalNotationTask(task) &&
                         activePVTaskId === task.id &&
                         !task.managePVCompletedAt)) &&
@@ -976,6 +939,14 @@ const ManageTasksPage = () => {
                       />
                     ) : undefined,
                   onClick: (task) => {
+                    if (
+                      isEatingTask(task) &&
+                      (isDinnerTaskRunning(task) ||
+                        Boolean(task.manageDinnerCompletedAt))
+                    ) {
+                      handleDinnerReset(task)
+                      return
+                    }
                     if (
                       isMathTask(task) &&
                       activeMathTaskId === task.id &&
@@ -996,6 +967,9 @@ const ManageTasksPage = () => {
                   },
                   exits: (task) =>
                     !(
+                      (isEatingTask(task) &&
+                        (isDinnerTaskRunning(task) ||
+                          Boolean(task.manageDinnerCompletedAt))) ||
                       (isMathTask(task) &&
                         activeMathTaskId === task.id &&
                         !task.manageMathCompletedAt) ||
@@ -1004,6 +978,9 @@ const ManageTasksPage = () => {
                         !task.managePVCompletedAt)
                     ),
                   variant: (task) =>
+                    (isEatingTask(task) &&
+                      (isDinnerTaskRunning(task) ||
+                        Boolean(task.manageDinnerCompletedAt))) ||
                     (isMathTask(task) &&
                       activeMathTaskId === task.id &&
                       !task.manageMathCompletedAt) ||

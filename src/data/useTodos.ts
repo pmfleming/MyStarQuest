@@ -5,10 +5,12 @@ import {
   addDoc,
   collection,
   deleteDoc,
+  type DocumentData,
   doc,
   onSnapshot,
   query,
   serverTimestamp,
+  type UpdateData,
   updateDoc,
   where,
 } from 'firebase/firestore'
@@ -37,10 +39,10 @@ import {
 export function useTodos() {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
-  
+
   const [tasks, setTasks] = useState<TaskTemplate[]>([])
   const [todos, setTodos] = useState<TodoRecord[]>([])
-  
+
   // ── Midnight Rollover Fix ──
   // Evaluates the current date and automatically updates if the day changes
   const [todayInfo, setTodayInfo] = useState(() => getTodayDescriptor())
@@ -76,7 +78,8 @@ export function useTodos() {
                   ? 'math'
                   : data.taskType === 'eating' || data.category === 'eating'
                     ? 'eating'
-                    : data.taskType === 'daynight' || data.category === 'daynight'
+                    : data.taskType === 'daynight' ||
+                        data.category === 'daynight'
                       ? 'daynight'
                       : 'standard'
 
@@ -291,7 +294,7 @@ export function useTodos() {
     try {
       await updateDoc(
         doc(collection(db, 'users', user.uid, 'todos'), todoId),
-        field as any // Typecast added in case TodoUpdatableFields doesn't expect FieldValue natively
+        field as UpdateData<DocumentData>
       )
     } catch (error) {
       console.error('Failed to update todo', error)
@@ -319,8 +322,10 @@ export function useTodos() {
     switch (task.taskType) {
       case 'eating':
         taskSpecific = {
-          dinnerDurationSeconds: task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
-          dinnerRemainingSeconds: task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
+          dinnerDurationSeconds:
+            task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
+          dinnerRemainingSeconds:
+            task.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
           dinnerTotalBites: task.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
           dinnerBitesLeft: task.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
         }
@@ -396,7 +401,16 @@ export function useTodos() {
     await updateTodoFields(todo.id, {
       dinnerTimerStartedAt: null,
       dinnerRemainingSeconds: 0,
-      completedAt: serverTimestamp() as any, // Replaced Date.now()
+      completedAt: serverTimestamp() as unknown as number,
+    })
+  }
+
+  const dinnerReset = async (todo: EatingTodo) => {
+    await updateTodoFields(todo.id, {
+      dinnerTimerStartedAt: null,
+      dinnerRemainingSeconds: todo.dinnerDurationSeconds,
+      dinnerBitesLeft: todo.dinnerTotalBites,
+      completedAt: null,
     })
   }
 
@@ -415,7 +429,7 @@ export function useTodos() {
 
   const mathFail = async (todo: MathTodo) => {
     await updateTodoFields(todo.id, {
-      completedAt: serverTimestamp() as any, // Replaced Date.now()
+      completedAt: serverTimestamp() as unknown as number,
       mathLastOutcome: 'failure',
     })
   }
@@ -435,7 +449,7 @@ export function useTodos() {
 
   const pvFail = async (todo: PositionalNotationTodo) => {
     await updateTodoFields(todo.id, {
-      completedAt: serverTimestamp() as any, // Replaced Date.now()
+      completedAt: serverTimestamp() as unknown as number,
       pvLastOutcome: 'failure',
     })
   }
@@ -468,6 +482,7 @@ export function useTodos() {
     dinnerApplyBite,
     dinnerStartTimer,
     dinnerTimerExpired,
+    dinnerReset,
     mathComplete,
     mathFail,
     pvComplete,

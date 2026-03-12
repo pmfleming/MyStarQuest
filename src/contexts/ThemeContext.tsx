@@ -8,6 +8,8 @@ import playingImg from '../assets/themes/princess/playing.svg'
 import eatingDinnerImg from '../assets/themes/princess/eating-dinner.svg'
 import computergamesImg from '../assets/themes/princess/computergames.svg'
 import bathtimeImg from '../assets/themes/princess/bathtime.svg'
+import cookingImg from '../assets/themes/princess/cooking.svg'
+import washingTeethImg from '../assets/themes/princess/washing-teeth.svg'
 /* eslint-disable react-refresh/only-export-components */
 
 // Define the shape of a theme
@@ -29,6 +31,8 @@ export interface ThemeActivityImages {
   eatingDinner: string
   computergames: string
   bathtime: string
+  cooking: string
+  washingTeeth: string
 }
 
 export interface Theme {
@@ -140,6 +144,8 @@ export const themes: Record<ThemeId, Theme> = {
       eatingDinner: eatingDinnerImg,
       computergames: computergamesImg,
       bathtime: bathtimeImg,
+      cooking: cookingImg,
+      washingTeeth: washingTeethImg,
     },
   },
 }

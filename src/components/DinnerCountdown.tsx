@@ -118,6 +118,10 @@ interface DinnerCountdownProps {
   biteIcon?: string
   /** Optional test hook to cycle cooldown icon while visible */
   onBiteIconClick?: () => void
+  /** Hide the +/- setup controls around the timer and plate */
+  showSetupControls?: boolean
+  /** Hide the editable star reward block */
+  showStarReward?: boolean
 }
 
 const DinnerCountdown = ({
@@ -138,6 +142,8 @@ const DinnerCountdown = ({
   biteCooldownSeconds = 0,
   biteIcon,
   onBiteIconClick,
+  showSetupControls = true,
+  showStarReward = true,
 }: DinnerCountdownProps) => {
   /* --- derived game phase --- */
   const isCoolingDown = biteCooldownSeconds > 0
@@ -145,6 +151,7 @@ const DinnerCountdown = ({
   const isTimeout = remaining <= 0 && bitesLeft > 0
   const isFinished = isSuccess || isTimeout
   const isSetup = !isTimerRunning && !isFinished && !isCoolingDown
+  const showSideControls = showSetupControls && !isFinished
 
   /* --- bite animation tracking --- */
   const [animSlice, setAnimSlice] = useState<number | null>(null)
@@ -260,11 +267,11 @@ const DinnerCountdown = ({
           >
             <div
               style={{
-                opacity: isSetup ? 1 : 0,
+                opacity: showSideControls ? 1 : 0,
                 pointerEvents: isSetup ? 'auto' : 'none',
                 transition: 'opacity 0.3s',
                 position: 'relative',
-                zIndex: isSetup ? 3 : 1,
+                zIndex: showSideControls ? 3 : 1,
               }}
             >
               <StepperButton
@@ -400,11 +407,11 @@ const DinnerCountdown = ({
 
             <div
               style={{
-                opacity: isSetup ? 1 : 0,
+                opacity: showSideControls ? 1 : 0,
                 pointerEvents: isSetup ? 'auto' : 'none',
                 transition: 'opacity 0.3s',
                 position: 'relative',
-                zIndex: isSetup ? 3 : 1,
+                zIndex: showSideControls ? 3 : 1,
               }}
             >
               <StepperButton
@@ -432,11 +439,11 @@ const DinnerCountdown = ({
           >
             <div
               style={{
-                opacity: isSetup ? 1 : 0,
+                opacity: showSideControls ? 1 : 0,
                 pointerEvents: isSetup ? 'auto' : 'none',
                 transition: 'opacity 0.3s',
                 position: 'relative',
-                zIndex: isSetup ? 3 : 1,
+                zIndex: showSideControls ? 3 : 1,
               }}
             >
               <StepperButton
@@ -649,11 +656,11 @@ const DinnerCountdown = ({
 
             <div
               style={{
-                opacity: isSetup ? 1 : 0,
+                opacity: showSideControls ? 1 : 0,
                 pointerEvents: isSetup ? 'auto' : 'none',
                 transition: 'opacity 0.3s',
                 position: 'relative',
-                zIndex: isSetup ? 3 : 1,
+                zIndex: showSideControls ? 3 : 1,
               }}
             >
               <StepperButton
@@ -668,7 +675,7 @@ const DinnerCountdown = ({
           </div>
 
           {/* ---- STAR REWARD (editable, setup only) ---- */}
-          {isSetup && (
+          {showStarReward && isSetup && (
             <StarDisplay
               theme={theme}
               count={starReward}

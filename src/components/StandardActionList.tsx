@@ -93,7 +93,7 @@ type StandardActionListProps<T> = {
   getKey?: (item: T) => string
   isHighlighted?: (item: T) => boolean
   /** Optional: Return star count for an item to render the star field */
-  getStarCount?: (item: T) => number
+  getStarCount?: (item: T) => number | undefined
   /** When true, the Edit button is hidden on all rows */
   hideEdit?: boolean
   /** Key of the item currently being edited inline */
@@ -147,7 +147,7 @@ const ActionCard = <T,>({
   getActionStyle: (variant?: ActionConfig<T>['variant']) => CSSProperties
   actionBaseStyle: CSSProperties
   getKey?: (item: T) => string
-  getStarCount?: (item: T) => number
+  getStarCount?: (item: T) => number | undefined
   hideEdit?: boolean
   editingId?: string
   renderInlineEdit?: (item: T) => ReactNode

@@ -1,13 +1,11 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
-import DinnerCountdown, {
-  BITE_COOLDOWN_SECONDS,
-} from '../components/DinnerCountdown'
+import DinnerCountdown from '../components/DinnerCountdown'
 import ArithmeticTester from '../components/ArithmeticTester'
 import PositionalNotationTester from '../components/PositionalNotationTaskTester'
 import DayNightExplorer from '../components/DayNightExplorer'
@@ -16,6 +14,7 @@ import {
   getScheduleLabel,
   getTodayDescriptor,
 } from '../utils/today'
+import { useDinnerActivity } from '../hooks/useDinnerActivity'
 import { uiTokens } from '../ui/tokens'
 import { useTodos } from '../data/useTodos'
 import {
@@ -30,38 +29,25 @@ import {
 } from '../data/types'
 import {
   princessActiveIcon,
-  princessBiteIcon,
   princessChoresIcon,
+  princessEatingBreakfastIcon,
+  princessEatingDinnerIcon,
   princessEatingFailImage,
   princessEatingFullImage,
+  princessEatingLunchIcon,
   princessGiveStarIcon,
   princessHomeIcon,
   princessResetIcon,
   princessMathsCorrectImage,
   princessMathsIcon,
   princessMathsIncorrectImage,
-  princessNonSchoolDayAutumnImage,
-  princessNonSchoolDaySpringImage,
-  princessNonSchoolDaySummerImage,
-  princessNonSchoolDayWinterImage,
   princessPlateImage,
-  princessSchoolDayImage,
 } from '../assets/themes/princess/assets'
 
-const getPrincessNonSchoolDayImage = (
-  season: ReturnType<typeof getTodayDescriptor>['season']
-) => {
-  switch (season) {
-    case 'spring':
-      return princessNonSchoolDaySpringImage
-    case 'summer':
-      return princessNonSchoolDaySummerImage
-    case 'autumn':
-      return princessNonSchoolDayAutumnImage
-    case 'winter':
-    default:
-      return princessNonSchoolDayWinterImage
-  }
+const getPrincessMealIconForHour = (hour: number) => {
+  if (hour < 10) return princessEatingBreakfastIcon
+  if (hour < 16) return princessEatingLunchIcon
+  return princessEatingDinnerIcon
 }
 
 const TodayPage = () => {
@@ -89,6 +75,7 @@ const TodayPage = () => {
     dinnerApplyBite,
     dinnerStartTimer,
     dinnerTimerExpired,
+    dinnerReset,
     mathComplete,
     mathFail,
     pvComplete,
@@ -97,120 +84,49 @@ const TodayPage = () => {
   } = useTodos()
 
   const [showAddChooser, setShowAddChooser] = useState(false)
-  const [, setDinnerTimerTick] = useState(0)
   const [pendingTodoId, setPendingTodoId] = useState<string | null>(null)
-  
-  // Active UI States
-  const [activeDinnerTodoId, setActiveDinnerTodoId] = useState<string | null>(null)
   const [activeMathTodoId, setActiveMathTodoId] = useState<string | null>(null)
   const [activePVTodoId, setActivePVTodoId] = useState<string | null>(null)
-  
-  const [mathCheckTriggerByTodo, setMathCheckTriggerByTodo] = useState<Record<string, number>>({})
-  const [pvCheckTriggerByTodo, setPVCheckTriggerByTodo] = useState<Record<string, number>>({})
-  const [biteCooldownSeconds, setBiteCooldownSeconds] = useState(0)
-  const [pendingDinnerBiteTodoId, setPendingDinnerBiteTodoId] = useState<string | null>(null)
 
-  // 2. MEMORY & REACTIVITY FIX: Keep a mutable ref of the latest todos so intervals don't reset.
-  const todosRef = useRef(todos)
-  useEffect(() => {
-    todosRef.current = todos
-  }, [todos])
+  const [mathCheckTriggerByTodo, setMathCheckTriggerByTodo] = useState<
+    Record<string, number>
+  >({})
+  const [pvCheckTriggerByTodo, setPVCheckTriggerByTodo] = useState<
+    Record<string, number>
+  >({})
 
-  // Track mount status to prevent setting state on unmounted components
-  const isMounted = useRef(true)
-  useEffect(() => {
-    return () => {
-      isMounted.current = false
-    }
-  }, [])
+  const activePrincessMealIcon = getPrincessMealIconForHour(
+    new Date().getHours()
+  )
 
-  const princessNonSchoolDayImage = getPrincessNonSchoolDayImage(todayInfo.season)
+  const {
+    activeItemId: activeDinnerTodoId,
+    biteCooldownSeconds,
+    startActivity: startDinnerActivity,
+    clearItemState: clearDinnerTodoState,
+    isRunning: isDinnerTodoRunning,
+    isInActivity: isDinnerTodoInActivity,
+    queueBite: queueDinnerBite,
+    resetActivity: resetDinnerActivity,
+  } = useDinnerActivity<EatingTodo>({
+    items: todos.filter(isEatingTodo),
+    getId: (todo) => todo.id,
+    isCompleted: (todo) => Boolean(todo.completedAt),
+    getRemaining: getDinnerLiveRemaining,
+    getBitesLeft: getDinnerBitesLeft,
+    applyBite: dinnerApplyBite,
+    expireTimer: dinnerTimerExpired,
+    isPersistedRunning: (todo) => Boolean(todo.dinnerTimerStartedAt),
+    resetKeys: [activeChildId, todayInfo.dateKey],
+  })
 
   // Reset UI state on child/date change
   useEffect(() => {
-    setActiveDinnerTodoId(null)
     setActiveMathTodoId(null)
     setActivePVTodoId(null)
     setMathCheckTriggerByTodo({})
     setPVCheckTriggerByTodo({})
-    setBiteCooldownSeconds(0)
-    setPendingDinnerBiteTodoId(null)
   }, [activeChildId, todayInfo.dateKey])
-
-  // Bite Cooldown Timer
-  useEffect(() => {
-    if (biteCooldownSeconds <= 0) return
-    const timer = window.setTimeout(() => {
-      if (isMounted.current) {
-        setBiteCooldownSeconds((prev) => Math.max(0, prev - 1))
-      }
-    }, 1000)
-    return () => window.clearTimeout(timer)
-  }, [biteCooldownSeconds])
-
-  // Clear cooldown early if no active bite is pending
-  useEffect(() => {
-    if (!activeDinnerTodoId && !pendingDinnerBiteTodoId) {
-      setBiteCooldownSeconds(0)
-    }
-  }, [activeDinnerTodoId, pendingDinnerBiteTodoId])
-
-  // Apply bite only after cooldown completes
-  useEffect(() => {
-    if (!pendingDinnerBiteTodoId || biteCooldownSeconds > 0) return
-
-    const applyBiteAfterCooldown = async () => {
-      // Use todosRef instead of todos dependency to avoid race conditions during syncs
-      const todo = todosRef.current.find((item) => item.id === pendingDinnerBiteTodoId)
-      
-      if (isMounted.current) setPendingDinnerBiteTodoId(null)
-
-      if (!todo || !isEatingTodo(todo) || todo.completedAt) return
-
-      try {
-        const done = await dinnerApplyBite(todo)
-        if (done && isMounted.current) setActiveDinnerTodoId(null)
-      } catch (error) {
-        console.error('Failed to apply bite', error)
-      }
-    }
-
-    applyBiteAfterCooldown()
-  }, [biteCooldownSeconds, dinnerApplyBite, pendingDinnerBiteTodoId])
-
-  // Dinner timer: tick each second while active (client-side only, no Firestore writes)
-  useEffect(() => {
-    if (!activeDinnerTodoId) return
-
-    const timer = window.setInterval(() => {
-      // Use todosRef so we don't have to put 'todos' in the dependency array
-      const todo = todosRef.current.find((item) => item.id === activeDinnerTodoId)
-      
-      if (!todo || !isEatingTodo(todo) || todo.completedAt) {
-        setActiveDinnerTodoId(null)
-        return
-      }
-
-      const remaining = getDinnerLiveRemaining(todo)
-      const bitesLeft = getDinnerBitesLeft(todo)
-
-      if (remaining <= 0) {
-        dinnerTimerExpired(todo)
-        setActiveDinnerTodoId(null)
-        return
-      }
-
-      if (bitesLeft <= 0) {
-        setActiveDinnerTodoId(null)
-        return
-      }
-
-      // Force re-render to update displayed remaining time
-      if (isMounted.current) setDinnerTimerTick((t) => t + 1)
-    }, 1000)
-
-    return () => window.clearInterval(timer)
-  }, [activeDinnerTodoId, dinnerTimerExpired, getDinnerBitesLeft, getDinnerLiveRemaining])
 
   // --- Slim handler wrappers ---
   const handleAddTodo = async (task: { id: string }) => {
@@ -229,27 +145,23 @@ const TodayPage = () => {
       console.error('Failed to complete todo', error)
       alert('Failed to complete that todo. Please try again.')
     } finally {
-      if (isMounted.current) setPendingTodoId(null)
+      setPendingTodoId(null)
     }
   }
 
   const handleDeleteTodo = async (todo: TodoRecord) => {
-    if (activeDinnerTodoId === todo.id) setActiveDinnerTodoId(null)
+    clearDinnerTodoState(todo.id)
     if (activeMathTodoId === todo.id) setActiveMathTodoId(null)
     if (activePVTodoId === todo.id) setActivePVTodoId(null)
-    if (pendingDinnerBiteTodoId === todo.id) setPendingDinnerBiteTodoId(null)
     await deleteTodo(todo)
   }
 
+  const handleDinnerReset = async (todo: EatingTodo) => {
+    await resetDinnerActivity(todo, dinnerReset)
+  }
+
   const handleDinnerBite = (todo: EatingTodo) => {
-    if (todo.completedAt) return
-    if (biteCooldownSeconds > 0 || pendingDinnerBiteTodoId) return
-
-    const bitesLeft = getDinnerBitesLeft(todo)
-    if (bitesLeft <= 0) return
-
-    setPendingDinnerBiteTodoId(todo.id)
-    setBiteCooldownSeconds(BITE_COOLDOWN_SECONDS)
+    queueDinnerBite(todo)
   }
 
   const handleMathComplete = async (todo: MathTodo) => {
@@ -287,14 +199,20 @@ const TodayPage = () => {
             <TopIconButton
               theme={theme}
               onClick={() => {
-                  if (activeChildId) resetTodayTodos()
+                if (activeChildId) resetTodayTodos()
               }}
               ariaLabel="Reset today"
               icon={
                 theme.id === 'princess' ? (
-                  <img src={princessResetIcon} alt="Reset today" className="h-10 w-10 object-contain" />
+                  <img
+                    src={princessResetIcon}
+                    alt="Reset today"
+                    className="h-10 w-10 object-contain"
+                  />
                 ) : (
-                  <span className="text-2xl" role="img" aria-hidden="true">🔄</span>
+                  <span className="text-2xl" role="img" aria-hidden="true">
+                    🔄
+                  </span>
                 )
               }
             />
@@ -304,9 +222,15 @@ const TodayPage = () => {
               ariaLabel="Chores"
               icon={
                 theme.id === 'princess' ? (
-                  <img src={princessChoresIcon} alt="Chores" className="h-10 w-10 object-contain" />
+                  <img
+                    src={princessChoresIcon}
+                    alt="Chores"
+                    className="h-10 w-10 object-contain"
+                  />
                 ) : (
-                  <span className="text-2xl" role="img" aria-hidden="true">🧹</span>
+                  <span className="text-2xl" role="img" aria-hidden="true">
+                    🧹
+                  </span>
                 )
               }
             />
@@ -316,9 +240,15 @@ const TodayPage = () => {
               ariaLabel="Home"
               icon={
                 theme.id === 'princess' ? (
-                  <img src={princessHomeIcon} alt="Home" className="h-10 w-10 object-contain" />
+                  <img
+                    src={princessHomeIcon}
+                    alt="Home"
+                    className="h-10 w-10 object-contain"
+                  />
                 ) : (
-                  <span className="text-2xl" role="img" aria-hidden="true">🏠</span>
+                  <span className="text-2xl" role="img" aria-hidden="true">
+                    🏠
+                  </span>
                 )
               }
             />
@@ -357,67 +287,53 @@ const TodayPage = () => {
             >
               {todayInfo.dayName}
             </div>
-            <div className="mt-2 text-lg font-semibold">{todayInfo.formattedDate}</div>
-            <div className="mt-4 text-base font-semibold opacity-90">{summaryText}</div>
+            <div className="mt-2 text-lg font-semibold">
+              {todayInfo.formattedDate}
+            </div>
+            <div className="mt-4 text-base font-semibold opacity-90">
+              {summaryText}
+            </div>
           </section>
 
           {!activeChildId ? (
             <div className="mt-10 flex flex-col items-center text-center opacity-70">
-              <span className="mb-4 text-6xl" role="img" aria-label="Child">👶</span>
-              <p className="text-2xl font-bold">Pick a child before planning today.</p>
+              <span className="mb-4 text-6xl" role="img" aria-label="Child">
+                👶
+              </span>
+              <p className="text-2xl font-bold">
+                Pick a child before planning today.
+              </p>
             </div>
           ) : (
             <StandardActionList
               theme={theme}
               items={todos}
               getKey={(todo) => todo.id}
-              getStarCount={(todo) => todo.starValue}
+              getStarCount={(todo) =>
+                isEatingTodo(todo) && isDinnerTodoInActivity(todo)
+                  ? undefined
+                  : todo.starValue
+              }
               isHighlighted={(todo) => Boolean(todo.completedAt)}
               renderItem={(todo) => (
-                <div className="flex flex-col" style={{ gap: `${Math.max(12, uiTokens.singleVerticalSpace / 2)}px` }}>
-                  <div className="flex items-start justify-between gap-3">
-                    <div style={{ fontFamily: theme.fonts.heading, fontSize: '1.25rem', fontWeight: 800, lineHeight: 1.2 }}>
-                      {todo.title}
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      {todo.schoolDayEnabled && (
-                        <div
-                          style={{
-                            width: '60px', height: '60px', minWidth: '60px',
-                            borderRadius: '20px', border: `2px solid ${theme.colors.primary}`,
-                            background: theme.colors.surface, display: 'flex',
-                            alignItems: 'center', justifyContent: 'center', padding: '8px',
-                          }}
-                        >
-                          {theme.id === 'princess' ? (
-                            <img src={princessSchoolDayImage} alt="Schoolday" className="h-full w-full object-contain" />
-                          ) : (
-                            <span className="text-2xl" role="img" aria-label="Schoolday">🏫</span>
-                          )}
-                        </div>
-                      )}
-
-                      {todo.nonSchoolDayEnabled && (
-                        <div
-                          style={{
-                            width: '60px', height: '60px', minWidth: '60px',
-                            borderRadius: '20px', border: `2px solid ${theme.colors.primary}`,
-                            background: theme.colors.surface, display: 'flex',
-                            alignItems: 'center', justifyContent: 'center', padding: '8px',
-                          }}
-                        >
-                          {theme.id === 'princess' ? (
-                            <img src={princessNonSchoolDayImage} alt="Non-school day" className="h-full w-full object-contain" />
-                          ) : (
-                            <span className="text-2xl" role="img" aria-label="Non-school day">🌤️</span>
-                          )}
-                        </div>
-                      )}
-                    </div>
+                <div
+                  className="flex flex-col"
+                  style={{
+                    gap: `${Math.max(12, uiTokens.singleVerticalSpace / 2)}px`,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: theme.fonts.heading,
+                      fontSize: '1.25rem',
+                      fontWeight: 800,
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {todo.title}
                   </div>
 
-                  {isEatingTodo(todo) && (activeDinnerTodoId === todo.id || Boolean(todo.completedAt)) ? (
+                  {isEatingTodo(todo) && isDinnerTodoInActivity(todo) ? (
                     <DinnerCountdown
                       theme={theme}
                       duration={getDinnerDuration(todo)}
@@ -425,20 +341,38 @@ const TodayPage = () => {
                       totalBites={getDinnerTotalBites(todo)}
                       bitesLeft={getDinnerBitesLeft(todo)}
                       starReward={todo.starValue}
-                      isTimerRunning={activeDinnerTodoId === todo.id}
-                      plateImage={theme.id === 'princess' ? princessPlateImage : undefined}
+                      isTimerRunning={isDinnerTodoRunning(todo)}
+                      plateImage={
+                        theme.id === 'princess' ? princessPlateImage : undefined
+                      }
                       onAdjustTime={() => undefined}
                       onAdjustBites={() => undefined}
                       onStarsChange={() => undefined}
                       isCompleted={Boolean(todo.completedAt)}
-                      completionImage={theme.id === 'princess' ? princessEatingFullImage : undefined}
-                      failureImage={theme.id === 'princess' ? princessEatingFailImage : undefined}
+                      completionImage={
+                        theme.id === 'princess'
+                          ? princessEatingFullImage
+                          : undefined
+                      }
+                      failureImage={
+                        theme.id === 'princess'
+                          ? princessEatingFailImage
+                          : undefined
+                      }
                       biteCooldownSeconds={biteCooldownSeconds}
-                      biteIcon={theme.id === 'princess' ? princessBiteIcon : undefined}
+                      biteIcon={
+                        theme.id === 'princess'
+                          ? activePrincessMealIcon
+                          : undefined
+                      }
+                      showSetupControls={false}
+                      showStarReward={false}
                     />
                   ) : null}
 
-                  {isMathTodo(todo) && (activeMathTodoId === todo.id || Boolean(todo.completedAt)) ? (
+                  {isMathTodo(todo) &&
+                  (activeMathTodoId === todo.id ||
+                    Boolean(todo.completedAt)) ? (
                     <ArithmeticTester
                       theme={theme}
                       totalProblems={getMathTotalProblems(todo)}
@@ -451,12 +385,21 @@ const TodayPage = () => {
                       onComplete={() => handleMathComplete(todo)}
                       onFail={() => handleMathFail(todo)}
                       checkTrigger={mathCheckTriggerByTodo[todo.id] ?? 0}
-                      completionImage={theme.id === 'princess' ? princessMathsCorrectImage : undefined}
-                      failureImage={theme.id === 'princess' ? princessMathsIncorrectImage : undefined}
+                      completionImage={
+                        theme.id === 'princess'
+                          ? princessMathsCorrectImage
+                          : undefined
+                      }
+                      failureImage={
+                        theme.id === 'princess'
+                          ? princessMathsIncorrectImage
+                          : undefined
+                      }
                     />
                   ) : null}
 
-                  {isPositionalNotationTodo(todo) && (activePVTodoId === todo.id || Boolean(todo.completedAt)) ? (
+                  {isPositionalNotationTodo(todo) &&
+                  (activePVTodoId === todo.id || Boolean(todo.completedAt)) ? (
                     <PositionalNotationTester
                       theme={theme}
                       totalProblems={getPVTotalProblems(todo)}
@@ -469,8 +412,16 @@ const TodayPage = () => {
                       onComplete={() => handlePVComplete(todo)}
                       onFail={() => handlePVFail(todo)}
                       checkTrigger={pvCheckTriggerByTodo[todo.id] ?? 0}
-                      completionImage={theme.id === 'princess' ? princessMathsCorrectImage : undefined}
-                      failureImage={theme.id === 'princess' ? princessMathsIncorrectImage : undefined}
+                      completionImage={
+                        theme.id === 'princess'
+                          ? princessMathsCorrectImage
+                          : undefined
+                      }
+                      failureImage={
+                        theme.id === 'princess'
+                          ? princessMathsIncorrectImage
+                          : undefined
+                      }
                     />
                   ) : null}
 
@@ -484,26 +435,52 @@ const TodayPage = () => {
                 icon: (todo) => {
                   // 3. A11y FIX: Added proper ARIA labeling to emoji fallbacks
                   if (theme.id !== 'princess') {
-                    if (todo.completedAt) return <span role="img" aria-label="Completed">✅</span>
-                    if (isEatingTodo(todo)) return <span role="img" aria-label="Eating task">🍽️</span>
+                    if (todo.completedAt)
+                      return (
+                        <span role="img" aria-label="Completed">
+                          ✅
+                        </span>
+                      )
+                    if (isEatingTodo(todo))
+                      return (
+                        <span role="img" aria-label="Eating task">
+                          🍽️
+                        </span>
+                      )
                     if (isMathTodo(todo) || isPositionalNotationTodo(todo)) {
-                      return <span role="img" aria-label="Math task">🔢</span>
+                      return (
+                        <span role="img" aria-label="Math task">
+                          🔢
+                        </span>
+                      )
                     }
-                    return <span role="img" aria-label="Standard task">⭐</span>
+                    return (
+                      <span role="img" aria-label="Standard task">
+                        ⭐
+                      </span>
+                    )
                   }
 
                   const iconSrc = todo.completedAt
                     ? princessActiveIcon
                     : isEatingTodo(todo)
-                      ? princessBiteIcon
+                      ? activePrincessMealIcon
                       : isMathTodo(todo) || isPositionalNotationTodo(todo)
                         ? princessMathsIcon
                         : princessGiveStarIcon
 
+                  const iconAlt = todo.completedAt
+                    ? 'Completed'
+                    : isEatingTodo(todo)
+                      ? isDinnerTodoRunning(todo)
+                        ? 'Bite'
+                        : 'Start'
+                      : 'Open chore'
+
                   return (
                     <img
                       src={iconSrc}
-                      alt={todo.completedAt ? 'Completed' : 'Open chore'}
+                      alt={iconAlt}
                       className="h-6 w-6 object-contain"
                     />
                   )
@@ -513,18 +490,19 @@ const TodayPage = () => {
                     if (todo.completedAt) return
                     setActiveMathTodoId(null)
                     setActivePVTodoId(null)
-                    if (activeDinnerTodoId === todo.id) {
+                    if (isDinnerTodoRunning(todo)) {
                       handleDinnerBite(todo)
                     } else {
                       dinnerStartTimer(todo)
-                      setActiveDinnerTodoId(todo.id)
+                      startDinnerActivity(todo.id)
                     }
                     return
                   }
 
                   if (isMathTodo(todo)) {
                     if (todo.completedAt) return
-                    setActiveDinnerTodoId(null)
+                    if (activeDinnerTodoId)
+                      clearDinnerTodoState(activeDinnerTodoId)
                     setActivePVTodoId(null)
                     if (activeMathTodoId === todo.id) {
                       setMathCheckTriggerByTodo((prev) => ({
@@ -539,7 +517,8 @@ const TodayPage = () => {
 
                   if (isPositionalNotationTodo(todo)) {
                     if (todo.completedAt) return
-                    setActiveDinnerTodoId(null)
+                    if (activeDinnerTodoId)
+                      clearDinnerTodoState(activeDinnerTodoId)
                     setActiveMathTodoId(null)
                     if (activePVTodoId === todo.id) {
                       setPVCheckTriggerByTodo((prev) => ({
@@ -559,7 +538,7 @@ const TodayPage = () => {
                   if (isEatingTodo(todo)) {
                     return (
                       pendingTodoId === todo.id ||
-                      (activeDinnerTodoId === todo.id && biteCooldownSeconds > 0)
+                      (isDinnerTodoRunning(todo) && biteCooldownSeconds > 0)
                     )
                   }
                   if (isMathTodo(todo) || isPositionalNotationTodo(todo)) {
@@ -571,12 +550,48 @@ const TodayPage = () => {
                 showLabel: () => false,
               }}
               hideEdit
+              utilityAction={{
+                label: (todo) =>
+                  isEatingTodo(todo) && isDinnerTodoInActivity(todo)
+                    ? 'Reset'
+                    : 'Delete',
+                ariaLabel: (todo) =>
+                  isEatingTodo(todo) && isDinnerTodoInActivity(todo)
+                    ? 'Reset dinner todo'
+                    : 'Delete todo',
+                icon: (todo) =>
+                  isEatingTodo(todo) &&
+                  isDinnerTodoInActivity(todo) &&
+                  theme.id === 'princess' ? (
+                    <img
+                      src={princessResetIcon}
+                      alt="Reset"
+                      className="h-6 w-6 object-contain"
+                    />
+                  ) : undefined,
+                onClick: (todo) => {
+                  if (isEatingTodo(todo) && isDinnerTodoInActivity(todo)) {
+                    handleDinnerReset(todo)
+                    return
+                  }
+                  handleDeleteTodo(todo)
+                },
+                exits: (todo) =>
+                  !(isEatingTodo(todo) && isDinnerTodoInActivity(todo)),
+                variant: (todo) =>
+                  isEatingTodo(todo) && isDinnerTodoInActivity(todo)
+                    ? 'neutral'
+                    : 'danger',
+              }}
               onDelete={(todo) => handleDeleteTodo(todo)}
               addLabel="Add Todo"
               onAdd={() => setShowAddChooser(true)}
               inlineNewRow={
                 showAddChooser ? (
-                  <div className="grid grid-cols-1" style={{ gap: `${uiTokens.singleVerticalSpace}px` }}>
+                  <div
+                    className="grid grid-cols-1"
+                    style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+                  >
                     {availableChores.length === 0 ? (
                       <div
                         className="rounded-3xl text-center"
@@ -612,7 +627,8 @@ const TodayPage = () => {
                         >
                           <span>{task.title}</span>
                           <span className="text-sm opacity-75">
-                            {getScheduleLabel(task)} • {task.starValue} {task.starValue === 1 ? 'star' : 'stars'}
+                            {getScheduleLabel(task)} • {task.starValue}{' '}
+                            {task.starValue === 1 ? 'star' : 'stars'}
                           </span>
                         </button>
                       ))

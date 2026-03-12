@@ -305,17 +305,6 @@ const PositionalNotationTaskTester = ({
       ) : (
         <>
           {isSetup && (
-            <StarDisplay
-              theme={theme}
-              count={starReward}
-              editable
-              onChange={(value) => onStarsChange(value)}
-              min={1}
-              max={3}
-            />
-          )}
-
-          {isSetup && (
             <div
               style={{
                 display: 'flex',
@@ -363,6 +352,17 @@ const PositionalNotationTaskTester = ({
                 ariaLabel="More puzzles"
               />
             </div>
+          )}
+
+          {isSetup && (
+            <StarDisplay
+              theme={theme}
+              count={starReward}
+              editable
+              onChange={(value) => onStarsChange(value)}
+              min={1}
+              max={3}
+            />
           )}
 
           {isRunning && (
