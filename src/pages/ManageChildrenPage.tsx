@@ -5,15 +5,12 @@ import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
-import Carousel from '../components/Carousel'
-import ActionTextInput from '../components/ActionTextInput'
-import StarDisplay from '../components/StarDisplay'
 import { uiTokens } from '../ui/tokens'
+import { createChildDefinitionListRowDescriptor } from '../ui/descriptors/definitionRowDescriptors'
+import { toStandardActionListDescriptor } from '../ui/descriptors/listDescriptorTypes'
 import { useChildren } from '../data/useChildren'
 import {
-  princessActiveIcon,
   princessHomeIcon,
-  princessSelectIcon,
   princessThemeIcon,
 } from '../assets/themes/princess/assets'
 import spaceThemeIcon from '../assets/themes/space/space.svg'
@@ -78,6 +75,22 @@ const ManageChildrenPage = () => {
       />
     ),
   }))
+
+  const childListDescriptor = toStandardActionListDescriptor(
+    createChildDefinitionListRowDescriptor({
+      theme,
+      activeChildId,
+      themeOptions,
+      carouselItems,
+      nameDrafts,
+      setNameDraft,
+      commitDisplayName,
+      updateChildField,
+      changeTheme,
+      selectChild,
+    })
+  )
+
   return (
     <PageShell theme={theme}>
       <PageHeader
@@ -108,87 +121,12 @@ const ManageChildrenPage = () => {
             theme={theme}
             items={children}
             getKey={(child) => child.id}
-            renderItem={(child) => {
-              const currentThemeId = child.themeId || 'princess'
-              const currentThemeIndex = Math.max(
-                0,
-                themeOptions.findIndex((option) => option.id === currentThemeId)
-              )
-
-              return (
-                <div
-                  className="flex flex-col"
-                  style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-                >
-                  <ActionTextInput
-                    theme={theme}
-                    label="Name"
-                    value={nameDrafts[child.id] ?? child.displayName}
-                    onChange={(value) => setNameDraft(child.id, value)}
-                    onCommit={(value) => commitDisplayName(child.id, value)}
-                    maxLength={40}
-                    baseColor={theme.colors.primary}
-                    inputAriaLabel="Child name"
-                    transparent
-                  />
-
-                  <Carousel
-                    key={`${child.id}-${currentThemeId}`}
-                    items={carouselItems}
-                    title="Select Theme"
-                    initialIndex={currentThemeIndex}
-                    onChange={(index) => {
-                      const selected = themeOptions[index]
-                      if (!selected) return
-                      changeTheme(child, selected.id)
-                    }}
-                  />
-
-                  <StarDisplay
-                    theme={theme}
-                    count={child.totalStars}
-                    editable
-                    min={0}
-                    max={999}
-                    onChange={(value) =>
-                      updateChildField(child.id, { totalStars: value })
-                    }
-                  />
-                </div>
-              )
-            }}
-            primaryAction={{
-              label: (child) =>
-                activeChildId === child.id ? 'Active' : 'Select',
-              ariaLabel: (child) =>
-                activeChildId === child.id ? 'Active child' : 'Select child',
-              icon: (child) =>
-                theme.id === 'princess' ? (
-                  <img
-                    src={
-                      activeChildId === child.id
-                        ? princessActiveIcon
-                        : princessSelectIcon
-                    }
-                    alt={activeChildId === child.id ? 'Active' : 'Select'}
-                    className="h-6 w-6 object-contain"
-                  />
-                ) : activeChildId === child.id ? (
-                  '✅'
-                ) : (
-                  '⭐'
-                ),
-              showLabel: false,
-              onClick: (child) => selectChild(child.id),
-              disabled: (child) => activeChildId === child.id,
-              variant: theme.id === 'princess' ? 'neutral' : 'primary',
-            }}
+            {...childListDescriptor}
             hideEdit
             onDelete={(child) => handleDelete(child.id)}
             addLabel="Add Child"
             onAdd={createChild}
             addDisabled={false}
-            isHighlighted={(child) => activeChildId === child.id}
             emptyState={
               <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
                 No explorers yet.

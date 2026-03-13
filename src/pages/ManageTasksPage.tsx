@@ -6,34 +6,16 @@ import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import ActionButton from '../components/ActionButton'
 import StandardActionList from '../components/StandardActionList'
-import StarDisplay from '../components/StarDisplay'
-import ActionTextInput from '../components/ActionTextInput'
-import RepeatControl from '../components/RepeatControl'
-import DinnerCountdown from '../components/DinnerCountdown'
-import ArithmeticTester from '../components/ArithmeticTester'
-import PositionalNotation from '../components/PositionalNotation'
-import DayNightExplorer from '../components/DayNightExplorer'
 import { uiTokens } from '../ui/tokens'
-import {
-  resolveSetupStatusAction,
-  runSetupStatusAction,
-  type SetupStatusActionRule,
-} from '../utils/setupStatusActions'
+import { toStandardActionListDescriptor } from '../ui/descriptors/listDescriptorTypes'
+import { createManageTaskListRowDescriptor } from '../ui/descriptors/manageTaskDescriptors'
 import { getSeasonForDate } from '../utils/today'
 import { useDinnerActivity } from '../hooks/useDinnerActivity'
 import { useTasks } from '../data/useTasks'
 import {
-  DEFAULT_DINNER_BITES,
-  DEFAULT_DINNER_DURATION_SECONDS,
-  DEFAULT_MATH_PROBLEMS,
-  DEFAULT_PV_PROBLEMS,
   getManageDinnerBitesLeft,
   getManageDinnerLiveRemaining,
   isEatingTask,
-  isManageTaskCompleted,
-  isMathTask,
-  isDayNightTask,
-  isPositionalNotationTask,
   type DayNightTaskWithEphemeral,
   type EatingTaskWithEphemeral,
   type MathTaskWithEphemeral,
@@ -46,19 +28,11 @@ import {
   princessBiteIcon,
   princessEatingBreakfastIcon,
   princessEatingDinnerIcon,
-  princessEatingFailImage,
-  princessEatingFullImage,
   princessEatingLunchIcon,
-  princessGiveStarIcon,
-  princessMathsIcon,
-  princessMathsCorrectImage,
-  princessMathsIncorrectImage,
   princessNonSchoolDayAutumnImage,
   princessNonSchoolDaySpringImage,
   princessNonSchoolDaySummerImage,
   princessNonSchoolDayWinterImage,
-  princessPlateImage,
-  princessResetIcon,
   princessSchoolDayImage,
 } from '../assets/themes/princess/assets'
 
@@ -369,47 +343,6 @@ const ManageTasksPage = () => {
     await resetDinnerActivity(task, dinnerReset)
   }
 
-  const setupStatusRules: SetupStatusActionRule<TaskWithEphemeral>[] = [
-    {
-      matches: isEatingTask,
-      isInTask: (task) => {
-        const eatingTask = task as EatingTaskWithEphemeral
-        return (
-          isDinnerTaskRunning(eatingTask) ||
-          Boolean(eatingTask.manageDinnerCompletedAt)
-        )
-      },
-      resetAriaLabel: 'Reset dinner chore',
-      onReset: (task) => handleDinnerReset(task as EatingTaskWithEphemeral),
-    },
-    {
-      matches: isMathTask,
-      isInTask: (task) => {
-        const mathTask = task as MathTaskWithEphemeral
-        return (
-          activeMathTaskId === mathTask.id ||
-          Boolean(mathTask.manageMathCompletedAt)
-        )
-      },
-      resetAriaLabel: 'Reset arithmetic chore',
-      onReset: (task) => handleMathReset(task as MathTaskWithEphemeral),
-    },
-    {
-      matches: isPositionalNotationTask,
-      isInTask: (task) => {
-        const pvTask = task as PVTaskWithEphemeral
-        return (
-          activePVTaskId === pvTask.id || Boolean(pvTask.managePVCompletedAt)
-        )
-      },
-      resetAriaLabel: 'Reset positional notation chore',
-      onReset: (task) => handlePVReset(task as PVTaskWithEphemeral),
-    },
-  ]
-
-  const getSetupStatusAction = (task: TaskWithEphemeral) =>
-    resolveSetupStatusAction(task, setupStatusRules, 'Delete chore')
-
   const handleAwardDayNight = async (task: DayNightTaskWithEphemeral) => {
     setIsAwarding(true)
     try {
@@ -433,6 +366,45 @@ const ManageTasksPage = () => {
       setIsAwarding(false)
     }
   }
+
+  const taskListDescriptor = toStandardActionListDescriptor(
+    createManageTaskListRowDescriptor({
+      theme,
+      titleDrafts,
+      setTitleDraft,
+      commitTitle,
+      updateTaskField,
+      updateEphemeral,
+      renderDayTypeControl,
+      activeMathTaskId,
+      activePVTaskId,
+      mathCheckTriggerByTask,
+      pvCheckTriggerByTask,
+      isDinnerTaskRunning,
+      biteCooldownSeconds,
+      activePrincessCooldownIcon,
+      handleCycleCooldownTestIcon,
+      handleDinnerBite,
+      dinnerStartTimer,
+      startDinnerActivity,
+      handleDinnerReset,
+      handleMathComplete,
+      handleMathFail,
+      handleMathReset,
+      setActiveMathTaskId,
+      setMathCheckTriggerByTask,
+      handlePVComplete,
+      handlePVFail,
+      handlePVReset,
+      setActivePVTaskId,
+      setPVCheckTriggerByTask,
+      handleAwardDayNight,
+      handleAwardTask,
+      handleDelete,
+      isAwarding,
+      activeChildId,
+    })
+  )
 
   return (
     <PageShell theme={theme}>
@@ -474,491 +446,8 @@ const ManageTasksPage = () => {
                 theme={theme}
                 items={tasks}
                 getKey={(task) => task.id}
-                isHighlighted={(task) => isManageTaskCompleted(task)}
-                renderItem={(task) =>
-                  isEatingTask(task) ? (
-                    <div
-                      className="flex flex-col"
-                      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-                    >
-                      <div
-                        style={{
-                          fontFamily: theme.fonts.heading,
-                          fontSize: '1.25rem',
-                          fontWeight: 800,
-                          lineHeight: 1.2,
-                        }}
-                      >
-                        {task.title}
-                      </div>
-
-                      <DinnerCountdown
-                        theme={theme}
-                        duration={
-                          task.dinnerDurationSeconds ??
-                          DEFAULT_DINNER_DURATION_SECONDS
-                        }
-                        remaining={getManageDinnerLiveRemaining(task)}
-                        totalBites={
-                          task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
-                        }
-                        bitesLeft={getManageDinnerBitesLeft(task)}
-                        starReward={task.starValue}
-                        isTimerRunning={isDinnerTaskRunning(task)}
-                        plateImage={
-                          theme.id === 'princess'
-                            ? princessPlateImage
-                            : undefined
-                        }
-                        onAdjustTime={(delta) => {
-                          const cur =
-                            task.dinnerDurationSeconds ??
-                            DEFAULT_DINNER_DURATION_SECONDS
-                          const next = Math.max(
-                            5 * 60,
-                            Math.min(30 * 60, cur + delta)
-                          )
-                          updateTaskField(task.id, {
-                            dinnerDurationSeconds: next,
-                          })
-                          updateEphemeral(task.id, {
-                            manageDinnerRemainingSeconds: next,
-                          })
-                        }}
-                        onAdjustBites={(delta) => {
-                          const cur =
-                            task.dinnerTotalBites ?? DEFAULT_DINNER_BITES
-                          const next = Math.max(1, Math.min(16, cur + delta))
-                          updateTaskField(task.id, {
-                            dinnerTotalBites: next,
-                          })
-                          updateEphemeral(task.id, {
-                            manageDinnerBitesLeft: next,
-                          })
-                        }}
-                        onStarsChange={(value) =>
-                          updateTaskField(task.id, {
-                            starValue: value,
-                          })
-                        }
-                        isCompleted={Boolean(task.manageDinnerCompletedAt)}
-                        completionImage={
-                          theme.id === 'princess'
-                            ? princessEatingFullImage
-                            : undefined
-                        }
-                        failureImage={
-                          theme.id === 'princess'
-                            ? princessEatingFailImage
-                            : undefined
-                        }
-                        biteCooldownSeconds={biteCooldownSeconds}
-                        biteIcon={
-                          theme.id === 'princess'
-                            ? activePrincessCooldownIcon
-                            : undefined
-                        }
-                        onBiteIconClick={
-                          theme.id === 'princess'
-                            ? handleCycleCooldownTestIcon
-                            : undefined
-                        }
-                        showSetupControls={
-                          !isDinnerTaskRunning(task) &&
-                          !task.manageDinnerCompletedAt
-                        }
-                        showStarReward={
-                          !isDinnerTaskRunning(task) &&
-                          !task.manageDinnerCompletedAt
-                        }
-                      />
-
-                      {!isDinnerTaskRunning(task) &&
-                      !task.manageDinnerCompletedAt
-                        ? renderDayTypeControl(task)
-                        : null}
-                    </div>
-                  ) : isMathTask(task) ? (
-                    <div
-                      className="flex flex-col"
-                      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-                    >
-                      <ActionTextInput
-                        theme={theme}
-                        label="Chore Name"
-                        value={titleDrafts[task.id] ?? task.title}
-                        onChange={(value) => setTitleDraft(task.id, value)}
-                        onCommit={(value) => commitTitle(task.id, value)}
-                        maxLength={80}
-                        baseColor={theme.colors.primary}
-                        inputAriaLabel="Chore name"
-                        transparent
-                      />
-
-                      <ArithmeticTester
-                        theme={theme}
-                        totalProblems={
-                          task.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
-                        }
-                        starReward={task.starValue}
-                        isRunning={activeMathTaskId === task.id}
-                        isCompleted={Boolean(task.manageMathCompletedAt)}
-                        isFailed={task.manageMathLastOutcome === 'failure'}
-                        onAdjustProblems={(delta) => {
-                          const cur =
-                            task.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
-                          const next = Math.max(1, Math.min(10, cur + delta))
-                          updateTaskField(task.id, { mathTotalProblems: next })
-                        }}
-                        onStarsChange={(value) =>
-                          updateTaskField(task.id, { starValue: value })
-                        }
-                        onComplete={() => handleMathComplete(task)}
-                        onFail={() => handleMathFail(task)}
-                        checkTrigger={mathCheckTriggerByTask[task.id] ?? 0}
-                        completionImage={
-                          theme.id === 'princess'
-                            ? princessMathsCorrectImage
-                            : undefined
-                        }
-                        failureImage={
-                          theme.id === 'princess'
-                            ? princessMathsIncorrectImage
-                            : undefined
-                        }
-                      />
-                      {!task.manageMathCompletedAt &&
-                      activeMathTaskId !== task.id
-                        ? renderDayTypeControl(task)
-                        : null}
-                    </div>
-                  ) : isPositionalNotationTask(task) ? (
-                    <div
-                      className="flex flex-col"
-                      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-                    >
-                      <ActionTextInput
-                        theme={theme}
-                        label="Chore Name"
-                        value={titleDrafts[task.id] ?? task.title}
-                        onChange={(value) => setTitleDraft(task.id, value)}
-                        onCommit={(value) => commitTitle(task.id, value)}
-                        maxLength={80}
-                        baseColor={theme.colors.primary}
-                        inputAriaLabel="Chore name"
-                        transparent
-                      />
-
-                      <PositionalNotation
-                        theme={theme}
-                        totalProblems={
-                          task.pvTotalProblems ?? DEFAULT_PV_PROBLEMS
-                        }
-                        starReward={task.starValue}
-                        isRunning={activePVTaskId === task.id}
-                        isCompleted={Boolean(task.managePVCompletedAt)}
-                        isFailed={task.managePVLastOutcome === 'failure'}
-                        onAdjustProblems={(delta: number) => {
-                          const cur =
-                            task.pvTotalProblems ?? DEFAULT_PV_PROBLEMS
-                          const next = Math.max(1, Math.min(10, cur + delta))
-                          updateTaskField(task.id, { pvTotalProblems: next })
-                        }}
-                        onStarsChange={(value: number) =>
-                          updateTaskField(task.id, { starValue: value })
-                        }
-                        onComplete={() => handlePVComplete(task)}
-                        onFail={() => handlePVFail(task)}
-                        checkTrigger={pvCheckTriggerByTask[task.id] ?? 0}
-                        completionImage={
-                          theme.id === 'princess'
-                            ? princessMathsCorrectImage
-                            : undefined
-                        }
-                        failureImage={
-                          theme.id === 'princess'
-                            ? princessMathsIncorrectImage
-                            : undefined
-                        }
-                      />
-                      {!task.managePVCompletedAt && activePVTaskId !== task.id
-                        ? renderDayTypeControl(task)
-                        : null}
-                    </div>
-                  ) : isDayNightTask(task) ? (
-                    <div
-                      className="flex flex-col"
-                      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-                    >
-                      <DayNightExplorer theme={theme} />
-                    </div>
-                  ) : (
-                    <div
-                      className="flex flex-col"
-                      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-                    >
-                      <ActionTextInput
-                        theme={theme}
-                        label="Chore Name"
-                        value={titleDrafts[task.id] ?? task.title}
-                        onChange={(value) => setTitleDraft(task.id, value)}
-                        onCommit={(value) => commitTitle(task.id, value)}
-                        maxLength={80}
-                        baseColor={theme.colors.primary}
-                        inputAriaLabel="Chore name"
-                        transparent
-                      />
-
-                      <StarDisplay
-                        theme={theme}
-                        count={task.starValue}
-                        editable
-                        onChange={(nextValue) =>
-                          updateTaskField(task.id, {
-                            starValue: nextValue || 1,
-                          })
-                        }
-                        min={1}
-                        max={3}
-                      />
-
-                      <RepeatControl
-                        theme={theme}
-                        value={task.isRepeating}
-                        onChange={(nextValue) =>
-                          updateTaskField(task.id, { isRepeating: nextValue })
-                        }
-                        showLabel={false}
-                        showFeedback={false}
-                      />
-
-                      {renderDayTypeControl(task)}
-                    </div>
-                  )
-                }
-                primaryAction={{
-                  label: (task) => {
-                    if (isEatingTask(task)) {
-                      const isFinished = Boolean(task.manageDinnerCompletedAt)
-                      if (isFinished) return 'Again 🔁'
-                      return isDinnerTaskRunning(task) ? 'Bite' : 'Start'
-                    }
-                    if (isMathTask(task)) {
-                      if (task.manageMathCompletedAt) return 'Again 🔁'
-                      return activeMathTaskId === task.id
-                        ? 'Check Answer'
-                        : 'Start'
-                    }
-                    if (isPositionalNotationTask(task)) {
-                      if (task.managePVCompletedAt) return 'Again 🔁'
-                      return activePVTaskId === task.id
-                        ? 'Check Answer'
-                        : 'Start'
-                    }
-                    if (isDayNightTask(task)) {
-                      return task.manageCompletedAt ? 'Done' : 'Give'
-                    }
-                    return task.manageCompletedAt ? 'Done' : 'Give'
-                  },
-                  icon: (task) => {
-                    if (isEatingTask(task)) {
-                      const isFinished = Boolean(task.manageDinnerCompletedAt)
-                      if (!isFinished) {
-                        return (
-                          <img
-                            src={
-                              theme.id === 'princess'
-                                ? activePrincessCooldownIcon
-                                : princessBiteIcon
-                            }
-                            alt={isDinnerTaskRunning(task) ? 'Bite' : 'Start'}
-                            className="h-6 w-6 object-contain"
-                          />
-                        )
-                      }
-                      // Finished — show plate icon for "play again"
-                      return (
-                        <img
-                          src={princessPlateImage}
-                          alt="Play again"
-                          className="h-6 w-6 object-contain"
-                        />
-                      )
-                    }
-                    if (isMathTask(task)) {
-                      const isFinished = Boolean(task.manageMathCompletedAt)
-                      const isRunning =
-                        activeMathTaskId === task.id && !isFinished
-                      return (
-                        <img
-                          src={
-                            isRunning
-                              ? princessMathsIcon
-                              : isFinished
-                                ? princessMathsIcon
-                                : princessGiveStarIcon
-                          }
-                          alt={
-                            isFinished
-                              ? 'Play again'
-                              : isRunning
-                                ? 'Check answer'
-                                : 'Start'
-                          }
-                          className="h-6 w-6 object-contain"
-                        />
-                      )
-                    }
-                    if (isPositionalNotationTask(task)) {
-                      const isFinished = Boolean(task.managePVCompletedAt)
-                      const isRunning =
-                        activePVTaskId === task.id && !isFinished
-                      return (
-                        <img
-                          src={
-                            isRunning
-                              ? princessMathsIcon
-                              : isFinished
-                                ? princessMathsIcon
-                                : princessGiveStarIcon
-                          }
-                          alt={
-                            isFinished
-                              ? 'Play again'
-                              : isRunning
-                                ? 'Check answer'
-                                : 'Start'
-                          }
-                          className="h-6 w-6 object-contain"
-                        />
-                      )
-                    }
-                    if (isDayNightTask(task)) {
-                      return (
-                        <img
-                          src={
-                            task.manageCompletedAt
-                              ? princessActiveIcon
-                              : princessGiveStarIcon
-                          }
-                          alt={
-                            task.manageCompletedAt ? 'Completed' : 'Give star'
-                          }
-                          className="h-6 w-6 object-contain"
-                        />
-                      )
-                    }
-                    return (
-                      <img
-                        src={
-                          task.manageCompletedAt
-                            ? princessActiveIcon
-                            : princessGiveStarIcon
-                        }
-                        alt={task.manageCompletedAt ? 'Completed' : 'Give star'}
-                        className="h-6 w-6 object-contain"
-                      />
-                    )
-                  },
-                  onClick: (task) => {
-                    if (isEatingTask(task)) {
-                      const isFinished = Boolean(task.manageDinnerCompletedAt)
-                      if (isFinished) {
-                        handleDinnerReset(task)
-                        return
-                      }
-                      if (isDinnerTaskRunning(task)) {
-                        handleDinnerBite(task)
-                      } else {
-                        dinnerStartTimer(task)
-                        startDinnerActivity(task.id)
-                      }
-                    } else if (isMathTask(task)) {
-                      if (task.manageMathCompletedAt) {
-                        handleMathReset(task)
-                        return
-                      }
-                      if (activeMathTaskId === task.id) {
-                        setMathCheckTriggerByTask((prev) => ({
-                          ...prev,
-                          [task.id]: (prev[task.id] ?? 0) + 1,
-                        }))
-                      } else {
-                        setActiveMathTaskId(task.id)
-                      }
-                    } else if (isPositionalNotationTask(task)) {
-                      if (task.managePVCompletedAt) {
-                        handlePVReset(task)
-                        return
-                      }
-                      if (activePVTaskId === task.id) {
-                        setPVCheckTriggerByTask((prev) => ({
-                          ...prev,
-                          [task.id]: (prev[task.id] ?? 0) + 1,
-                        }))
-                      } else {
-                        setActivePVTaskId(task.id)
-                      }
-                    } else if (isDayNightTask(task)) {
-                      if (task.manageCompletedAt) {
-                        return
-                      }
-                      handleAwardDayNight(task)
-                    } else if (task.manageCompletedAt) {
-                      return
-                    } else {
-                      handleAwardTask(task)
-                    }
-                  },
-                  disabled: (task) => {
-                    if (isEatingTask(task)) {
-                      // Disable bite button during chewing cooldown
-                      if (isDinnerTaskRunning(task) && biteCooldownSeconds > 0)
-                        return true
-                      return false
-                    }
-                    if (isMathTask(task)) {
-                      return false
-                    }
-                    if (isPositionalNotationTask(task)) {
-                      return false
-                    }
-                    if (isDayNightTask(task)) {
-                      return (
-                        isAwarding ||
-                        !activeChildId ||
-                        Boolean(task.manageCompletedAt)
-                      )
-                    }
-                    return (
-                      isAwarding ||
-                      !activeChildId ||
-                      Boolean(task.manageCompletedAt)
-                    )
-                  },
-                  variant: 'primary',
-                  showLabel: () => false,
-                }}
+                {...taskListDescriptor}
                 hideEdit
-                utilityAction={{
-                  label: (task) => getSetupStatusAction(task).label,
-                  ariaLabel: (task) => getSetupStatusAction(task).ariaLabel,
-                  icon: (task) =>
-                    getSetupStatusAction(task).isReset &&
-                    theme.id === 'princess' ? (
-                      <img
-                        src={princessResetIcon}
-                        alt="Reset"
-                        className="h-6 w-6 object-contain"
-                      />
-                    ) : undefined,
-                  onClick: (task) =>
-                    runSetupStatusAction(task, setupStatusRules, (item) =>
-                      handleDelete(item.id)
-                    ),
-                  exits: (task) => getSetupStatusAction(task).exits,
-                  variant: (task) => getSetupStatusAction(task).variant,
-                }}
                 onDelete={(task) => handleDelete(task.id)}
                 addLabel="Chore"
                 onAdd={() => setShowAddChooser(true)}

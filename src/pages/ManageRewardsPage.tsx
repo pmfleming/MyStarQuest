@@ -5,16 +5,12 @@ import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
-import StarDisplay from '../components/StarDisplay'
-import ActionTextInput from '../components/ActionTextInput'
-import RepeatControl from '../components/RepeatControl'
 import { uiTokens } from '../ui/tokens'
+import { createRewardDefinitionListRowDescriptor } from '../ui/descriptors/definitionRowDescriptors'
+import { toStandardActionListDescriptor } from '../ui/descriptors/listDescriptorTypes'
 import { useRewards } from '../data/useRewards'
 import type { RewardRecord } from '../data/types'
-import {
-  princessBuyRewardIcon,
-  princessHomeIcon,
-} from '../assets/themes/princess/assets'
+import { princessHomeIcon } from '../assets/themes/princess/assets'
 
 const ManageRewardsPage = () => {
   const { activeChildId } = useActiveChild()
@@ -63,6 +59,20 @@ const ManageRewardsPage = () => {
     }
   }
 
+  const rewardListDescriptor = toStandardActionListDescriptor(
+    createRewardDefinitionListRowDescriptor({
+      theme,
+      activeChildId,
+      activeChildStars,
+      isRedeeming,
+      titleDrafts,
+      setTitleDraft,
+      commitTitle,
+      updateRewardField,
+      handleGiveReward,
+    })
+  )
+
   return (
     <PageShell theme={theme}>
       <PageHeader
@@ -93,71 +103,7 @@ const ManageRewardsPage = () => {
             theme={theme}
             items={rewards}
             getKey={(reward) => reward.id}
-            renderItem={(reward) => (
-              <div
-                className="flex flex-col"
-                style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-              >
-                <ActionTextInput
-                  theme={theme}
-                  label="Reward"
-                  value={titleDrafts[reward.id] ?? reward.title}
-                  onChange={(value) => setTitleDraft(reward.id, value)}
-                  onCommit={(value) => commitTitle(reward.id, value)}
-                  maxLength={80}
-                  baseColor={theme.colors.secondary}
-                  inputAriaLabel="Reward name"
-                  transparent
-                />
-
-                <StarDisplay
-                  theme={theme}
-                  count={reward.costStars}
-                  editable
-                  onChange={(value) =>
-                    updateRewardField(reward.id, {
-                      costStars: Math.max(0, Math.min(10, value)),
-                    })
-                  }
-                  min={0}
-                  max={10}
-                />
-
-                <RepeatControl
-                  theme={theme}
-                  value={reward.isRepeating}
-                  onChange={(value) =>
-                    updateRewardField(reward.id, { isRepeating: value })
-                  }
-                  label="Keep available after buying"
-                  showLabel={false}
-                  showFeedback={false}
-                />
-              </div>
-            )}
-            primaryAction={{
-              label: (reward) =>
-                activeChildStars >= reward.costStars
-                  ? 'Buy Reward'
-                  : 'Need Stars',
-              icon: (reward) =>
-                activeChildStars >= reward.costStars ? (
-                  <img
-                    src={princessBuyRewardIcon}
-                    alt="Buy Reward"
-                    className="h-6 w-6 object-contain"
-                  />
-                ) : (
-                  '🔒'
-                ),
-              onClick: (reward) => handleGiveReward(reward),
-              disabled: (reward) =>
-                isRedeeming ||
-                !activeChildId ||
-                activeChildStars < reward.costStars,
-              variant: 'primary',
-              showLabel: false,
-            }}
+            {...rewardListDescriptor}
             hideEdit
             onDelete={(reward) => handleDelete(reward.id)}
             addLabel="New Reward"

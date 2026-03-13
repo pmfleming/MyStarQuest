@@ -52,36 +52,44 @@
 All core domain types use **discriminated unions** (tagged unions) so TypeScript narrows correctly when you check `taskType` or `sourceTaskType`.
 
 ### TaskRecord (stored in `/users/{uid}/tasks`)
+
 - Discriminant: `taskType`
-- Variants: `StandardTask`, `EatingTask`, `MathTask`, `PositionalNotationTask`
+- Variants: `StandardTask`, `EatingTask`, `MathTask`, `PositionalNotationTask`, `DayNightTask`
 - Type-specific fields only exist on their variant:
   - `EatingTask` has `dinnerDurationSeconds`, `dinnerTotalBites`
   - `MathTask` has `mathTotalProblems`
   - `PositionalNotationTask` has `pvTotalProblems`
+  - `DayNightTask` has no extra fields
   - `StandardTask` has no extra fields.
 
 ### TodoRecord (stored in `/users/{uid}/todos`)
+
 - Discriminant: `sourceTaskType`
-- Variants: `StandardTodo`, `EatingTodo`, `MathTodo`, `PositionalNotationTodo`
+- Variants: `StandardTodo`, `EatingTodo`, `MathTodo`, `PositionalNotationTodo`, `DayNightTodo`
 - Same pattern — dinner fields on `EatingTodo`, math fields on `MathTodo`, etc.
 
 ### TaskTemplate (read-only view for the Today page)
+
 - Same discriminated union structure as `TaskRecord` but without `category` / `isRepeating`.
 
 ### TaskWithEphemeral (Manage page)
+
 - Each `TaskRecord` variant is paired with only its matching ephemeral fields:
   - `StandardTaskWithEphemeral` has `manageCompletedAt`
   - `EatingTaskWithEphemeral` has `manageDinnerRemainingSeconds`, `manageDinnerBitesLeft`, `manageDinnerTimerStartedAt`, `manageDinnerCompletedAt`
   - `MathTaskWithEphemeral` has `manageMathCompletedAt`, `manageMathLastOutcome`
   - `PVTaskWithEphemeral` has `managePVCompletedAt`, `managePVLastOutcome`
+  - `DayNightTaskWithEphemeral` has `manageCompletedAt`
 - Ephemeral state is held in-memory only (not in Firestore), auto-resets after 15 minutes.
 
 ### Type guards
-- `isEatingTask`, `isMathTask`, `isPositionalNotationTask` — generic guards that narrow any `{ taskType: TaskType }` using `Extract<T, ...>`.
-- `isEatingTodo`, `isMathTodo`, `isPositionalNotationTodo` — narrow `TodoRecord` by `sourceTaskType`.
+
+- `isEatingTask`, `isMathTask`, `isPositionalNotationTask`, `isDayNightTask` — generic guards that narrow any `{ taskType: TaskType }` using `Extract<T, ...>`.
+- `isEatingTodo`, `isMathTodo`, `isPositionalNotationTodo`, `isDayNightTodo` — narrow `TodoRecord` by `sourceTaskType`.
 - These are defined in `src/data/types.ts` and imported where needed.
 
 ### Key rule: never access type-specific fields without narrowing first
+
 - Always use the type guard or a `switch` on the discriminant before accessing fields like `dinnerDurationSeconds`, `mathTotalProblems`, etc.
 - Handler functions accept the narrowed type (e.g., `dinnerApplyBite(task: EatingTaskWithEphemeral)`), not the full union.
 
@@ -95,8 +103,23 @@ All core domain types use **discriminated unions** (tagged unions) so TypeScript
   - updates `children/{childId}.totalStars` with `increment(...)`
 - `src/data/useTasks.ts` manages task config from Firestore (`rawTasks: TaskRecord[]`) merged with local ephemeral state (`ephemeral: Record<string, TaskEphemeralState>`) producing `tasks: TaskWithEphemeral[]`. All manage-page mutations (math/dinner/pv handlers) write to ephemeral state only, not Firestore.
 - `src/data/useTodos.ts` manages today's todos from Firestore. Field accessors (`getDinnerDuration`, `getMathTotalProblems`, etc.) accept narrowed todo types. Daily todo creation is handled server-side by the Cloud Function; manual `addTodo` writes only type-relevant fields via a `switch` on `task.taskType`.
-- Standardized list rows use `src/components/StandardActionList.tsx` for Manage Children/Chores/Rewards.
-  - This component handles list animations ("whimsical") and standard CRUD actions.
+- `src/components/StandardActionList.tsx` is the shared whimsical list shell used by Children, Rewards, Chores, and Today.
+  - It owns shared card structure, animations, action-row layout, add-row behavior, inline-new-row behavior, empty state, and common action rendering.
+  - It should stay presentation-focused. Do not push task-type-specific branching into this component.
+- Descriptor modules in `src/ui/descriptors/*` are the default way to configure row behavior.
+  - `listDescriptorTypes.ts` defines the row-descriptor contract and adapts it to `StandardActionList` props.
+  - `manageTaskDescriptors.tsx` centralizes Manage Chores row behavior by `task.taskType`.
+  - `todayTodoDescriptors.tsx` centralizes Today row behavior by `todo.sourceTaskType`.
+  - `definitionRowDescriptors.tsx` centralizes non-task definition rows for Children and Rewards.
+- Current row model:
+  - Definition rows: Children and Rewards. These are config-only entity rows and should use `definitionRowDescriptors.tsx`.
+  - Config-only chores: `standard` tasks. These are chores with editable definition/config and simple completion, but no embedded activity UI.
+  - Complex chores: `eating`, `math`, and `positional-notation`. These have a setup/config stage and an in-chore/activity stage.
+  - Simple chores: `daynight`. These are activity-only rows with no separate config UI beyond the shared row shell.
+- When changing Chores or Today behavior, prefer editing the relevant descriptor module instead of adding new `if (isEating...)` / `if (isMath...)` branches inside the page component.
+- Page components should keep orchestration state and handlers, then pass them into descriptor factories.
+  - Examples: active task/todo IDs, check triggers, reset handlers, award handlers, and dinner activity state remain in the page.
+  - Descriptor factories consume those dependencies and return row rendering/action behavior for the shared list shell.
 - Layout sizing should reference `uiTokens` (not hard-coded values).
 - User feedback often uses `src/utils/celebrate.ts` (confetti) for positive actions.
 - Dinner timer uses a `timerStartedAt` approach — the client computes remaining time from `Date.now() - startedAt` in a `setInterval`, avoiding per-second Firestore writes. Both ManageTasksPage (ephemeral `manageDinnerTimerStartedAt`) and TodayPage (`dinnerTimerStartedAt` in Firestore) follow this pattern.

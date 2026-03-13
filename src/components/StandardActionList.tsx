@@ -59,7 +59,7 @@ const injectWhimsicalStyles = () => {
   document.head.appendChild(style)
 }
 
-type ActionConfig<T> = {
+export type ActionConfig<T> = {
   label: string | ((item: T) => string)
   onClick: (item: T) => void
   icon?: ReactNode | ((item: T) => ReactNode)
@@ -73,11 +73,11 @@ type ActionConfig<T> = {
   showLabel?: boolean | ((item: T) => boolean)
 }
 
-type UtilityActionConfig<T> = ActionConfig<T> & {
+export type UtilityActionConfig<T> = ActionConfig<T> & {
   exits?: boolean | ((item: T) => boolean)
 }
 
-type StandardActionListProps<T> = {
+export type StandardActionListProps<T> = {
   theme: Theme
   items: T[]
   renderItem: (item: T) => ReactNode
