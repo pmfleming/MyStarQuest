@@ -11,7 +11,7 @@
 import { initializeApp } from 'firebase-admin/app'
 import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
-import { onCall, HttpsError } from 'firebase-functions/v2/https'
+import { onCall, onRequest, HttpsError } from 'firebase-functions/v2/https'
 
 initializeApp()
 const db = getFirestore()
@@ -27,28 +27,29 @@ type ScheduledTaskData = {
 
 /**
  * Calculates the exact dateKey and dayType for a specific timezone.
- * This prevents UTC-offset bugs where the server thinks it's a different day 
+ * This prevents UTC-offset bugs where the server thinks it's a different day
  * than the user's local time (e.g., during British Summer Time).
  */
 const getLocalizedDateInfo = (timeZone: string) => {
   const now = new Date()
-  
+
   const formatter = new Intl.DateTimeFormat('en-GB', {
     timeZone,
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-    weekday: 'short' // Outputs 'Mon', 'Tue', 'Sat', 'Sun', etc.
+    weekday: 'short', // Outputs 'Mon', 'Tue', 'Sat', 'Sun', etc.
   })
 
   const parts = formatter.formatToParts(now)
-  const year = parts.find(p => p.type === 'year')?.value
-  const month = parts.find(p => p.type === 'month')?.value
-  const day = parts.find(p => p.type === 'day')?.value
-  const weekday = parts.find(p => p.type === 'weekday')?.value
+  const year = parts.find((p) => p.type === 'year')?.value
+  const month = parts.find((p) => p.type === 'month')?.value
+  const day = parts.find((p) => p.type === 'day')?.value
+  const weekday = parts.find((p) => p.type === 'weekday')?.value
 
   const dateKey = `${year}-${month}-${day}`
-  const dayType: CurrentDayType = (weekday === 'Sat' || weekday === 'Sun') ? 'nonschoolday' : 'schoolday'
+  const dayType: CurrentDayType =
+    weekday === 'Sat' || weekday === 'Sun' ? 'nonschoolday' : 'schoolday'
 
   return { dateKey, dayType }
 }
@@ -297,8 +298,7 @@ export const resetTodayTodos = onCall(async (request) => {
         break
       case 'math':
         taskSpecific = {
-          mathTotalProblems:
-            data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+          mathTotalProblems: data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
           mathLastOutcome: null,
         }
         break
@@ -320,3 +320,84 @@ export const resetTodayTodos = onCall(async (request) => {
   )
   return { created: todosToCreate.length }
 })
+
+// ── HTTP function: parse & serve school calendar as JSON ──
+
+import * as ical from 'node-ical'
+
+const SCHOOL_CALENDAR_URL =
+  'https://calendar.parro.com/ical/4885298933/8eaf8fb5-1f77-4a8b-bb79-8d8b404f4943?noCache=aa9ce5d8-eb96-4df2-a07b-c1029a0a38ca'
+
+export const getSchoolCalendar = onRequest(
+  { cors: true },
+  async (_req, res) => {
+    try {
+      const calResponse = await fetch(SCHOOL_CALENDAR_URL)
+      if (!calResponse.ok) {
+        throw new Error(`Parro responded with ${calResponse.status}`)
+      }
+      const calText = await calResponse.text()
+
+      const events = ical.sync.parseICS(calText)
+      const parsedCalendar: Record<string, string> = {}
+
+      // Format dates in the school's timezone to avoid UTC off-by-one errors
+      const nlFormatter = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Europe/Amsterdam',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      })
+      const formatDate = (date: Date) => nlFormatter.format(date)
+
+      for (const key of Object.keys(events)) {
+        const event = events[key]
+        if (!event || event.type !== 'VEVENT') continue
+
+        const vevent = event as ical.VEvent
+        const rawSummary = vevent.summary
+        const summary: string =
+          typeof rawSummary === 'string'
+            ? rawSummary
+            : (rawSummary?.val ?? 'School Event')
+
+        if (vevent.start) {
+          const currentDate = new Date(vevent.start)
+          const endDate = vevent.end
+            ? new Date(vevent.end)
+            : new Date(vevent.start)
+
+          // iCal all-day events use an exclusive end date, so use strict <
+          while (currentDate < endDate) {
+            parsedCalendar[formatDate(currentDate)] = summary
+            currentDate.setDate(currentDate.getDate() + 1)
+          }
+          // Single-instant events where start === end
+          if (formatDate(new Date(vevent.start)) === formatDate(endDate)) {
+            parsedCalendar[formatDate(endDate)] = summary
+          }
+        }
+
+        if (vevent.rrule) {
+          const now = new Date()
+          const nextYear = new Date(
+            now.getFullYear() + 1,
+            now.getMonth(),
+            now.getDate()
+          )
+          const dates = vevent.rrule.between(now, nextYear)
+          for (const date of dates) {
+            parsedCalendar[formatDate(date)] = summary
+          }
+        }
+      }
+
+      res.set('Cache-Control', 'public, max-age=3600, s-maxage=3600')
+      res.set('Content-Type', 'application/json')
+      res.status(200).json(parsedCalendar)
+    } catch (error) {
+      console.error('Error fetching/parsing school calendar:', error)
+      res.status(500).json({ error: 'Unable to fetch school calendar.' })
+    }
+  }
+)

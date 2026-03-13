@@ -30,7 +30,7 @@ import {
   type EatingTodo,
   type MathTodo,
   type PositionalNotationTodo,
-  type TaskTemplate,
+  type TaskRecord,
   type TaskType,
   type TodoRecord,
   type TodoUpdatableFields,
@@ -40,7 +40,7 @@ export function useTodos() {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
 
-  const [tasks, setTasks] = useState<TaskTemplate[]>([])
+  const [tasks, setTasks] = useState<TaskRecord[]>([])
   const [todos, setTodos] = useState<TodoRecord[]>([])
 
   // ── Midnight Rollover Fix ──
@@ -67,7 +67,7 @@ export function useTodos() {
     const unsubscribe = onSnapshot(
       collection(db, 'users', user.uid, 'tasks'),
       (snapshot) => {
-        const nextTasks: TaskTemplate[] = snapshot.docs
+        const nextTasks: TaskRecord[] = snapshot.docs
           .map((docSnapshot) => {
             const data = docSnapshot.data()
             const taskType: TaskType =
@@ -87,6 +87,8 @@ export function useTodos() {
               id: docSnapshot.id,
               title: data.title ?? '',
               childId: data.childId ?? '',
+              category: data.category ?? '',
+              isRepeating: data.isRepeating ?? false,
               starValue: Number(data.starValue ?? 1),
               ...normalizeChoreSchedule(data),
               createdAt: data.createdAt?.toDate?.(),
@@ -302,7 +304,7 @@ export function useTodos() {
   }
 
   // ── Mutations ──
-  const addTodo = async (task: TaskTemplate) => {
+  const addTodo = async (task: TaskRecord) => {
     if (!user || !activeChildId || todoSourceIds.has(task.id)) return
     const base = {
       title: task.title,

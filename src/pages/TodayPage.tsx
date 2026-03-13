@@ -7,11 +7,7 @@ import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { createTodayTodoListRowDescriptor } from '../ui/todayTodoDescriptors'
-import {
-  CURRENT_DAY_LABELS,
-  getScheduleLabel,
-  getTodayDescriptor,
-} from '../lib/today'
+import { getScheduleLabel, getTodayDescriptor } from '../lib/today'
 import { useDinnerActivity } from '../lib/useDinnerActivity'
 import { uiTokens } from '../ui/tokens'
 import { useTodos } from '../data/useTodos'
@@ -31,6 +27,9 @@ import {
   princessHomeIcon,
   princessResetIcon,
 } from '../assets/themes/princess/assets'
+import SchoolCalendar, {
+  clearSchoolCalendarCache,
+} from '../components/SchoolCalendar'
 
 const getPrincessMealIconForHour = (hour: number) => {
   if (hour < 10) return princessEatingBreakfastIcon
@@ -49,7 +48,6 @@ const TodayPage = () => {
   const {
     todos,
     availableChores,
-    completedCount,
     todoSourceIds,
     getDinnerDuration,
     getDinnerLiveRemaining,
@@ -74,6 +72,7 @@ const TodayPage = () => {
   } = useTodos()
 
   const [showAddChooser, setShowAddChooser] = useState(false)
+  const [calendarKey, setCalendarKey] = useState(0)
   const [pendingTodoId, setPendingTodoId] = useState<string | null>(null)
   const [activeMathTodoId, setActiveMathTodoId] = useState<string | null>(null)
   const [activePVTodoId, setActivePVTodoId] = useState<string | null>(null)
@@ -184,11 +183,6 @@ const TodayPage = () => {
     await pvReset(todo)
   }
 
-  const summaryText =
-    todos.length === 0
-      ? 'No todos planned for today yet.'
-      : `${completedCount} of ${todos.length} completed.`
-
   const todoListDescriptor = toStandardActionListDescriptor(
     createTodayTodoListRowDescriptor({
       theme,
@@ -238,6 +232,8 @@ const TodayPage = () => {
             <TopIconButton
               theme={theme}
               onClick={() => {
+                clearSchoolCalendarCache()
+                setCalendarKey((k) => k + 1)
                 if (activeChildId) resetTodayTodos()
               }}
               ariaLabel="Reset today"
@@ -303,36 +299,11 @@ const TodayPage = () => {
             gap: `${uiTokens.singleVerticalSpace}px`,
           }}
         >
-          <section
-            style={{
-              borderRadius: '28px',
-              background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
-              color: theme.id === 'space' ? '#000' : '#fff',
-              padding: '24px',
-              boxShadow: `0 10px 30px ${theme.colors.primary}33`,
-            }}
-          >
-            <div className="text-sm font-bold tracking-[0.2em] uppercase opacity-80">
-              {CURRENT_DAY_LABELS[todayInfo.dayType]}
-            </div>
-            <div
-              style={{
-                fontFamily: theme.fonts.heading,
-                fontSize: '1.9rem',
-                fontWeight: 800,
-                lineHeight: 1.1,
-                marginTop: '8px',
-              }}
-            >
-              {todayInfo.dayName}
-            </div>
-            <div className="mt-2 text-lg font-semibold">
-              {todayInfo.formattedDate}
-            </div>
-            <div className="mt-4 text-base font-semibold opacity-90">
-              {summaryText}
-            </div>
-          </section>
+          <SchoolCalendar
+            key={calendarKey}
+            theme={theme}
+            todayDateKey={todayInfo.dateKey}
+          />
 
           {!activeChildId ? (
             <div className="mt-10 flex flex-col items-center text-center opacity-70">

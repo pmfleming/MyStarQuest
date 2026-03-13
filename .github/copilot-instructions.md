@@ -76,10 +76,6 @@ All core domain types use **discriminated unions** (tagged unions) so TypeScript
 - Variants: `StandardTodo`, `EatingTodo`, `MathTodo`, `PositionalNotationTodo`, `DayNightTodo`
 - Same pattern — dinner fields on `EatingTodo`, math fields on `MathTodo`, etc.
 
-### TaskTemplate (read-only view for the Today page)
-
-- Same discriminated union structure as `TaskRecord` but without `category` / `isRepeating`.
-
 ### TaskWithEphemeral (Manage page)
 
 - Each `TaskRecord` variant is paired with only its matching ephemeral fields:

@@ -92,42 +92,6 @@ export type TaskWithEphemeral =
   | PVTaskWithEphemeral
   | DayNightTaskWithEphemeral
 
-// ── TaskTemplate: discriminated union (read-only view for Today page) ──
-
-type TaskTemplateBase = {
-  id: string
-  title: string
-  childId: string
-  starValue: number
-  schoolDayEnabled: boolean
-  nonSchoolDayEnabled: boolean
-  createdAt?: Date
-}
-
-export type StandardTaskTemplate = TaskTemplateBase & { taskType: 'standard' }
-export type EatingTaskTemplate = TaskTemplateBase & {
-  taskType: 'eating'
-  dinnerDurationSeconds: number
-  dinnerTotalBites: number
-}
-export type MathTaskTemplate = TaskTemplateBase & {
-  taskType: 'math'
-  mathTotalProblems: number
-}
-export type PositionalNotationTaskTemplate = TaskTemplateBase & {
-  taskType: 'positional-notation'
-  pvTotalProblems: number
-}
-
-export type DayNightTaskTemplate = TaskTemplateBase & { taskType: 'daynight' }
-
-export type TaskTemplate =
-  | StandardTaskTemplate
-  | EatingTaskTemplate
-  | MathTaskTemplate
-  | PositionalNotationTaskTemplate
-  | DayNightTaskTemplate
-
 // ── TodoRecord: discriminated union on `sourceTaskType` ──
 
 type TodoBase = {
