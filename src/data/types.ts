@@ -1,8 +1,13 @@
 // ── Shared data types and constants for the chore/task system ──
 
-import type { ThemeId } from '../constants/themeOptions'
+import type { ThemeId } from '../ui/themeOptions'
 
-export type TaskType = 'standard' | 'eating' | 'math' | 'positional-notation' | 'daynight'
+export type TaskType =
+  | 'standard'
+  | 'eating'
+  | 'math'
+  | 'positional-notation'
+  | 'daynight'
 
 // ── TaskRecord: discriminated union on `taskType` ──
 

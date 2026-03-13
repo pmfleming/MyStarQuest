@@ -1,8 +1,8 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
-import ArithmeticTester from '../../components/ArithmeticTester'
-import DayNightExplorer from '../../components/DayNightExplorer'
-import DinnerCountdown from '../../components/DinnerCountdown'
-import PositionalNotation from '../../components/PositionalNotation'
+import ArithmeticTester from '../components/ArithmeticTester'
+import DayNightExplorer from '../components/DayNightExplorer'
+import DinnerCountdown from '../components/DinnerCountdown'
+import PositionalNotation from '../components/PositionalNotation'
 import {
   princessActiveIcon,
   princessChoresIcon,
@@ -14,15 +14,15 @@ import {
   princessMathsIncorrectImage,
   princessPlateImage,
   princessResetIcon,
-} from '../../assets/themes/princess/assets'
-import type { Theme } from '../../contexts/ThemeContext'
+} from '../assets/themes/princess/assets'
+import type { Theme } from '../contexts/ThemeContext'
 import {
   type EatingTodo,
   type MathTodo,
   type PositionalNotationTodo,
   type TodoRecord,
-} from '../../data/types'
-import { uiTokens } from '../tokens'
+} from '../data/types'
+import { uiTokens } from './tokens'
 import type { ListRowDescriptor } from './listDescriptorTypes'
 
 type ChoreUiKind = 'complexChore' | 'simpleChore' | 'configOnly'

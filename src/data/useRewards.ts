@@ -15,7 +15,7 @@ import {
 import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
-import { redeemReward } from '../services/starActions'
+import { redeemReward } from '../lib/starActions'
 import type { RewardRecord, RewardUpdatableFields } from './types'
 
 export function useRewards() {

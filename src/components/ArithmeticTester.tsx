@@ -6,7 +6,7 @@ import { uiTokens } from '../ui/tokens'
 import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import mathsCorrectIcon from '../assets/themes/princess/maths-correct.svg'
 import mathsIncorrectIcon from '../assets/themes/princess/maths-incorrect.svg'
-import { celebrateSuccess } from '../utils/celebrate'
+import { celebrateSuccess } from '../lib/celebrate'
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */

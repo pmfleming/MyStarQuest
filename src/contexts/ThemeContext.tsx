@@ -1,5 +1,5 @@
 import React, { createContext, useState, useMemo } from 'react'
-import type { ThemeId } from '../constants/themeOptions'
+import type { ThemeId } from '../ui/themeOptions'
 import bedtimeImg from '../assets/themes/princess/bedtime.svg'
 import eatingBreakfastImg from '../assets/themes/princess/eating-breakfast.svg'
 import commuteImg from '../assets/themes/princess/commute.svg'

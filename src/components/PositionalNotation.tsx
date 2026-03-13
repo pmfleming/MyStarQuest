@@ -6,7 +6,7 @@ import { uiTokens } from '../ui/tokens'
 import mathsCorrectIcon from '../assets/themes/princess/maths-correct.svg'
 import mathsIncorrectIcon from '../assets/themes/princess/maths-incorrect.svg'
 import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
-import { celebrateSuccess } from '../utils/celebrate'
+import { celebrateSuccess } from '../lib/celebrate'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 10

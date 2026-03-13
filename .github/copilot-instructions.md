@@ -37,6 +37,14 @@
   - `ThemeProvider` (`src/contexts/ThemeContext.tsx`) — theme palette + styles
   - `ActiveChildProvider` (`src/contexts/ActiveChildContext.tsx`) — selected child persisted in `localStorage` per user
 
+## Source folder layout
+
+Three non-component folders under `src/`:
+
+- **`src/data/`** — Domain types (`types.ts`) and Firestore-coupled data hooks (`useChildren`, `useRewards`, `useTasks`, `useTodos`).
+- **`src/ui/`** — Visual configuration: layout tokens (`tokens.ts`), theme options (`themeOptions.ts`), and row-descriptor factories (`*Descriptors.*`, `listDescriptorTypes.ts`).
+- **`src/lib/`** — Shared non-UI logic: Firestore transaction helpers (`starActions.ts`), pure utilities (`celebrate.ts`, `today.ts`, `setupStatusActions.ts`), and the dinner-activity hook (`useDinnerActivity.ts`).
+
 ## Firebase + data model (important)
 
 - Firebase is initialized in `src/firebase.ts` and requires `VITE_FIREBASE_*` env vars.
@@ -98,7 +106,7 @@ All core domain types use **discriminated unions** (tagged unions) so TypeScript
 - Pages read live data with Firestore `onSnapshot(...)` inside `useEffect` and return the unsubscribe cleanup.
   - Examples: `src/pages/DashboardPage.tsx`, `src/pages/ManageTasksPage.tsx`.
   - Always verify `user` exists before setting up subscriptions.
-- Star-award and redemption logic is centralized in `src/services/starActions.ts` using Firestore transactions:
+- Star-award and redemption logic is centralized in `src/lib/starActions.ts` using Firestore transactions:
   - writes an audit doc (`starEvents`/`redemptions`) with `serverTimestamp()`
   - updates `children/{childId}.totalStars` with `increment(...)`
 - `src/data/useTasks.ts` manages task config from Firestore (`rawTasks: TaskRecord[]`) merged with local ephemeral state (`ephemeral: Record<string, TaskEphemeralState>`) producing `tasks: TaskWithEphemeral[]`. All manage-page mutations (math/dinner/pv handlers) write to ephemeral state only, not Firestore.
@@ -106,7 +114,7 @@ All core domain types use **discriminated unions** (tagged unions) so TypeScript
 - `src/components/StandardActionList.tsx` is the shared whimsical list shell used by Children, Rewards, Chores, and Today.
   - It owns shared card structure, animations, action-row layout, add-row behavior, inline-new-row behavior, empty state, and common action rendering.
   - It should stay presentation-focused. Do not push task-type-specific branching into this component.
-- Descriptor modules in `src/ui/descriptors/*` are the default way to configure row behavior.
+- Descriptor modules in `src/ui/*Descriptors.*` are the default way to configure row behavior.
   - `listDescriptorTypes.ts` defines the row-descriptor contract and adapts it to `StandardActionList` props.
   - `manageTaskDescriptors.tsx` centralizes Manage Chores row behavior by `task.taskType`.
   - `todayTodoDescriptors.tsx` centralizes Today row behavior by `todo.sourceTaskType`.
@@ -121,7 +129,7 @@ All core domain types use **discriminated unions** (tagged unions) so TypeScript
   - Examples: active task/todo IDs, check triggers, reset handlers, award handlers, and dinner activity state remain in the page.
   - Descriptor factories consume those dependencies and return row rendering/action behavior for the shared list shell.
 - Layout sizing should reference `uiTokens` (not hard-coded values).
-- User feedback often uses `src/utils/celebrate.ts` (confetti) for positive actions.
+- User feedback often uses `src/lib/celebrate.ts` (confetti) for positive actions.
 - Dinner timer uses a `timerStartedAt` approach — the client computes remaining time from `Date.now() - startedAt` in a `setInterval`, avoiding per-second Firestore writes. Both ManageTasksPage (ephemeral `manageDinnerTimerStartedAt`) and TodayPage (`dinnerTimerStartedAt` in Firestore) follow this pattern.
 - Maths test behavior lives in `src/components/ArithmeticTester.tsx` and is parent-driven from `src/pages/ManageTasksPage.tsx`:
   - Parent action button triggers answer checks through `checkTrigger` (ArithmeticTester does not own a standalone check button).

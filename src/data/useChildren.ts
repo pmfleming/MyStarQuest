@@ -15,7 +15,7 @@ import {
 import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
-import { THEME_ID_LOOKUP, type ThemeId } from '../constants/themeOptions'
+import { THEME_ID_LOOKUP, type ThemeId } from '../ui/themeOptions'
 import type { ChildProfile, ChildUpdatableFields } from './types'
 
 export function useChildren() {

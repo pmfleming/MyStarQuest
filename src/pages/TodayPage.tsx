@@ -5,14 +5,14 @@ import PageShell from '../components/PageShell'
 import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
-import { toStandardActionListDescriptor } from '../ui/descriptors/listDescriptorTypes'
-import { createTodayTodoListRowDescriptor } from '../ui/descriptors/todayTodoDescriptors'
+import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
+import { createTodayTodoListRowDescriptor } from '../ui/todayTodoDescriptors'
 import {
   CURRENT_DAY_LABELS,
   getScheduleLabel,
   getTodayDescriptor,
-} from '../utils/today'
-import { useDinnerActivity } from '../hooks/useDinnerActivity'
+} from '../lib/today'
+import { useDinnerActivity } from '../lib/useDinnerActivity'
 import { uiTokens } from '../ui/tokens'
 import { useTodos } from '../data/useTodos'
 import {

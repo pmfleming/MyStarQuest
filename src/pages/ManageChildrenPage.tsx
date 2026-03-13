@@ -1,4 +1,4 @@
-import type { ThemeId } from '../constants/themeOptions'
+import type { ThemeId } from '../ui/themeOptions'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
@@ -6,8 +6,8 @@ import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
-import { createChildDefinitionListRowDescriptor } from '../ui/descriptors/definitionRowDescriptors'
-import { toStandardActionListDescriptor } from '../ui/descriptors/listDescriptorTypes'
+import { createChildDefinitionListRowDescriptor } from '../ui/definitionRowDescriptors'
+import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { useChildren } from '../data/useChildren'
 import {
   princessHomeIcon,

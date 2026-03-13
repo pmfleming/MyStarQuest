@@ -18,9 +18,9 @@ import { db, functions } from '../firebase'
 import { httpsCallable } from 'firebase/functions'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
-import { completeTodoAndAwardStars } from '../services/starActions'
-import { celebrateSuccess } from '../utils/celebrate'
-import { getTodayDescriptor, normalizeChoreSchedule } from '../utils/today'
+import { completeTodoAndAwardStars } from '../lib/starActions'
+import { celebrateSuccess } from '../lib/celebrate'
+import { getTodayDescriptor, normalizeChoreSchedule } from '../lib/today'
 import {
   DEFAULT_DINNER_BITES,
   DEFAULT_DINNER_DURATION_SECONDS,

@@ -15,9 +15,9 @@ import {
 import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
-import { awardStars } from '../services/starActions'
-import { celebrateSuccess } from '../utils/celebrate'
-import { normalizeChoreSchedule } from '../utils/today'
+import { awardStars } from '../lib/starActions'
+import { celebrateSuccess } from '../lib/celebrate'
+import { normalizeChoreSchedule } from '../lib/today'
 import {
   DEFAULT_DINNER_BITES,
   DEFAULT_DINNER_DURATION_SECONDS,

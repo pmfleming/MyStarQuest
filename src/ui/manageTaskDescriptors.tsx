@@ -1,11 +1,11 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
-import ActionTextInput from '../../components/ActionTextInput'
-import ArithmeticTester from '../../components/ArithmeticTester'
-import DayNightExplorer from '../../components/DayNightExplorer'
-import DinnerCountdown from '../../components/DinnerCountdown'
-import PositionalNotation from '../../components/PositionalNotation'
-import RepeatControl from '../../components/RepeatControl'
-import StarDisplay from '../../components/StarDisplay'
+import ActionTextInput from '../components/ActionTextInput'
+import ArithmeticTester from '../components/ArithmeticTester'
+import DayNightExplorer from '../components/DayNightExplorer'
+import DinnerCountdown from '../components/DinnerCountdown'
+import PositionalNotation from '../components/PositionalNotation'
+import RepeatControl from '../components/RepeatControl'
+import StarDisplay from '../components/StarDisplay'
 import {
   princessActiveIcon,
   princessBiteIcon,
@@ -18,7 +18,7 @@ import {
   princessMathsIncorrectImage,
   princessPlateImage,
   princessResetIcon,
-} from '../../assets/themes/princess/assets'
+} from '../assets/themes/princess/assets'
 import {
   DEFAULT_DINNER_BITES,
   DEFAULT_DINNER_DURATION_SECONDS,
@@ -33,9 +33,9 @@ import {
   type PVTaskWithEphemeral,
   type StandardTaskWithEphemeral,
   type TaskWithEphemeral,
-} from '../../data/types'
-import type { Theme } from '../../contexts/ThemeContext'
-import { uiTokens } from '../tokens'
+} from '../data/types'
+import type { Theme } from '../contexts/ThemeContext'
+import { uiTokens } from './tokens'
 import type { ListRowDescriptor } from './listDescriptorTypes'
 
 type ChoreUiKind = 'configOnly' | 'complexChore' | 'simpleChore'
