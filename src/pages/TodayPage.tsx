@@ -27,9 +27,8 @@ import {
   princessHomeIcon,
   princessResetIcon,
 } from '../assets/themes/princess/assets'
-import SchoolCalendar, {
-  clearSchoolCalendarCache,
-} from '../components/SchoolCalendar'
+import SchoolCalendar from '../components/SchoolCalendar'
+import { clearSchoolCalendarCache } from '../lib/schoolCalendarCache'
 
 const getPrincessMealIconForHour = (hour: number) => {
   if (hour < 10) return princessEatingBreakfastIcon

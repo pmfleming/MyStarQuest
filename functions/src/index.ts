@@ -12,6 +12,7 @@ import { initializeApp } from 'firebase-admin/app'
 import { getFirestore, FieldValue } from 'firebase-admin/firestore'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, onRequest, HttpsError } from 'firebase-functions/v2/https'
+import * as ical from 'node-ical'
 
 initializeApp()
 const db = getFirestore()
@@ -323,23 +324,55 @@ export const resetTodayTodos = onCall(async (request) => {
 
 // ── HTTP function: parse & serve school calendar as JSON ──
 
-import * as ical from 'node-ical'
+// Base URL without the static ?noCache parameter
+const SCHOOL_CALENDAR_BASE_URL =
+  'https://calendar.parro.com/ical/4885298933/8eaf8fb5-1f77-4a8b-bb79-8d8b404f4943'
 
-const SCHOOL_CALENDAR_URL =
-  'https://calendar.parro.com/ical/4885298933/8eaf8fb5-1f77-4a8b-bb79-8d8b404f4943?noCache=aa9ce5d8-eb96-4df2-a07b-c1029a0a38ca'
+type CalendarDayPayload = {
+  summaries: string[]
+  hasAllDayEvent: boolean
+  isNonSchoolDay: boolean
+}
 
 export const getSchoolCalendar = onRequest(
   { cors: true },
-  async (_req, res) => {
+  async (_req, res): Promise<void> => {
     try {
-      const calResponse = await fetch(SCHOOL_CALENDAR_URL)
+      // 1. Dynamic Cache Busting
+      const targetUrl = `${SCHOOL_CALENDAR_BASE_URL}?noCache=${Date.now()}`
+
+      // 2. Enforce an 8-second timeout so the Cloud Function doesn't hang
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 8000)
+
+      const calResponse = await fetch(targetUrl, {
+        signal: controller.signal,
+      })
+
+      clearTimeout(timeoutId) // Clear timeout if fetch succeeds
+
       if (!calResponse.ok) {
-        throw new Error(`Parro responded with ${calResponse.status}`)
+        throw new Error(`Parro responded with HTTP ${calResponse.status}`)
       }
+
       const calText = await calResponse.text()
 
-      const events = ical.sync.parseICS(calText)
-      const parsedCalendar: Record<string, string> = {}
+      // 3. Defensive Parsing
+      let events
+      try {
+        events = ical.sync.parseICS(calText)
+      } catch (parseError) {
+        console.error(
+          'Failed to parse the ICS file. It might be malformed.',
+          parseError
+        )
+        res
+          .status(502)
+          .json({ error: 'Received invalid calendar data from upstream.' })
+        return
+      }
+
+      const parsedCalendar: Record<string, CalendarDayPayload> = {}
 
       // Format dates in the school's timezone to avoid UTC off-by-one errors
       const nlFormatter = new Intl.DateTimeFormat('en-CA', {
@@ -348,7 +381,43 @@ export const getSchoolCalendar = onRequest(
         month: '2-digit',
         day: '2-digit',
       })
+
       const formatDate = (date: Date) => nlFormatter.format(date)
+      const isWeekendDateKey = (dateKey: string) => {
+        const dayOfWeek = new Date(`${dateKey}T00:00:00Z`).getUTCDay()
+        return dayOfWeek === 0 || dayOfWeek === 6
+      }
+
+      const appendSummary = (
+        date: Date,
+        summary: string,
+        hasAllDayEvent: boolean
+      ) => {
+        const dateKey = formatDate(date)
+        const isWeekday = !isWeekendDateKey(dateKey)
+
+        // Weekends are always non-school; weekdays are non-school if they have an all-day event
+        const isNonSchoolDay = !isWeekday || hasAllDayEvent
+
+        const existing = parsedCalendar[dateKey]
+
+        if (!existing) {
+          parsedCalendar[dateKey] = {
+            summaries: [summary],
+            hasAllDayEvent,
+            isNonSchoolDay,
+          }
+          return
+        }
+
+        if (!existing.summaries.includes(summary)) {
+          existing.summaries.push(summary)
+        }
+
+        // Carry over truthy values from overlapping events on the same day
+        existing.hasAllDayEvent = existing.hasAllDayEvent || hasAllDayEvent
+        existing.isNonSchoolDay = existing.isNonSchoolDay || isNonSchoolDay
+      }
 
       for (const key of Object.keys(events)) {
         const event = events[key]
@@ -361,33 +430,57 @@ export const getSchoolCalendar = onRequest(
             ? rawSummary
             : (rawSummary?.val ?? 'School Event')
 
+        // iCal specifies all-day events with datetype 'date' (vs 'date-time')
+        const hasAllDayEvent = vevent.datetype === 'date'
+
         if (vevent.start) {
-          const currentDate = new Date(vevent.start)
+          const startDate = new Date(vevent.start)
           const endDate = vevent.end
             ? new Date(vevent.end)
             : new Date(vevent.start)
 
+          // Capture the exact duration of the event for potential recurrences
+          const durationMs = endDate.getTime() - startDate.getTime()
+
+          // --- PROCESS THE INITIAL EVENT ---
+          const currentDate = new Date(startDate.getTime())
+
           // iCal all-day events use an exclusive end date, so use strict <
           while (currentDate < endDate) {
-            parsedCalendar[formatDate(currentDate)] = summary
-            currentDate.setDate(currentDate.getDate() + 1)
+            appendSummary(currentDate, summary, hasAllDayEvent)
+            // Use setUTCDate to mathematically increment 24 hours safely
+            currentDate.setUTCDate(currentDate.getUTCDate() + 1)
           }
-          // Single-instant events where start === end
-          if (formatDate(new Date(vevent.start)) === formatDate(endDate)) {
-            parsedCalendar[formatDate(endDate)] = summary
-          }
-        }
 
-        if (vevent.rrule) {
-          const now = new Date()
-          const nextYear = new Date(
-            now.getFullYear() + 1,
-            now.getMonth(),
-            now.getDate()
-          )
-          const dates = vevent.rrule.between(now, nextYear)
-          for (const date of dates) {
-            parsedCalendar[formatDate(date)] = summary
+          // Single-instant events where start === end (duration is 0)
+          if (formatDate(startDate) === formatDate(endDate)) {
+            appendSummary(endDate, summary, hasAllDayEvent)
+          }
+
+          // --- PROCESS RECURRING EVENTS ---
+          if (vevent.rrule) {
+            const now = new Date()
+            const nextYear = new Date(
+              now.getFullYear() + 1,
+              now.getMonth(),
+              now.getDate()
+            )
+            const occurrenceStarts = vevent.rrule.between(now, nextYear)
+
+            for (const occStart of occurrenceStarts) {
+              // Reconstruct the multiday end date for THIS specific occurrence
+              const occEnd = new Date(occStart.getTime() + durationMs)
+              const currOcc = new Date(occStart.getTime())
+
+              while (currOcc < occEnd) {
+                appendSummary(currOcc, summary, hasAllDayEvent)
+                currOcc.setUTCDate(currOcc.getUTCDate() + 1)
+              }
+
+              if (formatDate(occStart) === formatDate(occEnd)) {
+                appendSummary(occEnd, summary, hasAllDayEvent)
+              }
+            }
           }
         }
       }
@@ -395,9 +488,17 @@ export const getSchoolCalendar = onRequest(
       res.set('Cache-Control', 'public, max-age=3600, s-maxage=3600')
       res.set('Content-Type', 'application/json')
       res.status(200).json(parsedCalendar)
-    } catch (error) {
+      return
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.error('Fetch request to Parro timed out.')
+        res.status(504).json({ error: 'Upstream calendar service timed out.' })
+        return
+      }
+
       console.error('Error fetching/parsing school calendar:', error)
       res.status(500).json({ error: 'Unable to fetch school calendar.' })
+      return
     }
   }
 )

@@ -2,6 +2,11 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import { getSeasonForDate, buildDateKey } from '../lib/today'
 import {
+  CACHE_KEY,
+  CACHE_TS_KEY,
+  CACHE_TTL_MS,
+} from '../lib/schoolCalendarCache'
+import {
   princessSchoolDayImage,
   princessNonSchoolDaySpringImage,
   princessNonSchoolDaySummerImage,
@@ -11,27 +16,13 @@ import {
 
 const CALENDAR_URL = 'https://getschoolcalendar-6ujocyt4pq-uc.a.run.app'
 
-const CACHE_KEY = 'schoolCalendar'
-const CACHE_TS_KEY = 'schoolCalendarTs'
-const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000 // 1 week
-
-export function clearSchoolCalendarCache() {
-  localStorage.removeItem(CACHE_KEY)
-  localStorage.removeItem(CACHE_TS_KEY)
-}
-
-const OFF_DAY_KEYWORDS = [
-  'studiedag',
-  'vakantie',
-  'vrij',
-  'holiday',
-  'no school',
-  'margedag',
-  'pasen',
-  'pinksteren',
-]
-
 const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+type CalendarDayData = {
+  summaries: string[]
+  hasAllDayEvent: boolean
+  isNonSchoolDay?: boolean
+}
 
 const getNonSchoolDayIcon = (season: ReturnType<typeof getSeasonForDate>) => {
   switch (season) {
@@ -56,7 +47,8 @@ export default function SchoolCalendar({
   theme,
   todayDateKey,
 }: SchoolCalendarProps) {
-  const [events, setEvents] = useState<Record<string, string>>({})
+  const [events, setEvents] = useState<Record<string, CalendarDayData>>({})
+  const [loaded, setLoaded] = useState(false)
   const [viewDate, setViewDate] = useState(() => new Date())
 
   useEffect(() => {
@@ -65,7 +57,9 @@ export default function SchoolCalendar({
 
     if (cached && cachedTs && Date.now() - Number(cachedTs) < CACHE_TTL_MS) {
       try {
-        setEvents(JSON.parse(cached))
+        const parsed = JSON.parse(cached)
+        setEvents(parsed)
+        setLoaded(true)
         return
       } catch {
         // fall through to fetch
@@ -79,14 +73,16 @@ export default function SchoolCalendar({
         if (!res.ok) throw new Error(`${res.status}`)
         return res.json()
       })
-      .then((data: Record<string, string>) => {
+      .then((data: Record<string, CalendarDayData>) => {
         setEvents(data)
+        setLoaded(true)
         localStorage.setItem(CACHE_KEY, JSON.stringify(data))
         localStorage.setItem(CACHE_TS_KEY, String(Date.now()))
       })
       .catch((err) => {
         if (err.name !== 'AbortError') {
           console.error('Failed to fetch school calendar', err)
+          setLoaded(true)
         }
       })
 
@@ -107,19 +103,20 @@ export default function SchoolCalendar({
   const schoolIcon = princessSchoolDayImage
   const nonSchoolIcon = getNonSchoolDayIcon(season)
 
-  const isDaySchool = (day: number, weekdayIndex: number) => {
-    const dateKey = buildDateKey(new Date(year, month, day))
-    const eventSummary = events[dateKey]
-    const isWeekend = weekdayIndex >= 5
-    let isSchool = !isWeekend
+  const isDaySchool = (day: number) => {
+    const jsDay = new Date(year, month, day).getDay()
 
-    if (isSchool && eventSummary) {
-      const lower = eventSummary.toLowerCase()
-      if (OFF_DAY_KEYWORDS.some((kw) => lower.includes(kw))) {
-        isSchool = false
-      }
+    // Weekends are always non-school days
+    if (jsDay === 0 || jsDay === 6) return false
+
+    // For weekdays, check server data for all-day events (holidays etc.)
+    if (loaded) {
+      const dateKey = buildDateKey(new Date(year, month, day))
+      const eventData = events[dateKey]
+      if (eventData?.isNonSchoolDay) return false
     }
-    return isSchool
+
+    return true
   }
 
   const navMonth = (delta: number) =>
@@ -215,8 +212,7 @@ export default function SchoolCalendar({
         {/* Day cells */}
         {Array.from({ length: daysInMonth }).map((_, i) => {
           const day = i + 1
-          const weekdayIndex = (firstDayOffset + i) % 7
-          const isSchool = isDaySchool(day, weekdayIndex)
+          const isSchool = isDaySchool(day)
           const dateKey = buildDateKey(new Date(year, month, day))
           const isToday = dateKey === todayDateKey
           const icon = isSchool ? schoolIcon : nonSchoolIcon
