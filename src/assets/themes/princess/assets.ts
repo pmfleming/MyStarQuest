@@ -2,6 +2,7 @@
 export { default as princessBackground } from './background.svg'
 export { default as princessChoresIcon } from './chores.svg'
 export { default as princessRewardsIcon } from './rewards.svg'
+export { default as princessCalendarIcon } from './calendar.svg'
 export { default as princessChildrenIcon } from './Children.svg'
 export { default as princessExitIcon } from './Exit.svg'
 export { default as princessEditIcon } from './edit.svg'

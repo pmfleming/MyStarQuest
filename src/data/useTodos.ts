@@ -67,9 +67,14 @@ export function useTodos() {
     const unsubscribe = onSnapshot(
       collection(db, 'users', user.uid, 'tasks'),
       (snapshot) => {
-        const nextTasks: TaskRecord[] = snapshot.docs
-          .map((docSnapshot) => {
+        const nextTasks = snapshot.docs
+          .reduce<TaskRecord[]>((next, docSnapshot) => {
             const data = docSnapshot.data()
+            const isLegacyDayNight =
+              data.taskType === 'daynight' || data.category === 'daynight'
+
+            if (isLegacyDayNight) return next
+
             const taskType: TaskType =
               data.taskType === 'positional-notation' ||
               data.category === 'positional-notation'
@@ -78,10 +83,7 @@ export function useTodos() {
                   ? 'math'
                   : data.taskType === 'eating' || data.category === 'eating'
                     ? 'eating'
-                    : data.taskType === 'daynight' ||
-                        data.category === 'daynight'
-                      ? 'daynight'
-                      : 'standard'
+                    : 'standard'
 
             const base = {
               id: docSnapshot.id,
@@ -96,7 +98,7 @@ export function useTodos() {
 
             switch (taskType) {
               case 'eating':
-                return {
+                next.push({
                   ...base,
                   taskType: 'eating' as const,
                   dinnerDurationSeconds:
@@ -104,26 +106,28 @@ export function useTodos() {
                     DEFAULT_DINNER_DURATION_SECONDS,
                   dinnerTotalBites:
                     data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-                }
+                })
+                return next
               case 'math':
-                return {
+                next.push({
                   ...base,
                   taskType: 'math' as const,
                   mathTotalProblems:
                     data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-                }
+                })
+                return next
               case 'positional-notation':
-                return {
+                next.push({
                   ...base,
                   taskType: 'positional-notation' as const,
                   pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
-                }
-              case 'daynight':
-                return { ...base, taskType: 'daynight' as const }
+                })
+                return next
               default:
-                return { ...base, taskType: 'standard' as const }
+                next.push({ ...base, taskType: 'standard' as const })
+                return next
             }
-          })
+          }, [])
           .sort(sortByCreatedAtThenTitle)
 
         setTasks(nextTasks)
@@ -153,14 +157,17 @@ export function useTodos() {
     const unsubscribe = onSnapshot(
       todoQuery,
       (snapshot) => {
-        const nextTodos: TodoRecord[] = snapshot.docs
-          .map((docSnapshot) => {
+        const nextTodos = snapshot.docs
+          .reduce<TodoRecord[]>((next, docSnapshot) => {
             const data = docSnapshot.data()
+            const isLegacyDayNight = data.sourceTaskType === 'daynight'
+
+            if (isLegacyDayNight) return next
+
             const sourceTaskType: TaskType =
               data.sourceTaskType === 'positional-notation' ||
               data.sourceTaskType === 'math' ||
-              data.sourceTaskType === 'eating' ||
-              data.sourceTaskType === 'daynight'
+              data.sourceTaskType === 'eating'
                 ? data.sourceTaskType
                 : 'standard'
 
@@ -178,7 +185,7 @@ export function useTodos() {
 
             switch (sourceTaskType) {
               case 'eating':
-                return {
+                next.push({
                   ...base,
                   sourceTaskType: 'eating' as const,
                   dinnerDurationSeconds:
@@ -195,9 +202,10 @@ export function useTodos() {
                     data.dinnerTotalBites ??
                     DEFAULT_DINNER_BITES,
                   dinnerTimerStartedAt: data.dinnerTimerStartedAt ?? null,
-                }
+                })
+                return next
               case 'math':
-                return {
+                next.push({
                   ...base,
                   sourceTaskType: 'math' as const,
                   mathTotalProblems:
@@ -207,9 +215,10 @@ export function useTodos() {
                     data.mathLastOutcome === 'failure'
                       ? data.mathLastOutcome
                       : null,
-                }
+                })
+                return next
               case 'positional-notation':
-                return {
+                next.push({
                   ...base,
                   sourceTaskType: 'positional-notation' as const,
                   pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
@@ -218,19 +227,16 @@ export function useTodos() {
                     data.pvLastOutcome === 'failure'
                       ? data.pvLastOutcome
                       : null,
-                }
-              case 'daynight':
-                return {
-                  ...base,
-                  sourceTaskType: 'daynight' as const,
-                }
+                })
+                return next
               default:
-                return {
+                next.push({
                   ...base,
                   sourceTaskType: 'standard' as const,
-                }
+                })
+                return next
             }
-          })
+          }, [])
           .sort(sortByCreatedAtThenTitle)
 
         setTodos(nextTodos)

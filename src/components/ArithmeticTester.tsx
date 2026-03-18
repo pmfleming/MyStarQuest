@@ -289,10 +289,6 @@ const ArithmeticTester = ({
           0% { transform: scale(0); }
           100% { transform: scale(1); }
         }
-        @keyframes dotmath-bounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-12px); }
-        }
         @keyframes dotmath-shake {
           0%, 100% { transform: translateX(0); }
           20%, 60% { transform: translateX(-8px); }
@@ -364,19 +360,6 @@ const ArithmeticTester = ({
             >
               You Did It! 🎉
             </span>
-            <div style={{ display: 'flex', gap: 8 }}>
-              {Array.from({ length: starReward }).map((_, i) => (
-                <span
-                  key={i}
-                  style={{
-                    fontSize: 40,
-                    animation: `dotmath-bounce 0.6s ease ${i * 0.15}s both`,
-                  }}
-                >
-                  ⭐
-                </span>
-              ))}
-            </div>
             <span
               style={{
                 fontSize: 20,

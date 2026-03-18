@@ -125,6 +125,11 @@ export const generateDailyTodos = onSchedule(
 
         for (const taskDoc of todosToCreate) {
           const data = taskDoc.data()
+          const isLegacyDayNight =
+            data.taskType === 'daynight' || data.category === 'daynight'
+
+          if (isLegacyDayNight) continue
+
           const taskType =
             data.taskType === 'positional-notation' ||
             data.category === 'positional-notation'
@@ -133,9 +138,7 @@ export const generateDailyTodos = onSchedule(
                 ? 'math'
                 : data.taskType === 'eating' || data.category === 'eating'
                   ? 'eating'
-                  : data.taskType === 'daynight' || data.category === 'daynight'
-                    ? 'daynight'
-                    : 'standard'
+                  : 'standard'
 
           const dinnerDuration =
             data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
@@ -257,6 +260,11 @@ export const resetTodayTodos = onCall(async (request) => {
 
   for (const taskDoc of todosToCreate) {
     const data = taskDoc.data()
+    const isLegacyDayNight =
+      data.taskType === 'daynight' || data.category === 'daynight'
+
+    if (isLegacyDayNight) continue
+
     const taskType =
       data.taskType === 'positional-notation' ||
       data.category === 'positional-notation'
@@ -265,9 +273,7 @@ export const resetTodayTodos = onCall(async (request) => {
           ? 'math'
           : data.taskType === 'eating' || data.category === 'eating'
             ? 'eating'
-            : data.taskType === 'daynight' || data.category === 'daynight'
-              ? 'daynight'
-              : 'standard'
+            : 'standard'
 
     const dinnerDuration =
       data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS

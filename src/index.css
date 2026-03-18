@@ -6,13 +6,41 @@ html,
 body,
 #root {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
 }
 
 html,
 body {
   margin: 0;
   background: #000;
+  overflow: hidden;
+}
+
+#root {
+  overflow: hidden;
+}
+
+.app-scroll-region {
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.app-scroll-region::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.app-scroll-region.can-drag-scroll {
+  cursor: grab;
+}
+
+.app-scroll-region.is-dragging {
+  cursor: grabbing;
+}
+
+.app-scroll-region.is-dragging .whimsical-card {
+  transform: scale(0.985);
 }
 
 @keyframes starBounce {

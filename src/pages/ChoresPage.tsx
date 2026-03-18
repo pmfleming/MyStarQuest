@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
-import PageHeader from '../components/PageHeader'
-import TopIconButton from '../components/TopIconButton'
 import ActionButton from '../components/ActionButton'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
@@ -16,7 +14,6 @@ import {
   getManageDinnerBitesLeft,
   getManageDinnerLiveRemaining,
   isEatingTask,
-  type DayNightTaskWithEphemeral,
   type EatingTaskWithEphemeral,
   type MathTaskWithEphemeral,
   type PVTaskWithEphemeral,
@@ -24,7 +21,6 @@ import {
   type TaskWithEphemeral,
 } from '../data/types'
 import {
-  princessActiveIcon,
   princessBiteIcon,
   princessEatingBreakfastIcon,
   princessEatingDinnerIcon,
@@ -65,7 +61,7 @@ const getPrincessNonSchoolDayImage = (
   }
 }
 
-const ManageTasksPage = () => {
+const ChoresPage = () => {
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
 
@@ -80,8 +76,6 @@ const ManageTasksPage = () => {
     createEating,
     createMath,
     createPositionalNotation,
-    createDayNight,
-    awardDayNight,
     mathComplete,
     mathFail,
     mathReset,
@@ -281,11 +275,6 @@ const ManageTasksPage = () => {
     setShowAddChooser(false)
   }
 
-  const handleCreateDayNight = async () => {
-    await createDayNight()
-    setShowAddChooser(false)
-  }
-
   const handleMathComplete = async (task: MathTaskWithEphemeral) => {
     setActiveMathTaskId(null)
     await mathComplete(task)
@@ -343,18 +332,6 @@ const ManageTasksPage = () => {
     await resetDinnerActivity(task, dinnerReset)
   }
 
-  const handleAwardDayNight = async (task: DayNightTaskWithEphemeral) => {
-    setIsAwarding(true)
-    try {
-      await awardDayNight(task)
-    } catch (error) {
-      console.error('Failed to award stars', error)
-      alert('Failed to award stars. Please try again.')
-    } finally {
-      setIsAwarding(false)
-    }
-  }
-
   const handleAwardTask = async (task: StandardTaskWithEphemeral) => {
     setIsAwarding(true)
     try {
@@ -398,7 +375,6 @@ const ManageTasksPage = () => {
       handlePVReset,
       setActivePVTaskId,
       setPVCheckTriggerByTask,
-      handleAwardDayNight,
       handleAwardTask,
       handleDelete,
       isAwarding,
@@ -407,179 +383,142 @@ const ManageTasksPage = () => {
   )
 
   return (
-    <PageShell theme={theme}>
-      <PageHeader
-        title="Chores"
-        fontFamily={theme.fonts.heading}
-        right={
-          <TopIconButton
-            theme={theme}
-            to="/today"
-            ariaLabel="Today"
-            icon={
-              <img
-                src={princessActiveIcon}
-                alt="Today"
-                className="h-10 w-10 object-contain"
-              />
-            }
-          />
-        }
-      />
-
-      <div className="flex flex-1 flex-col overflow-y-auto pb-32">
-        <div
-          className="mx-auto w-full"
-          style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
-        >
-          {!activeChildId ? (
-            <div className="mt-10 flex flex-col items-center text-center opacity-70">
-              <span className="mb-4 text-6xl">👶</span>
-              <p className="text-2xl font-bold">No explorers yet!</p>
-            </div>
-          ) : (
-            <div
-              className="flex flex-col"
-              style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-            >
-              <StandardActionList
-                theme={theme}
-                items={tasks}
-                getKey={(task) => task.id}
-                {...taskListDescriptor}
-                hideEdit
-                onDelete={(task) => handleDelete(task.id)}
-                addLabel="Chore"
-                onAdd={() => setShowAddChooser(true)}
-                addDisabled={false}
-                inlineNewRow={
-                  showAddChooser ? (
-                    <div
-                      className="grid grid-cols-1"
-                      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+    <PageShell theme={theme} activeTabId="dashboard" title="Chores">
+      <div
+        className="mx-auto w-full"
+        style={{
+          maxWidth: `${uiTokens.contentMaxWidth}px`,
+          paddingBottom: '128px',
+        }}
+      >
+        {!activeChildId ? (
+          <div className="mt-10 flex flex-col items-center text-center opacity-70">
+            <span className="mb-4 text-6xl">👶</span>
+            <p className="text-2xl font-bold">No explorers yet!</p>
+          </div>
+        ) : (
+          <div
+            className="flex flex-col"
+            style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+          >
+            <StandardActionList
+              theme={theme}
+              items={tasks}
+              getKey={(task) => task.id}
+              {...taskListDescriptor}
+              hideEdit
+              onDelete={(task) => handleDelete(task.id)}
+              addLabel="New Chore"
+              onAdd={() => setShowAddChooser(true)}
+              addDisabled={false}
+              inlineNewRow={
+                showAddChooser ? (
+                  <div
+                    className="grid grid-cols-1"
+                    style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+                  >
+                    <button
+                      type="button"
+                      className="whimsical-btn"
+                      onClick={handleCreateChore}
+                      style={{
+                        minHeight: `${uiTokens.actionButtonHeight}px`,
+                        borderRadius: '20px',
+                        border: `3px solid ${theme.colors.accent}`,
+                        background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
+                        color: theme.id === 'space' ? '#000' : '#fff',
+                        fontFamily: theme.fonts.heading,
+                        fontWeight: 800,
+                        fontSize: '1.15rem',
+                      }}
                     >
-                      <button
-                        type="button"
-                        className="whimsical-btn"
-                        onClick={handleCreateChore}
-                        style={{
-                          minHeight: `${uiTokens.actionButtonHeight}px`,
-                          borderRadius: '20px',
-                          border: `3px solid ${theme.colors.accent}`,
-                          background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
-                          color: theme.id === 'space' ? '#000' : '#fff',
-                          fontFamily: theme.fonts.heading,
-                          fontWeight: 800,
-                          fontSize: '1.15rem',
-                        }}
-                      >
-                        Chore
-                      </button>
+                      Standard Chore
+                    </button>
 
-                      <button
-                        type="button"
-                        className="whimsical-btn"
-                        onClick={handleCreateEating}
-                        style={{
-                          minHeight: `${uiTokens.actionButtonHeight}px`,
-                          borderRadius: '20px',
-                          border: `3px solid ${theme.colors.accent}`,
-                          background: theme.colors.surface,
-                          color: theme.colors.text,
-                          fontFamily: theme.fonts.heading,
-                          fontWeight: 800,
-                          fontSize: '1.15rem',
-                        }}
-                      >
-                        Eating
-                      </button>
+                    <button
+                      type="button"
+                      className="whimsical-btn"
+                      onClick={handleCreateEating}
+                      style={{
+                        minHeight: `${uiTokens.actionButtonHeight}px`,
+                        borderRadius: '20px',
+                        border: `3px solid ${theme.colors.accent}`,
+                        background: theme.colors.surface,
+                        color: theme.colors.text,
+                        fontFamily: theme.fonts.heading,
+                        fontWeight: 800,
+                        fontSize: '1.15rem',
+                      }}
+                    >
+                      Dinner
+                    </button>
 
-                      <button
-                        type="button"
-                        className="whimsical-btn"
-                        onClick={handleCreateMath}
-                        style={{
-                          minHeight: `${uiTokens.actionButtonHeight}px`,
-                          borderRadius: '20px',
-                          border: `3px solid ${theme.colors.accent}`,
-                          background: theme.colors.surface,
-                          color: theme.colors.text,
-                          fontFamily: theme.fonts.heading,
-                          fontWeight: 800,
-                          fontSize: '1.15rem',
-                        }}
-                      >
-                        Arithmetic
-                      </button>
+                    <button
+                      type="button"
+                      className="whimsical-btn"
+                      onClick={handleCreateMath}
+                      style={{
+                        minHeight: `${uiTokens.actionButtonHeight}px`,
+                        borderRadius: '20px',
+                        border: `3px solid ${theme.colors.accent}`,
+                        background: theme.colors.surface,
+                        color: theme.colors.text,
+                        fontFamily: theme.fonts.heading,
+                        fontWeight: 800,
+                        fontSize: '1.15rem',
+                      }}
+                    >
+                      Arithmetic
+                    </button>
 
-                      <button
-                        type="button"
-                        className="whimsical-btn"
-                        onClick={handleCreatePositionalNotation}
-                        style={{
-                          minHeight: `${uiTokens.actionButtonHeight}px`,
-                          borderRadius: '20px',
-                          border: `3px solid ${theme.colors.accent}`,
-                          background: theme.colors.surface,
-                          color: theme.colors.text,
-                          fontFamily: theme.fonts.heading,
-                          fontWeight: 800,
-                          fontSize: '1.15rem',
-                        }}
-                      >
-                        Place Notation
-                      </button>
-
-                      <button
-                        type="button"
-                        className="whimsical-btn"
-                        onClick={handleCreateDayNight}
-                        style={{
-                          minHeight: `${uiTokens.actionButtonHeight}px`,
-                          borderRadius: '20px',
-                          border: `3px solid ${theme.colors.accent}`,
-                          background: theme.colors.surface,
-                          color: theme.colors.text,
-                          fontFamily: theme.fonts.heading,
-                          fontWeight: 800,
-                          fontSize: '1.15rem',
-                        }}
-                      >
-                        Day &amp; Night
-                      </button>
-
-                      <button
-                        type="button"
-                        className="whimsical-btn"
-                        onClick={() => setShowAddChooser(false)}
-                        style={{
-                          minHeight: '60px',
-                          borderRadius: '16px',
-                          border: `2px solid ${theme.colors.primary}`,
-                          background: 'transparent',
-                          color: theme.colors.primary,
-                          fontFamily: theme.fonts.body,
-                          fontWeight: 700,
-                          fontSize: '1rem',
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  ) : undefined
-                }
-                emptyState={
-                  <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
-                    No chores yet.
+                    <button
+                      type="button"
+                      className="whimsical-btn"
+                      onClick={handleCreatePositionalNotation}
+                      style={{
+                        minHeight: `${uiTokens.actionButtonHeight}px`,
+                        borderRadius: '20px',
+                        border: `3px solid ${theme.colors.accent}`,
+                        background: theme.colors.surface,
+                        color: theme.colors.text,
+                        fontFamily: theme.fonts.heading,
+                        fontWeight: 800,
+                        fontSize: '1.15rem',
+                      }}
+                    >
+                      Positional Notation
+                    </button>
+                    <button
+                      type="button"
+                      className="whimsical-btn"
+                      onClick={() => setShowAddChooser(false)}
+                      style={{
+                        minHeight: '60px',
+                        borderRadius: '16px',
+                        border: `2px solid ${theme.colors.primary}`,
+                        background: 'transparent',
+                        color: theme.colors.primary,
+                        fontFamily: theme.fonts.body,
+                        fontWeight: 700,
+                        fontSize: '1rem',
+                      }}
+                    >
+                      Cancel
+                    </button>
                   </div>
-                }
-              />
-            </div>
-          )}
-        </div>
+                ) : undefined
+              }
+              emptyState={
+                <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
+                  No chores yet.
+                </div>
+              }
+            />
+          </div>
+        )}
       </div>
     </PageShell>
   )
 }
 
-export default ManageTasksPage
+export default ChoresPage

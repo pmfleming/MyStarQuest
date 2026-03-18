@@ -2,7 +2,6 @@ import type { ThemeId } from '../ui/themeOptions'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
-import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
@@ -92,49 +91,49 @@ const ManageChildrenPage = () => {
   )
 
   return (
-    <PageShell theme={theme}>
-      <PageHeader
-        title="Children"
-        fontFamily={theme.fonts.heading}
-        right={
-          <TopIconButton
-            theme={theme}
-            to="/"
-            ariaLabel="Home"
-            icon={
-              <img
-                src={princessHomeIcon}
-                alt="Home"
-                className="h-10 w-10 object-contain"
-              />
-            }
-          />
-        }
-      />
-
-      <main className="flex-1 overflow-y-auto pb-24">
-        <div
-          className="mx-auto flex w-full flex-col"
-          style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
-        >
-          <StandardActionList
-            theme={theme}
-            items={children}
-            getKey={(child) => child.id}
-            {...childListDescriptor}
-            hideEdit
-            onDelete={(child) => handleDelete(child.id)}
-            addLabel="Add Child"
-            onAdd={createChild}
-            addDisabled={false}
-            emptyState={
-              <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
-                No explorers yet.
-              </div>
-            }
-          />
-        </div>
-      </main>
+    <PageShell
+      theme={theme}
+      activeTabId="dashboard"
+      title="Children"
+      headerRight={
+        <TopIconButton
+          theme={theme}
+          to="/"
+          ariaLabel="Home"
+          icon={
+            <img
+              src={princessHomeIcon}
+              alt="Home"
+              className="h-10 w-10 object-contain"
+            />
+          }
+        />
+      }
+    >
+      <div
+        className="mx-auto flex w-full flex-col"
+        style={{
+          maxWidth: `${uiTokens.contentMaxWidth}px`,
+          paddingBottom: '96px',
+        }}
+      >
+        <StandardActionList
+          theme={theme}
+          items={children}
+          getKey={(child) => child.id}
+          {...childListDescriptor}
+          hideEdit
+          onDelete={(child) => handleDelete(child.id)}
+          addLabel="Add Child"
+          onAdd={createChild}
+          addDisabled={false}
+          emptyState={
+            <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
+              No explorers yet.
+            </div>
+          }
+        />
+      </div>
     </PageShell>
   )
 }

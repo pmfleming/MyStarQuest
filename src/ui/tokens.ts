@@ -2,8 +2,8 @@ import type { Theme } from '../contexts/ThemeContext'
 
 export const uiTokens = {
   pagePaddingX: 24,
-  pagePaddingTop: 48,
-  pagePaddingBottom: 24,
+  pagePaddingTop: 8,
+  pagePaddingBottom: 16,
   sectionGap: 24,
   singleVerticalSpace: 24,
   doubleVerticalSpace: 48,

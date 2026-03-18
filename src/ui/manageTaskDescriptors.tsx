@@ -1,7 +1,6 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import ActionTextInput from '../components/ActionTextInput'
 import ArithmeticTester from '../components/ArithmeticTester'
-import DayNightExplorer from '../components/DayNightExplorer'
 import DinnerCountdown from '../components/DinnerCountdown'
 import PositionalNotation from '../components/PositionalNotation'
 import RepeatControl from '../components/RepeatControl'
@@ -9,7 +8,6 @@ import StarDisplay from '../components/StarDisplay'
 import {
   princessActiveIcon,
   princessBiteIcon,
-  princessChoresIcon,
   princessEatingFailImage,
   princessEatingFullImage,
   princessGiveStarIcon,
@@ -27,7 +25,6 @@ import {
   getManageDinnerBitesLeft,
   getManageDinnerLiveRemaining,
   isManageTaskCompleted,
-  type DayNightTaskWithEphemeral,
   type EatingTaskWithEphemeral,
   type MathTaskWithEphemeral,
   type PVTaskWithEphemeral,
@@ -101,7 +98,6 @@ type ManageTaskDescriptorDeps = {
   handlePVReset: (task: PVTaskWithEphemeral) => void | Promise<void>
   setActivePVTaskId: (taskId: string | null) => void
   setPVCheckTriggerByTask: Dispatch<SetStateAction<Record<string, number>>>
-  handleAwardDayNight: (task: DayNightTaskWithEphemeral) => void | Promise<void>
   handleAwardTask: (task: StandardTaskWithEphemeral) => void | Promise<void>
   handleDelete: (taskId: string) => void | Promise<void>
   isAwarding: boolean
@@ -628,54 +624,6 @@ export const createManageTaskListRowDescriptor = (
               deps.handleDelete(item.id)
             )
       },
-    },
-    daynight: {
-      kind: 'simpleChore',
-      getStage: (task) => {
-        const dayNightTask = task as DayNightTaskWithEphemeral
-        return dayNightTask.manageCompletedAt ? 'completed' : 'activity'
-      },
-      renderItem: () => (
-        <div
-          className="flex flex-col"
-          style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-        >
-          <DayNightExplorer theme={deps.theme} />
-        </div>
-      ),
-      getPrimaryAction: (task) => {
-        const dayNightTask = task as DayNightTaskWithEphemeral
-        return {
-          label: dayNightTask.manageCompletedAt ? 'Done' : 'Give',
-          icon: (
-            <img
-              src={
-                dayNightTask.manageCompletedAt
-                  ? princessActiveIcon
-                  : princessChoresIcon
-              }
-              alt={
-                dayNightTask.manageCompletedAt
-                  ? 'Completed'
-                  : 'Day and night explorer'
-              }
-              className="h-6 w-6 object-contain"
-            />
-          ),
-          disabled:
-            deps.isAwarding ||
-            !deps.activeChildId ||
-            Boolean(dayNightTask.manageCompletedAt),
-          variant: 'primary',
-          showLabel: false,
-          onClick: (item) =>
-            deps.handleAwardDayNight(item as DayNightTaskWithEphemeral),
-        }
-      },
-      getUtilityAction: () =>
-        getDeleteUtilityAction('Delete chore', (item) =>
-          deps.handleDelete(item.id)
-        ),
     },
   }
 

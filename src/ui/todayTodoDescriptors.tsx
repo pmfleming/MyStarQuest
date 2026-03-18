@@ -1,11 +1,9 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import ArithmeticTester from '../components/ArithmeticTester'
-import DayNightExplorer from '../components/DayNightExplorer'
 import DinnerCountdown from '../components/DinnerCountdown'
 import PositionalNotation from '../components/PositionalNotation'
 import {
   princessActiveIcon,
-  princessChoresIcon,
   princessEatingFailImage,
   princessEatingFullImage,
   princessGiveStarIcon,
@@ -123,6 +121,9 @@ const getDeleteUtilityAction = (
 export const createTodayTodoListRowDescriptor = (
   deps: TodayTodoDescriptorDeps
 ): ListRowDescriptor<TodoRecord> => {
+  const isPVTodoInTask = (todo: PositionalNotationTodo) =>
+    deps.activePVTodoId === todo.id || Boolean(todo.completedAt)
+
   const descriptorByType: Record<
     TodoRecord['sourceTaskType'],
     TodayTodoTypeUiDescriptor
@@ -288,7 +289,10 @@ export const createTodayTodoListRowDescriptor = (
           />
         ) : null
       },
-      getStarCount: (todo) => todo.starValue,
+      getStarCount: (todo) => {
+        const pvTodo = todo as PositionalNotationTodo
+        return isPVTodoInTask(pvTodo) ? undefined : pvTodo.starValue
+      },
       getPrimaryAction: (todo) => {
         const mathTodo = todo as MathTodo
         const icon =
@@ -380,7 +384,10 @@ export const createTodayTodoListRowDescriptor = (
           />
         ) : null
       },
-      getStarCount: (todo) => todo.starValue,
+      getStarCount: (todo) => {
+        const pvTodo = todo as PositionalNotationTodo
+        return isPVTodoInTask(pvTodo) ? undefined : pvTodo.starValue
+      },
       getPrimaryAction: (todo) => {
         const pvTodo = todo as PositionalNotationTodo
         const icon =
@@ -431,46 +438,6 @@ export const createTodayTodoListRowDescriptor = (
               deps.handleDeleteTodo(item)
             )
       },
-    },
-    daynight: {
-      kind: 'simpleChore',
-      getStage: (todo) => (todo.completedAt ? 'completed' : 'activity'),
-      renderItem: () => (
-        <div
-          className="flex flex-col"
-          style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-        >
-          <DayNightExplorer theme={deps.theme} />
-        </div>
-      ),
-      getStarCount: () => undefined,
-      getPrimaryAction: (todo) => ({
-        label: 'Open chore',
-        icon:
-          deps.theme.id === 'princess' ? (
-            <img
-              src={todo.completedAt ? princessActiveIcon : princessChoresIcon}
-              alt={todo.completedAt ? 'Completed' : 'Day and night explorer'}
-              className="h-6 w-6 object-contain"
-            />
-          ) : todo.completedAt ? (
-            <span role="img" aria-label="Completed">
-              ✅
-            </span>
-          ) : (
-            <span role="img" aria-label="Day and night explorer">
-              🕰️
-            </span>
-          ),
-        disabled: Boolean(todo.completedAt) || deps.pendingTodoId === todo.id,
-        variant: 'primary',
-        showLabel: false,
-        onClick: (item) => deps.handleCompleteTodo(item),
-      }),
-      getUtilityAction: () =>
-        getDeleteUtilityAction('Delete todo', (item) =>
-          deps.handleDeleteTodo(item)
-        ),
     },
   }
 

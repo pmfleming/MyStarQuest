@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
-import PageHeader from '../components/PageHeader'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
@@ -12,7 +11,7 @@ import { useRewards } from '../data/useRewards'
 import type { RewardRecord } from '../data/types'
 import { princessHomeIcon } from '../assets/themes/princess/assets'
 
-const ManageRewardsPage = () => {
+const RewardsPage = () => {
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
   const [isRedeeming, setIsRedeeming] = useState(false)
@@ -74,51 +73,51 @@ const ManageRewardsPage = () => {
   )
 
   return (
-    <PageShell theme={theme}>
-      <PageHeader
-        title="Rewards"
-        fontFamily={theme.fonts.heading}
-        right={
-          <TopIconButton
-            theme={theme}
-            to="/"
-            ariaLabel="Home"
-            icon={
-              <img
-                src={princessHomeIcon}
-                alt="Home"
-                className="h-10 w-10 object-contain"
-              />
-            }
-          />
-        }
-      />
-
-      <main className="flex-1 overflow-y-auto pb-24">
-        <div
-          className="mx-auto flex w-full flex-col"
-          style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
-        >
-          <StandardActionList
-            theme={theme}
-            items={rewards}
-            getKey={(reward) => reward.id}
-            {...rewardListDescriptor}
-            hideEdit
-            onDelete={(reward) => handleDelete(reward.id)}
-            addLabel="New Reward"
-            onAdd={createReward}
-            addDisabled={false}
-            emptyState={
-              <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
-                No rewards yet.
-              </div>
-            }
-          />
-        </div>
-      </main>
+    <PageShell
+      theme={theme}
+      activeTabId="rewards"
+      title="Rewards"
+      headerRight={
+        <TopIconButton
+          theme={theme}
+          to="/"
+          ariaLabel="Home"
+          icon={
+            <img
+              src={princessHomeIcon}
+              alt="Home"
+              className="h-10 w-10 object-contain"
+            />
+          }
+        />
+      }
+    >
+      <div
+        className="mx-auto flex w-full flex-col"
+        style={{
+          maxWidth: `${uiTokens.contentMaxWidth}px`,
+          paddingBottom: '96px',
+        }}
+      >
+        <StandardActionList
+          theme={theme}
+          items={rewards}
+          getKey={(reward) => reward.id}
+          {...rewardListDescriptor}
+          hideEdit
+          onDelete={(reward) => handleDelete(reward.id)}
+          addLabel="New Reward"
+          onAdd={createReward}
+          addDisabled={false}
+          emptyState={
+            <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
+              No rewards yet.
+            </div>
+          }
+        />
+      </div>
     </PageShell>
   )
 }
 
-export default ManageRewardsPage
+export default RewardsPage

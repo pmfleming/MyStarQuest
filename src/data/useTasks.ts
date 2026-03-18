@@ -29,11 +29,9 @@ import {
   MANAGE_STATUS_RESET_MS,
   getManageDinnerBitesLeft,
   getManageDinnerLiveRemaining,
-  isDayNightTask,
   isEatingTask,
   isMathTask,
   isPositionalNotationTask,
-  type DayNightTaskWithEphemeral,
   type EatingTaskWithEphemeral,
   type MathTaskWithEphemeral,
   type PVTaskWithEphemeral,
@@ -68,57 +66,66 @@ export function useTasks() {
     )
 
     const unsubscribe = onSnapshot(taskQuery, (snapshot) => {
-      const newTasks: TaskRecord[] = snapshot.docs.map((docSnapshot) => {
-        const data = docSnapshot.data()
-        const taskType: TaskType =
-          data.taskType === 'positional-notation' ||
-          data.category === 'positional-notation'
-            ? 'positional-notation'
-            : data.taskType === 'math' || data.category === 'math'
-              ? 'math'
-              : data.taskType === 'eating' || data.category === 'eating'
-                ? 'eating'
-                : data.taskType === 'daynight' || data.category === 'daynight'
-                  ? 'daynight'
+      const newTasks = snapshot.docs.reduce<TaskRecord[]>(
+        (next, docSnapshot) => {
+          const data = docSnapshot.data()
+          const isLegacyDayNight =
+            data.taskType === 'daynight' || data.category === 'daynight'
+
+          if (isLegacyDayNight) return next
+
+          const taskType: TaskType =
+            data.taskType === 'positional-notation' ||
+            data.category === 'positional-notation'
+              ? 'positional-notation'
+              : data.taskType === 'math' || data.category === 'math'
+                ? 'math'
+                : data.taskType === 'eating' || data.category === 'eating'
+                  ? 'eating'
                   : 'standard'
-        const base = {
-          id: docSnapshot.id,
-          title: data.title ?? '',
-          childId: data.childId ?? '',
-          category: data.category ?? '',
-          ...normalizeChoreSchedule(data),
-          starValue: Number(data.starValue ?? 1),
-          isRepeating: data.isRepeating ?? false,
-          createdAt: data.createdAt?.toDate?.(),
-        }
-        switch (taskType) {
-          case 'eating':
-            return {
-              ...base,
-              taskType: 'eating' as const,
-              dinnerDurationSeconds:
-                data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
-              dinnerTotalBites: data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-            }
-          case 'math':
-            return {
-              ...base,
-              taskType: 'math' as const,
-              mathTotalProblems:
-                data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-            }
-          case 'positional-notation':
-            return {
-              ...base,
-              taskType: 'positional-notation' as const,
-              pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
-            }
-          case 'daynight':
-            return { ...base, taskType: 'daynight' as const }
-          default:
-            return { ...base, taskType: 'standard' as const }
-        }
-      })
+          const base = {
+            id: docSnapshot.id,
+            title: data.title ?? '',
+            childId: data.childId ?? '',
+            category: data.category ?? '',
+            ...normalizeChoreSchedule(data),
+            starValue: Number(data.starValue ?? 1),
+            isRepeating: data.isRepeating ?? false,
+            createdAt: data.createdAt?.toDate?.(),
+          }
+
+          switch (taskType) {
+            case 'eating':
+              next.push({
+                ...base,
+                taskType: 'eating' as const,
+                dinnerDurationSeconds:
+                  data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
+                dinnerTotalBites: data.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
+              })
+              return next
+            case 'math':
+              next.push({
+                ...base,
+                taskType: 'math' as const,
+                mathTotalProblems:
+                  data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+              })
+              return next
+            case 'positional-notation':
+              next.push({
+                ...base,
+                taskType: 'positional-notation' as const,
+                pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
+              })
+              return next
+            default:
+              next.push({ ...base, taskType: 'standard' as const })
+              return next
+          }
+        },
+        []
+      )
 
       setRawTasks(newTasks)
 
@@ -200,7 +207,7 @@ export function useTasks() {
   const createEating = async () => {
     if (!user || !activeChildId) return
     await addDoc(collection(db, 'users', user.uid, 'tasks'), {
-      title: 'Eating Dinner',
+      title: 'Dinner',
       childId: activeChildId,
       category: 'eating',
       taskType: 'eating',
@@ -233,7 +240,7 @@ export function useTasks() {
   const createPositionalNotation = async () => {
     if (!user || !activeChildId) return
     await addDoc(collection(db, 'users', user.uid, 'tasks'), {
-      title: 'Position Notation',
+      title: 'Positional Notation',
       childId: activeChildId,
       category: 'positional-notation',
       taskType: 'positional-notation',
@@ -242,21 +249,6 @@ export function useTasks() {
       starValue: DEFAULT_PV_STARS,
       isRepeating: true,
       pvTotalProblems: DEFAULT_PV_PROBLEMS,
-      createdAt: serverTimestamp(),
-    })
-  }
-
-  const createDayNight = async () => {
-    if (!user || !activeChildId) return
-    await addDoc(collection(db, 'users', user.uid, 'tasks'), {
-      title: 'Day & Night Explorer',
-      childId: activeChildId,
-      category: 'daynight',
-      taskType: 'daynight',
-      schoolDayEnabled: false,
-      nonSchoolDayEnabled: false,
-      starValue: 1,
-      isRepeating: false,
       createdAt: serverTimestamp(),
     })
   }
@@ -374,20 +366,6 @@ export function useTasks() {
   }
 
   // ── Standard task award ──
-  const awardDayNight = async (task: DayNightTaskWithEphemeral) => {
-    if (!user || !activeChildId) {
-      alert('Please select an explorer first.')
-      return
-    }
-    await awardStars({
-      userId: user.uid,
-      childId: activeChildId,
-      delta: 1,
-    })
-    updateEphemeral(task.id, { manageCompletedAt: Date.now() })
-    celebrateSuccess()
-  }
-
   const awardTask = async (task: StandardTaskWithEphemeral) => {
     if (!user || !activeChildId) {
       alert('Please select an explorer first.')
@@ -462,18 +440,7 @@ export function useTasks() {
             }
           }
           if (
-            isDayNightTask(task) &&
-            e.manageCompletedAt &&
-            now - e.manageCompletedAt >= MANAGE_STATUS_RESET_MS
-          ) {
-            if (next === prev) next = { ...prev }
-            next[task.id] = { ...next[task.id], manageCompletedAt: null }
-          }
-          if (
-            !isEatingTask(task) &&
-            !isMathTask(task) &&
-            !isPositionalNotationTask(task) &&
-            !isDayNightTask(task) &&
+            task.taskType === 'standard' &&
             e.manageCompletedAt &&
             now - e.manageCompletedAt >= MANAGE_STATUS_RESET_MS
           ) {
@@ -501,8 +468,6 @@ export function useTasks() {
     createEating,
     createMath,
     createPositionalNotation,
-    createDayNight,
-    awardDayNight,
     mathComplete,
     mathFail,
     mathReset,
