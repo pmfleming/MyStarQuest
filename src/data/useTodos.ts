@@ -26,10 +26,12 @@ import {
   DEFAULT_DINNER_DURATION_SECONDS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
+  DEFAULT_ALPHABET_PROBLEMS,
   sortByCreatedAtThenTitle,
   type EatingTodo,
   type MathTodo,
   type PositionalNotationTodo,
+  type AlphabetTodo,
   type TaskRecord,
   type TaskType,
   type TodoRecord,
@@ -81,9 +83,11 @@ export function useTodos() {
                 ? 'positional-notation'
                 : data.taskType === 'math' || data.category === 'math'
                   ? 'math'
-                  : data.taskType === 'eating' || data.category === 'eating'
-                    ? 'eating'
-                    : 'standard'
+                  : data.taskType === 'alphabet' || data.category === 'alphabet'
+                    ? 'alphabet'
+                    : data.taskType === 'eating' || data.category === 'eating'
+                      ? 'eating'
+                      : 'standard'
 
             const base = {
               id: docSnapshot.id,
@@ -114,6 +118,15 @@ export function useTodos() {
                   taskType: 'math' as const,
                   mathTotalProblems:
                     data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+                  mathDifficulty: data.mathDifficulty ?? 'easy',
+                })
+                return next
+              case 'alphabet':
+                next.push({
+                  ...base,
+                  taskType: 'alphabet' as const,
+                  alphabetTotalProblems:
+                    data.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
                 })
                 return next
               case 'positional-notation':
@@ -167,6 +180,7 @@ export function useTodos() {
             const sourceTaskType: TaskType =
               data.sourceTaskType === 'positional-notation' ||
               data.sourceTaskType === 'math' ||
+              data.sourceTaskType === 'alphabet' ||
               data.sourceTaskType === 'eating'
                 ? data.sourceTaskType
                 : 'standard'
@@ -180,6 +194,7 @@ export function useTodos() {
               ...normalizeChoreSchedule(data),
               autoAdded: data.autoAdded === true,
               completedAt: data.completedAt ?? null,
+              dateKey: data.dateKey ?? todayInfo.dateKey,
               createdAt: data.createdAt?.toDate?.(),
             }
 
@@ -210,10 +225,24 @@ export function useTodos() {
                   sourceTaskType: 'math' as const,
                   mathTotalProblems:
                     data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+                  mathDifficulty: data.mathDifficulty ?? 'easy',
                   mathLastOutcome:
                     data.mathLastOutcome === 'success' ||
                     data.mathLastOutcome === 'failure'
                       ? data.mathLastOutcome
+                      : null,
+                })
+                return next
+              case 'alphabet':
+                next.push({
+                  ...base,
+                  sourceTaskType: 'alphabet' as const,
+                  alphabetTotalProblems:
+                    data.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
+                  alphabetLastOutcome:
+                    data.alphabetLastOutcome === 'success' ||
+                    data.alphabetLastOutcome === 'failure'
+                      ? data.alphabetLastOutcome
                       : null,
                 })
                 return next
@@ -341,7 +370,15 @@ export function useTodos() {
       case 'math':
         taskSpecific = {
           mathTotalProblems: task.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+          mathDifficulty: task.mathDifficulty ?? 'easy',
           mathLastOutcome: null,
+        }
+        break
+      case 'alphabet':
+        taskSpecific = {
+          alphabetTotalProblems:
+            task.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
+          alphabetLastOutcome: null,
         }
         break
       case 'positional-notation':
@@ -476,6 +513,33 @@ export function useTodos() {
     })
   }
 
+  // ── Alphabet handlers ──
+  const alphabetComplete = async (todo: AlphabetTodo) => {
+    if (!user || !activeChildId) return
+    const completed = await completeTodoAndAwardStars({
+      userId: user.uid,
+      childId: activeChildId,
+      todoId: todo.id,
+      delta: todo.starValue,
+      updates: { alphabetLastOutcome: 'success' },
+    })
+    if (completed) celebrateSuccess()
+  }
+
+  const alphabetFail = async (todo: AlphabetTodo) => {
+    await updateTodoFields(todo.id, {
+      completedAt: serverTimestamp() as unknown as number,
+      alphabetLastOutcome: 'failure',
+    })
+  }
+
+  const alphabetReset = async (todo: AlphabetTodo) => {
+    await updateTodoFields(todo.id, {
+      completedAt: null,
+      alphabetLastOutcome: null,
+    })
+  }
+
   const resetTodayTodos = async () => {
     if (!user || !activeChildId) return
     const callable = httpsCallable(functions, 'resetTodayTodos')
@@ -511,6 +575,9 @@ export function useTodos() {
     pvComplete,
     pvFail,
     pvReset,
+    alphabetComplete,
+    alphabetFail,
+    alphabetReset,
     resetTodayTodos,
   }
 }

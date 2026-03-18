@@ -27,9 +27,8 @@ const PageHeader = ({
         style={{
           fontFamily: fontFamily || 'inherit',
           textAlign: 'left',
-          fontSize: `${Math.round(uiTokens.topIconSize * 0.5)}px`,
-          lineHeight: `${uiTokens.topIconSize}px`,
-          height: `${uiTokens.topIconSize}px`,
+          fontSize: `${Math.round(uiTokens.topIconSize * 0.65)}px`,
+          lineHeight: '1',
           flex: 1,
           minWidth: 0,
           overflow: 'hidden',

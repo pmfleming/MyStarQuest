@@ -1,0 +1,454 @@
+import { useState, useEffect, useCallback, useRef } from 'react'
+import type { Theme } from '../contexts/ThemeContext'
+import StepperButton from './StepperButton'
+import StarDisplay from './StarDisplay'
+import { uiTokens } from '../ui/tokens'
+import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
+import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
+import { celebrateSuccess } from '../lib/celebrate'
+
+// Import all alphabet SVGs
+import antAardvarkAntelope from '../assets/aphabet/ant-aardvark-antelope.svg'
+import appleAvocadoAsparagus from '../assets/aphabet/apple-avocado-asparagus.svg'
+import bananaBlueberryBrocolli from '../assets/aphabet/banana-blueberry-brocolli.svg'
+import batBeaverButterfly from '../assets/aphabet/bat-bever-butterfly.svg'
+import carrotCornCucumber from '../assets/aphabet/carrot-corn-cucumber.svg'
+import catCamelCow from '../assets/aphabet/cat-camel-cow.svg'
+import datesDandelionsDumplings from '../assets/aphabet/dates-dandelions-dumplings.svg'
+import dogDolphinDuckling from '../assets/aphabet/dog-dophin-duckling.svg'
+import eggrollsEclairsEggs from '../assets/aphabet/eggrolls-eclairs-eggs.svg'
+import elephantEagleEchidna from '../assets/aphabet/elephant-eagle-echidna.svg'
+import fennelFigFish from '../assets/aphabet/fennel-fig-fish.svg'
+import foxFrogFlamingo from '../assets/aphabet/fox-frog-flamingo.svg'
+
+/* ------------------------------------------------------------------ */
+/*  Constants & Assets                                                 */
+/* ------------------------------------------------------------------ */
+
+const MIN_PROBLEMS = 1
+const MAX_PROBLEMS = 10
+const CELEBRATION_DELAY_MS = 1500
+const SHAKE_DURATION_MS = 600
+const MAX_MISTAKES = 3
+const FAILURE_TRANSITION_DELAY_MS = 3000
+
+const {
+  statusBarHeight: STATUS_BAR_HEIGHT,
+  statusIconSize: STATUS_ICON_SIZE,
+  statusIconGap: STATUS_ICON_GAP,
+  quizOutcomeImageMaxWidth: QUIZ_OUTCOME_IMAGE_MAX_WIDTH,
+  quizOutcomeImageMaxHeight: QUIZ_OUTCOME_IMAGE_MAX_HEIGHT,
+} = uiTokens.activityTokens
+
+const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
+const STATUS_BAR_HORIZONTAL_PADDING = 12
+
+const ALPHABET_ASSETS = [
+  { letter: 'A', files: [antAardvarkAntelope, appleAvocadoAsparagus] },
+  { letter: 'B', files: [bananaBlueberryBrocolli, batBeaverButterfly] },
+  { letter: 'C', files: [carrotCornCucumber, catCamelCow] },
+  { letter: 'D', files: [datesDandelionsDumplings, dogDolphinDuckling] },
+  { letter: 'E', files: [eggrollsEclairsEggs, elephantEagleEchidna] },
+  { letter: 'F', files: [fennelFigFish, foxFrogFlamingo] },
+]
+
+const ALL_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F']
+
+/* ------------------------------------------------------------------ */
+/*  Helpers                                                            */
+/* ------------------------------------------------------------------ */
+
+function generateAlphabetProblem(): {
+  letter: string
+  image: string
+  choices: string[]
+} {
+  const targetIdx = Math.floor(Math.random() * ALPHABET_ASSETS.length)
+  const targetData = ALPHABET_ASSETS[targetIdx]
+  const fileIdx = Math.floor(Math.random() * targetData.files.length)
+  const image = targetData.files[fileIdx]
+  const letter = targetData.letter
+
+  const choices = [letter]
+  const others = ALL_LETTERS.filter((l) => l !== letter)
+  while (choices.length < 3) {
+    const rand = others[Math.floor(Math.random() * others.length)]
+    if (!choices.includes(rand)) choices.push(rand)
+  }
+  choices.sort(() => Math.random() - 0.5)
+
+  return { letter, image, choices }
+}
+
+function getStatusIconOverlap(iconCount: number): number {
+  if (iconCount <= 1) return 0
+  const availableWidth = CONTROL_ROW_WIDTH - STATUS_BAR_HORIZONTAL_PADDING
+  const naturalWidth =
+    iconCount * STATUS_ICON_SIZE + (iconCount - 1) * STATUS_ICON_GAP
+
+  if (naturalWidth <= availableWidth) return 0
+
+  const requiredOverlap =
+    (naturalWidth - availableWidth) / Math.max(1, iconCount - 1)
+
+  return Math.min(STATUS_ICON_SIZE * 0.72, Math.max(0, requiredOverlap))
+}
+
+/* ------------------------------------------------------------------ */
+/*  Component                                                          */
+/* ------------------------------------------------------------------ */
+
+export interface AlphabetTesterProps {
+  theme: Theme
+  totalProblems: number
+  starReward: number
+  isRunning: boolean
+  isCompleted?: boolean
+  isFailed?: boolean
+  onAdjustProblems: (delta: number) => void
+  onStarsChange: (value: number) => void
+  onComplete: () => void
+  onFail?: () => void
+  checkTrigger?: number
+  completionImage?: string
+  failureImage?: string
+}
+
+const AlphabetTester = ({
+  theme,
+  totalProblems,
+  starReward,
+  isRunning,
+  isCompleted = false,
+  isFailed = false,
+  onAdjustProblems,
+  onStarsChange,
+  onComplete,
+  onFail,
+  completionImage,
+  failureImage,
+}: AlphabetTesterProps) => {
+  const [problemIndex, setProblemIndex] = useState(0)
+  const [successCount, setSuccessCount] = useState(0)
+  const [retryCount, setRetryCount] = useState(0)
+  const [currentTarget, setCurrentTarget] = useState('')
+  const [currentImage, setCurrentImage] = useState('')
+  const [currentChoices, setCurrentChoices] = useState<string[]>([])
+  const [resultHistory, setResultHistory] = useState<
+    Array<'correct' | 'incorrect'>
+  >([])
+  const [isFailurePending, setIsFailurePending] = useState(false)
+  const [feedback, setFeedback] = useState<'idle' | 'correct' | 'wrong'>('idle')
+  const [wrongChoice, setWrongChoice] = useState<string | null>(null)
+  const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const isSetup = !isRunning && !isCompleted
+  const incorrectCount = resultHistory.filter((r) => r === 'incorrect').length
+  const hasFailedByHistory = incorrectCount >= MAX_MISTAKES
+  const isFailedState = isCompleted && (isFailed || hasFailedByHistory)
+  const isSuccessState = isCompleted && !isFailedState
+  const isFinished = isSuccessState || isFailedState
+
+  const isCorrect = feedback === 'correct'
+  const isWrong = feedback === 'wrong'
+
+  const nextProblem = useCallback(() => {
+    const p = generateAlphabetProblem()
+    setCurrentTarget(p.letter)
+    setCurrentImage(p.image)
+    setCurrentChoices(p.choices)
+    setFeedback('idle')
+    setWrongChoice(null)
+  }, [])
+
+  useEffect(() => {
+    if (
+      isRunning &&
+      problemIndex === 0 &&
+      feedback === 'idle' &&
+      !currentTarget
+    ) {
+      setProblemIndex(0)
+      setSuccessCount(0)
+      setRetryCount(0)
+      nextProblem()
+    }
+  }, [isRunning, problemIndex, feedback, currentTarget, nextProblem])
+
+  useEffect(() => {
+    return () => {
+      if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
+    }
+  }, [])
+
+  const handleChoice = (selectedLetter: string) => {
+    if (feedback !== 'idle' || isFailurePending) return
+
+    if (selectedLetter === currentTarget) {
+      setFeedback('correct')
+      celebrateSuccess()
+      window.setTimeout(() => {
+        setResultHistory((prev) => [...prev, 'correct'])
+      }, 120)
+      const nextSuccess = successCount + 1
+      setSuccessCount(nextSuccess)
+
+      feedbackTimer.current = setTimeout(() => {
+        if (problemIndex + 1 >= totalProblems) {
+          onComplete()
+        } else {
+          setProblemIndex((i) => i + 1)
+          nextProblem()
+        }
+      }, CELEBRATION_DELAY_MS)
+    } else {
+      setFeedback('wrong')
+      setWrongChoice(selectedLetter)
+      setResultHistory((prev) => [...prev, 'incorrect'])
+      const nextRetryCount = retryCount + 1
+      setRetryCount(nextRetryCount)
+
+      if (nextRetryCount >= MAX_MISTAKES) {
+        setIsFailurePending(true)
+        feedbackTimer.current = setTimeout(() => {
+          onFail?.()
+        }, FAILURE_TRANSITION_DELAY_MS)
+        return
+      }
+
+      feedbackTimer.current = setTimeout(() => {
+        setFeedback('idle')
+        setWrongChoice(null)
+      }, SHAKE_DURATION_MS)
+    }
+  }
+
+  useEffect(() => {
+    if (!isRunning && !isCompleted) {
+      setProblemIndex(0)
+      setSuccessCount(0)
+      setRetryCount(0)
+      setCurrentTarget('')
+      setCurrentImage('')
+      setCurrentChoices([])
+      setResultHistory([])
+      setIsFailurePending(false)
+      setFeedback('idle')
+      setWrongChoice(null)
+    }
+  }, [isRunning, isCompleted])
+
+  return (
+    <div
+      className="flex w-full flex-col items-center"
+      style={{ gap: uiTokens.sectionGap }}
+    >
+      {isFinished ? (
+        <div
+          className="flex flex-col items-center justify-center py-4"
+          style={{ gap: 16 }}
+        >
+          <img
+            src={isSuccessState ? completionImage : failureImage}
+            alt={isSuccessState ? 'Great Job!' : 'Keep Trying!'}
+            className="object-contain"
+            style={{
+              maxWidth: `${QUIZ_OUTCOME_IMAGE_MAX_WIDTH}px`,
+              maxHeight: `${QUIZ_OUTCOME_IMAGE_MAX_HEIGHT}px`,
+              filter: isSuccessState
+                ? 'drop-shadow(0 10px 20px rgba(0,0,0,0.1))'
+                : 'grayscale(0.5)',
+            }}
+          />
+        </div>
+      ) : (
+        <>
+          {/* ---- SETUP UI ---- */}
+          {isSetup && (
+            <div
+              className="flex flex-col items-center"
+              style={{ gap: 16, width: CONTROL_ROW_WIDTH, maxWidth: '100%' }}
+            >
+              <div className="flex w-full items-center justify-center">
+                <StepperButton
+                  theme={theme}
+                  direction="prev"
+                  onClick={() => onAdjustProblems(-1)}
+                  disabled={totalProblems <= MIN_PROBLEMS}
+                  ariaLabel="Fewer problems"
+                />
+                <div className="flex flex-1 flex-col items-center">
+                  <span
+                    style={{
+                      fontFamily: theme.fonts.heading,
+                      fontWeight: 'bold',
+                      fontSize: 42,
+                      color: theme.colors.primary,
+                      lineHeight: 1,
+                    }}
+                  >
+                    {totalProblems}
+                  </span>
+                </div>
+                <StepperButton
+                  theme={theme}
+                  direction="next"
+                  onClick={() => onAdjustProblems(1)}
+                  disabled={totalProblems >= MAX_PROBLEMS}
+                  ariaLabel="More problems"
+                />
+              </div>
+            </div>
+          )}
+
+          {isSetup && (
+            <div
+              className="flex flex-col items-center"
+              style={{
+                gap: 8,
+                width: CONTROL_ROW_WIDTH,
+                maxWidth: '100%',
+                marginTop: uiTokens.singleVerticalSpace,
+              }}
+            >
+              <StarDisplay
+                theme={theme}
+                count={starReward}
+                editable
+                onChange={onStarsChange}
+                min={1}
+                max={10}
+              />
+            </div>
+          )}
+
+          {/* ---- PLAY AREA ---- */}
+          {isRunning && (
+            <div
+              className="flex flex-col items-center"
+              style={{ gap: 8, width: CONTROL_ROW_WIDTH, maxWidth: '100%' }}
+            >
+              {/* Scoreboard */}
+              <div
+                className="flex w-full items-center justify-center"
+                style={{
+                  background: `${theme.colors.primary}12`,
+                  height: STATUS_BAR_HEIGHT,
+                  borderRadius: 12,
+                  marginBottom: 4,
+                }}
+              >
+                <div
+                  className="flex h-full w-full items-center justify-center overflow-hidden"
+                  style={{ gap: STATUS_ICON_GAP }}
+                >
+                  {resultHistory.map((result, index) => {
+                    const overlap = getStatusIconOverlap(resultHistory.length)
+                    return (
+                      <img
+                        key={`result-${index}`}
+                        src={
+                          result === 'correct'
+                            ? quizCorrectIcon
+                            : quizIncorrectIcon
+                        }
+                        alt=""
+                        style={{
+                          width: STATUS_ICON_SIZE,
+                          height: STATUS_ICON_SIZE,
+                          marginLeft: index === 0 ? 0 : -overlap,
+                          objectFit: 'contain',
+                        }}
+                      />
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Prompt Image */}
+              <div
+                className="relative flex aspect-square w-full items-center justify-center overflow-hidden"
+                style={{
+                  background: theme.colors.surface,
+                  borderRadius: 24,
+                  border: `4px solid ${theme.colors.accent}44`,
+                  padding: 12,
+                  boxSizing: 'border-box',
+                  animation: isCorrect ? 'pop-in 0.4s ease' : undefined,
+                }}
+              >
+                <img
+                  src={currentImage}
+                  alt="Identify the first letter"
+                  className="h-full w-full object-contain"
+                />
+              </div>
+
+              {/* Choice Buttons */}
+              <div
+                className="flex w-full justify-center"
+                style={{ gap: 12, marginTop: 8 }}
+              >
+                {currentChoices.map((letter) => {
+                  const isChoiceCorrect = isCorrect && letter === currentTarget
+                  const isChoiceWrong = isWrong && letter === wrongChoice
+
+                  return (
+                    <button
+                      key={letter}
+                      type="button"
+                      onClick={() => handleChoice(letter)}
+                      disabled={isCorrect || isFailurePending}
+                      className="flex aspect-square flex-1 items-center justify-center"
+                      style={{
+                        maxWidth: 100,
+                        background: isChoiceCorrect
+                          ? '#4ADE80'
+                          : isChoiceWrong
+                            ? '#F87171'
+                            : theme.colors.surface,
+                        borderRadius: 24,
+                        border: `4px solid ${isChoiceCorrect || isChoiceWrong ? 'transparent' : theme.colors.accent}`,
+                        fontFamily: theme.fonts.heading,
+                        fontSize: '2rem',
+                        fontWeight: 900,
+                        color:
+                          isChoiceCorrect || isChoiceWrong
+                            ? 'white'
+                            : theme.colors.primary,
+                        boxShadow: `0 6px 0 ${isChoiceCorrect ? '#16A34A' : isChoiceWrong ? '#DC2626' : theme.colors.accent + '88'}`,
+                        transition: 'all 0.1s ease',
+                        animation: isChoiceWrong
+                          ? 'shake 0.4s ease'
+                          : undefined,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {letter}
+                      {letter.toLowerCase()}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      <style>{`
+        @keyframes pop-in {
+          0% { transform: scale(0.9); opacity: 0.5; }
+          70% { transform: scale(1.05); opacity: 1; }
+          100% { transform: scale(1); }
+        }
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-6px); }
+          75% { transform: translateX(6px); }
+        }
+      `}</style>
+    </div>
+  )
+}
+
+export default AlphabetTester

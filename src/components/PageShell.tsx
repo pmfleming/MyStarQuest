@@ -65,6 +65,69 @@ const PageShell = ({
   )
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
 
+  const effectiveBottomBar =
+    bottomBar ||
+    (activeTabId && (
+      <nav
+        aria-label="Primary tabs"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+          gap: '10px',
+          padding: '10px 18px calc(10px + env(safe-area-inset-bottom, 0px))',
+          background: `${theme.colors.surface}f2`,
+          borderTop: `3px solid ${theme.colors.accent}`,
+          boxShadow: `0 -10px 24px ${theme.colors.primary}22`,
+        }}
+      >
+        {appTabs.map((tab) => {
+          const isActive = tab.id === activeTabId
+
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              aria-label={tab.ariaLabel}
+              aria-current={isActive ? 'page' : undefined}
+              onClick={() => navigate(tab.path)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: `${uiTokens.topIconSize}px`,
+                borderRadius: '20px',
+                border: `3px solid ${isActive ? theme.colors.secondary : theme.colors.accent}`,
+                background: isActive
+                  ? `linear-gradient(180deg, ${theme.colors.primary}, ${theme.colors.secondary})`
+                  : `${theme.colors.bg}cc`,
+                boxShadow: isActive
+                  ? `0 10px 24px ${theme.colors.primary}44`
+                  : `0 6px 16px ${theme.colors.accent}22`,
+                cursor: 'pointer',
+                transition:
+                  'transform 160ms ease, box-shadow 160ms ease, background 160ms ease',
+              }}
+            >
+              <img
+                src={getTabIcon(tab.id)}
+                alt=""
+                aria-hidden="true"
+                style={{
+                  width: `${uiTokens.topIconSize}px`,
+                  height: `${uiTokens.topIconSize}px`,
+                  objectFit: 'contain',
+                  opacity: isActive ? 1 : 0.72,
+                  filter: isActive
+                    ? 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.22))'
+                    : 'none',
+                }}
+              />
+            </button>
+          )
+        })}
+      </nav>
+    ))
+
   useEffect(() => {
     if (isNativePlatform || typeof window === 'undefined') return
 
@@ -130,69 +193,6 @@ const PageShell = ({
     }
   }
 
-  const effectiveBottomBar =
-    bottomBar ||
-    (activeTabId && (
-      <nav
-        aria-label="Primary tabs"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-          gap: '12px',
-          padding: '14px 18px calc(14px + env(safe-area-inset-bottom, 0px))',
-          background: `${theme.colors.surface}f2`,
-          borderTop: `3px solid ${theme.colors.accent}`,
-          boxShadow: `0 -10px 24px ${theme.colors.primary}22`,
-        }}
-      >
-        {appTabs.map((tab) => {
-          const isActive = tab.id === activeTabId
-
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              aria-label={tab.ariaLabel}
-              aria-current={isActive ? 'page' : undefined}
-              onClick={() => navigate(tab.path)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: '72px',
-                borderRadius: '24px',
-                border: `3px solid ${isActive ? theme.colors.secondary : theme.colors.accent}`,
-                background: isActive
-                  ? `linear-gradient(180deg, ${theme.colors.primary}, ${theme.colors.secondary})`
-                  : `${theme.colors.bg}cc`,
-                boxShadow: isActive
-                  ? `0 10px 24px ${theme.colors.primary}44`
-                  : `0 6px 16px ${theme.colors.accent}22`,
-                cursor: 'pointer',
-                transition:
-                  'transform 160ms ease, box-shadow 160ms ease, background 160ms ease',
-              }}
-            >
-              <img
-                src={getTabIcon(tab.id)}
-                alt=""
-                aria-hidden="true"
-                style={{
-                  width: '72px',
-                  height: '72px',
-                  objectFit: 'contain',
-                  opacity: isActive ? 1 : 0.72,
-                  filter: isActive
-                    ? 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.22))'
-                    : 'none',
-                }}
-              />
-            </button>
-          )
-        })}
-      </nav>
-    ))
-
   return (
     <div
       className={`flex w-full overflow-hidden transition-colors duration-500 ${
@@ -243,7 +243,7 @@ const PageShell = ({
             paddingLeft: `${uiTokens.pagePaddingX}px`,
             paddingRight: `${uiTokens.pagePaddingX}px`,
             paddingTop: `${uiTokens.pagePaddingTop}px`,
-            paddingBottom: `${uiTokens.pagePaddingBottom}px`,
+            paddingBottom: `${effectiveBottomBar ? uiTokens.sectionGap : uiTokens.pagePaddingBottom}px`,
             touchAction: activeTabId ? 'pan-y' : undefined,
             ...contentStyle,
           }}

@@ -1,6 +1,7 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import ActionTextInput from '../components/ActionTextInput'
 import ArithmeticTester from '../components/ArithmeticTester'
+import AlphabetTester from '../components/AlphabetTester'
 import DinnerCountdown from '../components/DinnerCountdown'
 import PositionalNotation from '../components/PositionalNotation'
 import RepeatControl from '../components/RepeatControl'
@@ -11,9 +12,9 @@ import {
   princessEatingFailImage,
   princessEatingFullImage,
   princessGiveStarIcon,
-  princessMathsCorrectImage,
+  princessQuizCorrectImage,
   princessMathsIcon,
-  princessMathsIncorrectImage,
+  princessQuizIncorrectImage,
   princessPlateImage,
   princessResetIcon,
 } from '../assets/themes/princess/assets'
@@ -22,12 +23,14 @@ import {
   DEFAULT_DINNER_DURATION_SECONDS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
+  DEFAULT_ALPHABET_PROBLEMS,
   getManageDinnerBitesLeft,
   getManageDinnerLiveRemaining,
   isManageTaskCompleted,
   type EatingTaskWithEphemeral,
   type MathTaskWithEphemeral,
   type PVTaskWithEphemeral,
+  type AlphabetTaskWithEphemeral,
   type StandardTaskWithEphemeral,
   type TaskWithEphemeral,
 } from '../data/types'
@@ -98,6 +101,17 @@ type ManageTaskDescriptorDeps = {
   handlePVReset: (task: PVTaskWithEphemeral) => void | Promise<void>
   setActivePVTaskId: (taskId: string | null) => void
   setPVCheckTriggerByTask: Dispatch<SetStateAction<Record<string, number>>>
+  activeAlphabetTaskId: string | null
+  alphabetCheckTriggerByTask: Record<string, number>
+  handleAlphabetComplete: (
+    task: AlphabetTaskWithEphemeral
+  ) => void | Promise<void>
+  handleAlphabetFail: (task: AlphabetTaskWithEphemeral) => void | Promise<void>
+  handleAlphabetReset: (task: AlphabetTaskWithEphemeral) => void | Promise<void>
+  setActiveAlphabetTaskId: (taskId: string | null) => void
+  setAlphabetCheckTriggerByTask: Dispatch<
+    SetStateAction<Record<string, number>>
+  >
   handleAwardTask: (task: StandardTaskWithEphemeral) => void | Promise<void>
   handleDelete: (taskId: string) => void | Promise<void>
   isAwarding: boolean
@@ -235,21 +249,26 @@ export const createManageTaskListRowDescriptor = (
       },
       renderItem: (task) => {
         const eatingTask = task as EatingTaskWithEphemeral
+        const stage = descriptorByType.eating.getStage(task)
+        const hideTitle = stage === 'activity'
+
         return (
           <div
             className="flex flex-col"
             style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
           >
-            <div
-              style={{
-                fontFamily: deps.theme.fonts.heading,
-                fontSize: '1.25rem',
-                fontWeight: 800,
-                lineHeight: 1.2,
-              }}
-            >
-              {eatingTask.title}
-            </div>
+            {!hideTitle && (
+              <div
+                style={{
+                  fontFamily: deps.theme.fonts.heading,
+                  fontSize: '1.25rem',
+                  fontWeight: 800,
+                  lineHeight: 1.2,
+                }}
+              >
+                {eatingTask.title}
+              </div>
+            )}
 
             <DinnerCountdown
               theme={deps.theme}
@@ -397,22 +416,27 @@ export const createManageTaskListRowDescriptor = (
       },
       renderItem: (task) => {
         const mathTask = task as MathTaskWithEphemeral
+        const stage = descriptorByType.math.getStage(task)
+        const hideInput = stage === 'activity'
+
         return (
           <div
             className="flex flex-col"
             style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
           >
-            <ActionTextInput
-              theme={deps.theme}
-              label="Chore Name"
-              value={deps.titleDrafts[mathTask.id] ?? mathTask.title}
-              onChange={(value) => deps.setTitleDraft(mathTask.id, value)}
-              onCommit={(value) => deps.commitTitle(mathTask.id, value)}
-              maxLength={80}
-              baseColor={deps.theme.colors.primary}
-              inputAriaLabel="Chore name"
-              transparent
-            />
+            {!hideInput && (
+              <ActionTextInput
+                theme={deps.theme}
+                label="Chore Name"
+                value={deps.titleDrafts[mathTask.id] ?? mathTask.title}
+                onChange={(value) => deps.setTitleDraft(mathTask.id, value)}
+                onCommit={(value) => deps.commitTitle(mathTask.id, value)}
+                maxLength={80}
+                baseColor={deps.theme.colors.primary}
+                inputAriaLabel="Chore name"
+                transparent
+              />
+            )}
 
             <ArithmeticTester
               theme={deps.theme}
@@ -420,6 +444,7 @@ export const createManageTaskListRowDescriptor = (
                 mathTask.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
               }
               starReward={mathTask.starValue}
+              difficulty={mathTask.mathDifficulty ?? 'easy'}
               isRunning={deps.activeMathTaskId === mathTask.id}
               isCompleted={Boolean(mathTask.manageMathCompletedAt)}
               isFailed={mathTask.manageMathLastOutcome === 'failure'}
@@ -431,17 +456,22 @@ export const createManageTaskListRowDescriptor = (
               onStarsChange={(value) =>
                 deps.updateTaskField(mathTask.id, { starValue: value })
               }
+              onDifficultyChange={(difficulty) =>
+                deps.updateTaskField(mathTask.id, {
+                  mathDifficulty: difficulty,
+                })
+              }
               onComplete={() => deps.handleMathComplete(mathTask)}
               onFail={() => deps.handleMathFail(mathTask)}
               checkTrigger={deps.mathCheckTriggerByTask[mathTask.id] ?? 0}
               completionImage={
                 deps.theme.id === 'princess'
-                  ? princessMathsCorrectImage
+                  ? princessQuizCorrectImage
                   : undefined
               }
               failureImage={
                 deps.theme.id === 'princess'
-                  ? princessMathsIncorrectImage
+                  ? princessQuizIncorrectImage
                   : undefined
               }
             />
@@ -517,22 +547,27 @@ export const createManageTaskListRowDescriptor = (
       },
       renderItem: (task) => {
         const pvTask = task as PVTaskWithEphemeral
+        const stage = descriptorByType['positional-notation'].getStage(task)
+        const hideInput = stage === 'activity'
+
         return (
           <div
             className="flex flex-col"
             style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
           >
-            <ActionTextInput
-              theme={deps.theme}
-              label="Chore Name"
-              value={deps.titleDrafts[pvTask.id] ?? pvTask.title}
-              onChange={(value) => deps.setTitleDraft(pvTask.id, value)}
-              onCommit={(value) => deps.commitTitle(pvTask.id, value)}
-              maxLength={80}
-              baseColor={deps.theme.colors.primary}
-              inputAriaLabel="Chore name"
-              transparent
-            />
+            {!hideInput && (
+              <ActionTextInput
+                theme={deps.theme}
+                label="Chore Name"
+                value={deps.titleDrafts[pvTask.id] ?? pvTask.title}
+                onChange={(value) => deps.setTitleDraft(pvTask.id, value)}
+                onCommit={(value) => deps.commitTitle(pvTask.id, value)}
+                maxLength={80}
+                baseColor={deps.theme.colors.primary}
+                inputAriaLabel="Chore name"
+                transparent
+              />
+            )}
 
             <PositionalNotation
               theme={deps.theme}
@@ -554,12 +589,12 @@ export const createManageTaskListRowDescriptor = (
               checkTrigger={deps.pvCheckTriggerByTask[pvTask.id] ?? 0}
               completionImage={
                 deps.theme.id === 'princess'
-                  ? princessMathsCorrectImage
+                  ? princessQuizCorrectImage
                   : undefined
               }
               failureImage={
                 deps.theme.id === 'princess'
-                  ? princessMathsIncorrectImage
+                  ? princessQuizIncorrectImage
                   : undefined
               }
             />
@@ -618,6 +653,122 @@ export const createManageTaskListRowDescriptor = (
           ? getResetUtilityAction(
               'Reset positional notation chore',
               (item) => deps.handlePVReset(item as PVTaskWithEphemeral),
+              deps.theme
+            )
+          : getDeleteUtilityAction('Delete chore', (item) =>
+              deps.handleDelete(item.id)
+            )
+      },
+    },
+    alphabet: {
+      kind: 'complexChore',
+      getStage: (task) => {
+        const alphabetTask = task as AlphabetTaskWithEphemeral
+        if (alphabetTask.manageAlphabetCompletedAt) return 'completed'
+        return deps.activeAlphabetTaskId === alphabetTask.id
+          ? 'activity'
+          : 'setup'
+      },
+      renderItem: (task) => {
+        const alphabetTask = task as AlphabetTaskWithEphemeral
+
+        return (
+          <div
+            className="flex flex-col"
+            style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+          >
+            <AlphabetTester
+              theme={deps.theme}
+              totalProblems={
+                alphabetTask.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS
+              }
+              starReward={alphabetTask.starValue}
+              isRunning={deps.activeAlphabetTaskId === alphabetTask.id}
+              isCompleted={Boolean(alphabetTask.manageAlphabetCompletedAt)}
+              isFailed={alphabetTask.manageAlphabetLastOutcome === 'failure'}
+              onAdjustProblems={(delta) => {
+                const cur =
+                  alphabetTask.alphabetTotalProblems ??
+                  DEFAULT_ALPHABET_PROBLEMS
+                const next = Math.max(1, Math.min(10, cur + delta))
+                deps.updateTaskField(alphabetTask.id, {
+                  alphabetTotalProblems: next,
+                })
+              }}
+              onStarsChange={(value) =>
+                deps.updateTaskField(alphabetTask.id, { starValue: value })
+              }
+              onComplete={() => deps.handleAlphabetComplete(alphabetTask)}
+              onFail={() => deps.handleAlphabetFail(alphabetTask)}
+              completionImage={
+                deps.theme.id === 'princess'
+                  ? princessQuizCorrectImage
+                  : undefined
+              }
+              failureImage={
+                deps.theme.id === 'princess'
+                  ? princessQuizIncorrectImage
+                  : undefined
+              }
+            />
+
+            {!alphabetTask.manageAlphabetCompletedAt &&
+            deps.activeAlphabetTaskId !== alphabetTask.id
+              ? deps.renderDayTypeControl(alphabetTask)
+              : null}
+          </div>
+        )
+      },
+      getPrimaryAction: (task) => {
+        const alphabetTask = task as AlphabetTaskWithEphemeral
+        const isFinished = Boolean(alphabetTask.manageAlphabetCompletedAt)
+        const isRunning =
+          deps.activeAlphabetTaskId === alphabetTask.id && !isFinished
+        return {
+          label: isFinished ? 'Again 🔁' : isRunning ? 'Check Answer' : 'Start',
+          icon: (
+            <img
+              src={
+                isRunning
+                  ? princessMathsIcon
+                  : isFinished
+                    ? princessMathsIcon
+                    : princessGiveStarIcon
+              }
+              alt={
+                isFinished ? 'Play again' : isRunning ? 'Check answer' : 'Start'
+              }
+              className="h-6 w-6 object-contain"
+            />
+          ),
+          variant: 'primary',
+          showLabel: false,
+          onClick: (item) => {
+            const currentTask = item as AlphabetTaskWithEphemeral
+            if (currentTask.manageAlphabetCompletedAt) {
+              return deps.handleAlphabetReset(currentTask)
+            }
+            if (deps.activeAlphabetTaskId === currentTask.id) {
+              deps.setAlphabetCheckTriggerByTask((prev) => ({
+                ...prev,
+                [currentTask.id]: (prev[currentTask.id] ?? 0) + 1,
+              }))
+              return
+            }
+            deps.setActiveAlphabetTaskId(currentTask.id)
+          },
+        }
+      },
+      getUtilityAction: (task) => {
+        const alphabetTask = task as AlphabetTaskWithEphemeral
+        const inActivity =
+          deps.activeAlphabetTaskId === alphabetTask.id ||
+          Boolean(alphabetTask.manageAlphabetCompletedAt)
+        return inActivity
+          ? getResetUtilityAction(
+              'Reset alphabet chore',
+              (item) =>
+                deps.handleAlphabetReset(item as AlphabetTaskWithEphemeral),
               deps.theme
             )
           : getDeleteUtilityAction('Delete chore', (item) =>

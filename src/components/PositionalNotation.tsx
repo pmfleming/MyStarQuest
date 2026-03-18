@@ -3,25 +3,71 @@ import type { Theme } from '../contexts/ThemeContext'
 import StepperButton from './StepperButton'
 import StarDisplay from './StarDisplay'
 import { uiTokens } from '../ui/tokens'
-import mathsCorrectIcon from '../assets/themes/princess/maths-correct.svg'
-import mathsIncorrectIcon from '../assets/themes/princess/maths-incorrect.svg'
+import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
+import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import { celebrateSuccess } from '../lib/celebrate'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 10
+const MAX_POSITIONAL_NOTATION_TARGET = 129
+const MAX_POSITIONAL_NOTATION_TENS = Math.floor(
+  MAX_POSITIONAL_NOTATION_TARGET / 10
+)
+const MAX_POSITIONAL_NOTATION_ONES = 9
 const CELEBRATION_DELAY_MS = 1500
 const SHAKE_DURATION_MS = 600
 const MAX_MISTAKES = 3
 const FAILURE_TRANSITION_DELAY_MS = 3000
-const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
-const STATUS_BAR_HEIGHT = 72
-const STATUS_ICON_SIZE = Math.round(STATUS_BAR_HEIGHT * 0.9)
-const STATUS_BAR_HORIZONTAL_PADDING = 16
-const STATUS_ICON_GAP = 8
+const PLACE_VALUE_PANEL_GAP = 2
+const PLACE_VALUE_PLUS_SIZE = 42
+const PLACE_VALUE_TENS_STEPPER_WIDTH = 40
+const PLACE_VALUE_ONES_STEPPER_WIDTH = 30
+const PLACE_VALUE_STEPPER_HEIGHT = 44
+const PLACE_VALUE_TENS_COLUMNS = 6
+const PLACE_VALUE_TENS_PANEL_SPLIT = '1.7fr 1.3fr'
+const PLACE_VALUE_PLUS_LEFT = '56.66%'
 
-function generatePositionalNotationProblem(): { target: number } {
-  const target = Math.floor(Math.random() * 99) + 1
+const {
+  statusBarHeight: STATUS_BAR_HEIGHT,
+  statusIconSize: STATUS_ICON_SIZE,
+  statusIconGap: STATUS_ICON_GAP,
+  quizOutcomeImageMaxWidth: QUIZ_OUTCOME_IMAGE_MAX_WIDTH,
+  quizOutcomeImageMaxHeight: QUIZ_OUTCOME_IMAGE_MAX_HEIGHT,
+  mathCounterSize: ONE_COUNTER_SIZE,
+  mathCounterGap: DOT_GAP,
+} = uiTokens.activityTokens
+
+const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
+const STATUS_BAR_HORIZONTAL_PADDING = 12
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value))
+}
+
+function generateProgressivePositionalNotationProblem(
+  index: number,
+  totalProblems: number
+): { target: number } {
+  if (totalProblems <= 1) {
+    return { target: Math.floor(Math.random() * 20) + 1 }
+  }
+
+  const progress = clamp(index / Math.max(1, totalProblems - 1), 0, 1)
+  const easedProgress = Math.pow(progress, 1.15)
+  const bandStart = clamp(
+    Math.round(1 + easedProgress * 110),
+    1,
+    MAX_POSITIONAL_NOTATION_TARGET
+  )
+  const bandEnd = clamp(
+    Math.round(20 + easedProgress * 109),
+    Math.min(MAX_POSITIONAL_NOTATION_TARGET, bandStart + 9),
+    MAX_POSITIONAL_NOTATION_TARGET
+  )
+  const target =
+    Math.floor(Math.random() * (bandEnd - bandStart + 1)) + bandStart
+
   return { target }
 }
 
@@ -96,13 +142,20 @@ const PositionalNotation = ({
   const isCorrect = feedback === 'correct'
   const isWrong = feedback === 'wrong'
 
-  const nextProblem = useCallback(() => {
-    const problem = generatePositionalNotationProblem()
-    setTargetNumber(problem.target)
-    setUserTens(0)
-    setUserOnes(0)
-    setFeedback('idle')
-  }, [])
+  const nextProblem = useCallback(
+    (nextIndex: number) => {
+      const problem = generateProgressivePositionalNotationProblem(
+        nextIndex,
+        totalProblems
+      )
+
+      setTargetNumber(problem.target)
+      setUserTens(0)
+      setUserOnes(0)
+      setFeedback('idle')
+    },
+    [totalProblems]
+  )
 
   useEffect(() => {
     if (
@@ -114,7 +167,7 @@ const PositionalNotation = ({
       setProblemIndex(0)
       setSuccessCount(0)
       setRetryCount(0)
-      nextProblem()
+      nextProblem(0)
     }
   }, [isRunning, problemIndex, feedback, targetNumber, nextProblem])
 
@@ -145,8 +198,9 @@ const PositionalNotation = ({
         if (problemIndex + 1 >= totalProblems) {
           onComplete()
         } else {
-          setProblemIndex((index) => index + 1)
-          nextProblem()
+          const upcomingIndex = problemIndex + 1
+          setProblemIndex(upcomingIndex)
+          nextProblem(upcomingIndex)
         }
       }, CELEBRATION_DELAY_MS)
     } else {
@@ -217,7 +271,7 @@ const PositionalNotation = ({
   })
 
   const TEN_COUNTER_SIZE = 12
-  const ONE_COUNTER_SIZE = 28
+  const ONE_CROWN_SIZE = Math.max(ONE_COUNTER_SIZE + 12, 30)
 
   return (
     <div
@@ -260,11 +314,11 @@ const PositionalNotation = ({
             }}
           >
             <img
-              src={completionImage ?? mathsCorrectIcon}
+              src={completionImage ?? quizCorrectIcon}
               alt="All done!"
               style={{
-                maxWidth: '240px',
-                maxHeight: '280px',
+                maxWidth: `${QUIZ_OUTCOME_IMAGE_MAX_WIDTH}px`,
+                maxHeight: `${QUIZ_OUTCOME_IMAGE_MAX_HEIGHT}px`,
                 objectFit: 'contain',
               }}
             />
@@ -279,11 +333,11 @@ const PositionalNotation = ({
             }}
           >
             <img
-              src={failureImage ?? mathsIncorrectIcon}
+              src={failureImage ?? quizIncorrectIcon}
               alt="Try again!"
               style={{
-                maxWidth: '240px',
-                maxHeight: '280px',
+                maxWidth: `${QUIZ_OUTCOME_IMAGE_MAX_WIDTH}px`,
+                maxHeight: `${QUIZ_OUTCOME_IMAGE_MAX_HEIGHT}px`,
                 objectFit: 'contain',
               }}
             />
@@ -358,7 +412,7 @@ const PositionalNotation = ({
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: 12,
+                gap: 8,
                 width: `${CONTROL_ROW_WIDTH}px`,
                 maxWidth: '100%',
                 animation: isWrong
@@ -369,17 +423,19 @@ const PositionalNotation = ({
               }}
               key={isWrong ? `shake-${retryCount}` : undefined}
             >
+              {/* Scoreboard */}
               <div
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
                   width: '100%',
-                  background: `${theme.colors.primary}18`,
+                  background: `${theme.colors.primary}12`,
                   padding: '0 8px',
                   height: STATUS_BAR_HEIGHT,
-                  borderRadius: 16,
+                  borderRadius: 12,
                   boxSizing: 'border-box',
+                  marginBottom: 4,
                 }}
               >
                 <div
@@ -403,8 +459,8 @@ const PositionalNotation = ({
                         key={`result-live-${index}`}
                         src={
                           result === 'correct'
-                            ? mathsCorrectIcon
-                            : mathsIncorrectIcon
+                            ? quizCorrectIcon
+                            : quizIncorrectIcon
                         }
                         alt={result === 'correct' ? 'Correct' : 'Incorrect'}
                         style={{
@@ -422,23 +478,25 @@ const PositionalNotation = ({
                 </div>
               </div>
 
+              {/* Target Number */}
               <div
                 style={{
                   background: `${theme.colors.surface}`,
-                  border: `4px dashed ${theme.colors.primary}44`,
-                  borderRadius: 20,
-                  padding: '12px 20px',
+                  border: `3px dashed ${theme.colors.primary}33`,
+                  borderRadius: 16,
+                  padding: '8px 16px',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: 4,
                   width: '100%',
                   boxSizing: 'border-box',
+                  marginBottom: 4,
                 }}
               >
                 <span
                   style={{
-                    fontSize: 64,
+                    fontSize: 48,
                     fontWeight: 900,
                     fontFamily: theme.fonts.heading,
                     color: theme.colors.primary,
@@ -458,29 +516,32 @@ const PositionalNotation = ({
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: '2fr 1fr',
-                    gap: 4,
+                    gridTemplateColumns: PLACE_VALUE_TENS_PANEL_SPLIT,
+                    gap: PLACE_VALUE_PANEL_GAP,
                     width: '100%',
+                    alignItems: 'stretch',
                   }}
                 >
+                  {/* Tens Column */}
                   <div
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
-                      background: `${theme.colors.secondary}18`,
+                      background: `${theme.colors.secondary}12`,
                       borderRadius: 16,
-                      padding: 10,
-                      border: `2px solid ${theme.colors.secondary}33`,
+                      padding: 8,
+                      border: `2px solid ${theme.colors.secondary}22`,
+                      boxSizing: 'border-box',
                     }}
                   >
                     <span
                       style={{
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: 'bold',
                         fontFamily: theme.fonts.heading,
                         color: theme.colors.secondary,
-                        marginBottom: 8,
+                        marginBottom: 6,
                       }}
                     >
                       Tens
@@ -490,8 +551,10 @@ const PositionalNotation = ({
                       style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: 6,
+                        justifyContent: 'space-between',
+                        gap: 4,
                         marginBottom: 8,
+                        width: '100%',
                       }}
                     >
                       <StepperButton
@@ -502,16 +565,23 @@ const PositionalNotation = ({
                         }
                         disabled={userTens === 0 || isCorrect}
                         ariaLabel="Remove ten"
-                        style={{ width: 38, height: 48, fontSize: '1.5rem' }}
+                        style={{
+                          width: PLACE_VALUE_TENS_STEPPER_WIDTH,
+                          minWidth: PLACE_VALUE_TENS_STEPPER_WIDTH,
+                          height: PLACE_VALUE_STEPPER_HEIGHT,
+                          fontSize: '1.2rem',
+                          flexShrink: 0,
+                        }}
                       />
                       <span
                         style={{
-                          fontSize: 28,
+                          fontSize: 24,
                           fontWeight: 'bold',
                           fontFamily: theme.fonts.heading,
                           color: theme.colors.secondary,
-                          width: 30,
+                          width: 42,
                           textAlign: 'center',
+                          flexShrink: 0,
                         }}
                       >
                         {userTens * 10}
@@ -520,36 +590,48 @@ const PositionalNotation = ({
                         theme={theme}
                         direction="next"
                         onClick={() =>
-                          setUserTens((value) => Math.min(9, value + 1))
+                          setUserTens((value) =>
+                            Math.min(MAX_POSITIONAL_NOTATION_TENS, value + 1)
+                          )
                         }
-                        disabled={userTens === 9 || isCorrect}
+                        disabled={
+                          userTens === MAX_POSITIONAL_NOTATION_TENS || isCorrect
+                        }
                         ariaLabel="Add ten"
-                        style={{ width: 38, height: 48, fontSize: '1.5rem' }}
+                        style={{
+                          width: PLACE_VALUE_TENS_STEPPER_WIDTH,
+                          minWidth: PLACE_VALUE_TENS_STEPPER_WIDTH,
+                          height: PLACE_VALUE_STEPPER_HEIGHT,
+                          fontSize: '1.2rem',
+                          flexShrink: 0,
+                        }}
                       />
                     </div>
 
                     <div
                       style={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
+                        display: 'grid',
+                        gridTemplateColumns: `repeat(${PLACE_VALUE_TENS_COLUMNS}, max-content)`,
                         justifyContent: 'center',
-                        gap: 4,
-                        minHeight: 120,
+                        columnGap: DOT_GAP,
+                        rowGap: DOT_GAP,
+                        minHeight: 100,
                         alignItems: 'flex-end',
                         paddingBottom: 4,
+                        width: '100%',
                       }}
                     >
                       {userTens === 0 ? (
                         <span
                           style={{
                             color: theme.colors.secondary,
-                            opacity: 0.35,
+                            opacity: 0.3,
                             fontStyle: 'italic',
                             fontFamily: theme.fonts.body,
                             fontSize: 14,
                           }}
                         >
-                          Empty
+                          ?
                         </span>
                       ) : (
                         Array.from({ length: userTens }).map((_, index) => (
@@ -575,24 +657,29 @@ const PositionalNotation = ({
                     </div>
                   </div>
 
+                  {/* Ones Column */}
                   <div
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
-                      background: `${theme.colors.primary}18`,
+                      background: `${theme.colors.primary}12`,
                       borderRadius: 16,
-                      padding: 10,
-                      border: `2px solid ${theme.colors.primary}33`,
+                      padding: 8,
+                      border: `2px solid ${theme.colors.primary}22`,
+                      boxSizing: 'border-box',
+                      width: '100%',
+                      minWidth: 0,
+                      justifySelf: 'stretch',
                     }}
                   >
                     <span
                       style={{
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: 'bold',
                         fontFamily: theme.fonts.heading,
                         color: theme.colors.primary,
-                        marginBottom: 8,
+                        marginBottom: 6,
                       }}
                     >
                       Ones
@@ -602,8 +689,13 @@ const PositionalNotation = ({
                       style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: 6,
+                        justifyContent: 'space-between',
+                        gap: 2,
                         marginBottom: 8,
+                        width: '100%',
+                        paddingLeft: 4,
+                        paddingRight: 4,
+                        boxSizing: 'border-box',
                       }}
                     >
                       <StepperButton
@@ -614,16 +706,23 @@ const PositionalNotation = ({
                         }
                         disabled={userOnes === 0 || isCorrect}
                         ariaLabel="Remove one"
-                        style={{ width: 38, height: 48, fontSize: '1.5rem' }}
+                        style={{
+                          width: PLACE_VALUE_ONES_STEPPER_WIDTH,
+                          minWidth: PLACE_VALUE_ONES_STEPPER_WIDTH,
+                          height: PLACE_VALUE_STEPPER_HEIGHT,
+                          fontSize: '1rem',
+                          flexShrink: 0,
+                        }}
                       />
                       <span
                         style={{
-                          fontSize: 28,
+                          fontSize: 24,
                           fontWeight: 'bold',
                           fontFamily: theme.fonts.heading,
                           color: theme.colors.primary,
-                          width: 30,
+                          width: 24,
                           textAlign: 'center',
+                          flexShrink: 0,
                         }}
                       >
                         {userOnes}
@@ -632,11 +731,21 @@ const PositionalNotation = ({
                         theme={theme}
                         direction="next"
                         onClick={() =>
-                          setUserOnes((value) => Math.min(9, value + 1))
+                          setUserOnes((value) =>
+                            Math.min(MAX_POSITIONAL_NOTATION_ONES, value + 1)
+                          )
                         }
-                        disabled={userOnes === 9 || isCorrect}
+                        disabled={
+                          userOnes === MAX_POSITIONAL_NOTATION_ONES || isCorrect
+                        }
                         ariaLabel="Add one"
-                        style={{ width: 38, height: 48, fontSize: '1.5rem' }}
+                        style={{
+                          width: PLACE_VALUE_ONES_STEPPER_WIDTH,
+                          minWidth: PLACE_VALUE_ONES_STEPPER_WIDTH,
+                          height: PLACE_VALUE_STEPPER_HEIGHT,
+                          fontSize: '1rem',
+                          flexShrink: 0,
+                        }}
                       />
                     </div>
 
@@ -644,23 +753,27 @@ const PositionalNotation = ({
                       style={{
                         display: 'flex',
                         flexWrap: 'wrap',
-                        justifyContent: 'center',
-                        alignItems: 'flex-end',
-                        minHeight: 120,
+                        justifyContent: 'flex-start',
+                        alignContent: 'flex-start',
+                        alignItems: 'flex-start',
+                        minHeight: 100,
                         paddingBottom: 4,
+                        width: '100%',
+                        gap: DOT_GAP,
+                        boxSizing: 'border-box',
                       }}
                     >
                       {userOnes === 0 ? (
                         <span
                           style={{
                             color: theme.colors.primary,
-                            opacity: 0.35,
+                            opacity: 0.3,
                             fontStyle: 'italic',
                             fontFamily: theme.fonts.body,
                             fontSize: 14,
                           }}
                         >
-                          Empty
+                          ?
                         </span>
                       ) : (
                         Array.from({ length: userOnes }).map((_, index) => (
@@ -669,10 +782,9 @@ const PositionalNotation = ({
                             src={mathsCounterIcon}
                             alt="Counter"
                             style={{
-                              width: ONE_COUNTER_SIZE,
-                              height: ONE_COUNTER_SIZE,
+                              width: ONE_CROWN_SIZE,
+                              height: ONE_CROWN_SIZE,
                               objectFit: 'contain',
-                              margin: 3,
                               animation: `pv-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${index * 0.05}s both`,
                             }}
                           />
@@ -682,27 +794,28 @@ const PositionalNotation = ({
                   </div>
                 </div>
 
+                {/* Plus sign overlay */}
                 <div
                   style={{
                     position: 'absolute',
-                    left: '50%',
+                    left: PLACE_VALUE_PLUS_LEFT,
                     top: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: 26,
-                    height: 26,
-                    borderRadius: 8,
+                    width: PLACE_VALUE_PLUS_SIZE,
+                    height: PLACE_VALUE_PLUS_SIZE,
+                    borderRadius: 12,
                     background: theme.colors.surface,
-                    border: `3px solid ${theme.colors.primary}`,
+                    border: `2px solid ${theme.colors.primary}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     fontFamily: theme.fonts.heading,
-                    fontSize: 16,
+                    fontSize: 24,
                     fontWeight: 900,
                     color: theme.colors.primary,
                     boxShadow: `0 4px 10px ${theme.colors.primary}22`,
-                    opacity: 0.5,
-                    zIndex: 1,
+                    opacity: 0.92,
+                    zIndex: 2,
                     pointerEvents: 'none',
                   }}
                   aria-hidden="true"

@@ -1,5 +1,6 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import ArithmeticTester from '../components/ArithmeticTester'
+import AlphabetTester from '../components/AlphabetTester'
 import DinnerCountdown from '../components/DinnerCountdown'
 import PositionalNotation from '../components/PositionalNotation'
 import {
@@ -7,18 +8,21 @@ import {
   princessEatingFailImage,
   princessEatingFullImage,
   princessGiveStarIcon,
-  princessMathsCorrectImage,
+  princessQuizCorrectImage,
   princessMathsIcon,
-  princessMathsIncorrectImage,
+  princessQuizIncorrectImage,
   princessPlateImage,
   princessResetIcon,
 } from '../assets/themes/princess/assets'
 import type { Theme } from '../contexts/ThemeContext'
 import {
   type EatingTodo,
+  type MathDifficulty,
   type MathTodo,
   type PositionalNotationTodo,
+  type AlphabetTodo,
   type TodoRecord,
+  DEFAULT_ALPHABET_PROBLEMS,
 } from '../data/types'
 import { uiTokens } from './tokens'
 import type { ListRowDescriptor } from './listDescriptorTypes'
@@ -56,8 +60,10 @@ type TodayTodoDescriptorDeps = {
   pendingTodoId: string | null
   activeMathTodoId: string | null
   activePVTodoId: string | null
+  activeAlphabetTodoId: string | null
   mathCheckTriggerByTodo: Record<string, number>
   pvCheckTriggerByTodo: Record<string, number>
+  alphabetCheckTriggerByTodo: Record<string, number>
   activePrincessMealIcon?: string
   isDinnerTodoRunning: (todo: EatingTodo) => boolean
   isDinnerTodoInActivity: (todo: EatingTodo) => boolean
@@ -66,6 +72,7 @@ type TodayTodoDescriptorDeps = {
   getDinnerTotalBites: (todo: EatingTodo) => number
   getDinnerBitesLeft: (todo: EatingTodo) => number
   getMathTotalProblems: (todo: MathTodo) => number
+  getMathDifficulty: (todo: MathTodo) => MathDifficulty | undefined
   getPVTotalProblems: (todo: PositionalNotationTodo) => number
   handleDinnerBite: (todo: EatingTodo) => void
   dinnerStartTimer: (todo: EatingTodo) => void
@@ -76,10 +83,18 @@ type TodayTodoDescriptorDeps = {
   handlePVComplete: (todo: PositionalNotationTodo) => void | Promise<void>
   handlePVFail: (todo: PositionalNotationTodo) => void | Promise<void>
   handlePVReset: (todo: PositionalNotationTodo) => void | Promise<void>
+  handleAlphabetComplete: (todo: AlphabetTodo) => void | Promise<void>
+  handleAlphabetFail: (todo: AlphabetTodo) => void | Promise<void>
+  handleAlphabetReset: (todo: AlphabetTodo) => void | Promise<void>
   setActiveMathTodoId: (todoId: string | null) => void
   setActivePVTodoId: (todoId: string | null) => void
+  setActiveAlphabetTodoId: (todoId: string | null) => void
   setMathCheckTriggerByTodo: Dispatch<SetStateAction<Record<string, number>>>
   setPVCheckTriggerByTodo: Dispatch<SetStateAction<Record<string, number>>>
+  setAlphabetCheckTriggerByTodo: Dispatch<
+    SetStateAction<Record<string, number>>
+  >
+  getAlphabetTotalProblems: (todo: AlphabetTodo) => number
   activeDinnerTodoId: string | null
   startDinnerActivity: (todoId: string) => void
   clearDinnerTodoState: (todoId: string) => void
@@ -268,6 +283,7 @@ export const createTodayTodoListRowDescriptor = (
             theme={deps.theme}
             totalProblems={deps.getMathTotalProblems(mathTodo)}
             starReward={mathTodo.starValue}
+            difficulty={deps.getMathDifficulty(mathTodo)}
             isRunning={deps.activeMathTodoId === mathTodo.id}
             isCompleted={Boolean(mathTodo.completedAt)}
             isFailed={mathTodo.mathLastOutcome === 'failure'}
@@ -278,12 +294,12 @@ export const createTodayTodoListRowDescriptor = (
             checkTrigger={deps.mathCheckTriggerByTodo[mathTodo.id] ?? 0}
             completionImage={
               deps.theme.id === 'princess'
-                ? princessMathsCorrectImage
+                ? princessQuizCorrectImage
                 : undefined
             }
             failureImage={
               deps.theme.id === 'princess'
-                ? princessMathsIncorrectImage
+                ? princessQuizIncorrectImage
                 : undefined
             }
           />
@@ -373,12 +389,12 @@ export const createTodayTodoListRowDescriptor = (
             checkTrigger={deps.pvCheckTriggerByTodo[pvTodo.id] ?? 0}
             completionImage={
               deps.theme.id === 'princess'
-                ? princessMathsCorrectImage
+                ? princessQuizCorrectImage
                 : undefined
             }
             failureImage={
               deps.theme.id === 'princess'
-                ? princessMathsIncorrectImage
+                ? princessQuizIncorrectImage
                 : undefined
             }
           />
@@ -439,31 +455,135 @@ export const createTodayTodoListRowDescriptor = (
             )
       },
     },
+    alphabet: {
+      kind: 'complexChore',
+      getStage: (todo) => {
+        const alphabetTodo = todo as AlphabetTodo
+        if (alphabetTodo.completedAt) return 'completed'
+        return deps.activeAlphabetTodoId === alphabetTodo.id
+          ? 'activity'
+          : 'setup'
+      },
+      renderItem: (todo) => {
+        const alphabetTodo = todo as AlphabetTodo
+        return (
+          <AlphabetTester
+            theme={deps.theme}
+            totalProblems={
+              deps.getAlphabetTotalProblems(alphabetTodo) ??
+              DEFAULT_ALPHABET_PROBLEMS
+            }
+            starReward={alphabetTodo.starValue}
+            isRunning={deps.activeAlphabetTodoId === alphabetTodo.id}
+            isCompleted={Boolean(alphabetTodo.completedAt)}
+            isFailed={alphabetTodo.alphabetLastOutcome === 'failure'}
+            onAdjustProblems={() => undefined}
+            onStarsChange={() => undefined}
+            onComplete={() => deps.handleAlphabetComplete(alphabetTodo)}
+            onFail={() => deps.handleAlphabetFail(alphabetTodo)}
+            checkTrigger={deps.alphabetCheckTriggerByTodo[alphabetTodo.id] ?? 0}
+            completionImage={
+              deps.theme.id === 'princess'
+                ? princessQuizCorrectImage
+                : undefined
+            }
+            failureImage={
+              deps.theme.id === 'princess'
+                ? princessQuizIncorrectImage
+                : undefined
+            }
+          />
+        )
+      },
+      getPrimaryAction: (todo) => {
+        const alphabetTodo = todo as AlphabetTodo
+        const isFinished = Boolean(alphabetTodo.completedAt)
+        const isRunning =
+          deps.activeAlphabetTodoId === alphabetTodo.id && !isFinished
+        return {
+          label: isFinished ? 'Again 🔁' : isRunning ? 'Check Answer' : 'Start',
+          icon: (
+            <img
+              src={
+                isRunning
+                  ? princessMathsIcon
+                  : isFinished
+                    ? princessMathsIcon
+                    : princessGiveStarIcon
+              }
+              alt={
+                isFinished ? 'Play again' : isRunning ? 'Check answer' : 'Start'
+              }
+              className="h-6 w-6 object-contain"
+            />
+          ),
+          variant: 'primary',
+          showLabel: false,
+          onClick: (item) => {
+            const currentTodo = item as AlphabetTodo
+            if (currentTodo.completedAt) {
+              return deps.handleAlphabetReset(currentTodo)
+            }
+            if (deps.activeAlphabetTodoId === currentTodo.id) {
+              deps.setAlphabetCheckTriggerByTodo((prev) => ({
+                ...prev,
+                [currentTodo.id]: (prev[currentTodo.id] ?? 0) + 1,
+              }))
+              return
+            }
+            deps.setActiveAlphabetTodoId(currentTodo.id)
+          },
+        }
+      },
+      getUtilityAction: (todo) => {
+        const alphabetTodo = todo as AlphabetTodo
+        const inActivity =
+          deps.activeAlphabetTodoId === alphabetTodo.id ||
+          Boolean(alphabetTodo.completedAt)
+        return inActivity
+          ? getResetUtilityAction(
+              'Reset alphabet todo',
+              (item) => deps.handleAlphabetReset(item as AlphabetTodo),
+              deps.theme
+            )
+          : getDeleteUtilityAction('Delete todo', (item) =>
+              deps.handleDeleteTodo(item)
+            )
+      },
+    },
   }
 
   const getDescriptor = (todo: TodoRecord) =>
     descriptorByType[todo.sourceTaskType]
 
   return {
-    renderItem: (todo) => (
-      <div
-        className="flex flex-col"
-        style={{ gap: `${Math.max(12, uiTokens.singleVerticalSpace / 2)}px` }}
-      >
-        <div
-          style={{
-            fontFamily: deps.theme.fonts.heading,
-            fontSize: '1.25rem',
-            fontWeight: 800,
-            lineHeight: 1.2,
-          }}
-        >
-          {todo.title}
-        </div>
+    renderItem: (todo) => {
+      const descriptor = getDescriptor(todo)
+      const stage = descriptor.getStage(todo)
+      const hideTitle = stage === 'activity'
 
-        {getDescriptor(todo).renderItem(todo)}
-      </div>
-    ),
+      return (
+        <div
+          className="flex flex-col"
+          style={{ gap: `${Math.max(12, uiTokens.singleVerticalSpace / 2)}px` }}
+        >
+          {!hideTitle && (
+            <div
+              style={{
+                fontFamily: deps.theme.fonts.heading,
+                fontSize: '1.25rem',
+                fontWeight: 800,
+                lineHeight: 1.2,
+              }}
+            >
+              {todo.title}
+            </div>
+          )}
+
+          {descriptor.renderItem(todo)}
+        </div>
+      )
+    },
     getStarCount: (todo) => getDescriptor(todo).getStarCount?.(todo),
     isHighlighted: (todo) => Boolean(todo.completedAt),
     getPrimaryAction: (todo) => getDescriptor(todo).getPrimaryAction(todo),

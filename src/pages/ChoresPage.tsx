@@ -17,6 +17,7 @@ import {
   type EatingTaskWithEphemeral,
   type MathTaskWithEphemeral,
   type PVTaskWithEphemeral,
+  type AlphabetTaskWithEphemeral,
   type StandardTaskWithEphemeral,
   type TaskWithEphemeral,
 } from '../data/types'
@@ -76,12 +77,16 @@ const ChoresPage = () => {
     createEating,
     createMath,
     createPositionalNotation,
+    createAlphabet,
     mathComplete,
     mathFail,
     mathReset,
     pvComplete,
     pvFail,
     pvReset,
+    alphabetComplete,
+    alphabetFail,
+    alphabetReset,
     dinnerApplyBite,
     dinnerStartTimer,
     dinnerTimerExpired,
@@ -93,10 +98,16 @@ const ChoresPage = () => {
   const [isAwarding, setIsAwarding] = useState(false)
   const [activeMathTaskId, setActiveMathTaskId] = useState<string | null>(null)
   const [activePVTaskId, setActivePVTaskId] = useState<string | null>(null)
+  const [activeAlphabetTaskId, setActiveAlphabetTaskId] = useState<
+    string | null
+  >(null)
   const [mathCheckTriggerByTask, setMathCheckTriggerByTask] = useState<
     Record<string, number>
   >({})
   const [pvCheckTriggerByTask, setPVCheckTriggerByTask] = useState<
+    Record<string, number>
+  >({})
+  const [alphabetCheckTriggerByTask, setAlphabetCheckTriggerByTask] = useState<
     Record<string, number>
   >({})
   const [showAddChooser, setShowAddChooser] = useState(false)
@@ -275,6 +286,11 @@ const ChoresPage = () => {
     setShowAddChooser(false)
   }
 
+  const handleCreateAlphabet = async () => {
+    await createAlphabet()
+    setShowAddChooser(false)
+  }
+
   const handleMathComplete = async (task: MathTaskWithEphemeral) => {
     setActiveMathTaskId(null)
     await mathComplete(task)
@@ -305,17 +321,38 @@ const ChoresPage = () => {
     await pvReset(task)
   }
 
+  const handleAlphabetComplete = async (task: AlphabetTaskWithEphemeral) => {
+    setActiveAlphabetTaskId(null)
+    await alphabetComplete(task)
+  }
+
+  const handleAlphabetFail = async (task: AlphabetTaskWithEphemeral) => {
+    setActiveAlphabetTaskId(null)
+    await alphabetFail(task)
+  }
+
+  const handleAlphabetReset = async (task: AlphabetTaskWithEphemeral) => {
+    setActiveAlphabetTaskId(null)
+    await alphabetReset(task)
+  }
+
   const handleDelete = async (id: string) => {
     await deleteTask(id)
     clearDinnerTaskState(id)
     if (activeMathTaskId === id) setActiveMathTaskId(null)
     if (activePVTaskId === id) setActivePVTaskId(null)
+    if (activeAlphabetTaskId === id) setActiveAlphabetTaskId(null)
     setMathCheckTriggerByTask((prev) => {
       const next = { ...prev }
       delete next[id]
       return next
     })
     setPVCheckTriggerByTask((prev) => {
+      const next = { ...prev }
+      delete next[id]
+      return next
+    })
+    setAlphabetCheckTriggerByTask((prev) => {
       const next = { ...prev }
       delete next[id]
       return next
@@ -375,6 +412,13 @@ const ChoresPage = () => {
       handlePVReset,
       setActivePVTaskId,
       setPVCheckTriggerByTask,
+      activeAlphabetTaskId,
+      alphabetCheckTriggerByTask,
+      handleAlphabetComplete,
+      handleAlphabetFail,
+      handleAlphabetReset,
+      setActiveAlphabetTaskId,
+      setAlphabetCheckTriggerByTask,
       handleAwardTask,
       handleDelete,
       isAwarding,
@@ -487,6 +531,23 @@ const ChoresPage = () => {
                       }}
                     >
                       Positional Notation
+                    </button>
+                    <button
+                      type="button"
+                      className="whimsical-btn"
+                      onClick={handleCreateAlphabet}
+                      style={{
+                        minHeight: `${uiTokens.actionButtonHeight}px`,
+                        borderRadius: '20px',
+                        border: `3px solid ${theme.colors.accent}`,
+                        background: theme.colors.surface,
+                        color: theme.colors.text,
+                        fontFamily: theme.fonts.heading,
+                        fontWeight: 800,
+                        fontSize: '1.15rem',
+                      }}
+                    >
+                      Alphabet Match
                     </button>
                     <button
                       type="button"

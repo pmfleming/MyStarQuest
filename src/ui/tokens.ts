@@ -2,9 +2,9 @@ import type { Theme } from '../contexts/ThemeContext'
 
 export const uiTokens = {
   pagePaddingX: 24,
-  pagePaddingTop: 8,
+  pagePaddingTop: 4,
   pagePaddingBottom: 16,
-  sectionGap: 24,
+  sectionGap: 2,
   singleVerticalSpace: 24,
   doubleVerticalSpace: 48,
   contentMaxWidth: 340,
@@ -14,10 +14,23 @@ export const uiTokens = {
   actionButtonFontSize: 28,
   actionButtonIconSize: 48,
   actionButtonArrowSize: 32,
-  topIconSize: 72,
+  topIconSize: 44,
   topIconBorder: 4,
   deviceMaxWidth: 414,
   deviceMinHeight: 896,
+  activityTokens: {
+    statusBarHeight: 60,
+    statusIconSize: 60,
+    statusIconGap: 6,
+    quizOutcomeImageMaxWidth: 360,
+    quizOutcomeImageMaxHeight: 420,
+    mathCounterSize: 20,
+    mathCounterGap: 4,
+    answerCounterSize: 24,
+    answerCounterGap: 6,
+    stepperWidth: 72,
+    stepperHeight: 56,
+  },
 } as const
 
 export const getTopIconStyle = (theme: Theme) => ({
@@ -27,7 +40,7 @@ export const getTopIconStyle = (theme: Theme) => ({
   width: `${uiTokens.topIconSize}px`,
   borderRadius: '9999px',
   border: `${uiTokens.topIconBorder}px solid ${theme.colors.accent}`,
-  boxShadow: `0 0 20px ${theme.colors.primary}`,
+  boxShadow: `0 0 10px ${theme.colors.primary}`,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

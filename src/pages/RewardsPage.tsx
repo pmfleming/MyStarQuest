@@ -2,14 +2,12 @@ import { useState } from 'react'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
-import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
 import { createRewardDefinitionListRowDescriptor } from '../ui/definitionRowDescriptors'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { useRewards } from '../data/useRewards'
 import type { RewardRecord } from '../data/types'
-import { princessHomeIcon } from '../assets/themes/princess/assets'
 
 const RewardsPage = () => {
   const { activeChildId } = useActiveChild()
@@ -73,25 +71,7 @@ const RewardsPage = () => {
   )
 
   return (
-    <PageShell
-      theme={theme}
-      activeTabId="rewards"
-      title="Rewards"
-      headerRight={
-        <TopIconButton
-          theme={theme}
-          to="/"
-          ariaLabel="Home"
-          icon={
-            <img
-              src={princessHomeIcon}
-              alt="Home"
-              className="h-10 w-10 object-contain"
-            />
-          }
-        />
-      }
-    >
+    <PageShell theme={theme} activeTabId="rewards" title="Rewards">
       <div
         className="mx-auto flex w-full flex-col"
         style={{

@@ -2,7 +2,12 @@
 
 import type { ThemeId } from '../ui/themeOptions'
 
-export type TaskType = 'standard' | 'eating' | 'math' | 'positional-notation'
+export type TaskType =
+  | 'standard'
+  | 'eating'
+  | 'math'
+  | 'positional-notation'
+  | 'alphabet'
 
 // ── TaskRecord: discriminated union on `taskType` ──
 
@@ -24,13 +29,20 @@ export type EatingTask = TaskBase & {
   dinnerDurationSeconds: number
   dinnerTotalBites: number
 }
+export type MathDifficulty = 'easy' | 'hard'
+
 export type MathTask = TaskBase & {
   taskType: 'math'
   mathTotalProblems: number
+  mathDifficulty?: MathDifficulty
 }
 export type PositionalNotationTask = TaskBase & {
   taskType: 'positional-notation'
   pvTotalProblems: number
+}
+export type AlphabetTask = TaskBase & {
+  taskType: 'alphabet'
+  alphabetTotalProblems: number
 }
 
 export type TaskRecord =
@@ -38,6 +50,7 @@ export type TaskRecord =
   | EatingTask
   | MathTask
   | PositionalNotationTask
+  | AlphabetTask
 
 // ── TaskEphemeralState: flat bag for in-memory storage ──
 
@@ -51,6 +64,8 @@ export type TaskEphemeralState = {
   manageMathLastOutcome?: 'success' | 'failure' | null
   managePVCompletedAt?: number | null
   managePVLastOutcome?: 'success' | 'failure' | null
+  manageAlphabetCompletedAt?: number | null
+  manageAlphabetLastOutcome?: 'success' | 'failure' | null
 }
 
 // ── TaskWithEphemeral: discriminated union pairing each variant with its ephemeral fields ──
@@ -72,12 +87,17 @@ export type PVTaskWithEphemeral = PositionalNotationTask & {
   managePVCompletedAt?: number | null
   managePVLastOutcome?: 'success' | 'failure' | null
 }
+export type AlphabetTaskWithEphemeral = AlphabetTask & {
+  manageAlphabetCompletedAt?: number | null
+  manageAlphabetLastOutcome?: 'success' | 'failure' | null
+}
 
 export type TaskWithEphemeral =
   | StandardTaskWithEphemeral
   | EatingTaskWithEphemeral
   | MathTaskWithEphemeral
   | PVTaskWithEphemeral
+  | AlphabetTaskWithEphemeral
 
 // ── TodoRecord: discriminated union on `sourceTaskType` ──
 
@@ -91,6 +111,7 @@ type TodoBase = {
   nonSchoolDayEnabled: boolean
   autoAdded: boolean
   completedAt: number | null
+  dateKey: string
   createdAt?: Date
 }
 
@@ -106,6 +127,7 @@ export type EatingTodo = TodoBase & {
 export type MathTodo = TodoBase & {
   sourceTaskType: 'math'
   mathTotalProblems: number
+  mathDifficulty?: MathDifficulty
   mathLastOutcome: 'success' | 'failure' | null
 }
 export type PositionalNotationTodo = TodoBase & {
@@ -113,12 +135,18 @@ export type PositionalNotationTodo = TodoBase & {
   pvTotalProblems: number
   pvLastOutcome: 'success' | 'failure' | null
 }
+export type AlphabetTodo = TodoBase & {
+  sourceTaskType: 'alphabet'
+  alphabetTotalProblems: number
+  alphabetLastOutcome: 'success' | 'failure' | null
+}
 
 export type TodoRecord =
   | StandardTodo
   | EatingTodo
   | MathTodo
   | PositionalNotationTodo
+  | AlphabetTodo
 
 // ── Updatable field subsets ──
 
@@ -131,7 +159,9 @@ export type TaskUpdatableFields = Partial<{
   dinnerDurationSeconds: number
   dinnerTotalBites: number
   mathTotalProblems: number
+  mathDifficulty: MathDifficulty
   pvTotalProblems: number
+  alphabetTotalProblems: number
 }>
 
 export type TodoUpdatableFields = Partial<{
@@ -141,6 +171,7 @@ export type TodoUpdatableFields = Partial<{
   dinnerTimerStartedAt: number | null
   mathLastOutcome: 'success' | 'failure' | null
   pvLastOutcome: 'success' | 'failure' | null
+  alphabetLastOutcome: 'success' | 'failure' | null
 }>
 
 // ── Constants ──
@@ -152,6 +183,8 @@ export const DEFAULT_MATH_PROBLEMS = 5
 export const DEFAULT_MATH_STARS = 3
 export const DEFAULT_PV_PROBLEMS = 5
 export const DEFAULT_PV_STARS = 3
+export const DEFAULT_ALPHABET_PROBLEMS = 5
+export const DEFAULT_ALPHABET_STARS = 3
 export const MANAGE_STATUS_RESET_MS = 15 * 60 * 1000
 
 // ── Narrowing type guards ──
@@ -174,6 +207,12 @@ export function isPositionalNotationTask<T extends { taskType: TaskType }>(
   return t.taskType === 'positional-notation'
 }
 
+export function isAlphabetTask<T extends { taskType: TaskType }>(
+  t: T
+): t is Extract<T, { taskType: 'alphabet' }> {
+  return t.taskType === 'alphabet'
+}
+
 export function isEatingTodo(t: TodoRecord): t is EatingTodo {
   return t.sourceTaskType === 'eating'
 }
@@ -186,6 +225,10 @@ export function isPositionalNotationTodo(
   t: TodoRecord
 ): t is PositionalNotationTodo {
   return t.sourceTaskType === 'positional-notation'
+}
+
+export function isAlphabetTodo(t: TodoRecord): t is AlphabetTodo {
+  return t.sourceTaskType === 'alphabet'
 }
 
 // ── TaskWithEphemeral helpers ──
@@ -212,6 +255,8 @@ export const getManageTaskCompletedAt = (task: TaskWithEphemeral) => {
       return task.manageMathCompletedAt ?? null
     case 'positional-notation':
       return task.managePVCompletedAt ?? null
+    case 'alphabet':
+      return task.manageAlphabetCompletedAt ?? null
     case 'standard':
       return task.manageCompletedAt ?? null
   }

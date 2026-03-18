@@ -18,6 +18,7 @@ import {
   type EatingTodo,
   type MathTodo,
   type PositionalNotationTodo,
+  type AlphabetTodo,
   type TodoRecord,
 } from '../data/types'
 
@@ -68,8 +69,6 @@ const DashboardPage = () => {
     getDinnerLiveRemaining,
     getDinnerTotalBites,
     getDinnerBitesLeft,
-    getMathTotalProblems,
-    getPVTotalProblems,
     addTodo,
     completeTodo,
     deleteTodo,
@@ -83,6 +82,9 @@ const DashboardPage = () => {
     pvComplete,
     pvFail,
     pvReset,
+    alphabetComplete,
+    alphabetFail,
+    alphabetReset,
     resetTodayTodos,
   } = useTodos()
 
@@ -90,10 +92,16 @@ const DashboardPage = () => {
   const [pendingTodoId, setPendingTodoId] = useState<string | null>(null)
   const [activeMathTodoId, setActiveMathTodoId] = useState<string | null>(null)
   const [activePVTodoId, setActivePVTodoId] = useState<string | null>(null)
+  const [activeAlphabetTodoId, setActiveAlphabetTodoId] = useState<
+    string | null
+  >(null)
   const [mathCheckTriggerByTodo, setMathCheckTriggerByTodo] = useState<
     Record<string, number>
   >({})
   const [pvCheckTriggerByTodo, setPVCheckTriggerByTodo] = useState<
+    Record<string, number>
+  >({})
+  const [alphabetCheckTriggerByTodo, setAlphabetCheckTriggerByTodo] = useState<
     Record<string, number>
   >({})
 
@@ -130,8 +138,10 @@ const DashboardPage = () => {
   useEffect(() => {
     setActiveMathTodoId(null)
     setActivePVTodoId(null)
+    setActiveAlphabetTodoId(null)
     setMathCheckTriggerByTodo({})
     setPVCheckTriggerByTodo({})
+    setAlphabetCheckTriggerByTodo({})
   }, [activeChildId, todayInfo.dateKey])
 
   const handleAddTodo = async (task: { id: string }) => {
@@ -199,15 +209,82 @@ const DashboardPage = () => {
     await pvReset(todo)
   }
 
-  const todoListDescriptor = toStandardActionListDescriptor(
-    createTodayTodoListRowDescriptor({
+  const handleAlphabetComplete = async (todo: AlphabetTodo) => {
+    setActiveAlphabetTodoId(null)
+    await alphabetComplete(todo)
+  }
+
+  const handleAlphabetFail = async (todo: AlphabetTodo) => {
+    setActiveAlphabetTodoId(null)
+    await alphabetFail(todo)
+  }
+
+  const handleAlphabetReset = async (todo: AlphabetTodo) => {
+    setActiveAlphabetTodoId(null)
+    await alphabetReset(todo)
+  }
+
+  const todoListDescriptor = useMemo(
+    () =>
+      toStandardActionListDescriptor(
+        createTodayTodoListRowDescriptor({
+          theme,
+          biteCooldownSeconds,
+          pendingTodoId,
+          activeMathTodoId,
+          activePVTodoId,
+          activeAlphabetTodoId,
+          mathCheckTriggerByTodo,
+          pvCheckTriggerByTodo,
+          alphabetCheckTriggerByTodo,
+          activePrincessMealIcon,
+          isDinnerTodoRunning,
+          isDinnerTodoInActivity,
+          getDinnerDuration,
+          getDinnerLiveRemaining,
+          getDinnerTotalBites,
+          getDinnerBitesLeft,
+          getMathTotalProblems: (todo: MathTodo) => todo.mathTotalProblems,
+          getMathDifficulty: (todo: MathTodo) => todo.mathDifficulty,
+          getPVTotalProblems: (todo: PositionalNotationTodo) =>
+            todo.pvTotalProblems,
+          getAlphabetTotalProblems: (todo: AlphabetTodo) =>
+            todo.alphabetTotalProblems,
+          handleDinnerBite,
+          dinnerStartTimer,
+          handleDinnerReset,
+          handleMathComplete,
+          handleMathFail,
+          handleMathReset,
+          handlePVComplete,
+          handlePVFail,
+          handlePVReset,
+          handleAlphabetComplete,
+          handleAlphabetFail,
+          handleAlphabetReset,
+          setActiveMathTodoId,
+          setActivePVTodoId,
+          setActiveAlphabetTodoId,
+          setMathCheckTriggerByTodo,
+          setPVCheckTriggerByTodo,
+          setAlphabetCheckTriggerByTodo,
+          activeDinnerTodoId,
+          startDinnerActivity,
+          clearDinnerTodoState,
+          handleCompleteTodo,
+          handleDeleteTodo,
+        })
+      ),
+    [
       theme,
       biteCooldownSeconds,
       pendingTodoId,
       activeMathTodoId,
       activePVTodoId,
+      activeAlphabetTodoId,
       mathCheckTriggerByTodo,
       pvCheckTriggerByTodo,
+      alphabetCheckTriggerByTodo,
       activePrincessMealIcon,
       isDinnerTodoRunning,
       isDinnerTodoInActivity,
@@ -215,27 +292,10 @@ const DashboardPage = () => {
       getDinnerLiveRemaining,
       getDinnerTotalBites,
       getDinnerBitesLeft,
-      getMathTotalProblems,
-      getPVTotalProblems,
-      handleDinnerBite,
-      dinnerStartTimer,
-      handleDinnerReset,
-      handleMathComplete,
-      handleMathFail,
-      handleMathReset,
-      handlePVComplete,
-      handlePVFail,
-      handlePVReset,
-      setActiveMathTodoId,
-      setActivePVTodoId,
-      setMathCheckTriggerByTodo,
-      setPVCheckTriggerByTodo,
       activeDinnerTodoId,
-      startDinnerActivity,
-      clearDinnerTodoState,
       handleCompleteTodo,
       handleDeleteTodo,
-    })
+    ]
   )
 
   const themeAssets = getThemeAssets(theme.id)

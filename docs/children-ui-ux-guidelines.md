@@ -27,9 +27,9 @@ The app uses a phone-frame layout with a centered device shell.
 Use these values directly through `uiTokens`:
 
 - `pagePaddingX`: 24
-- `pagePaddingTop`: 48
-- `pagePaddingBottom`: 24
-- `sectionGap`: 24
+- `pagePaddingTop`: 4
+- `pagePaddingBottom`: 16
+- `sectionGap`: 2
 - `singleVerticalSpace`: 24
 - `doubleVerticalSpace`: 48
 - `contentMaxWidth`: 340
@@ -38,7 +38,7 @@ Use these values directly through `uiTokens`:
 - `actionButtonFontSize`: 28
 - `actionButtonIconSize`: 48
 - `actionButtonArrowSize`: 32
-- `topIconSize`: 72
+- `topIconSize`: 44
 - `topIconBorder`: 4
 - `deviceMaxWidth`: 414
 - `deviceMinHeight`: 896
@@ -48,7 +48,7 @@ Use these values directly through `uiTokens`:
 - Main page content should be constrained to `uiTokens.contentMaxWidth` and centered.
 - Vertical rhythm should use `singleVerticalSpace` or `doubleVerticalSpace`.
 - Primary buttons should respect `actionButtonHeight` (88px).
-- Top icon controls should use `TopIconButton` (`72x72` target with themed border/glow).
+- Top icon controls should use `TopIconButton` (`44x44` target with themed border/glow).
 
 ## 3) Theme System (Current)
 

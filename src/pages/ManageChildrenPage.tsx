@@ -2,16 +2,12 @@ import type { ThemeId } from '../ui/themeOptions'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
-import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
 import { createChildDefinitionListRowDescriptor } from '../ui/definitionRowDescriptors'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { useChildren } from '../data/useChildren'
-import {
-  princessHomeIcon,
-  princessThemeIcon,
-} from '../assets/themes/princess/assets'
+import { princessThemeIcon } from '../assets/themes/princess/assets'
 import spaceThemeIcon from '../assets/themes/space/space.svg'
 import natureThemeIcon from '../assets/themes/nature/nature.svg'
 import cartoonThemeIcon from '../assets/themes/cartoon/cartoon.svg'
@@ -91,25 +87,7 @@ const ManageChildrenPage = () => {
   )
 
   return (
-    <PageShell
-      theme={theme}
-      activeTabId="dashboard"
-      title="Children"
-      headerRight={
-        <TopIconButton
-          theme={theme}
-          to="/"
-          ariaLabel="Home"
-          icon={
-            <img
-              src={princessHomeIcon}
-              alt="Home"
-              className="h-10 w-10 object-contain"
-            />
-          }
-        />
-      }
-    >
+    <PageShell theme={theme} activeTabId="dashboard" title="Children">
       <div
         className="mx-auto flex w-full flex-col"
         style={{

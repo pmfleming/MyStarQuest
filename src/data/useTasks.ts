@@ -26,16 +26,19 @@ import {
   DEFAULT_MATH_STARS,
   DEFAULT_PV_PROBLEMS,
   DEFAULT_PV_STARS,
+  DEFAULT_ALPHABET_PROBLEMS,
+  DEFAULT_ALPHABET_STARS,
   MANAGE_STATUS_RESET_MS,
   getManageDinnerBitesLeft,
   getManageDinnerLiveRemaining,
   isEatingTask,
   isMathTask,
   isPositionalNotationTask,
+  isAlphabetTask,
   type EatingTaskWithEphemeral,
   type MathTaskWithEphemeral,
   type PVTaskWithEphemeral,
-  type StandardTaskWithEphemeral,
+  type AlphabetTaskWithEphemeral,
   type TaskEphemeralState,
   type TaskRecord,
   type TaskType,
@@ -80,9 +83,11 @@ export function useTasks() {
               ? 'positional-notation'
               : data.taskType === 'math' || data.category === 'math'
                 ? 'math'
-                : data.taskType === 'eating' || data.category === 'eating'
-                  ? 'eating'
-                  : 'standard'
+                : data.taskType === 'alphabet' || data.category === 'alphabet'
+                  ? 'alphabet'
+                  : data.taskType === 'eating' || data.category === 'eating'
+                    ? 'eating'
+                    : 'standard'
           const base = {
             id: docSnapshot.id,
             title: data.title ?? '',
@@ -110,6 +115,15 @@ export function useTasks() {
                 taskType: 'math' as const,
                 mathTotalProblems:
                   data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+                mathDifficulty: data.mathDifficulty ?? 'easy',
+              })
+              return next
+            case 'alphabet':
+              next.push({
+                ...base,
+                taskType: 'alphabet' as const,
+                alphabetTotalProblems:
+                  data.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
               })
               return next
             case 'positional-notation':
@@ -315,6 +329,49 @@ export function useTasks() {
   }
 
   // ── Dinner helpers ──
+  const createAlphabet = async () => {
+    if (!user || !activeChildId) return
+    try {
+      await addDoc(collection(db, 'users', user.uid, 'tasks'), {
+        childId: activeChildId,
+        taskType: 'alphabet',
+        category: 'Learning',
+        title: 'Alphabet Match',
+        starValue: DEFAULT_ALPHABET_STARS,
+        alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
+        schoolDayEnabled: true,
+        nonSchoolDayEnabled: true,
+        isRepeating: true,
+        createdAt: serverTimestamp(),
+      })
+    } catch (err) {
+      console.error('Failed to create alphabet chore:', err)
+    }
+  }
+
+  const alphabetComplete = async (task: AlphabetTaskWithEphemeral) => {
+    if (!user || !activeChildId) return
+    updateEphemeral(task.id, {
+      manageAlphabetCompletedAt: Date.now(),
+      manageAlphabetLastOutcome: 'success',
+    })
+    await awardTask(task)
+  }
+
+  const alphabetFail = (task: AlphabetTaskWithEphemeral) => {
+    updateEphemeral(task.id, {
+      manageAlphabetCompletedAt: Date.now(),
+      manageAlphabetLastOutcome: 'failure',
+    })
+  }
+
+  const alphabetReset = (task: AlphabetTaskWithEphemeral) => {
+    updateEphemeral(task.id, {
+      manageAlphabetCompletedAt: null,
+      manageAlphabetLastOutcome: null,
+    })
+  }
+
   const dinnerApplyBite = async (task: EatingTaskWithEphemeral) => {
     const remaining = getManageDinnerLiveRemaining(task)
     const bitesLeft = getManageDinnerBitesLeft(task)
@@ -366,7 +423,7 @@ export function useTasks() {
   }
 
   // ── Standard task award ──
-  const awardTask = async (task: StandardTaskWithEphemeral) => {
+  const awardTask = async (task: TaskWithEphemeral) => {
     if (!user || !activeChildId) {
       alert('Please select an explorer first.')
       return
@@ -376,7 +433,26 @@ export function useTasks() {
       childId: activeChildId,
       delta: task.starValue,
     })
-    updateEphemeral(task.id, { manageCompletedAt: Date.now() })
+
+    const now = Date.now()
+    switch (task.taskType) {
+      case 'standard':
+        updateEphemeral(task.id, { manageCompletedAt: now })
+        break
+      case 'eating':
+        updateEphemeral(task.id, { manageDinnerCompletedAt: now })
+        break
+      case 'math':
+        updateEphemeral(task.id, { manageMathCompletedAt: now })
+        break
+      case 'positional-notation':
+        updateEphemeral(task.id, { managePVCompletedAt: now })
+        break
+      case 'alphabet':
+        updateEphemeral(task.id, { manageAlphabetCompletedAt: now })
+        break
+    }
+
     celebrateSuccess()
     if (!task.isRepeating) {
       await deleteDoc(doc(collection(db, 'users', user.uid, 'tasks'), task.id))
@@ -440,6 +516,18 @@ export function useTasks() {
             }
           }
           if (
+            isAlphabetTask(task) &&
+            e.manageAlphabetCompletedAt &&
+            now - e.manageAlphabetCompletedAt >= MANAGE_STATUS_RESET_MS
+          ) {
+            if (next === prev) next = { ...prev }
+            next[task.id] = {
+              ...next[task.id],
+              manageAlphabetCompletedAt: null,
+              manageAlphabetLastOutcome: null,
+            }
+          }
+          if (
             task.taskType === 'standard' &&
             e.manageCompletedAt &&
             now - e.manageCompletedAt >= MANAGE_STATUS_RESET_MS
@@ -468,12 +556,16 @@ export function useTasks() {
     createEating,
     createMath,
     createPositionalNotation,
+    createAlphabet,
     mathComplete,
     mathFail,
     mathReset,
     pvComplete,
     pvFail,
     pvReset,
+    alphabetComplete,
+    alphabetFail,
+    alphabetReset,
     dinnerApplyBite,
     dinnerStartTimer,
     dinnerTimerExpired,
