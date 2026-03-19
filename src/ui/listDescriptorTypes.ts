@@ -21,6 +21,7 @@ export type ResolvedListAction<T> = {
   ariaLabel?: string
   icon?: ReactNode
   disabled?: boolean
+  hideButton?: boolean
   variant?: ActionVariant
   showLabel?: boolean
   onClick: (item: T) => void | Promise<void>
@@ -48,6 +49,7 @@ export const toStandardActionListDescriptor = <T>(
       descriptor.getPrimaryAction(item).label,
     icon: (item) => descriptor.getPrimaryAction(item).icon,
     disabled: (item) => descriptor.getPrimaryAction(item).disabled ?? false,
+    hideButton: (item) => descriptor.getPrimaryAction(item).hideButton ?? false,
     variant: (item) => descriptor.getPrimaryAction(item).variant ?? 'primary',
     showLabel: (item) => descriptor.getPrimaryAction(item).showLabel ?? true,
     onClick: (item) => descriptor.getPrimaryAction(item).onClick(item),

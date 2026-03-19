@@ -65,6 +65,7 @@ export type ActionConfig<T> = {
   icon?: ReactNode | ((item: T) => ReactNode)
   ariaLabel?: string | ((item: T) => string)
   disabled?: (item: T) => boolean
+  hideButton?: boolean | ((item: T) => boolean)
   variant?:
     | 'primary'
     | 'neutral'
@@ -223,6 +224,10 @@ const ActionCard = <T,>({
       }
 
   const starCount = getStarCount?.(item)
+  const hidePrimaryButton =
+    typeof primaryAction.hideButton === 'function'
+      ? primaryAction.hideButton(item)
+      : (primaryAction.hideButton ?? false)
 
   return (
     <div
@@ -247,37 +252,46 @@ const ActionCard = <T,>({
           {starCount !== undefined && <StarDisplay count={starCount} />}
 
           {/* Action Buttons - Horizontal row with spacing */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              justifyContent: hidePrimaryButton ? 'flex-end' : undefined,
+            }}
+          >
             {/* Primary Action - takes most space */}
-            <button
-              type="button"
-              onClick={() => primaryAction.onClick(item)}
-              disabled={primaryDisabled}
-              className="whimsical-btn flex-1 disabled:opacity-60"
-              aria-label={
-                resolveValue(
-                  primaryAction.ariaLabel ?? primaryAction.label,
-                  item
-                ) as string
-              }
-              style={{
-                ...actionBaseStyle,
-                ...getActionStyle(
-                  typeof primaryAction.variant === 'function'
-                    ? primaryAction.variant(item)
-                    : primaryAction.variant
-                ),
-                position: 'relative',
-                overflow: 'hidden',
-              }}
-            >
-              {resolveValue(primaryAction.icon ?? '⭐', item)}
-              {(typeof primaryAction.showLabel === 'function'
-                ? primaryAction.showLabel(item)
-                : primaryAction.showLabel) === false ? null : (
-                <span>{resolveValue(primaryAction.label, item)}</span>
-              )}
-            </button>
+            {!hidePrimaryButton && (
+              <button
+                type="button"
+                onClick={() => primaryAction.onClick(item)}
+                disabled={primaryDisabled}
+                className="whimsical-btn flex-1 disabled:opacity-60"
+                aria-label={
+                  resolveValue(
+                    primaryAction.ariaLabel ?? primaryAction.label,
+                    item
+                  ) as string
+                }
+                style={{
+                  ...actionBaseStyle,
+                  ...getActionStyle(
+                    typeof primaryAction.variant === 'function'
+                      ? primaryAction.variant(item)
+                      : primaryAction.variant
+                  ),
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
+              >
+                {resolveValue(primaryAction.icon ?? '⭐', item)}
+                {(typeof primaryAction.showLabel === 'function'
+                  ? primaryAction.showLabel(item)
+                  : primaryAction.showLabel) === false ? null : (
+                  <span>{resolveValue(primaryAction.label, item)}</span>
+                )}
+              </button>
+            )}
 
             {/* Edit Button - optional */}
             {!hideEdit && onEdit && (

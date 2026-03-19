@@ -1,8 +1,4 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
-import ArithmeticTester from '../components/ArithmeticTester'
-import AlphabetTester from '../components/AlphabetTester'
-import DinnerCountdown from '../components/DinnerCountdown'
-import PositionalNotation from '../components/PositionalNotation'
 import {
   princessActiveIcon,
   princessEatingFailImage,
@@ -12,7 +8,6 @@ import {
   princessMathsIcon,
   princessQuizIncorrectImage,
   princessPlateImage,
-  princessResetIcon,
 } from '../assets/themes/princess/assets'
 import type { Theme } from '../contexts/ThemeContext'
 import {
@@ -26,9 +21,23 @@ import {
 } from '../data/types'
 import { uiTokens } from './tokens'
 import type { ListRowDescriptor } from './listDescriptorTypes'
+import {
+  shouldHidePresetChoreTitle,
+  type ChoreStage,
+} from './choreModeDefinitions'
+import {
+  createPresetDinnerPrimaryAction,
+  createPresetTestPrimaryAction,
+  createPresetUtilityAction,
+} from './presetChoreActions'
+import {
+  renderAlphabetChore,
+  renderArithmeticChore,
+  renderDinnerChore,
+  renderPositionalNotationChore,
+} from './presetChoreRenderers'
 
 type ChoreUiKind = 'complexChore' | 'simpleChore' | 'configOnly'
-type ChoreStage = 'setup' | 'activity' | 'completed'
 
 type TodayTodoTypeUiDescriptor = {
   kind: ChoreUiKind
@@ -40,6 +49,7 @@ type TodayTodoTypeUiDescriptor = {
     ariaLabel?: string
     icon: ReactNode
     disabled?: boolean
+    hideButton?: boolean
     variant?: 'primary' | 'neutral' | 'danger'
     showLabel?: boolean
     onClick: (item: TodoRecord) => void | Promise<void>
@@ -102,42 +112,14 @@ type TodayTodoDescriptorDeps = {
   handleDeleteTodo: (todo: TodoRecord) => void | Promise<void>
 }
 
-const getResetUtilityAction = (
-  ariaLabel: string,
-  onClick: (todo: TodoRecord) => void | Promise<void>,
-  theme: Theme
-) => ({
-  label: 'Reset',
-  ariaLabel,
-  icon:
-    theme.id === 'princess' ? (
-      <img
-        src={princessResetIcon}
-        alt="Reset"
-        className="h-6 w-6 object-contain"
-      />
-    ) : undefined,
-  exits: false,
-  variant: 'neutral' as const,
-  onClick,
-})
-
-const getDeleteUtilityAction = (
-  ariaLabel: string,
-  onClick: (todo: TodoRecord) => void | Promise<void>
-) => ({
-  label: 'Delete',
-  ariaLabel,
-  exits: true,
-  variant: 'danger' as const,
-  onClick,
-})
-
 export const createTodayTodoListRowDescriptor = (
   deps: TodayTodoDescriptorDeps
 ): ListRowDescriptor<TodoRecord> => {
-  const isPVTodoInTask = (todo: PositionalNotationTodo) =>
-    deps.activePVTodoId === todo.id || Boolean(todo.completedAt)
+  const isPresetTodoInChoreMode = (todo: TodoRecord) =>
+    todo.sourceTaskType !== 'standard' &&
+    shouldHidePresetChoreTitle(
+      descriptorByType[todo.sourceTaskType].getStage(todo)
+    )
 
   const descriptorByType: Record<
     TodoRecord['sourceTaskType'],
@@ -181,91 +163,94 @@ export const createTodayTodoListRowDescriptor = (
       },
       renderItem: (todo) => {
         const eatingTodo = todo as EatingTodo
-        return deps.isDinnerTodoInActivity(eatingTodo) ? (
-          <DinnerCountdown
-            theme={deps.theme}
-            duration={deps.getDinnerDuration(eatingTodo)}
-            remaining={deps.getDinnerLiveRemaining(eatingTodo)}
-            totalBites={deps.getDinnerTotalBites(eatingTodo)}
-            bitesLeft={deps.getDinnerBitesLeft(eatingTodo)}
-            starReward={eatingTodo.starValue}
-            isTimerRunning={deps.isDinnerTodoRunning(eatingTodo)}
-            plateImage={
-              deps.theme.id === 'princess' ? princessPlateImage : undefined
-            }
-            onAdjustTime={() => undefined}
-            onAdjustBites={() => undefined}
-            onStarsChange={() => undefined}
-            isCompleted={Boolean(eatingTodo.completedAt)}
-            completionImage={
-              deps.theme.id === 'princess' ? princessEatingFullImage : undefined
-            }
-            failureImage={
-              deps.theme.id === 'princess' ? princessEatingFailImage : undefined
-            }
-            biteCooldownSeconds={deps.biteCooldownSeconds}
-            biteIcon={
-              deps.theme.id === 'princess'
-                ? deps.activePrincessMealIcon
-                : undefined
-            }
-            showSetupControls={false}
-            showStarReward={false}
-          />
-        ) : null
+        return deps.isDinnerTodoInActivity(eatingTodo) ||
+          Boolean(eatingTodo.completedAt)
+          ? renderDinnerChore({
+              theme: deps.theme,
+              duration: deps.getDinnerDuration(eatingTodo),
+              remaining: deps.getDinnerLiveRemaining(eatingTodo),
+              totalBites: deps.getDinnerTotalBites(eatingTodo),
+              bitesLeft: deps.getDinnerBitesLeft(eatingTodo),
+              starReward: eatingTodo.starValue,
+              isTimerRunning: deps.isDinnerTodoRunning(eatingTodo),
+              plateImage:
+                deps.theme.id === 'princess' ? princessPlateImage : undefined,
+              onAdjustTime: () => undefined,
+              onAdjustBites: () => undefined,
+              onStarsChange: () => undefined,
+              isCompleted: Boolean(eatingTodo.completedAt),
+              completionImage:
+                deps.theme.id === 'princess'
+                  ? princessEatingFullImage
+                  : undefined,
+              failureImage:
+                deps.theme.id === 'princess'
+                  ? princessEatingFailImage
+                  : undefined,
+              biteCooldownSeconds: deps.biteCooldownSeconds,
+              biteIcon:
+                deps.theme.id === 'princess'
+                  ? deps.activePrincessMealIcon
+                  : undefined,
+              showSetupControls: false,
+              showStarReward: false,
+            })
+          : null
       },
       getStarCount: (todo) =>
-        deps.isDinnerTodoInActivity(todo as EatingTodo)
-          ? undefined
-          : todo.starValue,
+        isPresetTodoInChoreMode(todo) ? undefined : todo.starValue,
       getPrimaryAction: (todo) => {
         const eatingTodo = todo as EatingTodo
-        const icon =
-          deps.theme.id === 'princess' ? (
-            <img
-              src={deps.activePrincessMealIcon}
-              alt={deps.isDinnerTodoRunning(eatingTodo) ? 'Bite' : 'Start'}
-              className="h-6 w-6 object-contain"
-            />
-          ) : (
-            <span role="img" aria-label="Eating task">
-              🍽️
-            </span>
-          )
-        return {
-          label: 'Open chore',
+        const isFinished = Boolean(eatingTodo.completedAt)
+        const stage = descriptorByType.eating.getStage(todo)
+        const icon = isFinished ? (
+          <img
+            src={princessPlateImage}
+            alt="Play again"
+            className="h-6 w-6 object-contain"
+          />
+        ) : deps.theme.id === 'princess' ? (
+          <img
+            src={deps.activePrincessMealIcon}
+            alt={deps.isDinnerTodoRunning(eatingTodo) ? 'Bite' : 'Start'}
+            className="h-6 w-6 object-contain"
+          />
+        ) : (
+          <span role="img" aria-label="Eating task">
+            🍽️
+          </span>
+        )
+        return createPresetDinnerPrimaryAction({
+          stage,
+          isTimerRunning: deps.isDinnerTodoRunning(eatingTodo),
           icon,
           disabled:
-            Boolean(eatingTodo.completedAt) ||
             deps.pendingTodoId === eatingTodo.id ||
             (deps.isDinnerTodoRunning(eatingTodo) &&
               deps.biteCooldownSeconds > 0),
-          variant: 'primary',
-          showLabel: false,
-          onClick: (item) => {
+          onReset: (item) => deps.handleDinnerReset(item as EatingTodo),
+          onBite: (item) => {
+            deps.handleDinnerBite(item as EatingTodo)
+          },
+          onStart: (item) => {
             const currentTodo = item as EatingTodo
             deps.setActiveMathTodoId(null)
             deps.setActivePVTodoId(null)
-            if (deps.isDinnerTodoRunning(currentTodo)) {
-              deps.handleDinnerBite(currentTodo)
-              return
-            }
             deps.dinnerStartTimer(currentTodo)
             deps.startDinnerActivity(currentTodo.id)
           },
-        }
+        })
       },
       getUtilityAction: (todo) => {
-        const eatingTodo = todo as EatingTodo
-        return deps.isDinnerTodoInActivity(eatingTodo)
-          ? getResetUtilityAction(
-              'Reset dinner todo',
-              (item) => deps.handleDinnerReset(item as EatingTodo),
-              deps.theme
-            )
-          : getDeleteUtilityAction('Delete todo', (item) =>
-              deps.handleDeleteTodo(item)
-            )
+        const stage = descriptorByType.eating.getStage(todo)
+        return createPresetUtilityAction({
+          stage,
+          resetAriaLabel: 'Reset dinner todo',
+          deleteAriaLabel: 'Delete todo',
+          onReset: (item) => deps.handleDinnerReset(item as EatingTodo),
+          onDelete: (item) => deps.handleDeleteTodo(item),
+          theme: deps.theme,
+        })
       },
     },
     math: {
@@ -278,47 +263,39 @@ export const createTodayTodoListRowDescriptor = (
       renderItem: (todo) => {
         const mathTodo = todo as MathTodo
         return deps.activeMathTodoId === mathTodo.id ||
-          Boolean(mathTodo.completedAt) ? (
-          <ArithmeticTester
-            theme={deps.theme}
-            totalProblems={deps.getMathTotalProblems(mathTodo)}
-            starReward={mathTodo.starValue}
-            difficulty={deps.getMathDifficulty(mathTodo)}
-            isRunning={deps.activeMathTodoId === mathTodo.id}
-            isCompleted={Boolean(mathTodo.completedAt)}
-            isFailed={mathTodo.mathLastOutcome === 'failure'}
-            onAdjustProblems={() => undefined}
-            onStarsChange={() => undefined}
-            onComplete={() => deps.handleMathComplete(mathTodo)}
-            onFail={() => deps.handleMathFail(mathTodo)}
-            checkTrigger={deps.mathCheckTriggerByTodo[mathTodo.id] ?? 0}
-            completionImage={
-              deps.theme.id === 'princess'
-                ? princessQuizCorrectImage
-                : undefined
-            }
-            failureImage={
-              deps.theme.id === 'princess'
-                ? princessQuizIncorrectImage
-                : undefined
-            }
-          />
-        ) : null
+          Boolean(mathTodo.completedAt)
+          ? renderArithmeticChore({
+              theme: deps.theme,
+              totalProblems: deps.getMathTotalProblems(mathTodo),
+              starReward: mathTodo.starValue,
+              difficulty: deps.getMathDifficulty(mathTodo),
+              isRunning: deps.activeMathTodoId === mathTodo.id,
+              isCompleted: Boolean(mathTodo.completedAt),
+              isFailed: mathTodo.mathLastOutcome === 'failure',
+              onAdjustProblems: () => undefined,
+              onStarsChange: () => undefined,
+              onComplete: () => deps.handleMathComplete(mathTodo),
+              onFail: () => deps.handleMathFail(mathTodo),
+              checkTrigger: deps.mathCheckTriggerByTodo[mathTodo.id] ?? 0,
+              completionImage:
+                deps.theme.id === 'princess'
+                  ? princessQuizCorrectImage
+                  : undefined,
+              failureImage:
+                deps.theme.id === 'princess'
+                  ? princessQuizIncorrectImage
+                  : undefined,
+            })
+          : null
       },
-      getStarCount: (todo) => {
-        const pvTodo = todo as PositionalNotationTodo
-        return isPVTodoInTask(pvTodo) ? undefined : pvTodo.starValue
-      },
+      getStarCount: (todo) =>
+        isPresetTodoInChoreMode(todo) ? undefined : todo.starValue,
       getPrimaryAction: (todo) => {
-        const mathTodo = todo as MathTodo
+        const stage = descriptorByType.math.getStage(todo)
         const icon =
           deps.theme.id === 'princess' ? (
             <img
-              src={
-                deps.theme.id === 'princess'
-                  ? princessMathsIcon
-                  : princessGiveStarIcon
-              }
+              src={stage === 'setup' ? princessGiveStarIcon : princessMathsIcon}
               alt="Math task"
               className="h-6 w-6 object-contain"
             />
@@ -327,41 +304,39 @@ export const createTodayTodoListRowDescriptor = (
               🔢
             </span>
           )
-        return {
-          label: 'Open chore',
+        return createPresetTestPrimaryAction({
+          choreType: 'math',
+          stage,
           icon,
-          disabled: Boolean(mathTodo.completedAt),
-          variant: 'primary',
-          showLabel: false,
-          onClick: (item) => {
+          onReset: (item) => deps.handleMathReset(item as MathTodo),
+          onCheck: (item) => {
             const currentTodo = item as MathTodo
-            if (deps.activeDinnerTodoId)
-              deps.clearDinnerTodoState(deps.activeDinnerTodoId)
-            deps.setActivePVTodoId(null)
             if (deps.activeMathTodoId === currentTodo.id) {
               deps.setMathCheckTriggerByTodo((prev) => ({
                 ...prev,
                 [currentTodo.id]: (prev[currentTodo.id] ?? 0) + 1,
               }))
-              return
             }
+          },
+          onStart: (item) => {
+            const currentTodo = item as MathTodo
+            if (deps.activeDinnerTodoId)
+              deps.clearDinnerTodoState(deps.activeDinnerTodoId)
+            deps.setActivePVTodoId(null)
             deps.setActiveMathTodoId(currentTodo.id)
           },
-        }
+        })
       },
       getUtilityAction: (todo) => {
-        const mathTodo = todo as MathTodo
-        const inActivity =
-          deps.activeMathTodoId === mathTodo.id || Boolean(mathTodo.completedAt)
-        return inActivity
-          ? getResetUtilityAction(
-              'Reset arithmetic todo',
-              (item) => deps.handleMathReset(item as MathTodo),
-              deps.theme
-            )
-          : getDeleteUtilityAction('Delete todo', (item) =>
-              deps.handleDeleteTodo(item)
-            )
+        const stage = descriptorByType.math.getStage(todo)
+        return createPresetUtilityAction({
+          stage,
+          resetAriaLabel: 'Reset arithmetic todo',
+          deleteAriaLabel: 'Delete todo',
+          onReset: (item) => deps.handleMathReset(item as MathTodo),
+          onDelete: (item) => deps.handleDeleteTodo(item),
+          theme: deps.theme,
+        })
       },
     },
     'positional-notation': {
@@ -373,43 +348,39 @@ export const createTodayTodoListRowDescriptor = (
       },
       renderItem: (todo) => {
         const pvTodo = todo as PositionalNotationTodo
-        return deps.activePVTodoId === pvTodo.id ||
-          Boolean(pvTodo.completedAt) ? (
-          <PositionalNotation
-            theme={deps.theme}
-            totalProblems={deps.getPVTotalProblems(pvTodo)}
-            starReward={pvTodo.starValue}
-            isRunning={deps.activePVTodoId === pvTodo.id}
-            isCompleted={Boolean(pvTodo.completedAt)}
-            isFailed={pvTodo.pvLastOutcome === 'failure'}
-            onAdjustProblems={() => undefined}
-            onStarsChange={() => undefined}
-            onComplete={() => deps.handlePVComplete(pvTodo)}
-            onFail={() => deps.handlePVFail(pvTodo)}
-            checkTrigger={deps.pvCheckTriggerByTodo[pvTodo.id] ?? 0}
-            completionImage={
-              deps.theme.id === 'princess'
-                ? princessQuizCorrectImage
-                : undefined
-            }
-            failureImage={
-              deps.theme.id === 'princess'
-                ? princessQuizIncorrectImage
-                : undefined
-            }
-          />
-        ) : null
+        return deps.activePVTodoId === pvTodo.id || Boolean(pvTodo.completedAt)
+          ? renderPositionalNotationChore({
+              theme: deps.theme,
+              totalProblems: deps.getPVTotalProblems(pvTodo),
+              starReward: pvTodo.starValue,
+              isRunning: deps.activePVTodoId === pvTodo.id,
+              isCompleted: Boolean(pvTodo.completedAt),
+              isFailed: pvTodo.pvLastOutcome === 'failure',
+              onAdjustProblems: () => undefined,
+              onStarsChange: () => undefined,
+              onComplete: () => deps.handlePVComplete(pvTodo),
+              onFail: () => deps.handlePVFail(pvTodo),
+              checkTrigger: deps.pvCheckTriggerByTodo[pvTodo.id] ?? 0,
+              completionImage:
+                deps.theme.id === 'princess'
+                  ? princessQuizCorrectImage
+                  : undefined,
+              failureImage:
+                deps.theme.id === 'princess'
+                  ? princessQuizIncorrectImage
+                  : undefined,
+            })
+          : null
       },
       getStarCount: (todo) => {
-        const pvTodo = todo as PositionalNotationTodo
-        return isPVTodoInTask(pvTodo) ? undefined : pvTodo.starValue
+        return isPresetTodoInChoreMode(todo) ? undefined : todo.starValue
       },
       getPrimaryAction: (todo) => {
-        const pvTodo = todo as PositionalNotationTodo
+        const stage = descriptorByType['positional-notation'].getStage(todo)
         const icon =
           deps.theme.id === 'princess' ? (
             <img
-              src={princessMathsIcon}
+              src={stage === 'setup' ? princessGiveStarIcon : princessMathsIcon}
               alt="Math task"
               className="h-6 w-6 object-contain"
             />
@@ -418,41 +389,39 @@ export const createTodayTodoListRowDescriptor = (
               🔢
             </span>
           )
-        return {
-          label: 'Open chore',
+        return createPresetTestPrimaryAction({
+          choreType: 'positional-notation',
+          stage,
           icon,
-          disabled: Boolean(pvTodo.completedAt),
-          variant: 'primary',
-          showLabel: false,
-          onClick: (item) => {
+          onReset: (item) => deps.handlePVReset(item as PositionalNotationTodo),
+          onCheck: (item) => {
             const currentTodo = item as PositionalNotationTodo
-            if (deps.activeDinnerTodoId)
-              deps.clearDinnerTodoState(deps.activeDinnerTodoId)
-            deps.setActiveMathTodoId(null)
             if (deps.activePVTodoId === currentTodo.id) {
               deps.setPVCheckTriggerByTodo((prev) => ({
                 ...prev,
                 [currentTodo.id]: (prev[currentTodo.id] ?? 0) + 1,
               }))
-              return
             }
+          },
+          onStart: (item) => {
+            const currentTodo = item as PositionalNotationTodo
+            if (deps.activeDinnerTodoId)
+              deps.clearDinnerTodoState(deps.activeDinnerTodoId)
+            deps.setActiveMathTodoId(null)
             deps.setActivePVTodoId(currentTodo.id)
           },
-        }
+        })
       },
       getUtilityAction: (todo) => {
-        const pvTodo = todo as PositionalNotationTodo
-        const inActivity =
-          deps.activePVTodoId === pvTodo.id || Boolean(pvTodo.completedAt)
-        return inActivity
-          ? getResetUtilityAction(
-              'Reset positional notation todo',
-              (item) => deps.handlePVReset(item as PositionalNotationTodo),
-              deps.theme
-            )
-          : getDeleteUtilityAction('Delete todo', (item) =>
-              deps.handleDeleteTodo(item)
-            )
+        const stage = descriptorByType['positional-notation'].getStage(todo)
+        return createPresetUtilityAction({
+          stage,
+          resetAriaLabel: 'Reset positional notation todo',
+          deleteAriaLabel: 'Delete todo',
+          onReset: (item) => deps.handlePVReset(item as PositionalNotationTodo),
+          onDelete: (item) => deps.handleDeleteTodo(item),
+          theme: deps.theme,
+        })
       },
     },
     alphabet: {
@@ -466,89 +435,79 @@ export const createTodayTodoListRowDescriptor = (
       },
       renderItem: (todo) => {
         const alphabetTodo = todo as AlphabetTodo
-        return (
-          <AlphabetTester
-            theme={deps.theme}
-            totalProblems={
-              deps.getAlphabetTotalProblems(alphabetTodo) ??
-              DEFAULT_ALPHABET_PROBLEMS
-            }
-            starReward={alphabetTodo.starValue}
-            isRunning={deps.activeAlphabetTodoId === alphabetTodo.id}
-            isCompleted={Boolean(alphabetTodo.completedAt)}
-            isFailed={alphabetTodo.alphabetLastOutcome === 'failure'}
-            onAdjustProblems={() => undefined}
-            onStarsChange={() => undefined}
-            onComplete={() => deps.handleAlphabetComplete(alphabetTodo)}
-            onFail={() => deps.handleAlphabetFail(alphabetTodo)}
-            checkTrigger={deps.alphabetCheckTriggerByTodo[alphabetTodo.id] ?? 0}
-            completionImage={
-              deps.theme.id === 'princess'
-                ? princessQuizCorrectImage
-                : undefined
-            }
-            failureImage={
-              deps.theme.id === 'princess'
-                ? princessQuizIncorrectImage
-                : undefined
-            }
-          />
-        )
+        return deps.activeAlphabetTodoId === alphabetTodo.id ||
+          Boolean(alphabetTodo.completedAt)
+          ? renderAlphabetChore({
+              theme: deps.theme,
+              totalProblems:
+                deps.getAlphabetTotalProblems(alphabetTodo) ??
+                DEFAULT_ALPHABET_PROBLEMS,
+              starReward: alphabetTodo.starValue,
+              isRunning: deps.activeAlphabetTodoId === alphabetTodo.id,
+              isCompleted: Boolean(alphabetTodo.completedAt),
+              isFailed: alphabetTodo.alphabetLastOutcome === 'failure',
+              onAdjustProblems: () => undefined,
+              onStarsChange: () => undefined,
+              onComplete: () => deps.handleAlphabetComplete(alphabetTodo),
+              onFail: () => deps.handleAlphabetFail(alphabetTodo),
+              checkTrigger:
+                deps.alphabetCheckTriggerByTodo[alphabetTodo.id] ?? 0,
+              completionImage:
+                deps.theme.id === 'princess'
+                  ? princessQuizCorrectImage
+                  : undefined,
+              failureImage:
+                deps.theme.id === 'princess'
+                  ? princessQuizIncorrectImage
+                  : undefined,
+            })
+          : null
       },
+      getStarCount: (todo) =>
+        isPresetTodoInChoreMode(todo) ? undefined : todo.starValue,
       getPrimaryAction: (todo) => {
-        const alphabetTodo = todo as AlphabetTodo
-        const isFinished = Boolean(alphabetTodo.completedAt)
-        const isRunning =
-          deps.activeAlphabetTodoId === alphabetTodo.id && !isFinished
-        return {
-          label: isFinished ? 'Again 🔁' : isRunning ? 'Check Answer' : 'Start',
+        const stage = descriptorByType.alphabet.getStage(todo)
+        return createPresetTestPrimaryAction({
+          choreType: 'alphabet',
+          stage,
           icon: (
             <img
-              src={
-                isRunning
-                  ? princessMathsIcon
-                  : isFinished
-                    ? princessMathsIcon
-                    : princessGiveStarIcon
-              }
+              src={stage === 'setup' ? princessGiveStarIcon : princessMathsIcon}
               alt={
-                isFinished ? 'Play again' : isRunning ? 'Check answer' : 'Start'
+                stage === 'completed'
+                  ? 'Play again'
+                  : stage === 'activity'
+                    ? 'Check answer'
+                    : 'Start'
               }
               className="h-6 w-6 object-contain"
             />
           ),
-          variant: 'primary',
-          showLabel: false,
-          onClick: (item) => {
+          onReset: (item) => deps.handleAlphabetReset(item as AlphabetTodo),
+          onCheck: (item) => {
             const currentTodo = item as AlphabetTodo
-            if (currentTodo.completedAt) {
-              return deps.handleAlphabetReset(currentTodo)
-            }
             if (deps.activeAlphabetTodoId === currentTodo.id) {
               deps.setAlphabetCheckTriggerByTodo((prev) => ({
                 ...prev,
                 [currentTodo.id]: (prev[currentTodo.id] ?? 0) + 1,
               }))
-              return
             }
-            deps.setActiveAlphabetTodoId(currentTodo.id)
           },
-        }
+          onStart: (item) => {
+            deps.setActiveAlphabetTodoId((item as AlphabetTodo).id)
+          },
+        })
       },
       getUtilityAction: (todo) => {
-        const alphabetTodo = todo as AlphabetTodo
-        const inActivity =
-          deps.activeAlphabetTodoId === alphabetTodo.id ||
-          Boolean(alphabetTodo.completedAt)
-        return inActivity
-          ? getResetUtilityAction(
-              'Reset alphabet todo',
-              (item) => deps.handleAlphabetReset(item as AlphabetTodo),
-              deps.theme
-            )
-          : getDeleteUtilityAction('Delete todo', (item) =>
-              deps.handleDeleteTodo(item)
-            )
+        const stage = descriptorByType.alphabet.getStage(todo)
+        return createPresetUtilityAction({
+          stage,
+          resetAriaLabel: 'Reset alphabet todo',
+          deleteAriaLabel: 'Delete todo',
+          onReset: (item) => deps.handleAlphabetReset(item as AlphabetTodo),
+          onDelete: (item) => deps.handleDeleteTodo(item),
+          theme: deps.theme,
+        })
       },
     },
   }
@@ -560,7 +519,8 @@ export const createTodayTodoListRowDescriptor = (
     renderItem: (todo) => {
       const descriptor = getDescriptor(todo)
       const stage = descriptor.getStage(todo)
-      const hideTitle = stage === 'activity'
+      const hideTitle =
+        todo.sourceTaskType !== 'standard' && shouldHidePresetChoreTitle(stage)
 
       return (
         <div

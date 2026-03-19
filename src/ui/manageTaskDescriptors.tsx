@@ -1,9 +1,5 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import ActionTextInput from '../components/ActionTextInput'
-import ArithmeticTester from '../components/ArithmeticTester'
-import AlphabetTester from '../components/AlphabetTester'
-import DinnerCountdown from '../components/DinnerCountdown'
-import PositionalNotation from '../components/PositionalNotation'
 import RepeatControl from '../components/RepeatControl'
 import StarDisplay from '../components/StarDisplay'
 import {
@@ -16,7 +12,6 @@ import {
   princessMathsIcon,
   princessQuizIncorrectImage,
   princessPlateImage,
-  princessResetIcon,
 } from '../assets/themes/princess/assets'
 import {
   DEFAULT_DINNER_BITES,
@@ -37,9 +32,24 @@ import {
 import type { Theme } from '../contexts/ThemeContext'
 import { uiTokens } from './tokens'
 import type { ListRowDescriptor } from './listDescriptorTypes'
+import {
+  shouldHidePresetChoreTitle,
+  type ChoreStage,
+} from './choreModeDefinitions'
+import {
+  createDeleteUtilityAction,
+  createPresetDinnerPrimaryAction,
+  createPresetTestPrimaryAction,
+  createPresetUtilityAction,
+} from './presetChoreActions'
+import {
+  renderAlphabetChore,
+  renderArithmeticChore,
+  renderDinnerChore,
+  renderPositionalNotationChore,
+} from './presetChoreRenderers'
 
 type ChoreUiKind = 'configOnly' | 'complexChore' | 'simpleChore'
-type ChoreStage = 'setup' | 'activity' | 'completed'
 
 type ManageTaskTypeUiDescriptor = {
   kind: ChoreUiKind
@@ -51,6 +61,7 @@ type ManageTaskTypeUiDescriptor = {
     ariaLabel?: string
     icon: ReactNode
     disabled?: boolean
+    hideButton?: boolean
     variant?: 'primary' | 'neutral' | 'danger'
     showLabel?: boolean
     onClick: (item: TaskWithEphemeral) => void | Promise<void>
@@ -117,37 +128,6 @@ type ManageTaskDescriptorDeps = {
   isAwarding: boolean
   activeChildId: string | null
 }
-
-const getResetUtilityAction = (
-  ariaLabel: string,
-  onClick: (task: TaskWithEphemeral) => void | Promise<void>,
-  theme: Theme
-) => ({
-  label: 'Reset',
-  ariaLabel,
-  icon:
-    theme.id === 'princess' ? (
-      <img
-        src={princessResetIcon}
-        alt="Reset"
-        className="h-6 w-6 object-contain"
-      />
-    ) : undefined,
-  exits: false,
-  variant: 'neutral' as const,
-  onClick,
-})
-
-const getDeleteUtilityAction = (
-  ariaLabel: string,
-  onClick: (task: TaskWithEphemeral) => void | Promise<void>
-) => ({
-  label: 'Delete',
-  ariaLabel,
-  exits: true,
-  variant: 'danger' as const,
-  onClick,
-})
 
 export const createManageTaskListRowDescriptor = (
   deps: ManageTaskDescriptorDeps
@@ -236,7 +216,7 @@ export const createManageTaskListRowDescriptor = (
         }
       },
       getUtilityAction: () =>
-        getDeleteUtilityAction('Delete chore', (item) =>
+        createDeleteUtilityAction('Delete chore', (item) =>
           deps.handleDelete(item.id)
         ),
     },
@@ -250,7 +230,7 @@ export const createManageTaskListRowDescriptor = (
       renderItem: (task) => {
         const eatingTask = task as EatingTaskWithEphemeral
         const stage = descriptorByType.eating.getStage(task)
-        const hideTitle = stage === 'activity'
+        const hideTitle = shouldHidePresetChoreTitle(stage)
 
         return (
           <div
@@ -270,21 +250,19 @@ export const createManageTaskListRowDescriptor = (
               </div>
             )}
 
-            <DinnerCountdown
-              theme={deps.theme}
-              duration={
+            {renderDinnerChore({
+              theme: deps.theme,
+              duration:
                 eatingTask.dinnerDurationSeconds ??
-                DEFAULT_DINNER_DURATION_SECONDS
-              }
-              remaining={getManageDinnerLiveRemaining(eatingTask)}
-              totalBites={eatingTask.dinnerTotalBites ?? DEFAULT_DINNER_BITES}
-              bitesLeft={getManageDinnerBitesLeft(eatingTask)}
-              starReward={eatingTask.starValue}
-              isTimerRunning={deps.isDinnerTaskRunning(eatingTask)}
-              plateImage={
-                deps.theme.id === 'princess' ? princessPlateImage : undefined
-              }
-              onAdjustTime={(delta) => {
+                DEFAULT_DINNER_DURATION_SECONDS,
+              remaining: getManageDinnerLiveRemaining(eatingTask),
+              totalBites: eatingTask.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
+              bitesLeft: getManageDinnerBitesLeft(eatingTask),
+              starReward: eatingTask.starValue,
+              isTimerRunning: deps.isDinnerTaskRunning(eatingTask),
+              plateImage:
+                deps.theme.id === 'princess' ? princessPlateImage : undefined,
+              onAdjustTime: (delta) => {
                 const cur =
                   eatingTask.dinnerDurationSeconds ??
                   DEFAULT_DINNER_DURATION_SECONDS
@@ -295,49 +273,42 @@ export const createManageTaskListRowDescriptor = (
                 deps.updateEphemeral(eatingTask.id, {
                   manageDinnerRemainingSeconds: next,
                 })
-              }}
-              onAdjustBites={(delta) => {
+              },
+              onAdjustBites: (delta) => {
                 const cur = eatingTask.dinnerTotalBites ?? DEFAULT_DINNER_BITES
                 const next = Math.max(1, Math.min(16, cur + delta))
                 deps.updateTaskField(eatingTask.id, { dinnerTotalBites: next })
                 deps.updateEphemeral(eatingTask.id, {
                   manageDinnerBitesLeft: next,
                 })
-              }}
-              onStarsChange={(value) =>
-                deps.updateTaskField(eatingTask.id, { starValue: value })
-              }
-              isCompleted={Boolean(eatingTask.manageDinnerCompletedAt)}
-              completionImage={
+              },
+              onStarsChange: (value) =>
+                deps.updateTaskField(eatingTask.id, { starValue: value }),
+              isCompleted: Boolean(eatingTask.manageDinnerCompletedAt),
+              completionImage:
                 deps.theme.id === 'princess'
                   ? princessEatingFullImage
-                  : undefined
-              }
-              failureImage={
+                  : undefined,
+              failureImage:
                 deps.theme.id === 'princess'
                   ? princessEatingFailImage
-                  : undefined
-              }
-              biteCooldownSeconds={deps.biteCooldownSeconds}
-              biteIcon={
+                  : undefined,
+              biteCooldownSeconds: deps.biteCooldownSeconds,
+              biteIcon:
                 deps.theme.id === 'princess'
                   ? deps.activePrincessCooldownIcon
-                  : undefined
-              }
-              onBiteIconClick={
+                  : undefined,
+              onBiteIconClick:
                 deps.theme.id === 'princess'
                   ? deps.handleCycleCooldownTestIcon
-                  : undefined
-              }
-              showSetupControls={
+                  : undefined,
+              showSetupControls:
                 !deps.isDinnerTaskRunning(eatingTask) &&
-                !eatingTask.manageDinnerCompletedAt
-              }
-              showStarReward={
+                !eatingTask.manageDinnerCompletedAt,
+              showStarReward:
                 !deps.isDinnerTaskRunning(eatingTask) &&
-                !eatingTask.manageDinnerCompletedAt
-              }
-            />
+                !eatingTask.manageDinnerCompletedAt,
+            })}
 
             {!deps.isDinnerTaskRunning(eatingTask) &&
             !eatingTask.manageDinnerCompletedAt
@@ -348,13 +319,11 @@ export const createManageTaskListRowDescriptor = (
       },
       getPrimaryAction: (task) => {
         const eatingTask = task as EatingTaskWithEphemeral
-        const isFinished = Boolean(eatingTask.manageDinnerCompletedAt)
-        return {
-          label: isFinished
-            ? 'Again 🔁'
-            : deps.isDinnerTaskRunning(eatingTask)
-              ? 'Bite'
-              : 'Start',
+        const stage = descriptorByType.eating.getStage(task)
+        const isFinished = stage === 'completed'
+        return createPresetDinnerPrimaryAction({
+          stage,
+          isTimerRunning: deps.isDinnerTaskRunning(eatingTask),
           icon: !isFinished ? (
             <img
               src={
@@ -375,36 +344,29 @@ export const createManageTaskListRowDescriptor = (
           disabled:
             deps.isDinnerTaskRunning(eatingTask) &&
             deps.biteCooldownSeconds > 0,
-          variant: 'primary',
-          showLabel: false,
-          onClick: (item) => {
+          onReset: (item) =>
+            deps.handleDinnerReset(item as EatingTaskWithEphemeral),
+          onBite: (item) => {
+            deps.handleDinnerBite(item as EatingTaskWithEphemeral)
+          },
+          onStart: (item) => {
             const currentTask = item as EatingTaskWithEphemeral
-            if (currentTask.manageDinnerCompletedAt) {
-              return deps.handleDinnerReset(currentTask)
-            }
-            if (deps.isDinnerTaskRunning(currentTask)) {
-              deps.handleDinnerBite(currentTask)
-              return
-            }
             deps.dinnerStartTimer(currentTask)
             deps.startDinnerActivity(currentTask.id)
           },
-        }
+        })
       },
       getUtilityAction: (task) => {
-        const eatingTask = task as EatingTaskWithEphemeral
-        const inActivity =
-          deps.isDinnerTaskRunning(eatingTask) ||
-          Boolean(eatingTask.manageDinnerCompletedAt)
-        return inActivity
-          ? getResetUtilityAction(
-              'Reset dinner chore',
-              (item) => deps.handleDinnerReset(item as EatingTaskWithEphemeral),
-              deps.theme
-            )
-          : getDeleteUtilityAction('Delete chore', (item) =>
-              deps.handleDelete(item.id)
-            )
+        const stage = descriptorByType.eating.getStage(task)
+        return createPresetUtilityAction({
+          stage,
+          resetAriaLabel: 'Reset dinner chore',
+          deleteAriaLabel: 'Delete chore',
+          onReset: (item) =>
+            deps.handleDinnerReset(item as EatingTaskWithEphemeral),
+          onDelete: (item) => deps.handleDelete(item.id),
+          theme: deps.theme,
+        })
       },
     },
     math: {
@@ -417,7 +379,7 @@ export const createManageTaskListRowDescriptor = (
       renderItem: (task) => {
         const mathTask = task as MathTaskWithEphemeral
         const stage = descriptorByType.math.getStage(task)
-        const hideInput = stage === 'activity'
+        const hideInput = stage !== 'setup'
 
         return (
           <div
@@ -438,43 +400,38 @@ export const createManageTaskListRowDescriptor = (
               />
             )}
 
-            <ArithmeticTester
-              theme={deps.theme}
-              totalProblems={
-                mathTask.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
-              }
-              starReward={mathTask.starValue}
-              difficulty={mathTask.mathDifficulty ?? 'easy'}
-              isRunning={deps.activeMathTaskId === mathTask.id}
-              isCompleted={Boolean(mathTask.manageMathCompletedAt)}
-              isFailed={mathTask.manageMathLastOutcome === 'failure'}
-              onAdjustProblems={(delta) => {
+            {renderArithmeticChore({
+              theme: deps.theme,
+              totalProblems:
+                mathTask.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+              starReward: mathTask.starValue,
+              difficulty: mathTask.mathDifficulty ?? 'easy',
+              isRunning: deps.activeMathTaskId === mathTask.id,
+              isCompleted: Boolean(mathTask.manageMathCompletedAt),
+              isFailed: mathTask.manageMathLastOutcome === 'failure',
+              onAdjustProblems: (delta) => {
                 const cur = mathTask.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
                 const next = Math.max(1, Math.min(10, cur + delta))
                 deps.updateTaskField(mathTask.id, { mathTotalProblems: next })
-              }}
-              onStarsChange={(value) =>
-                deps.updateTaskField(mathTask.id, { starValue: value })
-              }
-              onDifficultyChange={(difficulty) =>
+              },
+              onStarsChange: (value) =>
+                deps.updateTaskField(mathTask.id, { starValue: value }),
+              onDifficultyChange: (difficulty) =>
                 deps.updateTaskField(mathTask.id, {
                   mathDifficulty: difficulty,
-                })
-              }
-              onComplete={() => deps.handleMathComplete(mathTask)}
-              onFail={() => deps.handleMathFail(mathTask)}
-              checkTrigger={deps.mathCheckTriggerByTask[mathTask.id] ?? 0}
-              completionImage={
+                }),
+              onComplete: () => deps.handleMathComplete(mathTask),
+              onFail: () => deps.handleMathFail(mathTask),
+              checkTrigger: deps.mathCheckTriggerByTask[mathTask.id] ?? 0,
+              completionImage:
                 deps.theme.id === 'princess'
                   ? princessQuizCorrectImage
-                  : undefined
-              }
-              failureImage={
+                  : undefined,
+              failureImage:
                 deps.theme.id === 'princess'
                   ? princessQuizIncorrectImage
-                  : undefined
-              }
-            />
+                  : undefined,
+            })}
 
             {!mathTask.manageMathCompletedAt &&
             deps.activeMathTaskId !== mathTask.id
@@ -484,58 +441,50 @@ export const createManageTaskListRowDescriptor = (
         )
       },
       getPrimaryAction: (task) => {
-        const mathTask = task as MathTaskWithEphemeral
-        const isFinished = Boolean(mathTask.manageMathCompletedAt)
-        const isRunning = deps.activeMathTaskId === mathTask.id && !isFinished
-        return {
-          label: isFinished ? 'Again 🔁' : isRunning ? 'Check Answer' : 'Start',
+        const stage = descriptorByType.math.getStage(task)
+        return createPresetTestPrimaryAction({
+          choreType: 'math',
+          stage,
           icon: (
             <img
-              src={
-                isRunning
-                  ? princessMathsIcon
-                  : isFinished
-                    ? princessMathsIcon
-                    : princessGiveStarIcon
-              }
+              src={stage === 'setup' ? princessGiveStarIcon : princessMathsIcon}
               alt={
-                isFinished ? 'Play again' : isRunning ? 'Check answer' : 'Start'
+                stage === 'completed'
+                  ? 'Play again'
+                  : stage === 'activity'
+                    ? 'Check answer'
+                    : 'Start'
               }
               className="h-6 w-6 object-contain"
             />
           ),
-          variant: 'primary',
-          showLabel: false,
-          onClick: (item) => {
+          onReset: (item) =>
+            deps.handleMathReset(item as MathTaskWithEphemeral),
+          onCheck: (item) => {
             const currentTask = item as MathTaskWithEphemeral
-            if (currentTask.manageMathCompletedAt) {
-              return deps.handleMathReset(currentTask)
-            }
             if (deps.activeMathTaskId === currentTask.id) {
               deps.setMathCheckTriggerByTask((prev) => ({
                 ...prev,
                 [currentTask.id]: (prev[currentTask.id] ?? 0) + 1,
               }))
-              return
             }
-            deps.setActiveMathTaskId(currentTask.id)
           },
-        }
+          onStart: (item) => {
+            deps.setActiveMathTaskId((item as MathTaskWithEphemeral).id)
+          },
+        })
       },
       getUtilityAction: (task) => {
-        const mathTask = task as MathTaskWithEphemeral
-        const inActivity =
-          deps.activeMathTaskId === mathTask.id ||
-          Boolean(mathTask.manageMathCompletedAt)
-        return inActivity
-          ? getResetUtilityAction(
-              'Reset arithmetic chore',
-              (item) => deps.handleMathReset(item as MathTaskWithEphemeral),
-              deps.theme
-            )
-          : getDeleteUtilityAction('Delete chore', (item) =>
-              deps.handleDelete(item.id)
-            )
+        const stage = descriptorByType.math.getStage(task)
+        return createPresetUtilityAction({
+          stage,
+          resetAriaLabel: 'Reset arithmetic chore',
+          deleteAriaLabel: 'Delete chore',
+          onReset: (item) =>
+            deps.handleMathReset(item as MathTaskWithEphemeral),
+          onDelete: (item) => deps.handleDelete(item.id),
+          theme: deps.theme,
+        })
       },
     },
     'positional-notation': {
@@ -548,7 +497,7 @@ export const createManageTaskListRowDescriptor = (
       renderItem: (task) => {
         const pvTask = task as PVTaskWithEphemeral
         const stage = descriptorByType['positional-notation'].getStage(task)
-        const hideInput = stage === 'activity'
+        const hideInput = stage !== 'setup'
 
         return (
           <div
@@ -569,35 +518,32 @@ export const createManageTaskListRowDescriptor = (
               />
             )}
 
-            <PositionalNotation
-              theme={deps.theme}
-              totalProblems={pvTask.pvTotalProblems ?? DEFAULT_PV_PROBLEMS}
-              starReward={pvTask.starValue}
-              isRunning={deps.activePVTaskId === pvTask.id}
-              isCompleted={Boolean(pvTask.managePVCompletedAt)}
-              isFailed={pvTask.managePVLastOutcome === 'failure'}
-              onAdjustProblems={(delta: number) => {
+            {renderPositionalNotationChore({
+              theme: deps.theme,
+              totalProblems: pvTask.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
+              starReward: pvTask.starValue,
+              isRunning: deps.activePVTaskId === pvTask.id,
+              isCompleted: Boolean(pvTask.managePVCompletedAt),
+              isFailed: pvTask.managePVLastOutcome === 'failure',
+              onAdjustProblems: (delta) => {
                 const cur = pvTask.pvTotalProblems ?? DEFAULT_PV_PROBLEMS
                 const next = Math.max(1, Math.min(10, cur + delta))
                 deps.updateTaskField(pvTask.id, { pvTotalProblems: next })
-              }}
-              onStarsChange={(value: number) =>
-                deps.updateTaskField(pvTask.id, { starValue: value })
-              }
-              onComplete={() => deps.handlePVComplete(pvTask)}
-              onFail={() => deps.handlePVFail(pvTask)}
-              checkTrigger={deps.pvCheckTriggerByTask[pvTask.id] ?? 0}
-              completionImage={
+              },
+              onStarsChange: (value) =>
+                deps.updateTaskField(pvTask.id, { starValue: value }),
+              onComplete: () => deps.handlePVComplete(pvTask),
+              onFail: () => deps.handlePVFail(pvTask),
+              checkTrigger: deps.pvCheckTriggerByTask[pvTask.id] ?? 0,
+              completionImage:
                 deps.theme.id === 'princess'
                   ? princessQuizCorrectImage
-                  : undefined
-              }
-              failureImage={
+                  : undefined,
+              failureImage:
                 deps.theme.id === 'princess'
                   ? princessQuizIncorrectImage
-                  : undefined
-              }
-            />
+                  : undefined,
+            })}
 
             {!pvTask.managePVCompletedAt && deps.activePVTaskId !== pvTask.id
               ? deps.renderDayTypeControl(pvTask)
@@ -606,58 +552,48 @@ export const createManageTaskListRowDescriptor = (
         )
       },
       getPrimaryAction: (task) => {
-        const pvTask = task as PVTaskWithEphemeral
-        const isFinished = Boolean(pvTask.managePVCompletedAt)
-        const isRunning = deps.activePVTaskId === pvTask.id && !isFinished
-        return {
-          label: isFinished ? 'Again 🔁' : isRunning ? 'Check Answer' : 'Start',
+        const stage = descriptorByType['positional-notation'].getStage(task)
+        return createPresetTestPrimaryAction({
+          choreType: 'positional-notation',
+          stage,
           icon: (
             <img
-              src={
-                isRunning
-                  ? princessMathsIcon
-                  : isFinished
-                    ? princessMathsIcon
-                    : princessGiveStarIcon
-              }
+              src={stage === 'setup' ? princessGiveStarIcon : princessMathsIcon}
               alt={
-                isFinished ? 'Play again' : isRunning ? 'Check answer' : 'Start'
+                stage === 'completed'
+                  ? 'Play again'
+                  : stage === 'activity'
+                    ? 'Check answer'
+                    : 'Start'
               }
               className="h-6 w-6 object-contain"
             />
           ),
-          variant: 'primary',
-          showLabel: false,
-          onClick: (item) => {
+          onReset: (item) => deps.handlePVReset(item as PVTaskWithEphemeral),
+          onCheck: (item) => {
             const currentTask = item as PVTaskWithEphemeral
-            if (currentTask.managePVCompletedAt) {
-              return deps.handlePVReset(currentTask)
-            }
             if (deps.activePVTaskId === currentTask.id) {
               deps.setPVCheckTriggerByTask((prev) => ({
                 ...prev,
                 [currentTask.id]: (prev[currentTask.id] ?? 0) + 1,
               }))
-              return
             }
-            deps.setActivePVTaskId(currentTask.id)
           },
-        }
+          onStart: (item) => {
+            deps.setActivePVTaskId((item as PVTaskWithEphemeral).id)
+          },
+        })
       },
       getUtilityAction: (task) => {
-        const pvTask = task as PVTaskWithEphemeral
-        const inActivity =
-          deps.activePVTaskId === pvTask.id ||
-          Boolean(pvTask.managePVCompletedAt)
-        return inActivity
-          ? getResetUtilityAction(
-              'Reset positional notation chore',
-              (item) => deps.handlePVReset(item as PVTaskWithEphemeral),
-              deps.theme
-            )
-          : getDeleteUtilityAction('Delete chore', (item) =>
-              deps.handleDelete(item.id)
-            )
+        const stage = descriptorByType['positional-notation'].getStage(task)
+        return createPresetUtilityAction({
+          stage,
+          resetAriaLabel: 'Reset positional notation chore',
+          deleteAriaLabel: 'Delete chore',
+          onReset: (item) => deps.handlePVReset(item as PVTaskWithEphemeral),
+          onDelete: (item) => deps.handleDelete(item.id),
+          theme: deps.theme,
+        })
       },
     },
     alphabet: {
@@ -671,22 +607,37 @@ export const createManageTaskListRowDescriptor = (
       },
       renderItem: (task) => {
         const alphabetTask = task as AlphabetTaskWithEphemeral
+        const stage = descriptorByType.alphabet.getStage(task)
+        const hideInput = stage !== 'setup'
 
         return (
           <div
             className="flex flex-col"
             style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
           >
-            <AlphabetTester
-              theme={deps.theme}
-              totalProblems={
-                alphabetTask.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS
-              }
-              starReward={alphabetTask.starValue}
-              isRunning={deps.activeAlphabetTaskId === alphabetTask.id}
-              isCompleted={Boolean(alphabetTask.manageAlphabetCompletedAt)}
-              isFailed={alphabetTask.manageAlphabetLastOutcome === 'failure'}
-              onAdjustProblems={(delta) => {
+            {!hideInput && (
+              <ActionTextInput
+                theme={deps.theme}
+                label="Chore Name"
+                value={deps.titleDrafts[alphabetTask.id] ?? alphabetTask.title}
+                onChange={(value) => deps.setTitleDraft(alphabetTask.id, value)}
+                onCommit={(value) => deps.commitTitle(alphabetTask.id, value)}
+                maxLength={80}
+                baseColor={deps.theme.colors.primary}
+                inputAriaLabel="Chore name"
+                transparent
+              />
+            )}
+
+            {renderAlphabetChore({
+              theme: deps.theme,
+              totalProblems:
+                alphabetTask.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
+              starReward: alphabetTask.starValue,
+              isRunning: deps.activeAlphabetTaskId === alphabetTask.id,
+              isCompleted: Boolean(alphabetTask.manageAlphabetCompletedAt),
+              isFailed: alphabetTask.manageAlphabetLastOutcome === 'failure',
+              onAdjustProblems: (delta) => {
                 const cur =
                   alphabetTask.alphabetTotalProblems ??
                   DEFAULT_ALPHABET_PROBLEMS
@@ -694,86 +645,70 @@ export const createManageTaskListRowDescriptor = (
                 deps.updateTaskField(alphabetTask.id, {
                   alphabetTotalProblems: next,
                 })
-              }}
-              onStarsChange={(value) =>
-                deps.updateTaskField(alphabetTask.id, { starValue: value })
-              }
-              onComplete={() => deps.handleAlphabetComplete(alphabetTask)}
-              onFail={() => deps.handleAlphabetFail(alphabetTask)}
-              completionImage={
+              },
+              onStarsChange: (value) =>
+                deps.updateTaskField(alphabetTask.id, { starValue: value }),
+              onComplete: () => deps.handleAlphabetComplete(alphabetTask),
+              onFail: () => deps.handleAlphabetFail(alphabetTask),
+              completionImage:
                 deps.theme.id === 'princess'
                   ? princessQuizCorrectImage
-                  : undefined
-              }
-              failureImage={
+                  : undefined,
+              failureImage:
                 deps.theme.id === 'princess'
                   ? princessQuizIncorrectImage
-                  : undefined
-              }
-            />
+                  : undefined,
+            })}
 
-            {!alphabetTask.manageAlphabetCompletedAt &&
-            deps.activeAlphabetTaskId !== alphabetTask.id
-              ? deps.renderDayTypeControl(alphabetTask)
-              : null}
+            {!hideInput ? deps.renderDayTypeControl(alphabetTask) : null}
           </div>
         )
       },
       getPrimaryAction: (task) => {
-        const alphabetTask = task as AlphabetTaskWithEphemeral
-        const isFinished = Boolean(alphabetTask.manageAlphabetCompletedAt)
-        const isRunning =
-          deps.activeAlphabetTaskId === alphabetTask.id && !isFinished
-        return {
-          label: isFinished ? 'Again 🔁' : isRunning ? 'Check Answer' : 'Start',
+        const stage = descriptorByType.alphabet.getStage(task)
+        return createPresetTestPrimaryAction({
+          choreType: 'alphabet',
+          stage,
           icon: (
             <img
-              src={
-                isRunning
-                  ? princessMathsIcon
-                  : isFinished
-                    ? princessMathsIcon
-                    : princessGiveStarIcon
-              }
+              src={stage === 'setup' ? princessGiveStarIcon : princessMathsIcon}
               alt={
-                isFinished ? 'Play again' : isRunning ? 'Check answer' : 'Start'
+                stage === 'completed'
+                  ? 'Play again'
+                  : stage === 'activity'
+                    ? 'Check answer'
+                    : 'Start'
               }
               className="h-6 w-6 object-contain"
             />
           ),
-          variant: 'primary',
-          showLabel: false,
-          onClick: (item) => {
+          onReset: (item) =>
+            deps.handleAlphabetReset(item as AlphabetTaskWithEphemeral),
+          onCheck: (item) => {
             const currentTask = item as AlphabetTaskWithEphemeral
-            if (currentTask.manageAlphabetCompletedAt) {
-              return deps.handleAlphabetReset(currentTask)
-            }
             if (deps.activeAlphabetTaskId === currentTask.id) {
               deps.setAlphabetCheckTriggerByTask((prev) => ({
                 ...prev,
                 [currentTask.id]: (prev[currentTask.id] ?? 0) + 1,
               }))
-              return
             }
-            deps.setActiveAlphabetTaskId(currentTask.id)
           },
-        }
+          onStart: (item) => {
+            deps.setActiveAlphabetTaskId((item as AlphabetTaskWithEphemeral).id)
+          },
+        })
       },
       getUtilityAction: (task) => {
-        const alphabetTask = task as AlphabetTaskWithEphemeral
-        const inActivity =
-          deps.activeAlphabetTaskId === alphabetTask.id ||
-          Boolean(alphabetTask.manageAlphabetCompletedAt)
-        return inActivity
-          ? getResetUtilityAction(
-              'Reset alphabet chore',
-              (item) =>
-                deps.handleAlphabetReset(item as AlphabetTaskWithEphemeral),
-              deps.theme
-            )
-          : getDeleteUtilityAction('Delete chore', (item) =>
-              deps.handleDelete(item.id)
-            )
+        const stage = descriptorByType.alphabet.getStage(task)
+        return createPresetUtilityAction({
+          stage,
+          resetAriaLabel: 'Reset alphabet chore',
+          deleteAriaLabel: 'Delete chore',
+          onReset: (item) =>
+            deps.handleAlphabetReset(item as AlphabetTaskWithEphemeral),
+          onDelete: (item) => deps.handleDelete(item.id),
+          theme: deps.theme,
+        })
       },
     },
   }
