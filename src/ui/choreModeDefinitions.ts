@@ -31,6 +31,8 @@ const presetChoreModeDefinitions: Record<
 
 export const isInChoreStage = (stage: ChoreStage) => stage !== 'setup'
 
+export const isFinalChoreStage = (stage: ChoreStage) => stage === 'completed'
+
 export const shouldHidePresetChoreTitle = (stage: ChoreStage) =>
   isInChoreStage(stage)
 
@@ -44,11 +46,11 @@ export const shouldHidePresetPrimaryButton = (
   type: Exclude<ChoreModeType, 'standard'>,
   stage: ChoreStage
 ) =>
-  isInChoreStage(stage) &&
-  presetChoreModeDefinitions[type].hidePrimaryButtonInChore
+  isFinalChoreStage(stage) ||
+  (stage === 'activity' &&
+    presetChoreModeDefinitions[type].hidePrimaryButtonInChore)
 
 export const getTestPrimaryActionLabel = (stage: ChoreStage) => {
-  if (stage === 'completed') return 'Again 🔁'
   if (stage === 'activity') return 'Check Answer'
   return 'Start'
 }
@@ -57,7 +59,6 @@ export const getDinnerPrimaryActionLabel = (
   stage: ChoreStage,
   isTimerRunning: boolean
 ) => {
-  if (stage === 'completed') return 'Again 🔁'
   if (stage === 'activity' && isTimerRunning) return 'Bite'
   return 'Start'
 }

@@ -2,24 +2,33 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import StepperButton from './StepperButton'
 import StarDisplay from './StarDisplay'
+import ChoreOutcomeView from './ChoreOutcomeView'
 import { uiTokens } from '../ui/tokens'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
 
 // Import all alphabet SVGs
-import antAardvarkAntelope from '../assets/aphabet/ant-aardvark-antelope.svg'
-import appleAvocadoAsparagus from '../assets/aphabet/apple-avocado-asparagus.svg'
-import bananaBlueberryBrocolli from '../assets/aphabet/banana-blueberry-brocolli.svg'
-import batBeaverButterfly from '../assets/aphabet/bat-bever-butterfly.svg'
-import carrotCornCucumber from '../assets/aphabet/carrot-corn-cucumber.svg'
-import catCamelCow from '../assets/aphabet/cat-camel-cow.svg'
-import datesDandelionsDumplings from '../assets/aphabet/dates-dandelions-dumplings.svg'
-import dogDolphinDuckling from '../assets/aphabet/dog-dophin-duckling.svg'
-import eggrollsEclairsEggs from '../assets/aphabet/eggrolls-eclairs-eggs.svg'
-import elephantEagleEchidna from '../assets/aphabet/elephant-eagle-echidna.svg'
-import fennelFigFish from '../assets/aphabet/fennel-fig-fish.svg'
-import foxFrogFlamingo from '../assets/aphabet/fox-frog-flamingo.svg'
+import antAardvarkAntelope from '../assets/alphabet/ant-aardvark-antelope.svg'
+import appleAvocadoAsparagus from '../assets/alphabet/apple-avocado-asparagus.svg'
+import bananaBlueberryBrocolli from '../assets/alphabet/banana-blueberry-brocolli.svg'
+import batBeaverButterfly from '../assets/alphabet/bat-bever-butterfly.svg'
+import carrotCornCucumber from '../assets/alphabet/carrot-corn-cucumber.svg'
+import catCamelCow from '../assets/alphabet/cat-camel-cow.svg'
+import datesDandelionsDumplings from '../assets/alphabet/dates-dandelions-dumplings.svg'
+import dogDolphinDuckling from '../assets/alphabet/dog-dophin-duckling.svg'
+import eggrollsEclairsEggs from '../assets/alphabet/eggrolls-eclairs-eggs.svg'
+import elephantEagleEchidna from '../assets/alphabet/elephant-eagle-echidna.svg'
+import fennelFigFish from '../assets/alphabet/fennel-fig-fish.svg'
+import foxFrogFlamingo from '../assets/alphabet/fox-frog-flamingo.svg'
+import geckoGuineaPigGoat from '../assets/alphabet/gecko-guinea pig,-goat.svg'
+import gelatoGnocchiGrapes from '../assets/alphabet/gelato-gnocci-grapes.svg'
+import hippopotamusHamsterHummingBird from '../assets/alphabet/hippopotamus-hamster-humming bird.svg'
+import honeyHazelnutsHamburger from '../assets/alphabet/honey-hazelnuts-hamburger.svg'
+import ibisIguanaImpala from '../assets/alphabet/Ibis-iguana-impala.svg'
+import icePopInstantNoodlesIceCream from '../assets/alphabet/ice pop-instant noodles-ice cream.svg'
+import jackfruitJamJalapeno from '../assets/alphabet/Jackfruit-jam-Jalapeño.svg'
+import jaguarJellyFishJackal from '../assets/alphabet/jaguar-jelly fish-jackal.svg'
 
 /* ------------------------------------------------------------------ */
 /*  Constants & Assets                                                 */
@@ -36,8 +45,6 @@ const {
   statusBarHeight: STATUS_BAR_HEIGHT,
   statusIconSize: STATUS_ICON_SIZE,
   statusIconGap: STATUS_ICON_GAP,
-  quizOutcomeImageMaxWidth: QUIZ_OUTCOME_IMAGE_MAX_WIDTH,
-  quizOutcomeImageMaxHeight: QUIZ_OUTCOME_IMAGE_MAX_HEIGHT,
 } = uiTokens.activityTokens
 
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
@@ -50,9 +57,16 @@ const ALPHABET_ASSETS = [
   { letter: 'D', files: [datesDandelionsDumplings, dogDolphinDuckling] },
   { letter: 'E', files: [eggrollsEclairsEggs, elephantEagleEchidna] },
   { letter: 'F', files: [fennelFigFish, foxFrogFlamingo] },
+  { letter: 'G', files: [geckoGuineaPigGoat, gelatoGnocchiGrapes] },
+  {
+    letter: 'H',
+    files: [hippopotamusHamsterHummingBird, honeyHazelnutsHamburger],
+  },
+  { letter: 'I', files: [ibisIguanaImpala, icePopInstantNoodlesIceCream] },
+  { letter: 'J', files: [jackfruitJamJalapeno, jaguarJellyFishJackal] },
 ]
 
-const ALL_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F']
+const ALL_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
@@ -244,23 +258,12 @@ const AlphabetTester = ({
       style={{ gap: uiTokens.sectionGap }}
     >
       {isFinished ? (
-        <div
-          className="flex flex-col items-center justify-center py-4"
-          style={{ gap: 16 }}
-        >
-          <img
-            src={isSuccessState ? completionImage : failureImage}
-            alt={isSuccessState ? 'Great Job!' : 'Keep Trying!'}
-            className="object-contain"
-            style={{
-              maxWidth: `${QUIZ_OUTCOME_IMAGE_MAX_WIDTH}px`,
-              maxHeight: `${QUIZ_OUTCOME_IMAGE_MAX_HEIGHT}px`,
-              filter: isSuccessState
-                ? 'drop-shadow(0 10px 20px rgba(0,0,0,0.1))'
-                : 'grayscale(0.5)',
-            }}
-          />
-        </div>
+        <ChoreOutcomeView
+          imageSrc={isSuccessState ? completionImage : failureImage}
+          outcome={isSuccessState ? 'success' : 'failure'}
+          successAlt="Great job!"
+          failureAlt="Keep trying!"
+        />
       ) : (
         <>
           {/* ---- SETUP UI ---- */}

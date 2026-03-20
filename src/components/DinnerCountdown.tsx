@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import StepperButton from './StepperButton'
 import StarDisplay from './StarDisplay'
+import ChoreOutcomeView from './ChoreOutcomeView'
 import { uiTokens } from '../ui/tokens'
 
 /* ------------------------------------------------------------------ */
@@ -114,6 +115,10 @@ interface DinnerCountdownProps {
   failureImage?: string
   /** Remaining cooldown seconds between bites (0 = ready) */
   biteCooldownSeconds?: number
+  /** Absolute timestamp when the current bite cooldown ends */
+  biteCooldownEndsAt?: number | null
+  /** Absolute timestamp when the main timer was started */
+  timerStartedAt?: number | null
   /** Icon shown during bite cooldown (themed) */
   biteIcon?: string
   /** Optional test hook to cycle cooldown icon while visible */
@@ -140,15 +145,39 @@ const DinnerCountdown = ({
   isCompleted = false,
   failureImage,
   biteCooldownSeconds = 0,
+  biteCooldownEndsAt,
+  timerStartedAt,
   biteIcon,
   onBiteIconClick,
   showSetupControls = true,
   showStarReward = true,
 }: DinnerCountdownProps) => {
+  /* --- local visual tick for smooth animations --- */
+  const [now, setNow] = useState(Date.now())
+
+  useEffect(() => {
+    if (!isTimerRunning && (!biteCooldownEndsAt || biteCooldownEndsAt < now))
+      return
+    const interval = window.setInterval(() => setNow(Date.now()), 100)
+    return () => window.clearInterval(interval)
+  }, [isTimerRunning, biteCooldownEndsAt, now])
+
+  /* --- live display values --- */
+  // remaining is the "frozen" seconds from the last sync; we subtract elapsed ms
+  const liveRemainingFloat =
+    isTimerRunning && timerStartedAt
+      ? Math.max(0, remaining - (now - timerStartedAt) / 1000)
+      : remaining
+  const liveRemaining = Math.floor(liveRemainingFloat)
+
+  const liveCooldown = biteCooldownEndsAt
+    ? Math.max(0, (biteCooldownEndsAt - now) / 1000)
+    : biteCooldownSeconds
+
   /* --- derived game phase --- */
-  const isCoolingDown = biteCooldownSeconds > 0
+  const isCoolingDown = liveCooldown > 0
   const isSuccess = isCompleted && bitesLeft <= 0 && !isCoolingDown
-  const isTimeout = remaining <= 0 && bitesLeft > 0
+  const isTimeout = liveRemaining <= 0 && bitesLeft > 0
   const isFinished = isSuccess || isTimeout
   const isSetup = !isTimerRunning && !isFinished && !isCoolingDown
   const showSideControls = showSetupControls && !isFinished
@@ -180,8 +209,8 @@ const DinnerCountdown = ({
 
   /* --- second hand (mechanical tick every 2 s) --- */
   const secRot = (() => {
-    if (!isTimerRunning || remaining <= 0) return 0
-    let s = remaining % 60
+    if (!isTimerRunning || liveRemaining <= 0) return 0
+    let s = liveRemaining % 60
     if (s === 0) s = 60
     return ((Math.ceil(s / 2) * 2) / 60) * 180
   })()
@@ -215,44 +244,14 @@ const DinnerCountdown = ({
         gap: `${uiTokens.singleVerticalSpace}px`,
       }}
     >
-      {isSuccess && completionImage ? (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '20px',
-          }}
-        >
-          <img
-            src={completionImage}
-            alt="All done!"
-            style={{
-              maxWidth: '240px',
-              maxHeight: '280px',
-              objectFit: 'contain',
-            }}
-          />
-        </div>
-      ) : isTimeout && failureImage ? (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '20px',
-          }}
-        >
-          <img
-            src={failureImage}
-            alt="Time's up!"
-            style={{
-              maxWidth: '240px',
-              maxHeight: '280px',
-              objectFit: 'contain',
-            }}
-          />
-        </div>
+      {isSuccess ? (
+        <ChoreOutcomeView imageSrc={completionImage} outcome="success" />
+      ) : isTimeout ? (
+        <ChoreOutcomeView
+          imageSrc={failureImage}
+          outcome="failure"
+          failureAlt="Time's up!"
+        />
       ) : (
         <>
           {/* ---- CLOCK ROW ---- */}
@@ -310,9 +309,8 @@ const DinnerCountdown = ({
 
               {/* Remaining-time wedge (theme primary) */}
               <path
-                d={wedgePath(remaining)}
+                d={wedgePath(liveRemainingFloat)}
                 fill={theme.colors.primary}
-                style={{ transition: 'd 1s linear' }}
               />
 
               {/* Minute markers */}
@@ -572,12 +570,12 @@ const DinnerCountdown = ({
               </svg>
 
               {/* ---- CHEWING COOLDOWN OVERLAY ---- */}
-              {biteCooldownSeconds > 0 &&
+              {liveCooldown > 0 &&
                 (() => {
                   const RING_R = 55
                   const CIRC = 2 * Math.PI * RING_R
                   const offset =
-                    (1 - biteCooldownSeconds / BITE_COOLDOWN_SECONDS) * CIRC
+                    (1 - liveCooldown / BITE_COOLDOWN_SECONDS) * CIRC
                   return (
                     <div
                       style={{
@@ -621,7 +619,6 @@ const DinnerCountdown = ({
                           strokeDasharray={CIRC}
                           strokeDashoffset={offset}
                           transform="rotate(-90 80 80)"
-                          style={{ transition: 'stroke-dashoffset 1s linear' }}
                         />
                       </svg>
                       {/* Centered bite icon */}

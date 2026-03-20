@@ -1,5 +1,6 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import ActionTextInput from '../components/ActionTextInput'
+import ChoreOutcomeView from '../components/ChoreOutcomeView'
 import RepeatControl from '../components/RepeatControl'
 import StarDisplay from '../components/StarDisplay'
 import {
@@ -20,7 +21,7 @@ import {
   DEFAULT_PV_PROBLEMS,
   DEFAULT_ALPHABET_PROBLEMS,
   getManageDinnerBitesLeft,
-  getManageDinnerLiveRemaining,
+  getManageDinnerRemaining,
   isManageTaskCompleted,
   type EatingTaskWithEphemeral,
   type MathTaskWithEphemeral,
@@ -31,13 +32,16 @@ import {
 } from '../data/types'
 import type { Theme } from '../contexts/ThemeContext'
 import { uiTokens } from './tokens'
-import type { ListRowDescriptor } from './listDescriptorTypes'
+import type {
+  ListRowDescriptor,
+  ResolvedListAction,
+  ResolvedListUtilityAction,
+} from './listDescriptorTypes'
 import {
   shouldHidePresetChoreTitle,
   type ChoreStage,
 } from './choreModeDefinitions'
 import {
-  createDeleteUtilityAction,
   createPresetDinnerPrimaryAction,
   createPresetTestPrimaryAction,
   createPresetUtilityAction,
@@ -56,24 +60,12 @@ type ManageTaskTypeUiDescriptor = {
   getStage: (task: TaskWithEphemeral) => ChoreStage
   renderItem: (task: TaskWithEphemeral) => ReactNode
   getStarCount?: (task: TaskWithEphemeral) => number | undefined
-  getPrimaryAction: (task: TaskWithEphemeral) => {
-    label: string
-    ariaLabel?: string
-    icon: ReactNode
-    disabled?: boolean
-    hideButton?: boolean
-    variant?: 'primary' | 'neutral' | 'danger'
-    showLabel?: boolean
-    onClick: (item: TaskWithEphemeral) => void | Promise<void>
-  }
-  getUtilityAction?: (task: TaskWithEphemeral) => {
-    label: string
-    ariaLabel: string
-    icon?: ReactNode
-    exits?: boolean
-    variant: 'neutral' | 'danger'
-    onClick: (item: TaskWithEphemeral) => void | Promise<void>
-  }
+  getPrimaryAction: (
+    task: TaskWithEphemeral
+  ) => ResolvedListAction<TaskWithEphemeral>
+  getUtilityAction?: (
+    task: TaskWithEphemeral
+  ) => ResolvedListUtilityAction<TaskWithEphemeral>
 }
 
 type ManageTaskDescriptorDeps = {
@@ -96,6 +88,7 @@ type ManageTaskDescriptorDeps = {
   pvCheckTriggerByTask: Record<string, number>
   isDinnerTaskRunning: (task: EatingTaskWithEphemeral) => boolean
   biteCooldownSeconds: number
+  biteCooldownEndsAt?: number | null
   activePrincessCooldownIcon?: string
   handleCycleCooldownTestIcon?: () => void
   handleDinnerBite: (task: EatingTaskWithEphemeral) => void
@@ -124,6 +117,7 @@ type ManageTaskDescriptorDeps = {
     SetStateAction<Record<string, number>>
   >
   handleAwardTask: (task: StandardTaskWithEphemeral) => void | Promise<void>
+  handleStandardReset: (task: StandardTaskWithEphemeral) => void | Promise<void>
   handleDelete: (taskId: string) => void | Promise<void>
   isAwarding: boolean
   activeChildId: string | null
@@ -144,6 +138,20 @@ export const createManageTaskListRowDescriptor = (
       },
       renderItem: (task) => {
         const standardTask = task as StandardTaskWithEphemeral
+
+        if (standardTask.manageCompletedAt) {
+          return (
+            <ChoreOutcomeView
+              imageSrc={
+                deps.theme.id === 'princess'
+                  ? princessQuizCorrectImage
+                  : undefined
+              }
+              outcome="success"
+            />
+          )
+        }
+
         return (
           <div
             className="flex flex-col"
@@ -209,16 +217,31 @@ export const createManageTaskListRowDescriptor = (
             deps.isAwarding ||
             !deps.activeChildId ||
             Boolean(standardTask.manageCompletedAt),
+          hideButton: Boolean(standardTask.manageCompletedAt),
           variant: 'primary',
           showLabel: false,
           onClick: (item) =>
             deps.handleAwardTask(item as StandardTaskWithEphemeral),
         }
       },
-      getUtilityAction: () =>
-        createDeleteUtilityAction('Delete chore', (item) =>
-          deps.handleDelete(item.id)
-        ),
+      getStarCount: (task) => {
+        const standardTask = task as StandardTaskWithEphemeral
+        return standardTask.manageCompletedAt
+          ? undefined
+          : standardTask.starValue
+      },
+      getUtilityAction: (task) => {
+        const stage = descriptorByType.standard.getStage(task)
+        return createPresetUtilityAction({
+          stage,
+          resetAriaLabel: 'Reset standard chore',
+          deleteAriaLabel: 'Delete chore',
+          onReset: (item) =>
+            deps.handleStandardReset(item as StandardTaskWithEphemeral),
+          onDelete: (item) => deps.handleDelete(item.id),
+          theme: deps.theme,
+        })
+      },
     },
     eating: {
       kind: 'complexChore',
@@ -255,11 +278,12 @@ export const createManageTaskListRowDescriptor = (
               duration:
                 eatingTask.dinnerDurationSeconds ??
                 DEFAULT_DINNER_DURATION_SECONDS,
-              remaining: getManageDinnerLiveRemaining(eatingTask),
+              remaining: getManageDinnerRemaining(eatingTask),
               totalBites: eatingTask.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
               bitesLeft: getManageDinnerBitesLeft(eatingTask),
               starReward: eatingTask.starValue,
               isTimerRunning: deps.isDinnerTaskRunning(eatingTask),
+              timerStartedAt: eatingTask.manageDinnerTimerStartedAt,
               plateImage:
                 deps.theme.id === 'princess' ? princessPlateImage : undefined,
               onAdjustTime: (delta) => {
@@ -294,6 +318,7 @@ export const createManageTaskListRowDescriptor = (
                   ? princessEatingFailImage
                   : undefined,
               biteCooldownSeconds: deps.biteCooldownSeconds,
+              biteCooldownEndsAt: deps.biteCooldownEndsAt,
               biteIcon:
                 deps.theme.id === 'princess'
                   ? deps.activePrincessCooldownIcon
@@ -337,7 +362,7 @@ export const createManageTaskListRowDescriptor = (
           ) : (
             <img
               src={princessPlateImage}
-              alt="Play again"
+              alt="Reset"
               className="h-6 w-6 object-contain"
             />
           ),
@@ -450,7 +475,7 @@ export const createManageTaskListRowDescriptor = (
               src={stage === 'setup' ? princessGiveStarIcon : princessMathsIcon}
               alt={
                 stage === 'completed'
-                  ? 'Play again'
+                  ? 'Reset'
                   : stage === 'activity'
                     ? 'Check answer'
                     : 'Start'
@@ -561,7 +586,7 @@ export const createManageTaskListRowDescriptor = (
               src={stage === 'setup' ? princessGiveStarIcon : princessMathsIcon}
               alt={
                 stage === 'completed'
-                  ? 'Play again'
+                  ? 'Reset'
                   : stage === 'activity'
                     ? 'Check answer'
                     : 'Start'
@@ -674,7 +699,7 @@ export const createManageTaskListRowDescriptor = (
               src={stage === 'setup' ? princessGiveStarIcon : princessMathsIcon}
               alt={
                 stage === 'completed'
-                  ? 'Play again'
+                  ? 'Reset'
                   : stage === 'activity'
                     ? 'Check answer'
                     : 'Start'

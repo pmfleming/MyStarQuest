@@ -121,7 +121,7 @@ const ChoresPage = () => {
 
   const {
     activeItemId: activeDinnerTaskId,
-    biteCooldownSeconds,
+    biteCooldownEndsAt,
     pendingBiteItemId: pendingDinnerBiteTaskId,
     startActivity: startDinnerActivity,
     clearItemState: clearDinnerTaskState,
@@ -136,6 +136,7 @@ const ChoresPage = () => {
     getBitesLeft: getManageDinnerBitesLeft,
     applyBite: async (task) => Boolean(await dinnerApplyBite(task)),
     expireTimer: dinnerTimerExpired,
+    isPersistedRunning: (task) => Boolean(task.manageDinnerTimerStartedAt),
     resetKeys: [activeChildId],
   })
 
@@ -145,6 +146,10 @@ const ChoresPage = () => {
       setBiteCooldownTestIconIndex(null)
     }
   }, [activeDinnerTaskId, pendingDinnerBiteTaskId])
+
+  const biteCooldownSeconds = biteCooldownEndsAt
+    ? Math.max(0, (biteCooldownEndsAt - Date.now()) / 1000)
+    : 0
 
   const activePrincessCooldownIcon = (() => {
     const defaultIcon = getPrincessCooldownIconForHour(new Date().getHours())
@@ -381,6 +386,10 @@ const ChoresPage = () => {
     }
   }
 
+  const handleStandardReset = async (task: StandardTaskWithEphemeral) => {
+    await updateEphemeral(task.id, { manageCompletedAt: null })
+  }
+
   const taskListDescriptor = toStandardActionListDescriptor(
     createManageTaskListRowDescriptor({
       theme,
@@ -396,6 +405,7 @@ const ChoresPage = () => {
       pvCheckTriggerByTask,
       isDinnerTaskRunning,
       biteCooldownSeconds,
+      biteCooldownEndsAt,
       activePrincessCooldownIcon,
       handleCycleCooldownTestIcon,
       handleDinnerBite,
@@ -420,6 +430,7 @@ const ChoresPage = () => {
       setActiveAlphabetTaskId,
       setAlphabetCheckTriggerByTask,
       handleAwardTask,
+      handleStandardReset,
       handleDelete,
       isAwarding,
       activeChildId,

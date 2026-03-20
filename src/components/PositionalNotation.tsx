@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import StepperButton from './StepperButton'
 import StarDisplay from './StarDisplay'
+import ChoreOutcomeView from './ChoreOutcomeView'
 import { uiTokens } from '../ui/tokens'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
@@ -32,8 +33,6 @@ const {
   statusBarHeight: STATUS_BAR_HEIGHT,
   statusIconSize: STATUS_ICON_SIZE,
   statusIconGap: STATUS_ICON_GAP,
-  quizOutcomeImageMaxWidth: QUIZ_OUTCOME_IMAGE_MAX_WIDTH,
-  quizOutcomeImageMaxHeight: QUIZ_OUTCOME_IMAGE_MAX_HEIGHT,
   mathCounterSize: ONE_COUNTER_SIZE,
   mathCounterGap: DOT_GAP,
 } = uiTokens.activityTokens
@@ -304,45 +303,10 @@ const PositionalNotation = ({
       `}</style>
 
       {isFinished ? (
-        isSuccessState ? (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '20px',
-            }}
-          >
-            <img
-              src={completionImage ?? quizCorrectIcon}
-              alt="All done!"
-              style={{
-                maxWidth: `${QUIZ_OUTCOME_IMAGE_MAX_WIDTH}px`,
-                maxHeight: `${QUIZ_OUTCOME_IMAGE_MAX_HEIGHT}px`,
-                objectFit: 'contain',
-              }}
-            />
-          </div>
-        ) : (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '20px',
-            }}
-          >
-            <img
-              src={failureImage ?? quizIncorrectIcon}
-              alt="Try again!"
-              style={{
-                maxWidth: `${QUIZ_OUTCOME_IMAGE_MAX_WIDTH}px`,
-                maxHeight: `${QUIZ_OUTCOME_IMAGE_MAX_HEIGHT}px`,
-                objectFit: 'contain',
-              }}
-            />
-          </div>
-        )
+        <ChoreOutcomeView
+          imageSrc={isSuccessState ? completionImage : failureImage}
+          outcome={isSuccessState ? 'success' : 'failure'}
+        />
       ) : (
         <>
           {isSetup && (

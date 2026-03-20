@@ -303,8 +303,8 @@ const ActionCard = <T,>({
                 style={{
                   ...actionBaseStyle,
                   ...getActionStyle('neutral'),
-                  width: '60px',
-                  minWidth: '60px',
+                  width: `${uiTokens.listUtilityActionWidth}px`,
+                  minWidth: `${uiTokens.listUtilityActionWidth}px`,
                   padding: 0,
                 }}
               >
@@ -330,8 +330,8 @@ const ActionCard = <T,>({
               style={{
                 ...actionBaseStyle,
                 ...getActionStyle(resolvedUtilityVariant),
-                width: '60px',
-                minWidth: '60px',
+                width: `${uiTokens.listUtilityActionWidth}px`,
+                minWidth: `${uiTokens.listUtilityActionWidth}px`,
                 padding: 0,
               }}
             >
@@ -379,8 +379,8 @@ const StandardActionList = <T,>({
   `
 
   const actionBaseStyle: CSSProperties = {
-    height: '60px',
-    borderRadius: '20px',
+    height: `${uiTokens.listActionHeight}px`,
+    borderRadius: `${uiTokens.listActionRadius}px`,
     borderWidth: '2px',
     borderStyle: 'solid',
     display: 'flex',
@@ -396,9 +396,9 @@ const StandardActionList = <T,>({
   }
 
   const rowBaseStyle: CSSProperties = {
-    borderRadius: '32px',
-    padding: `${uiTokens.singleVerticalSpace}px`,
-    border: `4px solid ${theme.colors.surface}`,
+    borderRadius: `${uiTokens.listItemRadius}px`,
+    padding: `${uiTokens.listItemPadding}px`,
+    border: `${uiTokens.listItemBorderWidth}px solid ${theme.colors.surface}`,
     boxShadow: cardShadow,
     background: `linear-gradient(145deg, ${theme.colors.surface} 0%, ${theme.colors.bg} 100%)`,
   }

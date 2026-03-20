@@ -1,4 +1,5 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
+import ChoreOutcomeView from '../components/ChoreOutcomeView'
 import {
   princessActiveIcon,
   princessEatingFailImage,
@@ -21,10 +22,7 @@ import {
 } from '../data/types'
 import { uiTokens } from './tokens'
 import type { ListRowDescriptor } from './listDescriptorTypes'
-import {
-  shouldHidePresetChoreTitle,
-  type ChoreStage,
-} from './choreModeDefinitions'
+import { isInChoreStage, type ChoreStage } from './choreModeDefinitions'
 import {
   createPresetDinnerPrimaryAction,
   createPresetTestPrimaryAction,
@@ -36,6 +34,10 @@ import {
   renderDinnerChore,
   renderPositionalNotationChore,
 } from './presetChoreRenderers'
+import type {
+  ResolvedListAction,
+  ResolvedListUtilityAction,
+} from './listDescriptorTypes'
 
 type ChoreUiKind = 'complexChore' | 'simpleChore' | 'configOnly'
 
@@ -44,29 +46,14 @@ type TodayTodoTypeUiDescriptor = {
   getStage: (todo: TodoRecord) => ChoreStage
   renderItem: (todo: TodoRecord) => ReactNode
   getStarCount?: (todo: TodoRecord) => number | undefined
-  getPrimaryAction: (todo: TodoRecord) => {
-    label: string
-    ariaLabel?: string
-    icon: ReactNode
-    disabled?: boolean
-    hideButton?: boolean
-    variant?: 'primary' | 'neutral' | 'danger'
-    showLabel?: boolean
-    onClick: (item: TodoRecord) => void | Promise<void>
-  }
-  getUtilityAction?: (todo: TodoRecord) => {
-    label: string
-    ariaLabel: string
-    icon?: ReactNode
-    exits?: boolean
-    variant: 'neutral' | 'danger'
-    onClick: (item: TodoRecord) => void | Promise<void>
-  }
+  getPrimaryAction: (todo: TodoRecord) => ResolvedListAction<TodoRecord>
+  getUtilityAction?: (todo: TodoRecord) => ResolvedListUtilityAction<TodoRecord>
 }
 
 type TodayTodoDescriptorDeps = {
   theme: Theme
   biteCooldownSeconds: number
+  biteCooldownEndsAt?: number | null
   pendingTodoId: string | null
   activeMathTodoId: string | null
   activePVTodoId: string | null
@@ -109,18 +96,13 @@ type TodayTodoDescriptorDeps = {
   startDinnerActivity: (todoId: string) => void
   clearDinnerTodoState: (todoId: string) => void
   handleCompleteTodo: (todo: TodoRecord) => void | Promise<void>
+  handleStandardReset: (todo: TodoRecord) => void | Promise<void>
   handleDeleteTodo: (todo: TodoRecord) => void | Promise<void>
 }
 
 export const createTodayTodoListRowDescriptor = (
   deps: TodayTodoDescriptorDeps
 ): ListRowDescriptor<TodoRecord> => {
-  const isPresetTodoInChoreMode = (todo: TodoRecord) =>
-    todo.sourceTaskType !== 'standard' &&
-    shouldHidePresetChoreTitle(
-      descriptorByType[todo.sourceTaskType].getStage(todo)
-    )
-
   const descriptorByType: Record<
     TodoRecord['sourceTaskType'],
     TodayTodoTypeUiDescriptor
@@ -128,8 +110,18 @@ export const createTodayTodoListRowDescriptor = (
     standard: {
       kind: 'configOnly',
       getStage: (todo) => (todo.completedAt ? 'completed' : 'setup'),
-      renderItem: () => null,
-      getStarCount: (todo) => todo.starValue,
+      renderItem: (todo) =>
+        todo.completedAt ? (
+          <ChoreOutcomeView
+            imageSrc={
+              deps.theme.id === 'princess'
+                ? princessQuizCorrectImage
+                : undefined
+            }
+            outcome="success"
+          />
+        ) : null,
+      getStarCount: (todo) => (todo.completedAt ? undefined : todo.starValue),
       getPrimaryAction: (todo) => ({
         label: 'Open chore',
         icon:
@@ -149,10 +141,22 @@ export const createTodayTodoListRowDescriptor = (
             </span>
           ),
         disabled: Boolean(todo.completedAt) || deps.pendingTodoId === todo.id,
+        hideButton: Boolean(todo.completedAt),
         variant: 'primary',
         showLabel: false,
         onClick: (item) => deps.handleCompleteTodo(item),
       }),
+      getUtilityAction: (todo) => {
+        const stage = descriptorByType.standard.getStage(todo)
+        return createPresetUtilityAction({
+          stage,
+          resetAriaLabel: 'Reset standard todo',
+          deleteAriaLabel: 'Delete todo',
+          onReset: (item) => deps.handleStandardReset(item),
+          onDelete: (item) => deps.handleDeleteTodo(item),
+          theme: deps.theme,
+        })
+      },
     },
     eating: {
       kind: 'complexChore',
@@ -168,11 +172,12 @@ export const createTodayTodoListRowDescriptor = (
           ? renderDinnerChore({
               theme: deps.theme,
               duration: deps.getDinnerDuration(eatingTodo),
-              remaining: deps.getDinnerLiveRemaining(eatingTodo),
+              remaining: eatingTodo.dinnerRemainingSeconds,
               totalBites: deps.getDinnerTotalBites(eatingTodo),
               bitesLeft: deps.getDinnerBitesLeft(eatingTodo),
               starReward: eatingTodo.starValue,
               isTimerRunning: deps.isDinnerTodoRunning(eatingTodo),
+              timerStartedAt: eatingTodo.dinnerTimerStartedAt,
               plateImage:
                 deps.theme.id === 'princess' ? princessPlateImage : undefined,
               onAdjustTime: () => undefined,
@@ -188,6 +193,7 @@ export const createTodayTodoListRowDescriptor = (
                   ? princessEatingFailImage
                   : undefined,
               biteCooldownSeconds: deps.biteCooldownSeconds,
+              biteCooldownEndsAt: deps.biteCooldownEndsAt,
               biteIcon:
                 deps.theme.id === 'princess'
                   ? deps.activePrincessMealIcon
@@ -198,7 +204,9 @@ export const createTodayTodoListRowDescriptor = (
           : null
       },
       getStarCount: (todo) =>
-        isPresetTodoInChoreMode(todo) ? undefined : todo.starValue,
+        isInChoreStage(descriptorByType.eating.getStage(todo))
+          ? undefined
+          : todo.starValue,
       getPrimaryAction: (todo) => {
         const eatingTodo = todo as EatingTodo
         const isFinished = Boolean(eatingTodo.completedAt)
@@ -206,7 +214,7 @@ export const createTodayTodoListRowDescriptor = (
         const icon = isFinished ? (
           <img
             src={princessPlateImage}
-            alt="Play again"
+            alt="Reset"
             className="h-6 w-6 object-contain"
           />
         ) : deps.theme.id === 'princess' ? (
@@ -289,7 +297,9 @@ export const createTodayTodoListRowDescriptor = (
           : null
       },
       getStarCount: (todo) =>
-        isPresetTodoInChoreMode(todo) ? undefined : todo.starValue,
+        isInChoreStage(descriptorByType.math.getStage(todo))
+          ? undefined
+          : todo.starValue,
       getPrimaryAction: (todo) => {
         const stage = descriptorByType.math.getStage(todo)
         const icon =
@@ -373,7 +383,11 @@ export const createTodayTodoListRowDescriptor = (
           : null
       },
       getStarCount: (todo) => {
-        return isPresetTodoInChoreMode(todo) ? undefined : todo.starValue
+        return isInChoreStage(
+          descriptorByType['positional-notation'].getStage(todo)
+        )
+          ? undefined
+          : todo.starValue
       },
       getPrimaryAction: (todo) => {
         const stage = descriptorByType['positional-notation'].getStage(todo)
@@ -464,7 +478,9 @@ export const createTodayTodoListRowDescriptor = (
           : null
       },
       getStarCount: (todo) =>
-        isPresetTodoInChoreMode(todo) ? undefined : todo.starValue,
+        isInChoreStage(descriptorByType.alphabet.getStage(todo))
+          ? undefined
+          : todo.starValue,
       getPrimaryAction: (todo) => {
         const stage = descriptorByType.alphabet.getStage(todo)
         return createPresetTestPrimaryAction({
@@ -475,7 +491,7 @@ export const createTodayTodoListRowDescriptor = (
               src={stage === 'setup' ? princessGiveStarIcon : princessMathsIcon}
               alt={
                 stage === 'completed'
-                  ? 'Play again'
+                  ? 'Reset'
                   : stage === 'activity'
                     ? 'Check answer'
                     : 'Start'
@@ -519,8 +535,7 @@ export const createTodayTodoListRowDescriptor = (
     renderItem: (todo) => {
       const descriptor = getDescriptor(todo)
       const stage = descriptor.getStage(todo)
-      const hideTitle =
-        todo.sourceTaskType !== 'standard' && shouldHidePresetChoreTitle(stage)
+      const hideTitle = isInChoreStage(stage)
 
       return (
         <div

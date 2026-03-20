@@ -25,8 +25,9 @@ export function useDinnerActivity<T>({
   resetKeys = [],
 }: UseDinnerActivityOptions<T>) {
   const [activeItemId, setActiveItemId] = useState<string | null>(null)
-  const [, setTimerTick] = useState(0)
-  const [biteCooldownSeconds, setBiteCooldownSeconds] = useState(0)
+  const [biteCooldownEndsAt, setBiteCooldownEndsAt] = useState<number | null>(
+    null
+  )
   const [pendingBiteItemId, setPendingBiteItemId] = useState<string | null>(
     null
   )
@@ -47,7 +48,7 @@ export function useDinnerActivity<T>({
 
   useEffect(() => {
     setActiveItemId(null)
-    setBiteCooldownSeconds(0)
+    setBiteCooldownEndsAt(null)
     setPendingBiteItemId(null)
   }, [resetKeySignature])
 
@@ -74,23 +75,30 @@ export function useDinnerActivity<T>({
   }, [activeItemId, getId, isCompleted, isPersistedRunning, items])
 
   useEffect(() => {
-    if (biteCooldownSeconds <= 0) return
-    const timer = window.setTimeout(() => {
-      if (isMountedRef.current) {
-        setBiteCooldownSeconds((prev) => Math.max(0, prev - 1))
+    if (!biteCooldownEndsAt) return
+
+    const checkCooldown = () => {
+      if (Date.now() >= biteCooldownEndsAt) {
+        setBiteCooldownEndsAt(null)
       }
-    }, 1000)
-    return () => window.clearTimeout(timer)
-  }, [biteCooldownSeconds])
+    }
+
+    const timer = window.setInterval(checkCooldown, 200)
+    return () => window.clearInterval(timer)
+  }, [biteCooldownEndsAt])
 
   useEffect(() => {
     if (!activeItemId && !pendingBiteItemId) {
-      setBiteCooldownSeconds(0)
+      setBiteCooldownEndsAt(null)
     }
   }, [activeItemId, pendingBiteItemId])
 
   useEffect(() => {
-    if (!pendingBiteItemId || biteCooldownSeconds > 0) return
+    if (
+      !pendingBiteItemId ||
+      (biteCooldownEndsAt && Date.now() < biteCooldownEndsAt)
+    )
+      return
 
     const applyQueuedBite = async () => {
       const item = itemsRef.current.find(
@@ -114,7 +122,7 @@ export function useDinnerActivity<T>({
     }
 
     void applyQueuedBite()
-  }, [applyBite, biteCooldownSeconds, getId, isCompleted, pendingBiteItemId])
+  }, [applyBite, biteCooldownEndsAt, getId, isCompleted, pendingBiteItemId])
 
   useEffect(() => {
     if (!activeItemId) return
@@ -142,10 +150,6 @@ export function useDinnerActivity<T>({
         setActiveItemId(null)
         return
       }
-
-      if (isMountedRef.current) {
-        setTimerTick((tick) => tick + 1)
-      }
     }, 1000)
 
     return () => window.clearInterval(timer)
@@ -164,6 +168,7 @@ export function useDinnerActivity<T>({
     }
     if (pendingBiteItemId === itemId) {
       setPendingBiteItemId(null)
+      setBiteCooldownEndsAt(null)
     }
   }
 
@@ -178,11 +183,15 @@ export function useDinnerActivity<T>({
 
   const queueBite = (item: T) => {
     if (isCompleted(item)) return false
-    if (biteCooldownSeconds > 0 || pendingBiteItemId) return false
+    if (
+      (biteCooldownEndsAt && Date.now() < biteCooldownEndsAt) ||
+      pendingBiteItemId
+    )
+      return false
     if (getBitesLeft(item) <= 0) return false
 
     setPendingBiteItemId(getId(item))
-    setBiteCooldownSeconds(BITE_COOLDOWN_SECONDS)
+    setBiteCooldownEndsAt(Date.now() + BITE_COOLDOWN_SECONDS * 1000)
     return true
   }
 
@@ -191,15 +200,14 @@ export function useDinnerActivity<T>({
     resetFn: (item: T) => Promise<void> | void
   ) => {
     clearItemState(getId(item))
-    setBiteCooldownSeconds(0)
+    setBiteCooldownEndsAt(null)
     await resetFn(item)
   }
 
   return {
     activeItemId,
-    biteCooldownSeconds,
+    biteCooldownEndsAt,
     pendingBiteItemId,
-    setBiteCooldownSeconds,
     startActivity,
     clearItemState,
     isRunning,

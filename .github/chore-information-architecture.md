@@ -37,11 +37,18 @@ All chores should be understood as having three modes:
 The in-chore mode should be identical whether it is entered from the Today list or from the Manage Chores list.
 The Today page and Manage Chores page should differ in overview/editing context, not in the active in-chore experience itself.
 
+The final terminal state should also be identical across chore types:
+
+- success and failure end states show only an outcome image and a Reset button
+- the final state must hide the title, star display, delete action, and primary action button
+- outcome images may vary by chore type or learning domain, but the end-state image size and the list-card dimensions containing it must come from shared resources
+
 For preset chores, this should be enforced structurally in code rather than by convention alone:
 
 - shared stage rules in `src/ui/choreModeDefinitions.ts`
 - shared preset chore renderers in `src/ui/presetChoreRenderers.tsx`
 - shared preset chore action builders in `src/ui/presetChoreActions.tsx`
+- shared final-state sizing tokens in `src/ui/tokens.ts`
 
 Today and Manage should pass state and handlers into those shared modules rather than redefine in-chore behavior separately.
 
@@ -216,6 +223,13 @@ Current notable shared rule:
 
 - alphabet hides the primary action button in-chore
 - dinner, arithmetic, and positional notation keep their primary action button in-chore
+
+Current final-state shared rules:
+
+- `completed` is the shared terminal stage
+- every preset chore hides its primary button in `completed`
+- `completed` always switches the utility action to Reset
+- standard chores should also enter the same image-only final-state shell, even if they currently support only success imagery
 
 When adding or changing preset tests, keep the descriptor wiring domain-aware.
 

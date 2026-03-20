@@ -8,6 +8,7 @@ import type {
 import {
   getDinnerPrimaryActionLabel,
   getTestPrimaryActionLabel,
+  isFinalChoreStage,
   shouldHidePresetPrimaryButton,
   shouldUseResetUtility,
   type ChoreModeType,
@@ -100,10 +101,11 @@ export const createPresetDinnerPrimaryAction = <T,>({
   label: getDinnerPrimaryActionLabel(stage, isTimerRunning),
   icon,
   disabled,
+  hideButton: isFinalChoreStage(stage),
   variant: 'primary',
   showLabel: false,
   onClick: (item) => {
-    if (stage === 'completed') {
+    if (isFinalChoreStage(stage)) {
       return onReset(item)
     }
 
@@ -131,7 +133,7 @@ export const createPresetTestPrimaryAction = <T,>({
   variant: 'primary',
   showLabel: false,
   onClick: (item) => {
-    if (stage === 'completed') {
+    if (isFinalChoreStage(stage)) {
       return onReset(item)
     }
 

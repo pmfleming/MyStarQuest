@@ -2,16 +2,13 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import StepperButton from './StepperButton'
 import StarDisplay from './StarDisplay'
+import ChoreOutcomeView from './ChoreOutcomeView'
 import { uiTokens } from '../ui/tokens'
 import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
 import type { MathDifficulty } from '../data/types'
-
-/* ------------------------------------------------------------------ */
-/*  Constants                                                          */
-/* ------------------------------------------------------------------ */
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 10
@@ -25,8 +22,6 @@ const {
   statusBarHeight: STATUS_BAR_HEIGHT,
   statusIconSize: STATUS_ICON_SIZE,
   statusIconGap: STATUS_ICON_GAP,
-  quizOutcomeImageMaxWidth: QUIZ_OUTCOME_IMAGE_MAX_WIDTH,
-  quizOutcomeImageMaxHeight: QUIZ_OUTCOME_IMAGE_MAX_HEIGHT,
   mathCounterSize: DOT_SIZE,
   mathCounterGap: DOT_GAP,
   answerCounterSize: ANSWER_COUNTER_SIZE,
@@ -37,10 +32,6 @@ const {
 
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
 const STATUS_BAR_HORIZONTAL_PADDING = 12
-
-/* ------------------------------------------------------------------ */
-/*  Helpers                                                            */
-/* ------------------------------------------------------------------ */
 
 function generateProblem(difficulty: MathDifficulty = 'easy'): {
   a: number
@@ -57,13 +48,10 @@ function generateProblem(difficulty: MathDifficulty = 'easy'): {
     const isAdd2 = Math.random() > 0.5
     let c = Math.floor(Math.random() * 10) + 1
 
-    // First operation
     if (!isAdd1 && b > a) [a, b] = [b, a]
     const intermediate = isAdd1 ? a + b : a - b
 
-    // Second operation
     if (!isAdd2 && c > intermediate) {
-      // If c is too big to subtract, try to generate a smaller one or retry
       if (intermediate > 0) {
         c = Math.floor(Math.random() * intermediate) + 1
       } else {
@@ -74,7 +62,6 @@ function generateProblem(difficulty: MathDifficulty = 'easy'): {
     return { a, b, c, op1: isAdd1 ? '+' : '-', op2: isAdd2 ? '+' : '-' }
   }
 
-  // Easy mode (A +/- B)
   if (!isAdd1 && b > a) [a, b] = [b, a]
   return { a, b, op1: isAdd1 ? '+' : '-' }
 }
@@ -93,33 +80,21 @@ function getStatusIconOverlap(iconCount: number): number {
   return Math.min(STATUS_ICON_SIZE * 0.72, Math.max(0, requiredOverlap))
 }
 
-/* ------------------------------------------------------------------ */
-/*  Component                                                          */
-/* ------------------------------------------------------------------ */
-
 export interface ArithmeticTesterProps {
   theme: Theme
   totalProblems: number
   starReward: number
   difficulty?: MathDifficulty
-  /** Whether the game is actively running */
   isRunning: boolean
-  /** Explicit completion flag — set by parent after star award */
   isCompleted?: boolean
-  /** Explicit failure flag from persisted task outcome */
   isFailed?: boolean
   onAdjustProblems: (delta: number) => void
   onStarsChange: (value: number) => void
   onDifficultyChange?: (difficulty: MathDifficulty) => void
-  /** Called when all problems are solved successfully */
   onComplete: () => void
-  /** Called when the player reaches max mistakes */
   onFail?: () => void
-  /** Increments when parent requests a check-answer action */
   checkTrigger?: number
-  /** Optional completion image (themed) */
   completionImage?: string
-  /** Optional failure image (themed) */
   failureImage?: string
 }
 
@@ -140,7 +115,6 @@ const ArithmeticTester = ({
   completionImage,
   failureImage,
 }: ArithmeticTesterProps) => {
-  /* --- game state --- */
   const [problemIndex, setProblemIndex] = useState(0)
   const [successCount, setSuccessCount] = useState(0)
   const [retryCount, setRetryCount] = useState(0)
@@ -178,7 +152,6 @@ const ArithmeticTester = ({
   const isCorrect = feedback === 'correct'
   const isWrong = feedback === 'wrong'
 
-  /* --- generate a fresh problem --- */
   const nextProblem = useCallback(() => {
     const p = generateProblem(difficulty)
     setValA(p.a)
@@ -190,7 +163,6 @@ const ArithmeticTester = ({
     setFeedback('idle')
   }, [difficulty])
 
-  /* --- reset when game starts --- */
   useEffect(() => {
     if (isRunning && problemIndex === 0 && feedback === 'idle' && valA === 0) {
       setProblemIndex(0)
@@ -200,14 +172,12 @@ const ArithmeticTester = ({
     }
   }, [isRunning, problemIndex, feedback, valA, nextProblem])
 
-  /* --- cleanup timers --- */
   useEffect(() => {
     return () => {
       if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
     }
   }, [])
 
-  /* --- check answer --- */
   const handleCheck = useCallback(() => {
     if (feedback !== 'idle' || isFailurePending) return
 
@@ -229,7 +199,7 @@ const ArithmeticTester = ({
         if (problemIndex + 1 >= totalProblems) {
           onComplete()
         } else {
-          setProblemIndex((i) => i + 1)
+          setProblemIndex((index) => index + 1)
           nextProblem()
         }
       }, CELEBRATION_DELAY_MS)
@@ -274,7 +244,6 @@ const ArithmeticTester = ({
     }
   }, [checkTrigger, handleCheck, isCompleted, isRunning])
 
-  /* --- reset internal state when parent signals a new game --- */
   useEffect(() => {
     if (!isRunning && !isCompleted) {
       setProblemIndex(0)
@@ -291,10 +260,6 @@ const ArithmeticTester = ({
       setFeedback('idle')
     }
   }, [isRunning, isCompleted])
-
-  /* ---------------------------------------------------------------- */
-  /* Shared styles                                                     */
-  /* ---------------------------------------------------------------- */
 
   const counterStyle = (size: number, delay: number): React.CSSProperties => ({
     width: size,
@@ -315,9 +280,6 @@ const ArithmeticTester = ({
     animation: `dotmath-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${delay}s both`,
   })
 
-  /* ---------------------------------------------------------------- */
-  /* Render                                                            */
-  /* ---------------------------------------------------------------- */
   return (
     <div
       style={{
@@ -328,7 +290,6 @@ const ArithmeticTester = ({
         gap: `${uiTokens.singleVerticalSpace}px`,
       }}
     >
-      {/* Inject keyframe animations */}
       <style>{`
         @keyframes dotmath-pop-in {
           0% { transform: scale(0); }
@@ -345,107 +306,13 @@ const ArithmeticTester = ({
         }
       `}</style>
 
-      {/* ---- COMPLETION VIEW ---- */}
       {isFinished ? (
-        isSuccessState ? (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '20px',
-            }}
-          >
-            <img
-              src={completionImage ?? quizCorrectIcon}
-              alt="All done!"
-              style={{
-                maxWidth: `${QUIZ_OUTCOME_IMAGE_MAX_WIDTH}px`,
-                maxHeight: `${QUIZ_OUTCOME_IMAGE_MAX_HEIGHT}px`,
-                objectFit: 'contain',
-              }}
-            />
-          </div>
-        ) : isFailedState ? (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '20px',
-            }}
-          >
-            <img
-              src={failureImage ?? quizIncorrectIcon}
-              alt="Try again!"
-              style={{
-                maxWidth: `${QUIZ_OUTCOME_IMAGE_MAX_WIDTH}px`,
-                maxHeight: `${QUIZ_OUTCOME_IMAGE_MAX_HEIGHT}px`,
-                objectFit: 'contain',
-              }}
-            />
-          </div>
-        ) : (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 12,
-              padding: '20px',
-            }}
-          >
-            <span
-              style={{
-                fontSize: 42,
-                fontFamily: theme.fonts.heading,
-                fontWeight: 'bold',
-                color: theme.colors.secondary,
-              }}
-            >
-              You Did It! 🎉
-            </span>
-            <span
-              style={{
-                fontSize: 20,
-                fontFamily: theme.fonts.body,
-                color: theme.colors.text,
-              }}
-            >
-              Solved {successCount} puzzles!
-            </span>
-            {resultHistory.length > 0 && (
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  flexWrap: 'wrap',
-                  justifyContent: 'center',
-                  maxWidth: `${CONTROL_ROW_WIDTH}px`,
-                }}
-              >
-                {resultHistory.map((result, index) => (
-                  <img
-                    key={`result-end-${index}`}
-                    src={
-                      result === 'correct' ? quizCorrectIcon : quizIncorrectIcon
-                    }
-                    alt={result === 'correct' ? 'Correct' : 'Incorrect'}
-                    style={{
-                      width: 24,
-                      height: 24,
-                      objectFit: 'contain',
-                    }}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        )
+        <ChoreOutcomeView
+          imageSrc={isSuccessState ? completionImage : failureImage}
+          outcome={isSuccessState ? 'success' : 'failure'}
+        />
       ) : (
         <>
-          {/* ---- PROBLEMS STEPPER (setup only) ---- */}
           {isSetup && (
             <div
               style={{
@@ -457,7 +324,6 @@ const ArithmeticTester = ({
                 maxWidth: '100%',
               }}
             >
-              {/* Difficulty Toggle */}
               <div
                 style={{
                   display: 'flex',
@@ -469,11 +335,11 @@ const ArithmeticTester = ({
                   boxSizing: 'border-box',
                 }}
               >
-                {(['easy', 'hard'] as MathDifficulty[]).map((d) => (
+                {(['easy', 'hard'] as MathDifficulty[]).map((value) => (
                   <button
-                    key={d}
+                    key={value}
                     type="button"
-                    onClick={() => onDifficultyChange?.(d)}
+                    onClick={() => onDifficultyChange?.(value)}
                     style={{
                       flex: 1,
                       padding: '8px 0',
@@ -484,9 +350,11 @@ const ArithmeticTester = ({
                       fontSize: '1rem',
                       cursor: 'pointer',
                       background:
-                        difficulty === d ? theme.colors.primary : 'transparent',
+                        difficulty === value
+                          ? theme.colors.primary
+                          : 'transparent',
                       color:
-                        difficulty === d
+                        difficulty === value
                           ? theme.id === 'space'
                             ? '#000'
                             : '#fff'
@@ -494,7 +362,7 @@ const ArithmeticTester = ({
                       transition: 'all 0.2s ease',
                     }}
                   >
-                    {d.toUpperCase()}
+                    {value.toUpperCase()}
                   </button>
                 ))}
               </div>
@@ -548,7 +416,6 @@ const ArithmeticTester = ({
             </div>
           )}
 
-          {/* ---- STAR REWARD (setup only) ---- */}
           {isSetup && (
             <StarDisplay
               theme={theme}
@@ -560,7 +427,6 @@ const ArithmeticTester = ({
             />
           )}
 
-          {/* ---- PLAY AREA ---- */}
           {isRunning && (
             <div
               style={{
@@ -578,7 +444,6 @@ const ArithmeticTester = ({
               }}
               key={isWrong ? `shake-${retryCount}` : undefined}
             >
-              {/* Scoreboard */}
               <div
                 style={{
                   display: 'flex',
@@ -653,9 +518,9 @@ const ArithmeticTester = ({
                       },
                     ]
                   : []),
-              ].map((term, i) => (
+              ].map((term, index) => (
                 <div
-                  key={`term-row-${i}`}
+                  key={`term-row-${index}`}
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -717,10 +582,10 @@ const ArithmeticTester = ({
                         overflowY: 'hidden',
                       }}
                     >
-                      {Array.from({ length: term.val }).map((_, dotIdx) =>
+                      {Array.from({ length: term.val }).map((_, dotIndex) =>
                         term.op === '-' ? (
                           <div
-                            key={`dot-${i}-${dotIdx}`}
+                            key={`dot-${index}-${dotIndex}`}
                             style={{
                               position: 'relative',
                               width: DOT_SIZE,
@@ -732,7 +597,7 @@ const ArithmeticTester = ({
                               alt="Counter"
                               style={crossedCounterStyle(
                                 DOT_SIZE,
-                                0.4 + dotIdx * 0.05
+                                0.4 + dotIndex * 0.05
                               )}
                             />
                             <span
@@ -750,10 +615,10 @@ const ArithmeticTester = ({
                           </div>
                         ) : (
                           <img
-                            key={`dot-${i}-${dotIdx}`}
+                            key={`dot-${index}-${dotIndex}`}
                             src={mathsCounterIcon}
                             alt="Counter"
-                            style={counterStyle(DOT_SIZE, dotIdx * 0.03)}
+                            style={counterStyle(DOT_SIZE, dotIndex * 0.03)}
                           />
                         )
                       )}
@@ -762,7 +627,6 @@ const ArithmeticTester = ({
                 </div>
               ))}
 
-              {/* Equals sign */}
               <span
                 style={{
                   fontSize: 44,
@@ -776,7 +640,6 @@ const ArithmeticTester = ({
                 =
               </span>
 
-              {/* Answer area */}
               <div
                 style={{
                   display: 'flex',
@@ -786,7 +649,6 @@ const ArithmeticTester = ({
                   width: '100%',
                 }}
               >
-                {/* Answer dot box */}
                 <div
                   style={{
                     border: `3px dashed ${theme.colors.accent}`,
@@ -818,9 +680,9 @@ const ArithmeticTester = ({
                       ?
                     </span>
                   ) : (
-                    Array.from({ length: userAnswer }).map((_, i) => (
+                    Array.from({ length: userAnswer }).map((_, index) => (
                       <img
-                        key={`c-${i}`}
+                        key={`c-${index}`}
                         src={mathsCounterIcon}
                         alt="Counter"
                         style={counterStyle(ANSWER_COUNTER_SIZE, 0)}
@@ -829,7 +691,6 @@ const ArithmeticTester = ({
                   )}
                 </div>
 
-                {/* +/- answer controls */}
                 <div
                   style={{
                     display: 'flex',

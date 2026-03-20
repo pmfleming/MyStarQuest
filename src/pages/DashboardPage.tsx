@@ -72,6 +72,7 @@ const DashboardPage = () => {
     addTodo,
     completeTodo,
     deleteTodo,
+    updateTodoFields,
     dinnerApplyBite,
     dinnerStartTimer,
     dinnerTimerExpired,
@@ -111,7 +112,7 @@ const DashboardPage = () => {
 
   const {
     activeItemId: activeDinnerTodoId,
-    biteCooldownSeconds,
+    biteCooldownEndsAt,
     startActivity: startDinnerActivity,
     clearItemState: clearDinnerTodoState,
     isRunning: isDinnerTodoRunning,
@@ -129,6 +130,10 @@ const DashboardPage = () => {
     isPersistedRunning: (todo) => Boolean(todo.dinnerTimerStartedAt),
     resetKeys: [activeChildId, todayInfo.dateKey],
   })
+
+  const biteCooldownSeconds = biteCooldownEndsAt
+    ? Math.max(0, (biteCooldownEndsAt - Date.now()) / 1000)
+    : 0
 
   const selectedChild = useMemo(
     () => children.find((child) => child.id === activeChildId) ?? null,
@@ -169,6 +174,10 @@ const DashboardPage = () => {
     if (activeMathTodoId === todo.id) setActiveMathTodoId(null)
     if (activePVTodoId === todo.id) setActivePVTodoId(null)
     await deleteTodo(todo)
+  }
+
+  const handleStandardReset = async (todo: TodoRecord) => {
+    await updateTodoFields(todo.id, { completedAt: null })
   }
 
   const handleDinnerReset = async (todo: EatingTodo) => {
@@ -230,6 +239,7 @@ const DashboardPage = () => {
         createTodayTodoListRowDescriptor({
           theme,
           biteCooldownSeconds,
+          biteCooldownEndsAt,
           pendingTodoId,
           activeMathTodoId,
           activePVTodoId,
@@ -272,6 +282,7 @@ const DashboardPage = () => {
           startDinnerActivity,
           clearDinnerTodoState,
           handleCompleteTodo,
+          handleStandardReset,
           handleDeleteTodo,
         })
       ),
@@ -293,7 +304,9 @@ const DashboardPage = () => {
       getDinnerTotalBites,
       getDinnerBitesLeft,
       activeDinnerTodoId,
+      biteCooldownEndsAt,
       handleCompleteTodo,
+      handleStandardReset,
       handleDeleteTodo,
     ]
   )

@@ -60,9 +60,9 @@ describe('chore mode definitions', () => {
         {
           "hidePrimaryButtonByType": {
             "alphabet": true,
-            "eating": false,
-            "math": false,
-            "positional-notation": false,
+            "eating": true,
+            "math": true,
+            "positional-notation": true,
           },
           "hideStars": true,
           "hideTitle": true,
@@ -91,12 +91,12 @@ describe('chore mode definitions', () => {
         "dinner": {
           "activityIdle": "Start",
           "activityRunning": "Bite",
-          "completed": "Again 🔁",
+          "completed": "Start",
           "setup": "Start",
         },
         "test": {
           "activity": "Check Answer",
-          "completed": "Again 🔁",
+          "completed": "Start",
           "setup": "Start",
         },
       }

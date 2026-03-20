@@ -22,6 +22,8 @@ type DinnerChoreRendererProps = {
   completionImage?: string
   failureImage?: string
   biteCooldownSeconds?: number
+  biteCooldownEndsAt?: number | null
+  timerStartedAt?: number | null
   biteIcon?: string
   onBiteIconClick?: () => void
   showSetupControls?: boolean
@@ -94,6 +96,8 @@ export const renderDinnerChore = ({
   completionImage,
   failureImage,
   biteCooldownSeconds,
+  biteCooldownEndsAt,
+  timerStartedAt,
   biteIcon,
   onBiteIconClick,
   showSetupControls,
@@ -115,6 +119,8 @@ export const renderDinnerChore = ({
     completionImage={completionImage}
     failureImage={failureImage}
     biteCooldownSeconds={biteCooldownSeconds}
+    biteCooldownEndsAt={biteCooldownEndsAt}
+    timerStartedAt={timerStartedAt}
     biteIcon={biteIcon}
     onBiteIconClick={onBiteIconClick}
     showSetupControls={showSetupControls}

@@ -7,6 +7,8 @@ export type ChoreSchedule = {
 
 export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
 
+export const APP_TIME_ZONE = 'Europe/London'
+
 export const CURRENT_DAY_LABELS: Record<CurrentDayType, string> = {
   schoolday: 'Schoolday',
   nonschoolday: 'Non-school day',
@@ -18,6 +20,34 @@ export const DEFAULT_CHORE_SCHEDULE: ChoreSchedule = {
 }
 
 const padDatePart = (value: number) => String(value).padStart(2, '0')
+
+const getDatePartsInTimeZone = (date: Date, timeZone: string) => {
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    weekday: 'long',
+  })
+
+  const parts = formatter.formatToParts(date)
+
+  return {
+    year: Number(parts.find((part) => part.type === 'year')?.value),
+    month: Number(parts.find((part) => part.type === 'month')?.value),
+    day: Number(parts.find((part) => part.type === 'day')?.value),
+    weekday:
+      parts.find((part) => part.type === 'weekday')?.value ??
+      date.toLocaleDateString('en-GB', { weekday: 'long', timeZone }),
+  }
+}
+
+const getSeasonForMonth = (month: number): Season => {
+  if (month >= 3 && month <= 5) return 'spring'
+  if (month >= 6 && month <= 8) return 'summer'
+  if (month >= 9 && month <= 11) return 'autumn'
+  return 'winter'
+}
 
 export const buildDateKey = (date: Date) => {
   const year = date.getFullYear()
@@ -97,13 +127,26 @@ export const getScheduleLabel = (schedule: ChoreSchedule) => {
   return 'Inactive'
 }
 
-export const getTodayDescriptor = (date = new Date()) => ({
-  dateKey: buildDateKey(date),
-  dayType: getCurrentDayTypeForDate(date),
-  season: getSeasonForDate(date),
-  dayName: date.toLocaleDateString(undefined, { weekday: 'long' }),
-  formattedDate: date.toLocaleDateString(undefined, {
-    month: 'long',
-    day: 'numeric',
-  }),
-})
+export const getTodayDescriptor = (
+  date = new Date(),
+  timeZone = APP_TIME_ZONE
+) => {
+  const parts = getDatePartsInTimeZone(date, timeZone)
+  const dateKey = `${parts.year}-${padDatePart(parts.month)}-${padDatePart(parts.day)}`
+  const dayType: CurrentDayType =
+    parts.weekday === 'Saturday' || parts.weekday === 'Sunday'
+      ? 'nonschoolday'
+      : 'schoolday'
+
+  return {
+    dateKey,
+    dayType,
+    season: getSeasonForMonth(parts.month),
+    dayName: parts.weekday,
+    formattedDate: date.toLocaleDateString(undefined, {
+      timeZone,
+      month: 'long',
+      day: 'numeric',
+    }),
+  }
+}
