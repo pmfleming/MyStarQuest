@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
+import { uiTokens } from '../ui/tokens'
 
 type DragScrollRegionProps = {
   theme: Theme
@@ -14,8 +15,8 @@ type DragScrollRegionProps = {
   className?: string
   contentClassName?: string
   contentStyle?: CSSProperties
-  fadeHeight?: number
   as?: 'main' | 'div' | 'section'
+  bottomNavPadding?: boolean
 }
 
 type DragState = {
@@ -28,43 +29,21 @@ const DRAG_THRESHOLD_PX = 8
 const INTERACTIVE_SELECTOR =
   'button, input, textarea, select, option, label, a, [role="button"], [data-no-drag-scroll="true"]'
 
-const hexToRgba = (hex: string, alpha: number) => {
-  const normalized = hex.trim().replace('#', '')
-
-  if (normalized.length !== 3 && normalized.length !== 6) {
-    return `rgba(253, 242, 248, ${alpha})`
-  }
-
-  const expanded =
-    normalized.length === 3
-      ? normalized
-          .split('')
-          .map((char) => `${char}${char}`)
-          .join('')
-      : normalized
-
-  const red = Number.parseInt(expanded.slice(0, 2), 16)
-  const green = Number.parseInt(expanded.slice(2, 4), 16)
-  const blue = Number.parseInt(expanded.slice(4, 6), 16)
-
-  return `rgba(${red}, ${green}, ${blue}, ${alpha})`
-}
-
 const DragScrollRegion = ({
-  theme,
   children,
   className,
   contentClassName,
   contentStyle,
-  fadeHeight = 96,
   as = 'main',
+  bottomNavPadding = false,
 }: DragScrollRegionProps) => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const dragStateRef = useRef<DragState | null>(null)
   const suppressClickRef = useRef(false)
   const [isDragging, setIsDragging] = useState(false)
   const [canScroll, setCanScroll] = useState(false)
-  const [showBottomFade, setShowBottomFade] = useState(false)
+
+  const ComponentTag = as
 
   useEffect(() => {
     const scrollElement = scrollRef.current
@@ -73,13 +52,7 @@ const DragScrollRegion = ({
     const updateScrollState = () => {
       const nextCanScroll =
         scrollElement.scrollHeight > scrollElement.clientHeight + 1
-      const remainingScroll =
-        scrollElement.scrollHeight -
-        scrollElement.clientHeight -
-        scrollElement.scrollTop
-
       setCanScroll(nextCanScroll)
-      setShowBottomFade(nextCanScroll && remainingScroll > 6)
     }
 
     updateScrollState()
@@ -174,10 +147,6 @@ const DragScrollRegion = ({
     event.stopPropagation()
   }
 
-  const fadeColor =
-    theme.id === 'princess' ? theme.colors.bg : theme.colors.surface
-  const ComponentTag = as
-
   const outerClasses = [
     'relative flex flex-col overflow-hidden',
     className || 'flex-1 min-h-0',
@@ -201,6 +170,9 @@ const DragScrollRegion = ({
         style={{
           overscrollBehavior: 'contain',
           WebkitOverflowScrolling: 'touch',
+          paddingBottom: bottomNavPadding
+            ? `${uiTokens.bottomNavHeight}px`
+            : undefined,
           ...contentStyle,
         }}
         onMouseDown={handleMouseDown}
@@ -208,21 +180,6 @@ const DragScrollRegion = ({
       >
         {children}
       </div>
-
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: `${fadeHeight}px`,
-          opacity: showBottomFade ? 1 : 0,
-          pointerEvents: 'none',
-          transition: 'opacity 180ms ease',
-          background: `linear-gradient(180deg, ${hexToRgba(fadeColor, 0)} 0%, ${hexToRgba(fadeColor, 0.76)} 72%, ${hexToRgba(fadeColor, 1)} 100%)`,
-        }}
-      />
     </ComponentTag>
   )
 }

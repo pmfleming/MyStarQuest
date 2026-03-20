@@ -169,7 +169,7 @@ const PageShell = ({
             paddingLeft: `${uiTokens.pagePaddingX}px`,
             paddingRight: `${uiTokens.pagePaddingX}px`,
             paddingTop: `${uiTokens.pagePaddingTop}px`,
-            paddingBottom: `${effectiveBottomBar ? 100 : uiTokens.pagePaddingBottom}px`,
+            paddingBottom: `${uiTokens.pagePaddingBottom}px`,
             touchAction: activeTabId ? 'pan-y' : undefined,
             ...contentStyle,
           }}
@@ -185,7 +185,11 @@ const PageShell = ({
           )}
 
           {scrollable ? (
-            <DragScrollRegion theme={theme} className="min-h-0 flex-1">
+            <DragScrollRegion
+              theme={theme}
+              className="min-h-0 flex-1"
+              bottomNavPadding={!!activeTabId}
+            >
               {children}
             </DragScrollRegion>
           ) : (
