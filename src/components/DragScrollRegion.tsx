@@ -172,9 +172,11 @@ const DragScrollRegion = ({
         style={{
           overscrollBehavior: 'contain',
           WebkitOverflowScrolling: 'touch',
-          paddingTop: topNavPadding ? `${uiTokens.topNavHeight}px` : undefined,
+          paddingTop: topNavPadding
+            ? `${uiTokens.floatingNavHeight + 24}px`
+            : undefined,
           paddingBottom: bottomNavPadding
-            ? `${uiTokens.bottomNavHeight}px`
+            ? `${uiTokens.floatingNavHeight + 48}px`
             : undefined,
           ...contentStyle,
         }}

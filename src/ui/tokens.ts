@@ -22,8 +22,9 @@ export const uiTokens = {
   actionButtonArrowSize: 32,
   topIconSize: 44,
   topIconBorder: 4,
-  topNavHeight: 88,
-  bottomNavHeight: 120,
+  floatingNavHeight: 80,
+  floatingNavWidthPercent: 90,
+  floatingNavMaxWidth: 340,
   deviceMaxWidth: 414,
   deviceMinHeight: 896,
   activityTokens: {
