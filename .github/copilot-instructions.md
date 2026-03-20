@@ -28,6 +28,13 @@
 - Native-only changes (permissions, Gradle, manifest, plugins) belong under `android/*` and should be kept minimal/surgical.
 - Keep Firebase web config in `src/firebase.ts` for shared app logic; Android-specific Firebase files (for native services) live under `android/app/`.
 
+## Performance & Bundle Optimization
+
+- **Route-based Code Splitting**: All top-level pages in `src/App.tsx` are lazy-loaded using `React.lazy` and `Suspense`. This keeps the initial bundle size small and improves "Time to Interactive".
+- **Component-based Code Splitting**: Heavy activity components (e.g., `AlphabetTester`, `ArithmeticTester`) are lazy-loaded in `src/ui/presetChoreRenderers.tsx`. This is critical because some components (especially the Alphabet Tester) import dozens of large SVG assets that would otherwise bloat the main bundle.
+- **Manual Chunking**: The Vite config (`vite.config.ts`) is configured to split large third-party libraries (like Firebase and React) into separate vendor chunks.
+- **Loading States**: Use `<Suspense>` boundaries with appropriate fallbacks. For page-level transitions, a simple themed background fallback is preferred to avoid jarring flashes.
+
 ## High-level architecture
 
 - Single-page React app with React Router routes defined in `src/App.tsx`.
@@ -135,10 +142,13 @@ All core domain types use **discriminated unions** (tagged unions) so TypeScript
 - Maths test behavior lives in `src/components/ArithmeticTester.tsx`:
   - Parent action button triggers answer checks through `checkTrigger`.
   - Failure threshold is 3 mistakes with persisted task outcome (`mathLastOutcome`).
+  - Uses `useProblemHistory` to ensure random equations do not repeat within a session.
 - Positional notation behavior lives in `src/components/PositionalNotation.tsx`:
   - Builder layout uses a `2fr/1fr` Tens/Ones split; ones use `maths-counter` icons, and tens render as 10 stacked smaller `maths-counter` icons.
+  - Uses `useProblemHistory` to ensure random target numbers do not repeat within a session.
 - Alphabet test behavior lives in `src/components/AlphabetTester.tsx`:
   - It follows the shared test lifecycle of setup, active play, and success/failure states with capped mistakes.
+  - Uses `useProblemHistory` to ensure random letters do not repeat within a session.
 
 ## Component inventory
 

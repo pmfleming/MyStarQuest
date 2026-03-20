@@ -1,10 +1,18 @@
-import type { ReactNode } from 'react'
-import ArithmeticTester from '../components/ArithmeticTester'
-import AlphabetTester from '../components/AlphabetTester'
-import DinnerCountdown from '../components/DinnerCountdown'
-import PositionalNotation from '../components/PositionalNotation'
+import { type ReactNode, lazy, Suspense } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import type { MathDifficulty } from '../data/types'
+
+// Lazy load heavy activity components
+const ArithmeticTester = lazy(() => import('../components/ArithmeticTester'))
+const AlphabetTester = lazy(() => import('../components/AlphabetTester'))
+const DinnerCountdown = lazy(() => import('../components/DinnerCountdown'))
+const PositionalNotation = lazy(
+  () => import('../components/PositionalNotation')
+)
+
+const withSuspense = (component: ReactNode) => (
+  <Suspense fallback={null}>{component}</Suspense>
+)
 
 type DinnerChoreRendererProps = {
   theme: Theme
@@ -102,31 +110,32 @@ export const renderDinnerChore = ({
   onBiteIconClick,
   showSetupControls,
   showStarReward,
-}: DinnerChoreRendererProps): ReactNode => (
-  <DinnerCountdown
-    theme={theme}
-    duration={duration}
-    remaining={remaining}
-    totalBites={totalBites}
-    bitesLeft={bitesLeft}
-    starReward={starReward}
-    isTimerRunning={isTimerRunning}
-    plateImage={plateImage}
-    onAdjustTime={onAdjustTime}
-    onAdjustBites={onAdjustBites}
-    onStarsChange={onStarsChange}
-    isCompleted={isCompleted}
-    completionImage={completionImage}
-    failureImage={failureImage}
-    biteCooldownSeconds={biteCooldownSeconds}
-    biteCooldownEndsAt={biteCooldownEndsAt}
-    timerStartedAt={timerStartedAt}
-    biteIcon={biteIcon}
-    onBiteIconClick={onBiteIconClick}
-    showSetupControls={showSetupControls}
-    showStarReward={showStarReward}
-  />
-)
+}: DinnerChoreRendererProps): ReactNode =>
+  withSuspense(
+    <DinnerCountdown
+      theme={theme}
+      duration={duration}
+      remaining={remaining}
+      totalBites={totalBites}
+      bitesLeft={bitesLeft}
+      starReward={starReward}
+      isTimerRunning={isTimerRunning}
+      plateImage={plateImage}
+      onAdjustTime={onAdjustTime}
+      onAdjustBites={onAdjustBites}
+      onStarsChange={onStarsChange}
+      isCompleted={isCompleted}
+      completionImage={completionImage}
+      failureImage={failureImage}
+      biteCooldownSeconds={biteCooldownSeconds}
+      biteCooldownEndsAt={biteCooldownEndsAt}
+      timerStartedAt={timerStartedAt}
+      biteIcon={biteIcon}
+      onBiteIconClick={onBiteIconClick}
+      showSetupControls={showSetupControls}
+      showStarReward={showStarReward}
+    />
+  )
 
 export const renderArithmeticChore = ({
   theme,
@@ -144,25 +153,26 @@ export const renderArithmeticChore = ({
   checkTrigger,
   completionImage,
   failureImage,
-}: ArithmeticChoreRendererProps): ReactNode => (
-  <ArithmeticTester
-    theme={theme}
-    totalProblems={totalProblems}
-    starReward={starReward}
-    difficulty={difficulty}
-    isRunning={isRunning}
-    isCompleted={isCompleted}
-    isFailed={isFailed}
-    onAdjustProblems={onAdjustProblems}
-    onStarsChange={onStarsChange}
-    onDifficultyChange={onDifficultyChange}
-    onComplete={onComplete}
-    onFail={onFail}
-    checkTrigger={checkTrigger}
-    completionImage={completionImage}
-    failureImage={failureImage}
-  />
-)
+}: ArithmeticChoreRendererProps): ReactNode =>
+  withSuspense(
+    <ArithmeticTester
+      theme={theme}
+      totalProblems={totalProblems}
+      starReward={starReward}
+      difficulty={difficulty}
+      isRunning={isRunning}
+      isCompleted={isCompleted}
+      isFailed={isFailed}
+      onAdjustProblems={onAdjustProblems}
+      onStarsChange={onStarsChange}
+      onDifficultyChange={onDifficultyChange}
+      onComplete={onComplete}
+      onFail={onFail}
+      checkTrigger={checkTrigger}
+      completionImage={completionImage}
+      failureImage={failureImage}
+    />
+  )
 
 export const renderPositionalNotationChore = ({
   theme,
@@ -178,23 +188,24 @@ export const renderPositionalNotationChore = ({
   checkTrigger,
   completionImage,
   failureImage,
-}: PositionalNotationChoreRendererProps): ReactNode => (
-  <PositionalNotation
-    theme={theme}
-    totalProblems={totalProblems}
-    starReward={starReward}
-    isRunning={isRunning}
-    isCompleted={isCompleted}
-    isFailed={isFailed}
-    onAdjustProblems={onAdjustProblems}
-    onStarsChange={onStarsChange}
-    onComplete={onComplete}
-    onFail={onFail}
-    checkTrigger={checkTrigger}
-    completionImage={completionImage}
-    failureImage={failureImage}
-  />
-)
+}: PositionalNotationChoreRendererProps): ReactNode =>
+  withSuspense(
+    <PositionalNotation
+      theme={theme}
+      totalProblems={totalProblems}
+      starReward={starReward}
+      isRunning={isRunning}
+      isCompleted={isCompleted}
+      isFailed={isFailed}
+      onAdjustProblems={onAdjustProblems}
+      onStarsChange={onStarsChange}
+      onComplete={onComplete}
+      onFail={onFail}
+      checkTrigger={checkTrigger}
+      completionImage={completionImage}
+      failureImage={failureImage}
+    />
+  )
 
 export const renderAlphabetChore = ({
   theme,
@@ -210,20 +221,21 @@ export const renderAlphabetChore = ({
   checkTrigger,
   completionImage,
   failureImage,
-}: AlphabetChoreRendererProps): ReactNode => (
-  <AlphabetTester
-    theme={theme}
-    totalProblems={totalProblems}
-    starReward={starReward}
-    isRunning={isRunning}
-    isCompleted={isCompleted}
-    isFailed={isFailed}
-    onAdjustProblems={onAdjustProblems}
-    onStarsChange={onStarsChange}
-    onComplete={onComplete}
-    onFail={onFail}
-    checkTrigger={checkTrigger}
-    completionImage={completionImage}
-    failureImage={failureImage}
-  />
-)
+}: AlphabetChoreRendererProps): ReactNode =>
+  withSuspense(
+    <AlphabetTester
+      theme={theme}
+      totalProblems={totalProblems}
+      starReward={starReward}
+      isRunning={isRunning}
+      isCompleted={isCompleted}
+      isFailed={isFailed}
+      onAdjustProblems={onAdjustProblems}
+      onStarsChange={onStarsChange}
+      onComplete={onComplete}
+      onFail={onFail}
+      checkTrigger={checkTrigger}
+      completionImage={completionImage}
+      failureImage={failureImage}
+    />
+  )

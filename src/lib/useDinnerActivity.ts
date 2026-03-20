@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { BITE_COOLDOWN_SECONDS } from '../components/DinnerCountdown'
+import { BITE_COOLDOWN_SECONDS } from '../data/types'
 
 type UseDinnerActivityOptions<T> = {
   items: T[]

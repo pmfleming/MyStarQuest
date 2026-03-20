@@ -8,6 +8,7 @@ import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
+import { useProblemHistory } from '../lib/useProblemHistory'
 import type { MathDifficulty } from '../data/types'
 
 const MIN_PROBLEMS = 1
@@ -64,6 +65,16 @@ function generateProblem(difficulty: MathDifficulty = 'easy'): {
 
   if (!isAdd1 && b > a) [a, b] = [b, a]
   return { a, b, op1: isAdd1 ? '+' : '-' }
+}
+
+function getProblemKey(p: {
+  a: number
+  b: number
+  c?: number
+  op1: '+' | '-'
+  op2?: '+' | '-'
+}): string {
+  return `${p.a}${p.op1}${p.b}${p.op2 ?? ''}${p.c ?? ''}`
 }
 
 function getStatusIconOverlap(iconCount: number): number {
@@ -124,6 +135,7 @@ const ArithmeticTester = ({
   const [op1, setOp1] = useState<'+' | '-'>('+')
   const [op2, setOp2] = useState<'+' | '-' | undefined>(undefined)
   const [userAnswer, setUserAnswer] = useState(0)
+  const { isSeen, markSeen, clearHistory } = useProblemHistory()
   const [resultHistory, setResultHistory] = useState<
     Array<'correct' | 'incorrect'>
   >([])
@@ -153,7 +165,13 @@ const ArithmeticTester = ({
   const isWrong = feedback === 'wrong'
 
   const nextProblem = useCallback(() => {
-    const p = generateProblem(difficulty)
+    let p = generateProblem(difficulty)
+    let attempts = 0
+    while (isSeen(getProblemKey(p)) && attempts < 10) {
+      p = generateProblem(difficulty)
+      attempts++
+    }
+    markSeen(getProblemKey(p))
     setValA(p.a)
     setValB(p.b)
     setValC(p.c)
@@ -161,7 +179,7 @@ const ArithmeticTester = ({
     setOp2(p.op2)
     setUserAnswer(0)
     setFeedback('idle')
-  }, [difficulty])
+  }, [difficulty, isSeen, markSeen])
 
   useEffect(() => {
     if (isRunning && problemIndex === 0 && feedback === 'idle' && valA === 0) {
@@ -246,6 +264,7 @@ const ArithmeticTester = ({
 
   useEffect(() => {
     if (!isRunning && !isCompleted) {
+      clearHistory()
       setProblemIndex(0)
       setSuccessCount(0)
       setRetryCount(0)
@@ -259,7 +278,7 @@ const ArithmeticTester = ({
       setIsFailurePending(false)
       setFeedback('idle')
     }
-  }, [isRunning, isCompleted])
+  }, [isRunning, isCompleted, clearHistory])
 
   const counterStyle = (size: number, delay: number): React.CSSProperties => ({
     width: size,

@@ -7,6 +7,7 @@ import { uiTokens } from '../ui/tokens'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
+import { useProblemHistory } from '../lib/useProblemHistory'
 
 // Import all alphabet SVGs
 import antAardvarkAntelope from '../assets/alphabet/ant-aardvark-antelope.svg'
@@ -29,6 +30,23 @@ import ibisIguanaImpala from '../assets/alphabet/Ibis-iguana-impala.svg'
 import icePopInstantNoodlesIceCream from '../assets/alphabet/ice pop-instant noodles-ice cream.svg'
 import jackfruitJamJalapeno from '../assets/alphabet/Jackfruit-jam-Jalapeño.svg'
 import jaguarJellyFishJackal from '../assets/alphabet/jaguar-jelly fish-jackal.svg'
+import kangarooKoalaKiwi from '../assets/alphabet/kangaroo-koala-kiwi.svg'
+import kiwiKaleKetchup from '../assets/alphabet/kiwi-kale-ketchup.svg'
+import lasagneLollipopLemonade from '../assets/alphabet/lasagne-lollipop-lemonade.svg'
+import lemonlimeLycheeLettuce from '../assets/alphabet/lemonlime-lychee-lettuce.svg'
+import lionLlamaLemur from '../assets/alphabet/lion-llama-lemur.svg'
+import lobsterLadybugLeopard from '../assets/alphabet/lobster-ladybug-leopard.svg'
+import mangoMelonMuffin from '../assets/alphabet/mango-melon-muffin.svg'
+import mouseMeerkatManatee from '../assets/alphabet/mouse-meerkat-manatee.svg'
+import mushroomMeatballsMacaroni from '../assets/alphabet/mushroom-meatballs-macaroni.svg'
+import narwhalNewtNautilus from '../assets/alphabet/narwhal-newt-nautilus.svg'
+import noodlesNachosNougat from '../assets/alphabet/noodles-nachos-nougat.svg'
+import omeletteOystersOliveOil from '../assets/alphabet/omelette-oysters-olive oil.svg'
+import orangeOliveOnion from '../assets/alphabet/orange-olive-onion.svg'
+import orangutanOtterOwl from '../assets/alphabet/orangutan-otter-owl.svg'
+import owlOstrichOctopus from '../assets/alphabet/owl-ostrich-octopus.svg'
+import peacockPlatypusPorcupine from '../assets/alphabet/peacock-platypus-porcupine.svg'
+import pigPenguinPanda from '../assets/alphabet/pig-penguin-panda.svg'
 
 /* ------------------------------------------------------------------ */
 /*  Constants & Assets                                                 */
@@ -64,9 +82,51 @@ const ALPHABET_ASSETS = [
   },
   { letter: 'I', files: [ibisIguanaImpala, icePopInstantNoodlesIceCream] },
   { letter: 'J', files: [jackfruitJamJalapeno, jaguarJellyFishJackal] },
+  { letter: 'K', files: [kangarooKoalaKiwi, kiwiKaleKetchup] },
+  {
+    letter: 'L',
+    files: [
+      lasagneLollipopLemonade,
+      lemonlimeLycheeLettuce,
+      lionLlamaLemur,
+      lobsterLadybugLeopard,
+    ],
+  },
+  {
+    letter: 'M',
+    files: [mangoMelonMuffin, mouseMeerkatManatee, mushroomMeatballsMacaroni],
+  },
+  { letter: 'N', files: [narwhalNewtNautilus, noodlesNachosNougat] },
+  {
+    letter: 'O',
+    files: [
+      omeletteOystersOliveOil,
+      orangeOliveOnion,
+      orangutanOtterOwl,
+      owlOstrichOctopus,
+    ],
+  },
+  { letter: 'P', files: [peacockPlatypusPorcupine, pigPenguinPanda] },
 ]
 
-const ALL_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+const ALL_LETTERS = [
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'O',
+  'P',
+]
 
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
@@ -148,6 +208,7 @@ const AlphabetTester = ({
   const [currentTarget, setCurrentTarget] = useState('')
   const [currentImage, setCurrentImage] = useState('')
   const [currentChoices, setCurrentChoices] = useState<string[]>([])
+  const { isSeen, markSeen, clearHistory } = useProblemHistory()
   const [resultHistory, setResultHistory] = useState<
     Array<'correct' | 'incorrect'>
   >([])
@@ -167,13 +228,19 @@ const AlphabetTester = ({
   const isWrong = feedback === 'wrong'
 
   const nextProblem = useCallback(() => {
-    const p = generateAlphabetProblem()
+    let p = generateAlphabetProblem()
+    let attempts = 0
+    while (isSeen(p.letter) && attempts < 10) {
+      p = generateAlphabetProblem()
+      attempts++
+    }
+    markSeen(p.letter)
     setCurrentTarget(p.letter)
     setCurrentImage(p.image)
     setCurrentChoices(p.choices)
     setFeedback('idle')
     setWrongChoice(null)
-  }, [])
+  }, [isSeen, markSeen])
 
   useEffect(() => {
     if (
@@ -239,6 +306,7 @@ const AlphabetTester = ({
 
   useEffect(() => {
     if (!isRunning && !isCompleted) {
+      clearHistory()
       setProblemIndex(0)
       setSuccessCount(0)
       setRetryCount(0)
@@ -250,7 +318,7 @@ const AlphabetTester = ({
       setFeedback('idle')
       setWrongChoice(null)
     }
-  }, [isRunning, isCompleted])
+  }, [isRunning, isCompleted, clearHistory])
 
   return (
     <div

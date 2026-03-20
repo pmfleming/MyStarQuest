@@ -186,6 +186,7 @@ export const DEFAULT_PV_STARS = 3
 export const DEFAULT_ALPHABET_PROBLEMS = 5
 export const DEFAULT_ALPHABET_STARS = 3
 export const MANAGE_STATUS_RESET_MS = 15 * 60 * 1000
+export const BITE_COOLDOWN_SECONDS = 15
 
 // ── Narrowing type guards ──
 

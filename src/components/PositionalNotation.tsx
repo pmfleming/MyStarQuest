@@ -8,6 +8,7 @@ import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import { celebrateSuccess } from '../lib/celebrate'
+import { useProblemHistory } from '../lib/useProblemHistory'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 10
@@ -121,6 +122,7 @@ const PositionalNotation = ({
   const [targetNumber, setTargetNumber] = useState(0)
   const [userTens, setUserTens] = useState(0)
   const [userOnes, setUserOnes] = useState(0)
+  const { isSeen, markSeen, clearHistory } = useProblemHistory()
   const [resultHistory, setResultHistory] = useState<
     Array<'correct' | 'incorrect'>
   >([])
@@ -143,17 +145,26 @@ const PositionalNotation = ({
 
   const nextProblem = useCallback(
     (nextIndex: number) => {
-      const problem = generateProgressivePositionalNotationProblem(
+      let problem = generateProgressivePositionalNotationProblem(
         nextIndex,
         totalProblems
       )
+      let attempts = 0
+      while (isSeen(problem.target.toString()) && attempts < 10) {
+        problem = generateProgressivePositionalNotationProblem(
+          nextIndex,
+          totalProblems
+        )
+        attempts++
+      }
+      markSeen(problem.target.toString())
 
       setTargetNumber(problem.target)
       setUserTens(0)
       setUserOnes(0)
       setFeedback('idle')
     },
-    [totalProblems]
+    [totalProblems, isSeen, markSeen]
   )
 
   useEffect(() => {
@@ -245,6 +256,7 @@ const PositionalNotation = ({
 
   useEffect(() => {
     if (!isRunning && !isCompleted) {
+      clearHistory()
       setProblemIndex(0)
       setSuccessCount(0)
       setRetryCount(0)
@@ -255,7 +267,7 @@ const PositionalNotation = ({
       setIsFailurePending(false)
       setFeedback('idle')
     }
-  }, [isRunning, isCompleted])
+  }, [isRunning, isCompleted, clearHistory])
 
   const rodStyle = (delay: number): React.CSSProperties => ({
     display: 'flex',
@@ -717,9 +729,9 @@ const PositionalNotation = ({
                       style={{
                         display: 'flex',
                         flexWrap: 'wrap',
-                        justifyContent: 'flex-start',
-                        alignContent: 'flex-start',
-                        alignItems: 'flex-start',
+                        justifyContent: 'center',
+                        alignContent: 'center',
+                        alignItems: 'center',
                         minHeight: 100,
                         paddingBottom: 4,
                         width: '100%',

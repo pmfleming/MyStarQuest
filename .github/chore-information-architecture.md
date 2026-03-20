@@ -98,6 +98,7 @@ Tests involve:
 - checking answers or validating outcomes
 - success/failure states
 - reward completion
+- **session uniqueness**: using `useProblemHistory` to prevent repeated random questions in a single run
 
 Activity monitors involve:
 
