@@ -73,20 +73,6 @@ const BottomNav = ({ theme, activeTabId }: BottomNavProps) => {
                   : 'none',
               }}
             />
-            {/* Active Indicator Dot */}
-            {isActive && (
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '-6px',
-                  width: '6px',
-                  height: '6px',
-                  borderRadius: '50%',
-                  background: theme.colors.secondary,
-                  boxShadow: `0 0 8px ${theme.colors.secondary}`,
-                }}
-              />
-            )}
           </button>
         )
       })}
