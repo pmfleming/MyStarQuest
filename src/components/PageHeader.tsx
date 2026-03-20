@@ -18,8 +18,8 @@ const PageHeader = ({ theme, title, right, fontFamily }: PageHeaderProps) => {
         top: '12px',
         left: '50%',
         transform: 'translateX(-50%)',
-        width: '94%',
-        maxWidth: `${uiTokens.deviceMaxWidth - 24}px`,
+        width: '90%',
+        maxWidth: `${uiTokens.contentMaxWidth}px`,
         minHeight: `${uiTokens.topNavHeight - 24}px`,
         padding: '8px 16px',
         // Translucent background with glassmorphism
