@@ -19,7 +19,6 @@ interface PageShellProps {
   theme: Theme
   title?: string
   headerRight?: ReactNode
-  topRight?: ReactNode
   bottomBar?: ReactNode
   activeTabId?: AppTabId
   scrollable?: boolean
@@ -35,7 +34,6 @@ const PageShell = ({
   theme,
   title,
   headerRight,
-  topRight,
   bottomBar,
   activeTabId,
   scrollable = true,
@@ -149,16 +147,13 @@ const PageShell = ({
           width: '100%',
         }}
       >
-        {topRight && (
-          <div
-            className="absolute z-50 flex justify-end gap-3"
-            style={{
-              top: `${uiTokens.pagePaddingTop}px`,
-              right: `${uiTokens.pagePaddingX}px`,
-            }}
-          >
-            {topRight}
-          </div>
+        {title && (
+          <PageHeader
+            theme={theme}
+            title={title}
+            right={headerRight}
+            fontFamily={theme.fonts.heading}
+          />
         )}
 
         <div
@@ -168,7 +163,7 @@ const PageShell = ({
           style={{
             paddingLeft: `${uiTokens.pagePaddingX}px`,
             paddingRight: `${uiTokens.pagePaddingX}px`,
-            paddingTop: `${uiTokens.pagePaddingTop}px`,
+            paddingTop: '0px',
             paddingBottom: `${uiTokens.pagePaddingBottom}px`,
             touchAction: activeTabId ? 'pan-y' : undefined,
             ...contentStyle,
@@ -176,18 +171,11 @@ const PageShell = ({
           onTouchStart={activeTabId ? handleTouchStart : undefined}
           onTouchEnd={activeTabId ? handleTouchEnd : undefined}
         >
-          {title && (
-            <PageHeader
-              title={title}
-              right={headerRight}
-              fontFamily={theme.fonts.heading}
-            />
-          )}
-
           {scrollable ? (
             <DragScrollRegion
               theme={theme}
               className="min-h-0 flex-1"
+              topNavPadding={!!title}
               bottomNavPadding={!!activeTabId}
             >
               {children}

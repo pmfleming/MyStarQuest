@@ -17,6 +17,7 @@ type DragScrollRegionProps = {
   contentStyle?: CSSProperties
   as?: 'main' | 'div' | 'section'
   bottomNavPadding?: boolean
+  topNavPadding?: boolean
 }
 
 type DragState = {
@@ -36,6 +37,7 @@ const DragScrollRegion = ({
   contentStyle,
   as = 'main',
   bottomNavPadding = false,
+  topNavPadding = false,
 }: DragScrollRegionProps) => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const dragStateRef = useRef<DragState | null>(null)
@@ -170,6 +172,7 @@ const DragScrollRegion = ({
         style={{
           overscrollBehavior: 'contain',
           WebkitOverflowScrolling: 'touch',
+          paddingTop: topNavPadding ? `${uiTokens.topNavHeight}px` : undefined,
           paddingBottom: bottomNavPadding
             ? `${uiTokens.bottomNavHeight}px`
             : undefined,
