@@ -156,11 +156,14 @@ const DinnerCountdown = ({
   const [now, setNow] = useState(Date.now())
 
   useEffect(() => {
-    if (!isTimerRunning && (!biteCooldownEndsAt || biteCooldownEndsAt < now))
-      return
+    // Only tick if the timer is running or a cooldown is active
+    const needsTick =
+      isTimerRunning || (biteCooldownEndsAt && biteCooldownEndsAt > Date.now())
+    if (!needsTick) return
+
     const interval = window.setInterval(() => setNow(Date.now()), 100)
     return () => window.clearInterval(interval)
-  }, [isTimerRunning, biteCooldownEndsAt, now])
+  }, [isTimerRunning, biteCooldownEndsAt])
 
   /* --- live display values --- */
   // remaining is the "frozen" seconds from the last sync; we subtract elapsed ms
@@ -172,7 +175,8 @@ const DinnerCountdown = ({
 
   const liveCooldown = biteCooldownEndsAt
     ? Math.max(0, (biteCooldownEndsAt - now) / 1000)
-    : biteCooldownSeconds
+    : 0
+  const totalCooldownSeconds = biteCooldownSeconds || BITE_COOLDOWN_SECONDS
 
   /* --- derived game phase --- */
   const isCoolingDown = liveCooldown > 0
@@ -262,6 +266,8 @@ const DinnerCountdown = ({
               justifyContent: 'center',
               width: `${CONTROL_ROW_WIDTH}px`,
               maxWidth: '100%',
+              position: 'relative',
+              zIndex: 1,
             }}
           >
             <div
@@ -270,7 +276,7 @@ const DinnerCountdown = ({
                 pointerEvents: isSetup ? 'auto' : 'none',
                 transition: 'opacity 0.3s',
                 position: 'relative',
-                zIndex: showSideControls ? 3 : 1,
+                zIndex: 3,
               }}
             >
               <StepperButton
@@ -279,7 +285,6 @@ const DinnerCountdown = ({
                 onClick={() => onAdjustTime(-TIME_STEP)}
                 disabled={!isSetup || duration <= MIN_DURATION}
                 ariaLabel="Decrease timer by 5 minutes"
-                style={{ position: 'relative', zIndex: 3 }}
               />
             </div>
 
@@ -290,8 +295,6 @@ const DinnerCountdown = ({
               style={{
                 margin: '0 6px',
                 overflow: 'visible',
-                position: 'relative',
-                zIndex: 1,
               }}
             >
               {/* Full semicircle background (white) */}
@@ -356,7 +359,7 @@ const DinnerCountdown = ({
 
               {/* Remaining-seconds display box (bottom-aligned to semicircle baseline) */}
               {(() => {
-                const displaySeconds = isTimerRunning ? remaining : duration
+                const displaySeconds = isTimerRunning ? liveRemaining : duration
                 const mins = Math.floor(displaySeconds / 60)
                 const secs = displaySeconds % 60
                 const label =
@@ -409,7 +412,7 @@ const DinnerCountdown = ({
                 pointerEvents: isSetup ? 'auto' : 'none',
                 transition: 'opacity 0.3s',
                 position: 'relative',
-                zIndex: showSideControls ? 3 : 1,
+                zIndex: 3,
               }}
             >
               <StepperButton
@@ -418,7 +421,6 @@ const DinnerCountdown = ({
                 onClick={() => onAdjustTime(TIME_STEP)}
                 disabled={!isSetup || duration >= MAX_DURATION}
                 ariaLabel="Increase timer by 5 minutes"
-                style={{ position: 'relative', zIndex: 3 }}
               />
             </div>
           </div>
@@ -433,6 +435,8 @@ const DinnerCountdown = ({
               maxWidth: '100%',
               marginTop: `${PLATE_VERTICAL_OVERFLOW}px`,
               marginBottom: `${PLATE_VERTICAL_OVERFLOW}px`,
+              position: 'relative',
+              zIndex: 1,
             }}
           >
             <div
@@ -441,7 +445,7 @@ const DinnerCountdown = ({
                 pointerEvents: isSetup ? 'auto' : 'none',
                 transition: 'opacity 0.3s',
                 position: 'relative',
-                zIndex: showSideControls ? 3 : 1,
+                zIndex: 3,
               }}
             >
               <StepperButton
@@ -450,7 +454,6 @@ const DinnerCountdown = ({
                 onClick={() => onAdjustBites(-1)}
                 disabled={!isSetup || totalBites <= MIN_BITES}
                 ariaLabel="Decrease bites"
-                style={{ position: 'relative', zIndex: 3 }}
               />
             </div>
 
@@ -575,7 +578,7 @@ const DinnerCountdown = ({
                   const RING_R = 55
                   const CIRC = 2 * Math.PI * RING_R
                   const offset =
-                    (1 - liveCooldown / BITE_COOLDOWN_SECONDS) * CIRC
+                    (1 - liveCooldown / totalCooldownSeconds) * CIRC
                   return (
                     <div
                       style={{
@@ -588,6 +591,7 @@ const DinnerCountdown = ({
                         alignItems: 'center',
                         justifyContent: 'center',
                         pointerEvents: 'none',
+                        zIndex: 2,
                       }}
                     >
                       <svg width="160" height="160" viewBox="0 0 160 160">
@@ -657,7 +661,7 @@ const DinnerCountdown = ({
                 pointerEvents: isSetup ? 'auto' : 'none',
                 transition: 'opacity 0.3s',
                 position: 'relative',
-                zIndex: showSideControls ? 3 : 1,
+                zIndex: 3,
               }}
             >
               <StepperButton
@@ -666,7 +670,6 @@ const DinnerCountdown = ({
                 onClick={() => onAdjustBites(1)}
                 disabled={!isSetup || totalBites >= MAX_BITES}
                 ariaLabel="Increase bites"
-                style={{ position: 'relative', zIndex: 3 }}
               />
             </div>
           </div>

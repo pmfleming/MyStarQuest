@@ -50,9 +50,9 @@
 
 Three non-component folders under `src/`:
 
-- **`src/data/`** — Domain types (`types.ts`) and Firestore-coupled data hooks (`useChildren`, `useRewards`, `useTasks`, `useTodos`).
-- **`src/ui/`** — Visual configuration: layout tokens (`tokens.ts`), theme options (`themeOptions.ts`), and row-descriptor factories (`*Descriptors.*`, `listDescriptorTypes.ts`).
-- **`src/lib/`** — Shared non-UI logic: Firestore transaction helpers (`starActions.ts`), pure utilities (`celebrate.ts`, `today.ts`, `setupStatusActions.ts`), and logic for activity games (`useDinnerActivity.ts`).
+- **`src/data/`** — Domain types (`types.ts`) and Firestore-coupled data hooks (`useChildren`, `useRewards`, `useChores`).
+- **`src/ui/`** — Visual configuration: layout tokens (`tokens.ts`), theme options (`themeOptions.ts`), and row-descriptor factories (`unifiedChoreDescriptors.tsx`, `definitionRowDescriptors.tsx`, `listDescriptorTypes.ts`).
+- **`src/lib/`** — Shared non-UI logic: Firestore transaction helpers (`starActions.ts`), pure utilities (`celebrate.ts`, `today.ts`), unified chore parsing (`choreParser.ts`), and unified chore business logic (`choreLogic.ts`).
 
 ## Firebase + data model (important)
 
@@ -60,6 +60,7 @@ Three non-component folders under `src/`:
 - Firestore is user-scoped. Collections follow:
   - `/users/{uid}/children`, `/tasks`, `/rewards`, `/starEvents`, `/redemptions`, `/todos`
   - Security rules are in `firestore.rules` (only the owning `uid` can read/write).
+- **Snapshot Parsing**: Firestore documents are converted to domain types via `src/lib/choreParser.ts`. This centralizes parsing for both task templates and daily todos.
 - **Cloud Functions** live in `functions/` (Node 20, firebase-functions v2, firebase-admin).
   - `generateDailyTodos` — scheduled function (`onSchedule`) that runs at 00:05 Europe/London to create daily `TodoRecord` documents. It iterates users → children → tasks, deduplicates via `(childId, dateKey)` query, and batch-creates only type-relevant fields per task type.
   - The `functions/` directory has its own `package.json` and `tsconfig.json`; it compiles to CommonJS in `functions/lib/`.
@@ -113,15 +114,18 @@ All core domain types use **discriminated unions** (tagged unions) so TypeScript
 - Star-award and redemption logic is centralized in `src/lib/starActions.ts` using Firestore transactions:
   - writes an audit doc (`starEvents`/`redemptions`) with `serverTimestamp()`
   - updates `children/{childId}.totalStars` with `increment(...)`
-- `src/data/useTasks.ts` manages task config from Firestore (`rawTasks: TaskRecord[]`) merged with local ephemeral state (`ephemeral: Record<string, TaskEphemeralState>`) producing `tasks: TaskWithEphemeral[]`. All manage-page mutations write to ephemeral state only, not Firestore.
-- `src/data/useTodos.ts` manages today's todos from Firestore. Daily todo creation is handled server-side by the Cloud Function; manual `addTodo` writes only type-relevant fields via a `switch` on `task.taskType`.
+- **`src/data/useChores.ts`** is the unified data hook. It manages:
+  - `tasks`: definitions of chores (Manage page) merged with local ephemeral state.
+  - `todos`: daily instances of chores (Today page) persisted in Firestore.
+  - Consistent handlers (e.g., `applyBite`, `completeChore`) that work across both contexts.
+  - Midnight rollover logic to keep the "Today" list current.
+  - Ephemeral state auto-reset (15 minutes) for the Manage page testing experience.
 - `src/components/StandardActionList.tsx` is the shared whimsical list shell used by Children, Rewards, Chores, and Dashboard (Today).
   - It owns shared card structure, animations, action-row layout, add-row behavior, inline-new-row behavior, and common action rendering.
   - It should stay presentation-focused. Do not push task-type-specific branching into this component.
-- Descriptor modules in `src/ui/*Descriptors.*` are the primary way to configure row behavior for `StandardActionList`.
+- Descriptor modules in `src/ui/*` are the primary way to configure row behavior for `StandardActionList`.
   - `listDescriptorTypes.ts` defines the row-descriptor contract.
-  - `manageTaskDescriptors.tsx` centralizes Manage Chores row behavior for `ChoresPage.tsx`.
-  - `todayTodoDescriptors.tsx` centralizes Today row behavior for `DashboardPage.tsx`.
+  - **`unifiedChoreDescriptors.tsx`** centralizes row behavior for both Manage and Today contexts via a `mode` parameter.
   - `choreModeDefinitions.ts` is the shared source of truth for preset-chore stage rules such as title visibility, star visibility, reset-vs-delete behavior, and per-type primary-button visibility.
   - `presetChoreRenderers.tsx` centralizes preset-chore component rendering so Today and Manage invoke the same chore-specific renderer.
   - `presetChoreActions.tsx` centralizes preset-chore primary and utility action construction so Today and Manage use the same Start, Check Answer, Bite, Again, Reset, and Delete flows.
@@ -131,7 +135,7 @@ All core domain types use **discriminated unions** (tagged unions) so TypeScript
   - `choreModeDefinitions.ts` for stage rules
   - `presetChoreRenderers.tsx` for chore-specific rendering
   - `presetChoreActions.tsx` for primary/reset/delete action behavior
-  - `manageTaskDescriptors.tsx` and `todayTodoDescriptors.tsx` only for page-specific orchestration state and handler wiring
+  - `unifiedChoreDescriptors.tsx` only for page-specific orchestration state and handler wiring
 - Descriptor wiring for preset chores should stay domain-aware.
   - Keep test-family behavior in descriptor modules rather than page components.
   - When adding new tests, group them with their learning domain conventions instead of treating them as unrelated one-off branches.

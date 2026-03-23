@@ -6,21 +6,10 @@ import ActionButton from '../components/ActionButton'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
-import { createManageTaskListRowDescriptor } from '../ui/manageTaskDescriptors'
+import { createUnifiedChoreDescriptor } from '../ui/unifiedChoreDescriptors'
 import { getSeasonForDate } from '../lib/today'
-import { useDinnerActivity } from '../lib/useDinnerActivity'
-import { useTasks } from '../data/useTasks'
-import {
-  getManageDinnerBitesLeft,
-  getManageDinnerLiveRemaining,
-  isEatingTask,
-  type EatingTaskWithEphemeral,
-  type MathTaskWithEphemeral,
-  type PVTaskWithEphemeral,
-  type AlphabetTaskWithEphemeral,
-  type StandardTaskWithEphemeral,
-  type TaskWithEphemeral,
-} from '../data/types'
+import { useChores } from '../data/useChores'
+import type { TaskRecord, TaskWithEphemeral } from '../data/types'
 import {
   princessBiteIcon,
   princessEatingBreakfastIcon,
@@ -68,46 +57,38 @@ const ChoresPage = () => {
 
   const {
     tasks,
-    titleDrafts,
-    setTitleDraft,
-    commitTitle,
+    taskTitleDrafts,
+    setTaskTitleDraft,
+    commitTaskTitle,
     updateTaskField,
     updateEphemeral,
-    createChore,
-    createEating,
-    createMath,
-    createPositionalNotation,
-    createAlphabet,
-    mathComplete,
-    mathFail,
-    mathReset,
-    pvComplete,
-    pvFail,
-    pvReset,
-    alphabetComplete,
-    alphabetFail,
-    alphabetReset,
-    dinnerApplyBite,
-    dinnerStartTimer,
-    dinnerTimerExpired,
-    dinnerReset,
-    awardTask,
+    createStandardTask,
+    createEatingTask,
+    createMathTask,
+    createPVTask,
+    createAlphabetTask,
+    completeChore,
+    failChore,
+    resetChore,
     deleteTask,
-  } = useTasks()
+    applyBite,
+    startDinnerTimer,
+    expireDinnerTimer,
+    resetDinner,
+  } = useChores()
 
-  const [isAwarding, setIsAwarding] = useState(false)
-  const [activeMathTaskId, setActiveMathTaskId] = useState<string | null>(null)
-  const [activePVTaskId, setActivePVTaskId] = useState<string | null>(null)
-  const [activeAlphabetTaskId, setActiveAlphabetTaskId] = useState<
-    string | null
-  >(null)
-  const [mathCheckTriggerByTask, setMathCheckTriggerByTask] = useState<
+  const [activeMathId, setActiveMathId] = useState<string | null>(null)
+  const [activePVId, setActivePVId] = useState<string | null>(null)
+  const [activeAlphabetId, setActiveAlphabetId] = useState<string | null>(null)
+  const [activeDinnerId, setActiveDinnerId] = useState<string | null>(null)
+
+  const [mathCheckTriggers, setMathCheckTriggers] = useState<
     Record<string, number>
   >({})
-  const [pvCheckTriggerByTask, setPVCheckTriggerByTask] = useState<
+  const [pvCheckTriggers, setPVCheckTriggers] = useState<
     Record<string, number>
   >({})
-  const [alphabetCheckTriggerByTask, setAlphabetCheckTriggerByTask] = useState<
+  const [alphabetCheckTriggers, setAlphabetCheckTriggers] = useState<
     Record<string, number>
   >({})
   const [showAddChooser, setShowAddChooser] = useState(false)
@@ -119,61 +100,29 @@ const ChoresPage = () => {
   const currentSeason = getSeasonForDate(new Date())
   const princessNonSchoolDayImage = getPrincessNonSchoolDayImage(currentSeason)
 
-  const {
-    activeItemId: activeDinnerTaskId,
-    biteCooldownEndsAt,
-    pendingBiteItemId: pendingDinnerBiteTaskId,
-    startActivity: startDinnerActivity,
-    clearItemState: clearDinnerTaskState,
-    isRunning: isDinnerTaskRunning,
-    queueBite: queueDinnerBite,
-    resetActivity: resetDinnerActivity,
-  } = useDinnerActivity<EatingTaskWithEphemeral>({
-    items: tasks.filter(isEatingTask),
-    getId: (task) => task.id,
-    isCompleted: (task) => Boolean(task.manageDinnerCompletedAt),
-    getRemaining: getManageDinnerLiveRemaining,
-    getBitesLeft: getManageDinnerBitesLeft,
-    applyBite: async (task) => Boolean(await dinnerApplyBite(task)),
-    expireTimer: dinnerTimerExpired,
-    isPersistedRunning: (task) => Boolean(task.manageDinnerTimerStartedAt),
-    resetKeys: [activeChildId],
-  })
-
-  // Clear the princess cooldown test icon when the dinner game ends
+  // Clear sub-activity states when the main activity ends
   useEffect(() => {
-    if (!activeDinnerTaskId && !pendingDinnerBiteTaskId) {
+    if (!activeDinnerId) {
       setBiteCooldownTestIconIndex(null)
     }
-  }, [activeDinnerTaskId, pendingDinnerBiteTaskId])
+  }, [activeDinnerId])
 
-  const biteCooldownSeconds = biteCooldownEndsAt
-    ? Math.max(0, (biteCooldownEndsAt - Date.now()) / 1000)
-    : 0
+  const biteCooldownSeconds = 15 // Fixed constant from types.ts
 
-  const activePrincessCooldownIcon = (() => {
+  const activePrincessMealIcon = (() => {
     const defaultIcon = getPrincessCooldownIconForHour(new Date().getHours())
     if (biteCooldownTestIconIndex === null) return defaultIcon
     return princessBiteIconCycle[biteCooldownTestIconIndex] ?? defaultIcon
   })()
 
-  const handleCycleCooldownTestIcon = () => {
-    if (biteCooldownSeconds <= 0) return
-    setBiteCooldownTestIconIndex((prev) => {
-      const currentIcon =
-        prev === null
-          ? activePrincessCooldownIcon
-          : (princessBiteIconCycle[prev] ?? activePrincessCooldownIcon)
-      const currentIndex = princessBiteIconCycle.indexOf(currentIcon)
-      const nextIndex =
-        currentIndex >= 0
-          ? (currentIndex + 1) % princessBiteIconCycle.length
-          : 0
-      return nextIndex
-    })
+  const clearActiveActivities = () => {
+    setActiveMathId(null)
+    setActivePVId(null)
+    setActiveAlphabetId(null)
+    setActiveDinnerId(null)
   }
 
-  const renderDayTypeControl = (task: TaskWithEphemeral) => {
+  const renderDayTypeControl = (task: TaskRecord) => {
     const getScheduleButtonStyle = (isActive: boolean) => ({
       background: theme.colors.surface,
       border:
@@ -228,7 +177,6 @@ const ChoresPage = () => {
             </span>
           }
         />
-
         <ActionButton
           label="Non-school day"
           icon={null}
@@ -270,172 +218,62 @@ const ChoresPage = () => {
     )
   }
 
-  // --- Slim handler wrappers (UI state + data layer) ---
-  const handleCreateChore = async () => {
-    await createChore()
-    setShowAddChooser(false)
-  }
-
-  const handleCreateEating = async () => {
-    await createEating()
-    setShowAddChooser(false)
-  }
-
-  const handleCreateMath = async () => {
-    await createMath()
-    setShowAddChooser(false)
-  }
-
-  const handleCreatePositionalNotation = async () => {
-    await createPositionalNotation()
-    setShowAddChooser(false)
-  }
-
-  const handleCreateAlphabet = async () => {
-    await createAlphabet()
-    setShowAddChooser(false)
-  }
-
-  const handleMathComplete = async (task: MathTaskWithEphemeral) => {
-    setActiveMathTaskId(null)
-    await mathComplete(task)
-  }
-
-  const handleMathFail = async (task: MathTaskWithEphemeral) => {
-    setActiveMathTaskId(null)
-    await mathFail(task)
-  }
-
-  const handleMathReset = async (task: MathTaskWithEphemeral) => {
-    setActiveMathTaskId(null)
-    await mathReset(task)
-  }
-
-  const handlePVComplete = async (task: PVTaskWithEphemeral) => {
-    setActivePVTaskId(null)
-    await pvComplete(task)
-  }
-
-  const handlePVFail = async (task: PVTaskWithEphemeral) => {
-    setActivePVTaskId(null)
-    await pvFail(task)
-  }
-
-  const handlePVReset = async (task: PVTaskWithEphemeral) => {
-    setActivePVTaskId(null)
-    await pvReset(task)
-  }
-
-  const handleAlphabetComplete = async (task: AlphabetTaskWithEphemeral) => {
-    setActiveAlphabetTaskId(null)
-    await alphabetComplete(task)
-  }
-
-  const handleAlphabetFail = async (task: AlphabetTaskWithEphemeral) => {
-    setActiveAlphabetTaskId(null)
-    await alphabetFail(task)
-  }
-
-  const handleAlphabetReset = async (task: AlphabetTaskWithEphemeral) => {
-    setActiveAlphabetTaskId(null)
-    await alphabetReset(task)
-  }
-
-  const handleDelete = async (id: string) => {
-    await deleteTask(id)
-    clearDinnerTaskState(id)
-    if (activeMathTaskId === id) setActiveMathTaskId(null)
-    if (activePVTaskId === id) setActivePVTaskId(null)
-    if (activeAlphabetTaskId === id) setActiveAlphabetTaskId(null)
-    setMathCheckTriggerByTask((prev) => {
-      const next = { ...prev }
-      delete next[id]
-      return next
-    })
-    setPVCheckTriggerByTask((prev) => {
-      const next = { ...prev }
-      delete next[id]
-      return next
-    })
-    setAlphabetCheckTriggerByTask((prev) => {
-      const next = { ...prev }
-      delete next[id]
-      return next
-    })
-  }
-
-  const handleDinnerBite = (task: EatingTaskWithEphemeral) => {
-    setBiteCooldownTestIconIndex(null)
-    queueDinnerBite(task)
-  }
-
-  const handleDinnerReset = async (task: EatingTaskWithEphemeral) => {
-    setBiteCooldownTestIconIndex(null)
-    await resetDinnerActivity(task, dinnerReset)
-  }
-
-  const handleAwardTask = async (task: StandardTaskWithEphemeral) => {
-    setIsAwarding(true)
-    try {
-      await awardTask(task)
-    } catch (error) {
-      console.error('Failed to award stars', error)
-      alert('Failed to award stars. Please try again.')
-    } finally {
-      setIsAwarding(false)
-    }
-  }
-
-  const handleStandardReset = async (task: StandardTaskWithEphemeral) => {
-    await updateEphemeral(task.id, { manageCompletedAt: null })
-  }
-
-  const taskListDescriptor = toStandardActionListDescriptor(
-    createManageTaskListRowDescriptor({
-      theme,
-      titleDrafts,
-      setTitleDraft,
-      commitTitle,
-      updateTaskField,
-      updateEphemeral,
-      renderDayTypeControl,
-      activeMathTaskId,
-      activePVTaskId,
-      mathCheckTriggerByTask,
-      pvCheckTriggerByTask,
-      isDinnerTaskRunning,
-      biteCooldownSeconds,
-      biteCooldownEndsAt,
-      activePrincessCooldownIcon,
-      handleCycleCooldownTestIcon,
-      handleDinnerBite,
-      dinnerStartTimer,
-      startDinnerActivity,
-      handleDinnerReset,
-      handleMathComplete,
-      handleMathFail,
-      handleMathReset,
-      setActiveMathTaskId,
-      setMathCheckTriggerByTask,
-      handlePVComplete,
-      handlePVFail,
-      handlePVReset,
-      setActivePVTaskId,
-      setPVCheckTriggerByTask,
-      activeAlphabetTaskId,
-      alphabetCheckTriggerByTask,
-      handleAlphabetComplete,
-      handleAlphabetFail,
-      handleAlphabetReset,
-      setActiveAlphabetTaskId,
-      setAlphabetCheckTriggerByTask,
-      handleAwardTask,
-      handleStandardReset,
-      handleDelete,
-      isAwarding,
-      activeChildId,
-    })
-  )
+  const descriptor = createUnifiedChoreDescriptor({
+    theme,
+    mode: 'manage',
+    onUpdateTaskField: updateTaskField,
+    onUpdateEphemeral: updateEphemeral,
+    onSetTitleDraft: setTaskTitleDraft,
+    onCommitTitle: commitTaskTitle,
+    onDeleteTask: deleteTask,
+    onComplete: (item) => {
+      const task = item as TaskWithEphemeral
+      if (task.taskType === 'standard') completeChore(task)
+      else if (task.taskType === 'math') {
+        clearActiveActivities()
+        setActiveMathId(task.id)
+      } else if (task.taskType === 'positional-notation') {
+        clearActiveActivities()
+        setActivePVId(task.id)
+      } else if (task.taskType === 'alphabet') {
+        clearActiveActivities()
+        setActiveAlphabetId(task.id)
+      }
+    },
+    onFail: failChore,
+    onReset: (item) => {
+      const task = item as TaskWithEphemeral
+      if (task.taskType === 'eating') resetDinner(task)
+      else resetChore(task)
+      clearActiveActivities()
+    },
+    onStartDinner: (item) => {
+      if (!item) {
+        setActiveDinnerId(null)
+        return
+      }
+      const task = item as TaskWithEphemeral
+      clearActiveActivities()
+      startDinnerTimer(task)
+      setActiveDinnerId(task.id)
+    },
+    onApplyBite: applyBite,
+    onExpireDinner: expireDinnerTimer,
+    titleDrafts: taskTitleDrafts,
+    activeMathId,
+    activePVId,
+    activeAlphabetId,
+    activeDinnerId,
+    mathCheckTriggers,
+    pvCheckTriggers,
+    alphabetCheckTriggers,
+    setMathCheckTriggers,
+    setPVCheckTriggers,
+    setAlphabetCheckTriggers,
+    biteCooldownSeconds,
+    activePrincessMealIcon,
+    renderDayTypeControl,
+  })
 
   return (
     <PageShell theme={theme} activeTabId="dashboard" title="Chores">
@@ -460,12 +298,11 @@ const ChoresPage = () => {
               theme={theme}
               items={tasks}
               getKey={(task) => task.id}
-              {...taskListDescriptor}
+              {...toStandardActionListDescriptor(descriptor)}
               hideEdit
-              onDelete={(task) => handleDelete(task.id)}
+              onDelete={(task) => deleteTask(task.id)}
               addLabel="New Chore"
               onAdd={() => setShowAddChooser(true)}
-              addDisabled={false}
               inlineNewRow={
                 showAddChooser ? (
                   <div
@@ -475,7 +312,10 @@ const ChoresPage = () => {
                     <button
                       type="button"
                       className="whimsical-btn"
-                      onClick={handleCreateChore}
+                      onClick={() => {
+                        createStandardTask()
+                        setShowAddChooser(false)
+                      }}
                       style={{
                         minHeight: `${uiTokens.actionButtonHeight}px`,
                         borderRadius: '20px',
@@ -489,11 +329,13 @@ const ChoresPage = () => {
                     >
                       Standard Chore
                     </button>
-
                     <button
                       type="button"
                       className="whimsical-btn"
-                      onClick={handleCreateEating}
+                      onClick={() => {
+                        createEatingTask()
+                        setShowAddChooser(false)
+                      }}
                       style={{
                         minHeight: `${uiTokens.actionButtonHeight}px`,
                         borderRadius: '20px',
@@ -507,11 +349,13 @@ const ChoresPage = () => {
                     >
                       Dinner
                     </button>
-
                     <button
                       type="button"
                       className="whimsical-btn"
-                      onClick={handleCreateMath}
+                      onClick={() => {
+                        createMathTask()
+                        setShowAddChooser(false)
+                      }}
                       style={{
                         minHeight: `${uiTokens.actionButtonHeight}px`,
                         borderRadius: '20px',
@@ -525,11 +369,13 @@ const ChoresPage = () => {
                     >
                       Arithmetic
                     </button>
-
                     <button
                       type="button"
                       className="whimsical-btn"
-                      onClick={handleCreatePositionalNotation}
+                      onClick={() => {
+                        createPVTask()
+                        setShowAddChooser(false)
+                      }}
                       style={{
                         minHeight: `${uiTokens.actionButtonHeight}px`,
                         borderRadius: '20px',
@@ -546,7 +392,10 @@ const ChoresPage = () => {
                     <button
                       type="button"
                       className="whimsical-btn"
-                      onClick={handleCreateAlphabet}
+                      onClick={() => {
+                        createAlphabetTask()
+                        setShowAddChooser(false)
+                      }}
                       style={{
                         minHeight: `${uiTokens.actionButtonHeight}px`,
                         borderRadius: '20px',

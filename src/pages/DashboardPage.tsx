@@ -7,20 +7,12 @@ import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import StarInfoBox from '../components/StarInfoBox'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
-import { createTodayTodoListRowDescriptor } from '../ui/todayTodoDescriptors'
-import { getScheduleLabel, getTodayDescriptor } from '../lib/today'
-import { useDinnerActivity } from '../lib/useDinnerActivity'
+import { createUnifiedChoreDescriptor } from '../ui/unifiedChoreDescriptors'
+import { getScheduleLabel } from '../lib/today'
 import { uiTokens } from '../ui/tokens'
 import { useChildren } from '../data/useChildren'
-import { useTodos } from '../data/useTodos'
-import {
-  isEatingTodo,
-  type EatingTodo,
-  type MathTodo,
-  type PositionalNotationTodo,
-  type AlphabetTodo,
-  type TodoRecord,
-} from '../data/types'
+import { useChores } from '../data/useChores'
+import type { TodoRecord, EatingTodo } from '../data/types'
 
 import {
   princessChildrenIcon,
@@ -59,50 +51,37 @@ const DashboardPage = () => {
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
   const { children } = useChildren()
-  const todayInfo = getTodayDescriptor()
 
   const {
     todos,
     availableChores,
-    todoSourceIds,
-    getDinnerDuration,
-    getDinnerLiveRemaining,
-    getDinnerTotalBites,
-    getDinnerBitesLeft,
+    todayInfo,
     addTodo,
-    completeTodo,
     deleteTodo,
-    updateTodoFields,
-    dinnerApplyBite,
-    dinnerStartTimer,
-    dinnerTimerExpired,
-    dinnerReset,
-    mathComplete,
-    mathFail,
-    mathReset,
-    pvComplete,
-    pvFail,
-    pvReset,
-    alphabetComplete,
-    alphabetFail,
-    alphabetReset,
+    updateTodoField,
+    applyBite,
+    startDinnerTimer,
+    expireDinnerTimer,
+    resetDinner,
+    completeChore,
+    failChore,
+    resetChore,
     resetTodayTodos,
-  } = useTodos()
+  } = useChores()
 
   const [showAddChooser, setShowAddChooser] = useState(false)
-  const [pendingTodoId, setPendingTodoId] = useState<string | null>(null)
-  const [activeMathTodoId, setActiveMathTodoId] = useState<string | null>(null)
-  const [activePVTodoId, setActivePVTodoId] = useState<string | null>(null)
-  const [activeAlphabetTodoId, setActiveAlphabetTodoId] = useState<
-    string | null
-  >(null)
-  const [mathCheckTriggerByTodo, setMathCheckTriggerByTodo] = useState<
+  const [activeMathId, setActiveMathId] = useState<string | null>(null)
+  const [activePVId, setActivePVId] = useState<string | null>(null)
+  const [activeAlphabetId, setActiveAlphabetId] = useState<string | null>(null)
+  const [activeDinnerId, setActiveDinnerId] = useState<string | null>(null)
+
+  const [mathCheckTriggers, setMathCheckTriggers] = useState<
     Record<string, number>
   >({})
-  const [pvCheckTriggerByTodo, setPVCheckTriggerByTodo] = useState<
+  const [pvCheckTriggers, setPVCheckTriggers] = useState<
     Record<string, number>
   >({})
-  const [alphabetCheckTriggerByTodo, setAlphabetCheckTriggerByTodo] = useState<
+  const [alphabetCheckTriggers, setAlphabetCheckTriggers] = useState<
     Record<string, number>
   >({})
 
@@ -110,205 +89,80 @@ const DashboardPage = () => {
     new Date().getHours()
   )
 
-  const {
-    activeItemId: activeDinnerTodoId,
-    biteCooldownEndsAt,
-    startActivity: startDinnerActivity,
-    clearItemState: clearDinnerTodoState,
-    isRunning: isDinnerTodoRunning,
-    isInActivity: isDinnerTodoInActivity,
-    queueBite: queueDinnerBite,
-    resetActivity: resetDinnerActivity,
-  } = useDinnerActivity<EatingTodo>({
-    items: todos.filter(isEatingTodo),
-    getId: (todo) => todo.id,
-    isCompleted: (todo) => Boolean(todo.completedAt),
-    getRemaining: getDinnerLiveRemaining,
-    getBitesLeft: getDinnerBitesLeft,
-    applyBite: dinnerApplyBite,
-    expireTimer: dinnerTimerExpired,
-    isPersistedRunning: (todo) => Boolean(todo.dinnerTimerStartedAt),
-    resetKeys: [activeChildId, todayInfo.dateKey],
-  })
+  useEffect(() => {
+    setActiveMathId(null)
+    setActivePVId(null)
+    setActiveAlphabetId(null)
+    setActiveDinnerId(null)
+    setMathCheckTriggers({})
+    setPVCheckTriggers({})
+    setAlphabetCheckTriggers({})
+  }, [activeChildId, todayInfo.dateKey])
 
-  const biteCooldownSeconds = biteCooldownEndsAt
-    ? Math.max(0, (biteCooldownEndsAt - Date.now()) / 1000)
-    : 0
+  const biteCooldownSeconds = 15 // Fixed constant
+
+  const clearActiveActivities = () => {
+    setActiveMathId(null)
+    setActivePVId(null)
+    setActiveAlphabetId(null)
+    setActiveDinnerId(null)
+  }
+
+  const descriptor = createUnifiedChoreDescriptor({
+    theme,
+    mode: 'today',
+    onUpdateTodoField: updateTodoField,
+    onDeleteTodo: deleteTodo,
+    onComplete: (item) => {
+      const todo = item as TodoRecord
+      if (todo.sourceTaskType === 'standard') completeChore(todo)
+      else if (todo.sourceTaskType === 'math') {
+        clearActiveActivities()
+        setActiveMathId(todo.id)
+      } else if (todo.sourceTaskType === 'positional-notation') {
+        clearActiveActivities()
+        setActivePVId(todo.id)
+      } else if (todo.sourceTaskType === 'alphabet') {
+        clearActiveActivities()
+        setActiveAlphabetId(todo.id)
+      }
+    },
+    onFail: failChore,
+    onReset: (item) => {
+      const todo = item as TodoRecord
+      if (todo.sourceTaskType === 'eating') resetDinner(todo as EatingTodo)
+      else resetChore(todo)
+      clearActiveActivities()
+    },
+    onStartDinner: (item) => {
+      if (!item) {
+        setActiveDinnerId(null)
+        return
+      }
+      const todo = item as EatingTodo
+      clearActiveActivities()
+      startDinnerTimer(todo)
+      setActiveDinnerId(todo.id)
+    },
+    onApplyBite: applyBite,
+    onExpireDinner: expireDinnerTimer,
+    activeMathId,
+    activePVId,
+    activeAlphabetId,
+    activeDinnerId,
+    mathCheckTriggers,
+    pvCheckTriggers,
+    alphabetCheckTriggers,
+    setMathCheckTriggers,
+    setPVCheckTriggers,
+    setAlphabetCheckTriggers,
+    biteCooldownSeconds,
+    activePrincessMealIcon,
+  })
 
   const selectedChild = useMemo(
     () => children.find((child) => child.id === activeChildId) ?? null,
     [children, activeChildId]
-  )
-
-  useEffect(() => {
-    setActiveMathTodoId(null)
-    setActivePVTodoId(null)
-    setActiveAlphabetTodoId(null)
-    setMathCheckTriggerByTodo({})
-    setPVCheckTriggerByTodo({})
-    setAlphabetCheckTriggerByTodo({})
-  }, [activeChildId, todayInfo.dateKey])
-
-  const handleAddTodo = async (task: { id: string }) => {
-    if (todoSourceIds.has(task.id)) return
-    await addTodo(task as Parameters<typeof addTodo>[0])
-    setShowAddChooser(false)
-  }
-
-  const handleCompleteTodo = async (todo: TodoRecord) => {
-    if (todo.completedAt || pendingTodoId) return
-
-    setPendingTodoId(todo.id)
-    try {
-      await completeTodo(todo)
-    } catch (error) {
-      console.error('Failed to complete todo', error)
-      alert('Failed to complete that todo. Please try again.')
-    } finally {
-      setPendingTodoId(null)
-    }
-  }
-
-  const handleDeleteTodo = async (todo: TodoRecord) => {
-    clearDinnerTodoState(todo.id)
-    if (activeMathTodoId === todo.id) setActiveMathTodoId(null)
-    if (activePVTodoId === todo.id) setActivePVTodoId(null)
-    await deleteTodo(todo)
-  }
-
-  const handleStandardReset = async (todo: TodoRecord) => {
-    await updateTodoFields(todo.id, { completedAt: null })
-  }
-
-  const handleDinnerReset = async (todo: EatingTodo) => {
-    await resetDinnerActivity(todo, dinnerReset)
-  }
-
-  const handleDinnerBite = (todo: EatingTodo) => {
-    queueDinnerBite(todo)
-  }
-
-  const handleMathComplete = async (todo: MathTodo) => {
-    setActiveMathTodoId(null)
-    await mathComplete(todo)
-  }
-
-  const handleMathFail = async (todo: MathTodo) => {
-    setActiveMathTodoId(null)
-    await mathFail(todo)
-  }
-
-  const handleMathReset = async (todo: MathTodo) => {
-    setActiveMathTodoId(null)
-    await mathReset(todo)
-  }
-
-  const handlePVComplete = async (todo: PositionalNotationTodo) => {
-    setActivePVTodoId(null)
-    await pvComplete(todo)
-  }
-
-  const handlePVFail = async (todo: PositionalNotationTodo) => {
-    setActivePVTodoId(null)
-    await pvFail(todo)
-  }
-
-  const handlePVReset = async (todo: PositionalNotationTodo) => {
-    setActivePVTodoId(null)
-    await pvReset(todo)
-  }
-
-  const handleAlphabetComplete = async (todo: AlphabetTodo) => {
-    setActiveAlphabetTodoId(null)
-    await alphabetComplete(todo)
-  }
-
-  const handleAlphabetFail = async (todo: AlphabetTodo) => {
-    setActiveAlphabetTodoId(null)
-    await alphabetFail(todo)
-  }
-
-  const handleAlphabetReset = async (todo: AlphabetTodo) => {
-    setActiveAlphabetTodoId(null)
-    await alphabetReset(todo)
-  }
-
-  const todoListDescriptor = useMemo(
-    () =>
-      toStandardActionListDescriptor(
-        createTodayTodoListRowDescriptor({
-          theme,
-          biteCooldownSeconds,
-          biteCooldownEndsAt,
-          pendingTodoId,
-          activeMathTodoId,
-          activePVTodoId,
-          activeAlphabetTodoId,
-          mathCheckTriggerByTodo,
-          pvCheckTriggerByTodo,
-          alphabetCheckTriggerByTodo,
-          activePrincessMealIcon,
-          isDinnerTodoRunning,
-          isDinnerTodoInActivity,
-          getDinnerDuration,
-          getDinnerLiveRemaining,
-          getDinnerTotalBites,
-          getDinnerBitesLeft,
-          getMathTotalProblems: (todo: MathTodo) => todo.mathTotalProblems,
-          getMathDifficulty: (todo: MathTodo) => todo.mathDifficulty,
-          getPVTotalProblems: (todo: PositionalNotationTodo) =>
-            todo.pvTotalProblems,
-          getAlphabetTotalProblems: (todo: AlphabetTodo) =>
-            todo.alphabetTotalProblems,
-          handleDinnerBite,
-          dinnerStartTimer,
-          handleDinnerReset,
-          handleMathComplete,
-          handleMathFail,
-          handleMathReset,
-          handlePVComplete,
-          handlePVFail,
-          handlePVReset,
-          handleAlphabetComplete,
-          handleAlphabetFail,
-          handleAlphabetReset,
-          setActiveMathTodoId,
-          setActivePVTodoId,
-          setActiveAlphabetTodoId,
-          setMathCheckTriggerByTodo,
-          setPVCheckTriggerByTodo,
-          setAlphabetCheckTriggerByTodo,
-          activeDinnerTodoId,
-          startDinnerActivity,
-          clearDinnerTodoState,
-          handleCompleteTodo,
-          handleStandardReset,
-          handleDeleteTodo,
-        })
-      ),
-    [
-      theme,
-      biteCooldownSeconds,
-      pendingTodoId,
-      activeMathTodoId,
-      activePVTodoId,
-      activeAlphabetTodoId,
-      mathCheckTriggerByTodo,
-      pvCheckTriggerByTodo,
-      alphabetCheckTriggerByTodo,
-      activePrincessMealIcon,
-      isDinnerTodoRunning,
-      isDinnerTodoInActivity,
-      getDinnerDuration,
-      getDinnerLiveRemaining,
-      getDinnerTotalBites,
-      getDinnerBitesLeft,
-      activeDinnerTodoId,
-      biteCooldownEndsAt,
-      handleCompleteTodo,
-      handleStandardReset,
-      handleDeleteTodo,
-    ]
   )
 
   const themeAssets = getThemeAssets(theme.id)
@@ -404,7 +258,6 @@ const DashboardPage = () => {
         {selectedChild && (
           <StarInfoBox theme={theme} totalStars={selectedChild.totalStars} />
         )}
-
         {!activeChildId ? (
           <div className="mt-10 flex flex-col items-center text-center opacity-70">
             <span className="mb-4 text-6xl" role="img" aria-label="Child">
@@ -419,9 +272,9 @@ const DashboardPage = () => {
             theme={theme}
             items={todos}
             getKey={(todo) => todo.id}
-            {...todoListDescriptor}
+            {...toStandardActionListDescriptor(descriptor)}
             hideEdit
-            onDelete={(todo) => handleDeleteTodo(todo)}
+            onDelete={(todo) => deleteTodo(todo.id)}
             addLabel="Add Todo"
             onAdd={() => setShowAddChooser(true)}
             inlineNewRow={
@@ -447,7 +300,10 @@ const DashboardPage = () => {
                         key={task.id}
                         type="button"
                         className="whimsical-btn text-left"
-                        onClick={() => handleAddTodo(task)}
+                        onClick={() => {
+                          addTodo(task)
+                          setShowAddChooser(false)
+                        }}
                         style={{
                           minHeight: `${uiTokens.actionButtonHeight}px`,
                           borderRadius: '20px',
@@ -464,13 +320,10 @@ const DashboardPage = () => {
                         }}
                       >
                         <span>{task.title}</span>
-                        <span className="text-sm opacity-75">
-                          {`${getScheduleLabel(task)} • ${task.starValue} ${task.starValue === 1 ? 'star' : 'stars'}`}
-                        </span>
+                        <span className="text-sm opacity-75">{`${getScheduleLabel(task)} • ${task.starValue} ${task.starValue === 1 ? 'star' : 'stars'}`}</span>
                       </button>
                     ))
                   )}
-
                   <button
                     type="button"
                     className="whimsical-btn"

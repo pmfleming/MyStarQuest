@@ -41,12 +41,28 @@ import mouseMeerkatManatee from '../assets/alphabet/mouse-meerkat-manatee.svg'
 import mushroomMeatballsMacaroni from '../assets/alphabet/mushroom-meatballs-macaroni.svg'
 import narwhalNewtNautilus from '../assets/alphabet/narwhal-newt-nautilus.svg'
 import noodlesNachosNougat from '../assets/alphabet/noodles-nachos-nougat.svg'
+import oatsOliveOilOnigiri from '../assets/alphabet/oats-olive oil-onigiri.svg'
 import omeletteOystersOliveOil from '../assets/alphabet/omelette-oysters-olive oil.svg'
 import orangeOliveOnion from '../assets/alphabet/orange-olive-onion.svg'
 import orangutanOtterOwl from '../assets/alphabet/orangutan-otter-owl.svg'
 import owlOstrichOctopus from '../assets/alphabet/owl-ostrich-octopus.svg'
+import pancakesPopcornPeanutButter from '../assets/alphabet/pancakes-popcorn-peanut butter.svg'
+import passionFruitPapayaPlum from '../assets/alphabet/passion fruit-papaya-plum.svg'
+import peachPearPineapple from '../assets/alphabet/peach-pear-pineapple.svg'
 import peacockPlatypusPorcupine from '../assets/alphabet/peacock-platypus-porcupine.svg'
+import pestoProsciuttoParmesan from '../assets/alphabet/pesto-prosciutto-parmesan.svg'
 import pigPenguinPanda from '../assets/alphabet/pig-penguin-panda.svg'
+import potatoParsnipPumpkin from '../assets/alphabet/potato-parsnip-pumpkin.svg'
+import quinoaQuicheQuesadilla from '../assets/alphabet/quinoa-quiche-quesadilla.svg'
+import radishRhubarbRocket from '../assets/alphabet/radish-rhubarb-rocket.svg'
+import ramenRavioliRisotto from '../assets/alphabet/ramen-ravioli-risotto.svg'
+import sandwichSausageSoup from '../assets/alphabet/sandwich-sausage-soup.svg'
+import sashimiSushiSeaweed from '../assets/alphabet/sashimi-sushi-seaweed.svg'
+import seaweedSpinachSweetPotato from '../assets/alphabet/seaweed-spinach-sweet potato.svg'
+import tartToffeeToast from '../assets/alphabet/tart-toffee-toast.svg'
+import tomatoTurnipTruffle from '../assets/alphabet/tomato-turnip-truffle.svg'
+import wafflesWontonSoupWrap from '../assets/alphabet/waffles-wonton soup-wrap.svg'
+import yogurtYorkshirePudding from '../assets/alphabet/yogurt-yorkshire pudding.svg'
 
 /* ------------------------------------------------------------------ */
 /*  Constants & Assets                                                 */
@@ -100,33 +116,41 @@ const ALPHABET_ASSETS = [
   {
     letter: 'O',
     files: [
+      oatsOliveOilOnigiri,
       omeletteOystersOliveOil,
       orangeOliveOnion,
       orangutanOtterOwl,
       owlOstrichOctopus,
     ],
   },
-  { letter: 'P', files: [peacockPlatypusPorcupine, pigPenguinPanda] },
+  {
+    letter: 'P',
+    files: [
+      pancakesPopcornPeanutButter,
+      passionFruitPapayaPlum,
+      peachPearPineapple,
+      peacockPlatypusPorcupine,
+      pestoProsciuttoParmesan,
+      pigPenguinPanda,
+      potatoParsnipPumpkin,
+    ],
+  },
+  { letter: 'Q', files: [quinoaQuicheQuesadilla] },
+  { letter: 'R', files: [radishRhubarbRocket, ramenRavioliRisotto] },
+  {
+    letter: 'S',
+    files: [
+      sandwichSausageSoup,
+      sashimiSushiSeaweed,
+      seaweedSpinachSweetPotato,
+    ],
+  },
+  { letter: 'T', files: [tartToffeeToast, tomatoTurnipTruffle] },
+  { letter: 'W', files: [wafflesWontonSoupWrap] },
+  { letter: 'Y', files: [yogurtYorkshirePudding] },
 ]
 
-const ALL_LETTERS = [
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-  'G',
-  'H',
-  'I',
-  'J',
-  'K',
-  'L',
-  'M',
-  'N',
-  'O',
-  'P',
-]
+const ALL_LETTERS = ALPHABET_ASSETS.map((asset) => asset.letter)
 
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */

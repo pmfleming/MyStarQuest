@@ -201,10 +201,9 @@ The product IA should use broader categories that remain stable as new preset ch
 
 Manage-page and Today-page row behavior for chore types should stay in descriptor modules rather than inside page components:
 
-- `src/ui/manageTaskDescriptors.tsx`
-- `src/ui/todayTodoDescriptors.tsx`
+- `src/ui/unifiedChoreDescriptors.tsx`
 
-These two entry points should present different overview/editing context, but they should converge on the same in-chore mode once a chore is active.
+This single entry point presents different overview/editing context via a `mode` parameter, but ensures both contexts converge on the same in-chore mode once a chore is active.
 
 That convergence should be implemented through a layered shared preset-chore architecture:
 
@@ -249,7 +248,7 @@ When adding a new preset chore:
 7. add or extend the shared action builder in `src/ui/presetChoreActions.tsx`
 8. add the concrete task type to `src/data/types.ts`
 9. add the component implementation
-10. wire it into `src/ui/manageTaskDescriptors.tsx` and `src/ui/todayTodoDescriptors.tsx`
+10. wire it into `src/ui/unifiedChoreDescriptors.tsx`
 11. update or extend `src/ui/choreModeDefinitions.test.ts` so the shared mode contract remains protected
 
 ## Summary

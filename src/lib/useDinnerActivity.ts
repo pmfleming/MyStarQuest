@@ -7,6 +7,8 @@ type UseDinnerActivityOptions<T> = {
   isCompleted: (item: T) => boolean
   getRemaining: (item: T) => number
   getBitesLeft: (item: T) => number
+  getTimerStartedAt: (item: T) => number | null | undefined
+  getBaselineRemaining: (item: T) => number
   applyBite: (item: T) => Promise<boolean>
   expireTimer: (item: T) => void | Promise<void>
   isPersistedRunning?: (item: T) => boolean
@@ -19,6 +21,8 @@ export function useDinnerActivity<T>({
   isCompleted,
   getRemaining,
   getBitesLeft,
+  getTimerStartedAt,
+  getBaselineRemaining,
   applyBite,
   expireTimer,
   isPersistedRunning,
@@ -35,6 +39,7 @@ export function useDinnerActivity<T>({
 
   const itemsRef = useRef(items)
   const isMountedRef = useRef(true)
+  const isApplyingBiteRef = useRef(false)
 
   useEffect(() => {
     itemsRef.current = items
@@ -52,6 +57,7 @@ export function useDinnerActivity<T>({
     setPendingBiteItemId(null)
   }, [resetKeySignature])
 
+  /* --- Sync activeItemId with persisted state or completion --- */
   useEffect(() => {
     const runningItem = isPersistedRunning
       ? (items.find((item) => isPersistedRunning(item) && !isCompleted(item)) ??
@@ -74,93 +80,89 @@ export function useDinnerActivity<T>({
     }
   }, [activeItemId, getId, isCompleted, isPersistedRunning, items])
 
+  /* --- Unified Ticker (200ms) --- */
   useEffect(() => {
-    if (!biteCooldownEndsAt) return
+    const tick = async () => {
+      const now = Date.now()
 
-    const checkCooldown = () => {
-      if (Date.now() >= biteCooldownEndsAt) {
+      // 1. Handle Cooldown Expiration
+      if (biteCooldownEndsAt && now >= biteCooldownEndsAt) {
         setBiteCooldownEndsAt(null)
       }
-    }
 
-    const timer = window.setInterval(checkCooldown, 200)
-    return () => window.clearInterval(timer)
-  }, [biteCooldownEndsAt])
+      // 2. Handle Pending Bite Application
+      // Only proceed if cooldown is over (or null) AND we aren't already applying one
+      if (
+        pendingBiteItemId &&
+        (!biteCooldownEndsAt || now >= biteCooldownEndsAt) &&
+        !isApplyingBiteRef.current
+      ) {
+        const item = itemsRef.current.find(
+          (candidate) => getId(candidate) === pendingBiteItemId
+        )
 
-  useEffect(() => {
-    if (!activeItemId && !pendingBiteItemId) {
-      setBiteCooldownEndsAt(null)
-    }
-  }, [activeItemId, pendingBiteItemId])
-
-  useEffect(() => {
-    if (
-      !pendingBiteItemId ||
-      (biteCooldownEndsAt && Date.now() < biteCooldownEndsAt)
-    )
-      return
-
-    const applyQueuedBite = async () => {
-      const item = itemsRef.current.find(
-        (candidate) => getId(candidate) === pendingBiteItemId
-      )
-
-      if (isMountedRef.current) {
-        setPendingBiteItemId(null)
-      }
-
-      if (!item || isCompleted(item)) return
-
-      try {
-        const done = await applyBite(item)
-        if (done && isMountedRef.current) {
-          setActiveItemId(null)
+        if (!item || isCompleted(item)) {
+          setPendingBiteItemId(null)
+        } else {
+          isApplyingBiteRef.current = true
+          try {
+            const done = await applyBite(item)
+            if (done && isMountedRef.current) {
+              setActiveItemId(null)
+            }
+          } catch (error) {
+            console.error('Failed to apply dinner bite', error)
+          } finally {
+            if (isMountedRef.current) {
+              isApplyingBiteRef.current = false
+              setPendingBiteItemId(null)
+            }
+          }
         }
-      } catch (error) {
-        console.error('Failed to apply dinner bite', error)
+      }
+
+      // 3. Handle Active Item Expiration/Completion
+      if (activeItemId) {
+        const item = itemsRef.current.find(
+          (candidate) => getId(candidate) === activeItemId
+        )
+
+        if (!item || isCompleted(item)) {
+          setActiveItemId(null)
+        } else {
+          const remaining = getRemaining(item)
+          const bitesLeft = getBitesLeft(item)
+
+          if (remaining <= 0) {
+            void Promise.resolve(expireTimer(item))
+            setActiveItemId(null)
+          } else if (bitesLeft <= 0) {
+            setActiveItemId(null)
+          }
+        }
       }
     }
 
-    void applyQueuedBite()
-  }, [applyBite, biteCooldownEndsAt, getId, isCompleted, pendingBiteItemId])
-
-  useEffect(() => {
-    if (!activeItemId) return
-
-    const timer = window.setInterval(() => {
-      const item = itemsRef.current.find(
-        (candidate) => getId(candidate) === activeItemId
-      )
-
-      if (!item || isCompleted(item)) {
-        setActiveItemId(null)
-        return
-      }
-
-      const remaining = getRemaining(item)
-      const bitesLeft = getBitesLeft(item)
-
-      if (remaining <= 0) {
-        void Promise.resolve(expireTimer(item))
-        setActiveItemId(null)
-        return
-      }
-
-      if (bitesLeft <= 0) {
-        setActiveItemId(null)
-        return
-      }
-    }, 1000)
-
-    return () => window.clearInterval(timer)
+    const interval = window.setInterval(tick, 200)
+    return () => window.clearInterval(interval)
   }, [
     activeItemId,
+    applyBite,
+    biteCooldownEndsAt,
     expireTimer,
     getBitesLeft,
     getId,
     getRemaining,
     isCompleted,
+    pendingBiteItemId,
   ])
+
+  // Clear cooldown if both active and pending items are gone
+  useEffect(() => {
+    if (!activeItemId && !pendingBiteItemId) {
+      setBiteCooldownEndsAt(null)
+    }
+  }, [activeItemId, pendingBiteItemId])
 
   const clearItemState = (itemId: string) => {
     if (activeItemId === itemId) {
@@ -204,10 +206,18 @@ export function useDinnerActivity<T>({
     await resetFn(item)
   }
 
+  // Derive absolute state for the active item to support local fractional ticking in component
+  const activeItem = activeItemId
+    ? items.find((item) => getId(item) === activeItemId)
+    : null
+
   return {
     activeItemId,
     biteCooldownEndsAt,
     pendingBiteItemId,
+    activeTimerStartedAt: activeItem ? getTimerStartedAt(activeItem) : null,
+    activeBaselineRemaining: activeItem ? getBaselineRemaining(activeItem) : 0,
+    activeBitesLeft: activeItem ? getBitesLeft(activeItem) : 0,
     startActivity,
     clearItemState,
     isRunning,
