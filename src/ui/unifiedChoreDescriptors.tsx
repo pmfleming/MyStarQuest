@@ -20,18 +20,17 @@ import {
   DEFAULT_DINNER_DURATION_SECONDS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
-  type AlphabetTaskWithEphemeral,
-  type AlphabetTodo,
-  type EatingTaskWithEphemeral,
-  type EatingTodo,
   getManageDinnerBitesLeft,
   getManageDinnerRemaining,
   getManageTaskCompletedAt,
-  isManageTaskCompleted,
-  type MathTaskWithEphemeral,
-  type MathTodo,
-  type PositionalNotationTodo,
-  type PVTaskWithEphemeral,
+  isAlphabetTask,
+  isAlphabetTodo,
+  isEatingTask,
+  isEatingTodo,
+  isMathTask,
+  isMathTodo,
+  isPositionalNotationTask,
+  isPositionalNotationTodo,
   type TaskEphemeralState,
   type TaskUpdatableFields,
   type TaskWithEphemeral,
@@ -58,6 +57,8 @@ import {
   renderDinnerChore,
   renderPositionalNotationChore,
 } from './presetChoreRenderers'
+
+type UnifiedChoreItem = TaskWithEphemeral | TodoRecord
 
 export type UnifiedChoreDeps = {
   theme: Theme
@@ -96,14 +97,23 @@ export type UnifiedChoreDeps = {
 
 export function createUnifiedChoreDescriptor(
   deps: UnifiedChoreDeps
-): ListRowDescriptor<TaskWithEphemeral | TodoRecord> {
+): ListRowDescriptor<UnifiedChoreItem> {
   const isManage = deps.mode === 'manage'
+  const noop = () => undefined
 
-  const getStage = (item: TaskWithEphemeral | TodoRecord): ChoreStage => {
-    const isCompleted = isManage
-      ? Boolean(getManageTaskCompletedAt(item as TaskWithEphemeral))
-      : Boolean((item as TodoRecord).completedAt)
-    if (isCompleted) return 'completed'
+  const isTaskItem = (item: UnifiedChoreItem): item is TaskWithEphemeral =>
+    'taskType' in item
+
+  const getChoreType = (item: UnifiedChoreItem) =>
+    isTaskItem(item) ? item.taskType : item.sourceTaskType
+
+  const isCompleted = (item: UnifiedChoreItem) =>
+    isTaskItem(item)
+      ? Boolean(getManageTaskCompletedAt(item))
+      : Boolean(item.completedAt)
+
+  const getStage = (item: UnifiedChoreItem): ChoreStage => {
+    if (isCompleted(item)) return 'completed'
 
     const id = item.id
     if (
@@ -117,12 +127,10 @@ export function createUnifiedChoreDescriptor(
     return 'setup'
   }
 
-  const renderItem = (item: TaskWithEphemeral | TodoRecord): ReactNode => {
+  const renderItem = (item: UnifiedChoreItem): ReactNode => {
     const stage = getStage(item)
     const hideTitle = shouldHidePresetChoreTitle(stage)
-    const type = isManage
-      ? (item as TaskWithEphemeral).taskType
-      : (item as TodoRecord).sourceTaskType
+    const type = getChoreType(item)
 
     const commonContainer = (content: ReactNode) => (
       <div
@@ -159,6 +167,7 @@ export function createUnifiedChoreDescriptor(
         {content}
         {isManage &&
           stage === 'setup' &&
+          isTaskItem(item) &&
           deps.renderDayTypeControl?.(item as TaskRecord)}
       </div>
     )
@@ -175,126 +184,218 @@ export function createUnifiedChoreDescriptor(
               }
               outcome="success"
             />
-          ) : isManage ? (
+          ) : isTaskItem(item) ? (
             <>
-              <StarDisplay
-                theme={deps.theme}
-                count={(item as TaskWithEphemeral).starValue}
-                editable
-                onChange={(v) =>
-                  deps.onUpdateTaskField?.(item.id, { starValue: v || 1 })
-                }
-                min={1}
-                max={3}
-              />
-              <RepeatControl
-                theme={deps.theme}
-                value={(item as TaskWithEphemeral).isRepeating}
-                onChange={(v) =>
-                  deps.onUpdateTaskField?.(item.id, { isRepeating: v })
-                }
-                showLabel={false}
-                showFeedback={false}
-              />
+              <div
+                className="flex flex-col items-center"
+                style={{ gap: '0px' }}
+              >
+                <RepeatControl
+                  theme={deps.theme}
+                  value={item.isRepeating}
+                  onChange={(v) =>
+                    deps.onUpdateTaskField?.(item.id, { isRepeating: v })
+                  }
+                  showLabel={false}
+                  showFeedback={false}
+                />
+              </div>
+              <div
+                className="flex flex-col items-center"
+                style={{ gap: '0px' }}
+              >
+                <StarDisplay
+                  theme={deps.theme}
+                  count={item.starValue}
+                  editable
+                  onChange={(v) =>
+                    deps.onUpdateTaskField?.(item.id, { starValue: v || 1 })
+                  }
+                  min={1}
+                  max={3}
+                />
+              </div>
             </>
           ) : null
         )
 
       case 'eating': {
-        const eatingItem = item as EatingTaskWithEphemeral | EatingTodo
         const isActive = deps.activeDinnerId === item.id
-        const isCompleted = isManage
-          ? Boolean(eatingItem.manageDinnerCompletedAt)
-          : Boolean(eatingItem.completedAt)
+        if (isTaskItem(item)) {
+          if (!isEatingTask(item)) return null
+
+          const eatingItem = item
+          const isEatingCompleted = Boolean(eatingItem.manageDinnerCompletedAt)
+
+          return commonContainer(
+            isActive || isEatingCompleted || stage === 'setup'
+              ? renderDinnerChore({
+                  theme: deps.theme,
+                  duration:
+                    eatingItem.dinnerDurationSeconds ??
+                    DEFAULT_DINNER_DURATION_SECONDS,
+                  remaining: getManageDinnerRemaining(eatingItem),
+                  totalBites:
+                    eatingItem.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
+                  bitesLeft: getManageDinnerBitesLeft(eatingItem),
+                  starReward: eatingItem.starValue,
+                  isTimerRunning: isActive,
+                  timerStartedAt: eatingItem.manageDinnerTimerStartedAt,
+                  plateImage:
+                    deps.theme.id === 'princess'
+                      ? princessPlateImage
+                      : undefined,
+                  onAdjustTime: (delta) => {
+                    const next = Math.max(
+                      5 * 60,
+                      Math.min(
+                        30 * 60,
+                        (eatingItem.dinnerDurationSeconds ?? 600) + delta
+                      )
+                    )
+                    deps.onUpdateTaskField?.(item.id, {
+                      dinnerDurationSeconds: next,
+                    })
+                    deps.onUpdateEphemeral?.(item.id, {
+                      manageDinnerRemainingSeconds: next,
+                    })
+                  },
+                  onAdjustBites: (delta) => {
+                    const next = Math.max(
+                      1,
+                      Math.min(16, (eatingItem.dinnerTotalBites ?? 2) + delta)
+                    )
+                    deps.onUpdateTaskField?.(item.id, {
+                      dinnerTotalBites: next,
+                    })
+                    deps.onUpdateEphemeral?.(item.id, {
+                      manageDinnerBitesLeft: next,
+                    })
+                  },
+                  onStarsChange: (v) =>
+                    deps.onUpdateTaskField?.(item.id, { starValue: v }),
+                  isCompleted: isEatingCompleted,
+                  completionImage:
+                    deps.theme.id === 'princess'
+                      ? princessQuizCorrectImage
+                      : undefined,
+                  failureImage:
+                    deps.theme.id === 'princess'
+                      ? princessQuizIncorrectImage
+                      : undefined,
+                  biteCooldownSeconds: deps.biteCooldownSeconds,
+                  biteCooldownEndsAt: deps.biteCooldownEndsAt,
+                  biteIcon:
+                    deps.theme.id === 'princess'
+                      ? deps.activePrincessMealIcon
+                      : undefined,
+                  showSetupControls: !isActive && !isEatingCompleted,
+                  showStarReward: !isActive && !isEatingCompleted,
+                })
+              : null
+          )
+        }
+
+        if (!isEatingTodo(item)) return null
+
+        const eatingItem = item
+        const isEatingCompleted = Boolean(eatingItem.completedAt)
 
         return commonContainer(
-          isActive || isCompleted
+          isActive || isEatingCompleted
             ? renderDinnerChore({
                 theme: deps.theme,
                 duration:
                   eatingItem.dinnerDurationSeconds ??
                   DEFAULT_DINNER_DURATION_SECONDS,
-                remaining: isManage
-                  ? getManageDinnerRemaining(eatingItem)
-                  : eatingItem.dinnerRemainingSeconds,
+                remaining: eatingItem.dinnerRemainingSeconds,
                 totalBites: eatingItem.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-                bitesLeft: isManage
-                  ? getManageDinnerBitesLeft(eatingItem)
-                  : eatingItem.dinnerBitesLeft,
+                bitesLeft: eatingItem.dinnerBitesLeft,
                 starReward: eatingItem.starValue,
                 isTimerRunning: isActive,
-                timerStartedAt: isManage
-                  ? eatingItem.manageDinnerTimerStartedAt
-                  : eatingItem.dinnerTimerStartedAt,
+                timerStartedAt: eatingItem.dinnerTimerStartedAt,
                 plateImage:
                   deps.theme.id === 'princess' ? princessPlateImage : undefined,
-                onAdjustTime: (delta) => {
-                  if (!isManage) return
-                  const next = Math.max(
-                    5 * 60,
-                    Math.min(
-                      30 * 60,
-                      (eatingItem.dinnerDurationSeconds ?? 600) + delta
-                    )
-                  )
-                  deps.onUpdateTaskField?.(item.id, {
-                    dinnerDurationSeconds: next,
-                  })
-                  deps.onUpdateEphemeral?.(item.id, {
-                    manageDinnerRemainingSeconds: next,
-                  })
-                },
-                onAdjustBites: (delta) => {
-                  if (!isManage) return
-                  const next = Math.max(
-                    1,
-                    Math.min(16, (eatingItem.dinnerTotalBites ?? 2) + delta)
-                  )
-                  deps.onUpdateTaskField?.(item.id, { dinnerTotalBites: next })
-                  deps.onUpdateEphemeral?.(item.id, {
-                    manageDinnerBitesLeft: next,
-                  })
-                },
-                onStarsChange: (v) =>
-                  isManage &&
-                  deps.onUpdateTaskField?.(item.id, { starValue: v }),
-                isCompleted,
+                isCompleted: isEatingCompleted,
                 completionImage:
                   deps.theme.id === 'princess'
-                    ? isManage
-                      ? princessQuizCorrectImage
-                      : princessEatingFullImage
+                    ? princessEatingFullImage
                     : undefined,
                 failureImage:
                   deps.theme.id === 'princess'
-                    ? isManage
-                      ? princessQuizIncorrectImage
-                      : princessEatingFailImage
+                    ? princessEatingFailImage
                     : undefined,
                 biteCooldownSeconds: deps.biteCooldownSeconds,
                 biteCooldownEndsAt: deps.biteCooldownEndsAt,
                 biteIcon:
                   deps.theme.id === 'princess'
-                    ? isManage
-                      ? deps.activePrincessMealIcon
-                      : deps.activePrincessMealIcon
+                    ? deps.activePrincessMealIcon
                     : undefined,
-                showSetupControls: isManage && !isActive && !isCompleted,
-                showStarReward: isManage && !isActive && !isCompleted,
+                onAdjustTime: noop,
+                onAdjustBites: noop,
+                onStarsChange: noop,
+                showSetupControls: false,
+                showStarReward: false,
               })
             : null
         )
       }
 
       case 'math': {
-        const mathItem = item as MathTaskWithEphemeral | MathTodo
         const isActive = deps.activeMathId === item.id
-        const isCompleted = isManage
-          ? Boolean(mathItem.manageMathCompletedAt)
-          : Boolean(mathItem.completedAt)
+        if (isTaskItem(item)) {
+          if (!isMathTask(item)) return null
+
+          const mathItem = item
+          const isMathCompleted = Boolean(mathItem.manageMathCompletedAt)
+
+          return commonContainer(
+            isActive || isMathCompleted || stage === 'setup'
+              ? renderArithmeticChore({
+                  theme: deps.theme,
+                  totalProblems:
+                    mathItem.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+                  starReward: mathItem.starValue,
+                  difficulty: mathItem.mathDifficulty ?? 'easy',
+                  isRunning: isActive,
+                  isCompleted: isMathCompleted,
+                  isFailed: mathItem.manageMathLastOutcome === 'failure',
+                  onAdjustProblems: (delta) => {
+                    const next = Math.max(
+                      1,
+                      Math.min(10, (mathItem.mathTotalProblems ?? 5) + delta)
+                    )
+                    deps.onUpdateTaskField?.(item.id, {
+                      mathTotalProblems: next,
+                    })
+                  },
+                  onStarsChange: (v) =>
+                    deps.onUpdateTaskField?.(item.id, { starValue: v }),
+                  onDifficultyChange: (d) =>
+                    deps.onUpdateTaskField?.(item.id, { mathDifficulty: d }),
+                  onComplete: () => deps.onComplete?.(item),
+                  onFail: () => deps.onFail?.(item),
+                  checkTrigger: deps.mathCheckTriggers[item.id] ?? 0,
+                  completionImage:
+                    deps.theme.id === 'princess'
+                      ? princessQuizCorrectImage
+                      : undefined,
+                  failureImage:
+                    deps.theme.id === 'princess'
+                      ? princessQuizIncorrectImage
+                      : undefined,
+                })
+              : null
+          )
+        }
+
+        if (!isMathTodo(item)) return null
+
+        const mathItem = item
+        const isMathCompleted = Boolean(mathItem.completedAt)
 
         return commonContainer(
-          isActive || isCompleted || (isManage && stage === 'setup')
+          isActive || isMathCompleted
             ? renderArithmeticChore({
                 theme: deps.theme,
                 totalProblems:
@@ -302,24 +403,10 @@ export function createUnifiedChoreDescriptor(
                 starReward: mathItem.starValue,
                 difficulty: mathItem.mathDifficulty ?? 'easy',
                 isRunning: isActive,
-                isCompleted,
-                isFailed: isManage
-                  ? mathItem.manageMathLastOutcome === 'failure'
-                  : mathItem.mathLastOutcome === 'failure',
-                onAdjustProblems: (delta) => {
-                  if (!isManage) return
-                  const next = Math.max(
-                    1,
-                    Math.min(10, (mathItem.mathTotalProblems ?? 5) + delta)
-                  )
-                  deps.onUpdateTaskField?.(item.id, { mathTotalProblems: next })
-                },
-                onStarsChange: (v) =>
-                  isManage &&
-                  deps.onUpdateTaskField?.(item.id, { starValue: v }),
-                onDifficultyChange: (d) =>
-                  isManage &&
-                  deps.onUpdateTaskField?.(item.id, { mathDifficulty: d }),
+                isCompleted: isMathCompleted,
+                isFailed: mathItem.mathLastOutcome === 'failure',
+                onAdjustProblems: noop,
+                onStarsChange: noop,
                 onComplete: () => deps.onComplete?.(item),
                 onFail: () => deps.onFail?.(item),
                 checkTrigger: deps.mathCheckTriggers[item.id] ?? 0,
@@ -337,34 +424,63 @@ export function createUnifiedChoreDescriptor(
       }
 
       case 'positional-notation': {
-        const pvItem = item as PVTaskWithEphemeral | PositionalNotationTodo
         const isActive = deps.activePVId === item.id
-        const isCompleted = isManage
-          ? Boolean(pvItem.managePVCompletedAt)
-          : Boolean(pvItem.completedAt)
+        if (isTaskItem(item)) {
+          if (!isPositionalNotationTask(item)) return null
+
+          const pvItem = item
+          const isPVCompleted = Boolean(pvItem.managePVCompletedAt)
+
+          return commonContainer(
+            isActive || isPVCompleted || stage === 'setup'
+              ? renderPositionalNotationChore({
+                  theme: deps.theme,
+                  totalProblems: pvItem.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
+                  starReward: pvItem.starValue,
+                  isRunning: isActive,
+                  isCompleted: isPVCompleted,
+                  isFailed: pvItem.managePVLastOutcome === 'failure',
+                  onAdjustProblems: (delta) => {
+                    const next = Math.max(
+                      1,
+                      Math.min(10, (pvItem.pvTotalProblems ?? 5) + delta)
+                    )
+                    deps.onUpdateTaskField?.(item.id, { pvTotalProblems: next })
+                  },
+                  onStarsChange: (v) =>
+                    deps.onUpdateTaskField?.(item.id, { starValue: v }),
+                  onComplete: () => deps.onComplete?.(item),
+                  onFail: () => deps.onFail?.(item),
+                  checkTrigger: deps.pvCheckTriggers[item.id] ?? 0,
+                  completionImage:
+                    deps.theme.id === 'princess'
+                      ? princessQuizCorrectImage
+                      : undefined,
+                  failureImage:
+                    deps.theme.id === 'princess'
+                      ? princessQuizIncorrectImage
+                      : undefined,
+                })
+              : null
+          )
+        }
+
+        if (!isPositionalNotationTodo(item)) return null
+
+        const pvItem = item
+        const isPVCompleted = Boolean(pvItem.completedAt)
 
         return commonContainer(
-          isActive || isCompleted || (isManage && stage === 'setup')
+          isActive || isPVCompleted
             ? renderPositionalNotationChore({
                 theme: deps.theme,
                 totalProblems: pvItem.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
                 starReward: pvItem.starValue,
                 isRunning: isActive,
-                isCompleted,
-                isFailed: isManage
-                  ? pvItem.managePVLastOutcome === 'failure'
-                  : pvItem.pvLastOutcome === 'failure',
-                onAdjustProblems: (delta) => {
-                  if (!isManage) return
-                  const next = Math.max(
-                    1,
-                    Math.min(10, (pvItem.pvTotalProblems ?? 5) + delta)
-                  )
-                  deps.onUpdateTaskField?.(item.id, { pvTotalProblems: next })
-                },
-                onStarsChange: (v) =>
-                  isManage &&
-                  deps.onUpdateTaskField?.(item.id, { starValue: v }),
+                isCompleted: isPVCompleted,
+                isFailed: pvItem.pvLastOutcome === 'failure',
+                onAdjustProblems: noop,
+                onStarsChange: noop,
                 onComplete: () => deps.onComplete?.(item),
                 onFail: () => deps.onFail?.(item),
                 checkTrigger: deps.pvCheckTriggers[item.id] ?? 0,
@@ -382,37 +498,73 @@ export function createUnifiedChoreDescriptor(
       }
 
       case 'alphabet': {
-        const alphaItem = item as AlphabetTaskWithEphemeral | AlphabetTodo
         const isActive = deps.activeAlphabetId === item.id
-        const isCompleted = isManage
-          ? Boolean(alphaItem.manageAlphabetCompletedAt)
-          : Boolean(alphaItem.completedAt)
+        if (isTaskItem(item)) {
+          if (!isAlphabetTask(item)) return null
+
+          const alphaItem = item
+          const isAlphabetCompleted = Boolean(
+            alphaItem.manageAlphabetCompletedAt
+          )
+
+          return commonContainer(
+            isActive || isAlphabetCompleted || stage === 'setup'
+              ? renderAlphabetChore({
+                  theme: deps.theme,
+                  totalProblems:
+                    alphaItem.alphabetTotalProblems ??
+                    DEFAULT_ALPHABET_PROBLEMS,
+                  starReward: alphaItem.starValue,
+                  isRunning: isActive,
+                  isCompleted: isAlphabetCompleted,
+                  isFailed: alphaItem.manageAlphabetLastOutcome === 'failure',
+                  onAdjustProblems: (delta) => {
+                    const next = Math.max(
+                      1,
+                      Math.min(
+                        10,
+                        (alphaItem.alphabetTotalProblems ?? 5) + delta
+                      )
+                    )
+                    deps.onUpdateTaskField?.(item.id, {
+                      alphabetTotalProblems: next,
+                    })
+                  },
+                  onStarsChange: (v) =>
+                    deps.onUpdateTaskField?.(item.id, { starValue: v }),
+                  onComplete: () => deps.onComplete?.(item),
+                  onFail: () => deps.onFail?.(item),
+                  checkTrigger: deps.alphabetCheckTriggers[item.id] ?? 0,
+                  completionImage:
+                    deps.theme.id === 'princess'
+                      ? princessQuizCorrectImage
+                      : undefined,
+                  failureImage:
+                    deps.theme.id === 'princess'
+                      ? princessQuizIncorrectImage
+                      : undefined,
+                })
+              : null
+          )
+        }
+
+        if (!isAlphabetTodo(item)) return null
+
+        const alphaItem = item
+        const isAlphabetCompleted = Boolean(alphaItem.completedAt)
 
         return commonContainer(
-          isActive || isCompleted || (isManage && stage === 'setup')
+          isActive || isAlphabetCompleted
             ? renderAlphabetChore({
                 theme: deps.theme,
                 totalProblems:
                   alphaItem.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
                 starReward: alphaItem.starValue,
                 isRunning: isActive,
-                isCompleted,
-                isFailed: isManage
-                  ? alphaItem.manageAlphabetLastOutcome === 'failure'
-                  : alphaItem.alphabetLastOutcome === 'failure',
-                onAdjustProblems: (delta) => {
-                  if (!isManage) return
-                  const next = Math.max(
-                    1,
-                    Math.min(10, (alphaItem.alphabetTotalProblems ?? 5) + delta)
-                  )
-                  deps.onUpdateTaskField?.(item.id, {
-                    alphabetTotalProblems: next,
-                  })
-                },
-                onStarsChange: (v) =>
-                  isManage &&
-                  deps.onUpdateTaskField?.(item.id, { starValue: v }),
+                isCompleted: isAlphabetCompleted,
+                isFailed: alphaItem.alphabetLastOutcome === 'failure',
+                onAdjustProblems: noop,
+                onStarsChange: noop,
                 onComplete: () => deps.onComplete?.(item),
                 onFail: () => deps.onFail?.(item),
                 checkTrigger: deps.alphabetCheckTriggers[item.id] ?? 0,
@@ -437,36 +589,29 @@ export function createUnifiedChoreDescriptor(
   return {
     renderItem,
     getStarCount: (item) => {
+      if (isManage) return undefined
       const stage = getStage(item)
       if (isInChoreStage(stage)) return undefined
       return item.starValue
     },
-    isHighlighted: (item) => {
-      return isManage
-        ? isManageTaskCompleted(item as TaskWithEphemeral)
-        : Boolean((item as TodoRecord).completedAt)
-    },
+    isHighlighted: (item) => isCompleted(item),
     getPrimaryAction: (item) => {
       const stage = getStage(item)
-      const type = isManage
-        ? (item as TaskWithEphemeral).taskType
-        : (item as TodoRecord).sourceTaskType
+      const type = getChoreType(item)
 
       if (type === 'standard') {
-        const isCompleted = isManage
-          ? Boolean(getManageTaskCompletedAt(item as TaskWithEphemeral))
-          : Boolean((item as TodoRecord).completedAt)
+        const isItemCompleted = isCompleted(item)
         return {
-          label: isCompleted ? 'Done' : isManage ? 'Give' : 'Open chore',
+          label: isItemCompleted ? 'Done' : isManage ? 'Give' : 'Open chore',
           icon: (
             <img
-              src={isCompleted ? princessActiveIcon : princessGiveStarIcon}
+              src={isItemCompleted ? princessActiveIcon : princessGiveStarIcon}
               alt="icon"
               className="h-6 w-6 object-contain"
             />
           ),
-          disabled: isCompleted,
-          hideButton: isCompleted,
+          disabled: isItemCompleted,
+          hideButton: isItemCompleted,
           variant: 'primary',
           showLabel: false,
           onClick: (i) => deps.onComplete?.(i),

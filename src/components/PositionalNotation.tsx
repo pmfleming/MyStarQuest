@@ -40,6 +40,7 @@ const {
 
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
 const STATUS_BAR_HORIZONTAL_PADDING = 12
+const SETUP_FIELD_GAP = uiTokens.singleVerticalSpace
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value))
@@ -325,61 +326,92 @@ const PositionalNotation = ({
             <div
               style={{
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
+                gap: SETUP_FIELD_GAP,
                 width: `${CONTROL_ROW_WIDTH}px`,
                 maxWidth: '100%',
               }}
             >
-              <StepperButton
-                theme={theme}
-                direction="prev"
-                onClick={() => onAdjustProblems(-1)}
-                disabled={!isSetup || totalProblems <= MIN_PROBLEMS}
-                ariaLabel="Fewer puzzles"
-              />
-
               <div
                 style={{
-                  flex: 1,
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: 0,
+                  width: '100%',
                 }}
               >
-                <span
+                <div
                   style={{
-                    fontFamily: theme.fonts.heading,
-                    fontWeight: 'bold',
-                    fontSize: 42,
-                    color: theme.colors.primary,
-                    lineHeight: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
                   }}
                 >
-                  {totalProblems}
-                </span>
-              </div>
+                  <StepperButton
+                    theme={theme}
+                    direction="prev"
+                    onClick={() => onAdjustProblems(-1)}
+                    disabled={!isSetup || totalProblems <= MIN_PROBLEMS}
+                    ariaLabel="Fewer puzzles"
+                  />
 
-              <StepperButton
-                theme={theme}
-                direction="next"
-                onClick={() => onAdjustProblems(1)}
-                disabled={!isSetup || totalProblems >= MAX_PROBLEMS}
-                ariaLabel="More puzzles"
-              />
+                  <div
+                    style={{
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: 0,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: theme.fonts.heading,
+                        fontWeight: 'bold',
+                        fontSize: 42,
+                        color: theme.colors.primary,
+                        lineHeight: 1,
+                      }}
+                    >
+                      {totalProblems}
+                    </span>
+                  </div>
+
+                  <StepperButton
+                    theme={theme}
+                    direction="next"
+                    onClick={() => onAdjustProblems(1)}
+                    disabled={!isSetup || totalProblems >= MAX_PROBLEMS}
+                    ariaLabel="More puzzles"
+                  />
+                </div>
+              </div>
             </div>
           )}
 
           {isSetup && (
-            <StarDisplay
-              theme={theme}
-              count={starReward}
-              editable
-              onChange={(value) => onStarsChange(value)}
-              min={1}
-              max={3}
-            />
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 0,
+                width: `${CONTROL_ROW_WIDTH}px`,
+                maxWidth: '100%',
+              }}
+            >
+              <StarDisplay
+                theme={theme}
+                count={starReward}
+                editable
+                onChange={(value) => onStarsChange(value)}
+                min={1}
+                max={3}
+              />
+            </div>
           )}
 
           {isRunning && (

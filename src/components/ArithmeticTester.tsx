@@ -33,6 +33,7 @@ const {
 
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
 const STATUS_BAR_HORIZONTAL_PADDING = 12
+const SETUP_FIELD_GAP = uiTokens.singleVerticalSpace
 
 function generateProblem(difficulty: MathDifficulty = 'easy'): {
   a: number
@@ -338,7 +339,7 @@ const ArithmeticTester = ({
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: 16,
+                gap: SETUP_FIELD_GAP,
                 width: `${CONTROL_ROW_WIDTH}px`,
                 maxWidth: '100%',
               }}
@@ -346,104 +347,135 @@ const ArithmeticTester = ({
               <div
                 style={{
                   display: 'flex',
-                  background: theme.colors.surface,
-                  borderRadius: '16px',
-                  padding: '4px',
-                  border: `2px solid ${theme.colors.accent}`,
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 0,
                   width: '100%',
-                  boxSizing: 'border-box',
                 }}
               >
-                {(['easy', 'hard'] as MathDifficulty[]).map((value) => (
-                  <button
-                    key={value}
-                    type="button"
-                    onClick={() => onDifficultyChange?.(value)}
-                    style={{
-                      flex: 1,
-                      padding: '8px 0',
-                      borderRadius: '12px',
-                      border: 'none',
-                      fontFamily: theme.fonts.heading,
-                      fontWeight: 'bold',
-                      fontSize: '1rem',
-                      cursor: 'pointer',
-                      background:
-                        difficulty === value
-                          ? theme.colors.primary
-                          : 'transparent',
-                      color:
-                        difficulty === value
-                          ? theme.id === 'space'
-                            ? '#000'
-                            : '#fff'
-                          : theme.colors.text,
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    {value.toUpperCase()}
-                  </button>
-                ))}
+                <div
+                  style={{
+                    display: 'flex',
+                    background: theme.colors.surface,
+                    borderRadius: '16px',
+                    padding: '4px',
+                    border: `2px solid ${theme.colors.accent}`,
+                    width: '100%',
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  {(['easy', 'hard'] as MathDifficulty[]).map((value) => (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => onDifficultyChange?.(value)}
+                      style={{
+                        flex: 1,
+                        padding: '8px 0',
+                        borderRadius: '12px',
+                        border: 'none',
+                        fontFamily: theme.fonts.heading,
+                        fontWeight: 'bold',
+                        fontSize: '1rem',
+                        cursor: 'pointer',
+                        background:
+                          difficulty === value
+                            ? theme.colors.primary
+                            : 'transparent',
+                        color:
+                          difficulty === value
+                            ? theme.id === 'space'
+                              ? '#000'
+                              : '#fff'
+                            : theme.colors.text,
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      {value.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div
                 style={{
                   display: 'flex',
+                  flexDirection: 'column',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  gap: 0,
                   width: '100%',
                 }}
               >
-                <StepperButton
-                  theme={theme}
-                  direction="prev"
-                  onClick={() => onAdjustProblems(-1)}
-                  disabled={!isSetup || totalProblems <= MIN_PROBLEMS}
-                  ariaLabel="Fewer puzzles"
-                />
-
                 <div
                   style={{
-                    flex: 1,
                     display: 'flex',
-                    flexDirection: 'column',
                     alignItems: 'center',
-                    gap: 0,
+                    justifyContent: 'center',
+                    width: '100%',
                   }}
                 >
-                  <span
+                  <StepperButton
+                    theme={theme}
+                    direction="prev"
+                    onClick={() => onAdjustProblems(-1)}
+                    disabled={!isSetup || totalProblems <= MIN_PROBLEMS}
+                    ariaLabel="Fewer puzzles"
+                  />
+
+                  <div
                     style={{
-                      fontFamily: theme.fonts.heading,
-                      fontWeight: 'bold',
-                      fontSize: 42,
-                      color: theme.colors.primary,
-                      lineHeight: 1,
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: 0,
                     }}
                   >
-                    {totalProblems}
-                  </span>
-                </div>
+                    <span
+                      style={{
+                        fontFamily: theme.fonts.heading,
+                        fontWeight: 'bold',
+                        fontSize: 42,
+                        color: theme.colors.primary,
+                        lineHeight: 1,
+                      }}
+                    >
+                      {totalProblems}
+                    </span>
+                  </div>
 
-                <StepperButton
-                  theme={theme}
-                  direction="next"
-                  onClick={() => onAdjustProblems(1)}
-                  disabled={!isSetup || totalProblems >= MAX_PROBLEMS}
-                  ariaLabel="More puzzles"
-                />
+                  <StepperButton
+                    theme={theme}
+                    direction="next"
+                    onClick={() => onAdjustProblems(1)}
+                    disabled={!isSetup || totalProblems >= MAX_PROBLEMS}
+                    ariaLabel="More puzzles"
+                  />
+                </div>
               </div>
             </div>
           )}
 
           {isSetup && (
-            <StarDisplay
-              theme={theme}
-              count={starReward}
-              editable
-              onChange={(value) => onStarsChange(value)}
-              min={1}
-              max={3}
-            />
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 0,
+                width: `${CONTROL_ROW_WIDTH}px`,
+                maxWidth: '100%',
+              }}
+            >
+              <StarDisplay
+                theme={theme}
+                count={starReward}
+                editable
+                onChange={(value) => onStarsChange(value)}
+                min={1}
+                max={3}
+              />
+            </div>
           )}
 
           {isRunning && (

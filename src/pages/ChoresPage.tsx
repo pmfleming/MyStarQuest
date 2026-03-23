@@ -81,6 +81,9 @@ const ChoresPage = () => {
   const [activePVId, setActivePVId] = useState<string | null>(null)
   const [activeAlphabetId, setActiveAlphabetId] = useState<string | null>(null)
   const [activeDinnerId, setActiveDinnerId] = useState<string | null>(null)
+  const [biteCooldownEndsAt, setBiteCooldownEndsAt] = useState<number | null>(
+    null
+  )
 
   const [mathCheckTriggers, setMathCheckTriggers] = useState<
     Record<string, number>
@@ -104,6 +107,7 @@ const ChoresPage = () => {
   useEffect(() => {
     if (!activeDinnerId) {
       setBiteCooldownTestIconIndex(null)
+      setBiteCooldownEndsAt(null)
     }
   }, [activeDinnerId])
 
@@ -120,6 +124,7 @@ const ChoresPage = () => {
     setActivePVId(null)
     setActiveAlphabetId(null)
     setActiveDinnerId(null)
+    setBiteCooldownEndsAt(null)
   }
 
   const renderDayTypeControl = (task: TaskRecord) => {
@@ -250,6 +255,7 @@ const ChoresPage = () => {
     onStartDinner: (item) => {
       if (!item) {
         setActiveDinnerId(null)
+        setBiteCooldownEndsAt(null)
         return
       }
       const task = item as TaskWithEphemeral
@@ -257,7 +263,11 @@ const ChoresPage = () => {
       startDinnerTimer(task)
       setActiveDinnerId(task.id)
     },
-    onApplyBite: applyBite,
+    onApplyBite: async (item) => {
+      if (biteCooldownEndsAt && Date.now() < biteCooldownEndsAt) return
+      setBiteCooldownEndsAt(Date.now() + biteCooldownSeconds * 1000)
+      await applyBite(item)
+    },
     onExpireDinner: expireDinnerTimer,
     titleDrafts: taskTitleDrafts,
     activeMathId,
@@ -271,6 +281,7 @@ const ChoresPage = () => {
     setPVCheckTriggers,
     setAlphabetCheckTriggers,
     biteCooldownSeconds,
+    biteCooldownEndsAt,
     activePrincessMealIcon,
     renderDayTypeControl,
   })

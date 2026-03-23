@@ -153,7 +153,8 @@ const DinnerCountdown = ({
   showStarReward = true,
 }: DinnerCountdownProps) => {
   /* --- local visual tick for smooth animations --- */
-  const [now, setNow] = useState(Date.now())
+  const [, setTick] = useState(0)
+  const now = Date.now()
 
   useEffect(() => {
     // Only tick if the timer is running or a cooldown is active
@@ -161,7 +162,7 @@ const DinnerCountdown = ({
       isTimerRunning || (biteCooldownEndsAt && biteCooldownEndsAt > Date.now())
     if (!needsTick) return
 
-    const interval = window.setInterval(() => setNow(Date.now()), 100)
+    const interval = window.setInterval(() => setTick((t) => t + 1), 100)
     return () => window.clearInterval(interval)
   }, [isTimerRunning, biteCooldownEndsAt])
 
@@ -577,8 +578,11 @@ const DinnerCountdown = ({
                 (() => {
                   const RING_R = 55
                   const CIRC = 2 * Math.PI * RING_R
-                  const offset =
-                    (1 - liveCooldown / totalCooldownSeconds) * CIRC
+                  const progress = Math.max(
+                    0,
+                    Math.min(1, liveCooldown / totalCooldownSeconds)
+                  )
+                  const offset = (1 - progress) * CIRC
                   return (
                     <div
                       style={{
@@ -676,14 +680,25 @@ const DinnerCountdown = ({
 
           {/* ---- STAR REWARD (editable, setup only) ---- */}
           {showStarReward && isSetup && (
-            <StarDisplay
-              theme={theme}
-              count={starReward}
-              editable
-              onChange={(value) => onStarsChange(value)}
-              min={1}
-              max={3}
-            />
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 0,
+                width: `${CONTROL_ROW_WIDTH}px`,
+                maxWidth: '100%',
+              }}
+            >
+              <StarDisplay
+                theme={theme}
+                count={starReward}
+                editable
+                onChange={(value) => onStarsChange(value)}
+                min={1}
+                max={3}
+              />
+            </div>
           )}
         </>
       )}

@@ -74,6 +74,9 @@ const DashboardPage = () => {
   const [activePVId, setActivePVId] = useState<string | null>(null)
   const [activeAlphabetId, setActiveAlphabetId] = useState<string | null>(null)
   const [activeDinnerId, setActiveDinnerId] = useState<string | null>(null)
+  const [biteCooldownEndsAt, setBiteCooldownEndsAt] = useState<number | null>(
+    null
+  )
 
   const [mathCheckTriggers, setMathCheckTriggers] = useState<
     Record<string, number>
@@ -94,6 +97,7 @@ const DashboardPage = () => {
     setActivePVId(null)
     setActiveAlphabetId(null)
     setActiveDinnerId(null)
+    setBiteCooldownEndsAt(null)
     setMathCheckTriggers({})
     setPVCheckTriggers({})
     setAlphabetCheckTriggers({})
@@ -106,6 +110,7 @@ const DashboardPage = () => {
     setActivePVId(null)
     setActiveAlphabetId(null)
     setActiveDinnerId(null)
+    setBiteCooldownEndsAt(null)
   }
 
   const descriptor = createUnifiedChoreDescriptor({
@@ -137,6 +142,7 @@ const DashboardPage = () => {
     onStartDinner: (item) => {
       if (!item) {
         setActiveDinnerId(null)
+        setBiteCooldownEndsAt(null)
         return
       }
       const todo = item as EatingTodo
@@ -144,7 +150,11 @@ const DashboardPage = () => {
       startDinnerTimer(todo)
       setActiveDinnerId(todo.id)
     },
-    onApplyBite: applyBite,
+    onApplyBite: async (item) => {
+      if (biteCooldownEndsAt && Date.now() < biteCooldownEndsAt) return
+      setBiteCooldownEndsAt(Date.now() + biteCooldownSeconds * 1000)
+      await applyBite(item)
+    },
     onExpireDinner: expireDinnerTimer,
     activeMathId,
     activePVId,
@@ -157,6 +167,7 @@ const DashboardPage = () => {
     setPVCheckTriggers,
     setAlphabetCheckTriggers,
     biteCooldownSeconds,
+    biteCooldownEndsAt,
     activePrincessMealIcon,
   })
 

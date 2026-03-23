@@ -151,6 +151,7 @@ const ALPHABET_ASSETS = [
 ]
 
 const ALL_LETTERS = ALPHABET_ASSETS.map((asset) => asset.letter)
+const SETUP_FIELD_GAP = uiTokens.singleVerticalSpace
 
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
@@ -362,36 +363,45 @@ const AlphabetTester = ({
           {isSetup && (
             <div
               className="flex flex-col items-center"
-              style={{ gap: 16, width: CONTROL_ROW_WIDTH, maxWidth: '100%' }}
+              style={{
+                gap: SETUP_FIELD_GAP,
+                width: CONTROL_ROW_WIDTH,
+                maxWidth: '100%',
+              }}
             >
-              <div className="flex w-full items-center justify-center">
-                <StepperButton
-                  theme={theme}
-                  direction="prev"
-                  onClick={() => onAdjustProblems(-1)}
-                  disabled={totalProblems <= MIN_PROBLEMS}
-                  ariaLabel="Fewer problems"
-                />
-                <div className="flex flex-1 flex-col items-center">
-                  <span
-                    style={{
-                      fontFamily: theme.fonts.heading,
-                      fontWeight: 'bold',
-                      fontSize: 42,
-                      color: theme.colors.primary,
-                      lineHeight: 1,
-                    }}
-                  >
-                    {totalProblems}
-                  </span>
+              <div
+                className="flex w-full flex-col items-center"
+                style={{ gap: 0 }}
+              >
+                <div className="flex w-full items-center justify-center">
+                  <StepperButton
+                    theme={theme}
+                    direction="prev"
+                    onClick={() => onAdjustProblems(-1)}
+                    disabled={totalProblems <= MIN_PROBLEMS}
+                    ariaLabel="Fewer problems"
+                  />
+                  <div className="flex flex-1 flex-col items-center">
+                    <span
+                      style={{
+                        fontFamily: theme.fonts.heading,
+                        fontWeight: 'bold',
+                        fontSize: 42,
+                        color: theme.colors.primary,
+                        lineHeight: 1,
+                      }}
+                    >
+                      {totalProblems}
+                    </span>
+                  </div>
+                  <StepperButton
+                    theme={theme}
+                    direction="next"
+                    onClick={() => onAdjustProblems(1)}
+                    disabled={totalProblems >= MAX_PROBLEMS}
+                    ariaLabel="More problems"
+                  />
                 </div>
-                <StepperButton
-                  theme={theme}
-                  direction="next"
-                  onClick={() => onAdjustProblems(1)}
-                  disabled={totalProblems >= MAX_PROBLEMS}
-                  ariaLabel="More problems"
-                />
               </div>
             </div>
           )}
@@ -400,7 +410,7 @@ const AlphabetTester = ({
             <div
               className="flex flex-col items-center"
               style={{
-                gap: 8,
+                gap: 0,
                 width: CONTROL_ROW_WIDTH,
                 maxWidth: '100%',
                 marginTop: uiTokens.singleVerticalSpace,
