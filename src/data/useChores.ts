@@ -38,6 +38,7 @@ import {
   DEFAULT_PV_STARS,
   MANAGE_STATUS_RESET_MS,
   getManageDinnerBitesLeft,
+  getManageDinnerRemaining,
   isEatingTask,
   isMathTask,
   isPositionalNotationTask,
@@ -54,6 +55,7 @@ import {
   type TaskUpdatableFields,
   type TodoUpdatableFields,
   type EatingTodo,
+  type EatingTaskWithEphemeral,
 } from './types'
 
 export function useChores() {
@@ -378,27 +380,45 @@ export function useChores() {
 
     if (isTodo) {
       const todo = item as EatingTodo
+      const startedAt = todo.dinnerTimerStartedAt
+      const elapsed = startedAt
+        ? Math.floor((Date.now() - startedAt) / 1000)
+        : 0
+      const frozenRemaining = Math.max(0, todo.dinnerRemainingSeconds - elapsed)
+
       await updateTodoField(todo.id, { dinnerBitesLeft: result.nextBites })
       if (result.isNowComplete) {
         await new Promise((r) => setTimeout(r, 850))
-        const done = await completeTodoAndAwardStars({
+        await completeTodoAndAwardStars({
           userId: user!.uid,
           childId: activeChildId!,
           todoId: todo.id,
           delta: todo.starValue,
-          updates: { dinnerTimerStartedAt: null },
+          updates: {
+            dinnerTimerStartedAt: null,
+            dinnerRemainingSeconds: frozenRemaining,
+          },
         })
-        if (done) celebrateSuccess()
         return true
       }
     } else {
-      const task = item as TaskWithEphemeral
+      const task = item as EatingTaskWithEphemeral
+      const startedAt = task.manageDinnerTimerStartedAt
+      const elapsed = startedAt
+        ? Math.floor((Date.now() - startedAt) / 1000)
+        : 0
+      const frozenRemaining = Math.max(
+        0,
+        getManageDinnerRemaining(task) - elapsed
+      )
+
       updateEphemeral(task.id, { manageDinnerBitesLeft: result.nextBites })
       if (result.isNowComplete) {
         await new Promise((r) => setTimeout(r, 850))
         updateEphemeral(task.id, {
           manageDinnerCompletedAt: Date.now(),
           manageDinnerTimerStartedAt: null,
+          manageDinnerRemainingSeconds: frozenRemaining,
         })
         if (user && activeChildId) {
           await awardStars({
@@ -406,7 +426,6 @@ export function useChores() {
             childId: activeChildId,
             delta: task.starValue,
           })
-          celebrateSuccess()
         }
         return true
       }

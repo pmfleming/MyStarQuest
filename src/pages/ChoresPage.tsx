@@ -111,6 +111,20 @@ const ChoresPage = () => {
     }
   }, [activeDinnerId])
 
+  useEffect(() => {
+    if (biteCooldownEndsAt) {
+      const remaining = biteCooldownEndsAt - Date.now()
+      if (remaining > 0) {
+        const timer = setTimeout(() => {
+          setBiteCooldownEndsAt(null)
+        }, remaining)
+        return () => clearTimeout(timer)
+      } else {
+        setBiteCooldownEndsAt(null)
+      }
+    }
+  }, [biteCooldownEndsAt])
+
   const biteCooldownSeconds = 15 // Fixed constant from types.ts
 
   const activePrincessMealIcon = (() => {
@@ -231,10 +245,9 @@ const ChoresPage = () => {
     onSetTitleDraft: setTaskTitleDraft,
     onCommitTitle: commitTaskTitle,
     onDeleteTask: deleteTask,
-    onComplete: (item) => {
+    onEnterChore: (item) => {
       const task = item as TaskWithEphemeral
-      if (task.taskType === 'standard') completeChore(task)
-      else if (task.taskType === 'math') {
+      if (task.taskType === 'math') {
         clearActiveActivities()
         setActiveMathId(task.id)
       } else if (task.taskType === 'positional-notation') {
@@ -245,6 +258,7 @@ const ChoresPage = () => {
         setActiveAlphabetId(task.id)
       }
     },
+    onComplete: completeChore,
     onFail: failChore,
     onReset: (item) => {
       const task = item as TaskWithEphemeral

@@ -71,6 +71,7 @@ export type UnifiedChoreDeps = {
   onCommitTitle?: (id: string, value: string) => void
   onDeleteTask?: (id: string) => void
   onDeleteTodo?: (id: string) => void
+  onEnterChore?: (item: TaskWithEphemeral | TodoRecord) => void
   onComplete?: (item: TaskWithEphemeral | TodoRecord) => void
   onFail?: (item: TaskWithEphemeral | TodoRecord) => void
   onReset?: (item: TaskWithEphemeral | TodoRecord) => void
@@ -112,8 +113,51 @@ export function createUnifiedChoreDescriptor(
       ? Boolean(getManageTaskCompletedAt(item))
       : Boolean(item.completedAt)
 
+  const hasActiveDinnerCooldown = (item: UnifiedChoreItem) =>
+    deps.activeDinnerId === item.id &&
+    typeof deps.biteCooldownEndsAt === 'number' &&
+    deps.biteCooldownEndsAt > Date.now()
+
+  const isDinnerAwaitingFinalCooldown = (item: UnifiedChoreItem) => {
+    if (getChoreType(item) !== 'eating' || !isCompleted(item)) return false
+
+    if (isTaskItem(item)) {
+      return isEatingTask(item) && getManageDinnerBitesLeft(item) <= 0
+        ? hasActiveDinnerCooldown(item)
+        : false
+    }
+
+    return isEatingTodo(item) && item.dinnerBitesLeft <= 0
+      ? hasActiveDinnerCooldown(item)
+      : false
+  }
+
+  const isDinnerTimedOut = (item: UnifiedChoreItem) => {
+    if (getChoreType(item) !== 'eating') return false
+
+    if (isTaskItem(item)) {
+      if (!isEatingTask(item)) return false
+      const remaining = getManageDinnerRemaining(item)
+      const startedAt = item.manageDinnerTimerStartedAt
+      if (!startedAt)
+        return remaining <= 0 && getManageDinnerBitesLeft(item) > 0
+      const elapsed = (Date.now() - startedAt) / 1000
+      return remaining - elapsed <= 0 && getManageDinnerBitesLeft(item) > 0
+    }
+
+    if (!isEatingTodo(item)) return false
+    const remaining = item.dinnerRemainingSeconds
+    const startedAt = item.dinnerTimerStartedAt
+    if (!startedAt) return remaining <= 0 && item.dinnerBitesLeft > 0
+    const elapsed = (Date.now() - startedAt) / 1000
+    return remaining - elapsed <= 0 && item.dinnerBitesLeft > 0
+  }
+
   const getStage = (item: UnifiedChoreItem): ChoreStage => {
-    if (isCompleted(item)) return 'completed'
+    if (isCompleted(item) || isDinnerTimedOut(item)) {
+      if (isDinnerAwaitingFinalCooldown(item)) return 'activity'
+      return 'completed'
+    }
 
     const id = item.id
     if (
@@ -274,6 +318,7 @@ export function createUnifiedChoreDescriptor(
                   },
                   onStarsChange: (v) =>
                     deps.onUpdateTaskField?.(item.id, { starValue: v }),
+                  onExpire: () => deps.onExpireDinner?.(item),
                   isCompleted: isEatingCompleted,
                   completionImage:
                     deps.theme.id === 'princess'
@@ -334,6 +379,7 @@ export function createUnifiedChoreDescriptor(
                 onAdjustTime: noop,
                 onAdjustBites: noop,
                 onStarsChange: noop,
+                onExpire: () => deps.onExpireDinner?.(item),
                 showSetupControls: false,
                 showStarReward: false,
               })
@@ -594,7 +640,7 @@ export function createUnifiedChoreDescriptor(
       if (isInChoreStage(stage)) return undefined
       return item.starValue
     },
-    isHighlighted: (item) => isCompleted(item),
+    isHighlighted: (item) => getStage(item) === 'completed',
     getPrimaryAction: (item) => {
       const stage = getStage(item)
       const type = getChoreType(item)
@@ -679,7 +725,10 @@ export function createUnifiedChoreDescriptor(
             [i.id]: (prev[i.id] ?? 0) + 1,
           }))
         },
-        onStart: (i) => deps.onComplete?.(i),
+        onStart: (i) => {
+          if (deps.onEnterChore) return deps.onEnterChore(i)
+          return deps.onComplete?.(i)
+        },
       })
     },
     getUtilityAction: (item) => {

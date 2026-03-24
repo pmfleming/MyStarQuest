@@ -5,6 +5,7 @@ import StarDisplay from './StarDisplay'
 import ChoreOutcomeView from './ChoreOutcomeView'
 import { uiTokens } from '../ui/tokens'
 import { BITE_COOLDOWN_SECONDS } from '../data/types'
+import { celebrateSuccess } from '../lib/celebrate'
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -107,6 +108,8 @@ interface DinnerCountdownProps {
   onAdjustTime: (delta: number) => void
   onAdjustBites: (delta: number) => void
   onStarsChange: (value: number) => void
+  /** Triggered when the timer runs out */
+  onExpire?: () => void
   /** Optional image to show when all bites are eaten (themed) */
   completionImage?: string
   /** Explicit completion flag used to control when success is shown */
@@ -141,6 +144,7 @@ const DinnerCountdown = ({
   onAdjustTime,
   onAdjustBites,
   onStarsChange,
+  onExpire,
   completionImage,
   isCompleted = false,
   failureImage,
@@ -186,6 +190,20 @@ const DinnerCountdown = ({
   const isFinished = isSuccess || isTimeout
   const isSetup = !isTimerRunning && !isFinished && !isCoolingDown
   const showSideControls = showSetupControls && !isFinished
+
+  /* --- trigger celebration on success transition --- */
+  useEffect(() => {
+    if (isSuccess) {
+      celebrateSuccess()
+    }
+  }, [isSuccess])
+
+  /* --- trigger expiration on timeout transition --- */
+  useEffect(() => {
+    if (isTimeout) {
+      onExpire?.()
+    }
+  }, [isTimeout, onExpire])
 
   /* --- bite animation tracking --- */
   const [animSlice, setAnimSlice] = useState<number | null>(null)

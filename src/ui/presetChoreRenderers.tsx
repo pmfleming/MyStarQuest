@@ -26,6 +26,7 @@ type DinnerChoreRendererProps = {
   onAdjustTime: (delta: number) => void
   onAdjustBites: (delta: number) => void
   onStarsChange: (value: number) => void
+  onExpire?: () => void
   isCompleted?: boolean
   completionImage?: string
   failureImage?: string
@@ -100,6 +101,7 @@ export const renderDinnerChore = ({
   onAdjustTime,
   onAdjustBites,
   onStarsChange,
+  onExpire,
   isCompleted,
   completionImage,
   failureImage,
@@ -124,6 +126,7 @@ export const renderDinnerChore = ({
       onAdjustTime={onAdjustTime}
       onAdjustBites={onAdjustBites}
       onStarsChange={onStarsChange}
+      onExpire={onExpire}
       isCompleted={isCompleted}
       completionImage={completionImage}
       failureImage={failureImage}

@@ -103,6 +103,20 @@ const DashboardPage = () => {
     setAlphabetCheckTriggers({})
   }, [activeChildId, todayInfo.dateKey])
 
+  useEffect(() => {
+    if (biteCooldownEndsAt) {
+      const remaining = biteCooldownEndsAt - Date.now()
+      if (remaining > 0) {
+        const timer = setTimeout(() => {
+          setBiteCooldownEndsAt(null)
+        }, remaining)
+        return () => clearTimeout(timer)
+      } else {
+        setBiteCooldownEndsAt(null)
+      }
+    }
+  }, [biteCooldownEndsAt])
+
   const biteCooldownSeconds = 15 // Fixed constant
 
   const clearActiveActivities = () => {
@@ -118,10 +132,9 @@ const DashboardPage = () => {
     mode: 'today',
     onUpdateTodoField: updateTodoField,
     onDeleteTodo: deleteTodo,
-    onComplete: (item) => {
+    onEnterChore: (item) => {
       const todo = item as TodoRecord
-      if (todo.sourceTaskType === 'standard') completeChore(todo)
-      else if (todo.sourceTaskType === 'math') {
+      if (todo.sourceTaskType === 'math') {
         clearActiveActivities()
         setActiveMathId(todo.id)
       } else if (todo.sourceTaskType === 'positional-notation') {
@@ -132,6 +145,7 @@ const DashboardPage = () => {
         setActiveAlphabetId(todo.id)
       }
     },
+    onComplete: completeChore,
     onFail: failChore,
     onReset: (item) => {
       const todo = item as TodoRecord
