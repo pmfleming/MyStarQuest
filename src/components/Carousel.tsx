@@ -57,8 +57,10 @@ const Carousel = ({
 
   const visibleItems = useMemo(() => {
     if (safeItems.length === 0) return []
-    const prevIndex = currentIndex === 0 ? safeItems.length - 1 : currentIndex - 1
-    const nextIndex = currentIndex === safeItems.length - 1 ? 0 : currentIndex + 1
+    const prevIndex =
+      currentIndex === 0 ? safeItems.length - 1 : currentIndex - 1
+    const nextIndex =
+      currentIndex === safeItems.length - 1 ? 0 : currentIndex + 1
     return [safeItems[prevIndex], safeItems[currentIndex], safeItems[nextIndex]]
   }, [safeItems, currentIndex])
 

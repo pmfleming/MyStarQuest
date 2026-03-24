@@ -33,11 +33,6 @@ declare global {
 
 const TOTAL_MINUTES = 1440
 
-/* Clock geometry */
-const CX = 100
-const CY = 100
-const CLOCK_R = 92
-
 /* Hand colors */
 const HOUR_COLOR = '#54a0ff'
 const MINUTE_COLOR = '#1dd1a1'
@@ -45,6 +40,12 @@ const SECOND_COLOR = '#ff4757'
 
 /* Globe & Cities */
 const GLOBE_CANVAS_SIZE = 220
+const CLOCK_SIZE = GLOBE_CANVAS_SIZE
+const CX = CLOCK_SIZE / 2
+const CY = CLOCK_SIZE / 2
+const CLOCK_FACE_WIDTH = uiTokens.contentMaxWidth
+const CLOCK_FACE_HEIGHT = GLOBE_CANVAS_SIZE
+const CLOCK_FACE_RADIUS = uiTokens.listItemRadius
 const AMSTERDAM_LAT = 52.37
 
 const CITIES = [
@@ -150,17 +151,87 @@ function getImageForTime(minutes: number, theme: Theme) {
   return activityImages.bedtime
 }
 
-function polar(r: number, angleDeg: number) {
-  const rad = ((angleDeg - 90) * Math.PI) / 180
-  return { x: CX + r * Math.cos(rad), y: CY + r * Math.sin(rad) }
+function roundedRectPerimeterPoint(
+  t: number,
+  width: number,
+  height: number,
+  radius: number
+) {
+  const turns = ((t % 1) + 1) % 1
+  const theta = turns * Math.PI * 2
+  const dx = Math.sin(theta)
+  const dy = -Math.cos(theta)
+  const halfWidth = width / 2
+  const halfHeight = height / 2
+  const r = Math.min(radius, halfWidth, halfHeight)
+  const straightHalfWidth = halfWidth - r
+  const straightHalfHeight = halfHeight - r
+  const absDx = Math.abs(dx)
+  const absDy = Math.abs(dy)
+  const signX = Math.sign(dx) || 1
+  const signY = Math.sign(dy) || 1
+  const epsilon = 1e-6
+
+  if (absDx < epsilon) {
+    return { x: CX, y: CY + signY * halfHeight }
+  }
+
+  if (absDy < epsilon) {
+    return { x: CX + signX * halfWidth, y: CY }
+  }
+
+  const verticalScale = halfWidth / absDx
+  const verticalY = absDy * verticalScale
+  if (verticalY <= straightHalfHeight + epsilon) {
+    return {
+      x: CX + signX * halfWidth,
+      y: CY + signY * verticalY,
+    }
+  }
+
+  const horizontalScale = halfHeight / absDy
+  const horizontalX = absDx * horizontalScale
+  if (horizontalX <= straightHalfWidth + epsilon) {
+    return {
+      x: CX + signX * horizontalX,
+      y: CY + signY * halfHeight,
+    }
+  }
+
+  const arcCenterX = straightHalfWidth
+  const arcCenterY = straightHalfHeight
+  const quadraticB = -2 * (absDx * arcCenterX + absDy * arcCenterY)
+  const quadraticC = arcCenterX * arcCenterX + arcCenterY * arcCenterY - r * r
+  const discriminant = Math.max(quadraticB * quadraticB - 4 * quadraticC, 0)
+  const scale = (-quadraticB + Math.sqrt(discriminant)) / 2
+
+  return {
+    x: CX + signX * absDx * scale,
+    y: CY + signY * absDy * scale,
+  }
+}
+
+function lerpPoint(
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+  amount: number
+) {
+  return {
+    x: from.x + (to.x - from.x) * amount,
+    y: from.y + (to.y - from.y) * amount,
+  }
 }
 
 const TICK_MARKS: ReactElement[] = []
 for (let i = 0; i < 60; i++) {
   const isHour = i % 5 === 0
-  const angle = (i / 60) * 360
-  const inner = polar(isHour ? 76 : 84, angle)
-  const outer = polar(CLOCK_R, angle)
+  const outer = roundedRectPerimeterPoint(
+    i / 60,
+    CLOCK_FACE_WIDTH - 12,
+    CLOCK_FACE_HEIGHT - 12,
+    CLOCK_FACE_RADIUS - 2
+  )
+  const inner = lerpPoint(outer, { x: CX, y: CY }, isHour ? 0.11 : 0.06)
   TICK_MARKS.push(
     <line
       key={i}
@@ -358,6 +429,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
     hand: 'hour' | 'minute' | 'second'
   ) => {
     e.preventDefault()
+    e.stopPropagation()
     setIsDragging(true)
     activeHandRef.current = hand
     exactMinutesRef.current = minutesRef.current
@@ -373,6 +445,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
   useEffect(() => {
     const handlePointerMove = (e: MouseEvent | TouchEvent) => {
       if (!activeHandRef.current) return
+      e.preventDefault()
 
       const clientX =
         'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX
@@ -446,7 +519,16 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
 
   const hourNumbers = Array.from({ length: 12 }, (_, i) => {
     const h = i + 1
-    const pos = polar(64, (h / 12) * 360)
+    const pos = lerpPoint(
+      roundedRectPerimeterPoint(
+        h / 12,
+        CLOCK_FACE_WIDTH - 42,
+        CLOCK_FACE_HEIGHT - 42,
+        CLOCK_FACE_RADIUS - 10
+      ),
+      { x: CX, y: CY },
+      0.1
+    )
     return (
       <text
         key={h}
@@ -454,11 +536,14 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
         y={pos.y}
         textAnchor="middle"
         dominantBaseline="central"
-        fontSize="14"
+        fontSize="20"
         fontWeight="bold"
-        fill="#555"
-        fontFamily={theme.fonts.body}
-        style={{ pointerEvents: 'none' }}
+        fill={theme.colors.text}
+        fontFamily={theme.fonts.heading}
+        style={{
+          pointerEvents: 'none',
+          textShadow: '0 1px 2px rgba(255,255,255,0.65)',
+        }}
       >
         {h}
       </text>
@@ -469,13 +554,28 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
     ? 'none'
     : 'transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)'
 
+  const controlHeight = GLOBE_CANVAS_SIZE
+  const digitalClockGap = 0
+  const digitalClockAreaHeight = uiTokens.doubleVerticalSpace
+  const digitalClockBottomInset = uiTokens.pagePaddingTop
+  const controlPanelHeight =
+    controlHeight + digitalClockGap + digitalClockAreaHeight
+  const digitalClockTop =
+    controlHeight + digitalClockGap - uiTokens.pagePaddingTop
+  const digitalClockCenterY = digitalClockTop + digitalClockAreaHeight / 2
+  const analogClockOffsetY = 0
+  const stepperInset = uiTokens.pagePaddingX
+  const explorerGap = uiTokens.singleVerticalSpace / 2
+  const activityImageWidth = 188
+
   /* ---------- Render ---------- */
 
   return (
     <>
       <style>{`
         .dne-btn { transition: transform 0.1s, box-shadow 0.1s; }
-        .dne-btn:active { transform: translateY(3px) !important; box-shadow: none !important; }
+        .dne-btn--prev:active { transform: translate(-50%, calc(-50% + 3px)) !important; box-shadow: none !important; }
+        .dne-btn--next:active { transform: translate(50%, calc(-50% + 3px)) !important; box-shadow: none !important; }
         .clock-hand { cursor: grab; }
         .clock-hand:active { cursor: grabbing; }
       `}</style>
@@ -485,7 +585,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 12,
+          gap: explorerGap,
           width: '100%',
           maxWidth: uiTokens.contentMaxWidth,
           margin: '0 auto',
@@ -513,279 +613,343 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
           />
         </div>
 
-        {/* -------- Activity & Digital clock (Split Left/Right) -------- */}
         <div
+          data-no-drag-scroll="true"
+          onTouchStartCapture={(e) => e.stopPropagation()}
+          onTouchMoveCapture={(e) => e.stopPropagation()}
+          onTouchEndCapture={(e) => e.stopPropagation()}
           style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 0,
-            background: theme.colors.surface,
-            padding: 0,
-            borderRadius: 20,
-            border: `3px solid ${theme.colors.accent}`,
             width: '100%',
             maxWidth: uiTokens.contentMaxWidth,
-            height: GLOBE_CANVAS_SIZE,
-            boxSizing: 'border-box',
-            overflow: 'hidden',
-          }}
-        >
-          {/* Left: Activity Image */}
-          <div
-            style={{
-              flex: 1.2,
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 0,
-              background: `${theme.colors.accent}11`,
-              borderRight: `2px solid ${theme.colors.accent}44`,
-              overflow: 'hidden',
-            }}
-          >
-            {activityImage ? (
-              <img
-                src={activityImage}
-                alt="Activity"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center 20%',
-                }}
-              />
-            ) : null}
-          </div>
-
-          {/* Right: Time Stack (REVERTED TO VERTICAL) */}
-          <div
-            style={{
-              flex: 0.8,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '100%',
-              gap: 0,
-            }}
-          >
-            <span
-              style={{
-                fontSize: 36,
-                fontWeight: 700,
-                color: theme.colors.text,
-                fontFamily: theme.fonts.heading,
-                lineHeight: 1,
-              }}
-            >
-              {h}
-            </span>
-            <span
-              style={{
-                fontSize: 18,
-                fontWeight: 700,
-                color: theme.colors.text,
-                fontFamily: theme.fonts.heading,
-                opacity: 0.4,
-                lineHeight: 0.5,
-              }}
-            >
-              :
-            </span>
-            <span
-              style={{
-                fontSize: 36,
-                fontWeight: 700,
-                color: theme.colors.text,
-                fontFamily: theme.fonts.heading,
-                lineHeight: 1,
-              }}
-            >
-              {m}
-            </span>
-            <span
-              style={{
-                fontSize: 18,
-                fontWeight: 700,
-                color: theme.colors.text,
-                fontFamily: theme.fonts.heading,
-                opacity: 0.4,
-                lineHeight: 0.5,
-              }}
-            >
-              :
-            </span>
-            <span
-              style={{
-                fontSize: 36,
-                fontWeight: 700,
-                color: theme.colors.text,
-                fontFamily: theme.fonts.heading,
-                opacity: 0.6,
-                lineHeight: 1,
-              }}
-            >
-              {String(Math.floor(seconds)).padStart(2, '0')}
-            </span>
-            <span
-              style={{
-                fontSize: 20,
-                fontWeight: 600,
-                color: theme.colors.accent,
-                fontFamily: theme.fonts.body,
-                marginTop: 6,
-              }}
-            >
-              {ampm}
-            </span>
-          </div>
-        </div>
-
-        {/* -------- Analogue clock with Steppers -------- */}
-        <div
-          style={{
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            maxWidth: uiTokens.controlRowWidth,
-            gap: 8,
+            gap: explorerGap,
+            position: 'relative',
+            overflow: 'visible',
           }}
         >
-          <StepperButton
-            theme={theme}
-            direction="prev"
-            onClick={() => adjust(-15)}
-            ariaLabel="Subtract 15 minutes"
-          />
-
-          <svg
-            ref={svgRef}
-            width="200"
-            height="200"
-            viewBox="0 0 200 200"
-            style={{ touchAction: 'none' }}
+          <div
+            style={{
+              width: '100%',
+              height: controlPanelHeight,
+              position: 'relative',
+              overflow: 'visible',
+            }}
           >
-            <circle
-              cx={CX}
-              cy={CY}
-              r={CLOCK_R + 3}
-              fill="white"
-              stroke={theme.colors.accent}
-              strokeWidth={5}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                borderRadius: CLOCK_FACE_RADIUS,
+                background: theme.colors.surface,
+                border: `${uiTokens.listItemBorderWidth}px solid ${theme.colors.accent}`,
+                zIndex: 1,
+                pointerEvents: 'none',
+              }}
             />
-            {TICK_MARKS}
-            {hourNumbers}
 
-            <g
-              className="clock-hand"
-              onMouseDown={(e) => handlePointerDown(e, 'hour')}
-              onTouchStart={(e) => handlePointerDown(e, 'hour')}
+            <div
               style={{
-                transformOrigin: `${CX}px ${CY}px`,
-                transform: `rotate(${hrAngle}deg)`,
-                transition: handTransition,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: controlHeight,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 2,
+                pointerEvents: 'none',
               }}
             >
-              <line
-                x1={CX}
-                y1={CY}
-                x2={CX}
-                y2={CY - 45}
-                stroke={HOUR_COLOR}
-                strokeWidth={7}
-                strokeLinecap="round"
-              />
-              <line
-                x1={CX}
-                y1={CY}
-                x2={CX}
-                y2={CY - 45}
-                stroke="transparent"
-                strokeWidth={25}
-                strokeLinecap="round"
-              />
-            </g>
+              {activityImage ? (
+                <img
+                  src={activityImage}
+                  alt="Activity"
+                  style={{
+                    width: activityImageWidth,
+                    height: controlHeight,
+                    objectFit: 'contain',
+                    objectPosition: 'center center',
+                  }}
+                />
+              ) : null}
+            </div>
 
-            <g
-              className="clock-hand"
-              onMouseDown={(e) => handlePointerDown(e, 'minute')}
-              onTouchStart={(e) => handlePointerDown(e, 'minute')}
+            <div
               style={{
-                transformOrigin: `${CX}px ${CY}px`,
-                transform: `rotate(${minAngle}deg)`,
-                transition: handTransition,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: controlHeight,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 3,
+                pointerEvents: 'none',
               }}
             >
-              <line
-                x1={CX}
-                y1={CY}
-                x2={CX}
-                y2={CY - 70}
-                stroke={MINUTE_COLOR}
-                strokeWidth={4}
-                strokeLinecap="round"
-              />
-              <line
-                x1={CX}
-                y1={CY}
-                x2={CX}
-                y2={CY - 70}
-                stroke="transparent"
-                strokeWidth={20}
-                strokeLinecap="round"
-              />
-            </g>
+              <svg
+                width={CLOCK_SIZE}
+                height={CLOCK_SIZE}
+                viewBox={`0 0 ${CLOCK_SIZE} ${CLOCK_SIZE}`}
+                style={{
+                  overflow: 'visible',
+                  transform: `translateY(${analogClockOffsetY}px)`,
+                }}
+              >
+                {TICK_MARKS}
+                {hourNumbers}
+              </svg>
+            </div>
 
-            <g
-              className="clock-hand"
-              onMouseDown={(e) => handlePointerDown(e, 'second')}
-              onTouchStart={(e) => handlePointerDown(e, 'second')}
+            <div
               style={{
-                transformOrigin: `${CX}px ${CY}px`,
-                transform: `rotate(${secAngle}deg)`,
-                transition: handTransition,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: controlHeight,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 4,
               }}
             >
-              <line
-                x1={CX}
-                y1={CY + 12}
-                x2={CX}
-                y2={CY - 78}
-                stroke={SECOND_COLOR}
-                strokeWidth={2.5}
-                strokeLinecap="round"
-              />
-              <circle cx={CX} cy={CY - 78} r={3} fill={SECOND_COLOR} />
-              <line
-                x1={CX}
-                y1={CY + 12}
-                x2={CX}
-                y2={CY - 78}
-                stroke="transparent"
-                strokeWidth={15}
-                strokeLinecap="round"
-              />
-            </g>
+              <svg
+                ref={svgRef}
+                width={CLOCK_SIZE}
+                height={CLOCK_SIZE}
+                viewBox={`0 0 ${CLOCK_SIZE} ${CLOCK_SIZE}`}
+                style={{
+                  touchAction: 'none',
+                  overflow: 'visible',
+                  transform: `translateY(${analogClockOffsetY}px)`,
+                }}
+              >
+                <g
+                  className="clock-hand"
+                  onMouseDown={(e) => handlePointerDown(e, 'hour')}
+                  onTouchStart={(e) => handlePointerDown(e, 'hour')}
+                  style={{
+                    transformOrigin: `${CX}px ${CY}px`,
+                    transform: `rotate(${hrAngle}deg)`,
+                    transition: handTransition,
+                  }}
+                >
+                  <line
+                    x1={CX}
+                    y1={CY}
+                    x2={CX}
+                    y2={CY - 45}
+                    stroke={HOUR_COLOR}
+                    strokeWidth={7}
+                    strokeLinecap="round"
+                  />
+                  <line
+                    x1={CX}
+                    y1={CY}
+                    x2={CX}
+                    y2={CY - 45}
+                    stroke="transparent"
+                    strokeWidth={25}
+                    strokeLinecap="round"
+                  />
+                </g>
 
-            <circle
-              cx={CX}
-              cy={CY}
-              r={5}
-              fill="#333"
-              style={{ pointerEvents: 'none' }}
+                <g
+                  className="clock-hand"
+                  onMouseDown={(e) => handlePointerDown(e, 'minute')}
+                  onTouchStart={(e) => handlePointerDown(e, 'minute')}
+                  style={{
+                    transformOrigin: `${CX}px ${CY}px`,
+                    transform: `rotate(${minAngle}deg)`,
+                    transition: handTransition,
+                  }}
+                >
+                  <line
+                    x1={CX}
+                    y1={CY}
+                    x2={CX}
+                    y2={CY - 70}
+                    stroke={MINUTE_COLOR}
+                    strokeWidth={4}
+                    strokeLinecap="round"
+                  />
+                  <line
+                    x1={CX}
+                    y1={CY}
+                    x2={CX}
+                    y2={CY - 70}
+                    stroke="transparent"
+                    strokeWidth={20}
+                    strokeLinecap="round"
+                  />
+                </g>
+
+                <g
+                  className="clock-hand"
+                  onMouseDown={(e) => handlePointerDown(e, 'second')}
+                  onTouchStart={(e) => handlePointerDown(e, 'second')}
+                  style={{
+                    transformOrigin: `${CX}px ${CY}px`,
+                    transform: `rotate(${secAngle}deg)`,
+                    transition: handTransition,
+                  }}
+                >
+                  <line
+                    x1={CX}
+                    y1={CY + 12}
+                    x2={CX}
+                    y2={CY - 78}
+                    stroke={SECOND_COLOR}
+                    strokeWidth={2.5}
+                    strokeLinecap="round"
+                  />
+                  <circle cx={CX} cy={CY - 78} r={3} fill={SECOND_COLOR} />
+                  <line
+                    x1={CX}
+                    y1={CY + 12}
+                    x2={CX}
+                    y2={CY - 78}
+                    stroke="transparent"
+                    strokeWidth={15}
+                    strokeLinecap="round"
+                  />
+                </g>
+
+                <circle
+                  cx={CX}
+                  cy={CY}
+                  r={5}
+                  fill="#333"
+                  style={{ pointerEvents: 'none' }}
+                />
+              </svg>
+            </div>
+
+            <StepperButton
+              theme={theme}
+              direction="prev"
+              onClick={() => adjust(-15)}
+              ariaLabel="Subtract 15 minutes"
+              className="dne-btn dne-btn--prev"
+              style={{
+                position: 'absolute',
+                left: stepperInset,
+                top: digitalClockCenterY,
+                transform: 'translate(-50%, -50%)',
+                zIndex: 6,
+              }}
             />
-          </svg>
 
-          <StepperButton
-            theme={theme}
-            direction="next"
-            onClick={() => adjust(15)}
-            ariaLabel="Add 15 minutes"
-          />
+            <StepperButton
+              theme={theme}
+              direction="next"
+              onClick={() => adjust(15)}
+              ariaLabel="Add 15 minutes"
+              className="dne-btn dne-btn--next"
+              style={{
+                position: 'absolute',
+                right: stepperInset,
+                top: digitalClockCenterY,
+                transform: 'translate(50%, -50%)',
+                zIndex: 6,
+              }}
+            />
+
+            <div
+              style={{
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                top: digitalClockTop,
+                height: digitalClockAreaHeight,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 6,
+                paddingBottom: digitalClockBottomInset,
+                boxSizing: 'border-box',
+                pointerEvents: 'none',
+                zIndex: 5,
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 36,
+                  fontWeight: 700,
+                  color: theme.colors.text,
+                  fontFamily: theme.fonts.heading,
+                  lineHeight: 1,
+                }}
+              >
+                {h}
+              </span>
+              <span
+                style={{
+                  fontSize: 18,
+                  fontWeight: 700,
+                  color: theme.colors.text,
+                  fontFamily: theme.fonts.heading,
+                  opacity: 0.55,
+                  lineHeight: 1,
+                }}
+              >
+                :
+              </span>
+              <span
+                style={{
+                  fontSize: 36,
+                  fontWeight: 700,
+                  color: theme.colors.text,
+                  fontFamily: theme.fonts.heading,
+                  lineHeight: 1,
+                }}
+              >
+                {m}
+              </span>
+              <span
+                style={{
+                  fontSize: 18,
+                  fontWeight: 700,
+                  color: theme.colors.text,
+                  fontFamily: theme.fonts.heading,
+                  opacity: 0.55,
+                  lineHeight: 1,
+                }}
+              >
+                :
+              </span>
+              <span
+                style={{
+                  fontSize: 36,
+                  fontWeight: 700,
+                  color: theme.colors.text,
+                  fontFamily: theme.fonts.heading,
+                  opacity: 0.88,
+                  textShadow: '0 1px 2px rgba(255,255,255,0.35)',
+                  lineHeight: 1,
+                }}
+              >
+                {String(Math.floor(seconds)).padStart(2, '0')}
+              </span>
+              <span
+                style={{
+                  fontSize: 20,
+                  fontWeight: 700,
+                  color: theme.colors.text,
+                  fontFamily: theme.fonts.body,
+                  marginLeft: 4,
+                  textShadow: '0 1px 2px rgba(255,255,255,0.35)',
+                }}
+              >
+                {ampm}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </>

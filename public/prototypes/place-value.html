@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Place Value Builder Game</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      /* Custom bouncy animations */
+      @keyframes pop-in {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        80% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .animate-pop {
+        animation: pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      }
+
+      @keyframes bounce-slight {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      .animate-bounce-slight {
+        animation: bounce-slight 1s ease-in-out infinite;
+      }
+
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body
+    class="flex min-h-screen items-center justify-center bg-indigo-50 p-4 font-sans"
+  >
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect, useCallback } = React
+
+      /* ------------------------------------------------------------------ */
+      /* Helper Components                                                 */
+      /* ------------------------------------------------------------------ */
+
+      const StepperBtn = ({ onClick, disabled, icon, colorClass }) => (
+        <button
+          onClick={onClick}
+          disabled={disabled}
+          className={`flex h-12 w-12 transform items-center justify-center rounded-full pb-1 text-3xl font-bold shadow-md transition-all active:scale-90 ${
+            disabled
+              ? 'cursor-not-allowed bg-gray-200 text-gray-400 shadow-none'
+              : `${colorClass} text-white hover:-translate-y-1 hover:brightness-110`
+          }`}
+          aria-label={icon === '+' ? 'Add' : 'Remove'}
+        >
+          {icon}
+        </button>
+      )
+
+      const TenRod = ({ delay }) => (
+        <div
+          className="animate-pop flex flex-col rounded border-2 border-emerald-600 bg-emerald-400 shadow-sm"
+          style={{ animationDelay: `${delay}ms` }}
+        >
+          {Array.from({ length: 10 }).map((_, i) => (
+            <div
+              key={i}
+              className="h-6 w-6 border-b border-emerald-600 opacity-80 last:border-b-0"
+            ></div>
+          ))}
+        </div>
+      )
+
+      const OneUnit = ({ delay }) => (
+        <div
+          className="animate-pop m-1 h-6 w-6 rounded border-2 border-blue-600 bg-blue-400 shadow-sm"
+          style={{ animationDelay: `${delay}ms` }}
+        ></div>
+      )
+
+      /* ------------------------------------------------------------------ */
+      /* Main Application Component                                        */
+      /* ------------------------------------------------------------------ */
+
+      const PlaceValueGame = () => {
+        // Game State
+        const [targetNumber, setTargetNumber] = useState(0)
+        const [userTens, setUserTens] = useState(0)
+        const [userOnes, setUserOnes] = useState(0)
+        const [isSuccess, setIsSuccess] = useState(false)
+
+        // Current total built by the user
+        const currentTotal = userTens * 10 + userOnes
+
+        // Initialize a new puzzle
+        const generateNewPuzzle = useCallback(() => {
+          // Random number between 1 and 99
+          const newTarget = Math.floor(Math.random() * 99) + 1
+          setTargetNumber(newTarget)
+          setUserTens(0)
+          setUserOnes(0)
+          setIsSuccess(false)
+        }, [])
+
+        // Start the first puzzle on mount
+        useEffect(() => {
+          generateNewPuzzle()
+        }, [generateNewPuzzle])
+
+        // Check for win condition
+        useEffect(() => {
+          if (targetNumber > 0 && currentTotal === targetNumber) {
+            // Add a tiny delay so the last block finishes popping in before success triggers
+            const timer = setTimeout(() => setIsSuccess(true), 300)
+            return () => clearTimeout(timer)
+          }
+        }, [currentTotal, targetNumber])
+
+        // Control handlers (Restricted to 0-9 to enforce proper base-10 grouping)
+        const adjustTens = (delta) =>
+          setUserTens((prev) => Math.max(0, Math.min(9, prev + delta)))
+        const adjustOnes = (delta) =>
+          setUserOnes((prev) => Math.max(0, Math.min(9, prev + delta)))
+
+        return (
+          <div className="relative flex w-full max-w-2xl flex-col items-center gap-6 overflow-hidden rounded-3xl border-4 border-indigo-100 bg-white p-6 shadow-xl md:p-8">
+            {/* Header & Target Number */}
+            <div className="w-full text-center">
+              <h1 className="mb-2 text-3xl font-extrabold text-indigo-600 md:text-4xl">
+                Build the Number! 🧱
+              </h1>
+              <div className="mt-4 flex w-full flex-col items-center justify-center rounded-2xl border-4 border-dashed border-indigo-200 bg-indigo-50 p-4">
+                <span className="mb-1 text-lg font-bold tracking-wide text-gray-500 uppercase">
+                  Target Number
+                </span>
+                <span className="text-7xl leading-none font-black tracking-tight text-slate-800">
+                  {targetNumber > 0 ? targetNumber : '?'}
+                </span>
+              </div>
+            </div>
+
+            {/* Builder Area */}
+            <div className="grid w-full grid-cols-2 gap-4 md:gap-8">
+              {/* TENS COLUMN */}
+              <div className="flex flex-col items-center rounded-2xl border-2 border-emerald-100 bg-emerald-50 p-4">
+                <h2 className="mb-4 text-2xl font-bold text-emerald-600">
+                  Tens
+                </h2>
+
+                <div className="mb-6 flex items-center gap-3 rounded-full bg-white p-2 shadow-sm">
+                  <StepperBtn
+                    icon="−"
+                    colorClass="bg-emerald-500"
+                    onClick={() => adjustTens(-1)}
+                    disabled={userTens === 0 || isSuccess}
+                  />
+                  <span className="w-8 text-center text-3xl font-bold text-emerald-700">
+                    {userTens}
+                  </span>
+                  <StepperBtn
+                    icon="+"
+                    colorClass="bg-emerald-500"
+                    onClick={() => adjustTens(1)}
+                    disabled={userTens === 9 || isSuccess}
+                  />
+                </div>
+
+                <div className="flex min-h-[250px] w-full flex-wrap items-end justify-center gap-2 pb-4">
+                  {userTens === 0 ? (
+                    <span className="font-medium text-emerald-300 italic">
+                      Empty
+                    </span>
+                  ) : (
+                    Array.from({ length: userTens }).map((_, i) => (
+                      <TenRod key={`ten-${i}`} delay={i * 50} />
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* ONES COLUMN */}
+              <div className="flex flex-col items-center rounded-2xl border-2 border-blue-100 bg-blue-50 p-4">
+                <h2 className="mb-4 text-2xl font-bold text-blue-600">Ones</h2>
+
+                <div className="mb-6 flex items-center gap-3 rounded-full bg-white p-2 shadow-sm">
+                  <StepperBtn
+                    icon="−"
+                    colorClass="bg-blue-500"
+                    onClick={() => adjustOnes(-1)}
+                    disabled={userOnes === 0 || isSuccess}
+                  />
+                  <span className="w-8 text-center text-3xl font-bold text-blue-700">
+                    {userOnes}
+                  </span>
+                  <StepperBtn
+                    icon="+"
+                    colorClass="bg-blue-500"
+                    onClick={() => adjustOnes(1)}
+                    disabled={userOnes === 9 || isSuccess}
+                  />
+                </div>
+
+                <div className="flex min-h-[250px] w-full flex-wrap content-end justify-center px-2 pb-4">
+                  {userOnes === 0 ? (
+                    <span className="self-end font-medium text-blue-300 italic">
+                      Empty
+                    </span>
+                  ) : (
+                    Array.from({ length: userOnes }).map((_, i) => (
+                      <OneUnit key={`one-${i}`} delay={i * 50} />
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Current Total Feedback */}
+            {!isSuccess && (
+              <div className="w-full rounded-xl border-2 border-slate-200 bg-slate-100 p-4 text-center transition-colors">
+                <p className="text-xl font-bold text-slate-600">
+                  You have built:{' '}
+                  <span className="ml-2 text-3xl text-indigo-600">
+                    {currentTotal}
+                  </span>
+                </p>
+              </div>
+            )}
+
+            {/* Success Overlay / State */}
+            {isSuccess && (
+              <div className="animate-pop absolute inset-0 z-10 flex flex-col items-center justify-center rounded-3xl bg-white/90 backdrop-blur-sm">
+                <div className="animate-bounce-slight mb-4 text-8xl">🎉</div>
+                <h2 className="mb-2 text-center text-4xl font-black text-indigo-600">
+                  You did it!
+                </h2>
+                <p className="mb-8 text-xl font-bold text-slate-600">
+                  <span className="text-emerald-500">{userTens} Tens</span> and{' '}
+                  <span className="text-blue-500">{userOnes} Ones</span> makes{' '}
+                  <span className="text-2xl text-indigo-600">
+                    {targetNumber}
+                  </span>
+                  !
+                </p>
+                <button
+                  onClick={generateNewPuzzle}
+                  className="transform rounded-full bg-indigo-500 px-8 py-4 text-xl font-bold text-white shadow-lg transition-transform hover:bg-indigo-600 active:scale-95"
+                >
+                  Next Puzzle ➔
+                </button>
+              </div>
+            )}
+          </div>
+        )
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(<PlaceValueGame />)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Magic Day Box</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700;800&display=swap" />
+    <style>
+      :root {
+        --spring-primary: #4ade80; --spring-bg: #f0fdf4;
+        --summer-primary: #fbbf24; --summer-bg: #fffbeb;
+        --autumn-primary: #fb923c; --autumn-bg: #fff7ed;
+        --winter-primary: #38bdf8; --winter-bg: #f0f9ff;
+        --current-color: var(--summer-primary);
+        --current-bg: var(--summer-bg);
+      }
+
+      * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Fredoka", sans-serif;
+        background: #f8fafc;
+      }
+
+      .magic-box {
+        width: 92%;
+        max-width: 420px;
+        background: var(--current-bg);
+        border: 10px solid var(--current-color);
+        border-radius: 45px;
+        padding: 24px;
+        box-shadow: 0 12px 0 rgba(0,0,0,0.05);
+        transition: all 0.5s ease;
+      }
+
+      /* Top Section: Large Season Image */
+      .season-header {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+      }
+
+      .season-img {
+        font-size: 4rem;
+        animation: bounce 3s ease-in-out infinite;
+      }
+
+      /* Middle Section: The Magic Window with Nav Buttons */
+      .window-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .display-window {
+        flex-grow: 1;
+        background: white;
+        border: 4px solid var(--current-color);
+        border-radius: 50px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 20px;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+      }
+
+      .label-text {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #334155;
+        text-align: center;
+      }
+
+      .nav-btn {
+        background: white;
+        border: 4px solid var(--current-color);
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #334155;
+        box-shadow: 0 4px 0 var(--current-color);
+      }
+
+      .nav-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--current-color); }
+
+      /* Bottom Section: The Grid */
+      .grid-container {
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 30px;
+        padding: 15px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+      }
+
+      .weekday {
+        font-size: 0.85rem;
+        font-weight: 800;
+        text-align: center;
+        color: #94a3b8;
+        padding-bottom: 5px;
+      }
+
+      .day-cell {
+        aspect-ratio: 1;
+        background: white;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: 2px solid transparent;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        transition: transform 0.2s;
+      }
+
+      .day-cell span { font-size: 1.2rem; font-weight: 800; color: #334155; }
+      .cell-icon { font-size: 1rem; margin-bottom: 2px; }
+
+      .day-cell.today {
+        background: var(--current-color) !important;
+        border: 4px solid white;
+        transform: scale(1.1);
+        z-index: 5;
+      }
+      .day-cell.today span { color: white; }
+
+      .day-cell.school { border-bottom: 4px solid #bbf7d0; }
+      .day-cell.home { background: #f1f5f9; opacity: 0.8; }
+
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+
+      .spring { --current-color: var(--spring-primary); --current-bg: var(--spring-bg); }
+      .summer { --current-color: var(--summer-primary); --current-bg: var(--summer-bg); }
+      .autumn { --current-color: var(--autumn-primary); --current-bg: var(--autumn-bg); }
+      .winter { --current-color: var(--winter-primary); --current-bg: var(--winter-bg); }
+    </style>
+  </head>
+  <body>
+
+    <div id="magic-box" class="magic-box summer">
+      <div class="season-header">
+        <div id="season-icon" class="season-img">☀️</div>
+      </div>
+
+      <div class="window-row">
+        <button id="prev" class="nav-btn">◀</button>
+        <div class="display-window">
+          <div id="main-label" class="label-text">August</div>
+        </div>
+        <button id="next" class="nav-btn">▶</button>
+      </div>
+
+      <div class="grid-container">
+        <div id="calendar-grid" class="grid"></div>
+      </div>
+    </div>
+
+    <script>
+      const state = { 
+        viewDate: new Date(),
+        timer: null 
+      };
+
+      const themes = {
+        spring: { icon: "🌸", class: "spring", school: "✏️", home: "🏡" },
+        summer: { icon: "☀️", class: "summer", school: "🎒", home: "🍦" },
+        autumn: { icon: "🍂", class: "autumn", school: "📚", home: "🍁" },
+        winter: { icon: "❄️", class: "winter", school: "🖍️", home: "☃️" }
+      };
+
+      function getSeason(date) {
+        const m = date.getMonth();
+        if (m >= 2 && m <= 4) return 'spring';
+        if (m >= 5 && m <= 7) return 'summer';
+        if (m >= 8 && m <= 10) return 'autumn';
+        return 'winter';
+      }
+
+      function render() {
+        const box = document.getElementById('magic-box');
+        const grid = document.getElementById('calendar-grid');
+        const mainLabel = document.getElementById('main-label');
+        const seasonIcon = document.getElementById('season-icon');
+        
+        const year = state.viewDate.getFullYear();
+        const month = state.viewDate.getMonth();
+        const theme = themes[getSeason(state.viewDate)];
+        const monthName = state.viewDate.toLocaleString('default', { month: 'long' });
+
+        box.className = `magic-box ${theme.class}`;
+        seasonIcon.textContent = theme.icon;
+        mainLabel.textContent = monthName;
+
+        grid.innerHTML = '';
+        ['M', 'T', 'W', 'T', 'F', 'S', 'S'].forEach(d => {
+          grid.innerHTML += `<div class="weekday">${d}</div>`;
+        });
+
+        const first = new Date(year, month, 1).getDay();
+        const offset = (first === 0 ? 6 : first - 1);
+        const totalDays = new Date(year, month + 1, 0).getDate();
+
+        for (let i = 0; i < offset; i++) grid.innerHTML += '<div></div>';
+
+        for (let d = 1; d <= totalDays; d++) {
+          const date = new Date(year, month, d);
+          const isWeekend = (date.getDay() === 0 || date.getDay() === 6);
+          const isToday = new Date().toDateString() === date.toDateString();
+
+          const cell = document.createElement('div');
+          cell.className = `day-cell ${isWeekend ? 'home' : 'school'} ${isToday ? 'today' : ''}`;
+          cell.innerHTML = `<div class="cell-icon">${isWeekend ? theme.home : theme.school}</div><span>${d}</span>`;
+          
+          cell.onclick = () => {
+            const dayName = date.toLocaleString('default', { weekday: 'long' });
+            // Education focus: Day Name + Number + Month
+            mainLabel.innerHTML = `<span style="color:var(--current-color)">${dayName}</span> ${d} ${monthName}`;
+
+            // Visual pop
+            cell.style.transform = 'scale(1.2)';
+            setTimeout(() => cell.style.transform = '', 150);
+
+            // Return to Month view after 4 seconds
+            clearTimeout(state.timer);
+            state.timer = setTimeout(() => {
+              mainLabel.textContent = monthName;
+            }, 4000);
+          };
+          
+          grid.appendChild(cell);
+        }
+      }
+
+      document.getElementById('prev').onclick = () => { state.viewDate.setMonth(state.viewDate.getMonth() - 1); render(); };
+      document.getElementById('next').onclick = () => { state.viewDate.setMonth(state.viewDate.getMonth() + 1); render(); };
+
+      render();
+    </script>
+  </body>
+</html>

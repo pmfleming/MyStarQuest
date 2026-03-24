@@ -187,7 +187,7 @@ When adding or changing child-facing UI, verify:
 
 ## 10) Source References
 
-- Visual and behavioral baseline: `public/design-prototype.html`
+- Visual and behavioral baseline: `public/prototypes/design-prototype.html`
 - Live theme definitions: `src/contexts/ThemeContext.tsx`
 - Layout and sizing tokens: `src/ui/tokens.ts`
 - Shared list and action components: `src/components/*`

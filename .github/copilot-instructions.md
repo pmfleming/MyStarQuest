@@ -14,6 +14,7 @@
 - Open Android Studio project: `npx cap open android`
 - Cloud Functions install: `cd functions && npm install`
 - Cloud Functions build: `cd functions && npx tsc`
+- CI is the quality gate. Prefer CI-equivalent verification commands before handoff; see `.github/ci-configuration.md`.
 
 ## Android (Capacitor) workflow
 
@@ -183,135 +184,12 @@ The component layer is easiest to reason about in four groups:
 
 ### Chore system components
 
-Chores should be understood as two layers:
-
-- Custom chores
-  - Simple user-authored chores using shared controls such as `ActionTextInput`, `StarDisplay`, and `RepeatControl`.
-- Preset chores
-  - Specialized interactive chore types rendered by dedicated components.
-
-All chores should also be understood as having three UI modes:
-
-- overview mode
-  - used on the Today page / dashboard list
-  - shows the chore title, read-only stars, an enter-chore action, and a delete action
-- editing mode
-  - used on the Manage Chores page
-  - shows the editable chore configuration together with the enter-chore action and delete action
-- in-chore mode
-  - shows only the UI relevant to performing the chore itself
-  - hides the title and star display
-  - replaces the delete action with a reset action
-
-The in-chore mode should be identical whether it is entered from the Today list or the Manage Chores list.
-Today and Manage should differ in overview/editing context, not in the active chore experience itself.
-
-The preset-chore in-mode contract is implemented through shared `src/ui/*` modules rather than duplicated per page:
-
-- `src/ui/choreModeDefinitions.ts`
-  - defines shared stage semantics (`setup`, `activity`, `completed`)
-  - controls when preset chores hide title and stars
-  - controls when reset replaces delete
-  - controls per-type primary-button visibility in-chore
-- `src/ui/presetChoreRenderers.tsx`
-  - ensures the active chore UI for dinner, arithmetic, positional notation, and alphabet is rendered through one shared entry point
-- `src/ui/presetChoreActions.tsx`
-  - ensures shared primary action construction for dinner and test chores
-  - ensures shared reset/delete utility action construction
-
-This means Today and Manage should not independently redefine preset in-chore UI behavior.
-They should provide state and callbacks, then call the shared mode, renderer, and action helpers.
-
-Preset chores currently fall into two interaction families:
-
-- Tests
-- Activity monitors
-
-Tests should be grouped by learning domain rather than treated as a flat list of one-off components.
-
-#### Tests
-
-All test components share a common pattern:
-
-- setup state
-- running/activity state
-- completion and failure handling
-- parent-controlled orchestration via descriptor modules
-- score/progress feedback
-- star reward configuration
-
-Current test domains:
-
-- Maths
-  - `src/components/ArithmeticTester.tsx`
-  - `src/components/PositionalNotation.tsx`
-- Language
-  - `src/components/AlphabetTester.tsx`
-
-Future test types should be added under the appropriate domain, and new domains may be introduced as needed.
-
-Tests therefore have commonality at two levels:
-
-- all tests share test-level interaction patterns
-- tests within a domain share domain-specific conventions and UI patterns
-
-Tests should therefore not be modeled mentally as a flat list of current components.
-They should be modeled as:
-
-- test-level commonality
-- domain-level commonality
-- concrete test types within a domain
-
-#### Activity monitors
-
-Current activity-monitor preset chore:
-
-- `src/components/DinnerCountdown.tsx`
-
-Activity monitors differ from tests in that they track timed or observed completion rather than presenting question/answer interactions.
-
-The underlying task model in `src/data/types.ts` uses concrete task types, while product language may group them into broader families:
-
-- `standard` = custom chore
-- `eating` = activity monitor
-- `math` = test / maths
-- `positional-notation` = test / maths
-- `alphabet` = test / language
-
-Manage-page and Today-page row behavior for chore types should stay in descriptor modules rather than inside page components:
-
-- `src/ui/manageTaskDescriptors.tsx`
-- `src/ui/todayTodoDescriptors.tsx`
-
-These entry points should present different overview/editing context, but they should converge on the same in-chore mode once a chore is active.
-
-In practice, convergence for preset chores currently means:
-
-- shared stage rules come from `src/ui/choreModeDefinitions.ts`
-- shared renderer selection comes from `src/ui/presetChoreRenderers.tsx`
-- shared action construction comes from `src/ui/presetChoreActions.tsx`
-
-If Today and Manage begin to differ for a preset chore, the first place to fix it should usually be one of those shared modules rather than page-level descriptor branching.
-
-When adding or changing preset tests, keep the descriptor wiring domain-aware.
-
-- Prefer grouping maths tests with maths-specific behavior and language tests with language-specific behavior.
-- Avoid scattering domain logic across page components or `StandardActionList`.
-- If a new test shares test-level behavior but introduces new domain conventions, extend the relevant descriptor structure instead of adding ad hoc page-level branching.
-
-When adding a new preset chore:
-
-1. decide whether it is a test or an activity monitor
-2. if it is a test, assign it to a learning domain
-3. define the overview mode, editing mode, and in-chore mode
-4. ensure the in-chore mode matches across Today and Manage entry points
-5. add or extend shared stage rules in `src/ui/choreModeDefinitions.ts`
-6. add or extend the shared renderer in `src/ui/presetChoreRenderers.tsx`
-7. add or extend the shared action builder in `src/ui/presetChoreActions.tsx`
-8. add the concrete task type to `src/data/types.ts`
-9. add the component implementation
-10. wire it into `src/ui/manageTaskDescriptors.tsx` and `src/ui/todayTodoDescriptors.tsx`
-11. update or extend `src/ui/choreModeDefinitions.test.ts` so the shared mode contract remains protected
+- For chore information architecture and chore-mode guidance, refer to `.github/chore-information-architecture.md`.
+- For the current shared implementation entry points, start with:
+  - `src/ui/unifiedChoreDescriptors.tsx`
+  - `src/ui/choreModeDefinitions.ts`
+  - `src/ui/presetChoreRenderers.tsx`
+  - `src/ui/presetChoreActions.tsx`
 
 ## UI/UX conventions (kid-friendly)
 
@@ -327,7 +205,10 @@ When adding a new preset chore:
 
 ## Testing conventions
 
+- Treat CI as the source of truth for quality checks; local hooks are for fast feedback, not the final gate. See `.github/ci-configuration.md` and `.github/workflows/ci.yml`.
+- Before handoff, prefer the same verification categories CI enforces: format check, lint, type check, unit tests, and E2E tests when relevant.
 - Vitest config lives in `vite.config.ts` and uses `src/setupTests.ts`.
 - `src/App.test.tsx` shows the preferred pattern for mocking Firebase Auth.
 - `src/ui/choreModeDefinitions.test.ts` protects the shared preset-chore mode matrix and shared action labels so Today/Manage drift is caught by a focused unit test.
 - Playwright tests live in `tests/`.
+- If time or environment constraints prevent running the full CI-equivalent set locally, say exactly what was not run.

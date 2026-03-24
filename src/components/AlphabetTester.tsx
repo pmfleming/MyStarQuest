@@ -63,6 +63,20 @@ import tartToffeeToast from '../assets/alphabet/tart-toffee-toast.svg'
 import tomatoTurnipTruffle from '../assets/alphabet/tomato-turnip-truffle.svg'
 import wafflesWontonSoupWrap from '../assets/alphabet/waffles-wonton soup-wrap.svg'
 import yogurtYorkshirePudding from '../assets/alphabet/yogurt-yorkshire pudding.svg'
+import rabbitRacoonReindeer from '../assets/alphabet/rabbit-racoon-reindeer.svg'
+import rhinocerosRayRedPanda from '../assets/alphabet/rhinoceros-ray-red panda.svg'
+import seaHorseSquidStarFish from '../assets/alphabet/sea horse-squid-star fish.svg'
+import sealSharkSalmon from '../assets/alphabet/seal-shark-salmon.svg'
+import sheepSkunkSquirrel from '../assets/alphabet/sheep-skunk-squirrel.svg'
+import swanSpiderSloth from '../assets/alphabet/swan-spider-sloth.svg'
+import tigerTortoiseTurtleTapir from '../assets/alphabet/tiger,tortoise turtle,tapir.svg'
+import unicornUrialUromastyx from '../assets/alphabet/unicorn-urial-uromastyx.svg'
+import viperVoleVulture from '../assets/alphabet/viper-vole-vulture.svg'
+import walrusWhaleWorm from '../assets/alphabet/walrus-whale-worm.svg'
+import waspWeaselWoodpecker from '../assets/alphabet/wasp-weasel-woodpecker.svg'
+import wolfWeaselWarthog from '../assets/alphabet/wolf-weasel-warthog.svg'
+import yakYeti from '../assets/alphabet/yak-yeti.svg'
+import zebra from '../assets/alphabet/zebra.svg'
 
 /* ------------------------------------------------------------------ */
 /*  Constants & Assets                                                 */
@@ -136,18 +150,44 @@ const ALPHABET_ASSETS = [
     ],
   },
   { letter: 'Q', files: [quinoaQuicheQuesadilla] },
-  { letter: 'R', files: [radishRhubarbRocket, ramenRavioliRisotto] },
+  {
+    letter: 'R',
+    files: [
+      radishRhubarbRocket,
+      ramenRavioliRisotto,
+      rabbitRacoonReindeer,
+      rhinocerosRayRedPanda,
+    ],
+  },
   {
     letter: 'S',
     files: [
       sandwichSausageSoup,
       sashimiSushiSeaweed,
       seaweedSpinachSweetPotato,
+      seaHorseSquidStarFish,
+      sealSharkSalmon,
+      sheepSkunkSquirrel,
+      swanSpiderSloth,
     ],
   },
-  { letter: 'T', files: [tartToffeeToast, tomatoTurnipTruffle] },
-  { letter: 'W', files: [wafflesWontonSoupWrap] },
-  { letter: 'Y', files: [yogurtYorkshirePudding] },
+  {
+    letter: 'T',
+    files: [tartToffeeToast, tomatoTurnipTruffle, tigerTortoiseTurtleTapir],
+  },
+  { letter: 'U', files: [unicornUrialUromastyx] },
+  { letter: 'V', files: [viperVoleVulture] },
+  {
+    letter: 'W',
+    files: [
+      wafflesWontonSoupWrap,
+      walrusWhaleWorm,
+      waspWeaselWoodpecker,
+      wolfWeaselWarthog,
+    ],
+  },
+  { letter: 'Y', files: [yogurtYorkshirePudding, yakYeti] },
+  { letter: 'Z', files: [zebra] },
 ]
 
 const ALL_LETTERS = ALPHABET_ASSETS.map((asset) => asset.letter)
