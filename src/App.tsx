@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './auth/AuthContext'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { ActiveChildProvider } from './contexts/ActiveChildContext'
+import { SelectedDateProvider } from './contexts/SelectedDateContext'
 import ProtectedRoute from './routes/ProtectedRoute'
 import { defaultTabPath } from './lib/tabNavigation'
 
@@ -18,44 +19,46 @@ const App = () => {
   return (
     <AuthProvider>
       <ThemeProvider>
-        <ActiveChildProvider>
-          <BrowserRouter>
-            <Suspense fallback={<div className="h-screen w-full bg-black" />}>
-              <Routes>
-                <Route path="/login" element={<LoginPage />} />
-                <Route element={<ProtectedRoute />}>
-                  <Route
-                    path="/"
-                    element={<Navigate to={defaultTabPath} replace />}
-                  />
-                  <Route path="/tabs/dashboard" element={<DashboardPage />} />
-                  <Route
-                    path="/tabs/time-explorer"
-                    element={<TimeExplorerPage />}
-                  />
-                  <Route path="/tabs/rewards" element={<RewardsPage />} />
-                  <Route
-                    path="/today"
-                    element={<Navigate to="/tabs/dashboard" replace />}
-                  />
-                  <Route
-                    path="/settings/manage-children"
-                    element={<ManageChildrenPage />}
-                  />
-                  <Route
-                    path="/settings/manage-tasks"
-                    element={<ChoresPage />}
-                  />
-                  <Route
-                    path="/settings/manage-rewards"
-                    element={<Navigate to="/tabs/rewards" replace />}
-                  />
-                </Route>
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </ActiveChildProvider>
+        <SelectedDateProvider>
+          <ActiveChildProvider>
+            <BrowserRouter>
+              <Suspense fallback={<div className="h-screen w-full bg-black" />}>
+                <Routes>
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route element={<ProtectedRoute />}>
+                    <Route
+                      path="/"
+                      element={<Navigate to={defaultTabPath} replace />}
+                    />
+                    <Route path="/tabs/dashboard" element={<DashboardPage />} />
+                    <Route
+                      path="/tabs/time-explorer"
+                      element={<TimeExplorerPage />}
+                    />
+                    <Route path="/tabs/rewards" element={<RewardsPage />} />
+                    <Route
+                      path="/today"
+                      element={<Navigate to="/tabs/dashboard" replace />}
+                    />
+                    <Route
+                      path="/settings/manage-children"
+                      element={<ManageChildrenPage />}
+                    />
+                    <Route
+                      path="/settings/manage-tasks"
+                      element={<ChoresPage />}
+                    />
+                    <Route
+                      path="/settings/manage-rewards"
+                      element={<Navigate to="/tabs/rewards" replace />}
+                    />
+                  </Route>
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </ActiveChildProvider>
+        </SelectedDateProvider>
       </ThemeProvider>
     </AuthProvider>
   )

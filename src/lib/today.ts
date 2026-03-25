@@ -56,6 +56,30 @@ export const buildDateKey = (date: Date) => {
   return `${year}-${month}-${day}`
 }
 
+export const parseDateKey = (dateKey: string) => {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateKey)
+  if (!match) {
+    throw new Error(`Invalid date key: ${dateKey}`)
+  }
+
+  const [, year, month, day] = match
+  return new Date(Number(year), Number(month) - 1, Number(day), 12, 0, 0, 0)
+}
+
+export const buildDateFromDateKeyAndMinutes = (
+  dateKey: string,
+  totalMinutes: number,
+  seconds = 0
+) => {
+  const date = parseDateKey(dateKey)
+  const normalizedMinutes = ((totalMinutes % 1440) + 1440) % 1440
+  const hours = Math.floor(normalizedMinutes / 60)
+  const minutes = normalizedMinutes % 60
+
+  date.setHours(hours, minutes, seconds, 0)
+  return date
+}
+
 export const getCurrentDayTypeForDate = (date: Date): CurrentDayType => {
   const dayOfWeek = date.getDay()
   return dayOfWeek === 0 || dayOfWeek === 6 ? 'nonschoolday' : 'schoolday'

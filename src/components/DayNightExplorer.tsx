@@ -6,6 +6,11 @@ import {
   type ReactElement,
 } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
+import {
+  useSelectedDate,
+  useSelectedDateSolarTimes,
+} from '../contexts/SelectedDateContext'
+import { getSolarDeclinationDegrees } from '../lib/solar'
 import { uiTokens } from '../ui/tokens'
 import StepperButton from './StepperButton'
 
@@ -151,6 +156,129 @@ function getImageForTime(minutes: number, theme: Theme) {
   return activityImages.bedtime
 }
 
+function dotProduct(
+  a: { x: number; y: number; z: number },
+  b: { x: number; y: number; z: number }
+) {
+  return a.x * b.x + a.y * b.y + a.z * b.z
+}
+
+function latLonToVector(latDegrees: number, lonDegrees: number) {
+  const lat = (latDegrees * Math.PI) / 180
+  const lon = (lonDegrees * Math.PI) / 180
+  const cosLat = Math.cos(lat)
+
+  return {
+    x: cosLat * Math.cos(lon),
+    y: cosLat * Math.sin(lon),
+    z: Math.sin(lat),
+  }
+}
+
+function drawNightOverlay(options: {
+  context: CanvasRenderingContext2D
+  centerX: number
+  centerY: number
+  radius: number
+  centerLongitude: number
+  centerLatitude: number
+  sunLongitude: number
+  sunLatitude: number
+}) {
+  const {
+    context,
+    centerX,
+    centerY,
+    radius,
+    centerLongitude,
+    centerLatitude,
+    sunLongitude,
+    sunLatitude,
+  } = options
+
+  const sunVectorWorld = latLonToVector(sunLatitude, sunLongitude)
+  const centerLon = (centerLongitude * Math.PI) / 180
+  const centerLat = (centerLatitude * Math.PI) / 180
+  const centerCosLat = Math.cos(centerLat)
+  const centerSinLat = Math.sin(centerLat)
+  const centerCosLon = Math.cos(centerLon)
+  const centerSinLon = Math.sin(centerLon)
+
+  const east = {
+    x: -centerSinLon,
+    y: centerCosLon,
+    z: 0,
+  }
+  const north = {
+    x: -centerSinLat * centerCosLon,
+    y: -centerSinLat * centerSinLon,
+    z: centerCosLat,
+  }
+  const outward = {
+    x: centerCosLat * centerCosLon,
+    y: centerCosLat * centerSinLon,
+    z: centerSinLat,
+  }
+
+  const sunVectorView = {
+    x: dotProduct(sunVectorWorld, east),
+    y: dotProduct(sunVectorWorld, north),
+    z: dotProduct(sunVectorWorld, outward),
+  }
+
+  context.save()
+  context.beginPath()
+  context.arc(centerX, centerY, radius, 0, Math.PI * 2)
+  context.clip()
+
+  const left = Math.floor(centerX - radius)
+  const top = Math.floor(centerY - radius)
+  const size = Math.ceil(radius * 2)
+  const imageData = context.createImageData(size, size)
+
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const offsetX = (left + x + 0.5 - centerX) / radius
+      const offsetY = (centerY - (top + y + 0.5)) / radius
+      const radialDistanceSquared = offsetX * offsetX + offsetY * offsetY
+
+      if (radialDistanceSquared > 1) continue
+
+      const pointVector = {
+        x: offsetX,
+        y: offsetY,
+        z: Math.sqrt(1 - radialDistanceSquared),
+      }
+      const illumination = dotProduct(pointVector, sunVectorView)
+      const normalizedDarkness = Math.min(
+        1,
+        Math.max(0, (-illumination + 0.02) / 0.35)
+      )
+      const alpha = Math.round(normalizedDarkness * 255)
+      const pixelIndex = (y * size + x) * 4
+
+      imageData.data[pixelIndex] = 0
+      imageData.data[pixelIndex + 1] = 5
+      imageData.data[pixelIndex + 2] = 25
+      imageData.data[pixelIndex + 3] = alpha
+    }
+  }
+
+  const overlayCanvas = document.createElement('canvas')
+  overlayCanvas.width = size
+  overlayCanvas.height = size
+  const overlayContext = overlayCanvas.getContext('2d')
+
+  if (!overlayContext) {
+    context.restore()
+    return
+  }
+
+  overlayContext.putImageData(imageData, 0, 0)
+  context.drawImage(overlayCanvas, left, top)
+  context.restore()
+}
+
 function roundedRectPerimeterPoint(
   t: number,
   width: number,
@@ -251,6 +379,8 @@ for (let i = 0; i < 60; i++) {
 /* ------------------------------------------------------------------ */
 
 export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
+  const { selectedDate } = useSelectedDate()
+  const solarTimes = useSelectedDateSolarTimes()
   const [minutes, setMinutes] = useState(() => {
     const now = new Date()
     return now.getHours() * 60 + now.getMinutes()
@@ -327,6 +457,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
           const currentMinutes = normalizeMinutes(minutesRef.current)
           const timeDifference = currentMinutes - 720
           const degreesRotated = timeDifference * 0.25
+          const solarDeclination = getSolarDeclinationDegrees(selectedDate)
           const sunLongitude = CITIES[0].lng - degreesRotated
           const viewLongitude = sunLongitude + 90
           pl.projection.rotate([-viewLongitude, -AMSTERDAM_LAT, 0])
@@ -334,41 +465,16 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
           const [translateX, translateY] = pl.projection.translate()
           const globeRadius = pl.projection.scale()
 
-          pl.context.save()
-          pl.context.beginPath()
-          pl.context.arc(
-            translateX,
-            translateY,
-            globeRadius,
-            -Math.PI / 2,
-            Math.PI / 2
-          )
-          pl.context.closePath()
-
-          const nightGradient = pl.context.createLinearGradient(
-            translateX,
-            translateY,
-            translateX + globeRadius,
-            translateY
-          )
-
-          // INCREASED OPACITY: Makes the shadow much darker and more defined
-          //nightGradient.addColorStop(0, 'rgba(0, 5, 25, 0)')
-          //nightGradient.addColorStop(0.1, 'rgba(0, 5, 25, 0.4)')
-          //nightGradient.addColorStop(0.3, 'rgba(0, 5, 25, 0.75)')
-          //nightGradient.addColorStop(0.6, 'rgba(0, 5, 25, 0.9)')
-          //nightGradient.addColorStop(1, 'rgba(0, 5, 25, 0.95)')
-
-          // NEW EXTREME DARKNESS VALUES
-          nightGradient.addColorStop(0, 'rgba(0, 5, 25, 0)') // Edge of the light
-          nightGradient.addColorStop(0.05, 'rgba(0, 5, 25, 0.5)') // Gets dark super fast
-          nightGradient.addColorStop(0.15, 'rgba(0, 5, 25, 0.75)') // Almost solid at 15% in
-          nightGradient.addColorStop(0.5, 'rgba(0, 5, 25, 0.9)') // Pitch black halfway across
-          nightGradient.addColorStop(1, 'rgba(0, 5, 25, 1)') // 100% solid at the right edge
-
-          pl.context.fillStyle = nightGradient
-          pl.context.fill()
-          pl.context.restore()
+          drawNightOverlay({
+            context: pl.context,
+            centerX: translateX,
+            centerY: translateY,
+            radius: globeRadius,
+            centerLongitude: viewLongitude,
+            centerLatitude: AMSTERDAM_LAT,
+            sunLongitude,
+            sunLatitude: solarDeclination,
+          })
         })
       })
 
@@ -405,7 +511,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
       if (pingIntervalRef.current) clearInterval(pingIntervalRef.current)
       if (planetRef.current) planetRef.current.stop()
     }
-  }, [])
+  }, [selectedDate])
 
   /* ---------- Dragging Logic ---------- */
 
@@ -512,6 +618,17 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
 
   const { h, m, ampm } = formatTime(minutes)
   const activityImage = getImageForTime(minutes, theme)
+  const solarPhase = solarTimes.phaseAtMinutes(minutes)
+  const explorerBackgroundImage =
+    solarPhase === 'sunrise'
+      ? theme.explorerBackgroundImages?.sunrise
+      : solarPhase === 'day'
+        ? theme.explorerBackgroundImages?.daytime
+        : solarPhase === 'sunset'
+          ? theme.explorerBackgroundImages?.sunset
+          : solarPhase === 'night'
+            ? theme.explorerBackgroundImages?.night
+            : null
 
   const minAngle = (minutes / 60) * 360
   const hrAngle = (minutes / 720) * 360
@@ -661,6 +778,38 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 justifyContent: 'center',
                 zIndex: 2,
                 pointerEvents: 'none',
+                opacity: 0.5,
+              }}
+            >
+              {explorerBackgroundImage ? (
+                <img
+                  src={explorerBackgroundImage}
+                  alt=""
+                  aria-hidden="true"
+                  style={{
+                    width: '100%',
+                    height: controlHeight,
+                    objectFit: 'cover',
+                    objectPosition: 'center center',
+                    borderTopLeftRadius: CLOCK_FACE_RADIUS,
+                    borderTopRightRadius: CLOCK_FACE_RADIUS,
+                  }}
+                />
+              ) : null}
+            </div>
+
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: controlHeight,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 3,
+                pointerEvents: 'none',
               }}
             >
               {activityImage ? (
@@ -687,7 +836,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                zIndex: 3,
+                zIndex: 4,
                 pointerEvents: 'none',
               }}
             >
@@ -715,7 +864,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                zIndex: 4,
+                zIndex: 5,
               }}
             >
               <svg
@@ -841,7 +990,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 left: stepperInset,
                 top: digitalClockCenterY,
                 transform: 'translate(-50%, -50%)',
-                zIndex: 6,
+                zIndex: 7,
               }}
             />
 
@@ -856,7 +1005,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 right: stepperInset,
                 top: digitalClockCenterY,
                 transform: 'translate(50%, -50%)',
-                zIndex: 6,
+                zIndex: 7,
               }}
             />
 
@@ -874,7 +1023,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 paddingBottom: digitalClockBottomInset,
                 boxSizing: 'border-box',
                 pointerEvents: 'none',
-                zIndex: 5,
+                zIndex: 6,
               }}
             >
               <span

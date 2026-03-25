@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
-import { getSeasonForDate, buildDateKey } from '../lib/today'
+import { useSelectedDate } from '../contexts/SelectedDateContext'
+import {
+  getSeasonForDate,
+  buildDateKey,
+  getTodayDescriptor,
+  parseDateKey,
+} from '../lib/today'
 import {
   CACHE_KEY,
   CACHE_TS_KEY,
@@ -40,16 +46,25 @@ const getNonSchoolDayIcon = (season: ReturnType<typeof getSeasonForDate>) => {
 
 type SchoolCalendarProps = {
   theme: Theme
-  todayDateKey: string
 }
 
-export default function SchoolCalendar({
-  theme,
-  todayDateKey,
-}: SchoolCalendarProps) {
+export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
+  const { selectedDateKey, setSelectedDateKey } = useSelectedDate()
   const [events, setEvents] = useState<Record<string, CalendarDayData>>({})
   const [loaded, setLoaded] = useState(false)
-  const [viewDate, setViewDate] = useState(() => new Date())
+  const [viewDate, setViewDate] = useState(() => parseDateKey(selectedDateKey))
+  const todayDateKey = getTodayDescriptor().dateKey
+
+  useEffect(() => {
+    setViewDate((currentDate) => {
+      const selectedDate = parseDateKey(selectedDateKey)
+      const sameMonth =
+        currentDate.getFullYear() === selectedDate.getFullYear() &&
+        currentDate.getMonth() === selectedDate.getMonth()
+
+      return sameMonth ? currentDate : selectedDate
+    })
+  }, [selectedDateKey])
 
   useEffect(() => {
     const cached = localStorage.getItem(CACHE_KEY)
@@ -119,8 +134,25 @@ export default function SchoolCalendar({
     return true
   }
 
-  const navMonth = (delta: number) =>
-    setViewDate(new Date(year, month + delta, 1))
+  const navMonth = (delta: number) => {
+    const selectedDate = parseDateKey(selectedDateKey)
+    const targetYear = selectedDate.getFullYear()
+    const targetMonth = selectedDate.getMonth() + delta
+    const targetDay = selectedDate.getDate()
+    const daysInTargetMonth = new Date(targetYear, targetMonth + 1, 0).getDate()
+    const nextDate = new Date(
+      targetYear,
+      targetMonth,
+      Math.min(targetDay, daysInTargetMonth),
+      12,
+      0,
+      0,
+      0
+    )
+
+    setSelectedDateKey(buildDateKey(nextDate))
+    setViewDate(nextDate)
+  }
 
   return (
     <section
@@ -215,23 +247,34 @@ export default function SchoolCalendar({
           const isSchool = isDaySchool(day)
           const dateKey = buildDateKey(new Date(year, month, day))
           const isToday = dateKey === todayDateKey
+          const isSelected = dateKey === selectedDateKey
           const icon = isSchool ? schoolIcon : nonSchoolIcon
 
           return (
-            <div
+            <button
               key={day}
+              type="button"
+              onClick={() => setSelectedDateKey(dateKey)}
+              aria-pressed={isSelected}
+              aria-label={`Select ${dateKey}`}
               style={{
                 aspectRatio: '1',
                 borderRadius: '25%',
                 position: 'relative',
                 overflow: 'hidden',
                 background: isSchool ? `${theme.colors.primary}18` : '#ffffff',
-                border: isToday
-                  ? `3px solid ${theme.colors.secondary}`
-                  : '3px solid transparent',
-                boxShadow: isToday
-                  ? `0 0 0 2px ${theme.colors.secondary}88`
-                  : undefined,
+                border: isSelected
+                  ? `3px solid ${theme.colors.accent}`
+                  : isToday
+                    ? `3px solid ${theme.colors.secondary}`
+                    : '3px solid transparent',
+                boxShadow: isSelected
+                  ? `0 0 0 2px ${theme.colors.accent}44`
+                  : isToday
+                    ? `0 0 0 2px ${theme.colors.secondary}88`
+                    : undefined,
+                cursor: 'pointer',
+                padding: 0,
               }}
             >
               <img
@@ -257,13 +300,17 @@ export default function SchoolCalendar({
                   fontSize: '1.4rem',
                   fontWeight: 900,
                   lineHeight: 1,
-                  color: isToday ? theme.colors.secondary : theme.colors.text,
+                  color: isSelected
+                    ? theme.colors.accent
+                    : isToday
+                      ? theme.colors.secondary
+                      : theme.colors.text,
                   textShadow: '0 0 3px #fff, 0 0 3px #fff',
                 }}
               >
                 {day}
               </span>
-            </div>
+            </button>
           )
         })}
       </div>

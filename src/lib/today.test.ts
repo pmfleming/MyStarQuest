@@ -1,5 +1,6 @@
 import {
   APP_TIME_ZONE,
+  buildDateFromDateKeyAndMinutes,
   buildDateKey,
   getCurrentDayTypeForDate,
   getScheduleLabel,
@@ -7,11 +8,28 @@ import {
   getTodayDescriptor,
   isScheduledForDay,
   normalizeChoreSchedule,
+  parseDateKey,
 } from './today'
 
 describe('today utilities', () => {
   it('builds a stable local date key', () => {
     expect(buildDateKey(new Date(2026, 2, 6))).toBe('2026-03-06')
+  })
+
+  it('parses a date key into a local date at midday', () => {
+    const date = parseDateKey('2026-03-06')
+
+    expect(buildDateKey(date)).toBe('2026-03-06')
+    expect(date.getHours()).toBe(12)
+  })
+
+  it('builds a date from a date key and minutes', () => {
+    const date = buildDateFromDateKeyAndMinutes('2026-03-06', 23 * 60 + 15, 42)
+
+    expect(buildDateKey(date)).toBe('2026-03-06')
+    expect(date.getHours()).toBe(23)
+    expect(date.getMinutes()).toBe(15)
+    expect(date.getSeconds()).toBe(42)
   })
 
   it('classifies schooldays and non-school days', () => {

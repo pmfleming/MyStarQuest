@@ -5,13 +5,11 @@ import DayNightExplorer from '../components/DayNightExplorer'
 import TopIconButton from '../components/TopIconButton'
 import SchoolCalendar from '../components/SchoolCalendar'
 import { clearSchoolCalendarCache } from '../lib/schoolCalendarCache'
-import { getTodayDescriptor } from '../lib/today'
 import { uiTokens } from '../ui/tokens'
 import { princessResetIcon } from '../assets/themes/princess/assets'
 
 const TimeExplorerPage = () => {
   const { theme } = useTheme()
-  const todayInfo = getTodayDescriptor()
   const [calendarKey, setCalendarKey] = useState(0)
 
   return (
@@ -51,11 +49,7 @@ const TimeExplorerPage = () => {
           paddingBottom: '96px',
         }}
       >
-        <SchoolCalendar
-          key={calendarKey}
-          theme={theme}
-          todayDateKey={todayInfo.dateKey}
-        />
+        <SchoolCalendar key={calendarKey} theme={theme} />
 
         <DayNightExplorer theme={theme} />
       </div>
