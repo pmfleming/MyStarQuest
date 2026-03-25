@@ -2,6 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'MSQ Space Grotesk';
+  src: url('./assets/fonts/Space_Grotesk/SpaceGrotesk-VariableFont_wght.woff2')
+    format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MSQ Nunito';
+  src: url('./assets/fonts/Nunito/Nunito-VariableFont_wght.woff2')
+    format('woff2');
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MSQ Baloo 2';
+  src: url('./assets/fonts/Baloo_2/Baloo2-VariableFont_wght.woff2')
+    format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MSQ Merienda';
+  src: url('./assets/fonts/Merienda/Merienda-VariableFont_wght.woff2')
+    format('woff2');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MSQ Fredoka Fallback';
+  src: url('./assets/fonts/Fredoka/Fredoka-VariableFont_wdth,wght.woff2')
+    format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --app-fallback-font: 'MSQ Fredoka Fallback';
+}
+
 html,
 body,
 #root {
@@ -14,6 +63,7 @@ body {
   margin: 0;
   background: #000;
   overflow: hidden;
+  font-family: var(--app-fallback-font), sans-serif;
 }
 
 #root {

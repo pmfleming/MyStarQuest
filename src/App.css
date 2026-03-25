@@ -40,3 +40,18 @@
 .read-the-docs {
   color: #888;
 }
+
+/* The bouncy animation from your prototype */
+@keyframes bounce-star {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+.animate-bounce-star {
+  animation: bounce-star 2s ease-in-out infinite;
+}

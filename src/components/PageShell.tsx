@@ -30,6 +30,27 @@ interface PageShellProps {
 const SWIPE_THRESHOLD_PX = 56
 const SWIPE_VERTICAL_TOLERANCE_PX = 48
 
+const getBrowserFrameHeight = (isNativePlatform: boolean) => {
+  if (isNativePlatform || typeof window === 'undefined') {
+    return uiTokens.deviceMinHeight
+  }
+
+  const outerPadding = 40
+  const availableScreenHeight =
+    window.screen?.availHeight ?? window.screen?.height
+  const visibleViewportHeight =
+    window.visualViewport?.height ?? window.innerHeight
+
+  const preferredHeight = availableScreenHeight ?? visibleViewportHeight
+  const fittedHeight = Math.max(
+    320,
+    Math.min(uiTokens.deviceMinHeight, preferredHeight - outerPadding)
+  )
+  const safeViewportHeight = Math.max(320, visibleViewportHeight - outerPadding)
+
+  return Math.min(fittedHeight, safeViewportHeight)
+}
+
 const PageShell = ({
   theme,
   title,
@@ -43,8 +64,8 @@ const PageShell = ({
 }: PageShellProps) => {
   const navigate = useNavigate()
   const isNativePlatform = Capacitor.isNativePlatform()
-  const [browserFrameHeight, setBrowserFrameHeight] = useState<number>(
-    uiTokens.deviceMinHeight
+  const [browserFrameHeight, setBrowserFrameHeight] = useState<number>(() =>
+    getBrowserFrameHeight(isNativePlatform)
   )
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
 
@@ -56,26 +77,9 @@ const PageShell = ({
     if (isNativePlatform || typeof window === 'undefined') return
 
     const updateBrowserFrameHeight = () => {
-      const outerPadding = 40
-      const availableScreenHeight =
-        window.screen?.availHeight ?? window.screen?.height
-      const visibleViewportHeight =
-        window.visualViewport?.height ?? window.innerHeight
-
-      const preferredHeight = availableScreenHeight ?? visibleViewportHeight
-      const fittedHeight = Math.max(
-        320,
-        Math.min(uiTokens.deviceMinHeight, preferredHeight - outerPadding)
-      )
-      const safeViewportHeight = Math.max(
-        320,
-        visibleViewportHeight - outerPadding
-      )
-
-      setBrowserFrameHeight(Math.min(fittedHeight, safeViewportHeight))
+      setBrowserFrameHeight(getBrowserFrameHeight(false))
     }
 
-    updateBrowserFrameHeight()
     window.addEventListener('resize', updateBrowserFrameHeight)
     window.visualViewport?.addEventListener('resize', updateBrowserFrameHeight)
 
