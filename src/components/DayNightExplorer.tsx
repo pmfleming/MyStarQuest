@@ -732,34 +732,23 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
   }, [])
 
   const handlePointerDown = (
-    e: React.MouseEvent | React.TouchEvent,
+    e: React.PointerEvent,
     hand: 'hour' | 'minute' | 'second'
   ) => {
-    e.preventDefault()
     e.stopPropagation()
+    e.currentTarget.setPointerCapture(e.pointerId)
     setIsDragging(true)
     activeHandRef.current = hand
     exactMinutesRef.current = minutesRef.current
 
-    const clientX =
-      'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX
-    const clientY =
-      'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY
-
-    lastAngleRef.current = getAngle(clientX, clientY)
+    lastAngleRef.current = getAngle(e.clientX, e.clientY)
   }
 
   useEffect(() => {
-    const handlePointerMove = (e: MouseEvent | TouchEvent) => {
+    const handlePointerMove = (e: PointerEvent) => {
       if (!activeHandRef.current) return
-      e.preventDefault()
 
-      const clientX =
-        'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX
-      const clientY =
-        'touches' in e ? e.touches[0].clientY : (e as MouseEvent).clientY
-
-      const currentAngle = getAngle(clientX, clientY)
+      const currentAngle = getAngle(e.clientX, e.clientY)
       let deltaAngle = currentAngle - lastAngleRef.current
 
       if (deltaAngle > 180) deltaAngle -= 360
@@ -797,21 +786,15 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
     }
 
     if (isDragging) {
-      window.addEventListener('mousemove', handlePointerMove, {
-        passive: false,
-      })
-      window.addEventListener('touchmove', handlePointerMove, {
-        passive: false,
-      })
-      window.addEventListener('mouseup', handlePointerUp)
-      window.addEventListener('touchend', handlePointerUp)
+      window.addEventListener('pointermove', handlePointerMove)
+      window.addEventListener('pointerup', handlePointerUp)
+      window.addEventListener('pointercancel', handlePointerUp)
     }
 
     return () => {
-      window.removeEventListener('mousemove', handlePointerMove)
-      window.removeEventListener('touchmove', handlePointerMove)
-      window.removeEventListener('mouseup', handlePointerUp)
-      window.removeEventListener('touchend', handlePointerUp)
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerup', handlePointerUp)
+      window.removeEventListener('pointercancel', handlePointerUp)
     }
   }, [isDragging, getAngle])
 
@@ -948,9 +931,6 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
 
         <div
           data-no-drag-scroll="true"
-          onTouchStartCapture={(e) => e.stopPropagation()}
-          onTouchMoveCapture={(e) => e.stopPropagation()}
-          onTouchEndCapture={(e) => e.stopPropagation()}
           style={{
             width: '100%',
             maxWidth: uiTokens.contentMaxWidth,
@@ -1143,8 +1123,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
               >
                 <g
                   className="clock-hand"
-                  onMouseDown={(e) => handlePointerDown(e, 'hour')}
-                  onTouchStart={(e) => handlePointerDown(e, 'hour')}
+                  onPointerDown={(e) => handlePointerDown(e, 'hour')}
                   style={{
                     transformOrigin: `${CX}px ${CY}px`,
                     transform: `rotate(${hrAngle}deg)`,
@@ -1174,8 +1153,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
 
                 <g
                   className="clock-hand"
-                  onMouseDown={(e) => handlePointerDown(e, 'minute')}
-                  onTouchStart={(e) => handlePointerDown(e, 'minute')}
+                  onPointerDown={(e) => handlePointerDown(e, 'minute')}
                   style={{
                     transformOrigin: `${CX}px ${CY}px`,
                     transform: `rotate(${minAngle}deg)`,
@@ -1205,8 +1183,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
 
                 <g
                   className="clock-hand"
-                  onMouseDown={(e) => handlePointerDown(e, 'second')}
-                  onTouchStart={(e) => handlePointerDown(e, 'second')}
+                  onPointerDown={(e) => handlePointerDown(e, 'second')}
                   style={{
                     transformOrigin: `${CX}px ${CY}px`,
                     transform: `rotate(${secAngle}deg)`,
