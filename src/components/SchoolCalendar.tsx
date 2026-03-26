@@ -23,6 +23,7 @@ import {
 const CALENDAR_URL = 'https://getschoolcalendar-6ujocyt4pq-uc.a.run.app'
 
 const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+const TOTAL_CALENDAR_CELLS = 42
 
 type CalendarDayData = {
   summaries: string[]
@@ -111,6 +112,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   // Monday-based: 0=Mon … 6=Sun
   const rawFirstDay = new Date(year, month, 1).getDay()
   const firstDayOffset = rawFirstDay === 0 ? 6 : rawFirstDay - 1
+  const trailingDayOffset = TOTAL_CALENDAR_CELLS - firstDayOffset - daysInMonth
 
   const monthLabel = viewDate.toLocaleString('default', { month: 'long' })
 
@@ -238,7 +240,13 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
 
         {/* Empty leading cells */}
         {Array.from({ length: firstDayOffset }).map((_, i) => (
-          <div key={`pad-${i}`} />
+          <div
+            key={`pad-${i}`}
+            style={{
+              aspectRatio: '1',
+              width: '100%',
+            }}
+          />
         ))}
 
         {/* Day cells */}
@@ -313,6 +321,17 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
             </button>
           )
         })}
+
+        {/* Empty trailing cells */}
+        {Array.from({ length: trailingDayOffset }).map((_, i) => (
+          <div
+            key={`trail-${i}`}
+            style={{
+              aspectRatio: '1',
+              width: '100%',
+            }}
+          />
+        ))}
       </div>
     </section>
   )

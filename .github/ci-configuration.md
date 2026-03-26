@@ -25,6 +25,7 @@ The workflow triggers automatically on:
 
 - `push` to `main` or `master` branches.
 - `pull_request` targeting `main` or `master` branches.
+- Changes under `public/prototypes/**` are excluded from triggering the workflow.
 
 ### Pipeline Jobs
 
@@ -33,6 +34,7 @@ The CI pipeline runs the following jobs in parallel on `ubuntu-latest` runners:
 1. **Lint & Format**
    - Verifies code formatting: `npm run format:check`
    - Verifies static analysis: `npm run lint`
+   - Prototype HTML files under `public/prototypes/` are excluded from formatting checks.
    - _Note: This ensures that even if local hooks were bypassed, unformatted or non-compliant code will fail the build._
 
 2. **Type Check**

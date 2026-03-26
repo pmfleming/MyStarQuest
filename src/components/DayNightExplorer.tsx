@@ -5,14 +5,22 @@ import {
   useRef,
   type ReactElement,
 } from 'react'
-import type { Theme } from '../contexts/ThemeContext'
+import type {
+  Theme,
+  ThemeExplorerBackgroundImages,
+} from '../contexts/ThemeContext'
 import {
   useSelectedDate,
   useSelectedDateSolarTimes,
 } from '../contexts/SelectedDateContext'
 import { getSolarDeclinationDegrees } from '../lib/solar'
+import { getSeason, type Season } from '../lib/seasons'
 import { uiTokens } from '../ui/tokens'
 import StepperButton from './StepperButton'
+import hourHandSvg from '../assets/clock/hourhand.svg'
+import minuteHandSvg from '../assets/clock/minutehand.svg'
+import pivotSvg from '../assets/clock/pivot.svg'
+import secondHandSvg from '../assets/clock/secondhand.svg'
 
 /* ------------------------------------------------------------------ */
 /* Types                                                              */
@@ -38,13 +46,8 @@ declare global {
 
 const TOTAL_MINUTES = 1440
 
-/* Hand colors */
-const HOUR_COLOR = '#54a0ff'
-const MINUTE_COLOR = '#1dd1a1'
-const SECOND_COLOR = '#ff4757'
-
 /* Globe & Cities */
-const GLOBE_CANVAS_SIZE = 220
+const GLOBE_CANVAS_SIZE = Math.round(uiTokens.contentMaxWidth * 0.6470588235)
 const CLOCK_SIZE = GLOBE_CANVAS_SIZE
 const CX = CLOCK_SIZE / 2
 const CY = CLOCK_SIZE / 2
@@ -52,6 +55,47 @@ const CLOCK_FACE_WIDTH = uiTokens.contentMaxWidth
 const CLOCK_FACE_HEIGHT = GLOBE_CANVAS_SIZE
 const CLOCK_FACE_RADIUS = uiTokens.listItemRadius
 const AMSTERDAM_LAT = 52.37
+const CLOCK_EDGE_INSET = CLOCK_SIZE * 0.0545454545
+const CLOCK_FACE_RADIUS_INSET = CLOCK_SIZE * 0.0090909091
+const CLOCK_NUMBER_INSET = CLOCK_SIZE * 0.1909090909
+const CLOCK_NUMBER_RADIUS_INSET = CLOCK_SIZE * 0.0454545455
+const CLOCK_NUMBER_LERP = 0.1
+const CLOCK_HOUR_TICK_LERP = 0.11
+const CLOCK_MINUTE_TICK_LERP = 0.06
+const CLOCK_HOUR_TICK_STROKE = CLOCK_SIZE * 0.0136363636
+const CLOCK_MINUTE_TICK_STROKE = CLOCK_SIZE * 0.0068181818
+const CLOCK_NUMBER_FONT_SIZE = CLOCK_SIZE * 0.0909090909
+const CLOCK_PIVOT_SIZE = CLOCK_SIZE * 0.2
+const CLOCK_HAND_HIT_HOUR = CLOCK_SIZE * 0.1272727273
+const CLOCK_HAND_HIT_MINUTE = CLOCK_SIZE * 0.1
+const CLOCK_HAND_HIT_SECOND = CLOCK_SIZE * 0.0681818182
+const CLOCK_SECOND_HAND_BASE_OFFSET = CLOCK_SIZE * 0.0545454545
+const HAND_SHADOW_OFFSET_Y = CLOCK_SIZE * 0.0090909091
+const HAND_SHADOW_BLUR = CLOCK_SIZE * 0.0136363636
+const HAND_SHADOW = `drop-shadow(0 ${HAND_SHADOW_OFFSET_Y}px ${HAND_SHADOW_BLUR}px rgba(0,0,0,0.28))`
+const HAND_SVG_VIEWBOX_WIDTH = 1024
+const HAND_SVG_VIEWBOX_HEIGHT = 1536
+const HOUR_HAND_HEIGHT = CLOCK_SIZE * 0.32
+const MINUTE_HAND_HEIGHT = CLOCK_SIZE * 0.4236363636
+const SECOND_HAND_HEIGHT = CLOCK_SIZE * 0.4236363636
+const HOUR_HAND_WIDTH =
+  (HAND_SVG_VIEWBOX_WIDTH / HAND_SVG_VIEWBOX_HEIGHT) * HOUR_HAND_HEIGHT
+const MINUTE_HAND_WIDTH =
+  (HAND_SVG_VIEWBOX_WIDTH / HAND_SVG_VIEWBOX_HEIGHT) * MINUTE_HAND_HEIGHT
+const SECOND_HAND_WIDTH = MINUTE_HAND_WIDTH
+const HOUR_HAND_BASE_ROTATION =
+  (-Math.atan(HOUR_HAND_WIDTH / HOUR_HAND_HEIGHT) * 180) / Math.PI
+const MINUTE_HAND_BASE_ROTATION =
+  (-Math.atan(MINUTE_HAND_WIDTH / MINUTE_HAND_HEIGHT) * 180) / Math.PI
+const SECOND_HAND_BASE_ROTATION =
+  (-Math.atan(SECOND_HAND_WIDTH / SECOND_HAND_HEIGHT) * 180) / Math.PI
+const ACTIVITY_IMAGE_WIDTH = CLOCK_SIZE * 0.8545454545
+const DIGITAL_CLOCK_TIME_FONT_SIZE = CLOCK_SIZE * 0.1636363636
+const DIGITAL_CLOCK_SEPARATOR_FONT_SIZE = CLOCK_SIZE * 0.0818181818
+const DIGITAL_CLOCK_AMPM_FONT_SIZE = CLOCK_SIZE * 0.0909090909
+const DIGITAL_CLOCK_TEXT_GAP = uiTokens.sectionGap * 3
+const DIGITAL_CLOCK_AMPM_MARGIN = uiTokens.sectionGap * 2
+const GLOBE_PROJECTION_SCALE = CLOCK_SIZE * 0.4909090909
 
 const CITIES = [
   {
@@ -350,16 +394,170 @@ function lerpPoint(
   }
 }
 
+type RgbColor = {
+  r: number
+  g: number
+  b: number
+}
+
+type ExplorerBackgroundKey = keyof ThemeExplorerBackgroundImages
+
+const EXPLORER_SKY_COLORS = {
+  night: { r: 56, g: 78, b: 140 },
+  sunrise: { r: 255, g: 196, b: 143 },
+  day: { r: 135, g: 206, b: 250 },
+  sunset: { r: 255, g: 166, b: 120 },
+} as const
+
+function interpolateColor(from: RgbColor, to: RgbColor, amount: number) {
+  return {
+    r: Math.round(from.r + (to.r - from.r) * amount),
+    g: Math.round(from.g + (to.g - from.g) * amount),
+    b: Math.round(from.b + (to.b - from.b) * amount),
+  }
+}
+
+function toRgba(color: RgbColor, alpha: number) {
+  return `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`
+}
+
+function getNightMidpointMinutes(
+  sunriseMinutes: number,
+  sunsetMinutes: number
+) {
+  const wrappedSunriseMinutes =
+    sunriseMinutes <= sunsetMinutes
+      ? sunriseMinutes + TOTAL_MINUTES
+      : sunriseMinutes
+
+  return normalizeMinutes(
+    sunsetMinutes + (wrappedSunriseMinutes - sunsetMinutes) / 2
+  )
+}
+
+function getExplorerBackdropColor(
+  minutes: number,
+  solarTimes: ReturnType<typeof useSelectedDateSolarTimes>
+) {
+  const normalizedMinutes = normalizeMinutes(minutes)
+  const solarNoonMinutes =
+    (solarTimes.daylightStartMinutes + solarTimes.daylightEndMinutes) / 2
+  const nightMidpointMinutes = getNightMidpointMinutes(
+    solarTimes.sunriseMinutes,
+    solarTimes.sunsetMinutes
+  )
+
+  const colorStops = [
+    {
+      minute: nightMidpointMinutes - TOTAL_MINUTES,
+      color: EXPLORER_SKY_COLORS.night,
+    },
+    { minute: solarTimes.sunriseMinutes, color: EXPLORER_SKY_COLORS.sunrise },
+    {
+      minute: solarTimes.daylightStartMinutes,
+      color: EXPLORER_SKY_COLORS.day,
+    },
+    { minute: solarNoonMinutes, color: EXPLORER_SKY_COLORS.day },
+    { minute: solarTimes.daylightEndMinutes, color: EXPLORER_SKY_COLORS.day },
+    { minute: solarTimes.sunsetMinutes, color: EXPLORER_SKY_COLORS.sunset },
+    {
+      minute: nightMidpointMinutes + TOTAL_MINUTES,
+      color: EXPLORER_SKY_COLORS.night,
+    },
+  ]
+
+  const adjustedMinutes =
+    normalizedMinutes < solarTimes.sunriseMinutes
+      ? normalizedMinutes + TOTAL_MINUTES
+      : normalizedMinutes
+
+  for (let i = 0; i < colorStops.length - 1; i++) {
+    const currentStop = colorStops[i]
+    const nextStop = colorStops[i + 1]
+
+    if (
+      adjustedMinutes >= currentStop.minute &&
+      adjustedMinutes <= nextStop.minute
+    ) {
+      const segmentDuration = nextStop.minute - currentStop.minute || 1
+      const amount = (adjustedMinutes - currentStop.minute) / segmentDuration
+
+      return toRgba(
+        interpolateColor(currentStop.color, nextStop.color, amount),
+        0.5
+      )
+    }
+  }
+
+  return toRgba(EXPLORER_SKY_COLORS.night, 0.5)
+}
+
+function getExplorerBackgroundBlend(
+  minutes: number,
+  solarTimes: ReturnType<typeof useSelectedDateSolarTimes>
+) {
+  const normalizedMinutes = normalizeMinutes(minutes)
+  const nightMidpointMinutes = getNightMidpointMinutes(
+    solarTimes.sunriseMinutes,
+    solarTimes.sunsetMinutes
+  )
+  const adjustedMinutes =
+    normalizedMinutes < solarTimes.sunriseMinutes
+      ? normalizedMinutes + TOTAL_MINUTES
+      : normalizedMinutes
+
+  const imageStops: Array<{
+    minute: number
+    key: ExplorerBackgroundKey
+  }> = [
+    { minute: nightMidpointMinutes - TOTAL_MINUTES, key: 'night' },
+    { minute: solarTimes.sunriseMinutes, key: 'sunrise' },
+    { minute: solarTimes.daylightStartMinutes, key: 'daytime' },
+    { minute: solarTimes.daylightEndMinutes, key: 'daytime' },
+    { minute: solarTimes.sunsetMinutes, key: 'sunset' },
+    { minute: nightMidpointMinutes + TOTAL_MINUTES, key: 'night' },
+  ]
+
+  for (let i = 0; i < imageStops.length - 1; i++) {
+    const currentStop = imageStops[i]
+    const nextStop = imageStops[i + 1]
+
+    if (
+      adjustedMinutes >= currentStop.minute &&
+      adjustedMinutes <= nextStop.minute
+    ) {
+      const segmentDuration = nextStop.minute - currentStop.minute || 1
+      const mix = (adjustedMinutes - currentStop.minute) / segmentDuration
+
+      return {
+        base: currentStop.key,
+        overlay: nextStop.key,
+        overlayOpacity: mix,
+      }
+    }
+  }
+
+  return {
+    base: 'night' as ExplorerBackgroundKey,
+    overlay: 'night' as ExplorerBackgroundKey,
+    overlayOpacity: 0,
+  }
+}
+
 const TICK_MARKS: ReactElement[] = []
 for (let i = 0; i < 60; i++) {
   const isHour = i % 5 === 0
   const outer = roundedRectPerimeterPoint(
     i / 60,
-    CLOCK_FACE_WIDTH - 12,
-    CLOCK_FACE_HEIGHT - 12,
-    CLOCK_FACE_RADIUS - 2
+    CLOCK_FACE_WIDTH - CLOCK_EDGE_INSET,
+    CLOCK_FACE_HEIGHT - CLOCK_EDGE_INSET,
+    CLOCK_FACE_RADIUS - CLOCK_FACE_RADIUS_INSET
   )
-  const inner = lerpPoint(outer, { x: CX, y: CY }, isHour ? 0.11 : 0.06)
+  const inner = lerpPoint(
+    outer,
+    { x: CX, y: CY },
+    isHour ? CLOCK_HOUR_TICK_LERP : CLOCK_MINUTE_TICK_LERP
+  )
   TICK_MARKS.push(
     <line
       key={i}
@@ -368,7 +566,7 @@ for (let i = 0; i < 60; i++) {
       x2={outer.x}
       y2={outer.y}
       stroke={isHour ? '#333' : '#ccc'}
-      strokeWidth={isHour ? 3 : 1.5}
+      strokeWidth={isHour ? CLOCK_HOUR_TICK_STROKE : CLOCK_MINUTE_TICK_STROKE}
       strokeLinecap="round"
     />
   )
@@ -380,6 +578,7 @@ for (let i = 0; i < 60; i++) {
 
 export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
   const { selectedDate } = useSelectedDate()
+  const season = getSeason(selectedDate)
   const solarTimes = useSelectedDateSolarTimes()
   const [minutes, setMinutes] = useState(() => {
     const now = new Date()
@@ -488,7 +687,9 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
         })
       )
 
-      planet.projection.scale(108).translate([110, 110])
+      planet.projection
+        .scale(GLOBE_PROJECTION_SCALE)
+        .translate([CLOCK_SIZE / 2, CLOCK_SIZE / 2])
       planet.draw(canvasRef.current)
       planetRef.current = planet
 
@@ -618,17 +819,33 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
 
   const { h, m, ampm } = formatTime(minutes)
   const activityImage = getImageForTime(minutes, theme)
-  const solarPhase = solarTimes.phaseAtMinutes(minutes)
-  const explorerBackgroundImage =
-    solarPhase === 'sunrise'
-      ? theme.explorerBackgroundImages?.sunrise
-      : solarPhase === 'day'
-        ? theme.explorerBackgroundImages?.daytime
-        : solarPhase === 'sunset'
-          ? theme.explorerBackgroundImages?.sunset
-          : solarPhase === 'night'
-            ? theme.explorerBackgroundImages?.night
-            : null
+  const explorerBackdropColor = getExplorerBackdropColor(minutes, solarTimes)
+  const explorerBackgroundBlend = getExplorerBackgroundBlend(
+    minutes,
+    solarTimes
+  )
+
+  const resolveBackgroundImage = (
+    images: ThemeExplorerBackgroundImages | undefined,
+    key: ExplorerBackgroundKey,
+    season: Season
+  ) => {
+    if (!images) return null
+    const img = images[key]
+    if (typeof img === 'string') return img
+    return img[season]
+  }
+
+  const explorerBaseBackgroundImage = resolveBackgroundImage(
+    theme.explorerBackgroundImages,
+    explorerBackgroundBlend.base,
+    season
+  )
+  const explorerOverlayBackgroundImage = resolveBackgroundImage(
+    theme.explorerBackgroundImages,
+    explorerBackgroundBlend.overlay,
+    season
+  )
 
   const minAngle = (minutes / 60) * 360
   const hrAngle = (minutes / 720) * 360
@@ -639,12 +856,12 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
     const pos = lerpPoint(
       roundedRectPerimeterPoint(
         h / 12,
-        CLOCK_FACE_WIDTH - 42,
-        CLOCK_FACE_HEIGHT - 42,
-        CLOCK_FACE_RADIUS - 10
+        CLOCK_FACE_WIDTH - CLOCK_NUMBER_INSET,
+        CLOCK_FACE_HEIGHT - CLOCK_NUMBER_INSET,
+        CLOCK_FACE_RADIUS - CLOCK_NUMBER_RADIUS_INSET
       ),
       { x: CX, y: CY },
-      0.1
+      CLOCK_NUMBER_LERP
     )
     return (
       <text
@@ -653,7 +870,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
         y={pos.y}
         textAnchor="middle"
         dominantBaseline="central"
-        fontSize="20"
+        fontSize={CLOCK_NUMBER_FONT_SIZE}
         fontWeight="bold"
         fill={theme.colors.text}
         fontFamily={theme.fonts.heading}
@@ -683,7 +900,6 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
   const analogClockOffsetY = 0
   const stepperInset = uiTokens.pagePaddingX
   const explorerGap = uiTokens.singleVerticalSpace / 2
-  const activityImageWidth = 188
 
   /* ---------- Render ---------- */
 
@@ -773,30 +989,13 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 left: 0,
                 right: 0,
                 height: controlHeight,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                borderTopLeftRadius: CLOCK_FACE_RADIUS,
+                borderTopRightRadius: CLOCK_FACE_RADIUS,
+                background: explorerBackdropColor,
                 zIndex: 2,
                 pointerEvents: 'none',
-                opacity: 0.5,
               }}
-            >
-              {explorerBackgroundImage ? (
-                <img
-                  src={explorerBackgroundImage}
-                  alt=""
-                  aria-hidden="true"
-                  style={{
-                    width: '100%',
-                    height: controlHeight,
-                    objectFit: 'cover',
-                    objectPosition: 'center center',
-                    borderTopLeftRadius: CLOCK_FACE_RADIUS,
-                    borderTopRightRadius: CLOCK_FACE_RADIUS,
-                  }}
-                />
-              ) : null}
-            </div>
+            />
 
             <div
               style={{
@@ -812,12 +1011,76 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 pointerEvents: 'none',
               }}
             >
+              {explorerBaseBackgroundImage ? (
+                <img
+                  src={explorerBaseBackgroundImage}
+                  alt=""
+                  aria-hidden="true"
+                  style={{
+                    width: '100%',
+                    height: controlHeight,
+                    objectFit: 'cover',
+                    objectPosition: 'center center',
+                    borderTopLeftRadius: CLOCK_FACE_RADIUS,
+                    borderTopRightRadius: CLOCK_FACE_RADIUS,
+                    opacity: 0.5,
+                  }}
+                />
+              ) : null}
+            </div>
+
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: controlHeight,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 4,
+                pointerEvents: 'none',
+              }}
+            >
+              {explorerOverlayBackgroundImage ? (
+                <img
+                  src={explorerOverlayBackgroundImage}
+                  alt=""
+                  aria-hidden="true"
+                  style={{
+                    width: '100%',
+                    height: controlHeight,
+                    objectFit: 'cover',
+                    objectPosition: 'center center',
+                    borderTopLeftRadius: CLOCK_FACE_RADIUS,
+                    borderTopRightRadius: CLOCK_FACE_RADIUS,
+                    opacity: explorerBackgroundBlend.overlayOpacity * 0.5,
+                  }}
+                />
+              ) : null}
+            </div>
+
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: controlHeight,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 5,
+                pointerEvents: 'none',
+              }}
+            >
               {activityImage ? (
                 <img
                   src={activityImage}
                   alt="Activity"
                   style={{
-                    width: activityImageWidth,
+                    width: ACTIVITY_IMAGE_WIDTH,
                     height: controlHeight,
                     objectFit: 'contain',
                     objectPosition: 'center center',
@@ -836,7 +1099,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                zIndex: 4,
+                zIndex: 6,
                 pointerEvents: 'none',
               }}
             >
@@ -864,7 +1127,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                zIndex: 5,
+                zIndex: 7,
               }}
             >
               <svg
@@ -886,24 +1149,25 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                     transformOrigin: `${CX}px ${CY}px`,
                     transform: `rotate(${hrAngle}deg)`,
                     transition: handTransition,
+                    filter: HAND_SHADOW,
                   }}
                 >
-                  <line
-                    x1={CX}
-                    y1={CY}
-                    x2={CX}
-                    y2={CY - 45}
-                    stroke={HOUR_COLOR}
-                    strokeWidth={7}
-                    strokeLinecap="round"
+                  <image
+                    href={hourHandSvg}
+                    x={CX}
+                    y={CY - HOUR_HAND_HEIGHT}
+                    width={HOUR_HAND_WIDTH}
+                    height={HOUR_HAND_HEIGHT}
+                    preserveAspectRatio="xMidYMid meet"
+                    transform={`rotate(${HOUR_HAND_BASE_ROTATION} ${CX} ${CY})`}
                   />
                   <line
                     x1={CX}
                     y1={CY}
                     x2={CX}
-                    y2={CY - 45}
+                    y2={CY - HOUR_HAND_HEIGHT}
                     stroke="transparent"
-                    strokeWidth={25}
+                    strokeWidth={CLOCK_HAND_HIT_HOUR}
                     strokeLinecap="round"
                   />
                 </g>
@@ -916,24 +1180,25 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                     transformOrigin: `${CX}px ${CY}px`,
                     transform: `rotate(${minAngle}deg)`,
                     transition: handTransition,
+                    filter: HAND_SHADOW,
                   }}
                 >
-                  <line
-                    x1={CX}
-                    y1={CY}
-                    x2={CX}
-                    y2={CY - 70}
-                    stroke={MINUTE_COLOR}
-                    strokeWidth={4}
-                    strokeLinecap="round"
+                  <image
+                    href={minuteHandSvg}
+                    x={CX}
+                    y={CY - MINUTE_HAND_HEIGHT}
+                    width={MINUTE_HAND_WIDTH}
+                    height={MINUTE_HAND_HEIGHT}
+                    preserveAspectRatio="xMidYMid meet"
+                    transform={`rotate(${MINUTE_HAND_BASE_ROTATION} ${CX} ${CY})`}
                   />
                   <line
                     x1={CX}
                     y1={CY}
                     x2={CX}
-                    y2={CY - 70}
+                    y2={CY - MINUTE_HAND_HEIGHT}
                     stroke="transparent"
-                    strokeWidth={20}
+                    strokeWidth={CLOCK_HAND_HIT_MINUTE}
                     strokeLinecap="round"
                   />
                 </g>
@@ -946,35 +1211,37 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                     transformOrigin: `${CX}px ${CY}px`,
                     transform: `rotate(${secAngle}deg)`,
                     transition: handTransition,
+                    filter: HAND_SHADOW,
                   }}
                 >
-                  <line
-                    x1={CX}
-                    y1={CY + 12}
-                    x2={CX}
-                    y2={CY - 78}
-                    stroke={SECOND_COLOR}
-                    strokeWidth={2.5}
-                    strokeLinecap="round"
+                  <image
+                    href={secondHandSvg}
+                    x={CX}
+                    y={CY - SECOND_HAND_HEIGHT}
+                    width={SECOND_HAND_WIDTH}
+                    height={SECOND_HAND_HEIGHT}
+                    preserveAspectRatio="xMidYMid meet"
+                    transform={`rotate(${SECOND_HAND_BASE_ROTATION} ${CX} ${CY})`}
                   />
-                  <circle cx={CX} cy={CY - 78} r={3} fill={SECOND_COLOR} />
                   <line
                     x1={CX}
-                    y1={CY + 12}
+                    y1={CY + CLOCK_SECOND_HAND_BASE_OFFSET}
                     x2={CX}
-                    y2={CY - 78}
+                    y2={CY - SECOND_HAND_HEIGHT}
                     stroke="transparent"
-                    strokeWidth={15}
+                    strokeWidth={CLOCK_HAND_HIT_SECOND}
                     strokeLinecap="round"
                   />
                 </g>
 
-                <circle
-                  cx={CX}
-                  cy={CY}
-                  r={5}
-                  fill="#333"
-                  style={{ pointerEvents: 'none' }}
+                <image
+                  href={pivotSvg}
+                  x={CX - CLOCK_PIVOT_SIZE / 2}
+                  y={CY - CLOCK_PIVOT_SIZE / 2}
+                  width={CLOCK_PIVOT_SIZE}
+                  height={CLOCK_PIVOT_SIZE}
+                  preserveAspectRatio="xMidYMid meet"
+                  style={{ pointerEvents: 'none', filter: HAND_SHADOW }}
                 />
               </svg>
             </div>
@@ -990,7 +1257,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 left: stepperInset,
                 top: digitalClockCenterY,
                 transform: 'translate(-50%, -50%)',
-                zIndex: 7,
+                zIndex: 9,
               }}
             />
 
@@ -1005,7 +1272,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 right: stepperInset,
                 top: digitalClockCenterY,
                 transform: 'translate(50%, -50%)',
-                zIndex: 7,
+                zIndex: 9,
               }}
             />
 
@@ -1019,16 +1286,16 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 6,
+                gap: DIGITAL_CLOCK_TEXT_GAP,
                 paddingBottom: digitalClockBottomInset,
                 boxSizing: 'border-box',
                 pointerEvents: 'none',
-                zIndex: 6,
+                zIndex: 8,
               }}
             >
               <span
                 style={{
-                  fontSize: 36,
+                  fontSize: DIGITAL_CLOCK_TIME_FONT_SIZE,
                   fontWeight: 700,
                   color: theme.colors.text,
                   fontFamily: theme.fonts.heading,
@@ -1039,7 +1306,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
               </span>
               <span
                 style={{
-                  fontSize: 18,
+                  fontSize: DIGITAL_CLOCK_SEPARATOR_FONT_SIZE,
                   fontWeight: 700,
                   color: theme.colors.text,
                   fontFamily: theme.fonts.heading,
@@ -1051,7 +1318,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
               </span>
               <span
                 style={{
-                  fontSize: 36,
+                  fontSize: DIGITAL_CLOCK_TIME_FONT_SIZE,
                   fontWeight: 700,
                   color: theme.colors.text,
                   fontFamily: theme.fonts.heading,
@@ -1062,7 +1329,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
               </span>
               <span
                 style={{
-                  fontSize: 18,
+                  fontSize: DIGITAL_CLOCK_SEPARATOR_FONT_SIZE,
                   fontWeight: 700,
                   color: theme.colors.text,
                   fontFamily: theme.fonts.heading,
@@ -1074,7 +1341,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
               </span>
               <span
                 style={{
-                  fontSize: 36,
+                  fontSize: DIGITAL_CLOCK_TIME_FONT_SIZE,
                   fontWeight: 700,
                   color: theme.colors.text,
                   fontFamily: theme.fonts.heading,
@@ -1087,11 +1354,11 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
               </span>
               <span
                 style={{
-                  fontSize: 20,
+                  fontSize: DIGITAL_CLOCK_AMPM_FONT_SIZE,
                   fontWeight: 700,
                   color: theme.colors.text,
                   fontFamily: theme.fonts.body,
-                  marginLeft: 4,
+                  marginLeft: DIGITAL_CLOCK_AMPM_MARGIN,
                   textShadow: '0 1px 2px rgba(255,255,255,0.35)',
                 }}
               >

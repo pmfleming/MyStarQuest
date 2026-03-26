@@ -1,260 +1,502 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Magic Day Box</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700;800&display=swap" />
-    <style>
-      :root {
-        --spring-primary: #4ade80; --spring-bg: #f0fdf4;
-        --summer-primary: #fbbf24; --summer-bg: #fffbeb;
-        --autumn-primary: #fb923c; --autumn-bg: #fff7ed;
-        --winter-primary: #38bdf8; --winter-bg: #f0f9ff;
-        --current-color: var(--summer-primary);
-        --current-bg: var(--summer-bg);
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Days Make Months</title>
+  <style>
+    :root {
+      --bg1: #dbeafe;
+      --bg2: #fce7f3;
+      --card: rgba(255,255,255,0.88);
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --accent: #8b5cf6;
+      --accent-2: #f59e0b;
+      --accent-3: #10b981;
+      --line: #e5e7eb;
+      --shadow: 0 18px 40px rgba(31, 41, 55, 0.14);
+      --radius: 28px;
+    }
 
-      * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; }
 
-      body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: "Fredoka", sans-serif;
-        background: #f8fafc;
-      }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, var(--bg1), var(--bg2));
+      color: var(--ink);
+      min-height: 100vh;
+    }
 
-      .magic-box {
-        width: 92%;
-        max-width: 420px;
-        background: var(--current-bg);
-        border: 10px solid var(--current-color);
-        border-radius: 45px;
-        padding: 24px;
-        box-shadow: 0 12px 0 rgba(0,0,0,0.05);
-        transition: all 0.5s ease;
-      }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-      /* Top Section: Large Season Image */
-      .season-header {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 15px;
-      }
+    .hero {
+      background: var(--card);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+      text-align: center;
+      margin-bottom: 18px;
+    }
 
-      .season-img {
-        font-size: 4rem;
-        animation: bounce 3s ease-in-out infinite;
-      }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.9rem, 5vw, 3rem);
+    }
 
-      /* Middle Section: The Magic Window with Nav Buttons */
-      .window-row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 20px;
-      }
+    .sub {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-weight: 700;
+    }
 
-      .display-window {
-        flex-grow: 1;
-        background: white;
-        border: 4px solid var(--current-color);
-        border-radius: 50px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0 20px;
-        box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-      }
+    .board {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
 
-      .label-text {
-        font-size: 1.4rem;
-        font-weight: 800;
-        color: #334155;
-        text-align: center;
-      }
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
 
-      .nav-btn {
-        background: white;
-        border: 4px solid var(--current-color);
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        font-size: 1.2rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #334155;
-        box-shadow: 0 4px 0 var(--current-color);
-      }
+    .tab {
+      border: 0;
+      border-radius: 18px;
+      padding: 14px 10px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      background: #eef2ff;
+    }
 
-      .nav-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--current-color); }
+    .tab.active {
+      background: var(--accent);
+      color: white;
+    }
 
-      /* Bottom Section: The Grid */
-      .grid-container {
-        background: rgba(255, 255, 255, 0.4);
-        border-radius: 30px;
-        padding: 15px;
-      }
+    .panel {
+      display: none;
+      animation: pop 0.2s ease;
+    }
 
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 8px;
-      }
+    .panel.active { display: block; }
 
-      .weekday {
-        font-size: 0.85rem;
-        font-weight: 800;
-        text-align: center;
-        color: #94a3b8;
-        padding-bottom: 5px;
-      }
+    @keyframes pop {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-      .day-cell {
-        aspect-ratio: 1;
-        background: white;
-        border-radius: 16px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        border: 2px solid transparent;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        transition: transform 0.2s;
-      }
+    .big {
+      text-align: center;
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      font-weight: 900;
+      margin: 6px 0 12px;
+    }
 
-      .day-cell span { font-size: 1.2rem; font-weight: 800; color: #334155; }
-      .cell-icon { font-size: 1rem; margin-bottom: 2px; }
+    .mini {
+      text-align: center;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
 
-      .day-cell.today {
-        background: var(--current-color) !important;
-        border: 4px solid white;
-        transform: scale(1.1);
-        z-index: 5;
-      }
-      .day-cell.today span { color: white; }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 14px 0;
+    }
 
-      .day-cell.school { border-bottom: 4px solid #bbf7d0; }
-      .day-cell.home { background: #f1f5f9; opacity: 0.8; }
+    .bubble, .month-btn, .season-btn, .step-btn {
+      border: 0;
+      cursor: pointer;
+      border-radius: 22px;
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(31, 41, 55, 0.08);
+      font-weight: 800;
+      color: var(--ink);
+    }
 
-      @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-      }
+    .bubble {
+      min-width: 110px;
+      padding: 18px 14px;
+      font-size: 1.05rem;
+    }
 
-      .spring { --current-color: var(--spring-primary); --current-bg: var(--spring-bg); }
-      .summer { --current-color: var(--summer-primary); --current-bg: var(--summer-bg); }
-      .autumn { --current-color: var(--autumn-primary); --current-bg: var(--autumn-bg); }
-      .winter { --current-color: var(--winter-primary); --current-bg: var(--winter-bg); }
-    </style>
-  </head>
-  <body>
+    .month-btn, .season-btn, .step-btn {
+      padding: 16px 14px;
+      min-width: 100px;
+      font-size: 1rem;
+    }
 
-    <div id="magic-box" class="magic-box summer">
-      <div class="season-header">
-        <div id="season-icon" class="season-img">☀️</div>
+    .month-btn.active,
+    .season-btn.active,
+    .step-btn.active {
+      background: var(--accent-2);
+      color: white;
+      transform: scale(1.04);
+    }
+
+    .emoji {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .result {
+      margin-top: 14px;
+      background: #f8fafc;
+      border: 2px dashed var(--line);
+      border-radius: 24px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .result .big-emoji {
+      font-size: 4rem;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .result .label {
+      font-size: 1.5rem;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .result .small {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .track {
+      height: 18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #93c5fd, #fde68a, #fca5a5);
+      position: relative;
+      margin: 16px 0 10px;
+    }
+
+    .marker {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: white;
+      border: 4px solid var(--accent);
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      left: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .explain {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .explain-card {
+      background: #fff;
+      border-radius: 22px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(31, 41, 55, 0.08);
+      font-weight: 800;
+    }
+
+    .tiny {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 6px;
+      font-weight: 700;
+    }
+
+    .sun-earth {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: center;
+      margin: 16px 0;
+    }
+
+    .sun, .earth, .tilt-box {
+      background: #fff;
+      border-radius: 24px;
+      padding: 18px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(31, 41, 55, 0.08);
+      font-weight: 900;
+    }
+
+    .sun .emoji, .earth .emoji { font-size: 3.2rem; }
+
+    .arrow {
+      font-size: 2rem;
+      font-weight: 900;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 18px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    @media (max-width: 760px) {
+      .tabs { grid-template-columns: 1fr; }
+      .explain { grid-template-columns: 1fr; }
+      .sun-earth { grid-template-columns: 1fr; }
+      .arrow { transform: rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Days, Months, Seasons</h1>
+      <div class="sub">Tap. Watch. Learn.</div>
+    </section>
+
+    <section class="board">
+      <div class="tabs">
+        <button class="tab active" data-tab="days">1. Days → Month</button>
+        <button class="tab" data-tab="months">2. Month → Temp</button>
+        <button class="tab" data-tab="seasons">3. Why Seasons?</button>
       </div>
 
-      <div class="window-row">
-        <button id="prev" class="nav-btn">◀</button>
-        <div class="display-window">
-          <div id="main-label" class="label-text">August</div>
+      <div class="panel active" id="days-panel">
+        <div class="big">A month is lots of days</div>
+        <div class="mini">Tap the sun</div>
+
+        <div class="row">
+          <button class="bubble" id="add-day-btn">
+            <span class="emoji">☀️</span>
+            Add Day
+          </button>
+          <button class="bubble" id="reset-days-btn">
+            <span class="emoji">🔄</span>
+            Start Again
+          </button>
         </div>
-        <button id="next" class="nav-btn">▶</button>
+
+        <div class="result">
+          <div class="big-emoji" id="days-emoji">🌞</div>
+          <div class="label"><span id="day-count">1</span> Day</div>
+          <div class="small" id="month-grow-text">Keep going…</div>
+        </div>
+
+        <div class="track">
+          <div class="marker" id="day-marker">1</div>
+        </div>
+
+        <div class="footer-note">When many days pass, we get a month.</div>
       </div>
 
-      <div class="grid-container">
-        <div id="calendar-grid" class="grid"></div>
+      <div class="panel" id="months-panel">
+        <div class="big">Months can feel hot or cold</div>
+        <div class="mini">Tap a month</div>
+
+        <div class="row" id="month-buttons">
+          <button class="month-btn active" data-month="Jan">❄️ Jan</button>
+          <button class="month-btn" data-month="Apr">🌸 Apr</button>
+          <button class="month-btn" data-month="Jul">☀️ Jul</button>
+          <button class="month-btn" data-month="Oct">🍂 Oct</button>
+        </div>
+
+        <div class="result">
+          <div class="big-emoji" id="temp-emoji">🧥</div>
+          <div class="label" id="temp-label">Cold</div>
+          <div class="small" id="temp-small">January is colder.</div>
+        </div>
       </div>
-    </div>
 
-    <script>
-      const state = { 
-        viewDate: new Date(),
-        timer: null 
-      };
+      <div class="panel" id="seasons-panel">
+        <div class="big">Why do seasons happen?</div>
+        <div class="mini">Tap each step</div>
 
-      const themes = {
-        spring: { icon: "🌸", class: "spring", school: "✏️", home: "🏡" },
-        summer: { icon: "☀️", class: "summer", school: "🎒", home: "🍦" },
-        autumn: { icon: "🍂", class: "autumn", school: "📚", home: "🍁" },
-        winter: { icon: "❄️", class: "winter", school: "🖍️", home: "☃️" }
-      };
+        <div class="row" id="season-steps">
+          <button class="step-btn active" data-step="tilt">🌍 Tilt</button>
+          <button class="step-btn" data-step="sunlight">☀️ Light</button>
+          <button class="step-btn" data-step="season">🍂 Season</button>
+        </div>
 
-      function getSeason(date) {
-        const m = date.getMonth();
-        if (m >= 2 && m <= 4) return 'spring';
-        if (m >= 5 && m <= 7) return 'summer';
-        if (m >= 8 && m <= 10) return 'autumn';
-        return 'winter';
+        <div class="sun-earth">
+          <div class="sun">
+            <span class="emoji">☀️</span>
+            Sun
+          </div>
+          <div class="arrow">➡️</div>
+          <div class="earth">
+            <span class="emoji" id="earth-emoji">🌍</span>
+            <div id="earth-label">Earth tips a little</div>
+          </div>
+        </div>
+
+        <div class="result">
+          <div class="big-emoji" id="season-emoji">🌀</div>
+          <div class="label" id="season-label">Earth tilts</div>
+          <div class="small" id="season-small">One side leans more to the Sun.</div>
+        </div>
+
+        <div class="explain">
+          <div class="explain-card">
+            <div class="emoji">☀️</div>
+            More Sun
+            <div class="tiny">Warmer</div>
+          </div>
+          <div class="explain-card">
+            <div class="emoji">🍂</div>
+            Less Sun
+            <div class="tiny">Cooler</div>
+          </div>
+          <div class="explain-card">
+            <div class="emoji">🔁</div>
+            Keeps Changing
+            <div class="tiny">That makes seasons</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = {
+      days: document.getElementById('days-panel'),
+      months: document.getElementById('months-panel'),
+      seasons: document.getElementById('seasons-panel')
+    };
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        Object.values(panels).forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        panels[tab.dataset.tab].classList.add('active');
+      });
+    });
+
+    let dayCount = 1;
+    const dayCountEl = document.getElementById('day-count');
+    const monthGrowText = document.getElementById('month-grow-text');
+    const dayMarker = document.getElementById('day-marker');
+    const daysEmoji = document.getElementById('days-emoji');
+
+    function renderDays() {
+      dayCountEl.textContent = dayCount;
+      dayMarker.textContent = dayCount;
+      const pos = Math.min((dayCount / 30) * 100, 100);
+      dayMarker.style.left = pos + '%';
+
+      if (dayCount < 10) {
+        monthGrowText.textContent = 'A few days…';
+        daysEmoji.textContent = '🌞';
+      } else if (dayCount < 20) {
+        monthGrowText.textContent = 'More days…';
+        daysEmoji.textContent = '🌤️';
+      } else if (dayCount < 30) {
+        monthGrowText.textContent = 'Almost a month…';
+        daysEmoji.textContent = '⏳';
+      } else {
+        monthGrowText.textContent = '30 days makes about 1 month!';
+        daysEmoji.textContent = '📅';
       }
+    }
 
-      function render() {
-        const box = document.getElementById('magic-box');
-        const grid = document.getElementById('calendar-grid');
-        const mainLabel = document.getElementById('main-label');
-        const seasonIcon = document.getElementById('season-icon');
-        
-        const year = state.viewDate.getFullYear();
-        const month = state.viewDate.getMonth();
-        const theme = themes[getSeason(state.viewDate)];
-        const monthName = state.viewDate.toLocaleString('default', { month: 'long' });
+    document.getElementById('add-day-btn').addEventListener('click', () => {
+      dayCount = Math.min(dayCount + 1, 30);
+      renderDays();
+    });
 
-        box.className = `magic-box ${theme.class}`;
-        seasonIcon.textContent = theme.icon;
-        mainLabel.textContent = monthName;
+    document.getElementById('reset-days-btn').addEventListener('click', () => {
+      dayCount = 1;
+      renderDays();
+    });
 
-        grid.innerHTML = '';
-        ['M', 'T', 'W', 'T', 'F', 'S', 'S'].forEach(d => {
-          grid.innerHTML += `<div class="weekday">${d}</div>`;
-        });
+    renderDays();
 
-        const first = new Date(year, month, 1).getDay();
-        const offset = (first === 0 ? 6 : first - 1);
-        const totalDays = new Date(year, month + 1, 0).getDate();
+    const monthInfo = {
+      Jan: { emoji: '🥶', label: 'Cold', small: 'January is colder.' },
+      Apr: { emoji: '🙂', label: 'Mild', small: 'April is in-between.' },
+      Jul: { emoji: '🥵', label: 'Warm', small: 'July is warmer.' },
+      Oct: { emoji: '🧥', label: 'Cool', small: 'October gets cooler.' }
+    };
 
-        for (let i = 0; i < offset; i++) grid.innerHTML += '<div></div>';
+    const monthBtns = document.querySelectorAll('.month-btn');
+    const tempEmoji = document.getElementById('temp-emoji');
+    const tempLabel = document.getElementById('temp-label');
+    const tempSmall = document.getElementById('temp-small');
 
-        for (let d = 1; d <= totalDays; d++) {
-          const date = new Date(year, month, d);
-          const isWeekend = (date.getDay() === 0 || date.getDay() === 6);
-          const isToday = new Date().toDateString() === date.toDateString();
+    monthBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        monthBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const info = monthInfo[btn.dataset.month];
+        tempEmoji.textContent = info.emoji;
+        tempLabel.textContent = info.label;
+        tempSmall.textContent = info.small;
+      });
+    });
 
-          const cell = document.createElement('div');
-          cell.className = `day-cell ${isWeekend ? 'home' : 'school'} ${isToday ? 'today' : ''}`;
-          cell.innerHTML = `<div class="cell-icon">${isWeekend ? theme.home : theme.school}</div><span>${d}</span>`;
-          
-          cell.onclick = () => {
-            const dayName = date.toLocaleString('default', { weekday: 'long' });
-            // Education focus: Day Name + Number + Month
-            mainLabel.innerHTML = `<span style="color:var(--current-color)">${dayName}</span> ${d} ${monthName}`;
-
-            // Visual pop
-            cell.style.transform = 'scale(1.2)';
-            setTimeout(() => cell.style.transform = '', 150);
-
-            // Return to Month view after 4 seconds
-            clearTimeout(state.timer);
-            state.timer = setTimeout(() => {
-              mainLabel.textContent = monthName;
-            }, 4000);
-          };
-          
-          grid.appendChild(cell);
-        }
+    const seasonSteps = {
+      tilt: {
+        earthEmoji: '🌍',
+        earthLabel: 'Earth tips a little',
+        emoji: '🌀',
+        label: 'Earth tilts',
+        small: 'One side leans more to the Sun.'
+      },
+      sunlight: {
+        earthEmoji: '☀️',
+        earthLabel: 'More light hits one side',
+        emoji: '✨',
+        label: 'More Sunlight',
+        small: 'More sunlight makes it warmer.'
+      },
+      season: {
+        earthEmoji: '🌦️',
+        earthLabel: 'Warm here, cool there',
+        emoji: '🍂',
+        label: 'Seasons happen',
+        small: 'As Earth moves, warm and cool change.'
       }
+    };
 
-      document.getElementById('prev').onclick = () => { state.viewDate.setMonth(state.viewDate.getMonth() - 1); render(); };
-      document.getElementById('next').onclick = () => { state.viewDate.setMonth(state.viewDate.getMonth() + 1); render(); };
+    const stepBtns = document.querySelectorAll('.step-btn');
+    const earthEmoji = document.getElementById('earth-emoji');
+    const earthLabel = document.getElementById('earth-label');
+    const seasonEmoji = document.getElementById('season-emoji');
+    const seasonLabel = document.getElementById('season-label');
+    const seasonSmall = document.getElementById('season-small');
 
-      render();
-    </script>
-  </body>
+    stepBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        stepBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const info = seasonSteps[btn.dataset.step];
+        earthEmoji.textContent = info.earthEmoji;
+        earthLabel.textContent = info.earthLabel;
+        seasonEmoji.textContent = info.emoji;
+        seasonLabel.textContent = info.label;
+        seasonSmall.textContent = info.small;
+      });
+    });
+  </script>
+</body>
 </html>

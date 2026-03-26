@@ -10,14 +10,27 @@ import computergamesImg from '../assets/themes/princess/computergames.svg'
 import bathtimeImg from '../assets/themes/princess/bathtime.svg'
 import cookingImg from '../assets/themes/princess/cooking.svg'
 import washingTeethImg from '../assets/themes/princess/washing-teeth.svg'
-import sunriseImg from '../assets/themes/princess/sunrise.svg'
-import daytimeImg from '../assets/themes/princess/daytime.svg'
-import sunsetImg from '../assets/themes/princess/sunset.svg'
-import nightImg from '../assets/themes/princess/night.svg'
+import springSunriseImg from '../assets/themes/princess/seasons/spring-sunrise.svg'
+import springDaytimeImg from '../assets/themes/princess/seasons/spring-daytime.svg'
+import springSunsetImg from '../assets/themes/princess/seasons/spring-sunset.svg'
+import springNightImg from '../assets/themes/princess/seasons/spring-night.svg'
+import summerSunriseImg from '../assets/themes/princess/seasons/summer-sunrise.svg'
+import summerDaytimeImg from '../assets/themes/princess/seasons/summer-daytime.svg'
+import summerSunsetImg from '../assets/themes/princess/seasons/summer-sunset.svg'
+import summerNightImg from '../assets/themes/princess/seasons/summer-night.svg'
+import autumnSunriseImg from '../assets/themes/princess/seasons/autumn-sunrise.svg'
+import autumnDaytimeImg from '../assets/themes/princess/seasons/autumn-daytime.svg'
+import autumnSunsetImg from '../assets/themes/princess/seasons/autumn-sunset.svg'
+import autumnNightImg from '../assets/themes/princess/seasons/autumn-night.svg'
+import winterSunriseImg from '../assets/themes/princess/seasons/winter-sunrise.svg'
+import winterDaytimeImg from '../assets/themes/princess/seasons/winter-daytime.svg'
+import winterSunsetImg from '../assets/themes/princess/seasons/winter-sunset.svg'
+import winterNightImg from '../assets/themes/princess/seasons/winter-night.svg'
 import spaceFontUrl from '../assets/fonts/Space_Grotesk/SpaceGrotesk-VariableFont_wght.woff2'
 import natureFontUrl from '../assets/fonts/Nunito/Nunito-VariableFont_wght.woff2'
 import cartoonFontUrl from '../assets/fonts/Baloo_2/Baloo2-VariableFont_wght.woff2'
 import princessFontUrl from '../assets/fonts/Merienda/Merienda-VariableFont_wght.woff2'
+import type { Season } from '../lib/seasons'
 /* eslint-disable react-refresh/only-export-components */
 
 // Define the shape of a theme
@@ -44,10 +57,10 @@ export interface ThemeActivityImages {
 }
 
 export interface ThemeExplorerBackgroundImages {
-  sunrise: string
-  daytime: string
-  sunset: string
-  night: string
+  sunrise: string | Record<Season, string>
+  daytime: string | Record<Season, string>
+  sunset: string | Record<Season, string>
+  night: string | Record<Season, string>
 }
 
 export interface Theme {
@@ -174,10 +187,30 @@ export const themes: Record<ThemeId, Theme> = {
       washingTeeth: washingTeethImg,
     },
     explorerBackgroundImages: {
-      sunrise: sunriseImg,
-      daytime: daytimeImg,
-      sunset: sunsetImg,
-      night: nightImg,
+      sunrise: {
+        spring: springSunriseImg,
+        summer: summerSunriseImg,
+        autumn: autumnSunriseImg,
+        winter: winterSunriseImg,
+      },
+      daytime: {
+        spring: springDaytimeImg,
+        summer: summerDaytimeImg,
+        autumn: autumnDaytimeImg,
+        winter: winterDaytimeImg,
+      },
+      sunset: {
+        spring: springSunsetImg,
+        summer: summerSunsetImg,
+        autumn: autumnSunsetImg,
+        winter: winterSunsetImg,
+      },
+      night: {
+        spring: springNightImg,
+        summer: summerNightImg,
+        autumn: autumnNightImg,
+        winter: winterNightImg,
+      },
     },
   },
 }
