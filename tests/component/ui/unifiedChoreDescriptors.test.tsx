@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
-import { themes } from '../contexts/ThemeContext'
-import { createUnifiedChoreDescriptor } from './unifiedChoreDescriptors'
-import type { TodoRecord } from '../data/types'
+import { themes } from '../../../src/contexts/ThemeContext'
+import { createUnifiedChoreDescriptor } from '../../../src/ui/unifiedChoreDescriptors'
+import type { TodoRecord } from '../../../src/data/types'
 
 const createBaseDeps = () => ({
   theme: themes.space,

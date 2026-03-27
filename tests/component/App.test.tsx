@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
-import App from './App'
+import App from '../../src/App'
 
-vi.mock('./firebase', () => ({
+vi.mock('../../src/firebase', () => ({
   auth: {},
 }))
 

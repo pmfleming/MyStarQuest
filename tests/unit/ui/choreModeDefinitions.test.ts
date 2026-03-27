@@ -6,7 +6,7 @@ import {
   shouldHidePresetPrimaryButton,
   shouldUseResetUtility,
   type ChoreStage,
-} from './choreModeDefinitions'
+} from '../../../src/ui/choreModeDefinitions'
 
 describe('chore mode definitions', () => {
   it('matches the shared preset chore mode matrix', () => {

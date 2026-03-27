@@ -25,8 +25,12 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/setupTests.ts',
-    exclude: [...configDefaults.exclude, 'tests/**'],
+    setupFiles: './tests/setup/vitest.setup.ts',
+    include: [
+      'tests/unit/**/*.test.{ts,tsx}',
+      'tests/component/**/*.test.{ts,tsx}',
+    ],
+    exclude: [...configDefaults.exclude, 'tests/e2e/**'],
   },
   // Vitest augments the Vite config at runtime; casting keeps type-checking happy.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

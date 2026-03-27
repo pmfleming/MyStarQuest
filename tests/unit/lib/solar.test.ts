@@ -2,7 +2,7 @@ import {
   getAmsterdamSolarTimes,
   getDayOfYear,
   getSolarDeclinationDegrees,
-} from './solar'
+} from '../../../src/lib/solar'
 
 describe('solar helpers', () => {
   it('counts the day of year correctly', () => {

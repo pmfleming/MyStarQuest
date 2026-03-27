@@ -2,6 +2,7 @@ import {
   useState,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   type ReactElement,
 } from 'react'
@@ -45,6 +46,7 @@ declare global {
 /* ------------------------------------------------------------------ */
 
 const TOTAL_MINUTES = 1440
+const DRAG_COMMIT_INTERVAL_MS = 1000 / 15
 
 /* Globe & Cities */
 const GLOBE_CANVAS_SIZE = Math.round(uiTokens.contentMaxWidth * 0.6470588235)
@@ -168,6 +170,27 @@ function normalizeMinutes(totalMinutes: number) {
   return ((totalMinutes % TOTAL_MINUTES) + TOTAL_MINUTES) % TOTAL_MINUTES
 }
 
+function normalizeExactTime(totalMinutes: number, totalSeconds: number) {
+  let normalizedMinutes = totalMinutes
+  let normalizedSeconds = totalSeconds
+
+  if (normalizedSeconds >= 60 || normalizedSeconds < 0) {
+    const minuteCarry = Math.floor(normalizedSeconds / 60)
+    normalizedMinutes += minuteCarry
+    normalizedSeconds -= minuteCarry * 60
+
+    if (normalizedSeconds < 0) {
+      normalizedMinutes -= 1
+      normalizedSeconds += 60
+    }
+  }
+
+  return {
+    minutes: normalizedMinutes,
+    seconds: normalizedSeconds,
+  }
+}
+
 function formatTime(totalMinutes: number) {
   const normMins = Math.floor(normalizeMinutes(totalMinutes))
   const h24 = Math.floor(normMins / 60)
@@ -275,51 +298,34 @@ function drawNightOverlay(options: {
   context.arc(centerX, centerY, radius, 0, Math.PI * 2)
   context.clip()
 
-  const left = Math.floor(centerX - radius)
-  const top = Math.floor(centerY - radius)
-  const size = Math.ceil(radius * 2)
-  const imageData = context.createImageData(size, size)
+  // --- Optimized Gradient-Based Night Overlay ---
+  // We use a linear gradient to approximate the terminator line.
+  // The sunVectorView.x and sunVectorView.y give us the 2D direction of the sun in view space.
+  // We want the gradient to go from night (opposite of sun) to day (towards sun).
 
-  for (let y = 0; y < size; y++) {
-    for (let x = 0; x < size; x++) {
-      const offsetX = (left + x + 0.5 - centerX) / radius
-      const offsetY = (centerY - (top + y + 0.5)) / radius
-      const radialDistanceSquared = offsetX * offsetX + offsetY * offsetY
+  const angle = Math.atan2(-sunVectorView.y, -sunVectorView.x)
+  const gradStartX = centerX + Math.cos(angle) * radius
+  const gradStartY = centerY + Math.sin(angle) * radius
+  const gradEndX = centerX - Math.cos(angle) * radius
+  const gradEndY = centerY - Math.sin(angle) * radius
 
-      if (radialDistanceSquared > 1) continue
+  const gradient = context.createLinearGradient(
+    gradStartX,
+    gradStartY,
+    gradEndX,
+    gradEndY
+  )
 
-      const pointVector = {
-        x: offsetX,
-        y: offsetY,
-        z: Math.sqrt(1 - radialDistanceSquared),
-      }
-      const illumination = dotProduct(pointVector, sunVectorView)
-      const normalizedDarkness = Math.min(
-        1,
-        Math.max(0, (-illumination + 0.02) / 0.35)
-      )
-      const alpha = Math.round(normalizedDarkness * 255)
-      const pixelIndex = (y * size + x) * 4
+  // Transition from dark blue/black to transparent
+  // We offset the stops slightly to mimic the twilight zone (terminator)
+  gradient.addColorStop(0, 'rgba(0, 5, 25, 0.9)')
+  gradient.addColorStop(0.4, 'rgba(0, 5, 25, 0.85)')
+  gradient.addColorStop(0.6, 'rgba(0, 5, 25, 0)')
+  gradient.addColorStop(1, 'rgba(0, 5, 25, 0)')
 
-      imageData.data[pixelIndex] = 0
-      imageData.data[pixelIndex + 1] = 5
-      imageData.data[pixelIndex + 2] = 25
-      imageData.data[pixelIndex + 3] = alpha
-    }
-  }
+  context.fillStyle = gradient
+  context.fill()
 
-  const overlayCanvas = document.createElement('canvas')
-  overlayCanvas.width = size
-  overlayCanvas.height = size
-  const overlayContext = overlayCanvas.getContext('2d')
-
-  if (!overlayContext) {
-    context.restore()
-    return
-  }
-
-  overlayContext.putImageData(imageData, 0, 0)
-  context.drawImage(overlayCanvas, left, top)
   context.restore()
 }
 
@@ -597,9 +603,63 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
   const pingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const svgRef = useRef<SVGSVGElement>(null)
+  const hourHandRef = useRef<SVGGElement>(null)
+  const minuteHandRef = useRef<SVGGElement>(null)
+  const secondHandRef = useRef<SVGGElement>(null)
   const activeHandRef = useRef<'hour' | 'minute' | 'second' | null>(null)
   const lastAngleRef = useRef<number>(0)
   const exactMinutesRef = useRef<number>(minutes)
+  const exactSecondsRef = useRef<number>(seconds)
+  const pendingUpdateRef = useRef<{ x: number; y: number } | null>(null)
+  const rafIdRef = useRef<number | null>(null)
+  const lastDragCommitRef = useRef<number>(0)
+
+  const applyHandTransforms = useCallback(
+    (nextMinutes: number, nextSeconds: number) => {
+      const normalizedMinutes = normalizeMinutes(nextMinutes)
+      const minuteAngle = (normalizedMinutes / 60) * 360
+      const hourAngle = (normalizedMinutes / 720) * 360
+      const secondAngle = (nextSeconds / 60) * 360
+
+      if (hourHandRef.current) {
+        hourHandRef.current.style.transform = `rotate(${hourAngle}deg)`
+      }
+      if (minuteHandRef.current) {
+        minuteHandRef.current.style.transform = `rotate(${minuteAngle}deg)`
+      }
+      if (secondHandRef.current) {
+        secondHandRef.current.style.transform = `rotate(${secondAngle}deg)`
+      }
+    },
+    []
+  )
+
+  const commitExplorerTime = useCallback(
+    (
+      nextMinutes: number,
+      nextSeconds: number,
+      options?: { force?: boolean }
+    ) => {
+      const normalized = normalizeExactTime(nextMinutes, nextSeconds)
+      exactMinutesRef.current = normalized.minutes
+      exactSecondsRef.current = normalized.seconds
+
+      const now = performance.now()
+      if (
+        !options?.force &&
+        now - lastDragCommitRef.current < DRAG_COMMIT_INTERVAL_MS
+      ) {
+        return normalized
+      }
+
+      lastDragCommitRef.current = now
+      minutesRef.current = normalized.minutes
+      setMinutes(normalized.minutes)
+      setSeconds(normalized.seconds)
+      return normalized
+    },
+    []
+  )
 
   const adjust = useCallback((delta: number) => {
     setMinutes((prev) => {
@@ -609,9 +669,19 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
     })
   }, [])
 
+  useEffect(() => {
+    exactSecondsRef.current = seconds
+  }, [seconds])
+
+  useEffect(() => {
+    applyHandTransforms(minutes, seconds)
+  }, [applyHandTransforms, minutes, seconds])
+
   /* ---------- Timer Logic ---------- */
   useEffect(() => {
     const timer = setInterval(() => {
+      if (activeHandRef.current) return
+
       setSeconds((prev) => {
         const next = prev + 1
         if (next >= 60) {
@@ -620,8 +690,10 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
             exactMinutesRef.current = nextM
             return nextM
           })
+          exactSecondsRef.current = 0
           return 0
         }
+        exactSecondsRef.current = next
         return next
       })
     }, 1000)
@@ -740,49 +812,69 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
     setIsDragging(true)
     activeHandRef.current = hand
     exactMinutesRef.current = minutesRef.current
+    exactSecondsRef.current = seconds
+    lastDragCommitRef.current = 0
 
     lastAngleRef.current = getAngle(e.clientX, e.clientY)
   }
 
   useEffect(() => {
-    const handlePointerMove = (e: PointerEvent) => {
-      if (!activeHandRef.current) return
+    const processUpdate = () => {
+      if (!activeHandRef.current || !pendingUpdateRef.current) {
+        rafIdRef.current = null
+        return
+      }
 
-      const currentAngle = getAngle(e.clientX, e.clientY)
+      const { x, y } = pendingUpdateRef.current
+      const currentAngle = getAngle(x, y)
       let deltaAngle = currentAngle - lastAngleRef.current
 
       if (deltaAngle > 180) deltaAngle -= 360
       if (deltaAngle < -180) deltaAngle += 360
 
+      let nextMinutes = exactMinutesRef.current
+      let nextSeconds = exactSecondsRef.current
+
       if (activeHandRef.current === 'second') {
-        setSeconds((prev) => {
-          let next = prev + deltaAngle / 6
-          if (next >= 60) {
-            exactMinutesRef.current += 1
-            setMinutes(exactMinutesRef.current)
-            next -= 60
-          } else if (next < 0) {
-            exactMinutesRef.current -= 1
-            setMinutes(exactMinutesRef.current)
-            next += 60
-          }
-          return next
-        })
+        nextSeconds += deltaAngle / 6
       } else {
         let deltaMins = 0
         if (activeHandRef.current === 'minute') deltaMins = deltaAngle / 6
         if (activeHandRef.current === 'hour') deltaMins = deltaAngle * 2
 
-        exactMinutesRef.current += deltaMins
-        setMinutes(exactMinutesRef.current)
+        nextMinutes += deltaMins
       }
 
+      const normalized = normalizeExactTime(nextMinutes, nextSeconds)
+      exactMinutesRef.current = normalized.minutes
+      exactSecondsRef.current = normalized.seconds
+      applyHandTransforms(normalized.minutes, normalized.seconds)
+      commitExplorerTime(normalized.minutes, normalized.seconds)
+
       lastAngleRef.current = currentAngle
+      pendingUpdateRef.current = null
+      rafIdRef.current = requestAnimationFrame(processUpdate)
+    }
+
+    const handlePointerMove = (e: PointerEvent) => {
+      if (!activeHandRef.current) return
+      pendingUpdateRef.current = { x: e.clientX, y: e.clientY }
+      if (rafIdRef.current === null) {
+        rafIdRef.current = requestAnimationFrame(processUpdate)
+      }
     }
 
     const handlePointerUp = () => {
+      commitExplorerTime(exactMinutesRef.current, exactSecondsRef.current, {
+        force: true,
+      })
       setIsDragging(false)
       activeHandRef.current = null
+      pendingUpdateRef.current = null
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current)
+        rafIdRef.current = null
+      }
     }
 
     if (isDragging) {
@@ -795,8 +887,11 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
       window.removeEventListener('pointermove', handlePointerMove)
       window.removeEventListener('pointerup', handlePointerUp)
       window.removeEventListener('pointercancel', handlePointerUp)
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current)
+      }
     }
-  }, [isDragging, getAngle])
+  }, [applyHandTransforms, commitExplorerTime, getAngle, isDragging])
 
   /* ---------- Derived Values ---------- */
 
@@ -834,38 +929,42 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
   const hrAngle = (minutes / 720) * 360
   const secAngle = (seconds / 60) * 360
 
-  const hourNumbers = Array.from({ length: 12 }, (_, i) => {
-    const h = i + 1
-    const pos = lerpPoint(
-      roundedRectPerimeterPoint(
-        h / 12,
-        CLOCK_FACE_WIDTH - CLOCK_NUMBER_INSET,
-        CLOCK_FACE_HEIGHT - CLOCK_NUMBER_INSET,
-        CLOCK_FACE_RADIUS - CLOCK_NUMBER_RADIUS_INSET
-      ),
-      { x: CX, y: CY },
-      CLOCK_NUMBER_LERP
-    )
-    return (
-      <text
-        key={h}
-        x={pos.x}
-        y={pos.y}
-        textAnchor="middle"
-        dominantBaseline="central"
-        fontSize={CLOCK_NUMBER_FONT_SIZE}
-        fontWeight="bold"
-        fill={theme.colors.text}
-        fontFamily={theme.fonts.heading}
-        style={{
-          pointerEvents: 'none',
-          textShadow: '0 1px 2px rgba(255,255,255,0.65)',
-        }}
-      >
-        {h}
-      </text>
-    )
-  })
+  const hourNumbers = useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, i) => {
+        const h = i + 1
+        const pos = lerpPoint(
+          roundedRectPerimeterPoint(
+            h / 12,
+            CLOCK_FACE_WIDTH - CLOCK_NUMBER_INSET,
+            CLOCK_FACE_HEIGHT - CLOCK_NUMBER_INSET,
+            CLOCK_FACE_RADIUS - CLOCK_NUMBER_RADIUS_INSET
+          ),
+          { x: CX, y: CY },
+          CLOCK_NUMBER_LERP
+        )
+        return (
+          <text
+            key={h}
+            x={pos.x}
+            y={pos.y}
+            textAnchor="middle"
+            dominantBaseline="central"
+            fontSize={CLOCK_NUMBER_FONT_SIZE}
+            fontWeight="bold"
+            fill={theme.colors.text}
+            fontFamily={theme.fonts.heading}
+            style={{
+              pointerEvents: 'none',
+              textShadow: '0 1px 2px rgba(255,255,255,0.65)',
+            }}
+          >
+            {h}
+          </text>
+        )
+      }),
+    [theme.colors.text, theme.fonts.heading]
+  )
 
   const handTransition = isDragging
     ? 'none'
@@ -1122,13 +1221,14 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 }}
               >
                 <g
+                  ref={hourHandRef}
                   className="clock-hand"
                   onPointerDown={(e) => handlePointerDown(e, 'hour')}
                   style={{
                     transformOrigin: `${CX}px ${CY}px`,
                     transform: `rotate(${hrAngle}deg)`,
                     transition: handTransition,
-                    filter: HAND_SHADOW,
+                    filter: isDragging ? 'none' : HAND_SHADOW,
                   }}
                 >
                   <image
@@ -1152,13 +1252,14 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 </g>
 
                 <g
+                  ref={minuteHandRef}
                   className="clock-hand"
                   onPointerDown={(e) => handlePointerDown(e, 'minute')}
                   style={{
                     transformOrigin: `${CX}px ${CY}px`,
                     transform: `rotate(${minAngle}deg)`,
                     transition: handTransition,
-                    filter: HAND_SHADOW,
+                    filter: isDragging ? 'none' : HAND_SHADOW,
                   }}
                 >
                   <image
@@ -1182,13 +1283,14 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                 </g>
 
                 <g
+                  ref={secondHandRef}
                   className="clock-hand"
                   onPointerDown={(e) => handlePointerDown(e, 'second')}
                   style={{
                     transformOrigin: `${CX}px ${CY}px`,
                     transform: `rotate(${secAngle}deg)`,
                     transition: handTransition,
-                    filter: HAND_SHADOW,
+                    filter: isDragging ? 'none' : HAND_SHADOW,
                   }}
                 >
                   <image
@@ -1218,7 +1320,10 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
                   width={CLOCK_PIVOT_SIZE}
                   height={CLOCK_PIVOT_SIZE}
                   preserveAspectRatio="xMidYMid meet"
-                  style={{ pointerEvents: 'none', filter: HAND_SHADOW }}
+                  style={{
+                    pointerEvents: 'none',
+                    filter: isDragging ? 'none' : HAND_SHADOW,
+                  }}
                 />
               </svg>
             </div>

@@ -9,7 +9,7 @@ import {
   isScheduledForDay,
   normalizeChoreSchedule,
   parseDateKey,
-} from './today'
+} from '../../../src/lib/today'
 
 describe('today utilities', () => {
   it('builds a stable local date key', () => {

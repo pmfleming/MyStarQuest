@@ -76,7 +76,7 @@ const DragScrollRegion = ({
       scrollElement.removeEventListener('scroll', updateScrollState)
       window.removeEventListener('resize', updateScrollState)
     }
-  })
+  }, [])
 
   useEffect(() => {
     return () => {
