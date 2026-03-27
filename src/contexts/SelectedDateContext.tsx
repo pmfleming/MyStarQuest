@@ -83,11 +83,6 @@ export const useSolarTimes = (location: SolarLocation = DEFAULT_LOCATION) => {
 
   return useMemo(
     () => getSolarTimes(selectedDate, location),
-    [
-      location.latitude,
-      location.longitude,
-      location.timeZone,
-      selectedDate,
-    ]
+    [location, selectedDate]
   )
 }

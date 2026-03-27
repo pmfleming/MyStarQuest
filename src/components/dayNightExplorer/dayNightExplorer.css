@@ -1,0 +1,68 @@
+.dne-btn {
+  transition:
+    transform 0.1s,
+    box-shadow 0.1s;
+}
+
+.dne-btn--prev:active {
+  transform: translate(-50%, calc(-50% + 3px)) !important;
+  box-shadow: none !important;
+}
+
+.dne-btn--next:active {
+  transform: translate(50%, calc(-50% + 3px)) !important;
+  box-shadow: none !important;
+}
+
+.clock-hand {
+  cursor: grab;
+}
+
+.clock-hand:active {
+  cursor: grabbing;
+}
+
+.dne-globe-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.dne-location-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.dne-location-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.dne-location-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease;
+}
+
+@media (max-width: 720px) {
+  .dne-globe-row {
+    flex-direction: column;
+  }
+
+  .dne-location-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

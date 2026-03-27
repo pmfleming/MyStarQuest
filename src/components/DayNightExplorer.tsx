@@ -1,993 +1,122 @@
-import {
-  useState,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  type ReactElement,
-} from 'react'
-import type {
-  Theme,
-  ThemeExplorerBackgroundImages,
-} from '../contexts/ThemeContext'
-import {
-  useSelectedDate,
-  useSolarTimes,
-} from '../contexts/SelectedDateContext'
-import {
-  buildLocationDateTime,
-  DEFAULT_LOCATION,
-  getLocationClockTime,
-  getSunPosition,
-  type SunPosition,
-} from '../lib/solar'
-import { getSeason, type Season } from '../lib/seasons'
+import { useCallback, useMemo, useState } from 'react'
+import { useSelectedDate, useSolarTimes } from '../contexts/SelectedDateContext'
+import type { Theme } from '../contexts/ThemeContext'
+import { getSunPosition } from '../lib/solar'
+import { getSeason } from '../lib/seasons'
 import { uiTokens } from '../ui/tokens'
-import StepperButton from './StepperButton'
-import hourHandSvg from '../assets/clock/hourhand.svg'
-import minuteHandSvg from '../assets/clock/minutehand.svg'
-import pivotSvg from '../assets/clock/pivot.svg'
-import secondHandSvg from '../assets/clock/secondhand.svg'
+import ExplorerClockPanel from './dayNightExplorer/ExplorerClockPanel'
+import ExplorerGlobe from './dayNightExplorer/ExplorerGlobe'
+import ExplorerLocationSelector from './dayNightExplorer/ExplorerLocationSelector'
+import './dayNightExplorer/dayNightExplorer.css'
+import {
+  buildExplorerInstant,
+  getClockTimeForInstant,
+  getInitialExplorerClockTime,
+} from '../data/dayNightExplorer/dayNightExplorerCalendar'
+import {
+  getExplorerBackgroundBlend,
+  getExplorerBackdropColor,
+  getImageForTime,
+  resolveBackgroundImage,
+} from '../data/dayNightExplorer/dayNightExplorerBackdrop'
+import { explorerUi } from '../data/dayNightExplorer/dayNightExplorer.constants'
+import {
+  formatTime,
+  getExplorerRenderScene,
+} from '../data/dayNightExplorer/dayNightExplorerMath'
+import {
+  EXPLORER_FOCUS_OPTIONS,
+  getExplorerCityOption,
+  type ExplorerCityId,
+  type ExplorerFocusId,
+  type ExplorerRenderMode,
+} from '../data/dayNightExplorer/dayNightExplorerOptions'
+import useExplorerClock from './dayNightExplorer/useExplorerClock'
+import usePlanetaryGlobe from './dayNightExplorer/usePlanetaryGlobe'
 
-/* ------------------------------------------------------------------ */
-/* Types                                                              */
-/* ------------------------------------------------------------------ */
-
-interface DayNightExplorerProps {
+type DayNightExplorerProps = {
   theme: Theme
 }
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-declare global {
-  interface Window {
-    d3: any
-    topojson: any
-    planetaryjs: any
-  }
-}
-/* eslint-enable @typescript-eslint/no-explicit-any */
-
-/* ------------------------------------------------------------------ */
-/* Constants                                                          */
-/* ------------------------------------------------------------------ */
-
-const TOTAL_MINUTES = 1440
-const DRAG_COMMIT_INTERVAL_MS = 1000 / 15
-
-/* Globe & Cities */
-const GLOBE_CANVAS_SIZE = Math.round(uiTokens.contentMaxWidth * 0.6470588235)
-const CLOCK_SIZE = GLOBE_CANVAS_SIZE
-const CX = CLOCK_SIZE / 2
-const CY = CLOCK_SIZE / 2
-const CLOCK_FACE_WIDTH = uiTokens.contentMaxWidth
-const CLOCK_FACE_HEIGHT = GLOBE_CANVAS_SIZE
-const CLOCK_FACE_RADIUS = uiTokens.listItemRadius
-const CLOCK_EDGE_INSET = CLOCK_SIZE * 0.0545454545
-const CLOCK_FACE_RADIUS_INSET = CLOCK_SIZE * 0.0090909091
-const CLOCK_NUMBER_INSET = CLOCK_SIZE * 0.1909090909
-const CLOCK_NUMBER_RADIUS_INSET = CLOCK_SIZE * 0.0454545455
-const CLOCK_NUMBER_LERP = 0.1
-const CLOCK_HOUR_TICK_LERP = 0.11
-const CLOCK_MINUTE_TICK_LERP = 0.06
-const CLOCK_HOUR_TICK_STROKE = CLOCK_SIZE * 0.0136363636
-const CLOCK_MINUTE_TICK_STROKE = CLOCK_SIZE * 0.0068181818
-const CLOCK_NUMBER_FONT_SIZE = CLOCK_SIZE * 0.0909090909
-const CLOCK_PIVOT_SIZE = CLOCK_SIZE * 0.2
-const CLOCK_HAND_HIT_HOUR = CLOCK_SIZE * 0.1272727273
-const CLOCK_HAND_HIT_MINUTE = CLOCK_SIZE * 0.1
-const CLOCK_HAND_HIT_SECOND = CLOCK_SIZE * 0.0681818182
-const CLOCK_SECOND_HAND_BASE_OFFSET = CLOCK_SIZE * 0.0545454545
-const HAND_SHADOW_OFFSET_Y = CLOCK_SIZE * 0.0090909091
-const HAND_SHADOW_BLUR = CLOCK_SIZE * 0.0136363636
-const HAND_SHADOW = `drop-shadow(0 ${HAND_SHADOW_OFFSET_Y}px ${HAND_SHADOW_BLUR}px rgba(0,0,0,0.28))`
-const HAND_SVG_VIEWBOX_WIDTH = 1024
-const HAND_SVG_VIEWBOX_HEIGHT = 1536
-const HOUR_HAND_HEIGHT = CLOCK_SIZE * 0.32
-const MINUTE_HAND_HEIGHT = CLOCK_SIZE * 0.4236363636
-const SECOND_HAND_HEIGHT = CLOCK_SIZE * 0.4236363636
-const HOUR_HAND_WIDTH =
-  (HAND_SVG_VIEWBOX_WIDTH / HAND_SVG_VIEWBOX_HEIGHT) * HOUR_HAND_HEIGHT
-const MINUTE_HAND_WIDTH =
-  (HAND_SVG_VIEWBOX_WIDTH / HAND_SVG_VIEWBOX_HEIGHT) * MINUTE_HAND_HEIGHT
-const SECOND_HAND_WIDTH = MINUTE_HAND_WIDTH
-const HOUR_HAND_BASE_ROTATION =
-  (-Math.atan(HOUR_HAND_WIDTH / HOUR_HAND_HEIGHT) * 180) / Math.PI
-const MINUTE_HAND_BASE_ROTATION =
-  (-Math.atan(MINUTE_HAND_WIDTH / MINUTE_HAND_HEIGHT) * 180) / Math.PI
-const SECOND_HAND_BASE_ROTATION =
-  (-Math.atan(SECOND_HAND_WIDTH / SECOND_HAND_HEIGHT) * 180) / Math.PI
-const ACTIVITY_IMAGE_WIDTH = CLOCK_SIZE * 0.8545454545
-const DIGITAL_CLOCK_TIME_FONT_SIZE = CLOCK_SIZE * 0.1636363636
-const DIGITAL_CLOCK_SEPARATOR_FONT_SIZE = CLOCK_SIZE * 0.0818181818
-const DIGITAL_CLOCK_AMPM_FONT_SIZE = CLOCK_SIZE * 0.0909090909
-const DIGITAL_CLOCK_TEXT_GAP = uiTokens.sectionGap * 3
-const DIGITAL_CLOCK_AMPM_MARGIN = uiTokens.sectionGap * 2
-const GLOBE_PROJECTION_SCALE = CLOCK_SIZE * 0.4909090909
-const DEFAULT_RENDER_MODE = 'rotating-earth' as const
-
-type ExplorerRenderMode = 'rotating-earth' | 'moving-terminator'
-
-type ExplorerRenderScene = {
-  viewLongitude: number
-  viewLatitude: number
-  overlayCenterLongitude: number
-  overlayCenterLatitude: number
-}
-
-const CITIES = [
-  {
-    name: 'Amsterdam',
-    lat: DEFAULT_LOCATION.latitude,
-    lng: DEFAULT_LOCATION.longitude,
-    color: '#ff8c00',
-    angle: 20,
-    ttl: 3200,
-    strokeWidth: 4,
-  },
-  {
-    name: 'Dublin',
-    lat: 53.35,
-    lng: -6.26,
-    color: '#00aaff',
-    angle: 16,
-    ttl: 2600,
-    strokeWidth: 3,
-  },
-  {
-    name: 'Taipei',
-    lat: 25.03,
-    lng: 121.56,
-    color: '#ff3b30',
-    angle: 16,
-    ttl: 2600,
-    strokeWidth: 3,
-  },
-]
-
-const SCRIPTS = [
-  'https://d3js.org/d3.v3.min.js',
-  'https://d3js.org/topojson.v1.min.js',
-  'https://unpkg.com/planetary.js@1.1.2/dist/planetaryjs.min.js',
-] as const
-
-/* ------------------------------------------------------------------ */
-/* Helpers & Script Caching                                           */
-/* ------------------------------------------------------------------ */
-
-const scriptPromises: Record<string, Promise<void> | undefined> = {}
-
-function loadScript(src: string): Promise<void> {
-  const cached = scriptPromises[src]
-  if (cached) return cached
-
-  const promise = new Promise<void>((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) {
-      resolve()
-      return
-    }
-    const s = document.createElement('script')
-    s.src = src
-    s.async = false
-    s.onload = () => resolve()
-    s.onerror = () => reject(new Error(`Failed to load ${src}`))
-    document.head.appendChild(s)
-  })
-
-  scriptPromises[src] = promise
-  return promise
-}
-
-async function ensureGlobeScripts() {
-  for (const src of SCRIPTS) await loadScript(src)
-}
-
-function normalizeMinutes(totalMinutes: number) {
-  return ((totalMinutes % TOTAL_MINUTES) + TOTAL_MINUTES) % TOTAL_MINUTES
-}
-
-function normalizeExactTime(totalMinutes: number, totalSeconds: number) {
-  let normalizedMinutes = totalMinutes
-  let normalizedSeconds = totalSeconds
-
-  if (normalizedSeconds >= 60 || normalizedSeconds < 0) {
-    const minuteCarry = Math.floor(normalizedSeconds / 60)
-    normalizedMinutes += minuteCarry
-    normalizedSeconds -= minuteCarry * 60
-
-    if (normalizedSeconds < 0) {
-      normalizedMinutes -= 1
-      normalizedSeconds += 60
-    }
-  }
-
-  return {
-    minutes: normalizedMinutes,
-    seconds: normalizedSeconds,
-  }
-}
-
-function formatTime(totalMinutes: number) {
-  const normMins = Math.floor(normalizeMinutes(totalMinutes))
-  const h24 = Math.floor(normMins / 60)
-  const m = normMins % 60
-  const h12 = h24 % 12 || 12
-  return {
-    h: String(h12).padStart(2, '0'),
-    m: String(m).padStart(2, '0'),
-    ampm: h24 < 12 ? 'AM' : 'PM',
-  }
-}
-
-function getImageForTime(minutes: number, theme: Theme) {
-  const activityImages = theme.activityImages
-  if (!activityImages) return null
-
-  const normMins = Math.floor(normalizeMinutes(minutes))
-  if (normMins >= 1261 || normMins <= 450) return activityImages.bedtime
-  if (normMins <= 480) return activityImages.eatingBreakfast
-  if (normMins <= 495) return activityImages.washingTeeth
-  if (normMins <= 525) return activityImages.commute
-  if (normMins <= 885) return activityImages.schooltime
-  if (normMins <= 915) return activityImages.commute
-  if (normMins <= 1080) return activityImages.playing
-  if (normMins <= 1140) return activityImages.cooking
-  if (normMins <= 1170) return activityImages.eatingDinner
-  if (normMins <= 1215) return activityImages.computergames
-  if (normMins <= 1244) return activityImages.bathtime
-  if (normMins <= 1260) return activityImages.washingTeeth
-  return activityImages.bedtime
-}
-
-function dotProduct(
-  a: { x: number; y: number; z: number },
-  b: { x: number; y: number; z: number }
-) {
-  return a.x * b.x + a.y * b.y + a.z * b.z
-}
-
-function latLonToVector(latDegrees: number, lonDegrees: number) {
-  const lat = (latDegrees * Math.PI) / 180
-  const lon = (lonDegrees * Math.PI) / 180
-  const cosLat = Math.cos(lat)
-
-  return {
-    x: cosLat * Math.cos(lon),
-    y: cosLat * Math.sin(lon),
-    z: Math.sin(lat),
-  }
-}
-
-function drawNightOverlay(options: {
-  context: CanvasRenderingContext2D
-  centerX: number
-  centerY: number
-  radius: number
-  centerLongitude: number
-  centerLatitude: number
-  sunLongitude: number
-  sunLatitude: number
-}) {
-  const {
-    context,
-    centerX,
-    centerY,
-    radius,
-    centerLongitude,
-    centerLatitude,
-    sunLongitude,
-    sunLatitude,
-  } = options
-
-  const sunVectorWorld = latLonToVector(sunLatitude, sunLongitude)
-  const centerLon = (centerLongitude * Math.PI) / 180
-  const centerLat = (centerLatitude * Math.PI) / 180
-  const centerCosLat = Math.cos(centerLat)
-  const centerSinLat = Math.sin(centerLat)
-  const centerCosLon = Math.cos(centerLon)
-  const centerSinLon = Math.sin(centerLon)
-
-  const east = {
-    x: -centerSinLon,
-    y: centerCosLon,
-    z: 0,
-  }
-  const north = {
-    x: -centerSinLat * centerCosLon,
-    y: -centerSinLat * centerSinLon,
-    z: centerCosLat,
-  }
-  const outward = {
-    x: centerCosLat * centerCosLon,
-    y: centerCosLat * centerSinLon,
-    z: centerSinLat,
-  }
-
-  const sunVectorView = {
-    x: dotProduct(sunVectorWorld, east),
-    y: dotProduct(sunVectorWorld, north),
-    z: dotProduct(sunVectorWorld, outward),
-  }
-
-  context.save()
-  context.beginPath()
-  context.arc(centerX, centerY, radius, 0, Math.PI * 2)
-  context.clip()
-
-  // --- Optimized Gradient-Based Night Overlay ---
-  // We use a linear gradient to approximate the terminator line.
-  // The sunVectorView.x and sunVectorView.y give us the 2D direction of the sun in view space.
-  // We want the gradient to go from night (opposite of sun) to day (towards sun).
-
-  const angle = Math.atan2(-sunVectorView.y, -sunVectorView.x)
-  const gradStartX = centerX + Math.cos(angle) * radius
-  const gradStartY = centerY + Math.sin(angle) * radius
-  const gradEndX = centerX - Math.cos(angle) * radius
-  const gradEndY = centerY - Math.sin(angle) * radius
-
-  const gradient = context.createLinearGradient(
-    gradStartX,
-    gradStartY,
-    gradEndX,
-    gradEndY
-  )
-
-  // Transition from dark blue/black to transparent
-  // We offset the stops slightly to mimic the twilight zone (terminator)
-  gradient.addColorStop(0, 'rgba(0, 5, 25, 0.9)')
-  gradient.addColorStop(0.4, 'rgba(0, 5, 25, 0.85)')
-  gradient.addColorStop(0.6, 'rgba(0, 5, 25, 0)')
-  gradient.addColorStop(1, 'rgba(0, 5, 25, 0)')
-
-  context.fillStyle = gradient
-  context.fill()
-
-  context.restore()
-}
-
-function getExplorerRenderScene(options: {
-  renderMode: ExplorerRenderMode
-  observerLatitude: number
-  observerLongitude: number
-  sunPosition: SunPosition
-}): ExplorerRenderScene {
-  const {
-    renderMode,
-    observerLatitude,
-    observerLongitude,
-    sunPosition,
-  } = options
-
-  if (renderMode === 'moving-terminator') {
-    return {
-      viewLongitude: observerLongitude,
-      viewLatitude: observerLatitude,
-      overlayCenterLongitude: observerLongitude,
-      overlayCenterLatitude: observerLatitude,
-    }
-  }
-
-  return {
-    viewLongitude: sunPosition.longitude + 90,
-    viewLatitude: observerLatitude,
-    overlayCenterLongitude: sunPosition.longitude + 90,
-    overlayCenterLatitude: observerLatitude,
-  }
-}
-
-function roundedRectPerimeterPoint(
-  t: number,
-  width: number,
-  height: number,
-  radius: number
-) {
-  const turns = ((t % 1) + 1) % 1
-  const theta = turns * Math.PI * 2
-  const dx = Math.sin(theta)
-  const dy = -Math.cos(theta)
-  const halfWidth = width / 2
-  const halfHeight = height / 2
-  const r = Math.min(radius, halfWidth, halfHeight)
-  const straightHalfWidth = halfWidth - r
-  const straightHalfHeight = halfHeight - r
-  const absDx = Math.abs(dx)
-  const absDy = Math.abs(dy)
-  const signX = Math.sign(dx) || 1
-  const signY = Math.sign(dy) || 1
-  const epsilon = 1e-6
-
-  if (absDx < epsilon) {
-    return { x: CX, y: CY + signY * halfHeight }
-  }
-
-  if (absDy < epsilon) {
-    return { x: CX + signX * halfWidth, y: CY }
-  }
-
-  const verticalScale = halfWidth / absDx
-  const verticalY = absDy * verticalScale
-  if (verticalY <= straightHalfHeight + epsilon) {
-    return {
-      x: CX + signX * halfWidth,
-      y: CY + signY * verticalY,
-    }
-  }
-
-  const horizontalScale = halfHeight / absDy
-  const horizontalX = absDx * horizontalScale
-  if (horizontalX <= straightHalfWidth + epsilon) {
-    return {
-      x: CX + signX * horizontalX,
-      y: CY + signY * halfHeight,
-    }
-  }
-
-  const arcCenterX = straightHalfWidth
-  const arcCenterY = straightHalfHeight
-  const quadraticB = -2 * (absDx * arcCenterX + absDy * arcCenterY)
-  const quadraticC = arcCenterX * arcCenterX + arcCenterY * arcCenterY - r * r
-  const discriminant = Math.max(quadraticB * quadraticB - 4 * quadraticC, 0)
-  const scale = (-quadraticB + Math.sqrt(discriminant)) / 2
-
-  return {
-    x: CX + signX * absDx * scale,
-    y: CY + signY * absDy * scale,
-  }
-}
-
-function lerpPoint(
-  from: { x: number; y: number },
-  to: { x: number; y: number },
-  amount: number
-) {
-  return {
-    x: from.x + (to.x - from.x) * amount,
-    y: from.y + (to.y - from.y) * amount,
-  }
-}
-
-type RgbColor = {
-  r: number
-  g: number
-  b: number
-}
-
-type ExplorerBackgroundKey = keyof ThemeExplorerBackgroundImages
-
-const EXPLORER_SKY_COLORS = {
-  night: { r: 56, g: 78, b: 140 },
-  sunrise: { r: 255, g: 196, b: 143 },
-  day: { r: 135, g: 206, b: 250 },
-  sunset: { r: 255, g: 166, b: 120 },
-} as const
-
-function interpolateColor(from: RgbColor, to: RgbColor, amount: number) {
-  return {
-    r: Math.round(from.r + (to.r - from.r) * amount),
-    g: Math.round(from.g + (to.g - from.g) * amount),
-    b: Math.round(from.b + (to.b - from.b) * amount),
-  }
-}
-
-function toRgba(color: RgbColor, alpha: number) {
-  return `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`
-}
-
-function getNightMidpointMinutes(
-  sunriseMinutes: number,
-  sunsetMinutes: number
-) {
-  const wrappedSunriseMinutes =
-    sunriseMinutes <= sunsetMinutes
-      ? sunriseMinutes + TOTAL_MINUTES
-      : sunriseMinutes
-
-  return normalizeMinutes(
-    sunsetMinutes + (wrappedSunriseMinutes - sunsetMinutes) / 2
-  )
-}
-
-function getExplorerBackdropColor(
-  minutes: number,
-  solarTimes: ReturnType<typeof useSolarTimes>
-) {
-  const normalizedMinutes = normalizeMinutes(minutes)
-  const solarNoonMinutes =
-    (solarTimes.daylightStartMinutes + solarTimes.daylightEndMinutes) / 2
-  const nightMidpointMinutes = getNightMidpointMinutes(
-    solarTimes.sunriseMinutes,
-    solarTimes.sunsetMinutes
-  )
-
-  const colorStops = [
-    {
-      minute: nightMidpointMinutes - TOTAL_MINUTES,
-      color: EXPLORER_SKY_COLORS.night,
-    },
-    { minute: solarTimes.sunriseMinutes, color: EXPLORER_SKY_COLORS.sunrise },
-    {
-      minute: solarTimes.daylightStartMinutes,
-      color: EXPLORER_SKY_COLORS.day,
-    },
-    { minute: solarNoonMinutes, color: EXPLORER_SKY_COLORS.day },
-    { minute: solarTimes.daylightEndMinutes, color: EXPLORER_SKY_COLORS.day },
-    { minute: solarTimes.sunsetMinutes, color: EXPLORER_SKY_COLORS.sunset },
-    {
-      minute: nightMidpointMinutes + TOTAL_MINUTES,
-      color: EXPLORER_SKY_COLORS.night,
-    },
-  ]
-
-  const adjustedMinutes =
-    normalizedMinutes < solarTimes.sunriseMinutes
-      ? normalizedMinutes + TOTAL_MINUTES
-      : normalizedMinutes
-
-  for (let i = 0; i < colorStops.length - 1; i++) {
-    const currentStop = colorStops[i]
-    const nextStop = colorStops[i + 1]
-
-    if (
-      adjustedMinutes >= currentStop.minute &&
-      adjustedMinutes <= nextStop.minute
-    ) {
-      const segmentDuration = nextStop.minute - currentStop.minute || 1
-      const amount = (adjustedMinutes - currentStop.minute) / segmentDuration
-
-      return toRgba(
-        interpolateColor(currentStop.color, nextStop.color, amount),
-        0.5
-      )
-    }
-  }
-
-  return toRgba(EXPLORER_SKY_COLORS.night, 0.5)
-}
-
-function getExplorerBackgroundBlend(
-  minutes: number,
-  solarTimes: ReturnType<typeof useSolarTimes>
-) {
-  const normalizedMinutes = normalizeMinutes(minutes)
-  const nightMidpointMinutes = getNightMidpointMinutes(
-    solarTimes.sunriseMinutes,
-    solarTimes.sunsetMinutes
-  )
-  const adjustedMinutes =
-    normalizedMinutes < solarTimes.sunriseMinutes
-      ? normalizedMinutes + TOTAL_MINUTES
-      : normalizedMinutes
-
-  const imageStops: Array<{
-    minute: number
-    key: ExplorerBackgroundKey
-  }> = [
-    { minute: nightMidpointMinutes - TOTAL_MINUTES, key: 'night' },
-    { minute: solarTimes.sunriseMinutes, key: 'sunrise' },
-    { minute: solarTimes.daylightStartMinutes, key: 'daytime' },
-    { minute: solarTimes.daylightEndMinutes, key: 'daytime' },
-    { minute: solarTimes.sunsetMinutes, key: 'sunset' },
-    { minute: nightMidpointMinutes + TOTAL_MINUTES, key: 'night' },
-  ]
-
-  for (let i = 0; i < imageStops.length - 1; i++) {
-    const currentStop = imageStops[i]
-    const nextStop = imageStops[i + 1]
-
-    if (
-      adjustedMinutes >= currentStop.minute &&
-      adjustedMinutes <= nextStop.minute
-    ) {
-      const segmentDuration = nextStop.minute - currentStop.minute || 1
-      const mix = (adjustedMinutes - currentStop.minute) / segmentDuration
-
-      return {
-        base: currentStop.key,
-        overlay: nextStop.key,
-        overlayOpacity: mix,
-      }
-    }
-  }
-
-  return {
-    base: 'night' as ExplorerBackgroundKey,
-    overlay: 'night' as ExplorerBackgroundKey,
-    overlayOpacity: 0,
-  }
-}
-
-const TICK_MARKS: ReactElement[] = []
-for (let i = 0; i < 60; i++) {
-  const isHour = i % 5 === 0
-  const outer = roundedRectPerimeterPoint(
-    i / 60,
-    CLOCK_FACE_WIDTH - CLOCK_EDGE_INSET,
-    CLOCK_FACE_HEIGHT - CLOCK_EDGE_INSET,
-    CLOCK_FACE_RADIUS - CLOCK_FACE_RADIUS_INSET
-  )
-  const inner = lerpPoint(
-    outer,
-    { x: CX, y: CY },
-    isHour ? CLOCK_HOUR_TICK_LERP : CLOCK_MINUTE_TICK_LERP
-  )
-  TICK_MARKS.push(
-    <line
-      key={i}
-      x1={inner.x}
-      y1={inner.y}
-      x2={outer.x}
-      y2={outer.y}
-      stroke={isHour ? '#333' : '#ccc'}
-      strokeWidth={isHour ? CLOCK_HOUR_TICK_STROKE : CLOCK_MINUTE_TICK_STROKE}
-      strokeLinecap="round"
-    />
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* Component                                                          */
-/* ------------------------------------------------------------------ */
 
 export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
   const { selectedDate } = useSelectedDate()
   const season = getSeason(selectedDate)
-  const solarTimes = useSolarTimes()
-  const renderMode = DEFAULT_RENDER_MODE
-  const initialClockTimeRef = useRef(
-    getLocationClockTime(new Date(), DEFAULT_LOCATION)
-  )
-  const [minutes, setMinutes] = useState(
-    () => initialClockTimeRef.current.totalMinutes
-  )
-  const [seconds, setSeconds] = useState(
-    () => initialClockTimeRef.current.seconds
-  )
+  const [activeFocusId, setActiveFocusId] = useState<ExplorerFocusId>('sun')
+  const [activeCalculationCityId, setActiveCalculationCityId] =
+    useState<ExplorerCityId>('amsterdam')
 
-  const [globeReady, setGlobeReady] = useState(false)
-  const [isDragging, setIsDragging] = useState(false)
+  const calculationCity = getExplorerCityOption(activeCalculationCityId)
+  const calculationLocation = calculationCity.location
+  const focusedCity =
+    activeFocusId === 'sun'
+      ? calculationCity
+      : getExplorerCityOption(activeFocusId)
+  const renderMode: ExplorerRenderMode =
+    activeFocusId === 'sun' ? 'rotating-earth' : 'moving-terminator'
 
-  const minutesRef = useRef(minutes)
-  minutesRef.current = minutes
+  const solarTimes = useSolarTimes(calculationLocation)
+  const initialClockTime = useMemo(
+    () => getInitialExplorerClockTime(calculationLocation),
+    [calculationLocation]
+  )
+  const clock = useExplorerClock({
+    initialMinutes: initialClockTime.totalMinutes,
+    initialSeconds: initialClockTime.seconds,
+  })
+
   const currentInstant = useMemo(
-    () => buildLocationDateTime(selectedDate, minutes, seconds, DEFAULT_LOCATION),
-    [minutes, seconds, selectedDate]
+    () =>
+      buildExplorerInstant(
+        selectedDate,
+        clock.minutes,
+        clock.seconds,
+        calculationLocation
+      ),
+    [calculationLocation, clock.minutes, clock.seconds, selectedDate]
   )
   const sunPosition = useMemo(
     () => getSunPosition(currentInstant),
     [currentInstant]
   )
-  const sunPositionRef = useRef(sunPosition)
-  sunPositionRef.current = sunPosition
   const renderScene = useMemo(
     () =>
       getExplorerRenderScene({
         renderMode,
-        observerLatitude: DEFAULT_LOCATION.latitude,
-        observerLongitude: DEFAULT_LOCATION.longitude,
+        observerLatitude: 0,
+        observerLongitude: focusedCity.location.longitude,
         sunPosition,
       }),
-    [renderMode, sunPosition]
+    [focusedCity.location.longitude, renderMode, sunPosition]
   )
-  const renderSceneRef = useRef(renderScene)
-  renderSceneRef.current = renderScene
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const planetRef = useRef<any>(null)
-  const pingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const { canvasRef, globeReady } = usePlanetaryGlobe(renderScene, sunPosition)
 
-  const svgRef = useRef<SVGSVGElement>(null)
-  const hourHandRef = useRef<SVGGElement>(null)
-  const minuteHandRef = useRef<SVGGElement>(null)
-  const secondHandRef = useRef<SVGGElement>(null)
-  const activeHandRef = useRef<'hour' | 'minute' | 'second' | null>(null)
-  const lastAngleRef = useRef<number>(0)
-  const exactMinutesRef = useRef<number>(minutes)
-  const exactSecondsRef = useRef<number>(seconds)
-  const pendingUpdateRef = useRef<{ x: number; y: number } | null>(null)
-  const rafIdRef = useRef<number | null>(null)
-  const lastDragCommitRef = useRef<number>(0)
-
-  const applyHandTransforms = useCallback(
-    (nextMinutes: number, nextSeconds: number) => {
-      const normalizedMinutes = normalizeMinutes(nextMinutes)
-      const minuteAngle = (normalizedMinutes / 60) * 360
-      const hourAngle = (normalizedMinutes / 720) * 360
-      const secondAngle = (nextSeconds / 60) * 360
-
-      if (hourHandRef.current) {
-        hourHandRef.current.style.transform = `rotate(${hourAngle}deg)`
-      }
-      if (minuteHandRef.current) {
-        minuteHandRef.current.style.transform = `rotate(${minuteAngle}deg)`
-      }
-      if (secondHandRef.current) {
-        secondHandRef.current.style.transform = `rotate(${secondAngle}deg)`
-      }
-    },
-    []
-  )
-
-  const commitExplorerTime = useCallback(
-    (
-      nextMinutes: number,
-      nextSeconds: number,
-      options?: { force?: boolean }
-    ) => {
-      const normalized = normalizeExactTime(nextMinutes, nextSeconds)
-      exactMinutesRef.current = normalized.minutes
-      exactSecondsRef.current = normalized.seconds
-
-      const now = performance.now()
-      if (
-        !options?.force &&
-        now - lastDragCommitRef.current < DRAG_COMMIT_INTERVAL_MS
-      ) {
-        return normalized
-      }
-
-      lastDragCommitRef.current = now
-      minutesRef.current = normalized.minutes
-      setMinutes(normalized.minutes)
-      setSeconds(normalized.seconds)
-      return normalized
-    },
-    []
-  )
-
-  const adjust = useCallback((delta: number) => {
-    setMinutes((prev) => {
-      const next = prev + delta
-      exactMinutesRef.current = next
-      return next
-    })
-  }, [])
-
-  useEffect(() => {
-    exactSecondsRef.current = seconds
-  }, [seconds])
-
-  useEffect(() => {
-    applyHandTransforms(minutes, seconds)
-  }, [applyHandTransforms, minutes, seconds])
-
-  /* ---------- Timer Logic ---------- */
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (activeHandRef.current) return
-
-      setSeconds((prev) => {
-        const next = prev + 1
-        if (next >= 60) {
-          setMinutes((m) => {
-            const nextM = m + 1
-            exactMinutesRef.current = nextM
-            return nextM
-          })
-          exactSecondsRef.current = 0
-          return 0
-        }
-        exactSecondsRef.current = next
-        return next
-      })
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [])
-
-  /* ---------- Planetary.js Setup ---------- */
-
-  useEffect(() => {
-    let cancelled = false
-
-    ensureGlobeScripts().then(() => {
-      if (cancelled || !canvasRef.current) return
-
-      const pjs = window.planetaryjs
-      const planet = pjs.planet()
-
-      planet.loadPlugin(
-        pjs.plugins.earth({
-          topojson: {
-            file: 'https://unpkg.com/world-atlas@1.1.4/world/110m.json',
-          },
-          oceans: { fill: '#1e3799' },
-          land: { fill: '#2ed573' },
-          borders: { stroke: '#1e3799', strokeWidth: 0.5 },
-        })
-      )
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      planet.loadPlugin(function (pl: any) {
-        pl.onDraw(function () {
-          const currentSunPosition = sunPositionRef.current
-          const currentRenderScene = renderSceneRef.current
-          const sunLongitude = currentSunPosition.longitude
-          const sunLatitude = currentSunPosition.latitude
-          pl.projection.rotate([
-            -currentRenderScene.viewLongitude,
-            -currentRenderScene.viewLatitude,
-            0,
-          ])
-
-          const [translateX, translateY] = pl.projection.translate()
-          const globeRadius = pl.projection.scale()
-
-          drawNightOverlay({
-            context: pl.context,
-            centerX: translateX,
-            centerY: translateY,
-            radius: globeRadius,
-            centerLongitude: currentRenderScene.overlayCenterLongitude,
-            centerLatitude: currentRenderScene.overlayCenterLatitude,
-            sunLongitude,
-            sunLatitude,
-          })
-        })
-      })
-
-      planet.loadPlugin(pjs.plugins.pings())
-      planet.loadPlugin(
-        pjs.plugins.drag({
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onDragStart: function (this: any) {
-            this.plugins.drag.originalRotation = planet.projection.rotate()
-          },
-        })
-      )
-
-      planet.projection
-        .scale(GLOBE_PROJECTION_SCALE)
-        .translate([CLOCK_SIZE / 2, CLOCK_SIZE / 2])
-      planet.draw(canvasRef.current)
-      planetRef.current = planet
-
-      pingIntervalRef.current = setInterval(() => {
-        CITIES.forEach((city) => {
-          planet.plugins.pings.add(city.lng, city.lat, {
-            color: city.color,
-            ttl: city.ttl,
-            angle: city.angle,
-            strokeWidth: city.strokeWidth,
-          })
-        })
-      }, 1000)
-
-      setGlobeReady(true)
-    })
-
-    return () => {
-      cancelled = true
-      if (pingIntervalRef.current) clearInterval(pingIntervalRef.current)
-      if (planetRef.current) planetRef.current.stop()
-    }
-  }, [])
-
-  /* ---------- Dragging Logic ---------- */
-
-  const getAngle = useCallback((clientX: number, clientY: number) => {
-    if (!svgRef.current) return 0
-    const rect = svgRef.current.getBoundingClientRect()
-    const centerX = rect.left + rect.width / 2
-    const centerY = rect.top + rect.height / 2
-
-    const x = clientX - centerX
-    const y = clientY - centerY
-
-    let deg = (Math.atan2(y, x) * 180) / Math.PI
-    deg += 90
-    if (deg < 0) deg += 360
-    return deg
-  }, [])
-
-  const handlePointerDown = (
-    e: React.PointerEvent,
-    hand: 'hour' | 'minute' | 'second'
-  ) => {
-    e.stopPropagation()
-    e.currentTarget.setPointerCapture(e.pointerId)
-    setIsDragging(true)
-    activeHandRef.current = hand
-    exactMinutesRef.current = minutesRef.current
-    exactSecondsRef.current = seconds
-    lastDragCommitRef.current = 0
-
-    lastAngleRef.current = getAngle(e.clientX, e.clientY)
-  }
-
-  useEffect(() => {
-    const processUpdate = () => {
-      if (!activeHandRef.current || !pendingUpdateRef.current) {
-        rafIdRef.current = null
+  const handleFocusSelection = useCallback(
+    (focusId: ExplorerFocusId) => {
+      if (focusId === 'sun') {
+        setActiveFocusId('sun')
         return
       }
 
-      const { x, y } = pendingUpdateRef.current
-      const currentAngle = getAngle(x, y)
-      let deltaAngle = currentAngle - lastAngleRef.current
-
-      if (deltaAngle > 180) deltaAngle -= 360
-      if (deltaAngle < -180) deltaAngle += 360
-
-      let nextMinutes = exactMinutesRef.current
-      let nextSeconds = exactSecondsRef.current
-
-      if (activeHandRef.current === 'second') {
-        nextSeconds += deltaAngle / 6
-      } else {
-        let deltaMins = 0
-        if (activeHandRef.current === 'minute') deltaMins = deltaAngle / 6
-        if (activeHandRef.current === 'hour') deltaMins = deltaAngle * 2
-
-        nextMinutes += deltaMins
-      }
-
-      const normalized = normalizeExactTime(nextMinutes, nextSeconds)
-      exactMinutesRef.current = normalized.minutes
-      exactSecondsRef.current = normalized.seconds
-      applyHandTransforms(normalized.minutes, normalized.seconds)
-      commitExplorerTime(normalized.minutes, normalized.seconds)
-
-      lastAngleRef.current = currentAngle
-      pendingUpdateRef.current = null
-      rafIdRef.current = requestAnimationFrame(processUpdate)
-    }
-
-    const handlePointerMove = (e: PointerEvent) => {
-      if (!activeHandRef.current) return
-      pendingUpdateRef.current = { x: e.clientX, y: e.clientY }
-      if (rafIdRef.current === null) {
-        rafIdRef.current = requestAnimationFrame(processUpdate)
-      }
-    }
-
-    const handlePointerUp = () => {
-      commitExplorerTime(exactMinutesRef.current, exactSecondsRef.current, {
-        force: true,
-      })
-      setIsDragging(false)
-      activeHandRef.current = null
-      pendingUpdateRef.current = null
-      if (rafIdRef.current !== null) {
-        cancelAnimationFrame(rafIdRef.current)
-        rafIdRef.current = null
-      }
-    }
-
-    if (isDragging) {
-      window.addEventListener('pointermove', handlePointerMove)
-      window.addEventListener('pointerup', handlePointerUp)
-      window.addEventListener('pointercancel', handlePointerUp)
-    }
-
-    return () => {
-      window.removeEventListener('pointermove', handlePointerMove)
-      window.removeEventListener('pointerup', handlePointerUp)
-      window.removeEventListener('pointercancel', handlePointerUp)
-      if (rafIdRef.current !== null) {
-        cancelAnimationFrame(rafIdRef.current)
-      }
-    }
-  }, [applyHandTransforms, commitExplorerTime, getAngle, isDragging])
-
-  /* ---------- Derived Values ---------- */
-
-  const { h, m, ampm } = formatTime(minutes)
-  const activityImage = getImageForTime(minutes, theme)
-  const explorerBackdropColor = getExplorerBackdropColor(minutes, solarTimes)
-  const explorerBackgroundBlend = getExplorerBackgroundBlend(
-    minutes,
-    solarTimes
+      const nextCity = getExplorerCityOption(focusId)
+      clock.syncClockTime(
+        getClockTimeForInstant(currentInstant, nextCity.location)
+      )
+      setActiveCalculationCityId(focusId)
+      setActiveFocusId(focusId)
+    },
+    [clock, currentInstant]
   )
 
-  const resolveBackgroundImage = (
-    images: ThemeExplorerBackgroundImages | undefined,
-    key: ExplorerBackgroundKey,
-    season: Season
-  ) => {
-    if (!images) return null
-    const img = images[key]
-    if (typeof img === 'string') return img
-    return img[season]
-  }
-
+  const formattedTime = formatTime(clock.minutes)
+  const activityImage = getImageForTime(clock.minutes, theme.activityImages)
+  const explorerBackdropColor = getExplorerBackdropColor(
+    clock.minutes,
+    solarTimes
+  )
+  const explorerBackgroundBlend = getExplorerBackgroundBlend(
+    clock.minutes,
+    solarTimes
+  )
   const explorerBaseBackgroundImage = resolveBackgroundImage(
     theme.explorerBackgroundImages,
     explorerBackgroundBlend.base,
@@ -999,531 +128,56 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
     season
   )
 
-  const minAngle = (minutes / 60) * 360
-  const hrAngle = (minutes / 720) * 360
-  const secAngle = (seconds / 60) * 360
-
-  const hourNumbers = useMemo(
-    () =>
-      Array.from({ length: 12 }, (_, i) => {
-        const h = i + 1
-        const pos = lerpPoint(
-          roundedRectPerimeterPoint(
-            h / 12,
-            CLOCK_FACE_WIDTH - CLOCK_NUMBER_INSET,
-            CLOCK_FACE_HEIGHT - CLOCK_NUMBER_INSET,
-            CLOCK_FACE_RADIUS - CLOCK_NUMBER_RADIUS_INSET
-          ),
-          { x: CX, y: CY },
-          CLOCK_NUMBER_LERP
-        )
-        return (
-          <text
-            key={h}
-            x={pos.x}
-            y={pos.y}
-            textAnchor="middle"
-            dominantBaseline="central"
-            fontSize={CLOCK_NUMBER_FONT_SIZE}
-            fontWeight="bold"
-            fill={theme.colors.text}
-            fontFamily={theme.fonts.heading}
-            style={{
-              pointerEvents: 'none',
-              textShadow: '0 1px 2px rgba(255,255,255,0.65)',
-            }}
-          >
-            {h}
-          </text>
-        )
-      }),
-    [theme.colors.text, theme.fonts.heading]
-  )
-
-  const handTransition = isDragging
-    ? 'none'
-    : 'transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)'
-
-  const controlHeight = GLOBE_CANVAS_SIZE
-  const digitalClockGap = 0
-  const digitalClockAreaHeight = uiTokens.doubleVerticalSpace
-  const digitalClockBottomInset = uiTokens.pagePaddingTop
-  const controlPanelHeight =
-    controlHeight + digitalClockGap + digitalClockAreaHeight
-  const digitalClockTop =
-    controlHeight + digitalClockGap - uiTokens.pagePaddingTop
-  const digitalClockCenterY = digitalClockTop + digitalClockAreaHeight / 2
-  const analogClockOffsetY = 0
-  const stepperInset = uiTokens.pagePaddingX
-  const explorerGap = uiTokens.singleVerticalSpace / 2
-
-  /* ---------- Render ---------- */
-
   return (
-    <>
-      <style>{`
-        .dne-btn { transition: transform 0.1s, box-shadow 0.1s; }
-        .dne-btn--prev:active { transform: translate(-50%, calc(-50% + 3px)) !important; box-shadow: none !important; }
-        .dne-btn--next:active { transform: translate(50%, calc(-50% + 3px)) !important; box-shadow: none !important; }
-        .clock-hand { cursor: grab; }
-        .clock-hand:active { cursor: grabbing; }
-      `}</style>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: explorerUi.explorerGap,
+        width: '100%',
+        maxWidth: uiTokens.contentMaxWidth,
+        margin: '0 auto',
+      }}
+    >
+      <div className="dne-globe-row">
+        <ExplorerLocationSelector
+          options={EXPLORER_FOCUS_OPTIONS}
+          activeFocusId={activeFocusId}
+          onSelect={handleFocusSelection}
+        />
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: explorerGap,
-          width: '100%',
-          maxWidth: uiTokens.contentMaxWidth,
-          margin: '0 auto',
-        }}
-      >
-        {/* -------- Globe -------- */}
-        <div
-          style={{
-            width: GLOBE_CANVAS_SIZE,
-            height: GLOBE_CANVAS_SIZE,
-            borderRadius: '50%',
-            overflow: 'hidden',
-            background: '#1e3799',
-            boxShadow: `inset 0 0 30px rgba(0,0,0,0.4), 0 0 20px rgba(0,0,0,0.3), 0 0 0 4px ${theme.colors.accent}`,
-            position: 'relative',
-            opacity: globeReady ? 1 : 0.6,
-            transition: 'opacity 0.5s ease',
-          }}
-        >
-          <canvas
-            ref={canvasRef}
-            width={GLOBE_CANVAS_SIZE}
-            height={GLOBE_CANVAS_SIZE}
-            style={{ display: 'block' }}
-          />
-        </div>
-
-        <div
-          data-no-drag-scroll="true"
-          style={{
-            width: '100%',
-            maxWidth: uiTokens.contentMaxWidth,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: explorerGap,
-            position: 'relative',
-            overflow: 'visible',
-          }}
-        >
-          <div
-            style={{
-              width: '100%',
-              height: controlPanelHeight,
-              position: 'relative',
-              overflow: 'visible',
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                borderRadius: CLOCK_FACE_RADIUS,
-                background: theme.colors.surface,
-                border: `${uiTokens.listItemBorderWidth}px solid ${theme.colors.accent}`,
-                zIndex: 1,
-                pointerEvents: 'none',
-              }}
-            />
-
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: controlHeight,
-                borderTopLeftRadius: CLOCK_FACE_RADIUS,
-                borderTopRightRadius: CLOCK_FACE_RADIUS,
-                background: explorerBackdropColor,
-                zIndex: 2,
-                pointerEvents: 'none',
-              }}
-            />
-
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: controlHeight,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 3,
-                pointerEvents: 'none',
-              }}
-            >
-              {explorerBaseBackgroundImage ? (
-                <img
-                  src={explorerBaseBackgroundImage}
-                  alt=""
-                  aria-hidden="true"
-                  style={{
-                    width: '100%',
-                    height: controlHeight,
-                    objectFit: 'cover',
-                    objectPosition: 'center center',
-                    borderTopLeftRadius: CLOCK_FACE_RADIUS,
-                    borderTopRightRadius: CLOCK_FACE_RADIUS,
-                    opacity: 0.5,
-                  }}
-                />
-              ) : null}
-            </div>
-
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: controlHeight,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 4,
-                pointerEvents: 'none',
-              }}
-            >
-              {explorerOverlayBackgroundImage ? (
-                <img
-                  src={explorerOverlayBackgroundImage}
-                  alt=""
-                  aria-hidden="true"
-                  style={{
-                    width: '100%',
-                    height: controlHeight,
-                    objectFit: 'cover',
-                    objectPosition: 'center center',
-                    borderTopLeftRadius: CLOCK_FACE_RADIUS,
-                    borderTopRightRadius: CLOCK_FACE_RADIUS,
-                    opacity: explorerBackgroundBlend.overlayOpacity * 0.5,
-                  }}
-                />
-              ) : null}
-            </div>
-
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: controlHeight,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 5,
-                pointerEvents: 'none',
-              }}
-            >
-              {activityImage ? (
-                <img
-                  src={activityImage}
-                  alt="Activity"
-                  style={{
-                    width: ACTIVITY_IMAGE_WIDTH,
-                    height: controlHeight,
-                    objectFit: 'contain',
-                    objectPosition: 'center center',
-                  }}
-                />
-              ) : null}
-            </div>
-
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: controlHeight,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 6,
-                pointerEvents: 'none',
-              }}
-            >
-              <svg
-                width={CLOCK_SIZE}
-                height={CLOCK_SIZE}
-                viewBox={`0 0 ${CLOCK_SIZE} ${CLOCK_SIZE}`}
-                style={{
-                  overflow: 'visible',
-                  transform: `translateY(${analogClockOffsetY}px)`,
-                }}
-              >
-                {TICK_MARKS}
-                {hourNumbers}
-              </svg>
-            </div>
-
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: controlHeight,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: 7,
-              }}
-            >
-              <svg
-                ref={svgRef}
-                width={CLOCK_SIZE}
-                height={CLOCK_SIZE}
-                viewBox={`0 0 ${CLOCK_SIZE} ${CLOCK_SIZE}`}
-                style={{
-                  touchAction: 'none',
-                  overflow: 'visible',
-                  transform: `translateY(${analogClockOffsetY}px)`,
-                }}
-              >
-                <g
-                  ref={hourHandRef}
-                  className="clock-hand"
-                  onPointerDown={(e) => handlePointerDown(e, 'hour')}
-                  style={{
-                    transformOrigin: `${CX}px ${CY}px`,
-                    transform: `rotate(${hrAngle}deg)`,
-                    transition: handTransition,
-                    filter: isDragging ? 'none' : HAND_SHADOW,
-                  }}
-                >
-                  <image
-                    href={hourHandSvg}
-                    x={CX}
-                    y={CY - HOUR_HAND_HEIGHT}
-                    width={HOUR_HAND_WIDTH}
-                    height={HOUR_HAND_HEIGHT}
-                    preserveAspectRatio="xMidYMid meet"
-                    transform={`rotate(${HOUR_HAND_BASE_ROTATION} ${CX} ${CY})`}
-                  />
-                  <line
-                    x1={CX}
-                    y1={CY}
-                    x2={CX}
-                    y2={CY - HOUR_HAND_HEIGHT}
-                    stroke="transparent"
-                    strokeWidth={CLOCK_HAND_HIT_HOUR}
-                    strokeLinecap="round"
-                  />
-                </g>
-
-                <g
-                  ref={minuteHandRef}
-                  className="clock-hand"
-                  onPointerDown={(e) => handlePointerDown(e, 'minute')}
-                  style={{
-                    transformOrigin: `${CX}px ${CY}px`,
-                    transform: `rotate(${minAngle}deg)`,
-                    transition: handTransition,
-                    filter: isDragging ? 'none' : HAND_SHADOW,
-                  }}
-                >
-                  <image
-                    href={minuteHandSvg}
-                    x={CX}
-                    y={CY - MINUTE_HAND_HEIGHT}
-                    width={MINUTE_HAND_WIDTH}
-                    height={MINUTE_HAND_HEIGHT}
-                    preserveAspectRatio="xMidYMid meet"
-                    transform={`rotate(${MINUTE_HAND_BASE_ROTATION} ${CX} ${CY})`}
-                  />
-                  <line
-                    x1={CX}
-                    y1={CY}
-                    x2={CX}
-                    y2={CY - MINUTE_HAND_HEIGHT}
-                    stroke="transparent"
-                    strokeWidth={CLOCK_HAND_HIT_MINUTE}
-                    strokeLinecap="round"
-                  />
-                </g>
-
-                <g
-                  ref={secondHandRef}
-                  className="clock-hand"
-                  onPointerDown={(e) => handlePointerDown(e, 'second')}
-                  style={{
-                    transformOrigin: `${CX}px ${CY}px`,
-                    transform: `rotate(${secAngle}deg)`,
-                    transition: handTransition,
-                    filter: isDragging ? 'none' : HAND_SHADOW,
-                  }}
-                >
-                  <image
-                    href={secondHandSvg}
-                    x={CX}
-                    y={CY - SECOND_HAND_HEIGHT}
-                    width={SECOND_HAND_WIDTH}
-                    height={SECOND_HAND_HEIGHT}
-                    preserveAspectRatio="xMidYMid meet"
-                    transform={`rotate(${SECOND_HAND_BASE_ROTATION} ${CX} ${CY})`}
-                  />
-                  <line
-                    x1={CX}
-                    y1={CY + CLOCK_SECOND_HAND_BASE_OFFSET}
-                    x2={CX}
-                    y2={CY - SECOND_HAND_HEIGHT}
-                    stroke="transparent"
-                    strokeWidth={CLOCK_HAND_HIT_SECOND}
-                    strokeLinecap="round"
-                  />
-                </g>
-
-                <image
-                  href={pivotSvg}
-                  x={CX - CLOCK_PIVOT_SIZE / 2}
-                  y={CY - CLOCK_PIVOT_SIZE / 2}
-                  width={CLOCK_PIVOT_SIZE}
-                  height={CLOCK_PIVOT_SIZE}
-                  preserveAspectRatio="xMidYMid meet"
-                  style={{
-                    pointerEvents: 'none',
-                    filter: isDragging ? 'none' : HAND_SHADOW,
-                  }}
-                />
-              </svg>
-            </div>
-
-            <StepperButton
-              theme={theme}
-              direction="prev"
-              onClick={() => adjust(-15)}
-              ariaLabel="Subtract 15 minutes"
-              className="dne-btn dne-btn--prev"
-              style={{
-                position: 'absolute',
-                left: stepperInset,
-                top: digitalClockCenterY,
-                transform: 'translate(-50%, -50%)',
-                zIndex: 9,
-              }}
-            />
-
-            <StepperButton
-              theme={theme}
-              direction="next"
-              onClick={() => adjust(15)}
-              ariaLabel="Add 15 minutes"
-              className="dne-btn dne-btn--next"
-              style={{
-                position: 'absolute',
-                right: stepperInset,
-                top: digitalClockCenterY,
-                transform: 'translate(50%, -50%)',
-                zIndex: 9,
-              }}
-            />
-
-            <div
-              style={{
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                top: digitalClockTop,
-                height: digitalClockAreaHeight,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: DIGITAL_CLOCK_TEXT_GAP,
-                paddingBottom: digitalClockBottomInset,
-                boxSizing: 'border-box',
-                pointerEvents: 'none',
-                zIndex: 8,
-              }}
-            >
-              <span
-                style={{
-                  fontSize: DIGITAL_CLOCK_TIME_FONT_SIZE,
-                  fontWeight: 700,
-                  color: theme.colors.text,
-                  fontFamily: theme.fonts.heading,
-                  lineHeight: 1,
-                }}
-              >
-                {h}
-              </span>
-              <span
-                style={{
-                  fontSize: DIGITAL_CLOCK_SEPARATOR_FONT_SIZE,
-                  fontWeight: 700,
-                  color: theme.colors.text,
-                  fontFamily: theme.fonts.heading,
-                  opacity: 0.55,
-                  lineHeight: 1,
-                }}
-              >
-                :
-              </span>
-              <span
-                style={{
-                  fontSize: DIGITAL_CLOCK_TIME_FONT_SIZE,
-                  fontWeight: 700,
-                  color: theme.colors.text,
-                  fontFamily: theme.fonts.heading,
-                  lineHeight: 1,
-                }}
-              >
-                {m}
-              </span>
-              <span
-                style={{
-                  fontSize: DIGITAL_CLOCK_SEPARATOR_FONT_SIZE,
-                  fontWeight: 700,
-                  color: theme.colors.text,
-                  fontFamily: theme.fonts.heading,
-                  opacity: 0.55,
-                  lineHeight: 1,
-                }}
-              >
-                :
-              </span>
-              <span
-                style={{
-                  fontSize: DIGITAL_CLOCK_TIME_FONT_SIZE,
-                  fontWeight: 700,
-                  color: theme.colors.text,
-                  fontFamily: theme.fonts.heading,
-                  opacity: 0.88,
-                  textShadow: '0 1px 2px rgba(255,255,255,0.35)',
-                  lineHeight: 1,
-                }}
-              >
-                {String(Math.floor(seconds)).padStart(2, '0')}
-              </span>
-              <span
-                style={{
-                  fontSize: DIGITAL_CLOCK_AMPM_FONT_SIZE,
-                  fontWeight: 700,
-                  color: theme.colors.text,
-                  fontFamily: theme.fonts.body,
-                  marginLeft: DIGITAL_CLOCK_AMPM_MARGIN,
-                  textShadow: '0 1px 2px rgba(255,255,255,0.35)',
-                }}
-              >
-                {ampm}
-              </span>
-            </div>
-          </div>
-        </div>
+        <ExplorerGlobe
+          theme={theme}
+          globeReady={globeReady}
+          isInteractive={renderMode === 'rotating-earth'}
+          canvasRef={canvasRef}
+        />
       </div>
-    </>
+
+      <ExplorerClockPanel
+        theme={theme}
+        activityImage={activityImage}
+        explorerBackdropColor={explorerBackdropColor}
+        explorerBaseBackgroundImage={explorerBaseBackgroundImage}
+        explorerOverlayBackgroundImage={explorerOverlayBackgroundImage}
+        overlayOpacity={explorerBackgroundBlend.overlayOpacity}
+        isDragging={clock.isDragging}
+        handTransition={clock.handTransition}
+        hourAngle={clock.hourAngle}
+        minuteAngle={clock.minuteAngle}
+        secondAngle={clock.secondAngle}
+        hoursLabel={formattedTime.h}
+        minutesLabel={formattedTime.m}
+        seconds={clock.seconds}
+        ampm={formattedTime.ampm}
+        svgRef={clock.svgRef}
+        hourHandRef={clock.hourHandRef}
+        minuteHandRef={clock.minuteHandRef}
+        secondHandRef={clock.secondHandRef}
+        onPointerDown={clock.handlePointerDown}
+        onAdjust={clock.adjustMinutes}
+      />
+    </div>
   )
 }

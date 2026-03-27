@@ -8,6 +8,18 @@ import {
   getSunPosition,
 } from '../../../src/lib/solar'
 
+const DUBLIN_LOCATION = {
+  latitude: 53.35,
+  longitude: -6.26,
+  timeZone: 'Europe/Dublin',
+} as const
+
+const TAIPEI_LOCATION = {
+  latitude: 25.03,
+  longitude: 121.56,
+  timeZone: 'Asia/Taipei',
+} as const
+
 describe('solar helpers', () => {
   it('counts the day of year correctly', () => {
     expect(getDayOfYear(new Date(2026, 0, 1))).toBe(1)
@@ -91,6 +103,19 @@ describe('solar helpers', () => {
     expect(locationClockTime.totalMinutes).toBe(12 * 60 + 15)
   })
 
+  it('applies seasonal DST differences when reading city clock times', () => {
+    const summerInstant = new Date(Date.UTC(2026, 5, 15, 10, 0, 0))
+    const winterInstant = new Date(Date.UTC(2026, 0, 15, 10, 0, 0))
+
+    expect(getLocationClockTime(summerInstant, DEFAULT_LOCATION).hours).toBe(12)
+    expect(getLocationClockTime(summerInstant, DUBLIN_LOCATION).hours).toBe(11)
+    expect(getLocationClockTime(summerInstant, TAIPEI_LOCATION).hours).toBe(18)
+
+    expect(getLocationClockTime(winterInstant, DEFAULT_LOCATION).hours).toBe(11)
+    expect(getLocationClockTime(winterInstant, DUBLIN_LOCATION).hours).toBe(10)
+    expect(getLocationClockTime(winterInstant, TAIPEI_LOCATION).hours).toBe(18)
+  })
+
   it('aligns the subsolar longitude with Amsterdam at local solar noon', () => {
     const date = new Date(2026, 2, 25)
     const solarTimes = getSolarTimes(date, DEFAULT_LOCATION)
@@ -104,17 +129,21 @@ describe('solar helpers', () => {
     )
     const sunPosition = getSunPosition(solarNoonInstant)
 
-    expect(Math.abs(sunPosition.longitude - DEFAULT_LOCATION.longitude)).toBeLessThan(
-      0.5
-    )
+    expect(
+      Math.abs(sunPosition.longitude - DEFAULT_LOCATION.longitude)
+    ).toBeLessThan(0.5)
   })
 
   it('keeps the subsolar latitude stable while longitude shifts by half a globe over 12 hours', () => {
     const midnightUtc = getSunPosition(new Date(Date.UTC(2026, 5, 21, 0, 0, 0)))
     const middayUtc = getSunPosition(new Date(Date.UTC(2026, 5, 21, 12, 0, 0)))
-    const longitudeDifference = Math.abs(middayUtc.longitude - midnightUtc.longitude)
+    const longitudeDifference = Math.abs(
+      middayUtc.longitude - midnightUtc.longitude
+    )
 
-    expect(Math.abs(middayUtc.latitude - midnightUtc.latitude)).toBeLessThan(0.2)
+    expect(Math.abs(middayUtc.latitude - midnightUtc.latitude)).toBeLessThan(
+      0.2
+    )
     expect(Math.abs(longitudeDifference - 180)).toBeLessThan(1)
   })
 })

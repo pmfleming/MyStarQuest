@@ -1,8 +1,4 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Capacitor } from '@capacitor/core'
 import { useTheme } from '../contexts/ThemeContext'
@@ -10,6 +6,7 @@ import {
   appTabs,
   getTabIdForPath,
   getTabIndex,
+  type AppTabId,
 } from '../lib/tabNavigation'
 import { uiTokens } from '../ui/tokens'
 import BottomNav from '../components/BottomNav'
@@ -34,10 +31,15 @@ const getBrowserFrameHeight = (isNativePlatform: boolean) => {
     return uiTokens.deviceMinHeight
   }
   const outerPadding = 40
-  const availableScreenHeight = window.screen?.availHeight ?? window.screen?.height
-  const visibleViewportHeight = window.visualViewport?.height ?? window.innerHeight
+  const availableScreenHeight =
+    window.screen?.availHeight ?? window.screen?.height
+  const visibleViewportHeight =
+    window.visualViewport?.height ?? window.innerHeight
   const preferredHeight = availableScreenHeight ?? visibleViewportHeight
-  const fittedHeight = Math.max(320, Math.min(uiTokens.deviceMinHeight, preferredHeight - outerPadding))
+  const fittedHeight = Math.max(
+    320,
+    Math.min(uiTokens.deviceMinHeight, preferredHeight - outerPadding)
+  )
   const safeViewportHeight = Math.max(320, visibleViewportHeight - outerPadding)
   return Math.min(fittedHeight, safeViewportHeight)
 }
@@ -53,7 +55,7 @@ const AnimatedTabLayout = () => {
 
   const activeTabId = getTabIdForPath(location.pathname)
   const prevTabIdRef = useRef<string | null>(activeTabId)
-  
+
   const [animState, setAnimState] = useState<AnimationState>({
     isAnimating: false,
     exitingTabId: null,
@@ -70,7 +72,7 @@ const AnimatedTabLayout = () => {
     window.visualViewport?.addEventListener('resize', update)
     return () => {
       window.removeEventListener('resize', update)
-      window.visualViewport?.addEventListener('resize', update)
+      window.visualViewport?.removeEventListener('resize', update)
     }
   }, [isNativePlatform])
 
@@ -84,8 +86,8 @@ const AnimatedTabLayout = () => {
       return
     }
 
-    const prevIndex = getTabIndex(prevTabId as any)
-    const nextIndex = getTabIndex(nextTabId as any)
+    const prevIndex = getTabIndex(prevTabId as AppTabId)
+    const nextIndex = getTabIndex(nextTabId as AppTabId)
     const direction = nextIndex >= prevIndex ? 1 : -1
 
     prevTabIdRef.current = nextTabId
@@ -103,10 +105,10 @@ const AnimatedTabLayout = () => {
 
     const animate = (time: number) => {
       const elapsed = time - startTime
-      const rawProgress = 1.0 - (elapsed / TAB_TRANSITION_MS)
+      const rawProgress = 1.0 - elapsed / TAB_TRANSITION_MS
       const currentProgress = Math.max(0, rawProgress)
 
-      setAnimState(prev => ({ ...prev, progress: currentProgress }))
+      setAnimState((prev) => ({ ...prev, progress: currentProgress }))
 
       if (currentProgress > 0) {
         requestAnimationFrame(animate)
@@ -127,17 +129,23 @@ const AnimatedTabLayout = () => {
   // Pre-render pages
   const renderTab = (tabId: string) => {
     switch (tabId) {
-      case 'dashboard': return <DashboardPage />
-      case 'rewards': return <RewardsPage />
-      case 'time-explorer': return <TimeExplorerPage />
-      default: return null
+      case 'dashboard':
+        return <DashboardPage />
+      case 'rewards':
+        return <RewardsPage />
+      case 'time-explorer':
+        return <TimeExplorerPage />
+      default:
+        return null
     }
   }
 
   return (
     <div
       className={`flex w-full overflow-hidden transition-colors duration-500 ${
-        isNativePlatform ? 'items-stretch justify-start' : 'items-center justify-center'
+        isNativePlatform
+          ? 'items-stretch justify-start'
+          : 'items-center justify-center'
       }`}
       style={{
         height: '100dvh',
@@ -152,7 +160,9 @@ const AnimatedTabLayout = () => {
           height: isNativePlatform ? '100dvh' : `${browserFrameHeight}px`,
           maxWidth: isNativePlatform ? '100%' : `${uiTokens.deviceMaxWidth}px`,
           borderRadius: isNativePlatform ? '0px' : '40px',
-          boxShadow: isNativePlatform ? 'none' : '0 0 0 12px #1a1a2e, 0 0 0 14px #333',
+          boxShadow: isNativePlatform
+            ? 'none'
+            : '0 0 0 12px #1a1a2e, 0 0 0 14px #333',
           background: theme.colors.bg,
           backgroundImage: theme.bgPattern,
           fontFamily: theme.fonts.body,
@@ -185,11 +195,18 @@ const AnimatedTabLayout = () => {
               opacity = 1
               transform = `translateX(${animState.progress * 100 * animState.direction}%)`
               zIndex = 2
-            } else if (isActive && !animState.incomingTabId && !animState.exitingTabId) {
+            } else if (
+              isActive &&
+              !animState.incomingTabId &&
+              !animState.exitingTabId
+            ) {
               opacity = 1
               transform = 'none'
               zIndex = 1
-            } else if (isActive && (animState.incomingTabId || animState.exitingTabId)) {
+            } else if (
+              isActive &&
+              (animState.incomingTabId || animState.exitingTabId)
+            ) {
               // During transition, the active tab is handled via isExiting
               return null
             }
@@ -204,7 +221,7 @@ const AnimatedTabLayout = () => {
                   transform,
                   zIndex,
                   willChange: 'transform, opacity',
-                  pointerEvents: (isExiting || isIncoming) ? 'none' : 'auto',
+                  pointerEvents: isExiting || isIncoming ? 'none' : 'auto',
                 }}
               >
                 {renderTab(tab.id)}
@@ -213,9 +230,7 @@ const AnimatedTabLayout = () => {
           })}
         </div>
 
-        {activeTabId && (
-          <BottomNav theme={theme} activeTabId={activeTabId} />
-        )}
+        {activeTabId && <BottomNav theme={theme} activeTabId={activeTabId} />}
       </div>
     </div>
   )

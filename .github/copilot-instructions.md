@@ -55,6 +55,12 @@ Three non-component folders under `src/`:
 - **`src/ui/`** — Visual configuration: layout tokens (`tokens.ts`), theme options (`themeOptions.ts`), and row-descriptor factories (`unifiedChoreDescriptors.tsx`, `definitionRowDescriptors.tsx`, `listDescriptorTypes.ts`).
 - **`src/lib/`** — Shared non-UI logic: Firestore transaction helpers (`starActions.ts`), pure utilities (`celebrate.ts`, `today.ts`), unified chore parsing (`choreParser.ts`), and unified chore business logic (`choreLogic.ts`).
 
+## Plans and Implementation Notes
+
+- Product and refactor plans live under `docs/plans/`.
+- Durable agent-facing implementation notes that should stay close to Copilot guidance can remain under `.github/`.
+- For the Day-Night Explorer conceptual model, refer to `.github/day-night-explorer-clock-calendar-earth.md` before changing how date, time, globe mode, or solar calculations interact.
+
 ## Firebase + data model (important)
 
 - Firebase is initialized in `src/firebase.ts` and requires `VITE_FIREBASE_*` env vars.
@@ -180,6 +186,7 @@ The component layer is easiest to reason about in four groups:
 ### Concept teaching components
 
 - `src/components/DayNightExplorer.tsx` — time-of-day and world-time teaching widget.
+  - For the intended separation of clock, calendar, and earth responsibilities, refer to `.github/day-night-explorer-clock-calendar-earth.md`.
 - `src/components/SchoolCalendar.tsx` — school-day versus non-school-day calendar teaching widget.
 
 ### Chore system components
