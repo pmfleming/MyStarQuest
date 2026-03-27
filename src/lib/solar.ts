@@ -1,15 +1,37 @@
 const DAY_MS = 24 * 60 * 60 * 1000
-const EARTH_AXIAL_TILT_DEGREES = 23.44
-const DEFAULT_LATITUDE = 52.3676
-const DEFAULT_LONGITUDE = 4.9041
-const DEFAULT_TIME_ZONE = 'Europe/Amsterdam'
 const ACTUAL_SUN_EVENT_ZENITH = 90.833
 const CIVIL_TWILIGHT_ZENITH = 96
 
 const toRadians = (degrees: number) => (degrees * Math.PI) / 180
 const toDegrees = (radians: number) => (radians * 180) / Math.PI
 
+const timeZoneFormatters = new Map<string, Intl.DateTimeFormat>()
+
 export type SolarPhase = 'night' | 'sunrise' | 'day' | 'sunset'
+
+export type SolarLocation = {
+  latitude: number
+  longitude: number
+  timeZone: string
+}
+
+export type SunPosition = {
+  latitude: number
+  longitude: number
+}
+
+export type LocationClockTime = {
+  hours: number
+  minutes: number
+  seconds: number
+  totalMinutes: number
+}
+
+export const DEFAULT_LOCATION: SolarLocation = {
+  latitude: 52.3676,
+  longitude: 4.9041,
+  timeZone: 'Europe/Amsterdam',
+}
 
 export type SolarTimes = {
   sunriseMinutes: number
@@ -37,15 +59,13 @@ export const getDayOfYear = (date: Date) => {
   return Math.floor((currentDayUtc - startOfYearUtc) / DAY_MS)
 }
 
-export const getSolarDeclinationDegrees = (date: Date) => {
-  const dayOfYear = getDayOfYear(date)
-  return (
-    EARTH_AXIAL_TILT_DEGREES *
-    Math.sin(toRadians((360 / 365) * (dayOfYear - 81)))
-  )
-}
+const getTimeZoneFormatter = (timeZone: string) => {
+  const cached = timeZoneFormatters.get(timeZone)
 
-const getTimeZoneOffsetMinutes = (date: Date, timeZone: string) => {
+  if (cached) {
+    return cached
+  }
+
   const formatter = new Intl.DateTimeFormat('en-GB', {
     timeZone,
     year: 'numeric',
@@ -57,6 +77,12 @@ const getTimeZoneOffsetMinutes = (date: Date, timeZone: string) => {
     hourCycle: 'h23',
   })
 
+  timeZoneFormatters.set(timeZone, formatter)
+  return formatter
+}
+
+const getTimeZoneOffsetMinutes = (date: Date, timeZone: string) => {
+  const formatter = getTimeZoneFormatter(timeZone)
   const parts = formatter.formatToParts(date)
   const getPart = (type: Intl.DateTimeFormatPartTypes) =>
     Number(parts.find((part) => part.type === type)?.value)
@@ -71,6 +97,27 @@ const getTimeZoneOffsetMinutes = (date: Date, timeZone: string) => {
   )
 
   return (zonedUtcMs - date.getTime()) / (60 * 1000)
+}
+
+export const getLocationClockTime = (
+  date: Date,
+  location: SolarLocation = DEFAULT_LOCATION
+): LocationClockTime => {
+  const formatter = getTimeZoneFormatter(location.timeZone)
+  const parts = formatter.formatToParts(date)
+  const getPart = (type: Intl.DateTimeFormatPartTypes) =>
+    Number(parts.find((part) => part.type === type)?.value)
+
+  const hours = getPart('hour')
+  const minutes = getPart('minute')
+  const seconds = getPart('second')
+
+  return {
+    hours,
+    minutes,
+    seconds,
+    totalMinutes: hours * 60 + minutes,
+  }
 }
 
 const getFractionalYearRadians = (date: Date) => {
@@ -103,7 +150,25 @@ const getSolarDeclinationRadians = (date: Date) => {
   )
 }
 
+export const getSolarDeclinationDegrees = (date: Date) =>
+  toDegrees(getSolarDeclinationRadians(date))
+
 const normalizeMinutes = (minutes: number) => ((minutes % 1440) + 1440) % 1440
+
+const normalizeLongitudeDegrees = (degrees: number) =>
+  ((((degrees + 180) % 360) + 360) % 360) - 180
+
+const normalizeClockTime = (totalMinutes: number, seconds: number) => {
+  const totalSeconds = Math.round(totalMinutes * 60 + seconds)
+  const normalizedTotalSeconds =
+    ((totalSeconds % (24 * 60 * 60)) + 24 * 60 * 60) % (24 * 60 * 60)
+
+  return {
+    hours: Math.floor(normalizedTotalSeconds / 3600),
+    minutes: Math.floor((normalizedTotalSeconds % 3600) / 60),
+    seconds: normalizedTotalSeconds % 60,
+  }
+}
 
 const getHourAngleDegrees = (
   latitudeDegrees: number,
@@ -133,26 +198,65 @@ const getSolarNoonMinutes = (
   return 720 - 4 * longitudeDegrees - equationOfTimeMinutes + offsetMinutes
 }
 
-export const getAmsterdamSolarTimes = (
+export const buildLocationDateTime = (
   date: Date,
-  options?: {
-    latitude?: number
-    longitude?: number
-    timeZone?: string
+  totalMinutes: number,
+  seconds = 0,
+  location: SolarLocation = DEFAULT_LOCATION
+) => {
+  const { hours, minutes, seconds: normalizedSeconds } = normalizeClockTime(
+    totalMinutes,
+    seconds
+  )
+  const year = date.getFullYear()
+  const month = date.getMonth()
+  const day = date.getDate()
+  const localUtcMs = Date.UTC(
+    year,
+    month,
+    day,
+    hours,
+    minutes,
+    normalizedSeconds,
+    0
+  )
+
+  let resolvedUtcMs = localUtcMs
+
+  for (let i = 0; i < 3; i++) {
+    const offsetMinutes = getTimeZoneOffsetMinutes(
+      new Date(resolvedUtcMs),
+      location.timeZone
+    )
+    const nextUtcMs = localUtcMs - offsetMinutes * 60 * 1000
+
+    if (nextUtcMs === resolvedUtcMs) {
+      break
+    }
+
+    resolvedUtcMs = nextUtcMs
   }
+
+  return new Date(resolvedUtcMs)
+}
+
+export const getSolarTimes = (
+  date: Date,
+  location: SolarLocation = DEFAULT_LOCATION
 ): SolarTimes => {
-  const latitude = options?.latitude ?? DEFAULT_LATITUDE
-  const longitude = options?.longitude ?? DEFAULT_LONGITUDE
-  const timeZone = options?.timeZone ?? DEFAULT_TIME_ZONE
   const declinationRadians = getSolarDeclinationRadians(date)
-  const solarNoonMinutes = getSolarNoonMinutes(date, longitude, timeZone)
+  const solarNoonMinutes = getSolarNoonMinutes(
+    date,
+    location.longitude,
+    location.timeZone
+  )
   const actualHourAngleDegrees = getHourAngleDegrees(
-    latitude,
+    location.latitude,
     declinationRadians,
     ACTUAL_SUN_EVENT_ZENITH
   )
   const civilHourAngleDegrees = getHourAngleDegrees(
-    latitude,
+    location.latitude,
     declinationRadians,
     CIVIL_TWILIGHT_ZENITH
   )
@@ -196,5 +300,23 @@ export const getAmsterdamSolarTimes = (
     isDaylightAtMinutes: (minutes) => phaseAtMinutes(minutes) === 'day',
     isNightAtMinutes: (minutes) => phaseAtMinutes(minutes) === 'night',
     phaseAtMinutes,
+  }
+}
+
+export const getAmsterdamSolarTimes = getSolarTimes
+
+export const getSunPosition = (date: Date): SunPosition => {
+  const utcMinutes =
+    date.getUTCHours() * 60 +
+    date.getUTCMinutes() +
+    date.getUTCSeconds() / 60 +
+    date.getUTCMilliseconds() / (60 * 1000)
+  const equationOfTimeMinutes = getEquationOfTimeMinutes(date)
+
+  return {
+    latitude: getSolarDeclinationDegrees(date),
+    longitude: normalizeLongitudeDegrees(
+      (720 - utcMinutes - equationOfTimeMinutes) / 4
+    ),
   }
 }

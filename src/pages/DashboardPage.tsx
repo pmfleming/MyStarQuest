@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
-import PageShell from '../components/PageShell'
+import TabContent from '../components/TabContent'
 import TopIconButton from '../components/TopIconButton'
 import StandardActionList from '../components/StandardActionList'
 import StarInfoBox from '../components/StarInfoBox'
@@ -193,9 +193,8 @@ const DashboardPage = () => {
   const themeAssets = getThemeAssets(theme.id)
 
   return (
-    <PageShell
+    <TabContent
       theme={theme}
-      activeTabId="dashboard"
       title={selectedChild?.displayName || 'Explorer'}
       headerRight={
         <>
@@ -377,7 +376,7 @@ const DashboardPage = () => {
           />
         )}
       </div>
-    </PageShell>
+    </TabContent>
   )
 }
 

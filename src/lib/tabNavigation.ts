@@ -36,6 +36,11 @@ export const defaultTabPath = appTabs[0].path
 export const getTabIndex = (tabId: AppTabId) =>
   appTabs.findIndex((tab) => tab.id === tabId)
 
+export const getTabIdForPath = (pathname: string): AppTabId | null => {
+  const matchedTab = appTabs.find((tab) => pathname === tab.path)
+  return matchedTab?.id ?? null
+}
+
 export const getAdjacentTabPath = (tabId: AppTabId, delta: -1 | 1) => {
   const currentIndex = getTabIndex(tabId)
   if (currentIndex === -1) return null

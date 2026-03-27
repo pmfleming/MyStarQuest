@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
-import PageShell from '../components/PageShell'
+import TabContent from '../components/TabContent'
 import StandardActionList from '../components/StandardActionList'
 import { uiTokens } from '../ui/tokens'
 import { createRewardDefinitionListRowDescriptor } from '../ui/definitionRowDescriptors'
@@ -71,7 +71,7 @@ const RewardsPage = () => {
   )
 
   return (
-    <PageShell theme={theme} activeTabId="rewards" title="Rewards">
+    <TabContent theme={theme} title="Rewards">
       <div
         className="mx-auto flex w-full flex-col"
         style={{
@@ -96,7 +96,7 @@ const RewardsPage = () => {
           }
         />
       </div>
-    </PageShell>
+    </TabContent>
   )
 }
 

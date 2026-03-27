@@ -6,7 +6,11 @@ import {
   useState,
 } from 'react'
 /* eslint-disable react-refresh/only-export-components */
-import { getAmsterdamSolarTimes } from '../lib/solar'
+import {
+  DEFAULT_LOCATION,
+  getSolarTimes,
+  type SolarLocation,
+} from '../lib/solar'
 import { buildDateKey, getTodayDescriptor, parseDateKey } from '../lib/today'
 
 type SelectedDateContextValue = {
@@ -74,8 +78,16 @@ export const useSelectedDate = () => {
   return context
 }
 
-export const useSelectedDateSolarTimes = () => {
+export const useSolarTimes = (location: SolarLocation = DEFAULT_LOCATION) => {
   const { selectedDate } = useSelectedDate()
 
-  return useMemo(() => getAmsterdamSolarTimes(selectedDate), [selectedDate])
+  return useMemo(
+    () => getSolarTimes(selectedDate, location),
+    [
+      location.latitude,
+      location.longitude,
+      location.timeZone,
+      selectedDate,
+    ]
+  )
 }

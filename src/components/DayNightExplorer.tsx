@@ -12,9 +12,15 @@ import type {
 } from '../contexts/ThemeContext'
 import {
   useSelectedDate,
-  useSelectedDateSolarTimes,
+  useSolarTimes,
 } from '../contexts/SelectedDateContext'
-import { getSolarDeclinationDegrees } from '../lib/solar'
+import {
+  buildLocationDateTime,
+  DEFAULT_LOCATION,
+  getLocationClockTime,
+  getSunPosition,
+  type SunPosition,
+} from '../lib/solar'
 import { getSeason, type Season } from '../lib/seasons'
 import { uiTokens } from '../ui/tokens'
 import StepperButton from './StepperButton'
@@ -56,7 +62,6 @@ const CY = CLOCK_SIZE / 2
 const CLOCK_FACE_WIDTH = uiTokens.contentMaxWidth
 const CLOCK_FACE_HEIGHT = GLOBE_CANVAS_SIZE
 const CLOCK_FACE_RADIUS = uiTokens.listItemRadius
-const AMSTERDAM_LAT = 52.37
 const CLOCK_EDGE_INSET = CLOCK_SIZE * 0.0545454545
 const CLOCK_FACE_RADIUS_INSET = CLOCK_SIZE * 0.0090909091
 const CLOCK_NUMBER_INSET = CLOCK_SIZE * 0.1909090909
@@ -98,12 +103,22 @@ const DIGITAL_CLOCK_AMPM_FONT_SIZE = CLOCK_SIZE * 0.0909090909
 const DIGITAL_CLOCK_TEXT_GAP = uiTokens.sectionGap * 3
 const DIGITAL_CLOCK_AMPM_MARGIN = uiTokens.sectionGap * 2
 const GLOBE_PROJECTION_SCALE = CLOCK_SIZE * 0.4909090909
+const DEFAULT_RENDER_MODE = 'rotating-earth' as const
+
+type ExplorerRenderMode = 'rotating-earth' | 'moving-terminator'
+
+type ExplorerRenderScene = {
+  viewLongitude: number
+  viewLatitude: number
+  overlayCenterLongitude: number
+  overlayCenterLatitude: number
+}
 
 const CITIES = [
   {
     name: 'Amsterdam',
-    lat: 52.37,
-    lng: 4.9,
+    lat: DEFAULT_LOCATION.latitude,
+    lng: DEFAULT_LOCATION.longitude,
     color: '#ff8c00',
     angle: 20,
     ttl: 3200,
@@ -329,6 +344,36 @@ function drawNightOverlay(options: {
   context.restore()
 }
 
+function getExplorerRenderScene(options: {
+  renderMode: ExplorerRenderMode
+  observerLatitude: number
+  observerLongitude: number
+  sunPosition: SunPosition
+}): ExplorerRenderScene {
+  const {
+    renderMode,
+    observerLatitude,
+    observerLongitude,
+    sunPosition,
+  } = options
+
+  if (renderMode === 'moving-terminator') {
+    return {
+      viewLongitude: observerLongitude,
+      viewLatitude: observerLatitude,
+      overlayCenterLongitude: observerLongitude,
+      overlayCenterLatitude: observerLatitude,
+    }
+  }
+
+  return {
+    viewLongitude: sunPosition.longitude + 90,
+    viewLatitude: observerLatitude,
+    overlayCenterLongitude: sunPosition.longitude + 90,
+    overlayCenterLatitude: observerLatitude,
+  }
+}
+
 function roundedRectPerimeterPoint(
   t: number,
   width: number,
@@ -443,7 +488,7 @@ function getNightMidpointMinutes(
 
 function getExplorerBackdropColor(
   minutes: number,
-  solarTimes: ReturnType<typeof useSelectedDateSolarTimes>
+  solarTimes: ReturnType<typeof useSolarTimes>
 ) {
   const normalizedMinutes = normalizeMinutes(minutes)
   const solarNoonMinutes =
@@ -500,7 +545,7 @@ function getExplorerBackdropColor(
 
 function getExplorerBackgroundBlend(
   minutes: number,
-  solarTimes: ReturnType<typeof useSelectedDateSolarTimes>
+  solarTimes: ReturnType<typeof useSolarTimes>
 ) {
   const normalizedMinutes = normalizeMinutes(minutes)
   const nightMidpointMinutes = getNightMidpointMinutes(
@@ -585,18 +630,45 @@ for (let i = 0; i < 60; i++) {
 export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
   const { selectedDate } = useSelectedDate()
   const season = getSeason(selectedDate)
-  const solarTimes = useSelectedDateSolarTimes()
-  const [minutes, setMinutes] = useState(() => {
-    const now = new Date()
-    return now.getHours() * 60 + now.getMinutes()
-  })
-  const [seconds, setSeconds] = useState(() => new Date().getSeconds())
+  const solarTimes = useSolarTimes()
+  const renderMode = DEFAULT_RENDER_MODE
+  const initialClockTimeRef = useRef(
+    getLocationClockTime(new Date(), DEFAULT_LOCATION)
+  )
+  const [minutes, setMinutes] = useState(
+    () => initialClockTimeRef.current.totalMinutes
+  )
+  const [seconds, setSeconds] = useState(
+    () => initialClockTimeRef.current.seconds
+  )
 
   const [globeReady, setGlobeReady] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
 
   const minutesRef = useRef(minutes)
   minutesRef.current = minutes
+  const currentInstant = useMemo(
+    () => buildLocationDateTime(selectedDate, minutes, seconds, DEFAULT_LOCATION),
+    [minutes, seconds, selectedDate]
+  )
+  const sunPosition = useMemo(
+    () => getSunPosition(currentInstant),
+    [currentInstant]
+  )
+  const sunPositionRef = useRef(sunPosition)
+  sunPositionRef.current = sunPosition
+  const renderScene = useMemo(
+    () =>
+      getExplorerRenderScene({
+        renderMode,
+        observerLatitude: DEFAULT_LOCATION.latitude,
+        observerLongitude: DEFAULT_LOCATION.longitude,
+        sunPosition,
+      }),
+    [renderMode, sunPosition]
+  )
+  const renderSceneRef = useRef(renderScene)
+  renderSceneRef.current = renderScene
   const canvasRef = useRef<HTMLCanvasElement>(null)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const planetRef = useRef<any>(null)
@@ -725,13 +797,15 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       planet.loadPlugin(function (pl: any) {
         pl.onDraw(function () {
-          const currentMinutes = normalizeMinutes(minutesRef.current)
-          const timeDifference = currentMinutes - 720
-          const degreesRotated = timeDifference * 0.25
-          const solarDeclination = getSolarDeclinationDegrees(selectedDate)
-          const sunLongitude = CITIES[0].lng - degreesRotated
-          const viewLongitude = sunLongitude + 90
-          pl.projection.rotate([-viewLongitude, -AMSTERDAM_LAT, 0])
+          const currentSunPosition = sunPositionRef.current
+          const currentRenderScene = renderSceneRef.current
+          const sunLongitude = currentSunPosition.longitude
+          const sunLatitude = currentSunPosition.latitude
+          pl.projection.rotate([
+            -currentRenderScene.viewLongitude,
+            -currentRenderScene.viewLatitude,
+            0,
+          ])
 
           const [translateX, translateY] = pl.projection.translate()
           const globeRadius = pl.projection.scale()
@@ -741,10 +815,10 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
             centerX: translateX,
             centerY: translateY,
             radius: globeRadius,
-            centerLongitude: viewLongitude,
-            centerLatitude: AMSTERDAM_LAT,
+            centerLongitude: currentRenderScene.overlayCenterLongitude,
+            centerLatitude: currentRenderScene.overlayCenterLatitude,
             sunLongitude,
-            sunLatitude: solarDeclination,
+            sunLatitude,
           })
         })
       })
@@ -784,7 +858,7 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
       if (pingIntervalRef.current) clearInterval(pingIntervalRef.current)
       if (planetRef.current) planetRef.current.stop()
     }
-  }, [selectedDate])
+  }, [])
 
   /* ---------- Dragging Logic ---------- */
 

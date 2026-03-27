@@ -5,6 +5,7 @@ import { ThemeProvider } from './contexts/ThemeContext'
 import { ActiveChildProvider } from './contexts/ActiveChildContext'
 import { SelectedDateProvider } from './contexts/SelectedDateContext'
 import ProtectedRoute from './routes/ProtectedRoute'
+import AnimatedTabLayout from './routes/AnimatedTabLayout'
 import { defaultTabPath } from './lib/tabNavigation'
 
 // Lazy load pages
@@ -30,12 +31,14 @@ const App = () => {
                       path="/"
                       element={<Navigate to={defaultTabPath} replace />}
                     />
-                    <Route path="/tabs/dashboard" element={<DashboardPage />} />
-                    <Route
-                      path="/tabs/time-explorer"
-                      element={<TimeExplorerPage />}
-                    />
-                    <Route path="/tabs/rewards" element={<RewardsPage />} />
+                    <Route path="/tabs" element={<AnimatedTabLayout />}>
+                      <Route path="dashboard" element={<DashboardPage />} />
+                      <Route
+                        path="time-explorer"
+                        element={<TimeExplorerPage />}
+                      />
+                      <Route path="rewards" element={<RewardsPage />} />
+                    </Route>
                     <Route
                       path="/today"
                       element={<Navigate to="/tabs/dashboard" replace />}

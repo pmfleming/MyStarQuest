@@ -27,6 +27,7 @@ export const uiTokens = {
   floatingNavMaxWidth: 340,
   deviceMaxWidth: 414,
   deviceMinHeight: 896,
+  tabTransitionMs: 500,
   activityTokens: {
     statusBarHeight: 60,
     statusIconSize: 60,

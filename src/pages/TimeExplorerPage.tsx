@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
-import PageShell from '../components/PageShell'
+import TabContent from '../components/TabContent'
 import DayNightExplorer from '../components/DayNightExplorer'
 import TopIconButton from '../components/TopIconButton'
 import SchoolCalendar from '../components/SchoolCalendar'
@@ -13,9 +13,8 @@ const TimeExplorerPage = () => {
   const [calendarKey, setCalendarKey] = useState(0)
 
   return (
-    <PageShell
+    <TabContent
       theme={theme}
-      activeTabId="time-explorer"
       title="Time Explorer"
       headerRight={
         <TopIconButton
@@ -53,7 +52,7 @@ const TimeExplorerPage = () => {
 
         <DayNightExplorer theme={theme} />
       </div>
-    </PageShell>
+    </TabContent>
   )
 }
 
