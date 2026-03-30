@@ -59,8 +59,7 @@ const Clock = ({ theme, clock }: ClockProps) => {
     controlHeight + digitalClockGap - explorerUi.digitalClockBottomInset
   const digitalClockCenterY =
     digitalClockTop + explorerUi.digitalClockAreaHeight / 2
-  const controlPanelHeight =
-    controlHeight + digitalClockGap + explorerUi.digitalClockAreaHeight
+  const controlPanelHeight = explorerUi.clockPanelHeight
 
   const imageLayers = [
     {
@@ -115,42 +114,44 @@ const Clock = ({ theme, clock }: ClockProps) => {
     [theme.colors.text, theme.fonts.heading]
   )
 
-  const tickMarks = useMemo(
+  const outerMinuteLabels = useMemo(
     () =>
-      Array.from({ length: 60 }, (_, index) => {
-        const isHourTick = index % 5 === 0
-        const outer = roundedRectPerimeterPoint(
-          index / 60,
-          explorerUi.clockFaceWidth - clockGeometry.edgeInset,
-          clockGeometry.faceHeight - clockGeometry.edgeInset,
-          explorerUi.clockFaceRadius - clockGeometry.faceRadiusInset
-        )
-        const inner = lerpPoint(
-          outer,
+      Array.from({ length: 12 }, (_, index) => {
+        const labelValue = (index + 1) * 5
+        const label = labelValue === 60 ? '60' : String(labelValue)
+        const position = lerpPoint(
+          roundedRectPerimeterPoint(
+            (index + 1) / 12,
+            explorerUi.clockFaceWidth - clockGeometry.edgeInset,
+            clockGeometry.faceHeight - clockGeometry.edgeInset,
+            explorerUi.clockFaceRadius - clockGeometry.faceRadiusInset
+          ),
           { x: clockGeometry.cx, y: clockGeometry.cy },
-          isHourTick
-            ? explorerUi.clockHourTickLerp
-            : explorerUi.clockMinuteTickLerp
+          0.04
         )
 
         return (
-          <line
-            key={index}
-            x1={inner.x}
-            y1={inner.y}
-            x2={outer.x}
-            y2={outer.y}
-            stroke={isHourTick ? '#333' : '#ccc'}
-            strokeWidth={
-              isHourTick
-                ? clockGeometry.hourTickStroke
-                : clockGeometry.minuteTickStroke
-            }
-            strokeLinecap="round"
-          />
+          <text
+            key={label}
+            x={position.x}
+            y={position.y}
+            textAnchor="middle"
+            dominantBaseline="central"
+            fontSize={clockGeometry.numberFontSize * 0.56}
+            fontWeight="bold"
+            fill={theme.colors.text}
+            fontFamily={theme.fonts.heading}
+            style={{
+              pointerEvents: 'none',
+              opacity: 0.88,
+              textShadow: '0 1px 2px rgba(255,255,255,0.65)',
+            }}
+          >
+            {label}
+          </text>
         )
       }),
-    []
+    [theme.colors.text, theme.fonts.heading]
   )
 
   const handConfigs = [
@@ -326,8 +327,8 @@ const Clock = ({ theme, clock }: ClockProps) => {
               overflow: 'visible',
             }}
           >
-            {tickMarks}
             {hourNumbers}
+            {outerMinuteLabels}
           </svg>
         </div>
 

@@ -26,34 +26,43 @@
   padding-bottom: 8px;
 }
 
-.dne-globe-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  width: 100%;
-}
-
 .dne-planet-card {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-.dne-location-selector {
+.dne-globe-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.dne-location-glass-nav {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dne-location-overlay {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 2px;
-}
-
-.dne-location-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
+  gap: 8px;
+  padding-left: 2px;
 }
 
 .dne-location-button {
@@ -66,13 +75,9 @@
     opacity 200ms ease;
 }
 
-@media (max-width: 720px) {
-  .dne-globe-row {
-    flex-direction: column;
-  }
-
-  .dne-location-buttons {
-    flex-direction: row;
-    flex-wrap: wrap;
+@media (max-width: 480px) {
+  .dne-location-overlay {
+    padding-left: 4px;
+    gap: 4px;
   }
 }

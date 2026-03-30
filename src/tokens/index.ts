@@ -8,6 +8,7 @@ export const uiTokens = {
   singleVerticalSpace: 24,
   doubleVerticalSpace: 48,
   contentMaxWidth: 340,
+  timeExplorerLinkedPanelHeight: 340,
   controlRowWidth: 304,
   listItemPadding: 24,
   listItemRadius: 32,

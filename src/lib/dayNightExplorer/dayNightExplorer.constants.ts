@@ -1,9 +1,12 @@
 import { uiTokens } from '../../tokens'
 
+const linkedTimeExplorerPanelHeight = uiTokens.timeExplorerLinkedPanelHeight
+
 export const explorerUi = {
   totalMinutes: 1440,
   dragCommitIntervalMs: 1000 / 15,
-  globeCanvasSize: Math.round(uiTokens.contentMaxWidth * 0.6470588235),
+  globeCanvasSize: Math.round(uiTokens.contentMaxWidth * 0.75),
+  clockPanelHeight: linkedTimeExplorerPanelHeight,
   clockFaceWidth: uiTokens.contentMaxWidth,
   clockFaceRadius: uiTokens.listItemRadius,
   digitalClockTextGap: uiTokens.sectionGap * 3,
@@ -11,7 +14,8 @@ export const explorerUi = {
   locationButtonSize: uiTokens.topIconSize,
   explorerGap: uiTokens.singleVerticalSpace / 2,
   stepperInset: uiTokens.pagePaddingX,
-  digitalClockAreaHeight: uiTokens.doubleVerticalSpace,
+  digitalClockAreaHeight:
+    linkedTimeExplorerPanelHeight - Math.round(uiTokens.contentMaxWidth * 0.75),
   digitalClockBottomInset: uiTokens.pagePaddingTop,
   clockNumberLerp: 0.1,
   clockHourTickLerp: 0.11,

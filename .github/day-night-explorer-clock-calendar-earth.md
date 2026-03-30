@@ -44,18 +44,32 @@ Important rule:
 
 ## 3. Earth / Globe Presentation
 
-The globe is only a visualization layer.
+The globe is only a visualization layer, built using a modern **D3 v7 + HTML5 Canvas** rendering stack.
 
-Responsibilities:
+### Rendering Stack
 
-- render the earth projection
-- draw the moving terminator overlay using the current subsolar position
-- show pings for supported cities
+- **Library**: D3.js (v7+) for geographic projections and path generation.
+- **API**: HTML5 Canvas for high-performance rendering and smooth animation.
+- **Projection**: `d3.geoOrthographic()` for the spherical "globe" view.
+
+### Map Data
+
+- **Source**: Local `world-50m.json` TopoJSON file stored in `/public/data/`.
+- **Detail**: Includes both `land` and `countries` features for high-resolution coastlines and political borders.
+
+### Visualization Responsibilities:
+
+- render the earth projection with water, landmasses, and country borders
+- draw the moving terminator (night overlay) as a physically accurate hemisphere using `d3.geoCircle()`
+- show pings for supported cities using a custom particle-like filter in the render loop
 - support presentation mode changes between Sun view and city view
+- handle manual rotation via `d3.drag()` behavior
 
 Important rule:
 
 - The globe does not decide solar physics. It consumes already-derived render inputs.
+- All map data MUST be loaded from local assets to ensure offline support and performance.
+- Use Canvas path rendering to avoid DOM overhead during high-frequency updates.
 
 ## 4. Absolute Instant Construction
 
@@ -123,7 +137,7 @@ The intended data flow is:
 5. Compute `getSunPosition(instant)`.
 6. Compute `useSolarTimes(calculationLocation)` for phase boundaries.
 7. Convert those results into globe render inputs with `getExplorerRenderScene(...)`.
-8. Let the Planetary.js layer render the latest scene.
+8. Let the D3-based visualization layer render the latest scene.
 
 ## 8. Folder Responsibilities
 
@@ -141,7 +155,7 @@ Important rule:
 ## 9. Guardrails For Future Changes
 
 - Do not mix observer location, focus location, and subsolar position into a single variable.
-- Do not compute expensive solar math inside the Planetary `onDraw` callback.
+- Do not compute expensive solar math inside the D3 render loop.
 - Do not let the globe layer become the source of truth for time or date.
 - Do not reintroduce hardcoded Amsterdam-specific logic into generic helpers.
 - When changing explorer behavior, preserve the clock/calendar/earth separation unless there is a strong reason to redesign the model.

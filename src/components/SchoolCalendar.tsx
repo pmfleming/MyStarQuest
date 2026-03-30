@@ -19,6 +19,7 @@ import {
   princessNonSchoolDayAutumnImage,
   princessNonSchoolDayWinterImage,
 } from '../assets/themes/princess/assets'
+import { uiTokens } from '../tokens'
 
 const CALENDAR_URL = 'https://getschoolcalendar-6ujocyt4pq-uc.a.run.app'
 
@@ -159,11 +160,13 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   return (
     <section
       style={{
+        height: `${uiTokens.timeExplorerLinkedPanelHeight}px`,
         borderRadius: '28px',
         background: theme.colors.surface,
-        padding: '16px',
+        padding: '12px 12px 10px',
         border: `3px solid ${theme.colors.accent}`,
         fontFamily: theme.fonts.heading,
+        boxSizing: 'border-box',
       }}
     >
       {/* Month nav */}
@@ -172,7 +175,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: 12,
+          marginBottom: 8,
         }}
       >
         <button
@@ -182,9 +185,9 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           style={{
             background: 'none',
             border: 'none',
-            fontSize: '1.4rem',
+            fontSize: '1.15rem',
             cursor: 'pointer',
-            padding: 4,
+            padding: 2,
           }}
         >
           ◀
@@ -192,7 +195,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
         <span
           style={{
             fontWeight: 800,
-            fontSize: '1.15rem',
+            fontSize: '1rem',
             color: theme.colors.text,
           }}
         >
@@ -205,9 +208,9 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           style={{
             background: 'none',
             border: 'none',
-            fontSize: '1.4rem',
+            fontSize: '1.15rem',
             cursor: 'pointer',
-            padding: 4,
+            padding: 2,
           }}
         >
           ▶
@@ -219,7 +222,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(7, 1fr)',
-          gap: 4,
+          gap: 3,
         }}
       >
         {/* Weekday headers */}
@@ -227,11 +230,11 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           <div
             key={d}
             style={{
-              fontSize: '0.65rem',
+              fontSize: '0.58rem',
               fontWeight: 700,
               color: theme.colors.primary,
               textAlign: 'center',
-              paddingBottom: 4,
+              paddingBottom: 2,
             }}
           >
             {d}
@@ -294,7 +297,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                   width: '100%',
                   height: '100%',
                   objectFit: 'contain',
-                  padding: '12%',
+                  padding: '10%',
                   opacity: 0.75,
                 }}
               />
@@ -305,7 +308,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '1.4rem',
+                  fontSize: '1.2rem',
                   fontWeight: 900,
                   lineHeight: 1,
                   color: isSelected

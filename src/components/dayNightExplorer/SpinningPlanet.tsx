@@ -1,5 +1,6 @@
 import type { RefObject } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
+import { uiTokens } from '../../tokens'
 import { explorerUi } from '../../lib/dayNightExplorer/dayNightExplorer.constants'
 import type {
   ExplorerFocusId,
@@ -27,10 +28,27 @@ const SpinningPlanet = ({
   onSelect,
 }: SpinningPlanetProps) => {
   return (
-    <div className="dne-planet-card">
-      <div className="dne-globe-row">
-        <div className="dne-location-selector">
-          <div className="dne-location-buttons">
+    <div
+      className="dne-planet-card"
+      style={{
+        background: theme.colors.surface,
+        border: `${uiTokens.listItemBorderWidth}px solid ${theme.colors.accent}`,
+        borderRadius: explorerUi.clockFaceRadius,
+        position: 'relative',
+        boxSizing: 'border-box',
+        overflow: 'hidden',
+      }}
+    >
+      <div className="dne-globe-container">
+        <div
+          className="dne-location-glass-nav"
+          style={{
+            background: `${theme.colors.surface}99`,
+            border: `2px solid ${theme.colors.accent}44`,
+            borderRadius: uiTokens.listItemRadius,
+          }}
+        >
+          <div className="dne-location-overlay">
             {options.map((option) => {
               const isActive = option.id === activeFocusId
 
@@ -77,6 +95,8 @@ const SpinningPlanet = ({
             position: 'relative',
             opacity: globeReady ? 1 : 0.6,
             transition: 'opacity 0.5s ease',
+            margin: '0 auto',
+            transform: 'translateX(20px)',
           }}
         >
           <canvas
@@ -86,8 +106,7 @@ const SpinningPlanet = ({
             style={{
               display: 'block',
               cursor: renderMode === 'rotating-earth' ? 'grab' : 'default',
-              pointerEvents:
-                renderMode === 'rotating-earth' ? 'auto' : 'none',
+              pointerEvents: renderMode === 'rotating-earth' ? 'auto' : 'none',
             }}
           />
         </div>
