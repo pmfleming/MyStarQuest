@@ -1,6 +1,6 @@
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
-import { uiTokens } from '../ui/tokens'
+import { uiTokens } from '../tokens'
 
 type ChoreOutcomeViewProps = {
   imageSrc?: string

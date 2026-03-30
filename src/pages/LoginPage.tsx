@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
-import ActionButton from '../components/ActionButton'
-import { uiTokens } from '../ui/tokens'
+import ActionButton from '../components/ui/ActionButton'
+import { uiTokens } from '../tokens'
 import googleIcon from '../assets/global/google.svg'
 
 const LoginPage = () => {

@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
-import type { Theme } from '../contexts/ThemeContext'
-import { uiTokens } from '../ui/tokens'
-import starSvgUrl from '../assets/global/star.svg'
+import type { Theme } from '../../contexts/ThemeContext'
+import { uiTokens } from '../../tokens'
+import starSvgUrl from '../../assets/global/star.svg'
 
 type StarInfoBoxProps = {
   theme: Theme

@@ -1,10 +1,10 @@
 import { useState, useEffect, type ReactNode, type CSSProperties } from 'react'
-import type { Theme } from '../contexts/ThemeContext'
+import type { Theme } from '../../contexts/ThemeContext'
 import {
   princessDeleteIcon,
   princessEditIcon,
-} from '../assets/themes/princess/assets'
-import { uiTokens } from '../ui/tokens'
+} from '../../assets/themes/princess/assets'
+import { uiTokens } from '../../tokens'
 import StarDisplay from './StarDisplay'
 
 // Inject whimsical CSS animations once

@@ -3,7 +3,7 @@ import type {
   ActionConfig,
   StandardActionListProps,
   UtilityActionConfig,
-} from '../components/StandardActionList'
+} from '../components/ui/StandardActionList'
 
 type ActionVariant = 'primary' | 'neutral' | 'danger'
 

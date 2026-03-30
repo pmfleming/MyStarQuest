@@ -1,8 +1,8 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
-import ActionTextInput from '../components/ActionTextInput'
+import ActionTextInput from '../components/ui/ActionTextInput'
 import ChoreOutcomeView from '../components/ChoreOutcomeView'
-import RepeatControl from '../components/RepeatControl'
-import StarDisplay from '../components/StarDisplay'
+import RepeatControl from '../components/ui/RepeatControl'
+import StarDisplay from '../components/ui/StarDisplay'
 import {
   princessActiveIcon,
   princessBiteIcon,
@@ -39,7 +39,7 @@ import {
   type TaskRecord,
 } from '../data/types'
 import type { Theme } from '../contexts/ThemeContext'
-import { uiTokens } from './tokens'
+import { uiTokens } from '../tokens'
 import type { ListRowDescriptor } from './listDescriptorTypes'
 import {
   shouldHidePresetChoreTitle,

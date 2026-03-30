@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
-import Carousel from '../components/Carousel'
-import ActionTextInput from '../components/ActionTextInput'
-import RepeatControl from '../components/RepeatControl'
-import StarDisplay from '../components/StarDisplay'
+import Carousel from '../components/ui/Carousel'
+import ActionTextInput from '../components/ui/ActionTextInput'
+import RepeatControl from '../components/ui/RepeatControl'
+import StarDisplay from '../components/ui/StarDisplay'
 import {
   princessActiveIcon,
   princessBuyRewardIcon,
@@ -11,7 +11,7 @@ import {
 import type { ThemeId } from './themeOptions'
 import type { Theme } from '../contexts/ThemeContext'
 import type { ChildProfile, RewardRecord } from '../data/types'
-import { uiTokens } from './tokens'
+import { uiTokens } from '../tokens'
 import type { ListRowDescriptor } from './listDescriptorTypes'
 
 type ThemeOption = {

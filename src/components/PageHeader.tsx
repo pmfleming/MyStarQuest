@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
-import { uiTokens } from '../ui/tokens'
+import { uiTokens } from '../tokens'
 
 interface PageHeaderProps {
   theme: Theme

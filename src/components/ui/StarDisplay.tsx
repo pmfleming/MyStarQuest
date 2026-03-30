@@ -1,8 +1,8 @@
 import { useState, useEffect, type CSSProperties } from 'react'
-import type { Theme } from '../contexts/ThemeContext'
+import type { Theme } from '../../contexts/ThemeContext'
 import StepperButton from './StepperButton'
-import { uiTokens } from '../ui/tokens'
-import starSvgUrl from '../assets/global/star.svg'
+import { uiTokens } from '../../tokens'
+import starSvgUrl from '../../assets/global/star.svg'
 
 // ============================================================================
 // UNIFIED STAR DISPLAY COMPONENT

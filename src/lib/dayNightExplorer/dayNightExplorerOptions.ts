@@ -1,5 +1,5 @@
-import type { SolarLocation } from '../../lib/solar'
-import { DEFAULT_LOCATION } from '../../lib/solar'
+import type { SolarLocation } from '../solar'
+import { DEFAULT_LOCATION } from '../solar'
 import amsterdamCitySvg from '../../assets/cities/amsterdam.svg'
 import dublinCitySvg from '../../assets/cities/dublin.svg'
 import sunCitySvg from '../../assets/cities/sun.svg'

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
-import { uiTokens } from '../ui/tokens'
-import DragScrollRegion from './DragScrollRegion'
+import { uiTokens } from '../tokens'
+import DragScrollRegion from './ui/DragScrollRegion'
 import PageHeader from './PageHeader'
 
 interface TabContentProps {

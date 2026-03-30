@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import type { Theme } from '../contexts/ThemeContext'
-import { uiTokens } from '../ui/tokens'
-import { appTabs, getTabIcon, type AppTabId } from '../lib/tabNavigation'
+import type { Theme } from '../../contexts/ThemeContext'
+import { uiTokens } from '../../tokens'
+import { appTabs, getTabIcon, type AppTabId } from '../../lib/tabNavigation'
 
 interface BottomNavProps {
   theme: Theme

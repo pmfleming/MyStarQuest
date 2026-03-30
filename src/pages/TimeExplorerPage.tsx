@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import DayNightExplorer from '../components/DayNightExplorer'
-import TopIconButton from '../components/TopIconButton'
+import TopIconButton from '../components/ui/TopIconButton'
 import SchoolCalendar from '../components/SchoolCalendar'
 import { clearSchoolCalendarCache } from '../lib/schoolCalendarCache'
-import { uiTokens } from '../ui/tokens'
+import { uiTokens } from '../tokens'
 import { princessResetIcon } from '../assets/themes/princess/assets'
 
 const TimeExplorerPage = () => {

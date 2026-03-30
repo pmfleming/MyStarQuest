@@ -22,7 +22,7 @@ The app uses a phone-frame layout with a centered device shell.
 - Device surface uses theme background (`theme.colors.bg`) plus theme pattern (`theme.bgPattern`).
 - Content area has standard page padding and always supports scrollable inner content regions.
 
-### Required sizing tokens (`src/ui/tokens.ts`)
+### Required sizing tokens (`src/tokens/index.ts`)
 
 Use these values directly through `uiTokens`:
 
@@ -189,5 +189,5 @@ When adding or changing child-facing UI, verify:
 
 - Visual and behavioral baseline: `public/prototypes/design-prototype.html`
 - Live theme definitions: `src/contexts/ThemeContext.tsx`
-- Layout and sizing tokens: `src/ui/tokens.ts`
+- Layout and sizing tokens: `src/tokens/index.ts`
 - Shared list and action components: `src/components/*`

@@ -1,5 +1,5 @@
-import type { Theme } from '../contexts/ThemeContext'
-import { uiTokens } from '../ui/tokens'
+import type { Theme } from '../../contexts/ThemeContext'
+import { uiTokens } from '../../tokens'
 
 type RepeatControlProps = {
   theme: Theme

@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react'
-import type { Theme } from '../contexts/ThemeContext'
+import type { Theme } from '../../contexts/ThemeContext'
 
 type StepperButtonProps = {
   theme: Theme

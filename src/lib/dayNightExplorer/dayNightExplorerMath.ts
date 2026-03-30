@@ -1,12 +1,10 @@
-import type { SunPosition } from '../../lib/solar'
-import { clockGeometry, explorerUi } from './dayNightExplorer.constants'
+import type { SunPosition } from '../solar'
+import { clockGeometry } from './dayNightExplorer.constants'
+import { explorerUi } from './dayNightExplorer.constants'
 import type { ExplorerRenderMode } from './dayNightExplorerOptions'
 
 export type ExplorerRenderScene = {
-  viewLongitude: number
-  viewLatitude: number
-  overlayCenterLongitude: number
-  overlayCenterLatitude: number
+  rotation: [number, number, number]
 }
 
 export const normalizeMinutes = (totalMinutes: number) => {
@@ -53,100 +51,29 @@ export const formatTime = (totalMinutes: number) => {
   }
 }
 
-const dotProduct = (
-  a: { x: number; y: number; z: number },
-  b: { x: number; y: number; z: number }
-) => {
-  return a.x * b.x + a.y * b.y + a.z * b.z
-}
-
-const latLonToVector = (latDegrees: number, lonDegrees: number) => {
-  const lat = (latDegrees * Math.PI) / 180
-  const lon = (lonDegrees * Math.PI) / 180
-  const cosLat = Math.cos(lat)
-
-  return {
-    x: cosLat * Math.cos(lon),
-    y: cosLat * Math.sin(lon),
-    z: Math.sin(lat),
-  }
-}
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const drawNightOverlay = (options: {
   context: CanvasRenderingContext2D
-  centerX: number
-  centerY: number
-  radius: number
-  centerLongitude: number
-  centerLatitude: number
+  path: any
   sunLongitude: number
   sunLatitude: number
 }) => {
-  const {
-    context,
-    centerX,
-    centerY,
-    radius,
-    centerLongitude,
-    centerLatitude,
-    sunLongitude,
-    sunLatitude,
-  } = options
+  const { context, path, sunLongitude, sunLatitude } = options
 
-  const sunVectorWorld = latLonToVector(sunLatitude, sunLongitude)
-  const centerLon = (centerLongitude * Math.PI) / 180
-  const centerLat = (centerLatitude * Math.PI) / 180
-  const centerCosLat = Math.cos(centerLat)
-  const centerSinLat = Math.sin(centerLat)
-  const centerCosLon = Math.cos(centerLon)
-  const centerSinLon = Math.sin(centerLon)
+  // The night hemisphere is centered at the antipodal point of the sun
+  const nightCenterLongitude = sunLongitude > 0 ? sunLongitude - 180 : sunLongitude + 180
+  const nightCenterLatitude = -sunLatitude
 
-  const east = {
-    x: -centerSinLon,
-    y: centerCosLon,
-    z: 0,
-  }
-  const north = {
-    x: -centerSinLat * centerCosLon,
-    y: -centerSinLat * centerSinLon,
-    z: centerCosLat,
-  }
-  const outward = {
-    x: centerCosLat * centerCosLon,
-    y: centerCosLat * centerSinLon,
-    z: centerSinLat,
-  }
-
-  const sunVectorView = {
-    x: dotProduct(sunVectorWorld, east),
-    y: dotProduct(sunVectorWorld, north),
-    z: dotProduct(sunVectorWorld, outward),
-  }
+  // D3 v7 syntax
+  const circle = window.d3.geoCircle().center([nightCenterLongitude, nightCenterLatitude]).radius(90)
+  const nightGeoJson = circle()
 
   context.save()
   context.beginPath()
-  context.arc(centerX, centerY, radius, 0, Math.PI * 2)
-  context.clip()
+  path(nightGeoJson)
 
-  const angle = Math.atan2(-sunVectorView.y, -sunVectorView.x)
-  const gradStartX = centerX + Math.cos(angle) * radius
-  const gradStartY = centerY + Math.sin(angle) * radius
-  const gradEndX = centerX - Math.cos(angle) * radius
-  const gradEndY = centerY - Math.sin(angle) * radius
-
-  const gradient = context.createLinearGradient(
-    gradStartX,
-    gradStartY,
-    gradEndX,
-    gradEndY
-  )
-
-  gradient.addColorStop(0, 'rgba(0, 5, 25, 0.9)')
-  gradient.addColorStop(0.4, 'rgba(0, 5, 25, 0.85)')
-  gradient.addColorStop(0.6, 'rgba(0, 5, 25, 0)')
-  gradient.addColorStop(1, 'rgba(0, 5, 25, 0)')
-
-  context.fillStyle = gradient
+  // Use a very dark, nearly opaque fill for night
+  context.fillStyle = 'rgba(0, 5, 20, 0.85)'
   context.fill()
 
   context.restore()
@@ -163,18 +90,12 @@ export const getExplorerRenderScene = (options: {
 
   if (renderMode === 'moving-terminator') {
     return {
-      viewLongitude: observerLongitude,
-      viewLatitude: observerLatitude,
-      overlayCenterLongitude: observerLongitude,
-      overlayCenterLatitude: observerLatitude,
+      rotation: [-observerLongitude, -observerLatitude, 0],
     }
   }
 
   return {
-    viewLongitude: sunPosition.longitude + 90,
-    viewLatitude: observerLatitude,
-    overlayCenterLongitude: sunPosition.longitude + 90,
-    overlayCenterLatitude: observerLatitude,
+    rotation: [-(sunPosition.longitude + 90), -observerLatitude, 0],
   }
 }
 

@@ -1,7 +1,7 @@
 import type { ChangeEvent, KeyboardEvent } from 'react'
 import type { CSSProperties } from 'react'
-import type { Theme } from '../contexts/ThemeContext'
-import { getActionButtonStyle, uiTokens } from '../ui/tokens'
+import type { Theme } from '../../contexts/ThemeContext'
+import { getActionButtonStyle, uiTokens } from '../../tokens'
 
 type ActionTextInputProps = {
   theme: Theme

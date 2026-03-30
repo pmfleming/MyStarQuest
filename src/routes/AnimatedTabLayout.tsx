@@ -8,8 +8,8 @@ import {
   getTabIndex,
   type AppTabId,
 } from '../lib/tabNavigation'
-import { uiTokens } from '../ui/tokens'
-import BottomNav from '../components/BottomNav'
+import { uiTokens } from '../tokens'
+import BottomNav from '../components/ui/BottomNav'
 
 // Import tab pages directly to pre-render them
 import DashboardPage from '../pages/DashboardPage'

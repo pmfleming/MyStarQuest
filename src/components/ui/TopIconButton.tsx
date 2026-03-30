@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import type { Theme } from '../contexts/ThemeContext'
-import { getTopIconStyle } from '../ui/tokens'
+import type { Theme } from '../../contexts/ThemeContext'
+import { getTopIconStyle } from '../../tokens'
 
 interface TopIconButtonProps {
   theme: Theme

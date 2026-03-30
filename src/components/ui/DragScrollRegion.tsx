@@ -6,8 +6,8 @@ import {
   type MouseEvent as ReactMouseEvent,
   type ReactNode,
 } from 'react'
-import type { Theme } from '../contexts/ThemeContext'
-import { uiTokens } from '../ui/tokens'
+import type { Theme } from '../../contexts/ThemeContext'
+import { uiTokens } from '../../tokens'
 
 type DragScrollRegionProps = {
   theme: Theme

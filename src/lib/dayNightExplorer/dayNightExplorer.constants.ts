@@ -1,4 +1,4 @@
-import { uiTokens } from '../../ui/tokens'
+import { uiTokens } from '../../tokens'
 
 export const explorerUi = {
   totalMinutes: 1440,
@@ -17,9 +17,8 @@ export const explorerUi = {
   clockHourTickLerp: 0.11,
   clockMinuteTickLerp: 0.06,
   scripts: [
-    'https://d3js.org/d3.v3.min.js',
-    'https://d3js.org/topojson.v1.min.js',
-    'https://unpkg.com/planetary.js@1.1.2/dist/planetaryjs.min.js',
+    'https://cdn.jsdelivr.net/npm/d3@7',
+    'https://cdn.jsdelivr.net/npm/topojson@3',
   ] as const,
 } as const
 

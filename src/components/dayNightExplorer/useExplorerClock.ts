@@ -5,12 +5,12 @@ import {
   useState,
   type PointerEvent as ReactPointerEvent,
 } from 'react'
-import { explorerUi } from '../../data/dayNightExplorer/dayNightExplorer.constants'
+import { explorerUi } from '../../lib/dayNightExplorer/dayNightExplorer.constants'
 import {
   getClockAngles,
   normalizeExactTime,
   normalizeMinutes,
-} from '../../data/dayNightExplorer/dayNightExplorerMath'
+} from '../../lib/dayNightExplorer/dayNightExplorerMath'
 
 type ClockHandId = 'hour' | 'minute' | 'second'
 

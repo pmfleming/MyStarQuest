@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
-import StepperButton from './StepperButton'
-import StarDisplay from './StarDisplay'
+import StepperButton from './ui/StepperButton'
+import StarDisplay from './ui/StarDisplay'
 import ChoreOutcomeView from './ChoreOutcomeView'
-import { uiTokens } from '../ui/tokens'
+import { uiTokens } from '../tokens'
 import { BITE_COOLDOWN_SECONDS } from '../data/types'
 import { celebrateSuccess } from '../lib/celebrate'
 

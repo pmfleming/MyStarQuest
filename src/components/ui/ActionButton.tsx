@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import type { Theme } from '../contexts/ThemeContext'
-import { getActionButtonStyle, uiTokens } from '../ui/tokens'
+import type { Theme } from '../../contexts/ThemeContext'
+import { getActionButtonStyle, uiTokens } from '../../tokens'
 
 interface ActionButtonProps {
   to?: string

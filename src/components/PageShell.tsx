@@ -9,11 +9,11 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { Capacitor } from '@capacitor/core'
 import type { Theme } from '../contexts/ThemeContext'
-import { uiTokens } from '../ui/tokens'
+import { uiTokens } from '../tokens'
 import { getAdjacentTabPath, type AppTabId } from '../lib/tabNavigation'
-import DragScrollRegion from './DragScrollRegion'
+import DragScrollRegion from './ui/DragScrollRegion'
 import PageHeader from './PageHeader'
-import BottomNav from './BottomNav'
+import BottomNav from './ui/BottomNav'
 
 interface PageShellProps {
   theme: Theme

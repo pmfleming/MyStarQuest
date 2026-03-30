@@ -3,34 +3,33 @@ import { useSelectedDate, useSolarTimes } from '../contexts/SelectedDateContext'
 import type { Theme } from '../contexts/ThemeContext'
 import { getSunPosition } from '../lib/solar'
 import { getSeason } from '../lib/seasons'
-import { uiTokens } from '../ui/tokens'
-import ExplorerClockPanel from './dayNightExplorer/ExplorerClockPanel'
-import ExplorerGlobe from './dayNightExplorer/ExplorerGlobe'
-import ExplorerLocationSelector from './dayNightExplorer/ExplorerLocationSelector'
+import { uiTokens } from '../tokens'
+import Clock from './dayNightExplorer/Clock'
+import SpinningPlanet from './dayNightExplorer/SpinningPlanet'
 import './dayNightExplorer/dayNightExplorer.css'
 import {
   buildExplorerInstant,
   getClockTimeForInstant,
   getInitialExplorerClockTime,
-} from '../data/dayNightExplorer/dayNightExplorerCalendar'
+} from '../lib/dayNightExplorer/dayNightExplorerCalendar'
 import {
   getExplorerBackgroundBlend,
   getExplorerBackdropColor,
   getImageForTime,
   resolveBackgroundImage,
-} from '../data/dayNightExplorer/dayNightExplorerBackdrop'
-import { explorerUi } from '../data/dayNightExplorer/dayNightExplorer.constants'
+} from '../lib/dayNightExplorer/dayNightExplorerBackdrop'
+import { explorerUi } from '../lib/dayNightExplorer/dayNightExplorer.constants'
 import {
   formatTime,
   getExplorerRenderScene,
-} from '../data/dayNightExplorer/dayNightExplorerMath'
+} from '../lib/dayNightExplorer/dayNightExplorerMath'
 import {
   EXPLORER_FOCUS_OPTIONS,
   getExplorerCityOption,
   type ExplorerCityId,
   type ExplorerFocusId,
   type ExplorerRenderMode,
-} from '../data/dayNightExplorer/dayNightExplorerOptions'
+} from '../lib/dayNightExplorer/dayNightExplorerOptions'
 import useExplorerClock from './dayNightExplorer/useExplorerClock'
 import usePlanetaryGlobe from './dayNightExplorer/usePlanetaryGlobe'
 
@@ -127,9 +126,9 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
     explorerBackgroundBlend.overlay,
     season
   )
-
   return (
     <div
+      className="dne-shell"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -140,43 +139,40 @@ export default function DayNightExplorer({ theme }: DayNightExplorerProps) {
         margin: '0 auto',
       }}
     >
-      <div className="dne-globe-row">
-        <ExplorerLocationSelector
-          options={EXPLORER_FOCUS_OPTIONS}
-          activeFocusId={activeFocusId}
-          onSelect={handleFocusSelection}
-        />
-
-        <ExplorerGlobe
-          theme={theme}
-          globeReady={globeReady}
-          isInteractive={renderMode === 'rotating-earth'}
-          canvasRef={canvasRef}
-        />
-      </div>
-
-      <ExplorerClockPanel
+      <SpinningPlanet
         theme={theme}
-        activityImage={activityImage}
-        explorerBackdropColor={explorerBackdropColor}
-        explorerBaseBackgroundImage={explorerBaseBackgroundImage}
-        explorerOverlayBackgroundImage={explorerOverlayBackgroundImage}
-        overlayOpacity={explorerBackgroundBlend.overlayOpacity}
-        isDragging={clock.isDragging}
-        handTransition={clock.handTransition}
-        hourAngle={clock.hourAngle}
-        minuteAngle={clock.minuteAngle}
-        secondAngle={clock.secondAngle}
-        hoursLabel={formattedTime.h}
-        minutesLabel={formattedTime.m}
-        seconds={clock.seconds}
-        ampm={formattedTime.ampm}
-        svgRef={clock.svgRef}
-        hourHandRef={clock.hourHandRef}
-        minuteHandRef={clock.minuteHandRef}
-        secondHandRef={clock.secondHandRef}
-        onPointerDown={clock.handlePointerDown}
-        onAdjust={clock.adjustMinutes}
+        globeReady={globeReady}
+        renderMode={renderMode}
+        canvasRef={canvasRef}
+        options={EXPLORER_FOCUS_OPTIONS}
+        activeFocusId={activeFocusId}
+        onSelect={handleFocusSelection}
+      />
+
+      <Clock
+        theme={theme}
+        clock={{
+          activityImage,
+          explorerBackdropColor,
+          explorerBaseBackgroundImage,
+          explorerOverlayBackgroundImage,
+          overlayOpacity: explorerBackgroundBlend.overlayOpacity,
+          isDragging: clock.isDragging,
+          handTransition: clock.handTransition,
+          hourAngle: clock.hourAngle,
+          minuteAngle: clock.minuteAngle,
+          secondAngle: clock.secondAngle,
+          hoursLabel: formattedTime.h,
+          minutesLabel: formattedTime.m,
+          seconds: clock.seconds,
+          ampm: formattedTime.ampm,
+          svgRef: clock.svgRef,
+          hourHandRef: clock.hourHandRef,
+          minuteHandRef: clock.minuteHandRef,
+          secondHandRef: clock.secondHandRef,
+          onPointerDown: clock.handlePointerDown,
+          onAdjust: clock.adjustMinutes,
+        }}
       />
     </div>
   )

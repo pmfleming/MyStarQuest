@@ -3,7 +3,7 @@ import {
   getLocationClockTime,
   type LocationClockTime,
   type SolarLocation,
-} from '../../lib/solar'
+} from '../solar'
 
 export const getInitialExplorerClockTime = (
   location: SolarLocation

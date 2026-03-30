@@ -48,7 +48,7 @@ For preset chores, this should be enforced structurally in code rather than by c
 - shared stage rules in `src/ui/choreModeDefinitions.ts`
 - shared preset chore renderers in `src/ui/presetChoreRenderers.tsx`
 - shared preset chore action builders in `src/ui/presetChoreActions.tsx`
-- shared final-state sizing tokens in `src/ui/tokens.ts`
+- shared final-state sizing tokens in `src/tokens/index.ts`
 
 Today and Manage should pass state and handlers into those shared modules rather than redefine in-chore behavior separately.
 
