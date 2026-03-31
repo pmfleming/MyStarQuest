@@ -6,6 +6,7 @@ import type {
   ResolvedListUtilityAction,
 } from './listDescriptorTypes'
 import {
+  getActivityPrimaryActionLabel,
   getDinnerPrimaryActionLabel,
   getTestPrimaryActionLabel,
   isFinalChoreStage,
@@ -34,6 +35,16 @@ type TestPrimaryActionConfig<T> = SharedPrimaryActionBase & {
   choreType: Exclude<PresetChoreType, 'eating'>
   onStart: (item: T) => void | Promise<void>
   onCheck: (item: T) => void | Promise<void>
+  onReset: (item: T) => void | Promise<void>
+}
+
+type ActivityPrimaryActionConfig<T> = SharedPrimaryActionBase & {
+  choreType: Exclude<
+    PresetChoreType,
+    'eating' | 'math' | 'positional-notation' | 'alphabet'
+  >
+  onStart: (item: T) => void | Promise<void>
+  onFinish: (item: T) => void | Promise<void>
   onReset: (item: T) => void | Promise<void>
 }
 
@@ -139,6 +150,34 @@ export const createPresetTestPrimaryAction = <T,>({
 
     if (stage === 'activity') {
       return onCheck(item)
+    }
+
+    return onStart(item)
+  },
+})
+
+export const createPresetActivityPrimaryAction = <T,>({
+  choreType,
+  stage,
+  icon,
+  disabled,
+  onStart,
+  onFinish,
+  onReset,
+}: ActivityPrimaryActionConfig<T>): ResolvedListAction<T> => ({
+  label: getActivityPrimaryActionLabel(stage),
+  icon,
+  disabled,
+  hideButton: shouldHidePresetPrimaryButton(choreType, stage),
+  variant: 'primary',
+  showLabel: false,
+  onClick: (item) => {
+    if (isFinalChoreStage(stage)) {
+      return onReset(item)
+    }
+
+    if (stage === 'activity') {
+      return onFinish(item)
     }
 
     return onStart(item)

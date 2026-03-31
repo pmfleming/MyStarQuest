@@ -67,6 +67,7 @@ const ChoresPage = () => {
     createMathTask,
     createPVTask,
     createAlphabetTask,
+    createWaterToiletTask,
     completeChore,
     failChore,
     resetChore,
@@ -81,6 +82,9 @@ const ChoresPage = () => {
   const [activePVId, setActivePVId] = useState<string | null>(null)
   const [activeAlphabetId, setActiveAlphabetId] = useState<string | null>(null)
   const [activeDinnerId, setActiveDinnerId] = useState<string | null>(null)
+  const [activeWaterToiletId, setActiveWaterToiletId] = useState<string | null>(
+    null
+  )
   const [biteCooldownEndsAt, setBiteCooldownEndsAt] = useState<number | null>(
     null
   )
@@ -138,6 +142,7 @@ const ChoresPage = () => {
     setActivePVId(null)
     setActiveAlphabetId(null)
     setActiveDinnerId(null)
+    setActiveWaterToiletId(null)
     setBiteCooldownEndsAt(null)
   }
 
@@ -256,6 +261,9 @@ const ChoresPage = () => {
       } else if (task.taskType === 'alphabet') {
         clearActiveActivities()
         setActiveAlphabetId(task.id)
+      } else if (task.taskType === 'watertoiletcheck') {
+        clearActiveActivities()
+        setActiveWaterToiletId(task.id)
       }
     },
     onComplete: completeChore,
@@ -288,6 +296,7 @@ const ChoresPage = () => {
     activePVId,
     activeAlphabetId,
     activeDinnerId,
+    activeWaterToiletId,
     mathCheckTriggers,
     pvCheckTriggers,
     alphabetCheckTriggers,
@@ -433,6 +442,26 @@ const ChoresPage = () => {
                       }}
                     >
                       Alphabet Match
+                    </button>
+                    <button
+                      type="button"
+                      className="whimsical-btn"
+                      onClick={() => {
+                        createWaterToiletTask()
+                        setShowAddChooser(false)
+                      }}
+                      style={{
+                        minHeight: `${uiTokens.actionButtonHeight}px`,
+                        borderRadius: '20px',
+                        border: `3px solid ${theme.colors.accent}`,
+                        background: theme.colors.surface,
+                        color: theme.colors.text,
+                        fontFamily: theme.fonts.heading,
+                        fontWeight: 800,
+                        fontSize: '1.15rem',
+                      }}
+                    >
+                      Water &amp; Toilet Check
                     </button>
                     <button
                       type="button"

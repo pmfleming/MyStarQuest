@@ -160,7 +160,7 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
     setHeroState('hidden')
     starsSpawnedRef.current = 0
 
-    const visualCount = Math.min(targetCount, 50)
+    const visualCount = Math.max(0, Math.min(targetCount, 50))
 
     // Initialize all stars as hidden
     setStarStates(Array(visualCount).fill('hidden'))

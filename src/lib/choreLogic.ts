@@ -1,4 +1,53 @@
-import type { TaskWithEphemeral } from '../data/types'
+import type { TaskWithEphemeral, ToiletStatus, WaterLevel } from '../data/types'
+
+export type WaterToiletOutcome = 'success' | 'failure'
+
+const waterLevelCycle: readonly WaterLevel[] = [
+  'full',
+  'twothirds',
+  'onethird',
+  'empty',
+]
+
+const toiletStatusCycle: readonly ToiletStatus[] = ['notpeepee', 'didpeepee']
+
+const waterLevelStarMap: Record<WaterLevel, number> = {
+  full: -1,
+  twothirds: 0,
+  onethird: 0,
+  empty: 1,
+}
+
+const toiletStatusStarMap: Record<ToiletStatus, number> = {
+  notpeepee: -5,
+  didpeepee: 1,
+}
+
+export function calculateWaterToiletStars(
+  waterLevel: WaterLevel,
+  toiletStatus: ToiletStatus
+) {
+  return waterLevelStarMap[waterLevel] + toiletStatusStarMap[toiletStatus]
+}
+
+export function getNextWaterLevel(currentLevel: WaterLevel) {
+  const currentIndex = waterLevelCycle.indexOf(currentLevel)
+  return waterLevelCycle[(currentIndex + 1) % waterLevelCycle.length]
+}
+
+export function getNextToiletStatus(currentStatus: ToiletStatus) {
+  const currentIndex = toiletStatusCycle.indexOf(currentStatus)
+  return toiletStatusCycle[(currentIndex + 1) % toiletStatusCycle.length]
+}
+
+export function getWaterToiletOutcome(
+  waterLevel: WaterLevel,
+  toiletStatus: ToiletStatus
+): WaterToiletOutcome {
+  return calculateWaterToiletStars(waterLevel, toiletStatus) > 0
+    ? 'success'
+    : 'failure'
+}
 
 /**
  * Common logic for awarding a task based on its type.
@@ -19,6 +68,8 @@ export function calculateAwardTaskPatch(
       return { managePVCompletedAt: timestamp }
     case 'alphabet':
       return { manageAlphabetCompletedAt: timestamp }
+    case 'watertoiletcheck':
+      return { manageWaterToiletCompletedAt: timestamp }
     default:
       return {}
   }

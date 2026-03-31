@@ -6,6 +6,7 @@ export type ChoreModeType =
   | 'math'
   | 'positional-notation'
   | 'alphabet'
+  | 'watertoiletcheck'
 
 type PresetChoreModeDefinition = {
   hidePrimaryButtonInChore: boolean
@@ -26,6 +27,9 @@ const presetChoreModeDefinitions: Record<
   },
   alphabet: {
     hidePrimaryButtonInChore: true,
+  },
+  watertoiletcheck: {
+    hidePrimaryButtonInChore: false,
   },
 }
 
@@ -60,5 +64,10 @@ export const getDinnerPrimaryActionLabel = (
   isTimerRunning: boolean
 ) => {
   if (stage === 'activity' && isTimerRunning) return 'Bite'
+  return 'Start'
+}
+
+export const getActivityPrimaryActionLabel = (stage: ChoreStage) => {
+  if (stage === 'activity') return 'Finish'
   return 'Start'
 }

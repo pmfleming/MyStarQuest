@@ -4,6 +4,8 @@ import {
   DEFAULT_DINNER_DURATION_SECONDS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
+  DEFAULT_TOILET_STATUS,
+  DEFAULT_WATER_LEVEL,
   type TaskRecord,
   type TaskType,
   type TodoRecord,
@@ -51,9 +53,12 @@ export function parseTaskSnapshot(
         ? 'math'
         : data.taskType === 'alphabet' || data.category === 'alphabet'
           ? 'alphabet'
-          : data.taskType === 'eating' || data.category === 'eating'
-            ? 'eating'
-            : 'standard'
+          : data.taskType === 'watertoiletcheck' ||
+              data.category === 'watertoiletcheck'
+            ? 'watertoiletcheck'
+            : data.taskType === 'eating' || data.category === 'eating'
+              ? 'eating'
+              : 'standard'
 
   const base = {
     id,
@@ -105,6 +110,11 @@ export function parseTaskSnapshot(
         taskType: 'positional-notation',
         pvTotalProblems: getNumber(data.pvTotalProblems, DEFAULT_PV_PROBLEMS),
       }
+    case 'watertoiletcheck':
+      return {
+        ...base,
+        taskType: 'watertoiletcheck',
+      }
     default:
       return { ...base, taskType: 'standard' }
   }
@@ -122,6 +132,7 @@ export function parseTodoSnapshot(
     data.sourceTaskType === 'positional-notation' ||
     data.sourceTaskType === 'math' ||
     data.sourceTaskType === 'alphabet' ||
+    data.sourceTaskType === 'watertoiletcheck' ||
     data.sourceTaskType === 'eating'
       ? data.sourceTaskType
       : 'standard'
@@ -189,6 +200,21 @@ export function parseTodoSnapshot(
         sourceTaskType: 'positional-notation',
         pvTotalProblems: getNumber(data.pvTotalProblems, DEFAULT_PV_PROBLEMS),
         pvLastOutcome: getOutcome(data.pvLastOutcome),
+      }
+    case 'watertoiletcheck':
+      return {
+        ...base,
+        sourceTaskType: 'watertoiletcheck',
+        waterLevel:
+          data.waterLevel === 'twothirds' ||
+          data.waterLevel === 'onethird' ||
+          data.waterLevel === 'empty'
+            ? data.waterLevel
+            : DEFAULT_WATER_LEVEL,
+        toiletStatus:
+          data.toiletStatus === 'didpeepee'
+            ? 'didpeepee'
+            : DEFAULT_TOILET_STATUS,
       }
     default:
       return {

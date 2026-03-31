@@ -3,6 +3,7 @@ import type { Theme } from '../../contexts/ThemeContext'
 import StepperButton from './StepperButton'
 import { uiTokens } from '../../tokens'
 import starSvgUrl from '../../assets/global/star.svg'
+import starNegativeSvgUrl from '../../assets/global/star-negative.svg'
 
 // ============================================================================
 // UNIFIED STAR DISPLAY COMPONENT
@@ -92,6 +93,7 @@ type StarIconProps = {
   rotation?: number
   animationDelay?: number
   animate?: boolean
+  assetUrl?: string
   style?: CSSProperties
   className?: string
 }
@@ -102,6 +104,7 @@ const StarIcon = ({
   rotation = 0,
   animationDelay = 0,
   animate = true,
+  assetUrl = starSvgUrl,
   style,
   className,
 }: StarIconProps) => {
@@ -125,7 +128,7 @@ const StarIcon = ({
 
   return (
     <img
-      src={starSvgUrl}
+      src={assetUrl}
       alt=""
       className={className}
       style={starStyle}
@@ -145,31 +148,33 @@ const FieldVariant = ({
   style,
   className,
 }: Omit<StarDisplayProps, 'variant'>) => {
-  const densityClass = getDensityClass(count)
+  const displayMagnitude = Math.abs(count)
+  const densityClass = getDensityClass(displayMagnitude)
   const { width, gap } = DENSITY_SIZES[densityClass]
+  const assetUrl = count < 0 ? starNegativeSvgUrl : starSvgUrl
 
   // Track previous count for animation direction
-  const [prevCount, setPrevCount] = useState(count)
+  const [prevCount, setPrevCount] = useState(displayMagnitude)
   const [animatingOut, setAnimatingOut] = useState<number[]>([])
 
   useEffect(() => {
-    if (count < prevCount && animate) {
+    if (displayMagnitude < prevCount && animate) {
       // Stars removed - animate out the difference
-      const removedCount = prevCount - count
+      const removedCount = prevCount - displayMagnitude
       const removedIndices = Array.from(
         { length: removedCount },
-        (_, i) => count + i
+        (_, i) => displayMagnitude + i
       )
       setAnimatingOut(removedIndices)
       const timer = setTimeout(() => {
         setAnimatingOut([])
-        setPrevCount(count)
+        setPrevCount(displayMagnitude)
       }, 300)
       return () => clearTimeout(timer)
     } else {
-      setPrevCount(count)
+      setPrevCount(displayMagnitude)
     }
-  }, [count, prevCount, animate])
+  }, [displayMagnitude, prevCount, animate])
 
   const containerStyle: CSSProperties = {
     background: '#f1f5f9',
@@ -185,10 +190,12 @@ const FieldVariant = ({
     ...style,
   }
 
-  if (count === 0 && animatingOut.length === 0) {
+  if (displayMagnitude === 0 && animatingOut.length === 0) {
     return (
       <div style={containerStyle} className={className}>
-        {emptyContent ?? (
+        {emptyContent !== undefined ? (
+          emptyContent
+        ) : (
           <span
             style={{
               opacity: 0.5,
@@ -204,7 +211,7 @@ const FieldVariant = ({
     )
   }
 
-  const displayCount = Math.max(count, prevCount)
+  const displayCount = Math.max(displayMagnitude, prevCount)
   const stars = Array.from({ length: displayCount })
 
   return (
@@ -217,6 +224,7 @@ const FieldVariant = ({
           <StarIcon
             key={i}
             size={width}
+            assetUrl={assetUrl}
             rotation={rot}
             animationDelay={animate && !isExiting ? i * 0.03 : 0}
             animate={animate && !isExiting}

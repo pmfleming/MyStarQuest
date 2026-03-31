@@ -13,8 +13,12 @@ export const awardStars = async (options: {
   delta: number
 }) => {
   const { userId, childId, delta } = options
-  if (!userId || !childId || delta <= 0) {
+  if (!userId || !childId || !Number.isFinite(delta)) {
     throw new Error('Invalid award request')
+  }
+
+  if (delta === 0) {
+    return
   }
 
   const childRef = doc(db, 'users', userId, 'children', childId)
@@ -27,14 +31,19 @@ export const awardStars = async (options: {
       throw new Error('Child not found')
     }
 
+    const currentStars = Number(childSnapshot.data()?.totalStars ?? 0)
+    const clampedDelta = Math.max(delta, -currentStars)
+
+    if (clampedDelta === 0) return
+
     transaction.set(newEventRef, {
       childId,
-      delta,
+      delta: clampedDelta,
       createdAt: serverTimestamp(),
     })
 
     transaction.update(childRef, {
-      totalStars: increment(delta),
+      totalStars: increment(clampedDelta),
     })
   })
 }
@@ -47,7 +56,7 @@ export const completeTodoAndAwardStars = async (options: {
   updates?: Record<string, unknown>
 }) => {
   const { userId, childId, todoId, delta, updates } = options
-  if (!userId || !childId || !todoId || delta <= 0) {
+  if (!userId || !childId || !todoId || !Number.isFinite(delta)) {
     throw new Error('Invalid todo completion request')
   }
 
@@ -74,16 +83,21 @@ export const completeTodoAndAwardStars = async (options: {
       return false
     }
 
-    transaction.set(newEventRef, {
-      childId,
-      delta,
-      createdAt: serverTimestamp(),
-      todoId,
-    })
+    const currentStars = Number(childSnapshot.data()?.totalStars ?? 0)
+    const clampedDelta = Math.max(delta, -currentStars)
 
-    transaction.update(childRef, {
-      totalStars: increment(delta),
-    })
+    if (clampedDelta !== 0) {
+      transaction.set(newEventRef, {
+        childId,
+        delta: clampedDelta,
+        createdAt: serverTimestamp(),
+        todoId,
+      })
+
+      transaction.update(childRef, {
+        totalStars: increment(clampedDelta),
+      })
+    }
 
     transaction.update(todoRef, {
       completedAt: Date.now(),

@@ -8,6 +8,11 @@ export type TaskType =
   | 'math'
   | 'positional-notation'
   | 'alphabet'
+  | 'watertoiletcheck'
+
+export type WaterLevel = 'full' | 'twothirds' | 'onethird' | 'empty'
+
+export type ToiletStatus = 'notpeepee' | 'didpeepee'
 
 // ── TaskRecord: discriminated union on `taskType` ──
 
@@ -44,6 +49,9 @@ export type AlphabetTask = TaskBase & {
   taskType: 'alphabet'
   alphabetTotalProblems: number
 }
+export type WaterToiletTask = TaskBase & {
+  taskType: 'watertoiletcheck'
+}
 
 export type TaskRecord =
   | StandardTask
@@ -51,6 +59,7 @@ export type TaskRecord =
   | MathTask
   | PositionalNotationTask
   | AlphabetTask
+  | WaterToiletTask
 
 // ── TaskEphemeralState: flat bag for in-memory storage ──
 
@@ -66,6 +75,9 @@ export type TaskEphemeralState = {
   managePVLastOutcome?: 'success' | 'failure' | null
   manageAlphabetCompletedAt?: number | null
   manageAlphabetLastOutcome?: 'success' | 'failure' | null
+  manageWaterLevel?: WaterLevel
+  manageToiletStatus?: ToiletStatus
+  manageWaterToiletCompletedAt?: number | null
 }
 
 // ── TaskWithEphemeral: discriminated union pairing each variant with its ephemeral fields ──
@@ -91,6 +103,11 @@ export type AlphabetTaskWithEphemeral = AlphabetTask & {
   manageAlphabetCompletedAt?: number | null
   manageAlphabetLastOutcome?: 'success' | 'failure' | null
 }
+export type WaterToiletTaskWithEphemeral = WaterToiletTask & {
+  manageWaterLevel?: WaterLevel
+  manageToiletStatus?: ToiletStatus
+  manageWaterToiletCompletedAt?: number | null
+}
 
 export type TaskWithEphemeral =
   | StandardTaskWithEphemeral
@@ -98,6 +115,7 @@ export type TaskWithEphemeral =
   | MathTaskWithEphemeral
   | PVTaskWithEphemeral
   | AlphabetTaskWithEphemeral
+  | WaterToiletTaskWithEphemeral
 
 // ── TodoRecord: discriminated union on `sourceTaskType` ──
 
@@ -140,6 +158,11 @@ export type AlphabetTodo = TodoBase & {
   alphabetTotalProblems: number
   alphabetLastOutcome: 'success' | 'failure' | null
 }
+export type WaterToiletTodo = TodoBase & {
+  sourceTaskType: 'watertoiletcheck'
+  waterLevel: WaterLevel
+  toiletStatus: ToiletStatus
+}
 
 export type TodoRecord =
   | StandardTodo
@@ -147,6 +170,7 @@ export type TodoRecord =
   | MathTodo
   | PositionalNotationTodo
   | AlphabetTodo
+  | WaterToiletTodo
 
 // ── Updatable field subsets ──
 
@@ -172,6 +196,8 @@ export type TodoUpdatableFields = Partial<{
   mathLastOutcome: 'success' | 'failure' | null
   pvLastOutcome: 'success' | 'failure' | null
   alphabetLastOutcome: 'success' | 'failure' | null
+  waterLevel: WaterLevel
+  toiletStatus: ToiletStatus
 }>
 
 // ── Constants ──
@@ -185,6 +211,9 @@ export const DEFAULT_PV_PROBLEMS = 5
 export const DEFAULT_PV_STARS = 3
 export const DEFAULT_ALPHABET_PROBLEMS = 5
 export const DEFAULT_ALPHABET_STARS = 3
+export const DEFAULT_WATER_TOILET_STARS = 0
+export const DEFAULT_WATER_LEVEL: WaterLevel = 'full'
+export const DEFAULT_TOILET_STATUS: ToiletStatus = 'notpeepee'
 export const MANAGE_STATUS_RESET_MS = 15 * 60 * 1000
 export const BITE_COOLDOWN_SECONDS = 15
 
@@ -214,6 +243,12 @@ export function isAlphabetTask<T extends { taskType: TaskType }>(
   return t.taskType === 'alphabet'
 }
 
+export function isWaterToiletTask<T extends { taskType: TaskType }>(
+  t: T
+): t is Extract<T, { taskType: 'watertoiletcheck' }> {
+  return t.taskType === 'watertoiletcheck'
+}
+
 export function isEatingTodo(t: TodoRecord): t is EatingTodo {
   return t.sourceTaskType === 'eating'
 }
@@ -232,6 +267,10 @@ export function isAlphabetTodo(t: TodoRecord): t is AlphabetTodo {
   return t.sourceTaskType === 'alphabet'
 }
 
+export function isWaterToiletTodo(t: TodoRecord): t is WaterToiletTodo {
+  return t.sourceTaskType === 'watertoiletcheck'
+}
+
 // ── TaskWithEphemeral helpers ──
 
 export const getManageDinnerRemaining = (task: EatingTaskWithEphemeral) =>
@@ -248,6 +287,12 @@ export const getManageDinnerLiveRemaining = (task: EatingTaskWithEphemeral) => {
 export const getManageDinnerBitesLeft = (task: EatingTaskWithEphemeral) =>
   task.manageDinnerBitesLeft ?? task.dinnerTotalBites
 
+export const getManageWaterLevel = (task: WaterToiletTaskWithEphemeral) =>
+  task.manageWaterLevel ?? DEFAULT_WATER_LEVEL
+
+export const getManageToiletStatus = (task: WaterToiletTaskWithEphemeral) =>
+  task.manageToiletStatus ?? DEFAULT_TOILET_STATUS
+
 export const getManageTaskCompletedAt = (task: TaskWithEphemeral) => {
   switch (task.taskType) {
     case 'eating':
@@ -258,6 +303,8 @@ export const getManageTaskCompletedAt = (task: TaskWithEphemeral) => {
       return task.managePVCompletedAt ?? null
     case 'alphabet':
       return task.manageAlphabetCompletedAt ?? null
+    case 'watertoiletcheck':
+      return task.manageWaterToiletCompletedAt ?? null
     case 'standard':
       return task.manageCompletedAt ?? null
   }

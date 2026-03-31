@@ -10,6 +10,7 @@ const createBaseDeps = () => ({
   activePVId: null,
   activeAlphabetId: null,
   activeDinnerId: null,
+  activeWaterToiletId: null,
   mathCheckTriggers: {},
   pvCheckTriggers: {},
   alphabetCheckTriggers: {},
@@ -80,5 +81,36 @@ describe('createUnifiedChoreDescriptor', () => {
 
     expect(primaryAction.hideButton).toBe(false)
     expect(primaryAction.disabled).toBe(true)
+  })
+
+  it('uses enter-chore wiring for Water/Toilet start action on dashboard todos', () => {
+    const onEnterChore = vi.fn()
+    const onComplete = vi.fn()
+    const descriptor = createUnifiedChoreDescriptor({
+      ...createBaseDeps(),
+      onEnterChore,
+      onComplete,
+    })
+
+    const todo: TodoRecord = {
+      id: 'water-1',
+      title: 'Water & Toilet Check',
+      childId: 'child-1',
+      sourceTaskId: 'task-3',
+      sourceTaskType: 'watertoiletcheck',
+      starValue: 0,
+      schoolDayEnabled: true,
+      nonSchoolDayEnabled: false,
+      autoAdded: false,
+      completedAt: null,
+      dateKey: '2026-03-23',
+      waterLevel: 'full',
+      toiletStatus: 'notpeepee',
+    }
+
+    descriptor.getPrimaryAction(todo).onClick(todo)
+
+    expect(onEnterChore).toHaveBeenCalledWith(todo)
+    expect(onComplete).not.toHaveBeenCalled()
   })
 })

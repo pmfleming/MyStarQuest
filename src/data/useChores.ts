@@ -25,6 +25,7 @@ import { parseTaskSnapshot, parseTodoSnapshot } from '../lib/choreParser'
 import {
   calculateAwardTaskPatch,
   calculateNextDinnerBiteState,
+  calculateWaterToiletStars,
 } from '../lib/choreLogic'
 import {
   DEFAULT_ALPHABET_PROBLEMS,
@@ -36,26 +37,33 @@ import {
   DEFAULT_MATH_STARS,
   DEFAULT_PV_PROBLEMS,
   DEFAULT_PV_STARS,
+  DEFAULT_TOILET_STATUS,
+  DEFAULT_WATER_LEVEL,
+  DEFAULT_WATER_TOILET_STARS,
   MANAGE_STATUS_RESET_MS,
   getManageDinnerBitesLeft,
   getManageDinnerRemaining,
-  isEatingTask,
-  isMathTask,
-  isPositionalNotationTask,
+  getManageToiletStatus,
+  getManageWaterLevel,
   isAlphabetTask,
-  isEatingTodo,
-  isMathTodo,
-  isPositionalNotationTodo,
   isAlphabetTodo,
+  isEatingTask,
+  isEatingTodo,
+  isMathTask,
+  isMathTodo,
+  isPositionalNotationTask,
+  isPositionalNotationTodo,
+  isWaterToiletTask,
+  isWaterToiletTodo,
   sortByCreatedAtThenTitle,
-  type TaskRecord,
-  type TodoRecord,
-  type TaskEphemeralState,
-  type TaskWithEphemeral,
-  type TaskUpdatableFields,
-  type TodoUpdatableFields,
   type EatingTodo,
   type EatingTaskWithEphemeral,
+  type TaskEphemeralState,
+  type TaskRecord,
+  type TaskUpdatableFields,
+  type TaskWithEphemeral,
+  type TodoRecord,
+  type TodoUpdatableFields,
 } from './types'
 
 export function useChores() {
@@ -63,7 +71,10 @@ export function useChores() {
   const { activeChildId } = useActiveChild()
 
   const [rawTasks, setRawTasks] = useState<TaskRecord[]>([])
-  const [todos, setTodos] = useState<TodoRecord[]>([])
+  const [rawTodos, setRawTodos] = useState<TodoRecord[]>([])
+  const [todoOverrides, setTodoOverrides] = useState<
+    Record<string, TodoUpdatableFields>
+  >({})
   const [ephemeral, setEphemeral] = useState<
     Record<string, TaskEphemeralState>
   >({})
@@ -87,7 +98,8 @@ export function useChores() {
   useEffect(() => {
     if (!user) {
       setRawTasks([])
-      setTodos([])
+      setRawTodos([])
+      setTodoOverrides({})
       setEphemeral({})
       return
     }
@@ -127,7 +139,34 @@ export function useChores() {
           )
           .filter((t): t is TodoRecord => t !== null)
           .sort(sortByCreatedAtThenTitle)
-        setTodos(nextTodos)
+        setRawTodos(nextTodos)
+        setTodoOverrides((prev) => {
+          let changed = false
+          const todoMap = new Map(nextTodos.map((todo) => [todo.id, todo]))
+          const nextOverrides: Record<string, TodoUpdatableFields> = {}
+
+          for (const [todoId, patch] of Object.entries(prev)) {
+            const todo = todoMap.get(todoId)
+            if (!todo) {
+              changed = true
+              continue
+            }
+
+            const remainingPatch = Object.fromEntries(
+              Object.entries(patch).filter(
+                ([key, value]) => todo[key as keyof TodoRecord] !== value
+              )
+            ) as TodoUpdatableFields
+
+            if (Object.keys(remainingPatch).length > 0) {
+              nextOverrides[todoId] = remainingPatch
+            } else {
+              changed = true
+            }
+          }
+
+          return changed ? nextOverrides : prev
+        })
       })
     }
 
@@ -140,6 +179,10 @@ export function useChores() {
   // ── Derived Data ──
   const tasks = rawTasks.map(
     (t) => ({ ...t, ...ephemeral[t.id] }) as TaskWithEphemeral
+  )
+
+  const todos = rawTodos.map(
+    (todo) => ({ ...todo, ...todoOverrides[todo.id] }) as TodoRecord
   )
 
   const activeChildTasks = useMemo(
@@ -173,6 +216,24 @@ export function useChores() {
     }))
   }
 
+  const getCompletionDelta = (item: TaskWithEphemeral | TodoRecord) => {
+    if ('sourceTaskType' in item) {
+      if (isWaterToiletTodo(item)) {
+        return calculateWaterToiletStars(item.waterLevel, item.toiletStatus)
+      }
+      return item.starValue
+    }
+
+    if (isWaterToiletTask(item)) {
+      return calculateWaterToiletStars(
+        getManageWaterLevel(item),
+        getManageToiletStatus(item)
+      )
+    }
+
+    return item.starValue
+  }
+
   // ── Generic Mutations ──
   const updateTaskField = async (
     taskId: string,
@@ -191,12 +252,38 @@ export function useChores() {
     field: TodoUpdatableFields
   ) => {
     if (!user) return
+    setTodoOverrides((prev) => ({
+      ...prev,
+      [todoId]: { ...prev[todoId], ...field },
+    }))
     try {
       await updateDoc(
         doc(db, 'users', user.uid, 'todos', todoId),
         field as UpdateData<DocumentData>
       )
     } catch (err) {
+      setTodoOverrides((prev) => {
+        const existingPatch = prev[todoId]
+        if (!existingPatch) return prev
+
+        const nextPatch = { ...existingPatch }
+        for (const key of Object.keys(field) as Array<
+          keyof TodoUpdatableFields
+        >) {
+          delete nextPatch[key]
+        }
+
+        if (Object.keys(nextPatch).length === 0) {
+          const next = { ...prev }
+          delete next[todoId]
+          return next
+        }
+
+        return {
+          ...prev,
+          [todoId]: nextPatch,
+        }
+      })
       console.error('Failed to update todo', err)
     }
   }
@@ -297,6 +384,21 @@ export function useChores() {
     })
   }
 
+  const createWaterToiletTask = async () => {
+    if (!user || !activeChildId) return
+    await addDoc(collection(db, 'users', user.uid, 'tasks'), {
+      title: 'Water & Toilet Check',
+      childId: activeChildId,
+      category: 'watertoiletcheck',
+      taskType: 'watertoiletcheck',
+      schoolDayEnabled: true,
+      nonSchoolDayEnabled: false,
+      starValue: DEFAULT_WATER_TOILET_STARS,
+      isRepeating: true,
+      createdAt: serverTimestamp(),
+    })
+  }
+
   // ── Todo Actions ──
   const addTodo = async (task: TaskRecord) => {
     if (!user || !activeChildId || todoSourceIds.has(task.id)) return
@@ -332,6 +434,11 @@ export function useChores() {
       taskSpecific = {
         alphabetTotalProblems: task.alphabetTotalProblems,
         alphabetLastOutcome: null,
+      }
+    } else if (isWaterToiletTask(task)) {
+      taskSpecific = {
+        waterLevel: DEFAULT_WATER_LEVEL,
+        toiletStatus: DEFAULT_TOILET_STATUS,
       }
     } else if (isPositionalNotationTask(task)) {
       taskSpecific = {
@@ -491,6 +598,7 @@ export function useChores() {
   const completeChore = async (item: TaskWithEphemeral | TodoRecord) => {
     const isTodo = 'sourceTaskId' in item
     const now = Date.now()
+    const delta = getCompletionDelta(item)
 
     if (isTodo) {
       const todo = item as TodoRecord
@@ -499,9 +607,9 @@ export function useChores() {
         userId: user!.uid,
         childId: activeChildId!,
         todoId: todo.id,
-        delta: todo.starValue,
+        delta,
       })
-      if (done) celebrateSuccess()
+      if (done && delta > 0) celebrateSuccess()
     } else {
       const task = item as TaskWithEphemeral
       const patch = calculateAwardTaskPatch(task, now)
@@ -510,9 +618,9 @@ export function useChores() {
         await awardStars({
           userId: user.uid,
           childId: activeChildId,
-          delta: task.starValue,
+          delta,
         })
-        celebrateSuccess()
+        if (delta > 0) celebrateSuccess()
       }
       if (!task.isRepeating) {
         await deleteTask(task.id)
@@ -553,6 +661,10 @@ export function useChores() {
       if (isMathTodo(item)) field.mathLastOutcome = null
       else if (isAlphabetTodo(item)) field.alphabetLastOutcome = null
       else if (isPositionalNotationTodo(item)) field.pvLastOutcome = null
+      else if (isWaterToiletTodo(item)) {
+        field.waterLevel = DEFAULT_WATER_LEVEL
+        field.toiletStatus = DEFAULT_TOILET_STATUS
+      }
       await updateTodoField(item.id, field)
     } else {
       const task = item as TaskWithEphemeral
@@ -566,6 +678,10 @@ export function useChores() {
       } else if (isPositionalNotationTask(task)) {
         patch.managePVCompletedAt = null
         patch.managePVLastOutcome = null
+      } else if (isWaterToiletTask(task)) {
+        patch.manageWaterLevel = DEFAULT_WATER_LEVEL
+        patch.manageToiletStatus = DEFAULT_TOILET_STATUS
+        patch.manageWaterToiletCompletedAt = null
       } else if (task.taskType === 'standard') patch.manageCompletedAt = null
       updateEphemeral(task.id, patch)
     }
@@ -587,7 +703,8 @@ export function useChores() {
             e.manageDinnerCompletedAt ||
             e.manageMathCompletedAt ||
             e.managePVCompletedAt ||
-            e.manageAlphabetCompletedAt
+            e.manageAlphabetCompletedAt ||
+            e.manageWaterToiletCompletedAt
           if (lastActive && now - lastActive >= MANAGE_STATUS_RESET_MS) {
             if (next === prev) next = { ...prev }
             const rest = { ...next }
@@ -624,6 +741,7 @@ export function useChores() {
     createMathTask,
     createPVTask,
     createAlphabetTask,
+    createWaterToiletTask,
     addTodo,
     deleteTodo,
     deleteTask,

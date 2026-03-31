@@ -22,7 +22,9 @@ import {
   DEFAULT_PV_PROBLEMS,
   getManageDinnerBitesLeft,
   getManageDinnerRemaining,
+  getManageToiletStatus,
   getManageTaskCompletedAt,
+  getManageWaterLevel,
   isAlphabetTask,
   isAlphabetTodo,
   isEatingTask,
@@ -31,6 +33,8 @@ import {
   isMathTodo,
   isPositionalNotationTask,
   isPositionalNotationTodo,
+  isWaterToiletTask,
+  isWaterToiletTodo,
   type TaskEphemeralState,
   type TaskUpdatableFields,
   type TaskWithEphemeral,
@@ -39,6 +43,12 @@ import {
   type TaskRecord,
 } from '../data/types'
 import type { Theme } from '../contexts/ThemeContext'
+import {
+  calculateWaterToiletStars,
+  getNextToiletStatus,
+  getNextWaterLevel,
+  getWaterToiletOutcome,
+} from '../lib/choreLogic'
 import { uiTokens } from '../tokens'
 import type { ListRowDescriptor } from './listDescriptorTypes'
 import {
@@ -47,15 +57,18 @@ import {
   type ChoreStage,
 } from './choreModeDefinitions'
 import {
+  createPresetActivityPrimaryAction,
   createPresetDinnerPrimaryAction,
   createPresetTestPrimaryAction,
   createPresetUtilityAction,
 } from './presetChoreActions'
+import { getWaterToiletOutcomeImage } from './waterToiletAssets'
 import {
   renderAlphabetChore,
   renderArithmeticChore,
   renderDinnerChore,
   renderPositionalNotationChore,
+  renderWaterToiletChore,
 } from './presetChoreRenderers'
 
 type UnifiedChoreItem = TaskWithEphemeral | TodoRecord
@@ -84,6 +97,7 @@ export type UnifiedChoreDeps = {
   activePVId: string | null
   activeAlphabetId: string | null
   activeDinnerId: string | null
+  activeWaterToiletId: string | null
   mathCheckTriggers: Record<string, number>
   pvCheckTriggers: Record<string, number>
   alphabetCheckTriggers: Record<string, number>
@@ -107,6 +121,19 @@ export function createUnifiedChoreDescriptor(
 
   const getChoreType = (item: UnifiedChoreItem) =>
     isTaskItem(item) ? item.taskType : item.sourceTaskType
+
+  const getWaterToiletDelta = (item: UnifiedChoreItem) => {
+    if (isTaskItem(item)) {
+      if (!isWaterToiletTask(item)) return item.starValue
+      return calculateWaterToiletStars(
+        getManageWaterLevel(item),
+        getManageToiletStatus(item)
+      )
+    }
+
+    if (!isWaterToiletTodo(item)) return item.starValue
+    return calculateWaterToiletStars(item.waterLevel, item.toiletStatus)
+  }
 
   const isCompleted = (item: UnifiedChoreItem) =>
     isTaskItem(item)
@@ -164,11 +191,53 @@ export function createUnifiedChoreDescriptor(
       deps.activeMathId === id ||
       deps.activePVId === id ||
       deps.activeAlphabetId === id ||
-      deps.activeDinnerId === id
+      deps.activeDinnerId === id ||
+      deps.activeWaterToiletId === id
     ) {
       return 'activity'
     }
     return 'setup'
+  }
+
+  const getWaterToiletRenderState = (item: UnifiedChoreItem) => {
+    if (isTaskItem(item)) {
+      if (!isWaterToiletTask(item)) return null
+
+      const waterLevel = getManageWaterLevel(item)
+      const toiletStatus = getManageToiletStatus(item)
+
+      return {
+        isCompleted: Boolean(item.manageWaterToiletCompletedAt),
+        waterLevel,
+        toiletStatus,
+        starDelta: calculateWaterToiletStars(waterLevel, toiletStatus),
+        onCycleWater: () =>
+          deps.onUpdateEphemeral?.(item.id, {
+            manageWaterLevel: getNextWaterLevel(waterLevel),
+          }),
+        onCycleToilet: () =>
+          deps.onUpdateEphemeral?.(item.id, {
+            manageToiletStatus: getNextToiletStatus(toiletStatus),
+          }),
+      }
+    }
+
+    if (!isWaterToiletTodo(item)) return null
+
+    return {
+      isCompleted: Boolean(item.completedAt),
+      waterLevel: item.waterLevel,
+      toiletStatus: item.toiletStatus,
+      starDelta: calculateWaterToiletStars(item.waterLevel, item.toiletStatus),
+      onCycleWater: () =>
+        deps.onUpdateTodoField?.(item.id, {
+          waterLevel: getNextWaterLevel(item.waterLevel),
+        }),
+      onCycleToilet: () =>
+        deps.onUpdateTodoField?.(item.id, {
+          toiletStatus: getNextToiletStatus(item.toiletStatus),
+        }),
+    }
   }
 
   const renderItem = (item: UnifiedChoreItem): ReactNode => {
@@ -627,6 +696,43 @@ export function createUnifiedChoreDescriptor(
         )
       }
 
+      case 'watertoiletcheck': {
+        const renderState = getWaterToiletRenderState(item)
+        if (!renderState) return null
+        const isActive = deps.activeWaterToiletId === item.id
+
+        if (stage === 'completed') {
+          const outcome = getWaterToiletOutcome(
+            renderState.waterLevel,
+            renderState.toiletStatus
+          )
+          return commonContainer(
+            <ChoreOutcomeView
+              imageSrc={getWaterToiletOutcomeImage(deps.theme, outcome)}
+              outcome={outcome}
+            />
+          )
+        }
+
+        if (isActive) {
+          return commonContainer(
+            renderWaterToiletChore({
+              theme: deps.theme,
+              waterLevel: renderState.waterLevel,
+              toiletStatus: renderState.toiletStatus,
+              starDelta: renderState.starDelta,
+              isInteractive: true,
+              isCompleted: false,
+              onCycleWater: renderState.onCycleWater,
+              onCycleToilet: renderState.onCycleToilet,
+            })
+          )
+        }
+
+        // Setup: Manage shows day-type control (via commonContainer), Today shows nothing extra
+        return commonContainer(null)
+      }
+
       default:
         return null
     }
@@ -638,6 +744,9 @@ export function createUnifiedChoreDescriptor(
       if (isManage) return undefined
       const stage = getStage(item)
       if (isInChoreStage(stage)) return undefined
+      if (getChoreType(item) === 'watertoiletcheck') {
+        return getWaterToiletDelta(item)
+      }
       return item.starValue
     },
     isHighlighted: (item) => getStage(item) === 'completed',
@@ -697,6 +806,28 @@ export function createUnifiedChoreDescriptor(
           onBite: (i) => deps.onApplyBite?.(i),
           onStart: (i) => {
             deps.onStartDinner?.(i)
+          },
+        })
+      }
+
+      if (type === 'watertoiletcheck') {
+        return createPresetActivityPrimaryAction({
+          choreType: type,
+          stage,
+          icon: (
+            <img
+              src={
+                stage === 'setup' ? princessGiveStarIcon : princessActiveIcon
+              }
+              alt="icon"
+              className="h-6 w-6 object-contain"
+            />
+          ),
+          onReset: (i) => deps.onReset?.(i),
+          onFinish: (i) => deps.onComplete?.(i),
+          onStart: (i) => {
+            if (deps.onEnterChore) return deps.onEnterChore(i)
+            return deps.onComplete?.(i)
           },
         })
       }

@@ -1,6 +1,6 @@
 import { type ReactNode, lazy, Suspense } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
-import type { MathDifficulty } from '../data/types'
+import type { MathDifficulty, ToiletStatus, WaterLevel } from '../data/types'
 
 // Lazy load heavy activity components
 const ArithmeticTester = lazy(() => import('../components/ArithmeticTester'))
@@ -8,6 +8,9 @@ const AlphabetTester = lazy(() => import('../components/AlphabetTester'))
 const DinnerCountdown = lazy(() => import('../components/DinnerCountdown'))
 const PositionalNotation = lazy(
   () => import('../components/PositionalNotation')
+)
+const WaterToiletMonitor = lazy(
+  () => import('../components/WaterToiletMonitor')
 )
 
 const withSuspense = (component: ReactNode) => (
@@ -87,6 +90,17 @@ type AlphabetChoreRendererProps = {
   checkTrigger?: number
   completionImage?: string
   failureImage?: string
+}
+
+type WaterToiletChoreRendererProps = {
+  theme: Theme
+  waterLevel: WaterLevel
+  toiletStatus: ToiletStatus
+  starDelta: number
+  isInteractive: boolean
+  isCompleted?: boolean
+  onCycleWater: () => void
+  onCycleToilet: () => void
 }
 
 export const renderDinnerChore = ({
@@ -240,5 +254,28 @@ export const renderAlphabetChore = ({
       checkTrigger={checkTrigger}
       completionImage={completionImage}
       failureImage={failureImage}
+    />
+  )
+
+export const renderWaterToiletChore = ({
+  theme,
+  waterLevel,
+  toiletStatus,
+  starDelta,
+  isInteractive,
+  isCompleted,
+  onCycleWater,
+  onCycleToilet,
+}: WaterToiletChoreRendererProps): ReactNode =>
+  withSuspense(
+    <WaterToiletMonitor
+      theme={theme}
+      waterLevel={waterLevel}
+      toiletStatus={toiletStatus}
+      starDelta={starDelta}
+      isInteractive={isInteractive}
+      isCompleted={isCompleted}
+      onCycleWater={onCycleWater}
+      onCycleToilet={onCycleToilet}
     />
   )

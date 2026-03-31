@@ -70,6 +70,8 @@ const DEFAULT_DINNER_BITES = 2
 const DEFAULT_MATH_PROBLEMS = 5
 const DEFAULT_PV_PROBLEMS = 5
 const DEFAULT_ALPHABET_PROBLEMS = 5
+const DEFAULT_WATER_LEVEL = 'full'
+const DEFAULT_TOILET_STATUS = 'notpeepee'
 
 // ── Scheduled function ──
 
@@ -139,9 +141,12 @@ export const generateDailyTodos = onSchedule(
                 ? 'math'
                 : data.taskType === 'alphabet' || data.category === 'alphabet'
                   ? 'alphabet'
-                  : data.taskType === 'eating' || data.category === 'eating'
-                    ? 'eating'
-                    : 'standard'
+                  : data.taskType === 'watertoiletcheck' ||
+                      data.category === 'watertoiletcheck'
+                    ? 'watertoiletcheck'
+                    : data.taskType === 'eating' || data.category === 'eating'
+                      ? 'eating'
+                      : 'standard'
 
           const dinnerDuration =
             data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
@@ -190,6 +195,12 @@ export const generateDailyTodos = onSchedule(
               taskSpecific = {
                 pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
                 pvLastOutcome: null,
+              }
+              break
+            case 'watertoiletcheck':
+              taskSpecific = {
+                waterLevel: DEFAULT_WATER_LEVEL,
+                toiletStatus: DEFAULT_TOILET_STATUS,
               }
               break
           }
@@ -284,9 +295,12 @@ export const resetTodayTodos = onCall(async (request) => {
           ? 'math'
           : data.taskType === 'alphabet' || data.category === 'alphabet'
             ? 'alphabet'
-            : data.taskType === 'eating' || data.category === 'eating'
-              ? 'eating'
-              : 'standard'
+            : data.taskType === 'watertoiletcheck' ||
+                data.category === 'watertoiletcheck'
+              ? 'watertoiletcheck'
+              : data.taskType === 'eating' || data.category === 'eating'
+                ? 'eating'
+                : 'standard'
 
     const dinnerDuration =
       data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
@@ -334,6 +348,12 @@ export const resetTodayTodos = onCall(async (request) => {
         taskSpecific = {
           pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
           pvLastOutcome: null,
+        }
+        break
+      case 'watertoiletcheck':
+        taskSpecific = {
+          waterLevel: DEFAULT_WATER_LEVEL,
+          toiletStatus: DEFAULT_TOILET_STATUS,
         }
         break
     }

@@ -74,6 +74,9 @@ const DashboardPage = () => {
   const [activePVId, setActivePVId] = useState<string | null>(null)
   const [activeAlphabetId, setActiveAlphabetId] = useState<string | null>(null)
   const [activeDinnerId, setActiveDinnerId] = useState<string | null>(null)
+  const [activeWaterToiletId, setActiveWaterToiletId] = useState<string | null>(
+    null
+  )
   const [biteCooldownEndsAt, setBiteCooldownEndsAt] = useState<number | null>(
     null
   )
@@ -97,6 +100,7 @@ const DashboardPage = () => {
     setActivePVId(null)
     setActiveAlphabetId(null)
     setActiveDinnerId(null)
+    setActiveWaterToiletId(null)
     setBiteCooldownEndsAt(null)
     setMathCheckTriggers({})
     setPVCheckTriggers({})
@@ -124,6 +128,7 @@ const DashboardPage = () => {
     setActivePVId(null)
     setActiveAlphabetId(null)
     setActiveDinnerId(null)
+    setActiveWaterToiletId(null)
     setBiteCooldownEndsAt(null)
   }
 
@@ -143,6 +148,9 @@ const DashboardPage = () => {
       } else if (todo.sourceTaskType === 'alphabet') {
         clearActiveActivities()
         setActiveAlphabetId(todo.id)
+      } else if (todo.sourceTaskType === 'watertoiletcheck') {
+        clearActiveActivities()
+        setActiveWaterToiletId(todo.id)
       }
     },
     onComplete: completeChore,
@@ -174,6 +182,7 @@ const DashboardPage = () => {
     activePVId,
     activeAlphabetId,
     activeDinnerId,
+    activeWaterToiletId,
     mathCheckTriggers,
     pvCheckTriggers,
     alphabetCheckTriggers,
