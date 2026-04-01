@@ -55,6 +55,7 @@ import {
   isPositionalNotationTodo,
   isWaterToiletTask,
   isWaterToiletTodo,
+  resetTodayTodosResultSchema,
   sortByCreatedAtThenTitle,
   type EatingTodo,
   type EatingTaskWithEphemeral,
@@ -721,7 +722,8 @@ export function useChores() {
   const resetTodayTodos = async () => {
     if (!user || !activeChildId) return
     const callable = httpsCallable(functions, 'resetTodayTodos')
-    await callable({ childId: activeChildId })
+    const result = await callable({ childId: activeChildId })
+    resetTodayTodosResultSchema.parse(result)
   }
 
   return {

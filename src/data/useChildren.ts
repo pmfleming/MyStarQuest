@@ -16,7 +16,11 @@ import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { THEME_ID_LOOKUP, type ThemeId } from '../ui/themeOptions'
-import type { ChildProfile, ChildUpdatableFields } from './types'
+import {
+  childSnapshotDataSchema,
+  type ChildProfile,
+  type ChildUpdatableFields,
+} from './types'
 
 export function useChildren() {
   const { user } = useAuth()
@@ -37,17 +41,36 @@ export function useChildren() {
     )
 
     const unsubscribe = onSnapshot(childQuery, (snapshot) => {
-      const nextChildren: ChildProfile[] = snapshot.docs.map((docSnapshot) => {
-        const data = docSnapshot.data()
-        return {
-          id: docSnapshot.id,
-          displayName: data.displayName ?? '',
-          avatarToken: data.avatarToken ?? '⭐',
-          totalStars: Number(data.totalStars ?? 0),
-          themeId: data.themeId,
-          createdAt: data.createdAt?.toDate?.(),
+      const nextChildren: ChildProfile[] = snapshot.docs.flatMap(
+        (docSnapshot) => {
+          const parsed = childSnapshotDataSchema.safeParse(docSnapshot.data())
+          if (!parsed.success) {
+            console.warn('Skipping invalid child snapshot', {
+              id: docSnapshot.id,
+              issues: parsed.error.issues,
+            })
+            return []
+          }
+
+          const data = parsed.data
+          const themeId = data.themeId
+          const normalizedThemeId =
+            themeId && THEME_ID_LOOKUP.has(themeId as ThemeId)
+              ? (themeId as ThemeId)
+              : undefined
+
+          return [
+            {
+              id: docSnapshot.id,
+              displayName: data.displayName,
+              avatarToken: data.avatarToken,
+              totalStars: data.totalStars,
+              themeId: normalizedThemeId,
+              createdAt: data.createdAt?.toDate?.(),
+            },
+          ]
         }
-      })
+      )
 
       setChildren(nextChildren)
 

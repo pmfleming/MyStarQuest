@@ -76,7 +76,7 @@ describe('WaterToiletMonitor', () => {
 
     expect(waterImage).toHaveAttribute(
       'src',
-      expect.stringContaining('flask-empty')
+      expect.stringContaining('drink-success')
     )
     expect(toiletImage).toHaveAttribute(
       'src',

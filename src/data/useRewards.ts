@@ -16,7 +16,12 @@ import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { redeemReward } from '../lib/starActions'
-import type { RewardRecord, RewardUpdatableFields } from './types'
+import {
+  childStarsSnapshotDataSchema,
+  rewardSnapshotDataSchema,
+  type RewardRecord,
+  type RewardUpdatableFields,
+} from './types'
 
 export function useRewards() {
   const { user } = useAuth()
@@ -38,16 +43,29 @@ export function useRewards() {
     )
 
     const unsubscribe = onSnapshot(rewardsQuery, (snapshot) => {
-      const newRewards: RewardRecord[] = snapshot.docs.map((docSnapshot) => {
-        const data = docSnapshot.data()
-        return {
-          id: docSnapshot.id,
-          title: data.title ?? '',
-          costStars: data.costStars ?? 0,
-          isRepeating: data.isRepeating ?? false,
-          createdAt: data.createdAt?.toDate?.(),
+      const newRewards: RewardRecord[] = snapshot.docs.flatMap(
+        (docSnapshot) => {
+          const parsed = rewardSnapshotDataSchema.safeParse(docSnapshot.data())
+          if (!parsed.success) {
+            console.warn('Skipping invalid reward snapshot', {
+              id: docSnapshot.id,
+              issues: parsed.error.issues,
+            })
+            return []
+          }
+
+          const data = parsed.data
+          return [
+            {
+              id: docSnapshot.id,
+              title: data.title,
+              costStars: data.costStars,
+              isRepeating: data.isRepeating,
+              createdAt: data.createdAt?.toDate?.(),
+            },
+          ]
         }
-      })
+      )
 
       setRewards(newRewards)
 
@@ -74,8 +92,17 @@ export function useRewards() {
 
     const childRef = doc(db, 'users', user.uid, 'children', activeChildId)
     const unsubscribe = onSnapshot(childRef, (snapshot) => {
-      const data = snapshot.data()
-      setActiveChildStars(data?.totalStars ?? 0)
+      const parsed = childStarsSnapshotDataSchema.safeParse(snapshot.data())
+      if (!parsed.success) {
+        console.warn('Invalid child star balance snapshot', {
+          id: activeChildId,
+          issues: parsed.error.issues,
+        })
+        setActiveChildStars(0)
+        return
+      }
+
+      setActiveChildStars(parsed.data.totalStars)
     })
 
     return unsubscribe

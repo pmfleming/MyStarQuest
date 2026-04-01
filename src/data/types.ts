@@ -1,6 +1,7 @@
 // ── Shared data types and constants for the chore/task system ──
 
 import type { ThemeId } from '../ui/themeOptions'
+import { z } from 'zod'
 
 export type TaskType =
   | 'standard'
@@ -13,6 +14,115 @@ export type TaskType =
 export type WaterLevel = 'full' | 'twothirds' | 'onethird' | 'empty'
 
 export type ToiletStatus = 'notpeepee' | 'didpeepee'
+export type TaskOutcome = 'success' | 'failure'
+
+export const taskTypeSchema = z.enum([
+  'standard',
+  'eating',
+  'math',
+  'positional-notation',
+  'alphabet',
+  'watertoiletcheck',
+])
+
+export const waterLevelSchema = z.enum([
+  'full',
+  'twothirds',
+  'onethird',
+  'empty',
+])
+export const toiletStatusSchema = z.enum(['notpeepee', 'didpeepee'])
+export const mathDifficultySchema = z.enum(['easy', 'hard'])
+export const taskOutcomeSchema = z.enum(['success', 'failure'])
+
+export const firestoreTimestampLikeSchema = z.custom<{ toDate?: () => Date }>(
+  (value) => value == null || typeof value === 'object'
+)
+
+export const childSnapshotDataSchema = z
+  .object({
+    displayName: z.string().catch(''),
+    avatarToken: z.string().catch('⭐'),
+    totalStars: z.number().finite().catch(0),
+    themeId: z.string().optional(),
+    createdAt: firestoreTimestampLikeSchema.optional(),
+  })
+  .passthrough()
+
+export const rewardSnapshotDataSchema = z
+  .object({
+    title: z.string().catch(''),
+    costStars: z.number().finite().catch(0),
+    isRepeating: z.boolean().catch(false),
+    createdAt: firestoreTimestampLikeSchema.optional(),
+  })
+  .passthrough()
+
+export const taskSnapshotDataSchema = z
+  .object({
+    title: z.string().catch(''),
+    childId: z.string().catch(''),
+    category: z.string().catch(''),
+    taskType: z.string().catch('standard'),
+    schoolDayEnabled: z.boolean().catch(false),
+    nonSchoolDayEnabled: z.boolean().catch(false),
+    starValue: z.number().finite().catch(1),
+    isRepeating: z.boolean().catch(false),
+    createdAt: firestoreTimestampLikeSchema.optional(),
+    dinnerDurationSeconds: z
+      .number()
+      .finite()
+      .catch(10 * 60),
+    dinnerTotalBites: z.number().finite().catch(2),
+    mathTotalProblems: z.number().finite().catch(5),
+    mathDifficulty: mathDifficultySchema.catch('easy'),
+    pvTotalProblems: z.number().finite().catch(5),
+    alphabetTotalProblems: z.number().finite().catch(5),
+  })
+  .passthrough()
+
+export const todoSnapshotDataSchema = z
+  .object({
+    title: z.string().catch(''),
+    childId: z.string().catch(''),
+    sourceTaskId: z.string().catch(''),
+    sourceTaskType: z.string().catch('standard'),
+    starValue: z.number().finite().catch(1),
+    schoolDayEnabled: z.boolean().catch(false),
+    nonSchoolDayEnabled: z.boolean().catch(false),
+    autoAdded: z.boolean().catch(false),
+    completedAt: z.number().finite().nullable().catch(null),
+    dateKey: z.string().optional(),
+    createdAt: firestoreTimestampLikeSchema.optional(),
+    dinnerDurationSeconds: z
+      .number()
+      .finite()
+      .catch(10 * 60),
+    dinnerRemainingSeconds: z.number().finite().optional(),
+    dinnerTotalBites: z.number().finite().catch(2),
+    dinnerBitesLeft: z.number().finite().optional(),
+    dinnerTimerStartedAt: z.number().finite().nullable().catch(null),
+    mathTotalProblems: z.number().finite().catch(5),
+    mathDifficulty: mathDifficultySchema.catch('easy'),
+    mathLastOutcome: taskOutcomeSchema.nullable().catch(null),
+    pvTotalProblems: z.number().finite().catch(5),
+    pvLastOutcome: taskOutcomeSchema.nullable().catch(null),
+    alphabetTotalProblems: z.number().finite().catch(5),
+    alphabetLastOutcome: taskOutcomeSchema.nullable().catch(null),
+    waterLevel: waterLevelSchema.catch('full'),
+    toiletStatus: toiletStatusSchema.catch('notpeepee'),
+  })
+  .passthrough()
+
+export const childStarsSnapshotDataSchema = z
+  .object({
+    totalStars: z.number().finite().catch(0),
+  })
+  .passthrough()
+
+export const resetTodayTodosResultSchema = z.object({
+  data: z.unknown().optional(),
+})
 
 // ── TaskRecord: discriminated union on `taskType` ──
 
@@ -93,15 +203,15 @@ export type EatingTaskWithEphemeral = EatingTask & {
 }
 export type MathTaskWithEphemeral = MathTask & {
   manageMathCompletedAt?: number | null
-  manageMathLastOutcome?: 'success' | 'failure' | null
+  manageMathLastOutcome?: TaskOutcome | null
 }
 export type PVTaskWithEphemeral = PositionalNotationTask & {
   managePVCompletedAt?: number | null
-  managePVLastOutcome?: 'success' | 'failure' | null
+  managePVLastOutcome?: TaskOutcome | null
 }
 export type AlphabetTaskWithEphemeral = AlphabetTask & {
   manageAlphabetCompletedAt?: number | null
-  manageAlphabetLastOutcome?: 'success' | 'failure' | null
+  manageAlphabetLastOutcome?: TaskOutcome | null
 }
 export type WaterToiletTaskWithEphemeral = WaterToiletTask & {
   manageWaterLevel?: WaterLevel
@@ -146,17 +256,17 @@ export type MathTodo = TodoBase & {
   sourceTaskType: 'math'
   mathTotalProblems: number
   mathDifficulty?: MathDifficulty
-  mathLastOutcome: 'success' | 'failure' | null
+  mathLastOutcome: TaskOutcome | null
 }
 export type PositionalNotationTodo = TodoBase & {
   sourceTaskType: 'positional-notation'
   pvTotalProblems: number
-  pvLastOutcome: 'success' | 'failure' | null
+  pvLastOutcome: TaskOutcome | null
 }
 export type AlphabetTodo = TodoBase & {
   sourceTaskType: 'alphabet'
   alphabetTotalProblems: number
-  alphabetLastOutcome: 'success' | 'failure' | null
+  alphabetLastOutcome: TaskOutcome | null
 }
 export type WaterToiletTodo = TodoBase & {
   sourceTaskType: 'watertoiletcheck'
@@ -193,9 +303,9 @@ export type TodoUpdatableFields = Partial<{
   dinnerRemainingSeconds: number
   dinnerBitesLeft: number
   dinnerTimerStartedAt: number | null
-  mathLastOutcome: 'success' | 'failure' | null
-  pvLastOutcome: 'success' | 'failure' | null
-  alphabetLastOutcome: 'success' | 'failure' | null
+  mathLastOutcome: TaskOutcome | null
+  pvLastOutcome: TaskOutcome | null
+  alphabetLastOutcome: TaskOutcome | null
   waterLevel: WaterLevel
   toiletStatus: ToiletStatus
 }>

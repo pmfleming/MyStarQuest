@@ -6,6 +6,8 @@ import {
   DEFAULT_PV_PROBLEMS,
   DEFAULT_TOILET_STATUS,
   DEFAULT_WATER_LEVEL,
+  taskSnapshotDataSchema,
+  todoSnapshotDataSchema,
   type TaskRecord,
   type TaskType,
   type TodoRecord,
@@ -19,56 +21,48 @@ const getCreatedAt = (data: SnapshotData) => {
   return createdAt?.toDate?.()
 }
 
-const getString = (value: unknown, fallback = ''): string =>
-  typeof value === 'string' ? value : fallback
-
-const getNumber = (value: unknown, fallback: number): number =>
-  typeof value === 'number' && Number.isFinite(value) ? value : fallback
-
-const getBoolean = (value: unknown, fallback = false): boolean =>
-  typeof value === 'boolean' ? value : fallback
-
-const getNullableNumber = (value: unknown): number | null =>
-  typeof value === 'number' && Number.isFinite(value) ? value : null
-
-const getMathDifficulty = (value: unknown): 'easy' | 'hard' =>
-  value === 'hard' ? 'hard' : 'easy'
-
-const getOutcome = (value: unknown): 'success' | 'failure' | null =>
-  value === 'success' || value === 'failure' ? value : null
-
 export function parseTaskSnapshot(
   id: string,
   data: SnapshotData
 ): TaskRecord | null {
+  const parsed = taskSnapshotDataSchema.safeParse(data)
+  if (!parsed.success) {
+    console.warn('Skipping invalid task snapshot', {
+      id,
+      issues: parsed.error.issues,
+    })
+    return null
+  }
+
+  const taskData = parsed.data
   const isLegacyDayNight =
-    data.taskType === 'daynight' || data.category === 'daynight'
+    taskData.taskType === 'daynight' || taskData.category === 'daynight'
   if (isLegacyDayNight) return null
 
   const taskType: TaskType =
-    data.taskType === 'positional-notation' ||
-    data.category === 'positional-notation'
+    taskData.taskType === 'positional-notation' ||
+    taskData.category === 'positional-notation'
       ? 'positional-notation'
-      : data.taskType === 'math' || data.category === 'math'
+      : taskData.taskType === 'math' || taskData.category === 'math'
         ? 'math'
-        : data.taskType === 'alphabet' || data.category === 'alphabet'
+        : taskData.taskType === 'alphabet' || taskData.category === 'alphabet'
           ? 'alphabet'
-          : data.taskType === 'watertoiletcheck' ||
-              data.category === 'watertoiletcheck'
+          : taskData.taskType === 'watertoiletcheck' ||
+              taskData.category === 'watertoiletcheck'
             ? 'watertoiletcheck'
-            : data.taskType === 'eating' || data.category === 'eating'
+            : taskData.taskType === 'eating' || taskData.category === 'eating'
               ? 'eating'
               : 'standard'
 
   const base = {
     id,
-    title: getString(data.title),
-    childId: getString(data.childId),
-    category: getString(data.category),
-    ...normalizeChoreSchedule(data),
-    starValue: getNumber(data.starValue, 1),
-    isRepeating: getBoolean(data.isRepeating),
-    createdAt: getCreatedAt(data),
+    title: taskData.title,
+    childId: taskData.childId,
+    category: taskData.category,
+    ...normalizeChoreSchedule(taskData),
+    starValue: taskData.starValue,
+    isRepeating: taskData.isRepeating,
+    createdAt: getCreatedAt(taskData),
   }
 
   switch (taskType) {
@@ -76,39 +70,29 @@ export function parseTaskSnapshot(
       return {
         ...base,
         taskType: 'eating',
-        dinnerDurationSeconds: getNumber(
-          data.dinnerDurationSeconds,
-          DEFAULT_DINNER_DURATION_SECONDS
-        ),
-        dinnerTotalBites: getNumber(
-          data.dinnerTotalBites,
-          DEFAULT_DINNER_BITES
-        ),
+        dinnerDurationSeconds:
+          taskData.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
+        dinnerTotalBites: taskData.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
       }
     case 'math':
       return {
         ...base,
         taskType: 'math',
-        mathTotalProblems: getNumber(
-          data.mathTotalProblems,
-          DEFAULT_MATH_PROBLEMS
-        ),
-        mathDifficulty: getMathDifficulty(data.mathDifficulty),
+        mathTotalProblems: taskData.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+        mathDifficulty: taskData.mathDifficulty,
       }
     case 'alphabet':
       return {
         ...base,
         taskType: 'alphabet',
-        alphabetTotalProblems: getNumber(
-          data.alphabetTotalProblems,
-          DEFAULT_ALPHABET_PROBLEMS
-        ),
+        alphabetTotalProblems:
+          taskData.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
       }
     case 'positional-notation':
       return {
         ...base,
         taskType: 'positional-notation',
-        pvTotalProblems: getNumber(data.pvTotalProblems, DEFAULT_PV_PROBLEMS),
+        pvTotalProblems: taskData.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
       }
     case 'watertoiletcheck':
       return {
@@ -125,29 +109,39 @@ export function parseTodoSnapshot(
   data: SnapshotData,
   fallbackDateKey: string
 ): TodoRecord | null {
-  const isLegacyDayNight = data.sourceTaskType === 'daynight'
+  const parsed = todoSnapshotDataSchema.safeParse(data)
+  if (!parsed.success) {
+    console.warn('Skipping invalid todo snapshot', {
+      id,
+      issues: parsed.error.issues,
+    })
+    return null
+  }
+
+  const todoData = parsed.data
+  const isLegacyDayNight = todoData.sourceTaskType === 'daynight'
   if (isLegacyDayNight) return null
 
   const sourceTaskType: TaskType =
-    data.sourceTaskType === 'positional-notation' ||
-    data.sourceTaskType === 'math' ||
-    data.sourceTaskType === 'alphabet' ||
-    data.sourceTaskType === 'watertoiletcheck' ||
-    data.sourceTaskType === 'eating'
-      ? data.sourceTaskType
+    todoData.sourceTaskType === 'positional-notation' ||
+    todoData.sourceTaskType === 'math' ||
+    todoData.sourceTaskType === 'alphabet' ||
+    todoData.sourceTaskType === 'watertoiletcheck' ||
+    todoData.sourceTaskType === 'eating'
+      ? todoData.sourceTaskType
       : 'standard'
 
   const base = {
     id,
-    title: getString(data.title),
-    childId: getString(data.childId),
-    sourceTaskId: getString(data.sourceTaskId),
-    starValue: getNumber(data.starValue, 1),
-    ...normalizeChoreSchedule(data),
-    autoAdded: data.autoAdded === true,
-    completedAt: getNullableNumber(data.completedAt),
-    dateKey: getString(data.dateKey, fallbackDateKey),
-    createdAt: getCreatedAt(data),
+    title: todoData.title,
+    childId: todoData.childId,
+    sourceTaskId: todoData.sourceTaskId,
+    starValue: todoData.starValue,
+    ...normalizeChoreSchedule(todoData),
+    autoAdded: todoData.autoAdded,
+    completedAt: todoData.completedAt,
+    dateKey: todoData.dateKey ?? fallbackDateKey,
+    createdAt: getCreatedAt(todoData),
   }
 
   switch (sourceTaskType) {
@@ -155,66 +149,48 @@ export function parseTodoSnapshot(
       return {
         ...base,
         sourceTaskType: 'eating',
-        dinnerDurationSeconds: getNumber(
-          data.dinnerDurationSeconds,
-          DEFAULT_DINNER_DURATION_SECONDS
-        ),
-        dinnerRemainingSeconds: getNumber(
-          data.dinnerRemainingSeconds,
-          getNumber(data.dinnerDurationSeconds, DEFAULT_DINNER_DURATION_SECONDS)
-        ),
-        dinnerTotalBites: getNumber(
-          data.dinnerTotalBites,
-          DEFAULT_DINNER_BITES
-        ),
-        dinnerBitesLeft: getNumber(
-          data.dinnerBitesLeft,
-          getNumber(data.dinnerTotalBites, DEFAULT_DINNER_BITES)
-        ),
-        dinnerTimerStartedAt: getNullableNumber(data.dinnerTimerStartedAt),
+        dinnerDurationSeconds:
+          todoData.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
+        dinnerRemainingSeconds:
+          todoData.dinnerRemainingSeconds ??
+          todoData.dinnerDurationSeconds ??
+          DEFAULT_DINNER_DURATION_SECONDS,
+        dinnerTotalBites: todoData.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
+        dinnerBitesLeft:
+          todoData.dinnerBitesLeft ??
+          todoData.dinnerTotalBites ??
+          DEFAULT_DINNER_BITES,
+        dinnerTimerStartedAt: todoData.dinnerTimerStartedAt,
       }
     case 'math':
       return {
         ...base,
         sourceTaskType: 'math',
-        mathTotalProblems: getNumber(
-          data.mathTotalProblems,
-          DEFAULT_MATH_PROBLEMS
-        ),
-        mathDifficulty: getMathDifficulty(data.mathDifficulty),
-        mathLastOutcome: getOutcome(data.mathLastOutcome),
+        mathTotalProblems: todoData.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+        mathDifficulty: todoData.mathDifficulty,
+        mathLastOutcome: todoData.mathLastOutcome,
       }
     case 'alphabet':
       return {
         ...base,
         sourceTaskType: 'alphabet',
-        alphabetTotalProblems: getNumber(
-          data.alphabetTotalProblems,
-          DEFAULT_ALPHABET_PROBLEMS
-        ),
-        alphabetLastOutcome: getOutcome(data.alphabetLastOutcome),
+        alphabetTotalProblems:
+          todoData.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
+        alphabetLastOutcome: todoData.alphabetLastOutcome,
       }
     case 'positional-notation':
       return {
         ...base,
         sourceTaskType: 'positional-notation',
-        pvTotalProblems: getNumber(data.pvTotalProblems, DEFAULT_PV_PROBLEMS),
-        pvLastOutcome: getOutcome(data.pvLastOutcome),
+        pvTotalProblems: todoData.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
+        pvLastOutcome: todoData.pvLastOutcome,
       }
     case 'watertoiletcheck':
       return {
         ...base,
         sourceTaskType: 'watertoiletcheck',
-        waterLevel:
-          data.waterLevel === 'twothirds' ||
-          data.waterLevel === 'onethird' ||
-          data.waterLevel === 'empty'
-            ? data.waterLevel
-            : DEFAULT_WATER_LEVEL,
-        toiletStatus:
-          data.toiletStatus === 'didpeepee'
-            ? 'didpeepee'
-            : DEFAULT_TOILET_STATUS,
+        waterLevel: todoData.waterLevel ?? DEFAULT_WATER_LEVEL,
+        toiletStatus: todoData.toiletStatus ?? DEFAULT_TOILET_STATUS,
       }
     default:
       return {
