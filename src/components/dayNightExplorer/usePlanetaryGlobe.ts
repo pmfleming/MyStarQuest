@@ -60,7 +60,8 @@ type Ping = {
 
 const usePlanetaryGlobe = (
   renderScene: ExplorerRenderScene,
-  sunPosition: SunPosition
+  sunPosition: SunPosition,
+  isDragging: boolean
 ) => {
   const [globeReady, setGlobeReady] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -69,6 +70,7 @@ const usePlanetaryGlobe = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const countriesGeoRef = useRef<any>(null)
   const pingsRef = useRef<Ping[]>([])
+  const lastPingTimesRef = useRef<Record<string, number>>({})
   const requestRef = useRef<number>(null!)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const projectionRef = useRef<any>(null)
@@ -76,8 +78,18 @@ const usePlanetaryGlobe = (
   // Cache these for the render loop
   const sunPositionRef = useRef(sunPosition)
   const renderSceneRef = useRef(renderScene)
+  const isDraggingRef = useRef(isDragging)
   sunPositionRef.current = sunPosition
   renderSceneRef.current = renderScene
+  isDraggingRef.current = isDragging
+
+  useEffect(() => {
+    // Initialize pings with staggering (so they don't fire all at once)
+    const now = Date.now()
+    EXPLORER_CITY_OPTIONS.forEach((city, index) => {
+      lastPingTimesRef.current[city.id] = now - 1000 + index * 333
+    })
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -156,7 +168,7 @@ const usePlanetaryGlobe = (
     const projection = projectionRef.current as any
     const path = d3.geoPath(projection, context)
 
-    const render = (time: number) => {
+    const render = () => {
       if (!canvasRef.current) return
       const width = canvasRef.current.width
       const height = canvasRef.current.height
@@ -194,46 +206,81 @@ const usePlanetaryGlobe = (
         sunLatitude: sunPositionRef.current.latitude,
       })
 
-      // 5. Pings
-      const now = Date.now()
-      if (time % 1000 < 20) {
+      // 5. City Indicators (Stationary Only)
+      if (!isDraggingRef.current) {
+        const now = Date.now()
+        const width = canvasRef.current.width
+
+        // 5a. Add new pings (staggered robust pulse)
         EXPLORER_CITY_OPTIONS.forEach((city) => {
-          pingsRef.current.push({
-            lon: city.location.longitude,
-            lat: city.location.latitude,
-            color: city.color,
-            radius: 0,
-            opacity: 1,
-            startTime: now,
-            ttl: city.ttl,
-          })
+          const lastPing = lastPingTimesRef.current[city.id] || 0
+          if (now - lastPing > 1000) {
+            pingsRef.current.push({
+              lon: city.location.longitude,
+              lat: city.location.latitude,
+              color: city.color,
+              radius: 0,
+              opacity: 1,
+              startTime: now,
+              ttl: city.ttl,
+            })
+            lastPingTimesRef.current[city.id] = now
+          }
+        })
+
+        // 5b. Static City Anchors
+        EXPLORER_CITY_OPTIONS.forEach((city) => {
+          const coords = projection([
+            city.location.longitude,
+            city.location.latitude,
+          ])
+          if (coords) {
+            const gdistance = d3.geoDistance(
+              [city.location.longitude, city.location.latitude],
+              projection.invert([width / 2, height / 2])
+            )
+            if (gdistance < Math.PI / 2) {
+              context.beginPath()
+              context.arc(coords[0], coords[1], 3, 0, Math.PI * 2)
+              context.fillStyle = city.color
+              context.fill()
+              context.strokeStyle = 'white'
+              context.lineWidth = 1
+              context.stroke()
+            }
+          }
+        })
+
+        // 5c. Animated Pings
+        pingsRef.current = pingsRef.current.filter(
+          (p) => now - p.startTime < p.ttl
+        )
+        pingsRef.current.forEach((p) => {
+          const progress = (now - p.startTime) / p.ttl
+          p.radius = (progress * width) / 15
+          p.opacity = 1 - progress
+
+          const coords = projection([p.lon, p.lat])
+          if (coords) {
+            const gdistance = d3.geoDistance(
+              [p.lon, p.lat],
+              projection.invert([width / 2, height / 2])
+            )
+            if (gdistance < Math.PI / 2) {
+              context.save()
+              context.beginPath()
+              context.arc(coords[0], coords[1], p.radius, 0, Math.PI * 2)
+              context.strokeStyle = p.color
+              context.lineWidth = 2.5
+              context.globalAlpha = p.opacity
+              context.shadowBlur = 10
+              context.shadowColor = p.color
+              context.stroke()
+              context.restore()
+            }
+          }
         })
       }
-
-      pingsRef.current = pingsRef.current.filter(
-        (p) => now - p.startTime < p.ttl
-      )
-      pingsRef.current.forEach((p) => {
-        const progress = (now - p.startTime) / p.ttl
-        p.radius = (progress * width) / 20
-        p.opacity = 1 - progress
-
-        const coords = projection([p.lon, p.lat])
-        if (coords) {
-          const gdistance = d3.geoDistance(
-            [p.lon, p.lat],
-            projection.invert([width / 2, height / 2])
-          )
-          if (gdistance < Math.PI / 2) {
-            context.beginPath()
-            context.arc(coords[0], coords[1], p.radius, 0, Math.PI * 2)
-            context.strokeStyle = p.color
-            context.globalAlpha = p.opacity
-            context.stroke()
-            context.globalAlpha = 1
-          }
-        }
-      })
 
       requestRef.current = requestAnimationFrame(render)
     }
@@ -248,6 +295,8 @@ const usePlanetaryGlobe = (
   return {
     canvasRef,
     globeReady,
+    sunPositionRef,
+    renderSceneRef,
   }
 }
 

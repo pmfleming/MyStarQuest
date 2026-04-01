@@ -9,6 +9,8 @@ interface TopIconButtonProps {
   ariaLabel: string
   to?: string
   onClick?: () => void
+  selected?: boolean
+  disabled?: boolean
 }
 
 const TopIconButton = ({
@@ -17,12 +19,14 @@ const TopIconButton = ({
   ariaLabel,
   to,
   onClick,
+  selected = false,
+  disabled = false,
 }: TopIconButtonProps) => {
   const commonProps = {
     'aria-label': ariaLabel,
-    className:
-      'flex items-center justify-center transition hover:opacity-90 active:scale-95',
-    style: getTopIconStyle(theme),
+    'aria-pressed': selected || undefined,
+    className: 'flex items-center justify-center transition active:scale-95',
+    style: getTopIconStyle(theme, selected),
   }
 
   if (to) {
@@ -34,7 +38,12 @@ const TopIconButton = ({
   }
 
   return (
-    <button type="button" onClick={onClick} {...commonProps}>
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      {...commonProps}
+    >
       {icon}
     </button>
   )

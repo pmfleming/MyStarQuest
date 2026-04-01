@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Capacitor } from '@capacitor/core'
 import { useTheme } from '../contexts/ThemeContext'
@@ -54,7 +54,9 @@ const AnimatedTabLayout = () => {
   )
 
   const activeTabId = getTabIdForPath(location.pathname)
-  const prevTabIdRef = useRef<string | null>(activeTabId)
+  // We use displayTabId to keep the UI showing the "current" tab
+  // until the animation state is initialized in the useEffect.
+  const [displayTabId, setDisplayTabId] = useState<AppTabId | null>(activeTabId)
 
   const [animState, setAnimState] = useState<AnimationState>({
     isAnimating: false,
@@ -78,11 +80,10 @@ const AnimatedTabLayout = () => {
 
   // Handle URL navigation (Bottom Nav)
   useEffect(() => {
-    const prevTabId = prevTabIdRef.current
+    const prevTabId = displayTabId
     const nextTabId = activeTabId
 
     if (prevTabId === nextTabId || !prevTabId || !nextTabId) {
-      prevTabIdRef.current = nextTabId
       return
     }
 
@@ -90,9 +91,8 @@ const AnimatedTabLayout = () => {
     const nextIndex = getTabIndex(nextTabId as AppTabId)
     const direction = nextIndex >= prevIndex ? 1 : -1
 
-    prevTabIdRef.current = nextTabId
-
-    // Start auto-animation
+    // Update both together to trigger a single re-render with animation state
+    setDisplayTabId(nextTabId)
     setAnimState({
       isAnimating: true,
       exitingTabId: prevTabId,
@@ -124,7 +124,7 @@ const AnimatedTabLayout = () => {
     }
 
     requestAnimationFrame(animate)
-  }, [location.pathname, activeTabId])
+  }, [activeTabId, displayTabId])
 
   // Pre-render pages
   const renderTab = (tabId: string) => {
@@ -175,7 +175,7 @@ const AnimatedTabLayout = () => {
           style={{ touchAction: 'pan-y' }}
         >
           {appTabs.map((tab) => {
-            const isActive = tab.id === activeTabId
+            const isActive = tab.id === displayTabId
             const isExiting = tab.id === animState.exitingTabId
             const isIncoming = tab.id === animState.incomingTabId
 

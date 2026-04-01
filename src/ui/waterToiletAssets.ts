@@ -1,9 +1,9 @@
 import {
   princessDidPeePeeImage,
-  princessFlaskFullImage,
   princessFlaskOneThirdImage,
   princessFlaskTwoThirdsImage,
-  princessFlaskEmptyImage,
+  princessFlaskFullImage,
+  princessDrinkSuccessImage,
   princessNotPeePeeImage,
 } from '../assets/themes/princess/assets'
 import type { Theme } from '../contexts/ThemeContext'
@@ -45,7 +45,7 @@ export const getWaterImage = (theme: Theme, waterLevel: WaterLevel) => {
     case 'onethird':
       return princessFlaskOneThirdImage
     case 'empty':
-      return princessFlaskEmptyImage
+      return princessDrinkSuccessImage
   }
 }
 
@@ -62,6 +62,6 @@ export const getWaterToiletOutcomeImage = (
 ) => {
   if (theme.id !== 'princess') return undefined
   return outcome === 'success'
-    ? princessFlaskEmptyImage
+    ? princessDrinkSuccessImage
     : princessNotPeePeeImage
 }

@@ -7,6 +7,8 @@ export type ExplorerRenderScene = {
   rotation: [number, number, number]
 }
 
+type GeoPathRenderer = (shape: unknown) => void
+
 export const normalizeMinutes = (totalMinutes: number) => {
   return (
     ((totalMinutes % explorerUi.totalMinutes) + explorerUi.totalMinutes) %
@@ -51,21 +53,24 @@ export const formatTime = (totalMinutes: number) => {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const drawNightOverlay = (options: {
   context: CanvasRenderingContext2D
-  path: any
+  path: GeoPathRenderer
   sunLongitude: number
   sunLatitude: number
 }) => {
   const { context, path, sunLongitude, sunLatitude } = options
 
   // The night hemisphere is centered at the antipodal point of the sun
-  const nightCenterLongitude = sunLongitude > 0 ? sunLongitude - 180 : sunLongitude + 180
+  const nightCenterLongitude =
+    sunLongitude > 0 ? sunLongitude - 180 : sunLongitude + 180
   const nightCenterLatitude = -sunLatitude
 
   // D3 v7 syntax
-  const circle = window.d3.geoCircle().center([nightCenterLongitude, nightCenterLatitude]).radius(90)
+  const circle = window.d3
+    .geoCircle()
+    .center([nightCenterLongitude, nightCenterLatitude])
+    .radius(90)
   const nightGeoJson = circle()
 
   context.save()

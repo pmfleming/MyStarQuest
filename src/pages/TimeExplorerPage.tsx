@@ -3,12 +3,10 @@ import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import TopIconButton from '../components/ui/TopIconButton'
 import SchoolCalendar from '../components/SchoolCalendar'
-import { clearSchoolCalendarCache } from '../lib/schoolCalendarCache'
 import { uiTokens } from '../tokens'
 import {
   princessCalendarIcon,
   princessClockIcon,
-  princessResetIcon,
   princessThermometerIcon,
 } from '../assets/themes/princess/assets'
 import SpinningPlanet from '../components/dayNightExplorer/SpinningPlanet'
@@ -20,23 +18,8 @@ type ExplorerPanel = 'clock' | 'calendar'
 
 const TimeExplorerPage = () => {
   const { theme } = useTheme()
-  const [calendarKey, setCalendarKey] = useState(0)
   const [activePanel, setActivePanel] = useState<ExplorerPanel>('clock')
   const explorer = useDayNightExplorerModel(theme)
-
-  const sharedButtonStyle = {
-    width: '42px',
-    height: '42px',
-    borderRadius: '12px',
-    border: `3px solid ${theme.colors.accent}`,
-    background: theme.colors.surface,
-    boxShadow: `0 12px 28px ${theme.colors.accent}22`,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition:
-      'transform 180ms ease, box-shadow 180ms ease, background 180ms ease',
-  } as const
 
   const renderIcon = (kind: 'clock' | 'calendar' | 'thermometer') => {
     if (theme.id === 'princess') {
@@ -79,27 +62,30 @@ const TimeExplorerPage = () => {
       theme={theme}
       title="Time Explorer"
       headerRight={
-        <TopIconButton
-          theme={theme}
-          onClick={() => {
-            clearSchoolCalendarCache()
-            setCalendarKey((currentKey) => currentKey + 1)
-          }}
-          ariaLabel="Refresh calendar"
-          icon={
-            theme.id === 'princess' ? (
-              <img
-                src={princessResetIcon}
-                alt="Refresh calendar"
-                className="h-10 w-10 object-contain"
-              />
-            ) : (
-              <span className="text-2xl" role="img" aria-hidden="true">
-                🔄
-              </span>
-            )
-          }
-        />
+        <div className="flex items-center gap-2">
+          <TopIconButton
+            theme={theme}
+            ariaLabel="Show clock"
+            onClick={() => setActivePanel('clock')}
+            selected={activePanel === 'clock'}
+            icon={renderIcon('clock')}
+          />
+
+          <TopIconButton
+            theme={theme}
+            ariaLabel="Show calendar"
+            onClick={() => setActivePanel('calendar')}
+            selected={activePanel === 'calendar'}
+            icon={renderIcon('calendar')}
+          />
+
+          <TopIconButton
+            theme={theme}
+            ariaLabel="Temperature view coming later"
+            onClick={() => undefined}
+            icon={renderIcon('thermometer')}
+          />
+        </div>
       }
     >
       <div
@@ -115,82 +101,15 @@ const TimeExplorerPage = () => {
         <div
           style={{
             width: '100%',
-            position: 'relative',
-            paddingTop: '21px',
           }}
         >
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'flex-start',
-              gap: '6px',
-              transform: 'translateY(-50%)',
-              zIndex: 10,
-            }}
-          >
-            <button
-              type="button"
-              aria-label="Show clock"
-              aria-pressed={activePanel === 'clock'}
-              onClick={() => setActivePanel('clock')}
-              style={{
-                ...sharedButtonStyle,
-                background:
-                  activePanel === 'clock'
-                    ? `${theme.colors.accent}22`
-                    : theme.colors.surface,
-                boxShadow:
-                  activePanel === 'clock'
-                    ? `0 14px 32px ${theme.colors.accent}33`
-                    : sharedButtonStyle.boxShadow,
-                transform:
-                  activePanel === 'clock' ? 'translateY(-2px)' : 'none',
-              }}
-            >
-              {renderIcon('clock')}
-            </button>
-
-            <button
-              type="button"
-              aria-label="Show calendar"
-              aria-pressed={activePanel === 'calendar'}
-              onClick={() => setActivePanel('calendar')}
-              style={{
-                ...sharedButtonStyle,
-                background:
-                  activePanel === 'calendar'
-                    ? `${theme.colors.accent}22`
-                    : theme.colors.surface,
-                boxShadow:
-                  activePanel === 'calendar'
-                    ? `0 14px 32px ${theme.colors.accent}33`
-                    : sharedButtonStyle.boxShadow,
-                transform:
-                  activePanel === 'calendar' ? 'translateY(-2px)' : 'none',
-              }}
-            >
-              {renderIcon('calendar')}
-            </button>
-
-            <button
-              type="button"
-              aria-label="Temperature view coming later"
-              onClick={() => undefined}
-              style={sharedButtonStyle}
-            >
-              {renderIcon('thermometer')}
-            </button>
+          <div style={{ minWidth: 0, width: '100%' }}>
+            {activePanel === 'clock' ? (
+              <Clock theme={theme} clock={explorer.clock} />
+            ) : (
+              <SchoolCalendar theme={theme} />
+            )}
           </div>
-
-          {activePanel === 'clock' ? (
-            <Clock theme={theme} clock={explorer.clock} />
-          ) : (
-            <SchoolCalendar key={calendarKey} theme={theme} />
-          )}
         </div>
       </div>
     </TabContent>

@@ -4,7 +4,7 @@ const linkedTimeExplorerPanelHeight = uiTokens.timeExplorerLinkedPanelHeight
 
 export const explorerUi = {
   totalMinutes: 1440,
-  dragCommitIntervalMs: 1000 / 15,
+  dragCommitIntervalMs: 250,
   globeCanvasSize: Math.round(uiTokens.contentMaxWidth * 0.75),
   clockPanelHeight: linkedTimeExplorerPanelHeight,
   clockFaceWidth: uiTokens.contentMaxWidth,

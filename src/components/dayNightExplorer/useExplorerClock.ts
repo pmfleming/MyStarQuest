@@ -22,11 +22,13 @@ type ClockTime = {
 type UseExplorerClockOptions = {
   initialMinutes: number
   initialSeconds: number
+  onUpdate?: (minutes: number, seconds: number) => void
 }
 
 const useExplorerClock = ({
   initialMinutes,
   initialSeconds,
+  onUpdate,
 }: UseExplorerClockOptions) => {
   const [minutes, setMinutes] = useState(initialMinutes)
   const [seconds, setSeconds] = useState(initialSeconds)
@@ -39,6 +41,12 @@ const useExplorerClock = ({
   const hourHandRef = useRef<SVGGElement>(null)
   const minuteHandRef = useRef<SVGGElement>(null)
   const secondHandRef = useRef<SVGGElement>(null)
+
+  const digitalHourRef = useRef<HTMLSpanElement>(null)
+  const digitalMinuteRef = useRef<HTMLSpanElement>(null)
+  const digitalSecondRef = useRef<HTMLSpanElement>(null)
+  const digitalAmpmRef = useRef<HTMLSpanElement>(null)
+
   const activeHandRef = useRef<ClockHandId | null>(null)
   const lastAngleRef = useRef(0)
   const exactMinutesRef = useRef(minutes)
@@ -63,8 +71,11 @@ const useExplorerClock = ({
       if (secondHandRef.current) {
         secondHandRef.current.style.transform = `rotate(${secondAngle}deg)`
       }
+
+      // External callback for unthrottled visual updates (e.g. globe)
+      onUpdate?.(nextMinutes, nextSeconds)
     },
-    []
+    [onUpdate]
   )
 
   const commitExplorerTime = useCallback(
@@ -282,6 +293,10 @@ const useExplorerClock = ({
     hourHandRef,
     minuteHandRef,
     secondHandRef,
+    digitalHourRef,
+    digitalMinuteRef,
+    digitalSecondRef,
+    digitalAmpmRef,
     handlePointerDown,
     adjustMinutes,
     syncClockTime,

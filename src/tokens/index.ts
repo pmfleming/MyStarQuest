@@ -47,13 +47,15 @@ export const uiTokens = {
   },
 } as const
 
-export const getTopIconStyle = (theme: Theme) => ({
-  backgroundColor: theme.colors.primary,
+export const getTopIconStyle = (theme: Theme, isSelected = false) => ({
+  backgroundColor: isSelected
+    ? theme.colors.primary
+    : `${theme.colors.primary}80`,
   color: theme.colors.text,
   height: `${uiTokens.topIconSize}px`,
   width: `${uiTokens.topIconSize}px`,
   borderRadius: '9999px',
-  border: `${uiTokens.topIconBorder}px solid ${theme.colors.accent}`,
+  border: `${uiTokens.topIconBorder}px solid ${theme.colors.primary}`,
   boxShadow: `0 0 10px ${theme.colors.primary}`,
   display: 'flex',
   alignItems: 'center',

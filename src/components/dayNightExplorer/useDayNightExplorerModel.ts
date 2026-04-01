@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import {
   useSelectedDate,
   useSolarTimes,
@@ -67,9 +67,16 @@ export default function useDayNightExplorerModel(
     () => getInitialExplorerClockTime(calculationLocation),
     [calculationLocation]
   )
+
+  const onUpdateRef = useRef<(minutes: number, seconds: number) => void>(null!)
+
   const clock = useExplorerClock({
     initialMinutes: initialClockTime.totalMinutes,
     initialSeconds: initialClockTime.seconds,
+    onUpdate: useCallback(
+      (m: number, s: number) => onUpdateRef.current?.(m, s),
+      []
+    ),
   })
 
   const currentInstant = useMemo(
@@ -96,7 +103,65 @@ export default function useDayNightExplorerModel(
       }),
     [focusedCity.location.longitude, renderMode, sunPosition]
   )
-  const { canvasRef, globeReady } = usePlanetaryGlobe(renderScene, sunPosition)
+
+  const { canvasRef, globeReady, sunPositionRef, renderSceneRef } =
+    usePlanetaryGlobe(renderScene, sunPosition, clock.isDragging)
+
+  // Direct visual updates during dragging (bypassing React re-renders)
+  onUpdateRef.current = useCallback(
+    (nextMinutes: number, nextSeconds: number) => {
+      // 1. Digital Clock direct DOM updates
+      const formatted = formatTime(nextMinutes)
+      if (clock.digitalHourRef.current) {
+        clock.digitalHourRef.current.textContent = formatted.h
+      }
+      if (clock.digitalMinuteRef.current) {
+        clock.digitalMinuteRef.current.textContent = formatted.m
+      }
+      if (clock.digitalSecondRef.current) {
+        clock.digitalSecondRef.current.textContent = String(
+          Math.floor(nextSeconds)
+        ).padStart(2, '0')
+      }
+      if (clock.digitalAmpmRef.current) {
+        clock.digitalAmpmRef.current.textContent = formatted.ampm
+      }
+
+      // 2. Globe direct Ref updates
+      const ephemeralInstant = buildExplorerInstant(
+        selectedDate,
+        nextMinutes,
+        nextSeconds,
+        calculationLocation
+      )
+      const ephemeralSunPosition = getSunPosition(ephemeralInstant)
+      const ephemeralRenderScene = getExplorerRenderScene({
+        renderMode,
+        observerLatitude: 0,
+        observerLongitude: focusedCity.location.longitude,
+        sunPosition: ephemeralSunPosition,
+      })
+
+      if (sunPositionRef.current) {
+        sunPositionRef.current = ephemeralSunPosition
+      }
+      if (renderSceneRef.current) {
+        renderSceneRef.current = ephemeralRenderScene
+      }
+    },
+    [
+      selectedDate,
+      calculationLocation,
+      renderMode,
+      focusedCity.location.longitude,
+      clock.digitalHourRef,
+      clock.digitalMinuteRef,
+      clock.digitalSecondRef,
+      clock.digitalAmpmRef,
+      sunPositionRef,
+      renderSceneRef,
+    ]
+  )
 
   const handleFocusSelection = useCallback(
     (focusId: ExplorerFocusId) => {
@@ -164,6 +229,10 @@ export default function useDayNightExplorerModel(
       hourHandRef: clock.hourHandRef,
       minuteHandRef: clock.minuteHandRef,
       secondHandRef: clock.secondHandRef,
+      digitalHourRef: clock.digitalHourRef,
+      digitalMinuteRef: clock.digitalMinuteRef,
+      digitalSecondRef: clock.digitalSecondRef,
+      digitalAmpmRef: clock.digitalAmpmRef,
       onPointerDown: clock.handlePointerDown,
       onAdjust: clock.adjustMinutes,
     },

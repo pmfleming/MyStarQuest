@@ -43,21 +43,30 @@
   overflow: visible;
 }
 
-.dne-location-glass-nav {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 60px;
+.dne-glass-nav {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.dne-location-overlay {
+.dne-glass-nav--overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  z-index: 10;
+}
+
+.dne-glass-nav--inline {
+  width: 60px;
+  min-width: 60px;
+  align-self: stretch;
+}
+
+.dne-glass-nav__stack {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,7 +74,7 @@
   padding-left: 2px;
 }
 
-.dne-location-button {
+.dne-glass-nav__button {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -76,7 +85,7 @@
 }
 
 @media (max-width: 480px) {
-  .dne-location-overlay {
+  .dne-glass-nav__stack {
     padding-left: 4px;
     gap: 4px;
   }

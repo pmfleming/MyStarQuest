@@ -55,6 +55,13 @@ Three non-component folders under `src/`:
 - **`src/ui/`** — Visual configuration: layout tokens (`tokens.ts`), theme options (`themeOptions.ts`), and row-descriptor factories (`unifiedChoreDescriptors.tsx`, `definitionRowDescriptors.tsx`, `listDescriptorTypes.ts`).
 - **`src/lib/`** — Shared non-UI logic: Firestore transaction helpers (`starActions.ts`), pure utilities (`celebrate.ts`, `today.ts`), unified chore parsing (`choreParser.ts`), and unified chore business logic (`choreLogic.ts`).
 
+## Context filtering
+
+- For normal implementation work, treat `src/`, `functions/src/`, config files, and active tests as the source of truth.
+- Ignore `public/prototypes/` unless the user explicitly asks to work on a prototype or a production file clearly derives from one of those experiments.
+- Ignore most of `docs/` during routine code search and edits. Use docs only when the task is explicitly documentation-driven or when this file points to a specific document that is required context.
+- When docs and code disagree, follow the code and only use the docs to understand intent or planned follow-up work.
+
 ## Plans and Implementation Notes
 
 - Product and refactor plans live under `docs/plans/`.

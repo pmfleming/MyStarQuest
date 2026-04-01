@@ -1,4 +1,5 @@
 import {
+  memo,
   useMemo,
   type PointerEvent as ReactPointerEvent,
   type RefObject,
@@ -40,6 +41,10 @@ export type ClockViewModel = {
   hourHandRef: RefObject<SVGGElement | null>
   minuteHandRef: RefObject<SVGGElement | null>
   secondHandRef: RefObject<SVGGElement | null>
+  digitalHourRef: RefObject<HTMLSpanElement | null>
+  digitalMinuteRef: RefObject<HTMLSpanElement | null>
+  digitalSecondRef: RefObject<HTMLSpanElement | null>
+  digitalAmpmRef: RefObject<HTMLSpanElement | null>
   onPointerDown: (
     event: ReactPointerEvent<SVGGElement>,
     hand: ClockHandId
@@ -52,7 +57,7 @@ type ClockProps = {
   clock: ClockViewModel
 }
 
-const Clock = ({ theme, clock }: ClockProps) => {
+const Clock = memo(({ theme, clock }: ClockProps) => {
   const controlHeight = explorerUi.globeCanvasSize
   const digitalClockGap = 0
   const digitalClockTop =
@@ -452,6 +457,7 @@ const Clock = ({ theme, clock }: ClockProps) => {
           }}
         >
           <span
+            ref={clock.digitalHourRef}
             style={{
               fontSize: clockGeometry.digitalClockTimeFontSize,
               fontWeight: 700,
@@ -475,6 +481,7 @@ const Clock = ({ theme, clock }: ClockProps) => {
             :
           </span>
           <span
+            ref={clock.digitalMinuteRef}
             style={{
               fontSize: clockGeometry.digitalClockTimeFontSize,
               fontWeight: 700,
@@ -498,6 +505,7 @@ const Clock = ({ theme, clock }: ClockProps) => {
             :
           </span>
           <span
+            ref={clock.digitalSecondRef}
             style={{
               fontSize: clockGeometry.digitalClockTimeFontSize,
               fontWeight: 700,
@@ -511,6 +519,7 @@ const Clock = ({ theme, clock }: ClockProps) => {
             {String(Math.floor(clock.seconds)).padStart(2, '0')}
           </span>
           <span
+            ref={clock.digitalAmpmRef}
             style={{
               fontSize: clockGeometry.digitalClockAmpmFontSize,
               fontWeight: 700,
@@ -526,6 +535,6 @@ const Clock = ({ theme, clock }: ClockProps) => {
       </div>
     </div>
   )
-}
+})
 
 export default Clock
