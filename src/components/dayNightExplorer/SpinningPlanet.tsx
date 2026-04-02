@@ -5,13 +5,11 @@ import { explorerUi } from '../../lib/dayNightExplorer/dayNightExplorer.constant
 import type {
   ExplorerFocusId,
   ExplorerFocusOption,
-  ExplorerRenderMode,
 } from '../../lib/dayNightExplorer/dayNightExplorerOptions'
 
 type SpinningPlanetProps = {
   theme: Theme
   globeReady: boolean
-  renderMode: ExplorerRenderMode
   canvasRef: RefObject<HTMLCanvasElement | null>
   options: ExplorerFocusOption[]
   activeFocusId: ExplorerFocusId
@@ -22,7 +20,6 @@ const SpinningPlanet = memo(
   ({
     theme,
     globeReady,
-    renderMode,
     canvasRef,
     options,
     activeFocusId,
@@ -86,29 +83,27 @@ const SpinningPlanet = memo(
           </div>
 
           <div
+            className="dne-planet-viewport"
             style={{
-              width: explorerUi.globeCanvasSize,
+              width: '100%',
               height: explorerUi.globeCanvasSize,
-              borderRadius: '50%',
+              borderRadius: explorerUi.clockFaceRadius,
               overflow: 'hidden',
               background: '#1e3799',
               boxShadow: `inset 0 0 30px rgba(0,0,0,0.4), 0 0 20px rgba(0,0,0,0.3), 0 0 0 4px ${theme.colors.accent}`,
               position: 'relative',
               opacity: globeReady ? 1 : 0.6,
               transition: 'opacity 0.5s ease',
-              margin: '0 auto',
-              transform: 'translateX(20px)',
             }}
           >
             <canvas
+              className="dne-planet-canvas"
               ref={canvasRef}
               width={explorerUi.globeCanvasSize}
               height={explorerUi.globeCanvasSize}
               style={{
-                display: 'block',
-                cursor: renderMode === 'rotating-earth' ? 'grab' : 'default',
-                pointerEvents:
-                  renderMode === 'rotating-earth' ? 'auto' : 'none',
+                cursor: 'default',
+                pointerEvents: 'auto',
               }}
             />
           </div>

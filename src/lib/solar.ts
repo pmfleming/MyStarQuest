@@ -204,10 +204,11 @@ export const buildLocationDateTime = (
   seconds = 0,
   location: SolarLocation = DEFAULT_LOCATION
 ) => {
-  const { hours, minutes, seconds: normalizedSeconds } = normalizeClockTime(
-    totalMinutes,
-    seconds
-  )
+  const {
+    hours,
+    minutes,
+    seconds: normalizedSeconds,
+  } = normalizeClockTime(totalMinutes, seconds)
   const year = date.getFullYear()
   const month = date.getMonth()
   const day = date.getDate()

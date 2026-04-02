@@ -7,8 +7,6 @@ export type ExplorerRenderScene = {
   rotation: [number, number, number]
 }
 
-type GeoPathRenderer = (shape: unknown) => void
-
 export const normalizeMinutes = (totalMinutes: number) => {
   return (
     ((totalMinutes % explorerUi.totalMinutes) + explorerUi.totalMinutes) %
@@ -51,37 +49,6 @@ export const formatTime = (totalMinutes: number) => {
     m: String(minutes).padStart(2, '0'),
     ampm: h24 < 12 ? 'AM' : 'PM',
   }
-}
-
-export const drawNightOverlay = (options: {
-  context: CanvasRenderingContext2D
-  path: GeoPathRenderer
-  sunLongitude: number
-  sunLatitude: number
-}) => {
-  const { context, path, sunLongitude, sunLatitude } = options
-
-  // The night hemisphere is centered at the antipodal point of the sun
-  const nightCenterLongitude =
-    sunLongitude > 0 ? sunLongitude - 180 : sunLongitude + 180
-  const nightCenterLatitude = -sunLatitude
-
-  // D3 v7 syntax
-  const circle = window.d3
-    .geoCircle()
-    .center([nightCenterLongitude, nightCenterLatitude])
-    .radius(90)
-  const nightGeoJson = circle()
-
-  context.save()
-  context.beginPath()
-  path(nightGeoJson)
-
-  // Use a very dark, nearly opaque fill for night
-  context.fillStyle = 'rgba(0, 5, 20, 0.85)'
-  context.fill()
-
-  context.restore()
 }
 
 export const getExplorerRenderScene = (options: {

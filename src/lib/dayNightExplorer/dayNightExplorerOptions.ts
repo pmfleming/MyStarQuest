@@ -2,12 +2,19 @@ import type { SolarLocation } from '../solar'
 import { DEFAULT_LOCATION } from '../solar'
 import amsterdamCitySvg from '../../assets/cities/amsterdam.svg'
 import dublinCitySvg from '../../assets/cities/dublin.svg'
+import earthCitySvg from '../../assets/cities/earth.svg'
 import sunCitySvg from '../../assets/cities/sun.svg'
 import taipeiCitySvg from '../../assets/cities/taipei.svg'
 
-export type ExplorerFocusId = 'sun' | 'amsterdam' | 'dublin' | 'taipei'
-export type ExplorerCityId = Exclude<ExplorerFocusId, 'sun'>
+export type ExplorerFocusId =
+  | 'sun'
+  | 'earth'
+  | 'amsterdam'
+  | 'dublin'
+  | 'taipei'
+export type ExplorerCityId = Exclude<ExplorerFocusId, 'sun' | 'earth'>
 export type ExplorerRenderMode = 'rotating-earth' | 'moving-terminator'
+export type ExplorerDisplayMode = 'earth-focus' | 'solar-focus'
 
 export type ExplorerFocusOption = {
   id: ExplorerFocusId
@@ -70,6 +77,11 @@ export const EXPLORER_FOCUS_OPTIONS: ExplorerFocusOption[] = [
     id: 'sun',
     label: 'Sun',
     icon: sunCitySvg,
+  },
+  {
+    id: 'earth',
+    label: 'Earth',
+    icon: earthCitySvg,
   },
   ...EXPLORER_CITY_OPTIONS,
 ]

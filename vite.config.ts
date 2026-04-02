@@ -17,6 +17,7 @@ export default defineConfig({
             'firebase/firestore',
             'firebase/functions',
           ],
+          'vendor-three': ['three'],
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
         },
       },

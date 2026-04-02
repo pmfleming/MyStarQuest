@@ -20,10 +20,7 @@ export const explorerUi = {
   clockNumberLerp: 0.1,
   clockHourTickLerp: 0.11,
   clockMinuteTickLerp: 0.06,
-  scripts: [
-    'https://cdn.jsdelivr.net/npm/d3@7',
-    'https://cdn.jsdelivr.net/npm/topojson@3',
-  ] as const,
+  scripts: [] as const,
 } as const
 
 const clockSize = explorerUi.globeCanvasSize
