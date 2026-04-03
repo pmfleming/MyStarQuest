@@ -25,6 +25,9 @@ type UseExplorerClockOptions = {
   onUpdate?: (minutes: number, seconds: number) => void
 }
 
+const DEFAULT_HAND_TRANSITION =
+  'transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)'
+
 const useExplorerClock = ({
   initialMinutes,
   initialSeconds,
@@ -51,6 +54,7 @@ const useExplorerClock = ({
   const lastAngleRef = useRef(0)
   const exactMinutesRef = useRef(minutes)
   const exactSecondsRef = useRef(seconds)
+  const lastRenderedSecondRef = useRef(seconds)
   const pendingUpdateRef = useRef<{ x: number; y: number } | null>(null)
   const rafIdRef = useRef<number | null>(null)
   const lastDragCommitRef = useRef(0)
@@ -69,7 +73,17 @@ const useExplorerClock = ({
         minuteHandRef.current.style.transform = `rotate(${minuteAngle}deg)`
       }
       if (secondHandRef.current) {
+        const previousSecond = lastRenderedSecondRef.current
+        const shouldAnimateSecondHand =
+          !activeHandRef.current &&
+          nextSeconds > previousSecond &&
+          nextSeconds - previousSecond <= 1
+
+        secondHandRef.current.style.transition = shouldAnimateSecondHand
+          ? DEFAULT_HAND_TRANSITION
+          : 'none'
         secondHandRef.current.style.transform = `rotate(${secondAngle}deg)`
+        lastRenderedSecondRef.current = nextSeconds
       }
 
       // External callback for unthrottled visual updates (e.g. globe)
@@ -140,23 +154,16 @@ const useExplorerClock = ({
         return
       }
 
-      setSeconds((previousSeconds) => {
-        const nextSeconds = previousSeconds + 1
+      const normalized = normalizeExactTime(
+        exactMinutesRef.current,
+        exactSecondsRef.current + 1
+      )
 
-        if (nextSeconds >= 60) {
-          setMinutes((previousMinutes) => {
-            const nextMinutes = previousMinutes + 1
-            minutesRef.current = nextMinutes
-            exactMinutesRef.current = nextMinutes
-            return nextMinutes
-          })
-          exactSecondsRef.current = 0
-          return 0
-        }
-
-        exactSecondsRef.current = nextSeconds
-        return nextSeconds
-      })
+      exactMinutesRef.current = normalized.minutes
+      exactSecondsRef.current = normalized.seconds
+      minutesRef.current = normalized.minutes
+      setMinutes(normalized.minutes)
+      setSeconds(normalized.seconds)
     }, 1000)
 
     return () => clearInterval(timer)
@@ -285,9 +292,7 @@ const useExplorerClock = ({
     minutes,
     seconds,
     isDragging,
-    handTransition: isDragging
-      ? 'none'
-      : 'transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)',
+    handTransition: isDragging ? 'none' : DEFAULT_HAND_TRANSITION,
     ...getClockAngles(minutes, seconds),
     svgRef,
     hourHandRef,

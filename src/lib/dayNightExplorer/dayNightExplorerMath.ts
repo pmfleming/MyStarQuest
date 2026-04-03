@@ -1,11 +1,5 @@
-import type { SunPosition } from '../solar'
 import { clockGeometry } from './dayNightExplorer.constants'
 import { explorerUi } from './dayNightExplorer.constants'
-import type { ExplorerRenderMode } from './dayNightExplorerOptions'
-
-export type ExplorerRenderScene = {
-  rotation: [number, number, number]
-}
 
 export const normalizeMinutes = (totalMinutes: number) => {
   return (
@@ -48,26 +42,6 @@ export const formatTime = (totalMinutes: number) => {
     h: String(h12).padStart(2, '0'),
     m: String(minutes).padStart(2, '0'),
     ampm: h24 < 12 ? 'AM' : 'PM',
-  }
-}
-
-export const getExplorerRenderScene = (options: {
-  renderMode: ExplorerRenderMode
-  observerLatitude: number
-  observerLongitude: number
-  sunPosition: SunPosition
-}): ExplorerRenderScene => {
-  const { renderMode, observerLatitude, observerLongitude, sunPosition } =
-    options
-
-  if (renderMode === 'moving-terminator') {
-    return {
-      rotation: [-observerLongitude, -observerLatitude, 0],
-    }
-  }
-
-  return {
-    rotation: [-(sunPosition.longitude + 90), -observerLatitude, 0],
   }
 }
 
@@ -146,9 +120,11 @@ export const lerpPoint = (
 }
 
 export const getClockAngles = (minutes: number, seconds: number) => {
+  const fractionalMinutes = minutes + seconds / 60
+
   return {
-    minuteAngle: (minutes / 60) * 360,
-    hourAngle: (minutes / 720) * 360,
+    minuteAngle: (fractionalMinutes / 60) * 360,
+    hourAngle: (fractionalMinutes / 720) * 360,
     secondAngle: (seconds / 60) * 360,
   }
 }
