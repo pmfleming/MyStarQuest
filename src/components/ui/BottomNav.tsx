@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import type { Theme } from '../../contexts/ThemeContext'
-import { uiTokens } from '../../tokens'
+import { getSurfaceWidthConstraints, uiTokens } from '../../tokens'
 import { appTabs, getTabIcon, type AppTabId } from '../../lib/tabNavigation'
 
 interface BottomNavProps {
@@ -19,8 +19,7 @@ const BottomNav = ({ theme, activeTabId }: BottomNavProps) => {
         bottom: '24px',
         left: '50%',
         transform: 'translateX(-50%)',
-        width: `${uiTokens.floatingNavWidthPercent}%`,
-        maxWidth: `${uiTokens.floatingNavMaxWidth}px`,
+        ...getSurfaceWidthConstraints(),
         height: `${uiTokens.floatingNavHeight}px`,
         display: 'grid',
         gridTemplateColumns: `repeat(${appTabs.length}, minmax(0, 1fr))`,

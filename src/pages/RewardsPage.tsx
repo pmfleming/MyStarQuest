@@ -3,7 +3,7 @@ import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import StandardActionList from '../components/ui/StandardActionList'
-import { uiTokens } from '../tokens'
+import { getSurfaceWidthConstraints } from '../tokens'
 import { createRewardDefinitionListRowDescriptor } from '../ui/definitionRowDescriptors'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { useRewards } from '../data/useRewards'
@@ -75,7 +75,7 @@ const RewardsPage = () => {
       <div
         className="mx-auto flex w-full flex-col"
         style={{
-          maxWidth: `${uiTokens.contentMaxWidth}px`,
+          ...getSurfaceWidthConstraints(),
           paddingBottom: '96px',
         }}
       >

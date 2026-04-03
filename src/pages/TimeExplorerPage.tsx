@@ -3,7 +3,7 @@ import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import TopIconButton from '../components/ui/TopIconButton'
 import SchoolCalendar from '../components/SchoolCalendar'
-import { uiTokens } from '../tokens'
+import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 import {
   princessCalendarIcon,
   princessClockIcon,
@@ -91,7 +91,7 @@ const TimeExplorerPage = () => {
       <div
         className="mx-auto flex w-full flex-col"
         style={{
-          maxWidth: `${uiTokens.contentMaxWidth}px`,
+          ...getSurfaceWidthConstraints(),
           gap: `${uiTokens.singleVerticalSpace}px`,
           paddingBottom: '96px',
         }}

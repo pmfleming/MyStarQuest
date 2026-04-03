@@ -203,7 +203,7 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
       data-no-drag-scroll="true"
       style={{
         width: '100%',
-        maxWidth: uiTokens.contentMaxWidth,
+        maxWidth: uiTokens.surfaceMaxWidth,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
-import { uiTokens } from '../tokens'
+import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 
 interface PageHeaderProps {
   theme: Theme
@@ -18,8 +18,7 @@ const PageHeader = ({ theme, title, right, fontFamily }: PageHeaderProps) => {
         top: '12px',
         left: '50%',
         transform: 'translateX(-50%)',
-        width: `${uiTokens.floatingNavWidthPercent}%`,
-        maxWidth: `${uiTokens.floatingNavMaxWidth}px`,
+        ...getSurfaceWidthConstraints(),
         height: `${uiTokens.floatingNavHeight}px`,
         padding: '0 16px',
         // Translucent background with glassmorphism

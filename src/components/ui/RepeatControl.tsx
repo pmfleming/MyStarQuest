@@ -43,7 +43,7 @@ const RepeatControl = ({
           .repeat-control {
             text-align: center;
             width: 100%;
-            max-width: ${uiTokens.contentMaxWidth}px;
+            max-width: ${uiTokens.surfaceMaxWidth}px;
             margin: 0 auto;
             border: 4px solid ${theme.colors.primary};
             border-radius: 24px;

@@ -4,7 +4,7 @@ import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
 import ActionButton from '../components/ui/ActionButton'
 import StandardActionList from '../components/ui/StandardActionList'
-import { uiTokens } from '../tokens'
+import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { createUnifiedChoreDescriptor } from '../ui/unifiedChoreDescriptors'
 import { getSeasonForDate } from '../lib/today'
@@ -314,7 +314,7 @@ const ChoresPage = () => {
       <div
         className="mx-auto w-full"
         style={{
-          maxWidth: `${uiTokens.contentMaxWidth}px`,
+          ...getSurfaceWidthConstraints(),
           paddingBottom: '128px',
         }}
       >

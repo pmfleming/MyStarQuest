@@ -5,7 +5,7 @@ import { useAuth } from '../auth/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
 import ActionButton from '../components/ui/ActionButton'
-import { uiTokens } from '../tokens'
+import { getSurfaceWidthConstraints } from '../tokens'
 import googleIcon from '../assets/global/google.svg'
 
 const LoginPage = () => {
@@ -69,7 +69,7 @@ const LoginPage = () => {
     >
       <section
         className="w-full space-y-6 rounded-xl bg-black/30 p-8 shadow-lg"
-        style={{ maxWidth: `${uiTokens.contentMaxWidth}px` }}
+        style={getSurfaceWidthConstraints()}
       >
         {loginSuccess ? (
           <div className="flex flex-col items-center justify-center space-y-4 text-center">

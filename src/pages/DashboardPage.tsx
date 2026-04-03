@@ -9,7 +9,7 @@ import StarInfoBox from '../components/ui/StarInfoBox'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { createUnifiedChoreDescriptor } from '../ui/unifiedChoreDescriptors'
 import { getScheduleLabel } from '../lib/today'
-import { uiTokens } from '../tokens'
+import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 import { useChildren } from '../data/useChildren'
 import { useChores } from '../data/useChores'
 import type { TodoRecord, EatingTodo } from '../data/types'
@@ -283,7 +283,7 @@ const DashboardPage = () => {
       <div
         className="mx-auto flex w-full flex-col"
         style={{
-          maxWidth: `${uiTokens.contentMaxWidth}px`,
+          ...getSurfaceWidthConstraints(),
           gap: `${uiTokens.singleVerticalSpace}px`,
           paddingBottom: '96px',
         }}

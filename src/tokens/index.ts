@@ -1,5 +1,8 @@
 import type { Theme } from '../contexts/ThemeContext'
 
+const surfaceMaxWidth = 380
+const surfaceWidthPercent = 90
+
 export const uiTokens = {
   pagePaddingX: 24,
   pagePaddingTop: 4,
@@ -7,7 +10,9 @@ export const uiTokens = {
   sectionGap: 2,
   singleVerticalSpace: 24,
   doubleVerticalSpace: 48,
-  contentMaxWidth: 340,
+  surfaceWidthPercent,
+  surfaceMaxWidth,
+  contentMaxWidth: surfaceMaxWidth,
   timeExplorerLinkedPanelHeight: 340,
   controlRowWidth: 304,
   listItemPadding: 24,
@@ -23,10 +28,10 @@ export const uiTokens = {
   actionButtonArrowSize: 32,
   topIconSize: 44,
   topIconBorder: 4,
-  floatingNavHeight: 80,
-  floatingNavWidthPercent: 90,
-  floatingNavMaxWidth: 340,
   deviceMaxWidth: 414,
+  floatingNavHeight: 55,
+  floatingNavWidthPercent: surfaceWidthPercent,
+  floatingNavMaxWidth: surfaceMaxWidth,
   deviceMinHeight: 896,
   tabTransitionMs: 500,
   activityTokens: {
@@ -46,6 +51,12 @@ export const uiTokens = {
     stepperHeight: 56,
   },
 } as const
+
+export const getSurfaceWidthConstraints = () => ({
+  width: `${uiTokens.surfaceWidthPercent}%`,
+  maxWidth: `${uiTokens.surfaceMaxWidth}px`,
+  boxSizing: 'border-box' as const,
+})
 
 export const getTopIconStyle = (theme: Theme, isSelected = false) => ({
   backgroundColor: isSelected
@@ -86,7 +97,7 @@ export const getActionButtonStyle = (theme: Theme, baseColor: string) => {
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    maxWidth: `${uiTokens.contentMaxWidth}px`,
+    maxWidth: `${uiTokens.surfaceMaxWidth}px`,
     margin: '0 auto',
     boxSizing: 'border-box' as const,
   }

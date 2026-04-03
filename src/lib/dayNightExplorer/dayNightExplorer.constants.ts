@@ -5,9 +5,9 @@ const linkedTimeExplorerPanelHeight = uiTokens.timeExplorerLinkedPanelHeight
 export const explorerUi = {
   totalMinutes: 1440,
   dragCommitIntervalMs: 250,
-  globeCanvasSize: Math.round(uiTokens.contentMaxWidth * 0.75),
+  globeCanvasSize: Math.round(uiTokens.surfaceMaxWidth * 0.75),
   clockPanelHeight: linkedTimeExplorerPanelHeight,
-  clockFaceWidth: uiTokens.contentMaxWidth,
+  clockFaceWidth: uiTokens.surfaceMaxWidth,
   clockFaceRadius: uiTokens.listItemRadius,
   digitalClockTextGap: uiTokens.sectionGap * 3,
   digitalClockAmpmMargin: uiTokens.sectionGap * 2,
@@ -15,12 +15,11 @@ export const explorerUi = {
   explorerGap: uiTokens.singleVerticalSpace / 2,
   stepperInset: uiTokens.pagePaddingX,
   digitalClockAreaHeight:
-    linkedTimeExplorerPanelHeight - Math.round(uiTokens.contentMaxWidth * 0.75),
+    linkedTimeExplorerPanelHeight - Math.round(uiTokens.surfaceMaxWidth * 0.75),
   digitalClockBottomInset: uiTokens.pagePaddingTop,
   clockNumberLerp: 0.1,
   clockHourTickLerp: 0.11,
   clockMinuteTickLerp: 0.06,
-  scripts: [] as const,
 } as const
 
 const clockSize = explorerUi.globeCanvasSize

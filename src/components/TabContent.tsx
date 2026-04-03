@@ -29,8 +29,8 @@ const TabContent = ({
     <div
       className="flex min-h-0 flex-1 flex-col overflow-hidden"
       style={{
-        paddingLeft: `${uiTokens.pagePaddingX}px`,
-        paddingRight: `${uiTokens.pagePaddingX}px`,
+        paddingLeft: '0px',
+        paddingRight: '0px',
         paddingTop: '0px',
         paddingBottom: `${uiTokens.pagePaddingBottom}px`,
       }}
