@@ -15,24 +15,30 @@ import useDayNightExplorerModel from '../components/dayNightExplorer/useDayNight
 import '../components/dayNightExplorer/dayNightExplorer.css'
 
 type ExplorerPanel = 'clock' | 'calendar'
+type HeaderIconKind = ExplorerPanel | 'thermometer'
+
+const PRINCESS_HEADER_ICONS = {
+  clock: princessClockIcon,
+  calendar: princessCalendarIcon,
+  thermometer: princessThermometerIcon,
+} satisfies Record<HeaderIconKind, string>
+
+const DEFAULT_HEADER_ICONS = {
+  clock: '🕒',
+  calendar: '📅',
+  thermometer: '🌡️',
+} satisfies Record<HeaderIconKind, string>
 
 const TimeExplorerPage = () => {
   const { theme } = useTheme()
   const [activePanel, setActivePanel] = useState<ExplorerPanel>('clock')
   const explorer = useDayNightExplorerModel(theme)
 
-  const renderIcon = (kind: 'clock' | 'calendar' | 'thermometer') => {
+  const renderIcon = (kind: HeaderIconKind) => {
     if (theme.id === 'princess') {
-      const source =
-        kind === 'clock'
-          ? princessClockIcon
-          : kind === 'calendar'
-            ? princessCalendarIcon
-            : princessThermometerIcon
-
       return (
         <img
-          src={source}
+          src={PRINCESS_HEADER_ICONS[kind]}
           alt=""
           aria-hidden="true"
           style={{
@@ -52,7 +58,7 @@ const TimeExplorerPage = () => {
           lineHeight: 1,
         }}
       >
-        {kind === 'clock' ? '🕒' : kind === 'calendar' ? '📅' : '🌡️'}
+        {DEFAULT_HEADER_ICONS[kind]}
       </span>
     )
   }

@@ -9,6 +9,7 @@ import {
 } from '../ui/waterToiletAssets'
 import type { ToiletStatus, WaterLevel } from '../data/types'
 import type { Theme } from '../contexts/ThemeContext'
+import { uiTokens } from '../tokens'
 
 type WaterToiletMonitorProps = {
   theme: Theme
@@ -44,7 +45,7 @@ const WaterToiletMonitor = ({
     alignItems: 'center',
     justifyContent: 'center',
     gap: '10px',
-    borderRadius: '28px',
+    borderRadius: `${uiTokens.surfaceRadius}px`,
     border: `4px solid ${theme.colors.accent}`,
     background:
       theme.id === 'princess'

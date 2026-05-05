@@ -27,8 +27,6 @@ const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const TOTAL_CALENDAR_CELLS = 42
 
 type CalendarDayData = {
-  summaries: string[]
-  hasAllDayEvent: boolean
   isNonSchoolDay?: boolean
 }
 
@@ -44,6 +42,33 @@ const getNonSchoolDayIcon = (season: ReturnType<typeof getSeasonForDate>) => {
     default:
       return princessNonSchoolDayWinterImage
   }
+}
+
+const getMondayFirstOffset = (date: Date) => {
+  const day = date.getDay()
+  return day === 0 ? 6 : day - 1
+}
+
+const getClampedMonthDate = (date: Date, monthDelta: number) => {
+  const targetYear = date.getFullYear()
+  const targetMonth = date.getMonth() + monthDelta
+  const targetDay = date.getDate()
+  const daysInTargetMonth = new Date(targetYear, targetMonth + 1, 0).getDate()
+
+  return new Date(
+    targetYear,
+    targetMonth,
+    Math.min(targetDay, daysInTargetMonth),
+    12,
+    0,
+    0,
+    0
+  )
+}
+
+const isWeekend = (date: Date) => {
+  const day = date.getDay()
+  return day === 0 || day === 6
 }
 
 type SchoolCalendarProps = {
@@ -110,9 +135,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   const month = viewDate.getMonth()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
 
-  // Monday-based: 0=Mon … 6=Sun
-  const rawFirstDay = new Date(year, month, 1).getDay()
-  const firstDayOffset = rawFirstDay === 0 ? 6 : rawFirstDay - 1
+  const firstDayOffset = getMondayFirstOffset(new Date(year, month, 1))
   const trailingDayOffset = TOTAL_CALENDAR_CELLS - firstDayOffset - daysInMonth
 
   const monthLabel = viewDate.toLocaleString('default', { month: 'long' })
@@ -122,14 +145,12 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   const nonSchoolIcon = getNonSchoolDayIcon(season)
 
   const isDaySchool = (day: number) => {
-    const jsDay = new Date(year, month, day).getDay()
+    const date = new Date(year, month, day)
 
-    // Weekends are always non-school days
-    if (jsDay === 0 || jsDay === 6) return false
+    if (isWeekend(date)) return false
 
-    // For weekdays, check server data for all-day events (holidays etc.)
     if (loaded) {
-      const dateKey = buildDateKey(new Date(year, month, day))
+      const dateKey = buildDateKey(date)
       const eventData = events[dateKey]
       if (eventData?.isNonSchoolDay) return false
     }
@@ -139,19 +160,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
 
   const navMonth = (delta: number) => {
     const selectedDate = parseDateKey(selectedDateKey)
-    const targetYear = selectedDate.getFullYear()
-    const targetMonth = selectedDate.getMonth() + delta
-    const targetDay = selectedDate.getDate()
-    const daysInTargetMonth = new Date(targetYear, targetMonth + 1, 0).getDate()
-    const nextDate = new Date(
-      targetYear,
-      targetMonth,
-      Math.min(targetDay, daysInTargetMonth),
-      12,
-      0,
-      0,
-      0
-    )
+    const nextDate = getClampedMonthDate(selectedDate, delta)
 
     setSelectedDateKey(buildDateKey(nextDate))
     setViewDate(nextDate)
@@ -161,7 +170,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
     <section
       style={{
         height: `${uiTokens.timeExplorerLinkedPanelHeight}px`,
-        borderRadius: '28px',
+        borderRadius: `${uiTokens.surfaceRadius}px`,
         background: theme.colors.surface,
         padding: '12px 12px 10px',
         border: `3px solid ${theme.colors.accent}`,

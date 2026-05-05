@@ -2,6 +2,7 @@ import type { Theme } from '../contexts/ThemeContext'
 
 const surfaceMaxWidth = 380
 const surfaceWidthPercent = 90
+const surfaceRadius = 32
 
 export const uiTokens = {
   pagePaddingX: 24,
@@ -12,17 +13,18 @@ export const uiTokens = {
   doubleVerticalSpace: 48,
   surfaceWidthPercent,
   surfaceMaxWidth,
+  surfaceRadius,
   contentMaxWidth: surfaceMaxWidth,
   timeExplorerLinkedPanelHeight: 340,
   controlRowWidth: 304,
   listItemPadding: 24,
-  listItemRadius: 32,
+  listItemRadius: surfaceRadius,
   listItemBorderWidth: 4,
   listActionHeight: 60,
   listActionRadius: 20,
   listUtilityActionWidth: 60,
   actionButtonHeight: 88,
-  actionButtonRadius: 30,
+  actionButtonRadius: surfaceRadius,
   actionButtonFontSize: 28,
   actionButtonIconSize: 48,
   actionButtonArrowSize: 32,
@@ -39,7 +41,7 @@ export const uiTokens = {
     statusIconSize: 60,
     statusIconGap: 6,
     outcomeContainerMinHeight: 280,
-    outcomeContainerRadius: 28,
+    outcomeContainerRadius: surfaceRadius,
     outcomeContainerPadding: 20,
     quizOutcomeImageMaxWidth: 360,
     quizOutcomeImageMaxHeight: 420,

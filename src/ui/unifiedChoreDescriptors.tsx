@@ -72,6 +72,7 @@ import {
 } from './presetChoreRenderers'
 
 type UnifiedChoreItem = TaskWithEphemeral | TodoRecord
+type PrincessAsset = string | undefined
 
 export type UnifiedChoreDeps = {
   theme: Theme
@@ -115,6 +116,14 @@ export function createUnifiedChoreDescriptor(
 ): ListRowDescriptor<UnifiedChoreItem> {
   const isManage = deps.mode === 'manage'
   const noop = () => undefined
+  const princessAsset = (asset?: string): PrincessAsset =>
+    deps.theme.id === 'princess' ? asset : undefined
+  const clamp = (value: number, min: number, max: number) =>
+    Math.max(min, Math.min(max, value))
+  const testOutcomeImages = () => ({
+    completionImage: princessAsset(princessQuizCorrectImage),
+    failureImage: princessAsset(princessQuizIncorrectImage),
+  })
 
   const isTaskItem = (item: UnifiedChoreItem): item is TaskWithEphemeral =>
     'taskType' in item
@@ -290,11 +299,7 @@ export function createUnifiedChoreDescriptor(
         return commonContainer(
           stage === 'completed' ? (
             <ChoreOutcomeView
-              imageSrc={
-                deps.theme.id === 'princess'
-                  ? princessQuizCorrectImage
-                  : undefined
-              }
+              imageSrc={princessAsset(princessQuizCorrectImage)}
               outcome="success"
             />
           ) : isTaskItem(item) ? (
@@ -354,17 +359,12 @@ export function createUnifiedChoreDescriptor(
                   starReward: eatingItem.starValue,
                   isTimerRunning: isActive,
                   timerStartedAt: eatingItem.manageDinnerTimerStartedAt,
-                  plateImage:
-                    deps.theme.id === 'princess'
-                      ? princessPlateImage
-                      : undefined,
+                  plateImage: princessAsset(princessPlateImage),
                   onAdjustTime: (delta) => {
-                    const next = Math.max(
+                    const next = clamp(
+                      (eatingItem.dinnerDurationSeconds ?? 600) + delta,
                       5 * 60,
-                      Math.min(
-                        30 * 60,
-                        (eatingItem.dinnerDurationSeconds ?? 600) + delta
-                      )
+                      30 * 60
                     )
                     deps.onUpdateTaskField?.(item.id, {
                       dinnerDurationSeconds: next,
@@ -374,9 +374,10 @@ export function createUnifiedChoreDescriptor(
                     })
                   },
                   onAdjustBites: (delta) => {
-                    const next = Math.max(
+                    const next = clamp(
+                      (eatingItem.dinnerTotalBites ?? 2) + delta,
                       1,
-                      Math.min(16, (eatingItem.dinnerTotalBites ?? 2) + delta)
+                      16
                     )
                     deps.onUpdateTaskField?.(item.id, {
                       dinnerTotalBites: next,
@@ -389,20 +390,10 @@ export function createUnifiedChoreDescriptor(
                     deps.onUpdateTaskField?.(item.id, { starValue: v }),
                   onExpire: () => deps.onExpireDinner?.(item),
                   isCompleted: isEatingCompleted,
-                  completionImage:
-                    deps.theme.id === 'princess'
-                      ? princessQuizCorrectImage
-                      : undefined,
-                  failureImage:
-                    deps.theme.id === 'princess'
-                      ? princessQuizIncorrectImage
-                      : undefined,
+                  ...testOutcomeImages(),
                   biteCooldownSeconds: deps.biteCooldownSeconds,
                   biteCooldownEndsAt: deps.biteCooldownEndsAt,
-                  biteIcon:
-                    deps.theme.id === 'princess'
-                      ? deps.activePrincessMealIcon
-                      : undefined,
+                  biteIcon: princessAsset(deps.activePrincessMealIcon),
                   showSetupControls: !isActive && !isEatingCompleted,
                   showStarReward: !isActive && !isEatingCompleted,
                 })
@@ -428,23 +419,13 @@ export function createUnifiedChoreDescriptor(
                 starReward: eatingItem.starValue,
                 isTimerRunning: isActive,
                 timerStartedAt: eatingItem.dinnerTimerStartedAt,
-                plateImage:
-                  deps.theme.id === 'princess' ? princessPlateImage : undefined,
+                plateImage: princessAsset(princessPlateImage),
                 isCompleted: isEatingCompleted,
-                completionImage:
-                  deps.theme.id === 'princess'
-                    ? princessEatingFullImage
-                    : undefined,
-                failureImage:
-                  deps.theme.id === 'princess'
-                    ? princessEatingFailImage
-                    : undefined,
+                completionImage: princessAsset(princessEatingFullImage),
+                failureImage: princessAsset(princessEatingFailImage),
                 biteCooldownSeconds: deps.biteCooldownSeconds,
                 biteCooldownEndsAt: deps.biteCooldownEndsAt,
-                biteIcon:
-                  deps.theme.id === 'princess'
-                    ? deps.activePrincessMealIcon
-                    : undefined,
+                biteIcon: princessAsset(deps.activePrincessMealIcon),
                 onAdjustTime: noop,
                 onAdjustBites: noop,
                 onStarsChange: noop,
@@ -476,9 +457,10 @@ export function createUnifiedChoreDescriptor(
                   isCompleted: isMathCompleted,
                   isFailed: mathItem.manageMathLastOutcome === 'failure',
                   onAdjustProblems: (delta) => {
-                    const next = Math.max(
+                    const next = clamp(
+                      (mathItem.mathTotalProblems ?? 5) + delta,
                       1,
-                      Math.min(10, (mathItem.mathTotalProblems ?? 5) + delta)
+                      10
                     )
                     deps.onUpdateTaskField?.(item.id, {
                       mathTotalProblems: next,
@@ -491,14 +473,7 @@ export function createUnifiedChoreDescriptor(
                   onComplete: () => deps.onComplete?.(item),
                   onFail: () => deps.onFail?.(item),
                   checkTrigger: deps.mathCheckTriggers[item.id] ?? 0,
-                  completionImage:
-                    deps.theme.id === 'princess'
-                      ? princessQuizCorrectImage
-                      : undefined,
-                  failureImage:
-                    deps.theme.id === 'princess'
-                      ? princessQuizIncorrectImage
-                      : undefined,
+                  ...testOutcomeImages(),
                 })
               : null
           )
@@ -525,14 +500,7 @@ export function createUnifiedChoreDescriptor(
                 onComplete: () => deps.onComplete?.(item),
                 onFail: () => deps.onFail?.(item),
                 checkTrigger: deps.mathCheckTriggers[item.id] ?? 0,
-                completionImage:
-                  deps.theme.id === 'princess'
-                    ? princessQuizCorrectImage
-                    : undefined,
-                failureImage:
-                  deps.theme.id === 'princess'
-                    ? princessQuizIncorrectImage
-                    : undefined,
+                ...testOutcomeImages(),
               })
             : null
         )
@@ -556,9 +524,10 @@ export function createUnifiedChoreDescriptor(
                   isCompleted: isPVCompleted,
                   isFailed: pvItem.managePVLastOutcome === 'failure',
                   onAdjustProblems: (delta) => {
-                    const next = Math.max(
+                    const next = clamp(
+                      (pvItem.pvTotalProblems ?? 5) + delta,
                       1,
-                      Math.min(10, (pvItem.pvTotalProblems ?? 5) + delta)
+                      10
                     )
                     deps.onUpdateTaskField?.(item.id, { pvTotalProblems: next })
                   },
@@ -567,14 +536,7 @@ export function createUnifiedChoreDescriptor(
                   onComplete: () => deps.onComplete?.(item),
                   onFail: () => deps.onFail?.(item),
                   checkTrigger: deps.pvCheckTriggers[item.id] ?? 0,
-                  completionImage:
-                    deps.theme.id === 'princess'
-                      ? princessQuizCorrectImage
-                      : undefined,
-                  failureImage:
-                    deps.theme.id === 'princess'
-                      ? princessQuizIncorrectImage
-                      : undefined,
+                  ...testOutcomeImages(),
                 })
               : null
           )
@@ -599,14 +561,7 @@ export function createUnifiedChoreDescriptor(
                 onComplete: () => deps.onComplete?.(item),
                 onFail: () => deps.onFail?.(item),
                 checkTrigger: deps.pvCheckTriggers[item.id] ?? 0,
-                completionImage:
-                  deps.theme.id === 'princess'
-                    ? princessQuizCorrectImage
-                    : undefined,
-                failureImage:
-                  deps.theme.id === 'princess'
-                    ? princessQuizIncorrectImage
-                    : undefined,
+                ...testOutcomeImages(),
               })
             : null
         )
@@ -634,12 +589,10 @@ export function createUnifiedChoreDescriptor(
                   isCompleted: isAlphabetCompleted,
                   isFailed: alphaItem.manageAlphabetLastOutcome === 'failure',
                   onAdjustProblems: (delta) => {
-                    const next = Math.max(
+                    const next = clamp(
+                      (alphaItem.alphabetTotalProblems ?? 5) + delta,
                       1,
-                      Math.min(
-                        10,
-                        (alphaItem.alphabetTotalProblems ?? 5) + delta
-                      )
+                      10
                     )
                     deps.onUpdateTaskField?.(item.id, {
                       alphabetTotalProblems: next,
@@ -650,14 +603,7 @@ export function createUnifiedChoreDescriptor(
                   onComplete: () => deps.onComplete?.(item),
                   onFail: () => deps.onFail?.(item),
                   checkTrigger: deps.alphabetCheckTriggers[item.id] ?? 0,
-                  completionImage:
-                    deps.theme.id === 'princess'
-                      ? princessQuizCorrectImage
-                      : undefined,
-                  failureImage:
-                    deps.theme.id === 'princess'
-                      ? princessQuizIncorrectImage
-                      : undefined,
+                  ...testOutcomeImages(),
                 })
               : null
           )
@@ -683,14 +629,7 @@ export function createUnifiedChoreDescriptor(
                 onComplete: () => deps.onComplete?.(item),
                 onFail: () => deps.onFail?.(item),
                 checkTrigger: deps.alphabetCheckTriggers[item.id] ?? 0,
-                completionImage:
-                  deps.theme.id === 'princess'
-                    ? princessQuizCorrectImage
-                    : undefined,
-                failureImage:
-                  deps.theme.id === 'princess'
-                    ? princessQuizIncorrectImage
-                    : undefined,
+                ...testOutcomeImages(),
               })
             : null
         )

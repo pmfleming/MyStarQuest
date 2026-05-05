@@ -58,8 +58,9 @@ Three non-component folders under `src/`:
 ## Context filtering
 
 - For normal implementation work, treat `src/`, `functions/src/`, config files, and active tests as the source of truth.
-- Ignore `public/prototypes/` unless the user explicitly asks to work on a prototype or a production file clearly derives from one of those experiments.
-- Ignore most of `docs/` during routine code search and edits. Use docs only when the task is explicitly documentation-driven or when this file points to a specific document that is required context.
+- Ignore `public/prototypes/` by default. Those files are archival working documents and are no longer used for production implementation unless the user explicitly asks to work on them.
+- Ignore `docs/plans/` by default. Those files are archival working plans and should not be treated as the current implementation source of truth unless the user explicitly asks for plan/document work.
+- Ignore most of `docs/` during routine code search and edits. Use docs only when the task is explicitly documentation-driven or when this file points to a specific document that is still intentionally maintained.
 - When docs and code disagree, follow the code and only use the docs to understand intent or planned follow-up work.
 
 ## Plans and Implementation Notes
@@ -192,8 +193,7 @@ The component layer is easiest to reason about in four groups:
 
 ### Concept teaching components
 
-- `src/components/DayNightExplorer.tsx` — time-of-day and world-time teaching widget.
-  - For the intended separation of clock, calendar, and earth responsibilities, refer to `.github/day-night-explorer-clock-calendar-earth.md`.
+- `src/pages/TimeExplorerPage.tsx` — Time Explorer entry page that composes the live 3D earth/solar view, clock, and calendar panel.
 - `src/components/SchoolCalendar.tsx` — school-day versus non-school-day calendar teaching widget.
 
 ### Chore system components

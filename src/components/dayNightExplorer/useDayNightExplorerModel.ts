@@ -41,9 +41,6 @@ type UseDayNightExplorerModelResult = {
   clock: ClockViewModel
 }
 
-const TOTAL_DAY_MS = 24 * 60 * 60 * 1000
-const LUNAR_ORBIT_MS = 27.321661 * TOTAL_DAY_MS
-
 const getYearProgress = (date: Date) => {
   const yearStart = new Date(date.getFullYear(), 0, 1)
   const nextYearStart = new Date(date.getFullYear() + 1, 0, 1)
@@ -59,13 +56,6 @@ const getEarthRotationDeg = (minutes: number, seconds: number) => {
   const dayProgress = (totalMinutes + seconds / 60) / 1440
 
   return dayProgress * 360
-}
-
-const getMoonOrbitProgress = (instant: Date) => {
-  return (
-    (((instant.getTime() % LUNAR_ORBIT_MS) + LUNAR_ORBIT_MS) % LUNAR_ORBIT_MS) /
-    LUNAR_ORBIT_MS
-  )
 }
 
 export default function useDayNightExplorerModel(
@@ -118,7 +108,6 @@ export default function useDayNightExplorerModel(
       displayMode,
       earthRotationDeg: getEarthRotationDeg(clock.minutes, clock.seconds),
       earthOrbitProgress: getYearProgress(selectedDate),
-      moonOrbitProgress: getMoonOrbitProgress(currentInstant),
       activeFocusId,
       cityOptions: EXPLORER_CITY_OPTIONS,
       sunPosition,
@@ -128,7 +117,6 @@ export default function useDayNightExplorerModel(
       activeFocusId,
       clock.minutes,
       clock.seconds,
-      currentInstant,
       displayMode,
       selectedDate,
       sunPosition,
@@ -171,7 +159,6 @@ export default function useDayNightExplorerModel(
         displayMode,
         earthRotationDeg: getEarthRotationDeg(nextMinutes, nextSeconds),
         earthOrbitProgress: getYearProgress(selectedDate),
-        moonOrbitProgress: getMoonOrbitProgress(ephemeralInstant),
         activeFocusId,
         cityOptions: EXPLORER_CITY_OPTIONS,
         sunPosition: ephemeralSunPosition,

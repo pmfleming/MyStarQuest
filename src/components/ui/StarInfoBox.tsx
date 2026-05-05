@@ -14,8 +14,55 @@ const PAUSE_DURATION = 500 // ms pause between swarm and gather
 
 type StarState = 'hidden' | 'swarming' | 'swarmed' | 'gathering' | 'gathered'
 type HeroState = 'hidden' | 'growing' | 'pulsing'
+type StarTransition = {
+  property: string
+  duration: string
+  timingFunction: string
+}
 
-// Mini star for the swarm animation - uses the global star.svg
+const STAR_TRANSITIONS: Record<StarState, StarTransition> = {
+  hidden: {
+    property: 'none',
+    duration: '0s',
+    timingFunction: 'ease',
+  },
+  swarming: {
+    property: 'transform',
+    duration: `${PHASE_DURATION}ms`,
+    timingFunction: 'cubic-bezier(0.55, 0, 1, 0.45)',
+  },
+  swarmed: {
+    property: 'none',
+    duration: '0s',
+    timingFunction: 'ease',
+  },
+  gathering: {
+    property: 'transform',
+    duration: `${PHASE_DURATION}ms`,
+    timingFunction: 'cubic-bezier(0.55, 0, 1, 0.45)',
+  },
+  gathered: {
+    property: 'transform, opacity',
+    duration: '0.05s, 0.05s',
+    timingFunction: 'ease, ease',
+  },
+}
+
+const getStarTransform = (
+  starState: StarState,
+  targetPos: { x: number; y: number; rot: number }
+) => {
+  if (starState === 'swarming' || starState === 'swarmed') {
+    return `translate(${targetPos.x}px, ${targetPos.y}px) rotate(${targetPos.rot}deg) scale(1)`
+  }
+
+  if (starState === 'gathering') {
+    return 'translate(0px, 0px) rotate(0deg) scale(1)'
+  }
+
+  return `translate(0px, 0px) scale(${starState === 'hidden' ? 0.1 : 0})`
+}
+
 const MiniStar = ({
   targetPos,
   starState,
@@ -25,71 +72,8 @@ const MiniStar = ({
   starState: StarState
   index: number
 }) => {
-  const getTransform = () => {
-    switch (starState) {
-      case 'hidden':
-        return 'translate(0px, 0px) scale(0.1)'
-      case 'swarming':
-      case 'swarmed':
-        return `translate(${targetPos.x}px, ${targetPos.y}px) rotate(${targetPos.rot}deg) scale(1)`
-      case 'gathering':
-        // Keep scale at 1 during gathering - stars stay visible until they merge
-        return 'translate(0px, 0px) rotate(0deg) scale(1)'
-      case 'gathered':
-        return 'translate(0px, 0px) scale(0)'
-      default:
-        return 'translate(0px, 0px) scale(0)'
-    }
-  }
-
-  const getTransition = () => {
-    switch (starState) {
-      case 'hidden':
-        return {
-          property: 'none',
-          duration: '0s',
-          timingFunction: 'ease',
-        }
-      case 'swarming':
-        return {
-          property: 'transform',
-          duration: `${PHASE_DURATION}ms`,
-          timingFunction: 'cubic-bezier(0.55, 0, 1, 0.45)',
-        }
-      case 'swarmed':
-        return {
-          property: 'none',
-          duration: '0s',
-          timingFunction: 'ease',
-        }
-      case 'gathering':
-        return {
-          property: 'transform',
-          duration: `${PHASE_DURATION}ms`,
-          timingFunction: 'cubic-bezier(0.55, 0, 1, 0.45)',
-        }
-      case 'gathered':
-        return {
-          property: 'transform, opacity',
-          duration: '0.05s, 0.05s',
-          timingFunction: 'ease, ease',
-        }
-      default:
-        return {
-          property: 'none',
-          duration: '0s',
-          timingFunction: 'ease',
-        }
-    }
-  }
-
-  const getOpacity = () => {
-    if (starState === 'hidden') return 0
-    if (starState === 'gathered') return 0
-    return 1
-  }
-
-  const transition = getTransition()
+  const transition = STAR_TRANSITIONS[starState]
+  const opacity = starState === 'hidden' || starState === 'gathered' ? 0 : 1
 
   return (
     <div
@@ -101,13 +85,13 @@ const MiniStar = ({
         height: '14px',
         marginTop: '-7px',
         marginLeft: '-7px',
-        transform: getTransform(),
+        transform: getStarTransform(starState, targetPos),
         transitionProperty: transition.property,
         transitionDuration: transition.duration,
         transitionTimingFunction: transition.timingFunction,
-        opacity: getOpacity(),
+        opacity,
         transitionDelay: starState === 'swarming' ? `${index * 12}ms` : '0ms',
-        zIndex: 20, // Above the hero star so they're visible during gathering
+        zIndex: 20,
       }}
     >
       <img
@@ -240,12 +224,12 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
 
   return (
     <section
-      className="relative z-10 transform rounded-3xl text-center transition-transform hover:scale-[1.02]"
+      className="relative z-10 transform text-center transition-transform hover:scale-[1.02]"
       style={{
         backgroundColor: theme.colors.surface,
         boxShadow: `0 8px 0 ${theme.colors.accent}, 0 10px 30px -10px ${theme.colors.primary}40`,
         border: `5px solid ${theme.colors.primary}`,
-        marginBottom: `${uiTokens.singleVerticalSpace}px`,
+        borderRadius: `${uiTokens.surfaceRadius}px`,
         height: '180px',
         overflow: 'hidden',
         cursor: 'pointer',

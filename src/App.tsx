@@ -7,14 +7,13 @@ import { SelectedDateProvider } from './contexts/SelectedDateContext'
 import ProtectedRoute from './routes/ProtectedRoute'
 import AnimatedTabLayout from './routes/AnimatedTabLayout'
 import { defaultTabPath } from './lib/tabNavigation'
+import DashboardPage from './pages/DashboardPage'
+import RewardsPage from './pages/RewardsPage'
+import TimeExplorerPage from './pages/TimeExplorerPage'
 
-// Lazy load pages
-const DashboardPage = lazy(() => import('./pages/DashboardPage'))
 const ChoresPage = lazy(() => import('./pages/ChoresPage'))
 const LoginPage = lazy(() => import('./pages/LoginPage'))
 const ManageChildrenPage = lazy(() => import('./pages/ManageChildrenPage'))
-const RewardsPage = lazy(() => import('./pages/RewardsPage'))
-const TimeExplorerPage = lazy(() => import('./pages/TimeExplorerPage'))
 
 const App = () => {
   return (

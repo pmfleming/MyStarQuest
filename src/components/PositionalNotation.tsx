@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import StepperButton from './ui/StepperButton'
-import StarDisplay from './ui/StarDisplay'
 import ChoreOutcomeView from './ChoreOutcomeView'
 import { uiTokens } from '../tokens'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
@@ -9,6 +8,13 @@ import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import { celebrateSuccess } from '../lib/celebrate'
 import { useProblemHistory } from '../lib/useProblemHistory'
+import {
+  ActivityResultBar,
+  MAX_ACTIVITY_MISTAKES,
+  ProblemCountControl,
+  StarRewardControl,
+  type ActivityResult,
+} from './ui/ActivityControls'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 10
@@ -19,7 +25,6 @@ const MAX_POSITIONAL_NOTATION_TENS = Math.floor(
 const MAX_POSITIONAL_NOTATION_ONES = 9
 const CELEBRATION_DELAY_MS = 1500
 const SHAKE_DURATION_MS = 600
-const MAX_MISTAKES = 3
 const FAILURE_TRANSITION_DELAY_MS = 3000
 const PLACE_VALUE_PANEL_GAP = 2
 const PLACE_VALUE_PLUS_SIZE = 42
@@ -30,17 +35,10 @@ const PLACE_VALUE_TENS_COLUMNS = 6
 const PLACE_VALUE_TENS_PANEL_SPLIT = '1.7fr 1.3fr'
 const PLACE_VALUE_PLUS_LEFT = '56.66%'
 
-const {
-  statusBarHeight: STATUS_BAR_HEIGHT,
-  statusIconSize: STATUS_ICON_SIZE,
-  statusIconGap: STATUS_ICON_GAP,
-  mathCounterSize: ONE_COUNTER_SIZE,
-  mathCounterGap: DOT_GAP,
-} = uiTokens.activityTokens
+const { mathCounterSize: ONE_COUNTER_SIZE, mathCounterGap: DOT_GAP } =
+  uiTokens.activityTokens
 
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
-const STATUS_BAR_HORIZONTAL_PADDING = 12
-const SETUP_FIELD_GAP = uiTokens.singleVerticalSpace
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value))
@@ -70,20 +68,6 @@ function generateProgressivePositionalNotationProblem(
     Math.floor(Math.random() * (bandEnd - bandStart + 1)) + bandStart
 
   return { target }
-}
-
-function getStatusIconOverlap(iconCount: number): number {
-  if (iconCount <= 1) return 0
-  const availableWidth = CONTROL_ROW_WIDTH - STATUS_BAR_HORIZONTAL_PADDING
-  const naturalWidth =
-    iconCount * STATUS_ICON_SIZE + (iconCount - 1) * STATUS_ICON_GAP
-
-  if (naturalWidth <= availableWidth) return 0
-
-  const requiredOverlap =
-    (naturalWidth - availableWidth) / Math.max(1, iconCount - 1)
-
-  return Math.min(STATUS_ICON_SIZE * 0.72, Math.max(0, requiredOverlap))
 }
 
 export interface PositionalNotationProps {
@@ -124,9 +108,7 @@ const PositionalNotation = ({
   const [userTens, setUserTens] = useState(0)
   const [userOnes, setUserOnes] = useState(0)
   const { isSeen, markSeen, clearHistory } = useProblemHistory()
-  const [resultHistory, setResultHistory] = useState<
-    Array<'correct' | 'incorrect'>
-  >([])
+  const [resultHistory, setResultHistory] = useState<ActivityResult[]>([])
   const [isFailurePending, setIsFailurePending] = useState(false)
   const [feedback, setFeedback] = useState<'idle' | 'correct' | 'wrong'>('idle')
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -136,7 +118,7 @@ const PositionalNotation = ({
   const incorrectCount = resultHistory.filter(
     (result) => result === 'incorrect'
   ).length
-  const hasFailedByHistory = incorrectCount >= MAX_MISTAKES
+  const hasFailedByHistory = incorrectCount >= MAX_ACTIVITY_MISTAKES
   const isFailedState = isCompleted && (isFailed || hasFailedByHistory)
   const isSuccessState = isCompleted && !isFailedState
   const isFinished = isSuccessState || isFailedState
@@ -220,7 +202,7 @@ const PositionalNotation = ({
       const nextRetryCount = retryCount + 1
       setRetryCount(nextRetryCount)
 
-      if (nextRetryCount >= MAX_MISTAKES) {
+      if (nextRetryCount >= MAX_ACTIVITY_MISTAKES) {
         setIsFailurePending(true)
         feedbackTimer.current = setTimeout(() => {
           onFail?.()
@@ -323,95 +305,23 @@ const PositionalNotation = ({
       ) : (
         <>
           {isSetup && (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: SETUP_FIELD_GAP,
-                width: `${CONTROL_ROW_WIDTH}px`,
-                maxWidth: '100%',
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 0,
-                  width: '100%',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                  }}
-                >
-                  <StepperButton
-                    theme={theme}
-                    direction="prev"
-                    onClick={() => onAdjustProblems(-1)}
-                    disabled={!isSetup || totalProblems <= MIN_PROBLEMS}
-                    ariaLabel="Fewer puzzles"
-                  />
-
-                  <div
-                    style={{
-                      flex: 1,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      gap: 0,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: theme.fonts.heading,
-                        fontWeight: 'bold',
-                        fontSize: 42,
-                        color: theme.colors.primary,
-                        lineHeight: 1,
-                      }}
-                    >
-                      {totalProblems}
-                    </span>
-                  </div>
-
-                  <StepperButton
-                    theme={theme}
-                    direction="next"
-                    onClick={() => onAdjustProblems(1)}
-                    disabled={!isSetup || totalProblems >= MAX_PROBLEMS}
-                    ariaLabel="More puzzles"
-                  />
-                </div>
-              </div>
-            </div>
+            <ProblemCountControl
+              theme={theme}
+              totalProblems={totalProblems}
+              min={MIN_PROBLEMS}
+              max={MAX_PROBLEMS}
+              onAdjust={onAdjustProblems}
+              previousAriaLabel="Fewer puzzles"
+              nextAriaLabel="More puzzles"
+            />
           )}
 
           {isSetup && (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 0,
-                width: `${CONTROL_ROW_WIDTH}px`,
-                maxWidth: '100%',
-              }}
-            >
-              <StarDisplay
-                theme={theme}
-                count={starReward}
-                editable
-                onChange={(value) => onStarsChange(value)}
-                min={1}
-                max={3}
-              />
-            </div>
+            <StarRewardControl
+              theme={theme}
+              starReward={starReward}
+              onStarsChange={onStarsChange}
+            />
           )}
 
           {isRunning && (
@@ -431,60 +341,13 @@ const PositionalNotation = ({
               }}
               key={isWrong ? `shake-${retryCount}` : undefined}
             >
-              {/* Scoreboard */}
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                  background: `${theme.colors.primary}12`,
-                  padding: '0 8px',
-                  height: STATUS_BAR_HEIGHT,
-                  borderRadius: 12,
-                  boxSizing: 'border-box',
-                  marginBottom: 4,
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: STATUS_ICON_GAP,
-                    flexWrap: 'nowrap',
-                    justifyContent: 'center',
-                    width: '100%',
-                    height: '100%',
-                    overflowX: 'hidden',
-                    overflowY: 'hidden',
-                  }}
-                >
-                  {resultHistory.map((result, index) => {
-                    const isLatest = index === resultHistory.length - 1
-                    const overlap = getStatusIconOverlap(resultHistory.length)
-                    return (
-                      <img
-                        key={`result-live-${index}`}
-                        src={
-                          result === 'correct'
-                            ? quizCorrectIcon
-                            : quizIncorrectIcon
-                        }
-                        alt={result === 'correct' ? 'Correct' : 'Incorrect'}
-                        style={{
-                          width: STATUS_ICON_SIZE,
-                          height: STATUS_ICON_SIZE,
-                          marginLeft: index === 0 ? 0 : -overlap,
-                          objectFit: 'contain',
-                          animation: isLatest
-                            ? 'pv-slide-in-right 0.35s ease both'
-                            : undefined,
-                        }}
-                      />
-                    )
-                  })}
-                </div>
-              </div>
+              <ActivityResultBar
+                theme={theme}
+                results={resultHistory}
+                correctIcon={quizCorrectIcon}
+                incorrectIcon={quizIncorrectIcon}
+                slideAnimationName="pv-slide-in-right"
+              />
 
               {/* Target Number */}
               <div

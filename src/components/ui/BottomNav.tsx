@@ -29,7 +29,7 @@ const BottomNav = ({ theme, activeTabId }: BottomNavProps) => {
         background: `${theme.colors.surface}99`,
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        borderRadius: '32px',
+        borderRadius: `${uiTokens.surfaceRadius}px`,
         border: `2px solid ${theme.colors.accent}44`,
         boxShadow: `0 12px 32px ${theme.colors.primary}33`,
         zIndex: 100,

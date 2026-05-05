@@ -9,7 +9,6 @@ import type { SunPosition } from '../../lib/solar'
 const EARTH_RADIUS = 0.26
 const EARTH_ORBIT_X = 1.55
 const EARTH_ORBIT_Y = 1.08
-const MOON_ORBIT_RADIUS = 0.6
 const AXIAL_TILT_DEG = 23.4
 const SOLAR_FOCUS_CAMERA_POSITION = new THREE.Vector3(0, 0, 4.9)
 const EARTH_FOCUS_CAMERA_POSITION = new THREE.Vector3(0, 0, 0.88)
@@ -61,7 +60,6 @@ export type SolarSystemSceneState = {
   displayMode: ExplorerDisplayMode
   earthRotationDeg: number
   earthOrbitProgress: number
-  moonOrbitProgress: number
   activeFocusId: ExplorerFocusId
   cityOptions: ExplorerCityOption[]
   sunPosition: SunPosition
@@ -113,6 +111,18 @@ type TopoJsonWorldData = {
     land: TopoJsonGeometryObject
     countries: TopoJsonGeometryObject
   }
+}
+
+const drawRing = (
+  context: CanvasRenderingContext2D,
+  ring: GeoRing,
+  project: (lon: number, lat: number) => number[]
+) => {
+  ring.forEach((coord, i: number) => {
+    const [x, y] = project(coord[0], coord[1])
+    if (i === 0) context.moveTo(x, y)
+    else context.lineTo(x, y)
+  })
 }
 
 const latLonToVector = (
@@ -189,21 +199,16 @@ export default class SolarSystem3DManager {
   private readonly earthTiltGroup: THREE.Group
   private readonly earthMesh: THREE.Mesh
   private readonly atmosphereMesh: THREE.Mesh
-  private readonly moonPivot: THREE.Group
-  private readonly moonMesh: THREE.Mesh
   private readonly cityMarkerGroup: THREE.Group
   private readonly starField: THREE.Points
   private readonly orbitLine: THREE.LineLoop
   private readonly monthTickGroup: THREE.Group
   private readonly monthLabelGroup: THREE.Group
-  private readonly monthLabelSprites: THREE.Sprite[] = []
-  private readonly earthFocusTarget = new THREE.Vector3()
   private readonly cameraTarget = new THREE.Vector3()
   private readonly lookTarget = new THREE.Vector3()
   private readonly desiredCameraPosition = new THREE.Vector3()
   private readonly desiredLookTarget = new THREE.Vector3()
   private readonly earthPosition = new THREE.Vector3()
-  private readonly moonPosition = new THREE.Vector3()
   private readonly desiredSunLightPosition = new THREE.Vector3()
   private readonly earthWorldPosition = new THREE.Vector3()
   private readonly cityWorldPosition = new THREE.Vector3()
@@ -278,7 +283,7 @@ export default class SolarSystem3DManager {
       roughness: 0.95,
       metalness: 0.02,
       emissive: '#07111f',
-      emissiveIntensity: 0.3,
+      emissiveIntensity: 0.03,
     })
     this.earthMesh = new THREE.Mesh(
       new THREE.SphereGeometry(EARTH_RADIUS, 64, 64),
@@ -291,25 +296,10 @@ export default class SolarSystem3DManager {
       new THREE.MeshBasicMaterial({
         color: '#77c4ff',
         transparent: true,
-        opacity: 0.18,
+        opacity: 0.12,
       })
     )
     this.earthTiltGroup.add(this.atmosphereMesh)
-
-    this.moonPivot = new THREE.Group()
-    this.earthOrbitAnchor.add(this.moonPivot)
-
-    this.moonMesh = new THREE.Mesh(
-      new THREE.SphereGeometry(0.085, 32, 32),
-      new THREE.MeshStandardMaterial({
-        color: '#eef2f7',
-        roughness: 0.95,
-        metalness: 0,
-        emissive: '#5e6673',
-        emissiveIntensity: 0.18,
-      })
-    )
-    this.moonPivot.add(this.moonMesh)
 
     this.cityMarkerGroup = new THREE.Group()
     this.earthMesh.add(this.cityMarkerGroup)
@@ -401,14 +391,6 @@ export default class SolarSystem3DManager {
       )
     }
 
-    const moonAngle = state.moonOrbitProgress * Math.PI * 2
-    this.moonPosition.set(
-      Math.cos(moonAngle) * MOON_ORBIT_RADIUS,
-      Math.sin(moonAngle) * MOON_ORBIT_RADIUS * 0.75,
-      Math.sin(moonAngle * 0.75) * 0.04
-    )
-    this.moonMesh.position.copy(this.moonPosition)
-
     if (state.displayMode === 'earth-focus') {
       const centeredLongitude = getCenteredLongitude(state)
       const relativeSunLongitude = normalizeLongitude(
@@ -423,7 +405,7 @@ export default class SolarSystem3DManager {
       this.desiredSunLightPosition.copy(relativeSunVector)
       this.sunLight.position.lerp(this.desiredSunLightPosition, 0.12)
       this.sunMesh.visible = false
-      this.ambientLight.intensity = 0.12
+      this.ambientLight.intensity = 0.03
       this.orbitLine.visible = false
       this.monthTickGroup.visible = false
       this.monthLabelGroup.visible = false
@@ -436,10 +418,6 @@ export default class SolarSystem3DManager {
       this.monthTickGroup.visible = true
       this.monthLabelGroup.visible = true
     }
-
-    this.moonMesh.visible = false
-
-    this.earthFocusTarget.copy(this.earthPosition)
 
     if (state.displayMode === 'earth-focus') {
       this.desiredCameraPosition.copy(EARTH_FOCUS_CAMERA_POSITION)
@@ -653,7 +631,6 @@ export default class SolarSystem3DManager {
       sprite.position.set(x, y, MONTH_LABEL_Z)
       sprite.scale.set(MONTH_LABEL_SCALE_X, MONTH_LABEL_SCALE_Y, 1)
       sprite.material.rotation = 0
-      this.monthLabelSprites.push(sprite)
       group.add(sprite)
     })
 
@@ -700,7 +677,6 @@ export default class SolarSystem3DManager {
       this.monthLabelGroup.remove(child)
       this.disposeObject(child)
     }
-    this.monthLabelSprites.length = 0
     this.monthLabelTextures.forEach((texture) => texture.dispose())
     this.monthLabelTextures = []
 
@@ -720,7 +696,6 @@ export default class SolarSystem3DManager {
       sprite.position.set(x, y, MONTH_LABEL_Z)
       sprite.scale.set(MONTH_LABEL_SCALE_X, MONTH_LABEL_SCALE_Y, 1)
       sprite.material.rotation = 0
-      this.monthLabelSprites.push(sprite)
       this.monthLabelGroup.add(sprite)
     })
   }
@@ -780,10 +755,15 @@ export default class SolarSystem3DManager {
         })
       }
 
+      const topojson = window.topojson
+      if (!topojson) {
+        throw new Error('TopoJSON runtime failed to load')
+      }
+
       const response = await fetch('/data/world-50m-2024.json')
       const world = (await response.json()) as TopoJsonWorldData
-      const land = window.topojson.feature(world, world.objects.land)
-      const countries = window.topojson.feature(world, world.objects.countries)
+      const land = topojson.feature(world, world.objects.land)
+      const countries = topojson.feature(world, world.objects.countries)
 
       const project = (lon: number, lat: number) => {
         const x = ((lon + 180) / 360) * width
@@ -794,16 +774,17 @@ export default class SolarSystem3DManager {
       // Draw land
       context.beginPath()
       land.features.forEach((feature: GeoFeature) => {
-        const coordinates = feature.geometry.coordinates
-        coordinates.forEach((polygon) => {
-          polygon.forEach((ring) => {
-            ring.forEach((coord, i: number) => {
-              const [x, y] = project(coord[0], coord[1])
-              if (i === 0) context.moveTo(x, y)
-              else context.lineTo(x, y)
+        if (feature.geometry.type === 'Polygon') {
+          feature.geometry.coordinates.forEach((ring) => {
+            drawRing(context, ring, project)
+          })
+        } else {
+          feature.geometry.coordinates.forEach((polygon) => {
+            polygon.forEach((ring) => {
+              drawRing(context, ring, project)
             })
           })
-        })
+        }
       })
       context.fillStyle = '#2ed573'
       context.fill()
@@ -811,23 +792,14 @@ export default class SolarSystem3DManager {
       // Draw country outlines
       context.beginPath()
       countries.features.forEach((feature: GeoFeature) => {
-        const coordinates = feature.geometry.coordinates
         if (feature.geometry.type === 'Polygon') {
-          coordinates.forEach((ring) => {
-            ring.forEach((coord, i: number) => {
-              const [x, y] = project(coord[0], coord[1])
-              if (i === 0) context.moveTo(x, y)
-              else context.lineTo(x, y)
-            })
+          feature.geometry.coordinates.forEach((ring) => {
+            drawRing(context, ring, project)
           })
-        } else if (feature.geometry.type === 'MultiPolygon') {
-          coordinates.forEach((polygon) => {
+        } else {
+          feature.geometry.coordinates.forEach((polygon) => {
             polygon.forEach((ring) => {
-              ring.forEach((coord, i: number) => {
-                const [x, y] = project(coord[0], coord[1])
-                if (i === 0) context.moveTo(x, y)
-                else context.lineTo(x, y)
-              })
+              drawRing(context, ring, project)
             })
           })
         }

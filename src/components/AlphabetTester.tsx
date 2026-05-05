@@ -1,13 +1,18 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
-import StepperButton from './ui/StepperButton'
-import StarDisplay from './ui/StarDisplay'
 import ChoreOutcomeView from './ChoreOutcomeView'
 import { uiTokens } from '../tokens'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
 import { useProblemHistory } from '../lib/useProblemHistory'
+import {
+  ActivityResultBar,
+  MAX_ACTIVITY_MISTAKES,
+  ProblemCountControl,
+  StarRewardControl,
+  type ActivityResult,
+} from './ui/ActivityControls'
 
 // Import all alphabet SVGs
 import antAardvarkAntelope from '../assets/alphabet/ant-aardvark-antelope.svg'
@@ -86,17 +91,9 @@ const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 10
 const CELEBRATION_DELAY_MS = 1500
 const SHAKE_DURATION_MS = 600
-const MAX_MISTAKES = 3
 const FAILURE_TRANSITION_DELAY_MS = 3000
 
-const {
-  statusBarHeight: STATUS_BAR_HEIGHT,
-  statusIconSize: STATUS_ICON_SIZE,
-  statusIconGap: STATUS_ICON_GAP,
-} = uiTokens.activityTokens
-
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
-const STATUS_BAR_HORIZONTAL_PADDING = 12
 
 const ALPHABET_ASSETS = [
   { letter: 'A', files: [antAardvarkAntelope, appleAvocadoAsparagus] },
@@ -191,7 +188,6 @@ const ALPHABET_ASSETS = [
 ]
 
 const ALL_LETTERS = ALPHABET_ASSETS.map((asset) => asset.letter)
-const SETUP_FIELD_GAP = uiTokens.singleVerticalSpace
 
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
@@ -217,20 +213,6 @@ function generateAlphabetProblem(): {
   choices.sort(() => Math.random() - 0.5)
 
   return { letter, image, choices }
-}
-
-function getStatusIconOverlap(iconCount: number): number {
-  if (iconCount <= 1) return 0
-  const availableWidth = CONTROL_ROW_WIDTH - STATUS_BAR_HORIZONTAL_PADDING
-  const naturalWidth =
-    iconCount * STATUS_ICON_SIZE + (iconCount - 1) * STATUS_ICON_GAP
-
-  if (naturalWidth <= availableWidth) return 0
-
-  const requiredOverlap =
-    (naturalWidth - availableWidth) / Math.max(1, iconCount - 1)
-
-  return Math.min(STATUS_ICON_SIZE * 0.72, Math.max(0, requiredOverlap))
 }
 
 /* ------------------------------------------------------------------ */
@@ -274,9 +256,7 @@ const AlphabetTester = ({
   const [currentImage, setCurrentImage] = useState('')
   const [currentChoices, setCurrentChoices] = useState<string[]>([])
   const { isSeen, markSeen, clearHistory } = useProblemHistory()
-  const [resultHistory, setResultHistory] = useState<
-    Array<'correct' | 'incorrect'>
-  >([])
+  const [resultHistory, setResultHistory] = useState<ActivityResult[]>([])
   const [isFailurePending, setIsFailurePending] = useState(false)
   const [feedback, setFeedback] = useState<'idle' | 'correct' | 'wrong'>('idle')
   const [wrongChoice, setWrongChoice] = useState<string | null>(null)
@@ -284,7 +264,7 @@ const AlphabetTester = ({
 
   const isSetup = !isRunning && !isCompleted
   const incorrectCount = resultHistory.filter((r) => r === 'incorrect').length
-  const hasFailedByHistory = incorrectCount >= MAX_MISTAKES
+  const hasFailedByHistory = incorrectCount >= MAX_ACTIVITY_MISTAKES
   const isFailedState = isCompleted && (isFailed || hasFailedByHistory)
   const isSuccessState = isCompleted && !isFailedState
   const isFinished = isSuccessState || isFailedState
@@ -354,7 +334,7 @@ const AlphabetTester = ({
       const nextRetryCount = retryCount + 1
       setRetryCount(nextRetryCount)
 
-      if (nextRetryCount >= MAX_MISTAKES) {
+      if (nextRetryCount >= MAX_ACTIVITY_MISTAKES) {
         setIsFailurePending(true)
         feedbackTimer.current = setTimeout(() => {
           onFail?.()
@@ -401,70 +381,25 @@ const AlphabetTester = ({
         <>
           {/* ---- SETUP UI ---- */}
           {isSetup && (
-            <div
-              className="flex flex-col items-center"
-              style={{
-                gap: SETUP_FIELD_GAP,
-                width: CONTROL_ROW_WIDTH,
-                maxWidth: '100%',
-              }}
-            >
-              <div
-                className="flex w-full flex-col items-center"
-                style={{ gap: 0 }}
-              >
-                <div className="flex w-full items-center justify-center">
-                  <StepperButton
-                    theme={theme}
-                    direction="prev"
-                    onClick={() => onAdjustProblems(-1)}
-                    disabled={totalProblems <= MIN_PROBLEMS}
-                    ariaLabel="Fewer problems"
-                  />
-                  <div className="flex flex-1 flex-col items-center">
-                    <span
-                      style={{
-                        fontFamily: theme.fonts.heading,
-                        fontWeight: 'bold',
-                        fontSize: 42,
-                        color: theme.colors.primary,
-                        lineHeight: 1,
-                      }}
-                    >
-                      {totalProblems}
-                    </span>
-                  </div>
-                  <StepperButton
-                    theme={theme}
-                    direction="next"
-                    onClick={() => onAdjustProblems(1)}
-                    disabled={totalProblems >= MAX_PROBLEMS}
-                    ariaLabel="More problems"
-                  />
-                </div>
-              </div>
-            </div>
+            <ProblemCountControl
+              theme={theme}
+              totalProblems={totalProblems}
+              min={MIN_PROBLEMS}
+              max={MAX_PROBLEMS}
+              onAdjust={onAdjustProblems}
+              previousAriaLabel="Fewer problems"
+              nextAriaLabel="More problems"
+            />
           )}
 
           {isSetup && (
-            <div
-              className="flex flex-col items-center"
-              style={{
-                gap: 0,
-                width: CONTROL_ROW_WIDTH,
-                maxWidth: '100%',
-                marginTop: uiTokens.singleVerticalSpace,
-              }}
-            >
-              <StarDisplay
-                theme={theme}
-                count={starReward}
-                editable
-                onChange={onStarsChange}
-                min={1}
-                max={10}
-              />
-            </div>
+            <StarRewardControl
+              theme={theme}
+              starReward={starReward}
+              onStarsChange={onStarsChange}
+              max={10}
+              style={{ marginTop: uiTokens.singleVerticalSpace }}
+            />
           )}
 
           {/* ---- PLAY AREA ---- */}
@@ -473,42 +408,13 @@ const AlphabetTester = ({
               className="flex flex-col items-center"
               style={{ gap: 8, width: CONTROL_ROW_WIDTH, maxWidth: '100%' }}
             >
-              {/* Scoreboard */}
-              <div
-                className="flex w-full items-center justify-center"
-                style={{
-                  background: `${theme.colors.primary}12`,
-                  height: STATUS_BAR_HEIGHT,
-                  borderRadius: 12,
-                  marginBottom: 4,
-                }}
-              >
-                <div
-                  className="flex h-full w-full items-center justify-center overflow-hidden"
-                  style={{ gap: STATUS_ICON_GAP }}
-                >
-                  {resultHistory.map((result, index) => {
-                    const overlap = getStatusIconOverlap(resultHistory.length)
-                    return (
-                      <img
-                        key={`result-${index}`}
-                        src={
-                          result === 'correct'
-                            ? quizCorrectIcon
-                            : quizIncorrectIcon
-                        }
-                        alt=""
-                        style={{
-                          width: STATUS_ICON_SIZE,
-                          height: STATUS_ICON_SIZE,
-                          marginLeft: index === 0 ? 0 : -overlap,
-                          objectFit: 'contain',
-                        }}
-                      />
-                    )
-                  })}
-                </div>
-              </div>
+              <ActivityResultBar
+                theme={theme}
+                results={resultHistory}
+                correctIcon={quizCorrectIcon}
+                incorrectIcon={quizIncorrectIcon}
+                hideAlt
+              />
 
               {/* Prompt Image */}
               <div
