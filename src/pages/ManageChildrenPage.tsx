@@ -38,26 +38,26 @@ const ManageChildrenPage = () => {
 
   const themeOptions = [
     {
-      id: 'princess' as ThemeId,
+      id: 'princess',
       label: 'Princess',
       image: princessThemeIcon,
     },
     {
-      id: 'space' as ThemeId,
+      id: 'space',
       label: 'Space',
       image: spaceThemeIcon,
     },
     {
-      id: 'nature' as ThemeId,
+      id: 'nature',
       label: 'Nature',
       image: natureThemeIcon,
     },
     {
-      id: 'cartoon' as ThemeId,
+      id: 'cartoon',
       label: 'Cartoon',
       image: cartoonThemeIcon,
     },
-  ]
+  ] satisfies Array<{ id: ThemeId; label: string; image: string }>
 
   const carouselItems = themeOptions.map((option) => ({
     id: option.id,
@@ -87,7 +87,7 @@ const ManageChildrenPage = () => {
   )
 
   return (
-    <PageShell theme={theme} activeTabId="dashboard" title="Children">
+    <PageShell theme={theme} activeTabId="chores" title="Children">
       <div
         className="mx-auto flex w-full flex-col"
         style={{

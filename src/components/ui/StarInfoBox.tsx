@@ -245,7 +245,7 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          gap: '12px',
+          gap: `${uiTokens.actionRowGap}px`,
         }}
       >
         {/* Mini Stars */}

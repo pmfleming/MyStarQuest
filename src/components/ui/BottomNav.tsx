@@ -23,7 +23,7 @@ const BottomNav = ({ theme, activeTabId }: BottomNavProps) => {
         height: `${uiTokens.floatingNavHeight}px`,
         display: 'grid',
         gridTemplateColumns: `repeat(${appTabs.length}, minmax(0, 1fr))`,
-        gap: '8px',
+        gap: `${uiTokens.navItemGap}px`,
         padding: '0 12px',
         // Translucent background with glassmorphism
         background: `${theme.colors.surface}99`,

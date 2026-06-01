@@ -8,7 +8,7 @@ interface TopIconButtonProps {
   icon: ReactNode
   ariaLabel: string
   to?: string
-  onClick?: () => void
+  onClick?: () => void | Promise<void>
   selected?: boolean
   disabled?: boolean
 }
@@ -40,7 +40,18 @@ const TopIconButton = ({
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={() => {
+        try {
+          const result = onClick?.()
+          if (result instanceof Promise) {
+            result.catch((error) => {
+              console.error('Failed to run top icon action', error)
+            })
+          }
+        } catch (error) {
+          console.error('Failed to run top icon action', error)
+        }
+      }}
       disabled={disabled}
       {...commonProps}
     >

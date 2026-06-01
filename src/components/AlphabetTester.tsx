@@ -1,16 +1,15 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import type { Theme } from '../contexts/ThemeContext'
-import ChoreOutcomeView from './ChoreOutcomeView'
 import { uiTokens } from '../tokens'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
 import { useProblemHistory } from '../lib/useProblemHistory'
 import {
-  ActivityResultBar,
+  ActivityOutcomeShell,
+  ActivityPlayArea,
+  ActivitySetupControls,
+  type ActivityChoreProps,
   MAX_ACTIVITY_MISTAKES,
-  ProblemCountControl,
-  StarRewardControl,
   type ActivityResult,
 } from './ui/ActivityControls'
 
@@ -92,8 +91,6 @@ const MAX_PROBLEMS = 10
 const CELEBRATION_DELAY_MS = 1500
 const SHAKE_DURATION_MS = 600
 const FAILURE_TRANSITION_DELAY_MS = 3000
-
-const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
 
 const ALPHABET_ASSETS = [
   { letter: 'A', files: [antAardvarkAntelope, appleAvocadoAsparagus] },
@@ -219,21 +216,7 @@ function generateAlphabetProblem(): {
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-export interface AlphabetTesterProps {
-  theme: Theme
-  totalProblems: number
-  starReward: number
-  isRunning: boolean
-  isCompleted?: boolean
-  isFailed?: boolean
-  onAdjustProblems: (delta: number) => void
-  onStarsChange: (value: number) => void
-  onComplete: () => void
-  onFail?: () => void
-  checkTrigger?: number
-  completionImage?: string
-  failureImage?: string
-}
+export type AlphabetTesterProps = ActivityChoreProps
 
 const AlphabetTester = ({
   theme,
@@ -366,124 +349,103 @@ const AlphabetTester = ({
   }, [isRunning, isCompleted, clearHistory])
 
   return (
-    <div
+    <ActivityOutcomeShell
+      isFinished={isFinished}
+      isSuccessState={isSuccessState}
+      completionImage={completionImage}
+      failureImage={failureImage}
+      successAlt="Great job!"
+      failureAlt="Keep trying!"
       className="flex w-full flex-col items-center"
       style={{ gap: uiTokens.sectionGap }}
     >
-      {isFinished ? (
-        <ChoreOutcomeView
-          imageSrc={isSuccessState ? completionImage : failureImage}
-          outcome={isSuccessState ? 'success' : 'failure'}
-          successAlt="Great job!"
-          failureAlt="Keep trying!"
-        />
-      ) : (
-        <>
-          {/* ---- SETUP UI ---- */}
-          {isSetup && (
-            <ProblemCountControl
-              theme={theme}
-              totalProblems={totalProblems}
-              min={MIN_PROBLEMS}
-              max={MAX_PROBLEMS}
-              onAdjust={onAdjustProblems}
-              previousAriaLabel="Fewer problems"
-              nextAriaLabel="More problems"
+      <ActivitySetupControls
+        isSetup={isSetup}
+        theme={theme}
+        totalProblems={totalProblems}
+        min={MIN_PROBLEMS}
+        max={MAX_PROBLEMS}
+        onAdjustProblems={onAdjustProblems}
+        starReward={starReward}
+        onStarsChange={onStarsChange}
+        previousAriaLabel="Fewer problems"
+        nextAriaLabel="More problems"
+        starMax={10}
+        starStyle={{ marginTop: uiTokens.singleVerticalSpace }}
+      />
+
+      {isRunning && (
+        <ActivityPlayArea
+          theme={theme}
+          results={resultHistory}
+          correctIcon={quizCorrectIcon}
+          incorrectIcon={quizIncorrectIcon}
+          hideAlt
+        >
+          {/* Prompt Image */}
+          <div
+            className="relative flex aspect-square w-full items-center justify-center overflow-hidden"
+            style={{
+              background: theme.colors.surface,
+              borderRadius: 24,
+              border: `4px solid ${theme.colors.accent}44`,
+              padding: 12,
+              boxSizing: 'border-box',
+              animation: isCorrect ? 'pop-in 0.4s ease' : undefined,
+            }}
+          >
+            <img
+              src={currentImage}
+              alt="Identify the first letter"
+              className="h-full w-full object-contain"
             />
-          )}
+          </div>
 
-          {isSetup && (
-            <StarRewardControl
-              theme={theme}
-              starReward={starReward}
-              onStarsChange={onStarsChange}
-              max={10}
-              style={{ marginTop: uiTokens.singleVerticalSpace }}
-            />
-          )}
+          {/* Choice Buttons */}
+          <div
+            className="flex w-full justify-center"
+            style={{ gap: 12, marginTop: 8 }}
+          >
+            {currentChoices.map((letter) => {
+              const isChoiceCorrect = isCorrect && letter === currentTarget
+              const isChoiceWrong = isWrong && letter === wrongChoice
 
-          {/* ---- PLAY AREA ---- */}
-          {isRunning && (
-            <div
-              className="flex flex-col items-center"
-              style={{ gap: 8, width: CONTROL_ROW_WIDTH, maxWidth: '100%' }}
-            >
-              <ActivityResultBar
-                theme={theme}
-                results={resultHistory}
-                correctIcon={quizCorrectIcon}
-                incorrectIcon={quizIncorrectIcon}
-                hideAlt
-              />
-
-              {/* Prompt Image */}
-              <div
-                className="relative flex aspect-square w-full items-center justify-center overflow-hidden"
-                style={{
-                  background: theme.colors.surface,
-                  borderRadius: 24,
-                  border: `4px solid ${theme.colors.accent}44`,
-                  padding: 12,
-                  boxSizing: 'border-box',
-                  animation: isCorrect ? 'pop-in 0.4s ease' : undefined,
-                }}
-              >
-                <img
-                  src={currentImage}
-                  alt="Identify the first letter"
-                  className="h-full w-full object-contain"
-                />
-              </div>
-
-              {/* Choice Buttons */}
-              <div
-                className="flex w-full justify-center"
-                style={{ gap: 12, marginTop: 8 }}
-              >
-                {currentChoices.map((letter) => {
-                  const isChoiceCorrect = isCorrect && letter === currentTarget
-                  const isChoiceWrong = isWrong && letter === wrongChoice
-
-                  return (
-                    <button
-                      key={letter}
-                      type="button"
-                      onClick={() => handleChoice(letter)}
-                      disabled={isCorrect || isFailurePending}
-                      className="flex aspect-square flex-1 items-center justify-center"
-                      style={{
-                        maxWidth: 100,
-                        background: isChoiceCorrect
-                          ? '#4ADE80'
-                          : isChoiceWrong
-                            ? '#F87171'
-                            : theme.colors.surface,
-                        borderRadius: 24,
-                        border: `4px solid ${isChoiceCorrect || isChoiceWrong ? 'transparent' : theme.colors.accent}`,
-                        fontFamily: theme.fonts.heading,
-                        fontSize: '2rem',
-                        fontWeight: 900,
-                        color:
-                          isChoiceCorrect || isChoiceWrong
-                            ? 'white'
-                            : theme.colors.primary,
-                        boxShadow: `0 6px 0 ${isChoiceCorrect ? '#16A34A' : isChoiceWrong ? '#DC2626' : theme.colors.accent + '88'}`,
-                        transition: 'all 0.1s ease',
-                        animation: isChoiceWrong
-                          ? 'shake 0.4s ease'
-                          : undefined,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {letter}
-                      {letter.toLowerCase()}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-        </>
+              return (
+                <button
+                  key={letter}
+                  type="button"
+                  onClick={() => handleChoice(letter)}
+                  disabled={isCorrect || isFailurePending}
+                  className="flex aspect-square flex-1 items-center justify-center"
+                  style={{
+                    maxWidth: 100,
+                    background: isChoiceCorrect
+                      ? '#4ADE80'
+                      : isChoiceWrong
+                        ? '#F87171'
+                        : theme.colors.surface,
+                    borderRadius: 24,
+                    border: `4px solid ${isChoiceCorrect || isChoiceWrong ? 'transparent' : theme.colors.accent}`,
+                    fontFamily: theme.fonts.heading,
+                    fontSize: '2rem',
+                    fontWeight: 900,
+                    color:
+                      isChoiceCorrect || isChoiceWrong
+                        ? 'white'
+                        : theme.colors.primary,
+                    boxShadow: `0 6px 0 ${isChoiceCorrect ? '#16A34A' : isChoiceWrong ? '#DC2626' : theme.colors.accent + '88'}`,
+                    transition: 'all 0.1s ease',
+                    animation: isChoiceWrong ? 'shake 0.4s ease' : undefined,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {letter}
+                  {letter.toLowerCase()}
+                </button>
+              )
+            })}
+          </div>
+        </ActivityPlayArea>
       )}
 
       <style>{`
@@ -498,7 +460,7 @@ const AlphabetTester = ({
           75% { transform: translateX(6px); }
         }
       `}</style>
-    </div>
+    </ActivityOutcomeShell>
   )
 }
 

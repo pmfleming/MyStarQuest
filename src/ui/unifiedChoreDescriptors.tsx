@@ -1,700 +1,50 @@
-import type { Dispatch, ReactNode, SetStateAction } from 'react'
-import ActionTextInput from '../components/ui/ActionTextInput'
-import ChoreOutcomeView from '../components/ChoreOutcomeView'
-import RepeatControl from '../components/ui/RepeatControl'
-import StarDisplay from '../components/ui/StarDisplay'
 import {
   princessActiveIcon,
   princessBiteIcon,
-  princessEatingFailImage,
-  princessEatingFullImage,
   princessGiveStarIcon,
-  princessQuizCorrectImage,
   princessMathsIcon,
-  princessQuizIncorrectImage,
   princessPlateImage,
 } from '../assets/themes/princess/assets'
-import {
-  DEFAULT_ALPHABET_PROBLEMS,
-  DEFAULT_DINNER_BITES,
-  DEFAULT_DINNER_DURATION_SECONDS,
-  DEFAULT_MATH_PROBLEMS,
-  DEFAULT_PV_PROBLEMS,
-  getManageDinnerBitesLeft,
-  getManageDinnerRemaining,
-  getManageToiletStatus,
-  getManageTaskCompletedAt,
-  getManageWaterLevel,
-  isAlphabetTask,
-  isAlphabetTodo,
-  isEatingTask,
-  isEatingTodo,
-  isMathTask,
-  isMathTodo,
-  isPositionalNotationTask,
-  isPositionalNotationTodo,
-  isWaterToiletTask,
-  isWaterToiletTodo,
-  type TaskEphemeralState,
-  type TaskUpdatableFields,
-  type TaskWithEphemeral,
-  type TodoRecord,
-  type TodoUpdatableFields,
-  type TaskRecord,
-} from '../data/types'
-import type { Theme } from '../contexts/ThemeContext'
-import {
-  calculateWaterToiletStars,
-  getNextToiletStatus,
-  getNextWaterLevel,
-  getWaterToiletOutcome,
-} from '../lib/choreLogic'
-import { uiTokens } from '../tokens'
+import { isInChoreStage, shouldUseResetUtility } from './choreModeDefinitions'
 import type { ListRowDescriptor } from './listDescriptorTypes'
-import {
-  shouldHidePresetChoreTitle,
-  isInChoreStage,
-  type ChoreStage,
-} from './choreModeDefinitions'
 import {
   createPresetActivityPrimaryAction,
   createPresetDinnerPrimaryAction,
   createPresetTestPrimaryAction,
   createPresetUtilityAction,
 } from './presetChoreActions'
-import { getWaterToiletOutcomeImage } from './waterToiletAssets'
-import {
-  renderAlphabetChore,
-  renderArithmeticChore,
-  renderDinnerChore,
-  renderPositionalNotationChore,
-  renderWaterToiletChore,
-} from './presetChoreRenderers'
+import { createUnifiedChoreState, getChoreType } from './unifiedChoreState'
+import { renderUnifiedChoreItem } from './unifiedChoreItemRenderer'
+import type {
+  UnifiedChoreDeps,
+  UnifiedChoreItem,
+} from './unifiedChoreDescriptorTypes'
 
-type UnifiedChoreItem = TaskWithEphemeral | TodoRecord
-type PrincessAsset = string | undefined
-
-export type UnifiedChoreDeps = {
-  theme: Theme
-  mode: 'manage' | 'today'
-  // Actions
-  onUpdateTaskField?: (id: string, field: TaskUpdatableFields) => void
-  onUpdateTodoField?: (id: string, field: TodoUpdatableFields) => void
-  onUpdateEphemeral?: (id: string, patch: Partial<TaskEphemeralState>) => void
-  onSetTitleDraft?: (id: string, value: string) => void
-  onCommitTitle?: (id: string, value: string) => void
-  onDeleteTask?: (id: string) => void
-  onDeleteTodo?: (id: string) => void
-  onEnterChore?: (item: TaskWithEphemeral | TodoRecord) => void
-  onComplete?: (item: TaskWithEphemeral | TodoRecord) => void
-  onFail?: (item: TaskWithEphemeral | TodoRecord) => void
-  onReset?: (item: TaskWithEphemeral | TodoRecord) => void
-  onStartDinner?: (item: TaskWithEphemeral | TodoRecord | null) => void
-  onApplyBite?: (item: TaskWithEphemeral | TodoRecord) => void
-  onExpireDinner?: (item: TaskWithEphemeral | TodoRecord) => void
-  // State
-  titleDrafts?: Record<string, string>
-  activeMathId: string | null
-  activePVId: string | null
-  activeAlphabetId: string | null
-  activeDinnerId: string | null
-  activeWaterToiletId: string | null
-  mathCheckTriggers: Record<string, number>
-  pvCheckTriggers: Record<string, number>
-  alphabetCheckTriggers: Record<string, number>
-  setMathCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
-  setPVCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
-  setAlphabetCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
-  biteCooldownSeconds: number
-  biteCooldownEndsAt?: number | null
-  activePrincessMealIcon?: string
-  renderDayTypeControl?: (task: TaskRecord) => ReactNode
-}
+export type { UnifiedChoreDeps } from './unifiedChoreDescriptorTypes'
 
 export function createUnifiedChoreDescriptor(
   deps: UnifiedChoreDeps
 ): ListRowDescriptor<UnifiedChoreItem> {
   const isManage = deps.mode === 'manage'
-  const noop = () => undefined
-  const princessAsset = (asset?: string): PrincessAsset =>
-    deps.theme.id === 'princess' ? asset : undefined
-  const clamp = (value: number, min: number, max: number) =>
-    Math.max(min, Math.min(max, value))
-  const testOutcomeImages = () => ({
-    completionImage: princessAsset(princessQuizCorrectImage),
-    failureImage: princessAsset(princessQuizIncorrectImage),
-  })
-
-  const isTaskItem = (item: UnifiedChoreItem): item is TaskWithEphemeral =>
-    'taskType' in item
-
-  const getChoreType = (item: UnifiedChoreItem) =>
-    isTaskItem(item) ? item.taskType : item.sourceTaskType
-
-  const getWaterToiletDelta = (item: UnifiedChoreItem) => {
-    if (isTaskItem(item)) {
-      if (!isWaterToiletTask(item)) return item.starValue
-      return calculateWaterToiletStars(
-        getManageWaterLevel(item),
-        getManageToiletStatus(item)
-      )
-    }
-
-    if (!isWaterToiletTodo(item)) return item.starValue
-    return calculateWaterToiletStars(item.waterLevel, item.toiletStatus)
-  }
-
-  const isCompleted = (item: UnifiedChoreItem) =>
-    isTaskItem(item)
-      ? Boolean(getManageTaskCompletedAt(item))
-      : Boolean(item.completedAt)
-
-  const hasActiveDinnerCooldown = (item: UnifiedChoreItem) =>
-    deps.activeDinnerId === item.id &&
-    typeof deps.biteCooldownEndsAt === 'number' &&
-    deps.biteCooldownEndsAt > Date.now()
-
-  const isDinnerAwaitingFinalCooldown = (item: UnifiedChoreItem) => {
-    if (getChoreType(item) !== 'eating' || !isCompleted(item)) return false
-
-    if (isTaskItem(item)) {
-      return isEatingTask(item) && getManageDinnerBitesLeft(item) <= 0
-        ? hasActiveDinnerCooldown(item)
-        : false
-    }
-
-    return isEatingTodo(item) && item.dinnerBitesLeft <= 0
-      ? hasActiveDinnerCooldown(item)
-      : false
-  }
-
-  const isDinnerTimedOut = (item: UnifiedChoreItem) => {
-    if (getChoreType(item) !== 'eating') return false
-
-    if (isTaskItem(item)) {
-      if (!isEatingTask(item)) return false
-      const remaining = getManageDinnerRemaining(item)
-      const startedAt = item.manageDinnerTimerStartedAt
-      if (!startedAt)
-        return remaining <= 0 && getManageDinnerBitesLeft(item) > 0
-      const elapsed = (Date.now() - startedAt) / 1000
-      return remaining - elapsed <= 0 && getManageDinnerBitesLeft(item) > 0
-    }
-
-    if (!isEatingTodo(item)) return false
-    const remaining = item.dinnerRemainingSeconds
-    const startedAt = item.dinnerTimerStartedAt
-    if (!startedAt) return remaining <= 0 && item.dinnerBitesLeft > 0
-    const elapsed = (Date.now() - startedAt) / 1000
-    return remaining - elapsed <= 0 && item.dinnerBitesLeft > 0
-  }
-
-  const getStage = (item: UnifiedChoreItem): ChoreStage => {
-    if (isCompleted(item) || isDinnerTimedOut(item)) {
-      if (isDinnerAwaitingFinalCooldown(item)) return 'activity'
-      return 'completed'
-    }
-
-    const id = item.id
-    if (
-      deps.activeMathId === id ||
-      deps.activePVId === id ||
-      deps.activeAlphabetId === id ||
-      deps.activeDinnerId === id ||
-      deps.activeWaterToiletId === id
-    ) {
-      return 'activity'
-    }
-    return 'setup'
-  }
-
-  const getWaterToiletRenderState = (item: UnifiedChoreItem) => {
-    if (isTaskItem(item)) {
-      if (!isWaterToiletTask(item)) return null
-
-      const waterLevel = getManageWaterLevel(item)
-      const toiletStatus = getManageToiletStatus(item)
-
-      return {
-        isCompleted: Boolean(item.manageWaterToiletCompletedAt),
-        waterLevel,
-        toiletStatus,
-        starDelta: calculateWaterToiletStars(waterLevel, toiletStatus),
-        onCycleWater: () =>
-          deps.onUpdateEphemeral?.(item.id, {
-            manageWaterLevel: getNextWaterLevel(waterLevel),
-          }),
-        onCycleToilet: () =>
-          deps.onUpdateEphemeral?.(item.id, {
-            manageToiletStatus: getNextToiletStatus(toiletStatus),
-          }),
-      }
-    }
-
-    if (!isWaterToiletTodo(item)) return null
-
-    return {
-      isCompleted: Boolean(item.completedAt),
-      waterLevel: item.waterLevel,
-      toiletStatus: item.toiletStatus,
-      starDelta: calculateWaterToiletStars(item.waterLevel, item.toiletStatus),
-      onCycleWater: () =>
-        deps.onUpdateTodoField?.(item.id, {
-          waterLevel: getNextWaterLevel(item.waterLevel),
-        }),
-      onCycleToilet: () =>
-        deps.onUpdateTodoField?.(item.id, {
-          toiletStatus: getNextToiletStatus(item.toiletStatus),
-        }),
-    }
-  }
-
-  const renderItem = (item: UnifiedChoreItem): ReactNode => {
-    const stage = getStage(item)
-    const hideTitle = shouldHidePresetChoreTitle(stage)
-    const type = getChoreType(item)
-
-    const commonContainer = (content: ReactNode) => (
-      <div
-        className="flex flex-col"
-        style={{
-          gap: `${isManage ? uiTokens.singleVerticalSpace : Math.max(12, uiTokens.singleVerticalSpace / 2)}px`,
-        }}
-      >
-        {!hideTitle &&
-          (isManage ? (
-            <ActionTextInput
-              theme={deps.theme}
-              label="Chore Name"
-              value={deps.titleDrafts?.[item.id] ?? item.title}
-              onChange={(v) => deps.onSetTitleDraft?.(item.id, v)}
-              onCommit={(v) => deps.onCommitTitle?.(item.id, v)}
-              maxLength={80}
-              baseColor={deps.theme.colors.primary}
-              inputAriaLabel="Chore name"
-              transparent
-            />
-          ) : (
-            <div
-              style={{
-                fontFamily: deps.theme.fonts.heading,
-                fontSize: '1.25rem',
-                fontWeight: 800,
-                lineHeight: 1.2,
-              }}
-            >
-              {item.title}
-            </div>
-          ))}
-        {content}
-        {isManage &&
-          stage === 'setup' &&
-          isTaskItem(item) &&
-          deps.renderDayTypeControl?.(item as TaskRecord)}
-      </div>
-    )
-
-    switch (type) {
-      case 'standard':
-        return commonContainer(
-          stage === 'completed' ? (
-            <ChoreOutcomeView
-              imageSrc={princessAsset(princessQuizCorrectImage)}
-              outcome="success"
-            />
-          ) : isTaskItem(item) ? (
-            <>
-              <div
-                className="flex flex-col items-center"
-                style={{ gap: '0px' }}
-              >
-                <RepeatControl
-                  theme={deps.theme}
-                  value={item.isRepeating}
-                  onChange={(v) =>
-                    deps.onUpdateTaskField?.(item.id, { isRepeating: v })
-                  }
-                  showLabel={false}
-                  showFeedback={false}
-                />
-              </div>
-              <div
-                className="flex flex-col items-center"
-                style={{ gap: '0px' }}
-              >
-                <StarDisplay
-                  theme={deps.theme}
-                  count={item.starValue}
-                  editable
-                  onChange={(v) =>
-                    deps.onUpdateTaskField?.(item.id, { starValue: v || 1 })
-                  }
-                  min={1}
-                  max={3}
-                />
-              </div>
-            </>
-          ) : null
-        )
-
-      case 'eating': {
-        const isActive = deps.activeDinnerId === item.id
-        if (isTaskItem(item)) {
-          if (!isEatingTask(item)) return null
-
-          const eatingItem = item
-          const isEatingCompleted = Boolean(eatingItem.manageDinnerCompletedAt)
-
-          return commonContainer(
-            isActive || isEatingCompleted || stage === 'setup'
-              ? renderDinnerChore({
-                  theme: deps.theme,
-                  duration:
-                    eatingItem.dinnerDurationSeconds ??
-                    DEFAULT_DINNER_DURATION_SECONDS,
-                  remaining: getManageDinnerRemaining(eatingItem),
-                  totalBites:
-                    eatingItem.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-                  bitesLeft: getManageDinnerBitesLeft(eatingItem),
-                  starReward: eatingItem.starValue,
-                  isTimerRunning: isActive,
-                  timerStartedAt: eatingItem.manageDinnerTimerStartedAt,
-                  plateImage: princessAsset(princessPlateImage),
-                  onAdjustTime: (delta) => {
-                    const next = clamp(
-                      (eatingItem.dinnerDurationSeconds ?? 600) + delta,
-                      5 * 60,
-                      30 * 60
-                    )
-                    deps.onUpdateTaskField?.(item.id, {
-                      dinnerDurationSeconds: next,
-                    })
-                    deps.onUpdateEphemeral?.(item.id, {
-                      manageDinnerRemainingSeconds: next,
-                    })
-                  },
-                  onAdjustBites: (delta) => {
-                    const next = clamp(
-                      (eatingItem.dinnerTotalBites ?? 2) + delta,
-                      1,
-                      16
-                    )
-                    deps.onUpdateTaskField?.(item.id, {
-                      dinnerTotalBites: next,
-                    })
-                    deps.onUpdateEphemeral?.(item.id, {
-                      manageDinnerBitesLeft: next,
-                    })
-                  },
-                  onStarsChange: (v) =>
-                    deps.onUpdateTaskField?.(item.id, { starValue: v }),
-                  onExpire: () => deps.onExpireDinner?.(item),
-                  isCompleted: isEatingCompleted,
-                  ...testOutcomeImages(),
-                  biteCooldownSeconds: deps.biteCooldownSeconds,
-                  biteCooldownEndsAt: deps.biteCooldownEndsAt,
-                  biteIcon: princessAsset(deps.activePrincessMealIcon),
-                  showSetupControls: !isActive && !isEatingCompleted,
-                  showStarReward: !isActive && !isEatingCompleted,
-                })
-              : null
-          )
-        }
-
-        if (!isEatingTodo(item)) return null
-
-        const eatingItem = item
-        const isEatingCompleted = Boolean(eatingItem.completedAt)
-
-        return commonContainer(
-          isActive || isEatingCompleted
-            ? renderDinnerChore({
-                theme: deps.theme,
-                duration:
-                  eatingItem.dinnerDurationSeconds ??
-                  DEFAULT_DINNER_DURATION_SECONDS,
-                remaining: eatingItem.dinnerRemainingSeconds,
-                totalBites: eatingItem.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-                bitesLeft: eatingItem.dinnerBitesLeft,
-                starReward: eatingItem.starValue,
-                isTimerRunning: isActive,
-                timerStartedAt: eatingItem.dinnerTimerStartedAt,
-                plateImage: princessAsset(princessPlateImage),
-                isCompleted: isEatingCompleted,
-                completionImage: princessAsset(princessEatingFullImage),
-                failureImage: princessAsset(princessEatingFailImage),
-                biteCooldownSeconds: deps.biteCooldownSeconds,
-                biteCooldownEndsAt: deps.biteCooldownEndsAt,
-                biteIcon: princessAsset(deps.activePrincessMealIcon),
-                onAdjustTime: noop,
-                onAdjustBites: noop,
-                onStarsChange: noop,
-                onExpire: () => deps.onExpireDinner?.(item),
-                showSetupControls: false,
-                showStarReward: false,
-              })
-            : null
-        )
-      }
-
-      case 'math': {
-        const isActive = deps.activeMathId === item.id
-        if (isTaskItem(item)) {
-          if (!isMathTask(item)) return null
-
-          const mathItem = item
-          const isMathCompleted = Boolean(mathItem.manageMathCompletedAt)
-
-          return commonContainer(
-            isActive || isMathCompleted || stage === 'setup'
-              ? renderArithmeticChore({
-                  theme: deps.theme,
-                  totalProblems:
-                    mathItem.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-                  starReward: mathItem.starValue,
-                  difficulty: mathItem.mathDifficulty ?? 'easy',
-                  isRunning: isActive,
-                  isCompleted: isMathCompleted,
-                  isFailed: mathItem.manageMathLastOutcome === 'failure',
-                  onAdjustProblems: (delta) => {
-                    const next = clamp(
-                      (mathItem.mathTotalProblems ?? 5) + delta,
-                      1,
-                      10
-                    )
-                    deps.onUpdateTaskField?.(item.id, {
-                      mathTotalProblems: next,
-                    })
-                  },
-                  onStarsChange: (v) =>
-                    deps.onUpdateTaskField?.(item.id, { starValue: v }),
-                  onDifficultyChange: (d) =>
-                    deps.onUpdateTaskField?.(item.id, { mathDifficulty: d }),
-                  onComplete: () => deps.onComplete?.(item),
-                  onFail: () => deps.onFail?.(item),
-                  checkTrigger: deps.mathCheckTriggers[item.id] ?? 0,
-                  ...testOutcomeImages(),
-                })
-              : null
-          )
-        }
-
-        if (!isMathTodo(item)) return null
-
-        const mathItem = item
-        const isMathCompleted = Boolean(mathItem.completedAt)
-
-        return commonContainer(
-          isActive || isMathCompleted
-            ? renderArithmeticChore({
-                theme: deps.theme,
-                totalProblems:
-                  mathItem.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-                starReward: mathItem.starValue,
-                difficulty: mathItem.mathDifficulty ?? 'easy',
-                isRunning: isActive,
-                isCompleted: isMathCompleted,
-                isFailed: mathItem.mathLastOutcome === 'failure',
-                onAdjustProblems: noop,
-                onStarsChange: noop,
-                onComplete: () => deps.onComplete?.(item),
-                onFail: () => deps.onFail?.(item),
-                checkTrigger: deps.mathCheckTriggers[item.id] ?? 0,
-                ...testOutcomeImages(),
-              })
-            : null
-        )
-      }
-
-      case 'positional-notation': {
-        const isActive = deps.activePVId === item.id
-        if (isTaskItem(item)) {
-          if (!isPositionalNotationTask(item)) return null
-
-          const pvItem = item
-          const isPVCompleted = Boolean(pvItem.managePVCompletedAt)
-
-          return commonContainer(
-            isActive || isPVCompleted || stage === 'setup'
-              ? renderPositionalNotationChore({
-                  theme: deps.theme,
-                  totalProblems: pvItem.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
-                  starReward: pvItem.starValue,
-                  isRunning: isActive,
-                  isCompleted: isPVCompleted,
-                  isFailed: pvItem.managePVLastOutcome === 'failure',
-                  onAdjustProblems: (delta) => {
-                    const next = clamp(
-                      (pvItem.pvTotalProblems ?? 5) + delta,
-                      1,
-                      10
-                    )
-                    deps.onUpdateTaskField?.(item.id, { pvTotalProblems: next })
-                  },
-                  onStarsChange: (v) =>
-                    deps.onUpdateTaskField?.(item.id, { starValue: v }),
-                  onComplete: () => deps.onComplete?.(item),
-                  onFail: () => deps.onFail?.(item),
-                  checkTrigger: deps.pvCheckTriggers[item.id] ?? 0,
-                  ...testOutcomeImages(),
-                })
-              : null
-          )
-        }
-
-        if (!isPositionalNotationTodo(item)) return null
-
-        const pvItem = item
-        const isPVCompleted = Boolean(pvItem.completedAt)
-
-        return commonContainer(
-          isActive || isPVCompleted
-            ? renderPositionalNotationChore({
-                theme: deps.theme,
-                totalProblems: pvItem.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
-                starReward: pvItem.starValue,
-                isRunning: isActive,
-                isCompleted: isPVCompleted,
-                isFailed: pvItem.pvLastOutcome === 'failure',
-                onAdjustProblems: noop,
-                onStarsChange: noop,
-                onComplete: () => deps.onComplete?.(item),
-                onFail: () => deps.onFail?.(item),
-                checkTrigger: deps.pvCheckTriggers[item.id] ?? 0,
-                ...testOutcomeImages(),
-              })
-            : null
-        )
-      }
-
-      case 'alphabet': {
-        const isActive = deps.activeAlphabetId === item.id
-        if (isTaskItem(item)) {
-          if (!isAlphabetTask(item)) return null
-
-          const alphaItem = item
-          const isAlphabetCompleted = Boolean(
-            alphaItem.manageAlphabetCompletedAt
-          )
-
-          return commonContainer(
-            isActive || isAlphabetCompleted || stage === 'setup'
-              ? renderAlphabetChore({
-                  theme: deps.theme,
-                  totalProblems:
-                    alphaItem.alphabetTotalProblems ??
-                    DEFAULT_ALPHABET_PROBLEMS,
-                  starReward: alphaItem.starValue,
-                  isRunning: isActive,
-                  isCompleted: isAlphabetCompleted,
-                  isFailed: alphaItem.manageAlphabetLastOutcome === 'failure',
-                  onAdjustProblems: (delta) => {
-                    const next = clamp(
-                      (alphaItem.alphabetTotalProblems ?? 5) + delta,
-                      1,
-                      10
-                    )
-                    deps.onUpdateTaskField?.(item.id, {
-                      alphabetTotalProblems: next,
-                    })
-                  },
-                  onStarsChange: (v) =>
-                    deps.onUpdateTaskField?.(item.id, { starValue: v }),
-                  onComplete: () => deps.onComplete?.(item),
-                  onFail: () => deps.onFail?.(item),
-                  checkTrigger: deps.alphabetCheckTriggers[item.id] ?? 0,
-                  ...testOutcomeImages(),
-                })
-              : null
-          )
-        }
-
-        if (!isAlphabetTodo(item)) return null
-
-        const alphaItem = item
-        const isAlphabetCompleted = Boolean(alphaItem.completedAt)
-
-        return commonContainer(
-          isActive || isAlphabetCompleted
-            ? renderAlphabetChore({
-                theme: deps.theme,
-                totalProblems:
-                  alphaItem.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
-                starReward: alphaItem.starValue,
-                isRunning: isActive,
-                isCompleted: isAlphabetCompleted,
-                isFailed: alphaItem.alphabetLastOutcome === 'failure',
-                onAdjustProblems: noop,
-                onStarsChange: noop,
-                onComplete: () => deps.onComplete?.(item),
-                onFail: () => deps.onFail?.(item),
-                checkTrigger: deps.alphabetCheckTriggers[item.id] ?? 0,
-                ...testOutcomeImages(),
-              })
-            : null
-        )
-      }
-
-      case 'watertoiletcheck': {
-        const renderState = getWaterToiletRenderState(item)
-        if (!renderState) return null
-        const isActive = deps.activeWaterToiletId === item.id
-
-        if (stage === 'completed') {
-          const outcome = getWaterToiletOutcome(
-            renderState.waterLevel,
-            renderState.toiletStatus
-          )
-          return commonContainer(
-            <ChoreOutcomeView
-              imageSrc={getWaterToiletOutcomeImage(deps.theme, outcome)}
-              outcome={outcome}
-            />
-          )
-        }
-
-        if (isActive) {
-          return commonContainer(
-            renderWaterToiletChore({
-              theme: deps.theme,
-              waterLevel: renderState.waterLevel,
-              toiletStatus: renderState.toiletStatus,
-              starDelta: renderState.starDelta,
-              isInteractive: true,
-              isCompleted: false,
-              onCycleWater: renderState.onCycleWater,
-              onCycleToilet: renderState.onCycleToilet,
-            })
-          )
-        }
-
-        // Setup: Manage shows day-type control (via commonContainer), Today shows nothing extra
-        return commonContainer(null)
-      }
-
-      default:
-        return null
-    }
-  }
+  const state = createUnifiedChoreState(deps)
 
   return {
-    renderItem,
+    renderItem: (item) => renderUnifiedChoreItem(deps, state, item),
     getStarCount: (item) => {
       if (isManage) return undefined
-      const stage = getStage(item)
+      const stage = state.getStage(item)
       if (isInChoreStage(stage)) return undefined
-      if (getChoreType(item) === 'watertoiletcheck') {
-        return getWaterToiletDelta(item)
-      }
-      return item.starValue
+      return getChoreType(item) === 'watertoiletcheck'
+        ? state.getWaterToiletDelta(item)
+        : item.starValue
     },
-    isHighlighted: (item) => getStage(item) === 'completed',
+    isHighlighted: (item) => state.getStage(item) === 'completed',
     getPrimaryAction: (item) => {
-      const stage = getStage(item)
+      const stage = state.getStage(item)
       const type = getChoreType(item)
 
       if (type === 'standard') {
-        const isItemCompleted = isCompleted(item)
+        const isItemCompleted = state.isCompleted(item)
         return {
           label: isItemCompleted ? 'Done' : isManage ? 'Give' : 'Open chore',
           icon: (
@@ -708,49 +58,16 @@ export function createUnifiedChoreDescriptor(
           hideButton: isItemCompleted,
           variant: 'primary',
           showLabel: false,
-          onClick: (i) => deps.onComplete?.(i),
+          onClick: (selected) => deps.onComplete?.(selected),
         }
       }
 
       if (type === 'eating') {
-        const isActive = deps.activeDinnerId === item.id
-        const isFinished = stage === 'completed'
-        const isCoolingDown =
-          typeof deps.biteCooldownEndsAt === 'number' &&
-          deps.biteCooldownEndsAt > Date.now()
-        return createPresetDinnerPrimaryAction({
-          stage,
-          isTimerRunning: isActive,
-          icon: !isFinished ? (
-            <img
-              src={
-                deps.theme.id === 'princess'
-                  ? isActive
-                    ? deps.activePrincessMealIcon
-                    : princessBiteIcon
-                  : princessBiteIcon
-              }
-              alt="icon"
-              className="h-6 w-6 object-contain"
-            />
-          ) : (
-            <img
-              src={princessPlateImage}
-              alt="Reset"
-              className="h-6 w-6 object-contain"
-            />
-          ),
-          disabled: isActive && isCoolingDown,
-          onReset: (i) => deps.onReset?.(i),
-          onBite: (i) => deps.onApplyBite?.(i),
-          onStart: (i) => {
-            deps.onStartDinner?.(i)
-          },
-        })
+        return createEatingPrimaryAction(deps, item, stage)
       }
 
       if (type === 'watertoiletcheck') {
-        return createPresetActivityPrimaryAction({
+        return createPresetActivityPrimaryAction<UnifiedChoreItem>({
           choreType: type,
           stage,
           icon: (
@@ -762,16 +79,12 @@ export function createUnifiedChoreDescriptor(
               className="h-6 w-6 object-contain"
             />
           ),
-          onReset: (i) => deps.onReset?.(i),
-          onFinish: (i) => deps.onComplete?.(i),
-          onStart: (i) => {
-            if (deps.onEnterChore) return deps.onEnterChore(i)
-            return deps.onComplete?.(i)
-          },
+          onReset: (selected) => deps.onReset?.(selected),
+          onFinish: (selected) => deps.onComplete?.(selected),
+          onStart: (selected) => enterOrComplete(deps, selected),
         })
       }
 
-      // Tests (Math, PV, Alphabet)
       return createPresetTestPrimaryAction({
         choreType: type,
         stage,
@@ -782,36 +95,94 @@ export function createUnifiedChoreDescriptor(
             className="h-6 w-6 object-contain"
           />
         ),
-        onReset: (i) => deps.onReset?.(i),
-        onCheck: (i) => {
-          const triggerSetter =
-            type === 'math'
-              ? deps.setMathCheckTriggers
-              : type === 'positional-notation'
-                ? deps.setPVCheckTriggers
-                : deps.setAlphabetCheckTriggers
-          triggerSetter?.((prev) => ({
-            ...prev,
-            [i.id]: (prev[i.id] ?? 0) + 1,
-          }))
-        },
-        onStart: (i) => {
-          if (deps.onEnterChore) return deps.onEnterChore(i)
-          return deps.onComplete?.(i)
-        },
+        onReset: (selected) => deps.onReset?.(selected),
+        onCheck: (selected) => incrementCheckTrigger(deps, type, selected.id),
+        onStart: (selected) => enterOrComplete(deps, selected),
       })
     },
     getUtilityAction: (item) => {
-      const stage = getStage(item)
-      return createPresetUtilityAction({
+      const stage = state.getStage(item)
+      if (deps.hideDeleteUtility && !shouldUseResetUtility(stage)) {
+        return undefined
+      }
+
+      return createPresetUtilityAction<UnifiedChoreItem>({
         stage,
         resetAriaLabel: 'Reset',
         deleteAriaLabel: 'Delete',
-        onReset: (i) => deps.onReset?.(i),
-        onDelete: (i) =>
-          isManage ? deps.onDeleteTask?.(i.id) : deps.onDeleteTodo?.(i.id),
+        onReset: (selected) => deps.onReset?.(selected),
+        onDelete: (selected) =>
+          isManage
+            ? deps.onDeleteTask?.(selected.id)
+            : deps.onDeleteTodo?.(selected.id),
         theme: deps.theme,
       })
     },
   }
+}
+
+const createEatingPrimaryAction = (
+  deps: UnifiedChoreDeps,
+  item: UnifiedChoreItem,
+  stage: ReturnType<ReturnType<typeof createUnifiedChoreState>['getStage']>
+) => {
+  const isActive = deps.activeDinnerId === item.id
+  const isFinished = stage === 'completed'
+  const isCoolingDown =
+    typeof deps.biteCooldownEndsAt === 'number' &&
+    deps.biteCooldownEndsAt > Date.now()
+
+  return createPresetDinnerPrimaryAction<UnifiedChoreItem>({
+    stage,
+    isTimerRunning: isActive,
+    icon: (
+      <img
+        src={eatingActionIcon(deps, isActive, isFinished)}
+        alt={isFinished ? 'Reset' : 'icon'}
+        className="h-6 w-6 object-contain"
+      />
+    ),
+    disabled: isActive && isCoolingDown,
+    onReset: (selected) => deps.onReset?.(selected),
+    onBite: (selected) => deps.onApplyBite?.(selected),
+    onStart: (selected) => deps.onStartDinner?.(selected),
+  })
+}
+
+const eatingActionIcon = (
+  deps: UnifiedChoreDeps,
+  isActive: boolean,
+  isFinished: boolean
+) => {
+  if (isFinished) return princessPlateImage
+  if (deps.theme.id === 'princess' && isActive) {
+    return deps.activePrincessMealIcon ?? princessBiteIcon
+  }
+  return princessBiteIcon
+}
+
+const enterOrComplete = (deps: UnifiedChoreDeps, item: UnifiedChoreItem) => {
+  if (deps.onEnterChore) return deps.onEnterChore(item)
+  return deps.onComplete?.(item)
+}
+
+const incrementCheckTrigger = (
+  deps: UnifiedChoreDeps,
+  type: ReturnType<typeof getChoreType>,
+  id: string
+) => {
+  const setters = {
+    math: deps.setMathCheckTriggers,
+    'positional-notation': deps.setPVCheckTriggers,
+    alphabet: deps.setAlphabetCheckTriggers,
+  }
+  const setter =
+    type === 'math' || type === 'positional-notation' || type === 'alphabet'
+      ? setters[type]
+      : undefined
+
+  setter?.((prev) => ({
+    ...prev,
+    [id]: (prev[id] ?? 0) + 1,
+  }))
 }

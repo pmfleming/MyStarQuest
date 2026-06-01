@@ -15,12 +15,13 @@ import {
 import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
-import { THEME_ID_LOOKUP, type ThemeId } from '../ui/themeOptions'
+import { THEME_ID_LOOKUP, isThemeId, type ThemeId } from '../ui/themeOptions'
 import {
   childSnapshotDataSchema,
   type ChildProfile,
   type ChildUpdatableFields,
 } from './types'
+import { mergeMissingTitleDrafts } from './dailyTaskState'
 
 export function useChildren() {
   const { user } = useAuth()
@@ -40,50 +41,56 @@ export function useChildren() {
       orderBy('createdAt', 'asc')
     )
 
-    const unsubscribe = onSnapshot(childQuery, (snapshot) => {
-      const nextChildren: ChildProfile[] = snapshot.docs.flatMap(
-        (docSnapshot) => {
-          const parsed = childSnapshotDataSchema.safeParse(docSnapshot.data())
-          if (!parsed.success) {
-            console.warn('Skipping invalid child snapshot', {
-              id: docSnapshot.id,
-              issues: parsed.error.issues,
-            })
-            return []
+    const unsubscribe = onSnapshot(
+      childQuery,
+      (snapshot) => {
+        const nextChildren: ChildProfile[] = snapshot.docs.flatMap(
+          (docSnapshot) => {
+            const parsed = childSnapshotDataSchema.safeParse(docSnapshot.data())
+            if (!parsed.success) {
+              console.warn('Skipping invalid child snapshot', {
+                id: docSnapshot.id,
+                issues: parsed.error.issues,
+              })
+              return []
+            }
+
+            const data = parsed.data
+            const themeId = data.themeId
+            const normalizedThemeId =
+              themeId && isThemeId(themeId) ? themeId : undefined
+
+            return [
+              {
+                id: docSnapshot.id,
+                displayName: data.displayName,
+                avatarToken: data.avatarToken,
+                totalStars: data.totalStars,
+                themeId: normalizedThemeId,
+                createdAt: data.createdAt?.toDate?.(),
+              },
+            ]
           }
+        )
 
-          const data = parsed.data
-          const themeId = data.themeId
-          const normalizedThemeId =
-            themeId && THEME_ID_LOOKUP.has(themeId as ThemeId)
-              ? (themeId as ThemeId)
-              : undefined
+        setChildren(nextChildren)
 
-          return [
-            {
-              id: docSnapshot.id,
-              displayName: data.displayName,
-              avatarToken: data.avatarToken,
-              totalStars: data.totalStars,
-              themeId: normalizedThemeId,
-              createdAt: data.createdAt?.toDate?.(),
-            },
-          ]
-        }
-      )
-
-      setChildren(nextChildren)
-
-      setNameDrafts((prev) => {
-        const next = { ...prev }
-        for (const child of nextChildren) {
-          if (!(child.id in next)) {
-            next[child.id] = child.displayName
-          }
-        }
-        return next
-      })
-    })
+        setNameDrafts((prev) =>
+          mergeMissingTitleDrafts(
+            prev,
+            nextChildren.map((child) => ({
+              id: child.id,
+              title: child.displayName,
+            }))
+          )
+        )
+      },
+      (error) => {
+        console.error('Failed to subscribe to children', error)
+        setChildren([])
+        setNameDrafts({})
+      }
+    )
 
     return unsubscribe
   }, [user])
@@ -164,7 +171,7 @@ export function useChildren() {
       if (!isCurrentActive) {
         setActiveChild({
           id: children[0].id,
-          themeId: children[0].themeId || 'space',
+          themeId: children[0].themeId || 'princess',
         })
       }
     }

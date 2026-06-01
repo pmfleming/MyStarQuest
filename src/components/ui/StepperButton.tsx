@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
+import { uiTokens } from '../../tokens'
 
 type StepperButtonProps = {
   theme: Theme
@@ -35,9 +36,9 @@ const StepperButton = ({
     color: theme.id === 'space' ? '#000' : '#fff',
     fontSize: '2rem',
     fontWeight: 'bold',
-    width: '46px',
-    height: '64px',
-    borderRadius: 12,
+    width: `${uiTokens.listUtilityActionWidth}px`,
+    height: `${uiTokens.listActionHeight}px`,
+    borderRadius: uiTokens.listActionRadius,
     cursor: disabled ? 'default' : 'pointer',
     lineHeight: 1,
     display: 'flex',

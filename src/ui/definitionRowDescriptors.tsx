@@ -8,6 +8,7 @@ import {
   princessBuyRewardIcon,
   princessSelectIcon,
 } from '../assets/themes/princess/assets'
+import { getRewardImage } from '../assets/rewards/assets'
 import type { ThemeId } from './themeOptions'
 import type { Theme } from '../contexts/ThemeContext'
 import type { ChildProfile, RewardRecord } from '../data/types'
@@ -134,67 +135,83 @@ export const createChildDefinitionListRowDescriptor = (
 export const createRewardDefinitionListRowDescriptor = (
   deps: RewardDefinitionDescriptorDeps
 ): ListRowDescriptor<RewardRecord> => ({
-  renderItem: (reward) => (
-    <div
-      className="flex flex-col"
-      style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-    >
-      <ActionTextInput
-        theme={deps.theme}
-        label="Reward"
-        value={deps.titleDrafts[reward.id] ?? reward.title}
-        onChange={(value) => deps.setTitleDraft(reward.id, value)}
-        onCommit={(value) => deps.commitTitle(reward.id, value)}
-        maxLength={80}
-        baseColor={deps.theme.colors.secondary}
-        inputAriaLabel="Reward name"
-        transparent
-      />
+  renderItem: (reward) => {
+    const rewardImage = getRewardImage(reward.imageKey)
 
-      <StarDisplay
-        theme={deps.theme}
-        count={reward.costStars}
-        editable
-        onChange={(value) =>
-          deps.updateRewardField(reward.id, {
-            costStars: Math.max(0, Math.min(10, value)),
-          })
-        }
-        min={0}
-        max={10}
-      />
+    return (
+      <div
+        className="flex flex-col"
+        style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+      >
+        {rewardImage && (
+          <div className="flex justify-center">
+            <img
+              src={rewardImage}
+              alt=""
+              className="h-28 w-28 object-contain"
+              aria-hidden="true"
+            />
+          </div>
+        )}
 
-      <RepeatControl
-        theme={deps.theme}
-        value={reward.isRepeating}
-        onChange={(value) =>
-          deps.updateRewardField(reward.id, { isRepeating: value })
-        }
-        label="Keep available after buying"
-        showLabel={false}
-        showFeedback={false}
-      />
-    </div>
-  ),
-  getPrimaryAction: (reward) => ({
-    label:
-      deps.activeChildStars >= reward.costStars ? 'Buy Reward' : 'Need Stars',
-    icon:
-      deps.activeChildStars >= reward.costStars ? (
-        <img
-          src={princessBuyRewardIcon}
-          alt="Buy Reward"
-          className="h-6 w-6 object-contain"
+        <ActionTextInput
+          theme={deps.theme}
+          label="Reward"
+          value={deps.titleDrafts[reward.id] ?? reward.title}
+          onChange={(value) => deps.setTitleDraft(reward.id, value)}
+          onCommit={(value) => deps.commitTitle(reward.id, value)}
+          maxLength={80}
+          baseColor={deps.theme.colors.secondary}
+          inputAriaLabel="Reward name"
+          transparent
         />
-      ) : (
-        '🔒'
-      ),
-    disabled:
-      deps.isRedeeming ||
-      !deps.activeChildId ||
-      deps.activeChildStars < reward.costStars,
-    variant: 'primary',
-    showLabel: false,
-    onClick: (item) => deps.handleGiveReward(item),
-  }),
+
+        <StarDisplay
+          theme={deps.theme}
+          count={reward.costStars}
+          editable
+          onChange={(value) =>
+            deps.updateRewardField(reward.id, {
+              costStars: Math.max(0, Math.min(99, value)),
+            })
+          }
+          min={0}
+          max={99}
+        />
+
+        <RepeatControl
+          theme={deps.theme}
+          value={reward.isRepeating}
+          onChange={(value) =>
+            deps.updateRewardField(reward.id, { isRepeating: value })
+          }
+          label="Keep available after buying"
+          showLabel={false}
+          showFeedback={false}
+        />
+      </div>
+    )
+  },
+  getPrimaryAction: (reward) => {
+    const hasEnoughStars = deps.activeChildStars >= reward.costStars
+    const usesStandardGrantButton = reward.imageKey === 'yoshiEgg'
+
+    return {
+      label: hasEnoughStars ? 'Buy Reward' : 'Need Stars',
+      icon:
+        hasEnoughStars || usesStandardGrantButton ? (
+          <img
+            src={princessBuyRewardIcon}
+            alt="Buy Reward"
+            className="h-6 w-6 object-contain"
+          />
+        ) : (
+          '🔒'
+        ),
+      disabled: deps.isRedeeming || !deps.activeChildId || !hasEnoughStars,
+      variant: 'primary',
+      showLabel: false,
+      onClick: (item) => deps.handleGiveReward(item),
+    }
+  },
 })

@@ -32,7 +32,10 @@ const ActionButton = ({
 }: ActionButtonProps) => {
   const defaultContent = (
     <>
-      <span className="flex items-center gap-4">
+      <span
+        className="flex items-center"
+        style={{ gap: `${uiTokens.actionRowGap}px` }}
+      >
         <span
           className="flex items-center justify-center"
           style={{

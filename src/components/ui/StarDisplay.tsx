@@ -38,13 +38,10 @@ export type StarDisplayProps = {
 }
 
 const CONTROLS_DELAY_MS = 550
-const STEPPER_WIDTH = 46
+const STEPPER_WIDTH = uiTokens.listUtilityActionWidth
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
-const STAR_GEOMETRY_OVERHANG = 6
-const STAR_CONTROL_WIDTH =
-  CONTROL_ROW_WIDTH - STEPPER_WIDTH + STAR_GEOMETRY_OVERHANG * 2
-const STAR_CONTROL_LEFT = (CONTROL_ROW_WIDTH - STAR_CONTROL_WIDTH) / 2
-const STEPPER_OFFSET = STAR_CONTROL_LEFT - STEPPER_WIDTH / 2
+const STAR_CONTROL_WIDTH = CONTROL_ROW_WIDTH - STEPPER_WIDTH
+const STEPPER_OFFSET = 0
 
 type DensityClass = 'low' | 'medium'
 
@@ -69,6 +66,10 @@ type StarIconProps = {
   className?: string
 }
 
+type StarIconStyle = CSSProperties & {
+  '--star-rot': string
+}
+
 const StarIcon = ({
   size,
   scale = 1,
@@ -81,7 +82,7 @@ const StarIcon = ({
 }: StarIconProps) => {
   const finalSize = size * scale
 
-  const starStyle: CSSProperties = {
+  const starStyle: StarIconStyle = {
     width: finalSize,
     height: finalSize,
     flexShrink: 0,
@@ -95,7 +96,7 @@ const StarIcon = ({
         }
       : {}),
     ...style,
-  } as CSSProperties
+  }
 
   return (
     <img
@@ -146,7 +147,7 @@ const FieldVariant = ({
     background: '#f1f5f9',
     borderRadius: `${uiTokens.surfaceRadius}px`,
     padding: '12px',
-    minHeight: '60px',
+    minHeight: `${uiTokens.listActionHeight}px`,
     border: '2px dashed #cbd5e1',
     display: 'flex',
     flexWrap: 'wrap',

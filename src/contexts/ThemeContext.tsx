@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useMemo, useState } from 'react'
-import type { ThemeId } from '../ui/themeOptions'
+import { isThemeId, type ThemeId } from '../ui/themeOptions'
 import bedtimeImg from '../assets/themes/princess/bedtime.svg'
 import eatingBreakfastImg from '../assets/themes/princess/eating-breakfast.svg'
 import commuteImg from '../assets/themes/princess/commute.svg'
@@ -249,8 +249,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       theme: themes[currentThemeId] || themes.space,
       currentTheme: currentThemeId,
       setTheme: (themeId: ThemeId | string) => {
-        if (themes[themeId as ThemeId]) {
-          setCurrentThemeId(themeId as ThemeId)
+        if (isThemeId(themeId)) {
+          setCurrentThemeId(themeId)
         }
       },
     }),

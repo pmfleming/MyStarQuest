@@ -3,42 +3,28 @@ import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
-import TopIconButton from '../components/ui/TopIconButton'
 import StandardActionList from '../components/ui/StandardActionList'
 import StarInfoBox from '../components/ui/StarInfoBox'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { createUnifiedChoreDescriptor } from '../ui/unifiedChoreDescriptors'
-import { getScheduleLabel } from '../lib/today'
 import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 import { useChildren } from '../data/useChildren'
 import { useChores } from '../data/useChores'
-import type { TodoRecord, EatingTodo } from '../data/types'
-
 import {
-  princessChildrenIcon,
-  princessChoresIcon,
+  BITE_COOLDOWN_SECONDS,
+  type ChoreType,
+  isEatingTodo,
+  isTodoRecord,
+} from '../data/types'
+import type { ChoreDocumentSettings } from '../data/taskDocuments'
+import { useTaskActivityState } from '../hooks/useTaskActivityState'
+import {
   princessEatingBreakfastIcon,
   princessEatingDinnerIcon,
   princessEatingLunchIcon,
-  princessExitIcon,
-  princessResetIcon,
 } from '../assets/themes/princess/assets'
-
-const getThemeAssets = (themeId: string) => {
-  switch (themeId) {
-    case 'princess':
-      return {
-        switchProfileIcon: princessChildrenIcon,
-        exitIcon: princessExitIcon,
-      }
-    case 'space':
-    default:
-      return {
-        switchProfileIcon: null,
-        exitIcon: null,
-      }
-  }
-}
+import { DashboardHeaderActions } from './dashboardChoreUi'
+import ChoreCreationFlow from './ChoreCreationFlow'
 
 const getPrincessMealIconForHour = (hour: number) => {
   if (hour < 10) return princessEatingBreakfastIcon
@@ -54,11 +40,10 @@ const DashboardPage = () => {
 
   const {
     todos,
-    availableChores,
     todayInfo,
-    addTodo,
     deleteTodo,
     updateTodoField,
+    createChoreForToday,
     applyBite,
     startDinnerTimer,
     expireDinnerTimer,
@@ -66,17 +51,16 @@ const DashboardPage = () => {
     completeChore,
     failChore,
     resetChore,
-    resetTodayTodos,
+    resetTodayChores,
   } = useChores()
 
   const [showAddChooser, setShowAddChooser] = useState(false)
-  const [activeMathId, setActiveMathId] = useState<string | null>(null)
-  const [activePVId, setActivePVId] = useState<string | null>(null)
-  const [activeAlphabetId, setActiveAlphabetId] = useState<string | null>(null)
-  const [activeDinnerId, setActiveDinnerId] = useState<string | null>(null)
-  const [activeWaterToiletId, setActiveWaterToiletId] = useState<string | null>(
-    null
-  )
+  const [isCreatingChore, setIsCreatingChore] = useState(false)
+  const [createChoreError, setCreateChoreError] = useState<string | null>(null)
+  const [isResettingToday, setIsResettingToday] = useState(false)
+  const [resetTodayError, setResetTodayError] = useState<string | null>(null)
+  const activity = useTaskActivityState()
+  const clearActivityIds = activity.clearActiveActivities
   const [biteCooldownEndsAt, setBiteCooldownEndsAt] = useState<number | null>(
     null
   )
@@ -96,16 +80,12 @@ const DashboardPage = () => {
   )
 
   useEffect(() => {
-    setActiveMathId(null)
-    setActivePVId(null)
-    setActiveAlphabetId(null)
-    setActiveDinnerId(null)
-    setActiveWaterToiletId(null)
+    clearActivityIds()
     setBiteCooldownEndsAt(null)
     setMathCheckTriggers({})
     setPVCheckTriggers({})
     setAlphabetCheckTriggers({})
-  }, [activeChildId, todayInfo.dateKey])
+  }, [activeChildId, clearActivityIds, todayInfo.dateKey])
 
   useEffect(() => {
     if (biteCooldownEndsAt) {
@@ -121,15 +101,45 @@ const DashboardPage = () => {
     }
   }, [biteCooldownEndsAt])
 
-  const biteCooldownSeconds = 15 // Fixed constant
+  const biteCooldownSeconds = BITE_COOLDOWN_SECONDS
 
   const clearActiveActivities = () => {
-    setActiveMathId(null)
-    setActivePVId(null)
-    setActiveAlphabetId(null)
-    setActiveDinnerId(null)
-    setActiveWaterToiletId(null)
+    activity.clearActiveActivities()
     setBiteCooldownEndsAt(null)
+  }
+
+  const handleCreateChore = async (
+    choreType: ChoreType,
+    settings: ChoreDocumentSettings
+  ) => {
+    if (isCreatingChore) return
+
+    setIsCreatingChore(true)
+    setCreateChoreError(null)
+    try {
+      await createChoreForToday(choreType, settings)
+      setShowAddChooser(false)
+    } catch (error) {
+      console.error('Failed to create chore', error)
+      setCreateChoreError('Could not save chore.')
+    } finally {
+      setIsCreatingChore(false)
+    }
+  }
+
+  const handleResetToday = async () => {
+    if (!activeChildId || isResettingToday) return
+
+    setIsResettingToday(true)
+    setResetTodayError(null)
+    try {
+      await resetTodayChores()
+    } catch (error) {
+      console.error('Failed to reset today chores', error)
+      setResetTodayError('Reset failed.')
+    } finally {
+      setIsResettingToday(false)
+    }
   }
 
   const descriptor = createUnifiedChoreDescriptor({
@@ -138,39 +148,28 @@ const DashboardPage = () => {
     onUpdateTodoField: updateTodoField,
     onDeleteTodo: deleteTodo,
     onEnterChore: (item) => {
-      const todo = item as TodoRecord
-      if (todo.sourceTaskType === 'math') {
-        clearActiveActivities()
-        setActiveMathId(todo.id)
-      } else if (todo.sourceTaskType === 'positional-notation') {
-        clearActiveActivities()
-        setActivePVId(todo.id)
-      } else if (todo.sourceTaskType === 'alphabet') {
-        clearActiveActivities()
-        setActiveAlphabetId(todo.id)
-      } else if (todo.sourceTaskType === 'watertoiletcheck') {
-        clearActiveActivities()
-        setActiveWaterToiletId(todo.id)
+      if (isTodoRecord(item)) {
+        activity.enterActivity(item.sourceTaskType, item.id)
       }
     },
     onComplete: completeChore,
     onFail: failChore,
     onReset: (item) => {
-      const todo = item as TodoRecord
-      if (todo.sourceTaskType === 'eating') resetDinner(todo as EatingTodo)
-      else resetChore(todo)
+      if (!isTodoRecord(item)) return
+      if (isEatingTodo(item)) resetDinner(item)
+      else resetChore(item)
       clearActiveActivities()
     },
     onStartDinner: (item) => {
       if (!item) {
-        setActiveDinnerId(null)
+        activity.setActiveDinnerId(null)
         setBiteCooldownEndsAt(null)
         return
       }
-      const todo = item as EatingTodo
+      if (!isTodoRecord(item) || !isEatingTodo(item)) return
       clearActiveActivities()
-      startDinnerTimer(todo)
-      setActiveDinnerId(todo.id)
+      startDinnerTimer(item)
+      activity.enterActivity('eating', item.id)
     },
     onApplyBite: async (item) => {
       if (biteCooldownEndsAt && Date.now() < biteCooldownEndsAt) return
@@ -178,11 +177,11 @@ const DashboardPage = () => {
       await applyBite(item)
     },
     onExpireDinner: expireDinnerTimer,
-    activeMathId,
-    activePVId,
-    activeAlphabetId,
-    activeDinnerId,
-    activeWaterToiletId,
+    activeMathId: activity.activeMathId,
+    activePVId: activity.activePVId,
+    activeAlphabetId: activity.activeAlphabetId,
+    activeDinnerId: activity.activeDinnerId,
+    activeWaterToiletId: activity.activeWaterToiletId,
     mathCheckTriggers,
     pvCheckTriggers,
     alphabetCheckTriggers,
@@ -199,85 +198,18 @@ const DashboardPage = () => {
     [children, activeChildId]
   )
 
-  const themeAssets = getThemeAssets(theme.id)
-
   return (
     <TabContent
       theme={theme}
       title={selectedChild?.displayName || 'Explorer'}
       headerRight={
-        <>
-          <TopIconButton
-            theme={theme}
-            onClick={() => {
-              if (activeChildId) resetTodayTodos()
-            }}
-            ariaLabel="Reset today"
-            icon={
-              theme.id === 'princess' ? (
-                <img
-                  src={princessResetIcon}
-                  alt="Reset today"
-                  className="h-10 w-10 object-contain"
-                />
-              ) : (
-                <span className="text-2xl" role="img" aria-hidden="true">
-                  🔄
-                </span>
-              )
-            }
-          />
-          <TopIconButton
-            theme={theme}
-            to="/settings/manage-tasks"
-            ariaLabel="Chores"
-            icon={
-              theme.id === 'princess' ? (
-                <img
-                  src={princessChoresIcon}
-                  alt="Chores"
-                  className="h-10 w-10 object-contain"
-                />
-              ) : (
-                <span className="text-2xl" role="img" aria-hidden="true">
-                  🧹
-                </span>
-              )
-            }
-          />
-          <TopIconButton
-            theme={theme}
-            to="/settings/manage-children"
-            ariaLabel="Children"
-            icon={
-              themeAssets.switchProfileIcon ? (
-                <img
-                  src={themeAssets.switchProfileIcon}
-                  alt="Children"
-                  className="h-10 w-10 object-contain"
-                />
-              ) : (
-                <span className="text-2xl">👥</span>
-              )
-            }
-          />
-          <TopIconButton
-            theme={theme}
-            onClick={logout}
-            ariaLabel="Exit"
-            icon={
-              themeAssets.exitIcon ? (
-                <img
-                  src={themeAssets.exitIcon}
-                  alt="Exit"
-                  className="h-10 w-10 object-contain"
-                />
-              ) : (
-                <span className="text-2xl">🚪</span>
-              )
-            }
-          />
-        </>
+        <DashboardHeaderActions
+          theme={theme}
+          activeChildId={activeChildId}
+          isResettingToday={isResettingToday}
+          onResetToday={handleResetToday}
+          onLogout={logout}
+        />
       }
     >
       <div
@@ -290,6 +222,30 @@ const DashboardPage = () => {
       >
         {selectedChild && (
           <StarInfoBox theme={theme} totalStars={selectedChild.totalStars} />
+        )}
+        {resetTodayError && (
+          <div
+            className="rounded-2xl px-4 py-3 text-center text-sm font-bold"
+            style={{
+              background: `${theme.colors.secondary}20`,
+              color: theme.colors.text,
+              border: `2px solid ${theme.colors.secondary}`,
+            }}
+          >
+            {resetTodayError}
+          </div>
+        )}
+        {createChoreError && (
+          <div
+            className="rounded-2xl px-4 py-3 text-center text-sm font-bold"
+            style={{
+              background: `${theme.colors.secondary}20`,
+              color: theme.colors.text,
+              border: `2px solid ${theme.colors.secondary}`,
+            }}
+          >
+            {createChoreError}
+          </div>
         )}
         {!activeChildId ? (
           <div className="mt-10 flex flex-col items-center text-center opacity-70">
@@ -308,78 +264,22 @@ const DashboardPage = () => {
             {...toStandardActionListDescriptor(descriptor)}
             hideEdit
             onDelete={(todo) => deleteTodo(todo.id)}
-            addLabel="Add Todo"
+            addLabel="Add Chore"
             onAdd={() => setShowAddChooser(true)}
+            addDisabled={isCreatingChore}
             inlineNewRow={
               showAddChooser ? (
-                <div
-                  className="grid grid-cols-1"
-                  style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-                >
-                  {availableChores.length === 0 ? (
-                    <div
-                      className="rounded-3xl text-center"
-                      style={{
-                        border: `2px dashed ${theme.colors.primary}`,
-                        padding: '20px',
-                        fontWeight: 700,
-                      }}
-                    >
-                      No more chores are available to add today.
-                    </div>
-                  ) : (
-                    availableChores.map((task) => (
-                      <button
-                        key={task.id}
-                        type="button"
-                        className="whimsical-btn text-left"
-                        onClick={() => {
-                          addTodo(task)
-                          setShowAddChooser(false)
-                        }}
-                        style={{
-                          minHeight: `${uiTokens.actionButtonHeight}px`,
-                          borderRadius: '20px',
-                          border: `3px solid ${theme.colors.accent}`,
-                          background: theme.colors.surface,
-                          color: theme.colors.text,
-                          fontFamily: theme.fonts.heading,
-                          fontWeight: 800,
-                          fontSize: '1.05rem',
-                          padding: '18px 20px',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: '6px',
-                        }}
-                      >
-                        <span>{task.title}</span>
-                        <span className="text-sm opacity-75">{`${getScheduleLabel(task)} • ${task.starValue} ${task.starValue === 1 ? 'star' : 'stars'}`}</span>
-                      </button>
-                    ))
-                  )}
-                  <button
-                    type="button"
-                    className="whimsical-btn"
-                    onClick={() => setShowAddChooser(false)}
-                    style={{
-                      minHeight: '60px',
-                      borderRadius: '16px',
-                      border: `2px solid ${theme.colors.primary}`,
-                      background: 'transparent',
-                      color: theme.colors.primary,
-                      fontFamily: theme.fonts.body,
-                      fontWeight: 700,
-                      fontSize: '1rem',
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <ChoreCreationFlow
+                  theme={theme}
+                  isSaving={isCreatingChore}
+                  onSave={handleCreateChore}
+                  onCancel={() => setShowAddChooser(false)}
+                />
               ) : undefined
             }
             emptyState={
               <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
-                No todos for today yet.
+                No chores for today yet.
               </div>
             }
           />

@@ -40,14 +40,14 @@ const ActionTextInput = ({
         border: 'none',
         boxShadow: 'none',
         color: theme.colors.text,
-        gap: '12px',
+        gap: `${uiTokens.actionRowGap}px`,
         height: 'auto',
         justifyContent: 'flex-start',
         padding: 0,
       }
     : {
         ...actionStyle,
-        gap: '12px',
+        gap: `${uiTokens.actionRowGap}px`,
         justifyContent: 'flex-start',
       }
 

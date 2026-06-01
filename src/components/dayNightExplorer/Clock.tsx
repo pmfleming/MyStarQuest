@@ -22,6 +22,19 @@ import {
 
 type ClockHandId = 'hour' | 'minute' | 'second'
 
+type HandConfig = {
+  id: ClockHandId
+  ref: RefObject<SVGGElement | null>
+  angle: number
+  image: string
+  width: number
+  height: number
+  baseRotation: number
+  hitWidth: number
+  hitStartY: number
+  hitEndY: number
+}
+
 export type ClockViewModel = {
   activityImage: string | null
   explorerBackdropColor: string
@@ -159,9 +172,9 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
     [theme.colors.text, theme.fonts.heading]
   )
 
-  const handConfigs = [
+  const handConfigs: HandConfig[] = [
     {
-      id: 'hour' as const,
+      id: 'hour',
       ref: clock.hourHandRef,
       angle: clock.hourAngle,
       image: hourHandSvg,
@@ -173,7 +186,7 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
       hitEndY: clockGeometry.cy - clockGeometry.hourHandHeight,
     },
     {
-      id: 'minute' as const,
+      id: 'minute',
       ref: clock.minuteHandRef,
       angle: clock.minuteAngle,
       image: minuteHandSvg,
@@ -185,7 +198,7 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
       hitEndY: clockGeometry.cy - clockGeometry.minuteHandHeight,
     },
     {
-      id: 'second' as const,
+      id: 'second',
       ref: clock.secondHandRef,
       angle: clock.secondAngle,
       image: secondHandSvg,

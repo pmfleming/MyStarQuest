@@ -106,3 +106,20 @@ body {
 .star-bounce {
   animation: starBounce 2s ease-in-out infinite;
 }
+
+@keyframes msq-tab-enter {
+  from {
+    opacity: 0.92;
+    transform: var(--msq-tab-enter-transform, translate3d(18px, 0, 0));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [style*='msq-tab-enter'] {
+    animation-duration: 1ms !important;
+  }
+}

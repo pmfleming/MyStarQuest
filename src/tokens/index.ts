@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 
 const surfaceMaxWidth = 380
@@ -11,13 +12,20 @@ export const uiTokens = {
   sectionGap: 2,
   singleVerticalSpace: 24,
   doubleVerticalSpace: 48,
+  panelStackGap: 24,
+  controlRowGap: 16,
+  controlColumnGap: 10,
+  actionRowGap: 14,
+  actionContentGap: 8,
+  navItemGap: 8,
+  controlInset: 8,
   surfaceWidthPercent,
   surfaceMaxWidth,
   surfaceRadius,
   contentMaxWidth: surfaceMaxWidth,
   timeExplorerLinkedPanelHeight: 340,
-  controlRowWidth: 304,
-  listItemPadding: 24,
+  controlRowWidth: surfaceMaxWidth,
+  listItemPadding: 12,
   listItemRadius: surfaceRadius,
   listItemBorderWidth: 4,
   listActionHeight: 60,
@@ -52,15 +60,18 @@ export const uiTokens = {
     stepperWidth: 72,
     stepperHeight: 56,
   },
-} as const
+}
 
-export const getSurfaceWidthConstraints = () => ({
+export const getSurfaceWidthConstraints = (): CSSProperties => ({
   width: `${uiTokens.surfaceWidthPercent}%`,
   maxWidth: `${uiTokens.surfaceMaxWidth}px`,
-  boxSizing: 'border-box' as const,
+  boxSizing: 'border-box',
 })
 
-export const getTopIconStyle = (theme: Theme, isSelected = false) => ({
+export const getTopIconStyle = (
+  theme: Theme,
+  isSelected = false
+): CSSProperties => ({
   backgroundColor: isSelected
     ? theme.colors.primary
     : `${theme.colors.primary}80`,
@@ -73,10 +84,13 @@ export const getTopIconStyle = (theme: Theme, isSelected = false) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  boxSizing: 'border-box' as const,
+  boxSizing: 'border-box',
 })
 
-export const getActionButtonStyle = (theme: Theme, baseColor: string) => {
+export const getActionButtonStyle = (
+  theme: Theme,
+  baseColor: string
+): CSSProperties => {
   const isDarkTheme = theme.id === 'space'
   return {
     background: baseColor,
@@ -101,6 +115,6 @@ export const getActionButtonStyle = (theme: Theme, baseColor: string) => {
     width: '100%',
     maxWidth: `${uiTokens.surfaceMaxWidth}px`,
     margin: '0 auto',
-    boxSizing: 'border-box' as const,
+    boxSizing: 'border-box',
   }
 }

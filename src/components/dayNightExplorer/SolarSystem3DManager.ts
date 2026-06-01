@@ -31,7 +31,7 @@ const MONTH_TICK_INSET_Y = 0.1
 const MONTH_TICK_OUTSET_X = 0.015
 const MONTH_TICK_OUTSET_Y = 0.01
 
-const MONTH_LABELS = [
+const MONTH_LABELS: string[] = [
   'January',
   'February',
   'March',
@@ -44,13 +44,13 @@ const MONTH_LABELS = [
   'October',
   'November',
   'December',
-] as const
+]
 
 type CityVisual = {
   cityId: ExplorerFocusId
   anchor: THREE.Group
-  marker: THREE.Mesh
-  pulse: THREE.Mesh
+  marker: THREE.Mesh<THREE.CircleGeometry, THREE.MeshBasicMaterial>
+  pulse: THREE.Mesh<THREE.RingGeometry, THREE.MeshBasicMaterial>
   pulseTtl: number
   pulseStrokeWidth: number
   pulseOffsetMs: number
@@ -64,17 +64,6 @@ export type SolarSystemSceneState = {
   cityOptions: ExplorerCityOption[]
   sunPosition: SunPosition
   monthLabelFontFamily: string
-}
-
-declare global {
-  interface Window {
-    topojson?: {
-      feature: (
-        world: TopoJsonWorldData,
-        object: TopoJsonGeometryObject
-      ) => GeoFeatureCollection
-    }
-  }
 }
 
 type GeoCoordinate = [number, number]
@@ -102,14 +91,183 @@ type GeoFeatureCollection = {
   features: GeoFeature[]
 }
 
-type TopoJsonGeometryObject = {
-  type: string
+type TopoJsonArcPoint = [number, number]
+type TopoJsonArc = TopoJsonArcPoint[]
+
+type TopoJsonTransform = {
+  scale: [number, number]
+  translate: [number, number]
+}
+
+type TopoJsonPolygonGeometry = {
+  type: 'Polygon'
+  arcs: number[][]
+}
+
+type TopoJsonMultiPolygonGeometry = {
+  type: 'MultiPolygon'
+  arcs: number[][][]
+}
+
+type TopoJsonGeometry = TopoJsonPolygonGeometry | TopoJsonMultiPolygonGeometry
+
+type TopoJsonGeometryCollection = {
+  type: 'GeometryCollection'
+  geometries: TopoJsonGeometry[]
 }
 
 type TopoJsonWorldData = {
+  transform: TopoJsonTransform
+  arcs: TopoJsonArc[]
   objects: {
-    land: TopoJsonGeometryObject
-    countries: TopoJsonGeometryObject
+    land: TopoJsonGeometryCollection
+    countries: TopoJsonGeometryCollection
+  }
+}
+
+const isNumberPair = (value: unknown): value is [number, number] =>
+  Array.isArray(value) &&
+  value.length === 2 &&
+  typeof value[0] === 'number' &&
+  typeof value[1] === 'number'
+
+const isTopoJsonTransform = (value: unknown): value is TopoJsonTransform =>
+  typeof value === 'object' &&
+  value !== null &&
+  'scale' in value &&
+  isNumberPair(value.scale) &&
+  'translate' in value &&
+  isNumberPair(value.translate)
+
+const isArc = (value: unknown): value is TopoJsonArc =>
+  Array.isArray(value) && value.every(isNumberPair)
+
+const isNumberArray = (value: unknown): value is number[] =>
+  Array.isArray(value) && value.every((entry) => typeof entry === 'number')
+
+const isPolygonGeometry = (value: unknown): value is TopoJsonPolygonGeometry =>
+  typeof value === 'object' &&
+  value !== null &&
+  'type' in value &&
+  value.type === 'Polygon' &&
+  'arcs' in value &&
+  Array.isArray(value.arcs) &&
+  value.arcs.every(isNumberArray)
+
+const isMultiPolygonGeometry = (
+  value: unknown
+): value is TopoJsonMultiPolygonGeometry =>
+  typeof value === 'object' &&
+  value !== null &&
+  'type' in value &&
+  value.type === 'MultiPolygon' &&
+  'arcs' in value &&
+  Array.isArray(value.arcs) &&
+  value.arcs.every(
+    (polygon) => Array.isArray(polygon) && polygon.every(isNumberArray)
+  )
+
+const isGeometryCollection = (
+  value: unknown
+): value is TopoJsonGeometryCollection =>
+  typeof value === 'object' &&
+  value !== null &&
+  'type' in value &&
+  value.type === 'GeometryCollection' &&
+  'geometries' in value &&
+  Array.isArray(value.geometries) &&
+  value.geometries.every(
+    (geometry) =>
+      isPolygonGeometry(geometry) || isMultiPolygonGeometry(geometry)
+  )
+
+const parseTopoJsonWorldData = (value: unknown): TopoJsonWorldData => {
+  if (
+    typeof value === 'object' &&
+    value !== null &&
+    'transform' in value &&
+    isTopoJsonTransform(value.transform) &&
+    'arcs' in value &&
+    Array.isArray(value.arcs) &&
+    value.arcs.every(isArc) &&
+    'objects' in value &&
+    typeof value.objects === 'object' &&
+    value.objects !== null &&
+    'land' in value.objects &&
+    'countries' in value.objects &&
+    isGeometryCollection(value.objects.land) &&
+    isGeometryCollection(value.objects.countries)
+  ) {
+    return {
+      transform: value.transform,
+      arcs: value.arcs,
+      objects: {
+        land: value.objects.land,
+        countries: value.objects.countries,
+      },
+    }
+  }
+
+  throw new Error('Invalid TopoJSON world data')
+}
+
+const decodeTopologyArcs = (world: TopoJsonWorldData) =>
+  world.arcs.map((arc) => {
+    let x = 0
+    let y = 0
+
+    return arc.map(([dx, dy]) => {
+      x += dx
+      y += dy
+
+      return [
+        x * world.transform.scale[0] + world.transform.translate[0],
+        y * world.transform.scale[1] + world.transform.translate[1],
+      ] satisfies GeoCoordinate
+    })
+  })
+
+const getDecodedArc = (decodedArcs: GeoRing[], arcIndex: number): GeoRing => {
+  const resolvedIndex = arcIndex >= 0 ? arcIndex : ~arcIndex
+  const points = decodedArcs[resolvedIndex] ?? []
+
+  return arcIndex >= 0 ? points : [...points].reverse()
+}
+
+const stitchRing = (decodedArcs: GeoRing[], ringArcIndexes: number[]) =>
+  ringArcIndexes.flatMap((arcIndex, index) => {
+    const points = getDecodedArc(decodedArcs, arcIndex)
+    return index === 0 ? points : points.slice(1)
+  })
+
+const topologyObjectToFeatureCollection = (
+  world: TopoJsonWorldData,
+  object: TopoJsonGeometryCollection
+): GeoFeatureCollection => {
+  const decodedArcs = decodeTopologyArcs(world)
+
+  return {
+    features: object.geometries.map((geometry) => {
+      if (geometry.type === 'Polygon') {
+        return {
+          geometry: {
+            type: 'Polygon',
+            coordinates: geometry.arcs.map((ring) =>
+              stitchRing(decodedArcs, ring)
+            ),
+          },
+        } satisfies GeoPolygonFeature
+      }
+
+      return {
+        geometry: {
+          type: 'MultiPolygon',
+          coordinates: geometry.arcs.map((polygon) =>
+            polygon.map((ring) => stitchRing(decodedArcs, ring))
+          ),
+        },
+      } satisfies GeoMultiPolygonFeature
+    }),
   }
 }
 
@@ -197,11 +355,17 @@ export default class SolarSystem3DManager {
   private readonly sunMesh: THREE.Mesh
   private readonly earthOrbitAnchor: THREE.Group
   private readonly earthTiltGroup: THREE.Group
-  private readonly earthMesh: THREE.Mesh
+  private readonly earthMesh: THREE.Mesh<
+    THREE.SphereGeometry,
+    THREE.MeshStandardMaterial
+  >
   private readonly atmosphereMesh: THREE.Mesh
   private readonly cityMarkerGroup: THREE.Group
   private readonly starField: THREE.Points
-  private readonly orbitLine: THREE.LineLoop
+  private readonly orbitLine: THREE.LineLoop<
+    THREE.BufferGeometry,
+    THREE.LineBasicMaterial
+  >
   private readonly monthTickGroup: THREE.Group
   private readonly monthLabelGroup: THREE.Group
   private readonly cameraTarget = new THREE.Vector3()
@@ -330,7 +494,7 @@ export default class SolarSystem3DManager {
 
     this.renderer.dispose()
     this.orbitLine.geometry.dispose()
-    ;(this.orbitLine.material as THREE.Material).dispose()
+    this.orbitLine.material.dispose()
     if (this.earthTexture) {
       this.earthTexture.dispose()
     }
@@ -518,7 +682,7 @@ export default class SolarSystem3DManager {
         continue
       }
 
-      ;(visual.marker.material as THREE.MeshBasicMaterial).color.set(city.color)
+      visual.marker.material.color.set(city.color)
 
       visual.marker.scale.setScalar(
         state.activeFocusId === city.id
@@ -526,7 +690,7 @@ export default class SolarSystem3DManager {
           : CITY_MARKER_RADIUS
       )
 
-      const pulseMaterial = visual.pulse.material as THREE.MeshBasicMaterial
+      const pulseMaterial = visual.pulse.material
       pulseMaterial.color.set(city.color)
     }
   }
@@ -555,7 +719,7 @@ export default class SolarSystem3DManager {
       const opacity = 1 - progress
       const scale =
         PING_MIN_SCALE + (PING_MAX_SCALE - PING_MIN_SCALE) * progress
-      const pulseMaterial = visual.pulse.material as THREE.MeshBasicMaterial
+      const pulseMaterial = visual.pulse.material
       const intensityBoost = state.activeFocusId === visual.cityId ? 0.2 : 0
 
       pulseMaterial.opacity = Math.max(0, opacity * (1.15 + intensityBoost))
@@ -744,26 +908,23 @@ export default class SolarSystem3DManager {
     context.fillStyle = '#1e3799'
     context.fillRect(0, 0, width, height)
 
+    this.earthTexture = new THREE.CanvasTexture(canvas)
+    this.earthTexture.colorSpace = THREE.SRGBColorSpace
+    this.earthMesh.material.map = this.earthTexture
+    this.earthMesh.material.needsUpdate = true
+
     try {
-      if (!window.topojson) {
-        await new Promise<void>((resolve, reject) => {
-          const script = document.createElement('script')
-          script.src = 'https://cdn.jsdelivr.net/npm/topojson@3'
-          script.onload = () => resolve()
-          script.onerror = () => reject()
-          document.head.appendChild(script)
-        })
-      }
-
-      const topojson = window.topojson
-      if (!topojson) {
-        throw new Error('TopoJSON runtime failed to load')
-      }
-
       const response = await fetch('/data/world-50m-2024.json')
-      const world = (await response.json()) as TopoJsonWorldData
-      const land = topojson.feature(world, world.objects.land)
-      const countries = topojson.feature(world, world.objects.countries)
+      if (!response.ok) {
+        throw new Error(`Map data request failed with ${response.status}`)
+      }
+
+      const world = parseTopoJsonWorldData(await response.json())
+      const land = topologyObjectToFeatureCollection(world, world.objects.land)
+      const countries = topologyObjectToFeatureCollection(
+        world,
+        world.objects.countries
+      )
 
       const project = (lon: number, lat: number) => {
         const x = ((lon + 180) / 360) * width
@@ -808,12 +969,7 @@ export default class SolarSystem3DManager {
       context.lineWidth = 1
       context.stroke()
 
-      this.earthTexture = new THREE.CanvasTexture(canvas)
-      this.earthTexture.colorSpace = THREE.SRGBColorSpace
-      ;(this.earthMesh.material as THREE.MeshStandardMaterial).map =
-        this.earthTexture
-      ;(this.earthMesh.material as THREE.MeshStandardMaterial).needsUpdate =
-        true
+      this.earthTexture.needsUpdate = true
     } catch (error) {
       console.error('Failed to load map data for 3D Earth', error)
     }
@@ -821,7 +977,8 @@ export default class SolarSystem3DManager {
 
   private disposeObject(object: THREE.Object3D) {
     object.traverse((node: THREE.Object3D) => {
-      const mesh = node as THREE.Mesh
+      if (!(node instanceof THREE.Mesh)) return
+      const mesh = node
       if (mesh.geometry) {
         mesh.geometry.dispose()
       }

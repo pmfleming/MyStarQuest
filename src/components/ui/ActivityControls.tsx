@@ -1,19 +1,83 @@
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
+import ChoreOutcomeView from '../ChoreOutcomeView'
 import StarDisplay from './StarDisplay'
 import StepperButton from './StepperButton'
 
 export type ActivityResult = 'correct' | 'incorrect'
 
+export type ActivityChoreProps = {
+  theme: Theme
+  totalProblems: number
+  starReward: number
+  isRunning: boolean
+  isCompleted?: boolean
+  isFailed?: boolean
+  onAdjustProblems: (delta: number) => void
+  onStarsChange: (value: number) => void
+  onComplete: () => void
+  onFail?: () => void
+  checkTrigger?: number
+  completionImage?: string
+  failureImage?: string
+}
+
 export const MAX_ACTIVITY_MISTAKES = 3
-export const ACTIVITY_SETUP_FIELD_GAP = uiTokens.singleVerticalSpace
+export const ACTIVITY_SETUP_FIELD_GAP = uiTokens.panelStackGap
 
 const { statusBarHeight, statusIconSize, statusIconGap } =
   uiTokens.activityTokens
 
 const STATUS_BAR_HORIZONTAL_PADDING = 12
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
+
+type ActivityOutcomeShellProps = {
+  isFinished: boolean
+  isSuccessState: boolean
+  completionImage?: string
+  failureImage?: string
+  children: ReactNode
+  className?: string
+  style?: CSSProperties
+  successAlt?: string
+  failureAlt?: string
+}
+
+export const ActivityOutcomeShell = ({
+  isFinished,
+  isSuccessState,
+  completionImage,
+  failureImage,
+  children,
+  className,
+  style,
+  successAlt,
+  failureAlt,
+}: ActivityOutcomeShellProps) => (
+  <div
+    className={className}
+    style={{
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: `${uiTokens.panelStackGap}px`,
+      ...style,
+    }}
+  >
+    {isFinished ? (
+      <ChoreOutcomeView
+        imageSrc={isSuccessState ? completionImage : failureImage}
+        outcome={isSuccessState ? 'success' : 'failure'}
+        successAlt={successAlt}
+        failureAlt={failureAlt}
+      />
+    ) : (
+      <>{children}</>
+    )}
+  </div>
+)
 
 const getStatusIconOverlap = (iconCount: number) => {
   if (iconCount <= 1) return 0
@@ -91,6 +155,127 @@ export const ActivityResultBar = ({
   </div>
 )
 
+type ActivitySetupControlsProps = {
+  isSetup: boolean
+  theme: Theme
+  totalProblems: number
+  min: number
+  max: number
+  onAdjustProblems: (delta: number) => void
+  starReward: number
+  onStarsChange: (value: number) => void
+  previousAriaLabel: string
+  nextAriaLabel: string
+  starMax?: number
+  starStyle?: CSSProperties
+  beforeProblemControl?: ReactNode
+}
+
+export const ActivitySetupControls = ({
+  isSetup,
+  theme,
+  totalProblems,
+  min,
+  max,
+  onAdjustProblems,
+  starReward,
+  onStarsChange,
+  previousAriaLabel,
+  nextAriaLabel,
+  starMax,
+  starStyle,
+  beforeProblemControl,
+}: ActivitySetupControlsProps) => {
+  if (!isSetup) return null
+
+  const problemControl = (
+    <ProblemCountControl
+      theme={theme}
+      totalProblems={totalProblems}
+      min={min}
+      max={max}
+      onAdjust={onAdjustProblems}
+      previousAriaLabel={previousAriaLabel}
+      nextAriaLabel={nextAriaLabel}
+    />
+  )
+
+  return (
+    <>
+      {beforeProblemControl ? (
+        <div
+          className="flex flex-col items-center"
+          style={{
+            gap: ACTIVITY_SETUP_FIELD_GAP,
+            width: CONTROL_ROW_WIDTH,
+            maxWidth: '100%',
+          }}
+        >
+          {beforeProblemControl}
+          {problemControl}
+        </div>
+      ) : (
+        problemControl
+      )}
+
+      <StarRewardControl
+        theme={theme}
+        starReward={starReward}
+        onStarsChange={onStarsChange}
+        max={starMax}
+        style={starStyle}
+      />
+    </>
+  )
+}
+
+type ActivityPlayAreaProps = {
+  theme: Theme
+  results: ActivityResult[]
+  correctIcon: string
+  incorrectIcon: string
+  children: ReactNode
+  animation?: string
+  shakeKey?: string
+  className?: string
+  slideAnimationName?: string
+  hideAlt?: boolean
+}
+
+export const ActivityPlayArea = ({
+  theme,
+  results,
+  correctIcon,
+  incorrectIcon,
+  children,
+  animation,
+  shakeKey,
+  className = 'flex flex-col items-center',
+  slideAnimationName,
+  hideAlt,
+}: ActivityPlayAreaProps) => (
+  <div
+    className={className}
+    style={{
+      gap: 8,
+      width: CONTROL_ROW_WIDTH,
+      maxWidth: '100%',
+      animation,
+    }}
+    key={shakeKey}
+  >
+    <ActivityResultBar
+      theme={theme}
+      results={results}
+      correctIcon={correctIcon}
+      incorrectIcon={incorrectIcon}
+      slideAnimationName={slideAnimationName}
+      hideAlt={hideAlt}
+    />
+    {children}
+  </div>
+)
+
 type ProblemCountControlProps = {
   theme: Theme
   totalProblems: number
@@ -113,7 +298,6 @@ export const ProblemCountControl = ({
   <div
     className="flex flex-col items-center"
     style={{
-      gap: ACTIVITY_SETUP_FIELD_GAP,
       width: CONTROL_ROW_WIDTH,
       maxWidth: '100%',
     }}

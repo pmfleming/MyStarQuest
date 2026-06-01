@@ -1,4 +1,3 @@
-import type { Location as RouterLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
@@ -7,6 +6,14 @@ import PageShell from '../components/PageShell'
 import ActionButton from '../components/ui/ActionButton'
 import { getSurfaceWidthConstraints } from '../tokens'
 import googleIcon from '../assets/global/google.svg'
+
+const getRedirectPath = (state: unknown) => {
+  if (!state || typeof state !== 'object' || !('from' in state)) return '/'
+  const from = state.from
+  return from && typeof from === 'object' && 'pathname' in from
+    ? String(from.pathname)
+    : '/'
+}
 
 const LoginPage = () => {
   const { user, loading, loginWithGoogle } = useAuth()
@@ -38,9 +45,7 @@ const LoginPage = () => {
     if (loading) return
 
     if (user) {
-      redirectPathRef.current =
-        (location.state as { from?: RouterLocation } | undefined)?.from
-          ?.pathname ?? '/'
+      redirectPathRef.current = getRedirectPath(location.state)
       setLoginSuccess(true)
       return
     }

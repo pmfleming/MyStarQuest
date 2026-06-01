@@ -1,14 +1,28 @@
 import {
   princessCalendarIcon,
   princessChoresIcon,
+  princessMathsIcon,
   princessRewardsIcon,
 } from '../assets/themes/princess/assets'
 
-export const appTabs = [
+export type AppTabId = 'chores' | 'tests' | 'rewards' | 'time-explorer'
+
+type AppTab = {
+  id: AppTabId
+  path: string
+  ariaLabel: string
+}
+
+export const appTabs: AppTab[] = [
   {
-    id: 'dashboard',
-    path: '/tabs/dashboard',
-    ariaLabel: 'Dashboard tab',
+    id: 'chores',
+    path: '/tabs/chores',
+    ariaLabel: 'Chores tab',
+  },
+  {
+    id: 'tests',
+    path: '/tabs/tests',
+    ariaLabel: 'Tests tab',
   },
   {
     id: 'rewards',
@@ -20,12 +34,11 @@ export const appTabs = [
     path: '/tabs/time-explorer',
     ariaLabel: 'Time Explorer tab',
   },
-] as const
-
-export type AppTabId = (typeof appTabs)[number]['id']
+]
 
 export const getTabIcon = (tabId: AppTabId) => {
-  if (tabId === 'dashboard') return princessChoresIcon
+  if (tabId === 'chores') return princessChoresIcon
+  if (tabId === 'tests') return princessMathsIcon
   if (tabId === 'rewards') return princessRewardsIcon
   if (tabId === 'time-explorer') return princessCalendarIcon
   return princessCalendarIcon
