@@ -34,7 +34,7 @@ export type ResolvedListUtilityAction<T> = ResolvedListAction<T> & {
 export type ListRowDescriptor<T> = {
   renderItem: (item: T) => ReactNode
   getPrimaryAction: (item: T) => ResolvedListAction<T>
-  getUtilityAction?: (item: T) => ResolvedListUtilityAction<T>
+  getUtilityAction?: (item: T) => ResolvedListUtilityAction<T> | undefined
   getStarCount?: (item: T) => number | undefined
   isHighlighted?: (item: T) => boolean
 }
@@ -65,6 +65,7 @@ export const toStandardActionListDescriptor = <T>(
           icon: (item) => descriptor.getUtilityAction?.(item)?.icon,
           disabled: (item) =>
             descriptor.getUtilityAction?.(item)?.disabled ?? false,
+          hideButton: (item) => !descriptor.getUtilityAction?.(item),
           variant: (item) =>
             descriptor.getUtilityAction?.(item)?.variant ?? 'danger',
           showLabel: (item) =>

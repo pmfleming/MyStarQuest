@@ -6,10 +6,19 @@ import {
   DEFAULT_PV_PROBLEMS,
   DEFAULT_TOILET_STATUS,
   DEFAULT_WATER_LEVEL,
+  firestoreTimestampLikeSchema,
+  isChoreRecord,
+  isChoreTodoRecord,
+  isTestRecord,
+  isTestTodoRecord,
   taskSnapshotDataSchema,
   todoSnapshotDataSchema,
+  type ChoreRecord,
+  type ChoreTodoRecord,
   type TaskRecord,
   type TaskType,
+  type TestRecord,
+  type TestTodoRecord,
   type TodoRecord,
 } from '../data/types'
 import { normalizeChoreSchedule } from './today'
@@ -17,9 +26,33 @@ import { normalizeChoreSchedule } from './today'
 type SnapshotData = Record<string, unknown>
 
 const getCreatedAt = (data: SnapshotData) => {
-  const createdAt = data.createdAt as { toDate?: () => Date } | undefined
+  const createdAt = firestoreTimestampLikeSchema.parse(data.createdAt)
   return createdAt?.toDate?.()
 }
+
+const normalizeChoreSnapshotData = (data: SnapshotData): SnapshotData => ({
+  ...data,
+  taskType: data.taskType ?? data.choreType,
+  category: data.category ?? data.choreType,
+})
+
+const normalizeTestSnapshotData = (data: SnapshotData): SnapshotData => ({
+  ...data,
+  taskType: data.taskType ?? data.testType,
+  category: data.category ?? data.testType,
+})
+
+const normalizeChoreTodoSnapshotData = (data: SnapshotData): SnapshotData => ({
+  ...data,
+  sourceTaskId: data.sourceTaskId ?? data.sourceChoreId,
+  sourceTaskType: data.sourceTaskType ?? data.sourceChoreType,
+})
+
+const normalizeTestTodoSnapshotData = (data: SnapshotData): SnapshotData => ({
+  ...data,
+  sourceTaskId: data.sourceTaskId ?? data.sourceTestId,
+  sourceTaskType: data.sourceTaskType ?? data.sourceTestType,
+})
 
 export function parseTaskSnapshot(
   id: string,
@@ -56,7 +89,10 @@ export function parseTaskSnapshot(
 
   const base = {
     id,
-    title: taskData.title,
+    title:
+      taskType === 'standard' && taskData.title.trim().length === 0
+        ? 'New Chore'
+        : taskData.title,
     childId: taskData.childId,
     category: taskData.category,
     ...normalizeChoreSchedule(taskData),
@@ -102,6 +138,24 @@ export function parseTaskSnapshot(
     default:
       return { ...base, taskType: 'standard' }
   }
+}
+
+export function parseChoreSnapshot(
+  id: string,
+  data: SnapshotData
+): ChoreRecord | null {
+  const task = parseTaskSnapshot(id, normalizeChoreSnapshotData(data))
+  if (!task || !isChoreRecord(task)) return null
+  return task
+}
+
+export function parseTestSnapshot(
+  id: string,
+  data: SnapshotData
+): TestRecord | null {
+  const task = parseTaskSnapshot(id, normalizeTestSnapshotData(data))
+  if (!task || !isTestRecord(task)) return null
+  return task
 }
 
 export function parseTodoSnapshot(
@@ -198,4 +252,32 @@ export function parseTodoSnapshot(
         sourceTaskType: 'standard',
       }
   }
+}
+
+export function parseChoreTodoSnapshot(
+  id: string,
+  data: SnapshotData,
+  fallbackDateKey: string
+): ChoreTodoRecord | null {
+  const todo = parseTodoSnapshot(
+    id,
+    normalizeChoreTodoSnapshotData(data),
+    fallbackDateKey
+  )
+  if (!todo || !isChoreTodoRecord(todo)) return null
+  return todo
+}
+
+export function parseTestTodoSnapshot(
+  id: string,
+  data: SnapshotData,
+  fallbackDateKey: string
+): TestTodoRecord | null {
+  const todo = parseTodoSnapshot(
+    id,
+    normalizeTestTodoSnapshotData(data),
+    fallbackDateKey
+  )
+  if (!todo || !isTestTodoRecord(todo)) return null
+  return todo
 }

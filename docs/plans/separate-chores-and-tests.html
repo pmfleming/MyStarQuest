@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plan: Separate Chores and Tests</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #20212a;
+        --muted: #626676;
+        --line: #dedfeb;
+        --soft: #f7f4fb;
+        --accent: #6f4bd8;
+        --accent-soft: #ece5ff;
+        --warn: #fff5dc;
+      }
+
+      body {
+        margin: 0;
+        background: #ffffff;
+        color: var(--ink);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif;
+        line-height: 1.55;
+      }
+
+      main {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 48px 24px 72px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.15;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 4vw, 3.25rem);
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin-top: 42px;
+        padding-top: 28px;
+        border-top: 1px solid var(--line);
+        font-size: 1.55rem;
+      }
+
+      h3 {
+        margin-top: 26px;
+        font-size: 1.1rem;
+      }
+
+      p {
+        margin: 12px 0 0;
+      }
+
+      ul,
+      ol {
+        margin: 12px 0 0;
+        padding-left: 24px;
+      }
+
+      li {
+        margin: 8px 0;
+      }
+
+      code {
+        padding: 2px 5px;
+        border-radius: 5px;
+        background: var(--soft);
+        font-family:
+          'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        font-size: 0.92em;
+      }
+
+      table {
+        width: 100%;
+        margin-top: 16px;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        border: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: var(--soft);
+      }
+
+      .lede {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 1.1rem;
+      }
+
+      .callout {
+        margin-top: 18px;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        border-left: 5px solid var(--accent);
+        border-radius: 8px;
+        background: var(--soft);
+      }
+
+      .warning {
+        background: var(--warn);
+      }
+
+      .tag {
+        display: inline-block;
+        margin: 0 6px 6px 0;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: #42268f;
+        font-size: 0.84rem;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Separate Chores and Tests</h1>
+        <p class="lede">
+          Plan based only on the project code. No existing docs or plan files
+          were used.
+        </p>
+        <p>
+          The current implementation treats chores and learning tests as
+          variants of one task system. The requested change is to make them
+          separate in the interface and in Firestore, while preserving the
+          existing daily flow and star-award behavior.
+        </p>
+      </header>
+
+      <section>
+        <h2>Current Code Shape</h2>
+        <p>
+          The application currently has three bottom tabs from
+          <code>src/lib/tabNavigation.ts</code>: dashboard, rewards, and time
+          explorer. Chore management is reached from the dashboard header via
+          <code>/settings/manage-tasks</code>, not from the bottom tab list.
+        </p>
+        <p>
+          Chore and test templates are both stored in
+          <code>users/{uid}/tasks</code>. Daily runnable items are both stored
+          in <code>users/{uid}/todos</code>.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Current type</th>
+              <th>Meaning</th>
+              <th>Current collection</th>
+              <th>Daily collection</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>standard</code></td>
+              <td>Custom/simple chore</td>
+              <td><code>tasks</code></td>
+              <td><code>todos</code></td>
+            </tr>
+            <tr>
+              <td><code>eating</code></td>
+              <td>Dinner chore</td>
+              <td><code>tasks</code></td>
+              <td><code>todos</code></td>
+            </tr>
+            <tr>
+              <td><code>watertoiletcheck</code></td>
+              <td>Water and toilet chore</td>
+              <td><code>tasks</code></td>
+              <td><code>todos</code></td>
+            </tr>
+            <tr>
+              <td><code>math</code></td>
+              <td>Arithmetic test</td>
+              <td><code>tasks</code></td>
+              <td><code>todos</code></td>
+            </tr>
+            <tr>
+              <td><code>positional-notation</code></td>
+              <td>Positional notation test</td>
+              <td><code>tasks</code></td>
+              <td><code>todos</code></td>
+            </tr>
+            <tr>
+              <td><code>alphabet</code></td>
+              <td>Alphabet match test</td>
+              <td><code>tasks</code></td>
+              <td><code>todos</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          The shared behavior is concentrated in
+          <code>src/data/useChores.ts</code>, <code>src/data/types.ts</code>,
+          <code>src/lib/choreParser.ts</code>,
+          <code>src/ui/unifiedChoreDescriptors.tsx</code>, and the scheduled
+          Firebase functions in <code>functions/src/index.ts</code>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Target Product Shape</h2>
+        <p>
+          The bottom navigation should become four tabs. The clean target is:
+        </p>
+        <ul>
+          <li>
+            <span class="tag">Chores</span> today's chore list and chore
+            management entry point.
+          </li>
+          <li>
+            <span class="tag">Tests</span> today's test list and test management
+            entry point.
+          </li>
+          <li><span class="tag">Rewards</span> existing rewards tab.</li>
+          <li><span class="tag">Time</span> existing time explorer tab.</li>
+        </ul>
+        <p>
+          Chores should include standard/custom chores, dinner, and water/toilet
+          check. Tests should include arithmetic, positional notation, and
+          alphabet match.
+        </p>
+        <div class="callout">
+          Keep the existing dashboard route stable during migration by
+          redirecting <code>/tabs/dashboard</code> to the new chores tab, or by
+          retaining <code>dashboard</code> as the internal id while changing its
+          visible role to chores.
+        </div>
+      </section>
+
+      <section>
+        <h2>Target Firestore Model</h2>
+        <p>
+          Use separate collections for templates and daily instances. This
+          avoids a cosmetic split where tests are still mixed with chores in the
+          database.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Purpose</th>
+              <th>Collection</th>
+              <th>Type field</th>
+              <th>Source field on daily item</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Chore templates</td>
+              <td><code>users/{uid}/chores</code></td>
+              <td><code>choreType</code></td>
+              <td>n/a</td>
+            </tr>
+            <tr>
+              <td>Test templates</td>
+              <td><code>users/{uid}/tests</code></td>
+              <td><code>testType</code></td>
+              <td>n/a</td>
+            </tr>
+            <tr>
+              <td>Today's chore items</td>
+              <td><code>users/{uid}/choreTodos</code></td>
+              <td><code>sourceChoreType</code></td>
+              <td><code>sourceChoreId</code></td>
+            </tr>
+            <tr>
+              <td>Today's test items</td>
+              <td><code>users/{uid}/testTodos</code></td>
+              <td><code>sourceTestType</code></td>
+              <td><code>sourceTestId</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Suggested type split:</p>
+        <ul>
+          <li>
+            <code>ChoreType = "standard" | "eating" | "watertoiletcheck"</code>
+          </li>
+          <li>
+            <code>TestType = "math" | "positional-notation" | "alphabet"</code>
+          </li>
+        </ul>
+        <p>
+          Keep shared fields such as <code>title</code>, <code>childId</code>,
+          schedule flags, <code>starValue</code>, <code>isRepeating</code>, and
+          <code>createdAt</code> in both template collections. Preserve
+          type-specific fields only on the relevant collection.
+        </p>
+      </section>
+
+      <section>
+        <h2>Implementation Phases</h2>
+        <h3>1. Split the data types</h3>
+        <ol>
+          <li>
+            In <code>src/data/types.ts</code>, introduce explicit
+            <code>ChoreType</code>, <code>TestType</code>,
+            <code>ChoreRecord</code>, <code>TestRecord</code>,
+            <code>ChoreTodoRecord</code>, and <code>TestTodoRecord</code>.
+          </li>
+          <li>
+            Keep a shared base type for schedule, title, stars, repeating, and
+            created date so the UI does not duplicate generic controls.
+          </li>
+          <li>
+            Add new Zod schemas for chore snapshots, test snapshots, chore todo
+            snapshots, and test todo snapshots.
+          </li>
+          <li>
+            Retain legacy parsers for <code>tasks</code> and <code>todos</code>
+            during migration, but mark them as compatibility-only in code.
+          </li>
+        </ol>
+
+        <h3>2. Split the data hooks</h3>
+        <ol>
+          <li>
+            Replace <code>useChores()</code> with a smaller
+            <code>useChores()</code> for chore collections and a new
+            <code>useTests()</code> for test collections.
+          </li>
+          <li>
+            Move <code>createMathTask</code>, <code>createPVTask</code>, and
+            <code>createAlphabetTask</code> into <code>useTests()</code> as
+            <code>createMathTest</code>, <code>createPVTest</code>, and
+            <code>createAlphabetTest</code>.
+          </li>
+          <li>
+            Keep <code>createStandardTask</code>, <code>createEatingTask</code>,
+            and <code>createWaterToiletTask</code> in the chore hook, but rename
+            the public API to use chore wording where practical.
+          </li>
+          <li>
+            Split today's derived lists into <code>availableChores</code> and
+            <code>availableTests</code>, backed by separate daily collections.
+          </li>
+        </ol>
+
+        <h3>3. Split the UI routes and tabs</h3>
+        <ol>
+          <li>
+            Add a fourth tab to <code>appTabs</code> in
+            <code>src/lib/tabNavigation.ts</code>, using an existing maths icon
+            for the tests tab.
+          </li>
+          <li>
+            Add a new route such as <code>/tabs/tests</code> in
+            <code>src/App.tsx</code>.
+          </li>
+          <li>
+            Convert <code>DashboardPage</code> into a chores-only today view, or
+            create <code>ChoresTodayPage</code> and redirect the old dashboard
+            path to it.
+          </li>
+          <li>
+            Create <code>TestsPage</code> for today's tests. Reuse the existing
+            math, positional notation, and alphabet renderers from
+            <code>src/ui/presetChoreRenderers.tsx</code>.
+          </li>
+          <li>
+            Split <code>ChoresPage</code> into chore management and test
+            management, or keep one shared management component that receives a
+            <code>kind</code> prop.
+          </li>
+          <li>
+            Update header buttons and legacy settings routes:
+            <code>/settings/manage-tasks</code> should redirect or be replaced
+            by <code>/settings/manage-chores</code> and
+            <code>/settings/manage-tests</code>.
+          </li>
+        </ol>
+
+        <h3>4. Reuse, then rename, the shared activity renderer</h3>
+        <ol>
+          <li>
+            Keep <code>createUnifiedChoreDescriptor</code> initially to reduce
+            risk, but rename its item model to activity/item wording in a later
+            cleanup.
+          </li>
+          <li>
+            Restrict the chore page to chore types and the tests page to test
+            types before passing items into the shared descriptor.
+          </li>
+          <li>
+            Move labels like <code>getTestPrimaryActionLabel</code> into a
+            tests-specific module only after the database and route split is
+            stable.
+          </li>
+        </ol>
+
+        <h3>5. Update Firebase functions and rules</h3>
+        <ol>
+          <li>
+            In <code>functions/src/index.ts</code>, update
+            <code>generateDailyTodos</code> to read both <code>chores</code> and
+            <code>tests</code>.
+          </li>
+          <li>
+            Write chore instances to <code>choreTodos</code> and test instances
+            to <code>testTodos</code>.
+          </li>
+          <li>
+            Update <code>resetTodayTodos</code> to reset both collections, or
+            split it into <code>resetTodayChores</code> and
+            <code>resetTodayTests</code> if the UI needs independent reset
+            buttons.
+          </li>
+          <li>
+            Extract the duplicated template-to-daily-item mapping code in the
+            cloud function before changing it. That will make the collection
+            split safer and easier to test.
+          </li>
+          <li>
+            Add Firestore rules for <code>chores</code>, <code>tests</code>,
+            <code>choreTodos</code>, and <code>testTodos</code>, preserving the
+            current owner-only access model.
+          </li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Migration Plan</h2>
+        <p>
+          Use a compatibility window so existing users do not lose templates or
+          today's progress.
+        </p>
+        <ol>
+          <li>
+            Deploy code that can read the new collections and optionally fall
+            back to old <code>tasks</code>/<code>todos</code> if the new
+            collections are empty.
+          </li>
+          <li>Run a one-off Firebase Admin migration script:</li>
+        </ol>
+        <ul>
+          <li>
+            Copy old <code>tasks</code> with type <code>math</code>,
+            <code>positional-notation</code>, or <code>alphabet</code> to
+            <code>tests</code> using the same document id and a new
+            <code>testType</code> field.
+          </li>
+          <li>
+            Copy all other non-legacy old <code>tasks</code> to
+            <code>chores</code> using the same document id and a new
+            <code>choreType</code> field.
+          </li>
+          <li>
+            Copy old <code>todos</code> with test source types to
+            <code>testTodos</code>, preserving completion state, source id, date
+            key, and outcome fields.
+          </li>
+          <li>
+            Copy old <code>todos</code> with chore source types to
+            <code>choreTodos</code>, preserving completion state, source id,
+            date key, and chore-specific fields.
+          </li>
+        </ul>
+        <ol start="3">
+          <li>
+            Verify counts per user and child: old task count equals new chore
+            plus test count, excluding already ignored legacy day/night records.
+          </li>
+          <li>
+            After the compatibility period, remove fallback reads from
+            <code>tasks</code> and <code>todos</code>.
+          </li>
+          <li>
+            Leave old collections untouched until a final backup and manual
+            verification are complete.
+          </li>
+        </ol>
+        <div class="callout warning">
+          Preserve document ids during migration. The current dedupe logic uses
+          source template ids, so changing ids would risk duplicate daily items.
+        </div>
+      </section>
+
+      <section>
+        <h2>Testing Plan</h2>
+        <ul>
+          <li>
+            Update parser tests in
+            <code>tests/unit/lib/choreParser.test.ts</code>
+            to cover new chore and test schemas separately.
+          </li>
+          <li>
+            Add tests for the new type guards and default values in
+            <code>src/data/types.ts</code>.
+          </li>
+          <li>
+            Update descriptor tests so preset test start/check behavior is
+            exercised through the tests path, while standard/dinner/water
+            behavior is exercised through the chores path.
+          </li>
+          <li>
+            Add route/navigation tests proving the bottom nav has four tabs and
+            that <code>/tabs/tests</code> renders the test list.
+          </li>
+          <li>
+            Add cloud-function helper tests for mapping chore templates to chore
+            todos and test templates to test todos. If function tests are too
+            heavy, extract pure mapper functions and unit-test those.
+          </li>
+          <li>
+            Run <code>npm run lint</code>, <code>npm run test</code>, and the
+            functions TypeScript build before merging.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Recommended Order of Work</h2>
+        <ol>
+          <li>
+            Create the new type model and parsers behind compatibility helpers.
+          </li>
+          <li>Split the hooks into chore and test data flows.</li>
+          <li>
+            Add the fourth tab and the tests page while keeping old routes
+            redirecting.
+          </li>
+          <li>Update cloud functions and Firestore rules.</li>
+          <li>
+            Add and run migration tooling against a backup or emulator first.
+          </li>
+          <li>
+            Remove old mixed collection reads after production data is verified.
+          </li>
+        </ol>
+      </section>
+    </main>
+  </body>
+</html>

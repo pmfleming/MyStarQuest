@@ -6,6 +6,10 @@ import {
 } from '../../assets/themes/princess/assets'
 import { uiTokens } from '../../tokens'
 import StarDisplay from './StarDisplay'
+import {
+  getStandardActionBaseStyle,
+  getStandardActionVariantStyle,
+} from './standardActionStyles'
 
 // Inject whimsical CSS animations once
 const WHIMSICAL_STYLES_ID = 'whimsical-action-list-styles'
@@ -61,7 +65,7 @@ const injectWhimsicalStyles = () => {
 
 export type ActionConfig<T> = {
   label: string | ((item: T) => string)
-  onClick: (item: T) => void
+  onClick: (item: T) => void | Promise<void>
   icon?: ReactNode | ((item: T) => ReactNode)
   ariaLabel?: string | ((item: T) => string)
   disabled?: (item: T) => boolean
@@ -83,11 +87,11 @@ export type StandardActionListProps<T> = {
   items: T[]
   renderItem: (item: T) => ReactNode
   primaryAction: ActionConfig<T>
-  onEdit?: (item: T) => void
-  onDelete: (item: T) => void
+  onEdit?: (item: T) => void | Promise<void>
+  onDelete: (item: T) => void | Promise<void>
   utilityAction?: UtilityActionConfig<T>
   addLabel: string
-  onAdd: () => void
+  onAdd: () => void | Promise<void>
   addDisabled?: boolean
   isLoading?: boolean
   emptyState?: ReactNode
@@ -104,12 +108,35 @@ export type StandardActionListProps<T> = {
   /** When provided, renders an inline "new item" editor card at the bottom of the list
    *  (the Add button card is suppressed while this is set) */
   inlineNewRow?: ReactNode
+  /** When true, suppresses the add button card entirely */
+  hideAdd?: boolean
 }
 
 const resolveValue = <T,>(
   value: string | ReactNode | ((item: T) => string | ReactNode),
   item: T
 ) => (typeof value === 'function' ? value(item) : value)
+
+const resolveTextValue = <T,>(
+  value: string | ((item: T) => string),
+  item: T
+) => (typeof value === 'function' ? value(item) : value)
+
+const runActionSafely = (
+  actionName: string,
+  action: () => void | Promise<void>
+) => {
+  try {
+    const result = action()
+    if (result instanceof Promise) {
+      result.catch((error) => {
+        console.error(`Failed to run ${actionName}`, error)
+      })
+    }
+  } catch (error) {
+    console.error(`Failed to run ${actionName}`, error)
+  }
+}
 
 // Wrapper for individual action card with exit animation support
 const ActionCard = <T,>({
@@ -142,8 +169,8 @@ const ActionCard = <T,>({
   renderItem: (item: T) => ReactNode
   primaryAction: ActionConfig<T>
   primaryDisabled: boolean
-  onEdit?: (item: T) => void
-  onDelete: (item: T) => void
+  onEdit?: (item: T) => void | Promise<void>
+  onDelete: (item: T) => void | Promise<void>
   utilityAction?: UtilityActionConfig<T>
   getActionStyle: (variant?: ActionConfig<T>['variant']) => CSSProperties
   actionBaseStyle: CSSProperties
@@ -154,17 +181,22 @@ const ActionCard = <T,>({
   renderInlineEdit?: (item: T) => ReactNode
 }) => {
   const [isExiting, setIsExiting] = useState(false)
+  const hideUtilityButton =
+    typeof utilityAction?.hideButton === 'function'
+      ? utilityAction.hideButton(item)
+      : (utilityAction?.hideButton ?? false)
+  const utilityActionToRun = hideUtilityButton ? undefined : utilityAction
 
   const resolvedUtilityVariant =
-    typeof utilityAction?.variant === 'function'
-      ? utilityAction.variant(item)
+    typeof utilityActionToRun?.variant === 'function'
+      ? utilityActionToRun.variant(item)
       : (utilityAction?.variant ?? 'danger')
 
-  const resolvedUtilityAriaLabel = utilityAction
-    ? (resolveValue(
-        utilityAction.ariaLabel ?? utilityAction.label,
+  const resolvedUtilityAriaLabel = utilityActionToRun
+    ? resolveTextValue(
+        utilityActionToRun.ariaLabel ?? utilityActionToRun.label,
         item
-      ) as string)
+      )
     : 'Delete'
 
   const resolvedUtilityDisabled = utilityAction?.disabled?.(item) ?? false
@@ -185,18 +217,20 @@ const ActionCard = <T,>({
       <span>🗑️</span>
     )
 
-  const resolvedUtilityIcon = utilityAction
-    ? resolveValue(utilityAction.icon ?? defaultDeleteIcon, item) ||
+  const resolvedUtilityIcon = utilityActionToRun
+    ? resolveValue(utilityActionToRun.icon ?? defaultDeleteIcon, item) ||
       defaultDeleteIcon
     : defaultDeleteIcon
 
   const handleUtilityAction = () => {
     const runAction = () => {
-      if (utilityAction) {
-        utilityAction.onClick(item)
+      if (utilityActionToRun) {
+        runActionSafely('utility action', () =>
+          utilityActionToRun.onClick(item)
+        )
         return
       }
-      onDelete(item)
+      runActionSafely('delete action', () => onDelete(item))
     }
 
     if (resolvedUtilityExits) {
@@ -233,7 +267,7 @@ const ActionCard = <T,>({
     <div
       key={itemKey}
       className={`whimsical-card flex flex-col ${isExiting ? 'whimsical-card-exiting' : ''}`}
-      style={{ ...rowStyle, gap: `${uiTokens.singleVerticalSpace}px` }}
+      style={{ ...rowStyle, gap: `${uiTokens.panelStackGap}px` }}
     >
       {/* Inline edit mode — replaces normal content + actions */}
       {isInlineEditing && renderInlineEdit ? (
@@ -256,7 +290,7 @@ const ActionCard = <T,>({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '12px',
+              gap: `${uiTokens.actionRowGap}px`,
               justifyContent: hidePrimaryButton ? 'flex-end' : undefined,
             }}
           >
@@ -264,15 +298,17 @@ const ActionCard = <T,>({
             {!hidePrimaryButton && (
               <button
                 type="button"
-                onClick={() => primaryAction.onClick(item)}
+                onClick={() =>
+                  runActionSafely('primary action', () =>
+                    primaryAction.onClick(item)
+                  )
+                }
                 disabled={primaryDisabled}
                 className="whimsical-btn flex-1 disabled:opacity-60"
-                aria-label={
-                  resolveValue(
-                    primaryAction.ariaLabel ?? primaryAction.label,
-                    item
-                  ) as string
-                }
+                aria-label={resolveTextValue(
+                  primaryAction.ariaLabel ?? primaryAction.label,
+                  item
+                )}
                 style={{
                   ...actionBaseStyle,
                   ...getActionStyle(
@@ -297,7 +333,9 @@ const ActionCard = <T,>({
             {!hideEdit && onEdit && (
               <button
                 type="button"
-                onClick={() => onEdit(item)}
+                onClick={() =>
+                  runActionSafely('edit action', () => onEdit(item))
+                }
                 className="whimsical-btn whimsical-btn-utility"
                 aria-label="Edit"
                 style={{
@@ -321,22 +359,24 @@ const ActionCard = <T,>({
             )}
 
             {/* Delete Button */}
-            <button
-              type="button"
-              onClick={handleUtilityAction}
-              disabled={resolvedUtilityDisabled}
-              className={`whimsical-btn whimsical-btn-utility disabled:opacity-60 ${resolvedUtilityVariant === 'danger' ? 'whimsical-btn-delete' : ''}`}
-              aria-label={resolvedUtilityAriaLabel}
-              style={{
-                ...actionBaseStyle,
-                ...getActionStyle(resolvedUtilityVariant),
-                width: `${uiTokens.listUtilityActionWidth}px`,
-                minWidth: `${uiTokens.listUtilityActionWidth}px`,
-                padding: 0,
-              }}
-            >
-              {resolvedUtilityIcon}
-            </button>
+            {!hideUtilityButton && (
+              <button
+                type="button"
+                onClick={handleUtilityAction}
+                disabled={resolvedUtilityDisabled}
+                className={`whimsical-btn whimsical-btn-utility disabled:opacity-60 ${resolvedUtilityVariant === 'danger' ? 'whimsical-btn-delete' : ''}`}
+                aria-label={resolvedUtilityAriaLabel}
+                style={{
+                  ...actionBaseStyle,
+                  ...getActionStyle(resolvedUtilityVariant),
+                  width: `${uiTokens.listUtilityActionWidth}px`,
+                  minWidth: `${uiTokens.listUtilityActionWidth}px`,
+                  padding: 0,
+                }}
+              >
+                {resolvedUtilityIcon}
+              </button>
+            )}
           </div>
         </>
       )}
@@ -364,6 +404,7 @@ const StandardActionList = <T,>({
   editingId,
   renderInlineEdit,
   inlineNewRow,
+  hideAdd = false,
 }: StandardActionListProps<T>) => {
   const isDarkTheme = theme.id === 'space'
 
@@ -378,22 +419,7 @@ const StandardActionList = <T,>({
     0 6px 0 ${theme.colors.surface}66 inset
   `
 
-  const actionBaseStyle: CSSProperties = {
-    height: `${uiTokens.listActionHeight}px`,
-    borderRadius: `${uiTokens.listActionRadius}px`,
-    borderWidth: '2px',
-    borderStyle: 'solid',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '8px',
-    padding: '0 20px',
-    fontWeight: 700,
-    fontSize: '1.1rem',
-    fontFamily: theme.fonts.body,
-    cursor: 'pointer',
-    boxShadow: `0 6px 0 ${theme.colors.primary}60`,
-  }
+  const actionBaseStyle = getStandardActionBaseStyle(theme)
 
   const rowBaseStyle: CSSProperties = {
     borderRadius: `${uiTokens.listItemRadius}px`,
@@ -405,32 +431,11 @@ const StandardActionList = <T,>({
 
   const getActionStyle = (
     variant?: ActionConfig<T>['variant']
-  ): CSSProperties => {
-    switch (variant) {
-      case 'danger':
-        return {
-          backgroundColor: 'rgba(239,68,68,0.15)',
-          borderColor: 'rgba(239,68,68,0.6)',
-          color: '#b91c1c',
-          boxShadow: '0 6px 0 rgba(185,28,28,0.4)',
-        }
-      case 'neutral':
-        return {
-          backgroundColor: theme.colors.surface,
-          borderColor: `${theme.colors.primary}60`,
-          color: theme.colors.text,
-          boxShadow: `0 6px 0 ${theme.colors.primary}30`,
-        }
-      case 'primary':
-      default:
-        return {
-          background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
-          borderColor: theme.colors.accent,
-          color: isDarkTheme ? '#000' : '#FFF',
-          boxShadow: `0 6px 0 ${theme.colors.secondary}80`,
-        }
-    }
-  }
+  ): CSSProperties =>
+    getStandardActionVariantStyle(
+      theme,
+      typeof variant === 'function' ? 'primary' : variant
+    )
 
   return (
     <div className="flex flex-col" style={{ width: '100%' }}>
@@ -447,7 +452,7 @@ const StandardActionList = <T,>({
       ) : (
         <div
           className="flex flex-col"
-          style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
+          style={{ gap: `${uiTokens.panelStackGap}px` }}
         >
           {items.length === 0
             ? (emptyState ?? (
@@ -494,19 +499,18 @@ const StandardActionList = <T,>({
           {/* Inline New Row — shown in place of the Add button card */}
           {inlineNewRow ? (
             <div
-              className="whimsical-card flex flex-col"
+              className="flex flex-col"
               style={{
                 ...rowBaseStyle,
-                backgroundColor: theme.colors.surface,
-                border: `4px dashed ${theme.colors.primary}`,
-                boxShadow: `0 10px 20px -5px ${theme.colors.primary}20`,
                 background: theme.colors.surface,
-                gap: `${uiTokens.singleVerticalSpace}px`,
+                border: `3px solid ${theme.colors.primary}`,
+                boxShadow: `0 10px 20px -5px ${theme.colors.primary}20`,
+                gap: `${uiTokens.panelStackGap}px`,
               }}
             >
               {inlineNewRow}
             </div>
-          ) : (
+          ) : hideAdd ? null : (
             /* Add Button Card */
             <div
               className="whimsical-card flex flex-col"
@@ -520,9 +524,9 @@ const StandardActionList = <T,>({
             >
               <button
                 type="button"
-                onClick={onAdd}
+                onClick={() => runActionSafely('add action', onAdd)}
                 disabled={addDisabled}
-                className="whimsical-btn flex w-full items-center justify-center gap-3 text-xl font-bold disabled:opacity-60"
+                className="whimsical-btn flex w-full items-center justify-center text-xl font-bold disabled:opacity-60"
                 style={{
                   color: theme.colors.primary,
                   minHeight: `${uiTokens.actionButtonHeight}px`,
@@ -530,6 +534,7 @@ const StandardActionList = <T,>({
                   cursor: addDisabled ? 'not-allowed' : 'pointer',
                   background: 'transparent',
                   border: 'none',
+                  gap: `${uiTokens.actionContentGap}px`,
                 }}
               >
                 <span>➕</span> {addLabel}

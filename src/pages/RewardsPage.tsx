@@ -3,7 +3,7 @@ import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import StandardActionList from '../components/ui/StandardActionList'
-import { getSurfaceWidthConstraints } from '../tokens'
+import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 import { createRewardDefinitionListRowDescriptor } from '../ui/definitionRowDescriptors'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { useRewards } from '../data/useRewards'
@@ -21,7 +21,8 @@ const RewardsPage = () => {
     setTitleDraft,
     commitTitle,
     updateRewardField,
-    createReward,
+    createStandardReward,
+    createYoshiReward,
     giveReward,
     deleteReward,
   } = useRewards()
@@ -47,8 +48,6 @@ const RewardsPage = () => {
   }
 
   const handleDelete = async (id: string) => {
-    const confirmDelete = window.confirm('Delete this reward?')
-    if (!confirmDelete) return
     try {
       await deleteReward(id)
     } catch (error) {
@@ -87,7 +86,7 @@ const RewardsPage = () => {
           hideEdit
           onDelete={(reward) => handleDelete(reward.id)}
           addLabel="New Reward"
-          onAdd={createReward}
+          onAdd={createStandardReward}
           addDisabled={false}
           emptyState={
             <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
@@ -95,6 +94,24 @@ const RewardsPage = () => {
             </div>
           }
         />
+
+        <button
+          type="button"
+          onClick={createYoshiReward}
+          className="flex w-full items-center justify-center gap-3 text-xl font-bold"
+          style={{
+            marginTop: `${uiTokens.singleVerticalSpace}px`,
+            minHeight: `${uiTokens.listActionHeight}px`,
+            borderRadius: `${uiTokens.listActionRadius}px`,
+            border: `4px dashed ${theme.colors.primary}`,
+            background: theme.colors.surface,
+            color: theme.colors.primary,
+            boxShadow: `0 10px 20px -5px ${theme.colors.primary}20`,
+            fontFamily: theme.fonts.heading,
+          }}
+        >
+          Add Hatchin Yoshi
+        </button>
       </div>
     </TabContent>
   )

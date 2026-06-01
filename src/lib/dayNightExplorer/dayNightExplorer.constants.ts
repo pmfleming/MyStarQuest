@@ -20,7 +20,7 @@ export const explorerUi = {
   clockNumberLerp: 0.1,
   clockHourTickLerp: 0.11,
   clockMinuteTickLerp: 0.06,
-} as const
+}
 
 const clockSize = explorerUi.globeCanvasSize
 const handViewBoxWidth = 1024
@@ -73,4 +73,4 @@ export const clockGeometry = {
   handShadow: `drop-shadow(0 ${clockSize * 0.0090909091}px ${
     clockSize * 0.0136363636
   }px rgba(0,0,0,0.28))`,
-} as const
+}

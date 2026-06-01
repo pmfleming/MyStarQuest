@@ -11,6 +11,16 @@ export type TaskType =
   | 'alphabet'
   | 'watertoiletcheck'
 
+export type ChoreType = Extract<
+  TaskType,
+  'standard' | 'eating' | 'watertoiletcheck'
+>
+
+export type TestType = Extract<
+  TaskType,
+  'math' | 'positional-notation' | 'alphabet'
+>
+
 export type WaterLevel = 'full' | 'twothirds' | 'onethird' | 'empty'
 
 export type ToiletStatus = 'notpeepee' | 'didpeepee'
@@ -23,6 +33,18 @@ export const taskTypeSchema = z.enum([
   'positional-notation',
   'alphabet',
   'watertoiletcheck',
+])
+
+export const choreTypeSchema = z.enum([
+  'standard',
+  'eating',
+  'watertoiletcheck',
+])
+
+export const testTypeSchema = z.enum([
+  'math',
+  'positional-notation',
+  'alphabet',
 ])
 
 export const waterLevelSchema = z.enum([
@@ -54,6 +76,7 @@ export const rewardSnapshotDataSchema = z
     title: z.string().catch(''),
     costStars: z.number().finite().catch(0),
     isRepeating: z.boolean().catch(false),
+    imageKey: z.string().optional(),
     createdAt: firestoreTimestampLikeSchema.optional(),
   })
   .passthrough()
@@ -81,12 +104,24 @@ export const taskSnapshotDataSchema = z
   })
   .passthrough()
 
+export const choreSnapshotDataSchema = taskSnapshotDataSchema.extend({
+  choreType: z.string().optional(),
+})
+
+export const testSnapshotDataSchema = taskSnapshotDataSchema.extend({
+  testType: z.string().optional(),
+})
+
 export const todoSnapshotDataSchema = z
   .object({
     title: z.string().catch(''),
     childId: z.string().catch(''),
     sourceTaskId: z.string().catch(''),
     sourceTaskType: z.string().catch('standard'),
+    sourceChoreId: z.string().optional(),
+    sourceChoreType: z.string().optional(),
+    sourceTestId: z.string().optional(),
+    sourceTestType: z.string().optional(),
     starValue: z.number().finite().catch(1),
     schoolDayEnabled: z.boolean().catch(false),
     nonSchoolDayEnabled: z.boolean().catch(false),
@@ -113,6 +148,16 @@ export const todoSnapshotDataSchema = z
     toiletStatus: toiletStatusSchema.catch('notpeepee'),
   })
   .passthrough()
+
+export const choreTodoSnapshotDataSchema = todoSnapshotDataSchema.extend({
+  sourceChoreId: z.string().catch(''),
+  sourceChoreType: z.string().catch('standard'),
+})
+
+export const testTodoSnapshotDataSchema = todoSnapshotDataSchema.extend({
+  sourceTestId: z.string().catch(''),
+  sourceTestType: z.string().catch('math'),
+})
 
 export const childStarsSnapshotDataSchema = z
   .object({
@@ -171,6 +216,16 @@ export type TaskRecord =
   | AlphabetTask
   | WaterToiletTask
 
+export type ChoreRecord = Extract<
+  TaskRecord,
+  { taskType: 'standard' | 'eating' | 'watertoiletcheck' }
+>
+
+export type TestRecord = Extract<
+  TaskRecord,
+  { taskType: 'math' | 'positional-notation' | 'alphabet' }
+>
+
 // ── TaskEphemeralState: flat bag for in-memory storage ──
 
 export type TaskEphemeralState = {
@@ -227,6 +282,44 @@ export type TaskWithEphemeral =
   | AlphabetTaskWithEphemeral
   | WaterToiletTaskWithEphemeral
 
+export type ChoreWithEphemeral = Extract<
+  TaskWithEphemeral,
+  { taskType: 'standard' | 'eating' | 'watertoiletcheck' }
+>
+
+export type TestWithEphemeral = Extract<
+  TaskWithEphemeral,
+  { taskType: 'math' | 'positional-notation' | 'alphabet' }
+>
+
+export function isChoreRecord(task: TaskRecord): task is ChoreRecord {
+  return (
+    task.taskType === 'standard' ||
+    task.taskType === 'eating' ||
+    task.taskType === 'watertoiletcheck'
+  )
+}
+
+export function isTestRecord(task: TaskRecord): task is TestRecord {
+  return (
+    task.taskType === 'math' ||
+    task.taskType === 'positional-notation' ||
+    task.taskType === 'alphabet'
+  )
+}
+
+export function isTaskWithEphemeral(
+  item: TaskWithEphemeral | TodoRecord
+): item is TaskWithEphemeral {
+  return 'taskType' in item
+}
+
+export function isTestWithEphemeral(
+  item: TaskWithEphemeral | TodoRecord
+): item is TestWithEphemeral {
+  return isTaskWithEphemeral(item) && isTestRecord(item)
+}
+
 // ── TodoRecord: discriminated union on `sourceTaskType` ──
 
 type TodoBase = {
@@ -281,6 +374,38 @@ export type TodoRecord =
   | PositionalNotationTodo
   | AlphabetTodo
   | WaterToiletTodo
+
+export type ChoreTodoRecord = Extract<
+  TodoRecord,
+  { sourceTaskType: 'standard' | 'eating' | 'watertoiletcheck' }
+>
+
+export type TestTodoRecord = Extract<
+  TodoRecord,
+  { sourceTaskType: 'math' | 'positional-notation' | 'alphabet' }
+>
+
+export function isChoreTodoRecord(todo: TodoRecord): todo is ChoreTodoRecord {
+  return (
+    todo.sourceTaskType === 'standard' ||
+    todo.sourceTaskType === 'eating' ||
+    todo.sourceTaskType === 'watertoiletcheck'
+  )
+}
+
+export function isTestTodoRecord(todo: TodoRecord): todo is TestTodoRecord {
+  return (
+    todo.sourceTaskType === 'math' ||
+    todo.sourceTaskType === 'positional-notation' ||
+    todo.sourceTaskType === 'alphabet'
+  )
+}
+
+export function isTodoRecord(
+  item: TaskWithEphemeral | TodoRecord
+): item is TodoRecord {
+  return 'sourceTaskType' in item
+}
 
 // ── Updatable field subsets ──
 
@@ -457,9 +582,10 @@ export type RewardRecord = {
   title: string
   costStars: number
   isRepeating: boolean
+  imageKey?: string
   createdAt?: Date
 }
 
 export type RewardUpdatableFields = Partial<
-  Pick<RewardRecord, 'title' | 'costStars' | 'isRepeating'>
+  Pick<RewardRecord, 'title' | 'costStars' | 'isRepeating' | 'imageKey'>
 >

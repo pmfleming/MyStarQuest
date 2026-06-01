@@ -26,8 +26,28 @@ service cloud.firestore {
         allow read, write: if isOwner(userId);
       }
 
+      // Chores subcollection
+      match /chores/{choreId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Tests subcollection
+      match /tests/{testId} {
+        allow read, write: if isOwner(userId);
+      }
+
       // Today todos subcollection
       match /todos/{todoId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Today chore todos subcollection
+      match /choreTodos/{todoId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Today test todos subcollection
+      match /testTodos/{todoId} {
         allow read, write: if isOwner(userId);
       }
       

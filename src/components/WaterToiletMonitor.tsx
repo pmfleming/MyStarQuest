@@ -9,6 +9,8 @@ import {
 } from '../ui/waterToiletAssets'
 import type { ToiletStatus, WaterLevel } from '../data/types'
 import type { Theme } from '../contexts/ThemeContext'
+import { uiTokens } from '../tokens'
+import type { CSSProperties } from 'react'
 
 type WaterToiletMonitorProps = {
   theme: Theme
@@ -36,15 +38,15 @@ const WaterToiletMonitor = ({
 
   const isActuallyInteractive = isInteractive && !isCompleted
 
-  const tileStyle = {
+  const tileStyle: CSSProperties = {
     display: 'flex',
     minHeight: '176px',
     width: '100%',
-    flexDirection: 'column' as const,
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     gap: '10px',
-    borderRadius: '28px',
+    borderRadius: `${uiTokens.surfaceRadius}px`,
     border: `4px solid ${theme.colors.accent}`,
     background:
       theme.id === 'princess'

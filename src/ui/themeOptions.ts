@@ -27,6 +27,9 @@ const themeOptions: ThemeOption[] = [
   },
 ]
 
+export const isThemeId = (value: string): value is ThemeId =>
+  themeOptions.some((option) => option.id === value)
+
 // A quick lookup map for getting theme details by ID
 export const THEME_ID_LOOKUP = new Map(
   themeOptions.map((option) => [option.id, option])

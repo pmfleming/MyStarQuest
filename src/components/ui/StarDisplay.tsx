@@ -1,16 +1,10 @@
-import { useState, useEffect, type CSSProperties } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import StepperButton from './StepperButton'
 import { uiTokens } from '../../tokens'
 import starSvgUrl from '../../assets/global/star.svg'
 import starNegativeSvgUrl from '../../assets/global/star-negative.svg'
 
-// ============================================================================
-// UNIFIED STAR DISPLAY COMPONENT
-// Used by: StandardActionList (StarField)
-// ============================================================================
-
-// Inject CSS animations once
 const STAR_DISPLAY_STYLES_ID = 'star-display-styles'
 const injectStarDisplayStyles = () => {
   if (document.getElementById(STAR_DISPLAY_STYLES_ID)) return
@@ -30,45 +24,24 @@ const injectStarDisplayStyles = () => {
   document.head.appendChild(style)
 }
 
-// ============================================================================
-// TYPES
-// ============================================================================
-
 export type StarDisplayProps = {
-  /** Number of stars to display */
   count: number
-  /** Whether to animate stars when count changes */
   animate?: boolean
-  /** Custom container style */
   style?: CSSProperties
-  /** Custom class name */
   className?: string
-  /** Empty state content when count is 0 */
   emptyContent?: React.ReactNode
-  /** When true, renders +/- controls alongside the star field */
   editable?: boolean
-  /** Called with the new value when +/- is pressed */
   onChange?: (value: number) => void
-  /** Minimum value (inclusive). Defaults to 1. */
   min?: number
-  /** Maximum value (inclusive). Defaults to 10. */
   max?: number
-  /** Theme needed for editable stepper controls */
   theme?: Theme
 }
 
 const CONTROLS_DELAY_MS = 550
-const STEPPER_WIDTH = 46
+const STEPPER_WIDTH = uiTokens.listUtilityActionWidth
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
-const STAR_GEOMETRY_OVERHANG = 6
-const STAR_CONTROL_WIDTH =
-  CONTROL_ROW_WIDTH - STEPPER_WIDTH + STAR_GEOMETRY_OVERHANG * 2
-const STAR_CONTROL_LEFT = (CONTROL_ROW_WIDTH - STAR_CONTROL_WIDTH) / 2
-const STEPPER_OFFSET = STAR_CONTROL_LEFT - STEPPER_WIDTH / 2
-
-// ============================================================================
-// DENSITY CALCULATION
-// ============================================================================
+const STAR_CONTROL_WIDTH = CONTROL_ROW_WIDTH - STEPPER_WIDTH
+const STEPPER_OFFSET = 0
 
 type DensityClass = 'low' | 'medium'
 
@@ -80,12 +53,7 @@ const getDensityClass = (count: number): DensityClass => {
 const DENSITY_SIZES = {
   low: { width: 32, gap: 8 },
   medium: { width: 20, gap: 4 },
-  // high: { width: 12, gap: 2 },
-}
-
-// ============================================================================
-// STAR ICON COMPONENT
-// ============================================================================
+} satisfies Record<DensityClass, { width: number; gap: number }>
 
 type StarIconProps = {
   size: number
@@ -96,6 +64,10 @@ type StarIconProps = {
   assetUrl?: string
   style?: CSSProperties
   className?: string
+}
+
+type StarIconStyle = CSSProperties & {
+  '--star-rot': string
 }
 
 const StarIcon = ({
@@ -110,7 +82,7 @@ const StarIcon = ({
 }: StarIconProps) => {
   const finalSize = size * scale
 
-  const starStyle: CSSProperties = {
+  const starStyle: StarIconStyle = {
     width: finalSize,
     height: finalSize,
     flexShrink: 0,
@@ -124,7 +96,7 @@ const StarIcon = ({
         }
       : {}),
     ...style,
-  } as CSSProperties
+  }
 
   return (
     <img
@@ -137,17 +109,13 @@ const StarIcon = ({
   )
 }
 
-// ============================================================================
-// FIELD VARIANT - Flex wrapped grid of stars (for StandardActionList)
-// ============================================================================
-
 const FieldVariant = ({
   count,
   animate = true,
   emptyContent,
   style,
   className,
-}: Omit<StarDisplayProps, 'variant'>) => {
+}: StarDisplayProps) => {
   const displayMagnitude = Math.abs(count)
   const densityClass = getDensityClass(displayMagnitude)
   const { width, gap } = DENSITY_SIZES[densityClass]
@@ -159,7 +127,6 @@ const FieldVariant = ({
 
   useEffect(() => {
     if (displayMagnitude < prevCount && animate) {
-      // Stars removed - animate out the difference
       const removedCount = prevCount - displayMagnitude
       const removedIndices = Array.from(
         { length: removedCount },
@@ -178,9 +145,9 @@ const FieldVariant = ({
 
   const containerStyle: CSSProperties = {
     background: '#f1f5f9',
-    borderRadius: '20px',
+    borderRadius: `${uiTokens.surfaceRadius}px`,
     padding: '12px',
-    minHeight: '60px',
+    minHeight: `${uiTokens.listActionHeight}px`,
     border: '2px dashed #cbd5e1',
     display: 'flex',
     flexWrap: 'wrap',
@@ -242,10 +209,6 @@ const FieldVariant = ({
   )
 }
 
-// ============================================================================
-// MAIN COMPONENT
-// ============================================================================
-
 const StarDisplay = ({
   count,
   animate = true,
@@ -260,7 +223,6 @@ const StarDisplay = ({
 }: StarDisplayProps) => {
   const [controlsVisible, setControlsVisible] = useState(false)
 
-  // Inject styles on mount
   useEffect(() => {
     injectStarDisplayStyles()
   }, [])

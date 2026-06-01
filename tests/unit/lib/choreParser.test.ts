@@ -10,11 +10,19 @@ import {
   childStarsSnapshotDataSchema,
   resetTodayTodosResultSchema,
   rewardSnapshotDataSchema,
+  choreSnapshotDataSchema,
+  choreTodoSnapshotDataSchema,
   taskSnapshotDataSchema,
+  testSnapshotDataSchema,
+  testTodoSnapshotDataSchema,
   todoSnapshotDataSchema,
 } from '../../../src/data/types'
 import {
+  parseChoreSnapshot,
+  parseChoreTodoSnapshot,
   parseTaskSnapshot,
+  parseTestSnapshot,
+  parseTestTodoSnapshot,
   parseTodoSnapshot,
 } from '../../../src/lib/choreParser'
 
@@ -173,6 +181,68 @@ describe('choreParser', () => {
       toiletStatus: DEFAULT_TOILET_STATUS,
     })
   })
+
+  it('parses split chore and test templates through compatibility fields', () => {
+    const chore = parseChoreSnapshot('chore-1', {
+      choreType: 'eating',
+      childId: 'child-1',
+      dinnerDurationSeconds: 300,
+      dinnerTotalBites: 4,
+    })
+
+    const test = parseTestSnapshot('test-1', {
+      testType: 'math',
+      childId: 'child-1',
+      mathTotalProblems: 6,
+      mathDifficulty: 'hard',
+    })
+
+    expect(chore?.taskType).toBe('eating')
+    expect(chore).toMatchObject({
+      dinnerDurationSeconds: 300,
+      dinnerTotalBites: 4,
+    })
+    expect(test?.taskType).toBe('math')
+    expect(test).toMatchObject({
+      mathTotalProblems: 6,
+      mathDifficulty: 'hard',
+    })
+  })
+
+  it('parses split chore and test todos through compatibility fields', () => {
+    const choreTodo = parseChoreTodoSnapshot(
+      'chore-todo-1',
+      {
+        sourceChoreId: 'chore-1',
+        sourceChoreType: 'watertoiletcheck',
+        childId: 'child-1',
+      },
+      '2026-05-31'
+    )
+
+    const testTodo = parseTestTodoSnapshot(
+      'test-todo-1',
+      {
+        sourceTestId: 'test-1',
+        sourceTestType: 'alphabet',
+        childId: 'child-1',
+        alphabetTotalProblems: 7,
+      },
+      '2026-05-31'
+    )
+
+    expect(choreTodo).toMatchObject({
+      sourceTaskId: 'chore-1',
+      sourceTaskType: 'watertoiletcheck',
+      waterLevel: DEFAULT_WATER_LEVEL,
+      toiletStatus: DEFAULT_TOILET_STATUS,
+    })
+    expect(testTodo).toMatchObject({
+      sourceTaskId: 'test-1',
+      sourceTaskType: 'alphabet',
+      alphabetTotalProblems: 7,
+    })
+  })
 })
 
 describe('runtime schemas', () => {
@@ -187,6 +257,12 @@ describe('runtime schemas', () => {
       title: '',
       costStars: 0,
       isRepeating: false,
+    })
+
+    expect(
+      rewardSnapshotDataSchema.parse({ imageKey: 'yoshiEgg' })
+    ).toMatchObject({
+      imageKey: 'yoshiEgg',
     })
   })
 
@@ -225,6 +301,33 @@ describe('runtime schemas', () => {
       alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
       waterLevel: DEFAULT_WATER_LEVEL,
       toiletStatus: DEFAULT_TOILET_STATUS,
+    })
+
+    expect(
+      choreSnapshotDataSchema.parse({ choreType: 'eating' })
+    ).toMatchObject({
+      choreType: 'eating',
+    })
+    expect(testSnapshotDataSchema.parse({ testType: 'math' })).toMatchObject({
+      testType: 'math',
+    })
+    expect(
+      choreTodoSnapshotDataSchema.parse({
+        sourceChoreId: 'chore-1',
+        sourceChoreType: 'standard',
+      })
+    ).toMatchObject({
+      sourceChoreId: 'chore-1',
+      sourceChoreType: 'standard',
+    })
+    expect(
+      testTodoSnapshotDataSchema.parse({
+        sourceTestId: 'test-1',
+        sourceTestType: 'math',
+      })
+    ).toMatchObject({
+      sourceTestId: 'test-1',
+      sourceTestType: 'math',
     })
   })
 

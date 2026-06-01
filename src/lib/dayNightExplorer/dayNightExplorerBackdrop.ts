@@ -15,12 +15,21 @@ type RgbColor = {
 
 export type ExplorerBackgroundKey = keyof ThemeExplorerBackgroundImages
 
-const EXPLORER_SKY_COLORS = {
+const EXPLORER_SKY_COLORS: Record<
+  'night' | 'sunrise' | 'day' | 'sunset',
+  RgbColor
+> = {
   night: { r: 56, g: 78, b: 140 },
   sunrise: { r: 255, g: 196, b: 143 },
   day: { r: 135, g: 206, b: 250 },
   sunset: { r: 255, g: 166, b: 120 },
-} as const
+}
+
+type ExplorerBackgroundBlend = {
+  base: ExplorerBackgroundKey
+  overlay: ExplorerBackgroundKey
+  overlayOpacity: number
+}
 
 const interpolateColor = (from: RgbColor, to: RgbColor, amount: number) => {
   return {
@@ -130,7 +139,7 @@ export const getExplorerBackdropColor = (
 export const getExplorerBackgroundBlend = (
   minutes: number,
   solarTimes: SolarTimes
-) => {
+): ExplorerBackgroundBlend => {
   const normalizedMinutes = normalizeMinutes(minutes)
   const nightMidpointMinutes = getNightMidpointMinutes(
     solarTimes.sunriseMinutes,
@@ -173,8 +182,8 @@ export const getExplorerBackgroundBlend = (
   }
 
   return {
-    base: 'night' as ExplorerBackgroundKey,
-    overlay: 'night' as ExplorerBackgroundKey,
+    base: 'night',
+    overlay: 'night',
     overlayOpacity: 0,
   }
 }

@@ -9,7 +9,12 @@
  */
 
 import { initializeApp } from 'firebase-admin/app'
-import { getFirestore, FieldValue } from 'firebase-admin/firestore'
+import {
+  getFirestore,
+  FieldValue,
+  type DocumentData,
+  type QueryDocumentSnapshot,
+} from 'firebase-admin/firestore'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, onRequest, HttpsError } from 'firebase-functions/v2/https'
 import * as ical from 'node-ical'
@@ -24,6 +29,7 @@ type CurrentDayType = 'schoolday' | 'nonschoolday'
 type ScheduledTaskData = {
   schoolDayEnabled?: boolean
   nonSchoolDayEnabled?: boolean
+  dayType?: unknown
 }
 
 /**
@@ -56,12 +62,29 @@ const getLocalizedDateInfo = (timeZone: string) => {
 }
 
 const isScheduledForDay = (
-  task: { schoolDayEnabled?: boolean; nonSchoolDayEnabled?: boolean },
+  task: ScheduledTaskData,
   dayType: CurrentDayType
-) =>
-  dayType === 'schoolday'
-    ? task.schoolDayEnabled === true
-    : task.nonSchoolDayEnabled === true
+) => {
+  const hasExplicitToggles =
+    typeof task.schoolDayEnabled === 'boolean' ||
+    typeof task.nonSchoolDayEnabled === 'boolean'
+
+  if (hasExplicitToggles) {
+    return dayType === 'schoolday'
+      ? task.schoolDayEnabled === true
+      : task.nonSchoolDayEnabled === true
+  }
+
+  const legacyDayType = String(task.dayType ?? '').toLowerCase()
+  if (legacyDayType === 'weekday' || legacyDayType === 'schoolday') {
+    return dayType === 'schoolday'
+  }
+  if (legacyDayType === 'weekend' || legacyDayType === 'nonschoolday') {
+    return dayType === 'nonschoolday'
+  }
+
+  return true
+}
 
 // ── Defaults (mirrors client-side types.ts) ──
 
@@ -72,6 +95,280 @@ const DEFAULT_PV_PROBLEMS = 5
 const DEFAULT_ALPHABET_PROBLEMS = 5
 const DEFAULT_WATER_LEVEL = 'full'
 const DEFAULT_TOILET_STATUS = 'notpeepee'
+
+type ActivityKind = 'chore' | 'test'
+
+type ActivityType =
+  | 'standard'
+  | 'eating'
+  | 'watertoiletcheck'
+  | 'math'
+  | 'positional-notation'
+  | 'alphabet'
+
+const activityCollections: Record<
+  ActivityKind,
+  {
+    templates: string
+    todos: string
+    legacyTemplates: string
+    legacyTodos: string
+  }
+> = {
+  chore: {
+    templates: 'chores',
+    todos: 'choreTodos',
+    legacyTemplates: 'tasks',
+    legacyTodos: 'todos',
+  },
+  test: {
+    templates: 'tests',
+    todos: 'testTodos',
+    legacyTemplates: 'tasks',
+    legacyTodos: 'todos',
+  },
+}
+
+const getActivityType = (data: DocumentData): ActivityType => {
+  const explicitType = data.taskType ?? data.choreType ?? data.testType
+  const category = data.category
+
+  if (
+    explicitType === 'positional-notation' ||
+    category === 'positional-notation'
+  ) {
+    return 'positional-notation'
+  }
+  if (explicitType === 'math' || category === 'math') return 'math'
+  if (explicitType === 'alphabet' || category === 'alphabet') return 'alphabet'
+  if (explicitType === 'watertoiletcheck' || category === 'watertoiletcheck') {
+    return 'watertoiletcheck'
+  }
+  if (explicitType === 'eating' || category === 'eating') return 'eating'
+  return 'standard'
+}
+
+const isActivityKind = (kind: ActivityKind, type: ActivityType) =>
+  kind === 'test'
+    ? type === 'math' || type === 'positional-notation' || type === 'alphabet'
+    : type === 'standard' || type === 'eating' || type === 'watertoiletcheck'
+
+const getTodoActivityType = (data: DocumentData): ActivityType =>
+  getActivityType({
+    taskType:
+      data.sourceTaskType ?? data.sourceChoreType ?? data.sourceTestType,
+    category:
+      data.sourceTaskType ?? data.sourceChoreType ?? data.sourceTestType,
+  })
+
+const getTodoSourceTaskId = (data: DocumentData) =>
+  data.sourceTaskId ?? data.sourceChoreId ?? data.sourceTestId
+
+const isLegacyDayNight = (data: DocumentData) =>
+  data.taskType === 'daynight' ||
+  data.choreType === 'daynight' ||
+  data.testType === 'daynight' ||
+  data.category === 'daynight'
+
+const getTemplateDocs = async (
+  uid: string,
+  childId: string,
+  kind: ActivityKind
+) => {
+  const collections = activityCollections[kind]
+  const [currentSnapshot, legacySnapshot] = await Promise.all([
+    db
+      .collection(`users/${uid}/${collections.templates}`)
+      .where('childId', '==', childId)
+      .get(),
+    db
+      .collection(`users/${uid}/${collections.legacyTemplates}`)
+      .where('childId', '==', childId)
+      .get(),
+  ])
+
+  const templateDocs = new Map<string, QueryDocumentSnapshot<DocumentData>>()
+
+  for (const taskDoc of legacySnapshot.docs) {
+    const data = taskDoc.data()
+    if (isLegacyDayNight(data)) continue
+    const taskType = getActivityType(data)
+    if (isActivityKind(kind, taskType)) {
+      templateDocs.set(taskDoc.id, taskDoc)
+    }
+  }
+
+  for (const taskDoc of currentSnapshot.docs) {
+    const data = taskDoc.data()
+    if (isLegacyDayNight(data)) continue
+    const taskType = getActivityType(data)
+    if (isActivityKind(kind, taskType)) {
+      templateDocs.set(taskDoc.id, taskDoc)
+    }
+  }
+
+  return Array.from(templateDocs.values())
+}
+
+const getCompletedLegacySourceIds = async (
+  uid: string,
+  childId: string,
+  dateKey: string,
+  kind: ActivityKind
+) => {
+  const collections = activityCollections[kind]
+  const legacyTodosSnapshot = await db
+    .collection(`users/${uid}/${collections.legacyTodos}`)
+    .where('childId', '==', childId)
+    .where('dateKey', '==', dateKey)
+    .get()
+
+  return new Set(
+    legacyTodosSnapshot.docs
+      .filter((todoDoc) => {
+        const data = todoDoc.data()
+        return (
+          Boolean(data.completedAt) &&
+          isActivityKind(kind, getTodoActivityType(data))
+        )
+      })
+      .map((todoDoc) => getTodoSourceTaskId(todoDoc.data()))
+      .filter(
+        (sourceTaskId): sourceTaskId is string =>
+          typeof sourceTaskId === 'string'
+      )
+  )
+}
+
+const buildDailyActivityPayload = (
+  taskDoc: QueryDocumentSnapshot<DocumentData>,
+  childId: string,
+  taskType: ActivityType,
+  dateKey: string,
+  kind: ActivityKind,
+  autoAdded: boolean
+) => {
+  const data = taskDoc.data()
+  const dinnerDuration =
+    data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
+  const dinnerBites = data.dinnerTotalBites ?? DEFAULT_DINNER_BITES
+
+  const base = {
+    title: data.title ?? '',
+    childId,
+    sourceTaskId: taskDoc.id,
+    sourceTaskType: taskType,
+    ...(kind === 'chore'
+      ? { sourceChoreId: taskDoc.id, sourceChoreType: taskType }
+      : { sourceTestId: taskDoc.id, sourceTestType: taskType }),
+    starValue: Number(data.starValue ?? 1),
+    schoolDayEnabled: data.schoolDayEnabled ?? true,
+    nonSchoolDayEnabled: data.nonSchoolDayEnabled ?? true,
+    autoAdded,
+    dateKey,
+    createdAt: FieldValue.serverTimestamp(),
+    completedAt: null,
+  }
+
+  let taskSpecific: Record<string, unknown> = {}
+  switch (taskType) {
+    case 'eating':
+      taskSpecific = {
+        dinnerDurationSeconds: dinnerDuration,
+        dinnerRemainingSeconds: dinnerDuration,
+        dinnerTotalBites: dinnerBites,
+        dinnerBitesLeft: dinnerBites,
+      }
+      break
+    case 'math':
+      taskSpecific = {
+        mathTotalProblems: data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
+        mathDifficulty: data.mathDifficulty ?? 'easy',
+        mathLastOutcome: null,
+      }
+      break
+    case 'alphabet':
+      taskSpecific = {
+        alphabetTotalProblems:
+          data.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
+        alphabetLastOutcome: null,
+      }
+      break
+    case 'positional-notation':
+      taskSpecific = {
+        pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
+        pvLastOutcome: null,
+      }
+      break
+    case 'watertoiletcheck':
+      taskSpecific = {
+        waterLevel: DEFAULT_WATER_LEVEL,
+        toiletStatus: DEFAULT_TOILET_STATUS,
+      }
+      break
+    case 'standard':
+      break
+  }
+
+  return { ...base, ...taskSpecific }
+}
+
+const createDailyActivities = async (
+  uid: string,
+  childId: string,
+  dateKey: string,
+  dayType: CurrentDayType,
+  kind: ActivityKind,
+  completedSourceIds = new Set<string>()
+) => {
+  const collections = activityCollections[kind]
+  const [templates, existingTodosSnapshot, completedLegacySourceIds] =
+    await Promise.all([
+      getTemplateDocs(uid, childId, kind),
+      db
+        .collection(`users/${uid}/${collections.todos}`)
+        .where('childId', '==', childId)
+        .where('dateKey', '==', dateKey)
+        .get(),
+      getCompletedLegacySourceIds(uid, childId, dateKey, kind),
+    ])
+
+  const existingSourceIds = new Set(
+    existingTodosSnapshot.docs.map((d) => d.data().sourceTaskId)
+  )
+
+  const completedSourceIdsToSkip = new Set([
+    ...completedSourceIds,
+    ...completedLegacySourceIds,
+  ])
+
+  const todosToCreate = templates.filter((taskDoc) => {
+    const data = taskDoc.data()
+    const title = (data.title ?? '').trim()
+    const taskType = getActivityType(data)
+    if (!title) return false
+    if (!isActivityKind(kind, taskType)) return false
+    if (existingSourceIds.has(taskDoc.id)) return false
+    if (completedSourceIdsToSkip.has(taskDoc.id)) return false
+    return isScheduledForDay(data as ScheduledTaskData, dayType)
+  })
+
+  if (todosToCreate.length === 0) return 0
+
+  const batch = db.batch()
+
+  for (const taskDoc of todosToCreate) {
+    const taskType = getActivityType(taskDoc.data())
+    const todoRef = db.collection(`users/${uid}/${collections.todos}`).doc()
+    batch.set(
+      todoRef,
+      buildDailyActivityPayload(taskDoc, childId, taskType, dateKey, kind, true)
+    )
+  }
+
+  await batch.commit()
+  return todosToCreate.length
+}
 
 // ── Scheduled function ──
 
@@ -95,157 +392,44 @@ export const generateDailyTodos = onSchedule(
       for (const childDoc of childrenSnapshot.docs) {
         const childId = childDoc.id
 
-        // Get all task templates for this child
-        const tasksSnapshot = await db
-          .collection(`users/${uid}/tasks`)
-          .where('childId', '==', childId)
-          .get()
-
-        // Get existing todos for today (to deduplicate)
-        const existingTodosSnapshot = await db
-          .collection(`users/${uid}/todos`)
-          .where('childId', '==', childId)
-          .where('dateKey', '==', dateKey)
-          .get()
-
-        const existingSourceIds = new Set(
-          existingTodosSnapshot.docs.map((d) => d.data().sourceTaskId)
+        const choreCount = await createDailyActivities(
+          uid,
+          childId,
+          dateKey,
+          dayType,
+          'chore'
         )
-
-        // Filter to scheduled tasks with non-empty titles that don't already have a todo
-        const todosToCreate = tasksSnapshot.docs.filter((taskDoc) => {
-          const data = taskDoc.data()
-          const title = (data.title ?? '').trim()
-          if (!title) return false
-          if (existingSourceIds.has(taskDoc.id)) return false
-          return isScheduledForDay(data as ScheduledTaskData, dayType)
-        })
-
-        if (todosToCreate.length === 0) continue
-
-        // Batch-write to stay within Firestore limits (max 500 per batch)
-        const batch = db.batch()
-
-        for (const taskDoc of todosToCreate) {
-          const data = taskDoc.data()
-          const isLegacyDayNight =
-            data.taskType === 'daynight' || data.category === 'daynight'
-
-          if (isLegacyDayNight) continue
-
-          const taskType =
-            data.taskType === 'positional-notation' ||
-            data.category === 'positional-notation'
-              ? 'positional-notation'
-              : data.taskType === 'math' || data.category === 'math'
-                ? 'math'
-                : data.taskType === 'alphabet' || data.category === 'alphabet'
-                  ? 'alphabet'
-                  : data.taskType === 'watertoiletcheck' ||
-                      data.category === 'watertoiletcheck'
-                    ? 'watertoiletcheck'
-                    : data.taskType === 'eating' || data.category === 'eating'
-                      ? 'eating'
-                      : 'standard'
-
-          const dinnerDuration =
-            data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
-          const dinnerBites = data.dinnerTotalBites ?? DEFAULT_DINNER_BITES
-
-          const base = {
-            title: data.title ?? '',
-            childId,
-            sourceTaskId: taskDoc.id,
-            sourceTaskType: taskType,
-            starValue: Number(data.starValue ?? 1),
-            schoolDayEnabled: data.schoolDayEnabled ?? true,
-            nonSchoolDayEnabled: data.nonSchoolDayEnabled ?? true,
-            autoAdded: true,
-            dateKey,
-            createdAt: FieldValue.serverTimestamp(),
-            completedAt: null,
-          }
-
-          let taskSpecific: Record<string, unknown> = {}
-          switch (taskType) {
-            case 'eating':
-              taskSpecific = {
-                dinnerDurationSeconds: dinnerDuration,
-                dinnerRemainingSeconds: dinnerDuration,
-                dinnerTotalBites: dinnerBites,
-                dinnerBitesLeft: dinnerBites,
-              }
-              break
-            case 'math':
-              taskSpecific = {
-                mathTotalProblems:
-                  data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-                mathDifficulty: data.mathDifficulty ?? 'easy',
-                mathLastOutcome: null,
-              }
-              break
-            case 'alphabet':
-              taskSpecific = {
-                alphabetTotalProblems:
-                  data.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
-                alphabetLastOutcome: null,
-              }
-              break
-            case 'positional-notation':
-              taskSpecific = {
-                pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
-                pvLastOutcome: null,
-              }
-              break
-            case 'watertoiletcheck':
-              taskSpecific = {
-                waterLevel: DEFAULT_WATER_LEVEL,
-                toiletStatus: DEFAULT_TOILET_STATUS,
-              }
-              break
-          }
-
-          const todoRef = db.collection(`users/${uid}/todos`).doc()
-          batch.set(todoRef, { ...base, ...taskSpecific })
-        }
-
-        await batch.commit()
+        const testCount = await createDailyActivities(
+          uid,
+          childId,
+          dateKey,
+          dayType,
+          'test'
+        )
         console.log(
-          `Created ${todosToCreate.length} todos for user=${uid} child=${childId} date=${dateKey}`
+          `Created ${choreCount} chore todos and ${testCount} test todos for user=${uid} child=${childId} date=${dateKey}`
         )
       }
     }
   }
 )
 
-// ── Callable function: reset today's todos for a specific child ──
-
-export const resetTodayTodos = onCall(async (request) => {
-  const uid = request.auth?.uid
-  if (!uid) {
-    throw new HttpsError('unauthenticated', 'Must be signed in.')
-  }
-
-  const { childId } = request.data as { childId?: string }
-  if (!childId || typeof childId !== 'string') {
-    throw new HttpsError('invalid-argument', 'childId is required.')
-  }
-
-  // Verify the child belongs to this user
-  const childDoc = await db.doc(`users/${uid}/children/${childId}`).get()
-  if (!childDoc.exists) {
-    throw new HttpsError('not-found', 'Child not found.')
-  }
-
-  // ⏰ Use the timezone-aware helper!
+const resetTodayActivities = async (
+  uid: string,
+  childId: string,
+  kind: ActivityKind
+) => {
   const { dateKey, dayType } = getLocalizedDateInfo('Europe/London')
+  const collections = activityCollections[kind]
 
-  // Delete all existing non-completed todos for today
-  const existingTodos = await db
-    .collection(`users/${uid}/todos`)
-    .where('childId', '==', childId)
-    .where('dateKey', '==', dateKey)
-    .get()
+  const [existingTodos, completedLegacySourceIds] = await Promise.all([
+    db
+      .collection(`users/${uid}/${collections.todos}`)
+      .where('childId', '==', childId)
+      .where('dateKey', '==', dateKey)
+      .get(),
+    getCompletedLegacySourceIds(uid, childId, dateKey, kind),
+  ])
 
   const deleteBatch = db.batch()
   for (const todoDoc of existingTodos.docs) {
@@ -255,118 +439,73 @@ export const resetTodayTodos = onCall(async (request) => {
   }
   await deleteBatch.commit()
 
-  // Get completed source task IDs (so we don't recreate those)
-  const completedSourceIds = new Set(
-    existingTodos.docs
+  const completedSourceIds = new Set([
+    ...existingTodos.docs
       .filter((d) => d.data().completedAt)
-      .map((d) => d.data().sourceTaskId)
+      .map((d) => d.data().sourceTaskId),
+    ...completedLegacySourceIds,
+  ])
+
+  const created = await createDailyActivities(
+    uid,
+    childId,
+    dateKey,
+    dayType,
+    kind,
+    completedSourceIds
   )
 
-  // Get all task templates for this child
-  const tasksSnapshot = await db
-    .collection(`users/${uid}/tasks`)
-    .where('childId', '==', childId)
-    .get()
+  console.log(
+    `Reset: created ${created} ${kind} todos for user=${uid} child=${childId} date=${dateKey}`
+  )
+  return { created }
+}
 
-  const todosToCreate = tasksSnapshot.docs.filter((taskDoc) => {
-    const data = taskDoc.data()
-    const title = (data.title ?? '').trim()
-    if (!title) return false
-    if (completedSourceIds.has(taskDoc.id)) return false
-    return isScheduledForDay(data as ScheduledTaskData, dayType)
-  })
-
-  if (todosToCreate.length === 0) return { created: 0 }
-
-  const createBatch = db.batch()
-
-  for (const taskDoc of todosToCreate) {
-    const data = taskDoc.data()
-    const isLegacyDayNight =
-      data.taskType === 'daynight' || data.category === 'daynight'
-
-    if (isLegacyDayNight) continue
-
-    const taskType =
-      data.taskType === 'positional-notation' ||
-      data.category === 'positional-notation'
-        ? 'positional-notation'
-        : data.taskType === 'math' || data.category === 'math'
-          ? 'math'
-          : data.taskType === 'alphabet' || data.category === 'alphabet'
-            ? 'alphabet'
-            : data.taskType === 'watertoiletcheck' ||
-                data.category === 'watertoiletcheck'
-              ? 'watertoiletcheck'
-              : data.taskType === 'eating' || data.category === 'eating'
-                ? 'eating'
-                : 'standard'
-
-    const dinnerDuration =
-      data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
-    const dinnerBites = data.dinnerTotalBites ?? DEFAULT_DINNER_BITES
-
-    const base = {
-      title: data.title ?? '',
-      childId,
-      sourceTaskId: taskDoc.id,
-      sourceTaskType: taskType,
-      starValue: Number(data.starValue ?? 1),
-      schoolDayEnabled: data.schoolDayEnabled ?? true,
-      nonSchoolDayEnabled: data.nonSchoolDayEnabled ?? true,
-      autoAdded: true,
-      dateKey,
-      createdAt: FieldValue.serverTimestamp(),
-      completedAt: null,
-    }
-
-    let taskSpecific: Record<string, unknown> = {}
-    switch (taskType) {
-      case 'eating':
-        taskSpecific = {
-          dinnerDurationSeconds: dinnerDuration,
-          dinnerRemainingSeconds: dinnerDuration,
-          dinnerTotalBites: dinnerBites,
-          dinnerBitesLeft: dinnerBites,
-        }
-        break
-      case 'math':
-        taskSpecific = {
-          mathTotalProblems: data.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-          mathDifficulty: data.mathDifficulty ?? 'easy',
-          mathLastOutcome: null,
-        }
-        break
-      case 'alphabet':
-        taskSpecific = {
-          alphabetTotalProblems:
-            data.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
-          alphabetLastOutcome: null,
-        }
-        break
-      case 'positional-notation':
-        taskSpecific = {
-          pvTotalProblems: data.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
-          pvLastOutcome: null,
-        }
-        break
-      case 'watertoiletcheck':
-        taskSpecific = {
-          waterLevel: DEFAULT_WATER_LEVEL,
-          toiletStatus: DEFAULT_TOILET_STATUS,
-        }
-        break
-    }
-
-    const todoRef = db.collection(`users/${uid}/todos`).doc()
-    createBatch.set(todoRef, { ...base, ...taskSpecific })
+const assertCallableChild = async (
+  uid: string | undefined,
+  childId: unknown
+) => {
+  if (!uid) {
+    throw new HttpsError('unauthenticated', 'Must be signed in.')
   }
 
-  await createBatch.commit()
-  console.log(
-    `Reset: created ${todosToCreate.length} todos for user=${uid} child=${childId} date=${dateKey}`
-  )
-  return { created: todosToCreate.length }
+  if (!childId || typeof childId !== 'string') {
+    throw new HttpsError('invalid-argument', 'childId is required.')
+  }
+
+  const childDoc = await db.doc(`users/${uid}/children/${childId}`).get()
+  if (!childDoc.exists) {
+    throw new HttpsError('not-found', 'Child not found.')
+  }
+
+  return childId
+}
+
+// ── Callable functions: reset today's activities for a specific child ──
+
+export const resetTodayChores = onCall(async (request) => {
+  const uid = request.auth?.uid
+  const { childId } = request.data as { childId?: string }
+  const verifiedChildId = await assertCallableChild(uid, childId)
+  return resetTodayActivities(uid!, verifiedChildId, 'chore')
+})
+
+export const resetTodayTests = onCall(async (request) => {
+  const uid = request.auth?.uid
+  const { childId } = request.data as { childId?: string }
+  const verifiedChildId = await assertCallableChild(uid, childId)
+  return resetTodayActivities(uid!, verifiedChildId, 'test')
+})
+
+export const resetTodayTodos = onCall(async (request) => {
+  const uid = request.auth?.uid
+  const { childId } = request.data as { childId?: string }
+  const verifiedChildId = await assertCallableChild(uid, childId)
+  const [chores, tests] = await Promise.all([
+    resetTodayActivities(uid!, verifiedChildId, 'chore'),
+    resetTodayActivities(uid!, verifiedChildId, 'test'),
+  ])
+  return { created: chores.created + tests.created, chores, tests }
 })
 
 // ── HTTP function: parse & serve school calendar as JSON ──

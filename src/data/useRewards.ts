@@ -22,6 +22,14 @@ import {
   type RewardRecord,
   type RewardUpdatableFields,
 } from './types'
+import { mergeMissingTitleDrafts } from './dailyTaskState'
+
+const HATCHIN_YOSHI_REWARD = {
+  title: 'Hatchin Yoshi',
+  costStars: 60,
+  isRepeating: false,
+  imageKey: 'yoshiEgg',
+}
 
 export function useRewards() {
   const { user } = useAuth()
@@ -42,43 +50,45 @@ export function useRewards() {
       orderBy('createdAt', 'asc')
     )
 
-    const unsubscribe = onSnapshot(rewardsQuery, (snapshot) => {
-      const newRewards: RewardRecord[] = snapshot.docs.flatMap(
-        (docSnapshot) => {
-          const parsed = rewardSnapshotDataSchema.safeParse(docSnapshot.data())
-          if (!parsed.success) {
-            console.warn('Skipping invalid reward snapshot', {
-              id: docSnapshot.id,
-              issues: parsed.error.issues,
-            })
-            return []
+    const unsubscribe = onSnapshot(
+      rewardsQuery,
+      (snapshot) => {
+        const newRewards: RewardRecord[] = snapshot.docs.flatMap(
+          (docSnapshot) => {
+            const parsed = rewardSnapshotDataSchema.safeParse(
+              docSnapshot.data()
+            )
+            if (!parsed.success) {
+              console.warn('Skipping invalid reward snapshot', {
+                id: docSnapshot.id,
+                issues: parsed.error.issues,
+              })
+              return []
+            }
+
+            const data = parsed.data
+            return [
+              {
+                id: docSnapshot.id,
+                title: data.title,
+                costStars: data.costStars,
+                isRepeating: data.isRepeating,
+                imageKey: data.imageKey,
+                createdAt: data.createdAt?.toDate?.(),
+              },
+            ]
           }
+        )
 
-          const data = parsed.data
-          return [
-            {
-              id: docSnapshot.id,
-              title: data.title,
-              costStars: data.costStars,
-              isRepeating: data.isRepeating,
-              createdAt: data.createdAt?.toDate?.(),
-            },
-          ]
-        }
-      )
+        setRewards(newRewards)
 
-      setRewards(newRewards)
-
-      setTitleDrafts((prev) => {
-        const next = { ...prev }
-        for (const reward of newRewards) {
-          if (!(reward.id in next)) {
-            next[reward.id] = reward.title
-          }
-        }
-        return next
-      })
-    })
+        setTitleDrafts((prev) => mergeMissingTitleDrafts(prev, newRewards))
+      },
+      (error) => {
+        console.error('Failed to subscribe to rewards', error)
+        setRewards([])
+      }
+    )
 
     return unsubscribe
   }, [user])
@@ -91,19 +101,26 @@ export function useRewards() {
     }
 
     const childRef = doc(db, 'users', user.uid, 'children', activeChildId)
-    const unsubscribe = onSnapshot(childRef, (snapshot) => {
-      const parsed = childStarsSnapshotDataSchema.safeParse(snapshot.data())
-      if (!parsed.success) {
-        console.warn('Invalid child star balance snapshot', {
-          id: activeChildId,
-          issues: parsed.error.issues,
-        })
-        setActiveChildStars(0)
-        return
-      }
+    const unsubscribe = onSnapshot(
+      childRef,
+      (snapshot) => {
+        const parsed = childStarsSnapshotDataSchema.safeParse(snapshot.data())
+        if (!parsed.success) {
+          console.warn('Invalid child star balance snapshot', {
+            id: activeChildId,
+            issues: parsed.error.issues,
+          })
+          setActiveChildStars(0)
+          return
+        }
 
-      setActiveChildStars(parsed.data.totalStars)
-    })
+        setActiveChildStars(parsed.data.totalStars)
+      },
+      (error) => {
+        console.error('Failed to subscribe to child star balance', error)
+        setActiveChildStars(0)
+      }
+    )
 
     return unsubscribe
   }, [user, activeChildId])
@@ -141,7 +158,7 @@ export function useRewards() {
   }
 
   // ── Create ──
-  const createReward = async () => {
+  const createStandardReward = async () => {
     if (!user) return
     await addDoc(collection(db, 'users', user.uid, 'rewards'), {
       title: '',
@@ -151,10 +168,18 @@ export function useRewards() {
     })
   }
 
+  const createYoshiReward = async () => {
+    if (!user) return
+    await addDoc(collection(db, 'users', user.uid, 'rewards'), {
+      ...HATCHIN_YOSHI_REWARD,
+      createdAt: serverTimestamp(),
+    })
+  }
+
   // ── Give (redeem) reward ──
   const giveReward = async (reward: RewardRecord) => {
     if (!user || !activeChildId) {
-      throw new Error('Please select a child from the dashboard first.')
+      throw new Error('Please select a child from the chores tab first.')
     }
 
     await redeemReward({
@@ -183,7 +208,8 @@ export function useRewards() {
     setTitleDraft,
     commitTitle,
     updateRewardField,
-    createReward,
+    createStandardReward,
+    createYoshiReward,
     giveReward,
     deleteReward,
   }

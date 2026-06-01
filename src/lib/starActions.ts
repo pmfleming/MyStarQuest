@@ -53,15 +53,23 @@ export const completeTodoAndAwardStars = async (options: {
   childId: string
   todoId: string
   delta: number
+  todoCollection?: string
   updates?: Record<string, unknown>
 }) => {
-  const { userId, childId, todoId, delta, updates } = options
+  const {
+    userId,
+    childId,
+    todoId,
+    delta,
+    todoCollection = 'todos',
+    updates,
+  } = options
   if (!userId || !childId || !todoId || !Number.isFinite(delta)) {
     throw new Error('Invalid todo completion request')
   }
 
   const childRef = doc(db, 'users', userId, 'children', childId)
-  const todoRef = doc(db, 'users', userId, 'todos', todoId)
+  const todoRef = doc(db, 'users', userId, todoCollection, todoId)
   const starEventsCollection = collection(db, 'users', userId, 'starEvents')
   const newEventRef = doc(starEventsCollection)
 

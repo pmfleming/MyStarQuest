@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, type CSSProperties, type ReactNode } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import StepperButton from './ui/StepperButton'
-import StarDisplay from './ui/StarDisplay'
 import ChoreOutcomeView from './ChoreOutcomeView'
 import { uiTokens } from '../tokens'
-import { BITE_COOLDOWN_SECONDS } from '../data/types'
-import { celebrateSuccess } from '../lib/celebrate'
+import { useDinnerCountdownState } from '../hooks/useDinnerCountdownState'
+import { StarRewardControl } from './ui/ActivityControls'
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -91,11 +90,71 @@ function slicePath(i: number, n: number, c: number, r: number): string {
   return `M ${c} ${c} L ${s.x} ${s.y} A ${r} ${r} 0 ${lg} 0 ${e.x} ${e.y} Z`
 }
 
+type CountdownControlRowProps = {
+  children: ReactNode
+  style?: CSSProperties
+}
+
+const CountdownControlRow = ({ children, style }: CountdownControlRowProps) => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: `${CONTROL_ROW_WIDTH}px`,
+      maxWidth: '100%',
+      position: 'relative',
+      zIndex: 1,
+      ...style,
+    }}
+  >
+    {children}
+  </div>
+)
+
+type CountdownStepperControlProps = {
+  theme: Theme
+  direction: 'prev' | 'next'
+  onClick: () => void
+  disabled: boolean
+  ariaLabel: string
+  visible: boolean
+  isSetup: boolean
+}
+
+const CountdownStepperControl = ({
+  theme,
+  direction,
+  onClick,
+  disabled,
+  ariaLabel,
+  visible,
+  isSetup,
+}: CountdownStepperControlProps) => (
+  <div
+    style={{
+      opacity: visible ? 1 : 0,
+      pointerEvents: isSetup ? 'auto' : 'none',
+      transition: 'opacity 0.3s',
+      position: 'relative',
+      zIndex: 3,
+    }}
+  >
+    <StepperButton
+      theme={theme}
+      direction={direction}
+      onClick={onClick}
+      disabled={disabled}
+      ariaLabel={ariaLabel}
+    />
+  </div>
+)
+
 /* ------------------------------------------------------------------ */
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-interface DinnerCountdownProps {
+export interface DinnerCountdownProps {
   theme: Theme
   duration: number
   remaining: number
@@ -156,87 +215,34 @@ const DinnerCountdown = ({
   showSetupControls = true,
   showStarReward = true,
 }: DinnerCountdownProps) => {
-  /* --- local visual tick for smooth animations --- */
-  const [, setTick] = useState(0)
-  const now = Date.now()
-
-  useEffect(() => {
-    // Only tick if the timer is running or a cooldown is active
-    const needsTick =
-      isTimerRunning || (biteCooldownEndsAt && biteCooldownEndsAt > Date.now())
-    if (!needsTick) return
-
-    const interval = window.setInterval(() => setTick((t) => t + 1), 100)
-    return () => window.clearInterval(interval)
-  }, [isTimerRunning, biteCooldownEndsAt])
-
-  /* --- live display values --- */
-  // remaining is the "frozen" seconds from the last sync; we subtract elapsed ms
-  const liveRemainingFloat =
-    isTimerRunning && timerStartedAt
-      ? Math.max(0, remaining - (now - timerStartedAt) / 1000)
-      : remaining
-  const liveRemaining = Math.floor(liveRemainingFloat)
-
-  const liveCooldown = biteCooldownEndsAt
-    ? Math.max(0, (biteCooldownEndsAt - now) / 1000)
-    : 0
-  const totalCooldownSeconds = biteCooldownSeconds || BITE_COOLDOWN_SECONDS
-
-  /* --- derived game phase --- */
-  const isCoolingDown = liveCooldown > 0
-  const isSuccess = isCompleted && bitesLeft <= 0 && !isCoolingDown
-  const isTimeout = liveRemaining <= 0 && bitesLeft > 0
-  const isFinished = isSuccess || isTimeout
-  const isSetup = !isTimerRunning && !isFinished && !isCoolingDown
+  const {
+    animSlice,
+    biteVis,
+    isSetup,
+    isSuccess,
+    isTimeout,
+    isFinished,
+    liveRemaining,
+    liveRemainingFloat,
+    liveCooldown,
+    totalCooldownSeconds,
+    secRot,
+  } = useDinnerCountdownState({
+    remaining,
+    bitesLeft,
+    isTimerRunning,
+    isCompleted,
+    biteCooldownSeconds,
+    biteCooldownEndsAt,
+    timerStartedAt,
+    onExpire,
+  })
   const showSideControls = showSetupControls && !isFinished
-
-  /* --- trigger celebration on success transition --- */
-  useEffect(() => {
-    if (isSuccess) {
-      celebrateSuccess()
-    }
-  }, [isSuccess])
-
-  /* --- trigger expiration on timeout transition --- */
-  useEffect(() => {
-    if (isTimeout) {
-      onExpire?.()
-    }
-  }, [isTimeout, onExpire])
-
-  /* --- bite animation tracking --- */
-  const [animSlice, setAnimSlice] = useState<number | null>(null)
-  const [biteVis, setBiteVis] = useState(false)
-  const prevBites = useRef(bitesLeft)
 
   /* --- clock display mode: 'minsec' = m:ss, 'seconds' = total seconds --- */
   const [clockDisplayMode, setClockDisplayMode] = useState<
     'minsec' | 'seconds'
   >('minsec')
-
-  useEffect(() => {
-    if (bitesLeft < prevBites.current) {
-      setAnimSlice(bitesLeft)
-      setBiteVis(false)
-      const t1 = setTimeout(() => setBiteVis(true), 20)
-      const t2 = setTimeout(() => setAnimSlice(null), 800)
-      prevBites.current = bitesLeft
-      return () => {
-        clearTimeout(t1)
-        clearTimeout(t2)
-      }
-    }
-    prevBites.current = bitesLeft
-  }, [bitesLeft])
-
-  /* --- second hand (mechanical tick every 2 s) --- */
-  const secRot = (() => {
-    if (!isTimerRunning || liveRemaining <= 0) return 0
-    let s = liveRemaining % 60
-    if (s === 0) s = 60
-    return ((Math.ceil(s / 2) * 2) / 60) * 180
-  })()
 
   /* --- clock minute markers: fixed at 5/10/15/20/25 against 30-min max --- */
   const maxMins = MAX_DURATION / 60 // always 30
@@ -278,34 +284,16 @@ const DinnerCountdown = ({
       ) : (
         <>
           {/* ---- CLOCK ROW ---- */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: `${CONTROL_ROW_WIDTH}px`,
-              maxWidth: '100%',
-              position: 'relative',
-              zIndex: 1,
-            }}
-          >
-            <div
-              style={{
-                opacity: showSideControls ? 1 : 0,
-                pointerEvents: isSetup ? 'auto' : 'none',
-                transition: 'opacity 0.3s',
-                position: 'relative',
-                zIndex: 3,
-              }}
-            >
-              <StepperButton
-                theme={theme}
-                direction="prev"
-                onClick={() => onAdjustTime(-TIME_STEP)}
-                disabled={!isSetup || duration <= MIN_DURATION}
-                ariaLabel="Decrease timer by 5 minutes"
-              />
-            </div>
+          <CountdownControlRow>
+            <CountdownStepperControl
+              theme={theme}
+              direction="prev"
+              onClick={() => onAdjustTime(-TIME_STEP)}
+              disabled={!isSetup || duration <= MIN_DURATION}
+              ariaLabel="Decrease timer by 5 minutes"
+              visible={showSideControls}
+              isSetup={isSetup}
+            />
 
             <svg
               width="200"
@@ -425,56 +413,33 @@ const DinnerCountdown = ({
               })()}
             </svg>
 
-            <div
-              style={{
-                opacity: showSideControls ? 1 : 0,
-                pointerEvents: isSetup ? 'auto' : 'none',
-                transition: 'opacity 0.3s',
-                position: 'relative',
-                zIndex: 3,
-              }}
-            >
-              <StepperButton
-                theme={theme}
-                direction="next"
-                onClick={() => onAdjustTime(TIME_STEP)}
-                disabled={!isSetup || duration >= MAX_DURATION}
-                ariaLabel="Increase timer by 5 minutes"
-              />
-            </div>
-          </div>
+            <CountdownStepperControl
+              theme={theme}
+              direction="next"
+              onClick={() => onAdjustTime(TIME_STEP)}
+              disabled={!isSetup || duration >= MAX_DURATION}
+              ariaLabel="Increase timer by 5 minutes"
+              visible={showSideControls}
+              isSetup={isSetup}
+            />
+          </CountdownControlRow>
 
           {/* ---- PLATE ROW ---- */}
-          <div
+          <CountdownControlRow
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: `${CONTROL_ROW_WIDTH}px`,
-              maxWidth: '100%',
               marginTop: `${PLATE_VERTICAL_OVERFLOW}px`,
               marginBottom: `${PLATE_VERTICAL_OVERFLOW}px`,
-              position: 'relative',
-              zIndex: 1,
             }}
           >
-            <div
-              style={{
-                opacity: showSideControls ? 1 : 0,
-                pointerEvents: isSetup ? 'auto' : 'none',
-                transition: 'opacity 0.3s',
-                position: 'relative',
-                zIndex: 3,
-              }}
-            >
-              <StepperButton
-                theme={theme}
-                direction="prev"
-                onClick={() => onAdjustBites(-1)}
-                disabled={!isSetup || totalBites <= MIN_BITES}
-                ariaLabel="Decrease bites"
-              />
-            </div>
+            <CountdownStepperControl
+              theme={theme}
+              direction="prev"
+              onClick={() => onAdjustBites(-1)}
+              disabled={!isSetup || totalBites <= MIN_BITES}
+              ariaLabel="Decrease bites"
+              visible={showSideControls}
+              isSetup={isSetup}
+            />
 
             <div style={{ position: 'relative', margin: '0 6px' }}>
               <svg
@@ -677,46 +642,24 @@ const DinnerCountdown = ({
                 })()}
             </div>
 
-            <div
-              style={{
-                opacity: showSideControls ? 1 : 0,
-                pointerEvents: isSetup ? 'auto' : 'none',
-                transition: 'opacity 0.3s',
-                position: 'relative',
-                zIndex: 3,
-              }}
-            >
-              <StepperButton
-                theme={theme}
-                direction="next"
-                onClick={() => onAdjustBites(1)}
-                disabled={!isSetup || totalBites >= MAX_BITES}
-                ariaLabel="Increase bites"
-              />
-            </div>
-          </div>
+            <CountdownStepperControl
+              theme={theme}
+              direction="next"
+              onClick={() => onAdjustBites(1)}
+              disabled={!isSetup || totalBites >= MAX_BITES}
+              ariaLabel="Increase bites"
+              visible={showSideControls}
+              isSetup={isSetup}
+            />
+          </CountdownControlRow>
 
           {/* ---- STAR REWARD (editable, setup only) ---- */}
           {showStarReward && isSetup && (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 0,
-                width: `${CONTROL_ROW_WIDTH}px`,
-                maxWidth: '100%',
-              }}
-            >
-              <StarDisplay
-                theme={theme}
-                count={starReward}
-                editable
-                onChange={(value) => onStarsChange(value)}
-                min={1}
-                max={3}
-              />
-            </div>
+            <StarRewardControl
+              theme={theme}
+              starReward={starReward}
+              onStarsChange={onStarsChange}
+            />
           )}
         </>
       )}

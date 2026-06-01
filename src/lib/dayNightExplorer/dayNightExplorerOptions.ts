@@ -13,7 +13,6 @@ export type ExplorerFocusId =
   | 'dublin'
   | 'taipei'
 export type ExplorerCityId = Exclude<ExplorerFocusId, 'sun' | 'earth'>
-export type ExplorerRenderMode = 'rotating-earth' | 'moving-terminator'
 export type ExplorerDisplayMode = 'earth-focus' | 'solar-focus'
 
 export type ExplorerFocusOption = {
@@ -96,16 +95,4 @@ export const getExplorerCityOption = (cityId: ExplorerCityId) => {
   }
 
   return cityOption
-}
-
-export const getExplorerFocusOption = (focusId: ExplorerFocusId) => {
-  const focusOption = EXPLORER_FOCUS_OPTIONS.find(
-    (option) => option.id === focusId
-  )
-
-  if (!focusOption) {
-    throw new Error(`Unknown explorer focus: ${focusId}`)
-  }
-
-  return focusOption
 }
