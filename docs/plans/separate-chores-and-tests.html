@@ -21,8 +21,13 @@
         background: #ffffff;
         color: var(--ink);
         font-family:
-          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", sans-serif;
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif;
         line-height: 1.55;
       }
 
@@ -75,7 +80,7 @@
         border-radius: 5px;
         background: var(--soft);
         font-family:
-          "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+          'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
         font-size: 0.92em;
       }
 
@@ -208,8 +213,7 @@
         </table>
         <p>
           The shared behavior is concentrated in
-          <code>src/data/useChores.ts</code>,
-          <code>src/data/types.ts</code>,
+          <code>src/data/useChores.ts</code>, <code>src/data/types.ts</code>,
           <code>src/lib/choreParser.ts</code>,
           <code>src/ui/unifiedChoreDescriptors.tsx</code>, and the scheduled
           Firebase functions in <code>functions/src/index.ts</code>.
@@ -222,8 +226,14 @@
           The bottom navigation should become four tabs. The clean target is:
         </p>
         <ul>
-          <li><span class="tag">Chores</span> today's chore list and chore management entry point.</li>
-          <li><span class="tag">Tests</span> today's test list and test management entry point.</li>
+          <li>
+            <span class="tag">Chores</span> today's chore list and chore
+            management entry point.
+          </li>
+          <li>
+            <span class="tag">Tests</span> today's test list and test management
+            entry point.
+          </li>
           <li><span class="tag">Rewards</span> existing rewards tab.</li>
           <li><span class="tag">Time</span> existing time explorer tab.</li>
         </ul>
@@ -244,8 +254,8 @@
         <h2>Target Firestore Model</h2>
         <p>
           Use separate collections for templates and daily instances. This
-          avoids a cosmetic split where tests are still mixed with chores in
-          the database.
+          avoids a cosmetic split where tests are still mixed with chores in the
+          database.
         </p>
         <table>
           <thead>
@@ -283,12 +293,14 @@
             </tr>
           </tbody>
         </table>
-        <p>
-          Suggested type split:
-        </p>
+        <p>Suggested type split:</p>
         <ul>
-          <li><code>ChoreType = "standard" | "eating" | "watertoiletcheck"</code></li>
-          <li><code>TestType = "math" | "positional-notation" | "alphabet"</code></li>
+          <li>
+            <code>ChoreType = "standard" | "eating" | "watertoiletcheck"</code>
+          </li>
+          <li>
+            <code>TestType = "math" | "positional-notation" | "alphabet"</code>
+          </li>
         </ul>
         <p>
           Keep shared fields such as <code>title</code>, <code>childId</code>,
@@ -402,8 +414,8 @@
         <ol>
           <li>
             In <code>functions/src/index.ts</code>, update
-            <code>generateDailyTodos</code> to read both
-            <code>chores</code> and <code>tests</code>.
+            <code>generateDailyTodos</code> to read both <code>chores</code> and
+            <code>tests</code>.
           </li>
           <li>
             Write chore instances to <code>choreTodos</code> and test instances
@@ -440,16 +452,14 @@
             back to old <code>tasks</code>/<code>todos</code> if the new
             collections are empty.
           </li>
-          <li>
-            Run a one-off Firebase Admin migration script:
-          </li>
+          <li>Run a one-off Firebase Admin migration script:</li>
         </ol>
         <ul>
           <li>
-            Copy old <code>tasks</code> with type
-            <code>math</code>, <code>positional-notation</code>, or
-            <code>alphabet</code> to <code>tests</code> using the same document
-            id and a new <code>testType</code> field.
+            Copy old <code>tasks</code> with type <code>math</code>,
+            <code>positional-notation</code>, or <code>alphabet</code> to
+            <code>tests</code> using the same document id and a new
+            <code>testType</code> field.
           </li>
           <li>
             Copy all other non-legacy old <code>tasks</code> to
@@ -458,8 +468,8 @@
           </li>
           <li>
             Copy old <code>todos</code> with test source types to
-            <code>testTodos</code>, preserving completion state, source id,
-            date key, and outcome fields.
+            <code>testTodos</code>, preserving completion state, source id, date
+            key, and outcome fields.
           </li>
           <li>
             Copy old <code>todos</code> with chore source types to
@@ -491,7 +501,8 @@
         <h2>Testing Plan</h2>
         <ul>
           <li>
-            Update parser tests in <code>tests/unit/lib/choreParser.test.ts</code>
+            Update parser tests in
+            <code>tests/unit/lib/choreParser.test.ts</code>
             to cover new chore and test schemas separately.
           </li>
           <li>
@@ -508,9 +519,9 @@
             that <code>/tabs/tests</code> renders the test list.
           </li>
           <li>
-            Add cloud-function helper tests for mapping chore templates to
-            chore todos and test templates to test todos. If function tests are
-            too heavy, extract pure mapper functions and unit-test those.
+            Add cloud-function helper tests for mapping chore templates to chore
+            todos and test templates to test todos. If function tests are too
+            heavy, extract pure mapper functions and unit-test those.
           </li>
           <li>
             Run <code>npm run lint</code>, <code>npm run test</code>, and the
@@ -522,12 +533,21 @@
       <section>
         <h2>Recommended Order of Work</h2>
         <ol>
-          <li>Create the new type model and parsers behind compatibility helpers.</li>
+          <li>
+            Create the new type model and parsers behind compatibility helpers.
+          </li>
           <li>Split the hooks into chore and test data flows.</li>
-          <li>Add the fourth tab and the tests page while keeping old routes redirecting.</li>
+          <li>
+            Add the fourth tab and the tests page while keeping old routes
+            redirecting.
+          </li>
           <li>Update cloud functions and Firestore rules.</li>
-          <li>Add and run migration tooling against a backup or emulator first.</li>
-          <li>Remove old mixed collection reads after production data is verified.</li>
+          <li>
+            Add and run migration tooling against a backup or emulator first.
+          </li>
+          <li>
+            Remove old mixed collection reads after production data is verified.
+          </li>
         </ol>
       </section>
     </main>
