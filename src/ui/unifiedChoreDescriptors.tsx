@@ -175,9 +175,13 @@ const incrementCheckTrigger = (
     math: deps.setMathCheckTriggers,
     'positional-notation': deps.setPVCheckTriggers,
     alphabet: deps.setAlphabetCheckTriggers,
+    spelling: deps.setSpellingCheckTriggers,
   }
   const setter =
-    type === 'math' || type === 'positional-notation' || type === 'alphabet'
+    type === 'math' ||
+    type === 'positional-notation' ||
+    type === 'alphabet' ||
+    type === 'spelling'
       ? setters[type]
       : undefined
 

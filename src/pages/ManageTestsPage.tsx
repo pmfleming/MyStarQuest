@@ -13,12 +13,13 @@ import { BITE_COOLDOWN_SECONDS, isTestWithEphemeral } from '../data/types'
 import { useTaskActivityState } from '../hooks/useTaskActivityState'
 import { getPrincessTaskTypeIcon } from '../ui/taskTypeIcons'
 
-type TestChoiceKey = 'math' | 'pv' | 'alphabet'
+type TestChoiceKey = 'math' | 'pv' | 'alphabet' | 'spelling'
 
 const testChoices: Array<[TestChoiceKey, string, string]> = [
   ['math', 'Arithmetic', getPrincessTaskTypeIcon('math')],
   ['pv', 'Positional Notation', getPrincessTaskTypeIcon('positional-notation')],
   ['alphabet', 'Alphabet Match', getPrincessTaskTypeIcon('alphabet')],
+  ['spelling', 'Spelling', getPrincessTaskTypeIcon('spelling')],
 ]
 
 const ManageTestsPage = () => {
@@ -35,6 +36,7 @@ const ManageTestsPage = () => {
     createMathTest,
     createPVTest,
     createAlphabetTest,
+    createSpellingTest,
     completeTest,
     failTest,
     resetTest,
@@ -49,6 +51,9 @@ const ManageTestsPage = () => {
     Record<string, number>
   >({})
   const [alphabetCheckTriggers, setAlphabetCheckTriggers] = useState<
+    Record<string, number>
+  >({})
+  const [spellingCheckTriggers, setSpellingCheckTriggers] = useState<
     Record<string, number>
   >({})
   const [showAddChooser, setShowAddChooser] = useState(false)
@@ -81,14 +86,17 @@ const ManageTestsPage = () => {
     activeMathId: activity.activeMathId,
     activePVId: activity.activePVId,
     activeAlphabetId: activity.activeAlphabetId,
+    activeSpellingId: activity.activeSpellingId,
     activeDinnerId: null,
     activeWaterToiletId: null,
     mathCheckTriggers,
     pvCheckTriggers,
     alphabetCheckTriggers,
+    spellingCheckTriggers,
     setMathCheckTriggers,
     setPVCheckTriggers,
     setAlphabetCheckTriggers,
+    setSpellingCheckTriggers,
     biteCooldownSeconds: BITE_COOLDOWN_SECONDS,
     renderDayTypeControl: (task) => (
       <ScheduleDayTypeControl
@@ -136,6 +144,7 @@ const ManageTestsPage = () => {
                         math: createMathTest,
                         pv: createPVTest,
                         alphabet: createAlphabetTest,
+                        spelling: createSpellingTest,
                       }
                       createByKey[key]()
                       setShowAddChooser(false)

@@ -32,6 +32,7 @@ const todoUpdatableFieldKeys: Array<keyof TodoUpdatableFields> = [
   'mathLastOutcome',
   'pvLastOutcome',
   'alphabetLastOutcome',
+  'spellingLastOutcome',
   'waterLevel',
   'toiletStatus',
 ]
@@ -41,6 +42,7 @@ const testOutcomeFieldByType: Partial<
 > = {
   math: 'mathLastOutcome',
   alphabet: 'alphabetLastOutcome',
+  spelling: 'spellingLastOutcome',
   'positional-notation': 'pvLastOutcome',
 }
 
@@ -59,6 +61,10 @@ const manageOutcomePatchByType: Partial<
   alphabet: {
     completedAt: 'manageAlphabetCompletedAt',
     outcome: 'manageAlphabetLastOutcome',
+  },
+  spelling: {
+    completedAt: 'manageSpellingCompletedAt',
+    outcome: 'manageSpellingLastOutcome',
   },
   'positional-notation': {
     completedAt: 'managePVCompletedAt',
@@ -188,6 +194,12 @@ export const mergeTaskEphemeral = (
         manageAlphabetCompletedAt: state.manageAlphabetCompletedAt,
         manageAlphabetLastOutcome: state.manageAlphabetLastOutcome,
       }
+    case 'spelling':
+      return {
+        ...task,
+        manageSpellingCompletedAt: state.manageSpellingCompletedAt,
+        manageSpellingLastOutcome: state.manageSpellingLastOutcome,
+      }
     case 'watertoiletcheck':
       return {
         ...task,
@@ -264,12 +276,14 @@ export const getChoreLastActive = (state: TaskEphemeralState) =>
   state.manageMathCompletedAt ||
   state.managePVCompletedAt ||
   state.manageAlphabetCompletedAt ||
+  state.manageSpellingCompletedAt ||
   state.manageWaterToiletCompletedAt
 
 export const getTestLastActive = (state: TaskEphemeralState) =>
   state.manageMathCompletedAt ||
   state.managePVCompletedAt ||
-  state.manageAlphabetCompletedAt
+  state.manageAlphabetCompletedAt ||
+  state.manageSpellingCompletedAt
 
 export const testTodoOutcomePatch = (
   taskType: TaskType,

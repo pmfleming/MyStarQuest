@@ -9,6 +9,8 @@ import {
   DEFAULT_MATH_STARS,
   DEFAULT_PV_PROBLEMS,
   DEFAULT_PV_STARS,
+  DEFAULT_SPELLING_PROBLEMS,
+  DEFAULT_SPELLING_STARS,
   DEFAULT_TOILET_STATUS,
   DEFAULT_WATER_LEVEL,
   DEFAULT_WATER_TOILET_STARS,
@@ -16,6 +18,7 @@ import {
   isEatingTask,
   isMathTask,
   isPositionalNotationTask,
+  isSpellingTask,
   isWaterToiletTask,
   type ChoreType,
   type ChoreRecord,
@@ -79,9 +82,22 @@ const TEST_TEMPLATES: Record<TestType, TaskTemplate> = {
       alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
     },
   },
+  spelling: {
+    title: 'Spelling',
+    category: 'spelling',
+    starValue: DEFAULT_SPELLING_STARS,
+    extras: {
+      spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
+    },
+  },
 }
 
-const TEST_TYPES: TestType[] = ['math', 'positional-notation', 'alphabet']
+const TEST_TYPES: TestType[] = [
+  'math',
+  'positional-notation',
+  'alphabet',
+  'spelling',
+]
 
 const buildBaseTaskDocument = (
   childId: string,
@@ -172,6 +188,12 @@ const buildDefaultTest = (
         taskType: 'alphabet',
         alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
       }
+    case 'spelling':
+      return {
+        ...base,
+        taskType: 'spelling',
+        spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
+      }
   }
 }
 
@@ -238,6 +260,13 @@ const taskSpecificTodoFields = (task: TaskRecord): Record<string, unknown> => {
     return {
       alphabetTotalProblems: task.alphabetTotalProblems,
       alphabetLastOutcome: null,
+    }
+  }
+
+  if (isSpellingTask(task)) {
+    return {
+      spellingTotalProblems: task.spellingTotalProblems,
+      spellingLastOutcome: null,
     }
   }
 

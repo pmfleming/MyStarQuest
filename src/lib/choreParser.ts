@@ -4,6 +4,7 @@ import {
   DEFAULT_DINNER_DURATION_SECONDS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
+  DEFAULT_SPELLING_PROBLEMS,
   DEFAULT_TOILET_STATUS,
   DEFAULT_WATER_LEVEL,
   firestoreTimestampLikeSchema,
@@ -80,12 +81,14 @@ export function parseTaskSnapshot(
         ? 'math'
         : taskData.taskType === 'alphabet' || taskData.category === 'alphabet'
           ? 'alphabet'
-          : taskData.taskType === 'watertoiletcheck' ||
-              taskData.category === 'watertoiletcheck'
-            ? 'watertoiletcheck'
-            : taskData.taskType === 'eating' || taskData.category === 'eating'
-              ? 'eating'
-              : 'standard'
+          : taskData.taskType === 'spelling' || taskData.category === 'spelling'
+            ? 'spelling'
+            : taskData.taskType === 'watertoiletcheck' ||
+                taskData.category === 'watertoiletcheck'
+              ? 'watertoiletcheck'
+              : taskData.taskType === 'eating' || taskData.category === 'eating'
+                ? 'eating'
+                : 'standard'
 
   const base = {
     id,
@@ -123,6 +126,13 @@ export function parseTaskSnapshot(
         taskType: 'alphabet',
         alphabetTotalProblems:
           taskData.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
+      }
+    case 'spelling':
+      return {
+        ...base,
+        taskType: 'spelling',
+        spellingTotalProblems:
+          taskData.spellingTotalProblems ?? DEFAULT_SPELLING_PROBLEMS,
       }
     case 'positional-notation':
       return {
@@ -180,6 +190,7 @@ export function parseTodoSnapshot(
     todoData.sourceTaskType === 'positional-notation' ||
     todoData.sourceTaskType === 'math' ||
     todoData.sourceTaskType === 'alphabet' ||
+    todoData.sourceTaskType === 'spelling' ||
     todoData.sourceTaskType === 'watertoiletcheck' ||
     todoData.sourceTaskType === 'eating'
       ? todoData.sourceTaskType
@@ -231,6 +242,14 @@ export function parseTodoSnapshot(
         alphabetTotalProblems:
           todoData.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
         alphabetLastOutcome: todoData.alphabetLastOutcome,
+      }
+    case 'spelling':
+      return {
+        ...base,
+        sourceTaskType: 'spelling',
+        spellingTotalProblems:
+          todoData.spellingTotalProblems ?? DEFAULT_SPELLING_PROBLEMS,
+        spellingLastOutcome: todoData.spellingLastOutcome,
       }
     case 'positional-notation':
       return {

@@ -34,12 +34,16 @@ const TestsPage = () => {
   const [alphabetCheckTriggers, setAlphabetCheckTriggers] = useState<
     Record<string, number>
   >({})
+  const [spellingCheckTriggers, setSpellingCheckTriggers] = useState<
+    Record<string, number>
+  >({})
 
   useEffect(() => {
     clearActivityIds()
     setMathCheckTriggers({})
     setPVCheckTriggers({})
     setAlphabetCheckTriggers({})
+    setSpellingCheckTriggers({})
   }, [activeChildId, clearActivityIds, todayInfo.dateKey])
 
   const descriptor = createUnifiedChoreDescriptor({
@@ -64,14 +68,17 @@ const TestsPage = () => {
     activeMathId: activity.activeMathId,
     activePVId: activity.activePVId,
     activeAlphabetId: activity.activeAlphabetId,
+    activeSpellingId: activity.activeSpellingId,
     activeDinnerId: null,
     activeWaterToiletId: null,
     mathCheckTriggers,
     pvCheckTriggers,
     alphabetCheckTriggers,
+    spellingCheckTriggers,
     setMathCheckTriggers,
     setPVCheckTriggers,
     setAlphabetCheckTriggers,
+    setSpellingCheckTriggers,
     biteCooldownSeconds: BITE_COOLDOWN_SECONDS,
     hideDeleteUtility: true,
   })

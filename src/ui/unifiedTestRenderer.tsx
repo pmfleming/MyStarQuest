@@ -2,18 +2,23 @@ import {
   DEFAULT_ALPHABET_PROBLEMS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
+  DEFAULT_SPELLING_PROBLEMS,
   isAlphabetTask,
   isAlphabetTodo,
   isMathTask,
   isMathTodo,
   isPositionalNotationTask,
   isPositionalNotationTodo,
+  isSpellingTask,
+  isSpellingTodo,
   type AlphabetTaskWithEphemeral,
   type AlphabetTodo,
   type MathTaskWithEphemeral,
   type MathTodo,
   type PVTaskWithEphemeral,
   type PositionalNotationTodo,
+  type SpellingTaskWithEphemeral,
+  type SpellingTodo,
   type TaskOutcome,
 } from '../data/types'
 import type { ChoreStage } from './choreModeDefinitions'
@@ -21,6 +26,7 @@ import {
   renderAlphabetChore,
   renderArithmeticChore,
   renderPositionalNotationChore,
+  renderSpellingChore,
 } from './presetChoreRenderers'
 import type {
   UnifiedChoreDeps,
@@ -29,7 +35,7 @@ import type {
 import { isTaskItem, type UnifiedChoreState } from './unifiedChoreState'
 import { clamp, noop } from './unifiedChoreRenderUtils'
 
-type TestVariant = 'math' | 'pv' | 'alphabet'
+type TestVariant = 'math' | 'pv' | 'alphabet' | 'spelling'
 type TestOutcome = TaskOutcome | null
 
 export const renderTestContent = (
@@ -42,6 +48,7 @@ export const renderTestContent = (
     if (isMathTask(item)) return renderMathTask(deps, state, item)
     if (isPositionalNotationTask(item)) return renderPVTask(deps, state, item)
     if (isAlphabetTask(item)) return renderAlphabetTask(deps, state, item)
+    if (isSpellingTask(item)) return renderSpellingTask(deps, state, item)
     return null
   }
 
@@ -49,6 +56,7 @@ export const renderTestContent = (
   if (isMathTodo(item)) return renderMathTodo(deps, state, item)
   if (isPositionalNotationTodo(item)) return renderPVTodo(deps, state, item)
   if (isAlphabetTodo(item)) return renderAlphabetTodo(deps, state, item)
+  if (isSpellingTodo(item)) return renderSpellingTodo(deps, state, item)
   return null
 }
 
@@ -100,6 +108,21 @@ const renderAlphabetTask = (
       updateAlphabetProblems(deps, item, item.alphabetTotalProblems, delta),
   })
 
+const renderSpellingTask = (
+  deps: UnifiedChoreDeps,
+  state: UnifiedChoreState,
+  item: SpellingTaskWithEphemeral
+) =>
+  renderSpellingChore({
+    theme: deps.theme,
+    totalProblems: item.spellingTotalProblems ?? DEFAULT_SPELLING_PROBLEMS,
+    ...createTaskActivityProps(deps, state, item, 'spelling'),
+    isCompleted: Boolean(item.manageSpellingCompletedAt),
+    isFailed: item.manageSpellingLastOutcome === 'failure',
+    onAdjustProblems: (delta) =>
+      updateSpellingProblems(deps, item, item.spellingTotalProblems, delta),
+  })
+
 const renderMathTodo = (
   deps: UnifiedChoreDeps,
   state: UnifiedChoreState,
@@ -146,10 +169,33 @@ const renderAlphabetTodo = (
     onAdjustProblems: noop,
   })
 
+const renderSpellingTodo = (
+  deps: UnifiedChoreDeps,
+  state: UnifiedChoreState,
+  item: SpellingTodo
+) =>
+  renderSpellingChore({
+    theme: deps.theme,
+    totalProblems: item.spellingTotalProblems ?? DEFAULT_SPELLING_PROBLEMS,
+    ...createTodoActivityProps(
+      deps,
+      state,
+      item,
+      'spelling',
+      item.spellingLastOutcome
+    ),
+    isCompleted: Boolean(item.completedAt),
+    onAdjustProblems: noop,
+  })
+
 const createTaskActivityProps = (
   deps: UnifiedChoreDeps,
   state: UnifiedChoreState,
-  item: MathTaskWithEphemeral | PVTaskWithEphemeral | AlphabetTaskWithEphemeral,
+  item:
+    | MathTaskWithEphemeral
+    | PVTaskWithEphemeral
+    | AlphabetTaskWithEphemeral
+    | SpellingTaskWithEphemeral,
   variant: TestVariant
 ) => ({
   starReward: item.starValue,
@@ -165,7 +211,7 @@ const createTaskActivityProps = (
 const createTodoActivityProps = (
   deps: UnifiedChoreDeps,
   state: UnifiedChoreState,
-  item: MathTodo | PositionalNotationTodo | AlphabetTodo,
+  item: MathTodo | PositionalNotationTodo | AlphabetTodo | SpellingTodo,
   variant: TestVariant,
   lastOutcome: TestOutcome
 ) => ({
@@ -184,6 +230,7 @@ const getActiveTestId = (deps: UnifiedChoreDeps, variant: TestVariant) => {
     math: deps.activeMathId,
     pv: deps.activePVId,
     alphabet: deps.activeAlphabetId,
+    spelling: deps.activeSpellingId,
   }
   return activeIds[variant]
 }
@@ -197,6 +244,7 @@ const getCheckTrigger = (
     math: deps.mathCheckTriggers,
     pv: deps.pvCheckTriggers,
     alphabet: deps.alphabetCheckTriggers,
+    spelling: deps.spellingCheckTriggers,
   }
   return triggers[variant][id] ?? 0
 }
@@ -230,6 +278,20 @@ const updateAlphabetProblems = (
   deps.onUpdateTaskField?.(item.id, {
     alphabetTotalProblems: clamp(
       (current ?? DEFAULT_ALPHABET_PROBLEMS) + delta,
+      1,
+      10
+    ),
+  })
+
+const updateSpellingProblems = (
+  deps: UnifiedChoreDeps,
+  item: SpellingTaskWithEphemeral,
+  current: number | undefined,
+  delta: number
+) =>
+  deps.onUpdateTaskField?.(item.id, {
+    spellingTotalProblems: clamp(
+      (current ?? DEFAULT_SPELLING_PROBLEMS) + delta,
       1,
       10
     ),

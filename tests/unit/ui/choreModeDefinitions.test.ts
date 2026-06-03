@@ -16,6 +16,7 @@ describe('chore mode definitions', () => {
       'math',
       'positional-notation',
       'alphabet',
+      'spelling',
     ] as const
 
     const matrix = stages.map((stage) => ({
@@ -39,6 +40,7 @@ describe('chore mode definitions', () => {
             "eating": false,
             "math": false,
             "positional-notation": false,
+            "spelling": false,
           },
           "hideStars": false,
           "hideTitle": false,
@@ -51,6 +53,7 @@ describe('chore mode definitions', () => {
             "eating": false,
             "math": false,
             "positional-notation": false,
+            "spelling": true,
           },
           "hideStars": true,
           "hideTitle": true,
@@ -63,6 +66,7 @@ describe('chore mode definitions', () => {
             "eating": true,
             "math": true,
             "positional-notation": true,
+            "spelling": true,
           },
           "hideStars": true,
           "hideTitle": true,

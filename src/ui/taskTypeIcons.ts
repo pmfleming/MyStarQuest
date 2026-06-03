@@ -15,6 +15,7 @@ export const getPrincessTaskTypeIcon = (taskType: TaskType) => {
     case 'math':
     case 'positional-notation':
     case 'alphabet':
+    case 'spelling':
       return princessMathsIcon
     case 'standard':
     default:

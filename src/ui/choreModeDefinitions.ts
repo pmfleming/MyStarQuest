@@ -6,6 +6,7 @@ export type ChoreModeType =
   | 'math'
   | 'positional-notation'
   | 'alphabet'
+  | 'spelling'
   | 'watertoiletcheck'
 
 type PresetChoreModeDefinition = {
@@ -26,6 +27,9 @@ const presetChoreModeDefinitions: Record<
     hidePrimaryButtonInChore: false,
   },
   alphabet: {
+    hidePrimaryButtonInChore: true,
+  },
+  spelling: {
     hidePrimaryButtonInChore: true,
   },
   watertoiletcheck: {

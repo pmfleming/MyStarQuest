@@ -8,7 +8,7 @@ import {
   princessBuyRewardIcon,
   princessSelectIcon,
 } from '../assets/themes/princess/assets'
-import { getRewardImage } from '../assets/rewards/assets'
+import { rewardImageOptions } from '../assets/rewards/assets'
 import type { ThemeId } from './themeOptions'
 import type { Theme } from '../contexts/ThemeContext'
 import type { ChildProfile, RewardRecord } from '../data/types'
@@ -136,24 +136,31 @@ export const createRewardDefinitionListRowDescriptor = (
   deps: RewardDefinitionDescriptorDeps
 ): ListRowDescriptor<RewardRecord> => ({
   renderItem: (reward) => {
-    const rewardImage = getRewardImage(reward.imageKey)
+    const currentImageKey = reward.imageKey ?? ''
+    const currentImageIndex = Math.max(
+      0,
+      rewardImageOptions.findIndex((option) => option.id === currentImageKey)
+    )
+    const carouselItems = rewardImageOptions.map((option) => ({
+      id: option.id,
+      label: option.label,
+      icon: option.image ? (
+        <img
+          src={option.image}
+          alt=""
+          className="h-full w-full object-contain"
+          aria-hidden="true"
+        />
+      ) : (
+        <span aria-label="No image" />
+      ),
+    }))
 
     return (
       <div
         className="flex flex-col"
         style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
       >
-        {rewardImage && (
-          <div className="flex justify-center">
-            <img
-              src={rewardImage}
-              alt=""
-              className="h-28 w-28 object-contain"
-              aria-hidden="true"
-            />
-          </div>
-        )}
-
         <ActionTextInput
           theme={deps.theme}
           label="Reward"
@@ -166,17 +173,28 @@ export const createRewardDefinitionListRowDescriptor = (
           transparent
         />
 
+        <Carousel
+          key={`${reward.id}-${currentImageKey}`}
+          items={carouselItems}
+          title="Reward image"
+          initialIndex={currentImageIndex}
+          onChange={(index) => {
+            const selected = rewardImageOptions[index]
+            if (!selected || selected.id === currentImageKey) return
+            deps.updateRewardField(reward.id, { imageKey: selected.id })
+          }}
+        />
+
         <StarDisplay
           theme={deps.theme}
           count={reward.costStars}
           editable
           onChange={(value) =>
             deps.updateRewardField(reward.id, {
-              costStars: Math.max(0, Math.min(99, value)),
+              costStars: Math.max(0, value),
             })
           }
           min={0}
-          max={99}
         />
 
         <RepeatControl
@@ -194,20 +212,18 @@ export const createRewardDefinitionListRowDescriptor = (
   },
   getPrimaryAction: (reward) => {
     const hasEnoughStars = deps.activeChildStars >= reward.costStars
-    const usesStandardGrantButton = reward.imageKey === 'yoshiEgg'
 
     return {
       label: hasEnoughStars ? 'Buy Reward' : 'Need Stars',
-      icon:
-        hasEnoughStars || usesStandardGrantButton ? (
-          <img
-            src={princessBuyRewardIcon}
-            alt="Buy Reward"
-            className="h-6 w-6 object-contain"
-          />
-        ) : (
-          '🔒'
-        ),
+      icon: hasEnoughStars ? (
+        <img
+          src={princessBuyRewardIcon}
+          alt="Buy Reward"
+          className="h-6 w-6 object-contain"
+        />
+      ) : (
+        '🔒'
+      ),
       disabled: deps.isRedeeming || !deps.activeChildId || !hasEnoughStars,
       variant: 'primary',
       showLabel: false,

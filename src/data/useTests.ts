@@ -231,6 +231,7 @@ export function useTests() {
   const createMathTest = () => createTest('math')
   const createPVTest = () => createTest('positional-notation')
   const createAlphabetTest = () => createTest('alphabet')
+  const createSpellingTest = () => createTest('spelling')
 
   const addTestTodo = async (test: TestRecord) => {
     if (!user || !activeChildId || testTodoSourceIds.has(test.id)) return
@@ -336,6 +337,7 @@ export function useTests() {
     createMathTest,
     createPVTest,
     createAlphabetTest,
+    createSpellingTest,
     addTestTodo,
     deleteTestTodo,
     deleteTest,

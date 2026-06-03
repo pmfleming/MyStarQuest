@@ -93,6 +93,7 @@ const DEFAULT_DINNER_BITES = 2
 const DEFAULT_MATH_PROBLEMS = 5
 const DEFAULT_PV_PROBLEMS = 5
 const DEFAULT_ALPHABET_PROBLEMS = 5
+const DEFAULT_SPELLING_PROBLEMS = 5
 const DEFAULT_WATER_LEVEL = 'full'
 const DEFAULT_TOILET_STATUS = 'notpeepee'
 
@@ -105,6 +106,7 @@ type ActivityType =
   | 'math'
   | 'positional-notation'
   | 'alphabet'
+  | 'spelling'
 
 const activityCollections: Record<
   ActivityKind,
@@ -141,6 +143,9 @@ const getActivityType = (data: DocumentData): ActivityType => {
   }
   if (explicitType === 'math' || category === 'math') return 'math'
   if (explicitType === 'alphabet' || category === 'alphabet') return 'alphabet'
+  if (explicitType === 'spelling' || category === 'spelling') {
+    return 'spelling'
+  }
   if (explicitType === 'watertoiletcheck' || category === 'watertoiletcheck') {
     return 'watertoiletcheck'
   }
@@ -150,7 +155,10 @@ const getActivityType = (data: DocumentData): ActivityType => {
 
 const isActivityKind = (kind: ActivityKind, type: ActivityType) =>
   kind === 'test'
-    ? type === 'math' || type === 'positional-notation' || type === 'alphabet'
+    ? type === 'math' ||
+      type === 'positional-notation' ||
+      type === 'alphabet' ||
+      type === 'spelling'
     : type === 'standard' || type === 'eating' || type === 'watertoiletcheck'
 
 const getTodoActivityType = (data: DocumentData): ActivityType =>
@@ -292,6 +300,13 @@ const buildDailyActivityPayload = (
         alphabetTotalProblems:
           data.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
         alphabetLastOutcome: null,
+      }
+      break
+    case 'spelling':
+      taskSpecific = {
+        spellingTotalProblems:
+          data.spellingTotalProblems ?? DEFAULT_SPELLING_PROBLEMS,
+        spellingLastOutcome: null,
       }
       break
     case 'positional-notation':

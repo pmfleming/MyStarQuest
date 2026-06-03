@@ -9,11 +9,13 @@ const createBaseDeps = () => ({
   activeMathId: null,
   activePVId: null,
   activeAlphabetId: null,
+  activeSpellingId: null,
   activeDinnerId: null,
   activeWaterToiletId: null,
   mathCheckTriggers: {},
   pvCheckTriggers: {},
   alphabetCheckTriggers: {},
+  spellingCheckTriggers: {},
   biteCooldownSeconds: 15,
 })
 

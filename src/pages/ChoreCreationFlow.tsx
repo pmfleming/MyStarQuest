@@ -177,7 +177,7 @@ const ChoreCreationFlow = ({
             columnGap: `${uiTokens.controlColumnGap}px`,
           }}
         >
-          {typeOptions.map((option, index) => (
+          {typeOptions.map((option) => (
             <IconChoiceButton
               key={option.type}
               theme={theme}
@@ -185,7 +185,6 @@ const ChoreCreationFlow = ({
               ariaLabel={option.label}
               onClick={() => selectType(option.type)}
               disabled={isSaving}
-              selected={index === 0}
             />
           ))}
         </div>

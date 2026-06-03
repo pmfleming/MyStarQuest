@@ -5,6 +5,7 @@ import type { AlphabetTesterProps } from '../components/AlphabetTester'
 import type { ArithmeticTesterProps } from '../components/ArithmeticTester'
 import type { DinnerCountdownProps } from '../components/DinnerCountdown'
 import type { PositionalNotationProps } from '../components/PositionalNotation'
+import type { SpellingTesterProps } from '../components/SpellingTester'
 
 // Lazy load heavy activity components
 const ArithmeticTester = lazy(() => import('../components/ArithmeticTester'))
@@ -16,6 +17,7 @@ const PositionalNotation = lazy(
 const WaterToiletMonitor = lazy(
   () => import('../components/WaterToiletMonitor')
 )
+const SpellingTester = lazy(() => import('../components/SpellingTester'))
 
 const withSuspense = (component: ReactNode) => (
   <Suspense fallback={null}>{component}</Suspense>
@@ -50,6 +52,9 @@ export const renderPositionalNotationChore = (
 
 export const renderAlphabetChore = (props: AlphabetTesterProps): ReactNode =>
   renderLazy(AlphabetTester, props)
+
+export const renderSpellingChore = (props: SpellingTesterProps): ReactNode =>
+  renderLazy(SpellingTester, props)
 
 export const renderWaterToiletChore = ({
   theme,

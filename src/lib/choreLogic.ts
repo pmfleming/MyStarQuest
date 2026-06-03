@@ -68,6 +68,8 @@ export function calculateAwardTaskPatch(
       return { managePVCompletedAt: timestamp }
     case 'alphabet':
       return { manageAlphabetCompletedAt: timestamp }
+    case 'spelling':
+      return { manageSpellingCompletedAt: timestamp }
     case 'watertoiletcheck':
       return { manageWaterToiletCompletedAt: timestamp }
     default:

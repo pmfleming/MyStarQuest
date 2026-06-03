@@ -24,13 +24,6 @@ import {
 } from './types'
 import { mergeMissingTitleDrafts } from './dailyTaskState'
 
-const HATCHIN_YOSHI_REWARD = {
-  title: 'Hatchin Yoshi',
-  costStars: 60,
-  isRepeating: false,
-  imageKey: 'yoshiEgg',
-}
-
 export function useRewards() {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
@@ -164,14 +157,7 @@ export function useRewards() {
       title: '',
       costStars: 0,
       isRepeating: true,
-      createdAt: serverTimestamp(),
-    })
-  }
-
-  const createYoshiReward = async () => {
-    if (!user) return
-    await addDoc(collection(db, 'users', user.uid, 'rewards'), {
-      ...HATCHIN_YOSHI_REWARD,
+      imageKey: '',
       createdAt: serverTimestamp(),
     })
   }
@@ -209,7 +195,6 @@ export function useRewards() {
     commitTitle,
     updateRewardField,
     createStandardReward,
-    createYoshiReward,
     giveReward,
     deleteReward,
   }

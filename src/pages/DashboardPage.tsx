@@ -74,6 +74,9 @@ const DashboardPage = () => {
   const [alphabetCheckTriggers, setAlphabetCheckTriggers] = useState<
     Record<string, number>
   >({})
+  const [spellingCheckTriggers, setSpellingCheckTriggers] = useState<
+    Record<string, number>
+  >({})
 
   const activePrincessMealIcon = getPrincessMealIconForHour(
     new Date().getHours()
@@ -85,6 +88,7 @@ const DashboardPage = () => {
     setMathCheckTriggers({})
     setPVCheckTriggers({})
     setAlphabetCheckTriggers({})
+    setSpellingCheckTriggers({})
   }, [activeChildId, clearActivityIds, todayInfo.dateKey])
 
   useEffect(() => {
@@ -180,14 +184,17 @@ const DashboardPage = () => {
     activeMathId: activity.activeMathId,
     activePVId: activity.activePVId,
     activeAlphabetId: activity.activeAlphabetId,
+    activeSpellingId: activity.activeSpellingId,
     activeDinnerId: activity.activeDinnerId,
     activeWaterToiletId: activity.activeWaterToiletId,
     mathCheckTriggers,
     pvCheckTriggers,
     alphabetCheckTriggers,
+    spellingCheckTriggers,
     setMathCheckTriggers,
     setPVCheckTriggers,
     setAlphabetCheckTriggers,
+    setSpellingCheckTriggers,
     biteCooldownSeconds,
     biteCooldownEndsAt,
     activePrincessMealIcon,

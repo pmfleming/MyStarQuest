@@ -4,6 +4,7 @@ import {
   DEFAULT_DINNER_DURATION_SECONDS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
+  DEFAULT_SPELLING_PROBLEMS,
   DEFAULT_TOILET_STATUS,
   DEFAULT_WATER_LEVEL,
   childSnapshotDataSchema,
@@ -77,6 +78,12 @@ describe('choreParser', () => {
       pvTotalProblems: 'bad',
     })
 
+    const spellingTask = parseTaskSnapshot('task-5', {
+      taskType: 'spelling',
+      childId: 'child-1',
+      spellingTotalProblems: undefined,
+    })
+
     expect(mathTask?.taskType).toBe('math')
     expect(mathTask).toMatchObject({
       mathTotalProblems: 8,
@@ -91,6 +98,11 @@ describe('choreParser', () => {
     expect(pvTask?.taskType).toBe('positional-notation')
     expect(pvTask).toMatchObject({
       pvTotalProblems: DEFAULT_PV_PROBLEMS,
+    })
+
+    expect(spellingTask?.taskType).toBe('spelling')
+    expect(spellingTask).toMatchObject({
+      spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
     })
   })
 
@@ -281,6 +293,7 @@ describe('runtime schemas', () => {
       mathTotalProblems: DEFAULT_MATH_PROBLEMS,
       pvTotalProblems: DEFAULT_PV_PROBLEMS,
       alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
+      spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
     })
 
     expect(todoSnapshotDataSchema.parse({})).toMatchObject({
@@ -299,6 +312,7 @@ describe('runtime schemas', () => {
       mathTotalProblems: DEFAULT_MATH_PROBLEMS,
       pvTotalProblems: DEFAULT_PV_PROBLEMS,
       alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
+      spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
       waterLevel: DEFAULT_WATER_LEVEL,
       toiletStatus: DEFAULT_TOILET_STATUS,
     })

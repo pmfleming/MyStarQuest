@@ -63,6 +63,9 @@ const getActivityType = (data) => {
   }
   if (explicitType === 'math' || category === 'math') return 'math'
   if (explicitType === 'alphabet' || category === 'alphabet') return 'alphabet'
+  if (explicitType === 'spelling' || category === 'spelling') {
+    return 'spelling'
+  }
   if (explicitType === 'watertoiletcheck' || category === 'watertoiletcheck') {
     return 'watertoiletcheck'
   }
@@ -72,7 +75,10 @@ const getActivityType = (data) => {
 }
 
 const isTestType = (type) =>
-  type === 'math' || type === 'positional-notation' || type === 'alphabet'
+  type === 'math' ||
+  type === 'positional-notation' ||
+  type === 'alphabet' ||
+  type === 'spelling'
 
 const targetForTemplate = (type) =>
   isTestType(type)

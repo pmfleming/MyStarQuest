@@ -3,7 +3,7 @@ import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import StandardActionList from '../components/ui/StandardActionList'
-import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
+import { getSurfaceWidthConstraints } from '../tokens'
 import { createRewardDefinitionListRowDescriptor } from '../ui/definitionRowDescriptors'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { useRewards } from '../data/useRewards'
@@ -22,7 +22,6 @@ const RewardsPage = () => {
     commitTitle,
     updateRewardField,
     createStandardReward,
-    createYoshiReward,
     giveReward,
     deleteReward,
   } = useRewards()
@@ -94,24 +93,6 @@ const RewardsPage = () => {
             </div>
           }
         />
-
-        <button
-          type="button"
-          onClick={createYoshiReward}
-          className="flex w-full items-center justify-center gap-3 text-xl font-bold"
-          style={{
-            marginTop: `${uiTokens.singleVerticalSpace}px`,
-            minHeight: `${uiTokens.listActionHeight}px`,
-            borderRadius: `${uiTokens.listActionRadius}px`,
-            border: `4px dashed ${theme.colors.primary}`,
-            background: theme.colors.surface,
-            color: theme.colors.primary,
-            boxShadow: `0 10px 20px -5px ${theme.colors.primary}20`,
-            fontFamily: theme.fonts.heading,
-          }}
-        >
-          Add Hatchin Yoshi
-        </button>
       </div>
     </TabContent>
   )

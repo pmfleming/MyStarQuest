@@ -218,6 +218,8 @@ const ArithmeticTester = ({
           <button
             key={value}
             type="button"
+            aria-label={value === 'easy' ? 'Easy' : 'Hard'}
+            aria-pressed={difficulty === value}
             onClick={() => onDifficultyChange?.(value)}
             style={{
               flex: 1,
@@ -241,7 +243,31 @@ const ArithmeticTester = ({
               transition: 'all 0.2s ease',
             }}
           >
-            {value.toUpperCase()}
+            <span
+              aria-hidden="true"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: DOT_GAP,
+                width: '100%',
+              }}
+            >
+              {Array.from({ length: value === 'easy' ? 1 : 2 }).map(
+                (_, index) => (
+                  <img
+                    key={`${value}-counter-${index}`}
+                    src={mathsCounterIcon}
+                    alt=""
+                    style={{
+                      width: DOT_SIZE,
+                      height: DOT_SIZE,
+                      objectFit: 'contain',
+                    }}
+                  />
+                )
+              )}
+            </span>
           </button>
         ))}
       </div>

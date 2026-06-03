@@ -218,7 +218,7 @@ const StarDisplay = ({
   editable = false,
   onChange,
   min = 1,
-  max = 10,
+  max,
   theme,
 }: StarDisplayProps) => {
   const [controlsVisible, setControlsVisible] = useState(false)
@@ -241,7 +241,7 @@ const StarDisplay = ({
   }
 
   const handleIncrement = () => {
-    if (onChange && count < max) onChange(count + 1)
+    if (onChange && (max === undefined || count < max)) onChange(count + 1)
   }
 
   const showControls = editable && controlsVisible
@@ -307,7 +307,7 @@ const StarDisplay = ({
             theme={theme}
             direction="next"
             onClick={handleIncrement}
-            disabled={count >= max}
+            disabled={max !== undefined && count >= max}
             ariaLabel="Increase star value"
             style={{ position: 'relative', zIndex: 3 }}
           />
