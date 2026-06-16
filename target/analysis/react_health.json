@@ -1,0 +1,2594 @@
+{
+  "schema_version": "0.1.0",
+  "task_id": "quality.react_health",
+  "project": {
+    "name": "MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest",
+    "framework": "vite",
+    "package_manager": "npm",
+    "test_runner": "vitest"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.1.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-06-16T09:20:00.643Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:f8a489b8a2b6746a861269a2e1f1df5c2dc7b64799cc028d7c22fddc68ba7000"
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": true,
+    "test_runner_detected": true,
+    "git_history_available": true,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "eslint_react_hooks_available": true,
+    "eslint_react_hooks_ran": true,
+    "complete": true,
+    "partial": false,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "package_manager_detected",
+      "framework_detected",
+      "test_runner_detected",
+      "git_history_available",
+      "excludes_applied",
+      "type_information_available",
+      "dependencies_installed",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "framework_conventions_detected",
+      "analysis_cache_enabled",
+      "eslint_react_hooks_available",
+      "eslint_react_hooks_ran"
+    ],
+    "missing_input": [],
+    "stale_input": []
+  },
+  "summary": {
+    "components": 69,
+    "records": 69,
+    "hook_lint_findings": 0,
+    "a11y_findings": 0,
+    "high_risk_components": 22
+  },
+  "framework": {
+    "framework": "vite",
+    "routes": [
+      {
+        "kind": "next_pages_route",
+        "file": "src/pages/ChoreCreationFlow.tsx"
+      },
+      {
+        "kind": "next_pages_route",
+        "file": "src/pages/DashboardPage.tsx"
+      },
+      {
+        "kind": "next_pages_route",
+        "file": "src/pages/LoginPage.tsx"
+      },
+      {
+        "kind": "next_pages_route",
+        "file": "src/pages/ManageChildrenPage.tsx"
+      },
+      {
+        "kind": "next_pages_route",
+        "file": "src/pages/ManageTestsPage.tsx"
+      },
+      {
+        "kind": "next_pages_route",
+        "file": "src/pages/RewardCreationFlow.tsx"
+      },
+      {
+        "kind": "next_pages_route",
+        "file": "src/pages/RewardsPage.tsx"
+      },
+      {
+        "kind": "next_pages_route",
+        "file": "src/pages/TestsPage.tsx"
+      },
+      {
+        "kind": "next_pages_route",
+        "file": "src/pages/TimeExplorerPage.tsx"
+      },
+      {
+        "kind": "next_pages_route",
+        "file": "src/pages/dashboardChoreUi.tsx"
+      },
+      {
+        "kind": "remix_route",
+        "file": "src/routes/AnimatedTabLayout.tsx"
+      },
+      {
+        "kind": "remix_route",
+        "file": "src/routes/ProtectedRoute.tsx"
+      }
+    ],
+    "stories": [],
+    "client_components": [],
+    "server_only_signals": [],
+    "conventions": {
+      "next_app_router": false,
+      "next_pages_router": true,
+      "remix_routes": true,
+      "storybook": false
+    }
+  },
+  "tool_status": {
+    "eslint_react_hooks": {
+      "available": true,
+      "ran": true,
+      "reason": null
+    }
+  },
+  "records": [
+    {
+      "id": "component:src/App:App",
+      "module_id": "src/App",
+      "file": "src/App.tsx",
+      "name": "App",
+      "line": 19,
+      "score": 16,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/App:App",
+            "kind": "component",
+            "file": "src/App.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/auth/AuthContext:AuthProvider",
+      "module_id": "src/auth/AuthContext",
+      "file": "src/auth/AuthContext.tsx",
+      "name": "AuthProvider",
+      "line": 38,
+      "score": 71,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "many_hooks",
+          "value": 6
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/auth/AuthContext:AuthProvider",
+            "kind": "component",
+            "file": "src/auth/AuthContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/AlphabetTester:AlphabetTester",
+      "module_id": "src/components/AlphabetTester",
+      "file": "src/components/AlphabetTester.tsx",
+      "name": "AlphabetTester",
+      "line": 221,
+      "score": 236,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 241
+        },
+        {
+          "kind": "many_hooks",
+          "value": 16
+        },
+        {
+          "kind": "many_effects",
+          "value": 3
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/AlphabetTester:AlphabetTester",
+            "kind": "component",
+            "file": "src/components/AlphabetTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/AppDeviceFrame:AppDeviceFrame",
+      "module_id": "src/components/AppDeviceFrame",
+      "file": "src/components/AppDeviceFrame.tsx",
+      "name": "AppDeviceFrame",
+      "line": 14,
+      "score": 9,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/AppDeviceFrame:AppDeviceFrame",
+            "kind": "component",
+            "file": "src/components/AppDeviceFrame.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ArithmeticTester:ArithmeticTester",
+      "module_id": "src/components/ArithmeticTester",
+      "file": "src/components/ArithmeticTester.tsx",
+      "name": "ArithmeticTester",
+      "line": 79,
+      "score": 268,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 456
+        },
+        {
+          "kind": "many_hooks",
+          "value": 11
+        },
+        {
+          "kind": "render_branch_complexity",
+          "value": 9
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ArithmeticTester:ArithmeticTester",
+            "kind": "component",
+            "file": "src/components/ArithmeticTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ChoreOutcomeView:ChoreOutcomeView",
+      "module_id": "src/components/ChoreOutcomeView",
+      "file": "src/components/ChoreOutcomeView.tsx",
+      "name": "ChoreOutcomeView",
+      "line": 12,
+      "score": 10,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ChoreOutcomeView:ChoreOutcomeView",
+            "kind": "component",
+            "file": "src/components/ChoreOutcomeView.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/DinnerCountdown:CountdownVisualRow",
+      "module_id": "src/components/DinnerCountdown",
+      "file": "src/components/DinnerCountdown.tsx",
+      "name": "CountdownVisualRow",
+      "line": 94,
+      "score": 4,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/DinnerCountdown:CountdownVisualRow",
+            "kind": "component",
+            "file": "src/components/DinnerCountdown.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/DinnerCountdown:CountdownStepperControl",
+      "module_id": "src/components/DinnerCountdown",
+      "file": "src/components/DinnerCountdown.tsx",
+      "name": "CountdownStepperControl",
+      "line": 121,
+      "score": 5,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/DinnerCountdown:CountdownStepperControl",
+            "kind": "component",
+            "file": "src/components/DinnerCountdown.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/DinnerCountdown:DinnerCountdown",
+      "module_id": "src/components/DinnerCountdown",
+      "file": "src/components/DinnerCountdown.tsx",
+      "name": "DinnerCountdown",
+      "line": 534,
+      "score": 70,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 144
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/DinnerCountdown:DinnerCountdown",
+            "kind": "component",
+            "file": "src/components/DinnerCountdown.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/LargeNumbersTester:LargeNumbersTester",
+      "module_id": "src/components/LargeNumbersTester",
+      "file": "src/components/LargeNumbersTester.tsx",
+      "name": "LargeNumbersTester",
+      "line": 104,
+      "score": 238,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 486
+        },
+        {
+          "kind": "many_hooks",
+          "value": 10
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/LargeNumbersTester:LargeNumbersTester",
+            "kind": "component",
+            "file": "src/components/LargeNumbersTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/PageHeader:PageHeader",
+      "module_id": "src/components/PageHeader",
+      "file": "src/components/PageHeader.tsx",
+      "name": "PageHeader",
+      "line": 12,
+      "score": 12,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/PageHeader:PageHeader",
+            "kind": "component",
+            "file": "src/components/PageHeader.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/PageShell:PageShell",
+      "module_id": "src/components/PageShell",
+      "file": "src/components/PageShell.tsx",
+      "name": "PageShell",
+      "line": 32,
+      "score": 64,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/PageShell:PageShell",
+            "kind": "component",
+            "file": "src/components/PageShell.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/PositionalNotation:PositionalNotation",
+      "module_id": "src/components/PositionalNotation",
+      "file": "src/components/PositionalNotation.tsx",
+      "name": "PositionalNotation",
+      "line": 72,
+      "score": 228,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 456
+        },
+        {
+          "kind": "many_hooks",
+          "value": 9
+        },
+        {
+          "kind": "render_branch_complexity",
+          "value": 5
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/PositionalNotation:PositionalNotation",
+            "kind": "component",
+            "file": "src/components/PositionalNotation.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/SchoolCalendar:SchoolCalendar",
+      "module_id": "src/components/SchoolCalendar",
+      "file": "src/components/SchoolCalendar.tsx",
+      "name": "SchoolCalendar",
+      "line": 78,
+      "score": 172,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 273
+        },
+        {
+          "kind": "many_hooks",
+          "value": 7
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/SchoolCalendar:SchoolCalendar",
+            "kind": "component",
+            "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/SpellingTester:SpellingPicture",
+      "module_id": "src/components/SpellingTester",
+      "file": "src/components/SpellingTester.tsx",
+      "name": "SpellingPicture",
+      "line": 200,
+      "score": 5,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/SpellingTester:SpellingPicture",
+            "kind": "component",
+            "file": "src/components/SpellingTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/SpellingTester:SpellingWordTiles",
+      "module_id": "src/components/SpellingTester",
+      "file": "src/components/SpellingTester.tsx",
+      "name": "SpellingWordTiles",
+      "line": 228,
+      "score": 17,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/SpellingTester:SpellingWordTiles",
+            "kind": "component",
+            "file": "src/components/SpellingTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/SpellingTester:SpellingChoiceButtons",
+      "module_id": "src/components/SpellingTester",
+      "file": "src/components/SpellingTester.tsx",
+      "name": "SpellingChoiceButtons",
+      "line": 284,
+      "score": 11,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/SpellingTester:SpellingChoiceButtons",
+            "kind": "component",
+            "file": "src/components/SpellingTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/SpellingTester:SpellingTester",
+      "module_id": "src/components/SpellingTester",
+      "file": "src/components/SpellingTester.tsx",
+      "name": "SpellingTester",
+      "line": 309,
+      "score": 243,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 228
+        },
+        {
+          "kind": "many_hooks",
+          "value": 18
+        },
+        {
+          "kind": "many_effects",
+          "value": 3
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/SpellingTester:SpellingTester",
+            "kind": "component",
+            "file": "src/components/SpellingTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/TabContent:TabContent",
+      "module_id": "src/components/TabContent",
+      "file": "src/components/TabContent.tsx",
+      "name": "TabContent",
+      "line": 14,
+      "score": 14,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/TabContent:TabContent",
+            "kind": "component",
+            "file": "src/components/TabContent.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/WaterToiletMonitor:WaterToiletMonitor",
+      "module_id": "src/components/WaterToiletMonitor",
+      "file": "src/components/WaterToiletMonitor.tsx",
+      "name": "WaterToiletMonitor",
+      "line": 26,
+      "score": 38,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/WaterToiletMonitor:WaterToiletMonitor",
+            "kind": "component",
+            "file": "src/components/WaterToiletMonitor.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ActionButton:ActionButton",
+      "module_id": "src/components/ui/ActionButton",
+      "file": "src/components/ui/ActionButton.tsx",
+      "name": "ActionButton",
+      "line": 20,
+      "score": 22,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActionButton:ActionButton",
+            "kind": "component",
+            "file": "src/components/ui/ActionButton.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ActionTextInput:ActionTextInput",
+      "module_id": "src/components/ui/ActionTextInput",
+      "file": "src/components/ui/ActionTextInput.tsx",
+      "name": "ActionTextInput",
+      "line": 22,
+      "score": 25,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActionTextInput:ActionTextInput",
+            "kind": "component",
+            "file": "src/components/ui/ActionTextInput.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ActivityControls:ActivityOutcomeShell",
+      "module_id": "src/components/ui/ActivityControls",
+      "file": "src/components/ui/ActivityControls.tsx",
+      "name": "ActivityOutcomeShell",
+      "line": 49,
+      "score": 12,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActivityControls:ActivityOutcomeShell",
+            "kind": "component",
+            "file": "src/components/ui/ActivityControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ActivityControls:ActivityResultBar",
+      "module_id": "src/components/ui/ActivityControls",
+      "file": "src/components/ui/ActivityControls.tsx",
+      "name": "ActivityResultBar",
+      "line": 109,
+      "score": 17,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActivityControls:ActivityResultBar",
+            "kind": "component",
+            "file": "src/components/ui/ActivityControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ActivityControls:ActivitySetupControls",
+      "module_id": "src/components/ui/ActivityControls",
+      "file": "src/components/ui/ActivityControls.tsx",
+      "name": "ActivitySetupControls",
+      "line": 177,
+      "score": 17,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActivityControls:ActivitySetupControls",
+            "kind": "component",
+            "file": "src/components/ui/ActivityControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ActivityControls:ActivityPlayArea",
+      "module_id": "src/components/ui/ActivityControls",
+      "file": "src/components/ui/ActivityControls.tsx",
+      "name": "ActivityPlayArea",
+      "line": 251,
+      "score": 6,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActivityControls:ActivityPlayArea",
+            "kind": "component",
+            "file": "src/components/ui/ActivityControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ActivityControls:ProblemCountControl",
+      "module_id": "src/components/ui/ActivityControls",
+      "file": "src/components/ui/ActivityControls.tsx",
+      "name": "ProblemCountControl",
+      "line": 296,
+      "score": 23,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActivityControls:ProblemCountControl",
+            "kind": "component",
+            "file": "src/components/ui/ActivityControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ActivityControls:StarRewardControl",
+      "module_id": "src/components/ui/ActivityControls",
+      "file": "src/components/ui/ActivityControls.tsx",
+      "name": "StarRewardControl",
+      "line": 360,
+      "score": 5,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActivityControls:StarRewardControl",
+            "kind": "component",
+            "file": "src/components/ui/ActivityControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ActivityMathCounters:MathCounter",
+      "module_id": "src/components/ui/ActivityMathCounters",
+      "file": "src/components/ui/ActivityMathCounters.tsx",
+      "name": "MathCounter",
+      "line": 15,
+      "score": 4,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActivityMathCounters:MathCounter",
+            "kind": "component",
+            "file": "src/components/ui/ActivityMathCounters.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ActivityMathCounters:EmptyCounterHint",
+      "module_id": "src/components/ui/ActivityMathCounters",
+      "file": "src/components/ui/ActivityMathCounters.tsx",
+      "name": "EmptyCounterHint",
+      "line": 43,
+      "score": 4,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActivityMathCounters:EmptyCounterHint",
+            "kind": "component",
+            "file": "src/components/ui/ActivityMathCounters.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ActivityMathCounters:TenRod",
+      "module_id": "src/components/ui/ActivityMathCounters",
+      "file": "src/components/ui/ActivityMathCounters.tsx",
+      "name": "TenRod",
+      "line": 69,
+      "score": 14,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActivityMathCounters:TenRod",
+            "kind": "component",
+            "file": "src/components/ui/ActivityMathCounters.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/BottomNav:BottomNav",
+      "module_id": "src/components/ui/BottomNav",
+      "file": "src/components/ui/BottomNav.tsx",
+      "name": "BottomNav",
+      "line": 11,
+      "score": 32,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/BottomNav:BottomNav",
+            "kind": "component",
+            "file": "src/components/ui/BottomNav.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/Carousel:Carousel",
+      "module_id": "src/components/ui/Carousel",
+      "file": "src/components/ui/Carousel.tsx",
+      "name": "Carousel",
+      "line": 28,
+      "score": 118,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 159
+        },
+        {
+          "kind": "many_hooks",
+          "value": 6
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/Carousel:Carousel",
+            "kind": "component",
+            "file": "src/components/ui/Carousel.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/DragScrollRegion:DragScrollRegion",
+      "module_id": "src/components/ui/DragScrollRegion",
+      "file": "src/components/ui/DragScrollRegion.tsx",
+      "name": "DragScrollRegion",
+      "line": 33,
+      "score": 118,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 150
+        },
+        {
+          "kind": "many_hooks",
+          "value": 7
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/DragScrollRegion:DragScrollRegion",
+            "kind": "component",
+            "file": "src/components/ui/DragScrollRegion.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/IconActionControls:StandardIconImage",
+      "module_id": "src/components/ui/IconActionControls",
+      "file": "src/components/ui/IconActionControls.tsx",
+      "name": "StandardIconImage",
+      "line": 22,
+      "score": 5,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/IconActionControls:StandardIconImage",
+            "kind": "component",
+            "file": "src/components/ui/IconActionControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/IconActionControls:IconActionButton",
+      "module_id": "src/components/ui/IconActionControls",
+      "file": "src/components/ui/IconActionControls.tsx",
+      "name": "IconActionButton",
+      "line": 67,
+      "score": 6,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/IconActionControls:IconActionButton",
+            "kind": "component",
+            "file": "src/components/ui/IconActionControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/IconActionControls:IconActionRow",
+      "module_id": "src/components/ui/IconActionControls",
+      "file": "src/components/ui/IconActionControls.tsx",
+      "name": "IconActionRow",
+      "line": 119,
+      "score": 6,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/IconActionControls:IconActionRow",
+            "kind": "component",
+            "file": "src/components/ui/IconActionControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/IconActionControls:IconChoiceButton",
+      "module_id": "src/components/ui/IconActionControls",
+      "file": "src/components/ui/IconActionControls.tsx",
+      "name": "IconChoiceButton",
+      "line": 165,
+      "score": 8,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/IconActionControls:IconChoiceButton",
+            "kind": "component",
+            "file": "src/components/ui/IconActionControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/InlineChoiceList:InlineChoiceList",
+      "module_id": "src/components/ui/InlineChoiceList",
+      "file": "src/components/ui/InlineChoiceList.tsx",
+      "name": "InlineChoiceList",
+      "line": 32,
+      "score": 36,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/InlineChoiceList:InlineChoiceList",
+            "kind": "component",
+            "file": "src/components/ui/InlineChoiceList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/RepeatControl:RepeatControl",
+      "module_id": "src/components/ui/RepeatControl",
+      "file": "src/components/ui/RepeatControl.tsx",
+      "name": "RepeatControl",
+      "line": 18,
+      "score": 39,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/RepeatControl:RepeatControl",
+            "kind": "component",
+            "file": "src/components/ui/RepeatControl.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ScheduleDayTypeControl:ScheduleDayTypeControl",
+      "module_id": "src/components/ui/ScheduleDayTypeControl",
+      "file": "src/components/ui/ScheduleDayTypeControl.tsx",
+      "name": "ScheduleDayTypeControl",
+      "line": 39,
+      "score": 9,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ScheduleDayTypeControl:ScheduleDayTypeControl",
+            "kind": "component",
+            "file": "src/components/ui/ScheduleDayTypeControl.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/SegmentedChoiceControl:SegmentedChoiceControl",
+      "module_id": "src/components/ui/SegmentedChoiceControl",
+      "file": "src/components/ui/SegmentedChoiceControl.tsx",
+      "name": "SegmentedChoiceControl",
+      "line": 26,
+      "score": 32,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/SegmentedChoiceControl:SegmentedChoiceControl",
+            "kind": "component",
+            "file": "src/components/ui/SegmentedChoiceControl.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/StandardActionList:ActionCard",
+      "module_id": "src/components/ui/StandardActionList",
+      "file": "src/components/ui/StandardActionList.tsx",
+      "name": "ActionCard",
+      "line": 150,
+      "score": 140,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 225
+        },
+        {
+          "kind": "render_branch_complexity",
+          "value": 8
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/StandardActionList:ActionCard",
+            "kind": "component",
+            "file": "src/components/ui/StandardActionList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/StandardActionList:StandardActionList",
+      "module_id": "src/components/ui/StandardActionList",
+      "file": "src/components/ui/StandardActionList.tsx",
+      "name": "StandardActionList",
+      "line": 416,
+      "score": 92,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 143
+        },
+        {
+          "kind": "render_branch_complexity",
+          "value": 6
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/StandardActionList:StandardActionList",
+            "kind": "component",
+            "file": "src/components/ui/StandardActionList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/StarDisplay:StarIcon",
+      "module_id": "src/components/ui/StarDisplay",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "name": "StarIcon",
+      "line": 70,
+      "score": 7,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/StarDisplay:StarIcon",
+            "kind": "component",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/StarDisplay:FieldVariant",
+      "module_id": "src/components/ui/StarDisplay",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "name": "FieldVariant",
+      "line": 109,
+      "score": 71,
+      "risk": "high",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/StarDisplay:FieldVariant",
+            "kind": "component",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/StarDisplay:CompactCountVariant",
+      "module_id": "src/components/ui/StarDisplay",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "name": "CompactCountVariant",
+      "line": 209,
+      "score": 10,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/StarDisplay:CompactCountVariant",
+            "kind": "component",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/StarDisplay:StarDisplay",
+      "module_id": "src/components/ui/StarDisplay",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "name": "StarDisplay",
+      "line": 288,
+      "score": 72,
+      "risk": "high",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/StarDisplay:StarDisplay",
+            "kind": "component",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/StarInfoBox:MiniStar",
+      "module_id": "src/components/ui/StarInfoBox",
+      "file": "src/components/ui/StarInfoBox.tsx",
+      "name": "MiniStar",
+      "line": 66,
+      "score": 8,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/StarInfoBox:MiniStar",
+            "kind": "component",
+            "file": "src/components/ui/StarInfoBox.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/StarInfoBox:StarInfoBox",
+      "module_id": "src/components/ui/StarInfoBox",
+      "file": "src/components/ui/StarInfoBox.tsx",
+      "name": "StarInfoBox",
+      "line": 107,
+      "score": 174,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 217
+        },
+        {
+          "kind": "many_hooks",
+          "value": 12
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/StarInfoBox:StarInfoBox",
+            "kind": "component",
+            "file": "src/components/ui/StarInfoBox.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/StepperButton:StepperButton",
+      "module_id": "src/components/ui/StepperButton",
+      "file": "src/components/ui/StepperButton.tsx",
+      "name": "StepperButton",
+      "line": 30,
+      "score": 11,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/StepperButton:StepperButton",
+            "kind": "component",
+            "file": "src/components/ui/StepperButton.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/TopIconButton:TopIconButton",
+      "module_id": "src/components/ui/TopIconButton",
+      "file": "src/components/ui/TopIconButton.tsx",
+      "name": "TopIconButton",
+      "line": 16,
+      "score": 10,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/TopIconButton:TopIconButton",
+            "kind": "component",
+            "file": "src/components/ui/TopIconButton.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/contexts/ActiveChildContext:ActiveChildProvider",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "name": "ActiveChildProvider",
+      "line": 56,
+      "score": 112,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "many_hooks",
+          "value": 9
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/contexts/ActiveChildContext:ActiveChildProvider",
+            "kind": "component",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/contexts/SelectedDateContext:SelectedDateProvider",
+      "module_id": "src/contexts/SelectedDateContext",
+      "file": "src/contexts/SelectedDateContext.tsx",
+      "name": "SelectedDateProvider",
+      "line": 30,
+      "score": 49,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/contexts/SelectedDateContext:SelectedDateProvider",
+            "kind": "component",
+            "file": "src/contexts/SelectedDateContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/contexts/ThemeContext:ThemeProvider",
+      "module_id": "src/contexts/ThemeContext",
+      "file": "src/contexts/ThemeContext.tsx",
+      "name": "ThemeProvider",
+      "line": 233,
+      "score": 44,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/contexts/ThemeContext:ThemeProvider",
+            "kind": "component",
+            "file": "src/contexts/ThemeContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/pages/ChoreCreationFlow:ChoreCreationFlow",
+      "module_id": "src/pages/ChoreCreationFlow",
+      "file": "src/pages/ChoreCreationFlow.tsx",
+      "name": "ChoreCreationFlow",
+      "line": 126,
+      "score": 105,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 228
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/pages/ChoreCreationFlow:ChoreCreationFlow",
+            "kind": "component",
+            "file": "src/pages/ChoreCreationFlow.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/pages/DashboardPage:DashboardPage",
+      "module_id": "src/pages/DashboardPage",
+      "file": "src/pages/DashboardPage.tsx",
+      "name": "DashboardPage",
+      "line": 72,
+      "score": 289,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 363
+        },
+        {
+          "kind": "many_hooks",
+          "value": 18
+        },
+        {
+          "kind": "render_branch_complexity",
+          "value": 5
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/pages/DashboardPage:DashboardPage",
+            "kind": "component",
+            "file": "src/pages/DashboardPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/pages/LoginPage:LoginPage",
+      "module_id": "src/pages/LoginPage",
+      "file": "src/pages/LoginPage.tsx",
+      "name": "LoginPage",
+      "line": 18,
+      "score": 146,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "many_hooks",
+          "value": 10
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/pages/LoginPage:LoginPage",
+            "kind": "component",
+            "file": "src/pages/LoginPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/pages/ManageChildrenPage:ManageChildrenPage",
+      "module_id": "src/pages/ManageChildrenPage",
+      "file": "src/pages/ManageChildrenPage.tsx",
+      "name": "ManageChildrenPage",
+      "line": 15,
+      "score": 56,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/pages/ManageChildrenPage:ManageChildrenPage",
+            "kind": "component",
+            "file": "src/pages/ManageChildrenPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/pages/ManageTestsPage:ManageTestsPage",
+      "module_id": "src/pages/ManageTestsPage",
+      "file": "src/pages/ManageTestsPage.tsx",
+      "name": "ManageTestsPage",
+      "line": 27,
+      "score": 139,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 156
+        },
+        {
+          "kind": "many_hooks",
+          "value": 11
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/pages/ManageTestsPage:ManageTestsPage",
+            "kind": "component",
+            "file": "src/pages/ManageTestsPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/pages/RewardCreationFlow:RewardCreationFlow",
+      "module_id": "src/pages/RewardCreationFlow",
+      "file": "src/pages/RewardCreationFlow.tsx",
+      "name": "RewardCreationFlow",
+      "line": 37,
+      "score": 58,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/pages/RewardCreationFlow:RewardCreationFlow",
+            "kind": "component",
+            "file": "src/pages/RewardCreationFlow.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/pages/RewardsPage:RewardsPage",
+      "module_id": "src/pages/RewardsPage",
+      "file": "src/pages/RewardsPage.tsx",
+      "name": "RewardsPage",
+      "line": 14,
+      "score": 97,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "many_hooks",
+          "value": 7
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/pages/RewardsPage:RewardsPage",
+            "kind": "component",
+            "file": "src/pages/RewardsPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/pages/TestsPage:TestsPage",
+      "module_id": "src/pages/TestsPage",
+      "file": "src/pages/TestsPage.tsx",
+      "name": "TestsPage",
+      "line": 14,
+      "score": 149,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 138
+        },
+        {
+          "kind": "many_hooks",
+          "value": 12
+        }
+      ],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/pages/TestsPage:TestsPage",
+            "kind": "component",
+            "file": "src/pages/TestsPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/pages/TimeExplorerPage:TimeExplorerPage",
+      "module_id": "src/pages/TimeExplorerPage",
+      "file": "src/pages/TimeExplorerPage.tsx",
+      "name": "TimeExplorerPage",
+      "line": 32,
+      "score": 53,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/pages/TimeExplorerPage:TimeExplorerPage",
+            "kind": "component",
+            "file": "src/pages/TimeExplorerPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/pages/dashboardChoreUi:DashboardHeaderActions",
+      "module_id": "src/pages/dashboardChoreUi",
+      "file": "src/pages/dashboardChoreUi.tsx",
+      "name": "DashboardHeaderActions",
+      "line": 38,
+      "score": 33,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/pages/dashboardChoreUi:DashboardHeaderActions",
+            "kind": "component",
+            "file": "src/pages/dashboardChoreUi.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/pages/dashboardChoreUi:DashboardChoreChooser",
+      "module_id": "src/pages/dashboardChoreUi",
+      "file": "src/pages/dashboardChoreUi.tsx",
+      "name": "DashboardChoreChooser",
+      "line": 112,
+      "score": 21,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/pages/dashboardChoreUi:DashboardChoreChooser",
+            "kind": "component",
+            "file": "src/pages/dashboardChoreUi.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/pages/dashboardChoreUi:UnavailableChoreMessage",
+      "module_id": "src/pages/dashboardChoreUi",
+      "file": "src/pages/dashboardChoreUi.tsx",
+      "name": "UnavailableChoreMessage",
+      "line": 155,
+      "score": 4,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/pages/dashboardChoreUi:UnavailableChoreMessage",
+            "kind": "component",
+            "file": "src/pages/dashboardChoreUi.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/routes/AnimatedTabLayout:AnimatedTabLayout",
+      "module_id": "src/routes/AnimatedTabLayout",
+      "file": "src/routes/AnimatedTabLayout.tsx",
+      "name": "AnimatedTabLayout",
+      "line": 16,
+      "score": 69,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/routes/AnimatedTabLayout:AnimatedTabLayout",
+            "kind": "component",
+            "file": "src/routes/AnimatedTabLayout.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/routes/ProtectedRoute:ProtectedRoute",
+      "module_id": "src/routes/ProtectedRoute",
+      "file": "src/routes/ProtectedRoute.tsx",
+      "name": "ProtectedRoute",
+      "line": 4,
+      "score": 21,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/routes/ProtectedRoute:ProtectedRoute",
+            "kind": "component",
+            "file": "src/routes/ProtectedRoute.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ]
+}

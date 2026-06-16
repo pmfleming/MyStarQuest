@@ -1,10 +1,13 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import ActionTextInput from '../components/ui/ActionTextInput'
 import ChoreOutcomeView from '../components/ChoreOutcomeView'
+import Carousel from '../components/ui/Carousel'
 import RepeatControl from '../components/ui/RepeatControl'
 import StarDisplay from '../components/ui/StarDisplay'
 import { princessQuizCorrectImage } from '../assets/themes/princess/assets'
+import { choreImageOptions, getChoreImage } from '../assets/chores/assets'
 import { uiTokens } from '../tokens'
+import { getStandardActionHeadingStyle } from '../components/ui/standardActionStyles'
 import {
   shouldHidePresetChoreTitle,
   type ChoreStage,
@@ -83,10 +86,7 @@ const renderTitle = (
   ) : (
     <div
       style={{
-        fontFamily: deps.theme.fonts.heading,
-        fontSize: '1.25rem',
-        fontWeight: 800,
-        lineHeight: 1.2,
+        ...getStandardActionHeadingStyle(deps.theme),
       }}
     >
       {item.title}
@@ -118,37 +118,177 @@ const renderStandardContent = (
   if (stage === 'completed') {
     return (
       <ChoreOutcomeView
-        imageSrc={state.princessAsset(princessQuizCorrectImage)}
+        imageSrc={
+          getChoreImage(item.imageKey) ??
+          state.princessAsset(princessQuizCorrectImage)
+        }
         outcome="success"
       />
     )
   }
 
-  return isTaskItem(item) ? (
+  const standardImage = getChoreImage(item.imageKey)
+  const showImageCarousel = deps.mode === 'manage' && isTaskItem(item)
+  const showImageRewardFrame = Boolean(standardImage && !showImageCarousel)
+
+  return (
     <>
-      <div className="flex flex-col items-center" style={{ gap: '0px' }}>
-        <RepeatControl
-          theme={deps.theme}
-          value={item.isRepeating}
-          onChange={(value) =>
-            deps.onUpdateTaskField?.(item.id, { isRepeating: value })
-          }
-          showLabel={false}
-          showFeedback={false}
+      {showImageCarousel ? (
+        <Carousel
+          key={`${item.id}-${item.imageKey ?? ''}`}
+          items={choreImageOptions.map((option) => ({
+            id: option.id,
+            label: option.label,
+            icon: option.image ? (
+              <img
+                src={option.image}
+                alt=""
+                className="h-full w-full object-contain"
+                aria-hidden="true"
+              />
+            ) : (
+              <span
+                aria-hidden="true"
+                style={{
+                  width: '44px',
+                  height: '44px',
+                  borderRadius: 14,
+                  border: `3px dashed ${deps.theme.colors.primary}`,
+                  display: 'block',
+                  opacity: 0.55,
+                }}
+              />
+            ),
+          }))}
+          title="Chore image"
+          initialIndex={Math.max(
+            0,
+            choreImageOptions.findIndex((option) => option.id === item.imageKey)
+          )}
+          onChange={(index) => {
+            const selected = choreImageOptions[index]
+            if (!selected || selected.id === item.imageKey) return
+            deps.onUpdateTaskField?.(item.id, { imageKey: selected.id })
+          }}
         />
-      </div>
-      <div className="flex flex-col items-center" style={{ gap: '0px' }}>
-        <StarDisplay
-          theme={deps.theme}
-          count={item.starValue}
-          editable
-          onChange={(value) =>
-            deps.onUpdateTaskField?.(item.id, { starValue: value || 1 })
-          }
-          min={1}
-          max={3}
-        />
-      </div>
+      ) : (
+        standardImage &&
+        renderStandardChoreImageRewardFrame(
+          standardImage,
+          item.title,
+          item.starValue,
+          deps.theme
+        )
+      )}
+
+      {deps.mode === 'manage' && isTaskItem(item) && (
+        <>
+          <div className="flex flex-col items-center" style={{ gap: '0px' }}>
+            <RepeatControl
+              theme={deps.theme}
+              value={item.isRepeating}
+              onChange={(value) =>
+                deps.onUpdateTaskField?.(item.id, { isRepeating: value })
+              }
+              showLabel={false}
+              showFeedback={false}
+            />
+          </div>
+          {!showImageRewardFrame && (
+            <div className="flex flex-col items-center" style={{ gap: '0px' }}>
+              <StarDisplay
+                theme={deps.theme}
+                count={item.starValue}
+                editable
+                onChange={(value) =>
+                  deps.onUpdateTaskField?.(item.id, { starValue: value || 1 })
+                }
+                min={1}
+                max={3}
+              />
+            </div>
+          )}
+        </>
+      )}
     </>
-  ) : null
+  )
+}
+
+const renderStandardChoreImageRewardFrame = (
+  image: string,
+  title: string,
+  starValue: number,
+  theme: UnifiedChoreDeps['theme']
+) => {
+  const frameStyle: CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    minHeight: '116px',
+    padding: '10px',
+    borderRadius: `${uiTokens.surfaceRadius}px`,
+    border: `3px dashed ${theme.colors.primary}55`,
+    background: `${theme.colors.bg}88`,
+    overflow: 'visible',
+    boxSizing: 'border-box',
+  }
+
+  const imageLaneStyle: CSSProperties = {
+    flex: '0 0 38%',
+    minWidth: '96px',
+    maxWidth: '152px',
+    marginRight: '-26px',
+    position: 'relative',
+    zIndex: 2,
+  }
+
+  const imageFrameStyle: CSSProperties = {
+    width: '100%',
+    aspectRatio: '1',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'visible',
+  }
+
+  const starLaneStyle: CSSProperties = {
+    flex: '1 1 66%',
+    minWidth: 0,
+    position: 'relative',
+    zIndex: 1,
+  }
+
+  return (
+    <div style={frameStyle}>
+      <div style={imageLaneStyle}>
+        <div style={imageFrameStyle}>
+          <img
+            src={image}
+            alt={`${title} chore`}
+            style={{
+              width: '112%',
+              height: '112%',
+              objectFit: 'contain',
+              display: 'block',
+            }}
+          />
+        </div>
+      </div>
+
+      <div style={starLaneStyle}>
+        <StarDisplay
+          count={starValue}
+          animate={false}
+          style={{
+            width: '100%',
+            minHeight: '84px',
+            padding: '10px 10px 10px 4px',
+            background: 'transparent',
+            border: '0',
+            boxSizing: 'border-box',
+          }}
+        />
+      </div>
+    </div>
+  )
 }

@@ -1,0 +1,26 @@
+{
+  "$schema": "../ts-react-quality-lens/ts-react-quality-lens.config.schema.json",
+  "project_name": "MyStarQuest",
+  "project_root": ".",
+  "source_roots": ["src"],
+  "test_roots": ["tests"],
+  "output_dir": "target/analysis",
+  "tsconfig": "tsconfig.app.json",
+  "package_manager": "npm",
+  "framework": "vite",
+  "test_runner": "vitest",
+  "test_command": "npm run test",
+  "exclude": [
+    "node_modules",
+    "dist",
+    "playwright-report",
+    "test-results",
+    "android",
+    "functions",
+    "public",
+    ".tmp-style-refs"
+  ],
+  "cache": {
+    "enabled": true
+  }
+}

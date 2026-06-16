@@ -4,6 +4,7 @@ export type ChoreModeType =
   | 'standard'
   | 'eating'
   | 'math'
+  | 'large-numbers'
   | 'positional-notation'
   | 'alphabet'
   | 'spelling'
@@ -21,6 +22,9 @@ const presetChoreModeDefinitions: Record<
     hidePrimaryButtonInChore: false,
   },
   math: {
+    hidePrimaryButtonInChore: false,
+  },
+  'large-numbers': {
     hidePrimaryButtonInChore: false,
   },
   'positional-notation': {

@@ -64,6 +64,8 @@ export function calculateAwardTaskPatch(
       return { manageDinnerCompletedAt: timestamp }
     case 'math':
       return { manageMathCompletedAt: timestamp }
+    case 'large-numbers':
+      return { manageLargeNumbersCompletedAt: timestamp }
     case 'positional-notation':
       return { managePVCompletedAt: timestamp }
     case 'alphabet':

@@ -2,6 +2,7 @@ import {
   DEFAULT_ALPHABET_PROBLEMS,
   DEFAULT_DINNER_BITES,
   DEFAULT_DINNER_DURATION_SECONDS,
+  DEFAULT_LARGE_NUMBERS_PROBLEMS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
   DEFAULT_SPELLING_PROBLEMS,
@@ -13,24 +14,18 @@ import {
   rewardSnapshotDataSchema,
   choreSnapshotDataSchema,
   choreTodoSnapshotDataSchema,
-  taskSnapshotDataSchema,
   testSnapshotDataSchema,
-  testTodoSnapshotDataSchema,
-  todoSnapshotDataSchema,
 } from '../../../src/data/types'
 import {
   parseChoreSnapshot,
   parseChoreTodoSnapshot,
-  parseTaskSnapshot,
   parseTestSnapshot,
-  parseTestTodoSnapshot,
-  parseTodoSnapshot,
 } from '../../../src/lib/choreParser'
 
 describe('choreParser', () => {
-  it('parses eating tasks and applies schema fallbacks for invalid values', () => {
-    const task = parseTaskSnapshot('task-1', {
-      taskType: 'eating',
+  it('parses eating chores and applies schema fallbacks for invalid values', () => {
+    const chore = parseChoreSnapshot('chore-1', {
+      choreType: 'eating',
       title: 123,
       childId: 'child-1',
       category: 'eating',
@@ -42,8 +37,8 @@ describe('choreParser', () => {
       dinnerTotalBites: null,
     })
 
-    expect(task).toEqual({
-      id: 'task-1',
+    expect(chore).toEqual({
+      id: 'chore-1',
       title: '',
       childId: 'child-1',
       category: 'eating',
@@ -58,67 +53,85 @@ describe('choreParser', () => {
     })
   })
 
-  it('parses specialized task variants through normalized task type detection', () => {
-    const mathTask = parseTaskSnapshot('task-2', {
-      category: 'math',
+  it('parses specialized test variants through normalized test type detection', () => {
+    const mathTest = parseTestSnapshot('test-2', {
+      testType: 'math',
       childId: 'child-1',
       mathTotalProblems: 8,
       mathDifficulty: 'hard',
+      lastAttemptedAt: 12345,
+      lastAttemptDateKey: '2026-06-09',
+      lastAttemptOutcome: 'success',
     })
 
-    const alphabetTask = parseTaskSnapshot('task-3', {
-      taskType: 'alphabet',
+    const alphabetTest = parseTestSnapshot('test-3', {
+      testType: 'alphabet',
       childId: 'child-1',
       alphabetTotalProblems: undefined,
     })
 
-    const pvTask = parseTaskSnapshot('task-4', {
-      taskType: 'positional-notation',
+    const largeNumbersTest = parseTestSnapshot('test-6', {
+      testType: 'large-numbers',
+      childId: 'child-1',
+      largeNumbersTotalProblems: 4,
+    })
+
+    const pvTest = parseTestSnapshot('test-4', {
+      testType: 'positional-notation',
       childId: 'child-1',
       pvTotalProblems: 'bad',
     })
 
-    const spellingTask = parseTaskSnapshot('task-5', {
-      taskType: 'spelling',
+    const spellingTest = parseTestSnapshot('test-5', {
+      testType: 'spelling',
       childId: 'child-1',
       spellingTotalProblems: undefined,
     })
 
-    expect(mathTask?.taskType).toBe('math')
-    expect(mathTask).toMatchObject({
+    expect(mathTest?.taskType).toBe('math')
+    expect(mathTest).toMatchObject({
       mathTotalProblems: 8,
       mathDifficulty: 'hard',
+      lastAttemptedAt: 12345,
+      lastAttemptDateKey: '2026-06-09',
+      lastAttemptOutcome: 'success',
     })
 
-    expect(alphabetTask?.taskType).toBe('alphabet')
-    expect(alphabetTask).toMatchObject({
+    expect(largeNumbersTest?.taskType).toBe('large-numbers')
+    expect(largeNumbersTest).toMatchObject({
+      largeNumbersTotalProblems: 4,
+    })
+
+    expect(alphabetTest?.taskType).toBe('alphabet')
+    expect(alphabetTest).toMatchObject({
       alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
     })
 
-    expect(pvTask?.taskType).toBe('positional-notation')
-    expect(pvTask).toMatchObject({
+    expect(pvTest?.taskType).toBe('positional-notation')
+    expect(pvTest).toMatchObject({
       pvTotalProblems: DEFAULT_PV_PROBLEMS,
     })
 
-    expect(spellingTask?.taskType).toBe('spelling')
-    expect(spellingTask).toMatchObject({
+    expect(spellingTest?.taskType).toBe('spelling')
+    expect(spellingTest).toMatchObject({
       spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
     })
   })
 
-  it('skips legacy daynight snapshots', () => {
+  it('skips obsolete daynight snapshots', () => {
     expect(
-      parseTaskSnapshot('legacy-task', {
-        taskType: 'daynight',
+      parseChoreSnapshot('obsolete-chore', {
+        choreType: 'daynight',
         childId: 'child-1',
       })
     ).toBeNull()
 
     expect(
-      parseTodoSnapshot(
-        'legacy-todo',
+      parseChoreTodoSnapshot(
+        'obsolete-chore-todo',
         {
-          sourceTaskType: 'daynight',
+          sourceChoreType: 'daynight',
+          sourceChoreId: 'obsolete-chore',
           childId: 'child-1',
         },
         '2026-04-01'
@@ -126,25 +139,25 @@ describe('choreParser', () => {
     ).toBeNull()
   })
 
-  it('returns null and warns for completely invalid task or todo snapshot payloads', () => {
+  it('returns null and warns for completely invalid chore or todo payloads', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
-    expect(parseTaskSnapshot('bad-task', null as never)).toBeNull()
+    expect(parseChoreSnapshot('bad-chore', null as never)).toBeNull()
     expect(
-      parseTodoSnapshot('bad-todo', null as never, '2026-04-01')
+      parseChoreTodoSnapshot('bad-chore-todo', null as never, '2026-04-01')
     ).toBeNull()
 
     expect(warnSpy).toHaveBeenCalledTimes(2)
     warnSpy.mockRestore()
   })
 
-  it('parses todos with defaults and fallback date key', () => {
-    const todo = parseTodoSnapshot(
-      'todo-1',
+  it('parses chore todos with defaults and fallback date key', () => {
+    const todo = parseChoreTodoSnapshot(
+      'chore-todo-1',
       {
-        sourceTaskType: 'eating',
+        sourceChoreType: 'eating',
+        sourceChoreId: 'chore-1',
         childId: 'child-1',
-        sourceTaskId: 'task-1',
         dinnerDurationSeconds: 'bad',
         dinnerRemainingSeconds: undefined,
         dinnerTotalBites: null,
@@ -154,10 +167,10 @@ describe('choreParser', () => {
     )
 
     expect(todo).toEqual({
-      id: 'todo-1',
+      id: 'chore-todo-1',
       title: '',
       childId: 'child-1',
-      sourceTaskId: 'task-1',
+      sourceTaskId: 'chore-1',
       starValue: 1,
       schoolDayEnabled: false,
       nonSchoolDayEnabled: false,
@@ -174,13 +187,13 @@ describe('choreParser', () => {
     })
   })
 
-  it('parses watertoilet todos with safe defaults', () => {
-    const todo = parseTodoSnapshot(
-      'todo-2',
+  it('parses watertoilet chore todos with safe defaults', () => {
+    const todo = parseChoreTodoSnapshot(
+      'chore-todo-2',
       {
-        sourceTaskType: 'watertoiletcheck',
+        sourceChoreType: 'watertoiletcheck',
+        sourceChoreId: 'chore-2',
         childId: 'child-1',
-        sourceTaskId: 'task-2',
         waterLevel: 'invalid',
         toiletStatus: 'invalid',
       },
@@ -221,7 +234,7 @@ describe('choreParser', () => {
     })
   })
 
-  it('parses split chore and test todos through compatibility fields', () => {
+  it('parses split chore todos through compatibility fields', () => {
     const choreTodo = parseChoreTodoSnapshot(
       'chore-todo-1',
       {
@@ -232,27 +245,11 @@ describe('choreParser', () => {
       '2026-05-31'
     )
 
-    const testTodo = parseTestTodoSnapshot(
-      'test-todo-1',
-      {
-        sourceTestId: 'test-1',
-        sourceTestType: 'alphabet',
-        childId: 'child-1',
-        alphabetTotalProblems: 7,
-      },
-      '2026-05-31'
-    )
-
     expect(choreTodo).toMatchObject({
       sourceTaskId: 'chore-1',
       sourceTaskType: 'watertoiletcheck',
       waterLevel: DEFAULT_WATER_LEVEL,
       toiletStatus: DEFAULT_TOILET_STATUS,
-    })
-    expect(testTodo).toMatchObject({
-      sourceTaskId: 'test-1',
-      sourceTaskType: 'alphabet',
-      alphabetTotalProblems: 7,
     })
   })
 })
@@ -278,8 +275,8 @@ describe('runtime schemas', () => {
     })
   })
 
-  it('applies defaults for task and todo snapshot schemas', () => {
-    expect(taskSnapshotDataSchema.parse({})).toMatchObject({
+  it('applies defaults for chore/test and daily todo snapshot schemas', () => {
+    expect(choreSnapshotDataSchema.parse({})).toMatchObject({
       title: '',
       childId: '',
       category: '',
@@ -291,12 +288,29 @@ describe('runtime schemas', () => {
       dinnerDurationSeconds: DEFAULT_DINNER_DURATION_SECONDS,
       dinnerTotalBites: DEFAULT_DINNER_BITES,
       mathTotalProblems: DEFAULT_MATH_PROBLEMS,
+      largeNumbersTotalProblems: DEFAULT_LARGE_NUMBERS_PROBLEMS,
       pvTotalProblems: DEFAULT_PV_PROBLEMS,
       alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
       spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
     })
 
-    expect(todoSnapshotDataSchema.parse({})).toMatchObject({
+    expect(testSnapshotDataSchema.parse({})).toMatchObject({
+      title: '',
+      childId: '',
+      category: '',
+      taskType: 'standard',
+      schoolDayEnabled: false,
+      nonSchoolDayEnabled: false,
+      starValue: 1,
+      isRepeating: false,
+      mathTotalProblems: DEFAULT_MATH_PROBLEMS,
+      largeNumbersTotalProblems: DEFAULT_LARGE_NUMBERS_PROBLEMS,
+      pvTotalProblems: DEFAULT_PV_PROBLEMS,
+      alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
+      spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
+    })
+
+    expect(choreTodoSnapshotDataSchema.parse({})).toMatchObject({
       title: '',
       childId: '',
       sourceTaskId: '',
@@ -310,6 +324,7 @@ describe('runtime schemas', () => {
       dinnerTotalBites: DEFAULT_DINNER_BITES,
       dinnerTimerStartedAt: null,
       mathTotalProblems: DEFAULT_MATH_PROBLEMS,
+      largeNumbersTotalProblems: DEFAULT_LARGE_NUMBERS_PROBLEMS,
       pvTotalProblems: DEFAULT_PV_PROBLEMS,
       alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
       spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
@@ -333,15 +348,6 @@ describe('runtime schemas', () => {
     ).toMatchObject({
       sourceChoreId: 'chore-1',
       sourceChoreType: 'standard',
-    })
-    expect(
-      testTodoSnapshotDataSchema.parse({
-        sourceTestId: 'test-1',
-        sourceTestType: 'math',
-      })
-    ).toMatchObject({
-      sourceTestId: 'test-1',
-      sourceTestType: 'math',
     })
   })
 

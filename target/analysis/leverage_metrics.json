@@ -1,0 +1,4600 @@
+{
+  "schema_version": "0.1.0",
+  "task_id": "quality.locality_leverage",
+  "project": {
+    "name": "MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest",
+    "framework": "vite",
+    "package_manager": "npm",
+    "test_runner": "vitest"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.1.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-06-16T09:19:58.800Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:f8a489b8a2b6746a861269a2e1f1df5c2dc7b64799cc028d7c22fddc68ba7000"
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": true,
+    "test_runner_detected": true,
+    "git_history_available": true,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "complete": true,
+    "partial": false,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "package_manager_detected",
+      "framework_detected",
+      "test_runner_detected",
+      "git_history_available",
+      "excludes_applied",
+      "type_information_available",
+      "dependencies_installed",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "framework_conventions_detected",
+      "analysis_cache_enabled"
+    ],
+    "missing_input": [],
+    "stale_input": []
+  },
+  "summary": {
+    "records": 105,
+    "shared_hubs": 35
+  },
+  "records": [
+    {
+      "id": "leverage:src/App",
+      "module_id": "src/App",
+      "file": "src/App.tsx",
+      "score": 10,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 0,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/App",
+            "kind": "leverage",
+            "file": "src/App.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/assets/chores/assets",
+      "module_id": "src/assets/chores/assets",
+      "file": "src/assets/chores/assets.ts",
+      "score": 46,
+      "risk": "low",
+      "inbound_reach": 3,
+      "public_surface": 8,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/assets/chores/assets",
+            "kind": "leverage",
+            "file": "src/assets/chores/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/assets/rewards/assets",
+      "module_id": "src/assets/rewards/assets",
+      "file": "src/assets/rewards/assets.ts",
+      "score": 36,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 8,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/assets/rewards/assets",
+            "kind": "leverage",
+            "file": "src/assets/rewards/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/assets/themes/princess/assets",
+      "module_id": "src/assets/themes/princess/assets",
+      "file": "src/assets/themes/princess/assets.ts",
+      "score": 100,
+      "risk": "low",
+      "inbound_reach": 19,
+      "public_surface": 38,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 19
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/assets/themes/princess/assets",
+            "kind": "leverage",
+            "file": "src/assets/themes/princess/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/auth/AuthContext",
+      "module_id": "src/auth/AuthContext",
+      "file": "src/auth/AuthContext.tsx",
+      "score": 88,
+      "risk": "high",
+      "inbound_reach": 9,
+      "public_surface": 3,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 9
+        },
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/auth/AuthContext",
+            "kind": "leverage",
+            "file": "src/auth/AuthContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/AlphabetTester",
+      "module_id": "src/components/AlphabetTester",
+      "file": "src/components/AlphabetTester.tsx",
+      "score": 24,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/AlphabetTester",
+            "kind": "leverage",
+            "file": "src/components/AlphabetTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/AppDeviceFrame",
+      "module_id": "src/components/AppDeviceFrame",
+      "file": "src/components/AppDeviceFrame.tsx",
+      "score": 24,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/AppDeviceFrame",
+            "kind": "leverage",
+            "file": "src/components/AppDeviceFrame.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/AppErrorBoundary",
+      "module_id": "src/components/AppErrorBoundary",
+      "file": "src/components/AppErrorBoundary.tsx",
+      "score": 16,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/AppErrorBoundary",
+            "kind": "leverage",
+            "file": "src/components/AppErrorBoundary.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ArithmeticTester",
+      "module_id": "src/components/ArithmeticTester",
+      "file": "src/components/ArithmeticTester.tsx",
+      "score": 24,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ArithmeticTester",
+            "kind": "leverage",
+            "file": "src/components/ArithmeticTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ChoreOutcomeView",
+      "module_id": "src/components/ChoreOutcomeView",
+      "file": "src/components/ChoreOutcomeView.tsx",
+      "score": 42,
+      "risk": "low",
+      "inbound_reach": 4,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ChoreOutcomeView",
+            "kind": "leverage",
+            "file": "src/components/ChoreOutcomeView.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/DinnerCountdown",
+      "module_id": "src/components/DinnerCountdown",
+      "file": "src/components/DinnerCountdown.tsx",
+      "score": 34,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 7,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/DinnerCountdown",
+            "kind": "leverage",
+            "file": "src/components/DinnerCountdown.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/LargeNumbersTester",
+      "module_id": "src/components/LargeNumbersTester",
+      "file": "src/components/LargeNumbersTester.tsx",
+      "score": 28,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 4,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/LargeNumbersTester",
+            "kind": "leverage",
+            "file": "src/components/LargeNumbersTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/PageHeader",
+      "module_id": "src/components/PageHeader",
+      "file": "src/components/PageHeader.tsx",
+      "score": 22,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/PageHeader",
+            "kind": "leverage",
+            "file": "src/components/PageHeader.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/PageShell",
+      "module_id": "src/components/PageShell",
+      "file": "src/components/PageShell.tsx",
+      "score": 24,
+      "risk": "medium",
+      "inbound_reach": 3,
+      "public_surface": 1,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/PageShell",
+            "kind": "leverage",
+            "file": "src/components/PageShell.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/PositionalNotation",
+      "module_id": "src/components/PositionalNotation",
+      "file": "src/components/PositionalNotation.tsx",
+      "score": 24,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/PositionalNotation",
+            "kind": "leverage",
+            "file": "src/components/PositionalNotation.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/SchoolCalendar",
+      "module_id": "src/components/SchoolCalendar",
+      "file": "src/components/SchoolCalendar.tsx",
+      "score": 16,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/SchoolCalendar",
+            "kind": "leverage",
+            "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/SpellingTester",
+      "module_id": "src/components/SpellingTester",
+      "file": "src/components/SpellingTester.tsx",
+      "score": 30,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 9,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/SpellingTester",
+            "kind": "leverage",
+            "file": "src/components/SpellingTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/TabContent",
+      "module_id": "src/components/TabContent",
+      "file": "src/components/TabContent.tsx",
+      "score": 42,
+      "risk": "low",
+      "inbound_reach": 4,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/TabContent",
+            "kind": "leverage",
+            "file": "src/components/TabContent.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/WaterToiletMonitor",
+      "module_id": "src/components/WaterToiletMonitor",
+      "file": "src/components/WaterToiletMonitor.tsx",
+      "score": 12,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/WaterToiletMonitor",
+            "kind": "leverage",
+            "file": "src/components/WaterToiletMonitor.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/dayNightExplorer/Clock",
+      "module_id": "src/components/dayNightExplorer/Clock",
+      "file": "src/components/dayNightExplorer/Clock.tsx",
+      "score": 30,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 5,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/dayNightExplorer/Clock",
+            "kind": "leverage",
+            "file": "src/components/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/dayNightExplorer/SolarSystem3DManager",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "score": 52,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 21,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/dayNightExplorer/SolarSystem3DManager",
+            "kind": "leverage",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/dayNightExplorer/SpinningPlanet",
+      "module_id": "src/components/dayNightExplorer/SpinningPlanet",
+      "file": "src/components/dayNightExplorer/SpinningPlanet.tsx",
+      "score": 12,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/dayNightExplorer/SpinningPlanet",
+            "kind": "leverage",
+            "file": "src/components/dayNightExplorer/SpinningPlanet.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/dayNightExplorer/useDayNightExplorerModel",
+      "module_id": "src/components/dayNightExplorer/useDayNightExplorerModel",
+      "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
+      "score": 6,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 2,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/dayNightExplorer/useDayNightExplorerModel",
+            "kind": "leverage",
+            "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/dayNightExplorer/useExplorerClock",
+      "module_id": "src/components/dayNightExplorer/useExplorerClock",
+      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+      "score": 16,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/dayNightExplorer/useExplorerClock",
+            "kind": "leverage",
+            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/dayNightExplorer/useSolarSystem3D",
+      "module_id": "src/components/dayNightExplorer/useSolarSystem3D",
+      "file": "src/components/dayNightExplorer/useSolarSystem3D.ts",
+      "score": 10,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 0,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/dayNightExplorer/useSolarSystem3D",
+            "kind": "leverage",
+            "file": "src/components/dayNightExplorer/useSolarSystem3D.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/ActionButton",
+      "module_id": "src/components/ui/ActionButton",
+      "file": "src/components/ui/ActionButton.tsx",
+      "score": 12,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/ActionButton",
+            "kind": "leverage",
+            "file": "src/components/ui/ActionButton.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/ActionTextInput",
+      "module_id": "src/components/ui/ActionTextInput",
+      "file": "src/components/ui/ActionTextInput.tsx",
+      "score": 42,
+      "risk": "low",
+      "inbound_reach": 4,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/ActionTextInput",
+            "kind": "leverage",
+            "file": "src/components/ui/ActionTextInput.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/ActivityControls",
+      "module_id": "src/components/ui/ActivityControls",
+      "file": "src/components/ui/ActivityControls.tsx",
+      "score": 100,
+      "risk": "low",
+      "inbound_reach": 7,
+      "public_surface": 18,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 7
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/ActivityControls",
+            "kind": "leverage",
+            "file": "src/components/ui/ActivityControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/ActivityMathCounters",
+      "module_id": "src/components/ui/ActivityMathCounters",
+      "file": "src/components/ui/ActivityMathCounters.tsx",
+      "score": 42,
+      "risk": "low",
+      "inbound_reach": 3,
+      "public_surface": 6,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/ActivityMathCounters",
+            "kind": "leverage",
+            "file": "src/components/ui/ActivityMathCounters.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/BottomNav",
+      "module_id": "src/components/ui/BottomNav",
+      "file": "src/components/ui/BottomNav.tsx",
+      "score": 22,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/BottomNav",
+            "kind": "leverage",
+            "file": "src/components/ui/BottomNav.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/Carousel",
+      "module_id": "src/components/ui/Carousel",
+      "file": "src/components/ui/Carousel.tsx",
+      "score": 48,
+      "risk": "low",
+      "inbound_reach": 4,
+      "public_surface": 4,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/Carousel",
+            "kind": "leverage",
+            "file": "src/components/ui/Carousel.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/DragScrollRegion",
+      "module_id": "src/components/ui/DragScrollRegion",
+      "file": "src/components/ui/DragScrollRegion.tsx",
+      "score": 24,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/DragScrollRegion",
+            "kind": "leverage",
+            "file": "src/components/ui/DragScrollRegion.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/IconActionControls",
+      "module_id": "src/components/ui/IconActionControls",
+      "file": "src/components/ui/IconActionControls.tsx",
+      "score": 78,
+      "risk": "low",
+      "inbound_reach": 6,
+      "public_surface": 9,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 6
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/IconActionControls",
+            "kind": "leverage",
+            "file": "src/components/ui/IconActionControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/InlineChoiceList",
+      "module_id": "src/components/ui/InlineChoiceList",
+      "file": "src/components/ui/InlineChoiceList.tsx",
+      "score": 28,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 4,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/InlineChoiceList",
+            "kind": "leverage",
+            "file": "src/components/ui/InlineChoiceList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/RepeatControl",
+      "module_id": "src/components/ui/RepeatControl",
+      "file": "src/components/ui/RepeatControl.tsx",
+      "score": 22,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/RepeatControl",
+            "kind": "leverage",
+            "file": "src/components/ui/RepeatControl.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/ScheduleDayTypeControl",
+      "module_id": "src/components/ui/ScheduleDayTypeControl",
+      "file": "src/components/ui/ScheduleDayTypeControl.tsx",
+      "score": 24,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/ScheduleDayTypeControl",
+            "kind": "leverage",
+            "file": "src/components/ui/ScheduleDayTypeControl.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/SegmentedChoiceControl",
+      "module_id": "src/components/ui/SegmentedChoiceControl",
+      "file": "src/components/ui/SegmentedChoiceControl.tsx",
+      "score": 26,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/SegmentedChoiceControl",
+            "kind": "leverage",
+            "file": "src/components/ui/SegmentedChoiceControl.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/StandardActionList",
+      "module_id": "src/components/ui/StandardActionList",
+      "file": "src/components/ui/StandardActionList.tsx",
+      "score": 72,
+      "risk": "low",
+      "inbound_reach": 6,
+      "public_surface": 6,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 6
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/StandardActionList",
+            "kind": "leverage",
+            "file": "src/components/ui/StandardActionList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/StarDisplay",
+      "module_id": "src/components/ui/StarDisplay",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "score": 80,
+      "risk": "low",
+      "inbound_reach": 7,
+      "public_surface": 5,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 7
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/StarDisplay",
+            "kind": "leverage",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/StarInfoBox",
+      "module_id": "src/components/ui/StarInfoBox",
+      "file": "src/components/ui/StarInfoBox.tsx",
+      "score": 18,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 4,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/StarInfoBox",
+            "kind": "leverage",
+            "file": "src/components/ui/StarInfoBox.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/StepperButton",
+      "module_id": "src/components/ui/StepperButton",
+      "file": "src/components/ui/StepperButton.tsx",
+      "score": 76,
+      "risk": "low",
+      "inbound_reach": 7,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 7
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/StepperButton",
+            "kind": "leverage",
+            "file": "src/components/ui/StepperButton.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/TopIconButton",
+      "module_id": "src/components/ui/TopIconButton",
+      "file": "src/components/ui/TopIconButton.tsx",
+      "score": 22,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/TopIconButton",
+            "kind": "leverage",
+            "file": "src/components/ui/TopIconButton.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/standardActionStyles",
+      "module_id": "src/components/ui/standardActionStyles",
+      "file": "src/components/ui/standardActionStyles.ts",
+      "score": 64,
+      "risk": "low",
+      "inbound_reach": 5,
+      "public_surface": 7,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 5
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/standardActionStyles",
+            "kind": "leverage",
+            "file": "src/components/ui/standardActionStyles.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/contexts/ActiveChildContext",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "score": 100,
+      "risk": "high",
+      "inbound_reach": 10,
+      "public_surface": 6,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 10
+        },
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/contexts/ActiveChildContext",
+            "kind": "leverage",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/contexts/SelectedDateContext",
+      "module_id": "src/contexts/SelectedDateContext",
+      "file": "src/contexts/SelectedDateContext.tsx",
+      "score": 30,
+      "risk": "medium",
+      "inbound_reach": 3,
+      "public_surface": 4,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/contexts/SelectedDateContext",
+            "kind": "leverage",
+            "file": "src/contexts/SelectedDateContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/contexts/ThemeContext",
+      "module_id": "src/contexts/ThemeContext",
+      "file": "src/contexts/ThemeContext.tsx",
+      "score": 100,
+      "risk": "high",
+      "inbound_reach": 46,
+      "public_surface": 14,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 46
+        },
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/contexts/ThemeContext",
+            "kind": "leverage",
+            "file": "src/contexts/ThemeContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/data/dailyTaskState",
+      "module_id": "src/data/dailyTaskState",
+      "file": "src/data/dailyTaskState.ts",
+      "score": 84,
+      "risk": "low",
+      "inbound_reach": 5,
+      "public_surface": 17,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 5
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/data/dailyTaskState",
+            "kind": "leverage",
+            "file": "src/data/dailyTaskState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/data/taskDocuments",
+      "module_id": "src/data/taskDocuments",
+      "file": "src/data/taskDocuments.ts",
+      "score": 52,
+      "risk": "low",
+      "inbound_reach": 4,
+      "public_surface": 6,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/data/taskDocuments",
+            "kind": "leverage",
+            "file": "src/data/taskDocuments.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/data/types",
+      "module_id": "src/data/types",
+      "file": "src/data/types.ts",
+      "score": 100,
+      "risk": "high",
+      "inbound_reach": 28,
+      "public_surface": 164,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 28
+        },
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/data/types",
+            "kind": "leverage",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/data/useChildren",
+      "module_id": "src/data/useChildren",
+      "file": "src/data/useChildren.ts",
+      "score": 42,
+      "risk": "low",
+      "inbound_reach": 4,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/data/useChildren",
+            "kind": "leverage",
+            "file": "src/data/useChildren.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/data/useChoreActivityActions",
+      "module_id": "src/data/useChoreActivityActions",
+      "file": "src/data/useChoreActivityActions.ts",
+      "score": 16,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/data/useChoreActivityActions",
+            "kind": "leverage",
+            "file": "src/data/useChoreActivityActions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/data/useChores",
+      "module_id": "src/data/useChores",
+      "file": "src/data/useChores.ts",
+      "score": 12,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/data/useChores",
+            "kind": "leverage",
+            "file": "src/data/useChores.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/data/useRewards",
+      "module_id": "src/data/useRewards",
+      "file": "src/data/useRewards.ts",
+      "score": 36,
+      "risk": "low",
+      "inbound_reach": 3,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/data/useRewards",
+            "kind": "leverage",
+            "file": "src/data/useRewards.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/data/useTests",
+      "module_id": "src/data/useTests",
+      "file": "src/data/useTests.ts",
+      "score": 22,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/data/useTests",
+            "kind": "leverage",
+            "file": "src/data/useTests.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/data/useUserCollection",
+      "module_id": "src/data/useUserCollection",
+      "file": "src/data/useUserCollection.ts",
+      "score": 44,
+      "risk": "low",
+      "inbound_reach": 4,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/data/useUserCollection",
+            "kind": "leverage",
+            "file": "src/data/useUserCollection.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/firebase",
+      "module_id": "src/firebase",
+      "file": "src/firebase.ts",
+      "score": 76,
+      "risk": "low",
+      "inbound_reach": 7,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 7
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/firebase",
+            "kind": "leverage",
+            "file": "src/firebase.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/hooks/useActivityChallenge",
+      "module_id": "src/hooks/useActivityChallenge",
+      "file": "src/hooks/useActivityChallenge.ts",
+      "score": 38,
+      "risk": "low",
+      "inbound_reach": 3,
+      "public_surface": 4,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/hooks/useActivityChallenge",
+            "kind": "leverage",
+            "file": "src/hooks/useActivityChallenge.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/hooks/useDeviceFrame",
+      "module_id": "src/hooks/useDeviceFrame",
+      "file": "src/hooks/useDeviceFrame.ts",
+      "score": 24,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/hooks/useDeviceFrame",
+            "kind": "leverage",
+            "file": "src/hooks/useDeviceFrame.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/hooks/useDinnerCountdownState",
+      "module_id": "src/hooks/useDinnerCountdownState",
+      "file": "src/hooks/useDinnerCountdownState.ts",
+      "score": 14,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/hooks/useDinnerCountdownState",
+            "kind": "leverage",
+            "file": "src/hooks/useDinnerCountdownState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/hooks/useTaskActivityState",
+      "module_id": "src/hooks/useTaskActivityState",
+      "file": "src/hooks/useTaskActivityState.ts",
+      "score": 32,
+      "risk": "low",
+      "inbound_reach": 3,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/hooks/useTaskActivityState",
+            "kind": "leverage",
+            "file": "src/hooks/useTaskActivityState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/celebrate",
+      "module_id": "src/lib/celebrate",
+      "file": "src/lib/celebrate.ts",
+      "score": 62,
+      "risk": "low",
+      "inbound_reach": 6,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 6
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/celebrate",
+            "kind": "leverage",
+            "file": "src/lib/celebrate.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/choreLogic",
+      "module_id": "src/lib/choreLogic",
+      "file": "src/lib/choreLogic.ts",
+      "score": 66,
+      "risk": "low",
+      "inbound_reach": 5,
+      "public_surface": 8,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 5
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/choreLogic",
+            "kind": "leverage",
+            "file": "src/lib/choreLogic.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/choreParser",
+      "module_id": "src/lib/choreParser",
+      "file": "src/lib/choreParser.ts",
+      "score": 14,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 5,
+      "weak_surface": 2,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "weak_public_surface",
+          "value": 2
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/choreParser",
+            "kind": "leverage",
+            "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/dayNightExplorer/dayNightExplorer.constants",
+      "module_id": "src/lib/dayNightExplorer/dayNightExplorer.constants",
+      "file": "src/lib/dayNightExplorer/dayNightExplorer.constants.ts",
+      "score": 64,
+      "risk": "low",
+      "inbound_reach": 6,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 6
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/dayNightExplorer/dayNightExplorer.constants",
+            "kind": "leverage",
+            "file": "src/lib/dayNightExplorer/dayNightExplorer.constants.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerBackdrop",
+      "module_id": "src/lib/dayNightExplorer/dayNightExplorerBackdrop",
+      "file": "src/lib/dayNightExplorer/dayNightExplorerBackdrop.ts",
+      "score": 28,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 9,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerBackdrop",
+            "kind": "leverage",
+            "file": "src/lib/dayNightExplorer/dayNightExplorerBackdrop.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerCalendar",
+      "module_id": "src/lib/dayNightExplorer/dayNightExplorerCalendar",
+      "file": "src/lib/dayNightExplorer/dayNightExplorerCalendar.ts",
+      "score": 16,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerCalendar",
+            "kind": "leverage",
+            "file": "src/lib/dayNightExplorer/dayNightExplorerCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerMath",
+      "module_id": "src/lib/dayNightExplorer/dayNightExplorerMath",
+      "file": "src/lib/dayNightExplorer/dayNightExplorerMath.ts",
+      "score": 52,
+      "risk": "low",
+      "inbound_reach": 4,
+      "public_surface": 6,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerMath",
+            "kind": "leverage",
+            "file": "src/lib/dayNightExplorer/dayNightExplorerMath.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerOptions",
+      "module_id": "src/lib/dayNightExplorer/dayNightExplorerOptions",
+      "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+      "score": 56,
+      "risk": "low",
+      "inbound_reach": 3,
+      "public_surface": 13,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerOptions",
+            "kind": "leverage",
+            "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/schoolCalendarCache",
+      "module_id": "src/lib/schoolCalendarCache",
+      "file": "src/lib/schoolCalendarCache.ts",
+      "score": 16,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/schoolCalendarCache",
+            "kind": "leverage",
+            "file": "src/lib/schoolCalendarCache.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/seasons",
+      "module_id": "src/lib/seasons",
+      "file": "src/lib/seasons.ts",
+      "score": 36,
+      "risk": "low",
+      "inbound_reach": 3,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/seasons",
+            "kind": "leverage",
+            "file": "src/lib/seasons.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/solar",
+      "module_id": "src/lib/solar",
+      "file": "src/lib/solar.ts",
+      "score": 100,
+      "risk": "low",
+      "inbound_reach": 7,
+      "public_surface": 18,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 7
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/solar",
+            "kind": "leverage",
+            "file": "src/lib/solar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/starActions",
+      "module_id": "src/lib/starActions",
+      "file": "src/lib/starActions.ts",
+      "score": 38,
+      "risk": "low",
+      "inbound_reach": 3,
+      "public_surface": 4,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/starActions",
+            "kind": "leverage",
+            "file": "src/lib/starActions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/tabNavigation",
+      "module_id": "src/lib/tabNavigation",
+      "file": "src/lib/tabNavigation.ts",
+      "score": 58,
+      "risk": "low",
+      "inbound_reach": 4,
+      "public_surface": 9,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/tabNavigation",
+            "kind": "leverage",
+            "file": "src/lib/tabNavigation.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/today",
+      "module_id": "src/lib/today",
+      "file": "src/lib/today.ts",
+      "score": 96,
+      "risk": "low",
+      "inbound_reach": 6,
+      "public_surface": 18,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 6
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/today",
+            "kind": "leverage",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/useProblemHistory",
+      "module_id": "src/lib/useProblemHistory",
+      "file": "src/lib/useProblemHistory.ts",
+      "score": 52,
+      "risk": "low",
+      "inbound_reach": 5,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 5
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/useProblemHistory",
+            "kind": "leverage",
+            "file": "src/lib/useProblemHistory.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/main",
+      "module_id": "src/main",
+      "file": "src/main.tsx",
+      "score": 0,
+      "risk": "low",
+      "inbound_reach": 0,
+      "public_surface": 0,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "leaf",
+      "signals": [
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/main",
+            "kind": "leverage",
+            "file": "src/main.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/pages/ChoreCreationFlow",
+      "module_id": "src/pages/ChoreCreationFlow",
+      "file": "src/pages/ChoreCreationFlow.tsx",
+      "score": 16,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/pages/ChoreCreationFlow",
+            "kind": "leverage",
+            "file": "src/pages/ChoreCreationFlow.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/pages/DashboardPage",
+      "module_id": "src/pages/DashboardPage",
+      "file": "src/pages/DashboardPage.tsx",
+      "score": 18,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 4,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/pages/DashboardPage",
+            "kind": "leverage",
+            "file": "src/pages/DashboardPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/pages/LoginPage",
+      "module_id": "src/pages/LoginPage",
+      "file": "src/pages/LoginPage.tsx",
+      "score": 10,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 0,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/pages/LoginPage",
+            "kind": "leverage",
+            "file": "src/pages/LoginPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/pages/ManageChildrenPage",
+      "module_id": "src/pages/ManageChildrenPage",
+      "file": "src/pages/ManageChildrenPage.tsx",
+      "score": 10,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 0,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/pages/ManageChildrenPage",
+            "kind": "leverage",
+            "file": "src/pages/ManageChildrenPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/pages/ManageTestsPage",
+      "module_id": "src/pages/ManageTestsPage",
+      "file": "src/pages/ManageTestsPage.tsx",
+      "score": 2,
+      "risk": "low",
+      "inbound_reach": 0,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "leaf",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/pages/ManageTestsPage",
+            "kind": "leverage",
+            "file": "src/pages/ManageTestsPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/pages/RewardCreationFlow",
+      "module_id": "src/pages/RewardCreationFlow",
+      "file": "src/pages/RewardCreationFlow.tsx",
+      "score": 14,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/pages/RewardCreationFlow",
+            "kind": "leverage",
+            "file": "src/pages/RewardCreationFlow.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/pages/RewardsPage",
+      "module_id": "src/pages/RewardsPage",
+      "file": "src/pages/RewardsPage.tsx",
+      "score": 10,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 0,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/pages/RewardsPage",
+            "kind": "leverage",
+            "file": "src/pages/RewardsPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/pages/TestsPage",
+      "module_id": "src/pages/TestsPage",
+      "file": "src/pages/TestsPage.tsx",
+      "score": 10,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 0,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/pages/TestsPage",
+            "kind": "leverage",
+            "file": "src/pages/TestsPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/pages/TimeExplorerPage",
+      "module_id": "src/pages/TimeExplorerPage",
+      "file": "src/pages/TimeExplorerPage.tsx",
+      "score": 14,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/pages/TimeExplorerPage",
+            "kind": "leverage",
+            "file": "src/pages/TimeExplorerPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/pages/dashboardChoreUi",
+      "module_id": "src/pages/dashboardChoreUi",
+      "file": "src/pages/dashboardChoreUi.tsx",
+      "score": 18,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 4,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/pages/dashboardChoreUi",
+            "kind": "leverage",
+            "file": "src/pages/dashboardChoreUi.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/routes/AnimatedTabLayout",
+      "module_id": "src/routes/AnimatedTabLayout",
+      "file": "src/routes/AnimatedTabLayout.tsx",
+      "score": 12,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/routes/AnimatedTabLayout",
+            "kind": "leverage",
+            "file": "src/routes/AnimatedTabLayout.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/routes/ProtectedRoute",
+      "module_id": "src/routes/ProtectedRoute",
+      "file": "src/routes/ProtectedRoute.tsx",
+      "score": 10,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 0,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/routes/ProtectedRoute",
+            "kind": "leverage",
+            "file": "src/routes/ProtectedRoute.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/tokens/index",
+      "module_id": "src/tokens/index",
+      "file": "src/tokens/index.ts",
+      "score": 100,
+      "risk": "low",
+      "inbound_reach": 46,
+      "public_surface": 4,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 46
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/tokens/index",
+            "kind": "leverage",
+            "file": "src/tokens/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/choreModeDefinitions",
+      "module_id": "src/ui/choreModeDefinitions",
+      "file": "src/ui/choreModeDefinitions.ts",
+      "score": 98,
+      "risk": "low",
+      "inbound_reach": 7,
+      "public_surface": 14,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 7
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/choreModeDefinitions",
+            "kind": "leverage",
+            "file": "src/ui/choreModeDefinitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/definitionRowDescriptors",
+      "module_id": "src/ui/definitionRowDescriptors",
+      "file": "src/ui/definitionRowDescriptors.tsx",
+      "score": 32,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 6,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/definitionRowDescriptors",
+            "kind": "leverage",
+            "file": "src/ui/definitionRowDescriptors.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/listDescriptorTypes",
+      "module_id": "src/ui/listDescriptorTypes",
+      "file": "src/ui/listDescriptorTypes.ts",
+      "score": 100,
+      "risk": "low",
+      "inbound_reach": 8,
+      "public_surface": 10,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 8
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/listDescriptorTypes",
+            "kind": "leverage",
+            "file": "src/ui/listDescriptorTypes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/presetChoreActions",
+      "module_id": "src/ui/presetChoreActions",
+      "file": "src/ui/presetChoreActions.tsx",
+      "score": 34,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 12,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/presetChoreActions",
+            "kind": "leverage",
+            "file": "src/ui/presetChoreActions.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/presetChoreRenderers",
+      "module_id": "src/ui/presetChoreRenderers",
+      "file": "src/ui/presetChoreRenderers.tsx",
+      "score": 56,
+      "risk": "low",
+      "inbound_reach": 4,
+      "public_surface": 8,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/presetChoreRenderers",
+            "kind": "leverage",
+            "file": "src/ui/presetChoreRenderers.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/taskTypeIcons",
+      "module_id": "src/ui/taskTypeIcons",
+      "file": "src/ui/taskTypeIcons.ts",
+      "score": 32,
+      "risk": "low",
+      "inbound_reach": 3,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/taskTypeIcons",
+            "kind": "leverage",
+            "file": "src/ui/taskTypeIcons.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/themeOptions",
+      "module_id": "src/ui/themeOptions",
+      "file": "src/ui/themeOptions.ts",
+      "score": 60,
+      "risk": "low",
+      "inbound_reach": 5,
+      "public_surface": 5,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 5
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/themeOptions",
+            "kind": "leverage",
+            "file": "src/ui/themeOptions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/unifiedChoreDescriptorTypes",
+      "module_id": "src/ui/unifiedChoreDescriptorTypes",
+      "file": "src/ui/unifiedChoreDescriptorTypes.ts",
+      "score": 82,
+      "risk": "low",
+      "inbound_reach": 7,
+      "public_surface": 6,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 7
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/unifiedChoreDescriptorTypes",
+            "kind": "leverage",
+            "file": "src/ui/unifiedChoreDescriptorTypes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/unifiedChoreDescriptors",
+      "module_id": "src/ui/unifiedChoreDescriptors",
+      "file": "src/ui/unifiedChoreDescriptors.tsx",
+      "score": 34,
+      "risk": "low",
+      "inbound_reach": 3,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/unifiedChoreDescriptors",
+            "kind": "leverage",
+            "file": "src/ui/unifiedChoreDescriptors.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/unifiedChoreItemRenderer",
+      "module_id": "src/ui/unifiedChoreItemRenderer",
+      "file": "src/ui/unifiedChoreItemRenderer.tsx",
+      "score": 12,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/unifiedChoreItemRenderer",
+            "kind": "leverage",
+            "file": "src/ui/unifiedChoreItemRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/unifiedChoreRenderUtils",
+      "module_id": "src/ui/unifiedChoreRenderUtils",
+      "file": "src/ui/unifiedChoreRenderUtils.ts",
+      "score": 24,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/unifiedChoreRenderUtils",
+            "kind": "leverage",
+            "file": "src/ui/unifiedChoreRenderUtils.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/unifiedChoreState",
+      "module_id": "src/ui/unifiedChoreState",
+      "file": "src/ui/unifiedChoreState.ts",
+      "score": 66,
+      "risk": "low",
+      "inbound_reach": 5,
+      "public_surface": 8,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 5
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/unifiedChoreState",
+            "kind": "leverage",
+            "file": "src/ui/unifiedChoreState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/unifiedEatingRenderer",
+      "module_id": "src/ui/unifiedEatingRenderer",
+      "file": "src/ui/unifiedEatingRenderer.tsx",
+      "score": 12,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/unifiedEatingRenderer",
+            "kind": "leverage",
+            "file": "src/ui/unifiedEatingRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/unifiedTestRenderer",
+      "module_id": "src/ui/unifiedTestRenderer",
+      "file": "src/ui/unifiedTestRenderer.tsx",
+      "score": 18,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 4,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/unifiedTestRenderer",
+            "kind": "leverage",
+            "file": "src/ui/unifiedTestRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/unifiedWaterToiletRenderer",
+      "module_id": "src/ui/unifiedWaterToiletRenderer",
+      "file": "src/ui/unifiedWaterToiletRenderer.tsx",
+      "score": 12,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/unifiedWaterToiletRenderer",
+            "kind": "leverage",
+            "file": "src/ui/unifiedWaterToiletRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/waterToiletAssets",
+      "module_id": "src/ui/waterToiletAssets",
+      "file": "src/ui/waterToiletAssets.ts",
+      "score": 34,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 7,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/waterToiletAssets",
+            "kind": "leverage",
+            "file": "src/ui/waterToiletAssets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    }
+  ]
+}

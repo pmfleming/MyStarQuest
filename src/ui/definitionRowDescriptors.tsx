@@ -1,14 +1,19 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import Carousel from '../components/ui/Carousel'
 import ActionTextInput from '../components/ui/ActionTextInput'
-import RepeatControl from '../components/ui/RepeatControl'
 import StarDisplay from '../components/ui/StarDisplay'
+import SegmentedChoiceControl, {
+  type SegmentedChoiceOption,
+} from '../components/ui/SegmentedChoiceControl'
+import { getStandardActionHeadingStyle } from '../components/ui/standardActionStyles'
+import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
+import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import {
   princessActiveIcon,
   princessBuyRewardIcon,
   princessSelectIcon,
 } from '../assets/themes/princess/assets'
-import { rewardImageOptions } from '../assets/rewards/assets'
+import { getRewardImage } from '../assets/rewards/assets'
 import type { ThemeId } from './themeOptions'
 import type { Theme } from '../contexts/ThemeContext'
 import type { ChildProfile, RewardRecord } from '../data/types'
@@ -37,19 +42,126 @@ type ChildDefinitionDescriptorDeps = {
   selectChild: (childId: string) => void | Promise<void>
 }
 
+type TestFailureModeChoice = 'failure' | 'success'
+
+const TEST_FAILURE_MODE_OPTIONS: SegmentedChoiceOption<TestFailureModeChoice>[] =
+  [
+    {
+      value: 'failure',
+      label: 'Tests have failure mode',
+      icon: quizIncorrectIcon,
+    },
+    {
+      value: 'success',
+      label: 'Tests do not have failure mode',
+      icon: quizCorrectIcon,
+    },
+  ]
+
 type RewardDefinitionDescriptorDeps = {
   theme: Theme
   activeChildId: string | null
   activeChildStars: number
   isRedeeming: boolean
-  titleDrafts: Record<string, string>
-  setTitleDraft: (rewardId: string, value: string) => void
-  commitTitle: (rewardId: string, value: string) => void | Promise<void>
-  updateRewardField: (
-    rewardId: string,
-    value: Record<string, unknown>
-  ) => void | Promise<void>
   handleGiveReward: (reward: RewardRecord) => void | Promise<void>
+}
+
+const renderRewardAvailableSummary = (reward: RewardRecord, theme: Theme) => {
+  const image = getRewardImage(reward.imageKey)
+
+  const rewardCostFrameStyle: CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    position: 'relative',
+    width: '100%',
+    minHeight: '116px',
+    padding: '10px',
+    borderRadius: `${uiTokens.surfaceRadius}px`,
+    border: `3px dashed ${theme.colors.primary}55`,
+    background: `${theme.colors.bg}88`,
+    overflow: 'visible',
+    boxSizing: 'border-box',
+  }
+
+  const imageLaneStyle: CSSProperties = {
+    flex: '0 0 38%',
+    minWidth: '96px',
+    maxWidth: '152px',
+    marginRight: '-26px',
+    position: 'relative',
+    zIndex: 2,
+  }
+
+  const imageFrameStyle: CSSProperties = {
+    width: '100%',
+    aspectRatio: '1',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'visible',
+  }
+
+  const starLaneStyle: CSSProperties = {
+    flex: '1 1 66%',
+    minWidth: 0,
+    position: 'relative',
+    zIndex: 1,
+  }
+
+  return (
+    <div
+      aria-label={`${reward.title} available reward`}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: `${uiTokens.singleVerticalSpace}px`,
+        minWidth: 0,
+        flex: 1,
+      }}
+    >
+      <div
+        style={{
+          ...getStandardActionHeadingStyle(theme),
+        }}
+      >
+        {reward.title}
+      </div>
+
+      <div style={rewardCostFrameStyle}>
+        {image && (
+          <div style={imageLaneStyle}>
+            <div style={imageFrameStyle}>
+              <img
+                src={image}
+                alt={`${reward.title} reward`}
+                style={{
+                  width: '112%',
+                  height: '112%',
+                  objectFit: 'contain',
+                  display: 'block',
+                }}
+              />
+            </div>
+          </div>
+        )}
+
+        <div style={starLaneStyle}>
+          <StarDisplay
+            count={reward.costStars}
+            animate={false}
+            style={{
+              width: '100%',
+              minHeight: '84px',
+              padding: image ? '10px 10px 10px 4px' : '10px',
+              background: 'transparent',
+              border: '0',
+              boxSizing: 'border-box',
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export const createChildDefinitionListRowDescriptor = (
@@ -101,6 +213,18 @@ export const createChildDefinitionListRowDescriptor = (
             deps.updateChildField(child.id, { totalStars: value })
           }
         />
+
+        <SegmentedChoiceControl
+          theme={deps.theme}
+          value={child.testFailureModeEnabled ? 'failure' : 'success'}
+          options={TEST_FAILURE_MODE_OPTIONS}
+          onChange={(value) =>
+            deps.updateChildField(child.id, {
+              testFailureModeEnabled: value === 'failure',
+            })
+          }
+          ariaLabel="Test failure mode"
+        />
       </div>
     )
   },
@@ -135,81 +259,7 @@ export const createChildDefinitionListRowDescriptor = (
 export const createRewardDefinitionListRowDescriptor = (
   deps: RewardDefinitionDescriptorDeps
 ): ListRowDescriptor<RewardRecord> => ({
-  renderItem: (reward) => {
-    const currentImageKey = reward.imageKey ?? ''
-    const currentImageIndex = Math.max(
-      0,
-      rewardImageOptions.findIndex((option) => option.id === currentImageKey)
-    )
-    const carouselItems = rewardImageOptions.map((option) => ({
-      id: option.id,
-      label: option.label,
-      icon: option.image ? (
-        <img
-          src={option.image}
-          alt=""
-          className="h-full w-full object-contain"
-          aria-hidden="true"
-        />
-      ) : (
-        <span aria-label="No image" />
-      ),
-    }))
-
-    return (
-      <div
-        className="flex flex-col"
-        style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
-      >
-        <ActionTextInput
-          theme={deps.theme}
-          label="Reward"
-          value={deps.titleDrafts[reward.id] ?? reward.title}
-          onChange={(value) => deps.setTitleDraft(reward.id, value)}
-          onCommit={(value) => deps.commitTitle(reward.id, value)}
-          maxLength={80}
-          baseColor={deps.theme.colors.secondary}
-          inputAriaLabel="Reward name"
-          transparent
-        />
-
-        <Carousel
-          key={`${reward.id}-${currentImageKey}`}
-          items={carouselItems}
-          title="Reward image"
-          initialIndex={currentImageIndex}
-          onChange={(index) => {
-            const selected = rewardImageOptions[index]
-            if (!selected || selected.id === currentImageKey) return
-            deps.updateRewardField(reward.id, { imageKey: selected.id })
-          }}
-        />
-
-        <StarDisplay
-          theme={deps.theme}
-          count={reward.costStars}
-          editable
-          onChange={(value) =>
-            deps.updateRewardField(reward.id, {
-              costStars: Math.max(0, value),
-            })
-          }
-          min={0}
-        />
-
-        <RepeatControl
-          theme={deps.theme}
-          value={reward.isRepeating}
-          onChange={(value) =>
-            deps.updateRewardField(reward.id, { isRepeating: value })
-          }
-          label="Keep available after buying"
-          showLabel={false}
-          showFeedback={false}
-        />
-      </div>
-    )
-  },
+  renderItem: (reward) => renderRewardAvailableSummary(reward, deps.theme),
   getPrimaryAction: (reward) => {
     const hasEnoughStars = deps.activeChildStars >= reward.costStars
 

@@ -30,22 +30,28 @@ export type UnifiedChoreDeps = {
   onExpireDinner?: (item: UnifiedChoreItem) => void
   titleDrafts?: Record<string, string>
   activeMathId: string | null
+  activeLargeNumbersId: string | null
   activePVId: string | null
   activeAlphabetId: string | null
   activeSpellingId: string | null
   activeDinnerId: string | null
   activeWaterToiletId: string | null
   mathCheckTriggers: Record<string, number>
+  largeNumbersCheckTriggers: Record<string, number>
   pvCheckTriggers: Record<string, number>
   alphabetCheckTriggers: Record<string, number>
   spellingCheckTriggers: Record<string, number>
   setMathCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
+  setLargeNumbersCheckTriggers?: Dispatch<
+    SetStateAction<Record<string, number>>
+  >
   setPVCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
   setAlphabetCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
   setSpellingCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
   biteCooldownSeconds: number
   biteCooldownEndsAt?: number | null
   activePrincessMealIcon?: string
+  testFailureModeEnabled?: boolean
   renderDayTypeControl?: (task: TaskRecord) => ReactNode
   hideDeleteUtility?: boolean
 }

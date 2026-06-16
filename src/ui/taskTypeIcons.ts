@@ -6,19 +6,16 @@ import {
 } from '../assets/themes/princess/assets'
 import type { TaskType } from '../data/types'
 
-export const getPrincessTaskTypeIcon = (taskType: TaskType) => {
-  switch (taskType) {
-    case 'eating':
-      return princessEatingDinnerIcon
-    case 'watertoiletcheck':
-      return princessFlaskFullImage
-    case 'math':
-    case 'positional-notation':
-    case 'alphabet':
-    case 'spelling':
-      return princessMathsIcon
-    case 'standard':
-    default:
-      return princessChoresIcon
-  }
-}
+const princessIconByTaskType = {
+  standard: princessChoresIcon,
+  eating: princessEatingDinnerIcon,
+  watertoiletcheck: princessFlaskFullImage,
+  math: princessMathsIcon,
+  'large-numbers': princessMathsIcon,
+  'positional-notation': princessMathsIcon,
+  alphabet: princessMathsIcon,
+  spelling: princessMathsIcon,
+} satisfies Record<TaskType, string>
+
+export const getPrincessTaskTypeIcon = (taskType: TaskType) =>
+  princessIconByTaskType[taskType]

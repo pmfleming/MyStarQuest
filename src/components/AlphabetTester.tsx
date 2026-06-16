@@ -223,6 +223,7 @@ const AlphabetTester = ({
   totalProblems,
   starReward,
   isRunning,
+  isEditable = true,
   isCompleted = false,
   isFailed = false,
   onAdjustProblems,
@@ -231,6 +232,7 @@ const AlphabetTester = ({
   onFail,
   completionImage,
   failureImage,
+  failureModeEnabled = true,
 }: AlphabetTesterProps) => {
   const [problemIndex, setProblemIndex] = useState(0)
   const [successCount, setSuccessCount] = useState(0)
@@ -247,8 +249,10 @@ const AlphabetTester = ({
 
   const isSetup = !isRunning && !isCompleted
   const incorrectCount = resultHistory.filter((r) => r === 'incorrect').length
-  const hasFailedByHistory = incorrectCount >= MAX_ACTIVITY_MISTAKES
-  const isFailedState = isCompleted && (isFailed || hasFailedByHistory)
+  const hasFailedByHistory =
+    failureModeEnabled && incorrectCount >= MAX_ACTIVITY_MISTAKES
+  const isFailedState =
+    failureModeEnabled && isCompleted && (isFailed || hasFailedByHistory)
   const isSuccessState = isCompleted && !isFailedState
   const isFinished = isSuccessState || isFailedState
 
@@ -313,11 +317,13 @@ const AlphabetTester = ({
     } else {
       setFeedback('wrong')
       setWrongChoice(selectedLetter)
-      setResultHistory((prev) => [...prev, 'incorrect'])
+      if (failureModeEnabled) {
+        setResultHistory((prev) => [...prev, 'incorrect'])
+      }
       const nextRetryCount = retryCount + 1
       setRetryCount(nextRetryCount)
 
-      if (nextRetryCount >= MAX_ACTIVITY_MISTAKES) {
+      if (failureModeEnabled && nextRetryCount >= MAX_ACTIVITY_MISTAKES) {
         setIsFailurePending(true)
         feedbackTimer.current = setTimeout(() => {
           onFail?.()
@@ -370,6 +376,7 @@ const AlphabetTester = ({
         onStarsChange={onStarsChange}
         previousAriaLabel="Fewer problems"
         nextAriaLabel="More problems"
+        isEditable={isEditable}
         starMax={10}
         starStyle={{ marginTop: uiTokens.singleVerticalSpace }}
       />
@@ -377,7 +384,11 @@ const AlphabetTester = ({
       {isRunning && (
         <ActivityPlayArea
           theme={theme}
-          results={resultHistory}
+          results={
+            failureModeEnabled
+              ? resultHistory
+              : resultHistory.filter((result) => result === 'correct')
+          }
           correctIcon={quizCorrectIcon}
           incorrectIcon={quizIncorrectIcon}
           hideAlt

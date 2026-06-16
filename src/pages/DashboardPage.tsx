@@ -1,4 +1,10 @@
-import { useEffect, useMemo, useState } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -13,8 +19,9 @@ import { useChores } from '../data/useChores'
 import {
   BITE_COOLDOWN_SECONDS,
   type ChoreType,
-  isEatingTodo,
-  isTodoRecord,
+  type ChoreWithEphemeral,
+  getManageTaskCompletedAt,
+  isEatingTask,
 } from '../data/types'
 import type { ChoreDocumentSettings } from '../data/taskDocuments'
 import { useTaskActivityState } from '../hooks/useTaskActivityState'
@@ -26,11 +33,47 @@ import {
 import { DashboardHeaderActions } from './dashboardChoreUi'
 import ChoreCreationFlow from './ChoreCreationFlow'
 
+type ChorePanelMode = 'create' | null
+type TriggerMap = Record<string, number>
+type TriggerKey =
+  | 'math'
+  | 'largeNumbers'
+  | 'positionalNotation'
+  | 'alphabet'
+  | 'spelling'
+type ActivityCheckTriggers = Record<TriggerKey, TriggerMap>
+
+const createEmptyActivityCheckTriggers = (): ActivityCheckTriggers => ({
+  math: {},
+  largeNumbers: {},
+  positionalNotation: {},
+  alphabet: {},
+  spelling: {},
+})
+
+const createTriggerSetter =
+  (
+    setTriggers: Dispatch<SetStateAction<ActivityCheckTriggers>>,
+    key: TriggerKey
+  ): Dispatch<SetStateAction<TriggerMap>> =>
+  (update) =>
+    setTriggers((prev) => ({
+      ...prev,
+      [key]: typeof update === 'function' ? update(prev[key]) : update,
+    }))
+
 const getPrincessMealIconForHour = (hour: number) => {
   if (hour < 10) return princessEatingBreakfastIcon
   if (hour < 16) return princessEatingLunchIcon
   return princessEatingDinnerIcon
 }
+
+const isEditableChore = (
+  chore: ReturnType<typeof useChores>['chores'][number]
+): chore is ChoreWithEphemeral =>
+  chore.taskType === 'standard' ||
+  chore.taskType === 'eating' ||
+  chore.taskType === 'watertoiletcheck'
 
 const DashboardPage = () => {
   const { logout } = useAuth()
@@ -39,10 +82,10 @@ const DashboardPage = () => {
   const { children } = useChildren()
 
   const {
-    todos,
+    todos: todayChores,
     todayInfo,
-    deleteTodo,
-    updateTodoField,
+    updateChoreAndTodayTodoField,
+    updateEphemeral,
     createChoreForToday,
     applyBite,
     startDinnerTimer,
@@ -51,10 +94,14 @@ const DashboardPage = () => {
     completeChore,
     failChore,
     resetChore,
-    resetTodayChores,
+    deleteTask,
   } = useChores()
 
-  const [showAddChooser, setShowAddChooser] = useState(false)
+  const [chorePanelMode, setChorePanelMode] = useState<ChorePanelMode>(null)
+  const [editingChoreId, setEditingChoreId] = useState<string | null>(null)
+  const [savingEditedChoreId, setSavingEditedChoreId] = useState<string | null>(
+    null
+  )
   const [isCreatingChore, setIsCreatingChore] = useState(false)
   const [createChoreError, setCreateChoreError] = useState<string | null>(null)
   const [isResettingToday, setIsResettingToday] = useState(false)
@@ -65,18 +112,9 @@ const DashboardPage = () => {
     null
   )
 
-  const [mathCheckTriggers, setMathCheckTriggers] = useState<
-    Record<string, number>
-  >({})
-  const [pvCheckTriggers, setPVCheckTriggers] = useState<
-    Record<string, number>
-  >({})
-  const [alphabetCheckTriggers, setAlphabetCheckTriggers] = useState<
-    Record<string, number>
-  >({})
-  const [spellingCheckTriggers, setSpellingCheckTriggers] = useState<
-    Record<string, number>
-  >({})
+  const [activityCheckTriggers, setActivityCheckTriggers] = useState(
+    createEmptyActivityCheckTriggers
+  )
 
   const activePrincessMealIcon = getPrincessMealIconForHour(
     new Date().getHours()
@@ -85,10 +123,7 @@ const DashboardPage = () => {
   useEffect(() => {
     clearActivityIds()
     setBiteCooldownEndsAt(null)
-    setMathCheckTriggers({})
-    setPVCheckTriggers({})
-    setAlphabetCheckTriggers({})
-    setSpellingCheckTriggers({})
+    setActivityCheckTriggers(createEmptyActivityCheckTriggers())
   }, [activeChildId, clearActivityIds, todayInfo.dateKey])
 
   useEffect(() => {
@@ -122,7 +157,7 @@ const DashboardPage = () => {
     setCreateChoreError(null)
     try {
       await createChoreForToday(choreType, settings)
-      setShowAddChooser(false)
+      setChorePanelMode(null)
     } catch (error) {
       console.error('Failed to create chore', error)
       setCreateChoreError('Could not save chore.')
@@ -137,7 +172,14 @@ const DashboardPage = () => {
     setIsResettingToday(true)
     setResetTodayError(null)
     try {
-      await resetTodayChores()
+      await Promise.all(
+        todayChores
+          .filter((chore) => !getManageTaskCompletedAt(chore))
+          .map((chore) =>
+            isEatingTask(chore) ? resetDinner(chore) : resetChore(chore)
+          )
+      )
+      clearActiveActivities()
     } catch (error) {
       console.error('Failed to reset today chores', error)
       setResetTodayError('Reset failed.')
@@ -146,21 +188,64 @@ const DashboardPage = () => {
     }
   }
 
+  const handleUpdateChore = async (
+    choreId: string,
+    settings: ChoreDocumentSettings
+  ) => {
+    if (savingEditedChoreId) return
+
+    setSavingEditedChoreId(choreId)
+    setCreateChoreError(null)
+    try {
+      await updateChoreAndTodayTodoField(choreId, settings)
+      setEditingChoreId(null)
+    } catch (error) {
+      console.error('Failed to update chore', error)
+      setCreateChoreError('Could not save chore.')
+    } finally {
+      setSavingEditedChoreId(null)
+    }
+  }
+
+  const handleEditChore = (chore: (typeof todayChores)[number]) => {
+    if (!isEditableChore(chore)) {
+      console.error('Cannot edit unsupported chore type.')
+      setCreateChoreError('Could not edit chore.')
+      return
+    }
+
+    setCreateChoreError(null)
+    setEditingChoreId(chore.id)
+  }
+
+  const handleDeleteChore = async (choreId: string) => {
+    setCreateChoreError(null)
+    if (editingChoreId === choreId) {
+      setEditingChoreId(null)
+    }
+    await deleteTask(choreId)
+  }
+
   const descriptor = createUnifiedChoreDescriptor({
     theme,
     mode: 'today',
-    onUpdateTodoField: updateTodoField,
-    onDeleteTodo: deleteTodo,
+    onUpdateEphemeral: updateEphemeral,
+    onDeleteTask: handleDeleteChore,
     onEnterChore: (item) => {
-      if (isTodoRecord(item)) {
-        activity.enterActivity(item.sourceTaskType, item.id)
-      }
+      if (!('taskType' in item)) return
+      activity.enterActivity(item.taskType, item.id)
     },
-    onComplete: completeChore,
-    onFail: failChore,
+    onComplete: (item) => {
+      if (!('taskType' in item)) return
+      completeChore(item)
+    },
+    onFail: (item) => {
+      if (!('taskType' in item)) return
+      failChore(item)
+    },
     onReset: (item) => {
-      if (!isTodoRecord(item)) return
-      if (isEatingTodo(item)) resetDinner(item)
+      if (!('taskType' in item)) return
+      if (isEatingTask(item)) resetDinner(item)
       else resetChore(item)
       clearActiveActivities()
     },
@@ -170,35 +255,82 @@ const DashboardPage = () => {
         setBiteCooldownEndsAt(null)
         return
       }
-      if (!isTodoRecord(item) || !isEatingTodo(item)) return
+      if (!('taskType' in item)) return
+      if (!isEatingTask(item)) return
       clearActiveActivities()
       startDinnerTimer(item)
       activity.enterActivity('eating', item.id)
     },
     onApplyBite: async (item) => {
+      if (!('taskType' in item)) return
       if (biteCooldownEndsAt && Date.now() < biteCooldownEndsAt) return
       setBiteCooldownEndsAt(Date.now() + biteCooldownSeconds * 1000)
       await applyBite(item)
     },
-    onExpireDinner: expireDinnerTimer,
+    onExpireDinner: (item) => {
+      if (!('taskType' in item)) return
+      expireDinnerTimer(item)
+    },
     activeMathId: activity.activeMathId,
+    activeLargeNumbersId: activity.activeLargeNumbersId,
     activePVId: activity.activePVId,
     activeAlphabetId: activity.activeAlphabetId,
     activeSpellingId: activity.activeSpellingId,
     activeDinnerId: activity.activeDinnerId,
     activeWaterToiletId: activity.activeWaterToiletId,
-    mathCheckTriggers,
-    pvCheckTriggers,
-    alphabetCheckTriggers,
-    spellingCheckTriggers,
-    setMathCheckTriggers,
-    setPVCheckTriggers,
-    setAlphabetCheckTriggers,
-    setSpellingCheckTriggers,
+    mathCheckTriggers: activityCheckTriggers.math,
+    largeNumbersCheckTriggers: activityCheckTriggers.largeNumbers,
+    pvCheckTriggers: activityCheckTriggers.positionalNotation,
+    alphabetCheckTriggers: activityCheckTriggers.alphabet,
+    spellingCheckTriggers: activityCheckTriggers.spelling,
+    setMathCheckTriggers: createTriggerSetter(setActivityCheckTriggers, 'math'),
+    setLargeNumbersCheckTriggers: createTriggerSetter(
+      setActivityCheckTriggers,
+      'largeNumbers'
+    ),
+    setPVCheckTriggers: createTriggerSetter(
+      setActivityCheckTriggers,
+      'positionalNotation'
+    ),
+    setAlphabetCheckTriggers: createTriggerSetter(
+      setActivityCheckTriggers,
+      'alphabet'
+    ),
+    setSpellingCheckTriggers: createTriggerSetter(
+      setActivityCheckTriggers,
+      'spelling'
+    ),
     biteCooldownSeconds,
     biteCooldownEndsAt,
     activePrincessMealIcon,
   })
+
+  const renderTodayChoreEdit = (chore: (typeof todayChores)[number]) => {
+    if (!isEditableChore(chore)) {
+      return (
+        <div
+          className="rounded-2xl px-4 py-3 text-center text-sm font-bold"
+          style={{
+            background: `${theme.colors.secondary}20`,
+            color: theme.colors.text,
+            border: `2px solid ${theme.colors.secondary}`,
+          }}
+        >
+          Could not open chore editor.
+        </div>
+      )
+    }
+
+    return (
+      <ChoreCreationFlow
+        theme={theme}
+        isSaving={savingEditedChoreId === chore.id}
+        initialChore={chore}
+        onSave={(_, settings) => handleUpdateChore(chore.id, settings)}
+        onCancel={() => setEditingChoreId(null)}
+      />
+    )
+  }
 
   const selectedChild = useMemo(
     () => children.find((child) => child.id === activeChildId) ?? null,
@@ -266,22 +398,30 @@ const DashboardPage = () => {
         ) : (
           <StandardActionList
             theme={theme}
-            items={todos}
-            getKey={(todo) => todo.id}
+            items={todayChores}
+            getKey={(chore) => chore.id}
             {...toStandardActionListDescriptor(descriptor)}
-            hideEdit
-            onDelete={(todo) => deleteTodo(todo.id)}
-            addLabel="Add Chore"
-            onAdd={() => setShowAddChooser(true)}
+            editingId={editingChoreId ?? undefined}
+            renderInlineEdit={renderTodayChoreEdit}
+            onEdit={handleEditChore}
+            onDelete={(chore) => handleDeleteChore(chore.id)}
+            addLabel="Chores"
+            onAdd={() => setChorePanelMode('create')}
             addDisabled={isCreatingChore}
+            frameInlineNewRow
             inlineNewRow={
-              showAddChooser ? (
-                <ChoreCreationFlow
-                  theme={theme}
-                  isSaving={isCreatingChore}
-                  onSave={handleCreateChore}
-                  onCancel={() => setShowAddChooser(false)}
-                />
+              chorePanelMode === 'create' ? (
+                <div
+                  className="flex flex-col"
+                  style={{ gap: `${uiTokens.panelStackGap}px` }}
+                >
+                  <ChoreCreationFlow
+                    theme={theme}
+                    isSaving={isCreatingChore}
+                    onSave={handleCreateChore}
+                    onCancel={() => setChorePanelMode(null)}
+                  />
+                </div>
               ) : undefined
             }
             emptyState={

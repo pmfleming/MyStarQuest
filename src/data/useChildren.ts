@@ -1,14 +1,11 @@
 // ── Real-time children subscription + all child mutations ──
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
-  onSnapshot,
-  orderBy,
-  query,
   serverTimestamp,
   updateDoc,
 } from 'firebase/firestore'
@@ -22,78 +19,62 @@ import {
   type ChildUpdatableFields,
 } from './types'
 import { mergeMissingTitleDrafts } from './dailyTaskState'
+import { useUserCollection } from './useUserCollection'
 
 export function useChildren() {
   const { user } = useAuth()
   const { activeChildId, setActiveChild, clearActiveChild } = useActiveChild()
-  const [children, setChildren] = useState<ChildProfile[]>([])
   const [nameDrafts, setNameDrafts] = useState<Record<string, string>>({})
 
-  // ── Subscription ──
-  useEffect(() => {
-    if (!user) {
-      setChildren([])
-      return
+  const mapChildDocument = useCallback((id: string, data: unknown) => {
+    const parsed = childSnapshotDataSchema.safeParse(data)
+    if (!parsed.success) {
+      console.warn('Skipping invalid child snapshot', {
+        id,
+        issues: parsed.error.issues,
+      })
+      return null
     }
 
-    const childQuery = query(
-      collection(db, 'users', user.uid, 'children'),
-      orderBy('createdAt', 'asc')
+    const childData = parsed.data
+    const themeId = childData.themeId
+    const normalizedThemeId =
+      themeId && isThemeId(themeId) ? themeId : undefined
+
+    return {
+      id,
+      displayName: childData.displayName,
+      avatarToken: childData.avatarToken,
+      totalStars: childData.totalStars,
+      themeId: normalizedThemeId,
+      testFailureModeEnabled: childData.testFailureModeEnabled,
+      createdAt: childData.createdAt?.toDate?.(),
+    }
+  }, [])
+
+  const handleChildren = useCallback((nextChildren: ChildProfile[]) => {
+    setNameDrafts((prev) =>
+      mergeMissingTitleDrafts(
+        prev,
+        nextChildren.map((child) => ({
+          id: child.id,
+          title: child.displayName,
+        }))
+      )
     )
+  }, [])
 
-    const unsubscribe = onSnapshot(
-      childQuery,
-      (snapshot) => {
-        const nextChildren: ChildProfile[] = snapshot.docs.flatMap(
-          (docSnapshot) => {
-            const parsed = childSnapshotDataSchema.safeParse(docSnapshot.data())
-            if (!parsed.success) {
-              console.warn('Skipping invalid child snapshot', {
-                id: docSnapshot.id,
-                issues: parsed.error.issues,
-              })
-              return []
-            }
+  const clearChildren = useCallback(() => setNameDrafts({}), [])
 
-            const data = parsed.data
-            const themeId = data.themeId
-            const normalizedThemeId =
-              themeId && isThemeId(themeId) ? themeId : undefined
-
-            return [
-              {
-                id: docSnapshot.id,
-                displayName: data.displayName,
-                avatarToken: data.avatarToken,
-                totalStars: data.totalStars,
-                themeId: normalizedThemeId,
-                createdAt: data.createdAt?.toDate?.(),
-              },
-            ]
-          }
-        )
-
-        setChildren(nextChildren)
-
-        setNameDrafts((prev) =>
-          mergeMissingTitleDrafts(
-            prev,
-            nextChildren.map((child) => ({
-              id: child.id,
-              title: child.displayName,
-            }))
-          )
-        )
-      },
-      (error) => {
-        console.error('Failed to subscribe to children', error)
-        setChildren([])
-        setNameDrafts({})
-      }
-    )
-
-    return unsubscribe
-  }, [user])
+  const children = useUserCollection({
+    userId: user?.uid,
+    collectionName: 'children',
+    orderByField: 'createdAt',
+    errorMessage: 'Failed to subscribe to children',
+    mapDocument: mapChildDocument,
+    onItems: handleChildren,
+    onClear: clearChildren,
+  })
 
   // ── Generic field update ──
   const updateChildField = async (id: string, field: ChildUpdatableFields) => {
@@ -144,6 +125,7 @@ export function useChildren() {
       avatarToken: THEME_ID_LOOKUP.get('princess')?.emoji || '👤',
       themeId: 'princess',
       totalStars: 0,
+      testFailureModeEnabled: true,
       createdAt: serverTimestamp(),
     })
   }

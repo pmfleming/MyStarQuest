@@ -2,6 +2,7 @@ import {
   DEFAULT_ALPHABET_PROBLEMS,
   DEFAULT_DINNER_BITES,
   DEFAULT_DINNER_DURATION_SECONDS,
+  DEFAULT_LARGE_NUMBERS_PROBLEMS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
   DEFAULT_SPELLING_PROBLEMS,
@@ -11,57 +12,133 @@ import {
   isChoreRecord,
   isChoreTodoRecord,
   isTestRecord,
-  isTestTodoRecord,
   taskSnapshotDataSchema,
+  taskTypeSchema,
   todoSnapshotDataSchema,
   type ChoreRecord,
   type ChoreTodoRecord,
   type TaskRecord,
   type TaskType,
   type TestRecord,
-  type TestTodoRecord,
   type TodoRecord,
 } from '../data/types'
 import { normalizeChoreSchedule } from './today'
 
 type SnapshotData = Record<string, unknown>
+type VariantField = {
+  key: string
+  fallbackKeys?: string[]
+  defaultValue?: unknown
+}
 
 const getCreatedAt = (data: SnapshotData) => {
   const createdAt = firestoreTimestampLikeSchema.parse(data.createdAt)
   return createdAt?.toDate?.()
 }
 
-const normalizeChoreSnapshotData = (data: SnapshotData): SnapshotData => ({
-  ...data,
-  taskType: data.taskType ?? data.choreType,
-  category: data.category ?? data.choreType,
+const parseTaskTypeCandidate = (
+  candidate: string
+): TaskType | null | undefined => {
+  if (candidate === 'daynight') return null
+  const parsed = taskTypeSchema.safeParse(candidate)
+  return parsed.success ? parsed.data : undefined
+}
+
+const resolveTaskType = (...candidates: string[]): TaskType | null => {
+  for (const candidate of candidates) {
+    const taskType = parseTaskTypeCandidate(candidate)
+    if (taskType !== undefined) return taskType
+  }
+  return 'standard'
+}
+
+const readVariantField = (
+  data: SnapshotData,
+  { key, fallbackKeys = [], defaultValue }: VariantField
+) => {
+  for (const sourceKey of [key, ...fallbackKeys]) {
+    const value = data[sourceKey]
+    if (value !== undefined) return value
+  }
+  return defaultValue
+}
+
+const withVariantFields = <T extends Record<string, unknown>>(
+  base: T,
+  typeKey: 'taskType' | 'sourceTaskType',
+  taskType: TaskType,
+  data: SnapshotData,
+  fields: readonly VariantField[]
+) => ({
+  ...base,
+  [typeKey]: taskType,
+  ...Object.fromEntries(
+    fields.map((field) => [field.key, readVariantField(data, field)])
+  ),
 })
 
-const normalizeTestSnapshotData = (data: SnapshotData): SnapshotData => ({
-  ...data,
-  taskType: data.taskType ?? data.testType,
-  category: data.category ?? data.testType,
-})
+const normalizeChoreSnapshotData = (data: SnapshotData): SnapshotData => {
+  if (!data || typeof data !== 'object') return data
+  return {
+    ...data,
+    taskType: data.taskType ?? data.choreType,
+    category: data.category ?? data.choreType,
+  }
+}
 
-const normalizeChoreTodoSnapshotData = (data: SnapshotData): SnapshotData => ({
-  ...data,
-  sourceTaskId: data.sourceTaskId ?? data.sourceChoreId,
-  sourceTaskType: data.sourceTaskType ?? data.sourceChoreType,
-})
+const normalizeTestSnapshotData = (data: SnapshotData): SnapshotData => {
+  if (!data || typeof data !== 'object') return data
+  return {
+    ...data,
+    taskType: data.taskType ?? data.testType,
+    category: data.category ?? data.testType,
+  }
+}
 
-const normalizeTestTodoSnapshotData = (data: SnapshotData): SnapshotData => ({
-  ...data,
-  sourceTaskId: data.sourceTaskId ?? data.sourceTestId,
-  sourceTaskType: data.sourceTaskType ?? data.sourceTestType,
-})
+const normalizeChoreTodoSnapshotData = (data: SnapshotData): SnapshotData => {
+  if (!data || typeof data !== 'object') return data
+  return {
+    ...data,
+    sourceTaskId: data.sourceTaskId ?? data.sourceChoreId,
+    sourceTaskType: data.sourceTaskType ?? data.sourceChoreType,
+  }
+}
 
-export function parseTaskSnapshot(
-  id: string,
-  data: SnapshotData
-): TaskRecord | null {
+const taskVariantFields = {
+  standard: [],
+  eating: [
+    {
+      key: 'dinnerDurationSeconds',
+      defaultValue: DEFAULT_DINNER_DURATION_SECONDS,
+    },
+    { key: 'dinnerTotalBites', defaultValue: DEFAULT_DINNER_BITES },
+  ],
+  math: [
+    { key: 'mathTotalProblems', defaultValue: DEFAULT_MATH_PROBLEMS },
+    { key: 'mathDifficulty' },
+  ],
+  'large-numbers': [
+    {
+      key: 'largeNumbersTotalProblems',
+      defaultValue: DEFAULT_LARGE_NUMBERS_PROBLEMS,
+    },
+  ],
+  alphabet: [
+    { key: 'alphabetTotalProblems', defaultValue: DEFAULT_ALPHABET_PROBLEMS },
+  ],
+  spelling: [
+    { key: 'spellingTotalProblems', defaultValue: DEFAULT_SPELLING_PROBLEMS },
+  ],
+  'positional-notation': [
+    { key: 'pvTotalProblems', defaultValue: DEFAULT_PV_PROBLEMS },
+  ],
+  watertoiletcheck: [],
+} satisfies Record<TaskType, readonly VariantField[]>
+
+function parseTaskSnapshot(id: string, data: SnapshotData): TaskRecord | null {
   const parsed = taskSnapshotDataSchema.safeParse(data)
   if (!parsed.success) {
-    console.warn('Skipping invalid task snapshot', {
+    console.warn('Skipping invalid template snapshot', {
       id,
       issues: parsed.error.issues,
     })
@@ -69,26 +146,8 @@ export function parseTaskSnapshot(
   }
 
   const taskData = parsed.data
-  const isLegacyDayNight =
-    taskData.taskType === 'daynight' || taskData.category === 'daynight'
-  if (isLegacyDayNight) return null
-
-  const taskType: TaskType =
-    taskData.taskType === 'positional-notation' ||
-    taskData.category === 'positional-notation'
-      ? 'positional-notation'
-      : taskData.taskType === 'math' || taskData.category === 'math'
-        ? 'math'
-        : taskData.taskType === 'alphabet' || taskData.category === 'alphabet'
-          ? 'alphabet'
-          : taskData.taskType === 'spelling' || taskData.category === 'spelling'
-            ? 'spelling'
-            : taskData.taskType === 'watertoiletcheck' ||
-                taskData.category === 'watertoiletcheck'
-              ? 'watertoiletcheck'
-              : taskData.taskType === 'eating' || taskData.category === 'eating'
-                ? 'eating'
-                : 'standard'
+  const taskType = resolveTaskType(taskData.taskType, taskData.category)
+  if (!taskType) return null
 
   const base = {
     id,
@@ -101,53 +160,50 @@ export function parseTaskSnapshot(
     ...normalizeChoreSchedule(taskData),
     starValue: taskData.starValue,
     isRepeating: taskData.isRepeating,
+    ...(taskData.imageKey !== undefined ? { imageKey: taskData.imageKey } : {}),
     createdAt: getCreatedAt(taskData),
+    ...(taskData.lastAttemptedAt !== null
+      ? { lastAttemptedAt: taskData.lastAttemptedAt }
+      : {}),
+    ...(taskData.lastAttemptDateKey
+      ? { lastAttemptDateKey: taskData.lastAttemptDateKey }
+      : {}),
+    ...(taskData.lastAttemptOutcome
+      ? { lastAttemptOutcome: taskData.lastAttemptOutcome }
+      : {}),
+    ...(taskData.manageCompletedAt !== undefined
+      ? { manageCompletedAt: taskData.manageCompletedAt }
+      : {}),
+    ...(taskData.manageDinnerRemainingSeconds !== undefined
+      ? { manageDinnerRemainingSeconds: taskData.manageDinnerRemainingSeconds }
+      : {}),
+    ...(taskData.manageDinnerBitesLeft !== undefined
+      ? { manageDinnerBitesLeft: taskData.manageDinnerBitesLeft }
+      : {}),
+    ...(taskData.manageDinnerTimerStartedAt !== undefined
+      ? { manageDinnerTimerStartedAt: taskData.manageDinnerTimerStartedAt }
+      : {}),
+    ...(taskData.manageDinnerCompletedAt !== undefined
+      ? { manageDinnerCompletedAt: taskData.manageDinnerCompletedAt }
+      : {}),
+    ...(taskData.manageWaterLevel !== undefined
+      ? { manageWaterLevel: taskData.manageWaterLevel }
+      : {}),
+    ...(taskData.manageToiletStatus !== undefined
+      ? { manageToiletStatus: taskData.manageToiletStatus }
+      : {}),
+    ...(taskData.manageWaterToiletCompletedAt !== undefined
+      ? { manageWaterToiletCompletedAt: taskData.manageWaterToiletCompletedAt }
+      : {}),
   }
 
-  switch (taskType) {
-    case 'eating':
-      return {
-        ...base,
-        taskType: 'eating',
-        dinnerDurationSeconds:
-          taskData.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
-        dinnerTotalBites: taskData.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-      }
-    case 'math':
-      return {
-        ...base,
-        taskType: 'math',
-        mathTotalProblems: taskData.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-        mathDifficulty: taskData.mathDifficulty,
-      }
-    case 'alphabet':
-      return {
-        ...base,
-        taskType: 'alphabet',
-        alphabetTotalProblems:
-          taskData.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
-      }
-    case 'spelling':
-      return {
-        ...base,
-        taskType: 'spelling',
-        spellingTotalProblems:
-          taskData.spellingTotalProblems ?? DEFAULT_SPELLING_PROBLEMS,
-      }
-    case 'positional-notation':
-      return {
-        ...base,
-        taskType: 'positional-notation',
-        pvTotalProblems: taskData.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
-      }
-    case 'watertoiletcheck':
-      return {
-        ...base,
-        taskType: 'watertoiletcheck',
-      }
-    default:
-      return { ...base, taskType: 'standard' }
-  }
+  return withVariantFields(
+    base,
+    'taskType',
+    taskType,
+    taskData,
+    taskVariantFields[taskType]
+  ) as TaskRecord
 }
 
 export function parseChoreSnapshot(
@@ -168,14 +224,64 @@ export function parseTestSnapshot(
   return task
 }
 
-export function parseTodoSnapshot(
+const todoVariantFields = {
+  standard: [],
+  eating: [
+    {
+      key: 'dinnerDurationSeconds',
+      defaultValue: DEFAULT_DINNER_DURATION_SECONDS,
+    },
+    {
+      key: 'dinnerRemainingSeconds',
+      fallbackKeys: ['dinnerDurationSeconds'],
+      defaultValue: DEFAULT_DINNER_DURATION_SECONDS,
+    },
+    { key: 'dinnerTotalBites', defaultValue: DEFAULT_DINNER_BITES },
+    {
+      key: 'dinnerBitesLeft',
+      fallbackKeys: ['dinnerTotalBites'],
+      defaultValue: DEFAULT_DINNER_BITES,
+    },
+    { key: 'dinnerTimerStartedAt' },
+  ],
+  math: [
+    { key: 'mathTotalProblems', defaultValue: DEFAULT_MATH_PROBLEMS },
+    { key: 'mathDifficulty' },
+    { key: 'mathLastOutcome' },
+  ],
+  'large-numbers': [
+    {
+      key: 'largeNumbersTotalProblems',
+      defaultValue: DEFAULT_LARGE_NUMBERS_PROBLEMS,
+    },
+    { key: 'largeNumbersLastOutcome' },
+  ],
+  alphabet: [
+    { key: 'alphabetTotalProblems', defaultValue: DEFAULT_ALPHABET_PROBLEMS },
+    { key: 'alphabetLastOutcome' },
+  ],
+  spelling: [
+    { key: 'spellingTotalProblems', defaultValue: DEFAULT_SPELLING_PROBLEMS },
+    { key: 'spellingLastOutcome' },
+  ],
+  'positional-notation': [
+    { key: 'pvTotalProblems', defaultValue: DEFAULT_PV_PROBLEMS },
+    { key: 'pvLastOutcome' },
+  ],
+  watertoiletcheck: [
+    { key: 'waterLevel', defaultValue: DEFAULT_WATER_LEVEL },
+    { key: 'toiletStatus', defaultValue: DEFAULT_TOILET_STATUS },
+  ],
+} satisfies Record<TaskType, readonly VariantField[]>
+
+function parseTodoSnapshot(
   id: string,
   data: SnapshotData,
   fallbackDateKey: string
 ): TodoRecord | null {
   const parsed = todoSnapshotDataSchema.safeParse(data)
   if (!parsed.success) {
-    console.warn('Skipping invalid todo snapshot', {
+    console.warn('Skipping invalid daily todo snapshot', {
       id,
       issues: parsed.error.issues,
     })
@@ -183,18 +289,8 @@ export function parseTodoSnapshot(
   }
 
   const todoData = parsed.data
-  const isLegacyDayNight = todoData.sourceTaskType === 'daynight'
-  if (isLegacyDayNight) return null
-
-  const sourceTaskType: TaskType =
-    todoData.sourceTaskType === 'positional-notation' ||
-    todoData.sourceTaskType === 'math' ||
-    todoData.sourceTaskType === 'alphabet' ||
-    todoData.sourceTaskType === 'spelling' ||
-    todoData.sourceTaskType === 'watertoiletcheck' ||
-    todoData.sourceTaskType === 'eating'
-      ? todoData.sourceTaskType
-      : 'standard'
+  const sourceTaskType = resolveTaskType(todoData.sourceTaskType)
+  if (!sourceTaskType) return null
 
   const base = {
     id,
@@ -204,73 +300,19 @@ export function parseTodoSnapshot(
     starValue: todoData.starValue,
     ...normalizeChoreSchedule(todoData),
     autoAdded: todoData.autoAdded,
+    ...(todoData.imageKey !== undefined ? { imageKey: todoData.imageKey } : {}),
     completedAt: todoData.completedAt,
     dateKey: todoData.dateKey ?? fallbackDateKey,
     createdAt: getCreatedAt(todoData),
   }
 
-  switch (sourceTaskType) {
-    case 'eating':
-      return {
-        ...base,
-        sourceTaskType: 'eating',
-        dinnerDurationSeconds:
-          todoData.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
-        dinnerRemainingSeconds:
-          todoData.dinnerRemainingSeconds ??
-          todoData.dinnerDurationSeconds ??
-          DEFAULT_DINNER_DURATION_SECONDS,
-        dinnerTotalBites: todoData.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-        dinnerBitesLeft:
-          todoData.dinnerBitesLeft ??
-          todoData.dinnerTotalBites ??
-          DEFAULT_DINNER_BITES,
-        dinnerTimerStartedAt: todoData.dinnerTimerStartedAt,
-      }
-    case 'math':
-      return {
-        ...base,
-        sourceTaskType: 'math',
-        mathTotalProblems: todoData.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS,
-        mathDifficulty: todoData.mathDifficulty,
-        mathLastOutcome: todoData.mathLastOutcome,
-      }
-    case 'alphabet':
-      return {
-        ...base,
-        sourceTaskType: 'alphabet',
-        alphabetTotalProblems:
-          todoData.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS,
-        alphabetLastOutcome: todoData.alphabetLastOutcome,
-      }
-    case 'spelling':
-      return {
-        ...base,
-        sourceTaskType: 'spelling',
-        spellingTotalProblems:
-          todoData.spellingTotalProblems ?? DEFAULT_SPELLING_PROBLEMS,
-        spellingLastOutcome: todoData.spellingLastOutcome,
-      }
-    case 'positional-notation':
-      return {
-        ...base,
-        sourceTaskType: 'positional-notation',
-        pvTotalProblems: todoData.pvTotalProblems ?? DEFAULT_PV_PROBLEMS,
-        pvLastOutcome: todoData.pvLastOutcome,
-      }
-    case 'watertoiletcheck':
-      return {
-        ...base,
-        sourceTaskType: 'watertoiletcheck',
-        waterLevel: todoData.waterLevel ?? DEFAULT_WATER_LEVEL,
-        toiletStatus: todoData.toiletStatus ?? DEFAULT_TOILET_STATUS,
-      }
-    default:
-      return {
-        ...base,
-        sourceTaskType: 'standard',
-      }
-  }
+  return withVariantFields(
+    base,
+    'sourceTaskType',
+    sourceTaskType,
+    todoData,
+    todoVariantFields[sourceTaskType]
+  ) as TodoRecord
 }
 
 export function parseChoreTodoSnapshot(
@@ -284,19 +326,5 @@ export function parseChoreTodoSnapshot(
     fallbackDateKey
   )
   if (!todo || !isChoreTodoRecord(todo)) return null
-  return todo
-}
-
-export function parseTestTodoSnapshot(
-  id: string,
-  data: SnapshotData,
-  fallbackDateKey: string
-): TestTodoRecord | null {
-  const todo = parseTodoSnapshot(
-    id,
-    normalizeTestTodoSnapshotData(data),
-    fallbackDateKey
-  )
-  if (!todo || !isTestTodoRecord(todo)) return null
   return todo
 }

@@ -3,6 +3,9 @@ import type { TaskType } from '../data/types'
 
 export const useTaskActivityState = () => {
   const [activeMathId, setActiveMathId] = useState<string | null>(null)
+  const [activeLargeNumbersId, setActiveLargeNumbersId] = useState<
+    string | null
+  >(null)
   const [activePVId, setActivePVId] = useState<string | null>(null)
   const [activeAlphabetId, setActiveAlphabetId] = useState<string | null>(null)
   const [activeSpellingId, setActiveSpellingId] = useState<string | null>(null)
@@ -13,6 +16,7 @@ export const useTaskActivityState = () => {
 
   const clearActiveActivities = useCallback(() => {
     setActiveMathId(null)
+    setActiveLargeNumbersId(null)
     setActivePVId(null)
     setActiveAlphabetId(null)
     setActiveSpellingId(null)
@@ -24,6 +28,7 @@ export const useTaskActivityState = () => {
     (taskType: TaskType, id: string) => {
       clearActiveActivities()
       if (taskType === 'math') setActiveMathId(id)
+      else if (taskType === 'large-numbers') setActiveLargeNumbersId(id)
       else if (taskType === 'positional-notation') setActivePVId(id)
       else if (taskType === 'alphabet') setActiveAlphabetId(id)
       else if (taskType === 'spelling') setActiveSpellingId(id)
@@ -35,6 +40,7 @@ export const useTaskActivityState = () => {
 
   return {
     activeMathId,
+    activeLargeNumbersId,
     activePVId,
     activeAlphabetId,
     activeSpellingId,

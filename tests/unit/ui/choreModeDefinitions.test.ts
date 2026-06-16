@@ -14,6 +14,7 @@ describe('chore mode definitions', () => {
     const presetTypes = [
       'eating',
       'math',
+      'large-numbers',
       'positional-notation',
       'alphabet',
       'spelling',
@@ -38,6 +39,7 @@ describe('chore mode definitions', () => {
           "hidePrimaryButtonByType": {
             "alphabet": false,
             "eating": false,
+            "large-numbers": false,
             "math": false,
             "positional-notation": false,
             "spelling": false,
@@ -51,6 +53,7 @@ describe('chore mode definitions', () => {
           "hidePrimaryButtonByType": {
             "alphabet": true,
             "eating": false,
+            "large-numbers": false,
             "math": false,
             "positional-notation": false,
             "spelling": true,
@@ -64,6 +67,7 @@ describe('chore mode definitions', () => {
           "hidePrimaryButtonByType": {
             "alphabet": true,
             "eating": true,
+            "large-numbers": true,
             "math": true,
             "positional-notation": true,
             "spelling": true,

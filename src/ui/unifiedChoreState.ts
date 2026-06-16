@@ -37,6 +37,7 @@ export const getChoreType = (item: UnifiedChoreItem): TaskType =>
 
 export const isTestType = (type: TaskType) =>
   type === 'math' ||
+  type === 'large-numbers' ||
   type === 'positional-notation' ||
   type === 'alphabet' ||
   type === 'spelling'
@@ -142,6 +143,7 @@ const hasExpiredDinnerTimer = (
 
 const isActiveItem = (deps: UnifiedChoreDeps, id: string) =>
   deps.activeMathId === id ||
+  deps.activeLargeNumbersId === id ||
   deps.activePVId === id ||
   deps.activeAlphabetId === id ||
   deps.activeSpellingId === id ||

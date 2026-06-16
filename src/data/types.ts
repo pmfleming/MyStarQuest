@@ -7,6 +7,7 @@ export type TaskType =
   | 'standard'
   | 'eating'
   | 'math'
+  | 'large-numbers'
   | 'positional-notation'
   | 'alphabet'
   | 'spelling'
@@ -19,7 +20,7 @@ export type ChoreType = Extract<
 
 export type TestType = Extract<
   TaskType,
-  'math' | 'positional-notation' | 'alphabet' | 'spelling'
+  'math' | 'large-numbers' | 'positional-notation' | 'alphabet' | 'spelling'
 >
 
 export type WaterLevel = 'full' | 'twothirds' | 'onethird' | 'empty'
@@ -31,6 +32,7 @@ export const taskTypeSchema = z.enum([
   'standard',
   'eating',
   'math',
+  'large-numbers',
   'positional-notation',
   'alphabet',
   'spelling',
@@ -45,6 +47,7 @@ export const choreTypeSchema = z.enum([
 
 export const testTypeSchema = z.enum([
   'math',
+  'large-numbers',
   'positional-notation',
   'alphabet',
   'spelling',
@@ -70,6 +73,7 @@ export const childSnapshotDataSchema = z
     avatarToken: z.string().catch('⭐'),
     totalStars: z.number().finite().catch(0),
     themeId: z.string().optional(),
+    testFailureModeEnabled: z.boolean().catch(true),
     createdAt: firestoreTimestampLikeSchema.optional(),
   })
   .passthrough()
@@ -94,6 +98,7 @@ export const taskSnapshotDataSchema = z
     nonSchoolDayEnabled: z.boolean().catch(false),
     starValue: z.number().finite().catch(1),
     isRepeating: z.boolean().catch(false),
+    imageKey: z.string().optional(),
     createdAt: firestoreTimestampLikeSchema.optional(),
     dinnerDurationSeconds: z
       .number()
@@ -102,9 +107,21 @@ export const taskSnapshotDataSchema = z
     dinnerTotalBites: z.number().finite().catch(2),
     mathTotalProblems: z.number().finite().catch(5),
     mathDifficulty: mathDifficultySchema.catch('easy'),
+    largeNumbersTotalProblems: z.number().finite().catch(5),
     pvTotalProblems: z.number().finite().catch(5),
     alphabetTotalProblems: z.number().finite().catch(5),
     spellingTotalProblems: z.number().finite().catch(5),
+    lastAttemptedAt: z.number().finite().nullable().catch(null),
+    lastAttemptDateKey: z.string().catch(''),
+    lastAttemptOutcome: taskOutcomeSchema.nullable().catch(null),
+    manageCompletedAt: z.number().finite().nullable().optional(),
+    manageDinnerRemainingSeconds: z.number().finite().optional(),
+    manageDinnerBitesLeft: z.number().finite().optional(),
+    manageDinnerTimerStartedAt: z.number().finite().nullable().optional(),
+    manageDinnerCompletedAt: z.number().finite().nullable().optional(),
+    manageWaterLevel: waterLevelSchema.optional(),
+    manageToiletStatus: toiletStatusSchema.optional(),
+    manageWaterToiletCompletedAt: z.number().finite().nullable().optional(),
   })
   .passthrough()
 
@@ -124,12 +141,11 @@ export const todoSnapshotDataSchema = z
     sourceTaskType: z.string().catch('standard'),
     sourceChoreId: z.string().optional(),
     sourceChoreType: z.string().optional(),
-    sourceTestId: z.string().optional(),
-    sourceTestType: z.string().optional(),
     starValue: z.number().finite().catch(1),
     schoolDayEnabled: z.boolean().catch(false),
     nonSchoolDayEnabled: z.boolean().catch(false),
     autoAdded: z.boolean().catch(false),
+    imageKey: z.string().optional(),
     completedAt: z.number().finite().nullable().catch(null),
     dateKey: z.string().optional(),
     createdAt: firestoreTimestampLikeSchema.optional(),
@@ -144,6 +160,8 @@ export const todoSnapshotDataSchema = z
     mathTotalProblems: z.number().finite().catch(5),
     mathDifficulty: mathDifficultySchema.catch('easy'),
     mathLastOutcome: taskOutcomeSchema.nullable().catch(null),
+    largeNumbersTotalProblems: z.number().finite().catch(5),
+    largeNumbersLastOutcome: taskOutcomeSchema.nullable().catch(null),
     pvTotalProblems: z.number().finite().catch(5),
     pvLastOutcome: taskOutcomeSchema.nullable().catch(null),
     alphabetTotalProblems: z.number().finite().catch(5),
@@ -158,11 +176,6 @@ export const todoSnapshotDataSchema = z
 export const choreTodoSnapshotDataSchema = todoSnapshotDataSchema.extend({
   sourceChoreId: z.string().catch(''),
   sourceChoreType: z.string().catch('standard'),
-})
-
-export const testTodoSnapshotDataSchema = todoSnapshotDataSchema.extend({
-  sourceTestId: z.string().catch(''),
-  sourceTestType: z.string().catch('math'),
 })
 
 export const childStarsSnapshotDataSchema = z
@@ -186,21 +199,46 @@ type TaskBase = {
   nonSchoolDayEnabled: boolean
   starValue: number
   isRepeating: boolean
+  imageKey?: string
   createdAt?: Date
+  lastAttemptedAt?: number | null
+  lastAttemptDateKey?: string
+  lastAttemptOutcome?: TaskOutcome | null
 }
 
-export type StandardTask = TaskBase & { taskType: 'standard' }
-export type EatingTask = TaskBase & {
-  taskType: 'eating'
-  dinnerDurationSeconds: number
-  dinnerTotalBites: number
+export type StandardTaskState = {
+  manageCompletedAt?: number | null
 }
+export type EatingTaskState = {
+  manageDinnerRemainingSeconds?: number
+  manageDinnerBitesLeft?: number
+  manageDinnerTimerStartedAt?: number | null
+  manageDinnerCompletedAt?: number | null
+}
+export type WaterToiletTaskState = {
+  manageWaterLevel?: WaterLevel
+  manageToiletStatus?: ToiletStatus
+  manageWaterToiletCompletedAt?: number | null
+}
+
+export type StandardTask = TaskBase &
+  StandardTaskState & { taskType: 'standard' }
+export type EatingTask = TaskBase &
+  EatingTaskState & {
+    taskType: 'eating'
+    dinnerDurationSeconds: number
+    dinnerTotalBites: number
+  }
 export type MathDifficulty = 'easy' | 'hard'
 
 export type MathTask = TaskBase & {
   taskType: 'math'
   mathTotalProblems: number
   mathDifficulty?: MathDifficulty
+}
+export type LargeNumbersTask = TaskBase & {
+  taskType: 'large-numbers'
+  largeNumbersTotalProblems: number
 }
 export type PositionalNotationTask = TaskBase & {
   taskType: 'positional-notation'
@@ -214,14 +252,16 @@ export type SpellingTask = TaskBase & {
   taskType: 'spelling'
   spellingTotalProblems: number
 }
-export type WaterToiletTask = TaskBase & {
-  taskType: 'watertoiletcheck'
-}
+export type WaterToiletTask = TaskBase &
+  WaterToiletTaskState & {
+    taskType: 'watertoiletcheck'
+  }
 
 export type TaskRecord =
   | StandardTask
   | EatingTask
   | MathTask
+  | LargeNumbersTask
   | PositionalNotationTask
   | AlphabetTask
   | SpellingTask
@@ -234,7 +274,14 @@ export type ChoreRecord = Extract<
 
 export type TestRecord = Extract<
   TaskRecord,
-  { taskType: 'math' | 'positional-notation' | 'alphabet' | 'spelling' }
+  {
+    taskType:
+      | 'math'
+      | 'large-numbers'
+      | 'positional-notation'
+      | 'alphabet'
+      | 'spelling'
+  }
 >
 
 // ── TaskEphemeralState: flat bag for in-memory storage ──
@@ -247,6 +294,8 @@ export type TaskEphemeralState = {
   manageDinnerCompletedAt?: number | null
   manageMathCompletedAt?: number | null
   manageMathLastOutcome?: 'success' | 'failure' | null
+  manageLargeNumbersCompletedAt?: number | null
+  manageLargeNumbersLastOutcome?: 'success' | 'failure' | null
   managePVCompletedAt?: number | null
   managePVLastOutcome?: 'success' | 'failure' | null
   manageAlphabetCompletedAt?: number | null
@@ -260,18 +309,15 @@ export type TaskEphemeralState = {
 
 // ── TaskWithEphemeral: discriminated union pairing each variant with its ephemeral fields ──
 
-export type StandardTaskWithEphemeral = StandardTask & {
-  manageCompletedAt?: number | null
-}
-export type EatingTaskWithEphemeral = EatingTask & {
-  manageDinnerRemainingSeconds?: number
-  manageDinnerBitesLeft?: number
-  manageDinnerTimerStartedAt?: number | null
-  manageDinnerCompletedAt?: number | null
-}
+export type StandardTaskWithEphemeral = StandardTask & StandardTaskState
+export type EatingTaskWithEphemeral = EatingTask & EatingTaskState
 export type MathTaskWithEphemeral = MathTask & {
   manageMathCompletedAt?: number | null
   manageMathLastOutcome?: TaskOutcome | null
+}
+export type LargeNumbersTaskWithEphemeral = LargeNumbersTask & {
+  manageLargeNumbersCompletedAt?: number | null
+  manageLargeNumbersLastOutcome?: TaskOutcome | null
 }
 export type PVTaskWithEphemeral = PositionalNotationTask & {
   managePVCompletedAt?: number | null
@@ -285,16 +331,14 @@ export type SpellingTaskWithEphemeral = SpellingTask & {
   manageSpellingCompletedAt?: number | null
   manageSpellingLastOutcome?: TaskOutcome | null
 }
-export type WaterToiletTaskWithEphemeral = WaterToiletTask & {
-  manageWaterLevel?: WaterLevel
-  manageToiletStatus?: ToiletStatus
-  manageWaterToiletCompletedAt?: number | null
-}
+export type WaterToiletTaskWithEphemeral = WaterToiletTask &
+  WaterToiletTaskState
 
 export type TaskWithEphemeral =
   | StandardTaskWithEphemeral
   | EatingTaskWithEphemeral
   | MathTaskWithEphemeral
+  | LargeNumbersTaskWithEphemeral
   | PVTaskWithEphemeral
   | AlphabetTaskWithEphemeral
   | SpellingTaskWithEphemeral
@@ -307,7 +351,14 @@ export type ChoreWithEphemeral = Extract<
 
 export type TestWithEphemeral = Extract<
   TaskWithEphemeral,
-  { taskType: 'math' | 'positional-notation' | 'alphabet' | 'spelling' }
+  {
+    taskType:
+      | 'math'
+      | 'large-numbers'
+      | 'positional-notation'
+      | 'alphabet'
+      | 'spelling'
+  }
 >
 
 export function isChoreRecord(task: TaskRecord): task is ChoreRecord {
@@ -321,6 +372,7 @@ export function isChoreRecord(task: TaskRecord): task is ChoreRecord {
 export function isTestRecord(task: TaskRecord): task is TestRecord {
   return (
     task.taskType === 'math' ||
+    task.taskType === 'large-numbers' ||
     task.taskType === 'positional-notation' ||
     task.taskType === 'alphabet' ||
     task.taskType === 'spelling'
@@ -350,6 +402,7 @@ type TodoBase = {
   schoolDayEnabled: boolean
   nonSchoolDayEnabled: boolean
   autoAdded: boolean
+  imageKey?: string
   completedAt: number | null
   dateKey: string
   createdAt?: Date
@@ -369,6 +422,11 @@ export type MathTodo = TodoBase & {
   mathTotalProblems: number
   mathDifficulty?: MathDifficulty
   mathLastOutcome: TaskOutcome | null
+}
+export type LargeNumbersTodo = TodoBase & {
+  sourceTaskType: 'large-numbers'
+  largeNumbersTotalProblems: number
+  largeNumbersLastOutcome: TaskOutcome | null
 }
 export type PositionalNotationTodo = TodoBase & {
   sourceTaskType: 'positional-notation'
@@ -395,6 +453,7 @@ export type TodoRecord =
   | StandardTodo
   | EatingTodo
   | MathTodo
+  | LargeNumbersTodo
   | PositionalNotationTodo
   | AlphabetTodo
   | SpellingTodo
@@ -405,27 +464,11 @@ export type ChoreTodoRecord = Extract<
   { sourceTaskType: 'standard' | 'eating' | 'watertoiletcheck' }
 >
 
-export type TestTodoRecord = Extract<
-  TodoRecord,
-  {
-    sourceTaskType: 'math' | 'positional-notation' | 'alphabet' | 'spelling'
-  }
->
-
 export function isChoreTodoRecord(todo: TodoRecord): todo is ChoreTodoRecord {
   return (
     todo.sourceTaskType === 'standard' ||
     todo.sourceTaskType === 'eating' ||
     todo.sourceTaskType === 'watertoiletcheck'
-  )
-}
-
-export function isTestTodoRecord(todo: TodoRecord): todo is TestTodoRecord {
-  return (
-    todo.sourceTaskType === 'math' ||
-    todo.sourceTaskType === 'positional-notation' ||
-    todo.sourceTaskType === 'alphabet' ||
-    todo.sourceTaskType === 'spelling'
   )
 }
 
@@ -443,21 +486,42 @@ export type TaskUpdatableFields = Partial<{
   nonSchoolDayEnabled: boolean
   starValue: number
   isRepeating: boolean
+  imageKey: string
   dinnerDurationSeconds: number
   dinnerTotalBites: number
   mathTotalProblems: number
   mathDifficulty: MathDifficulty
+  largeNumbersTotalProblems: number
   pvTotalProblems: number
   alphabetTotalProblems: number
   spellingTotalProblems: number
+  lastAttemptedAt: number | null
+  lastAttemptDateKey: string
+  lastAttemptOutcome: TaskOutcome | null
+  manageCompletedAt: number | null
+  manageDinnerRemainingSeconds: number
+  manageDinnerBitesLeft: number
+  manageDinnerTimerStartedAt: number | null
+  manageDinnerCompletedAt: number | null
+  manageWaterLevel: WaterLevel
+  manageToiletStatus: ToiletStatus
+  manageWaterToiletCompletedAt: number | null
 }>
 
 export type TodoUpdatableFields = Partial<{
+  title: string
+  starValue: number
+  schoolDayEnabled: boolean
+  nonSchoolDayEnabled: boolean
+  imageKey: string
   completedAt: number | null
+  dinnerDurationSeconds: number
   dinnerRemainingSeconds: number
+  dinnerTotalBites: number
   dinnerBitesLeft: number
   dinnerTimerStartedAt: number | null
   mathLastOutcome: TaskOutcome | null
+  largeNumbersLastOutcome: TaskOutcome | null
   pvLastOutcome: TaskOutcome | null
   alphabetLastOutcome: TaskOutcome | null
   spellingLastOutcome: TaskOutcome | null
@@ -472,6 +536,8 @@ export const DEFAULT_DINNER_BITES = 2
 export const DEFAULT_DINNER_STARS = 3
 export const DEFAULT_MATH_PROBLEMS = 5
 export const DEFAULT_MATH_STARS = 3
+export const DEFAULT_LARGE_NUMBERS_PROBLEMS = 5
+export const DEFAULT_LARGE_NUMBERS_STARS = 3
 export const DEFAULT_PV_PROBLEMS = 5
 export const DEFAULT_PV_STARS = 3
 export const DEFAULT_ALPHABET_PROBLEMS = 5
@@ -496,6 +562,12 @@ export function isMathTask<T extends { taskType: TaskType }>(
   t: T
 ): t is Extract<T, { taskType: 'math' }> {
   return t.taskType === 'math'
+}
+
+export function isLargeNumbersTask<T extends { taskType: TaskType }>(
+  t: T
+): t is Extract<T, { taskType: 'large-numbers' }> {
+  return t.taskType === 'large-numbers'
 }
 
 export function isPositionalNotationTask<T extends { taskType: TaskType }>(
@@ -528,6 +600,10 @@ export function isEatingTodo(t: TodoRecord): t is EatingTodo {
 
 export function isMathTodo(t: TodoRecord): t is MathTodo {
   return t.sourceTaskType === 'math'
+}
+
+export function isLargeNumbersTodo(t: TodoRecord): t is LargeNumbersTodo {
+  return t.sourceTaskType === 'large-numbers'
 }
 
 export function isPositionalNotationTodo(
@@ -570,24 +646,24 @@ export const getManageWaterLevel = (task: WaterToiletTaskWithEphemeral) =>
 export const getManageToiletStatus = (task: WaterToiletTaskWithEphemeral) =>
   task.manageToiletStatus ?? DEFAULT_TOILET_STATUS
 
-export const getManageTaskCompletedAt = (task: TaskWithEphemeral) => {
-  switch (task.taskType) {
-    case 'eating':
-      return task.manageDinnerCompletedAt ?? null
-    case 'math':
-      return task.manageMathCompletedAt ?? null
-    case 'positional-notation':
-      return task.managePVCompletedAt ?? null
-    case 'alphabet':
-      return task.manageAlphabetCompletedAt ?? null
-    case 'spelling':
-      return task.manageSpellingCompletedAt ?? null
-    case 'watertoiletcheck':
-      return task.manageWaterToiletCompletedAt ?? null
-    case 'standard':
-      return task.manageCompletedAt ?? null
-  }
-}
+const manageCompletedAtFieldByType = {
+  standard: 'manageCompletedAt',
+  eating: 'manageDinnerCompletedAt',
+  math: 'manageMathCompletedAt',
+  'large-numbers': 'manageLargeNumbersCompletedAt',
+  'positional-notation': 'managePVCompletedAt',
+  alphabet: 'manageAlphabetCompletedAt',
+  spelling: 'manageSpellingCompletedAt',
+  watertoiletcheck: 'manageWaterToiletCompletedAt',
+} satisfies Record<TaskType, keyof TaskEphemeralState>
+
+type TaskCompletionState = Partial<
+  Record<(typeof manageCompletedAtFieldByType)[TaskType], number | null>
+>
+
+export const getManageTaskCompletedAt = (task: TaskWithEphemeral) =>
+  (task as TaskCompletionState)[manageCompletedAtFieldByType[task.taskType]] ??
+  null
 
 export const isManageTaskCompleted = (task: TaskWithEphemeral) =>
   Boolean(getManageTaskCompletedAt(task))
@@ -612,11 +688,19 @@ export type ChildProfile = {
   avatarToken: string
   totalStars: number
   themeId?: ThemeId
+  testFailureModeEnabled: boolean
   createdAt?: Date
 }
 
 export type ChildUpdatableFields = Partial<
-  Pick<ChildProfile, 'displayName' | 'avatarToken' | 'themeId' | 'totalStars'>
+  Pick<
+    ChildProfile,
+    | 'displayName'
+    | 'avatarToken'
+    | 'themeId'
+    | 'totalStars'
+    | 'testFailureModeEnabled'
+  >
 >
 
 // ── Reward ──

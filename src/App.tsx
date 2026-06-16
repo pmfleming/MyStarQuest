@@ -56,10 +56,6 @@ const App = () => {
                         element={<ManageChildrenPage />}
                       />
                       <Route
-                        path="/settings/manage-tasks"
-                        element={<Navigate to="/tabs/chores" replace />}
-                      />
-                      <Route
                         path="/settings/manage-chores"
                         element={<Navigate to="/tabs/chores" replace />}
                       />

@@ -1,0 +1,2312 @@
+{
+  "schema_version": "0.1.0",
+  "task_id": "quality.escape_hatches",
+  "project": {
+    "name": "MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest",
+    "framework": "vite",
+    "package_manager": "npm",
+    "test_runner": "vitest"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.1.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-06-16T09:19:55.870Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:f8a489b8a2b6746a861269a2e1f1df5c2dc7b64799cc028d7c22fddc68ba7000"
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": true,
+    "test_runner_detected": true,
+    "git_history_available": true,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "complete": true,
+    "partial": false,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "package_manager_detected",
+      "framework_detected",
+      "test_runner_detected",
+      "git_history_available",
+      "excludes_applied",
+      "type_information_available",
+      "dependencies_installed",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "framework_conventions_detected",
+      "analysis_cache_enabled"
+    ],
+    "missing_input": [],
+    "stale_input": []
+  },
+  "summary": {
+    "records": 77,
+    "files_with_escape_hatches": 30,
+    "by_kind": {
+      "eslint_suppression": 4,
+      "browser_global": 40,
+      "unknown_without_narrowing": 23,
+      "non_null_assertion": 3,
+      "type_assertion": 4,
+      "direct_dom_mutation": 3
+    }
+  },
+  "records": [
+    {
+      "id": "escape:src/auth/AuthContext:eslint_suppression:83:2117",
+      "module_id": "src/auth/AuthContext",
+      "file": "src/auth/AuthContext.tsx",
+      "kind": "eslint_suppression",
+      "severity": "medium",
+      "line": 83,
+      "evidence": " // eslint-disable-next-line",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this eslint_suppression finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line eslint_suppression"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this eslint_suppression finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/auth/AuthContext:eslint_suppression:83:2117",
+            "kind": "eslint_suppression",
+            "file": "src/auth/AuthContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AlphabetTester:browser_global:303:12604",
+      "module_id": "src/components/AlphabetTester",
+      "file": "src/components/AlphabetTester.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 303,
+      "evidence": "window.setTimeout",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/AlphabetTester:browser_global:303:12604",
+            "kind": "browser_global",
+            "file": "src/components/AlphabetTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AppErrorBoundary:unknown_without_narrowing:11:203",
+      "module_id": "src/components/AppErrorBoundary",
+      "file": "src/components/AppErrorBoundary.tsx",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 11,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/AppErrorBoundary:unknown_without_narrowing:11:203",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/AppErrorBoundary.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AppErrorBoundary:browser_global:30:650",
+      "module_id": "src/components/AppErrorBoundary",
+      "file": "src/components/AppErrorBoundary.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 30,
+      "evidence": "window.addEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/AppErrorBoundary:browser_global:30:650",
+            "kind": "browser_global",
+            "file": "src/components/AppErrorBoundary.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AppErrorBoundary:browser_global:31:711",
+      "module_id": "src/components/AppErrorBoundary",
+      "file": "src/components/AppErrorBoundary.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 31,
+      "evidence": "window.addEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/AppErrorBoundary:browser_global:31:711",
+            "kind": "browser_global",
+            "file": "src/components/AppErrorBoundary.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AppErrorBoundary:browser_global:35:824",
+      "module_id": "src/components/AppErrorBoundary",
+      "file": "src/components/AppErrorBoundary.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 35,
+      "evidence": "window.removeEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/AppErrorBoundary:browser_global:35:824",
+            "kind": "browser_global",
+            "file": "src/components/AppErrorBoundary.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AppErrorBoundary:browser_global:36:888",
+      "module_id": "src/components/AppErrorBoundary",
+      "file": "src/components/AppErrorBoundary.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 36,
+      "evidence": "window.removeEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/AppErrorBoundary:browser_global:36:888",
+            "kind": "browser_global",
+            "file": "src/components/AppErrorBoundary.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/PageShell:non_null_assertion:74:2000",
+      "module_id": "src/components/PageShell",
+      "file": "src/components/PageShell.tsx",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 74,
+      "evidence": "activeTabId!",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this non_null_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line non_null_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/PageShell:non_null_assertion:74:2000",
+            "kind": "non_null_assertion",
+            "file": "src/components/PageShell.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/SchoolCalendar:browser_global:97:2676",
+      "module_id": "src/components/SchoolCalendar",
+      "file": "src/components/SchoolCalendar.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 97,
+      "evidence": "localStorage.getItem",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/SchoolCalendar:browser_global:97:2676",
+            "kind": "browser_global",
+            "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/SchoolCalendar:browser_global:98:2729",
+      "module_id": "src/components/SchoolCalendar",
+      "file": "src/components/SchoolCalendar.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 98,
+      "evidence": "localStorage.getItem",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/SchoolCalendar:browser_global:98:2729",
+            "kind": "browser_global",
+            "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/SchoolCalendar:browser_global:121:3352",
+      "module_id": "src/components/SchoolCalendar",
+      "file": "src/components/SchoolCalendar.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 121,
+      "evidence": "localStorage.setItem",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/SchoolCalendar:browser_global:121:3352",
+            "kind": "browser_global",
+            "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/SchoolCalendar:browser_global:122:3414",
+      "module_id": "src/components/SchoolCalendar",
+      "file": "src/components/SchoolCalendar.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 122,
+      "evidence": "localStorage.setItem",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/SchoolCalendar:browser_global:122:3414",
+            "kind": "browser_global",
+            "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/SpellingTester:type_assertion:89:3286",
+      "module_id": "src/components/SpellingTester",
+      "file": "src/components/SpellingTester.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 89,
+      "evidence": "import.meta.glob( '../assets/teenie/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, s",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/SpellingTester:type_assertion:89:3286",
+            "kind": "type_assertion",
+            "file": "src/components/SpellingTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:128:3048",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 128,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:128:3048",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:134:3239",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 134,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:134:3239",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:142:3464",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 142,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:142:3464",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:145:3581",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 145,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:145:3581",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:148:3723",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 148,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:148:3723",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:158:4000",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 158,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:158:4000",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:171:4348",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 171,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:171:4348",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:184:4733",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 184,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:184:4733",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:405:11442",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 405,
+      "evidence": "window.devicePixelRatio",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:405:11442",
+            "kind": "browser_global",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:513:14454",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 513,
+      "evidence": "window.requestAnimationFrame",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:513:14454",
+            "kind": "browser_global",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/useDayNightExplorerModel:non_null_assertion:81:2707",
+      "module_id": "src/components/dayNightExplorer/useDayNightExplorerModel",
+      "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 81,
+      "evidence": "null!",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this non_null_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line non_null_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/useDayNightExplorerModel:non_null_assertion:81:2707",
+            "kind": "non_null_assertion",
+            "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:276:8112",
+      "module_id": "src/components/dayNightExplorer/useExplorerClock",
+      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 276,
+      "evidence": "window.addEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:276:8112",
+            "kind": "browser_global",
+            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:277:8176",
+      "module_id": "src/components/dayNightExplorer/useExplorerClock",
+      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 277,
+      "evidence": "window.addEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:277:8176",
+            "kind": "browser_global",
+            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:278:8236",
+      "module_id": "src/components/dayNightExplorer/useExplorerClock",
+      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 278,
+      "evidence": "window.addEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:278:8236",
+            "kind": "browser_global",
+            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:282:8326",
+      "module_id": "src/components/dayNightExplorer/useExplorerClock",
+      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 282,
+      "evidence": "window.removeEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:282:8326",
+            "kind": "browser_global",
+            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:283:8393",
+      "module_id": "src/components/dayNightExplorer/useExplorerClock",
+      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 283,
+      "evidence": "window.removeEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:283:8393",
+            "kind": "browser_global",
+            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:284:8456",
+      "module_id": "src/components/dayNightExplorer/useExplorerClock",
+      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 284,
+      "evidence": "window.removeEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:284:8456",
+            "kind": "browser_global",
+            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/DragScrollRegion:browser_global:72:1798",
+      "module_id": "src/components/ui/DragScrollRegion",
+      "file": "src/components/ui/DragScrollRegion.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 72,
+      "evidence": "window.addEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/DragScrollRegion:browser_global:72:1798",
+            "kind": "browser_global",
+            "file": "src/components/ui/DragScrollRegion.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/DragScrollRegion:browser_global:77:1980",
+      "module_id": "src/components/ui/DragScrollRegion",
+      "file": "src/components/ui/DragScrollRegion.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 77,
+      "evidence": "window.removeEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/DragScrollRegion:browser_global:77:1980",
+            "kind": "browser_global",
+            "file": "src/components/ui/DragScrollRegion.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/DragScrollRegion:browser_global:91:2309",
+      "module_id": "src/components/ui/DragScrollRegion",
+      "file": "src/components/ui/DragScrollRegion.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 91,
+      "evidence": "window.removeEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/DragScrollRegion:browser_global:91:2309",
+            "kind": "browser_global",
+            "file": "src/components/ui/DragScrollRegion.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/DragScrollRegion:browser_global:92:2376",
+      "module_id": "src/components/ui/DragScrollRegion",
+      "file": "src/components/ui/DragScrollRegion.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 92,
+      "evidence": "window.removeEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/DragScrollRegion:browser_global:92:2376",
+            "kind": "browser_global",
+            "file": "src/components/ui/DragScrollRegion.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/DragScrollRegion:browser_global:117:3059",
+      "module_id": "src/components/ui/DragScrollRegion",
+      "file": "src/components/ui/DragScrollRegion.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 117,
+      "evidence": "window.setTimeout",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/DragScrollRegion:browser_global:117:3059",
+            "kind": "browser_global",
+            "file": "src/components/ui/DragScrollRegion.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/DragScrollRegion:browser_global:141:3662",
+      "module_id": "src/components/ui/DragScrollRegion",
+      "file": "src/components/ui/DragScrollRegion.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 141,
+      "evidence": "window.addEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/DragScrollRegion:browser_global:141:3662",
+            "kind": "browser_global",
+            "file": "src/components/ui/DragScrollRegion.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/DragScrollRegion:browser_global:142:3726",
+      "module_id": "src/components/ui/DragScrollRegion",
+      "file": "src/components/ui/DragScrollRegion.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 142,
+      "evidence": "window.addEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/DragScrollRegion:browser_global:142:3726",
+            "kind": "browser_global",
+            "file": "src/components/ui/DragScrollRegion.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/StandardActionList:direct_dom_mutation:23:580",
+      "module_id": "src/components/ui/StandardActionList",
+      "file": "src/components/ui/StandardActionList.tsx",
+      "kind": "direct_dom_mutation",
+      "severity": "medium",
+      "line": 23,
+      "evidence": "document.getElementById(WHIMSICAL_STYLES_ID)",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this direct_dom_mutation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line direct_dom_mutation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this direct_dom_mutation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/StandardActionList:direct_dom_mutation:23:580",
+            "kind": "direct_dom_mutation",
+            "file": "src/components/ui/StandardActionList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/StarDisplay:direct_dom_mutation:10:463",
+      "module_id": "src/components/ui/StarDisplay",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "kind": "direct_dom_mutation",
+      "severity": "medium",
+      "line": 10,
+      "evidence": "document.getElementById(STAR_DISPLAY_STYLES_ID)",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this direct_dom_mutation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line direct_dom_mutation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this direct_dom_mutation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/StarDisplay:direct_dom_mutation:10:463",
+            "kind": "direct_dom_mutation",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/contexts/ActiveChildContext:eslint_suppression:9:106",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "kind": "eslint_suppression",
+      "severity": "medium",
+      "line": 9,
+      "evidence": "/* eslint-disable",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this eslint_suppression finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line eslint_suppression"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this eslint_suppression finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/contexts/ActiveChildContext:eslint_suppression:9:106",
+            "kind": "eslint_suppression",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/contexts/ActiveChildContext:browser_global:41:919",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 41,
+      "evidence": "window.localStorage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/contexts/ActiveChildContext:browser_global:41:919",
+            "kind": "browser_global",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/contexts/ActiveChildContext:browser_global:83:2034",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 83,
+      "evidence": "window.localStorage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/contexts/ActiveChildContext:browser_global:83:2034",
+            "kind": "browser_global",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/contexts/ActiveChildContext:browser_global:88:2180",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 88,
+      "evidence": "window.localStorage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/contexts/ActiveChildContext:browser_global:88:2180",
+            "kind": "browser_global",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/contexts/SelectedDateContext:eslint_suppression:8:93",
+      "module_id": "src/contexts/SelectedDateContext",
+      "file": "src/contexts/SelectedDateContext.tsx",
+      "kind": "eslint_suppression",
+      "severity": "medium",
+      "line": 8,
+      "evidence": "/* eslint-disable",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this eslint_suppression finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line eslint_suppression"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this eslint_suppression finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/contexts/SelectedDateContext:eslint_suppression:8:93",
+            "kind": "eslint_suppression",
+            "file": "src/contexts/SelectedDateContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/contexts/ThemeContext:eslint_suppression:34:2538",
+      "module_id": "src/contexts/ThemeContext",
+      "file": "src/contexts/ThemeContext.tsx",
+      "kind": "eslint_suppression",
+      "severity": "medium",
+      "line": 34,
+      "evidence": "/* eslint-disable",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this eslint_suppression finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line eslint_suppression"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this eslint_suppression finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/contexts/ThemeContext:eslint_suppression:34:2538",
+            "kind": "eslint_suppression",
+            "file": "src/contexts/ThemeContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/taskDocuments:unknown_without_narrowing:27:635",
+      "module_id": "src/data/taskDocuments",
+      "file": "src/data/taskDocuments.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 27,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/taskDocuments:unknown_without_narrowing:27:635",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/taskDocuments.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/types:type_assertion:665:19728",
+      "module_id": "src/data/types",
+      "file": "src/data/types.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 665,
+      "evidence": "task as TaskCompletionState",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/types:type_assertion:665:19728",
+            "kind": "type_assertion",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/useChildren:unknown_without_narrowing:29:948",
+      "module_id": "src/data/useChildren",
+      "file": "src/data/useChildren.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 29,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/useChildren:unknown_without_narrowing:29:948",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/useChildren.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/useChores:unknown_without_narrowing:94:2638",
+      "module_id": "src/data/useChores",
+      "file": "src/data/useChores.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 94,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/useChores:unknown_without_narrowing:94:2638",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/useChores.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/useRewards:unknown_without_narrowing:39:1127",
+      "module_id": "src/data/useRewards",
+      "file": "src/data/useRewards.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 39,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/useRewards:unknown_without_narrowing:39:1127",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/useRewards.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useActivityChallenge:browser_global:83:2502",
+      "module_id": "src/hooks/useActivityChallenge",
+      "file": "src/hooks/useActivityChallenge.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 83,
+      "evidence": "window.setTimeout",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useActivityChallenge:browser_global:83:2502",
+            "kind": "browser_global",
+            "file": "src/hooks/useActivityChallenge.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useDeviceFrame:browser_global:12:358",
+      "module_id": "src/hooks/useDeviceFrame",
+      "file": "src/hooks/useDeviceFrame.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 12,
+      "evidence": "window.screen",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useDeviceFrame:browser_global:12:358",
+            "kind": "browser_global",
+            "file": "src/hooks/useDeviceFrame.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useDeviceFrame:browser_global:12:388",
+      "module_id": "src/hooks/useDeviceFrame",
+      "file": "src/hooks/useDeviceFrame.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 12,
+      "evidence": "window.screen",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useDeviceFrame:browser_global:12:388",
+            "kind": "browser_global",
+            "file": "src/hooks/useDeviceFrame.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useDeviceFrame:browser_global:14:446",
+      "module_id": "src/hooks/useDeviceFrame",
+      "file": "src/hooks/useDeviceFrame.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 14,
+      "evidence": "window.visualViewport",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useDeviceFrame:browser_global:14:446",
+            "kind": "browser_global",
+            "file": "src/hooks/useDeviceFrame.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useDeviceFrame:browser_global:14:479",
+      "module_id": "src/hooks/useDeviceFrame",
+      "file": "src/hooks/useDeviceFrame.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 14,
+      "evidence": "window.innerHeight",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useDeviceFrame:browser_global:14:479",
+            "kind": "browser_global",
+            "file": "src/hooks/useDeviceFrame.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useDeviceFrame:browser_global:38:1246",
+      "module_id": "src/hooks/useDeviceFrame",
+      "file": "src/hooks/useDeviceFrame.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 38,
+      "evidence": "window.addEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useDeviceFrame:browser_global:38:1246",
+            "kind": "browser_global",
+            "file": "src/hooks/useDeviceFrame.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useDeviceFrame:browser_global:39:1310",
+      "module_id": "src/hooks/useDeviceFrame",
+      "file": "src/hooks/useDeviceFrame.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 39,
+      "evidence": "window.visualViewport",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useDeviceFrame:browser_global:39:1310",
+            "kind": "browser_global",
+            "file": "src/hooks/useDeviceFrame.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useDeviceFrame:browser_global:42:1412",
+      "module_id": "src/hooks/useDeviceFrame",
+      "file": "src/hooks/useDeviceFrame.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 42,
+      "evidence": "window.removeEventListener",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useDeviceFrame:browser_global:42:1412",
+            "kind": "browser_global",
+            "file": "src/hooks/useDeviceFrame.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useDeviceFrame:browser_global:43:1481",
+      "module_id": "src/hooks/useDeviceFrame",
+      "file": "src/hooks/useDeviceFrame.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 43,
+      "evidence": "window.visualViewport",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useDeviceFrame:browser_global:43:1481",
+            "kind": "browser_global",
+            "file": "src/hooks/useDeviceFrame.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:53:1736",
+      "module_id": "src/hooks/useDinnerCountdownState",
+      "file": "src/hooks/useDinnerCountdownState.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 53,
+      "evidence": "window.setInterval",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:53:1736",
+            "kind": "browser_global",
+            "file": "src/hooks/useDinnerCountdownState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:54:1812",
+      "module_id": "src/hooks/useDinnerCountdownState",
+      "file": "src/hooks/useDinnerCountdownState.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 54,
+      "evidence": "window.clearInterval",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:54:1812",
+            "kind": "browser_global",
+            "file": "src/hooks/useDinnerCountdownState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/choreParser:unknown_without_narrowing:27:638",
+      "module_id": "src/lib/choreParser",
+      "file": "src/lib/choreParser.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 27,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/choreParser:unknown_without_narrowing:27:638",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/choreParser:unknown_without_narrowing:31:726",
+      "module_id": "src/lib/choreParser",
+      "file": "src/lib/choreParser.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 31,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/choreParser:unknown_without_narrowing:31:726",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/choreParser:unknown_without_narrowing:66:1692",
+      "module_id": "src/lib/choreParser",
+      "file": "src/lib/choreParser.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 66,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/choreParser:unknown_without_narrowing:66:1692",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/choreParser:type_assertion:203:5930",
+      "module_id": "src/lib/choreParser",
+      "file": "src/lib/choreParser.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 203,
+      "evidence": "withVariantFields( base, 'taskType', taskType, taskData, taskVariantFields[taskType] ) as TaskRecord",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/choreParser:type_assertion:203:5930",
+            "kind": "type_assertion",
+            "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/choreParser:type_assertion:312:8906",
+      "module_id": "src/lib/choreParser",
+      "file": "src/lib/choreParser.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 312,
+      "evidence": "withVariantFields( base, 'sourceTaskType', sourceTaskType, todoData, todoVariantFields[sourceTaskType] ) as TodoRecord",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/choreParser:type_assertion:312:8906",
+            "kind": "type_assertion",
+            "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/starActions:unknown_without_narrowing:57:1375",
+      "module_id": "src/lib/starActions",
+      "file": "src/lib/starActions.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 57,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/starActions:unknown_without_narrowing:57:1375",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/starActions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/today:unknown_without_narrowing:98:2830",
+      "module_id": "src/lib/today",
+      "file": "src/lib/today.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 98,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/today:unknown_without_narrowing:98:2830",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/today:unknown_without_narrowing:99:2862",
+      "module_id": "src/lib/today",
+      "file": "src/lib/today.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 99,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/today:unknown_without_narrowing:99:2862",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/today:unknown_without_narrowing:100:2882",
+      "module_id": "src/lib/today",
+      "file": "src/lib/today.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 100,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/today:unknown_without_narrowing:100:2882",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/useProblemHistory:unknown_without_narrowing:7:238",
+      "module_id": "src/lib/useProblemHistory",
+      "file": "src/lib/useProblemHistory.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 7,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/useProblemHistory:unknown_without_narrowing:7:238",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/useProblemHistory.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/main:non_null_assertion:6:142",
+      "module_id": "src/main",
+      "file": "src/main.tsx",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 6,
+      "evidence": "document.getElementById('root')!",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this non_null_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line non_null_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:non_null_assertion:6:142",
+            "kind": "non_null_assertion",
+            "file": "src/main.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/main:direct_dom_mutation:6:142",
+      "module_id": "src/main",
+      "file": "src/main.tsx",
+      "kind": "direct_dom_mutation",
+      "severity": "medium",
+      "line": 6,
+      "evidence": "document.getElementById('root')",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this direct_dom_mutation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line direct_dom_mutation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this direct_dom_mutation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:direct_dom_mutation:6:142",
+            "kind": "direct_dom_mutation",
+            "file": "src/main.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/pages/LoginPage:unknown_without_narrowing:10:456",
+      "module_id": "src/pages/LoginPage",
+      "file": "src/pages/LoginPage.tsx",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 10,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/pages/LoginPage:unknown_without_narrowing:10:456",
+            "kind": "unknown_without_narrowing",
+            "file": "src/pages/LoginPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/pages/LoginPage:browser_global:61:1933",
+      "module_id": "src/pages/LoginPage",
+      "file": "src/pages/LoginPage.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 61,
+      "evidence": "window.setTimeout",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/pages/LoginPage:browser_global:61:1933",
+            "kind": "browser_global",
+            "file": "src/pages/LoginPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/pages/LoginPage:browser_global:65:2048",
+      "module_id": "src/pages/LoginPage",
+      "file": "src/pages/LoginPage.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 65,
+      "evidence": "window.clearTimeout",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/pages/LoginPage:browser_global:65:2048",
+            "kind": "browser_global",
+            "file": "src/pages/LoginPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/ui/definitionRowDescriptors:unknown_without_narrowing:39:1510",
+      "module_id": "src/ui/definitionRowDescriptors",
+      "file": "src/ui/definitionRowDescriptors.tsx",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 39,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/ui/definitionRowDescriptors:unknown_without_narrowing:39:1510",
+            "kind": "unknown_without_narrowing",
+            "file": "src/ui/definitionRowDescriptors.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ]
+}

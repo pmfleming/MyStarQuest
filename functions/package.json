@@ -4,6 +4,7 @@
   "scripts": {
     "build": "tsc",
     "migrate:split-chores-tests": "node scripts/migrate-separate-chores-tests.js",
+    "migrate:split-chores-tests:finalize": "node scripts/migrate-separate-chores-tests.js --write --delete-legacy",
     "serve": "npm run build && firebase emulators:start --only functions",
     "deploy": "firebase deploy --only functions"
   },

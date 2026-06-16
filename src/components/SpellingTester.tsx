@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import { uiTokens } from '../tokens'
+import animalsSetIcon from '../assets/global/cat-camel-cow.svg'
+import teenieSetIcon from '../assets/global/teenieping.svg'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import antImage from '../assets/spelling/ant.svg'
@@ -34,6 +37,7 @@ import {
   type ActivityChoreProps,
   type ActivityResult,
 } from './ui/ActivityControls'
+import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 10
@@ -48,6 +52,8 @@ type SpellingAnimal = {
   name: string
   image: string
 }
+
+type SpellingWordSetId = 'animals' | 'teenie'
 
 type LetterChoice = {
   id: string
@@ -80,6 +86,38 @@ const SPELLING_ANIMALS: SpellingAnimal[] = [
   { name: 'zebra', image: zebraImage },
 ]
 
+const TEENIE_ASSET_MODULES = import.meta.glob(
+  '../assets/teenie/*.{png,jpg,jpeg,webp,svg}',
+  { eager: true, import: 'default' }
+) as Record<string, string>
+
+const getAssetName = (path: string) =>
+  path
+    .split('/')
+    .pop()
+    ?.replace(/\.[^.]+$/, '') ?? path
+
+const SPELLING_TEENIE: SpellingAnimal[] = Object.entries(TEENIE_ASSET_MODULES)
+  .map(([path, image]) => ({
+    name: getAssetName(path),
+    image,
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name))
+
+const SPELLING_WORD_SETS: Record<SpellingWordSetId, SpellingAnimal[]> = {
+  animals: SPELLING_ANIMALS,
+  teenie: SPELLING_TEENIE,
+}
+
+const SPELLING_SET_OPTIONS: {
+  id: SpellingWordSetId
+  label: string
+  icon: string
+}[] = [
+  { id: 'animals', label: 'Animals', icon: animalsSetIcon },
+  { id: 'teenie', label: 'Teenie', icon: teenieSetIcon },
+]
+
 const shuffle = <T,>(items: T[]) => [...items].sort(() => Math.random() - 0.5)
 
 const makeChoiceId = (letter: string, index: number) =>
@@ -106,11 +144,174 @@ const getAnimalLetters = (animal: SpellingAnimal) =>
 
 export type SpellingTesterProps = ActivityChoreProps
 
+type SpellingTheme = ActivityChoreProps['theme']
+
+const getVisibleResults = (
+  failureModeEnabled: boolean,
+  resultHistory: ActivityResult[]
+) =>
+  failureModeEnabled
+    ? resultHistory
+    : resultHistory.filter((result) => result === 'correct')
+
+const updateChoiceState = (
+  choices: LetterChoice[],
+  choiceId: string,
+  state: LetterChoice['state']
+) => choices.map((item) => (item.id === choiceId ? { ...item, state } : item))
+
+const getChoiceButtonStyle = (
+  choice: LetterChoice,
+  theme: SpellingTheme
+): CSSProperties => {
+  const isIdle = choice.state === 'idle'
+  const stateColor =
+    choice.state === 'correct'
+      ? { background: '#4ADE80', shadow: '#16A34A' }
+      : choice.state === 'leaving'
+        ? { background: '#F87171', shadow: '#DC2626' }
+        : null
+
+  return {
+    maxWidth: 92,
+    background: stateColor?.background ?? theme.colors.surface,
+    borderRadius: 24,
+    border: `4px solid ${isIdle ? theme.colors.accent : 'transparent'}`,
+    color: isIdle ? theme.colors.primary : 'white',
+    fontFamily: theme.fonts.heading,
+    fontSize: '2.1rem',
+    fontWeight: 900,
+    boxShadow: `0 6px 0 ${stateColor?.shadow ?? theme.colors.accent + '88'}`,
+    animation:
+      choice.state === 'leaving'
+        ? 'spelling-fly-away 0.65s ease-in forwards'
+        : choice.state === 'correct'
+          ? 'spelling-pop 0.32s ease both'
+          : undefined,
+    cursor: isIdle ? 'pointer' : 'default',
+  }
+}
+
+type SpellingPictureProps = {
+  animal: SpellingAnimal
+  theme: SpellingTheme
+}
+
+const SpellingPicture = ({ animal, theme }: SpellingPictureProps) => (
+  <div
+    className="relative flex w-full items-center justify-center overflow-hidden"
+    style={{
+      aspectRatio: '4 / 3',
+      background: theme.colors.surface,
+      borderRadius: 24,
+      border: `4px solid ${theme.colors.accent}44`,
+      padding: 12,
+      boxSizing: 'border-box',
+    }}
+  >
+    <img
+      src={animal.image}
+      alt={animal.name}
+      className="h-full w-full object-contain"
+    />
+  </div>
+)
+
+type SpellingWordTilesProps = {
+  animalName: string
+  letters: string[]
+  spelledCount: number
+  choices: LetterChoice[]
+  theme: SpellingTheme
+}
+
+const SpellingWordTiles = ({
+  animalName,
+  letters,
+  spelledCount,
+  choices,
+  theme,
+}: SpellingWordTilesProps) => (
+  <div
+    className="flex w-full items-center justify-center"
+    style={{ gap: 8, minHeight: 54 }}
+    aria-label={animalName}
+  >
+    {letters.map((letter, index) => {
+      const isRevealed = index < spelledCount
+      const isCurrent =
+        index === spelledCount &&
+        choices.some(
+          (choice) => choice.letter === letter && choice.state === 'correct'
+        )
+
+      return (
+        <div
+          key={`${animalName}-${index}`}
+          className="flex items-center justify-center"
+          style={{
+            width: 44,
+            height: 52,
+            borderRadius: 16,
+            border: `3px solid ${theme.colors.accent}`,
+            background:
+              isRevealed || isCurrent
+                ? `${theme.colors.primary}18`
+                : theme.colors.surface,
+            color: theme.colors.primary,
+            fontFamily: theme.fonts.heading,
+            fontSize: 30,
+            fontWeight: 900,
+            boxShadow: `0 4px 0 ${theme.colors.accent}66`,
+            transition: 'transform 0.18s ease',
+            transform: isCurrent ? 'scale(1.08)' : undefined,
+          }}
+        >
+          {isRevealed || isCurrent ? letter : ''}
+        </div>
+      )
+    })}
+  </div>
+)
+
+type SpellingChoiceButtonsProps = {
+  choices: LetterChoice[]
+  isFailurePending: boolean
+  theme: SpellingTheme
+  onChoice: (choice: LetterChoice) => void
+}
+
+const SpellingChoiceButtons = ({
+  choices,
+  isFailurePending,
+  theme,
+  onChoice,
+}: SpellingChoiceButtonsProps) => (
+  <div
+    className="flex w-full justify-center"
+    style={{ gap: 12, marginTop: 8, minHeight: 88 }}
+  >
+    {choices.map((choice) => (
+      <button
+        key={choice.id}
+        type="button"
+        onClick={() => onChoice(choice)}
+        disabled={choice.state !== 'idle' || isFailurePending}
+        className="flex aspect-square flex-1 items-center justify-center"
+        style={getChoiceButtonStyle(choice, theme)}
+      >
+        {choice.letter}
+      </button>
+    ))}
+  </div>
+)
+
 const SpellingTester = ({
   theme,
   totalProblems,
   starReward,
   isRunning,
+  isEditable = true,
   isCompleted = false,
   isFailed = false,
   onAdjustProblems,
@@ -119,6 +320,7 @@ const SpellingTester = ({
   onFail,
   completionImage,
   failureImage,
+  failureModeEnabled = true,
 }: SpellingTesterProps) => {
   const [problemIndex, setProblemIndex] = useState(0)
   const [successCount, setSuccessCount] = useState(0)
@@ -130,13 +332,17 @@ const SpellingTester = ({
   const [choices, setChoices] = useState<LetterChoice[]>([])
   const [resultHistory, setResultHistory] = useState<ActivityResult[]>([])
   const [isFailurePending, setIsFailurePending] = useState(false)
-  const { isSeen, markSeen, clearHistory } = useProblemHistory()
+  const [spellingSet, setSpellingSet] = useState<SpellingWordSetId>('animals')
+  const spellingWords = SPELLING_WORD_SETS[spellingSet]
+  const { isSeen, markSeen, clearHistory } = useProblemHistory([spellingSet])
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const isSetup = !isRunning && !isCompleted
   const incorrectCount = resultHistory.filter((r) => r === 'incorrect').length
-  const hasFailedByHistory = incorrectCount >= MAX_ACTIVITY_MISTAKES
-  const isFailedState = isCompleted && (isFailed || hasFailedByHistory)
+  const hasFailedByHistory =
+    failureModeEnabled && incorrectCount >= MAX_ACTIVITY_MISTAKES
+  const isFailedState =
+    failureModeEnabled && isCompleted && (isFailed || hasFailedByHistory)
   const isSuccessState = isCompleted && !isFailedState
   const isFinished = isSuccessState || isFailedState
 
@@ -150,23 +356,44 @@ const SpellingTester = ({
     }
   }, [])
 
+  const resetRoundState = useCallback(() => {
+    clearFeedbackTimer()
+    clearHistory()
+    setProblemIndex(0)
+    setSuccessCount(0)
+    setRetryCount(0)
+    setCurrentAnimal(null)
+    setSpelledCount(0)
+    setChoices([])
+    setResultHistory([])
+    setIsFailurePending(false)
+  }, [clearFeedbackTimer, clearHistory])
+
+  const handleSpellingSetChange = useCallback(
+    (nextSet: SpellingWordSetId) => {
+      if (nextSet === spellingSet) return
+
+      resetRoundState()
+      setSpellingSet(nextSet)
+    },
+    [resetRoundState, spellingSet]
+  )
+
   const nextAnimal = useCallback(() => {
-    let animal =
-      SPELLING_ANIMALS[Math.floor(Math.random() * SPELLING_ANIMALS.length)]
+    let animal = spellingWords[Math.floor(Math.random() * spellingWords.length)]
     let attempts = 0
 
-    while (isSeen(animal.name) && attempts < 20) {
-      animal =
-        SPELLING_ANIMALS[Math.floor(Math.random() * SPELLING_ANIMALS.length)]
+    while (isSeen(`${spellingSet}-${animal.name}`) && attempts < 20) {
+      animal = spellingWords[Math.floor(Math.random() * spellingWords.length)]
       attempts++
     }
 
-    markSeen(animal.name)
+    markSeen(`${spellingSet}-${animal.name}`)
     setCurrentAnimal(animal)
     setSpelledCount(0)
     setChoices(generateChoices(getAnimalLetters(animal)[0]))
     setIsFailurePending(false)
-  }, [isSeen, markSeen])
+  }, [isSeen, markSeen, spellingSet, spellingWords])
 
   useEffect(() => {
     if (isRunning && !currentAnimal) {
@@ -182,18 +409,9 @@ const SpellingTester = ({
 
   useEffect(() => {
     if (!isRunning && !isCompleted) {
-      clearFeedbackTimer()
-      clearHistory()
-      setProblemIndex(0)
-      setSuccessCount(0)
-      setRetryCount(0)
-      setCurrentAnimal(null)
-      setSpelledCount(0)
-      setChoices([])
-      setResultHistory([])
-      setIsFailurePending(false)
+      resetRoundState()
     }
-  }, [clearFeedbackTimer, clearHistory, isCompleted, isRunning])
+  }, [isCompleted, isRunning, resetRoundState])
 
   const handleChoice = (choice: LetterChoice) => {
     if (!currentAnimal || !targetLetter || isFailurePending) return
@@ -202,9 +420,7 @@ const SpellingTester = ({
     if (choice.letter === targetLetter) {
       const nextSpelledCount = spelledCount + 1
       setChoices((previous) =>
-        previous.map((item) =>
-          item.id === choice.id ? { ...item, state: 'correct' } : item
-        )
+        updateChoiceState(previous, choice.id, 'correct')
       )
 
       feedbackTimer.current = setTimeout(() => {
@@ -232,16 +448,14 @@ const SpellingTester = ({
       return
     }
 
-    setResultHistory((previous) => [...previous, 'incorrect'])
+    if (failureModeEnabled) {
+      setResultHistory((previous) => [...previous, 'incorrect'])
+    }
     const nextRetryCount = retryCount + 1
     setRetryCount(nextRetryCount)
-    setChoices((previous) =>
-      previous.map((item) =>
-        item.id === choice.id ? { ...item, state: 'leaving' } : item
-      )
-    )
+    setChoices((previous) => updateChoiceState(previous, choice.id, 'leaving'))
 
-    if (nextRetryCount >= MAX_ACTIVITY_MISTAKES) {
+    if (failureModeEnabled && nextRetryCount >= MAX_ACTIVITY_MISTAKES) {
       setIsFailurePending(true)
       feedbackTimer.current = setTimeout(() => {
         onFail?.()
@@ -276,6 +490,20 @@ const SpellingTester = ({
         onStarsChange={onStarsChange}
         previousAriaLabel="Fewer words"
         nextAriaLabel="More words"
+        beforeProblemControl={
+          <SegmentedChoiceControl
+            theme={theme}
+            value={spellingSet}
+            options={SPELLING_SET_OPTIONS.map((option) => ({
+              value: option.id,
+              label: option.label,
+              icon: option.icon,
+            }))}
+            onChange={handleSpellingSetChange}
+            ariaLabel="Spelling pictures"
+          />
+        }
+        isEditable={isEditable}
         starMax={10}
         starStyle={{ marginTop: uiTokens.singleVerticalSpace }}
       />
@@ -283,121 +511,25 @@ const SpellingTester = ({
       {isRunning && currentAnimal && (
         <ActivityPlayArea
           theme={theme}
-          results={resultHistory}
+          results={getVisibleResults(failureModeEnabled, resultHistory)}
           correctIcon={quizCorrectIcon}
           incorrectIcon={quizIncorrectIcon}
           hideAlt
         >
-          <div
-            className="relative flex w-full items-center justify-center overflow-hidden"
-            style={{
-              aspectRatio: '4 / 3',
-              background: theme.colors.surface,
-              borderRadius: 24,
-              border: `4px solid ${theme.colors.accent}44`,
-              padding: 12,
-              boxSizing: 'border-box',
-            }}
-          >
-            <img
-              src={currentAnimal.image}
-              alt={currentAnimal.name}
-              className="h-full w-full object-contain"
-            />
-          </div>
-
-          <div
-            className="flex w-full items-center justify-center"
-            style={{ gap: 8, minHeight: 54 }}
-            aria-label={currentAnimal.name}
-          >
-            {animalLetters.map((letter, index) => {
-              const isRevealed = index < spelledCount
-              const isCurrent =
-                index === spelledCount &&
-                choices.some(
-                  (choice) =>
-                    choice.letter === letter && choice.state === 'correct'
-                )
-
-              return (
-                <div
-                  key={`${currentAnimal.name}-${index}`}
-                  className="flex items-center justify-center"
-                  style={{
-                    width: 44,
-                    height: 52,
-                    borderRadius: 16,
-                    border: `3px solid ${theme.colors.accent}`,
-                    background:
-                      isRevealed || isCurrent
-                        ? `${theme.colors.primary}18`
-                        : theme.colors.surface,
-                    color: theme.colors.primary,
-                    fontFamily: theme.fonts.heading,
-                    fontSize: 30,
-                    fontWeight: 900,
-                    boxShadow: `0 4px 0 ${theme.colors.accent}66`,
-                    transition: 'transform 0.18s ease',
-                    transform: isCurrent ? 'scale(1.08)' : undefined,
-                  }}
-                >
-                  {isRevealed || isCurrent ? letter : ''}
-                </div>
-              )
-            })}
-          </div>
-
-          <div
-            className="flex w-full justify-center"
-            style={{ gap: 12, marginTop: 8, minHeight: 88 }}
-          >
-            {choices.map((choice) => (
-              <button
-                key={choice.id}
-                type="button"
-                onClick={() => handleChoice(choice)}
-                disabled={choice.state !== 'idle' || isFailurePending}
-                className="flex aspect-square flex-1 items-center justify-center"
-                style={{
-                  maxWidth: 92,
-                  background:
-                    choice.state === 'correct'
-                      ? '#4ADE80'
-                      : choice.state === 'leaving'
-                        ? '#F87171'
-                        : theme.colors.surface,
-                  borderRadius: 24,
-                  border: `4px solid ${
-                    choice.state === 'idle'
-                      ? theme.colors.accent
-                      : 'transparent'
-                  }`,
-                  color:
-                    choice.state === 'idle' ? theme.colors.primary : 'white',
-                  fontFamily: theme.fonts.heading,
-                  fontSize: '2.1rem',
-                  fontWeight: 900,
-                  boxShadow: `0 6px 0 ${
-                    choice.state === 'correct'
-                      ? '#16A34A'
-                      : choice.state === 'leaving'
-                        ? '#DC2626'
-                        : theme.colors.accent + '88'
-                  }`,
-                  animation:
-                    choice.state === 'leaving'
-                      ? 'spelling-fly-away 0.65s ease-in forwards'
-                      : choice.state === 'correct'
-                        ? 'spelling-pop 0.32s ease both'
-                        : undefined,
-                  cursor: choice.state === 'idle' ? 'pointer' : 'default',
-                }}
-              >
-                {choice.letter}
-              </button>
-            ))}
-          </div>
+          <SpellingPicture animal={currentAnimal} theme={theme} />
+          <SpellingWordTiles
+            animalName={currentAnimal.name}
+            letters={animalLetters}
+            spelledCount={spelledCount}
+            choices={choices}
+            theme={theme}
+          />
+          <SpellingChoiceButtons
+            choices={choices}
+            isFailurePending={isFailurePending}
+            theme={theme}
+            onChoice={handleChoice}
+          />
         </ActivityPlayArea>
       )}
 

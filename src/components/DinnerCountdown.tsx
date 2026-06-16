@@ -1,7 +1,7 @@
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
-import StepperButton from './ui/StepperButton'
 import ChoreOutcomeView from './ChoreOutcomeView'
+import StepperButton, { getStepperEdgePositionStyle } from './ui/StepperButton'
 import { uiTokens } from '../tokens'
 import { useDinnerCountdownState } from '../hooks/useDinnerCountdownState'
 import { StarRewardControl } from './ui/ActivityControls'
@@ -26,19 +26,13 @@ const MAX_DURATION = 30 * 60 // 30 minutes
 const MIN_BITES = 1
 const MAX_BITES = 16
 const TIME_STEP = 5 * 60 // ±5 minutes
-const STEPPER_WIDTH = 46
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
 const PLATE_CENTER = 110
 const BASE_VIEWBOX_SIZE = 220
-const CONTROL_SVG_SIZE = 200
-const CONTROL_SVG_SCALE = CONTROL_SVG_SIZE / BASE_VIEWBOX_SIZE
-const PLATE_RADIUS = (CONTROL_ROW_WIDTH / 2 - STEPPER_WIDTH / 2) / (200 / 220)
+const PLATE_RADIUS = 92
 const PLATE_IMAGE_SIZE = PLATE_RADIUS * 2
 const PLATE_IMAGE_OFFSET = PLATE_CENTER - PLATE_RADIUS
-const PLATE_VERTICAL_OVERFLOW = Math.max(
-  0,
-  (PLATE_RADIUS - PLATE_CENTER) * CONTROL_SVG_SCALE
-)
+const PLATE_VERTICAL_OVERFLOW = 0
 const CLOCK_CENTER_X = PLATE_CENTER
 const CLOCK_CENTER_Y = 110
 const CLOCK_RADIUS = PLATE_RADIUS
@@ -46,7 +40,7 @@ const CLOCK_MARKER_INNER_RADIUS = CLOCK_RADIUS - 8
 const CLOCK_SECOND_HAND_LENGTH = CLOCK_RADIUS * 0.9375
 const CLOCK_VIEWBOX_Y = CLOCK_CENTER_Y - CLOCK_RADIUS
 const CLOCK_VIEWBOX_HEIGHT = CLOCK_CENTER_Y - CLOCK_VIEWBOX_Y
-const CLOCK_SVG_HEIGHT = CLOCK_VIEWBOX_HEIGHT * CONTROL_SVG_SCALE
+const CLOCK_MARKER_VALUES = [5, 10, 15, 20, 25]
 
 /* ------------------------------------------------------------------ */
 /*  SVG geometry helpers  (same maths as design prototype)             */
@@ -90,12 +84,12 @@ function slicePath(i: number, n: number, c: number, r: number): string {
   return `M ${c} ${c} L ${s.x} ${s.y} A ${r} ${r} 0 ${lg} 0 ${e.x} ${e.y} Z`
 }
 
-type CountdownControlRowProps = {
+type CountdownVisualRowProps = {
   children: ReactNode
   style?: CSSProperties
 }
 
-const CountdownControlRow = ({ children, style }: CountdownControlRowProps) => (
+const CountdownVisualRow = ({ children, style }: CountdownVisualRowProps) => (
   <div
     style={{
       display: 'flex',
@@ -134,19 +128,357 @@ const CountdownStepperControl = ({
   <div
     style={{
       opacity: visible ? 1 : 0,
-      pointerEvents: isSetup ? 'auto' : 'none',
+      pointerEvents: visible && isSetup ? 'auto' : 'none',
       transition: 'opacity 0.3s',
-      position: 'relative',
-      zIndex: 3,
+      ...getStepperEdgePositionStyle(direction),
     }}
+    aria-hidden={!visible}
   >
     <StepperButton
       theme={theme}
       direction={direction}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || !visible}
       ariaLabel={ariaLabel}
     />
+  </div>
+)
+
+type ClockDisplayMode = 'minsec' | 'seconds'
+
+type CountdownClockDisplayOptions = {
+  theme: Theme
+  duration: number
+  liveRemaining: number
+  liveRemainingFloat: number
+  isTimerRunning: boolean
+  secRot: number
+  clockDisplayMode: ClockDisplayMode
+  onToggleDisplayMode: () => void
+}
+
+const renderCountdownClockDisplay = ({
+  theme,
+  duration,
+  liveRemaining,
+  liveRemainingFloat,
+  isTimerRunning,
+  secRot,
+  clockDisplayMode,
+  onToggleDisplayMode,
+}: CountdownClockDisplayOptions) => {
+  const maxMins = MAX_DURATION / 60
+  const markers = CLOCK_MARKER_VALUES.map((val) => {
+    const fraction = val / maxMins
+    const angle = fraction * Math.PI
+    return {
+      x1: CLOCK_CENTER_X - CLOCK_MARKER_INNER_RADIUS * Math.cos(angle),
+      y1: CLOCK_CENTER_Y - CLOCK_MARKER_INNER_RADIUS * Math.sin(angle),
+      x2: CLOCK_CENTER_X - CLOCK_RADIUS * Math.cos(angle),
+      y2: CLOCK_CENTER_Y - CLOCK_RADIUS * Math.sin(angle),
+    }
+  })
+  const displaySeconds = isTimerRunning ? liveRemaining : duration
+  const mins = Math.floor(displaySeconds / 60)
+  const secs = displaySeconds % 60
+  const label =
+    clockDisplayMode === 'minsec'
+      ? `${mins}:${secs.toString().padStart(2, '0')}`
+      : `${displaySeconds}`
+  const boxW = 120
+  const boxH = 54
+  const boxX = CLOCK_CENTER_X - boxW / 2
+  const boxY = CLOCK_CENTER_Y - 4 - boxH
+
+  return (
+    <svg
+      width={BASE_VIEWBOX_SIZE}
+      height={CLOCK_VIEWBOX_HEIGHT}
+      viewBox={`0 ${CLOCK_VIEWBOX_Y} 220 ${CLOCK_VIEWBOX_HEIGHT}`}
+      aria-label="Dinner timer"
+      style={{
+        width: '100%',
+        height: 'auto',
+        display: 'block',
+        overflow: 'visible',
+      }}
+    >
+      <path
+        d={`M ${CLOCK_CENTER_X} ${CLOCK_CENTER_Y} L ${CLOCK_CENTER_X - CLOCK_RADIUS} ${CLOCK_CENTER_Y} A ${CLOCK_RADIUS} ${CLOCK_RADIUS} 0 0 1 ${CLOCK_CENTER_X + CLOCK_RADIUS} ${CLOCK_CENTER_Y} Z`}
+        fill="#ffffff"
+      />
+      <path
+        d={`M ${CLOCK_CENTER_X - CLOCK_RADIUS} ${CLOCK_CENTER_Y} A ${CLOCK_RADIUS} ${CLOCK_RADIUS} 0 0 1 ${CLOCK_CENTER_X + CLOCK_RADIUS} ${CLOCK_CENTER_Y}`}
+        fill="none"
+        stroke="#e0e0e0"
+        strokeWidth="4"
+      />
+      <path d={wedgePath(liveRemainingFloat)} fill={theme.colors.primary} />
+
+      {markers.map((marker, index) => (
+        <line
+          key={index}
+          x1={marker.x1}
+          y1={marker.y1}
+          x2={marker.x2}
+          y2={marker.y2}
+          stroke="#bbb"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+      ))}
+
+      {isTimerRunning && (
+        <>
+          <line
+            x1={CLOCK_CENTER_X}
+            y1={CLOCK_CENTER_Y}
+            x2={CLOCK_CENTER_X - CLOCK_SECOND_HAND_LENGTH}
+            y2={CLOCK_CENTER_Y}
+            stroke={theme.colors.secondary}
+            strokeWidth="4"
+            strokeLinecap="round"
+            style={{
+              transformOrigin: `${CLOCK_CENTER_X}px ${CLOCK_CENTER_Y}px`,
+              transform: `rotate(${secRot}deg)`,
+              transition: 'transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275)',
+            }}
+          />
+          <circle
+            cx={CLOCK_CENTER_X}
+            cy={CLOCK_CENTER_Y}
+            r="6"
+            fill={theme.colors.secondary}
+          />
+        </>
+      )}
+
+      <g style={{ cursor: 'pointer' }} onClick={onToggleDisplayMode}>
+        <rect
+          x={boxX}
+          y={boxY}
+          width={boxW}
+          height={boxH}
+          rx={10}
+          ry={10}
+          fill="rgba(255,255,255,0.85)"
+          stroke={theme.colors.primary}
+          strokeWidth="2"
+        />
+        <text
+          x={CLOCK_CENTER_X}
+          y={CLOCK_CENTER_Y - 17}
+          textAnchor="middle"
+          fill={theme.colors.primary}
+          fontFamily={theme.fonts.heading}
+          fontWeight="bold"
+          fontSize="36"
+        >
+          {label}
+        </text>
+      </g>
+    </svg>
+  )
+}
+
+type CountdownPlateDisplayOptions = {
+  theme: Theme
+  plateImage?: string
+  totalBites: number
+  bitesLeft: number
+  animSlice: number | null
+  biteVis: boolean
+  background: string
+  liveCooldown: number
+  totalCooldownSeconds: number
+  biteIcon?: string
+  onBiteIconClick?: () => void
+}
+
+const renderCountdownPlateDisplay = ({
+  theme,
+  plateImage,
+  totalBites,
+  bitesLeft,
+  animSlice,
+  biteVis,
+  background,
+  liveCooldown,
+  totalCooldownSeconds,
+  biteIcon,
+  onBiteIconClick,
+}: CountdownPlateDisplayOptions) => (
+  <div style={{ position: 'relative', width: '100%' }}>
+    <svg
+      width={BASE_VIEWBOX_SIZE}
+      height={BASE_VIEWBOX_SIZE}
+      viewBox="0 0 220 220"
+      aria-label="Dinner plate portions"
+      style={{
+        width: '100%',
+        height: 'auto',
+        overflow: 'visible',
+        display: 'block',
+      }}
+    >
+      {plateImage && (
+        <defs>
+          {Array.from({ length: totalBites }, (_, index) => (
+            <clipPath key={index} id={`slice-clip-${index}`}>
+              <path
+                d={slicePath(index, totalBites, PLATE_CENTER, PLATE_RADIUS)}
+              />
+            </clipPath>
+          ))}
+        </defs>
+      )}
+
+      {Array.from({ length: totalBites }, (_, index) => {
+        const gone = index >= bitesLeft && index !== animSlice
+        const biting = index === animSlice
+
+        return (
+          <g
+            key={index}
+            style={{
+              transition: 'transform 0.4s ease-in, opacity 0.4s ease-in',
+              transformOrigin: '110px 110px',
+              transform: gone || biting ? 'scale(0.7)' : 'scale(1)',
+              opacity: gone ? 0 : biting ? 0.3 : 1,
+            }}
+          >
+            {plateImage ? (
+              <>
+                <image
+                  href={plateImage}
+                  x={PLATE_IMAGE_OFFSET}
+                  y={PLATE_IMAGE_OFFSET}
+                  width={PLATE_IMAGE_SIZE}
+                  height={PLATE_IMAGE_SIZE}
+                  clipPath={`url(#slice-clip-${index})`}
+                  preserveAspectRatio="xMidYMid slice"
+                />
+                <path
+                  d={slicePath(index, totalBites, PLATE_CENTER, PLATE_RADIUS)}
+                  fill="none"
+                  stroke={theme.colors.primary}
+                  strokeWidth="4"
+                />
+              </>
+            ) : (
+              <path
+                d={slicePath(index, totalBites, PLATE_CENTER, PLATE_RADIUS)}
+                fill={SLICE_COLORS[index % SLICE_COLORS.length]}
+                stroke={background}
+                strokeWidth="4"
+              />
+            )}
+
+            {biting &&
+              (() => {
+                const angle = ((index + 0.5) / totalBites) * 360
+                return [-15, 0, 15].map((offset, biteIndex) => {
+                  const center = polar(
+                    PLATE_CENTER,
+                    PLATE_CENTER,
+                    PLATE_RADIUS - 5,
+                    angle + offset
+                  )
+                  return (
+                    <circle
+                      key={biteIndex}
+                      cx={center.x}
+                      cy={center.y}
+                      r={biteIndex === 1 ? 32 : 25}
+                      fill={background}
+                      style={{
+                        transformOrigin: `${center.x}px ${center.y}px`,
+                        transform: biteVis ? 'scale(1)' : 'scale(0)',
+                        transition: `transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275) ${biteIndex * 0.1}s`,
+                      }}
+                    />
+                  )
+                })
+              })()}
+          </g>
+        )
+      })}
+    </svg>
+
+    {liveCooldown > 0 &&
+      (() => {
+        const RING_R = 55
+        const CIRC = 2 * Math.PI * RING_R
+        const progress = Math.max(
+          0,
+          Math.min(1, liveCooldown / totalCooldownSeconds)
+        )
+        const offset = (1 - progress) * CIRC
+        return (
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              aspectRatio: '1 / 1',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              pointerEvents: 'none',
+              zIndex: 2,
+            }}
+          >
+            <svg width="160" height="160" viewBox="0 0 160 160">
+              <circle cx="80" cy="80" r="70" fill="rgba(255,255,255,0.85)" />
+              <circle
+                cx="80"
+                cy="80"
+                r={RING_R}
+                fill="none"
+                stroke="#e8e8e8"
+                strokeWidth="8"
+              />
+              <circle
+                cx="80"
+                cy="80"
+                r={RING_R}
+                fill="none"
+                stroke={theme.colors.secondary}
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={CIRC}
+                strokeDashoffset={offset}
+                transform="rotate(-90 80 80)"
+              />
+            </svg>
+            <div
+              style={{
+                position: 'absolute',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                pointerEvents: biteIcon ? 'auto' : 'none',
+              }}
+            >
+              {biteIcon && (
+                <img
+                  src={biteIcon}
+                  alt="Chewing..."
+                  className="animate-bounce"
+                  onClick={onBiteIconClick}
+                  style={{
+                    width: 64,
+                    height: 64,
+                    objectFit: 'contain',
+                    cursor: onBiteIconClick ? 'pointer' : 'default',
+                  }}
+                />
+              )}
+            </div>
+          </div>
+        )
+      })()}
   </div>
 )
 
@@ -221,7 +553,6 @@ const DinnerCountdown = ({
     isSetup,
     isSuccess,
     isTimeout,
-    isFinished,
     liveRemaining,
     liveRemainingFloat,
     liveCooldown,
@@ -237,28 +568,13 @@ const DinnerCountdown = ({
     timerStartedAt,
     onExpire,
   })
-  const showSideControls = showSetupControls && !isFinished
 
   /* --- clock display mode: 'minsec' = m:ss, 'seconds' = total seconds --- */
-  const [clockDisplayMode, setClockDisplayMode] = useState<
-    'minsec' | 'seconds'
-  >('minsec')
-
-  /* --- clock minute markers: fixed at 5/10/15/20/25 against 30-min max --- */
-  const maxMins = MAX_DURATION / 60 // always 30
-  const MARKER_VALUES = [5, 10, 15, 20, 25]
-  const markers = MARKER_VALUES.map((val) => {
-    const f = val / maxMins
-    const a = f * Math.PI
-    return {
-      x1: CLOCK_CENTER_X - CLOCK_MARKER_INNER_RADIUS * Math.cos(a),
-      y1: CLOCK_CENTER_Y - CLOCK_MARKER_INNER_RADIUS * Math.sin(a),
-      x2: CLOCK_CENTER_X - CLOCK_RADIUS * Math.cos(a),
-      y2: CLOCK_CENTER_Y - CLOCK_RADIUS * Math.sin(a),
-    }
-  })
+  const [clockDisplayMode, setClockDisplayMode] =
+    useState<ClockDisplayMode>('minsec')
 
   const bg = theme.colors.surface
+  const showVisualSetupControls = showSetupControls && isSetup
 
   /* ---------------------------------------------------------------- */
   /* Render                                                            */
@@ -284,134 +600,30 @@ const DinnerCountdown = ({
       ) : (
         <>
           {/* ---- CLOCK ROW ---- */}
-          <CountdownControlRow>
+          <CountdownVisualRow>
             <CountdownStepperControl
               theme={theme}
               direction="prev"
               onClick={() => onAdjustTime(-TIME_STEP)}
               disabled={!isSetup || duration <= MIN_DURATION}
               ariaLabel="Decrease timer by 5 minutes"
-              visible={showSideControls}
+              visible={showVisualSetupControls}
               isSetup={isSetup}
             />
 
-            <svg
-              width="200"
-              height={CLOCK_SVG_HEIGHT}
-              viewBox={`0 ${CLOCK_VIEWBOX_Y} 220 ${CLOCK_VIEWBOX_HEIGHT}`}
-              style={{
-                margin: '0 6px',
-                overflow: 'visible',
-              }}
-            >
-              {/* Full semicircle background (white) */}
-              <path
-                d={`M ${CLOCK_CENTER_X} ${CLOCK_CENTER_Y} L ${CLOCK_CENTER_X - CLOCK_RADIUS} ${CLOCK_CENTER_Y} A ${CLOCK_RADIUS} ${CLOCK_RADIUS} 0 0 1 ${CLOCK_CENTER_X + CLOCK_RADIUS} ${CLOCK_CENTER_Y} Z`}
-                fill="#ffffff"
-              />
-              {/* Outline arc */}
-              <path
-                d={`M ${CLOCK_CENTER_X - CLOCK_RADIUS} ${CLOCK_CENTER_Y} A ${CLOCK_RADIUS} ${CLOCK_RADIUS} 0 0 1 ${CLOCK_CENTER_X + CLOCK_RADIUS} ${CLOCK_CENTER_Y}`}
-                fill="none"
-                stroke="#e0e0e0"
-                strokeWidth="4"
-              />
-
-              {/* Remaining-time wedge (theme primary) */}
-              <path
-                d={wedgePath(liveRemainingFloat)}
-                fill={theme.colors.primary}
-              />
-
-              {/* Minute markers */}
-              {markers.map((m, i) => (
-                <line
-                  key={i}
-                  x1={m.x1}
-                  y1={m.y1}
-                  x2={m.x2}
-                  y2={m.y2}
-                  stroke="#bbb"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-              ))}
-
-              {/* Second hand + center dot (visible only while running) */}
-              {isTimerRunning && (
-                <>
-                  <line
-                    x1={CLOCK_CENTER_X}
-                    y1={CLOCK_CENTER_Y}
-                    x2={CLOCK_CENTER_X - CLOCK_SECOND_HAND_LENGTH}
-                    y2={CLOCK_CENTER_Y}
-                    stroke={theme.colors.secondary}
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    style={{
-                      transformOrigin: `${CLOCK_CENTER_X}px ${CLOCK_CENTER_Y}px`,
-                      transform: `rotate(${secRot}deg)`,
-                      transition:
-                        'transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275)',
-                    }}
-                  />
-                  <circle
-                    cx={CLOCK_CENTER_X}
-                    cy={CLOCK_CENTER_Y}
-                    r="6"
-                    fill={theme.colors.secondary}
-                  />
-                </>
-              )}
-
-              {/* Remaining-seconds display box (bottom-aligned to semicircle baseline) */}
-              {(() => {
-                const displaySeconds = isTimerRunning ? liveRemaining : duration
-                const mins = Math.floor(displaySeconds / 60)
-                const secs = displaySeconds % 60
-                const label =
-                  clockDisplayMode === 'minsec'
-                    ? `${mins}:${secs.toString().padStart(2, '0')}`
-                    : `${displaySeconds}`
-                const boxW = 120
-                const boxH = 54
-                const boxX = CLOCK_CENTER_X - boxW / 2
-                const boxY = CLOCK_CENTER_Y - 4 - boxH
-                return (
-                  <g
-                    style={{ cursor: 'pointer' }}
-                    onClick={() =>
-                      setClockDisplayMode((mode) =>
-                        mode === 'minsec' ? 'seconds' : 'minsec'
-                      )
-                    }
-                  >
-                    <rect
-                      x={boxX}
-                      y={boxY}
-                      width={boxW}
-                      height={boxH}
-                      rx={10}
-                      ry={10}
-                      fill="rgba(255,255,255,0.85)"
-                      stroke={theme.colors.primary}
-                      strokeWidth="2"
-                    />
-                    <text
-                      x={CLOCK_CENTER_X}
-                      y={CLOCK_CENTER_Y - 17}
-                      textAnchor="middle"
-                      fill={theme.colors.primary}
-                      fontFamily={theme.fonts.heading}
-                      fontWeight="bold"
-                      fontSize="36"
-                    >
-                      {label}
-                    </text>
-                  </g>
-                )
-              })()}
-            </svg>
+            {renderCountdownClockDisplay({
+              theme,
+              duration,
+              liveRemaining,
+              liveRemainingFloat,
+              isTimerRunning,
+              secRot,
+              clockDisplayMode,
+              onToggleDisplayMode: () =>
+                setClockDisplayMode((mode) =>
+                  mode === 'minsec' ? 'seconds' : 'minsec'
+                ),
+            })}
 
             <CountdownStepperControl
               theme={theme}
@@ -419,13 +631,13 @@ const DinnerCountdown = ({
               onClick={() => onAdjustTime(TIME_STEP)}
               disabled={!isSetup || duration >= MAX_DURATION}
               ariaLabel="Increase timer by 5 minutes"
-              visible={showSideControls}
+              visible={showVisualSetupControls}
               isSetup={isSetup}
             />
-          </CountdownControlRow>
+          </CountdownVisualRow>
 
           {/* ---- PLATE ROW ---- */}
-          <CountdownControlRow
+          <CountdownVisualRow
             style={{
               marginTop: `${PLATE_VERTICAL_OVERFLOW}px`,
               marginBottom: `${PLATE_VERTICAL_OVERFLOW}px`,
@@ -437,210 +649,23 @@ const DinnerCountdown = ({
               onClick={() => onAdjustBites(-1)}
               disabled={!isSetup || totalBites <= MIN_BITES}
               ariaLabel="Decrease bites"
-              visible={showSideControls}
+              visible={showVisualSetupControls}
               isSetup={isSetup}
             />
 
-            <div style={{ position: 'relative', margin: '0 6px' }}>
-              <svg
-                width="200"
-                height="200"
-                viewBox="0 0 220 220"
-                style={{
-                  overflow: 'visible',
-                  display: 'block',
-                }}
-              >
-                {/* Per-slice clip paths (used when a plate image is provided) */}
-                {plateImage && (
-                  <defs>
-                    {Array.from({ length: totalBites }, (_, i) => (
-                      <clipPath key={i} id={`slice-clip-${i}`}>
-                        <path
-                          d={slicePath(
-                            i,
-                            totalBites,
-                            PLATE_CENTER,
-                            PLATE_RADIUS
-                          )}
-                        />
-                      </clipPath>
-                    ))}
-                  </defs>
-                )}
-
-                {Array.from({ length: totalBites }, (_, i) => {
-                  const gone = i >= bitesLeft && i !== animSlice
-                  const biting = i === animSlice
-
-                  return (
-                    <g
-                      key={i}
-                      style={{
-                        transition:
-                          'transform 0.4s ease-in, opacity 0.4s ease-in',
-                        transformOrigin: '110px 110px',
-                        transform: gone || biting ? 'scale(0.7)' : 'scale(1)',
-                        opacity: gone ? 0 : biting ? 0.3 : 1,
-                      }}
-                    >
-                      {plateImage ? (
-                        /* Plate image clipped to this pie segment */
-                        <>
-                          <image
-                            href={plateImage}
-                            x={PLATE_IMAGE_OFFSET}
-                            y={PLATE_IMAGE_OFFSET}
-                            width={PLATE_IMAGE_SIZE}
-                            height={PLATE_IMAGE_SIZE}
-                            clipPath={`url(#slice-clip-${i})`}
-                            preserveAspectRatio="xMidYMid slice"
-                          />
-                          {/* Divider line between segments */}
-                          <path
-                            d={slicePath(
-                              i,
-                              totalBites,
-                              PLATE_CENTER,
-                              PLATE_RADIUS
-                            )}
-                            fill="none"
-                            stroke={theme.colors.primary}
-                            strokeWidth="4"
-                          />
-                        </>
-                      ) : (
-                        /* Fallback: solid-colour slice */
-                        <path
-                          d={slicePath(
-                            i,
-                            totalBites,
-                            PLATE_CENTER,
-                            PLATE_RADIUS
-                          )}
-                          fill={SLICE_COLORS[i % SLICE_COLORS.length]}
-                          stroke={bg}
-                          strokeWidth="4"
-                        />
-                      )}
-
-                      {/* Bite-mark circles (3 crescents that pop in) */}
-                      {biting &&
-                        (() => {
-                          const ang = ((i + 0.5) / totalBites) * 360
-                          return [-15, 0, 15].map((off, j) => {
-                            const c = polar(
-                              PLATE_CENTER,
-                              PLATE_CENTER,
-                              PLATE_RADIUS - 5,
-                              ang + off
-                            )
-                            return (
-                              <circle
-                                key={j}
-                                cx={c.x}
-                                cy={c.y}
-                                r={j === 1 ? 32 : 25}
-                                fill={bg}
-                                style={{
-                                  transformOrigin: `${c.x}px ${c.y}px`,
-                                  transform: biteVis ? 'scale(1)' : 'scale(0)',
-                                  transition: `transform 0.2s cubic-bezier(0.175,0.885,0.32,1.275) ${j * 0.1}s`,
-                                }}
-                              />
-                            )
-                          })
-                        })()}
-                    </g>
-                  )
-                })}
-              </svg>
-
-              {/* ---- CHEWING COOLDOWN OVERLAY ---- */}
-              {liveCooldown > 0 &&
-                (() => {
-                  const RING_R = 55
-                  const CIRC = 2 * Math.PI * RING_R
-                  const progress = Math.max(
-                    0,
-                    Math.min(1, liveCooldown / totalCooldownSeconds)
-                  )
-                  const offset = (1 - progress) * CIRC
-                  return (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: 200,
-                        height: 200,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        pointerEvents: 'none',
-                        zIndex: 2,
-                      }}
-                    >
-                      <svg width="160" height="160" viewBox="0 0 160 160">
-                        {/* Frosted backdrop */}
-                        <circle
-                          cx="80"
-                          cy="80"
-                          r="70"
-                          fill="rgba(255,255,255,0.85)"
-                        />
-                        {/* Track ring */}
-                        <circle
-                          cx="80"
-                          cy="80"
-                          r={RING_R}
-                          fill="none"
-                          stroke="#e8e8e8"
-                          strokeWidth="8"
-                        />
-                        {/* Countdown ring (empties clockwise) */}
-                        <circle
-                          cx="80"
-                          cy="80"
-                          r={RING_R}
-                          fill="none"
-                          stroke={theme.colors.secondary}
-                          strokeWidth="8"
-                          strokeLinecap="round"
-                          strokeDasharray={CIRC}
-                          strokeDashoffset={offset}
-                          transform="rotate(-90 80 80)"
-                        />
-                      </svg>
-                      {/* Centered bite icon */}
-                      <div
-                        style={{
-                          position: 'absolute',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          pointerEvents: biteIcon ? 'auto' : 'none',
-                        }}
-                      >
-                        {biteIcon && (
-                          <img
-                            src={biteIcon}
-                            alt="Chewing…"
-                            className="animate-bounce"
-                            onClick={onBiteIconClick}
-                            style={{
-                              width: 64,
-                              height: 64,
-                              objectFit: 'contain',
-                              cursor: onBiteIconClick ? 'pointer' : 'default',
-                            }}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  )
-                })()}
-            </div>
+            {renderCountdownPlateDisplay({
+              theme,
+              plateImage,
+              totalBites,
+              bitesLeft,
+              animSlice,
+              biteVis,
+              background: bg,
+              liveCooldown,
+              totalCooldownSeconds,
+              biteIcon,
+              onBiteIconClick,
+            })}
 
             <CountdownStepperControl
               theme={theme}
@@ -648,12 +673,11 @@ const DinnerCountdown = ({
               onClick={() => onAdjustBites(1)}
               disabled={!isSetup || totalBites >= MAX_BITES}
               ariaLabel="Increase bites"
-              visible={showSideControls}
+              visible={showVisualSetupControls}
               isSetup={isSetup}
             />
-          </CountdownControlRow>
+          </CountdownVisualRow>
 
-          {/* ---- STAR REWARD (editable, setup only) ---- */}
           {showStarReward && isSetup && (
             <StarRewardControl
               theme={theme}
