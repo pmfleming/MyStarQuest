@@ -21,12 +21,19 @@ type InlineChoiceListProps = {
   theme: Theme
   choices: InlineChoice[]
   onCancel: () => void
+  utilityAction?: {
+    icon: string
+    ariaLabel: string
+    onClick: () => void | Promise<void>
+    disabled?: boolean
+  }
 }
 
 export const InlineChoiceList = ({
   theme,
   choices,
   onCancel,
+  utilityAction,
 }: InlineChoiceListProps) => (
   <div
     className={
@@ -73,7 +80,11 @@ export const InlineChoiceList = ({
     )}
     <div
       className={choices.every((choice) => choice.icon) ? 'col-span-3' : ''}
-      style={{ display: 'flex', justifyContent: 'center' }}
+      style={{
+        display: 'flex',
+        justifyContent: utilityAction ? 'flex-end' : 'center',
+        gap: `${uiTokens.actionRowGap}px`,
+      }}
     >
       <IconActionButton
         theme={theme}
@@ -82,6 +93,16 @@ export const InlineChoiceList = ({
         onClick={onCancel}
         style={getStandardUtilityActionStyle(theme, 'neutral')}
       />
+      {utilityAction && (
+        <IconActionButton
+          theme={theme}
+          icon={utilityAction.icon}
+          ariaLabel={utilityAction.ariaLabel}
+          onClick={utilityAction.onClick}
+          disabled={utilityAction.disabled}
+          style={getStandardUtilityActionStyle(theme, 'neutral')}
+        />
+      )}
     </div>
   </div>
 )

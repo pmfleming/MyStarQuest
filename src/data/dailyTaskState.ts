@@ -25,13 +25,22 @@ type TodoLike = {
 } & Partial<TodoUpdatableFields>
 
 const todoUpdatableFieldKeys: Array<keyof TodoUpdatableFields> = [
+  'title',
+  'starValue',
+  'schoolDayEnabled',
+  'nonSchoolDayEnabled',
+  'imageKey',
   'completedAt',
+  'dinnerDurationSeconds',
   'dinnerRemainingSeconds',
+  'dinnerTotalBites',
   'dinnerBitesLeft',
   'dinnerTimerStartedAt',
   'mathLastOutcome',
+  'largeNumbersLastOutcome',
   'pvLastOutcome',
   'alphabetLastOutcome',
+  'spellingLastOutcome',
   'waterLevel',
   'toiletStatus',
 ]
@@ -40,7 +49,9 @@ const testOutcomeFieldByType: Partial<
   Record<TaskType, keyof TodoUpdatableFields>
 > = {
   math: 'mathLastOutcome',
+  'large-numbers': 'largeNumbersLastOutcome',
   alphabet: 'alphabetLastOutcome',
+  spelling: 'spellingLastOutcome',
   'positional-notation': 'pvLastOutcome',
 }
 
@@ -56,9 +67,17 @@ const manageOutcomePatchByType: Partial<
     completedAt: 'manageMathCompletedAt',
     outcome: 'manageMathLastOutcome',
   },
+  'large-numbers': {
+    completedAt: 'manageLargeNumbersCompletedAt',
+    outcome: 'manageLargeNumbersLastOutcome',
+  },
   alphabet: {
     completedAt: 'manageAlphabetCompletedAt',
     outcome: 'manageAlphabetLastOutcome',
+  },
+  spelling: {
+    completedAt: 'manageSpellingCompletedAt',
+    outcome: 'manageSpellingLastOutcome',
   },
   'positional-notation': {
     completedAt: 'managePVCompletedAt',
@@ -160,21 +179,32 @@ export const mergeTaskEphemeral = (
     case 'standard':
       return {
         ...task,
-        manageCompletedAt: state.manageCompletedAt,
+        manageCompletedAt: state.manageCompletedAt ?? task.manageCompletedAt,
       }
     case 'eating':
       return {
         ...task,
-        manageDinnerRemainingSeconds: state.manageDinnerRemainingSeconds,
-        manageDinnerBitesLeft: state.manageDinnerBitesLeft,
-        manageDinnerTimerStartedAt: state.manageDinnerTimerStartedAt,
-        manageDinnerCompletedAt: state.manageDinnerCompletedAt,
+        manageDinnerRemainingSeconds:
+          state.manageDinnerRemainingSeconds ??
+          task.manageDinnerRemainingSeconds,
+        manageDinnerBitesLeft:
+          state.manageDinnerBitesLeft ?? task.manageDinnerBitesLeft,
+        manageDinnerTimerStartedAt:
+          state.manageDinnerTimerStartedAt ?? task.manageDinnerTimerStartedAt,
+        manageDinnerCompletedAt:
+          state.manageDinnerCompletedAt ?? task.manageDinnerCompletedAt,
       }
     case 'math':
       return {
         ...task,
         manageMathCompletedAt: state.manageMathCompletedAt,
         manageMathLastOutcome: state.manageMathLastOutcome,
+      }
+    case 'large-numbers':
+      return {
+        ...task,
+        manageLargeNumbersCompletedAt: state.manageLargeNumbersCompletedAt,
+        manageLargeNumbersLastOutcome: state.manageLargeNumbersLastOutcome,
       }
     case 'positional-notation':
       return {
@@ -188,12 +218,20 @@ export const mergeTaskEphemeral = (
         manageAlphabetCompletedAt: state.manageAlphabetCompletedAt,
         manageAlphabetLastOutcome: state.manageAlphabetLastOutcome,
       }
+    case 'spelling':
+      return {
+        ...task,
+        manageSpellingCompletedAt: state.manageSpellingCompletedAt,
+        manageSpellingLastOutcome: state.manageSpellingLastOutcome,
+      }
     case 'watertoiletcheck':
       return {
         ...task,
-        manageWaterLevel: state.manageWaterLevel,
-        manageToiletStatus: state.manageToiletStatus,
-        manageWaterToiletCompletedAt: state.manageWaterToiletCompletedAt,
+        manageWaterLevel: state.manageWaterLevel ?? task.manageWaterLevel,
+        manageToiletStatus: state.manageToiletStatus ?? task.manageToiletStatus,
+        manageWaterToiletCompletedAt:
+          state.manageWaterToiletCompletedAt ??
+          task.manageWaterToiletCompletedAt,
       }
   }
 }
@@ -262,16 +300,20 @@ export const getChoreLastActive = (state: TaskEphemeralState) =>
   state.manageCompletedAt ||
   state.manageDinnerCompletedAt ||
   state.manageMathCompletedAt ||
+  state.manageLargeNumbersCompletedAt ||
   state.managePVCompletedAt ||
   state.manageAlphabetCompletedAt ||
+  state.manageSpellingCompletedAt ||
   state.manageWaterToiletCompletedAt
 
 export const getTestLastActive = (state: TaskEphemeralState) =>
   state.manageMathCompletedAt ||
+  state.manageLargeNumbersCompletedAt ||
   state.managePVCompletedAt ||
-  state.manageAlphabetCompletedAt
+  state.manageAlphabetCompletedAt ||
+  state.manageSpellingCompletedAt
 
-export const testTodoOutcomePatch = (
+export const todoOutcomePatch = (
   taskType: TaskType,
   completedAt: number | null,
   outcome: TaskOutcome | null

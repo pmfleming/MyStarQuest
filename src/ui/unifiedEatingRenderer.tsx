@@ -48,7 +48,10 @@ const renderEatingTask = (
   stage: ChoreStage
 ) => {
   const isCompleted = Boolean(item.manageDinnerCompletedAt)
-  if (!isActive && !isCompleted && stage !== 'setup') return null
+  const isManage = deps.mode === 'manage'
+  if (!isActive && !isCompleted && (!isManage || stage !== 'setup')) {
+    return null
+  }
 
   return renderDinnerChore({
     theme: deps.theme,
@@ -88,8 +91,8 @@ const renderEatingTask = (
     biteCooldownSeconds: deps.biteCooldownSeconds,
     biteCooldownEndsAt: deps.biteCooldownEndsAt,
     biteIcon: state.princessAsset(deps.activePrincessMealIcon),
-    showSetupControls: !isActive && !isCompleted,
-    showStarReward: !isActive && !isCompleted,
+    showSetupControls: isManage && !isActive && !isCompleted,
+    showStarReward: isManage && !isActive && !isCompleted,
   })
 }
 

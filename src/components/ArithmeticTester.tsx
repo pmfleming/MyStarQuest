@@ -13,6 +13,7 @@ import {
   ActivitySetupControls,
   type ActivityChoreProps,
 } from './ui/ActivityControls'
+import { EmptyCounterHint, MathCounter } from './ui/ActivityMathCounters'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 10
@@ -81,6 +82,7 @@ const ArithmeticTester = ({
   starReward,
   difficulty = 'easy',
   isRunning,
+  isEditable = true,
   isCompleted = false,
   isFailed = false,
   onAdjustProblems,
@@ -91,6 +93,7 @@ const ArithmeticTester = ({
   checkTrigger = 0,
   completionImage,
   failureImage,
+  failureModeEnabled = true,
 }: ArithmeticTesterProps) => {
   const [valA, setValA] = useState(0)
   const [valB, setValB] = useState(0)
@@ -155,6 +158,7 @@ const ArithmeticTester = ({
     onReset: resetProblem,
     onComplete,
     onFail,
+    failureModeEnabled,
   })
 
   useEffect(() => {
@@ -169,25 +173,6 @@ const ArithmeticTester = ({
     resetFeedback,
     userAnswer,
   ])
-
-  const counterStyle = (size: number, delay: number): React.CSSProperties => ({
-    width: size,
-    height: size,
-    objectFit: 'contain',
-    animation: `dotmath-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${delay}s both`,
-  })
-
-  const crossedCounterStyle = (
-    size: number,
-    delay: number
-  ): React.CSSProperties => ({
-    width: size,
-    height: size,
-    objectFit: 'contain',
-    opacity: 0.4,
-    position: 'relative',
-    animation: `dotmath-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${delay}s both`,
-  })
 
   const playAnimation = isWrong
     ? 'dotmath-shake 0.5s ease'
@@ -218,6 +203,8 @@ const ArithmeticTester = ({
           <button
             key={value}
             type="button"
+            aria-label={value === 'easy' ? 'Easy' : 'Hard'}
+            aria-pressed={difficulty === value}
             onClick={() => onDifficultyChange?.(value)}
             style={{
               flex: 1,
@@ -241,7 +228,31 @@ const ArithmeticTester = ({
               transition: 'all 0.2s ease',
             }}
           >
-            {value.toUpperCase()}
+            <span
+              aria-hidden="true"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: DOT_GAP,
+                width: '100%',
+              }}
+            >
+              {Array.from({ length: value === 'easy' ? 1 : 2 }).map(
+                (_, index) => (
+                  <img
+                    key={`${value}-counter-${index}`}
+                    src={mathsCounterIcon}
+                    alt=""
+                    style={{
+                      width: DOT_SIZE,
+                      height: DOT_SIZE,
+                      objectFit: 'contain',
+                    }}
+                  />
+                )
+              )}
+            </span>
           </button>
         ))}
       </div>
@@ -282,6 +293,7 @@ const ArithmeticTester = ({
         onStarsChange={onStarsChange}
         previousAriaLabel="Fewer puzzles"
         nextAriaLabel="More puzzles"
+        isEditable={isEditable}
         beforeProblemControl={difficultyControl}
       />
 
@@ -388,13 +400,15 @@ const ArithmeticTester = ({
                           height: DOT_SIZE,
                         }}
                       >
-                        <img
+                        <MathCounter
                           src={mathsCounterIcon}
-                          alt="Counter"
-                          style={crossedCounterStyle(
-                            DOT_SIZE,
-                            0.4 + dotIndex * 0.05
-                          )}
+                          size={DOT_SIZE}
+                          delay={0.4 + dotIndex * 0.05}
+                          animationName="dotmath-pop-in"
+                          style={{
+                            opacity: 0.4,
+                            position: 'relative',
+                          }}
                         />
                         <span
                           style={{
@@ -410,11 +424,12 @@ const ArithmeticTester = ({
                         </span>
                       </div>
                     ) : (
-                      <img
+                      <MathCounter
                         key={`dot-${index}-${dotIndex}`}
                         src={mathsCounterIcon}
-                        alt="Counter"
-                        style={counterStyle(DOT_SIZE, dotIndex * 0.03)}
+                        size={DOT_SIZE}
+                        delay={dotIndex * 0.03}
+                        animationName="dotmath-pop-in"
                       />
                     )
                   )}
@@ -464,24 +479,18 @@ const ArithmeticTester = ({
               }}
             >
               {userAnswer === 0 ? (
-                <span
-                  style={{
-                    color: theme.colors.accent,
-                    opacity: 0.5,
-                    fontStyle: 'italic',
-                    fontSize: 18,
-                    fontFamily: theme.fonts.body,
-                  }}
-                >
-                  ?
-                </span>
+                <EmptyCounterHint
+                  color={theme.colors.accent}
+                  fontFamily={theme.fonts.body}
+                />
               ) : (
                 Array.from({ length: userAnswer }).map((_, index) => (
-                  <img
+                  <MathCounter
                     key={`c-${index}`}
                     src={mathsCounterIcon}
-                    alt="Counter"
-                    style={counterStyle(ANSWER_COUNTER_SIZE, 0)}
+                    size={ANSWER_COUNTER_SIZE}
+                    delay={0}
+                    animationName="dotmath-pop-in"
                   />
                 ))
               )}

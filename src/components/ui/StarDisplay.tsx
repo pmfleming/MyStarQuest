@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
-import StepperButton from './StepperButton'
+import StepperButton, { getStepperEdgePositionStyle } from './StepperButton'
 import { uiTokens } from '../../tokens'
 import starSvgUrl from '../../assets/global/star.svg'
 import starNegativeSvgUrl from '../../assets/global/star-negative.svg'
@@ -38,10 +38,7 @@ export type StarDisplayProps = {
 }
 
 const CONTROLS_DELAY_MS = 550
-const STEPPER_WIDTH = uiTokens.listUtilityActionWidth
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
-const STAR_CONTROL_WIDTH = CONTROL_ROW_WIDTH - STEPPER_WIDTH
-const STEPPER_OFFSET = 0
 
 type DensityClass = 'low' | 'medium'
 
@@ -209,6 +206,85 @@ const FieldVariant = ({
   )
 }
 
+const CompactCountVariant = ({
+  count,
+  style,
+  className,
+  theme,
+}: StarDisplayProps) => {
+  const assetUrl = count < 0 ? starNegativeSvgUrl : starSvgUrl
+
+  const containerStyle: CSSProperties = {
+    background: '#f1f5f9',
+    borderRadius: `${uiTokens.surfaceRadius}px`,
+    padding: '12px',
+    minHeight: `${uiTokens.listActionHeight}px`,
+    border: '2px dashed #cbd5e1',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+    ...style,
+  }
+
+  return (
+    <div
+      style={containerStyle}
+      className={className}
+      role="img"
+      aria-label={`${count} stars`}
+    >
+      <span
+        style={{
+          color: theme?.colors.primary ?? '#EC4899',
+          fontFamily: theme?.fonts.heading,
+          fontSize: '2rem',
+          fontWeight: 900,
+          lineHeight: 1,
+        }}
+      >
+        {count}
+      </span>
+      <StarIcon size={38} assetUrl={assetUrl} animate={false} />
+    </div>
+  )
+}
+
+const shouldUseCompactValue = (count: number) => Math.abs(count) > 10
+
+const renderEditableValue = ({
+  count,
+  animate,
+  theme,
+  className,
+}: {
+  count: number
+  animate: boolean
+  theme: Theme
+  className?: string
+}) => {
+  const valueStyle: CSSProperties = {
+    width: '100%',
+    boxSizing: 'border-box',
+  }
+
+  return shouldUseCompactValue(count) ? (
+    <CompactCountVariant
+      count={count}
+      theme={theme}
+      className={className}
+      style={valueStyle}
+    />
+  ) : (
+    <FieldVariant
+      count={count}
+      animate={animate}
+      className={className}
+      style={valueStyle}
+    />
+  )
+}
+
 const StarDisplay = ({
   count,
   animate = true,
@@ -218,7 +294,7 @@ const StarDisplay = ({
   editable = false,
   onChange,
   min = 1,
-  max = 10,
+  max,
   theme,
 }: StarDisplayProps) => {
   const [controlsVisible, setControlsVisible] = useState(false)
@@ -241,7 +317,7 @@ const StarDisplay = ({
   }
 
   const handleIncrement = () => {
-    if (onChange && count < max) onChange(count + 1)
+    if (onChange && (max === undefined || count < max)) onChange(count + 1)
   }
 
   const showControls = editable && controlsVisible
@@ -263,10 +339,7 @@ const StarDisplay = ({
       >
         <div
           style={{
-            position: 'absolute',
-            left: `${STEPPER_OFFSET}px`,
-            top: '50%',
-            transform: 'translateY(-50%)',
+            ...getStepperEdgePositionStyle('prev'),
             opacity: showControls ? 1 : 0,
             transition: 'opacity 0.3s ease',
             pointerEvents: showControls ? 'auto' : 'none',
@@ -283,20 +356,13 @@ const StarDisplay = ({
           />
         </div>
 
-        <div style={{ width: `${STAR_CONTROL_WIDTH}px`, minWidth: 0 }}>
-          <FieldVariant
-            count={count}
-            animate={animate}
-            style={{ width: '100%', boxSizing: 'border-box' }}
-          />
+        <div style={{ width: '100%', minWidth: 0 }}>
+          {renderEditableValue({ count, animate, theme })}
         </div>
 
         <div
           style={{
-            position: 'absolute',
-            right: `${STEPPER_OFFSET}px`,
-            top: '50%',
-            transform: 'translateY(-50%)',
+            ...getStepperEdgePositionStyle('next'),
             opacity: showControls ? 1 : 0,
             transition: 'opacity 0.3s ease',
             pointerEvents: showControls ? 'auto' : 'none',
@@ -307,7 +373,7 @@ const StarDisplay = ({
             theme={theme}
             direction="next"
             onClick={handleIncrement}
-            disabled={count >= max}
+            disabled={max !== undefined && count >= max}
             ariaLabel="Increase star value"
             style={{ position: 'relative', zIndex: 3 }}
           />

@@ -12,6 +12,7 @@ export type ActivityChoreProps = {
   totalProblems: number
   starReward: number
   isRunning: boolean
+  isEditable?: boolean
   isCompleted?: boolean
   isFailed?: boolean
   onAdjustProblems: (delta: number) => void
@@ -21,6 +22,7 @@ export type ActivityChoreProps = {
   checkTrigger?: number
   completionImage?: string
   failureImage?: string
+  failureModeEnabled?: boolean
 }
 
 export const MAX_ACTIVITY_MISTAKES = 3
@@ -169,6 +171,7 @@ type ActivitySetupControlsProps = {
   starMax?: number
   starStyle?: CSSProperties
   beforeProblemControl?: ReactNode
+  isEditable?: boolean
 }
 
 export const ActivitySetupControls = ({
@@ -185,6 +188,7 @@ export const ActivitySetupControls = ({
   starMax,
   starStyle,
   beforeProblemControl,
+  isEditable = true,
 }: ActivitySetupControlsProps) => {
   if (!isSetup) return null
 
@@ -197,12 +201,13 @@ export const ActivitySetupControls = ({
       onAdjust={onAdjustProblems}
       previousAriaLabel={previousAriaLabel}
       nextAriaLabel={nextAriaLabel}
+      isEditable={isEditable}
     />
   )
 
   return (
     <>
-      {beforeProblemControl ? (
+      {beforeProblemControl && isEditable ? (
         <div
           className="flex flex-col items-center"
           style={{
@@ -224,6 +229,7 @@ export const ActivitySetupControls = ({
         onStarsChange={onStarsChange}
         max={starMax}
         style={starStyle}
+        isEditable={isEditable}
       />
     </>
   )
@@ -284,6 +290,7 @@ type ProblemCountControlProps = {
   onAdjust: (delta: number) => void
   previousAriaLabel: string
   nextAriaLabel: string
+  isEditable?: boolean
 }
 
 export const ProblemCountControl = ({
@@ -294,6 +301,7 @@ export const ProblemCountControl = ({
   onAdjust,
   previousAriaLabel,
   nextAriaLabel,
+  isEditable = true,
 }: ProblemCountControlProps) => (
   <div
     className="flex flex-col items-center"
@@ -304,13 +312,15 @@ export const ProblemCountControl = ({
   >
     <div className="flex w-full flex-col items-center" style={{ gap: 0 }}>
       <div className="flex w-full items-center justify-center">
-        <StepperButton
-          theme={theme}
-          direction="prev"
-          onClick={() => onAdjust(-1)}
-          disabled={totalProblems <= min}
-          ariaLabel={previousAriaLabel}
-        />
+        {isEditable && (
+          <StepperButton
+            theme={theme}
+            direction="prev"
+            onClick={() => onAdjust(-1)}
+            disabled={totalProblems <= min}
+            ariaLabel={previousAriaLabel}
+          />
+        )}
         <div className="flex flex-1 flex-col items-center">
           <span
             style={{
@@ -324,13 +334,15 @@ export const ProblemCountControl = ({
             {totalProblems}
           </span>
         </div>
-        <StepperButton
-          theme={theme}
-          direction="next"
-          onClick={() => onAdjust(1)}
-          disabled={totalProblems >= max}
-          ariaLabel={nextAriaLabel}
-        />
+        {isEditable && (
+          <StepperButton
+            theme={theme}
+            direction="next"
+            onClick={() => onAdjust(1)}
+            disabled={totalProblems >= max}
+            ariaLabel={nextAriaLabel}
+          />
+        )}
       </div>
     </div>
   </div>
@@ -342,6 +354,7 @@ type StarRewardControlProps = {
   onStarsChange: (value: number) => void
   max?: number
   style?: CSSProperties
+  isEditable?: boolean
 }
 
 export const StarRewardControl = ({
@@ -350,6 +363,7 @@ export const StarRewardControl = ({
   onStarsChange,
   max = 3,
   style,
+  isEditable = true,
 }: StarRewardControlProps) => (
   <div
     className="flex flex-col items-center"
@@ -363,7 +377,7 @@ export const StarRewardControl = ({
     <StarDisplay
       theme={theme}
       count={starReward}
-      editable
+      editable={isEditable}
       onChange={onStarsChange}
       min={1}
       max={max}

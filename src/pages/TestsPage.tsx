@@ -1,31 +1,39 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
-import TopIconButton from '../components/ui/TopIconButton'
 import StandardActionList from '../components/ui/StandardActionList'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { createUnifiedChoreDescriptor } from '../ui/unifiedChoreDescriptors'
 import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 import { useTests } from '../data/useTests'
+import { useChildren } from '../data/useChildren'
 import { BITE_COOLDOWN_SECONDS, isTestWithEphemeral } from '../data/types'
 import { useTaskActivityState } from '../hooks/useTaskActivityState'
-import {
-  princessChildrenIcon,
-  princessExitIcon,
-} from '../assets/themes/princess/assets'
 
 const TestsPage = () => {
-  const { logout } = useAuth()
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
+  const { children } = useChildren()
 
-  const { tests, todayInfo, completeTest, failTest, resetTest } = useTests()
+  const {
+    tests,
+    todayInfo,
+    updateTestField,
+    updateEphemeral,
+    completeTest,
+    failTest,
+    resetTest,
+  } = useTests()
 
   const activity = useTaskActivityState()
+  const activeChild = children.find((child) => child.id === activeChildId)
+  const testFailureModeEnabled = activeChild?.testFailureModeEnabled ?? true
   const clearActivityIds = activity.clearActiveActivities
   const [mathCheckTriggers, setMathCheckTriggers] = useState<
+    Record<string, number>
+  >({})
+  const [largeNumbersCheckTriggers, setLargeNumbersCheckTriggers] = useState<
     Record<string, number>
   >({})
   const [pvCheckTriggers, setPVCheckTriggers] = useState<
@@ -34,17 +42,24 @@ const TestsPage = () => {
   const [alphabetCheckTriggers, setAlphabetCheckTriggers] = useState<
     Record<string, number>
   >({})
+  const [spellingCheckTriggers, setSpellingCheckTriggers] = useState<
+    Record<string, number>
+  >({})
 
   useEffect(() => {
     clearActivityIds()
     setMathCheckTriggers({})
+    setLargeNumbersCheckTriggers({})
     setPVCheckTriggers({})
     setAlphabetCheckTriggers({})
+    setSpellingCheckTriggers({})
   }, [activeChildId, clearActivityIds, todayInfo.dateKey])
 
   const descriptor = createUnifiedChoreDescriptor({
     theme,
     mode: 'today',
+    onUpdateTaskField: updateTestField,
+    onUpdateEphemeral: updateEphemeral,
     onEnterChore: (item) => {
       if (isTestWithEphemeral(item)) {
         activity.enterActivity(item.taskType, item.id)
@@ -62,18 +77,25 @@ const TestsPage = () => {
       activity.clearActiveActivities()
     },
     activeMathId: activity.activeMathId,
+    activeLargeNumbersId: activity.activeLargeNumbersId,
     activePVId: activity.activePVId,
     activeAlphabetId: activity.activeAlphabetId,
+    activeSpellingId: activity.activeSpellingId,
     activeDinnerId: null,
     activeWaterToiletId: null,
     mathCheckTriggers,
+    largeNumbersCheckTriggers,
     pvCheckTriggers,
     alphabetCheckTriggers,
+    spellingCheckTriggers,
     setMathCheckTriggers,
+    setLargeNumbersCheckTriggers,
     setPVCheckTriggers,
     setAlphabetCheckTriggers,
+    setSpellingCheckTriggers,
     biteCooldownSeconds: BITE_COOLDOWN_SECONDS,
     hideDeleteUtility: true,
+    testFailureModeEnabled,
   })
 
   const visibleTests = useMemo(
@@ -85,46 +107,7 @@ const TestsPage = () => {
   )
 
   return (
-    <TabContent
-      theme={theme}
-      title="Tests"
-      headerRight={
-        <>
-          <TopIconButton
-            theme={theme}
-            to="/settings/manage-children"
-            ariaLabel="Children"
-            icon={
-              theme.id === 'princess' ? (
-                <img
-                  src={princessChildrenIcon}
-                  alt="Children"
-                  className="h-10 w-10 object-contain"
-                />
-              ) : (
-                <span className="text-sm font-bold">Kids</span>
-              )
-            }
-          />
-          <TopIconButton
-            theme={theme}
-            onClick={logout}
-            ariaLabel="Exit"
-            icon={
-              theme.id === 'princess' ? (
-                <img
-                  src={princessExitIcon}
-                  alt="Exit"
-                  className="h-10 w-10 object-contain"
-                />
-              ) : (
-                <span className="text-sm font-bold">Exit</span>
-              )
-            }
-          />
-        </>
-      }
-    >
+    <TabContent theme={theme} title="Tests">
       <div
         className="mx-auto flex w-full flex-col"
         style={{

@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { useTheme } from '../../contexts/ThemeContext'
-import StepperButton from './StepperButton'
 
 type CarouselItem = {
   id: string | number
@@ -18,11 +17,13 @@ type CarouselProps = {
   style?: CSSProperties
 }
 
-const ANIMATION_MS = 350
 const ITEM_SIZE = 90
 const GAP = 16
 const ACTIVE_SCALE = 1.3
 const SIDE_SCALE = 1
+
+const getWrappedIndex = (index: number, length: number) =>
+  (index + length) % length
 
 const Carousel = ({
   items,
@@ -36,9 +37,6 @@ const Carousel = ({
   const [currentIndex, setCurrentIndex] = useState(
     Math.max(0, Math.min(initialIndex, safeItems.length - 1))
   )
-  const [isAnimating, setIsAnimating] = useState(false)
-  const [slideOffset, setSlideOffset] = useState(0)
-  const SLIDE_DISTANCE = ITEM_SIZE + GAP
 
   useEffect(() => {
     if (safeItems.length === 0) return
@@ -50,42 +48,18 @@ const Carousel = ({
     onChange(currentIndex)
   }, [currentIndex, onChange])
 
-  const getPrevIndex = (index: number) =>
-    index === 0 ? safeItems.length - 1 : index - 1
-  const getNextIndex = (index: number) =>
-    index === safeItems.length - 1 ? 0 : index + 1
-
   const visibleItems = useMemo(() => {
     if (safeItems.length === 0) return []
-    const prevIndex =
-      currentIndex === 0 ? safeItems.length - 1 : currentIndex - 1
-    const nextIndex =
-      currentIndex === safeItems.length - 1 ? 0 : currentIndex + 1
-    return [safeItems[prevIndex], safeItems[currentIndex], safeItems[nextIndex]]
+    return [
+      safeItems[getWrappedIndex(currentIndex - 1, safeItems.length)],
+      safeItems[currentIndex],
+      safeItems[getWrappedIndex(currentIndex + 1, safeItems.length)],
+    ]
   }, [safeItems, currentIndex])
 
-  const handleNext = () => {
-    if (isAnimating || safeItems.length <= 1) return
-    setIsAnimating(true)
-    // Move track LEFT to reveal next item
-    setSlideOffset(-SLIDE_DISTANCE)
-    setTimeout(() => {
-      setIsAnimating(false)
-      setSlideOffset(0) // Snap back to center
-      setCurrentIndex(getNextIndex(currentIndex))
-    }, ANIMATION_MS)
-  }
-
-  const handlePrev = () => {
-    if (isAnimating || safeItems.length <= 1) return
-    setIsAnimating(true)
-    // Move track RIGHT to reveal prev item
-    setSlideOffset(SLIDE_DISTANCE)
-    setTimeout(() => {
-      setIsAnimating(false)
-      setSlideOffset(0) // Snap back to center
-      setCurrentIndex(getPrevIndex(currentIndex))
-    }, ANIMATION_MS)
+  const navigate = (delta: number) => {
+    if (safeItems.length <= 1) return
+    setCurrentIndex((index) => getWrappedIndex(index + delta, safeItems.length))
   }
 
   if (safeItems.length === 0) return null
@@ -93,7 +67,7 @@ const Carousel = ({
   const rootStyle: CSSProperties = {
     background: `linear-gradient(180deg, ${theme.colors.surface} 0%, ${theme.colors.bg} 100%)`,
     border: `6px solid ${theme.colors.primary}`,
-    padding: '14px 10px 18px',
+    padding: '14px 0 18px',
     textAlign: 'center',
     boxShadow:
       theme.id === 'space'
@@ -122,6 +96,7 @@ const Carousel = ({
   const baseItemStyle: CSSProperties = {
     width: `${ITEM_SIZE}px`,
     height: `${ITEM_SIZE}px`,
+    padding: 0,
     background: theme.colors.surface,
     border: `4px solid ${theme.colors.primary}`,
     borderRadius: 12,
@@ -138,6 +113,10 @@ const Carousel = ({
     flexShrink: 0,
   }
 
+  const sideButtonStyle: CSSProperties = {
+    cursor: safeItems.length > 1 ? 'pointer' : 'default',
+  }
+
   const iconStyle: CSSProperties = {
     fontSize: '3.5rem',
     lineHeight: 1,
@@ -148,13 +127,6 @@ const Carousel = ({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
-  }
-
-  const arrowPositionStyle: CSSProperties = {
-    position: 'absolute',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    zIndex: 3,
   }
 
   const getItemStyle = (index: number): CSSProperties => {
@@ -177,41 +149,43 @@ const Carousel = ({
   return (
     <div className={className} style={{ ...rootStyle, ...style }}>
       <div style={stageStyle}>
-        <StepperButton
-          theme={theme}
-          direction="prev"
-          onClick={handlePrev}
-          ariaLabel="Previous"
-          style={{ ...arrowPositionStyle, left: '4px' }}
-        >
-          ‹
-        </StepperButton>
-
         <div
           style={{
             ...trackStyle,
-            transform: `translateX(${slideOffset}px)`,
-            transition: isAnimating
-              ? `transform ${ANIMATION_MS}ms ease-out`
-              : 'none',
           }}
         >
-          {visibleItems.map((item, index) => (
-            <div key={`${item.id}-${index}`} style={getItemStyle(index)}>
-              <span style={iconStyle}>{item.icon}</span>
-            </div>
-          ))}
-        </div>
+          {visibleItems.map((item, index) => {
+            const isCurrent = index === 1
+            const direction = index === 0 ? 'Previous' : 'Next'
+            const onClick = index === 0 ? () => navigate(-1) : () => navigate(1)
+            const itemStyle = getItemStyle(index)
 
-        <StepperButton
-          theme={theme}
-          direction="next"
-          onClick={handleNext}
-          ariaLabel="Next"
-          style={{ ...arrowPositionStyle, right: '4px' }}
-        >
-          ›
-        </StepperButton>
+            if (isCurrent) {
+              return (
+                <div
+                  key={`${item.id}-${index}`}
+                  style={itemStyle}
+                  aria-label={`Selected: ${item.label}`}
+                >
+                  <span style={iconStyle}>{item.icon}</span>
+                </div>
+              )
+            }
+
+            return (
+              <button
+                key={`${item.id}-${index}`}
+                type="button"
+                onClick={onClick}
+                disabled={safeItems.length <= 1}
+                style={{ ...itemStyle, ...sideButtonStyle }}
+                aria-label={`${direction}: ${item.label}`}
+              >
+                <span style={iconStyle}>{item.icon}</span>
+              </button>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

@@ -12,6 +12,11 @@ import {
   ActivitySetupControls,
   type ActivityChoreProps,
 } from './ui/ActivityControls'
+import {
+  EmptyCounterHint,
+  MathCounter,
+  TenRod,
+} from './ui/ActivityMathCounters'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 10
@@ -69,6 +74,7 @@ const PositionalNotation = ({
   totalProblems,
   starReward,
   isRunning,
+  isEditable = true,
   isCompleted = false,
   isFailed = false,
   onAdjustProblems,
@@ -78,6 +84,7 @@ const PositionalNotation = ({
   checkTrigger = 0,
   completionImage,
   failureImage,
+  failureModeEnabled = true,
 }: PositionalNotationProps) => {
   const [targetNumber, setTargetNumber] = useState(0)
   const [userTens, setUserTens] = useState(0)
@@ -136,6 +143,7 @@ const PositionalNotation = ({
     onReset: resetProblem,
     onComplete,
     onFail,
+    failureModeEnabled,
   })
 
   const handleNextProblem = useCallback(
@@ -149,18 +157,6 @@ const PositionalNotation = ({
   useEffect(() => {
     consumeCheckTrigger(currentTotal === targetNumber, handleNextProblem)
   }, [consumeCheckTrigger, currentTotal, handleNextProblem, targetNumber])
-
-  const rodStyle = (delay: number): React.CSSProperties => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    border: `2px solid ${theme.colors.secondary}`,
-    borderRadius: 6,
-    background: `${theme.colors.secondary}22`,
-    padding: 2,
-    gap: 1,
-    animation: `pv-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${delay}s both`,
-  })
 
   const TEN_COUNTER_SIZE = 12
   const ONE_CROWN_SIZE = Math.max(ONE_COUNTER_SIZE + 12, 30)
@@ -208,6 +204,7 @@ const PositionalNotation = ({
         onStarsChange={onStarsChange}
         previousAriaLabel="Fewer puzzles"
         nextAriaLabel="More puzzles"
+        isEditable={isEditable}
       />
 
       {isRunning && (
@@ -364,33 +361,20 @@ const PositionalNotation = ({
                   }}
                 >
                   {userTens === 0 ? (
-                    <span
-                      style={{
-                        color: theme.colors.secondary,
-                        opacity: 0.3,
-                        fontStyle: 'italic',
-                        fontFamily: theme.fonts.body,
-                        fontSize: 14,
-                      }}
-                    >
-                      ?
-                    </span>
+                    <EmptyCounterHint
+                      color={theme.colors.secondary}
+                      fontFamily={theme.fonts.body}
+                    />
                   ) : (
                     Array.from({ length: userTens }).map((_, index) => (
-                      <div key={`ten-${index}`} style={rodStyle(index * 0.05)}>
-                        {Array.from({ length: 10 }).map((_, rodIndex) => (
-                          <img
-                            key={rodIndex}
-                            src={mathsCounterIcon}
-                            alt="Counter"
-                            style={{
-                              width: TEN_COUNTER_SIZE,
-                              height: TEN_COUNTER_SIZE,
-                              objectFit: 'contain',
-                            }}
-                          />
-                        ))}
-                      </div>
+                      <TenRod
+                        key={`ten-${index}`}
+                        src={mathsCounterIcon}
+                        counterSize={TEN_COUNTER_SIZE}
+                        delay={index * 0.05}
+                        animationName="pv-pop-in"
+                        borderColor={theme.colors.secondary}
+                      />
                     ))
                   )}
                 </div>
@@ -503,29 +487,19 @@ const PositionalNotation = ({
                   }}
                 >
                   {userOnes === 0 ? (
-                    <span
-                      style={{
-                        color: theme.colors.primary,
-                        opacity: 0.3,
-                        fontStyle: 'italic',
-                        fontFamily: theme.fonts.body,
-                        fontSize: 14,
-                      }}
-                    >
-                      ?
-                    </span>
+                    <EmptyCounterHint
+                      color={theme.colors.primary}
+                      fontFamily={theme.fonts.body}
+                    />
                   ) : (
                     Array.from({ length: userOnes }).map((_, index) => (
-                      <img
+                      <MathCounter
                         key={`one-${index}`}
                         src={mathsCounterIcon}
-                        alt="Counter"
-                        style={{
-                          width: ONE_CROWN_SIZE,
-                          height: ONE_CROWN_SIZE,
-                          objectFit: 'contain',
-                          animation: `pv-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${index * 0.05}s both`,
-                        }}
+                        alt=""
+                        size={ONE_CROWN_SIZE}
+                        delay={index * 0.05}
+                        animationName="pv-pop-in"
                       />
                     ))
                   )}

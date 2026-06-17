@@ -1,7 +1,7 @@
 import type { Theme } from '../contexts/ThemeContext'
 import TopIconButton from '../components/ui/TopIconButton'
 import { uiTokens } from '../tokens'
-import type { TaskWithEphemeral } from '../data/types'
+import type { ChoreWithEphemeral } from '../data/types'
 import {
   princessChildrenIcon,
   princessExitIcon,
@@ -103,15 +103,15 @@ export const DashboardHeaderActions = ({
 
 type DashboardChoreChooserProps = {
   theme: Theme
-  tasks: TaskWithEphemeral[]
-  availableChores: TaskWithEphemeral[]
-  onAddTodo: (task: TaskWithEphemeral) => void
+  chores: ChoreWithEphemeral[]
+  availableChores: ChoreWithEphemeral[]
+  onAddTodo: (chore: ChoreWithEphemeral) => void
   onClose: () => void
 }
 
 export const DashboardChoreChooser = ({
   theme,
-  tasks,
+  chores,
   availableChores,
   onAddTodo,
   onClose,
@@ -125,17 +125,17 @@ export const DashboardChoreChooser = ({
   >
     {availableChores.length === 0 ? (
       <div className="col-span-3">
-        <UnavailableChoreMessage theme={theme} hasTasks={tasks.length > 0} />
+        <UnavailableChoreMessage theme={theme} hasChores={chores.length > 0} />
       </div>
     ) : (
-      availableChores.map((task) => (
+      availableChores.map((chore) => (
         <IconChoiceButton
-          key={task.id}
+          key={chore.id}
           theme={theme}
-          icon={getPrincessTaskTypeIcon(task.taskType)}
-          ariaLabel={task.title}
+          icon={getPrincessTaskTypeIcon(chore.taskType)}
+          ariaLabel={chore.title}
           onClick={() => {
-            onAddTodo(task)
+            onAddTodo(chore)
             onClose()
           }}
         />
@@ -154,10 +154,10 @@ export const DashboardChoreChooser = ({
 
 const UnavailableChoreMessage = ({
   theme,
-  hasTasks,
+  hasChores,
 }: {
   theme: Theme
-  hasTasks: boolean
+  hasChores: boolean
 }) => (
   <>
     <div
@@ -169,7 +169,7 @@ const UnavailableChoreMessage = ({
         fontSize: '1.05rem',
       }}
     >
-      {hasTasks
+      {hasChores
         ? 'All available chores are already added today.'
         : 'No chores have been created yet.'}
     </div>

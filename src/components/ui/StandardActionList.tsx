@@ -1,4 +1,10 @@
-import { useState, useEffect, type ReactNode, type CSSProperties } from 'react'
+import {
+  useState,
+  useEffect,
+  useRef,
+  type ReactNode,
+  type CSSProperties,
+} from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import {
   princessDeleteIcon,
@@ -99,8 +105,8 @@ export type StandardActionListProps<T> = {
   isHighlighted?: (item: T) => boolean
   /** Optional: Return star count for an item to render the star field */
   getStarCount?: (item: T) => number | undefined
-  /** When true, the Edit button is hidden on all rows */
-  hideEdit?: boolean
+  /** When true, the Edit button is hidden. Can be scoped per row. */
+  hideEdit?: boolean | ((item: T) => boolean)
   /** Key of the item currently being edited inline */
   editingId?: string
   /** Renders the full inline edit UI in place of normal row content when editingId matches */
@@ -108,6 +114,8 @@ export type StandardActionListProps<T> = {
   /** When provided, renders an inline "new item" editor card at the bottom of the list
    *  (the Add button card is suppressed while this is set) */
   inlineNewRow?: ReactNode
+  /** When false, renders inlineNewRow directly instead of wrapping it in an add-card frame. */
+  frameInlineNewRow?: boolean
   /** When true, suppresses the add button card entirely */
   hideAdd?: boolean
 }
@@ -176,11 +184,12 @@ const ActionCard = <T,>({
   actionBaseStyle: CSSProperties
   getKey?: (item: T) => string
   getStarCount?: (item: T) => number | undefined
-  hideEdit?: boolean
+  hideEdit?: boolean | ((item: T) => boolean)
   editingId?: string
   renderInlineEdit?: (item: T) => ReactNode
 }) => {
   const [isExiting, setIsExiting] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
   const hideUtilityButton =
     typeof utilityAction?.hideButton === 'function'
       ? utilityAction.hideButton(item)
@@ -245,6 +254,11 @@ const ActionCard = <T,>({
   const itemKey = getKey ? getKey(item) : `${index}`
   const isInlineEditing = editingId !== undefined && editingId === itemKey
 
+  useEffect(() => {
+    if (!isInlineEditing) return
+    cardRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' })
+  }, [isInlineEditing])
+
   const rowStyle: CSSProperties = isItemHighlighted
     ? {
         ...rowBaseStyle,
@@ -262,16 +276,31 @@ const ActionCard = <T,>({
     typeof primaryAction.hideButton === 'function'
       ? primaryAction.hideButton(item)
       : (primaryAction.hideButton ?? false)
+  const hideEditButton =
+    typeof hideEdit === 'function' ? hideEdit(item) : (hideEdit ?? false)
+
+  const inlineEditStyle: CSSProperties = {
+    ...rowBaseStyle,
+    background: theme.colors.surface,
+    border: `3px solid ${theme.colors.primary}`,
+    boxShadow: `0 10px 20px -5px ${theme.colors.primary}20`,
+    color: theme.colors.text,
+    boxSizing: 'border-box',
+  }
 
   return (
     <div
+      ref={cardRef}
       key={itemKey}
-      className={`whimsical-card flex flex-col ${isExiting ? 'whimsical-card-exiting' : ''}`}
-      style={{ ...rowStyle, gap: `${uiTokens.panelStackGap}px` }}
+      className={`${isInlineEditing ? '' : 'whimsical-card'} flex flex-col ${isExiting ? 'whimsical-card-exiting' : ''}`}
+      style={{
+        ...(isInlineEditing ? inlineEditStyle : rowStyle),
+        gap: `${uiTokens.panelStackGap}px`,
+      }}
     >
       {/* Inline edit mode — replaces normal content + actions */}
       {isInlineEditing && renderInlineEdit ? (
-        renderInlineEdit(item)
+        <div className="flex min-w-0 flex-col">{renderInlineEdit(item)}</div>
       ) : (
         <>
           {/* Header / Content */}
@@ -330,7 +359,7 @@ const ActionCard = <T,>({
             )}
 
             {/* Edit Button - optional */}
-            {!hideEdit && onEdit && (
+            {!hideEditButton && onEdit && (
               <button
                 type="button"
                 onClick={() =>
@@ -404,6 +433,7 @@ const StandardActionList = <T,>({
   editingId,
   renderInlineEdit,
   inlineNewRow,
+  frameInlineNewRow = true,
   hideAdd = false,
 }: StandardActionListProps<T>) => {
   const isDarkTheme = theme.id === 'space'
@@ -497,7 +527,9 @@ const StandardActionList = <T,>({
               })}
 
           {/* Inline New Row — shown in place of the Add button card */}
-          {inlineNewRow ? (
+          {inlineNewRow && !frameInlineNewRow ? (
+            inlineNewRow
+          ) : inlineNewRow ? (
             <div
               className="flex flex-col"
               style={{

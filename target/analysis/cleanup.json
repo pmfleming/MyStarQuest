@@ -1,0 +1,5023 @@
+{
+  "schema_version": "0.1.0",
+  "task_id": "quality.cleanup",
+  "project": {
+    "name": "MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest",
+    "framework": "vite",
+    "package_manager": "npm",
+    "test_runner": "vitest"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.1.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-06-16T09:20:00.719Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:f8a489b8a2b6746a861269a2e1f1df5c2dc7b64799cc028d7c22fddc68ba7000"
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": true,
+    "test_runner_detected": true,
+    "git_history_available": true,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "complete": true,
+    "partial": false,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "package_manager_detected",
+      "framework_detected",
+      "test_runner_detected",
+      "git_history_available",
+      "excludes_applied",
+      "type_information_available",
+      "dependencies_installed",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "framework_conventions_detected",
+      "analysis_cache_enabled"
+    ],
+    "missing_input": [],
+    "stale_input": []
+  },
+  "summary": {
+    "records": 119,
+    "unused_files": 0,
+    "unused_exports": 85,
+    "unused_dependencies": 30,
+    "unlisted_dependencies": 0,
+    "type_only_production_dependencies": 0,
+    "test_only_production_dependencies": 0,
+    "duplicate_exports": 4,
+    "entrypoint_files": 0
+  },
+  "records": [
+    {
+      "id": "cleanup:unused-export:src/assets/chores/assets:ChoreImageKey",
+      "kind": "unused_export",
+      "file": "src/assets/chores/assets.ts",
+      "line": 4,
+      "name": "ChoreImageKey",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ChoreImageKey"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/assets/chores/assets:ChoreImageKey",
+            "kind": "unused_export",
+            "file": "src/assets/chores/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/assets/chores/assets:choreImages",
+      "kind": "unused_export",
+      "file": "src/assets/chores/assets.ts",
+      "line": 6,
+      "name": "choreImages",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "choreImages"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/assets/chores/assets:choreImages",
+            "kind": "unused_export",
+            "file": "src/assets/chores/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/assets/chores/assets:ChoreImageOption",
+      "kind": "unused_export",
+      "file": "src/assets/chores/assets.ts",
+      "line": 11,
+      "name": "ChoreImageOption",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ChoreImageOption"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/assets/chores/assets:ChoreImageOption",
+            "kind": "unused_export",
+            "file": "src/assets/chores/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/assets/chores/assets:isChoreImageKey",
+      "kind": "unused_export",
+      "file": "src/assets/chores/assets.ts",
+      "line": 23,
+      "name": "isChoreImageKey",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "isChoreImageKey"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/assets/chores/assets:isChoreImageKey",
+            "kind": "unused_export",
+            "file": "src/assets/chores/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/assets/rewards/assets:RewardImageKey",
+      "kind": "unused_export",
+      "file": "src/assets/rewards/assets.ts",
+      "line": 4,
+      "name": "RewardImageKey",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "RewardImageKey"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/assets/rewards/assets:RewardImageKey",
+            "kind": "unused_export",
+            "file": "src/assets/rewards/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/assets/rewards/assets:rewardImages",
+      "kind": "unused_export",
+      "file": "src/assets/rewards/assets.ts",
+      "line": 6,
+      "name": "rewardImages",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "rewardImages"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/assets/rewards/assets:rewardImages",
+            "kind": "unused_export",
+            "file": "src/assets/rewards/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/assets/rewards/assets:RewardImageOption",
+      "kind": "unused_export",
+      "file": "src/assets/rewards/assets.ts",
+      "line": 11,
+      "name": "RewardImageOption",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "RewardImageOption"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/assets/rewards/assets:RewardImageOption",
+            "kind": "unused_export",
+            "file": "src/assets/rewards/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/assets/rewards/assets:isRewardImageKey",
+      "kind": "unused_export",
+      "file": "src/assets/rewards/assets.ts",
+      "line": 23,
+      "name": "isRewardImageKey",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "isRewardImageKey"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/assets/rewards/assets:isRewardImageKey",
+            "kind": "unused_export",
+            "file": "src/assets/rewards/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/assets/themes/princess/assets:princessBackground",
+      "kind": "unused_export",
+      "file": "src/assets/themes/princess/assets.ts",
+      "line": 2,
+      "name": "princessBackground",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "princessBackground"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/assets/themes/princess/assets:princessBackground",
+            "kind": "unused_export",
+            "file": "src/assets/themes/princess/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/components/SchoolCalendar:SchoolCalendar",
+      "kind": "unused_export",
+      "file": "src/components/SchoolCalendar.tsx",
+      "line": 78,
+      "name": "SchoolCalendar",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "SchoolCalendar"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/components/SchoolCalendar:SchoolCalendar",
+            "kind": "unused_export",
+            "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/components/dayNightExplorer/SolarSystem3DManager:SolarSystem3DManager",
+      "kind": "unused_export",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "line": 349,
+      "name": "SolarSystem3DManager",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "SolarSystem3DManager"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/components/dayNightExplorer/SolarSystem3DManager:SolarSystem3DManager",
+            "kind": "unused_export",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/components/dayNightExplorer/useDayNightExplorerModel:useDayNightExplorerModel",
+      "kind": "unused_export",
+      "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
+      "line": 61,
+      "name": "useDayNightExplorerModel",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "useDayNightExplorerModel"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/components/dayNightExplorer/useDayNightExplorerModel:useDayNightExplorerModel",
+            "kind": "unused_export",
+            "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/components/ui/ActivityControls:ACTIVITY_SETUP_FIELD_GAP",
+      "kind": "unused_export",
+      "file": "src/components/ui/ActivityControls.tsx",
+      "line": 29,
+      "name": "ACTIVITY_SETUP_FIELD_GAP",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ACTIVITY_SETUP_FIELD_GAP"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/components/ui/ActivityControls:ACTIVITY_SETUP_FIELD_GAP",
+            "kind": "unused_export",
+            "file": "src/components/ui/ActivityControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/components/ui/ActivityControls:ActivityResultBar",
+      "kind": "unused_export",
+      "file": "src/components/ui/ActivityControls.tsx",
+      "line": 109,
+      "name": "ActivityResultBar",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ActivityResultBar"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/components/ui/ActivityControls:ActivityResultBar",
+            "kind": "unused_export",
+            "file": "src/components/ui/ActivityControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/components/ui/ActivityControls:ProblemCountControl",
+      "kind": "unused_export",
+      "file": "src/components/ui/ActivityControls.tsx",
+      "line": 296,
+      "name": "ProblemCountControl",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ProblemCountControl"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/components/ui/ActivityControls:ProblemCountControl",
+            "kind": "unused_export",
+            "file": "src/components/ui/ActivityControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/components/ui/Carousel:CarouselItem",
+      "kind": "unused_export",
+      "file": "src/components/ui/Carousel.tsx",
+      "line": 195,
+      "name": "CarouselItem",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "CarouselItem"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/components/ui/Carousel:CarouselItem",
+            "kind": "unused_export",
+            "file": "src/components/ui/Carousel.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/components/ui/Carousel:CarouselProps",
+      "kind": "unused_export",
+      "file": "src/components/ui/Carousel.tsx",
+      "line": 195,
+      "name": "CarouselProps",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "CarouselProps"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/components/ui/Carousel:CarouselProps",
+            "kind": "unused_export",
+            "file": "src/components/ui/Carousel.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/components/ui/InlineChoiceList:InlineChoice",
+      "kind": "unused_export",
+      "file": "src/components/ui/InlineChoiceList.tsx",
+      "line": 11,
+      "name": "InlineChoice",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "InlineChoice"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/components/ui/InlineChoiceList:InlineChoice",
+            "kind": "unused_export",
+            "file": "src/components/ui/InlineChoiceList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/components/ui/StarDisplay:StarDisplayProps",
+      "kind": "unused_export",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "line": 27,
+      "name": "StarDisplayProps",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "StarDisplayProps"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/components/ui/StarDisplay:StarDisplayProps",
+            "kind": "unused_export",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/components/ui/StepperButton:StepperButtonProps",
+      "kind": "unused_export",
+      "file": "src/components/ui/StepperButton.tsx",
+      "line": 86,
+      "name": "StepperButtonProps",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "StepperButtonProps"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/components/ui/StepperButton:StepperButtonProps",
+            "kind": "unused_export",
+            "file": "src/components/ui/StepperButton.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/contexts/ActiveChildContext:ActiveChildState",
+      "kind": "unused_export",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 15,
+      "name": "ActiveChildState",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ActiveChildState"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/contexts/ActiveChildContext:ActiveChildState",
+            "kind": "unused_export",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/contexts/ActiveChildContext:ActiveChildContextValue",
+      "kind": "unused_export",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 20,
+      "name": "ActiveChildContextValue",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ActiveChildContextValue"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/contexts/ActiveChildContext:ActiveChildContextValue",
+            "kind": "unused_export",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/contexts/ThemeContext:ThemeColors",
+      "kind": "unused_export",
+      "file": "src/contexts/ThemeContext.tsx",
+      "line": 37,
+      "name": "ThemeColors",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ThemeColors"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/contexts/ThemeContext:ThemeColors",
+            "kind": "unused_export",
+            "file": "src/contexts/ThemeContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/contexts/ThemeContext:themes",
+      "kind": "unused_export",
+      "file": "src/contexts/ThemeContext.tsx",
+      "line": 85,
+      "name": "themes",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "themes"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/contexts/ThemeContext:themes",
+            "kind": "unused_export",
+            "file": "src/contexts/ThemeContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/contexts/ThemeContext:ThemeContextValue",
+      "kind": "unused_export",
+      "file": "src/contexts/ThemeContext.tsx",
+      "line": 219,
+      "name": "ThemeContextValue",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ThemeContextValue"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/contexts/ThemeContext:ThemeContextValue",
+            "kind": "unused_export",
+            "file": "src/contexts/ThemeContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/contexts/ThemeContext:ThemeContext",
+      "kind": "unused_export",
+      "file": "src/contexts/ThemeContext.tsx",
+      "line": 226,
+      "name": "ThemeContext",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ThemeContext"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/contexts/ThemeContext:ThemeContext",
+            "kind": "unused_export",
+            "file": "src/contexts/ThemeContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/dailyTaskState:pruneResolvedTodoOverrides",
+      "kind": "unused_export",
+      "file": "src/data/dailyTaskState.ts",
+      "line": 138,
+      "name": "pruneResolvedTodoOverrides",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "pruneResolvedTodoOverrides"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/dailyTaskState:pruneResolvedTodoOverrides",
+            "kind": "unused_export",
+            "file": "src/data/dailyTaskState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/dailyTaskState:mergeTodoOverrides",
+      "kind": "unused_export",
+      "file": "src/data/dailyTaskState.ts",
+      "line": 169,
+      "name": "mergeTodoOverrides",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "mergeTodoOverrides"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/dailyTaskState:mergeTodoOverrides",
+            "kind": "unused_export",
+            "file": "src/data/dailyTaskState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/dailyTaskState:removeOptimisticPatchFields",
+      "kind": "unused_export",
+      "file": "src/data/dailyTaskState.ts",
+      "line": 249,
+      "name": "removeOptimisticPatchFields",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "removeOptimisticPatchFields"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/dailyTaskState:removeOptimisticPatchFields",
+            "kind": "unused_export",
+            "file": "src/data/dailyTaskState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/dailyTaskState:getChoreLastActive",
+      "kind": "unused_export",
+      "file": "src/data/dailyTaskState.ts",
+      "line": 300,
+      "name": "getChoreLastActive",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "getChoreLastActive"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/dailyTaskState:getChoreLastActive",
+            "kind": "unused_export",
+            "file": "src/data/dailyTaskState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/dailyTaskState:todoOutcomePatch",
+      "kind": "unused_export",
+      "file": "src/data/dailyTaskState.ts",
+      "line": 317,
+      "name": "todoOutcomePatch",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "todoOutcomePatch"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/dailyTaskState:todoOutcomePatch",
+            "kind": "unused_export",
+            "file": "src/data/dailyTaskState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:choreTypeSchema",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 42,
+      "name": "choreTypeSchema",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "choreTypeSchema"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:choreTypeSchema",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:testTypeSchema",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 48,
+      "name": "testTypeSchema",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "testTypeSchema"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:testTypeSchema",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:waterLevelSchema",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 56,
+      "name": "waterLevelSchema",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "waterLevelSchema"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:waterLevelSchema",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:toiletStatusSchema",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 62,
+      "name": "toiletStatusSchema",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "toiletStatusSchema"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:toiletStatusSchema",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:mathDifficultySchema",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 63,
+      "name": "mathDifficultySchema",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "mathDifficultySchema"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:mathDifficultySchema",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:taskOutcomeSchema",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 64,
+      "name": "taskOutcomeSchema",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "taskOutcomeSchema"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:taskOutcomeSchema",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:choreSnapshotDataSchema",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 128,
+      "name": "choreSnapshotDataSchema",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "choreSnapshotDataSchema"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:choreSnapshotDataSchema",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:testSnapshotDataSchema",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 132,
+      "name": "testSnapshotDataSchema",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "testSnapshotDataSchema"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:testSnapshotDataSchema",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:choreTodoSnapshotDataSchema",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 176,
+      "name": "choreTodoSnapshotDataSchema",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "choreTodoSnapshotDataSchema"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:choreTodoSnapshotDataSchema",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:resetTodayTodosResultSchema",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 187,
+      "name": "resetTodayTodosResultSchema",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "resetTodayTodosResultSchema"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:resetTodayTodosResultSchema",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:StandardTaskState",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 209,
+      "name": "StandardTaskState",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "StandardTaskState"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:StandardTaskState",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:EatingTaskState",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 212,
+      "name": "EatingTaskState",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "EatingTaskState"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:EatingTaskState",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:WaterToiletTaskState",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 218,
+      "name": "WaterToiletTaskState",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "WaterToiletTaskState"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:WaterToiletTaskState",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:StandardTask",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 224,
+      "name": "StandardTask",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "StandardTask"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:StandardTask",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:EatingTask",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 226,
+      "name": "EatingTask",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "EatingTask"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:EatingTask",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:MathTask",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 234,
+      "name": "MathTask",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "MathTask"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:MathTask",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:LargeNumbersTask",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 239,
+      "name": "LargeNumbersTask",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "LargeNumbersTask"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:LargeNumbersTask",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:PositionalNotationTask",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 243,
+      "name": "PositionalNotationTask",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "PositionalNotationTask"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:PositionalNotationTask",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:AlphabetTask",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 247,
+      "name": "AlphabetTask",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "AlphabetTask"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:AlphabetTask",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:SpellingTask",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 251,
+      "name": "SpellingTask",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "SpellingTask"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:SpellingTask",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:WaterToiletTask",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 255,
+      "name": "WaterToiletTask",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "WaterToiletTask"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:WaterToiletTask",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:StandardTaskWithEphemeral",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 312,
+      "name": "StandardTaskWithEphemeral",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "StandardTaskWithEphemeral"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:StandardTaskWithEphemeral",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:WaterToiletTaskWithEphemeral",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 334,
+      "name": "WaterToiletTaskWithEphemeral",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "WaterToiletTaskWithEphemeral"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:WaterToiletTaskWithEphemeral",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:isTaskWithEphemeral",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 382,
+      "name": "isTaskWithEphemeral",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "isTaskWithEphemeral"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:isTaskWithEphemeral",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:StandardTodo",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 411,
+      "name": "StandardTodo",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "StandardTodo"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:StandardTodo",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:WaterToiletTodo",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 446,
+      "name": "WaterToiletTodo",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "WaterToiletTodo"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:WaterToiletTodo",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:isTodoRecord",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 475,
+      "name": "isTodoRecord",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "isTodoRecord"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:isTodoRecord",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:getManageDinnerLiveRemaining",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 632,
+      "name": "getManageDinnerLiveRemaining",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "getManageDinnerLiveRemaining"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:getManageDinnerLiveRemaining",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/types:isManageTaskCompleted",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 668,
+      "name": "isManageTaskCompleted",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "isManageTaskCompleted"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:isManageTaskCompleted",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/firebase:functions",
+      "kind": "unused_export",
+      "file": "src/firebase.ts",
+      "line": 35,
+      "name": "functions",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "functions"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/firebase:functions",
+            "kind": "unused_export",
+            "file": "src/firebase.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/hooks/useActivityChallenge:ActivityFeedback",
+      "kind": "unused_export",
+      "file": "src/hooks/useActivityChallenge.ts",
+      "line": 8,
+      "name": "ActivityFeedback",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ActivityFeedback"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/hooks/useActivityChallenge:ActivityFeedback",
+            "kind": "unused_export",
+            "file": "src/hooks/useActivityChallenge.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/hooks/useDeviceFrame:getBrowserFrameHeight",
+      "kind": "unused_export",
+      "file": "src/hooks/useDeviceFrame.ts",
+      "line": 5,
+      "name": "getBrowserFrameHeight",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "getBrowserFrameHeight"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/hooks/useDeviceFrame:getBrowserFrameHeight",
+            "kind": "unused_export",
+            "file": "src/hooks/useDeviceFrame.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/choreParser:parseChoreTodoSnapshot",
+      "kind": "unused_export",
+      "file": "src/lib/choreParser.ts",
+      "line": 321,
+      "name": "parseChoreTodoSnapshot",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "parseChoreTodoSnapshot"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/choreParser:parseChoreTodoSnapshot",
+            "kind": "unused_export",
+            "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/dayNightExplorer/dayNightExplorerBackdrop:ExplorerBackgroundKey",
+      "kind": "unused_export",
+      "file": "src/lib/dayNightExplorer/dayNightExplorerBackdrop.ts",
+      "line": 16,
+      "name": "ExplorerBackgroundKey",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ExplorerBackgroundKey"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/dayNightExplorer/dayNightExplorerBackdrop:ExplorerBackgroundKey",
+            "kind": "unused_export",
+            "file": "src/lib/dayNightExplorer/dayNightExplorerBackdrop.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/solar:SolarPhase",
+      "kind": "unused_export",
+      "file": "src/lib/solar.ts",
+      "line": 10,
+      "name": "SolarPhase",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "SolarPhase"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/solar:SolarPhase",
+            "kind": "unused_export",
+            "file": "src/lib/solar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/solar:getDayOfYear",
+      "kind": "unused_export",
+      "file": "src/lib/solar.ts",
+      "line": 46,
+      "name": "getDayOfYear",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "getDayOfYear"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/solar:getDayOfYear",
+            "kind": "unused_export",
+            "file": "src/lib/solar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/solar:getSolarDeclinationDegrees",
+      "kind": "unused_export",
+      "file": "src/lib/solar.ts",
+      "line": 153,
+      "name": "getSolarDeclinationDegrees",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "getSolarDeclinationDegrees"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/solar:getSolarDeclinationDegrees",
+            "kind": "unused_export",
+            "file": "src/lib/solar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/solar:getAmsterdamSolarTimes",
+      "kind": "unused_export",
+      "file": "src/lib/solar.ts",
+      "line": 307,
+      "name": "getAmsterdamSolarTimes",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "getAmsterdamSolarTimes"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/solar:getAmsterdamSolarTimes",
+            "kind": "unused_export",
+            "file": "src/lib/solar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/starActions:completeTodoAndAwardStars",
+      "kind": "unused_export",
+      "file": "src/lib/starActions.ts",
+      "line": 51,
+      "name": "completeTodoAndAwardStars",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "completeTodoAndAwardStars"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/starActions:completeTodoAndAwardStars",
+            "kind": "unused_export",
+            "file": "src/lib/starActions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/today:CurrentDayType",
+      "kind": "unused_export",
+      "file": "src/lib/today.ts",
+      "line": 1,
+      "name": "CurrentDayType",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "CurrentDayType"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/today:CurrentDayType",
+            "kind": "unused_export",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/today:ChoreSchedule",
+      "kind": "unused_export",
+      "file": "src/lib/today.ts",
+      "line": 3,
+      "name": "ChoreSchedule",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ChoreSchedule"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/today:ChoreSchedule",
+            "kind": "unused_export",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/today:Season",
+      "kind": "unused_export",
+      "file": "src/lib/today.ts",
+      "line": 8,
+      "name": "Season",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "Season"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/today:Season",
+            "kind": "unused_export",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/today:APP_TIME_ZONE",
+      "kind": "unused_export",
+      "file": "src/lib/today.ts",
+      "line": 10,
+      "name": "APP_TIME_ZONE",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "APP_TIME_ZONE"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/today:APP_TIME_ZONE",
+            "kind": "unused_export",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/today:CURRENT_DAY_LABELS",
+      "kind": "unused_export",
+      "file": "src/lib/today.ts",
+      "line": 12,
+      "name": "CURRENT_DAY_LABELS",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "CURRENT_DAY_LABELS"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/today:CURRENT_DAY_LABELS",
+            "kind": "unused_export",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/today:DEFAULT_CHORE_SCHEDULE",
+      "kind": "unused_export",
+      "file": "src/lib/today.ts",
+      "line": 17,
+      "name": "DEFAULT_CHORE_SCHEDULE",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "DEFAULT_CHORE_SCHEDULE"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/today:DEFAULT_CHORE_SCHEDULE",
+            "kind": "unused_export",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/today:buildDateFromDateKeyAndMinutes",
+      "kind": "unused_export",
+      "file": "src/lib/today.ts",
+      "line": 69,
+      "name": "buildDateFromDateKeyAndMinutes",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "buildDateFromDateKeyAndMinutes"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/today:buildDateFromDateKeyAndMinutes",
+            "kind": "unused_export",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/today:getCurrentDayTypeForDate",
+      "kind": "unused_export",
+      "file": "src/lib/today.ts",
+      "line": 83,
+      "name": "getCurrentDayTypeForDate",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "getCurrentDayTypeForDate"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/today:getCurrentDayTypeForDate",
+            "kind": "unused_export",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/today:getScheduleLabel",
+      "kind": "unused_export",
+      "file": "src/lib/today.ts",
+      "line": 138,
+      "name": "getScheduleLabel",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "getScheduleLabel"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/today:getScheduleLabel",
+            "kind": "unused_export",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/ui/choreModeDefinitions:shouldHidePresetChoreStars",
+      "kind": "unused_export",
+      "file": "src/ui/choreModeDefinitions.ts",
+      "line": 51,
+      "name": "shouldHidePresetChoreStars",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "shouldHidePresetChoreStars"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/ui/choreModeDefinitions:shouldHidePresetChoreStars",
+            "kind": "unused_export",
+            "file": "src/ui/choreModeDefinitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/ui/listDescriptorTypes:StandardActionListDescriptor",
+      "kind": "unused_export",
+      "file": "src/ui/listDescriptorTypes.ts",
+      "line": 10,
+      "name": "StandardActionListDescriptor",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "StandardActionListDescriptor"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/ui/listDescriptorTypes:StandardActionListDescriptor",
+            "kind": "unused_export",
+            "file": "src/ui/listDescriptorTypes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/ui/presetChoreActions:createDeleteUtilityAction",
+      "kind": "unused_export",
+      "file": "src/ui/presetChoreActions.tsx",
+      "line": 65,
+      "name": "createDeleteUtilityAction",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "createDeleteUtilityAction"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/ui/presetChoreActions:createDeleteUtilityAction",
+            "kind": "unused_export",
+            "file": "src/ui/presetChoreActions.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/ui/presetChoreActions:createResetUtilityAction",
+      "kind": "unused_export",
+      "file": "src/ui/presetChoreActions.tsx",
+      "line": 76,
+      "name": "createResetUtilityAction",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "createResetUtilityAction"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/ui/presetChoreActions:createResetUtilityAction",
+            "kind": "unused_export",
+            "file": "src/ui/presetChoreActions.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/ui/unifiedChoreDescriptors:UnifiedChoreDeps",
+      "kind": "unused_export",
+      "file": "src/ui/unifiedChoreDescriptors.tsx",
+      "line": 28,
+      "name": "UnifiedChoreDeps",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "UnifiedChoreDeps"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/ui/unifiedChoreDescriptors:UnifiedChoreDeps",
+            "kind": "unused_export",
+            "file": "src/ui/unifiedChoreDescriptors.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/ui/unifiedChoreState:RenderableTaskRecord",
+      "kind": "unused_export",
+      "file": "src/ui/unifiedChoreState.ts",
+      "line": 201,
+      "name": "RenderableTaskRecord",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "RenderableTaskRecord"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/ui/unifiedChoreState:RenderableTaskRecord",
+            "kind": "unused_export",
+            "file": "src/ui/unifiedChoreState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@capacitor/android",
+      "kind": "unused_dependency",
+      "name": "@capacitor/android",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@capacitor/android"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@capacitor/android",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@capacitor/cli",
+      "kind": "unused_dependency",
+      "name": "@capacitor/cli",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@capacitor/cli"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@capacitor/cli",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@eslint/js",
+      "kind": "unused_dependency",
+      "name": "@eslint/js",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@eslint/js"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@eslint/js",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@playwright/test",
+      "kind": "unused_dependency",
+      "name": "@playwright/test",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@playwright/test"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@playwright/test",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@tailwindcss/cli",
+      "kind": "unused_dependency",
+      "name": "@tailwindcss/cli",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@tailwindcss/cli"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@tailwindcss/cli",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@tailwindcss/postcss",
+      "kind": "unused_dependency",
+      "name": "@tailwindcss/postcss",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@tailwindcss/postcss"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@tailwindcss/postcss",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@testing-library/jest-dom",
+      "kind": "unused_dependency",
+      "name": "@testing-library/jest-dom",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@testing-library/jest-dom"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@testing-library/jest-dom",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@testing-library/react",
+      "kind": "unused_dependency",
+      "name": "@testing-library/react",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@testing-library/react"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@testing-library/react",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@testing-library/user-event",
+      "kind": "unused_dependency",
+      "name": "@testing-library/user-event",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@testing-library/user-event"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@testing-library/user-event",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@types/canvas-confetti",
+      "kind": "unused_dependency",
+      "name": "@types/canvas-confetti",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@types/canvas-confetti"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@types/canvas-confetti",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@types/node",
+      "kind": "unused_dependency",
+      "name": "@types/node",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@types/node"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@types/node",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@types/react",
+      "kind": "unused_dependency",
+      "name": "@types/react",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@types/react"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@types/react",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@types/react-dom",
+      "kind": "unused_dependency",
+      "name": "@types/react-dom",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@types/react-dom"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@types/react-dom",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@types/three",
+      "kind": "unused_dependency",
+      "name": "@types/three",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@types/three"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@types/three",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@vitejs/plugin-react",
+      "kind": "unused_dependency",
+      "name": "@vitejs/plugin-react",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@vitejs/plugin-react"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@vitejs/plugin-react",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:autoprefixer",
+      "kind": "unused_dependency",
+      "name": "autoprefixer",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "autoprefixer"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:autoprefixer",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:esbuild",
+      "kind": "unused_dependency",
+      "name": "esbuild",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "esbuild"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:esbuild",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:eslint-config-prettier",
+      "kind": "unused_dependency",
+      "name": "eslint-config-prettier",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "eslint-config-prettier"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:eslint-config-prettier",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:eslint-plugin-react-refresh",
+      "kind": "unused_dependency",
+      "name": "eslint-plugin-react-refresh",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "eslint-plugin-react-refresh"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:eslint-plugin-react-refresh",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:globals",
+      "kind": "unused_dependency",
+      "name": "globals",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "globals"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:globals",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:husky",
+      "kind": "unused_dependency",
+      "name": "husky",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "husky"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:husky",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:jsdom",
+      "kind": "unused_dependency",
+      "name": "jsdom",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "jsdom"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:jsdom",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:lint-staged",
+      "kind": "unused_dependency",
+      "name": "lint-staged",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "lint-staged"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:lint-staged",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:postcss",
+      "kind": "unused_dependency",
+      "name": "postcss",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "postcss"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:postcss",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:prettier",
+      "kind": "unused_dependency",
+      "name": "prettier",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "prettier"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:prettier",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:prettier-plugin-tailwindcss",
+      "kind": "unused_dependency",
+      "name": "prettier-plugin-tailwindcss",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "prettier-plugin-tailwindcss"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:prettier-plugin-tailwindcss",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:tailwindcss",
+      "kind": "unused_dependency",
+      "name": "tailwindcss",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "tailwindcss"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:tailwindcss",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:typescript-eslint",
+      "kind": "unused_dependency",
+      "name": "typescript-eslint",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "typescript-eslint"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:typescript-eslint",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:vite",
+      "kind": "unused_dependency",
+      "name": "vite",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "vite"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:vite",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:vitest",
+      "kind": "unused_dependency",
+      "name": "vitest",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "vitest"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_dependency"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:vitest",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this unused_dependency finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file unused_dependency"
+        }
+      ]
+    },
+    {
+      "id": "cleanup:duplicate-export:Season:src/lib/seasons",
+      "kind": "duplicate_export",
+      "file": "src/lib/seasons.ts",
+      "line": 1,
+      "name": "Season",
+      "score": 40,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "same_export_name_in_multiple_modules",
+          "value": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this duplicate_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line duplicate_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this duplicate_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:duplicate-export:Season:src/lib/seasons",
+            "kind": "duplicate_export",
+            "file": "src/lib/seasons.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:duplicate-export:Season:src/lib/today",
+      "kind": "duplicate_export",
+      "file": "src/lib/today.ts",
+      "line": 8,
+      "name": "Season",
+      "score": 40,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "same_export_name_in_multiple_modules",
+          "value": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this duplicate_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line duplicate_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this duplicate_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:duplicate-export:Season:src/lib/today",
+            "kind": "duplicate_export",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:duplicate-export:UnifiedChoreDeps:src/ui/unifiedChoreDescriptorTypes",
+      "kind": "duplicate_export",
+      "file": "src/ui/unifiedChoreDescriptorTypes.ts",
+      "line": 14,
+      "name": "UnifiedChoreDeps",
+      "score": 40,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "same_export_name_in_multiple_modules",
+          "value": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this duplicate_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line duplicate_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this duplicate_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:duplicate-export:UnifiedChoreDeps:src/ui/unifiedChoreDescriptorTypes",
+            "kind": "duplicate_export",
+            "file": "src/ui/unifiedChoreDescriptorTypes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:duplicate-export:UnifiedChoreDeps:src/ui/unifiedChoreDescriptors",
+      "kind": "duplicate_export",
+      "file": "src/ui/unifiedChoreDescriptors.tsx",
+      "line": 28,
+      "name": "UnifiedChoreDeps",
+      "score": 40,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "same_export_name_in_multiple_modules",
+          "value": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this duplicate_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line duplicate_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this duplicate_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:duplicate-export:UnifiedChoreDeps:src/ui/unifiedChoreDescriptors",
+            "kind": "duplicate_export",
+            "file": "src/ui/unifiedChoreDescriptors.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ]
+}

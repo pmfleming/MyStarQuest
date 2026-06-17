@@ -6,6 +6,12 @@ const net = require('node:net')
 const args = new Set(process.argv.slice(2))
 const write = args.has('--write')
 const allowProduction = args.has('--allow-production')
+const deleteLegacy = args.has('--delete-legacy')
+
+if (deleteLegacy && !write) {
+  console.error('--delete-legacy requires --write.')
+  process.exit(1)
+}
 
 if (!process.env.FIRESTORE_EMULATOR_HOST && !allowProduction) {
   console.error(
@@ -61,8 +67,14 @@ const getActivityType = (data) => {
   ) {
     return 'positional-notation'
   }
+  if (explicitType === 'large-numbers' || category === 'large-numbers') {
+    return 'large-numbers'
+  }
   if (explicitType === 'math' || category === 'math') return 'math'
   if (explicitType === 'alphabet' || category === 'alphabet') return 'alphabet'
+  if (explicitType === 'spelling' || category === 'spelling') {
+    return 'spelling'
+  }
   if (explicitType === 'watertoiletcheck' || category === 'watertoiletcheck') {
     return 'watertoiletcheck'
   }
@@ -72,7 +84,11 @@ const getActivityType = (data) => {
 }
 
 const isTestType = (type) =>
-  type === 'math' || type === 'positional-notation' || type === 'alphabet'
+  type === 'math' ||
+  type === 'large-numbers' ||
+  type === 'positional-notation' ||
+  type === 'alphabet' ||
+  type === 'spelling'
 
 const targetForTemplate = (type) =>
   isTestType(type)
@@ -81,11 +97,7 @@ const targetForTemplate = (type) =>
 
 const targetForTodo = (type) =>
   isTestType(type)
-    ? {
-        collection: 'testTodos',
-        idField: 'sourceTestId',
-        typeField: 'sourceTestType',
-      }
+    ? null
     : {
         collection: 'choreTodos',
         idField: 'sourceChoreId',
@@ -124,6 +136,11 @@ async function migrateUser(userRef) {
       [target.typeField]: type,
     })
     bump(stats, `templates.${target.collection}.${outcome}`)
+
+    if (deleteLegacy && write) {
+      await taskDoc.ref.delete()
+      bump(stats, 'templates.legacy.deleted')
+    }
   }
 
   const todos = await userRef.collection('todos').get()
@@ -135,10 +152,23 @@ async function migrateUser(userRef) {
     })
     if (!type) {
       bump(stats, 'todos.ignoredLegacy')
+      if (deleteLegacy && write) {
+        await todoDoc.ref.delete()
+        bump(stats, 'todos.legacy.deleted')
+      }
       continue
     }
 
     const target = targetForTodo(type)
+    if (!target) {
+      bump(stats, 'todos.obsoleteTestDaily')
+      if (deleteLegacy && write) {
+        await todoDoc.ref.delete()
+        bump(stats, 'todos.legacy.deleted')
+      }
+      continue
+    }
+
     const sourceId = data.sourceTaskId || data[target.idField]
     const targetRef = userRef.collection(target.collection).doc(todoDoc.id)
     const outcome = await copyDocIfMissing(targetRef, {
@@ -149,6 +179,11 @@ async function migrateUser(userRef) {
       [target.typeField]: type,
     })
     bump(stats, `todos.${target.collection}.${outcome}`)
+
+    if (deleteLegacy && write) {
+      await todoDoc.ref.delete()
+      bump(stats, 'todos.legacy.deleted')
+    }
   }
 
   return { uid, stats }
@@ -175,6 +210,7 @@ async function main() {
     JSON.stringify(
       {
         mode: write ? 'write' : 'dry-run',
+        deleteLegacy,
         emulator: process.env.FIRESTORE_EMULATOR_HOST || null,
         users: results,
       },

@@ -18,6 +18,7 @@ type UseActivityChallengeArgs = {
   onReset: () => void
   onComplete: () => void
   onFail?: () => void
+  failureModeEnabled?: boolean
 }
 
 const CELEBRATION_DELAY_MS = 1500
@@ -35,6 +36,7 @@ export const useActivityChallenge = ({
   onReset,
   onComplete,
   onFail,
+  failureModeEnabled = true,
 }: UseActivityChallengeArgs) => {
   const [problemIndex, setProblemIndex] = useState(0)
   const [retryCount, setRetryCount] = useState(0)
@@ -54,7 +56,8 @@ export const useActivityChallenge = ({
   const incorrectCount = resultHistory.filter(
     (result) => result === 'incorrect'
   ).length
-  const hasFailedByHistory = incorrectCount >= MAX_ACTIVITY_MISTAKES
+  const hasFailedByHistory =
+    failureModeEnabled && incorrectCount >= MAX_ACTIVITY_MISTAKES
   const isFailedState = isCompleted && (isFailed || hasFailedByHistory)
   const isSuccessState = isCompleted && !isFailedState
   const isFinished = isSuccessState || isFailedState
@@ -93,11 +96,13 @@ export const useActivityChallenge = ({
       }
 
       setFeedback('wrong')
-      setResultHistory((prev) => [...prev, 'incorrect'])
+      if (failureModeEnabled) {
+        setResultHistory((prev) => [...prev, 'incorrect'])
+      }
       const nextRetryCount = retryCount + 1
       setRetryCount(nextRetryCount)
 
-      if (nextRetryCount >= MAX_ACTIVITY_MISTAKES) {
+      if (failureModeEnabled && nextRetryCount >= MAX_ACTIVITY_MISTAKES) {
         setIsFailurePending(true)
         feedbackTimer.current = setTimeout(() => {
           onFail?.()
@@ -113,6 +118,7 @@ export const useActivityChallenge = ({
     [
       clearFeedbackTimer,
       feedback,
+      failureModeEnabled,
       isFailurePending,
       onComplete,
       onFail,
@@ -159,7 +165,9 @@ export const useActivityChallenge = ({
   return {
     problemIndex,
     retryCount,
-    resultHistory,
+    resultHistory: failureModeEnabled
+      ? resultHistory
+      : resultHistory.filter((result) => result === 'correct'),
     feedback,
     isSetup,
     isFinished,

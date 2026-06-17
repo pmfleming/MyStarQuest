@@ -64,10 +64,14 @@ export function calculateAwardTaskPatch(
       return { manageDinnerCompletedAt: timestamp }
     case 'math':
       return { manageMathCompletedAt: timestamp }
+    case 'large-numbers':
+      return { manageLargeNumbersCompletedAt: timestamp }
     case 'positional-notation':
       return { managePVCompletedAt: timestamp }
     case 'alphabet':
       return { manageAlphabetCompletedAt: timestamp }
+    case 'spelling':
+      return { manageSpellingCompletedAt: timestamp }
     case 'watertoiletcheck':
       return { manageWaterToiletCompletedAt: timestamp }
     default:

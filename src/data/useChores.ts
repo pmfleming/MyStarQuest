@@ -1,76 +1,40 @@
-// ── Unified chores subscription + mutations (Tasks & Todos) ──
+// ── Chores subscription + mutations ──
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
-  onSnapshot,
-  query,
+  type DocumentData,
   updateDoc,
-  where,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
-import { parseChoreSnapshot, parseChoreTodoSnapshot } from '../lib/choreParser'
-import {
-  buildChoreDocument,
-  buildChoreTodoDocument,
-  type ChoreDocumentSettings,
-} from './taskDocuments'
+import { parseChoreSnapshot } from '../lib/choreParser'
+import { buildChoreDocument, type ChoreDocumentSettings } from './taskDocuments'
 import { isScheduledForDay } from '../lib/today'
 import {
-  getChoreLastActive,
   mergeTaskEphemeral,
-  mergeTodoOverrides,
-  pruneResolvedTodoOverrides,
-  removeOptimisticPatchFields,
-  useEphemeralExpiry,
   useTitleDraftBackfill,
   useTodayInfo,
 } from './dailyTaskState'
 import { useChoreActivityActions } from './useChoreActivityActions'
+import { useUserCollection } from './useUserCollection'
 import {
   sortByCreatedAtThenTitle,
+  getManageTaskCompletedAt,
   type ChoreRecord,
   type ChoreType,
   type TaskEphemeralState,
-  type TaskRecord,
   type TaskUpdatableFields,
-  type TodoRecord,
-  type TodoUpdatableFields,
 } from './types'
-
-type StoredTaskRecord = TaskRecord & {
-  storageCollection: 'chores' | 'tasks'
-}
-
-const withStorageCollection = (
-  task: TaskRecord,
-  storageCollection: StoredTaskRecord['storageCollection']
-): StoredTaskRecord => ({
-  ...task,
-  storageCollection,
-})
-
-const isPermissionDenied = (error: unknown) =>
-  typeof error === 'object' &&
-  error !== null &&
-  'code' in error &&
-  error.code === 'permission-denied'
 
 export function useChores() {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
 
-  const [rawChoreTasks, setRawChoreTasks] = useState<StoredTaskRecord[]>([])
-  const [rawLegacyTasks, setRawLegacyTasks] = useState<StoredTaskRecord[]>([])
-  const [rawTodos, setRawTodos] = useState<TodoRecord[]>([])
-  const [todoOverrides, setTodoOverrides] = useState<
-    Record<string, TodoUpdatableFields>
-  >({})
   const [ephemeral, setEphemeral] = useState<
     Record<string, TaskEphemeralState>
   >({})
@@ -79,139 +43,57 @@ export function useChores() {
   >({})
   const todayInfo = useTodayInfo()
 
-  // ── Subscriptions ──
-  useEffect(() => {
-    if (!user) {
-      setRawChoreTasks([])
-      setRawLegacyTasks([])
-      setRawTodos([])
-      setTodoOverrides({})
-      setEphemeral({})
-      return
-    }
-
-    // 1. Subscribe to Chores (templates)
-    const choreUnsubscribe = onSnapshot(
-      collection(db, 'users', user.uid, 'chores'),
-      (snapshot) => {
-        const nextTasks = snapshot.docs
-          .map((doc) => parseChoreSnapshot(doc.id, doc.data()))
-          .filter((t): t is NonNullable<typeof t> => t !== null)
-          .map((task) => withStorageCollection(task, 'chores'))
-          .sort(sortByCreatedAtThenTitle)
-
-        setRawChoreTasks(nextTasks)
-      },
-      (error) => {
-        console.error('Failed to subscribe to chores', error)
-        setRawChoreTasks([])
-      }
-    )
-
-    // Compatibility: old deployed rules may still only permit the legacy tasks collection.
-    const legacyTaskUnsubscribe = onSnapshot(
-      collection(db, 'users', user.uid, 'tasks'),
-      (snapshot) => {
-        const nextTasks = snapshot.docs
-          .map((doc) => parseChoreSnapshot(doc.id, doc.data()))
-          .filter((t): t is NonNullable<typeof t> => t !== null)
-          .map((task) => withStorageCollection(task, 'tasks'))
-          .sort(sortByCreatedAtThenTitle)
-
-        setRawLegacyTasks(nextTasks)
-      },
-      (error) => {
-        console.error('Failed to subscribe to legacy chore tasks', error)
-        setRawLegacyTasks([])
-      }
-    )
-
-    // 2. Subscribe to Today's Chore Todos
-    let todoUnsubscribe = () => {}
-    if (activeChildId) {
-      const todoQuery = query(
-        collection(db, 'users', user.uid, 'choreTodos'),
-        where('childId', '==', activeChildId),
-        where('dateKey', '==', todayInfo.dateKey)
-      )
-      todoUnsubscribe = onSnapshot(
-        todoQuery,
-        (snapshot) => {
-          const nextTodos = snapshot.docs
-            .map((doc) =>
-              parseChoreTodoSnapshot(doc.id, doc.data(), todayInfo.dateKey)
-            )
-            .filter((t): t is NonNullable<typeof t> => t !== null)
-            .sort(sortByCreatedAtThenTitle)
-          setRawTodos(nextTodos)
-          setTodoOverrides((prev) =>
-            pruneResolvedTodoOverrides(prev, nextTodos)
-          )
-        },
-        (error) => {
-          console.error('Failed to subscribe to chore todos', error)
-          setRawTodos([])
-          setTodoOverrides({})
-        }
-      )
-    }
-
-    return () => {
-      choreUnsubscribe()
-      legacyTaskUnsubscribe()
-      todoUnsubscribe()
-    }
-  }, [user, activeChildId, todayInfo.dateKey])
+  const parseChoreDocument = useCallback(
+    (id: string, data: DocumentData) => parseChoreSnapshot(id, data),
+    []
+  )
+  const sortChores = useCallback(
+    (chores: ChoreRecord[]) => [...chores].sort(sortByCreatedAtThenTitle),
+    []
+  )
+  const clearEphemeral = useCallback(() => setEphemeral({}), [])
+  const rawChores = useUserCollection({
+    userId: user?.uid,
+    collectionName: 'chores',
+    errorMessage: 'Failed to subscribe to chores',
+    mapDocument: parseChoreDocument,
+    normalizeItems: sortChores,
+    onClear: clearEphemeral,
+  })
 
   // ── Derived Data ──
-  const rawTasks = useMemo(() => {
-    const choreIds = new Set(rawChoreTasks.map((task) => task.id))
-    return [
-      ...rawChoreTasks,
-      ...rawLegacyTasks.filter((task) => !choreIds.has(task.id)),
-    ].sort(sortByCreatedAtThenTitle)
-  }, [rawChoreTasks, rawLegacyTasks])
+  const rawChoreTemplates = rawChores
 
-  useTitleDraftBackfill(rawTasks, setTaskTitleDrafts)
+  useTitleDraftBackfill(rawChoreTemplates, setTaskTitleDrafts)
 
-  const tasks = rawTasks.map((task) =>
-    mergeTaskEphemeral(task, ephemeral[task.id])
+  const chores = rawChoreTemplates.map((chore) =>
+    mergeTaskEphemeral(chore, ephemeral[chore.id])
   )
 
-  const todos = mergeTodoOverrides(rawTodos, todoOverrides)
-
-  const activeChildTasks = useMemo(
+  const activeChildChores = useMemo(
     () =>
-      tasks.filter(
+      chores.filter(
         (t) => t.childId === activeChildId && t.title.trim().length > 0
       ),
-    [tasks, activeChildId]
+    [chores, activeChildId]
   )
 
-  const todoSourceIds = useMemo(
-    () => new Set(todos.map((t) => t.sourceTaskId)),
-    [todos]
+  const todayChores = useMemo(
+    () =>
+      activeChildChores.filter((chore) =>
+        isScheduledForDay(chore, todayInfo.dayType)
+      ),
+    [activeChildChores, todayInfo.dayType]
   )
 
-  const availableChores = useMemo(
-    () => activeChildTasks.filter((t) => !todoSourceIds.has(t.id)),
-    [activeChildTasks, todoSourceIds]
-  )
-
-  const completedTodoCount = todos.filter((t) => Boolean(t.completedAt)).length
-
-  const getTaskStorageCollection = (taskId: string) =>
-    rawTasks.find((task) => task.id === taskId)?.storageCollection ?? 'chores'
+  const availableChores = todayChores
+  const completedTodoCount = todayChores.filter((chore) =>
+    Boolean(getManageTaskCompletedAt(chore))
+  ).length
 
   const addChoreDocument = async (data: Record<string, unknown>) => {
     if (!user) return
-
-    try {
-      return await addDoc(collection(db, 'users', user.uid, 'chores'), data)
-    } catch (error) {
-      if (!isPermissionDenied(error)) throw error
-      return await addDoc(collection(db, 'users', user.uid, 'tasks'), data)
-    }
+    return await addDoc(collection(db, 'users', user.uid, 'chores'), data)
   }
 
   // ── Ephemeral State Helpers ──
@@ -223,6 +105,12 @@ export function useChores() {
       ...prev,
       [taskId]: { ...prev[taskId], ...patch },
     }))
+    if (!user) return
+    updateDoc(doc(db, 'users', user.uid, 'chores', taskId), patch).catch(
+      (err) => {
+        console.error('Failed to update chore state', err)
+      }
+    )
   }
 
   // ── Generic Mutations ──
@@ -231,34 +119,26 @@ export function useChores() {
     field: TaskUpdatableFields
   ) => {
     if (!user) return
-    const storageCollection = getTaskStorageCollection(taskId)
     try {
-      await updateDoc(
-        doc(db, 'users', user.uid, storageCollection, taskId),
-        field
-      )
+      await updateDoc(doc(db, 'users', user.uid, 'chores', taskId), field)
     } catch (err) {
-      console.error('Failed to update task', err)
+      console.error('Failed to update chore', err)
     }
   }
 
-  const updateTodoField = async (
-    todoId: string,
-    field: TodoUpdatableFields
+  const updateChoreAndTodayTodoField = async (
+    taskId: string,
+    field: TaskUpdatableFields
   ) => {
-    if (!user) return
-    setTodoOverrides((prev) => ({
-      ...prev,
-      [todoId]: { ...prev[todoId], ...field },
-    }))
-    try {
-      await updateDoc(doc(db, 'users', user.uid, 'choreTodos', todoId), field)
-    } catch (err) {
-      setTodoOverrides((prev) =>
-        removeOptimisticPatchFields(prev, todoId, field)
-      )
-      console.error('Failed to update todo', err)
+    const patch: TaskUpdatableFields = { ...field }
+    if (typeof field.dinnerDurationSeconds === 'number') {
+      patch.manageDinnerRemainingSeconds = field.dinnerDurationSeconds
     }
+    if (typeof field.dinnerTotalBites === 'number') {
+      patch.manageDinnerBitesLeft = field.dinnerTotalBites
+    }
+
+    await updateTaskField(taskId, patch)
   }
 
   // ── Title Draft Helpers ──
@@ -270,7 +150,7 @@ export function useChores() {
     if (trimmed.length > 0 && trimmed.length <= 80) {
       updateTaskField(taskId, { title: trimmed })
     } else {
-      const saved = rawTasks.find((t) => t.id === taskId)
+      const saved = rawChoreTemplates.find((t) => t.id === taskId)
       if (saved)
         setTaskTitleDrafts((prev) => ({ ...prev, [taskId]: saved.title }))
     }
@@ -295,56 +175,41 @@ export function useChores() {
   const createWaterToiletTask = (settings?: ChoreDocumentSettings) =>
     createChoreTask('watertoiletcheck', settings)
 
-  // ── Todo Actions ──
-  const addTodo = async (task: TaskRecord) => {
-    if (!user || !activeChildId || todoSourceIds.has(task.id)) return
-    await addDoc(
-      collection(db, 'users', user.uid, 'choreTodos'),
-      buildChoreTodoDocument(task, activeChildId, todayInfo.dateKey)
-    )
-  }
-
   const createChoreForToday = async (
     choreType: ChoreType,
     settings: ChoreDocumentSettings
   ) => {
     if (!user || !activeChildId) return
     const task = await createChoreTask(choreType, settings)
-    if (!task || !isScheduledForDay(task, todayInfo.dayType)) return task
-
-    await addDoc(
-      collection(db, 'users', user.uid, 'choreTodos'),
-      buildChoreTodoDocument(task, activeChildId, todayInfo.dateKey)
-    )
-
     return task
-  }
-
-  const deleteTodo = async (todoId: string) => {
-    if (!user) return
-    await deleteDoc(doc(db, 'users', user.uid, 'choreTodos', todoId))
   }
 
   const deleteTask = async (taskId: string) => {
     if (!user) return
-    const storageCollection = getTaskStorageCollection(taskId)
-    await deleteDoc(doc(db, 'users', user.uid, storageCollection, taskId))
-  }
+    await deleteDoc(doc(db, 'users', user.uid, 'chores', taskId))
 
-  // ── Auto-Reset Timer for Ephemeral State ──
-  useEphemeralExpiry(Boolean(user), rawTasks, setEphemeral, getChoreLastActive)
+    setTaskTitleDrafts((prev) => {
+      const next = { ...prev }
+      delete next[taskId]
+      return next
+    })
+    setEphemeral((prev) => {
+      const next = { ...prev }
+      delete next[taskId]
+      return next
+    })
+  }
 
   const activityActions = useChoreActivityActions({
     user,
     activeChildId,
-    updateTodoField,
     updateEphemeral,
     deleteTask,
   })
 
   return {
-    tasks,
-    todos,
+    chores,
+    todos: todayChores,
     todayInfo,
     availableChores,
     completedTodoCount,
@@ -352,14 +217,12 @@ export function useChores() {
     setTaskTitleDraft,
     commitTaskTitle,
     updateTaskField,
-    updateTodoField,
+    updateChoreAndTodayTodoField,
     updateEphemeral,
     createStandardTask,
     createEatingTask,
     createWaterToiletTask,
     createChoreForToday,
-    addTodo,
-    deleteTodo,
     deleteTask,
     ...activityActions,
   }

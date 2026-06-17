@@ -1,23 +1,56 @@
 import { describe, expect, it, vi } from 'vitest'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { themes } from '../../../src/contexts/ThemeContext'
 import { createUnifiedChoreDescriptor } from '../../../src/ui/unifiedChoreDescriptors'
-import type { TodoRecord } from '../../../src/data/types'
+import type { TaskWithEphemeral, TodoRecord } from '../../../src/data/types'
 
 const createBaseDeps = () => ({
   theme: themes.space,
   mode: 'today' as const,
   activeMathId: null,
+  activeLargeNumbersId: null,
   activePVId: null,
   activeAlphabetId: null,
+  activeSpellingId: null,
   activeDinnerId: null,
   activeWaterToiletId: null,
   mathCheckTriggers: {},
+  largeNumbersCheckTriggers: {},
   pvCheckTriggers: {},
   alphabetCheckTriggers: {},
+  spellingCheckTriggers: {},
   biteCooldownSeconds: 15,
 })
 
 describe('createUnifiedChoreDescriptor', () => {
+  it('does not add a duplicate list star field for standard chores with images', () => {
+    const descriptor = createUnifiedChoreDescriptor(createBaseDeps())
+
+    const choreWithImage: TodoRecord = {
+      id: 'writing-1',
+      title: 'Writing',
+      childId: 'child-1',
+      sourceTaskId: 'task-1',
+      sourceTaskType: 'standard',
+      starValue: 2,
+      schoolDayEnabled: true,
+      nonSchoolDayEnabled: true,
+      autoAdded: false,
+      completedAt: null,
+      dateKey: '2026-03-23',
+      imageKey: 'writing',
+    }
+    const choreWithoutImage: TodoRecord = {
+      ...choreWithImage,
+      id: 'plain-1',
+      title: 'Plain Chore',
+      imageKey: undefined,
+    }
+
+    expect(descriptor.getStarCount?.(choreWithImage)).toBeUndefined()
+    expect(descriptor.getStarCount?.(choreWithoutImage)).toBe(2)
+  })
+
   it('uses enter-chore wiring for preset test start actions', () => {
     const onEnterChore = vi.fn()
     const onComplete = vi.fn()
@@ -112,5 +145,43 @@ describe('createUnifiedChoreDescriptor', () => {
 
     expect(onEnterChore).toHaveBeenCalledWith(todo)
     expect(onComplete).not.toHaveBeenCalled()
+  })
+
+  it('updates active Water/Toilet dashboard task state from the tiles', async () => {
+    const onUpdateEphemeral = vi.fn()
+    const descriptor = createUnifiedChoreDescriptor({
+      ...createBaseDeps(),
+      activeWaterToiletId: 'water-1',
+      onUpdateEphemeral,
+    })
+
+    const task: TaskWithEphemeral = {
+      id: 'water-1',
+      title: 'Water & Toilet Check',
+      childId: 'child-1',
+      category: 'watertoiletcheck',
+      taskType: 'watertoiletcheck',
+      starValue: 0,
+      schoolDayEnabled: true,
+      nonSchoolDayEnabled: false,
+      isRepeating: true,
+      waterLevel: 'full',
+      toiletStatus: 'notpeepee',
+      manageWaterLevel: 'full',
+      manageToiletStatus: 'notpeepee',
+      manageWaterToiletCompletedAt: null,
+    }
+
+    render(<>{descriptor.renderItem(task)}</>)
+
+    fireEvent.click(await screen.findByLabelText('Full flask'))
+    fireEvent.click(screen.getByLabelText('Has not gone to the toilet'))
+
+    expect(onUpdateEphemeral).toHaveBeenCalledWith('water-1', {
+      manageWaterLevel: 'twothirds',
+    })
+    expect(onUpdateEphemeral).toHaveBeenCalledWith('water-1', {
+      manageToiletStatus: 'didpeepee',
+    })
   })
 })

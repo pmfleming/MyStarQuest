@@ -41,7 +41,12 @@ type TestPrimaryActionConfig<T> = SharedPrimaryActionBase & {
 type ActivityPrimaryActionConfig<T> = SharedPrimaryActionBase & {
   choreType: Exclude<
     PresetChoreType,
-    'eating' | 'math' | 'positional-notation' | 'alphabet'
+    | 'eating'
+    | 'math'
+    | 'large-numbers'
+    | 'positional-notation'
+    | 'alphabet'
+    | 'spelling'
   >
   onStart: (item: T) => void | Promise<void>
   onFinish: (item: T) => void | Promise<void>

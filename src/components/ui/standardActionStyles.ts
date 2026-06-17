@@ -4,6 +4,16 @@ import { uiTokens } from '../../tokens'
 
 export type StandardActionVariant = 'primary' | 'neutral' | 'danger'
 
+export const getStandardActionHeadingStyle = (theme: Theme): CSSProperties => ({
+  color: theme.colors.text,
+  fontFamily: theme.fonts.heading,
+  fontSize: `${uiTokens.actionButtonFontSize}px`,
+  fontWeight: 700,
+  lineHeight: 1.15,
+  letterSpacing: 0,
+  overflowWrap: 'anywhere',
+})
+
 export const getStandardActionBaseStyle = (theme: Theme): CSSProperties => ({
   height: `${uiTokens.listActionHeight}px`,
   borderRadius: `${uiTokens.listActionRadius}px`,

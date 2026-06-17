@@ -3,45 +3,38 @@ import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import StandardActionList from '../components/ui/StandardActionList'
-import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
+import { getSurfaceWidthConstraints } from '../tokens'
 import { createRewardDefinitionListRowDescriptor } from '../ui/definitionRowDescriptors'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { useRewards } from '../data/useRewards'
+import RewardCreationFlow from './RewardCreationFlow'
 import type { RewardRecord } from '../data/types'
+import type { RewardDocumentSettings } from '../data/useRewards'
 
 const RewardsPage = () => {
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
   const [isRedeeming, setIsRedeeming] = useState(false)
+  const [showAddReward, setShowAddReward] = useState(false)
+  const [isCreatingReward, setIsCreatingReward] = useState(false)
+  const [createRewardError, setCreateRewardError] = useState<string | null>(
+    null
+  )
 
   const {
     rewards,
     activeChildStars,
-    titleDrafts,
-    setTitleDraft,
-    commitTitle,
-    updateRewardField,
     createStandardReward,
-    createYoshiReward,
     giveReward,
     deleteReward,
   } = useRewards()
 
   const handleGiveReward = async (reward: RewardRecord) => {
-    const confirmGive = window.confirm(
-      `Give "${reward.title}" to the active child for ${reward.costStars} stars?`
-    )
-    if (!confirmGive) return
-
     setIsRedeeming(true)
     try {
       await giveReward(reward)
-      alert('Reward given successfully!')
     } catch (error) {
       console.error('Failed to give reward', error)
-      const message =
-        error instanceof Error ? error.message : 'Failed to give reward'
-      alert(message)
     } finally {
       setIsRedeeming(false)
     }
@@ -55,16 +48,28 @@ const RewardsPage = () => {
     }
   }
 
+  const handleCreateReward = async (settings: RewardDocumentSettings) => {
+    if (isCreatingReward) return
+
+    setIsCreatingReward(true)
+    setCreateRewardError(null)
+    try {
+      await createStandardReward(settings)
+      setShowAddReward(false)
+    } catch (error) {
+      console.error('Failed to create reward', error)
+      setCreateRewardError('Could not save reward.')
+    } finally {
+      setIsCreatingReward(false)
+    }
+  }
+
   const rewardListDescriptor = toStandardActionListDescriptor(
     createRewardDefinitionListRowDescriptor({
       theme,
       activeChildId,
       activeChildStars,
       isRedeeming,
-      titleDrafts,
-      setTitleDraft,
-      commitTitle,
-      updateRewardField,
       handleGiveReward,
     })
   )
@@ -78,6 +83,18 @@ const RewardsPage = () => {
           paddingBottom: '96px',
         }}
       >
+        {createRewardError && (
+          <div
+            className="mb-6 rounded-2xl px-4 py-3 text-center text-sm font-bold"
+            style={{
+              background: `${theme.colors.secondary}20`,
+              color: theme.colors.text,
+              border: `2px solid ${theme.colors.secondary}`,
+            }}
+          >
+            {createRewardError}
+          </div>
+        )}
         <StandardActionList
           theme={theme}
           items={rewards}
@@ -86,32 +103,27 @@ const RewardsPage = () => {
           hideEdit
           onDelete={(reward) => handleDelete(reward.id)}
           addLabel="New Reward"
-          onAdd={createStandardReward}
-          addDisabled={false}
+          onAdd={() => setShowAddReward(true)}
+          addDisabled={isCreatingReward}
+          inlineNewRow={
+            showAddReward ? (
+              <RewardCreationFlow
+                theme={theme}
+                isSaving={isCreatingReward}
+                onSave={handleCreateReward}
+                onCancel={() => {
+                  setCreateRewardError(null)
+                  setShowAddReward(false)
+                }}
+              />
+            ) : undefined
+          }
           emptyState={
             <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
               No rewards yet.
             </div>
           }
         />
-
-        <button
-          type="button"
-          onClick={createYoshiReward}
-          className="flex w-full items-center justify-center gap-3 text-xl font-bold"
-          style={{
-            marginTop: `${uiTokens.singleVerticalSpace}px`,
-            minHeight: `${uiTokens.listActionHeight}px`,
-            borderRadius: `${uiTokens.listActionRadius}px`,
-            border: `4px dashed ${theme.colors.primary}`,
-            background: theme.colors.surface,
-            color: theme.colors.primary,
-            boxShadow: `0 10px 20px -5px ${theme.colors.primary}20`,
-            fontFamily: theme.fonts.heading,
-          }}
-        >
-          Add Hatchin Yoshi
-        </button>
       </div>
     </TabContent>
   )

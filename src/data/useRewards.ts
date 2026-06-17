@@ -1,14 +1,12 @@
 // ── Real-time rewards subscription + all reward mutations ──
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
   onSnapshot,
-  orderBy,
-  query,
   serverTimestamp,
   updateDoc,
 } from 'firebase/firestore'
@@ -23,75 +21,54 @@ import {
   type RewardUpdatableFields,
 } from './types'
 import { mergeMissingTitleDrafts } from './dailyTaskState'
+import { useUserCollection } from './useUserCollection'
 
-const HATCHIN_YOSHI_REWARD = {
-  title: 'Hatchin Yoshi',
-  costStars: 60,
-  isRepeating: false,
-  imageKey: 'yoshiEgg',
+export type RewardDocumentSettings = {
+  title: string
+  costStars: number
+  isRepeating: boolean
+  imageKey?: string
 }
 
 export function useRewards() {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
-  const [rewards, setRewards] = useState<RewardRecord[]>([])
   const [activeChildStars, setActiveChildStars] = useState<number>(0)
   const [titleDrafts, setTitleDrafts] = useState<Record<string, string>>({})
 
-  // ── Rewards subscription ──
-  useEffect(() => {
-    if (!user) {
-      setRewards([])
-      return
+  const mapRewardDocument = useCallback((id: string, data: unknown) => {
+    const parsed = rewardSnapshotDataSchema.safeParse(data)
+    if (!parsed.success) {
+      console.warn('Skipping invalid reward snapshot', {
+        id,
+        issues: parsed.error.issues,
+      })
+      return null
     }
 
-    const rewardsQuery = query(
-      collection(db, 'users', user.uid, 'rewards'),
-      orderBy('createdAt', 'asc')
-    )
+    const rewardData = parsed.data
+    return {
+      id,
+      title: rewardData.title,
+      costStars: rewardData.costStars,
+      isRepeating: rewardData.isRepeating,
+      imageKey: rewardData.imageKey,
+      createdAt: rewardData.createdAt?.toDate?.(),
+    }
+  }, [])
 
-    const unsubscribe = onSnapshot(
-      rewardsQuery,
-      (snapshot) => {
-        const newRewards: RewardRecord[] = snapshot.docs.flatMap(
-          (docSnapshot) => {
-            const parsed = rewardSnapshotDataSchema.safeParse(
-              docSnapshot.data()
-            )
-            if (!parsed.success) {
-              console.warn('Skipping invalid reward snapshot', {
-                id: docSnapshot.id,
-                issues: parsed.error.issues,
-              })
-              return []
-            }
+  const handleRewards = useCallback((nextRewards: RewardRecord[]) => {
+    setTitleDrafts((prev) => mergeMissingTitleDrafts(prev, nextRewards))
+  }, [])
 
-            const data = parsed.data
-            return [
-              {
-                id: docSnapshot.id,
-                title: data.title,
-                costStars: data.costStars,
-                isRepeating: data.isRepeating,
-                imageKey: data.imageKey,
-                createdAt: data.createdAt?.toDate?.(),
-              },
-            ]
-          }
-        )
-
-        setRewards(newRewards)
-
-        setTitleDrafts((prev) => mergeMissingTitleDrafts(prev, newRewards))
-      },
-      (error) => {
-        console.error('Failed to subscribe to rewards', error)
-        setRewards([])
-      }
-    )
-
-    return unsubscribe
-  }, [user])
+  const rewards = useUserCollection({
+    userId: user?.uid,
+    collectionName: 'rewards',
+    orderByField: 'createdAt',
+    errorMessage: 'Failed to subscribe to rewards',
+    mapDocument: mapRewardDocument,
+    onItems: handleRewards,
+  })
 
   // ── Active child star balance subscription ──
   useEffect(() => {
@@ -158,20 +135,20 @@ export function useRewards() {
   }
 
   // ── Create ──
-  const createStandardReward = async () => {
-    if (!user) return
-    await addDoc(collection(db, 'users', user.uid, 'rewards'), {
+  const createStandardReward = async (
+    settings: RewardDocumentSettings = {
       title: '',
       costStars: 0,
       isRepeating: true,
-      createdAt: serverTimestamp(),
-    })
-  }
-
-  const createYoshiReward = async () => {
+      imageKey: '',
+    }
+  ) => {
     if (!user) return
     await addDoc(collection(db, 'users', user.uid, 'rewards'), {
-      ...HATCHIN_YOSHI_REWARD,
+      title: settings.title,
+      costStars: Math.max(0, settings.costStars),
+      isRepeating: settings.isRepeating,
+      imageKey: settings.imageKey ?? '',
       createdAt: serverTimestamp(),
     })
   }
@@ -209,7 +186,6 @@ export function useRewards() {
     commitTitle,
     updateRewardField,
     createStandardReward,
-    createYoshiReward,
     giveReward,
     deleteReward,
   }

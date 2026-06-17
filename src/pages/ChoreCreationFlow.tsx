@@ -1,37 +1,36 @@
 import { useMemo, useState, type CSSProperties } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import ActionTextInput from '../components/ui/ActionTextInput'
-import {
-  IconActionButton,
-  IconActionRow,
-  IconChoiceButton,
-  StandardIconImage,
-} from '../components/ui/IconActionControls'
+import Carousel from '../components/ui/Carousel'
+import { IconActionRow } from '../components/ui/IconActionControls'
 import ScheduleDayTypeControl from '../components/ui/ScheduleDayTypeControl'
-import NumberStepperControl from '../components/ui/NumberStepperControl'
 import StarDisplay from '../components/ui/StarDisplay'
+import { InlineChoiceList } from '../components/ui/InlineChoiceList'
 import { uiTokens } from '../tokens'
+import { choreImageOptions } from '../assets/chores/assets'
 import {
   DEFAULT_DINNER_BITES,
   DEFAULT_DINNER_DURATION_SECONDS,
   DEFAULT_DINNER_STARS,
   DEFAULT_WATER_TOILET_STARS,
   type ChoreType,
+  type ChoreWithEphemeral,
 } from '../data/types'
 import type { ChoreDocumentSettings } from '../data/taskDocuments'
 import {
-  princessBiteIcon,
-  princessClockIcon,
   princessExitIcon,
   princessGiveStarIcon,
+  princessPlateImage,
 } from '../assets/themes/princess/assets'
 import { getPrincessTaskTypeIcon } from '../ui/taskTypeIcons'
+import { renderDinnerChore } from '../ui/presetChoreRenderers'
 
 type ChoreDraft = {
   title: string
   schoolDayEnabled: boolean
   nonSchoolDayEnabled: boolean
   starValue: number
+  imageKey: string
   dinnerDurationMinutes: number
   dinnerTotalBites: number
 }
@@ -51,7 +50,16 @@ type ChoreCreationFlowProps = {
     settings: ChoreDocumentSettings
   ) => void | Promise<void>
   onCancel: () => void
+  initialChore?: ChoreWithEphemeral
 }
+
+const DRAFT_DINNER_MIN_MINUTES = 5
+const DRAFT_DINNER_MAX_MINUTES = 30
+const DRAFT_DINNER_MIN_BITES = 1
+const DRAFT_DINNER_MAX_BITES = 16
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, value))
 
 const typeOptions: ChoreTypeOption[] = [
   {
@@ -63,6 +71,7 @@ const typeOptions: ChoreTypeOption[] = [
       schoolDayEnabled: true,
       nonSchoolDayEnabled: true,
       starValue: 1,
+      imageKey: '',
       dinnerDurationMinutes: DEFAULT_DINNER_DURATION_SECONDS / 60,
       dinnerTotalBites: DEFAULT_DINNER_BITES,
     },
@@ -76,6 +85,7 @@ const typeOptions: ChoreTypeOption[] = [
       schoolDayEnabled: true,
       nonSchoolDayEnabled: true,
       starValue: DEFAULT_DINNER_STARS,
+      imageKey: '',
       dinnerDurationMinutes: DEFAULT_DINNER_DURATION_SECONDS / 60,
       dinnerTotalBites: DEFAULT_DINNER_BITES,
     },
@@ -89,6 +99,7 @@ const typeOptions: ChoreTypeOption[] = [
       schoolDayEnabled: true,
       nonSchoolDayEnabled: false,
       starValue: DEFAULT_WATER_TOILET_STARS,
+      imageKey: '',
       dinnerDurationMinutes: DEFAULT_DINNER_DURATION_SECONDS / 60,
       dinnerTotalBites: DEFAULT_DINNER_BITES,
     },
@@ -98,18 +109,67 @@ const typeOptions: ChoreTypeOption[] = [
 const getOption = (type: ChoreType) =>
   typeOptions.find((option) => option.type === type) ?? typeOptions[0]
 
+const getDraftForChore = (chore: ChoreWithEphemeral): ChoreDraft => ({
+  title: chore.title,
+  schoolDayEnabled: chore.schoolDayEnabled,
+  nonSchoolDayEnabled: chore.nonSchoolDayEnabled,
+  starValue: chore.starValue,
+  imageKey: chore.imageKey ?? '',
+  dinnerDurationMinutes:
+    chore.taskType === 'eating'
+      ? chore.dinnerDurationSeconds / 60
+      : DEFAULT_DINNER_DURATION_SECONDS / 60,
+  dinnerTotalBites:
+    chore.taskType === 'eating' ? chore.dinnerTotalBites : DEFAULT_DINNER_BITES,
+})
+
 const ChoreCreationFlow = ({
   theme,
   isSaving,
   onSave,
   onCancel,
+  initialChore,
 }: ChoreCreationFlowProps) => {
-  const [selectedType, setSelectedType] = useState<ChoreType | null>(null)
-  const [draft, setDraft] = useState<ChoreDraft>(typeOptions[0].defaultDraft)
+  const isEditing = Boolean(initialChore)
+  const [selectedType, setSelectedType] = useState<ChoreType | null>(
+    initialChore?.taskType ?? null
+  )
+  const [draft, setDraft] = useState<ChoreDraft>(
+    initialChore ? getDraftForChore(initialChore) : typeOptions[0].defaultDraft
+  )
 
-  const selectedOption = useMemo(
-    () => (selectedType ? getOption(selectedType) : null),
-    [selectedType]
+  const carouselItems = useMemo(
+    () =>
+      choreImageOptions.map((option) => ({
+        id: option.id,
+        label: option.label,
+        icon: option.image ? (
+          <img
+            src={option.image}
+            alt=""
+            className="h-full w-full object-contain"
+            aria-hidden="true"
+          />
+        ) : (
+          <span
+            aria-hidden="true"
+            style={{
+              width: '44px',
+              height: '44px',
+              borderRadius: 14,
+              border: `3px dashed ${theme.colors.primary}`,
+              display: 'block',
+              opacity: 0.55,
+            }}
+          />
+        ),
+      })),
+    [theme.colors.primary]
+  )
+
+  const currentImageIndex = Math.max(
+    0,
+    choreImageOptions.findIndex((option) => option.id === draft.imageKey)
   )
 
   const updateDraft = (patch: Partial<ChoreDraft>) => {
@@ -133,7 +193,11 @@ const ChoreCreationFlow = ({
       schoolDayEnabled: draft.schoolDayEnabled,
       nonSchoolDayEnabled: draft.nonSchoolDayEnabled,
       starValue: draft.starValue,
-      isRepeating: true,
+      isRepeating: initialChore?.isRepeating ?? true,
+    }
+
+    if (selectedType === 'standard') {
+      settings.imageKey = draft.imageKey
     }
 
     if (selectedType === 'eating') {
@@ -150,51 +214,26 @@ const ChoreCreationFlow = ({
     gap: `${uiTokens.panelStackGap}px`,
   }
 
-  const selectedIconFrameStyle: CSSProperties = {
-    width: '72px',
-    height: '72px',
-    borderRadius: `${uiTokens.listActionRadius - 4}px`,
-    background: `${theme.colors.surface}cc`,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-  }
-
   const draftScheduleTask = {
     id: 'new-chore',
     schoolDayEnabled: draft.schoolDayEnabled,
     nonSchoolDayEnabled: draft.nonSchoolDayEnabled,
   }
+  const draftDinnerDurationSeconds = draft.dinnerDurationMinutes * 60
 
-  if (!selectedOption) {
+  if (!selectedType) {
     return (
       <div style={panelStyle}>
-        <div
-          className="grid grid-cols-3"
-          style={{
-            rowGap: `${uiTokens.controlRowGap}px`,
-            columnGap: `${uiTokens.controlColumnGap}px`,
-          }}
-        >
-          {typeOptions.map((option, index) => (
-            <IconChoiceButton
-              key={option.type}
-              theme={theme}
-              icon={option.icon}
-              ariaLabel={option.label}
-              onClick={() => selectType(option.type)}
-              disabled={isSaving}
-              selected={index === 0}
-            />
-          ))}
-        </div>
-        <IconActionButton
+        <InlineChoiceList
           theme={theme}
-          icon={princessExitIcon}
-          ariaLabel="Cancel"
-          onClick={onCancel}
-          style={{ margin: '0 auto' }}
+          choices={typeOptions.map((option) => ({
+            key: option.type,
+            label: option.label,
+            icon: option.icon,
+            disabled: isSaving,
+            onSelect: () => selectType(option.type),
+          }))}
+          onCancel={onCancel}
         />
       </div>
     )
@@ -202,20 +241,6 @@ const ChoreCreationFlow = ({
 
   return (
     <div style={panelStyle}>
-      <div
-        className="flex items-center"
-        style={{ justifyContent: 'center', color: theme.colors.text }}
-      >
-        <span style={selectedIconFrameStyle}>
-          <StandardIconImage
-            src={selectedOption.icon}
-            fit="cover"
-            width="100%"
-            height="100%"
-          />
-        </span>
-      </div>
-
       <ActionTextInput
         theme={theme}
         label="Name"
@@ -226,6 +251,20 @@ const ChoreCreationFlow = ({
         inputAriaLabel="Chore name"
         transparent
       />
+
+      {selectedType === 'standard' && (
+        <Carousel
+          key={draft.imageKey}
+          items={carouselItems}
+          title="Chore image"
+          initialIndex={currentImageIndex}
+          onChange={(index) => {
+            const selected = choreImageOptions[index]
+            if (!selected || selected.id === draft.imageKey) return
+            updateDraft({ imageKey: selected.id })
+          }}
+        />
+      )}
 
       <div
         className="flex flex-col"
@@ -265,36 +304,36 @@ const ChoreCreationFlow = ({
       </div>
 
       {selectedType === 'eating' && (
-        <div
-          className="grid grid-cols-2"
-          style={{
-            rowGap: `${uiTokens.controlRowGap}px`,
-            columnGap: `${uiTokens.controlColumnGap}px`,
-          }}
-        >
-          <NumberStepperControl
-            theme={theme}
-            label="Minutes"
-            icon={princessClockIcon}
-            value={draft.dinnerDurationMinutes}
-            min={1}
-            max={60}
-            step={1}
-            onChange={(dinnerDurationMinutes) =>
-              updateDraft({ dinnerDurationMinutes })
-            }
-          />
-          <NumberStepperControl
-            theme={theme}
-            label="Bites"
-            icon={princessBiteIcon}
-            value={draft.dinnerTotalBites}
-            min={1}
-            max={20}
-            step={1}
-            onChange={(dinnerTotalBites) => updateDraft({ dinnerTotalBites })}
-          />
-        </div>
+        <>
+          {renderDinnerChore({
+            theme,
+            duration: draftDinnerDurationSeconds,
+            remaining: draftDinnerDurationSeconds,
+            totalBites: draft.dinnerTotalBites,
+            bitesLeft: draft.dinnerTotalBites,
+            starReward: draft.starValue,
+            isTimerRunning: false,
+            plateImage: princessPlateImage,
+            onAdjustTime: (delta) =>
+              updateDraft({
+                dinnerDurationMinutes: clamp(
+                  draft.dinnerDurationMinutes + delta / 60,
+                  DRAFT_DINNER_MIN_MINUTES,
+                  DRAFT_DINNER_MAX_MINUTES
+                ),
+              }),
+            onAdjustBites: (delta) =>
+              updateDraft({
+                dinnerTotalBites: clamp(
+                  draft.dinnerTotalBites + delta,
+                  DRAFT_DINNER_MIN_BITES,
+                  DRAFT_DINNER_MAX_BITES
+                ),
+              }),
+            onStarsChange: (starValue) => updateDraft({ starValue }),
+            showStarReward: false,
+          })}
+        </>
       )}
 
       <IconActionRow
@@ -306,7 +345,13 @@ const ChoreCreationFlow = ({
         primaryIconOpacity={isSaving ? 0.55 : 1}
         utilityIcon={princessExitIcon}
         utilityAriaLabel="Back"
-        onUtilityClick={() => setSelectedType(null)}
+        onUtilityClick={() => {
+          if (isEditing) {
+            onCancel()
+            return
+          }
+          setSelectedType(null)
+        }}
         utilityDisabled={isSaving}
       />
     </div>

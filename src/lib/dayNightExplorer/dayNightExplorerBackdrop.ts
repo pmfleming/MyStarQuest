@@ -14,6 +14,25 @@ type RgbColor = {
 }
 
 export type ExplorerBackgroundKey = keyof ThemeExplorerBackgroundImages
+type ActivityImageKey = keyof ThemeActivityImages
+
+const activityImageSchedule: Array<{
+  endMinute: number
+  imageKey: ActivityImageKey
+}> = [
+  { endMinute: 450, imageKey: 'bedtime' },
+  { endMinute: 480, imageKey: 'eatingBreakfast' },
+  { endMinute: 495, imageKey: 'washingTeeth' },
+  { endMinute: 525, imageKey: 'commute' },
+  { endMinute: 885, imageKey: 'schooltime' },
+  { endMinute: 915, imageKey: 'commute' },
+  { endMinute: 1080, imageKey: 'playing' },
+  { endMinute: 1140, imageKey: 'cooking' },
+  { endMinute: 1170, imageKey: 'eatingDinner' },
+  { endMinute: 1215, imageKey: 'computergames' },
+  { endMinute: 1244, imageKey: 'bathtime' },
+  { endMinute: 1260, imageKey: 'washingTeeth' },
+]
 
 const EXPLORER_SKY_COLORS: Record<
   'night' | 'sunrise' | 'day' | 'sunset',
@@ -66,20 +85,11 @@ export const getImageForTime = (
   }
 
   const normalizedMinutes = Math.floor(normalizeMinutes(minutes))
-  if (normalizedMinutes >= 1261 || normalizedMinutes <= 450)
-    return activityImages.bedtime
-  if (normalizedMinutes <= 480) return activityImages.eatingBreakfast
-  if (normalizedMinutes <= 495) return activityImages.washingTeeth
-  if (normalizedMinutes <= 525) return activityImages.commute
-  if (normalizedMinutes <= 885) return activityImages.schooltime
-  if (normalizedMinutes <= 915) return activityImages.commute
-  if (normalizedMinutes <= 1080) return activityImages.playing
-  if (normalizedMinutes <= 1140) return activityImages.cooking
-  if (normalizedMinutes <= 1170) return activityImages.eatingDinner
-  if (normalizedMinutes <= 1215) return activityImages.computergames
-  if (normalizedMinutes <= 1244) return activityImages.bathtime
-  if (normalizedMinutes <= 1260) return activityImages.washingTeeth
-  return activityImages.bedtime
+  const activity = activityImageSchedule.find(
+    ({ endMinute }) => normalizedMinutes <= endMinute
+  )
+
+  return activityImages[activity?.imageKey ?? 'bedtime']
 }
 
 export const getExplorerBackdropColor = (

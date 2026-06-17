@@ -4,8 +4,10 @@ export type ChoreModeType =
   | 'standard'
   | 'eating'
   | 'math'
+  | 'large-numbers'
   | 'positional-notation'
   | 'alphabet'
+  | 'spelling'
   | 'watertoiletcheck'
 
 type PresetChoreModeDefinition = {
@@ -22,10 +24,16 @@ const presetChoreModeDefinitions: Record<
   math: {
     hidePrimaryButtonInChore: false,
   },
+  'large-numbers': {
+    hidePrimaryButtonInChore: false,
+  },
   'positional-notation': {
     hidePrimaryButtonInChore: false,
   },
   alphabet: {
+    hidePrimaryButtonInChore: true,
+  },
+  spelling: {
     hidePrimaryButtonInChore: true,
   },
   watertoiletcheck: {

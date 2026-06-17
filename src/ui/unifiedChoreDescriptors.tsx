@@ -5,6 +5,7 @@ import {
   princessMathsIcon,
   princessPlateImage,
 } from '../assets/themes/princess/assets'
+import { getChoreImage } from '../assets/chores/assets'
 import { isInChoreStage, shouldUseResetUtility } from './choreModeDefinitions'
 import type { ListRowDescriptor } from './listDescriptorTypes'
 import {
@@ -13,7 +14,11 @@ import {
   createPresetTestPrimaryAction,
   createPresetUtilityAction,
 } from './presetChoreActions'
-import { createUnifiedChoreState, getChoreType } from './unifiedChoreState'
+import {
+  createUnifiedChoreState,
+  getChoreType,
+  isTaskItem,
+} from './unifiedChoreState'
 import { renderUnifiedChoreItem } from './unifiedChoreItemRenderer'
 import type {
   UnifiedChoreDeps,
@@ -34,7 +39,11 @@ export function createUnifiedChoreDescriptor(
       if (isManage) return undefined
       const stage = state.getStage(item)
       if (isInChoreStage(stage)) return undefined
-      return getChoreType(item) === 'watertoiletcheck'
+      const type = getChoreType(item)
+      if (type === 'standard' && getChoreImage(item.imageKey)) {
+        return undefined
+      }
+      return type === 'watertoiletcheck'
         ? state.getWaterToiletDelta(item)
         : item.starValue
     },
@@ -112,7 +121,7 @@ export function createUnifiedChoreDescriptor(
         deleteAriaLabel: 'Delete',
         onReset: (selected) => deps.onReset?.(selected),
         onDelete: (selected) =>
-          isManage
+          isManage || isTaskItem(selected)
             ? deps.onDeleteTask?.(selected.id)
             : deps.onDeleteTodo?.(selected.id),
         theme: deps.theme,
@@ -173,11 +182,17 @@ const incrementCheckTrigger = (
 ) => {
   const setters = {
     math: deps.setMathCheckTriggers,
+    'large-numbers': deps.setLargeNumbersCheckTriggers,
     'positional-notation': deps.setPVCheckTriggers,
     alphabet: deps.setAlphabetCheckTriggers,
+    spelling: deps.setSpellingCheckTriggers,
   }
   const setter =
-    type === 'math' || type === 'positional-notation' || type === 'alphabet'
+    type === 'math' ||
+    type === 'large-numbers' ||
+    type === 'positional-notation' ||
+    type === 'alphabet' ||
+    type === 'spelling'
       ? setters[type]
       : undefined
 

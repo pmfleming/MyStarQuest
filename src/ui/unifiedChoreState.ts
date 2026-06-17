@@ -36,7 +36,11 @@ export const getChoreType = (item: UnifiedChoreItem): TaskType =>
   isTaskItem(item) ? item.taskType : item.sourceTaskType
 
 export const isTestType = (type: TaskType) =>
-  type === 'math' || type === 'positional-notation' || type === 'alphabet'
+  type === 'math' ||
+  type === 'large-numbers' ||
+  type === 'positional-notation' ||
+  type === 'alphabet' ||
+  type === 'spelling'
 
 export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
   const princessAsset = (asset?: string): PrincessAsset =>
@@ -139,8 +143,10 @@ const hasExpiredDinnerTimer = (
 
 const isActiveItem = (deps: UnifiedChoreDeps, id: string) =>
   deps.activeMathId === id ||
+  deps.activeLargeNumbersId === id ||
   deps.activePVId === id ||
   deps.activeAlphabetId === id ||
+  deps.activeSpellingId === id ||
   deps.activeDinnerId === id ||
   deps.activeWaterToiletId === id
 

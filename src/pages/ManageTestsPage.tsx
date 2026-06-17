@@ -9,21 +9,25 @@ import { getSurfaceWidthConstraints } from '../tokens'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { createUnifiedChoreDescriptor } from '../ui/unifiedChoreDescriptors'
 import { useTests } from '../data/useTests'
+import { useChildren } from '../data/useChildren'
 import { BITE_COOLDOWN_SECONDS, isTestWithEphemeral } from '../data/types'
 import { useTaskActivityState } from '../hooks/useTaskActivityState'
 import { getPrincessTaskTypeIcon } from '../ui/taskTypeIcons'
 
-type TestChoiceKey = 'math' | 'pv' | 'alphabet'
+type TestChoiceKey = 'math' | 'largeNumbers' | 'pv' | 'alphabet' | 'spelling'
 
 const testChoices: Array<[TestChoiceKey, string, string]> = [
   ['math', 'Arithmetic', getPrincessTaskTypeIcon('math')],
+  ['largeNumbers', 'Large Numbers', getPrincessTaskTypeIcon('large-numbers')],
   ['pv', 'Positional Notation', getPrincessTaskTypeIcon('positional-notation')],
   ['alphabet', 'Alphabet Match', getPrincessTaskTypeIcon('alphabet')],
+  ['spelling', 'Spelling', getPrincessTaskTypeIcon('spelling')],
 ]
 
 const ManageTestsPage = () => {
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
+  const { children } = useChildren()
 
   const {
     tests,
@@ -33,8 +37,10 @@ const ManageTestsPage = () => {
     updateTestField,
     updateEphemeral,
     createMathTest,
+    createLargeNumbersTest,
     createPVTest,
     createAlphabetTest,
+    createSpellingTest,
     completeTest,
     failTest,
     resetTest,
@@ -42,13 +48,21 @@ const ManageTestsPage = () => {
   } = useTests()
 
   const activity = useTaskActivityState()
+  const activeChild = children.find((child) => child.id === activeChildId)
+  const testFailureModeEnabled = activeChild?.testFailureModeEnabled ?? true
   const [mathCheckTriggers, setMathCheckTriggers] = useState<
+    Record<string, number>
+  >({})
+  const [largeNumbersCheckTriggers, setLargeNumbersCheckTriggers] = useState<
     Record<string, number>
   >({})
   const [pvCheckTriggers, setPVCheckTriggers] = useState<
     Record<string, number>
   >({})
   const [alphabetCheckTriggers, setAlphabetCheckTriggers] = useState<
+    Record<string, number>
+  >({})
+  const [spellingCheckTriggers, setSpellingCheckTriggers] = useState<
     Record<string, number>
   >({})
   const [showAddChooser, setShowAddChooser] = useState(false)
@@ -79,17 +93,24 @@ const ManageTestsPage = () => {
     },
     titleDrafts: testTitleDrafts,
     activeMathId: activity.activeMathId,
+    activeLargeNumbersId: activity.activeLargeNumbersId,
     activePVId: activity.activePVId,
     activeAlphabetId: activity.activeAlphabetId,
+    activeSpellingId: activity.activeSpellingId,
     activeDinnerId: null,
     activeWaterToiletId: null,
     mathCheckTriggers,
+    largeNumbersCheckTriggers,
     pvCheckTriggers,
     alphabetCheckTriggers,
+    spellingCheckTriggers,
     setMathCheckTriggers,
+    setLargeNumbersCheckTriggers,
     setPVCheckTriggers,
     setAlphabetCheckTriggers,
+    setSpellingCheckTriggers,
     biteCooldownSeconds: BITE_COOLDOWN_SECONDS,
+    testFailureModeEnabled,
     renderDayTypeControl: (task) => (
       <ScheduleDayTypeControl
         theme={theme}
@@ -134,8 +155,10 @@ const ManageTestsPage = () => {
                     onSelect: () => {
                       const createByKey = {
                         math: createMathTest,
+                        largeNumbers: createLargeNumbersTest,
                         pv: createPVTest,
                         alphabet: createAlphabetTest,
+                        spelling: createSpellingTest,
                       }
                       createByKey[key]()
                       setShowAddChooser(false)
