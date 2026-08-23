@@ -5,6 +5,12 @@ import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import { useProblemHistory } from '../lib/useProblemHistory'
+import {
+  generateProgressivePositionalNotationProblem,
+  MAX_ONE_CROWN_TENS,
+  MAX_TWO_CROWN_DIGIT,
+  type PositionalNotationDifficulty,
+} from '../lib/positionalNotationProblems'
 import { useActivityChallenge } from '../hooks/useActivityChallenge'
 import {
   ActivityOutcomeShell,
@@ -20,10 +26,6 @@ import {
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 10
-const MAX_POSITIONAL_NOTATION_TARGET = 129
-const MAX_POSITIONAL_NOTATION_TENS = Math.floor(
-  MAX_POSITIONAL_NOTATION_TARGET / 10
-)
 const MAX_POSITIONAL_NOTATION_ONES = 9
 const PLACE_VALUE_PANEL_GAP = 2
 const PLACE_VALUE_PLUS_SIZE = 42
@@ -34,38 +36,13 @@ const PLACE_VALUE_TENS_COLUMNS = 6
 const PLACE_VALUE_TENS_PANEL_SPLIT = '1.7fr 1.3fr'
 const PLACE_VALUE_PLUS_LEFT = '56.66%'
 
+const POSITIONAL_NOTATION_DIFFICULTIES: PositionalNotationDifficulty[] = [
+  'one-crown',
+  'two-crowns',
+]
+
 const { mathCounterSize: ONE_COUNTER_SIZE, mathCounterGap: DOT_GAP } =
   uiTokens.activityTokens
-
-function clamp(value: number, min: number, max: number): number {
-  return Math.min(max, Math.max(min, value))
-}
-
-function generateProgressivePositionalNotationProblem(
-  index: number,
-  totalProblems: number
-): { target: number } {
-  if (totalProblems <= 1) {
-    return { target: Math.floor(Math.random() * 20) + 1 }
-  }
-
-  const progress = clamp(index / Math.max(1, totalProblems - 1), 0, 1)
-  const easedProgress = Math.pow(progress, 1.15)
-  const bandStart = clamp(
-    Math.round(1 + easedProgress * 110),
-    1,
-    MAX_POSITIONAL_NOTATION_TARGET
-  )
-  const bandEnd = clamp(
-    Math.round(20 + easedProgress * 109),
-    Math.min(MAX_POSITIONAL_NOTATION_TARGET, bandStart + 9),
-    MAX_POSITIONAL_NOTATION_TARGET
-  )
-  const target =
-    Math.floor(Math.random() * (bandEnd - bandStart + 1)) + bandStart
-
-  return { target }
-}
 
 export type PositionalNotationProps = ActivityChoreProps
 
@@ -86,41 +63,59 @@ const PositionalNotation = ({
   failureImage,
   failureModeEnabled = true,
 }: PositionalNotationProps) => {
+  const [difficulty, setDifficulty] =
+    useState<PositionalNotationDifficulty>('one-crown')
   const [targetNumber, setTargetNumber] = useState(0)
+  const [userHundreds, setUserHundreds] = useState(0)
   const [userTens, setUserTens] = useState(0)
   const [userOnes, setUserOnes] = useState(0)
-  const { isSeen, markSeen, clearHistory } = useProblemHistory()
-  const currentTotal = userTens * 10 + userOnes
+  const { isSeen, markSeen, clearHistory } = useProblemHistory([difficulty])
+  const isTwoCrown = difficulty === 'two-crowns'
+  const maxTens = isTwoCrown ? MAX_TWO_CROWN_DIGIT : MAX_ONE_CROWN_TENS
+  const currentTotal = userHundreds * 100 + userTens * 10 + userOnes
 
   const nextProblem = useCallback(
     (nextIndex: number) => {
       let problem = generateProgressivePositionalNotationProblem(
         nextIndex,
-        totalProblems
+        totalProblems,
+        difficulty
       )
       let attempts = 0
       while (isSeen(problem.target.toString()) && attempts < 10) {
         problem = generateProgressivePositionalNotationProblem(
           nextIndex,
-          totalProblems
+          totalProblems,
+          difficulty
         )
         attempts++
       }
       markSeen(problem.target.toString())
 
       setTargetNumber(problem.target)
+      setUserHundreds(0)
       setUserTens(0)
       setUserOnes(0)
     },
-    [totalProblems, isSeen, markSeen]
+    [difficulty, totalProblems, isSeen, markSeen]
   )
 
   const resetProblem = useCallback(() => {
     clearHistory()
     setTargetNumber(0)
+    setUserHundreds(0)
     setUserTens(0)
     setUserOnes(0)
   }, [clearHistory])
+
+  const handleDifficultyChange = useCallback(
+    (nextDifficulty: PositionalNotationDifficulty) => {
+      if (nextDifficulty === difficulty) return
+      resetProblem()
+      setDifficulty(nextDifficulty)
+    },
+    [difficulty, resetProblem]
+  )
 
   const {
     retryCount,
@@ -158,13 +153,80 @@ const PositionalNotation = ({
     consumeCheckTrigger(currentTotal === targetNumber, handleNextProblem)
   }, [consumeCheckTrigger, currentTotal, handleNextProblem, targetNumber])
 
-  const TEN_COUNTER_SIZE = 12
-  const ONE_CROWN_SIZE = Math.max(ONE_COUNTER_SIZE + 12, 30)
+  const TEN_COUNTER_SIZE = isTwoCrown ? 5 : 12
+  const ONE_CROWN_SIZE = isTwoCrown ? 24 : Math.max(ONE_COUNTER_SIZE + 12, 30)
   const playAnimation = isWrong
     ? 'pv-shake 0.5s ease'
     : isCorrect
       ? 'pv-pop-in 0.4s ease'
       : undefined
+
+  const difficultyControl = (
+    <div
+      role="radiogroup"
+      aria-label="Positional notation difficulty"
+      style={{
+        display: 'flex',
+        minHeight: uiTokens.listActionHeight,
+        background: theme.colors.surface,
+        borderRadius: uiTokens.listActionRadius,
+        padding: uiTokens.controlInset / 2,
+        border: `2px solid ${theme.colors.accent}`,
+        width: '100%',
+        boxSizing: 'border-box',
+      }}
+    >
+      {POSITIONAL_NOTATION_DIFFICULTIES.map((value) => {
+        const crownCount = value === 'one-crown' ? 1 : 2
+        const isSelected = difficulty === value
+
+        return (
+          <button
+            key={value}
+            type="button"
+            role="radio"
+            aria-label={value === 'one-crown' ? 'One crown' : 'Two crowns'}
+            aria-checked={isSelected}
+            onClick={() => handleDifficultyChange(value)}
+            style={{
+              flex: 1,
+              padding: 0,
+              borderRadius:
+                uiTokens.listActionRadius - uiTokens.controlInset / 2,
+              border: 'none',
+              cursor: 'pointer',
+              background: isSelected ? theme.colors.primary : 'transparent',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <span
+              aria-hidden="true"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: DOT_GAP,
+                width: '100%',
+              }}
+            >
+              {Array.from({ length: crownCount }).map((_, index) => (
+                <img
+                  key={`${value}-${index}`}
+                  src={mathsCounterIcon}
+                  alt=""
+                  style={{
+                    width: ONE_COUNTER_SIZE,
+                    height: ONE_COUNTER_SIZE,
+                    objectFit: 'contain',
+                  }}
+                />
+              ))}
+            </span>
+          </button>
+        )
+      })}
+    </div>
+  )
 
   return (
     <ActivityOutcomeShell
@@ -205,6 +267,7 @@ const PositionalNotation = ({
         previousAriaLabel="Fewer puzzles"
         nextAriaLabel="More puzzles"
         isEditable={isEditable}
+        beforeProblemControl={difficultyControl}
       />
 
       {isRunning && (
@@ -255,12 +318,141 @@ const PositionalNotation = ({
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: PLACE_VALUE_TENS_PANEL_SPLIT,
+                gridTemplateColumns: isTwoCrown
+                  ? 'repeat(3, minmax(0, 1fr))'
+                  : PLACE_VALUE_TENS_PANEL_SPLIT,
                 gap: PLACE_VALUE_PANEL_GAP,
                 width: '100%',
                 alignItems: 'stretch',
               }}
             >
+              {/* Hundreds Column */}
+              {isTwoCrown && (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    background: `${theme.colors.accent}12`,
+                    borderRadius: 16,
+                    padding: 4,
+                    border: `2px solid ${theme.colors.accent}22`,
+                    boxSizing: 'border-box',
+                    minWidth: 0,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: 15,
+                      fontWeight: 'bold',
+                      fontFamily: theme.fonts.heading,
+                      color: theme.colors.accent,
+                      marginBottom: 6,
+                    }}
+                  >
+                    Hundreds
+                  </span>
+
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: 1,
+                      marginBottom: 8,
+                      width: '100%',
+                    }}
+                  >
+                    <StepperButton
+                      theme={theme}
+                      direction="prev"
+                      onClick={() =>
+                        setUserHundreds((value) => Math.max(0, value - 1))
+                      }
+                      disabled={userHundreds === 0 || isCorrect}
+                      ariaLabel="Remove hundred"
+                      style={{
+                        width: 28,
+                        minWidth: 28,
+                        height: PLACE_VALUE_STEPPER_HEIGHT,
+                        fontSize: '0.9rem',
+                        flexShrink: 0,
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontSize: 19,
+                        fontWeight: 'bold',
+                        fontFamily: theme.fonts.heading,
+                        color: theme.colors.accent,
+                        minWidth: 34,
+                        textAlign: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {userHundreds * 100}
+                    </span>
+                    <StepperButton
+                      theme={theme}
+                      direction="next"
+                      onClick={() =>
+                        setUserHundreds((value) =>
+                          Math.min(MAX_TWO_CROWN_DIGIT, value + 1)
+                        )
+                      }
+                      disabled={
+                        userHundreds === MAX_TWO_CROWN_DIGIT || isCorrect
+                      }
+                      ariaLabel="Add hundred"
+                      style={{
+                        width: 28,
+                        minWidth: 28,
+                        height: PLACE_VALUE_STEPPER_HEIGHT,
+                        fontSize: '0.9rem',
+                        flexShrink: 0,
+                      }}
+                    />
+                  </div>
+
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(3, max-content)',
+                      justifyContent: 'center',
+                      alignContent: 'center',
+                      gap: 2,
+                      minHeight: 112,
+                      width: '100%',
+                    }}
+                  >
+                    {userHundreds === 0 ? (
+                      <EmptyCounterHint
+                        color={theme.colors.accent}
+                        fontFamily={theme.fonts.body}
+                      />
+                    ) : (
+                      Array.from({ length: userHundreds }).map((_, index) => (
+                        <div
+                          key={`hundred-${index}`}
+                          aria-hidden="true"
+                          style={{
+                            width: 30,
+                            height: 30,
+                            border: `2px solid ${theme.colors.accent}`,
+                            borderRadius: 4,
+                            backgroundColor: `${theme.colors.accent}18`,
+                            backgroundImage: `url("${mathsCounterIcon}")`,
+                            backgroundRepeat: 'repeat',
+                            backgroundSize: '10% 10%',
+                            animation: `pv-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${index * 0.05}s both`,
+                          }}
+                        />
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Tens Column */}
               <div
                 style={{
@@ -269,14 +461,14 @@ const PositionalNotation = ({
                   alignItems: 'center',
                   background: `${theme.colors.secondary}12`,
                   borderRadius: 16,
-                  padding: 8,
+                  padding: isTwoCrown ? 4 : 8,
                   border: `2px solid ${theme.colors.secondary}22`,
                   boxSizing: 'border-box',
                 }}
               >
                 <span
                   style={{
-                    fontSize: 18,
+                    fontSize: isTwoCrown ? 15 : 18,
                     fontWeight: 'bold',
                     fontFamily: theme.fonts.heading,
                     color: theme.colors.secondary,
@@ -305,16 +497,18 @@ const PositionalNotation = ({
                     disabled={userTens === 0 || isCorrect}
                     ariaLabel="Remove ten"
                     style={{
-                      width: PLACE_VALUE_TENS_STEPPER_WIDTH,
-                      minWidth: PLACE_VALUE_TENS_STEPPER_WIDTH,
+                      width: isTwoCrown ? 28 : PLACE_VALUE_TENS_STEPPER_WIDTH,
+                      minWidth: isTwoCrown
+                        ? 28
+                        : PLACE_VALUE_TENS_STEPPER_WIDTH,
                       height: PLACE_VALUE_STEPPER_HEIGHT,
-                      fontSize: '1.2rem',
+                      fontSize: isTwoCrown ? '0.9rem' : '1.2rem',
                       flexShrink: 0,
                     }}
                   />
                   <span
                     style={{
-                      fontSize: 24,
+                      fontSize: isTwoCrown ? 19 : 24,
                       fontWeight: 'bold',
                       fontFamily: theme.fonts.heading,
                       color: theme.colors.secondary,
@@ -329,19 +523,17 @@ const PositionalNotation = ({
                     theme={theme}
                     direction="next"
                     onClick={() =>
-                      setUserTens((value) =>
-                        Math.min(MAX_POSITIONAL_NOTATION_TENS, value + 1)
-                      )
+                      setUserTens((value) => Math.min(maxTens, value + 1))
                     }
-                    disabled={
-                      userTens === MAX_POSITIONAL_NOTATION_TENS || isCorrect
-                    }
+                    disabled={userTens === maxTens || isCorrect}
                     ariaLabel="Add ten"
                     style={{
-                      width: PLACE_VALUE_TENS_STEPPER_WIDTH,
-                      minWidth: PLACE_VALUE_TENS_STEPPER_WIDTH,
+                      width: isTwoCrown ? 28 : PLACE_VALUE_TENS_STEPPER_WIDTH,
+                      minWidth: isTwoCrown
+                        ? 28
+                        : PLACE_VALUE_TENS_STEPPER_WIDTH,
                       height: PLACE_VALUE_STEPPER_HEIGHT,
-                      fontSize: '1.2rem',
+                      fontSize: isTwoCrown ? '0.9rem' : '1.2rem',
                       flexShrink: 0,
                     }}
                   />
@@ -350,11 +542,11 @@ const PositionalNotation = ({
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: `repeat(${PLACE_VALUE_TENS_COLUMNS}, max-content)`,
+                    gridTemplateColumns: `repeat(${isTwoCrown ? 3 : PLACE_VALUE_TENS_COLUMNS}, max-content)`,
                     justifyContent: 'center',
                     columnGap: DOT_GAP,
                     rowGap: DOT_GAP,
-                    minHeight: 100,
+                    minHeight: isTwoCrown ? 112 : 100,
                     alignItems: 'flex-end',
                     paddingBottom: 4,
                     width: '100%',
@@ -374,6 +566,7 @@ const PositionalNotation = ({
                         delay={index * 0.05}
                         animationName="pv-pop-in"
                         borderColor={theme.colors.secondary}
+                        gap={isTwoCrown ? 0 : 1}
                       />
                     ))
                   )}
@@ -388,7 +581,7 @@ const PositionalNotation = ({
                   alignItems: 'center',
                   background: `${theme.colors.primary}12`,
                   borderRadius: 16,
-                  padding: 8,
+                  padding: isTwoCrown ? 4 : 8,
                   border: `2px solid ${theme.colors.primary}22`,
                   boxSizing: 'border-box',
                   width: '100%',
@@ -398,7 +591,7 @@ const PositionalNotation = ({
               >
                 <span
                   style={{
-                    fontSize: 18,
+                    fontSize: isTwoCrown ? 15 : 18,
                     fontWeight: 'bold',
                     fontFamily: theme.fonts.heading,
                     color: theme.colors.primary,
@@ -430,8 +623,10 @@ const PositionalNotation = ({
                     disabled={userOnes === 0 || isCorrect}
                     ariaLabel="Remove one"
                     style={{
-                      width: PLACE_VALUE_ONES_STEPPER_WIDTH,
-                      minWidth: PLACE_VALUE_ONES_STEPPER_WIDTH,
+                      width: isTwoCrown ? 28 : PLACE_VALUE_ONES_STEPPER_WIDTH,
+                      minWidth: isTwoCrown
+                        ? 28
+                        : PLACE_VALUE_ONES_STEPPER_WIDTH,
                       height: PLACE_VALUE_STEPPER_HEIGHT,
                       fontSize: '1rem',
                       flexShrink: 0,
@@ -439,7 +634,7 @@ const PositionalNotation = ({
                   />
                   <span
                     style={{
-                      fontSize: 24,
+                      fontSize: isTwoCrown ? 19 : 24,
                       fontWeight: 'bold',
                       fontFamily: theme.fonts.heading,
                       color: theme.colors.primary,
@@ -463,8 +658,10 @@ const PositionalNotation = ({
                     }
                     ariaLabel="Add one"
                     style={{
-                      width: PLACE_VALUE_ONES_STEPPER_WIDTH,
-                      minWidth: PLACE_VALUE_ONES_STEPPER_WIDTH,
+                      width: isTwoCrown ? 28 : PLACE_VALUE_ONES_STEPPER_WIDTH,
+                      minWidth: isTwoCrown
+                        ? 28
+                        : PLACE_VALUE_ONES_STEPPER_WIDTH,
                       height: PLACE_VALUE_STEPPER_HEIGHT,
                       fontSize: '1rem',
                       flexShrink: 0,
@@ -479,7 +676,7 @@ const PositionalNotation = ({
                     justifyContent: 'center',
                     alignContent: 'center',
                     alignItems: 'center',
-                    minHeight: 100,
+                    minHeight: isTwoCrown ? 112 : 100,
                     paddingBottom: 4,
                     width: '100%',
                     gap: DOT_GAP,
@@ -507,34 +704,39 @@ const PositionalNotation = ({
               </div>
             </div>
 
-            {/* Plus sign overlay */}
-            <div
-              style={{
-                position: 'absolute',
-                left: PLACE_VALUE_PLUS_LEFT,
-                top: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: PLACE_VALUE_PLUS_SIZE,
-                height: PLACE_VALUE_PLUS_SIZE,
-                borderRadius: 12,
-                background: theme.colors.surface,
-                border: `2px solid ${theme.colors.primary}`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: theme.fonts.heading,
-                fontSize: 24,
-                fontWeight: 900,
-                color: theme.colors.primary,
-                boxShadow: `0 4px 10px ${theme.colors.primary}22`,
-                opacity: 0.92,
-                zIndex: 2,
-                pointerEvents: 'none',
-              }}
-              aria-hidden="true"
-            >
-              +
-            </div>
+            {/* Plus sign overlays */}
+            {(isTwoCrown ? ['33.33%', '66.66%'] : [PLACE_VALUE_PLUS_LEFT]).map(
+              (left) => (
+                <div
+                  key={left}
+                  style={{
+                    position: 'absolute',
+                    left,
+                    top: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: isTwoCrown ? 32 : PLACE_VALUE_PLUS_SIZE,
+                    height: isTwoCrown ? 32 : PLACE_VALUE_PLUS_SIZE,
+                    borderRadius: isTwoCrown ? 10 : 12,
+                    background: theme.colors.surface,
+                    border: `2px solid ${theme.colors.primary}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontFamily: theme.fonts.heading,
+                    fontSize: isTwoCrown ? 20 : 24,
+                    fontWeight: 900,
+                    color: theme.colors.primary,
+                    boxShadow: `0 4px 10px ${theme.colors.primary}22`,
+                    opacity: 0.92,
+                    zIndex: 2,
+                    pointerEvents: 'none',
+                  }}
+                  aria-hidden="true"
+                >
+                  +
+                </div>
+              )
+            )}
           </div>
         </ActivityPlayArea>
       )}

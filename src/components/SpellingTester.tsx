@@ -3,6 +3,7 @@ import type { CSSProperties } from 'react'
 import { uiTokens } from '../tokens'
 import animalsSetIcon from '../assets/global/cat-camel-cow.webp'
 import teenieSetIcon from '../assets/global/teenieping.webp'
+import pokemonSetIcon from '../assets/pokemon/pikachu.png'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import antImage from '../assets/spelling/ant.webp'
@@ -53,7 +54,7 @@ type SpellingAnimal = {
   image: string
 }
 
-type SpellingWordSetId = 'animals' | 'teenie'
+type SpellingWordSetId = 'animals' | 'teenie' | 'pokemon'
 
 type LetterChoice = {
   id: string
@@ -91,6 +92,11 @@ const TEENIE_ASSET_MODULES = import.meta.glob(
   { eager: true, import: 'default' }
 ) as Record<string, string>
 
+const POKEMON_ASSET_MODULES = import.meta.glob(
+  '../assets/pokemon/*.{png,jpg,jpeg,webp,svg}',
+  { eager: true, import: 'default' }
+) as Record<string, string>
+
 const getAssetName = (path: string) =>
   path
     .split('/')
@@ -104,9 +110,17 @@ const SPELLING_TEENIE: SpellingAnimal[] = Object.entries(TEENIE_ASSET_MODULES)
   }))
   .sort((a, b) => a.name.localeCompare(b.name))
 
+const SPELLING_POKEMON: SpellingAnimal[] = Object.entries(POKEMON_ASSET_MODULES)
+  .map(([path, image]) => ({
+    name: getAssetName(path).replace(/^grrowlithe$/i, 'growlithe'),
+    image,
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name))
+
 const SPELLING_WORD_SETS: Record<SpellingWordSetId, SpellingAnimal[]> = {
   animals: SPELLING_ANIMALS,
   teenie: SPELLING_TEENIE,
+  pokemon: SPELLING_POKEMON,
 }
 
 const SPELLING_SET_OPTIONS: {
@@ -116,6 +130,7 @@ const SPELLING_SET_OPTIONS: {
 }[] = [
   { id: 'animals', label: 'Animals', icon: animalsSetIcon },
   { id: 'teenie', label: 'Teenie', icon: teenieSetIcon },
+  { id: 'pokemon', label: 'Pokémon', icon: pokemonSetIcon },
 ]
 
 const shuffle = <T,>(items: T[]) => [...items].sort(() => Math.random() - 0.5)

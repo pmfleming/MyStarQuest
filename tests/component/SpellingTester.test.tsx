@@ -9,6 +9,11 @@ const teenieAssetModules = import.meta.glob(
   { eager: true, import: 'default' }
 )
 
+const pokemonAssetModules = import.meta.glob(
+  '../../src/assets/pokemon/*.{png,jpg,jpeg,webp,svg}',
+  { eager: true, import: 'default' }
+)
+
 const teenieNames = Object.keys(teenieAssetModules)
   .map(
     (path) =>
@@ -17,6 +22,17 @@ const teenieNames = Object.keys(teenieAssetModules)
         .pop()
         ?.replace(/\.[^.]+$/, '') ?? path
   )
+  .sort()
+
+const pokemonNames = Object.keys(pokemonAssetModules)
+  .map(
+    (path) =>
+      path
+        .split('/')
+        .pop()
+        ?.replace(/\.[^.]+$/, '') ?? path
+  )
+  .map((name) => name.replace(/^grrowlithe$/i, 'growlithe'))
   .sort()
 
 const defaultProps = {
@@ -54,6 +70,32 @@ describe('SpellingTester', () => {
       })
 
       expect(teenieNames).toContain(image.getAttribute('alt'))
+    })
+  })
+
+  it('offers pokemon as a third word set and uses its asset filenames', async () => {
+    const user = userEvent.setup()
+    const { rerender } = render(<SpellingTester {...defaultProps} />)
+
+    const options = screen.getAllByRole('radio')
+    expect(options).toHaveLength(3)
+    expect(options[2]).toHaveAccessibleName('Pokémon')
+
+    await user.click(screen.getByRole('radio', { name: 'Pokémon' }))
+
+    expect(screen.getByRole('radio', { name: 'Pokémon' })).toHaveAttribute(
+      'aria-checked',
+      'true'
+    )
+
+    rerender(<SpellingTester {...defaultProps} isRunning />)
+
+    await waitFor(() => {
+      const image = screen.getByRole('img', {
+        name: new RegExp(`^(${pokemonNames.join('|')})$`),
+      })
+
+      expect(pokemonNames).toContain(image.getAttribute('alt'))
     })
   })
 })
