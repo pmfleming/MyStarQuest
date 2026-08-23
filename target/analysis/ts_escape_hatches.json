@@ -1,21 +1,43 @@
 {
-  "schema_version": "0.1.0",
+  "schema_version": "0.3.0",
   "task_id": "quality.escape_hatches",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "/home/laufan/Projects/MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
   },
   "provenance": {
     "lens": "ts-react-quality-lens",
-    "schema_version": "0.1.0",
-    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
-    "host": "Ghost_S1",
-    "measured_at": "2026-06-16T09:19:55.870Z",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure all --config /home/laufan/Projects/MyStarQuest/ts-react-quality-lens.config.json",
+    "host": "thinkpad",
+    "measured_at": "2026-08-22T10:59:03.590Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f8a489b8a2b6746a861269a2e1f1df5c2dc7b64799cc028d7c22fddc68ba7000"
+    "source_set_hash": "sha256:bbd2e517aef16fddd295cb9e635d7dff6f65a7b59c884f1d55ee5d90e7040a83"
+  },
+  "analysis_identity": {
+    "id": "sha256:787cfff9a1ab079dbe0f1e9bae0a9b77425548587acc80756e71723c291d12be",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:46ff20a9e8fd7287eaa1324b1c33f022a248df5c5fdf443aee7614616c2387ed",
+    "rulesets": {
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": "4.3.0"
+    }
   },
   "confidence": {
     "source_roots_exist": true,
@@ -32,6 +54,8 @@
     "typescript_program_loaded": true,
     "typescript_program_reason": null,
     "framework_conventions_detected": true,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
     "analysis_cache_status": "miss",
     "unsupported_pattern": [],
@@ -57,20 +81,20 @@
       "typescript_compiler_api_available",
       "typescript_program_loaded",
       "framework_conventions_detected",
+      "workspace_projects_complete",
       "analysis_cache_enabled"
     ],
     "missing_input": [],
     "stale_input": []
   },
   "summary": {
-    "records": 77,
-    "files_with_escape_hatches": 30,
+    "records": 55,
+    "files_with_escape_hatches": 23,
     "by_kind": {
       "eslint_suppression": 4,
       "browser_global": 40,
-      "unknown_without_narrowing": 23,
       "non_null_assertion": 3,
-      "type_assertion": 4,
+      "type_assertion": 5,
       "direct_dom_mutation": 3
     }
   },
@@ -83,6 +107,16 @@
       "severity": "medium",
       "line": 83,
       "evidence": " // eslint-disable-next-line",
+      "rule_id": "ts-react-quality-lens/eslint_suppression",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": " // eslint-disable-next-line",
+      "reason_code": "ts-react-quality-lens/eslint_suppression",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -105,13 +139,23 @@
       ]
     },
     {
-      "id": "escape:src/components/AlphabetTester:browser_global:303:12604",
+      "id": "escape:src/components/AlphabetTester:browser_global:303:12659",
       "module_id": "src/components/AlphabetTester",
       "file": "src/components/AlphabetTester.tsx",
       "kind": "browser_global",
       "severity": "low",
       "line": 303,
       "evidence": "window.setTimeout",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.setTimeout",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -125,38 +169,9 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/AlphabetTester:browser_global:303:12604",
+            "id": "escape:src/components/AlphabetTester:browser_global:303:12659",
             "kind": "browser_global",
             "file": "src/components/AlphabetTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/AppErrorBoundary:unknown_without_narrowing:11:203",
-      "module_id": "src/components/AppErrorBoundary",
-      "file": "src/components/AppErrorBoundary.tsx",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 11,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/AppErrorBoundary:unknown_without_narrowing:11:203",
-            "kind": "unknown_without_narrowing",
-            "file": "src/components/AppErrorBoundary.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -170,6 +185,16 @@
       "severity": "low",
       "line": 30,
       "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -199,6 +224,16 @@
       "severity": "low",
       "line": 31,
       "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -228,6 +263,16 @@
       "severity": "low",
       "line": 35,
       "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -257,6 +302,16 @@
       "severity": "low",
       "line": 36,
       "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -286,6 +341,16 @@
       "severity": "medium",
       "line": 74,
       "evidence": "activeTabId!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "activeTabId!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -315,6 +380,16 @@
       "severity": "low",
       "line": 97,
       "evidence": "localStorage.getItem",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "localStorage.getItem",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -344,6 +419,16 @@
       "severity": "low",
       "line": 98,
       "evidence": "localStorage.getItem",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "localStorage.getItem",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -373,6 +458,16 @@
       "severity": "low",
       "line": 121,
       "evidence": "localStorage.setItem",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "localStorage.setItem",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -402,6 +497,16 @@
       "severity": "low",
       "line": 122,
       "evidence": "localStorage.setItem",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "localStorage.setItem",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -424,13 +529,23 @@
       ]
     },
     {
-      "id": "escape:src/components/SpellingTester:type_assertion:89:3286",
+      "id": "escape:src/components/SpellingTester:type_assertion:89:3310",
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "kind": "type_assertion",
       "severity": "medium",
       "line": 89,
       "evidence": "import.meta.glob( '../assets/teenie/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, s",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import.meta.glob( '../assets/teenie/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, s",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -444,241 +559,9 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/SpellingTester:type_assertion:89:3286",
+            "id": "escape:src/components/SpellingTester:type_assertion:89:3310",
             "kind": "type_assertion",
             "file": "src/components/SpellingTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:128:3048",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 128,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:128:3048",
-            "kind": "unknown_without_narrowing",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:134:3239",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 134,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:134:3239",
-            "kind": "unknown_without_narrowing",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:142:3464",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 142,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:142:3464",
-            "kind": "unknown_without_narrowing",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:145:3581",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 145,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:145:3581",
-            "kind": "unknown_without_narrowing",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:148:3723",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 148,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:148:3723",
-            "kind": "unknown_without_narrowing",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:158:4000",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 158,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:158:4000",
-            "kind": "unknown_without_narrowing",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:171:4348",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 171,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:171:4348",
-            "kind": "unknown_without_narrowing",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:184:4733",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 184,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:184:4733",
-            "kind": "unknown_without_narrowing",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -692,6 +575,16 @@
       "severity": "low",
       "line": 405,
       "evidence": "window.devicePixelRatio",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.devicePixelRatio",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -721,6 +614,16 @@
       "severity": "low",
       "line": 513,
       "evidence": "window.requestAnimationFrame",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.requestAnimationFrame",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -750,6 +653,16 @@
       "severity": "medium",
       "line": 81,
       "evidence": "null!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "null!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -779,6 +692,16 @@
       "severity": "low",
       "line": 276,
       "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -808,6 +731,16 @@
       "severity": "low",
       "line": 277,
       "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -837,6 +770,16 @@
       "severity": "low",
       "line": 278,
       "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -866,6 +809,16 @@
       "severity": "low",
       "line": 282,
       "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -895,6 +848,16 @@
       "severity": "low",
       "line": 283,
       "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -924,6 +887,16 @@
       "severity": "low",
       "line": 284,
       "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -953,6 +926,16 @@
       "severity": "low",
       "line": 72,
       "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -982,6 +965,16 @@
       "severity": "low",
       "line": 77,
       "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1011,6 +1004,16 @@
       "severity": "low",
       "line": 91,
       "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1040,6 +1043,16 @@
       "severity": "low",
       "line": 92,
       "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1069,6 +1082,16 @@
       "severity": "low",
       "line": 117,
       "evidence": "window.setTimeout",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.setTimeout",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1098,6 +1121,16 @@
       "severity": "low",
       "line": 141,
       "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1127,6 +1160,16 @@
       "severity": "low",
       "line": 142,
       "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1156,6 +1199,16 @@
       "severity": "medium",
       "line": 23,
       "evidence": "document.getElementById(WHIMSICAL_STYLES_ID)",
+      "rule_id": "ts-react-quality-lens/direct_dom_mutation",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "document.getElementById(WHIMSICAL_STYLES_ID)",
+      "reason_code": "ts-react-quality-lens/direct_dom_mutation",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1185,6 +1238,16 @@
       "severity": "medium",
       "line": 10,
       "evidence": "document.getElementById(STAR_DISPLAY_STYLES_ID)",
+      "rule_id": "ts-react-quality-lens/direct_dom_mutation",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "document.getElementById(STAR_DISPLAY_STYLES_ID)",
+      "reason_code": "ts-react-quality-lens/direct_dom_mutation",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1214,6 +1277,16 @@
       "severity": "medium",
       "line": 9,
       "evidence": "/* eslint-disable",
+      "rule_id": "ts-react-quality-lens/eslint_suppression",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "/* eslint-disable",
+      "reason_code": "ts-react-quality-lens/eslint_suppression",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1243,6 +1316,16 @@
       "severity": "low",
       "line": 41,
       "evidence": "window.localStorage",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.localStorage",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1272,6 +1355,16 @@
       "severity": "low",
       "line": 83,
       "evidence": "window.localStorage",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.localStorage",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1301,6 +1394,16 @@
       "severity": "low",
       "line": 88,
       "evidence": "window.localStorage",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.localStorage",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1330,6 +1433,16 @@
       "severity": "medium",
       "line": 8,
       "evidence": "/* eslint-disable",
+      "rule_id": "ts-react-quality-lens/eslint_suppression",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "/* eslint-disable",
+      "reason_code": "ts-react-quality-lens/eslint_suppression",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1352,13 +1465,23 @@
       ]
     },
     {
-      "id": "escape:src/contexts/ThemeContext:eslint_suppression:34:2538",
+      "id": "escape:src/contexts/ThemeContext:eslint_suppression:34:2554",
       "module_id": "src/contexts/ThemeContext",
       "file": "src/contexts/ThemeContext.tsx",
       "kind": "eslint_suppression",
       "severity": "medium",
       "line": 34,
       "evidence": "/* eslint-disable",
+      "rule_id": "ts-react-quality-lens/eslint_suppression",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "/* eslint-disable",
+      "reason_code": "ts-react-quality-lens/eslint_suppression",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1372,38 +1495,9 @@
           "description": "Keep this eslint_suppression finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/contexts/ThemeContext:eslint_suppression:34:2538",
+            "id": "escape:src/contexts/ThemeContext:eslint_suppression:34:2554",
             "kind": "eslint_suppression",
             "file": "src/contexts/ThemeContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/data/taskDocuments:unknown_without_narrowing:27:635",
-      "module_id": "src/data/taskDocuments",
-      "file": "src/data/taskDocuments.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 27,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/data/taskDocuments:unknown_without_narrowing:27:635",
-            "kind": "unknown_without_narrowing",
-            "file": "src/data/taskDocuments.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1417,6 +1511,16 @@
       "severity": "medium",
       "line": 665,
       "evidence": "task as TaskCompletionState",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "task as TaskCompletionState",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1439,87 +1543,39 @@
       ]
     },
     {
-      "id": "escape:src/data/useChildren:unknown_without_narrowing:29:948",
-      "module_id": "src/data/useChildren",
-      "file": "src/data/useChildren.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 29,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/data/useChildren:unknown_without_narrowing:29:948",
-            "kind": "unknown_without_narrowing",
-            "file": "src/data/useChildren.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/data/useChores:unknown_without_narrowing:94:2638",
+      "id": "escape:src/data/useChores:type_assertion:115:3211",
       "module_id": "src/data/useChores",
       "file": "src/data/useChores.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 94,
-      "evidence": "unknown",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 115,
+      "evidence": "Object.keys(patch) as Array< keyof TaskEphemeralState >",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Object.keys(patch) as Array< keyof TaskEphemeralState >",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
           "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
         },
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/data/useChores:unknown_without_narrowing:94:2638",
-            "kind": "unknown_without_narrowing",
+            "id": "escape:src/data/useChores:type_assertion:115:3211",
+            "kind": "type_assertion",
             "file": "src/data/useChores.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/data/useRewards:unknown_without_narrowing:39:1127",
-      "module_id": "src/data/useRewards",
-      "file": "src/data/useRewards.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 39,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/data/useRewards:unknown_without_narrowing:39:1127",
-            "kind": "unknown_without_narrowing",
-            "file": "src/data/useRewards.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1533,6 +1589,16 @@
       "severity": "low",
       "line": 83,
       "evidence": "window.setTimeout",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.setTimeout",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1562,6 +1628,16 @@
       "severity": "low",
       "line": 12,
       "evidence": "window.screen",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.screen",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1591,6 +1667,16 @@
       "severity": "low",
       "line": 12,
       "evidence": "window.screen",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.screen",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1620,6 +1706,16 @@
       "severity": "low",
       "line": 14,
       "evidence": "window.visualViewport",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.visualViewport",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1649,6 +1745,16 @@
       "severity": "low",
       "line": 14,
       "evidence": "window.innerHeight",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.innerHeight",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1678,6 +1784,16 @@
       "severity": "low",
       "line": 38,
       "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1707,6 +1823,16 @@
       "severity": "low",
       "line": 39,
       "evidence": "window.visualViewport",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.visualViewport",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1736,6 +1862,16 @@
       "severity": "low",
       "line": 42,
       "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1765,6 +1901,16 @@
       "severity": "low",
       "line": 43,
       "evidence": "window.visualViewport",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.visualViewport",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1794,6 +1940,16 @@
       "severity": "low",
       "line": 53,
       "evidence": "window.setInterval",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.setInterval",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1823,6 +1979,16 @@
       "severity": "low",
       "line": 54,
       "evidence": "window.clearInterval",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.clearInterval",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1845,100 +2011,23 @@
       ]
     },
     {
-      "id": "escape:src/lib/choreParser:unknown_without_narrowing:27:638",
-      "module_id": "src/lib/choreParser",
-      "file": "src/lib/choreParser.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 27,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/choreParser:unknown_without_narrowing:27:638",
-            "kind": "unknown_without_narrowing",
-            "file": "src/lib/choreParser.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/choreParser:unknown_without_narrowing:31:726",
-      "module_id": "src/lib/choreParser",
-      "file": "src/lib/choreParser.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 31,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/choreParser:unknown_without_narrowing:31:726",
-            "kind": "unknown_without_narrowing",
-            "file": "src/lib/choreParser.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/choreParser:unknown_without_narrowing:66:1692",
-      "module_id": "src/lib/choreParser",
-      "file": "src/lib/choreParser.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 66,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/choreParser:unknown_without_narrowing:66:1692",
-            "kind": "unknown_without_narrowing",
-            "file": "src/lib/choreParser.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/choreParser:type_assertion:203:5930",
+      "id": "escape:src/lib/choreParser:type_assertion:200:5924",
       "module_id": "src/lib/choreParser",
       "file": "src/lib/choreParser.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 203,
+      "line": 200,
       "evidence": "withVariantFields( base, 'taskType', taskType, taskData, taskVariantFields[taskType] ) as TaskRecord",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "withVariantFields( base, 'taskType', taskType, taskData, taskVariantFields[taskType] ) as TaskRecord",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1952,7 +2041,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/choreParser:type_assertion:203:5930",
+            "id": "escape:src/lib/choreParser:type_assertion:200:5924",
             "kind": "type_assertion",
             "file": "src/lib/choreParser.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1961,13 +2050,23 @@
       ]
     },
     {
-      "id": "escape:src/lib/choreParser:type_assertion:312:8906",
+      "id": "escape:src/lib/choreParser:type_assertion:309:8900",
       "module_id": "src/lib/choreParser",
       "file": "src/lib/choreParser.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 312,
+      "line": 309,
       "evidence": "withVariantFields( base, 'sourceTaskType', sourceTaskType, todoData, todoVariantFields[sourceTaskType] ) as TodoRecord",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "withVariantFields( base, 'sourceTaskType', sourceTaskType, todoData, todoVariantFields[sourceTaskType] ) as TodoRecord",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1981,154 +2080,9 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/choreParser:type_assertion:312:8906",
+            "id": "escape:src/lib/choreParser:type_assertion:309:8900",
             "kind": "type_assertion",
             "file": "src/lib/choreParser.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/starActions:unknown_without_narrowing:57:1375",
-      "module_id": "src/lib/starActions",
-      "file": "src/lib/starActions.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 57,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/starActions:unknown_without_narrowing:57:1375",
-            "kind": "unknown_without_narrowing",
-            "file": "src/lib/starActions.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/today:unknown_without_narrowing:98:2830",
-      "module_id": "src/lib/today",
-      "file": "src/lib/today.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 98,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/today:unknown_without_narrowing:98:2830",
-            "kind": "unknown_without_narrowing",
-            "file": "src/lib/today.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/today:unknown_without_narrowing:99:2862",
-      "module_id": "src/lib/today",
-      "file": "src/lib/today.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 99,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/today:unknown_without_narrowing:99:2862",
-            "kind": "unknown_without_narrowing",
-            "file": "src/lib/today.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/today:unknown_without_narrowing:100:2882",
-      "module_id": "src/lib/today",
-      "file": "src/lib/today.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 100,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/today:unknown_without_narrowing:100:2882",
-            "kind": "unknown_without_narrowing",
-            "file": "src/lib/today.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/useProblemHistory:unknown_without_narrowing:7:238",
-      "module_id": "src/lib/useProblemHistory",
-      "file": "src/lib/useProblemHistory.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 7,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/useProblemHistory:unknown_without_narrowing:7:238",
-            "kind": "unknown_without_narrowing",
-            "file": "src/lib/useProblemHistory.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2142,6 +2096,16 @@
       "severity": "medium",
       "line": 6,
       "evidence": "document.getElementById('root')!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "document.getElementById('root')!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2171,6 +2135,16 @@
       "severity": "medium",
       "line": 6,
       "evidence": "document.getElementById('root')",
+      "rule_id": "ts-react-quality-lens/direct_dom_mutation",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "document.getElementById('root')",
+      "reason_code": "ts-react-quality-lens/direct_dom_mutation",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2193,35 +2167,6 @@
       ]
     },
     {
-      "id": "escape:src/pages/LoginPage:unknown_without_narrowing:10:456",
-      "module_id": "src/pages/LoginPage",
-      "file": "src/pages/LoginPage.tsx",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 10,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/pages/LoginPage:unknown_without_narrowing:10:456",
-            "kind": "unknown_without_narrowing",
-            "file": "src/pages/LoginPage.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "escape:src/pages/LoginPage:browser_global:61:1933",
       "module_id": "src/pages/LoginPage",
       "file": "src/pages/LoginPage.tsx",
@@ -2229,6 +2174,16 @@
       "severity": "low",
       "line": 61,
       "evidence": "window.setTimeout",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.setTimeout",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2258,6 +2213,16 @@
       "severity": "low",
       "line": 65,
       "evidence": "window.clearTimeout",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.clearTimeout",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2274,35 +2239,6 @@
             "id": "escape:src/pages/LoginPage:browser_global:65:2048",
             "kind": "browser_global",
             "file": "src/pages/LoginPage.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/ui/definitionRowDescriptors:unknown_without_narrowing:39:1510",
-      "module_id": "src/ui/definitionRowDescriptors",
-      "file": "src/ui/definitionRowDescriptors.tsx",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 39,
-      "evidence": "unknown",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/ui/definitionRowDescriptors:unknown_without_narrowing:39:1510",
-            "kind": "unknown_without_narrowing",
-            "file": "src/ui/definitionRowDescriptors.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

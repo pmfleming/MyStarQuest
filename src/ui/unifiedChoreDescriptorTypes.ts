@@ -10,24 +10,28 @@ import type {
 
 export type UnifiedChoreItem = TaskWithEphemeral | TodoRecord
 export type PrincessAsset = string | undefined
+type MaybePromise = void | Promise<void>
 
 export type UnifiedChoreDeps = {
   theme: import('../contexts/ThemeContext').Theme
   mode: 'manage' | 'today'
-  onUpdateTaskField?: (id: string, field: TaskUpdatableFields) => void
-  onUpdateTodoField?: (id: string, field: TodoUpdatableFields) => void
-  onUpdateEphemeral?: (id: string, patch: Partial<TaskEphemeralState>) => void
+  onUpdateTaskField?: (id: string, field: TaskUpdatableFields) => MaybePromise
+  onUpdateTodoField?: (id: string, field: TodoUpdatableFields) => MaybePromise
+  onUpdateEphemeral?: (
+    id: string,
+    patch: Partial<TaskEphemeralState>
+  ) => MaybePromise
   onSetTitleDraft?: (id: string, value: string) => void
-  onCommitTitle?: (id: string, value: string) => void
-  onDeleteTask?: (id: string) => void
-  onDeleteTodo?: (id: string) => void
-  onEnterChore?: (item: UnifiedChoreItem) => void
-  onComplete?: (item: UnifiedChoreItem) => void
-  onFail?: (item: UnifiedChoreItem) => void
-  onReset?: (item: UnifiedChoreItem) => void
-  onStartDinner?: (item: UnifiedChoreItem | null) => void
-  onApplyBite?: (item: UnifiedChoreItem) => void
-  onExpireDinner?: (item: UnifiedChoreItem) => void
+  onCommitTitle?: (id: string, value: string) => MaybePromise
+  onDeleteTask?: (id: string) => MaybePromise
+  onDeleteTodo?: (id: string) => MaybePromise
+  onEnterChore?: (item: UnifiedChoreItem) => MaybePromise
+  onComplete?: (item: UnifiedChoreItem) => MaybePromise
+  onFail?: (item: UnifiedChoreItem) => MaybePromise
+  onReset?: (item: UnifiedChoreItem) => MaybePromise
+  onStartDinner?: (item: UnifiedChoreItem | null) => MaybePromise
+  onApplyBite?: (item: UnifiedChoreItem) => MaybePromise
+  onExpireDinner?: (item: UnifiedChoreItem) => MaybePromise
   titleDrafts?: Record<string, string>
   activeMathId: string | null
   activeLargeNumbersId: string | null

@@ -12,7 +12,11 @@ import TabContent from '../components/TabContent'
 import StandardActionList from '../components/ui/StandardActionList'
 import StarInfoBox from '../components/ui/StarInfoBox'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
-import { createUnifiedChoreDescriptor } from '../ui/unifiedChoreDescriptors'
+import {
+  createUnifiedChoreDescriptor,
+  type UnifiedChoreDeps,
+} from '../ui/unifiedChoreDescriptors'
+import { createUnifiedChoreState } from '../ui/unifiedChoreState'
 import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 import { useChildren } from '../data/useChildren'
 import { useChores } from '../data/useChores'
@@ -20,7 +24,6 @@ import {
   BITE_COOLDOWN_SECONDS,
   type ChoreType,
   type ChoreWithEphemeral,
-  getManageTaskCompletedAt,
   isEatingTask,
 } from '../data/types'
 import type { ChoreDocumentSettings } from '../data/taskDocuments'
@@ -173,11 +176,9 @@ const DashboardPage = () => {
     setResetTodayError(null)
     try {
       await Promise.all(
-        todayChores
-          .filter((chore) => !getManageTaskCompletedAt(chore))
-          .map((chore) =>
-            isEatingTask(chore) ? resetDinner(chore) : resetChore(chore)
-          )
+        todayChores.map((chore) =>
+          isEatingTask(chore) ? resetDinner(chore) : resetChore(chore)
+        )
       )
       clearActiveActivities()
     } catch (error) {
@@ -214,6 +215,11 @@ const DashboardPage = () => {
       return
     }
 
+    if (shouldHideEditChore(chore)) {
+      setCreateChoreError('Finish the activity before editing this chore.')
+      return
+    }
+
     setCreateChoreError(null)
     setEditingChoreId(chore.id)
   }
@@ -226,7 +232,7 @@ const DashboardPage = () => {
     await deleteTask(choreId)
   }
 
-  const descriptor = createUnifiedChoreDescriptor({
+  const unifiedChoreDeps: UnifiedChoreDeps = {
     theme,
     mode: 'today',
     onUpdateEphemeral: updateEphemeral,
@@ -235,18 +241,13 @@ const DashboardPage = () => {
       if (!('taskType' in item)) return
       activity.enterActivity(item.taskType, item.id)
     },
-    onComplete: (item) => {
+    onComplete: (item) =>
+      'taskType' in item ? completeChore(item) : undefined,
+    onFail: (item) => ('taskType' in item ? failChore(item) : undefined),
+    onReset: async (item) => {
       if (!('taskType' in item)) return
-      completeChore(item)
-    },
-    onFail: (item) => {
-      if (!('taskType' in item)) return
-      failChore(item)
-    },
-    onReset: (item) => {
-      if (!('taskType' in item)) return
-      if (isEatingTask(item)) resetDinner(item)
-      else resetChore(item)
+      if (isEatingTask(item)) await resetDinner(item)
+      else await resetChore(item)
       clearActiveActivities()
     },
     onStartDinner: (item) => {
@@ -258,8 +259,8 @@ const DashboardPage = () => {
       if (!('taskType' in item)) return
       if (!isEatingTask(item)) return
       clearActiveActivities()
-      startDinnerTimer(item)
       activity.enterActivity('eating', item.id)
+      return startDinnerTimer(item)
     },
     onApplyBite: async (item) => {
       if (!('taskType' in item)) return
@@ -267,10 +268,8 @@ const DashboardPage = () => {
       setBiteCooldownEndsAt(Date.now() + biteCooldownSeconds * 1000)
       await applyBite(item)
     },
-    onExpireDinner: (item) => {
-      if (!('taskType' in item)) return
-      expireDinnerTimer(item)
-    },
+    onExpireDinner: (item) =>
+      'taskType' in item ? expireDinnerTimer(item) : undefined,
     activeMathId: activity.activeMathId,
     activeLargeNumbersId: activity.activeLargeNumbersId,
     activePVId: activity.activePVId,
@@ -303,7 +302,13 @@ const DashboardPage = () => {
     biteCooldownSeconds,
     biteCooldownEndsAt,
     activePrincessMealIcon,
-  })
+  }
+
+  const choreState = createUnifiedChoreState(unifiedChoreDeps)
+  const descriptor = createUnifiedChoreDescriptor(unifiedChoreDeps)
+
+  const shouldHideEditChore = (chore: (typeof todayChores)[number]) =>
+    !isEditableChore(chore) || choreState.getStage(chore) === 'activity'
 
   const renderTodayChoreEdit = (chore: (typeof todayChores)[number]) => {
     if (!isEditableChore(chore)) {
@@ -404,6 +409,7 @@ const DashboardPage = () => {
             editingId={editingChoreId ?? undefined}
             renderInlineEdit={renderTodayChoreEdit}
             onEdit={handleEditChore}
+            hideEdit={shouldHideEditChore}
             onDelete={(chore) => handleDeleteChore(chore.id)}
             addLabel="Chores"
             onAdd={() => setChorePanelMode('create')}

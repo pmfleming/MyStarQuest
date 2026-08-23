@@ -1,0 +1,141 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "quality.package_health",
+  "project": {
+    "name": "MyStarQuest",
+    "root": "/home/laufan/Projects/MyStarQuest",
+    "framework": "vite",
+    "package_manager": "npm",
+    "test_runner": "vitest"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure all --config /home/laufan/Projects/MyStarQuest/ts-react-quality-lens.config.json",
+    "host": "thinkpad",
+    "measured_at": "2026-08-22T10:59:21.408Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:bbd2e517aef16fddd295cb9e635d7dff6f65a7b59c884f1d55ee5d90e7040a83"
+  },
+  "analysis_identity": {
+    "id": "sha256:787cfff9a1ab079dbe0f1e9bae0a9b77425548587acc80756e71723c291d12be",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:46ff20a9e8fd7287eaa1324b1c33f022a248df5c5fdf443aee7614616c2387ed",
+    "rulesets": {
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": "4.3.0"
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": true,
+    "test_runner_detected": true,
+    "git_history_available": true,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": true,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "package_health_enabled": false,
+    "complete": true,
+    "partial": false,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "package_manager_detected",
+      "framework_detected",
+      "test_runner_detected",
+      "git_history_available",
+      "excludes_applied",
+      "type_information_available",
+      "dependencies_installed",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "framework_conventions_detected",
+      "workspace_projects_complete",
+      "analysis_cache_enabled"
+    ],
+    "missing_input": [],
+    "stale_input": []
+  },
+  "summary": {
+    "status": "disabled",
+    "complete": false,
+    "records": 0,
+    "blocking_findings": 0,
+    "publint_messages": 0,
+    "attw_problems": 0,
+    "packed_files": 0,
+    "packed_size": null
+  },
+  "tool_status": {
+    "declaration_emit": {
+      "available": true,
+      "ran": false,
+      "complete": false,
+      "reason": "package health is disabled; enable it directly or select the library policy profile",
+      "duration_ms": 0
+    },
+    "npm_pack": {
+      "available": true,
+      "ran": false,
+      "complete": false,
+      "reason": "package health is disabled; enable it directly or select the library policy profile",
+      "duration_ms": 0,
+      "files": 0,
+      "size": null
+    },
+    "publint": {
+      "available": true,
+      "ran": false,
+      "complete": false,
+      "reason": "package health is disabled; enable it directly or select the library policy profile",
+      "duration_ms": 0,
+      "version": "0.3.24"
+    },
+    "are_the_types_wrong": {
+      "available": true,
+      "ran": false,
+      "complete": false,
+      "reason": "package health is disabled; enable it directly or select the library policy profile",
+      "duration_ms": 0,
+      "version": "0.18.5",
+      "profile": "strict"
+    }
+  },
+  "package_evidence": {
+    "publint_messages": [],
+    "attw_problems": []
+  },
+  "records": []
+}

@@ -1,21 +1,43 @@
 {
-  "schema_version": "0.1.0",
+  "schema_version": "0.3.0",
   "task_id": "quality.react_health",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "/home/laufan/Projects/MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
   },
   "provenance": {
     "lens": "ts-react-quality-lens",
-    "schema_version": "0.1.0",
-    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
-    "host": "Ghost_S1",
-    "measured_at": "2026-06-16T09:20:00.643Z",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure all --config /home/laufan/Projects/MyStarQuest/ts-react-quality-lens.config.json",
+    "host": "thinkpad",
+    "measured_at": "2026-08-22T10:59:20.248Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f8a489b8a2b6746a861269a2e1f1df5c2dc7b64799cc028d7c22fddc68ba7000"
+    "source_set_hash": "sha256:bbd2e517aef16fddd295cb9e635d7dff6f65a7b59c884f1d55ee5d90e7040a83"
+  },
+  "analysis_identity": {
+    "id": "sha256:787cfff9a1ab079dbe0f1e9bae0a9b77425548587acc80756e71723c291d12be",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:46ff20a9e8fd7287eaa1324b1c33f022a248df5c5fdf443aee7614616c2387ed",
+    "rulesets": {
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": "4.3.0"
+    }
   },
   "confidence": {
     "source_roots_exist": true,
@@ -32,11 +54,17 @@
     "typescript_program_loaded": true,
     "typescript_program_reason": null,
     "framework_conventions_detected": true,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
     "analysis_cache_status": "miss",
     "unsupported_pattern": [],
     "eslint_react_hooks_available": true,
     "eslint_react_hooks_ran": true,
+    "eslint_react_hooks_complete": true,
+    "jsx_a11y_available": true,
+    "jsx_a11y_ran": true,
+    "jsx_a11y_complete": true,
     "complete": true,
     "partial": false,
     "confidence_scope": "project_static_analysis",
@@ -59,18 +87,25 @@
       "typescript_compiler_api_available",
       "typescript_program_loaded",
       "framework_conventions_detected",
+      "workspace_projects_complete",
       "analysis_cache_enabled",
       "eslint_react_hooks_available",
-      "eslint_react_hooks_ran"
+      "eslint_react_hooks_ran",
+      "eslint_react_hooks_complete",
+      "jsx_a11y_available",
+      "jsx_a11y_ran",
+      "jsx_a11y_complete"
     ],
     "missing_input": [],
     "stale_input": []
   },
   "summary": {
     "components": 69,
-    "records": 69,
-    "hook_lint_findings": 0,
-    "a11y_findings": 0,
+    "records": 108,
+    "hook_lint_findings": 34,
+    "a11y_findings": 5,
+    "a11y_tool_findings": 5,
+    "a11y_heuristic_findings": 0,
     "high_risk_components": 22
   },
   "framework": {
@@ -139,7 +174,18 @@
     "eslint_react_hooks": {
       "available": true,
       "ran": true,
-      "reason": null
+      "complete": true,
+      "reason": null,
+      "version": "7.1.1",
+      "ruleset": "recommended-v2"
+    },
+    "jsx_a11y": {
+      "available": true,
+      "ran": true,
+      "complete": true,
+      "reason": null,
+      "version": "6.10.2",
+      "ruleset": "jsx-a11y-recommended-v1"
     }
   },
   "records": [
@@ -153,6 +199,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -189,6 +245,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -239,6 +305,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -276,6 +352,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -320,6 +406,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -357,6 +453,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -383,11 +489,21 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "CountdownVisualRow",
-      "line": 94,
+      "line": 92,
       "score": 4,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -414,11 +530,21 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "CountdownStepperControl",
-      "line": 121,
+      "line": 119,
       "score": 5,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -445,7 +571,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "DinnerCountdown",
-      "line": 534,
+      "line": 526,
       "score": 70,
       "risk": "high",
       "signals": [
@@ -455,6 +581,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -501,6 +637,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -538,6 +684,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -569,6 +725,16 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -613,6 +779,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -659,6 +835,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -696,6 +882,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -727,6 +923,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -758,6 +964,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -802,6 +1018,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -839,6 +1065,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -870,6 +1106,16 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -901,6 +1147,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -932,6 +1188,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -963,6 +1229,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -994,6 +1270,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1025,6 +1311,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1056,6 +1352,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1087,6 +1393,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1118,6 +1434,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1149,6 +1475,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1180,6 +1516,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1211,6 +1557,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1242,6 +1598,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1282,6 +1648,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -1328,6 +1704,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -1365,6 +1751,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1396,6 +1792,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1427,6 +1833,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1458,6 +1874,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1489,6 +1915,16 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1520,6 +1956,16 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1551,6 +1997,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1582,6 +2038,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1622,6 +2088,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -1668,6 +2144,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -1705,6 +2191,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1736,6 +2232,16 @@
       "risk": "high",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -1773,6 +2279,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1804,6 +2320,16 @@
       "risk": "high",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -1841,6 +2367,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1881,6 +2417,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -1918,6 +2464,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1949,6 +2505,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1985,6 +2551,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -2022,6 +2598,16 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2053,6 +2639,16 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2089,6 +2685,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -2121,7 +2727,7 @@
       "module_id": "src/pages/DashboardPage",
       "file": "src/pages/DashboardPage.tsx",
       "name": "DashboardPage",
-      "line": 72,
+      "line": 81,
       "score": 289,
       "risk": "high",
       "signals": [
@@ -2139,6 +2745,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -2181,6 +2797,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -2218,6 +2844,16 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2245,12 +2881,12 @@
       "file": "src/pages/ManageTestsPage.tsx",
       "name": "ManageTestsPage",
       "line": 27,
-      "score": 139,
+      "score": 138,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 156
+          "value": 152
         },
         {
           "kind": "many_hooks",
@@ -2258,6 +2894,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -2295,6 +2941,16 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2331,6 +2987,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -2364,12 +3030,12 @@
       "file": "src/pages/TestsPage.tsx",
       "name": "TestsPage",
       "line": 14,
-      "score": 149,
+      "score": 148,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 138
+          "value": 134
         },
         {
           "kind": "many_hooks",
@@ -2377,6 +3043,16 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -2414,6 +3090,16 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2445,6 +3131,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2476,6 +3172,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2507,6 +3213,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2538,6 +3254,16 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2569,6 +3295,16 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2585,6 +3321,1995 @@
             "id": "component:src/routes/ProtectedRoute:ProtectedRoute",
             "kind": "component",
             "file": "src/routes/ProtectedRoute.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/AlphabetTester.tsx:284:7:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/AlphabetTester",
+      "file": "src/components/AlphabetTester.tsx",
+      "line": 284,
+      "column": 7,
+      "end_line": 284,
+      "end_column": 22,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/AlphabetTester.tsx:284:7\n  282 |       !currentTarget\n  283 |     ) {\n> 284 |       setProblemIndex(0)\n      |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  285 |       setSuccessCount(0)\n  286 |       setRetryCount(0)\n  287 |       nextProblem()",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/AlphabetTester.tsx:284:7\n  282 |       !currentTarget\n  283 |     ) {\n> 284 |       setProblemIndex(0)\n      |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  285 |       setSuccessCount(0)\n  286 |       setRetryCount(0)\n  287 |       nextProblem()"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/AlphabetTester.tsx:284:7:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/components/AlphabetTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/AlphabetTester.tsx:344:7:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/AlphabetTester",
+      "file": "src/components/AlphabetTester.tsx",
+      "line": 344,
+      "column": 7,
+      "end_line": 344,
+      "end_column": 22,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/AlphabetTester.tsx:344:7\n  342 |     if (!isRunning && !isCompleted) {\n  343 |       clearHistory()\n> 344 |       setProblemIndex(0)\n      |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  345 |       setSuccessCount(0)\n  346 |       setRetryCount(0)\n  347 |       setCurrentTarget('')",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/AlphabetTester.tsx:344:7\n  342 |     if (!isRunning && !isCompleted) {\n  343 |       clearHistory()\n> 344 |       setProblemIndex(0)\n      |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  345 |       setSuccessCount(0)\n  346 |       setRetryCount(0)\n  347 |       setCurrentTarget('')"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/AlphabetTester.tsx:344:7:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/components/AlphabetTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/SchoolCalendar.tsx:86:5:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/SchoolCalendar",
+      "file": "src/components/SchoolCalendar.tsx",
+      "line": 86,
+      "column": 5,
+      "end_line": 86,
+      "end_column": 16,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/SchoolCalendar.tsx:86:5\n  84 |\n  85 |   useEffect(() => {\n> 86 |     setViewDate((currentDate) => {\n     |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  87 |       const selectedDate = parseDateKey(selectedDateKey)\n  88 |       const sameMonth =\n  89 |         currentDate.getFullYear() === selectedDate.getFullYear() &&",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/SchoolCalendar.tsx:86:5\n  84 |\n  85 |   useEffect(() => {\n> 86 |     setViewDate((currentDate) => {\n     |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  87 |       const selectedDate = parseDateKey(selectedDateKey)\n  88 |       const sameMonth =\n  89 |         currentDate.getFullYear() === selectedDate.getFullYear() &&"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/SchoolCalendar.tsx:86:5:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/SchoolCalendar.tsx:103:9:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/SchoolCalendar",
+      "file": "src/components/SchoolCalendar.tsx",
+      "line": 103,
+      "column": 9,
+      "end_line": 103,
+      "end_column": 18,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/SchoolCalendar.tsx:103:9\n  101 |       try {\n  102 |         const parsed = JSON.parse(cached)\n> 103 |         setEvents(parsed)\n      |         ^^^^^^^^^ Avoid calling setState() directly within an effect\n  104 |         setLoaded(true)\n  105 |         return\n  106 |       } catch {",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/SchoolCalendar.tsx:103:9\n  101 |       try {\n  102 |         const parsed = JSON.parse(cached)\n> 103 |         setEvents(parsed)\n      |         ^^^^^^^^^ Avoid calling setState() directly within an effect\n  104 |         setLoaded(true)\n  105 |         return\n  106 |       } catch {"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/SchoolCalendar.tsx:103:9:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/SpellingTester.tsx:400:7:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/SpellingTester",
+      "file": "src/components/SpellingTester.tsx",
+      "line": 400,
+      "column": 7,
+      "end_line": 400,
+      "end_column": 22,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/SpellingTester.tsx:400:7\n  398 |   useEffect(() => {\n  399 |     if (isRunning && !currentAnimal) {\n> 400 |       setProblemIndex(0)\n      |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  401 |       setSuccessCount(0)\n  402 |       setRetryCount(0)\n  403 |       setResultHistory([])",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/SpellingTester.tsx:400:7\n  398 |   useEffect(() => {\n  399 |     if (isRunning && !currentAnimal) {\n> 400 |       setProblemIndex(0)\n      |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  401 |       setSuccessCount(0)\n  402 |       setRetryCount(0)\n  403 |       setResultHistory([])"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/SpellingTester.tsx:400:7:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/components/SpellingTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/SpellingTester.tsx:412:7:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/SpellingTester",
+      "file": "src/components/SpellingTester.tsx",
+      "line": 412,
+      "column": 7,
+      "end_line": 412,
+      "end_column": 22,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/SpellingTester.tsx:412:7\n  410 |   useEffect(() => {\n  411 |     if (!isRunning && !isCompleted) {\n> 412 |       resetRoundState()\n      |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  413 |     }\n  414 |   }, [isCompleted, isRunning, resetRoundState])\n  415 |",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/SpellingTester.tsx:412:7\n  410 |   useEffect(() => {\n  411 |     if (!isRunning && !isCompleted) {\n> 412 |       resetRoundState()\n      |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  413 |     }\n  414 |   }, [isCompleted, isRunning, resetRoundState])\n  415 |"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/SpellingTester.tsx:412:7:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/components/SpellingTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:367:18:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/Clock",
+      "file": "src/components/dayNightExplorer/Clock.tsx",
+      "line": 367,
+      "column": 18,
+      "end_line": 367,
+      "end_column": 30,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:367:18\n  365 |         >\n  366 |           <svg\n> 367 |             ref={clock.svgRef}\n      |                  ^^^^^^^^^^^^ Cannot access ref value during render\n  368 |             width={clockGeometry.size}\n  369 |             height={clockGeometry.size}\n  370 |             viewBox={`0 0 ${clockGeometry.size} ${clockGeometry.size}`}",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:367:18\n  365 |         >\n  366 |           <svg\n> 367 |             ref={clock.svgRef}\n      |                  ^^^^^^^^^^^^ Cannot access ref value during render\n  368 |             width={clockGeometry.size}\n  369 |             height={clockGeometry.size}\n  370 |             viewBox={`0 0 ${clockGeometry.size} ${clockGeometry.size}`}"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:367:18:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/components/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:376:30:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/Clock",
+      "file": "src/components/dayNightExplorer/Clock.tsx",
+      "line": 376,
+      "column": 30,
+      "end_line": 408,
+      "end_column": 14,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:376:30\n  374 |             }}\n  375 |           >\n> 376 |             {handConfigs.map((hand) => (\n      |                              ^^^^^^^^^^^\n> 377 |               <g\n      | ^^^^^^^^^^^^^^^^\n> 378 |                 key={hand.id}\n      …\n      | ^^^^^^^^^^^^^^^^\n> 407 |               </g>\n      | ^^^^^^^^^^^^^^^^\n> 408 |             ))}\n      | ^^^^^^^^^^^^^^ Cannot access ref value during render\n  409 |\n  410 |             <image\n  411 |               href={pivotSvg}",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:376:30\n  374 |             }}\n  375 |           >\n> 376 |             {handConfigs.map((hand) => (\n      |                              ^^^^^^^^^^^\n> 377 |               <g\n      | ^^^^^^^^^^^^^^^^\n> 378 |                 key={hand.id}\n      …\n      | ^^^^^^^^^^^^^^^^\n> 407 |               </g>\n      | ^^^^^^^^^^^^^^^^\n> 408 |             ))}\n      | ^^^^^^^^^^^^^^ Cannot access ref value during render\n  409 |\n  410 |             <image\n  411 |               href={pivotSvg}"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:376:30:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/components/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:419:25:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/Clock",
+      "file": "src/components/dayNightExplorer/Clock.tsx",
+      "line": 419,
+      "column": 25,
+      "end_line": 419,
+      "end_column": 41,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:419:25\n  417 |               style={{\n  418 |                 pointerEvents: 'none',\n> 419 |                 filter: clock.isDragging ? 'none' : clockGeometry.handShadow,\n      |                         ^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  420 |               }}\n  421 |             />\n  422 |           </svg>",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:419:25\n  417 |               style={{\n  418 |                 pointerEvents: 'none',\n> 419 |                 filter: clock.isDragging ? 'none' : clockGeometry.handShadow,\n      |                         ^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  420 |               }}\n  421 |             />\n  422 |           </svg>"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:419:25:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/components/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:473:18:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/Clock",
+      "file": "src/components/dayNightExplorer/Clock.tsx",
+      "line": 473,
+      "column": 18,
+      "end_line": 473,
+      "end_column": 38,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:473:18\n  471 |         >\n  472 |           <span\n> 473 |             ref={clock.digitalHourRef}\n      |                  ^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  474 |             style={{\n  475 |               fontSize: clockGeometry.digitalClockTimeFontSize,\n  476 |               fontWeight: 700,",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:473:18\n  471 |         >\n  472 |           <span\n> 473 |             ref={clock.digitalHourRef}\n      |                  ^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  474 |             style={{\n  475 |               fontSize: clockGeometry.digitalClockTimeFontSize,\n  476 |               fontWeight: 700,"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:473:18:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/components/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:482:14:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/Clock",
+      "file": "src/components/dayNightExplorer/Clock.tsx",
+      "line": 482,
+      "column": 14,
+      "end_line": 482,
+      "end_column": 30,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:482:14\n  480 |             }}\n  481 |           >\n> 482 |             {clock.hoursLabel}\n      |              ^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  483 |           </span>\n  484 |           <span\n  485 |             style={{",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:482:14\n  480 |             }}\n  481 |           >\n> 482 |             {clock.hoursLabel}\n      |              ^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  483 |           </span>\n  484 |           <span\n  485 |             style={{"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:482:14:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/components/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:497:18:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/Clock",
+      "file": "src/components/dayNightExplorer/Clock.tsx",
+      "line": 497,
+      "column": 18,
+      "end_line": 497,
+      "end_column": 40,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:497:18\n  495 |           </span>\n  496 |           <span\n> 497 |             ref={clock.digitalMinuteRef}\n      |                  ^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  498 |             style={{\n  499 |               fontSize: clockGeometry.digitalClockTimeFontSize,\n  500 |               fontWeight: 700,",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:497:18\n  495 |           </span>\n  496 |           <span\n> 497 |             ref={clock.digitalMinuteRef}\n      |                  ^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  498 |             style={{\n  499 |               fontSize: clockGeometry.digitalClockTimeFontSize,\n  500 |               fontWeight: 700,"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:497:18:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/components/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:506:14:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/Clock",
+      "file": "src/components/dayNightExplorer/Clock.tsx",
+      "line": 506,
+      "column": 14,
+      "end_line": 506,
+      "end_column": 32,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:506:14\n  504 |             }}\n  505 |           >\n> 506 |             {clock.minutesLabel}\n      |              ^^^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  507 |           </span>\n  508 |           <span\n  509 |             style={{",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:506:14\n  504 |             }}\n  505 |           >\n> 506 |             {clock.minutesLabel}\n      |              ^^^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  507 |           </span>\n  508 |           <span\n  509 |             style={{"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:506:14:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/components/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:521:18:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/Clock",
+      "file": "src/components/dayNightExplorer/Clock.tsx",
+      "line": 521,
+      "column": 18,
+      "end_line": 521,
+      "end_column": 40,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:521:18\n  519 |           </span>\n  520 |           <span\n> 521 |             ref={clock.digitalSecondRef}\n      |                  ^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  522 |             style={{\n  523 |               fontSize: clockGeometry.digitalClockTimeFontSize,\n  524 |               fontWeight: 700,",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:521:18\n  519 |           </span>\n  520 |           <span\n> 521 |             ref={clock.digitalSecondRef}\n      |                  ^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  522 |             style={{\n  523 |               fontSize: clockGeometry.digitalClockTimeFontSize,\n  524 |               fontWeight: 700,"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:521:18:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/components/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:532:32:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/Clock",
+      "file": "src/components/dayNightExplorer/Clock.tsx",
+      "line": 532,
+      "column": 32,
+      "end_line": 532,
+      "end_column": 45,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:532:32\n  530 |             }}\n  531 |           >\n> 532 |             {String(Math.floor(clock.seconds)).padStart(2, '0')}\n      |                                ^^^^^^^^^^^^^ Passing a ref to a function may read its value during render\n  533 |           </span>\n  534 |           <span\n  535 |             ref={clock.digitalAmpmRef}",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:532:32\n  530 |             }}\n  531 |           >\n> 532 |             {String(Math.floor(clock.seconds)).padStart(2, '0')}\n      |                                ^^^^^^^^^^^^^ Passing a ref to a function may read its value during render\n  533 |           </span>\n  534 |           <span\n  535 |             ref={clock.digitalAmpmRef}"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:532:32:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/components/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:535:18:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/Clock",
+      "file": "src/components/dayNightExplorer/Clock.tsx",
+      "line": 535,
+      "column": 18,
+      "end_line": 535,
+      "end_column": 38,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:535:18\n  533 |           </span>\n  534 |           <span\n> 535 |             ref={clock.digitalAmpmRef}\n      |                  ^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  536 |             style={{\n  537 |               fontSize: clockGeometry.digitalClockAmpmFontSize,\n  538 |               fontWeight: 700,",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:535:18\n  533 |           </span>\n  534 |           <span\n> 535 |             ref={clock.digitalAmpmRef}\n      |                  ^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render\n  536 |             style={{\n  537 |               fontSize: clockGeometry.digitalClockAmpmFontSize,\n  538 |               fontWeight: 700,"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:535:18:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/components/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:545:14:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/Clock",
+      "file": "src/components/dayNightExplorer/Clock.tsx",
+      "line": 545,
+      "column": 14,
+      "end_line": 545,
+      "end_column": 24,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:545:14\n  543 |             }}\n  544 |           >\n> 545 |             {clock.ampm}\n      |              ^^^^^^^^^^ Cannot access ref value during render\n  546 |           </span>\n  547 |         </div>\n  548 |       </div>",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/Clock.tsx:545:14\n  543 |             }}\n  544 |           >\n> 545 |             {clock.ampm}\n      |              ^^^^^^^^^^ Cannot access ref value during render\n  546 |           </span>\n  547 |         </div>\n  548 |       </div>"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/Clock.tsx:545:14:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/components/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/useDayNightExplorerModel.ts:136:9:react-hooks/immutability",
+      "rule_id": "react-hooks/immutability",
+      "kind": "immutability_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/useDayNightExplorerModel",
+      "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
+      "line": 136,
+      "column": 9,
+      "end_line": 136,
+      "end_column": 37,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: This value cannot be modified\n\nModifying a value returned from a hook is not allowed. Consider moving the modification into the hook where the value is constructed.\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/useDayNightExplorerModel.ts:136:9\n  134 |       const formatted = formatTime(nextMinutes)\n  135 |       if (clock.digitalHourRef.current) {\n> 136 |         clock.digitalHourRef.current.textContent = formatted.h\n      |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `clock` cannot be modified\n  137 |       }\n  138 |       if (clock.digitalMinuteRef.current) {\n  139 |         clock.digitalMinuteRef.current.textContent = formatted.m",
+      "signals": [
+        {
+          "kind": "immutability_violation",
+          "message": "Error: This value cannot be modified\n\nModifying a value returned from a hook is not allowed. Consider moving the modification into the hook where the value is constructed.\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/useDayNightExplorerModel.ts:136:9\n  134 |       const formatted = formatTime(nextMinutes)\n  135 |       if (clock.digitalHourRef.current) {\n> 136 |         clock.digitalHourRef.current.textContent = formatted.h\n      |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `clock` cannot be modified\n  137 |       }\n  138 |       if (clock.digitalMinuteRef.current) {\n  139 |         clock.digitalMinuteRef.current.textContent = formatted.m"
+        }
+      ],
+      "reason_code": "react-hooks/immutability",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this immutability_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line immutability_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this immutability_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/useDayNightExplorerModel.ts:136:9:react-hooks/immutability",
+            "kind": "immutability_violation",
+            "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/useExplorerClock.ts:41:3:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/useExplorerClock",
+      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+      "line": 41,
+      "column": 3,
+      "end_line": 41,
+      "end_column": 21,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/useExplorerClock.ts:41:3\n  39 |\n  40 |   const minutesRef = useRef(minutes)\n> 41 |   minutesRef.current = minutes\n     |   ^^^^^^^^^^^^^^^^^^ Cannot update ref during render\n  42 |\n  43 |   const svgRef = useRef<SVGSVGElement>(null)\n  44 |   const hourHandRef = useRef<SVGGElement>(null)",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/useExplorerClock.ts:41:3\n  39 |\n  40 |   const minutesRef = useRef(minutes)\n> 41 |   minutesRef.current = minutes\n     |   ^^^^^^^^^^^^^^^^^^ Cannot update ref during render\n  42 |\n  43 |   const svgRef = useRef<SVGSVGElement>(null)\n  44 |   const hourHandRef = useRef<SVGGElement>(null)"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/useExplorerClock.ts:41:3:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/dayNightExplorer/useSolarSystem3D.ts:22:5:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/useSolarSystem3D",
+      "file": "src/components/dayNightExplorer/useSolarSystem3D.ts",
+      "line": 22,
+      "column": 5,
+      "end_line": 22,
+      "end_column": 18,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/useSolarSystem3D.ts:22:5\n  20 |     )\n  21 |     managerRef.current = manager\n> 22 |     setGlobeReady(true)\n     |     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  23 |\n  24 |     return () => {\n  25 |       manager.dispose()",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/dayNightExplorer/useSolarSystem3D.ts:22:5\n  20 |     )\n  21 |     managerRef.current = manager\n> 22 |     setGlobeReady(true)\n     |     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  23 |\n  24 |     return () => {\n  25 |       manager.dispose()"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/dayNightExplorer/useSolarSystem3D.ts:22:5:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/components/dayNightExplorer/useSolarSystem3D.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/ui/Carousel.tsx:43:5:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/Carousel",
+      "file": "src/components/ui/Carousel.tsx",
+      "line": 43,
+      "column": 5,
+      "end_line": 43,
+      "end_column": 20,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/ui/Carousel.tsx:43:5\n  41 |   useEffect(() => {\n  42 |     if (safeItems.length === 0) return\n> 43 |     setCurrentIndex((prev) => Math.max(0, Math.min(prev, safeItems.length - 1)))\n     |     ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  44 |   }, [safeItems.length])\n  45 |\n  46 |   useEffect(() => {",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/ui/Carousel.tsx:43:5\n  41 |   useEffect(() => {\n  42 |     if (safeItems.length === 0) return\n> 43 |     setCurrentIndex((prev) => Math.max(0, Math.min(prev, safeItems.length - 1)))\n     |     ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  44 |   }, [safeItems.length])\n  45 |\n  46 |   useEffect(() => {"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/ui/Carousel.tsx:43:5:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/components/ui/Carousel.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/ui/StarDisplay.tsx:132:7:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/StarDisplay",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "line": 132,
+      "column": 7,
+      "end_line": 132,
+      "end_column": 22,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/ui/StarDisplay.tsx:132:7\n  130 |         (_, i) => displayMagnitude + i\n  131 |       )\n> 132 |       setAnimatingOut(removedIndices)\n      |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  133 |       const timer = setTimeout(() => {\n  134 |         setAnimatingOut([])\n  135 |         setPrevCount(displayMagnitude)",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/ui/StarDisplay.tsx:132:7\n  130 |         (_, i) => displayMagnitude + i\n  131 |       )\n> 132 |       setAnimatingOut(removedIndices)\n      |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  133 |       const timer = setTimeout(() => {\n  134 |         setAnimatingOut([])\n  135 |         setPrevCount(displayMagnitude)"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/ui/StarDisplay.tsx:132:7:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/ui/StarDisplay.tsx:308:7:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/StarDisplay",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "line": 308,
+      "column": 7,
+      "end_line": 308,
+      "end_column": 25,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/ui/StarDisplay.tsx:308:7\n  306 |   useEffect(() => {\n  307 |     if (!editable) {\n> 308 |       setControlsVisible(false)\n      |       ^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  309 |       return\n  310 |     }\n  311 |     const timer = setTimeout(() => setControlsVisible(true), CONTROLS_DELAY_MS)",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/ui/StarDisplay.tsx:308:7\n  306 |   useEffect(() => {\n  307 |     if (!editable) {\n> 308 |       setControlsVisible(false)\n      |       ^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  309 |       return\n  310 |     }\n  311 |     const timer = setTimeout(() => setControlsVisible(true), CONTROLS_DELAY_MS)"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/ui/StarDisplay.tsx:308:7:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/components/ui/StarInfoBox.tsx:199:7:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/StarInfoBox",
+      "file": "src/components/ui/StarInfoBox.tsx",
+      "line": 199,
+      "column": 7,
+      "end_line": 199,
+      "end_column": 24,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/ui/StarInfoBox.tsx:199:7\n  197 |       prevTotalStarsRef.current = 0\n  198 |       isRunningRef.current = false\n> 199 |       setDisplayedCount(0)\n      |       ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  200 |       setHeroState('pulsing')\n  201 |       setShowResult(true)\n  202 |       setStarStates([])",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/components/ui/StarInfoBox.tsx:199:7\n  197 |       prevTotalStarsRef.current = 0\n  198 |       isRunningRef.current = false\n> 199 |       setDisplayedCount(0)\n      |       ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  200 |       setHeroState('pulsing')\n  201 |       setShowResult(true)\n  202 |       setStarStates([])"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/components/ui/StarInfoBox.tsx:199:7:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/components/ui/StarInfoBox.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/contexts/ActiveChildContext.tsx:68:5:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 68,
+      "column": 5,
+      "end_line": 68,
+      "end_column": 13,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/contexts/ActiveChildContext.tsx:68:5\n  66 |\n  67 |   useEffect(() => {\n> 68 |     setState(readStoredState(user?.uid))\n     |     ^^^^^^^^ Avoid calling setState() directly within an effect\n  69 |   }, [user?.uid])\n  70 |\n  71 |   useEffect(() => {",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/contexts/ActiveChildContext.tsx:68:5\n  66 |\n  67 |   useEffect(() => {\n> 68 |     setState(readStoredState(user?.uid))\n     |     ^^^^^^^^ Avoid calling setState() directly within an effect\n  69 |   }, [user?.uid])\n  70 |\n  71 |   useEffect(() => {"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/contexts/ActiveChildContext.tsx:68:5:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/contexts/ActiveChildContext.tsx:78:5:react-hooks/preserve-manual-memoization",
+      "rule_id": "react-hooks/preserve-manual-memoization",
+      "kind": "preserve_manual_memoization_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 78,
+      "column": 5,
+      "end_line": 93,
+      "end_column": 6,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Compilation Skipped: Existing memoization could not be preserved\n\nReact Compiler has skipped optimizing this component because the existing manual memoization could not be preserved. The inferred dependencies did not match the manually specified dependencies, which could cause the value to change more or less frequently than expected. The inferred dependency was `user`, but the source dependencies were [user?.uid]. Inferred less specific property than source.\n\n/home/laufan/Projects/MyStarQuest/src/contexts/ActiveChildContext.tsx:78:5\n  76 |\n  77 |   const persist = useCallback(\n> 78 |     (next: ActiveChildState) => {\n     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n> 79 |       setState(next)\n     | ^^^^^^^^^^^^^^^^^^^^\n> 80 |       if (!user?.uid || !isBrowser) return\n     …\n     | ^^^^^^^^^^^^^^^^^^^^\n> 92 |       }\n     | ^^^^^^^^^^^^^^^^^^^^\n> 93 |     },\n     | ^^^^^^ Could not preserve existing manual memoization\n  94 |     [user?.uid]\n  95 |   )\n  96 |",
+      "signals": [
+        {
+          "kind": "preserve_manual_memoization_violation",
+          "message": "Compilation Skipped: Existing memoization could not be preserved\n\nReact Compiler has skipped optimizing this component because the existing manual memoization could not be preserved. The inferred dependencies did not match the manually specified dependencies, which could cause the value to change more or less frequently than expected. The inferred dependency was `user`, but the source dependencies were [user?.uid]. Inferred less specific property than source.\n\n/home/laufan/Projects/MyStarQuest/src/contexts/ActiveChildContext.tsx:78:5\n  76 |\n  77 |   const persist = useCallback(\n> 78 |     (next: ActiveChildState) => {\n     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n> 79 |       setState(next)\n     | ^^^^^^^^^^^^^^^^^^^^\n> 80 |       if (!user?.uid || !isBrowser) return\n     …\n     | ^^^^^^^^^^^^^^^^^^^^\n> 92 |       }\n     | ^^^^^^^^^^^^^^^^^^^^\n> 93 |     },\n     | ^^^^^^ Could not preserve existing manual memoization\n  94 |     [user?.uid]\n  95 |   )\n  96 |"
+        }
+      ],
+      "reason_code": "react-hooks/preserve-manual-memoization",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this preserve_manual_memoization_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line preserve_manual_memoization_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this preserve_manual_memoization_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/contexts/ActiveChildContext.tsx:78:5:react-hooks/preserve-manual-memoization",
+            "kind": "preserve_manual_memoization_violation",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/data/useRewards.ts:76:7:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/data/useRewards",
+      "file": "src/data/useRewards.ts",
+      "line": 76,
+      "column": 7,
+      "end_line": 76,
+      "end_column": 26,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/data/useRewards.ts:76:7\n  74 |   useEffect(() => {\n  75 |     if (!user || !activeChildId) {\n> 76 |       setActiveChildStars(0)\n     |       ^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  77 |       return\n  78 |     }\n  79 |",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/data/useRewards.ts:76:7\n  74 |   useEffect(() => {\n  75 |     if (!user || !activeChildId) {\n> 76 |       setActiveChildStars(0)\n     |       ^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  77 |       return\n  78 |     }\n  79 |"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/data/useRewards.ts:76:7:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/data/useRewards.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/data/useUserCollection.ts:39:7:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/data/useUserCollection",
+      "file": "src/data/useUserCollection.ts",
+      "line": 39,
+      "column": 7,
+      "end_line": 39,
+      "end_column": 15,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/data/useUserCollection.ts:39:7\n  37 |   useEffect(() => {\n  38 |     if (!userId) {\n> 39 |       setItems([])\n     |       ^^^^^^^^ Avoid calling setState() directly within an effect\n  40 |       onClear?.()\n  41 |       return\n  42 |     }",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/data/useUserCollection.ts:39:7\n  37 |   useEffect(() => {\n  38 |     if (!userId) {\n> 39 |       setItems([])\n     |       ^^^^^^^^ Avoid calling setState() directly within an effect\n  40 |       onClear?.()\n  41 |       return\n  42 |     }"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/data/useUserCollection.ts:39:7:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/data/useUserCollection.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/hooks/useActivityChallenge.ts:151:18:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/hooks/useActivityChallenge",
+      "file": "src/hooks/useActivityChallenge.ts",
+      "line": 151,
+      "column": 18,
+      "end_line": 151,
+      "end_column": 32,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/hooks/useActivityChallenge.ts:151:18\n  149 |\n  150 |   useEffect(() => {\n> 151 |     if (isSetup) resetChallenge()\n      |                  ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  152 |   }, [isSetup, resetChallenge])\n  153 |\n  154 |   const consumeCheckTrigger = useCallback(",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/hooks/useActivityChallenge.ts:151:18\n  149 |\n  150 |   useEffect(() => {\n> 151 |     if (isSetup) resetChallenge()\n      |                  ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  152 |   }, [isSetup, resetChallenge])\n  153 |\n  154 |   const consumeCheckTrigger = useCallback("
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/hooks/useActivityChallenge.ts:151:18:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/hooks/useActivityChallenge.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/hooks/useDinnerCountdownState.ts:30:15:react-hooks/purity",
+      "rule_id": "react-hooks/purity",
+      "kind": "purity_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/hooks/useDinnerCountdownState",
+      "file": "src/hooks/useDinnerCountdownState.ts",
+      "line": 30,
+      "column": 15,
+      "end_line": 30,
+      "end_column": 25,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot call impure function during render\n\n`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).\n\n/home/laufan/Projects/MyStarQuest/src/hooks/useDinnerCountdownState.ts:30:15\n  28 |   const [biteVis, setBiteVis] = useState(false)\n  29 |   const prevBites = useRef(bitesLeft)\n> 30 |   const now = Date.now()\n     |               ^^^^^^^^^^ Cannot call impure function\n  31 |\n  32 |   const liveRemainingFloat =\n  33 |     isTimerRunning && timerStartedAt",
+      "signals": [
+        {
+          "kind": "purity_violation",
+          "message": "Error: Cannot call impure function during render\n\n`Date.now` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).\n\n/home/laufan/Projects/MyStarQuest/src/hooks/useDinnerCountdownState.ts:30:15\n  28 |   const [biteVis, setBiteVis] = useState(false)\n  29 |   const prevBites = useRef(bitesLeft)\n> 30 |   const now = Date.now()\n     |               ^^^^^^^^^^ Cannot call impure function\n  31 |\n  32 |   const liveRemainingFloat =\n  33 |     isTimerRunning && timerStartedAt"
+        }
+      ],
+      "reason_code": "react-hooks/purity",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this purity_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line purity_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this purity_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/hooks/useDinnerCountdownState.ts:30:15:react-hooks/purity",
+            "kind": "purity_violation",
+            "file": "src/hooks/useDinnerCountdownState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/lib/useProblemHistory.ts:32:5:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/lib/useProblemHistory",
+      "file": "src/lib/useProblemHistory.ts",
+      "line": 32,
+      "column": 5,
+      "end_line": 32,
+      "end_column": 17,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/lib/useProblemHistory.ts:32:5\n  30 |   const resetKeySignature = JSON.stringify(resetKeys)\n  31 |   useEffect(() => {\n> 32 |     clearHistory()\n     |     ^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  33 |   }, [resetKeySignature, clearHistory])\n  34 |\n  35 |   return {",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/lib/useProblemHistory.ts:32:5\n  30 |   const resetKeySignature = JSON.stringify(resetKeys)\n  31 |   useEffect(() => {\n> 32 |     clearHistory()\n     |     ^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  33 |   }, [resetKeySignature, clearHistory])\n  34 |\n  35 |   return {"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/lib/useProblemHistory.ts:32:5:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/lib/useProblemHistory.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/pages/LoginPage.tsx:49:7:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/pages/LoginPage",
+      "file": "src/pages/LoginPage.tsx",
+      "line": 49,
+      "column": 7,
+      "end_line": 49,
+      "end_column": 22,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/pages/LoginPage.tsx:49:7\n  47 |     if (user) {\n  48 |       redirectPathRef.current = getRedirectPath(location.state)\n> 49 |       setLoginSuccess(true)\n     |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  50 |       return\n  51 |     }\n  52 |",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/pages/LoginPage.tsx:49:7\n  47 |     if (user) {\n  48 |       redirectPathRef.current = getRedirectPath(location.state)\n> 49 |       setLoginSuccess(true)\n     |       ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  50 |       return\n  51 |     }\n  52 |"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/pages/LoginPage.tsx:49:7:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/pages/LoginPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/pages/TestsPage.tsx:51:5:react-hooks/set-state-in-effect",
+      "rule_id": "react-hooks/set-state-in-effect",
+      "kind": "set_state_in_effect_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/pages/TestsPage",
+      "file": "src/pages/TestsPage.tsx",
+      "line": 51,
+      "column": 5,
+      "end_line": 51,
+      "end_column": 25,
+      "score": 45,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/pages/TestsPage.tsx:51:5\n  49 |   useEffect(() => {\n  50 |     clearActivityIds()\n> 51 |     setMathCheckTriggers({})\n     |     ^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  52 |     setLargeNumbersCheckTriggers({})\n  53 |     setPVCheckTriggers({})\n  54 |     setAlphabetCheckTriggers({})",
+      "signals": [
+        {
+          "kind": "set_state_in_effect_violation",
+          "message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/home/laufan/Projects/MyStarQuest/src/pages/TestsPage.tsx:51:5\n  49 |   useEffect(() => {\n  50 |     clearActivityIds()\n> 51 |     setMathCheckTriggers({})\n     |     ^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  52 |     setLargeNumbersCheckTriggers({})\n  53 |     setPVCheckTriggers({})\n  54 |     setAlphabetCheckTriggers({})"
+        }
+      ],
+      "reason_code": "react-hooks/set-state-in-effect",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this set_state_in_effect_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line set_state_in_effect_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this set_state_in_effect_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/pages/TestsPage.tsx:51:5:react-hooks/set-state-in-effect",
+            "kind": "set_state_in_effect_violation",
+            "file": "src/pages/TestsPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "react-hooks:src/routes/AnimatedTabLayout.tsx:24:5:react-hooks/refs",
+      "rule_id": "react-hooks/refs",
+      "kind": "refs_violation",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/routes/AnimatedTabLayout",
+      "file": "src/routes/AnimatedTabLayout.tsx",
+      "line": 24,
+      "column": 5,
+      "end_line": 24,
+      "end_column": 28,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-react-hooks",
+      "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/routes/AnimatedTabLayout.tsx:24:5\n  22 |   const activeTabId = getTabIdForPath(location.pathname)\n  23 |   const incomingDirection = getTabTransitionDirection(\n> 24 |     previousPathRef.current,\n     |     ^^^^^^^^^^^^^^^^^^^^^^^ Passing a ref to a function may read its value during render\n  25 |     location.pathname\n  26 |   )\n  27 |",
+      "signals": [
+        {
+          "kind": "refs_violation",
+          "message": "Error: Cannot access refs during render\n\nReact refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).\n\n/home/laufan/Projects/MyStarQuest/src/routes/AnimatedTabLayout.tsx:24:5\n  22 |   const activeTabId = getTabIdForPath(location.pathname)\n  23 |   const incomingDirection = getTabTransitionDirection(\n> 24 |     previousPathRef.current,\n     |     ^^^^^^^^^^^^^^^^^^^^^^^ Passing a ref to a function may read its value during render\n  25 |     location.pathname\n  26 |   )\n  27 |"
+        }
+      ],
+      "reason_code": "react-hooks/refs",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this refs_violation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line refs_violation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this refs_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "react-hooks:src/routes/AnimatedTabLayout.tsx:24:5:react-hooks/refs",
+            "kind": "refs_violation",
+            "file": "src/routes/AnimatedTabLayout.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "jsx-a11y:jsx-a11y/click-events-have-key-events:src/components/DinnerCountdown.tsx:465:17",
+      "rule_id": "jsx-a11y/click-events-have-key-events",
+      "kind": "a11y_click_events_have_key_events",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/DinnerCountdown",
+      "file": "src/components/DinnerCountdown.tsx",
+      "line": 465,
+      "column": 17,
+      "end_line": 476,
+      "end_column": 19,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener.",
+      "signals": [
+        {
+          "kind": "a11y_click_events_have_key_events",
+          "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener."
+        }
+      ],
+      "reason_code": "jsx-a11y/click-events-have-key-events",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this a11y_click_events_have_key_events finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line a11y_click_events_have_key_events"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_click_events_have_key_events finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "jsx-a11y:jsx-a11y/click-events-have-key-events:src/components/DinnerCountdown.tsx:465:17",
+            "kind": "a11y_click_events_have_key_events",
+            "file": "src/components/DinnerCountdown.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "jsx-a11y:jsx-a11y/no-noninteractive-element-interactions:src/components/DinnerCountdown.tsx:465:17",
+      "rule_id": "jsx-a11y/no-noninteractive-element-interactions",
+      "kind": "a11y_no_noninteractive_element_interactions",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/DinnerCountdown",
+      "file": "src/components/DinnerCountdown.tsx",
+      "line": 465,
+      "column": 17,
+      "end_line": 476,
+      "end_column": 19,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "Non-interactive elements should not be assigned mouse or keyboard event listeners.",
+      "signals": [
+        {
+          "kind": "a11y_no_noninteractive_element_interactions",
+          "message": "Non-interactive elements should not be assigned mouse or keyboard event listeners."
+        }
+      ],
+      "reason_code": "jsx-a11y/no-noninteractive-element-interactions",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this a11y_no_noninteractive_element_interactions finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line a11y_no_noninteractive_element_interactions"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_no_noninteractive_element_interactions finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "jsx-a11y:jsx-a11y/no-noninteractive-element-interactions:src/components/DinnerCountdown.tsx:465:17",
+            "kind": "a11y_no_noninteractive_element_interactions",
+            "file": "src/components/DinnerCountdown.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "jsx-a11y:jsx-a11y/no-static-element-interactions:src/components/ui/DragScrollRegion.tsx:161:7",
+      "rule_id": "jsx-a11y/no-static-element-interactions",
+      "kind": "a11y_no_static_element_interactions",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/DragScrollRegion",
+      "file": "src/components/ui/DragScrollRegion.tsx",
+      "line": 161,
+      "column": 7,
+      "end_line": 185,
+      "end_column": 8,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.",
+      "signals": [
+        {
+          "kind": "a11y_no_static_element_interactions",
+          "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element."
+        }
+      ],
+      "reason_code": "jsx-a11y/no-static-element-interactions",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this a11y_no_static_element_interactions finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line a11y_no_static_element_interactions"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_no_static_element_interactions finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "jsx-a11y:jsx-a11y/no-static-element-interactions:src/components/ui/DragScrollRegion.tsx:161:7",
+            "kind": "a11y_no_static_element_interactions",
+            "file": "src/components/ui/DragScrollRegion.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "jsx-a11y:jsx-a11y/click-events-have-key-events:src/components/ui/StarInfoBox.tsx:226:5",
+      "rule_id": "jsx-a11y/click-events-have-key-events",
+      "kind": "a11y_click_events_have_key_events",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/StarInfoBox",
+      "file": "src/components/ui/StarInfoBox.tsx",
+      "line": 226,
+      "column": 5,
+      "end_line": 238,
+      "end_column": 6,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener.",
+      "signals": [
+        {
+          "kind": "a11y_click_events_have_key_events",
+          "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener."
+        }
+      ],
+      "reason_code": "jsx-a11y/click-events-have-key-events",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this a11y_click_events_have_key_events finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line a11y_click_events_have_key_events"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_click_events_have_key_events finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "jsx-a11y:jsx-a11y/click-events-have-key-events:src/components/ui/StarInfoBox.tsx:226:5",
+            "kind": "a11y_click_events_have_key_events",
+            "file": "src/components/ui/StarInfoBox.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "jsx-a11y:jsx-a11y/no-static-element-interactions:src/components/ui/StarInfoBox.tsx:226:5",
+      "rule_id": "jsx-a11y/no-static-element-interactions",
+      "kind": "a11y_no_static_element_interactions",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/StarInfoBox",
+      "file": "src/components/ui/StarInfoBox.tsx",
+      "line": 226,
+      "column": 5,
+      "end_line": 238,
+      "end_column": 6,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.",
+      "signals": [
+        {
+          "kind": "a11y_no_static_element_interactions",
+          "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element."
+        }
+      ],
+      "reason_code": "jsx-a11y/no-static-element-interactions",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this a11y_no_static_element_interactions finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line a11y_no_static_element_interactions"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_no_static_element_interactions finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "jsx-a11y:jsx-a11y/no-static-element-interactions:src/components/ui/StarInfoBox.tsx:226:5",
+            "kind": "a11y_no_static_element_interactions",
+            "file": "src/components/ui/StarInfoBox.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

@@ -179,20 +179,30 @@ export const mergeTaskEphemeral = (
     case 'standard':
       return {
         ...task,
-        manageCompletedAt: state.manageCompletedAt ?? task.manageCompletedAt,
+        manageCompletedAt:
+          state.manageCompletedAt !== undefined
+            ? state.manageCompletedAt
+            : task.manageCompletedAt,
       }
     case 'eating':
       return {
         ...task,
         manageDinnerRemainingSeconds:
-          state.manageDinnerRemainingSeconds ??
-          task.manageDinnerRemainingSeconds,
+          state.manageDinnerRemainingSeconds !== undefined
+            ? state.manageDinnerRemainingSeconds
+            : task.manageDinnerRemainingSeconds,
         manageDinnerBitesLeft:
-          state.manageDinnerBitesLeft ?? task.manageDinnerBitesLeft,
+          state.manageDinnerBitesLeft !== undefined
+            ? state.manageDinnerBitesLeft
+            : task.manageDinnerBitesLeft,
         manageDinnerTimerStartedAt:
-          state.manageDinnerTimerStartedAt ?? task.manageDinnerTimerStartedAt,
+          state.manageDinnerTimerStartedAt !== undefined
+            ? state.manageDinnerTimerStartedAt
+            : task.manageDinnerTimerStartedAt,
         manageDinnerCompletedAt:
-          state.manageDinnerCompletedAt ?? task.manageDinnerCompletedAt,
+          state.manageDinnerCompletedAt !== undefined
+            ? state.manageDinnerCompletedAt
+            : task.manageDinnerCompletedAt,
       }
     case 'math':
       return {
@@ -227,11 +237,18 @@ export const mergeTaskEphemeral = (
     case 'watertoiletcheck':
       return {
         ...task,
-        manageWaterLevel: state.manageWaterLevel ?? task.manageWaterLevel,
-        manageToiletStatus: state.manageToiletStatus ?? task.manageToiletStatus,
+        manageWaterLevel:
+          state.manageWaterLevel !== undefined
+            ? state.manageWaterLevel
+            : task.manageWaterLevel,
+        manageToiletStatus:
+          state.manageToiletStatus !== undefined
+            ? state.manageToiletStatus
+            : task.manageToiletStatus,
         manageWaterToiletCompletedAt:
-          state.manageWaterToiletCompletedAt ??
-          task.manageWaterToiletCompletedAt,
+          state.manageWaterToiletCompletedAt !== undefined
+            ? state.manageWaterToiletCompletedAt
+            : task.manageWaterToiletCompletedAt,
       }
   }
 }

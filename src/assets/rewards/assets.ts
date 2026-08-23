@@ -1,5 +1,5 @@
-import yoshiEggImage from './YoshiEgg.svg'
-import teeniepingImage from './teenieping.svg'
+import yoshiEggImage from './YoshiEgg.webp'
+import teeniepingImage from './teenieping.webp'
 
 export type RewardImageKey = 'yoshiEgg' | 'teenieping'
 

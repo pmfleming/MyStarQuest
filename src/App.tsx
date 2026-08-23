@@ -8,12 +8,12 @@ import ProtectedRoute from './routes/ProtectedRoute'
 import AnimatedTabLayout from './routes/AnimatedTabLayout'
 import { defaultTabPath } from './lib/tabNavigation'
 import AppErrorBoundary from './components/AppErrorBoundary'
-import DashboardPage from './pages/DashboardPage'
-import RewardsPage from './pages/RewardsPage'
-import TimeExplorerPage from './pages/TimeExplorerPage'
-import TestsPage from './pages/TestsPage'
 
 const LoginPage = lazy(() => import('./pages/LoginPage'))
+const DashboardPage = lazy(() => import('./pages/DashboardPage'))
+const TestsPage = lazy(() => import('./pages/TestsPage'))
+const RewardsPage = lazy(() => import('./pages/RewardsPage'))
+const TimeExplorerPage = lazy(() => import('./pages/TimeExplorerPage'))
 const ManageChildrenPage = lazy(() => import('./pages/ManageChildrenPage'))
 
 const App = () => {

@@ -6,14 +6,14 @@ import {
   collection,
   deleteDoc,
   doc,
-  setDoc,
+  runTransaction,
   type DocumentData,
   updateDoc,
 } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
-import { awardStars } from '../lib/starActions'
+import { completeTaskAndAwardStars } from '../lib/starActions'
 import { celebrateSuccess } from '../lib/celebrate'
 import { parseTestSnapshot } from '../lib/choreParser'
 import { calculateAwardTaskPatch } from '../lib/choreLogic'
@@ -139,19 +139,23 @@ export function useTests() {
   ) => {
     if (!user) return
     const defaultTest = defaultTests.find((test) => test.id === testId)
-    try {
-      if (defaultTest) {
-        await setDoc(doc(db, 'users', user.uid, 'tests', testId), {
-          ...buildTestDocument(defaultTest.childId, defaultTest.taskType),
-          ...field,
-        })
-        return
-      }
-
-      await updateDoc(doc(db, 'users', user.uid, 'tests', testId), field)
-    } catch (err) {
-      console.error('Failed to update test', err)
+    const testRef = doc(db, 'users', user.uid, 'tests', testId)
+    if (defaultTest) {
+      await runTransaction(db, async (transaction) => {
+        const snapshot = await transaction.get(testRef)
+        if (snapshot.exists()) {
+          transaction.update(testRef, field)
+        } else {
+          transaction.set(testRef, {
+            ...buildTestDocument(defaultTest.childId, defaultTest.taskType),
+            ...field,
+          })
+        }
+      })
+      return
     }
+
+    await updateDoc(testRef, field)
   }
 
   const setTestTitleDraft = (testId: string, value: string) =>
@@ -203,18 +207,29 @@ export function useTests() {
   const completeTest = async (item: TestWithEphemeral) => {
     const now = Date.now()
     const patch = calculateAwardTaskPatch(item, now)
-    updateEphemeral(item.id, patch)
-    await persistTestAttempt(item, now, 'success')
     if (user && activeChildId) {
-      await awardStars({
+      const defaultTest = defaultTests.find((test) => test.id === item.id)
+      const result = await completeTaskAndAwardStars({
         userId: user.uid,
         childId: activeChildId,
+        taskId: item.id,
+        taskCollection: 'tests',
+        dateKey: todayInfo.dateKey,
         delta: item.starValue,
+        updates: {
+          lastAttemptedAt: now,
+          lastAttemptDateKey: todayInfo.dateKey,
+          lastAttemptOutcome: 'success',
+        },
+        initialTaskData: defaultTest
+          ? buildTestDocument(defaultTest.childId, defaultTest.taskType)
+          : undefined,
+        deleteOnComplete: !item.isRepeating,
       })
-      if (item.starValue > 0) celebrateSuccess()
-    }
-    if (!item.isRepeating) {
-      await deleteTest(item.id)
+      updateEphemeral(item.id, patch)
+      if (result.appliedDelta > 0) celebrateSuccess()
+    } else {
+      updateEphemeral(item.id, patch)
     }
   }
 

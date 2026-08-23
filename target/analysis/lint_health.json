@@ -1,0 +1,4423 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "quality.lint",
+  "project": {
+    "name": "MyStarQuest",
+    "root": "/home/laufan/Projects/MyStarQuest",
+    "framework": "vite",
+    "package_manager": "npm",
+    "test_runner": "vitest"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure all --config /home/laufan/Projects/MyStarQuest/ts-react-quality-lens.config.json",
+    "host": "thinkpad",
+    "measured_at": "2026-08-22T10:59:10.644Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:bbd2e517aef16fddd295cb9e635d7dff6f65a7b59c884f1d55ee5d90e7040a83"
+  },
+  "analysis_identity": {
+    "id": "sha256:787cfff9a1ab079dbe0f1e9bae0a9b77425548587acc80756e71723c291d12be",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:46ff20a9e8fd7287eaa1324b1c33f022a248df5c5fdf443aee7614616c2387ed",
+    "rulesets": {
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": "4.3.0"
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": true,
+    "test_runner_detected": true,
+    "git_history_available": true,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": true,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "typed_eslint_available": true,
+    "typed_eslint_ran": true,
+    "typed_eslint_complete": true,
+    "typed_eslint_reason": null,
+    "complete": true,
+    "partial": false,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "package_manager_detected",
+      "framework_detected",
+      "test_runner_detected",
+      "git_history_available",
+      "excludes_applied",
+      "type_information_available",
+      "dependencies_installed",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "framework_conventions_detected",
+      "workspace_projects_complete",
+      "analysis_cache_enabled",
+      "typed_eslint_available",
+      "typed_eslint_ran",
+      "typed_eslint_complete"
+    ],
+    "missing_input": [],
+    "stale_input": []
+  },
+  "summary": {
+    "records": 76,
+    "blocking_findings": 72,
+    "warning_findings": 4
+  },
+  "tool_status": {
+    "typed_eslint": {
+      "available": true,
+      "ran": true,
+      "complete": true,
+      "reason": null,
+      "version": "8.67.0",
+      "duration_ms": 7037,
+      "ruleset": "tsrqlens-typescript-recommended-v1"
+    }
+  },
+  "records": [
+    {
+      "id": "typed-lint:react-refresh/only-export-components:src/auth/AuthContext.tsx:84:1",
+      "rule_id": "react-refresh/only-export-components",
+      "kind": "react_refresh/only_export_components",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/auth/AuthContext",
+      "file": "src/auth/AuthContext.tsx",
+      "line": 84,
+      "column": 1,
+      "end_line": 84,
+      "end_column": 65,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Definition for rule 'react-refresh/only-export-components' was not found.",
+      "signals": [
+        {
+          "kind": "react-refresh/only-export-components",
+          "message": "Definition for rule 'react-refresh/only-export-components' was not found."
+        }
+      ],
+      "reason_code": "react-refresh/only-export-components",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this react_refresh/only_export_components finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line react_refresh/only_export_components"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this react_refresh/only_export_components finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:react-refresh/only-export-components:src/auth/AuthContext.tsx:84:1",
+            "kind": "react_refresh/only_export_components",
+            "file": "src/auth/AuthContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/components/PageShell.tsx:76:7",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/PageShell",
+      "file": "src/components/PageShell.tsx",
+      "line": 76,
+      "column": 7,
+      "end_line": 76,
+      "end_column": 25,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/components/PageShell.tsx:76:7",
+            "kind": "typed_no_floating_promises",
+            "file": "src/components/PageShell.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/components/SchoolCalendar.tsx:102:15",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/SchoolCalendar",
+      "file": "src/components/SchoolCalendar.tsx",
+      "line": 102,
+      "column": 15,
+      "end_line": 102,
+      "end_column": 42,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/components/SchoolCalendar.tsx:102:15",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-argument:src/components/SchoolCalendar.tsx:103:19",
+      "rule_id": "@typescript-eslint/no-unsafe-argument",
+      "kind": "typed_no_unsafe_argument",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/SchoolCalendar",
+      "file": "src/components/SchoolCalendar.tsx",
+      "line": 103,
+      "column": 19,
+      "end_line": 103,
+      "end_column": 25,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<Record<string, CalendarDayData>>`.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-argument",
+          "message": "Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<Record<string, CalendarDayData>>`."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-argument",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_argument finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_argument"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_argument finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-argument:src/components/SchoolCalendar.tsx:103:19",
+            "kind": "typed_no_unsafe_argument",
+            "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/components/SchoolCalendar.tsx:125:17",
+      "rule_id": "@typescript-eslint/no-unsafe-member-access",
+      "kind": "typed_no_unsafe_member_access",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/SchoolCalendar",
+      "file": "src/components/SchoolCalendar.tsx",
+      "line": 125,
+      "column": 17,
+      "end_line": 125,
+      "end_column": 21,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe member access .name on an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-member-access",
+          "message": "Unsafe member access .name on an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-member-access",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_member_access finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_member_access"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/components/SchoolCalendar.tsx:125:17",
+            "kind": "typed_no_unsafe_member_access",
+            "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unnecessary-type-assertion:src/components/SpellingTester.tsx:89:30",
+      "rule_id": "@typescript-eslint/no-unnecessary-type-assertion",
+      "kind": "typed_no_unnecessary_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/SpellingTester",
+      "file": "src/components/SpellingTester.tsx",
+      "line": 89,
+      "column": 30,
+      "end_line": 92,
+      "end_column": 28,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "This assertion is unnecessary since it does not change the type of the expression.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unnecessary-type-assertion",
+          "message": "This assertion is unnecessary since it does not change the type of the expression."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unnecessary-type-assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unnecessary_type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unnecessary_type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unnecessary_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unnecessary-type-assertion:src/components/SpellingTester.tsx:89:30",
+            "kind": "typed_no_unnecessary_type_assertion",
+            "file": "src/components/SpellingTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/components/dayNightExplorer/SolarSystem3DManager.ts:475:5",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "line": 475,
+      "column": 5,
+      "end_line": 475,
+      "end_column": 28,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/components/dayNightExplorer/SolarSystem3DManager.ts:475:5",
+            "kind": "typed_no_floating_promises",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-call:src/components/dayNightExplorer/SolarSystem3DManager.ts:983:9",
+      "rule_id": "@typescript-eslint/no-unsafe-call",
+      "kind": "typed_no_unsafe_call",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "line": 983,
+      "column": 9,
+      "end_line": 983,
+      "end_column": 30,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe call of an `any` typed value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-call",
+          "message": "Unsafe call of an `any` typed value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-call",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_call finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_call"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_call finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-call:src/components/dayNightExplorer/SolarSystem3DManager.ts:983:9",
+            "kind": "typed_no_unsafe_call",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/components/dayNightExplorer/SolarSystem3DManager.ts:983:23",
+      "rule_id": "@typescript-eslint/no-unsafe-member-access",
+      "kind": "typed_no_unsafe_member_access",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "line": 983,
+      "column": 23,
+      "end_line": 983,
+      "end_column": 30,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe member access .dispose on an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-member-access",
+          "message": "Unsafe member access .dispose on an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-member-access",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_member_access finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_member_access"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/components/dayNightExplorer/SolarSystem3DManager.ts:983:23",
+            "kind": "typed_no_unsafe_member_access",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/components/dayNightExplorer/SolarSystem3DManager.ts:986:13",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "line": 986,
+      "column": 13,
+      "end_line": 986,
+      "end_column": 37,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/components/dayNightExplorer/SolarSystem3DManager.ts:986:13",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-return:src/components/dayNightExplorer/SolarSystem3DManager.ts:988:37",
+      "rule_id": "@typescript-eslint/no-unsafe-return",
+      "kind": "typed_no_unsafe_return",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "line": 988,
+      "column": 37,
+      "end_line": 988,
+      "end_column": 52,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe return of a value of type `any`.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-return",
+          "message": "Unsafe return of a value of type `any`."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-return",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_return finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_return"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_return finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-return:src/components/dayNightExplorer/SolarSystem3DManager.ts:988:37",
+            "kind": "typed_no_unsafe_return",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-call:src/components/dayNightExplorer/SolarSystem3DManager.ts:988:37",
+      "rule_id": "@typescript-eslint/no-unsafe-call",
+      "kind": "typed_no_unsafe_call",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "line": 988,
+      "column": 37,
+      "end_line": 988,
+      "end_column": 50,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe call of an `any` typed value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-call",
+          "message": "Unsafe call of an `any` typed value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-call",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_call finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_call"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_call finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-call:src/components/dayNightExplorer/SolarSystem3DManager.ts:988:37",
+            "kind": "typed_no_unsafe_call",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/components/dayNightExplorer/SolarSystem3DManager.ts:988:43",
+      "rule_id": "@typescript-eslint/no-unsafe-member-access",
+      "kind": "typed_no_unsafe_member_access",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "line": 988,
+      "column": 43,
+      "end_line": 988,
+      "end_column": 50,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe member access .dispose on an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-member-access",
+          "message": "Unsafe member access .dispose on an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-member-access",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_member_access finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_member_access"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/components/dayNightExplorer/SolarSystem3DManager.ts:988:43",
+            "kind": "typed_no_unsafe_member_access",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-call:src/components/dayNightExplorer/SolarSystem3DManager.ts:990:9",
+      "rule_id": "@typescript-eslint/no-unsafe-call",
+      "kind": "typed_no_unsafe_call",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "line": 990,
+      "column": 9,
+      "end_line": 990,
+      "end_column": 25,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe call of an `any` typed value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-call",
+          "message": "Unsafe call of an `any` typed value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-call",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_call finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_call"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_call finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-call:src/components/dayNightExplorer/SolarSystem3DManager.ts:990:9",
+            "kind": "typed_no_unsafe_call",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/components/dayNightExplorer/SolarSystem3DManager.ts:990:18",
+      "rule_id": "@typescript-eslint/no-unsafe-member-access",
+      "kind": "typed_no_unsafe_member_access",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "line": 990,
+      "column": 18,
+      "end_line": 990,
+      "end_column": 25,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe member access .dispose on an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-member-access",
+          "message": "Unsafe member access .dispose on an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-member-access",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_member_access finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_member_access"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/components/dayNightExplorer/SolarSystem3DManager.ts:990:18",
+            "kind": "typed_no_unsafe_member_access",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/components/ui/BottomNav.tsx:47:21",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/BottomNav",
+      "file": "src/components/ui/BottomNav.tsx",
+      "line": 47,
+      "column": 21,
+      "end_line": 47,
+      "end_column": 47,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/components/ui/BottomNav.tsx:47:21",
+            "kind": "typed_no_misused_promises",
+            "file": "src/components/ui/BottomNav.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/components/ui/IconActionControls.tsx:85:13",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/IconActionControls",
+      "file": "src/components/ui/IconActionControls.tsx",
+      "line": 85,
+      "column": 13,
+      "end_line": 85,
+      "end_column": 22,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/components/ui/IconActionControls.tsx:85:13",
+            "kind": "typed_no_misused_promises",
+            "file": "src/components/ui/IconActionControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/components/ui/IconActionControls.tsx:176:13",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/IconActionControls",
+      "file": "src/components/ui/IconActionControls.tsx",
+      "line": 176,
+      "column": 13,
+      "end_line": 176,
+      "end_column": 22,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/components/ui/IconActionControls.tsx:176:13",
+            "kind": "typed_no_misused_promises",
+            "file": "src/components/ui/IconActionControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:react-refresh/only-export-components:src/contexts/ActiveChildContext.tsx:9:1",
+      "rule_id": "react-refresh/only-export-components",
+      "kind": "react_refresh/only_export_components",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 9,
+      "column": 1,
+      "end_line": 9,
+      "end_column": 58,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Definition for rule 'react-refresh/only-export-components' was not found.",
+      "signals": [
+        {
+          "kind": "react-refresh/only-export-components",
+          "message": "Definition for rule 'react-refresh/only-export-components' was not found."
+        }
+      ],
+      "reason_code": "react-refresh/only-export-components",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this react_refresh/only_export_components finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line react_refresh/only_export_components"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this react_refresh/only_export_components finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:react-refresh/only-export-components:src/contexts/ActiveChildContext.tsx:9:1",
+            "kind": "react_refresh/only_export_components",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/contexts/ActiveChildContext.tsx:43:11",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 43,
+      "column": 11,
+      "end_line": 43,
+      "end_column": 35,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/contexts/ActiveChildContext.tsx:43:11",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/contexts/ActiveChildContext.tsx:45:13",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 45,
+      "column": 13,
+      "end_line": 45,
+      "end_column": 66,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/contexts/ActiveChildContext.tsx:45:13",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/contexts/ActiveChildContext.tsx:45:32",
+      "rule_id": "@typescript-eslint/no-unsafe-member-access",
+      "kind": "typed_no_unsafe_member_access",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 45,
+      "column": 32,
+      "end_line": 45,
+      "end_column": 34,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe member access .id on an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-member-access",
+          "message": "Unsafe member access .id on an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-member-access",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_member_access finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_member_access"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/contexts/ActiveChildContext.tsx:45:32",
+            "kind": "typed_no_unsafe_member_access",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/contexts/ActiveChildContext.tsx:45:57",
+      "rule_id": "@typescript-eslint/no-unsafe-member-access",
+      "kind": "typed_no_unsafe_member_access",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 45,
+      "column": 57,
+      "end_line": 45,
+      "end_column": 59,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe member access .id on an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-member-access",
+          "message": "Unsafe member access .id on an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-member-access",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_member_access finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_member_access"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/contexts/ActiveChildContext.tsx:45:57",
+            "kind": "typed_no_unsafe_member_access",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/contexts/ActiveChildContext.tsx:46:13",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 46,
+      "column": 13,
+      "end_line": 46,
+      "end_column": 81,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/contexts/ActiveChildContext.tsx:46:13",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/contexts/ActiveChildContext.tsx:46:37",
+      "rule_id": "@typescript-eslint/no-unsafe-member-access",
+      "kind": "typed_no_unsafe_member_access",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 46,
+      "column": 37,
+      "end_line": 46,
+      "end_column": 44,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe member access .themeId on an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-member-access",
+          "message": "Unsafe member access .themeId on an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-member-access",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_member_access finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_member_access"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/contexts/ActiveChildContext.tsx:46:37",
+            "kind": "typed_no_unsafe_member_access",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/contexts/ActiveChildContext.tsx:46:67",
+      "rule_id": "@typescript-eslint/no-unsafe-member-access",
+      "kind": "typed_no_unsafe_member_access",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 46,
+      "column": 67,
+      "end_line": 46,
+      "end_column": 74,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe member access .themeId on an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-member-access",
+          "message": "Unsafe member access .themeId on an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-member-access",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_member_access finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_member_access"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-member-access:src/contexts/ActiveChildContext.tsx:46:67",
+            "kind": "typed_no_unsafe_member_access",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/contexts/ActiveChildContext.tsx:47:16",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 47,
+      "column": 16,
+      "end_line": 47,
+      "end_column": 18,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/contexts/ActiveChildContext.tsx:47:16",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/contexts/ActiveChildContext.tsx:47:20",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 47,
+      "column": 20,
+      "end_line": 47,
+      "end_column": 27,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/contexts/ActiveChildContext.tsx:47:20",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:react-refresh/only-export-components:src/contexts/SelectedDateContext.tsx:8:1",
+      "rule_id": "react-refresh/only-export-components",
+      "kind": "react_refresh/only_export_components",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/SelectedDateContext",
+      "file": "src/contexts/SelectedDateContext.tsx",
+      "line": 8,
+      "column": 1,
+      "end_line": 8,
+      "end_column": 58,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Definition for rule 'react-refresh/only-export-components' was not found.",
+      "signals": [
+        {
+          "kind": "react-refresh/only-export-components",
+          "message": "Definition for rule 'react-refresh/only-export-components' was not found."
+        }
+      ],
+      "reason_code": "react-refresh/only-export-components",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this react_refresh/only_export_components finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line react_refresh/only_export_components"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this react_refresh/only_export_components finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:react-refresh/only-export-components:src/contexts/SelectedDateContext.tsx:8:1",
+            "kind": "react_refresh/only_export_components",
+            "file": "src/contexts/SelectedDateContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:react-refresh/only-export-components:src/contexts/ThemeContext.tsx:34:1",
+      "rule_id": "react-refresh/only-export-components",
+      "kind": "react_refresh/only_export_components",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/contexts/ThemeContext",
+      "file": "src/contexts/ThemeContext.tsx",
+      "line": 34,
+      "column": 1,
+      "end_line": 34,
+      "end_column": 58,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Definition for rule 'react-refresh/only-export-components' was not found.",
+      "signals": [
+        {
+          "kind": "react-refresh/only-export-components",
+          "message": "Definition for rule 'react-refresh/only-export-components' was not found."
+        }
+      ],
+      "reason_code": "react-refresh/only-export-components",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this react_refresh/only_export_components finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line react_refresh/only_export_components"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this react_refresh/only_export_components finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:react-refresh/only-export-components:src/contexts/ThemeContext.tsx:34:1",
+            "kind": "react_refresh/only_export_components",
+            "file": "src/contexts/ThemeContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/data/useChildren.ts:99:7",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/data/useChildren",
+      "file": "src/data/useChildren.ts",
+      "line": 99,
+      "column": 7,
+      "end_line": 99,
+      "end_column": 58,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/data/useChildren.ts:99:7",
+            "kind": "typed_no_floating_promises",
+            "file": "src/data/useChildren.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/data/useChildren.ts:113:5",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/data/useChildren",
+      "file": "src/data/useChildren.ts",
+      "line": 113,
+      "column": 5,
+      "end_line": 113,
+      "end_column": 70,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/data/useChildren.ts:113:5",
+            "kind": "typed_no_floating_promises",
+            "file": "src/data/useChildren.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-type-assertion:src/data/useChores.ts:115:27",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/data/useChores",
+      "file": "src/data/useChores.ts",
+      "line": 115,
+      "column": 27,
+      "end_line": 117,
+      "end_column": 10,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type '(keyof TaskEphemeralState)[]' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type '(keyof TaskEphemeralState)[]' is more narrow than the original type."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-type-assertion:src/data/useChores.ts:115:27",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/data/useChores.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/data/useChores.ts:172:7",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/data/useChores",
+      "file": "src/data/useChores.ts",
+      "line": 172,
+      "column": 7,
+      "end_line": 172,
+      "end_column": 50,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/data/useChores.ts:172:7",
+            "kind": "typed_no_floating_promises",
+            "file": "src/data/useChores.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/data/useRewards.ts:128:7",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/data/useRewards",
+      "file": "src/data/useRewards.ts",
+      "line": 128,
+      "column": 7,
+      "end_line": 128,
+      "end_column": 54,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/data/useRewards.ts:128:7",
+            "kind": "typed_no_floating_promises",
+            "file": "src/data/useRewards.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/data/useTests.ts:167:7",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/data/useTests",
+      "file": "src/data/useTests.ts",
+      "line": 167,
+      "column": 7,
+      "end_line": 167,
+      "end_column": 50,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/data/useTests.ts:167:7",
+            "kind": "typed_no_floating_promises",
+            "file": "src/data/useTests.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/firebase.ts:17:3",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/firebase",
+      "file": "src/firebase.ts",
+      "line": 17,
+      "column": 3,
+      "end_line": 17,
+      "end_column": 48,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/firebase.ts:17:3",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/firebase.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/firebase.ts:18:3",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/firebase",
+      "file": "src/firebase.ts",
+      "line": 18,
+      "column": 3,
+      "end_line": 18,
+      "end_column": 56,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/firebase.ts:18:3",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/firebase.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/firebase.ts:19:3",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/firebase",
+      "file": "src/firebase.ts",
+      "line": 19,
+      "column": 3,
+      "end_line": 19,
+      "end_column": 54,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/firebase.ts:19:3",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/firebase.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/firebase.ts:20:3",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/firebase",
+      "file": "src/firebase.ts",
+      "line": 20,
+      "column": 3,
+      "end_line": 20,
+      "end_column": 62,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/firebase.ts:20:3",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/firebase.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/firebase.ts:21:3",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/firebase",
+      "file": "src/firebase.ts",
+      "line": 21,
+      "column": 3,
+      "end_line": 21,
+      "end_column": 71,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/firebase.ts:21:3",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/firebase.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/firebase.ts:22:3",
+      "rule_id": "@typescript-eslint/no-unsafe-assignment",
+      "kind": "typed_no_unsafe_assignment",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/firebase",
+      "file": "src/firebase.ts",
+      "line": 22,
+      "column": 3,
+      "end_line": 22,
+      "end_column": 46,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Unsafe assignment of an `any` value.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-assignment",
+          "message": "Unsafe assignment of an `any` value."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_assignment finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_assignment"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-assignment:src/firebase.ts:22:3",
+            "kind": "typed_no_unsafe_assignment",
+            "file": "src/firebase.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/lib/celebrate.ts:4:3",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/lib/celebrate",
+      "file": "src/lib/celebrate.ts",
+      "line": 4,
+      "column": 3,
+      "end_line": 9,
+      "end_column": 5,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/lib/celebrate.ts:4:3",
+            "kind": "typed_no_floating_promises",
+            "file": "src/lib/celebrate.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-type-assertion:src/lib/choreParser.ts:200:10",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/lib/choreParser",
+      "file": "src/lib/choreParser.ts",
+      "line": 200,
+      "column": 10,
+      "end_line": 206,
+      "end_column": 18,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'TaskRecord' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'TaskRecord' is more narrow than the original type."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-type-assertion:src/lib/choreParser.ts:200:10",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-unsafe-type-assertion:src/lib/choreParser.ts:309:10",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/lib/choreParser",
+      "file": "src/lib/choreParser.ts",
+      "line": 309,
+      "column": 10,
+      "end_line": 315,
+      "end_column": 18,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'TodoRecord' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'TodoRecord' is more narrow than the original type."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_unsafe_type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_unsafe_type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-unsafe-type-assertion:src/lib/choreParser.ts:309:10",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/pages/ChoreCreationFlow.tsx:208:5",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/pages/ChoreCreationFlow",
+      "file": "src/pages/ChoreCreationFlow.tsx",
+      "line": 208,
+      "column": 5,
+      "end_line": 208,
+      "end_column": 35,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/pages/ChoreCreationFlow.tsx:208:5",
+            "kind": "typed_no_floating_promises",
+            "file": "src/pages/ChoreCreationFlow.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/pages/DashboardPage.tsx:354:24",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/pages/DashboardPage",
+      "file": "src/pages/DashboardPage.tsx",
+      "line": 354,
+      "column": 24,
+      "end_line": 354,
+      "end_column": 42,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/pages/DashboardPage.tsx:354:24",
+            "kind": "typed_no_misused_promises",
+            "file": "src/pages/DashboardPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/pages/DashboardPage.tsx:355:20",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/pages/DashboardPage",
+      "file": "src/pages/DashboardPage.tsx",
+      "line": 355,
+      "column": 20,
+      "end_line": 355,
+      "end_column": 28,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/pages/DashboardPage.tsx:355:20",
+            "kind": "typed_no_misused_promises",
+            "file": "src/pages/DashboardPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/pages/LoginPage.tsx:62:7",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/pages/LoginPage",
+      "file": "src/pages/LoginPage.tsx",
+      "line": 62,
+      "column": 7,
+      "end_line": 62,
+      "end_column": 59,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/pages/LoginPage.tsx:62:7",
+            "kind": "typed_no_floating_promises",
+            "file": "src/pages/LoginPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/pages/LoginPage.tsx:128:23",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/pages/LoginPage",
+      "file": "src/pages/LoginPage.tsx",
+      "line": 128,
+      "column": 23,
+      "end_line": 128,
+      "end_column": 36,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/pages/LoginPage.tsx:128:23",
+            "kind": "typed_no_misused_promises",
+            "file": "src/pages/LoginPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/pages/ManageTestsPage.tsx:115:18",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/pages/ManageTestsPage",
+      "file": "src/pages/ManageTestsPage.tsx",
+      "line": 115,
+      "column": 18,
+      "end_line": 115,
+      "end_column": 35,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/pages/ManageTestsPage.tsx:115:18",
+            "kind": "typed_no_misused_promises",
+            "file": "src/pages/ManageTestsPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/pages/ManageTestsPage.tsx:160:23",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/pages/ManageTestsPage",
+      "file": "src/pages/ManageTestsPage.tsx",
+      "line": 160,
+      "column": 23,
+      "end_line": 160,
+      "end_column": 41,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/pages/ManageTestsPage.tsx:160:23",
+            "kind": "typed_no_floating_promises",
+            "file": "src/pages/ManageTestsPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/pages/RewardCreationFlow.tsx:89:5",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/pages/RewardCreationFlow",
+      "file": "src/pages/RewardCreationFlow.tsx",
+      "line": 89,
+      "column": 5,
+      "end_line": 94,
+      "end_column": 7,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/pages/RewardCreationFlow.tsx:89:5",
+            "kind": "typed_no_floating_promises",
+            "file": "src/pages/RewardCreationFlow.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/definitionRowDescriptors.tsx:187:20",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/definitionRowDescriptors",
+      "file": "src/ui/definitionRowDescriptors.tsx",
+      "line": 187,
+      "column": 20,
+      "end_line": 187,
+      "end_column": 72,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/definitionRowDescriptors.tsx:187:20",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/definitionRowDescriptors.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/ui/definitionRowDescriptors.tsx:202:13",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/definitionRowDescriptors",
+      "file": "src/ui/definitionRowDescriptors.tsx",
+      "line": 202,
+      "column": 13,
+      "end_line": 202,
+      "end_column": 49,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/ui/definitionRowDescriptors.tsx:202:13",
+            "kind": "typed_no_floating_promises",
+            "file": "src/ui/definitionRowDescriptors.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/definitionRowDescriptors.tsx:212:20",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/definitionRowDescriptors",
+      "file": "src/ui/definitionRowDescriptors.tsx",
+      "line": 212,
+      "column": 20,
+      "end_line": 214,
+      "end_column": 12,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/definitionRowDescriptors.tsx:212:20",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/definitionRowDescriptors.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/definitionRowDescriptors.tsx:221:20",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/definitionRowDescriptors",
+      "file": "src/ui/definitionRowDescriptors.tsx",
+      "line": 221,
+      "column": 20,
+      "end_line": 225,
+      "end_column": 12,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/definitionRowDescriptors.tsx:221:20",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/definitionRowDescriptors.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedChoreItemRenderer.tsx:80:16",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedChoreItemRenderer",
+      "file": "src/ui/unifiedChoreItemRenderer.tsx",
+      "line": 80,
+      "column": 16,
+      "end_line": 80,
+      "end_column": 65,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedChoreItemRenderer.tsx:80:16",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedChoreItemRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/ui/unifiedChoreItemRenderer.tsx:171:13",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedChoreItemRenderer",
+      "file": "src/ui/unifiedChoreItemRenderer.tsx",
+      "line": 171,
+      "column": 13,
+      "end_line": 171,
+      "end_column": 73,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/ui/unifiedChoreItemRenderer.tsx:171:13",
+            "kind": "typed_no_floating_promises",
+            "file": "src/ui/unifiedChoreItemRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedChoreItemRenderer.tsx:190:24",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedChoreItemRenderer",
+      "file": "src/ui/unifiedChoreItemRenderer.tsx",
+      "line": 190,
+      "column": 24,
+      "end_line": 192,
+      "end_column": 16,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedChoreItemRenderer.tsx:190:24",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedChoreItemRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedChoreItemRenderer.tsx:203:26",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedChoreItemRenderer",
+      "file": "src/ui/unifiedChoreItemRenderer.tsx",
+      "line": 203,
+      "column": 26,
+      "end_line": 205,
+      "end_column": 18,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedChoreItemRenderer.tsx:203:26",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedChoreItemRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/ui/unifiedEatingRenderer.tsx:72:7",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedEatingRenderer",
+      "file": "src/ui/unifiedEatingRenderer.tsx",
+      "line": 72,
+      "column": 7,
+      "end_line": 72,
+      "end_column": 73,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/ui/unifiedEatingRenderer.tsx:72:7",
+            "kind": "typed_no_floating_promises",
+            "file": "src/ui/unifiedEatingRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/ui/unifiedEatingRenderer.tsx:73:7",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedEatingRenderer",
+      "file": "src/ui/unifiedEatingRenderer.tsx",
+      "line": 73,
+      "column": 7,
+      "end_line": 75,
+      "end_column": 9,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/ui/unifiedEatingRenderer.tsx:73:7",
+            "kind": "typed_no_floating_promises",
+            "file": "src/ui/unifiedEatingRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/ui/unifiedEatingRenderer.tsx:83:7",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedEatingRenderer",
+      "file": "src/ui/unifiedEatingRenderer.tsx",
+      "line": 83,
+      "column": 7,
+      "end_line": 83,
+      "end_column": 68,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/ui/unifiedEatingRenderer.tsx:83:7",
+            "kind": "typed_no_floating_promises",
+            "file": "src/ui/unifiedEatingRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-floating-promises:src/ui/unifiedEatingRenderer.tsx:84:7",
+      "rule_id": "@typescript-eslint/no-floating-promises",
+      "kind": "typed_no_floating_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedEatingRenderer",
+      "file": "src/ui/unifiedEatingRenderer.tsx",
+      "line": 84,
+      "column": 7,
+      "end_line": 84,
+      "end_column": 73,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-floating-promises",
+          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-floating-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_floating_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_floating_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-floating-promises:src/ui/unifiedEatingRenderer.tsx:84:7",
+            "kind": "typed_no_floating_promises",
+            "file": "src/ui/unifiedEatingRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedEatingRenderer.tsx:86:5",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedEatingRenderer",
+      "file": "src/ui/unifiedEatingRenderer.tsx",
+      "line": 86,
+      "column": 5,
+      "end_line": 86,
+      "end_column": 20,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to property where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to property where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedEatingRenderer.tsx:86:5",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedEatingRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedEatingRenderer.tsx:88:5",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedEatingRenderer",
+      "file": "src/ui/unifiedEatingRenderer.tsx",
+      "line": 88,
+      "column": 5,
+      "end_line": 88,
+      "end_column": 15,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to property where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to property where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedEatingRenderer.tsx:88:5",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedEatingRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedEatingRenderer.tsx:127:5",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedEatingRenderer",
+      "file": "src/ui/unifiedEatingRenderer.tsx",
+      "line": 127,
+      "column": 5,
+      "end_line": 127,
+      "end_column": 15,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to property where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to property where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedEatingRenderer.tsx:127:5",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedEatingRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedTestRenderer.tsx:82:5",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedTestRenderer",
+      "file": "src/ui/unifiedTestRenderer.tsx",
+      "line": 82,
+      "column": 5,
+      "end_line": 82,
+      "end_column": 23,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to property where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to property where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedTestRenderer.tsx:82:5",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedTestRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedTestRenderer.tsx:84:5",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedTestRenderer",
+      "file": "src/ui/unifiedTestRenderer.tsx",
+      "line": 84,
+      "column": 5,
+      "end_line": 84,
+      "end_column": 25,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to property where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to property where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedTestRenderer.tsx:84:5",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedTestRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedTestRenderer.tsx:100:5",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedTestRenderer",
+      "file": "src/ui/unifiedTestRenderer.tsx",
+      "line": 100,
+      "column": 5,
+      "end_line": 100,
+      "end_column": 23,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to property where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to property where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedTestRenderer.tsx:100:5",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedTestRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedTestRenderer.tsx:118:5",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedTestRenderer",
+      "file": "src/ui/unifiedTestRenderer.tsx",
+      "line": 118,
+      "column": 5,
+      "end_line": 118,
+      "end_column": 23,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to property where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to property where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedTestRenderer.tsx:118:5",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedTestRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedTestRenderer.tsx:140:5",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedTestRenderer",
+      "file": "src/ui/unifiedTestRenderer.tsx",
+      "line": 140,
+      "column": 5,
+      "end_line": 140,
+      "end_column": 23,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to property where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to property where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedTestRenderer.tsx:140:5",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedTestRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedTestRenderer.tsx:157:5",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedTestRenderer",
+      "file": "src/ui/unifiedTestRenderer.tsx",
+      "line": 157,
+      "column": 5,
+      "end_line": 157,
+      "end_column": 23,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to property where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to property where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedTestRenderer.tsx:157:5",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedTestRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedWaterToiletRenderer.tsx:43:19",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedWaterToiletRenderer",
+      "file": "src/ui/unifiedWaterToiletRenderer.tsx",
+      "line": 43,
+      "column": 19,
+      "end_line": 43,
+      "end_column": 43,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to property where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to property where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedWaterToiletRenderer.tsx:43:19",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedWaterToiletRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedWaterToiletRenderer.tsx:44:20",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
+      "evidence_kind": "tool-rule",
+      "disposition": "block",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/unifiedWaterToiletRenderer",
+      "file": "src/ui/unifiedWaterToiletRenderer.tsx",
+      "line": 44,
+      "column": 20,
+      "end_line": 44,
+      "end_column": 45,
+      "score": 90,
+      "severity": "high",
+      "risk": "high",
+      "source": "typescript-eslint",
+      "message": "Promise-returning function provided to property where a void return was expected.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to property where a void return was expected."
+        }
+      ],
+      "reason_code": "@typescript-eslint/no-misused-promises",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 60,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this typed_no_misused_promises finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line typed_no_misused_promises"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-lint:@typescript-eslint/no-misused-promises:src/ui/unifiedWaterToiletRenderer.tsx:44:20",
+            "kind": "typed_no_misused_promises",
+            "file": "src/ui/unifiedWaterToiletRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ]
+}

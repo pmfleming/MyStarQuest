@@ -1,17 +1,18 @@
 import { test, expect } from '@playwright/test'
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/')
+test('redirects unauthenticated visitors to sign in', async ({ page }) => {
+  await page.goto('/')
 
-  await expect(page).toHaveTitle(/Playwright/)
+  await expect(page).toHaveURL(/\/login$/)
+  await expect(
+    page.getByRole('heading', { name: 'Sign in to MyStarQuest' })
+  ).toBeVisible()
 })
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/')
-
-  await page.getByRole('link', { name: 'Get started' }).click()
+test('shows the Google sign-in action', async ({ page }) => {
+  await page.goto('/login')
 
   await expect(
-    page.getByRole('heading', { name: 'Installation' })
-  ).toBeVisible()
+    page.getByRole('button', { name: 'Google Account' })
+  ).toBeEnabled()
 })

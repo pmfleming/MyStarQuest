@@ -1,21 +1,43 @@
 {
-  "schema_version": "0.1.0",
+  "schema_version": "0.3.0",
   "task_id": "quality.clones",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "/home/laufan/Projects/MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
   },
   "provenance": {
     "lens": "ts-react-quality-lens",
-    "schema_version": "0.1.0",
-    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
-    "host": "Ghost_S1",
-    "measured_at": "2026-06-16T09:19:55.839Z",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure all --config /home/laufan/Projects/MyStarQuest/ts-react-quality-lens.config.json",
+    "host": "thinkpad",
+    "measured_at": "2026-08-22T10:59:03.554Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f8a489b8a2b6746a861269a2e1f1df5c2dc7b64799cc028d7c22fddc68ba7000"
+    "source_set_hash": "sha256:bbd2e517aef16fddd295cb9e635d7dff6f65a7b59c884f1d55ee5d90e7040a83"
+  },
+  "analysis_identity": {
+    "id": "sha256:787cfff9a1ab079dbe0f1e9bae0a9b77425548587acc80756e71723c291d12be",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:46ff20a9e8fd7287eaa1324b1c33f022a248df5c5fdf443aee7614616c2387ed",
+    "rulesets": {
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": "4.3.0"
+    }
   },
   "confidence": {
     "source_roots_exist": true,
@@ -32,6 +54,8 @@
     "typescript_program_loaded": true,
     "typescript_program_reason": null,
     "framework_conventions_detected": true,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
     "analysis_cache_status": "miss",
     "unsupported_pattern": [],
@@ -59,6 +83,7 @@
       "typescript_compiler_api_available",
       "typescript_program_loaded",
       "framework_conventions_detected",
+      "workspace_projects_complete",
       "analysis_cache_enabled",
       "jscpd_available",
       "jscpd_ran"
@@ -67,15 +92,15 @@
     "stale_input": []
   },
   "summary": {
-    "clone_groups": 44,
-    "jscpd_clone_groups": 27,
+    "clone_groups": 43,
+    "jscpd_clone_groups": 26,
     "heuristic_clone_groups": 0,
     "ast_clone_groups": 26,
-    "source_clone_groups": 44,
+    "source_clone_groups": 43,
     "test_clone_groups": 0,
-    "duplication_records": 37,
+    "duplication_records": 36,
     "high_duplication_records": 12,
-    "clone_pressure_records": 37,
+    "clone_pressure_records": 36,
     "same_purpose_records": 0
   },
   "tool_status": {
@@ -84,12 +109,12 @@
       "ran": true,
       "reason": null,
       "statistics": {
-        "detectionDate": "2026-06-16T09:19:54.351Z",
+        "detectionDate": "2026-08-22T10:59:02.347Z",
         "formats": {
           "typescript": {
             "sources": {
               "src/assets/themes/princess/assets.ts": {
-                "lines": 38,
+                "lines": 39,
                 "tokens": 608,
                 "sources": 1,
                 "clones": 0,
@@ -101,7 +126,7 @@
                 "newClones": 0
               },
               "src/lib/dayNightExplorer/dayNightExplorerOptions.ts": {
-                "lines": 97,
+                "lines": 98,
                 "tokens": 637,
                 "sources": 1,
                 "clones": 0,
@@ -113,7 +138,7 @@
                 "newClones": 0
               },
               "src/lib/dayNightExplorer/dayNightExplorerMath.ts": {
-                "lines": 129,
+                "lines": 130,
                 "tokens": 1346,
                 "sources": 1,
                 "clones": 0,
@@ -125,7 +150,7 @@
                 "newClones": 0
               },
               "src/lib/dayNightExplorer/dayNightExplorerCalendar.ts": {
-                "lines": 27,
+                "lines": 28,
                 "tokens": 180,
                 "sources": 1,
                 "clones": 0,
@@ -137,7 +162,7 @@
                 "newClones": 0
               },
               "src/lib/dayNightExplorer/dayNightExplorerBackdrop.ts": {
-                "lines": 211,
+                "lines": 212,
                 "tokens": 1965,
                 "sources": 1,
                 "clones": 0,
@@ -149,7 +174,7 @@
                 "newClones": 0
               },
               "src/lib/dayNightExplorer/dayNightExplorer.constants.ts": {
-                "lines": 75,
+                "lines": 76,
                 "tokens": 718,
                 "sources": 1,
                 "clones": 0,
@@ -161,8 +186,8 @@
                 "newClones": 0
               },
               "src/components/ui/standardActionStyles.ts": {
-                "lines": 89,
-                "tokens": 750,
+                "lines": 88,
+                "tokens": 747,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -173,7 +198,7 @@
                 "newClones": 0
               },
               "src/components/dayNightExplorer/useSolarSystem3D.ts": {
-                "lines": 48,
+                "lines": 49,
                 "tokens": 336,
                 "sources": 1,
                 "clones": 0,
@@ -185,7 +210,7 @@
                 "newClones": 0
               },
               "src/components/dayNightExplorer/useExplorerClock.ts": {
-                "lines": 310,
+                "lines": 311,
                 "tokens": 2531,
                 "sources": 1,
                 "clones": 0,
@@ -197,7 +222,7 @@
                 "newClones": 0
               },
               "src/components/dayNightExplorer/useDayNightExplorerModel.ts": {
-                "lines": 272,
+                "lines": 273,
                 "tokens": 2042,
                 "sources": 1,
                 "clones": 0,
@@ -209,7 +234,7 @@
                 "newClones": 0
               },
               "src/components/dayNightExplorer/SolarSystem3DManager.ts": {
-                "lines": 993,
+                "lines": 994,
                 "tokens": 9160,
                 "sources": 1,
                 "clones": 4,
@@ -221,7 +246,7 @@
                 "newClones": 0
               },
               "src/assets/rewards/assets.ts": {
-                "lines": 30,
+                "lines": 31,
                 "tokens": 285,
                 "sources": 1,
                 "clones": 0,
@@ -234,7 +259,7 @@
               },
               "src/assets/chores/assets.ts": {
                 "lines": 29,
-                "tokens": 270,
+                "tokens": 268,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -245,7 +270,7 @@
                 "newClones": 0
               },
               "src/ui/waterToiletAssets.ts": {
-                "lines": 66,
+                "lines": 67,
                 "tokens": 483,
                 "sources": 1,
                 "clones": 0,
@@ -257,7 +282,7 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreState.ts": {
-                "lines": 200,
+                "lines": 201,
                 "tokens": 1630,
                 "sources": 1,
                 "clones": 0,
@@ -269,7 +294,7 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreRenderUtils.ts": {
-                "lines": 3,
+                "lines": 4,
                 "tokens": 62,
                 "sources": 1,
                 "clones": 0,
@@ -281,8 +306,8 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreDescriptorTypes.ts": {
-                "lines": 56,
-                "tokens": 665,
+                "lines": 61,
+                "tokens": 685,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -293,7 +318,7 @@
                 "newClones": 0
               },
               "src/ui/themeOptions.ts": {
-                "lines": 35,
+                "lines": 36,
                 "tokens": 286,
                 "sources": 1,
                 "clones": 0,
@@ -305,7 +330,7 @@
                 "newClones": 0
               },
               "src/ui/taskTypeIcons.ts": {
-                "lines": 20,
+                "lines": 21,
                 "tokens": 139,
                 "sources": 1,
                 "clones": 0,
@@ -317,7 +342,7 @@
                 "newClones": 0
               },
               "src/ui/listDescriptorTypes.ts": {
-                "lines": 84,
+                "lines": 85,
                 "tokens": 901,
                 "sources": 1,
                 "clones": 0,
@@ -329,7 +354,7 @@
                 "newClones": 0
               },
               "src/ui/choreModeDefinitions.ts": {
-                "lines": 80,
+                "lines": 81,
                 "tokens": 552,
                 "sources": 1,
                 "clones": 0,
@@ -341,7 +366,7 @@
                 "newClones": 0
               },
               "src/tokens/index.ts": {
-                "lines": 119,
+                "lines": 120,
                 "tokens": 947,
                 "sources": 1,
                 "clones": 0,
@@ -353,7 +378,7 @@
                 "newClones": 0
               },
               "src/lib/useProblemHistory.ts": {
-                "lines": 39,
+                "lines": 40,
                 "tokens": 285,
                 "sources": 1,
                 "clones": 0,
@@ -365,7 +390,7 @@
                 "newClones": 0
               },
               "src/lib/today.ts": {
-                "lines": 175,
+                "lines": 176,
                 "tokens": 1659,
                 "sources": 1,
                 "clones": 0,
@@ -377,7 +402,7 @@
                 "newClones": 0
               },
               "src/lib/tabNavigation.ts": {
-                "lines": 62,
+                "lines": 63,
                 "tokens": 506,
                 "sources": 1,
                 "clones": 0,
@@ -389,19 +414,19 @@
                 "newClones": 0
               },
               "src/lib/starActions.ts": {
-                "lines": 163,
-                "tokens": 1318,
+                "lines": 239,
+                "tokens": 1943,
                 "sources": 1,
-                "clones": 2,
-                "duplicatedLines": 18,
-                "duplicatedTokens": 180,
-                "percentage": 11.04,
-                "percentageTokens": 13.66,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/lib/solar.ts": {
-                "lines": 322,
+                "lines": 323,
                 "tokens": 2670,
                 "sources": 1,
                 "clones": 0,
@@ -413,7 +438,7 @@
                 "newClones": 0
               },
               "src/lib/seasons.ts": {
-                "lines": 9,
+                "lines": 10,
                 "tokens": 138,
                 "sources": 1,
                 "clones": 0,
@@ -425,7 +450,7 @@
                 "newClones": 0
               },
               "src/lib/schoolCalendarCache.ts": {
-                "lines": 4,
+                "lines": 5,
                 "tokens": 53,
                 "sources": 1,
                 "clones": 0,
@@ -437,8 +462,8 @@
                 "newClones": 0
               },
               "src/lib/choreParser.ts": {
-                "lines": 332,
-                "tokens": 2739,
+                "lines": 330,
+                "tokens": 2735,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -449,7 +474,7 @@
                 "newClones": 0
               },
               "src/lib/choreLogic.ts": {
-                "lines": 95,
+                "lines": 96,
                 "tokens": 660,
                 "sources": 1,
                 "clones": 0,
@@ -461,7 +486,7 @@
                 "newClones": 0
               },
               "src/lib/celebrate.ts": {
-                "lines": 13,
+                "lines": 14,
                 "tokens": 113,
                 "sources": 1,
                 "clones": 0,
@@ -473,7 +498,7 @@
                 "newClones": 0
               },
               "src/hooks/useTaskActivityState.ts": {
-                "lines": 52,
+                "lines": 53,
                 "tokens": 507,
                 "sources": 1,
                 "clones": 0,
@@ -485,7 +510,7 @@
                 "newClones": 0
               },
               "src/hooks/useDinnerCountdownState.ts": {
-                "lines": 101,
+                "lines": 102,
                 "tokens": 936,
                 "sources": 1,
                 "clones": 0,
@@ -497,7 +522,7 @@
                 "newClones": 0
               },
               "src/hooks/useDeviceFrame.ts": {
-                "lines": 50,
+                "lines": 51,
                 "tokens": 441,
                 "sources": 1,
                 "clones": 0,
@@ -509,7 +534,7 @@
                 "newClones": 0
               },
               "src/hooks/useActivityChallenge.ts": {
-                "lines": 180,
+                "lines": 181,
                 "tokens": 1438,
                 "sources": 1,
                 "clones": 0,
@@ -521,7 +546,7 @@
                 "newClones": 0
               },
               "src/data/useUserCollection.ts": {
-                "lines": 81,
+                "lines": 82,
                 "tokens": 590,
                 "sources": 1,
                 "clones": 0,
@@ -533,8 +558,8 @@
                 "newClones": 0
               },
               "src/data/useTests.ts": {
-                "lines": 258,
-                "tokens": 2231,
+                "lines": 271,
+                "tokens": 2368,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -545,8 +570,8 @@
                 "newClones": 0
               },
               "src/data/useRewards.ts": {
-                "lines": 191,
-                "tokens": 1531,
+                "lines": 186,
+                "tokens": 1481,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -557,8 +582,8 @@
                 "newClones": 0
               },
               "src/data/useChores.ts": {
-                "lines": 228,
-                "tokens": 1918,
+                "lines": 250,
+                "tokens": 2119,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -569,8 +594,8 @@
                 "newClones": 0
               },
               "src/data/useChoreActivityActions.ts": {
-                "lines": 146,
-                "tokens": 1201,
+                "lines": 171,
+                "tokens": 1328,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -581,7 +606,7 @@
                 "newClones": 0
               },
               "src/data/useChildren.ts": {
-                "lines": 172,
+                "lines": 173,
                 "tokens": 1549,
                 "sources": 1,
                 "clones": 0,
@@ -593,7 +618,7 @@
                 "newClones": 0
               },
               "src/data/types.ts": {
-                "lines": 718,
+                "lines": 719,
                 "tokens": 6029,
                 "sources": 1,
                 "clones": 0,
@@ -605,7 +630,7 @@
                 "newClones": 0
               },
               "src/data/taskDocuments.ts": {
-                "lines": 211,
+                "lines": 212,
                 "tokens": 1315,
                 "sources": 1,
                 "clones": 0,
@@ -617,8 +642,8 @@
                 "newClones": 0
               },
               "src/data/dailyTaskState.ts": {
-                "lines": 351,
-                "tokens": 2773,
+                "lines": 368,
+                "tokens": 2861,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -629,7 +654,7 @@
                 "newClones": 0
               },
               "src/firebase.ts": {
-                "lines": 36,
+                "lines": 37,
                 "tokens": 361,
                 "sources": 1,
                 "clones": 0,
@@ -642,14 +667,14 @@
               }
             },
             "total": {
-              "lines": 7000,
-              "tokens": 59454,
+              "lines": 7186,
+              "tokens": 60593,
               "sources": 46,
-              "clones": 3,
-              "duplicatedLines": 38,
-              "duplicatedTokens": 440,
-              "percentage": 0.54,
-              "percentageTokens": 0.74,
+              "clones": 2,
+              "duplicatedLines": 29,
+              "duplicatedTokens": 350,
+              "percentage": 0.4,
+              "percentageTokens": 0.58,
               "newDuplicatedLines": 0,
               "newClones": 0
             }
@@ -657,7 +682,7 @@
           "javascript": {
             "sources": {
               "src/components/ui/TopIconButton.tsx": {
-                "lines": 0,
+                "lines": 1,
                 "tokens": 3,
                 "sources": 1,
                 "clones": 0,
@@ -669,7 +694,7 @@
                 "newClones": 0
               },
               "src/components/ui/StepperButton.tsx": {
-                "lines": 4,
+                "lines": 5,
                 "tokens": 44,
                 "sources": 1,
                 "clones": 0,
@@ -681,7 +706,7 @@
                 "newClones": 0
               },
               "src/components/ui/StarInfoBox.tsx": {
-                "lines": 186,
+                "lines": 187,
                 "tokens": 1563,
                 "sources": 1,
                 "clones": 0,
@@ -693,19 +718,19 @@
                 "newClones": 0
               },
               "src/components/ui/StarDisplay.tsx": {
-                "lines": 291,
+                "lines": 292,
                 "tokens": 2045,
                 "sources": 1,
                 "clones": 2,
                 "duplicatedLines": 20,
                 "duplicatedTokens": 130,
-                "percentage": 6.87,
+                "percentage": 6.85,
                 "percentageTokens": 6.36,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 303,
+                "lines": 304,
                 "tokens": 2220,
                 "sources": 1,
                 "clones": 0,
@@ -729,7 +754,7 @@
                 "newClones": 0
               },
               "src/components/ui/ScheduleDayTypeControl.tsx": {
-                "lines": 17,
+                "lines": 18,
                 "tokens": 113,
                 "sources": 1,
                 "clones": 0,
@@ -741,7 +766,7 @@
                 "newClones": 0
               },
               "src/components/ui/RepeatControl.tsx": {
-                "lines": 81,
+                "lines": 82,
                 "tokens": 435,
                 "sources": 1,
                 "clones": 0,
@@ -753,7 +778,7 @@
                 "newClones": 0
               },
               "src/components/ui/InlineChoiceList.tsx": {
-                "lines": 51,
+                "lines": 52,
                 "tokens": 353,
                 "sources": 1,
                 "clones": 0,
@@ -765,7 +790,7 @@
                 "newClones": 0
               },
               "src/components/ui/IconActionControls.tsx": {
-                "lines": 167,
+                "lines": 168,
                 "tokens": 1084,
                 "sources": 1,
                 "clones": 0,
@@ -777,7 +802,7 @@
                 "newClones": 0
               },
               "src/components/ui/DragScrollRegion.tsx": {
-                "lines": 0,
+                "lines": 1,
                 "tokens": 3,
                 "sources": 1,
                 "clones": 0,
@@ -789,7 +814,7 @@
                 "newClones": 0
               },
               "src/components/ui/Carousel.tsx": {
-                "lines": 34,
+                "lines": 35,
                 "tokens": 324,
                 "sources": 1,
                 "clones": 0,
@@ -801,7 +826,7 @@
                 "newClones": 0
               },
               "src/components/ui/ActivityMathCounters.tsx": {
-                "lines": 77,
+                "lines": 78,
                 "tokens": 425,
                 "sources": 1,
                 "clones": 0,
@@ -813,7 +838,7 @@
                 "newClones": 0
               },
               "src/components/ui/ActivityControls.tsx": {
-                "lines": 310,
+                "lines": 311,
                 "tokens": 1889,
                 "sources": 1,
                 "clones": 0,
@@ -825,7 +850,7 @@
                 "newClones": 0
               },
               "src/components/ui/ActionTextInput.tsx": {
-                "lines": 11,
+                "lines": 12,
                 "tokens": 87,
                 "sources": 1,
                 "clones": 0,
@@ -837,7 +862,7 @@
                 "newClones": 0
               },
               "src/components/ui/ActionButton.tsx": {
-                "lines": 22,
+                "lines": 23,
                 "tokens": 145,
                 "sources": 1,
                 "clones": 0,
@@ -849,7 +874,7 @@
                 "newClones": 0
               },
               "src/components/dayNightExplorer/SpinningPlanet.tsx": {
-                "lines": 52,
+                "lines": 53,
                 "tokens": 351,
                 "sources": 1,
                 "clones": 0,
@@ -861,19 +886,19 @@
                 "newClones": 0
               },
               "src/components/dayNightExplorer/Clock.tsx": {
-                "lines": 429,
+                "lines": 430,
                 "tokens": 2630,
                 "sources": 1,
                 "clones": 4,
                 "duplicatedLines": 82,
                 "duplicatedTokens": 404,
-                "percentage": 19.11,
+                "percentage": 19.07,
                 "percentageTokens": 15.36,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/ui/unifiedWaterToiletRenderer.tsx": {
-                "lines": 1,
+                "lines": 2,
                 "tokens": 16,
                 "sources": 1,
                 "clones": 0,
@@ -885,7 +910,7 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreItemRenderer.tsx": {
-                "lines": 213,
+                "lines": 214,
                 "tokens": 1568,
                 "sources": 1,
                 "clones": 0,
@@ -897,7 +922,7 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreDescriptors.tsx": {
-                "lines": 89,
+                "lines": 90,
                 "tokens": 725,
                 "sources": 1,
                 "clones": 0,
@@ -909,7 +934,7 @@
                 "newClones": 0
               },
               "src/ui/presetChoreRenderers.tsx": {
-                "lines": 59,
+                "lines": 60,
                 "tokens": 428,
                 "sources": 1,
                 "clones": 0,
@@ -921,7 +946,7 @@
                 "newClones": 0
               },
               "src/ui/presetChoreActions.tsx": {
-                "lines": 0,
+                "lines": 1,
                 "tokens": 3,
                 "sources": 1,
                 "clones": 0,
@@ -933,7 +958,7 @@
                 "newClones": 0
               },
               "src/ui/definitionRowDescriptors.tsx": {
-                "lines": 147,
+                "lines": 148,
                 "tokens": 1082,
                 "sources": 1,
                 "clones": 0,
@@ -945,7 +970,7 @@
                 "newClones": 0
               },
               "src/routes/ProtectedRoute.tsx": {
-                "lines": 0,
+                "lines": 1,
                 "tokens": 8,
                 "sources": 1,
                 "clones": 0,
@@ -957,7 +982,7 @@
                 "newClones": 0
               },
               "src/routes/AnimatedTabLayout.tsx": {
-                "lines": 14,
+                "lines": 15,
                 "tokens": 92,
                 "sources": 1,
                 "clones": 0,
@@ -968,8 +993,20 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/pages/dashboardChoreUi.tsx": {
+                "lines": 121,
+                "tokens": 711,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/pages/TimeExplorerPage.tsx": {
-                "lines": 75,
+                "lines": 76,
                 "tokens": 440,
                 "sources": 1,
                 "clones": 0,
@@ -981,7 +1018,7 @@
                 "newClones": 0
               },
               "src/pages/TestsPage.tsx": {
-                "lines": 0,
+                "lines": 1,
                 "tokens": 3,
                 "sources": 1,
                 "clones": 0,
@@ -993,7 +1030,7 @@
                 "newClones": 0
               },
               "src/pages/RewardsPage.tsx": {
-                "lines": 39,
+                "lines": 40,
                 "tokens": 252,
                 "sources": 1,
                 "clones": 0,
@@ -1005,7 +1042,7 @@
                 "newClones": 0
               },
               "src/pages/RewardCreationFlow.tsx": {
-                "lines": 104,
+                "lines": 105,
                 "tokens": 742,
                 "sources": 1,
                 "clones": 0,
@@ -1017,7 +1054,7 @@
                 "newClones": 0
               },
               "src/pages/ManageTestsPage.tsx": {
-                "lines": 14,
+                "lines": 15,
                 "tokens": 83,
                 "sources": 1,
                 "clones": 0,
@@ -1029,7 +1066,7 @@
                 "newClones": 0
               },
               "src/pages/ManageChildrenPage.tsx": {
-                "lines": 45,
+                "lines": 46,
                 "tokens": 262,
                 "sources": 1,
                 "clones": 0,
@@ -1041,7 +1078,7 @@
                 "newClones": 0
               },
               "src/pages/LoginPage.tsx": {
-                "lines": 53,
+                "lines": 54,
                 "tokens": 368,
                 "sources": 1,
                 "clones": 0,
@@ -1053,20 +1090,8 @@
                 "newClones": 0
               },
               "src/pages/DashboardPage.tsx": {
-                "lines": 96,
-                "tokens": 730,
-                "sources": 1,
-                "clones": 0,
-                "duplicatedLines": 0,
-                "duplicatedTokens": 0,
-                "percentage": 0,
-                "percentageTokens": 0,
-                "newDuplicatedLines": 0,
-                "newClones": 0
-              },
-              "src/pages/dashboardChoreUi.tsx": {
-                "lines": 120,
-                "tokens": 711,
+                "lines": 98,
+                "tokens": 737,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1077,7 +1102,7 @@
                 "newClones": 0
               },
               "src/pages/ChoreCreationFlow.tsx": {
-                "lines": 154,
+                "lines": 155,
                 "tokens": 1135,
                 "sources": 1,
                 "clones": 0,
@@ -1089,7 +1114,7 @@
                 "newClones": 0
               },
               "src/contexts/ThemeContext.tsx": {
-                "lines": 0,
+                "lines": 1,
                 "tokens": 3,
                 "sources": 1,
                 "clones": 0,
@@ -1101,7 +1126,7 @@
                 "newClones": 0
               },
               "src/contexts/SelectedDateContext.tsx": {
-                "lines": 0,
+                "lines": 1,
                 "tokens": 3,
                 "sources": 1,
                 "clones": 0,
@@ -1113,7 +1138,7 @@
                 "newClones": 0
               },
               "src/contexts/ActiveChildContext.tsx": {
-                "lines": 0,
+                "lines": 1,
                 "tokens": 3,
                 "sources": 1,
                 "clones": 0,
@@ -1125,7 +1150,7 @@
                 "newClones": 0
               },
               "src/components/WaterToiletMonitor.tsx": {
-                "lines": 68,
+                "lines": 69,
                 "tokens": 372,
                 "sources": 1,
                 "clones": 0,
@@ -1137,7 +1162,7 @@
                 "newClones": 0
               },
               "src/components/TabContent.tsx": {
-                "lines": 18,
+                "lines": 19,
                 "tokens": 111,
                 "sources": 1,
                 "clones": 0,
@@ -1149,7 +1174,7 @@
                 "newClones": 0
               },
               "src/components/SpellingTester.tsx": {
-                "lines": 1,
+                "lines": 2,
                 "tokens": 13,
                 "sources": 1,
                 "clones": 0,
@@ -1161,7 +1186,7 @@
                 "newClones": 0
               },
               "src/components/SchoolCalendar.tsx": {
-                "lines": 161,
+                "lines": 162,
                 "tokens": 1006,
                 "sources": 1,
                 "clones": 0,
@@ -1173,19 +1198,19 @@
                 "newClones": 0
               },
               "src/components/PositionalNotation.tsx": {
-                "lines": 330,
+                "lines": 331,
                 "tokens": 1955,
                 "sources": 1,
                 "clones": 1,
                 "duplicatedLines": 58,
                 "duplicatedTokens": 405,
-                "percentage": 17.58,
+                "percentage": 17.52,
                 "percentageTokens": 20.72,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/PageShell.tsx": {
-                "lines": 66,
+                "lines": 67,
                 "tokens": 520,
                 "sources": 1,
                 "clones": 0,
@@ -1197,7 +1222,7 @@
                 "newClones": 0
               },
               "src/components/PageHeader.tsx": {
-                "lines": 0,
+                "lines": 1,
                 "tokens": 9,
                 "sources": 1,
                 "clones": 0,
@@ -1209,20 +1234,20 @@
                 "newClones": 0
               },
               "src/components/LargeNumbersTester.tsx": {
-                "lines": 305,
+                "lines": 306,
                 "tokens": 2006,
                 "sources": 1,
                 "clones": 2,
                 "duplicatedLines": 104,
                 "duplicatedTokens": 700,
-                "percentage": 34.1,
+                "percentage": 33.99,
                 "percentageTokens": 34.9,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/DinnerCountdown.tsx": {
-                "lines": 562,
-                "tokens": 3691,
+                "lines": 557,
+                "tokens": 3689,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1233,19 +1258,19 @@
                 "newClones": 0
               },
               "src/components/ArithmeticTester.tsx": {
-                "lines": 359,
+                "lines": 360,
                 "tokens": 2219,
                 "sources": 1,
                 "clones": 1,
                 "duplicatedLines": 46,
                 "duplicatedTokens": 295,
-                "percentage": 12.81,
+                "percentage": 12.78,
                 "percentageTokens": 13.29,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/AppDeviceFrame.tsx": {
-                "lines": 10,
+                "lines": 11,
                 "tokens": 57,
                 "sources": 1,
                 "clones": 0,
@@ -1257,7 +1282,7 @@
                 "newClones": 0
               },
               "src/components/AlphabetTester.tsx": {
-                "lines": 59,
+                "lines": 60,
                 "tokens": 353,
                 "sources": 1,
                 "clones": 0,
@@ -1269,7 +1294,7 @@
                 "newClones": 0
               },
               "src/auth/AuthContext.tsx": {
-                "lines": 0,
+                "lines": 1,
                 "tokens": 3,
                 "sources": 1,
                 "clones": 0,
@@ -1281,7 +1306,7 @@
                 "newClones": 0
               },
               "src/App.tsx": {
-                "lines": 43,
+                "lines": 44,
                 "tokens": 390,
                 "sources": 1,
                 "clones": 0,
@@ -1294,13 +1319,13 @@
               }
             },
             "total": {
-              "lines": 5284,
-              "tokens": 35351,
+              "lines": 5331,
+              "tokens": 35356,
               "sources": 53,
               "clones": 5,
               "duplicatedLines": 155,
               "duplicatedTokens": 967,
-              "percentage": 2.93,
+              "percentage": 2.91,
               "percentageTokens": 2.74,
               "newDuplicatedLines": 0,
               "newClones": 0
@@ -1309,7 +1334,7 @@
           "tsx": {
             "sources": {
               "src/components/ui/TopIconButton.tsx": {
-                "lines": 62,
+                "lines": 63,
                 "tokens": 425,
                 "sources": 1,
                 "clones": 0,
@@ -1321,7 +1346,7 @@
                 "newClones": 0
               },
               "src/components/ui/StepperButton.tsx": {
-                "lines": 85,
+                "lines": 86,
                 "tokens": 621,
                 "sources": 1,
                 "clones": 0,
@@ -1333,7 +1358,7 @@
                 "newClones": 0
               },
               "src/components/ui/StarInfoBox.tsx": {
-                "lines": 324,
+                "lines": 325,
                 "tokens": 2626,
                 "sources": 1,
                 "clones": 0,
@@ -1345,7 +1370,7 @@
                 "newClones": 0
               },
               "src/components/ui/StarDisplay.tsx": {
-                "lines": 395,
+                "lines": 396,
                 "tokens": 2741,
                 "sources": 1,
                 "clones": 0,
@@ -1357,7 +1382,7 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 581,
+                "lines": 582,
                 "tokens": 4251,
                 "sources": 1,
                 "clones": 0,
@@ -1381,7 +1406,7 @@
                 "newClones": 0
               },
               "src/components/ui/ScheduleDayTypeControl.tsx": {
-                "lines": 77,
+                "lines": 78,
                 "tokens": 485,
                 "sources": 1,
                 "clones": 0,
@@ -1393,7 +1418,7 @@
                 "newClones": 0
               },
               "src/components/ui/RepeatControl.tsx": {
-                "lines": 135,
+                "lines": 136,
                 "tokens": 818,
                 "sources": 1,
                 "clones": 0,
@@ -1405,7 +1430,7 @@
                 "newClones": 0
               },
               "src/components/ui/InlineChoiceList.tsx": {
-                "lines": 107,
+                "lines": 108,
                 "tokens": 737,
                 "sources": 1,
                 "clones": 0,
@@ -1417,7 +1442,7 @@
                 "newClones": 0
               },
               "src/components/ui/IconActionControls.tsx": {
-                "lines": 201,
+                "lines": 202,
                 "tokens": 1327,
                 "sources": 1,
                 "clones": 0,
@@ -1429,7 +1454,7 @@
                 "newClones": 0
               },
               "src/components/ui/DragScrollRegion.tsx": {
-                "lines": 191,
+                "lines": 192,
                 "tokens": 1398,
                 "sources": 1,
                 "clones": 0,
@@ -1441,7 +1466,7 @@
                 "newClones": 0
               },
               "src/components/ui/Carousel.tsx": {
-                "lines": 194,
+                "lines": 195,
                 "tokens": 1655,
                 "sources": 1,
                 "clones": 0,
@@ -1453,19 +1478,19 @@
                 "newClones": 0
               },
               "src/components/ui/BottomNav.tsx": {
-                "lines": 82,
+                "lines": 83,
                 "tokens": 655,
                 "sources": 1,
                 "clones": 1,
                 "duplicatedLines": 7,
                 "duplicatedTokens": 66,
-                "percentage": 8.54,
+                "percentage": 8.43,
                 "percentageTokens": 10.08,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/ui/ActivityMathCounters.tsx": {
-                "lines": 107,
+                "lines": 108,
                 "tokens": 601,
                 "sources": 1,
                 "clones": 0,
@@ -1477,7 +1502,7 @@
                 "newClones": 0
               },
               "src/components/ui/ActivityControls.tsx": {
-                "lines": 385,
+                "lines": 386,
                 "tokens": 2395,
                 "sources": 1,
                 "clones": 0,
@@ -1489,7 +1514,7 @@
                 "newClones": 0
               },
               "src/components/ui/ActionTextInput.tsx": {
-                "lines": 108,
+                "lines": 109,
                 "tokens": 763,
                 "sources": 1,
                 "clones": 0,
@@ -1501,7 +1526,7 @@
                 "newClones": 0
               },
               "src/components/ui/ActionButton.tsx": {
-                "lines": 95,
+                "lines": 96,
                 "tokens": 610,
                 "sources": 1,
                 "clones": 0,
@@ -1513,7 +1538,7 @@
                 "newClones": 0
               },
               "src/components/dayNightExplorer/SpinningPlanet.tsx": {
-                "lines": 115,
+                "lines": 116,
                 "tokens": 784,
                 "sources": 1,
                 "clones": 0,
@@ -1525,7 +1550,7 @@
                 "newClones": 0
               },
               "src/components/dayNightExplorer/Clock.tsx": {
-                "lines": 552,
+                "lines": 553,
                 "tokens": 3531,
                 "sources": 1,
                 "clones": 0,
@@ -1537,7 +1562,7 @@
                 "newClones": 0
               },
               "src/ui/unifiedWaterToiletRenderer.tsx": {
-                "lines": 45,
+                "lines": 46,
                 "tokens": 336,
                 "sources": 1,
                 "clones": 0,
@@ -1549,8 +1574,8 @@
                 "newClones": 0
               },
               "src/ui/unifiedTestRenderer.tsx": {
-                "lines": 453,
-                "tokens": 3466,
+                "lines": 456,
+                "tokens": 3468,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1561,7 +1586,7 @@
                 "newClones": 0
               },
               "src/ui/unifiedEatingRenderer.tsx": {
-                "lines": 130,
+                "lines": 131,
                 "tokens": 1139,
                 "sources": 1,
                 "clones": 0,
@@ -1573,19 +1598,19 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreItemRenderer.tsx": {
-                "lines": 293,
+                "lines": 294,
                 "tokens": 2184,
                 "sources": 1,
                 "clones": 1,
                 "duplicatedLines": 37,
                 "duplicatedTokens": 250,
-                "percentage": 12.63,
+                "percentage": 12.59,
                 "percentageTokens": 11.45,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/ui/unifiedChoreDescriptors.tsx": {
-                "lines": 202,
+                "lines": 203,
                 "tokens": 1664,
                 "sources": 1,
                 "clones": 0,
@@ -1597,7 +1622,7 @@
                 "newClones": 0
               },
               "src/ui/presetChoreRenderers.tsx": {
-                "lines": 87,
+                "lines": 88,
                 "tokens": 741,
                 "sources": 1,
                 "clones": 0,
@@ -1609,31 +1634,31 @@
                 "newClones": 0
               },
               "src/ui/presetChoreActions.tsx": {
-                "lines": 189,
+                "lines": 190,
                 "tokens": 1426,
                 "sources": 1,
                 "clones": 2,
                 "duplicatedLines": 24,
                 "duplicatedTokens": 184,
-                "percentage": 12.7,
+                "percentage": 12.63,
                 "percentageTokens": 12.9,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/ui/definitionRowDescriptors.tsx": {
-                "lines": 282,
+                "lines": 283,
                 "tokens": 2156,
                 "sources": 1,
                 "clones": 1,
                 "duplicatedLines": 37,
                 "duplicatedTokens": 250,
-                "percentage": 13.12,
+                "percentage": 13.07,
                 "percentageTokens": 11.6,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/routes/ProtectedRoute.tsx": {
-                "lines": 22,
+                "lines": 23,
                 "tokens": 186,
                 "sources": 1,
                 "clones": 0,
@@ -1645,7 +1670,7 @@
                 "newClones": 0
               },
               "src/routes/AnimatedTabLayout.tsx": {
-                "lines": 75,
+                "lines": 76,
                 "tokens": 621,
                 "sources": 1,
                 "clones": 0,
@@ -1656,8 +1681,20 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/pages/dashboardChoreUi.tsx": {
+                "lines": 177,
+                "tokens": 1047,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/pages/TimeExplorerPage.tsx": {
-                "lines": 124,
+                "lines": 125,
                 "tokens": 805,
                 "sources": 1,
                 "clones": 0,
@@ -1669,19 +1706,19 @@
                 "newClones": 0
               },
               "src/pages/TestsPage.tsx": {
-                "lines": 152,
-                "tokens": 1225,
+                "lines": 149,
+                "tokens": 1223,
                 "sources": 1,
                 "clones": 3,
-                "duplicatedLines": 51,
-                "duplicatedTokens": 417,
-                "percentage": 33.55,
-                "percentageTokens": 34.04,
+                "duplicatedLines": 48,
+                "duplicatedTokens": 416,
+                "percentage": 32.21,
+                "percentageTokens": 34.01,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/pages/RewardsPage.tsx": {
-                "lines": 131,
+                "lines": 132,
                 "tokens": 922,
                 "sources": 1,
                 "clones": 0,
@@ -1693,31 +1730,31 @@
                 "newClones": 0
               },
               "src/pages/RewardCreationFlow.tsx": {
-                "lines": 161,
+                "lines": 162,
                 "tokens": 1150,
                 "sources": 1,
                 "clones": 1,
                 "duplicatedLines": 29,
                 "duplicatedTokens": 195,
-                "percentage": 18.01,
+                "percentage": 17.9,
                 "percentageTokens": 16.96,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/pages/ManageTestsPage.tsx": {
-                "lines": 183,
-                "tokens": 1468,
+                "lines": 180,
+                "tokens": 1466,
                 "sources": 1,
                 "clones": 3,
-                "duplicatedLines": 51,
-                "duplicatedTokens": 417,
-                "percentage": 27.87,
-                "percentageTokens": 28.41,
+                "duplicatedLines": 48,
+                "duplicatedTokens": 416,
+                "percentage": 26.67,
+                "percentageTokens": 28.38,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/pages/ManageChildrenPage.tsx": {
-                "lines": 118,
+                "lines": 119,
                 "tokens": 782,
                 "sources": 1,
                 "clones": 0,
@@ -1729,7 +1766,7 @@
                 "newClones": 0
               },
               "src/pages/LoginPage.tsx": {
-                "lines": 137,
+                "lines": 138,
                 "tokens": 1069,
                 "sources": 1,
                 "clones": 0,
@@ -1741,43 +1778,31 @@
                 "newClones": 0
               },
               "src/pages/DashboardPage.tsx": {
-                "lines": 435,
-                "tokens": 3370,
+                "lines": 445,
+                "tokens": 3449,
                 "sources": 1,
                 "clones": 4,
                 "duplicatedLines": 36,
                 "duplicatedTokens": 270,
-                "percentage": 8.28,
-                "percentageTokens": 8.01,
-                "newDuplicatedLines": 0,
-                "newClones": 0
-              },
-              "src/pages/dashboardChoreUi.tsx": {
-                "lines": 176,
-                "tokens": 1047,
-                "sources": 1,
-                "clones": 0,
-                "duplicatedLines": 0,
-                "duplicatedTokens": 0,
-                "percentage": 0,
-                "percentageTokens": 0,
+                "percentage": 8.09,
+                "percentageTokens": 7.83,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/pages/ChoreCreationFlow.tsx": {
-                "lines": 360,
+                "lines": 361,
                 "tokens": 2638,
                 "sources": 1,
                 "clones": 1,
                 "duplicatedLines": 29,
                 "duplicatedTokens": 195,
-                "percentage": 8.06,
+                "percentage": 8.03,
                 "percentageTokens": 7.39,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/contexts/ThemeContext.tsx": {
-                "lines": 273,
+                "lines": 274,
                 "tokens": 1920,
                 "sources": 1,
                 "clones": 0,
@@ -1789,7 +1814,7 @@
                 "newClones": 0
               },
               "src/contexts/SelectedDateContext.tsx": {
-                "lines": 87,
+                "lines": 88,
                 "tokens": 580,
                 "sources": 1,
                 "clones": 0,
@@ -1801,7 +1826,7 @@
                 "newClones": 0
               },
               "src/contexts/ActiveChildContext.tsx": {
-                "lines": 130,
+                "lines": 131,
                 "tokens": 1104,
                 "sources": 1,
                 "clones": 0,
@@ -1813,7 +1838,7 @@
                 "newClones": 0
               },
               "src/components/WaterToiletMonitor.tsx": {
-                "lines": 140,
+                "lines": 141,
                 "tokens": 887,
                 "sources": 1,
                 "clones": 0,
@@ -1825,7 +1850,7 @@
                 "newClones": 0
               },
               "src/components/TabContent.tsx": {
-                "lines": 49,
+                "lines": 50,
                 "tokens": 296,
                 "sources": 1,
                 "clones": 0,
@@ -1837,19 +1862,19 @@
                 "newClones": 0
               },
               "src/components/SpellingTester.tsx": {
-                "lines": 552,
+                "lines": 553,
                 "tokens": 4895,
                 "sources": 1,
                 "clones": 2,
                 "duplicatedLines": 22,
                 "duplicatedTokens": 203,
-                "percentage": 3.99,
+                "percentage": 3.98,
                 "percentageTokens": 4.15,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/SchoolCalendar.tsx": {
-                "lines": 349,
+                "lines": 350,
                 "tokens": 2603,
                 "sources": 1,
                 "clones": 0,
@@ -1861,19 +1886,19 @@
                 "newClones": 0
               },
               "src/components/PositionalNotation.tsx": {
-                "lines": 544,
+                "lines": 545,
                 "tokens": 3502,
                 "sources": 1,
                 "clones": 4,
                 "duplicatedLines": 98,
                 "duplicatedTokens": 563,
-                "percentage": 18.01,
+                "percentage": 17.98,
                 "percentageTokens": 16.08,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/PageShell.tsx": {
-                "lines": 128,
+                "lines": 129,
                 "tokens": 941,
                 "sources": 1,
                 "clones": 0,
@@ -1885,32 +1910,32 @@
                 "newClones": 0
               },
               "src/components/PageHeader.tsx": {
-                "lines": 60,
+                "lines": 61,
                 "tokens": 446,
                 "sources": 1,
                 "clones": 1,
                 "duplicatedLines": 7,
                 "duplicatedTokens": 66,
-                "percentage": 11.67,
+                "percentage": 11.48,
                 "percentageTokens": 14.8,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/LargeNumbersTester.tsx": {
-                "lines": 606,
+                "lines": 607,
                 "tokens": 4291,
                 "sources": 1,
                 "clones": 6,
                 "duplicatedLines": 151,
                 "duplicatedTokens": 1018,
-                "percentage": 24.92,
+                "percentage": 24.88,
                 "percentageTokens": 23.72,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/DinnerCountdown.tsx": {
-                "lines": 701,
-                "tokens": 4978,
+                "lines": 694,
+                "tokens": 4974,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1921,7 +1946,7 @@
                 "newClones": 0
               },
               "src/components/ChoreOutcomeView.tsx": {
-                "lines": 55,
+                "lines": 56,
                 "tokens": 358,
                 "sources": 1,
                 "clones": 0,
@@ -1933,19 +1958,19 @@
                 "newClones": 0
               },
               "src/components/ArithmeticTester.tsx": {
-                "lines": 553,
+                "lines": 554,
                 "tokens": 3876,
                 "sources": 1,
                 "clones": 2,
                 "duplicatedLines": 57,
                 "duplicatedTokens": 347,
-                "percentage": 10.31,
+                "percentage": 10.29,
                 "percentageTokens": 8.95,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/AppErrorBoundary.tsx": {
-                "lines": 78,
+                "lines": 79,
                 "tokens": 602,
                 "sources": 1,
                 "clones": 0,
@@ -1957,7 +1982,7 @@
                 "newClones": 0
               },
               "src/components/AppDeviceFrame.tsx": {
-                "lines": 54,
+                "lines": 55,
                 "tokens": 375,
                 "sources": 1,
                 "clones": 0,
@@ -1969,19 +1994,19 @@
                 "newClones": 0
               },
               "src/components/AlphabetTester.tsx": {
-                "lines": 477,
+                "lines": 478,
                 "tokens": 3774,
                 "sources": 1,
                 "clones": 2,
                 "duplicatedLines": 22,
                 "duplicatedTokens": 203,
-                "percentage": 4.61,
+                "percentage": 4.6,
                 "percentageTokens": 5.38,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/auth/AuthContext.tsx": {
-                "lines": 92,
+                "lines": 93,
                 "tokens": 711,
                 "sources": 1,
                 "clones": 0,
@@ -1993,7 +2018,7 @@
                 "newClones": 0
               },
               "src/main.tsx": {
-                "lines": 9,
+                "lines": 10,
                 "tokens": 67,
                 "sources": 1,
                 "clones": 0,
@@ -2005,8 +2030,8 @@
                 "newClones": 0
               },
               "src/App.tsx": {
-                "lines": 82,
-                "tokens": 689,
+                "lines": 83,
+                "tokens": 733,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2018,13 +2043,13 @@
               }
             },
             "total": {
-              "lines": 12684,
-              "tokens": 92505,
+              "lines": 12737,
+              "tokens": 92622,
               "sources": 59,
               "clones": 17,
-              "duplicatedLines": 329,
-              "duplicatedTokens": 2322,
-              "percentage": 2.59,
+              "duplicatedLines": 326,
+              "duplicatedTokens": 2321,
+              "percentage": 2.56,
               "percentageTokens": 2.51,
               "newDuplicatedLines": 0,
               "newClones": 0
@@ -2033,7 +2058,7 @@
           "css": {
             "sources": {
               "src/components/ui/StarInfoBox.tsx": {
-                "lines": 10,
+                "lines": 11,
                 "tokens": 134,
                 "sources": 1,
                 "clones": 0,
@@ -2045,7 +2070,7 @@
                 "newClones": 0
               },
               "src/components/ui/RepeatControl.tsx": {
-                "lines": 71,
+                "lines": 72,
                 "tokens": 346,
                 "sources": 1,
                 "clones": 0,
@@ -2057,7 +2082,7 @@
                 "newClones": 0
               },
               "src/components/SpellingTester.tsx": {
-                "lines": 12,
+                "lines": 13,
                 "tokens": 155,
                 "sources": 1,
                 "clones": 0,
@@ -2069,43 +2094,43 @@
                 "newClones": 0
               },
               "src/components/PositionalNotation.tsx": {
-                "lines": 18,
+                "lines": 19,
                 "tokens": 174,
                 "sources": 1,
                 "clones": 2,
                 "duplicatedLines": 10,
                 "duplicatedTokens": 102,
-                "percentage": 55.56,
+                "percentage": 52.63,
                 "percentageTokens": 58.62,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/LargeNumbersTester.tsx": {
-                "lines": 14,
+                "lines": 15,
                 "tokens": 137,
                 "sources": 1,
                 "clones": 1,
                 "duplicatedLines": 5,
                 "duplicatedTokens": 51,
-                "percentage": 35.71,
+                "percentage": 33.33,
                 "percentageTokens": 37.23,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/ArithmeticTester.tsx": {
-                "lines": 14,
+                "lines": 15,
                 "tokens": 137,
                 "sources": 1,
                 "clones": 1,
                 "duplicatedLines": 5,
                 "duplicatedTokens": 51,
-                "percentage": 35.71,
+                "percentage": 33.33,
                 "percentageTokens": 37.23,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/components/AlphabetTester.tsx": {
-                "lines": 11,
+                "lines": 12,
                 "tokens": 115,
                 "sources": 1,
                 "clones": 0,
@@ -2118,13 +2143,13 @@
               }
             },
             "total": {
-              "lines": 150,
+              "lines": 157,
               "tokens": 1198,
               "sources": 7,
               "clones": 2,
               "duplicatedLines": 10,
               "duplicatedTokens": 102,
-              "percentage": 6.67,
+              "percentage": 6.37,
               "percentageTokens": 8.51,
               "newDuplicatedLines": 0,
               "newClones": 0
@@ -2132,14 +2157,14 @@
           }
         },
         "total": {
-          "lines": 25118,
-          "tokens": 188508,
+          "lines": 25411,
+          "tokens": 189769,
           "sources": 165,
-          "clones": 27,
-          "duplicatedLines": 532,
-          "duplicatedTokens": 3831,
-          "percentage": 2.12,
-          "percentageTokens": 2.03,
+          "clones": 26,
+          "duplicatedLines": 520,
+          "duplicatedTokens": 3740,
+          "percentage": 2.05,
+          "percentageTokens": 1.97,
           "newDuplicatedLines": 0,
           "newClones": 0
         }
@@ -2182,6 +2207,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+          "start_line": 847,
+          "end_line": 863,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+          "start_line": 781,
+          "end_line": 798,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:typescript:2",
       "actions": [
         {
           "type": "fix",
@@ -2249,6 +2297,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/dayNightExplorer/Clock.tsx",
+          "start_line": 346,
+          "end_line": 363,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/dayNightExplorer/Clock.tsx",
+          "start_line": 321,
+          "end_line": 336,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:javascript:4",
       "actions": [
         {
           "type": "fix",
@@ -2316,6 +2387,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/dayNightExplorer/Clock.tsx",
+          "start_line": 497,
+          "end_line": 521,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/dayNightExplorer/Clock.tsx",
+          "start_line": 473,
+          "end_line": 497,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:javascript:5",
       "actions": [
         {
           "type": "fix",
@@ -2383,6 +2477,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/ui/definitionRowDescriptors.tsx",
+          "start_line": 75,
+          "end_line": 112,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/ui/unifiedChoreItemRenderer.tsx",
+          "start_line": 225,
+          "end_line": 262,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:7",
       "actions": [
         {
           "type": "fix",
@@ -2440,16 +2557,39 @@
       "instances": [
         {
           "file": "src/pages/ManageTestsPage.tsx",
-          "start_line": 54,
-          "end_line": 69
+          "start_line": 53,
+          "end_line": 68
         },
         {
           "file": "src/pages/TestsPage.tsx",
-          "start_line": 34,
-          "end_line": 50
+          "start_line": 33,
+          "end_line": 49
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/pages/ManageTestsPage.tsx",
+          "start_line": 53,
+          "end_line": 68,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "start_line": 33,
+          "end_line": 49,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:8",
       "actions": [
         {
           "type": "fix",
@@ -2493,7 +2633,7 @@
       "signals": [
         {
           "kind": "line_count",
-          "value": 18
+          "value": 15
         },
         {
           "kind": "file_count",
@@ -2507,16 +2647,39 @@
       "instances": [
         {
           "file": "src/pages/ManageTestsPage.tsx",
-          "start_line": 78,
-          "end_line": 95
+          "start_line": 77,
+          "end_line": 91
         },
         {
           "file": "src/pages/TestsPage.tsx",
-          "start_line": 63,
-          "end_line": 80
+          "start_line": 62,
+          "end_line": 76
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/pages/ManageTestsPage.tsx",
+          "start_line": 77,
+          "end_line": 91,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "start_line": 62,
+          "end_line": 76,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:9",
       "actions": [
         {
           "type": "fix",
@@ -2584,6 +2747,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/pages/ChoreCreationFlow.tsx",
+          "start_line": 143,
+          "end_line": 172,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/pages/RewardCreationFlow.tsx",
+          "start_line": 47,
+          "end_line": 76,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:13",
       "actions": [
         {
           "type": "fix",
@@ -2617,7 +2803,7 @@
       ]
     },
     {
-      "id": "jscpd:javascript:17",
+      "id": "jscpd:javascript:16",
       "engine": "jscpd",
       "hash": null,
       "classification": "source_clone",
@@ -2651,6 +2837,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/LargeNumbersTester.tsx",
+          "start_line": 429,
+          "end_line": 487,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/PositionalNotation.tsx",
+          "start_line": 171,
+          "end_line": 238,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:javascript:16",
       "actions": [
         {
           "type": "fix",
@@ -2670,7 +2879,7 @@
           "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "jscpd:javascript:17",
+            "id": "jscpd:javascript:16",
             "kind": "jscpd",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -2684,7 +2893,7 @@
       ]
     },
     {
-      "id": "jscpd:tsx:18",
+      "id": "jscpd:tsx:17",
       "engine": "jscpd",
       "hash": null,
       "classification": "source_clone",
@@ -2718,6 +2927,119 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/LargeNumbersTester.tsx",
+          "start_line": 104,
+          "end_line": 120,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/PositionalNotation.tsx",
+          "start_line": 72,
+          "end_line": 88,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:17",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this jscpd finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line jscpd"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "jscpd:tsx:17",
+            "kind": "jscpd",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this jscpd finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file jscpd"
+        }
+      ]
+    },
+    {
+      "id": "jscpd:tsx:18",
+      "engine": "jscpd",
+      "hash": null,
+      "classification": "source_clone",
+      "test_code": false,
+      "score": 100,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 21
+        },
+        {
+          "kind": "file_count",
+          "value": 2
+        },
+        {
+          "kind": "format",
+          "value": "tsx"
+        }
+      ],
+      "instances": [
+        {
+          "file": "src/components/LargeNumbersTester.tsx",
+          "start_line": 155,
+          "end_line": 175
+        },
+        {
+          "file": "src/components/PositionalNotation.tsx",
+          "start_line": 121,
+          "end_line": 141
+        }
+      ],
+      "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/LargeNumbersTester.tsx",
+          "start_line": 155,
+          "end_line": 175,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/PositionalNotation.tsx",
+          "start_line": 121,
+          "end_line": 141,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:18",
       "actions": [
         {
           "type": "fix",
@@ -2761,11 +3083,11 @@
       "signals": [
         {
           "kind": "line_count",
-          "value": 21
+          "value": 18
         },
         {
           "kind": "file_count",
-          "value": 2
+          "value": 1
         },
         {
           "kind": "format",
@@ -2775,16 +3097,39 @@
       "instances": [
         {
           "file": "src/components/LargeNumbersTester.tsx",
-          "start_line": 155,
-          "end_line": 175
+          "start_line": 311,
+          "end_line": 328
         },
         {
-          "file": "src/components/PositionalNotation.tsx",
-          "start_line": 121,
-          "end_line": 141
+          "file": "src/components/LargeNumbersTester.tsx",
+          "start_line": 281,
+          "end_line": 298
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/LargeNumbersTester.tsx",
+          "start_line": 311,
+          "end_line": 328,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/LargeNumbersTester.tsx",
+          "start_line": 281,
+          "end_line": 298,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:19",
       "actions": [
         {
           "type": "fix",
@@ -2818,74 +3163,7 @@
       ]
     },
     {
-      "id": "jscpd:tsx:20",
-      "engine": "jscpd",
-      "hash": null,
-      "classification": "source_clone",
-      "test_code": false,
-      "score": 100,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 18
-        },
-        {
-          "kind": "file_count",
-          "value": 1
-        },
-        {
-          "kind": "format",
-          "value": "tsx"
-        }
-      ],
-      "instances": [
-        {
-          "file": "src/components/LargeNumbersTester.tsx",
-          "start_line": 311,
-          "end_line": 328
-        },
-        {
-          "file": "src/components/LargeNumbersTester.tsx",
-          "start_line": 281,
-          "end_line": 298
-        }
-      ],
-      "kind": "jscpd",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this jscpd finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line jscpd"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "jscpd:tsx:20",
-            "kind": "jscpd",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        },
-        {
-          "type": "suppress-file",
-          "auto_fixable": false,
-          "description": "Suppress this jscpd finding for the whole file.",
-          "comment": "// ts-react-quality-lens-ignore-file jscpd"
-        }
-      ]
-    },
-    {
-      "id": "jscpd:javascript:23",
+      "id": "jscpd:javascript:22",
       "engine": "jscpd",
       "hash": null,
       "classification": "source_clone",
@@ -2919,6 +3197,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/ArithmeticTester.tsx",
+          "start_line": 251,
+          "end_line": 297,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/LargeNumbersTester.tsx",
+          "start_line": 420,
+          "end_line": 212,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:javascript:22",
       "actions": [
         {
           "type": "fix",
@@ -2938,7 +3239,7 @@
           "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "jscpd:javascript:23",
+            "id": "jscpd:javascript:22",
             "kind": "jscpd",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -2952,7 +3253,7 @@
       ]
     },
     {
-      "id": "jscpd:tsx:24",
+      "id": "jscpd:tsx:23",
       "engine": "jscpd",
       "hash": null,
       "classification": "source_clone",
@@ -2986,6 +3287,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/ArithmeticTester.tsx",
+          "start_line": 137,
+          "end_line": 156,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/PositionalNotation.tsx",
+          "start_line": 122,
+          "end_line": 141,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:23",
       "actions": [
         {
           "type": "fix",
@@ -3005,7 +3329,7 @@
           "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "jscpd:tsx:24",
+            "id": "jscpd:tsx:23",
             "kind": "jscpd",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -3019,7 +3343,7 @@
       ]
     },
     {
-      "id": "jscpd:tsx:25",
+      "id": "jscpd:tsx:24",
       "engine": "jscpd",
       "hash": null,
       "classification": "source_clone",
@@ -3053,6 +3377,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/ArithmeticTester.tsx",
+          "start_line": 259,
+          "end_line": 297,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/LargeNumbersTester.tsx",
+          "start_line": 424,
+          "end_line": 208,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:24",
       "actions": [
         {
           "type": "fix",
@@ -3072,7 +3419,7 @@
           "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "jscpd:tsx:25",
+            "id": "jscpd:tsx:24",
             "kind": "jscpd",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -3125,6 +3472,35 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "start_line": 85,
+          "end_line": 93,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/contexts/ActiveChildContext.tsx",
+          "start_line": 125,
+          "end_line": 131,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/contexts/SelectedDateContext.tsx",
+          "start_line": 69,
+          "end_line": 79,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:8ecf34bc",
       "actions": [
         {
           "type": "fix",
@@ -3192,11 +3568,40 @@
         },
         {
           "file": "src/pages/TestsPage.tsx",
-          "start_line": 104,
-          "end_line": 106
+          "start_line": 100,
+          "end_line": 102
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/data/useChores.ts",
+          "start_line": 75,
+          "end_line": 77,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/data/useTests.ts",
+          "start_line": 120,
+          "end_line": 122,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "start_line": 100,
+          "end_line": 102,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:8b18aff6",
       "actions": [
         {
           "type": "fix",
@@ -3230,7 +3635,7 @@
       ]
     },
     {
-      "id": "jscpd:tsx:26",
+      "id": "jscpd:tsx:25",
       "engine": "jscpd",
       "hash": null,
       "classification": "source_clone",
@@ -3264,6 +3669,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/AlphabetTester.tsx",
+          "start_line": 248,
+          "end_line": 259,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/SpellingTester.tsx",
+          "start_line": 338,
+          "end_line": 349,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:25",
       "actions": [
         {
           "type": "fix",
@@ -3283,7 +3711,7 @@
           "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "jscpd:tsx:26",
+            "id": "jscpd:tsx:25",
             "kind": "jscpd",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -3297,7 +3725,7 @@
       ]
     },
     {
-      "id": "jscpd:tsx:27",
+      "id": "jscpd:tsx:26",
       "engine": "jscpd",
       "hash": null,
       "classification": "source_clone",
@@ -3331,6 +3759,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/AlphabetTester.tsx",
+          "start_line": 324,
+          "end_line": 335,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/SpellingTester.tsx",
+          "start_line": 456,
+          "end_line": 467,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:26",
       "actions": [
         {
           "type": "fix",
@@ -3350,7 +3801,7 @@
           "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "jscpd:tsx:27",
+            "id": "jscpd:tsx:26",
             "kind": "jscpd",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -3388,31 +3839,72 @@
       "instances": [
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 400,
-          "end_line": 402
+          "start_line": 402,
+          "end_line": 404
         },
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 410,
-          "end_line": 412
+          "start_line": 412,
+          "end_line": 414
         },
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 420,
-          "end_line": 426
+          "start_line": 422,
+          "end_line": 428
         },
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 434,
-          "end_line": 440
+          "start_line": 436,
+          "end_line": 442
         },
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 448,
-          "end_line": 454
+          "start_line": 450,
+          "end_line": 456
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 402,
+          "end_line": 404,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 412,
+          "end_line": 414,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 422,
+          "end_line": 428,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 436,
+          "end_line": 442,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 450,
+          "end_line": 456,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:9e6bb828",
       "actions": [
         {
           "type": "fix",
@@ -3480,6 +3972,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+          "start_line": 955,
+          "end_line": 968,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+          "start_line": 937,
+          "end_line": 950,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:typescript:3",
       "actions": [
         {
           "type": "fix",
@@ -3547,6 +4062,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/ui/presetChoreActions.tsx",
+          "start_line": 173,
+          "end_line": 185,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/ui/presetChoreActions.tsx",
+          "start_line": 145,
+          "end_line": 157,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:6",
       "actions": [
         {
           "type": "fix",
@@ -3580,7 +4118,7 @@
       ]
     },
     {
-      "id": "jscpd:tsx:15",
+      "id": "jscpd:tsx:14",
       "engine": "jscpd",
       "hash": null,
       "classification": "source_clone",
@@ -3614,6 +4152,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/PageHeader.tsx",
+          "start_line": 23,
+          "end_line": 30,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/ui/BottomNav.tsx",
+          "start_line": 27,
+          "end_line": 34,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:14",
       "actions": [
         {
           "type": "fix",
@@ -3633,7 +4194,7 @@
           "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "jscpd:tsx:15",
+            "id": "jscpd:tsx:14",
             "kind": "jscpd",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -3671,26 +4232,61 @@
       "instances": [
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 92,
-          "end_line": 100
+          "start_line": 93,
+          "end_line": 102
         },
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 107,
-          "end_line": 123
+          "start_line": 109,
+          "end_line": 125
         },
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 130,
-          "end_line": 140
+          "start_line": 132,
+          "end_line": 142
         },
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 147,
-          "end_line": 157
+          "start_line": 149,
+          "end_line": 159
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 93,
+          "end_line": 102,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 109,
+          "end_line": 125,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 132,
+          "end_line": 142,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 149,
+          "end_line": 159,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:ce2a933d",
       "actions": [
         {
           "type": "fix",
@@ -3748,26 +4344,61 @@
       "instances": [
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 178,
-          "end_line": 184
+          "start_line": 180,
+          "end_line": 186
         },
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 191,
-          "end_line": 204
+          "start_line": 193,
+          "end_line": 206
         },
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 211,
-          "end_line": 223
+          "start_line": 213,
+          "end_line": 225
         },
         {
           "file": "src/ui/unifiedTestRenderer.tsx",
-          "start_line": 230,
-          "end_line": 242
+          "start_line": 232,
+          "end_line": 244
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 180,
+          "end_line": 186,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 193,
+          "end_line": 206,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 213,
+          "end_line": 225,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "start_line": 232,
+          "end_line": 244,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:66eea4a6",
       "actions": [
         {
           "type": "fix",
@@ -3835,6 +4466,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/ui/StarDisplay.tsx",
+          "start_line": 365,
+          "end_line": 375,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/ui/StarDisplay.tsx",
+          "start_line": 342,
+          "end_line": 352,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:javascript:1",
       "actions": [
         {
           "type": "fix",
@@ -3868,7 +4522,7 @@
       ]
     },
     {
-      "id": "jscpd:css:22",
+      "id": "jscpd:css:21",
       "engine": "jscpd",
       "hash": null,
       "classification": "source_clone",
@@ -3902,6 +4556,29 @@
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/ArithmeticTester.tsx",
+          "start_line": 274,
+          "end_line": 279,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/PositionalNotation.tsx",
+          "start_line": 185,
+          "end_line": 190,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:css:21",
       "actions": [
         {
           "type": "fix",
@@ -3921,7 +4598,7 @@
           "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "jscpd:css:22",
+            "id": "jscpd:css:21",
             "kind": "jscpd",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -3959,16 +4636,39 @@
       "instances": [
         {
           "file": "src/pages/DashboardPage.tsx",
-          "start_line": 362,
-          "end_line": 371
+          "start_line": 370,
+          "end_line": 379
         },
         {
           "file": "src/pages/DashboardPage.tsx",
-          "start_line": 307,
-          "end_line": 316
+          "start_line": 315,
+          "end_line": 324
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "start_line": 370,
+          "end_line": 379,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "start_line": 315,
+          "end_line": 324,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:11",
       "actions": [
         {
           "type": "fix",
@@ -4026,16 +4726,39 @@
       "instances": [
         {
           "file": "src/pages/DashboardPage.tsx",
-          "start_line": 374,
-          "end_line": 383
+          "start_line": 382,
+          "end_line": 391
         },
         {
           "file": "src/pages/DashboardPage.tsx",
-          "start_line": 362,
-          "end_line": 371
+          "start_line": 370,
+          "end_line": 379
         }
       ],
       "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "start_line": 382,
+          "end_line": 391,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "start_line": 370,
+          "end_line": 379,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:tsx:12",
       "actions": [
         {
           "type": "fix",
@@ -4056,73 +4779,6 @@
           "config_key": "suppressions",
           "value": {
             "id": "jscpd:tsx:12",
-            "kind": "jscpd",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        },
-        {
-          "type": "suppress-file",
-          "auto_fixable": false,
-          "description": "Suppress this jscpd finding for the whole file.",
-          "comment": "// ts-react-quality-lens-ignore-file jscpd"
-        }
-      ]
-    },
-    {
-      "id": "jscpd:typescript:14",
-      "engine": "jscpd",
-      "hash": null,
-      "classification": "source_clone",
-      "test_code": false,
-      "score": 73,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 10
-        },
-        {
-          "kind": "file_count",
-          "value": 1
-        },
-        {
-          "kind": "format",
-          "value": "typescript"
-        }
-      ],
-      "instances": [
-        {
-          "file": "src/lib/starActions.ts",
-          "start_line": 139,
-          "end_line": 148
-        },
-        {
-          "file": "src/lib/starActions.ts",
-          "start_line": 26,
-          "end_line": 35
-        }
-      ],
-      "kind": "jscpd",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this jscpd finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line jscpd"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "jscpd:typescript:14",
             "kind": "jscpd",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -4170,6 +4826,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/AlphabetTester.tsx",
+          "start_line": 309,
+          "end_line": 316,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/SpellingTester.tsx",
+          "start_line": 435,
+          "end_line": 442,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:c83f6323",
       "actions": [
         {
           "type": "fix",
@@ -4237,6 +4916,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+          "start_line": 321,
+          "end_line": 321,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/lib/solar.ts",
+          "start_line": 159,
+          "end_line": 159,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:ab5ceb47",
       "actions": [
         {
           "type": "fix",
@@ -4304,6 +5006,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "start_line": 22,
+          "end_line": 70,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/ui/StarDisplay.tsx",
+          "start_line": 9,
+          "end_line": 25,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:8e899d94",
       "actions": [
         {
           "type": "fix",
@@ -4371,6 +5096,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/data/useChildren.ts",
+          "start_line": 80,
+          "end_line": 90,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/data/useRewards.ts",
+          "start_line": 109,
+          "end_line": 119,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:a6374ac",
       "actions": [
         {
           "type": "fix",
@@ -4438,6 +5186,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/data/useChildren.ts",
+          "start_line": 96,
+          "end_line": 106,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/data/useRewards.ts",
+          "start_line": 125,
+          "end_line": 135,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:d0328136",
       "actions": [
         {
           "type": "fix",
@@ -4505,6 +5276,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/lib/seasons.ts",
+          "start_line": 3,
+          "end_line": 10,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/lib/today.ts",
+          "start_line": 88,
+          "end_line": 95,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:5de1816",
       "actions": [
         {
           "type": "fix",
@@ -4572,6 +5366,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/pages/ChoreCreationFlow.tsx",
+          "start_line": 261,
+          "end_line": 265,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/pages/RewardCreationFlow.tsx",
+          "start_line": 121,
+          "end_line": 125,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:4b085f80",
       "actions": [
         {
           "type": "fix",
@@ -4639,6 +5456,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/pages/ManageChildrenPage.tsx",
+          "start_line": 31,
+          "end_line": 37,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/pages/RewardsPage.tsx",
+          "start_line": 43,
+          "end_line": 49,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:de0ee35e",
       "actions": [
         {
           "type": "fix",
@@ -4711,6 +5551,35 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/lib/choreParser.ts",
+          "start_line": 80,
+          "end_line": 87,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/lib/choreParser.ts",
+          "start_line": 89,
+          "end_line": 96,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/lib/choreParser.ts",
+          "start_line": 98,
+          "end_line": 105,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:391fb9a8",
       "actions": [
         {
           "type": "fix",
@@ -4778,6 +5647,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/AppErrorBoundary.tsx",
+          "start_line": 29,
+          "end_line": 32,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/AppErrorBoundary.tsx",
+          "start_line": 34,
+          "end_line": 40,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:1afb1e52",
       "actions": [
         {
           "type": "fix",
@@ -4845,6 +5737,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/components/SchoolCalendar.tsx",
+          "start_line": 254,
+          "end_line": 262,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/components/SchoolCalendar.tsx",
+          "start_line": 338,
+          "end_line": 346,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:228d0c36",
       "actions": [
         {
           "type": "fix",
@@ -4912,6 +5827,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/data/types.ts",
+          "start_line": 364,
+          "end_line": 370,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/data/types.ts",
+          "start_line": 467,
+          "end_line": 473,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:3e3b4f44",
       "actions": [
         {
           "type": "fix",
@@ -4979,6 +5917,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/lib/choreLogic.ts",
+          "start_line": 33,
+          "end_line": 36,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/lib/choreLogic.ts",
+          "start_line": 38,
+          "end_line": 41,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:40397948",
       "actions": [
         {
           "type": "fix",
@@ -5036,16 +5997,39 @@
       "instances": [
         {
           "file": "src/lib/choreParser.ts",
-          "start_line": 215,
-          "end_line": 219
+          "start_line": 212,
+          "end_line": 216
         },
         {
           "file": "src/lib/choreParser.ts",
-          "start_line": 224,
-          "end_line": 228
+          "start_line": 221,
+          "end_line": 225
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/lib/choreParser.ts",
+          "start_line": 212,
+          "end_line": 216,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/lib/choreParser.ts",
+          "start_line": 221,
+          "end_line": 225,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:48b03f28",
       "actions": [
         {
           "type": "fix",
@@ -5113,6 +6097,29 @@
         }
       ],
       "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/lib/solar.ts",
+          "start_line": 88,
+          "end_line": 88,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/lib/solar.ts",
+          "start_line": 109,
+          "end_line": 109,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:1ed98ba6",
       "actions": [
         {
           "type": "fix",
@@ -5157,10 +6164,10 @@
       "risk": "high",
       "duplicated_lines": 67,
       "clone_group_ids": [
-        "jscpd:javascript:23",
+        "jscpd:javascript:22",
+        "jscpd:tsx:23",
         "jscpd:tsx:24",
-        "jscpd:tsx:25",
-        "jscpd:css:22"
+        "jscpd:css:21"
       ],
       "entrypoint_roles": [],
       "signals": [
@@ -5185,6 +6192,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -5222,11 +6239,11 @@
       "risk": "high",
       "duplicated_lines": 106,
       "clone_group_ids": [
-        "jscpd:javascript:17",
+        "jscpd:javascript:16",
+        "jscpd:tsx:17",
         "jscpd:tsx:18",
-        "jscpd:tsx:19",
-        "jscpd:tsx:24",
-        "jscpd:css:22"
+        "jscpd:tsx:23",
+        "jscpd:css:21"
       ],
       "entrypoint_roles": [],
       "signals": [
@@ -5251,6 +6268,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -5279,66 +6306,6 @@
       ]
     },
     {
-      "id": "duplication-pressure:src/pages/TestsPage",
-      "kind": "duplication_pressure",
-      "module_id": "src/pages/TestsPage",
-      "file": "src/pages/TestsPage.tsx",
-      "line": 1,
-      "score": 100,
-      "risk": "high",
-      "duplicated_lines": 38,
-      "clone_group_ids": ["jscpd:tsx:8", "jscpd:tsx:9", "ast-clone:8b18aff6"],
-      "entrypoint_roles": [],
-      "signals": [
-        {
-          "kind": "clone_group_count",
-          "value": 3
-        },
-        {
-          "kind": "cross_file_clone_groups",
-          "value": 3
-        },
-        {
-          "kind": "ast_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "duplicated_line_count",
-          "value": 38
-        },
-        {
-          "kind": "clone_engine_count",
-          "value": 2
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this duplication_pressure finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line duplication_pressure"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "duplication-pressure:src/pages/TestsPage",
-            "kind": "duplication_pressure",
-            "file": "src/pages/TestsPage.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "duplication-pressure:src/ui/unifiedTestRenderer",
       "kind": "duplication_pressure",
       "module_id": "src/ui/unifiedTestRenderer",
@@ -5346,7 +6313,7 @@
       "line": 1,
       "score": 100,
       "risk": "high",
-      "duplicated_lines": 122,
+      "duplicated_lines": 123,
       "clone_group_ids": [
         "ast-clone:9e6bb828",
         "ast-clone:ce2a933d",
@@ -5368,13 +6335,23 @@
         },
         {
           "kind": "duplicated_line_count",
-          "value": 122
+          "value": 123
         },
         {
           "kind": "clone_engine_count",
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -5403,6 +6380,76 @@
       ]
     },
     {
+      "id": "duplication-pressure:src/pages/TestsPage",
+      "kind": "duplication_pressure",
+      "module_id": "src/pages/TestsPage",
+      "file": "src/pages/TestsPage.tsx",
+      "line": 1,
+      "score": 97,
+      "risk": "high",
+      "duplicated_lines": 35,
+      "clone_group_ids": ["jscpd:tsx:8", "jscpd:tsx:9", "ast-clone:8b18aff6"],
+      "entrypoint_roles": [],
+      "signals": [
+        {
+          "kind": "clone_group_count",
+          "value": 3
+        },
+        {
+          "kind": "cross_file_clone_groups",
+          "value": 3
+        },
+        {
+          "kind": "ast_clone_groups",
+          "value": 1
+        },
+        {
+          "kind": "duplicated_line_count",
+          "value": 35
+        },
+        {
+          "kind": "clone_engine_count",
+          "value": 2
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Extract the duplicated logic or document why the clone should remain.",
+          "fix": "deduplicate-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this duplication_pressure finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line duplication_pressure"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "duplication-pressure:src/pages/TestsPage",
+            "kind": "duplication_pressure",
+            "file": "src/pages/TestsPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "duplication-pressure:src/components/AlphabetTester",
       "kind": "duplication_pressure",
       "module_id": "src/components/AlphabetTester",
@@ -5411,7 +6458,7 @@
       "score": 95,
       "risk": "high",
       "duplicated_lines": 32,
-      "clone_group_ids": ["jscpd:tsx:26", "jscpd:tsx:27", "ast-clone:c83f6323"],
+      "clone_group_ids": ["jscpd:tsx:25", "jscpd:tsx:26", "ast-clone:c83f6323"],
       "entrypoint_roles": [],
       "signals": [
         {
@@ -5435,6 +6482,16 @@
           "value": 2
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -5499,6 +6556,16 @@
           "value": 2
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -5535,7 +6602,7 @@
       "score": 95,
       "risk": "high",
       "duplicated_lines": 32,
-      "clone_group_ids": ["jscpd:tsx:26", "jscpd:tsx:27", "ast-clone:c83f6323"],
+      "clone_group_ids": ["jscpd:tsx:25", "jscpd:tsx:26", "ast-clone:c83f6323"],
       "entrypoint_roles": [],
       "signals": [
         {
@@ -5559,6 +6626,16 @@
           "value": 2
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -5619,6 +6696,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -5679,6 +6766,16 @@
           "value": 2
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -5739,6 +6836,16 @@
           "value": 2
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -5799,6 +6906,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -5859,6 +6976,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -5881,66 +7008,6 @@
             "id": "duplication-pressure:src/data/useRewards",
             "kind": "duplication_pressure",
             "file": "src/data/useRewards.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "duplication-pressure:src/pages/ManageTestsPage",
-      "kind": "duplication_pressure",
-      "module_id": "src/pages/ManageTestsPage",
-      "file": "src/pages/ManageTestsPage.tsx",
-      "line": 1,
-      "score": 68,
-      "risk": "medium",
-      "duplicated_lines": 34,
-      "clone_group_ids": ["jscpd:tsx:8", "jscpd:tsx:9"],
-      "entrypoint_roles": [],
-      "signals": [
-        {
-          "kind": "clone_group_count",
-          "value": 2
-        },
-        {
-          "kind": "cross_file_clone_groups",
-          "value": 2
-        },
-        {
-          "kind": "ast_clone_groups",
-          "value": 0
-        },
-        {
-          "kind": "duplicated_line_count",
-          "value": 34
-        },
-        {
-          "kind": "clone_engine_count",
-          "value": 1
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this duplication_pressure finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line duplication_pressure"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "duplication-pressure:src/pages/ManageTestsPage",
-            "kind": "duplication_pressure",
-            "file": "src/pages/ManageTestsPage.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -5979,6 +7046,16 @@
           "value": 2
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6039,6 +7116,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6061,6 +7148,76 @@
             "id": "duplication-pressure:src/components/ui/StandardActionList",
             "kind": "duplication_pressure",
             "file": "src/components/ui/StandardActionList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "duplication-pressure:src/pages/ManageTestsPage",
+      "kind": "duplication_pressure",
+      "module_id": "src/pages/ManageTestsPage",
+      "file": "src/pages/ManageTestsPage.tsx",
+      "line": 1,
+      "score": 65,
+      "risk": "medium",
+      "duplicated_lines": 31,
+      "clone_group_ids": ["jscpd:tsx:8", "jscpd:tsx:9"],
+      "entrypoint_roles": [],
+      "signals": [
+        {
+          "kind": "clone_group_count",
+          "value": 2
+        },
+        {
+          "kind": "cross_file_clone_groups",
+          "value": 2
+        },
+        {
+          "kind": "ast_clone_groups",
+          "value": 0
+        },
+        {
+          "kind": "duplicated_line_count",
+          "value": 31
+        },
+        {
+          "kind": "clone_engine_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Extract the duplicated logic or document why the clone should remain.",
+          "fix": "deduplicate-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this duplication_pressure finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line duplication_pressure"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "duplication-pressure:src/pages/ManageTestsPage",
+            "kind": "duplication_pressure",
+            "file": "src/pages/ManageTestsPage.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -6099,6 +7256,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6159,6 +7326,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6219,6 +7396,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6279,6 +7466,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6339,6 +7536,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6399,6 +7606,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6459,6 +7676,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6519,6 +7746,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6579,6 +7816,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6639,6 +7886,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6699,6 +7956,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6759,6 +8026,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6819,6 +8096,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6879,6 +8166,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6939,6 +8236,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -6999,6 +8306,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -7059,6 +8376,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -7095,7 +8422,7 @@
       "score": 27,
       "risk": "low",
       "duplicated_lines": 8,
-      "clone_group_ids": ["jscpd:tsx:15"],
+      "clone_group_ids": ["jscpd:tsx:14"],
       "entrypoint_roles": [],
       "signals": [
         {
@@ -7119,6 +8446,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -7155,7 +8492,7 @@
       "score": 27,
       "risk": "low",
       "duplicated_lines": 8,
-      "clone_group_ids": ["jscpd:tsx:15"],
+      "clone_group_ids": ["jscpd:tsx:14"],
       "entrypoint_roles": [],
       "signals": [
         {
@@ -7179,6 +8516,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -7239,6 +8586,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -7261,66 +8618,6 @@
             "id": "duplication-pressure:src/components/AppErrorBoundary",
             "kind": "duplication_pressure",
             "file": "src/components/AppErrorBoundary.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "duplication-pressure:src/lib/starActions",
-      "kind": "duplication_pressure",
-      "module_id": "src/lib/starActions",
-      "file": "src/lib/starActions.ts",
-      "line": 1,
-      "score": 24,
-      "risk": "low",
-      "duplicated_lines": 20,
-      "clone_group_ids": ["jscpd:typescript:14"],
-      "entrypoint_roles": [],
-      "signals": [
-        {
-          "kind": "clone_group_count",
-          "value": 1
-        },
-        {
-          "kind": "cross_file_clone_groups",
-          "value": 0
-        },
-        {
-          "kind": "ast_clone_groups",
-          "value": 0
-        },
-        {
-          "kind": "duplicated_line_count",
-          "value": 20
-        },
-        {
-          "kind": "clone_engine_count",
-          "value": 1
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this duplication_pressure finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line duplication_pressure"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "duplication-pressure:src/lib/starActions",
-            "kind": "duplication_pressure",
-            "file": "src/lib/starActions.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -7359,6 +8656,16 @@
           "value": 1
         }
       ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",

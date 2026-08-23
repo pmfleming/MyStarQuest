@@ -164,12 +164,6 @@ export function useRewards() {
       childId: activeChildId,
       reward,
     })
-
-    if (!reward.isRepeating) {
-      await deleteDoc(
-        doc(collection(db, 'users', user.uid, 'rewards'), reward.id)
-      )
-    }
   }
 
   // ── Delete ──

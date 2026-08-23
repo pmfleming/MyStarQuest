@@ -65,15 +65,12 @@ const TestsPage = () => {
         activity.enterActivity(item.taskType, item.id)
       }
     },
-    onComplete: (item) => {
-      if (isTestWithEphemeral(item)) completeTest(item)
-    },
-    onFail: (item) => {
-      if (isTestWithEphemeral(item)) failTest(item)
-    },
-    onReset: (item) => {
+    onComplete: (item) =>
+      isTestWithEphemeral(item) ? completeTest(item) : undefined,
+    onFail: (item) => (isTestWithEphemeral(item) ? failTest(item) : undefined),
+    onReset: async (item) => {
       if (!isTestWithEphemeral(item)) return
-      resetTest(item)
+      await resetTest(item)
       activity.clearActiveActivities()
     },
     activeMathId: activity.activeMathId,

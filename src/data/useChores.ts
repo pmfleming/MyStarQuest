@@ -100,17 +100,42 @@ export function useChores() {
   const updateEphemeral = (
     taskId: string,
     patch: Partial<TaskEphemeralState>
-  ) => {
+  ): Promise<void> => {
     setEphemeral((prev) => ({
       ...prev,
       [taskId]: { ...prev[taskId], ...patch },
     }))
-    if (!user) return
-    updateDoc(doc(db, 'users', user.uid, 'chores', taskId), patch).catch(
-      (err) => {
+
+    const clearResolvedPatch = () => {
+      setEphemeral((prev) => {
+        const current = prev[taskId]
+        if (!current) return prev
+
+        const remaining = { ...current }
+        for (const key of Object.keys(patch) as Array<
+          keyof TaskEphemeralState
+        >) {
+          if (remaining[key] === patch[key]) delete remaining[key]
+        }
+
+        const next = { ...prev }
+        if (Object.keys(remaining).length === 0) delete next[taskId]
+        else next[taskId] = remaining
+        return next
+      })
+    }
+
+    if (!user) {
+      clearResolvedPatch()
+      return Promise.resolve()
+    }
+
+    return updateDoc(doc(db, 'users', user.uid, 'chores', taskId), patch)
+      .catch((err) => {
         console.error('Failed to update chore state', err)
-      }
-    )
+        throw err
+      })
+      .finally(clearResolvedPatch)
   }
 
   // ── Generic Mutations ──
@@ -119,11 +144,7 @@ export function useChores() {
     field: TaskUpdatableFields
   ) => {
     if (!user) return
-    try {
-      await updateDoc(doc(db, 'users', user.uid, 'chores', taskId), field)
-    } catch (err) {
-      console.error('Failed to update chore', err)
-    }
+    await updateDoc(doc(db, 'users', user.uid, 'chores', taskId), field)
   }
 
   const updateChoreAndTodayTodoField = async (
@@ -203,8 +224,8 @@ export function useChores() {
   const activityActions = useChoreActivityActions({
     user,
     activeChildId,
+    dateKey: todayInfo.dateKey,
     updateEphemeral,
-    deleteTask,
   })
 
   return {

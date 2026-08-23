@@ -1,4 +1,4 @@
-import tidyingUpImage from '../themes/princess/tidying-up.svg'
+import tidyingUpImage from '../themes/princess/tidying-up.webp'
 import writingImage from '../themes/princess/writing.svg'
 
 export type ChoreImageKey = 'tidyingUp' | 'writing'
