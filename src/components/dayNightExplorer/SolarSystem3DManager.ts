@@ -380,7 +380,10 @@ export default class SolarSystem3DManager {
   private readonly citySurfaceNormal = new THREE.Vector3()
   private readonly outwardNormal = new THREE.Vector3()
   private animationFrameId: number | null = null
+  private intersectionObserver: IntersectionObserver | null = null
   private disposed = false
+  private isCanvasVisible = true
+  private isDocumentVisible = document.visibilityState !== 'hidden'
   private sceneState: SolarSystemSceneState
   private earthTexture: THREE.CanvasTexture | null = null
   private monthLabelTextures: THREE.CanvasTexture[] = []
@@ -473,7 +476,20 @@ export default class SolarSystem3DManager {
 
     this.rebuildCityMarkers(initialState)
     this.initEarthTexture()
-    this.animate()
+
+    document.addEventListener('visibilitychange', this.handleVisibilityChange)
+    if ('IntersectionObserver' in window) {
+      this.intersectionObserver = new IntersectionObserver(
+        ([entry]) => {
+          this.isCanvasVisible = entry?.isIntersecting ?? true
+          this.updateAnimationState()
+        },
+        { threshold: 0 }
+      )
+      this.intersectionObserver.observe(canvas)
+    }
+
+    this.updateAnimationState()
   }
 
   setSceneState(nextState: SolarSystemSceneState) {
@@ -488,8 +504,14 @@ export default class SolarSystem3DManager {
 
   dispose() {
     this.disposed = true
+    document.removeEventListener(
+      'visibilitychange',
+      this.handleVisibilityChange
+    )
+    this.intersectionObserver?.disconnect()
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId)
+      this.animationFrameId = null
     }
 
     this.renderer.dispose()
@@ -503,14 +525,36 @@ export default class SolarSystem3DManager {
   }
 
   private animate = () => {
-    if (this.disposed) {
-      return
-    }
+    this.animationFrameId = null
+    if (!this.shouldAnimate()) return
 
     this.resizeRendererToDisplaySize()
     this.applySceneState(this.sceneState)
     this.renderer.render(this.scene, this.camera)
     this.animationFrameId = window.requestAnimationFrame(this.animate)
+  }
+
+  private readonly handleVisibilityChange = () => {
+    this.isDocumentVisible = document.visibilityState !== 'hidden'
+    this.updateAnimationState()
+  }
+
+  private shouldAnimate() {
+    return !this.disposed && this.isDocumentVisible && this.isCanvasVisible
+  }
+
+  private updateAnimationState() {
+    if (!this.shouldAnimate()) {
+      if (this.animationFrameId !== null) {
+        cancelAnimationFrame(this.animationFrameId)
+        this.animationFrameId = null
+      }
+      return
+    }
+
+    if (this.animationFrameId === null) {
+      this.animationFrameId = window.requestAnimationFrame(this.animate)
+    }
   }
 
   private applySceneState(state: SolarSystemSceneState) {
