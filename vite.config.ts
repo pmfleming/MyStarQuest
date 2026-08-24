@@ -4,22 +4,34 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { configDefaults } from 'vitest/config'
 
+const getManualChunk = (moduleId: string) => {
+  const id = moduleId.replaceAll('\\', '/')
+
+  if (!id.includes('/node_modules/')) return undefined
+
+  if (
+    id.includes('/node_modules/react/') ||
+    id.includes('/node_modules/react-dom/') ||
+    id.includes('/node_modules/react-router/') ||
+    id.includes('/node_modules/react-router-dom/') ||
+    id.includes('/node_modules/scheduler/')
+  ) {
+    return 'vendor-react'
+  }
+
+  if (id.includes('/node_modules/three/')) return 'vendor-three'
+  if (id.includes('/node_modules/zod/')) return 'vendor-validation'
+
+  return undefined
+}
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-firebase': [
-            'firebase/app',
-            'firebase/auth',
-            'firebase/firestore',
-            'firebase/functions',
-          ],
-          'vendor-three': ['three'],
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-        },
+        manualChunks: getManualChunk,
       },
     },
   },
