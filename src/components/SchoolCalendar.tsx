@@ -300,6 +300,8 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
               <img
                 src={icon}
                 alt={isSchool ? 'School' : 'Home'}
+                loading="lazy"
+                decoding="async"
                 style={{
                   position: 'absolute',
                   inset: 0,

@@ -56,6 +56,7 @@ export const DashboardHeaderActions = ({
             <img
               src={princessResetIcon}
               alt="Reset today"
+              decoding="async"
               className="h-10 w-10 object-contain"
             />
           ) : (
@@ -74,6 +75,7 @@ export const DashboardHeaderActions = ({
             <img
               src={themeAssets.switchProfileIcon}
               alt="Children"
+              decoding="async"
               className="h-10 w-10 object-contain"
             />
           ) : (
@@ -90,6 +92,7 @@ export const DashboardHeaderActions = ({
             <img
               src={themeAssets.exitIcon}
               alt="Exit"
+              decoding="async"
               className="h-10 w-10 object-contain"
             />
           ) : (

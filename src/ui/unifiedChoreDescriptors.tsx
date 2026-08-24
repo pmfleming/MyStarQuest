@@ -60,6 +60,7 @@ export function createUnifiedChoreDescriptor(
             <img
               src={isItemCompleted ? princessActiveIcon : princessGiveStarIcon}
               alt="icon"
+              decoding="async"
               className="h-6 w-6 object-contain"
             />
           ),
@@ -85,6 +86,7 @@ export function createUnifiedChoreDescriptor(
                 stage === 'setup' ? princessGiveStarIcon : princessActiveIcon
               }
               alt="icon"
+              decoding="async"
               className="h-6 w-6 object-contain"
             />
           ),
@@ -101,6 +103,7 @@ export function createUnifiedChoreDescriptor(
           <img
             src={stage === 'setup' ? princessGiveStarIcon : princessMathsIcon}
             alt="icon"
+            decoding="async"
             className="h-6 w-6 object-contain"
           />
         ),
@@ -148,6 +151,7 @@ const createEatingPrimaryAction = (
       <img
         src={eatingActionIcon(deps, isActive, isFinished)}
         alt={isFinished ? 'Reset' : 'icon'}
+        decoding="async"
         className="h-6 w-6 object-contain"
       />
     ),

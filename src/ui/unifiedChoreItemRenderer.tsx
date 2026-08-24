@@ -143,6 +143,8 @@ const renderStandardContent = (
               <img
                 src={option.image}
                 alt=""
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-contain"
                 aria-hidden="true"
               />
@@ -265,6 +267,8 @@ const renderStandardChoreImageRewardFrame = (
           <img
             src={image}
             alt={`${title} chore`}
+            loading="lazy"
+            decoding="async"
             style={{
               width: '112%',
               height: '112%',

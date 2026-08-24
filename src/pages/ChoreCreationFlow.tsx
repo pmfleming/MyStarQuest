@@ -147,6 +147,8 @@ const ChoreCreationFlow = ({
           <img
             src={option.image}
             alt=""
+            loading="lazy"
+            decoding="async"
             className="h-full w-full object-contain"
             aria-hidden="true"
           />

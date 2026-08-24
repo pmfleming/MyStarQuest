@@ -3,6 +3,7 @@ import { uiTokens } from '../tokens'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
+import { preloadImage } from '../lib/imageLoading'
 import { useProblemHistory } from '../lib/useProblemHistory'
 import {
   ActivityOutcomeShell,
@@ -248,6 +249,9 @@ const AlphabetTester = ({
   const [feedback, setFeedback] = useState<'idle' | 'correct' | 'wrong'>('idle')
   const [wrongChoice, setWrongChoice] = useState<string | null>(null)
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const queuedProblem = useRef<ReturnType<
+    typeof generateAlphabetProblem
+  > | null>(null)
 
   const isSetup = !isRunning && !isCompleted
   const incorrectCount = resultHistory.filter((r) => r === 'incorrect').length
@@ -262,7 +266,8 @@ const AlphabetTester = ({
   const isWrong = feedback === 'wrong'
 
   const nextProblem = useCallback(() => {
-    let p = generateAlphabetProblem()
+    let p = queuedProblem.current ?? generateAlphabetProblem()
+    queuedProblem.current = null
     let attempts = 0
     while (isSeen(p.letter) && attempts < 10) {
       p = generateAlphabetProblem()
@@ -274,6 +279,15 @@ const AlphabetTester = ({
     setCurrentChoices(p.choices)
     setFeedback('idle')
     setWrongChoice(null)
+
+    let next = generateAlphabetProblem()
+    attempts = 0
+    while ((next.letter === p.letter || isSeen(next.letter)) && attempts < 10) {
+      next = generateAlphabetProblem()
+      attempts++
+    }
+    queuedProblem.current = next
+    preloadImage(next.image)
   }, [isSeen, markSeen])
 
   useEffect(() => {
@@ -353,6 +367,7 @@ const AlphabetTester = ({
       setIsFailurePending(false)
       setFeedback('idle')
       setWrongChoice(null)
+      queuedProblem.current = null
     }
   }, [isRunning, isCompleted, clearHistory])
 
@@ -417,6 +432,8 @@ const AlphabetTester = ({
             <img
               src={currentImage}
               alt="Identify the first letter"
+              decoding="async"
+              fetchPriority="high"
               className="h-full w-full object-contain"
             />
           </div>

@@ -29,6 +29,7 @@ import voleImage from '../assets/spelling/vole.webp'
 import yakImage from '../assets/spelling/yak.webp'
 import zebraImage from '../assets/spelling/zebra.webp'
 import { celebrateSuccess } from '../lib/celebrate'
+import { preloadImage } from '../lib/imageLoading'
 import { useProblemHistory } from '../lib/useProblemHistory'
 import {
   ActivityOutcomeShell,
@@ -238,6 +239,8 @@ const SpellingPicture = ({ animal, theme }: SpellingPictureProps) => (
     <img
       src={animal.image}
       alt={animal.name}
+      decoding="async"
+      fetchPriority="high"
       className="h-full w-full object-contain"
     />
   </div>
@@ -366,6 +369,7 @@ const SpellingTester = ({
     letterCase,
   ])
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const queuedAnimal = useRef<SpellingAnimal | null>(null)
 
   const isSetup = !isRunning && !isCompleted
   const incorrectCount = resultHistory.filter((r) => r === 'incorrect').length
@@ -399,6 +403,7 @@ const SpellingTester = ({
     setChoices([])
     setResultHistory([])
     setIsFailurePending(false)
+    queuedAnimal.current = null
   }, [clearFeedbackTimer, clearHistory])
 
   const handleSpellingSetChange = useCallback(
@@ -421,14 +426,29 @@ const SpellingTester = ({
     [letterCase, resetRoundState]
   )
 
-  const nextAnimal = useCallback(() => {
-    let animal = spellingWords[Math.floor(Math.random() * spellingWords.length)]
-    let attempts = 0
+  const chooseAnimal = useCallback(
+    (excludedName?: string) => {
+      let animal =
+        spellingWords[Math.floor(Math.random() * spellingWords.length)]
+      let attempts = 0
 
-    while (isSeen(`${spellingSet}-${animal.name}`) && attempts < 20) {
-      animal = spellingWords[Math.floor(Math.random() * spellingWords.length)]
-      attempts++
-    }
+      while (
+        (animal.name === excludedName ||
+          isSeen(`${spellingSet}-${animal.name}`)) &&
+        attempts < 20
+      ) {
+        animal = spellingWords[Math.floor(Math.random() * spellingWords.length)]
+        attempts++
+      }
+
+      return animal
+    },
+    [isSeen, spellingSet, spellingWords]
+  )
+
+  const nextAnimal = useCallback(() => {
+    const animal = queuedAnimal.current ?? chooseAnimal()
+    queuedAnimal.current = null
 
     markSeen(`${spellingSet}-${animal.name}`)
     setCurrentAnimal(animal)
@@ -437,7 +457,11 @@ const SpellingTester = ({
       generateChoices(getAnimalLetters(animal, letterCase)[0], letterCase)
     )
     setIsFailurePending(false)
-  }, [isSeen, letterCase, markSeen, spellingSet, spellingWords])
+
+    const next = chooseAnimal(animal.name)
+    queuedAnimal.current = next
+    preloadImage(next.image)
+  }, [chooseAnimal, letterCase, markSeen, spellingSet])
 
   useEffect(() => {
     if (isRunning && !currentAnimal) {

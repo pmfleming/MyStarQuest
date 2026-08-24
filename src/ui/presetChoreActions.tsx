@@ -85,6 +85,7 @@ export const createResetUtilityAction = <T,>(
       <img
         src={princessResetIcon}
         alt="Reset"
+        decoding="async"
         className="h-6 w-6 object-contain"
       />
     ) : undefined,

@@ -220,6 +220,8 @@ const ActionCard = <T,>({
       <img
         src={princessDeleteIcon}
         alt="Delete"
+        loading="lazy"
+        decoding="async"
         className="h-6 w-6 object-contain"
       />
     ) : (
@@ -379,6 +381,8 @@ const ActionCard = <T,>({
                   <img
                     src={princessEditIcon}
                     alt="Edit"
+                    loading="lazy"
+                    decoding="async"
                     className="h-6 w-6 object-contain"
                   />
                 ) : (

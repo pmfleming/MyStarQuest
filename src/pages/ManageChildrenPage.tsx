@@ -66,6 +66,8 @@ const ManageChildrenPage = () => {
       <img
         src={option.image}
         alt={option.label}
+        loading="lazy"
+        decoding="async"
         style={{ width: '70px', height: '70px', objectFit: 'contain' }}
       />
     ),

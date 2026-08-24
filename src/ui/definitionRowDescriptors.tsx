@@ -134,6 +134,8 @@ const renderRewardAvailableSummary = (reward: RewardRecord, theme: Theme) => {
               <img
                 src={image}
                 alt={`${reward.title} reward`}
+                loading="lazy"
+                decoding="async"
                 style={{
                   width: '112%',
                   height: '112%',
@@ -242,6 +244,7 @@ export const createChildDefinitionListRowDescriptor = (
               : princessSelectIcon
           }
           alt={deps.activeChildId === child.id ? 'Active' : 'Select'}
+          decoding="async"
           className="h-6 w-6 object-contain"
         />
       ) : deps.activeChildId === child.id ? (
@@ -269,6 +272,7 @@ export const createRewardDefinitionListRowDescriptor = (
         <img
           src={princessBuyRewardIcon}
           alt="Buy Reward"
+          decoding="async"
           className="h-6 w-6 object-contain"
         />
       ) : (
