@@ -472,12 +472,6 @@ export function isChoreTodoRecord(todo: TodoRecord): todo is ChoreTodoRecord {
   )
 }
 
-export function isTodoRecord(
-  item: TaskWithEphemeral | TodoRecord
-): item is TodoRecord {
-  return 'sourceTaskType' in item
-}
-
 // ── Updatable field subsets ──
 
 export type TaskUpdatableFields = Partial<{
@@ -629,14 +623,6 @@ export function isWaterToiletTodo(t: TodoRecord): t is WaterToiletTodo {
 export const getManageDinnerRemaining = (task: EatingTaskWithEphemeral) =>
   task.manageDinnerRemainingSeconds ?? task.dinnerDurationSeconds
 
-export const getManageDinnerLiveRemaining = (task: EatingTaskWithEphemeral) => {
-  const frozen = getManageDinnerRemaining(task)
-  const startedAt = task.manageDinnerTimerStartedAt
-  if (!startedAt) return frozen
-  const elapsed = Math.floor((Date.now() - startedAt) / 1000)
-  return Math.max(0, frozen - elapsed)
-}
-
 export const getManageDinnerBitesLeft = (task: EatingTaskWithEphemeral) =>
   task.manageDinnerBitesLeft ?? task.dinnerTotalBites
 
@@ -664,9 +650,6 @@ type TaskCompletionState = Partial<
 export const getManageTaskCompletedAt = (task: TaskWithEphemeral) =>
   (task as TaskCompletionState)[manageCompletedAtFieldByType[task.taskType]] ??
   null
-
-export const isManageTaskCompleted = (task: TaskWithEphemeral) =>
-  Boolean(getManageTaskCompletedAt(task))
 
 export const sortByCreatedAtThenTitle = <
   T extends { createdAt?: Date; title: string },

@@ -17,11 +17,7 @@ import {
   ActivitySetupControls,
   type ActivityChoreProps,
 } from './ui/ActivityControls'
-import {
-  EmptyCounterHint,
-  MathCounter,
-  TenRod,
-} from './ui/ActivityMathCounters'
+import { CounterGroup, MathCounter, TenRod } from './ui/ActivityMathCounters'
 import StepperButton from './ui/StepperButton'
 
 const MIN_PROBLEMS = 1
@@ -279,7 +275,10 @@ const LargeNumbersTester = ({
   )
 
   const renderSingleCounters = (count: number, color: string) => (
-    <div
+    <CounterGroup
+      count={count}
+      color={color}
+      fontFamily={theme.fonts.body}
       style={{
         display: 'flex',
         flexWrap: 'wrap',
@@ -290,26 +289,24 @@ const LargeNumbersTester = ({
         minHeight: 58,
         width: '100%',
       }}
-      aria-hidden="true"
     >
-      {count === 0 ? (
-        <EmptyCounterHint color={color} fontFamily={theme.fonts.body} />
-      ) : (
-        Array.from({ length: count }).map((_, index) => (
-          <MathCounter
-            key={`single-${index}`}
-            src={mathsCounterIcon}
-            size={ONE_COUNTER_SIZE}
-            delay={index * 0.04}
-            animationName="large-numbers-pop-in"
-          />
-        ))
+      {(index) => (
+        <MathCounter
+          key={`single-${index}`}
+          src={mathsCounterIcon}
+          size={ONE_COUNTER_SIZE}
+          delay={index * 0.04}
+          animationName="large-numbers-pop-in"
+        />
       )}
-    </div>
+    </CounterGroup>
   )
 
   const renderTenRods = (count: number, color: string) => (
-    <div
+    <CounterGroup
+      count={count}
+      color={color}
+      fontFamily={theme.fonts.body}
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(5, max-content)',
@@ -319,16 +316,9 @@ const LargeNumbersTester = ({
         minHeight: 92,
         width: '100%',
       }}
-      aria-hidden="true"
     >
-      {count === 0 ? (
-        <EmptyCounterHint color={color} fontFamily={theme.fonts.body} />
-      ) : (
-        Array.from({ length: count }).map((_, index) =>
-          renderTenRod(`ten-rod-${index}`, index)
-        )
-      )}
-    </div>
+      {(index) => renderTenRod(`ten-rod-${index}`, index)}
+    </CounterGroup>
   )
 
   const renderRegroupedTen = () => (

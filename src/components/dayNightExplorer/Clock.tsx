@@ -78,6 +78,13 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
   const digitalClockCenterY =
     digitalClockTop + explorerUi.digitalClockAreaHeight / 2
   const controlPanelHeight = explorerUi.clockPanelHeight
+  const digitalTimeStyle = {
+    fontSize: clockGeometry.digitalClockTimeFontSize,
+    fontWeight: 700,
+    color: theme.colors.text,
+    fontFamily: theme.fonts.heading,
+    lineHeight: 1,
+  }
 
   const imageLayers = [
     {
@@ -469,16 +476,7 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
             zIndex: 8,
           }}
         >
-          <span
-            ref={clock.digitalHourRef}
-            style={{
-              fontSize: clockGeometry.digitalClockTimeFontSize,
-              fontWeight: 700,
-              color: theme.colors.text,
-              fontFamily: theme.fonts.heading,
-              lineHeight: 1,
-            }}
-          >
+          <span ref={clock.digitalHourRef} style={digitalTimeStyle}>
             {clock.hoursLabel}
           </span>
           <span
@@ -493,16 +491,7 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
           >
             :
           </span>
-          <span
-            ref={clock.digitalMinuteRef}
-            style={{
-              fontSize: clockGeometry.digitalClockTimeFontSize,
-              fontWeight: 700,
-              color: theme.colors.text,
-              fontFamily: theme.fonts.heading,
-              lineHeight: 1,
-            }}
-          >
+          <span ref={clock.digitalMinuteRef} style={digitalTimeStyle}>
             {clock.minutesLabel}
           </span>
           <span
@@ -520,13 +509,9 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
           <span
             ref={clock.digitalSecondRef}
             style={{
-              fontSize: clockGeometry.digitalClockTimeFontSize,
-              fontWeight: 700,
-              color: theme.colors.text,
-              fontFamily: theme.fonts.heading,
+              ...digitalTimeStyle,
               opacity: 0.88,
               textShadow: '0 1px 2px rgba(255,255,255,0.35)',
-              lineHeight: 1,
             }}
           >
             {String(Math.floor(clock.seconds)).padStart(2, '0')}

@@ -8,17 +8,20 @@ import { useProblemHistory } from '../lib/useProblemHistory'
 import { useActivityChallenge } from '../hooks/useActivityChallenge'
 import type { MathDifficulty } from '../data/types'
 import {
-  ActivityOutcomeShell,
   ActivityPlayArea,
-  ActivitySetupControls,
   type ActivityChoreProps,
 } from './ui/ActivityControls'
 import { EmptyCounterHint, MathCounter } from './ui/ActivityMathCounters'
+import CrownDifficultyControl, {
+  type CrownDifficultyOption,
+} from './ui/CrownDifficultyControl'
+import MathActivityShell from './ui/MathActivityShell'
 
-const MIN_PROBLEMS = 1
-const MAX_PROBLEMS = 10
 const MAX_ANSWER = 30
-const MATH_DIFFICULTIES: MathDifficulty[] = ['easy', 'hard']
+const MATH_DIFFICULTIES: CrownDifficultyOption<MathDifficulty>[] = [
+  { value: 'easy', label: 'Easy', crowns: 1 },
+  { value: 'hard', label: 'Hard', crowns: 2 },
+]
 const {
   mathCounterSize: DOT_SIZE,
   mathCounterGap: DOT_GAP,
@@ -28,46 +31,44 @@ const {
   stepperHeight: STEPPER_HEIGHT,
 } = uiTokens.activityTokens
 
-function generateProblem(difficulty: MathDifficulty = 'easy'): {
+type ArithmeticProblem = {
   a: number
   b: number
   c?: number
   op1: '+' | '-'
   op2?: '+' | '-'
-} {
-  const isAdd1 = Math.random() > 0.5
-  let a = Math.floor(Math.random() * 10) + 1
-  let b = Math.floor(Math.random() * 10) + 1
-
-  if (difficulty === 'hard') {
-    const isAdd2 = Math.random() > 0.5
-    let c = Math.floor(Math.random() * 10) + 1
-
-    if (!isAdd1 && b > a) [a, b] = [b, a]
-    const intermediate = isAdd1 ? a + b : a - b
-
-    if (!isAdd2 && c > intermediate) {
-      if (intermediate > 0) {
-        c = Math.floor(Math.random() * intermediate) + 1
-      } else {
-        return generateProblem(difficulty)
-      }
-    }
-
-    return { a, b, c, op1: isAdd1 ? '+' : '-', op2: isAdd2 ? '+' : '-' }
-  }
-
-  if (!isAdd1 && b > a) [a, b] = [b, a]
-  return { a, b, op1: isAdd1 ? '+' : '-' }
 }
 
-function getProblemKey(p: {
-  a: number
-  b: number
-  c?: number
-  op1: '+' | '-'
-  op2?: '+' | '-'
-}): string {
+const randomOperand = () => Math.floor(Math.random() * 10) + 1
+
+const generateEasyProblem = (): ArithmeticProblem => {
+  const isAddition = Math.random() > 0.5
+  let a = randomOperand()
+  let b = randomOperand()
+  if (!isAddition && b > a) [a, b] = [b, a]
+  return { a, b, op1: isAddition ? '+' : '-' }
+}
+
+const generateHardProblem = (): ArithmeticProblem => {
+  const first = generateEasyProblem()
+  const isSecondAddition = Math.random() > 0.5
+  const intermediate = first.op1 === '+' ? first.a + first.b : first.a - first.b
+  let c = randomOperand()
+
+  if (!isSecondAddition && intermediate <= 0) {
+    return generateHardProblem()
+  }
+  if (!isSecondAddition && c > intermediate) {
+    c = Math.floor(Math.random() * intermediate) + 1
+  }
+
+  return { ...first, c, op2: isSecondAddition ? '+' : '-' }
+}
+
+const generateProblem = (difficulty: MathDifficulty = 'easy') =>
+  difficulty === 'hard' ? generateHardProblem() : generateEasyProblem()
+
+function getProblemKey(p: ArithmeticProblem): string {
   return `${p.a}${p.op1}${p.b}${p.op2 ?? ''}${p.c ?? ''}`
 }
 
@@ -180,93 +181,20 @@ const ArithmeticTester = ({
       ? 'dotmath-pop-in 0.4s ease'
       : undefined
 
-  const difficultyControl = (
-    <div
-      style={{
-        width: '100%',
-        maxWidth: '100%',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          minHeight: uiTokens.listActionHeight,
-          background: theme.colors.surface,
-          borderRadius: uiTokens.listActionRadius,
-          padding: uiTokens.controlInset / 2,
-          border: `2px solid ${theme.colors.accent}`,
-          width: '100%',
-          boxSizing: 'border-box',
-        }}
-      >
-        {MATH_DIFFICULTIES.map((value) => (
-          <button
-            key={value}
-            type="button"
-            aria-label={value === 'easy' ? 'Easy' : 'Hard'}
-            aria-pressed={difficulty === value}
-            onClick={() => onDifficultyChange?.(value)}
-            style={{
-              flex: 1,
-              padding: 0,
-              borderRadius:
-                uiTokens.listActionRadius - uiTokens.controlInset / 2,
-              border: 'none',
-              fontFamily: theme.fonts.heading,
-              fontWeight: 'bold',
-              fontSize: '1rem',
-              lineHeight: 1,
-              cursor: 'pointer',
-              background:
-                difficulty === value ? theme.colors.primary : 'transparent',
-              color:
-                difficulty === value
-                  ? theme.id === 'space'
-                    ? '#000'
-                    : '#fff'
-                  : theme.colors.text,
-              transition: 'all 0.2s ease',
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: DOT_GAP,
-                width: '100%',
-              }}
-            >
-              {Array.from({ length: value === 'easy' ? 1 : 2 }).map(
-                (_, index) => (
-                  <img
-                    key={`${value}-counter-${index}`}
-                    src={mathsCounterIcon}
-                    alt=""
-                    style={{
-                      width: DOT_SIZE,
-                      height: DOT_SIZE,
-                      objectFit: 'contain',
-                    }}
-                  />
-                )
-              )}
-            </span>
-          </button>
-        ))}
-      </div>
-    </div>
-  )
-
   return (
-    <ActivityOutcomeShell
+    <MathActivityShell
+      theme={theme}
+      totalProblems={totalProblems}
+      starReward={starReward}
+      isEditable={isEditable}
+      onAdjustProblems={onAdjustProblems}
+      onStarsChange={onStarsChange}
       isFinished={isFinished}
       isSuccessState={isSuccessState}
       completionImage={completionImage}
       failureImage={failureImage}
-    >
-      <style>{`
+      isSetup={isSetup}
+      animationStyles={`
         @keyframes dotmath-pop-in {
           0% { transform: scale(0); }
           100% { transform: scale(1); }
@@ -280,23 +208,18 @@ const ArithmeticTester = ({
           0% { transform: translateX(28px); opacity: 0; }
           100% { transform: translateX(0); opacity: 1; }
         }
-      `}</style>
-
-      <ActivitySetupControls
-        isSetup={isSetup}
-        theme={theme}
-        totalProblems={totalProblems}
-        min={MIN_PROBLEMS}
-        max={MAX_PROBLEMS}
-        onAdjustProblems={onAdjustProblems}
-        starReward={starReward}
-        onStarsChange={onStarsChange}
-        previousAriaLabel="Fewer puzzles"
-        nextAriaLabel="More puzzles"
-        isEditable={isEditable}
-        beforeProblemControl={difficultyControl}
-      />
-
+      `}
+      difficultyControl={
+        <CrownDifficultyControl
+          theme={theme}
+          value={difficulty}
+          options={MATH_DIFFICULTIES}
+          onChange={(value) => onDifficultyChange?.(value)}
+          ariaLabel="Math difficulty"
+          crownSize={DOT_SIZE}
+        />
+      }
+    >
       {isRunning && (
         <ActivityPlayArea
           theme={theme}
@@ -547,7 +470,7 @@ const ArithmeticTester = ({
           </div>
         </ActivityPlayArea>
       )}
-    </ActivityOutcomeShell>
+    </MathActivityShell>
   )
 }
 

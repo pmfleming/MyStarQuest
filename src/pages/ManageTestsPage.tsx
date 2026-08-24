@@ -10,8 +10,9 @@ import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { createUnifiedChoreDescriptor } from '../ui/unifiedChoreDescriptors'
 import { useTests } from '../data/useTests'
 import { useChildren } from '../data/useChildren'
-import { BITE_COOLDOWN_SECONDS, isTestWithEphemeral } from '../data/types'
 import { useTaskActivityState } from '../hooks/useTaskActivityState'
+import { useTestCheckTriggers } from '../hooks/useTestCheckTriggers'
+import { createTestActivityBindings } from '../ui/testActivityBindings'
 import { getPrincessTaskTypeIcon } from '../ui/taskTypeIcons'
 
 type TestChoiceKey = 'math' | 'largeNumbers' | 'pv' | 'alphabet' | 'spelling'
@@ -50,21 +51,7 @@ const ManageTestsPage = () => {
   const activity = useTaskActivityState()
   const activeChild = children.find((child) => child.id === activeChildId)
   const testFailureModeEnabled = activeChild?.testFailureModeEnabled ?? true
-  const [mathCheckTriggers, setMathCheckTriggers] = useState<
-    Record<string, number>
-  >({})
-  const [largeNumbersCheckTriggers, setLargeNumbersCheckTriggers] = useState<
-    Record<string, number>
-  >({})
-  const [pvCheckTriggers, setPVCheckTriggers] = useState<
-    Record<string, number>
-  >({})
-  const [alphabetCheckTriggers, setAlphabetCheckTriggers] = useState<
-    Record<string, number>
-  >({})
-  const [spellingCheckTriggers, setSpellingCheckTriggers] = useState<
-    Record<string, number>
-  >({})
+  const triggers = useTestCheckTriggers()
   const [showAddChooser, setShowAddChooser] = useState(false)
 
   const descriptor = createUnifiedChoreDescriptor({
@@ -75,38 +62,14 @@ const ManageTestsPage = () => {
     onSetTitleDraft: setTestTitleDraft,
     onCommitTitle: commitTestTitle,
     onDeleteTask: deleteTest,
-    onEnterChore: (item) => {
-      if (isTestWithEphemeral(item)) {
-        activity.enterActivity(item.taskType, item.id)
-      }
-    },
-    onComplete: (item) =>
-      isTestWithEphemeral(item) ? completeTest(item) : undefined,
-    onFail: (item) => (isTestWithEphemeral(item) ? failTest(item) : undefined),
-    onReset: async (item) => {
-      if (!isTestWithEphemeral(item)) return
-      await resetTest(item)
-      activity.clearActiveActivities()
-    },
+    ...createTestActivityBindings({
+      activity,
+      triggers,
+      completeTest,
+      failTest,
+      resetTest,
+    }),
     titleDrafts: testTitleDrafts,
-    activeMathId: activity.activeMathId,
-    activeLargeNumbersId: activity.activeLargeNumbersId,
-    activePVId: activity.activePVId,
-    activeAlphabetId: activity.activeAlphabetId,
-    activeSpellingId: activity.activeSpellingId,
-    activeDinnerId: null,
-    activeWaterToiletId: null,
-    mathCheckTriggers,
-    largeNumbersCheckTriggers,
-    pvCheckTriggers,
-    alphabetCheckTriggers,
-    spellingCheckTriggers,
-    setMathCheckTriggers,
-    setLargeNumbersCheckTriggers,
-    setPVCheckTriggers,
-    setAlphabetCheckTriggers,
-    setSpellingCheckTriggers,
-    biteCooldownSeconds: BITE_COOLDOWN_SECONDS,
     testFailureModeEnabled,
     renderDayTypeControl: (task) => (
       <ScheduleDayTypeControl

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
@@ -8,8 +8,9 @@ import { createUnifiedChoreDescriptor } from '../ui/unifiedChoreDescriptors'
 import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 import { useTests } from '../data/useTests'
 import { useChildren } from '../data/useChildren'
-import { BITE_COOLDOWN_SECONDS, isTestWithEphemeral } from '../data/types'
 import { useTaskActivityState } from '../hooks/useTaskActivityState'
+import { useTestCheckTriggers } from '../hooks/useTestCheckTriggers'
+import { createTestActivityBindings } from '../ui/testActivityBindings'
 
 const TestsPage = () => {
   const { activeChildId } = useActiveChild()
@@ -30,67 +31,26 @@ const TestsPage = () => {
   const activeChild = children.find((child) => child.id === activeChildId)
   const testFailureModeEnabled = activeChild?.testFailureModeEnabled ?? true
   const clearActivityIds = activity.clearActiveActivities
-  const [mathCheckTriggers, setMathCheckTriggers] = useState<
-    Record<string, number>
-  >({})
-  const [largeNumbersCheckTriggers, setLargeNumbersCheckTriggers] = useState<
-    Record<string, number>
-  >({})
-  const [pvCheckTriggers, setPVCheckTriggers] = useState<
-    Record<string, number>
-  >({})
-  const [alphabetCheckTriggers, setAlphabetCheckTriggers] = useState<
-    Record<string, number>
-  >({})
-  const [spellingCheckTriggers, setSpellingCheckTriggers] = useState<
-    Record<string, number>
-  >({})
+  const triggers = useTestCheckTriggers()
+  const clearCheckTriggers = triggers.clearCheckTriggers
 
   useEffect(() => {
     clearActivityIds()
-    setMathCheckTriggers({})
-    setLargeNumbersCheckTriggers({})
-    setPVCheckTriggers({})
-    setAlphabetCheckTriggers({})
-    setSpellingCheckTriggers({})
-  }, [activeChildId, clearActivityIds, todayInfo.dateKey])
+    clearCheckTriggers()
+  }, [activeChildId, clearActivityIds, clearCheckTriggers, todayInfo.dateKey])
 
   const descriptor = createUnifiedChoreDescriptor({
     theme,
     mode: 'today',
     onUpdateTaskField: updateTestField,
     onUpdateEphemeral: updateEphemeral,
-    onEnterChore: (item) => {
-      if (isTestWithEphemeral(item)) {
-        activity.enterActivity(item.taskType, item.id)
-      }
-    },
-    onComplete: (item) =>
-      isTestWithEphemeral(item) ? completeTest(item) : undefined,
-    onFail: (item) => (isTestWithEphemeral(item) ? failTest(item) : undefined),
-    onReset: async (item) => {
-      if (!isTestWithEphemeral(item)) return
-      await resetTest(item)
-      activity.clearActiveActivities()
-    },
-    activeMathId: activity.activeMathId,
-    activeLargeNumbersId: activity.activeLargeNumbersId,
-    activePVId: activity.activePVId,
-    activeAlphabetId: activity.activeAlphabetId,
-    activeSpellingId: activity.activeSpellingId,
-    activeDinnerId: null,
-    activeWaterToiletId: null,
-    mathCheckTriggers,
-    largeNumbersCheckTriggers,
-    pvCheckTriggers,
-    alphabetCheckTriggers,
-    spellingCheckTriggers,
-    setMathCheckTriggers,
-    setLargeNumbersCheckTriggers,
-    setPVCheckTriggers,
-    setAlphabetCheckTriggers,
-    setSpellingCheckTriggers,
-    biteCooldownSeconds: BITE_COOLDOWN_SECONDS,
+    ...createTestActivityBindings({
+      activity,
+      triggers,
+      completeTest,
+      failTest,
+      resetTest,
+    }),
     hideDeleteUtility: true,
     testFailureModeEnabled,
   })

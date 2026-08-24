@@ -29,6 +29,10 @@ import voleImage from '../assets/spelling/vole.webp'
 import yakImage from '../assets/spelling/yak.webp'
 import zebraImage from '../assets/spelling/zebra.webp'
 import { celebrateSuccess } from '../lib/celebrate'
+import {
+  getActivityOutcome,
+  getVisibleActivityResults,
+} from '../lib/activityOutcome'
 import { preloadImage } from '../lib/imageLoading'
 import { useProblemHistory } from '../lib/useProblemHistory'
 import {
@@ -172,14 +176,6 @@ const getAnimalLetters = (animal: SpellingAnimal, letterCase: LetterCase) =>
 export type SpellingTesterProps = ActivityChoreProps
 
 type SpellingTheme = ActivityChoreProps['theme']
-
-const getVisibleResults = (
-  failureModeEnabled: boolean,
-  resultHistory: ActivityResult[]
-) =>
-  failureModeEnabled
-    ? resultHistory
-    : resultHistory.filter((result) => result === 'correct')
 
 const updateChoiceState = (
   choices: LetterChoice[],
@@ -372,13 +368,12 @@ const SpellingTester = ({
   const queuedAnimal = useRef<SpellingAnimal | null>(null)
 
   const isSetup = !isRunning && !isCompleted
-  const incorrectCount = resultHistory.filter((r) => r === 'incorrect').length
-  const hasFailedByHistory =
-    failureModeEnabled && incorrectCount >= MAX_ACTIVITY_MISTAKES
-  const isFailedState =
-    failureModeEnabled && isCompleted && (isFailed || hasFailedByHistory)
-  const isSuccessState = isCompleted && !isFailedState
-  const isFinished = isSuccessState || isFailedState
+  const { isSuccessState, isFinished } = getActivityOutcome({
+    isCompleted,
+    isFailed,
+    failureModeEnabled,
+    results: resultHistory,
+  })
 
   const animalLetters = currentAnimal
     ? getAnimalLetters(currentAnimal, letterCase)
@@ -586,7 +581,7 @@ const SpellingTester = ({
       {isRunning && currentAnimal && (
         <ActivityPlayArea
           theme={theme}
-          results={getVisibleResults(failureModeEnabled, resultHistory)}
+          results={getVisibleActivityResults(resultHistory, failureModeEnabled)}
           correctIcon={quizCorrectIcon}
           incorrectIcon={quizIncorrectIcon}
           hideAlt

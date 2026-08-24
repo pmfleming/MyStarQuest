@@ -3,6 +3,10 @@ import { uiTokens } from '../tokens'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
+import {
+  getActivityOutcome,
+  getVisibleActivityResults,
+} from '../lib/activityOutcome'
 import { preloadImage } from '../lib/imageLoading'
 import { useProblemHistory } from '../lib/useProblemHistory'
 import {
@@ -254,13 +258,12 @@ const AlphabetTester = ({
   > | null>(null)
 
   const isSetup = !isRunning && !isCompleted
-  const incorrectCount = resultHistory.filter((r) => r === 'incorrect').length
-  const hasFailedByHistory =
-    failureModeEnabled && incorrectCount >= MAX_ACTIVITY_MISTAKES
-  const isFailedState =
-    failureModeEnabled && isCompleted && (isFailed || hasFailedByHistory)
-  const isSuccessState = isCompleted && !isFailedState
-  const isFinished = isSuccessState || isFailedState
+  const { isSuccessState, isFinished } = getActivityOutcome({
+    isCompleted,
+    isFailed,
+    failureModeEnabled,
+    results: resultHistory,
+  })
 
   const isCorrect = feedback === 'correct'
   const isWrong = feedback === 'wrong'
@@ -408,11 +411,7 @@ const AlphabetTester = ({
       {isRunning && currentTarget && (
         <ActivityPlayArea
           theme={theme}
-          results={
-            failureModeEnabled
-              ? resultHistory
-              : resultHistory.filter((result) => result === 'correct')
-          }
+          results={getVisibleActivityResults(resultHistory, failureModeEnabled)}
           correctIcon={quizCorrectIcon}
           incorrectIcon={quizIncorrectIcon}
           hideAlt

@@ -69,6 +69,8 @@ const injectWhimsicalStyles = () => {
   document.head.appendChild(style)
 }
 
+type ActionVariant = 'primary' | 'neutral' | 'danger'
+
 export type ActionConfig<T> = {
   label: string | ((item: T) => string)
   onClick: (item: T) => void | Promise<void>
@@ -76,11 +78,7 @@ export type ActionConfig<T> = {
   ariaLabel?: string | ((item: T) => string)
   disabled?: (item: T) => boolean
   hideButton?: boolean | ((item: T) => boolean)
-  variant?:
-    | 'primary'
-    | 'neutral'
-    | 'danger'
-    | ((item: T) => 'primary' | 'neutral' | 'danger')
+  variant?: ActionVariant | ((item: T) => ActionVariant)
   showLabel?: boolean | ((item: T) => boolean)
 }
 
@@ -130,6 +128,13 @@ const resolveTextValue = <T,>(
   item: T
 ) => (typeof value === 'function' ? value(item) : value)
 
+const resolveVariant = <T,>(
+  value: ActionConfig<T>['variant'],
+  item: T,
+  fallback: ActionVariant
+): ActionVariant =>
+  typeof value === 'function' ? value(item) : (value ?? fallback)
+
 const runActionSafely = (
   actionName: string,
   action: () => void | Promise<void>
@@ -145,6 +150,238 @@ const runActionSafely = (
     console.error(`Failed to run ${actionName}`, error)
   }
 }
+
+type ActionCardProps<T> = {
+  item: T
+  index: number
+  theme: Theme
+  isDarkTheme: boolean
+  rowBaseStyle: CSSProperties
+  isItemHighlighted: boolean
+  renderItem: (item: T) => ReactNode
+  primaryAction: ActionConfig<T>
+  primaryDisabled: boolean
+  onEdit?: (item: T) => void | Promise<void>
+  onDelete: (item: T) => void | Promise<void>
+  utilityAction?: UtilityActionConfig<T>
+  getActionStyle: (variant?: ActionConfig<T>['variant']) => CSSProperties
+  actionBaseStyle: CSSProperties
+  getKey?: (item: T) => string
+  getStarCount?: (item: T) => number | undefined
+  hideEdit?: boolean | ((item: T) => boolean)
+  editingId?: string
+  renderInlineEdit?: (item: T) => ReactNode
+}
+
+const resolveBoolean = <T,>(
+  value: boolean | ((item: T) => boolean) | undefined,
+  item: T,
+  fallback = false
+) => (typeof value === 'function' ? value(item) : (value ?? fallback))
+
+const DefaultActionIcon = ({
+  theme,
+  type,
+}: {
+  theme: Theme
+  type: 'edit' | 'delete'
+}) => {
+  if (theme.id !== 'princess') {
+    return <span>{type === 'edit' ? '✏️' : '🗑️'}</span>
+  }
+
+  const label = type === 'edit' ? 'Edit' : 'Delete'
+  return (
+    <img
+      src={type === 'edit' ? princessEditIcon : princessDeleteIcon}
+      alt={label}
+      loading="lazy"
+      decoding="async"
+      className="h-6 w-6 object-contain"
+    />
+  )
+}
+
+type UtilityButtonProps = {
+  ariaLabel: string
+  icon: ReactNode
+  onClick: () => void
+  style: CSSProperties
+  disabled?: boolean
+  isDanger?: boolean
+}
+
+const UtilityButton = ({
+  ariaLabel,
+  icon,
+  onClick,
+  style,
+  disabled,
+  isDanger,
+}: UtilityButtonProps) => (
+  <button
+    type="button"
+    onClick={onClick}
+    disabled={disabled}
+    className={`whimsical-btn whimsical-btn-utility disabled:opacity-60 ${isDanger ? 'whimsical-btn-delete' : ''}`}
+    aria-label={ariaLabel}
+    style={style}
+  >
+    {icon}
+  </button>
+)
+
+type ActionButtonsProps<T> = {
+  item: T
+  theme: Theme
+  primaryAction: ActionConfig<T>
+  primaryDisabled: boolean
+  hidePrimary: boolean
+  hideEdit: boolean
+  hideUtility: boolean
+  onEdit?: (item: T) => void | Promise<void>
+  onUtility: () => void
+  utilityIcon: ReactNode
+  utilityAriaLabel: string
+  utilityDisabled: boolean
+  utilityVariant: ActionVariant
+  actionBaseStyle: CSSProperties
+  getActionStyle: (variant?: ActionConfig<T>['variant']) => CSSProperties
+}
+
+const ActionButtons = <T,>({
+  item,
+  theme,
+  primaryAction,
+  primaryDisabled,
+  hidePrimary,
+  hideEdit,
+  hideUtility,
+  onEdit,
+  onUtility,
+  utilityIcon,
+  utilityAriaLabel,
+  utilityDisabled,
+  utilityVariant,
+  actionBaseStyle,
+  getActionStyle,
+}: ActionButtonsProps<T>) => {
+  const utilityStyle = {
+    ...actionBaseStyle,
+    width: `${uiTokens.listUtilityActionWidth}px`,
+    minWidth: `${uiTokens.listUtilityActionWidth}px`,
+    padding: 0,
+  }
+  const primaryVariant = resolveVariant(primaryAction.variant, item, 'primary')
+  const showPrimaryLabel = resolveBoolean(primaryAction.showLabel, item, true)
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: `${uiTokens.actionRowGap}px`,
+        justifyContent: hidePrimary ? 'flex-end' : undefined,
+      }}
+    >
+      {!hidePrimary && (
+        <button
+          type="button"
+          onClick={() =>
+            runActionSafely('primary action', () => primaryAction.onClick(item))
+          }
+          disabled={primaryDisabled}
+          className="whimsical-btn flex-1 disabled:opacity-60"
+          aria-label={resolveTextValue(
+            primaryAction.ariaLabel ?? primaryAction.label,
+            item
+          )}
+          style={{
+            ...actionBaseStyle,
+            ...getActionStyle(primaryVariant),
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          {resolveValue(primaryAction.icon ?? '⭐', item)}
+          {showPrimaryLabel && (
+            <span>{resolveValue(primaryAction.label, item)}</span>
+          )}
+        </button>
+      )}
+      {!hideEdit && onEdit && (
+        <UtilityButton
+          ariaLabel="Edit"
+          icon={<DefaultActionIcon theme={theme} type="edit" />}
+          onClick={() => runActionSafely('edit action', () => onEdit(item))}
+          style={{ ...utilityStyle, ...getActionStyle('neutral') }}
+        />
+      )}
+      {!hideUtility && (
+        <UtilityButton
+          ariaLabel={utilityAriaLabel}
+          icon={utilityIcon}
+          onClick={onUtility}
+          disabled={utilityDisabled}
+          isDanger={utilityVariant === 'danger'}
+          style={{ ...utilityStyle, ...getActionStyle(utilityVariant) }}
+        />
+      )}
+    </div>
+  )
+}
+
+const getUtilityAriaLabel = <T,>(
+  action: UtilityActionConfig<T> | undefined,
+  item: T
+) =>
+  action ? resolveTextValue(action.ariaLabel ?? action.label, item) : 'Delete'
+
+const getUtilityIcon = <T,>(
+  action: UtilityActionConfig<T> | undefined,
+  item: T,
+  defaultIcon: ReactNode
+) =>
+  action
+    ? resolveValue(action.icon ?? defaultIcon, item) || defaultIcon
+    : defaultIcon
+
+const resolveUtilityState = <T,>(
+  item: T,
+  utilityAction: UtilityActionConfig<T> | undefined,
+  defaultIcon: ReactNode
+) => {
+  const hidden = resolveBoolean(utilityAction?.hideButton, item)
+  const action = hidden ? undefined : utilityAction
+
+  return {
+    action,
+    hidden,
+    variant: resolveVariant(action?.variant, item, 'danger'),
+    ariaLabel: getUtilityAriaLabel(action, item),
+    disabled: action?.disabled?.(item) ?? false,
+    exits: action ? resolveBoolean(action.exits, item) : true,
+    icon: getUtilityIcon(action, item, defaultIcon),
+  }
+}
+
+const getCardStyle = (
+  theme: Theme,
+  rowBaseStyle: CSSProperties,
+  isHighlighted: boolean,
+  isDarkTheme: boolean
+): CSSProperties =>
+  isHighlighted
+    ? {
+        ...rowBaseStyle,
+        background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
+        color: isDarkTheme ? '#000' : '#FFF',
+      }
+    : {
+        ...rowBaseStyle,
+        backgroundColor: theme.colors.surface,
+        color: theme.colors.text,
+      }
 
 // Wrapper for individual action card with exit animation support
 const ActionCard = <T,>({
@@ -167,84 +404,25 @@ const ActionCard = <T,>({
   hideEdit,
   editingId,
   renderInlineEdit,
-}: {
-  item: T
-  index: number
-  theme: Theme
-  isDarkTheme: boolean
-  rowBaseStyle: CSSProperties
-  isItemHighlighted: boolean
-  renderItem: (item: T) => ReactNode
-  primaryAction: ActionConfig<T>
-  primaryDisabled: boolean
-  onEdit?: (item: T) => void | Promise<void>
-  onDelete: (item: T) => void | Promise<void>
-  utilityAction?: UtilityActionConfig<T>
-  getActionStyle: (variant?: ActionConfig<T>['variant']) => CSSProperties
-  actionBaseStyle: CSSProperties
-  getKey?: (item: T) => string
-  getStarCount?: (item: T) => number | undefined
-  hideEdit?: boolean | ((item: T) => boolean)
-  editingId?: string
-  renderInlineEdit?: (item: T) => ReactNode
-}) => {
+}: ActionCardProps<T>) => {
   const [isExiting, setIsExiting] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
-  const hideUtilityButton =
-    typeof utilityAction?.hideButton === 'function'
-      ? utilityAction.hideButton(item)
-      : (utilityAction?.hideButton ?? false)
-  const utilityActionToRun = hideUtilityButton ? undefined : utilityAction
-
-  const resolvedUtilityVariant =
-    typeof utilityActionToRun?.variant === 'function'
-      ? utilityActionToRun.variant(item)
-      : (utilityAction?.variant ?? 'danger')
-
-  const resolvedUtilityAriaLabel = utilityActionToRun
-    ? resolveTextValue(
-        utilityActionToRun.ariaLabel ?? utilityActionToRun.label,
-        item
-      )
-    : 'Delete'
-
-  const resolvedUtilityDisabled = utilityAction?.disabled?.(item) ?? false
-  const resolvedUtilityExits = utilityAction
-    ? typeof utilityAction.exits === 'function'
-      ? utilityAction.exits(item)
-      : (utilityAction.exits ?? false)
-    : true
-
-  const defaultDeleteIcon =
-    theme.id === 'princess' ? (
-      <img
-        src={princessDeleteIcon}
-        alt="Delete"
-        loading="lazy"
-        decoding="async"
-        className="h-6 w-6 object-contain"
-      />
-    ) : (
-      <span>🗑️</span>
-    )
-
-  const resolvedUtilityIcon = utilityActionToRun
-    ? resolveValue(utilityActionToRun.icon ?? defaultDeleteIcon, item) ||
-      defaultDeleteIcon
-    : defaultDeleteIcon
+  const utility = resolveUtilityState(
+    item,
+    utilityAction,
+    <DefaultActionIcon theme={theme} type="delete" />
+  )
 
   const handleUtilityAction = () => {
     const runAction = () => {
-      if (utilityActionToRun) {
-        runActionSafely('utility action', () =>
-          utilityActionToRun.onClick(item)
-        )
+      if (utility.action) {
+        runActionSafely('utility action', () => utility.action?.onClick(item))
         return
       }
       runActionSafely('delete action', () => onDelete(item))
     }
 
-    if (resolvedUtilityExits) {
+    if (utility.exits) {
       setIsExiting(true)
       setTimeout(runAction, 400)
       return
@@ -261,25 +439,9 @@ const ActionCard = <T,>({
     cardRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' })
   }, [isInlineEditing])
 
-  const rowStyle: CSSProperties = isItemHighlighted
-    ? {
-        ...rowBaseStyle,
-        background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
-        color: isDarkTheme ? '#000' : '#FFF',
-      }
-    : {
-        ...rowBaseStyle,
-        backgroundColor: theme.colors.surface,
-        color: theme.colors.text,
-      }
-
   const starCount = getStarCount?.(item)
-  const hidePrimaryButton =
-    typeof primaryAction.hideButton === 'function'
-      ? primaryAction.hideButton(item)
-      : (primaryAction.hideButton ?? false)
-  const hideEditButton =
-    typeof hideEdit === 'function' ? hideEdit(item) : (hideEdit ?? false)
+  const hidePrimaryButton = resolveBoolean(primaryAction.hideButton, item)
+  const hideEditButton = resolveBoolean(hideEdit, item)
 
   const inlineEditStyle: CSSProperties = {
     ...rowBaseStyle,
@@ -296,7 +458,9 @@ const ActionCard = <T,>({
       key={itemKey}
       className={`${isInlineEditing ? '' : 'whimsical-card'} flex flex-col ${isExiting ? 'whimsical-card-exiting' : ''}`}
       style={{
-        ...(isInlineEditing ? inlineEditStyle : rowStyle),
+        ...(isInlineEditing
+          ? inlineEditStyle
+          : getCardStyle(theme, rowBaseStyle, isItemHighlighted, isDarkTheme)),
         gap: `${uiTokens.panelStackGap}px`,
       }}
     >
@@ -316,103 +480,114 @@ const ActionCard = <T,>({
           {/* Star Field (if star count is provided) */}
           {starCount !== undefined && <StarDisplay count={starCount} />}
 
-          {/* Action Buttons - Horizontal row with spacing */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: `${uiTokens.actionRowGap}px`,
-              justifyContent: hidePrimaryButton ? 'flex-end' : undefined,
-            }}
-          >
-            {/* Primary Action - takes most space */}
-            {!hidePrimaryButton && (
-              <button
-                type="button"
-                onClick={() =>
-                  runActionSafely('primary action', () =>
-                    primaryAction.onClick(item)
-                  )
-                }
-                disabled={primaryDisabled}
-                className="whimsical-btn flex-1 disabled:opacity-60"
-                aria-label={resolveTextValue(
-                  primaryAction.ariaLabel ?? primaryAction.label,
-                  item
-                )}
-                style={{
-                  ...actionBaseStyle,
-                  ...getActionStyle(
-                    typeof primaryAction.variant === 'function'
-                      ? primaryAction.variant(item)
-                      : primaryAction.variant
-                  ),
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
-              >
-                {resolveValue(primaryAction.icon ?? '⭐', item)}
-                {(typeof primaryAction.showLabel === 'function'
-                  ? primaryAction.showLabel(item)
-                  : primaryAction.showLabel) === false ? null : (
-                  <span>{resolveValue(primaryAction.label, item)}</span>
-                )}
-              </button>
-            )}
-
-            {/* Edit Button - optional */}
-            {!hideEditButton && onEdit && (
-              <button
-                type="button"
-                onClick={() =>
-                  runActionSafely('edit action', () => onEdit(item))
-                }
-                className="whimsical-btn whimsical-btn-utility"
-                aria-label="Edit"
-                style={{
-                  ...actionBaseStyle,
-                  ...getActionStyle('neutral'),
-                  width: `${uiTokens.listUtilityActionWidth}px`,
-                  minWidth: `${uiTokens.listUtilityActionWidth}px`,
-                  padding: 0,
-                }}
-              >
-                {theme.id === 'princess' ? (
-                  <img
-                    src={princessEditIcon}
-                    alt="Edit"
-                    loading="lazy"
-                    decoding="async"
-                    className="h-6 w-6 object-contain"
-                  />
-                ) : (
-                  <span>✏️</span>
-                )}
-              </button>
-            )}
-
-            {/* Delete Button */}
-            {!hideUtilityButton && (
-              <button
-                type="button"
-                onClick={handleUtilityAction}
-                disabled={resolvedUtilityDisabled}
-                className={`whimsical-btn whimsical-btn-utility disabled:opacity-60 ${resolvedUtilityVariant === 'danger' ? 'whimsical-btn-delete' : ''}`}
-                aria-label={resolvedUtilityAriaLabel}
-                style={{
-                  ...actionBaseStyle,
-                  ...getActionStyle(resolvedUtilityVariant),
-                  width: `${uiTokens.listUtilityActionWidth}px`,
-                  minWidth: `${uiTokens.listUtilityActionWidth}px`,
-                  padding: 0,
-                }}
-              >
-                {resolvedUtilityIcon}
-              </button>
-            )}
-          </div>
+          <ActionButtons
+            item={item}
+            theme={theme}
+            primaryAction={primaryAction}
+            primaryDisabled={primaryDisabled}
+            hidePrimary={hidePrimaryButton}
+            hideEdit={hideEditButton}
+            hideUtility={utility.hidden}
+            onEdit={onEdit}
+            onUtility={handleUtilityAction}
+            utilityIcon={utility.icon}
+            utilityAriaLabel={utility.ariaLabel}
+            utilityDisabled={utility.disabled}
+            utilityVariant={utility.variant}
+            actionBaseStyle={actionBaseStyle}
+            getActionStyle={getActionStyle}
+          />
         </>
       )}
+    </div>
+  )
+}
+
+const ListMessage = ({
+  theme,
+  children,
+}: {
+  theme: Theme
+  children: ReactNode
+}) => (
+  <div
+    className="rounded-3xl p-6 text-center text-lg font-bold"
+    style={{
+      backgroundColor: `${theme.colors.primary}20`,
+      color: theme.colors.text,
+    }}
+  >
+    {children}
+  </div>
+)
+
+type ListFooterProps = {
+  theme: Theme
+  rowBaseStyle: CSSProperties
+  inlineNewRow?: ReactNode
+  frameInlineNewRow: boolean
+  hideAdd: boolean
+  addLabel: string
+  onAdd: () => void | Promise<void>
+  addDisabled: boolean
+}
+
+const ListFooter = ({
+  theme,
+  rowBaseStyle,
+  inlineNewRow,
+  frameInlineNewRow,
+  hideAdd,
+  addLabel,
+  onAdd,
+  addDisabled,
+}: ListFooterProps) => {
+  if (inlineNewRow && !frameInlineNewRow) return inlineNewRow
+  if (inlineNewRow) {
+    return (
+      <div
+        className="flex flex-col"
+        style={{
+          ...rowBaseStyle,
+          background: theme.colors.surface,
+          border: `3px solid ${theme.colors.primary}`,
+          boxShadow: `0 10px 20px -5px ${theme.colors.primary}20`,
+          gap: `${uiTokens.panelStackGap}px`,
+        }}
+      >
+        {inlineNewRow}
+      </div>
+    )
+  }
+  if (hideAdd) return null
+
+  return (
+    <div
+      className="whimsical-card flex flex-col"
+      style={{
+        ...rowBaseStyle,
+        border: `4px dashed ${theme.colors.primary}`,
+        boxShadow: `0 10px 20px -5px ${theme.colors.primary}20`,
+        background: theme.colors.surface,
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => runActionSafely('add action', onAdd)}
+        disabled={addDisabled}
+        className="whimsical-btn flex w-full items-center justify-center text-xl font-bold disabled:opacity-60"
+        style={{
+          color: theme.colors.primary,
+          minHeight: `${uiTokens.actionButtonHeight}px`,
+          fontFamily: theme.fonts.heading,
+          cursor: addDisabled ? 'not-allowed' : 'pointer',
+          background: 'transparent',
+          border: 'none',
+          gap: `${uiTokens.actionContentGap}px`,
+        }}
+      >
+        <span>➕</span> {addLabel}
+      </button>
     </div>
   )
 }
@@ -471,114 +646,59 @@ const StandardActionList = <T,>({
       typeof variant === 'function' ? 'primary' : variant
     )
 
+  if (isLoading) {
+    return (
+      <div className="flex flex-col" style={{ width: '100%' }}>
+        <ListMessage theme={theme}>Loading...</ListMessage>
+      </div>
+    )
+  }
+
   return (
     <div className="flex flex-col" style={{ width: '100%' }}>
-      {isLoading ? (
-        <div
-          className="rounded-3xl p-6 text-center text-lg font-bold"
-          style={{
-            backgroundColor: `${theme.colors.primary}20`,
-            color: theme.colors.text,
-          }}
-        >
-          Loading...
-        </div>
-      ) : (
-        <div
-          className="flex flex-col"
-          style={{ gap: `${uiTokens.panelStackGap}px` }}
-        >
-          {items.length === 0
-            ? (emptyState ?? (
-                <div
-                  className="rounded-3xl p-6 text-center text-lg font-bold"
-                  style={{
-                    backgroundColor: `${theme.colors.primary}20`,
-                    color: theme.colors.text,
-                  }}
-                >
-                  Nothing here yet.
-                </div>
-              ))
-            : items.map((item, index) => {
-                const isItemHighlighted = isHighlighted?.(item) ?? false
-                const primaryDisabled = primaryAction.disabled?.(item) ?? false
-
-                return (
-                  <ActionCard
-                    key={getKey ? getKey(item) : `${index}`}
-                    item={item}
-                    index={index}
-                    theme={theme}
-                    isDarkTheme={isDarkTheme}
-                    rowBaseStyle={rowBaseStyle}
-                    isItemHighlighted={isItemHighlighted}
-                    renderItem={renderItem}
-                    primaryAction={primaryAction}
-                    primaryDisabled={primaryDisabled}
-                    onEdit={onEdit}
-                    onDelete={onDelete}
-                    utilityAction={utilityAction}
-                    getActionStyle={getActionStyle}
-                    actionBaseStyle={actionBaseStyle}
-                    getKey={getKey}
-                    getStarCount={getStarCount}
-                    hideEdit={hideEdit}
-                    editingId={editingId}
-                    renderInlineEdit={renderInlineEdit}
-                  />
-                )
-              })}
-
-          {/* Inline New Row — shown in place of the Add button card */}
-          {inlineNewRow && !frameInlineNewRow ? (
-            inlineNewRow
-          ) : inlineNewRow ? (
-            <div
-              className="flex flex-col"
-              style={{
-                ...rowBaseStyle,
-                background: theme.colors.surface,
-                border: `3px solid ${theme.colors.primary}`,
-                boxShadow: `0 10px 20px -5px ${theme.colors.primary}20`,
-                gap: `${uiTokens.panelStackGap}px`,
-              }}
-            >
-              {inlineNewRow}
-            </div>
-          ) : hideAdd ? null : (
-            /* Add Button Card */
-            <div
-              className="whimsical-card flex flex-col"
-              style={{
-                ...rowBaseStyle,
-                backgroundColor: theme.colors.surface,
-                border: `4px dashed ${theme.colors.primary}`,
-                boxShadow: `0 10px 20px -5px ${theme.colors.primary}20`,
-                background: theme.colors.surface,
-              }}
-            >
-              <button
-                type="button"
-                onClick={() => runActionSafely('add action', onAdd)}
-                disabled={addDisabled}
-                className="whimsical-btn flex w-full items-center justify-center text-xl font-bold disabled:opacity-60"
-                style={{
-                  color: theme.colors.primary,
-                  minHeight: `${uiTokens.actionButtonHeight}px`,
-                  fontFamily: theme.fonts.heading,
-                  cursor: addDisabled ? 'not-allowed' : 'pointer',
-                  background: 'transparent',
-                  border: 'none',
-                  gap: `${uiTokens.actionContentGap}px`,
-                }}
-              >
-                <span>➕</span> {addLabel}
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+      <div
+        className="flex flex-col"
+        style={{ gap: `${uiTokens.panelStackGap}px` }}
+      >
+        {items.length === 0
+          ? (emptyState ?? (
+              <ListMessage theme={theme}>Nothing here yet.</ListMessage>
+            ))
+          : items.map((item, index) => (
+              <ActionCard
+                key={getKey ? getKey(item) : `${index}`}
+                item={item}
+                index={index}
+                theme={theme}
+                isDarkTheme={isDarkTheme}
+                rowBaseStyle={rowBaseStyle}
+                isItemHighlighted={isHighlighted?.(item) ?? false}
+                renderItem={renderItem}
+                primaryAction={primaryAction}
+                primaryDisabled={primaryAction.disabled?.(item) ?? false}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                utilityAction={utilityAction}
+                getActionStyle={getActionStyle}
+                actionBaseStyle={actionBaseStyle}
+                getKey={getKey}
+                getStarCount={getStarCount}
+                hideEdit={hideEdit}
+                editingId={editingId}
+                renderInlineEdit={renderInlineEdit}
+              />
+            ))}
+        <ListFooter
+          theme={theme}
+          rowBaseStyle={rowBaseStyle}
+          inlineNewRow={inlineNewRow}
+          frameInlineNewRow={frameInlineNewRow}
+          hideAdd={hideAdd}
+          addLabel={addLabel}
+          onAdd={onAdd}
+          addDisabled={addDisabled}
+        />
+      </div>
     </div>
   )
 }

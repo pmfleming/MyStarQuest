@@ -11,6 +11,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // The app UI is English-only. Avoid packaging translations supplied by
+        // Android libraries that the app cannot surface.
+        resConfigs "en"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
@@ -19,7 +22,11 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            // R8 removes unused native/library code, optimizes the remaining
+            // bytecode, and strips resources that are no longer reachable.
+            optimization {
+                enable = true
+            }
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

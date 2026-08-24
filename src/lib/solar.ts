@@ -304,8 +304,6 @@ export const getSolarTimes = (
   }
 }
 
-export const getAmsterdamSolarTimes = getSolarTimes
-
 export const getSunPosition = (date: Date): SunPosition => {
   const utcMinutes =
     date.getUTCHours() * 60 +

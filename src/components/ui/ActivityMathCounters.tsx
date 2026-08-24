@@ -56,6 +56,32 @@ export function EmptyCounterHint({ color, fontFamily }: EmptyCounterHintProps) {
   )
 }
 
+type CounterGroupProps = {
+  count: number
+  color: string
+  fontFamily: string
+  style: CSSProperties
+  children: (index: number) => ReactNode
+}
+
+export function CounterGroup({
+  count,
+  color,
+  fontFamily,
+  style,
+  children,
+}: CounterGroupProps) {
+  return (
+    <div style={style} aria-hidden="true">
+      {count === 0 ? (
+        <EmptyCounterHint color={color} fontFamily={fontFamily} />
+      ) : (
+        Array.from({ length: count }, (_, index) => children(index))
+      )}
+    </div>
+  )
+}
+
 type TenRodProps = {
   src: string
   counterSize: number

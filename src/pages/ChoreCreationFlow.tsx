@@ -1,7 +1,7 @@
-import { useMemo, useState, type CSSProperties } from 'react'
+import { useState, type CSSProperties } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import ActionTextInput from '../components/ui/ActionTextInput'
-import Carousel from '../components/ui/Carousel'
+import ImageOptionCarousel from '../components/ui/ImageOptionCarousel'
 import { IconActionRow } from '../components/ui/IconActionControls'
 import ScheduleDayTypeControl from '../components/ui/ScheduleDayTypeControl'
 import StarDisplay from '../components/ui/StarDisplay'
@@ -138,42 +138,6 @@ const ChoreCreationFlow = ({
     initialChore ? getDraftForChore(initialChore) : typeOptions[0].defaultDraft
   )
 
-  const carouselItems = useMemo(
-    () =>
-      choreImageOptions.map((option) => ({
-        id: option.id,
-        label: option.label,
-        icon: option.image ? (
-          <img
-            src={option.image}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className="h-full w-full object-contain"
-            aria-hidden="true"
-          />
-        ) : (
-          <span
-            aria-hidden="true"
-            style={{
-              width: '44px',
-              height: '44px',
-              borderRadius: 14,
-              border: `3px dashed ${theme.colors.primary}`,
-              display: 'block',
-              opacity: 0.55,
-            }}
-          />
-        ),
-      })),
-    [theme.colors.primary]
-  )
-
-  const currentImageIndex = Math.max(
-    0,
-    choreImageOptions.findIndex((option) => option.id === draft.imageKey)
-  )
-
   const updateDraft = (patch: Partial<ChoreDraft>) => {
     setDraft((current) => ({ ...current, ...patch }))
   }
@@ -255,16 +219,12 @@ const ChoreCreationFlow = ({
       />
 
       {selectedType === 'standard' && (
-        <Carousel
-          key={draft.imageKey}
-          items={carouselItems}
+        <ImageOptionCarousel
+          theme={theme}
+          options={choreImageOptions}
           title="Chore image"
-          initialIndex={currentImageIndex}
-          onChange={(index) => {
-            const selected = choreImageOptions[index]
-            if (!selected || selected.id === draft.imageKey) return
-            updateDraft({ imageKey: selected.id })
-          }}
+          selectedId={draft.imageKey}
+          onChange={(imageKey) => updateDraft({ imageKey })}
         />
       )}
 
