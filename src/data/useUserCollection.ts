@@ -4,6 +4,7 @@ import {
   onSnapshot,
   orderBy,
   query,
+  where,
   type DocumentData,
   type OrderByDirection,
 } from 'firebase/firestore'
@@ -14,6 +15,8 @@ type UseUserCollectionArgs<T> = {
   collectionName: string
   orderByField?: string
   orderDirection?: OrderByDirection
+  whereEqualToField?: string
+  whereEqualToValue?: unknown
   errorMessage: string
   mapDocument: (id: string, data: DocumentData) => T | null
   normalizeItems?: (items: T[]) => T[]
@@ -26,6 +29,8 @@ export const useUserCollection = <T>({
   collectionName,
   orderByField,
   orderDirection = 'asc',
+  whereEqualToField,
+  whereEqualToValue,
   errorMessage,
   mapDocument,
   normalizeItems,
@@ -42,9 +47,17 @@ export const useUserCollection = <T>({
     }
 
     const baseCollection = collection(db, 'users', userId, collectionName)
-    const source = orderByField
-      ? query(baseCollection, orderBy(orderByField, orderDirection))
-      : baseCollection
+    const constraints = []
+    if (whereEqualToField && whereEqualToValue !== undefined) {
+      constraints.push(where(whereEqualToField, '==', whereEqualToValue))
+    }
+    if (orderByField) {
+      constraints.push(orderBy(orderByField, orderDirection))
+    }
+    const source =
+      constraints.length > 0
+        ? query(baseCollection, ...constraints)
+        : baseCollection
 
     return onSnapshot(
       source,
@@ -76,6 +89,8 @@ export const useUserCollection = <T>({
     orderByField,
     orderDirection,
     userId,
+    whereEqualToField,
+    whereEqualToValue,
   ])
 
   return items

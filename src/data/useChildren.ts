@@ -1,6 +1,14 @@
 // ── Real-time children subscription + all child mutations ──
 
-import { useCallback, useEffect, useState } from 'react'
+import {
+  createContext,
+  createElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from 'react'
 import {
   addDoc,
   collection,
@@ -21,7 +29,7 @@ import {
 import { mergeMissingTitleDrafts } from './dailyTaskState'
 import { useUserCollection } from './useUserCollection'
 
-export function useChildren() {
+const useChildrenState = () => {
   const { user } = useAuth()
   const { activeChildId, setActiveChild, clearActiveChild } = useActiveChild()
   const [nameDrafts, setNameDrafts] = useState<Record<string, string>>({})
@@ -170,4 +178,26 @@ export function useChildren() {
     deleteChild,
     selectChild,
   }
+}
+
+type ChildrenContextValue = ReturnType<typeof useChildrenState>
+
+const ChildrenContext = createContext<ChildrenContextValue | undefined>(
+  undefined
+)
+
+export const ChildrenProvider = ({ children }: { children: ReactNode }) => {
+  const value = useChildrenState()
+
+  return createElement(ChildrenContext.Provider, { value }, children)
+}
+
+export function useChildren() {
+  const context = useContext(ChildrenContext)
+
+  if (!context) {
+    throw new Error('useChildren must be used within a ChildrenProvider')
+  }
+
+  return context
 }

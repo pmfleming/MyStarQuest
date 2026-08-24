@@ -82,8 +82,10 @@ export function useTests() {
   )
   const clearEphemeral = useCallback(() => setEphemeral({}), [])
   const rawTests = useUserCollection({
-    userId: user?.uid,
+    userId: activeChildId ? user?.uid : undefined,
     collectionName: 'tests',
+    whereEqualToField: 'childId',
+    whereEqualToValue: activeChildId ?? undefined,
     errorMessage: 'Failed to subscribe to tests',
     mapDocument: parseTestDocument,
     normalizeItems: sortTests,

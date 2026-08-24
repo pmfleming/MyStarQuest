@@ -53,8 +53,10 @@ export function useChores() {
   )
   const clearEphemeral = useCallback(() => setEphemeral({}), [])
   const rawChores = useUserCollection({
-    userId: user?.uid,
+    userId: activeChildId ? user?.uid : undefined,
     collectionName: 'chores',
+    whereEqualToField: 'childId',
+    whereEqualToValue: activeChildId ?? undefined,
     errorMessage: 'Failed to subscribe to chores',
     mapDocument: parseChoreDocument,
     normalizeItems: sortChores,
