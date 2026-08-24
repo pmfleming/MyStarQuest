@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import SpellingTester from '../../src/components/SpellingTester'
@@ -77,7 +77,9 @@ describe('SpellingTester', () => {
     const user = userEvent.setup()
     const { rerender } = render(<SpellingTester {...defaultProps} />)
 
-    const options = screen.getAllByRole('radio')
+    const options = within(
+      screen.getByRole('radiogroup', { name: 'Spelling pictures' })
+    ).getAllByRole('radio')
     expect(options).toHaveLength(3)
     expect(options[2]).toHaveAccessibleName('Pokémon')
 
@@ -96,6 +98,27 @@ describe('SpellingTester', () => {
       })
 
       expect(pokemonNames).toContain(image.getAttribute('alt'))
+    })
+  })
+
+  it('uses lowercase letters when lowercase is selected', async () => {
+    const user = userEvent.setup()
+    const { rerender } = render(<SpellingTester {...defaultProps} />)
+
+    expect(screen.getByRole('radio', { name: 'ABC' })).toHaveAttribute(
+      'aria-checked',
+      'true'
+    )
+
+    await user.click(screen.getByRole('radio', { name: 'abc' }))
+    rerender(<SpellingTester {...defaultProps} isRunning />)
+
+    await waitFor(() => {
+      const choices = screen.getAllByRole('button')
+      expect(choices).toHaveLength(3)
+      expect(
+        choices.every((choice) => /^[a-z]$/.test(choice.textContent ?? ''))
+      ).toBe(true)
     })
   })
 })

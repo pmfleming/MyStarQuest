@@ -12,6 +12,7 @@ import {
   MAX_ACTIVITY_MISTAKES,
   type ActivityResult,
 } from './ui/ActivityControls'
+import LetterCaseControl, { type LetterCase } from './ui/LetterCaseControl'
 
 // Import all alphabet SVGs
 import antAardvarkAntelope from '../assets/alphabet/ant-aardvark-antelope.svg'
@@ -234,13 +235,14 @@ const AlphabetTester = ({
   failureImage,
   failureModeEnabled = true,
 }: AlphabetTesterProps) => {
+  const [letterCase, setLetterCase] = useState<LetterCase>('upper')
   const [problemIndex, setProblemIndex] = useState(0)
   const [successCount, setSuccessCount] = useState(0)
   const [retryCount, setRetryCount] = useState(0)
   const [currentTarget, setCurrentTarget] = useState('')
   const [currentImage, setCurrentImage] = useState('')
   const [currentChoices, setCurrentChoices] = useState<string[]>([])
-  const { isSeen, markSeen, clearHistory } = useProblemHistory()
+  const { isSeen, markSeen, clearHistory } = useProblemHistory([letterCase])
   const [resultHistory, setResultHistory] = useState<ActivityResult[]>([])
   const [isFailurePending, setIsFailurePending] = useState(false)
   const [feedback, setFeedback] = useState<'idle' | 'correct' | 'wrong'>('idle')
@@ -376,12 +378,19 @@ const AlphabetTester = ({
         onStarsChange={onStarsChange}
         previousAriaLabel="Fewer problems"
         nextAriaLabel="More problems"
+        beforeProblemControl={
+          <LetterCaseControl
+            theme={theme}
+            value={letterCase}
+            onChange={setLetterCase}
+          />
+        }
         isEditable={isEditable}
         starMax={10}
         starStyle={{ marginTop: uiTokens.singleVerticalSpace }}
       />
 
-      {isRunning && (
+      {isRunning && currentTarget && (
         <ActivityPlayArea
           theme={theme}
           results={
@@ -450,8 +459,7 @@ const AlphabetTester = ({
                     cursor: 'pointer',
                   }}
                 >
-                  {letter}
-                  {letter.toLowerCase()}
+                  {letterCase === 'upper' ? letter : letter.toLowerCase()}
                 </button>
               )
             })}

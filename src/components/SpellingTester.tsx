@@ -38,6 +38,7 @@ import {
   type ActivityChoreProps,
   type ActivityResult,
 } from './ui/ActivityControls'
+import LetterCaseControl, { type LetterCase } from './ui/LetterCaseControl'
 import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
 
 const MIN_PROBLEMS = 1
@@ -47,7 +48,7 @@ const NEXT_WORD_DELAY_MS = 1100
 const FLY_AWAY_DURATION_MS = 650
 const FAILURE_TRANSITION_DELAY_MS = 1400
 
-const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+const UPPERCASE_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
 type SpellingAnimal = {
   name: string
@@ -138,9 +139,16 @@ const shuffle = <T,>(items: T[]) => [...items].sort(() => Math.random() - 0.5)
 const makeChoiceId = (letter: string, index: number) =>
   `${letter}-${index}-${Math.random().toString(36).slice(2)}`
 
-const generateChoices = (targetLetter: string): LetterChoice[] => {
+const generateChoices = (
+  targetLetter: string,
+  letterCase: LetterCase
+): LetterChoice[] => {
   const choices = [targetLetter]
-  const distractors = LETTERS.filter((letter) => letter !== targetLetter)
+  const letters =
+    letterCase === 'upper'
+      ? UPPERCASE_LETTERS
+      : UPPERCASE_LETTERS.map((letter) => letter.toLowerCase())
+  const distractors = letters.filter((letter) => letter !== targetLetter)
 
   while (choices.length < 3) {
     const next = distractors[Math.floor(Math.random() * distractors.length)]
@@ -154,8 +162,11 @@ const generateChoices = (targetLetter: string): LetterChoice[] => {
   }))
 }
 
-const getAnimalLetters = (animal: SpellingAnimal) =>
-  animal.name.toUpperCase().split('')
+const getAnimalLetters = (animal: SpellingAnimal, letterCase: LetterCase) =>
+  (letterCase === 'upper'
+    ? animal.name.toUpperCase()
+    : animal.name.toLowerCase()
+  ).split('')
 
 export type SpellingTesterProps = ActivityChoreProps
 
@@ -337,6 +348,7 @@ const SpellingTester = ({
   failureImage,
   failureModeEnabled = true,
 }: SpellingTesterProps) => {
+  const [letterCase, setLetterCase] = useState<LetterCase>('upper')
   const [problemIndex, setProblemIndex] = useState(0)
   const [successCount, setSuccessCount] = useState(0)
   const [retryCount, setRetryCount] = useState(0)
@@ -349,7 +361,10 @@ const SpellingTester = ({
   const [isFailurePending, setIsFailurePending] = useState(false)
   const [spellingSet, setSpellingSet] = useState<SpellingWordSetId>('animals')
   const spellingWords = SPELLING_WORD_SETS[spellingSet]
-  const { isSeen, markSeen, clearHistory } = useProblemHistory([spellingSet])
+  const { isSeen, markSeen, clearHistory } = useProblemHistory([
+    spellingSet,
+    letterCase,
+  ])
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const isSetup = !isRunning && !isCompleted
@@ -361,7 +376,9 @@ const SpellingTester = ({
   const isSuccessState = isCompleted && !isFailedState
   const isFinished = isSuccessState || isFailedState
 
-  const animalLetters = currentAnimal ? getAnimalLetters(currentAnimal) : []
+  const animalLetters = currentAnimal
+    ? getAnimalLetters(currentAnimal, letterCase)
+    : []
   const targetLetter = animalLetters[spelledCount]
 
   const clearFeedbackTimer = useCallback(() => {
@@ -394,6 +411,16 @@ const SpellingTester = ({
     [resetRoundState, spellingSet]
   )
 
+  const handleLetterCaseChange = useCallback(
+    (nextLetterCase: LetterCase) => {
+      if (nextLetterCase === letterCase) return
+
+      resetRoundState()
+      setLetterCase(nextLetterCase)
+    },
+    [letterCase, resetRoundState]
+  )
+
   const nextAnimal = useCallback(() => {
     let animal = spellingWords[Math.floor(Math.random() * spellingWords.length)]
     let attempts = 0
@@ -406,9 +433,11 @@ const SpellingTester = ({
     markSeen(`${spellingSet}-${animal.name}`)
     setCurrentAnimal(animal)
     setSpelledCount(0)
-    setChoices(generateChoices(getAnimalLetters(animal)[0]))
+    setChoices(
+      generateChoices(getAnimalLetters(animal, letterCase)[0], letterCase)
+    )
     setIsFailurePending(false)
-  }, [isSeen, markSeen, spellingSet, spellingWords])
+  }, [isSeen, letterCase, markSeen, spellingSet, spellingWords])
 
   useEffect(() => {
     if (isRunning && !currentAnimal) {
@@ -458,7 +487,7 @@ const SpellingTester = ({
           return
         }
 
-        setChoices(generateChoices(animalLetters[nextSpelledCount]))
+        setChoices(generateChoices(animalLetters[nextSpelledCount], letterCase))
       }, NEXT_LETTER_DELAY_MS)
       return
     }
@@ -506,17 +535,24 @@ const SpellingTester = ({
         previousAriaLabel="Fewer words"
         nextAriaLabel="More words"
         beforeProblemControl={
-          <SegmentedChoiceControl
-            theme={theme}
-            value={spellingSet}
-            options={SPELLING_SET_OPTIONS.map((option) => ({
-              value: option.id,
-              label: option.label,
-              icon: option.icon,
-            }))}
-            onChange={handleSpellingSetChange}
-            ariaLabel="Spelling pictures"
-          />
+          <div className="flex w-full flex-col" style={{ gap: 8 }}>
+            <SegmentedChoiceControl
+              theme={theme}
+              value={spellingSet}
+              options={SPELLING_SET_OPTIONS.map((option) => ({
+                value: option.id,
+                label: option.label,
+                icon: option.icon,
+              }))}
+              onChange={handleSpellingSetChange}
+              ariaLabel="Spelling pictures"
+            />
+            <LetterCaseControl
+              theme={theme}
+              value={letterCase}
+              onChange={handleLetterCaseChange}
+            />
+          </div>
         }
         isEditable={isEditable}
         starMax={10}
