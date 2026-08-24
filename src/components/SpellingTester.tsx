@@ -6,28 +6,6 @@ import teenieSetIcon from '../assets/global/teenieping.webp'
 import pokemonSetIcon from '../assets/pokemon/pikachu.png'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
-import antImage from '../assets/spelling/ant.webp'
-import batImage from '../assets/spelling/bat.webp'
-import catImage from '../assets/spelling/cat.webp'
-import dogImage from '../assets/spelling/dog.webp'
-import eagleImage from '../assets/spelling/eagle.webp'
-import foxImage from '../assets/spelling/fox.webp'
-import goatImage from '../assets/spelling/goat.webp'
-import hippoImage from '../assets/spelling/hippo.webp'
-import ibisImage from '../assets/spelling/ibis.webp'
-import jackalImage from '../assets/spelling/jackal.webp'
-import kiwiImage from '../assets/spelling/kiwi.webp'
-import lionImage from '../assets/spelling/lion.webp'
-import mouseImage from '../assets/spelling/mouse.webp'
-import newtImage from '../assets/spelling/newt.webp'
-import owlImage from '../assets/spelling/owl.webp'
-import pigImage from '../assets/spelling/pig.webp'
-import rabbitImage from '../assets/spelling/rabbit.webp'
-import swanImage from '../assets/spelling/swan.webp'
-import tigerImage from '../assets/spelling/tiger.webp'
-import voleImage from '../assets/spelling/vole.webp'
-import yakImage from '../assets/spelling/yak.webp'
-import zebraImage from '../assets/spelling/zebra.webp'
 import { celebrateSuccess } from '../lib/celebrate'
 import {
   getActivityOutcome,
@@ -68,30 +46,10 @@ type LetterChoice = {
   state: 'idle' | 'correct' | 'leaving'
 }
 
-const SPELLING_ANIMALS: SpellingAnimal[] = [
-  { name: 'ant', image: antImage },
-  { name: 'bat', image: batImage },
-  { name: 'cat', image: catImage },
-  { name: 'dog', image: dogImage },
-  { name: 'eagle', image: eagleImage },
-  { name: 'fox', image: foxImage },
-  { name: 'goat', image: goatImage },
-  { name: 'hippo', image: hippoImage },
-  { name: 'ibis', image: ibisImage },
-  { name: 'jackal', image: jackalImage },
-  { name: 'kiwi', image: kiwiImage },
-  { name: 'lion', image: lionImage },
-  { name: 'mouse', image: mouseImage },
-  { name: 'newt', image: newtImage },
-  { name: 'owl', image: owlImage },
-  { name: 'pig', image: pigImage },
-  { name: 'rabbit', image: rabbitImage },
-  { name: 'swan', image: swanImage },
-  { name: 'tiger', image: tigerImage },
-  { name: 'vole', image: voleImage },
-  { name: 'yak', image: yakImage },
-  { name: 'zebra', image: zebraImage },
-]
+const SPELLING_ANIMAL_ASSET_MODULES = import.meta.glob(
+  '../assets/spelling/*.{png,jpg,jpeg,webp,svg}',
+  { eager: true, import: 'default' }
+) as Record<string, string>
 
 const TEENIE_ASSET_MODULES = import.meta.glob(
   '../assets/teenie/*.{png,jpg,jpeg,webp,svg}',
@@ -109,19 +67,22 @@ const getAssetName = (path: string) =>
     .pop()
     ?.replace(/\.[^.]+$/, '') ?? path
 
-const SPELLING_TEENIE: SpellingAnimal[] = Object.entries(TEENIE_ASSET_MODULES)
-  .map(([path, image]) => ({
-    name: getAssetName(path),
-    image,
-  }))
-  .sort((a, b) => a.name.localeCompare(b.name))
+const getSpellingWords = (
+  assetModules: Record<string, string>,
+  normalizeName: (name: string) => string = (name) => name
+): SpellingAnimal[] =>
+  Object.entries(assetModules)
+    .map(([path, image]) => ({
+      name: normalizeName(getAssetName(path)),
+      image,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name))
 
-const SPELLING_POKEMON: SpellingAnimal[] = Object.entries(POKEMON_ASSET_MODULES)
-  .map(([path, image]) => ({
-    name: getAssetName(path).replace(/^grrowlithe$/i, 'growlithe'),
-    image,
-  }))
-  .sort((a, b) => a.name.localeCompare(b.name))
+const SPELLING_ANIMALS = getSpellingWords(SPELLING_ANIMAL_ASSET_MODULES)
+const SPELLING_TEENIE = getSpellingWords(TEENIE_ASSET_MODULES)
+const SPELLING_POKEMON = getSpellingWords(POKEMON_ASSET_MODULES, (name) =>
+  name.replace(/^grrowlithe$/i, 'growlithe')
+)
 
 const SPELLING_WORD_SETS: Record<SpellingWordSetId, SpellingAnimal[]> = {
   animals: SPELLING_ANIMALS,

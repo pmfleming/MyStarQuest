@@ -14,24 +14,48 @@ const pokemonAssetModules = import.meta.glob(
   { eager: true, import: 'default' }
 )
 
-const teenieNames = Object.keys(teenieAssetModules)
-  .map(
-    (path) =>
-      path
-        .split('/')
-        .pop()
-        ?.replace(/\.[^.]+$/, '') ?? path
-  )
-  .sort()
+const animalAssetModules = import.meta.glob(
+  '../../src/assets/spelling/*.{png,jpg,jpeg,webp,svg}',
+  { eager: true, import: 'default' }
+)
 
-const pokemonNames = Object.keys(pokemonAssetModules)
-  .map(
-    (path) =>
-      path
-        .split('/')
-        .pop()
-        ?.replace(/\.[^.]+$/, '') ?? path
-  )
+const getAssetNames = (assetModules: Record<string, unknown>) =>
+  Object.keys(assetModules)
+    .map(
+      (path) =>
+        path
+          .split('/')
+          .pop()
+          ?.replace(/\.[^.]+$/, '') ?? path
+    )
+    .sort()
+
+const animalNames = getAssetNames(animalAssetModules)
+const addedAnimalNames = [
+  'bear',
+  'butterfly',
+  'chicken',
+  'cow',
+  'crocodile',
+  'deer',
+  'dolphin',
+  'duck',
+  'elephant',
+  'frog',
+  'giraffe',
+  'horse',
+  'kangaroo',
+  'monkey',
+  'panda',
+  'penguin',
+  'sheep',
+  'snake',
+  'turtle',
+  'wolf',
+]
+const teenieNames = getAssetNames(teenieAssetModules)
+
+const pokemonNames = getAssetNames(pokemonAssetModules)
   .map((name) => name.replace(/^grrowlithe$/i, 'growlithe'))
   .sort()
 
@@ -46,6 +70,21 @@ const defaultProps = {
 }
 
 describe('SpellingTester', () => {
+  it('offers the expanded animal set from spelling assets', async () => {
+    expect(animalNames).toHaveLength(42)
+    expect(animalNames).toEqual(expect.arrayContaining(addedAnimalNames))
+
+    render(<SpellingTester {...defaultProps} isRunning />)
+
+    await waitFor(() => {
+      const image = screen.getByRole('img', {
+        name: new RegExp(`^(${animalNames.join('|')})$`),
+      })
+
+      expect(animalNames).toContain(image.getAttribute('alt'))
+    })
+  })
+
   it('lets setup choose teenie words from teenie asset filenames', async () => {
     const user = userEvent.setup()
     const { rerender } = render(<SpellingTester {...defaultProps} />)
