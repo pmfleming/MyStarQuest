@@ -240,7 +240,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
     if (typeof document !== 'undefined' && 'fonts' in document) {
       void document.fonts.load(`1rem "${activeTheme.fontFamily}"`)
-      void document.fonts.load('1rem "MSQ Fredoka Fallback"')
     }
   }, [currentThemeId])
 
