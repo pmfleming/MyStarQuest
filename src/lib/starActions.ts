@@ -5,7 +5,7 @@ import {
   runTransaction,
   serverTimestamp,
 } from 'firebase/firestore'
-import { db } from '../firebase'
+import { db } from '../firebaseDb'
 
 type TaskCollection = 'chores' | 'tests'
 

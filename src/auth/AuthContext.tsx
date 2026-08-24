@@ -17,7 +17,6 @@ import {
   useMemo,
   useState,
 } from 'react'
-import { z } from 'zod'
 import { auth } from '../firebase'
 
 type AuthContextValue = {
@@ -29,11 +28,22 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
-const nativeGoogleSignInResultSchema = z.object({
-  credential: z.object({
-    idToken: z.string().min(1),
-  }),
-})
+const getNativeGoogleIdToken = (result: unknown) => {
+  if (
+    typeof result !== 'object' ||
+    result === null ||
+    !('credential' in result) ||
+    typeof result.credential !== 'object' ||
+    result.credential === null ||
+    !('idToken' in result.credential) ||
+    typeof result.credential.idToken !== 'string' ||
+    result.credential.idToken.length === 0
+  ) {
+    throw new Error('Google sign-in did not return an ID token.')
+  }
+
+  return result.credential.idToken
+}
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
@@ -51,10 +61,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const loginWithGoogle = useCallback(async () => {
     if (Capacitor.isNativePlatform()) {
       // Use the Capacitor plugin on Android/iOS — avoids WebView popup restrictions
-      const result = nativeGoogleSignInResultSchema.parse(
+      const idToken = getNativeGoogleIdToken(
         await FirebaseAuthentication.signInWithGoogle()
       )
-      const idToken = result.credential.idToken
       const credential = GoogleAuthProvider.credential(idToken)
       await signInWithCredential(auth, credential)
     } else {

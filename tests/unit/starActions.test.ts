@@ -13,7 +13,7 @@ const firestore = vi.hoisted(() => ({
   serverTimestamp: vi.fn(() => 'server-timestamp'),
 }))
 
-vi.mock('../../src/firebase', () => ({ db: { name: 'test-db' } }))
+vi.mock('../../src/firebaseDb', () => ({ db: { name: 'test-db' } }))
 
 vi.mock('firebase/firestore', () => ({
   collection: firestore.collection,

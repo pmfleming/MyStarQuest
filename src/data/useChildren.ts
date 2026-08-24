@@ -9,7 +9,7 @@ import {
   serverTimestamp,
   updateDoc,
 } from 'firebase/firestore'
-import { db } from '../firebase'
+import { db } from '../firebaseDb'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { THEME_ID_LOOKUP, isThemeId, type ThemeId } from '../ui/themeOptions'

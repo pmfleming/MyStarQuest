@@ -7,7 +7,7 @@ import {
   type DocumentData,
   type OrderByDirection,
 } from 'firebase/firestore'
-import { db } from '../firebase'
+import { db } from '../firebaseDb'
 
 type UseUserCollectionArgs<T> = {
   userId: string | undefined
