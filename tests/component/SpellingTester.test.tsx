@@ -32,10 +32,14 @@ const getAssetNames = (assetModules: Record<string, unknown>) =>
 
 const animalNames = getAssetNames(animalAssetModules)
 const addedAnimalNames = [
+  'bee',
   'bear',
+  'bird',
   'butterfly',
+  'camel',
   'chicken',
   'cow',
+  'crab',
   'crocodile',
   'deer',
   'dolphin',
@@ -45,12 +49,28 @@ const addedAnimalNames = [
   'giraffe',
   'horse',
   'kangaroo',
+  'koala',
+  'lizard',
+  'llama',
+  'mole',
   'monkey',
+  'otter',
   'panda',
+  'parrot',
   'penguin',
+  'rhino',
+  'rooster',
+  'seal',
+  'shark',
   'sheep',
+  'skunk',
+  'sloth',
+  'snail',
   'snake',
+  'spider',
   'turtle',
+  'turkey',
+  'whale',
   'wolf',
 ]
 const teenieNames = getAssetNames(teenieAssetModules)
@@ -71,7 +91,7 @@ const defaultProps = {
 
 describe('SpellingTester', () => {
   it('offers the expanded animal set from spelling assets', async () => {
-    expect(animalNames).toHaveLength(42)
+    expect(animalNames).toHaveLength(62)
     expect(animalNames).toEqual(expect.arrayContaining(addedAnimalNames))
 
     render(<SpellingTester {...defaultProps} isRunning />)
