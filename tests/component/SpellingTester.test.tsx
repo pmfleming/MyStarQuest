@@ -14,11 +14,6 @@ const pokemonAssetModules = import.meta.glob(
   { eager: true, import: 'default' }
 )
 
-const animalAssetModules = import.meta.glob(
-  '../../src/assets/spelling/*.{png,jpg,jpeg,webp,svg}',
-  { eager: true, import: 'default' }
-)
-
 const getAssetNames = (assetModules: Record<string, unknown>) =>
   Object.keys(assetModules)
     .map(
@@ -30,49 +25,6 @@ const getAssetNames = (assetModules: Record<string, unknown>) =>
     )
     .sort()
 
-const animalNames = getAssetNames(animalAssetModules)
-const addedAnimalNames = [
-  'bee',
-  'bear',
-  'bird',
-  'butterfly',
-  'camel',
-  'chicken',
-  'cow',
-  'crab',
-  'crocodile',
-  'deer',
-  'dolphin',
-  'duck',
-  'elephant',
-  'frog',
-  'giraffe',
-  'horse',
-  'kangaroo',
-  'koala',
-  'lizard',
-  'llama',
-  'mole',
-  'monkey',
-  'otter',
-  'panda',
-  'parrot',
-  'penguin',
-  'rhino',
-  'rooster',
-  'seal',
-  'shark',
-  'sheep',
-  'skunk',
-  'sloth',
-  'snail',
-  'snake',
-  'spider',
-  'turtle',
-  'turkey',
-  'whale',
-  'wolf',
-]
 const teenieNames = getAssetNames(teenieAssetModules)
 
 const pokemonNames = getAssetNames(pokemonAssetModules)
@@ -111,36 +63,16 @@ const defaultProps = {
 }
 
 describe('SpellingTester', () => {
-  it('offers the expanded animal set from spelling assets', async () => {
-    expect(animalNames).toHaveLength(62)
-    expect(animalNames).toEqual(expect.arrayContaining(addedAnimalNames))
-
-    render(<SpellingTester {...defaultProps} isRunning />)
-
-    await waitFor(() => {
-      const image = screen.getByRole('img', {
-        name: new RegExp(`^(${animalNames.join('|')})$`),
-      })
-
-      expect(animalNames).toContain(image.getAttribute('alt'))
-    })
-  })
-
-  it('lets setup choose teenie words from teenie asset filenames', async () => {
-    const user = userEvent.setup()
+  it('uses teenie pictures as the default spelling set', async () => {
     const { rerender } = render(<SpellingTester {...defaultProps} />)
-
-    expect(screen.getByRole('radio', { name: 'Animals' })).toHaveAttribute(
-      'aria-checked',
-      'true'
-    )
-
-    await user.click(screen.getByRole('radio', { name: 'Teenie' }))
 
     expect(screen.getByRole('radio', { name: 'Teenie' })).toHaveAttribute(
       'aria-checked',
       'true'
     )
+    expect(
+      screen.queryByRole('radio', { name: 'Animals' })
+    ).not.toBeInTheDocument()
 
     rerender(<SpellingTester {...defaultProps} isRunning />)
 
@@ -153,7 +85,7 @@ describe('SpellingTester', () => {
     })
   })
 
-  it('offers pokemon as a third word set and uses its asset filenames', async () => {
+  it('offers pokemon as the second word set and uses its asset filenames', async () => {
     expect(pokemonNames).toHaveLength(44)
     expect(pokemonNames).toEqual(expect.arrayContaining(addedPokemonNames))
 
@@ -163,8 +95,8 @@ describe('SpellingTester', () => {
     const options = within(
       screen.getByRole('radiogroup', { name: 'Spelling pictures' })
     ).getAllByRole('radio')
-    expect(options).toHaveLength(3)
-    expect(options[2]).toHaveAccessibleName('Pokémon')
+    expect(options).toHaveLength(2)
+    expect(options[1]).toHaveAccessibleName('Pokémon')
 
     await user.click(screen.getByRole('radio', { name: 'Pokémon' }))
 

@@ -1,5 +1,6 @@
 import {
   DEFAULT_ALPHABET_PROBLEMS,
+  DEFAULT_ANIMALS_PROBLEMS,
   DEFAULT_DINNER_BITES,
   DEFAULT_DINNER_DURATION_SECONDS,
   DEFAULT_LARGE_NUMBERS_PROBLEMS,
@@ -128,6 +129,9 @@ const taskVariantFields = {
   ],
   spelling: [
     { key: 'spellingTotalProblems', defaultValue: DEFAULT_SPELLING_PROBLEMS },
+  ],
+  animals: [
+    { key: 'animalsTotalProblems', defaultValue: DEFAULT_ANIMALS_PROBLEMS },
   ],
   'positional-notation': [
     { key: 'pvTotalProblems', defaultValue: DEFAULT_PV_PROBLEMS },
@@ -263,6 +267,10 @@ const todoVariantFields = {
   spelling: [
     { key: 'spellingTotalProblems', defaultValue: DEFAULT_SPELLING_PROBLEMS },
     { key: 'spellingLastOutcome' },
+  ],
+  animals: [
+    { key: 'animalsTotalProblems', defaultValue: DEFAULT_ANIMALS_PROBLEMS },
+    { key: 'animalsLastOutcome' },
   ],
   'positional-notation': [
     { key: 'pvTotalProblems', defaultValue: DEFAULT_PV_PROBLEMS },

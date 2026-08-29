@@ -70,6 +70,7 @@ const ActionButton = ({
       >
         <button
           type="button"
+          aria-label={label}
           style={{ ...getActionButtonStyle(theme, color), ...styleOverride }}
           aria-pressed={ariaPressed}
         >
@@ -82,6 +83,7 @@ const ActionButton = ({
   return (
     <button
       type="button"
+      aria-label={label}
       onClick={onClick}
       style={{ ...getActionButtonStyle(theme, color), ...styleOverride }}
       disabled={disabled}

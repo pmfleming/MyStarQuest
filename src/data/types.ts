@@ -11,6 +11,7 @@ export type TaskType =
   | 'positional-notation'
   | 'alphabet'
   | 'spelling'
+  | 'animals'
   | 'watertoiletcheck'
 
 export type ChoreType = Extract<
@@ -20,7 +21,12 @@ export type ChoreType = Extract<
 
 export type TestType = Extract<
   TaskType,
-  'math' | 'large-numbers' | 'positional-notation' | 'alphabet' | 'spelling'
+  | 'math'
+  | 'large-numbers'
+  | 'positional-notation'
+  | 'alphabet'
+  | 'spelling'
+  | 'animals'
 >
 
 export type WaterLevel = 'full' | 'twothirds' | 'onethird' | 'empty'
@@ -36,6 +42,7 @@ export const taskTypeSchema = z.enum([
   'positional-notation',
   'alphabet',
   'spelling',
+  'animals',
   'watertoiletcheck',
 ])
 
@@ -51,6 +58,7 @@ export const testTypeSchema = z.enum([
   'positional-notation',
   'alphabet',
   'spelling',
+  'animals',
 ])
 
 export const waterLevelSchema = z.enum([
@@ -111,6 +119,7 @@ export const taskSnapshotDataSchema = z
     pvTotalProblems: z.number().finite().catch(5),
     alphabetTotalProblems: z.number().finite().catch(5),
     spellingTotalProblems: z.number().finite().catch(5),
+    animalsTotalProblems: z.number().finite().catch(5),
     lastAttemptedAt: z.number().finite().nullable().catch(null),
     lastAttemptDateKey: z.string().catch(''),
     lastAttemptOutcome: taskOutcomeSchema.nullable().catch(null),
@@ -168,6 +177,8 @@ export const todoSnapshotDataSchema = z
     alphabetLastOutcome: taskOutcomeSchema.nullable().catch(null),
     spellingTotalProblems: z.number().finite().catch(5),
     spellingLastOutcome: taskOutcomeSchema.nullable().catch(null),
+    animalsTotalProblems: z.number().finite().catch(5),
+    animalsLastOutcome: taskOutcomeSchema.nullable().catch(null),
     waterLevel: waterLevelSchema.catch('full'),
     toiletStatus: toiletStatusSchema.catch('notpeepee'),
   })
@@ -252,6 +263,10 @@ export type SpellingTask = TaskBase & {
   taskType: 'spelling'
   spellingTotalProblems: number
 }
+export type AnimalsTask = TaskBase & {
+  taskType: 'animals'
+  animalsTotalProblems: number
+}
 export type WaterToiletTask = TaskBase &
   WaterToiletTaskState & {
     taskType: 'watertoiletcheck'
@@ -265,6 +280,7 @@ export type TaskRecord =
   | PositionalNotationTask
   | AlphabetTask
   | SpellingTask
+  | AnimalsTask
   | WaterToiletTask
 
 export type ChoreRecord = Extract<
@@ -281,6 +297,7 @@ export type TestRecord = Extract<
       | 'positional-notation'
       | 'alphabet'
       | 'spelling'
+      | 'animals'
   }
 >
 
@@ -302,6 +319,8 @@ export type TaskEphemeralState = {
   manageAlphabetLastOutcome?: 'success' | 'failure' | null
   manageSpellingCompletedAt?: number | null
   manageSpellingLastOutcome?: 'success' | 'failure' | null
+  manageAnimalsCompletedAt?: number | null
+  manageAnimalsLastOutcome?: 'success' | 'failure' | null
   manageWaterLevel?: WaterLevel
   manageToiletStatus?: ToiletStatus
   manageWaterToiletCompletedAt?: number | null
@@ -331,6 +350,10 @@ export type SpellingTaskWithEphemeral = SpellingTask & {
   manageSpellingCompletedAt?: number | null
   manageSpellingLastOutcome?: TaskOutcome | null
 }
+export type AnimalsTaskWithEphemeral = AnimalsTask & {
+  manageAnimalsCompletedAt?: number | null
+  manageAnimalsLastOutcome?: TaskOutcome | null
+}
 export type WaterToiletTaskWithEphemeral = WaterToiletTask &
   WaterToiletTaskState
 
@@ -342,6 +365,7 @@ export type TaskWithEphemeral =
   | PVTaskWithEphemeral
   | AlphabetTaskWithEphemeral
   | SpellingTaskWithEphemeral
+  | AnimalsTaskWithEphemeral
   | WaterToiletTaskWithEphemeral
 
 export type ChoreWithEphemeral = Extract<
@@ -358,6 +382,7 @@ export type TestWithEphemeral = Extract<
       | 'positional-notation'
       | 'alphabet'
       | 'spelling'
+      | 'animals'
   }
 >
 
@@ -375,7 +400,8 @@ export function isTestRecord(task: TaskRecord): task is TestRecord {
     task.taskType === 'large-numbers' ||
     task.taskType === 'positional-notation' ||
     task.taskType === 'alphabet' ||
-    task.taskType === 'spelling'
+    task.taskType === 'spelling' ||
+    task.taskType === 'animals'
   )
 }
 
@@ -443,6 +469,11 @@ export type SpellingTodo = TodoBase & {
   spellingTotalProblems: number
   spellingLastOutcome: TaskOutcome | null
 }
+export type AnimalsTodo = TodoBase & {
+  sourceTaskType: 'animals'
+  animalsTotalProblems: number
+  animalsLastOutcome: TaskOutcome | null
+}
 export type WaterToiletTodo = TodoBase & {
   sourceTaskType: 'watertoiletcheck'
   waterLevel: WaterLevel
@@ -457,6 +488,7 @@ export type TodoRecord =
   | PositionalNotationTodo
   | AlphabetTodo
   | SpellingTodo
+  | AnimalsTodo
   | WaterToiletTodo
 
 export type ChoreTodoRecord = Extract<
@@ -489,6 +521,7 @@ export type TaskUpdatableFields = Partial<{
   pvTotalProblems: number
   alphabetTotalProblems: number
   spellingTotalProblems: number
+  animalsTotalProblems: number
   lastAttemptedAt: number | null
   lastAttemptDateKey: string
   lastAttemptOutcome: TaskOutcome | null
@@ -519,6 +552,7 @@ export type TodoUpdatableFields = Partial<{
   pvLastOutcome: TaskOutcome | null
   alphabetLastOutcome: TaskOutcome | null
   spellingLastOutcome: TaskOutcome | null
+  animalsLastOutcome: TaskOutcome | null
   waterLevel: WaterLevel
   toiletStatus: ToiletStatus
 }>
@@ -538,6 +572,8 @@ export const DEFAULT_ALPHABET_PROBLEMS = 5
 export const DEFAULT_ALPHABET_STARS = 3
 export const DEFAULT_SPELLING_PROBLEMS = 5
 export const DEFAULT_SPELLING_STARS = 3
+export const DEFAULT_ANIMALS_PROBLEMS = 5
+export const DEFAULT_ANIMALS_STARS = 3
 export const DEFAULT_WATER_TOILET_STARS = 0
 export const DEFAULT_WATER_LEVEL: WaterLevel = 'full'
 export const DEFAULT_TOILET_STATUS: ToiletStatus = 'notpeepee'
@@ -582,6 +618,12 @@ export function isSpellingTask<T extends { taskType: TaskType }>(
   return t.taskType === 'spelling'
 }
 
+export function isAnimalsTask<T extends { taskType: TaskType }>(
+  t: T
+): t is Extract<T, { taskType: 'animals' }> {
+  return t.taskType === 'animals'
+}
+
 export function isWaterToiletTask<T extends { taskType: TaskType }>(
   t: T
 ): t is Extract<T, { taskType: 'watertoiletcheck' }> {
@@ -614,6 +656,10 @@ export function isSpellingTodo(t: TodoRecord): t is SpellingTodo {
   return t.sourceTaskType === 'spelling'
 }
 
+export function isAnimalsTodo(t: TodoRecord): t is AnimalsTodo {
+  return t.sourceTaskType === 'animals'
+}
+
 export function isWaterToiletTodo(t: TodoRecord): t is WaterToiletTodo {
   return t.sourceTaskType === 'watertoiletcheck'
 }
@@ -640,6 +686,7 @@ const manageCompletedAtFieldByType = {
   'positional-notation': 'managePVCompletedAt',
   alphabet: 'manageAlphabetCompletedAt',
   spelling: 'manageSpellingCompletedAt',
+  animals: 'manageAnimalsCompletedAt',
   watertoiletcheck: 'manageWaterToiletCompletedAt',
 } satisfies Record<TaskType, keyof TaskEphemeralState>
 

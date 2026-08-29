@@ -12,6 +12,7 @@ const createBaseDeps = () => ({
   activePVId: null,
   activeAlphabetId: null,
   activeSpellingId: null,
+  activeAnimalsId: null,
   activeDinnerId: null,
   activeWaterToiletId: null,
   mathCheckTriggers: {},
@@ -19,6 +20,7 @@ const createBaseDeps = () => ({
   pvCheckTriggers: {},
   alphabetCheckTriggers: {},
   spellingCheckTriggers: {},
+  animalsCheckTriggers: {},
   biteCooldownSeconds: 15,
 })
 

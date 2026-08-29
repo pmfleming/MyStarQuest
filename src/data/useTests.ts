@@ -188,6 +188,7 @@ export function useTests() {
   const createPVTest = () => createTest('positional-notation')
   const createAlphabetTest = () => createTest('alphabet')
   const createSpellingTest = () => createTest('spelling')
+  const createAnimalsTest = () => createTest('animals')
 
   const deleteTest = async (testId: string) => {
     if (!user) return
@@ -265,6 +266,7 @@ export function useTests() {
     createPVTest,
     createAlphabetTest,
     createSpellingTest,
+    createAnimalsTest,
     deleteTest,
     completeTest,
     failTest,

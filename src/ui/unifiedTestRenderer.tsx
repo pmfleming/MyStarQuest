@@ -1,12 +1,15 @@
 import type { ReactNode } from 'react'
 import {
   DEFAULT_ALPHABET_PROBLEMS,
+  DEFAULT_ANIMALS_PROBLEMS,
   DEFAULT_LARGE_NUMBERS_PROBLEMS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
   DEFAULT_SPELLING_PROBLEMS,
   isAlphabetTask,
   isAlphabetTodo,
+  isAnimalsTask,
+  isAnimalsTodo,
   isLargeNumbersTask,
   isLargeNumbersTodo,
   isMathTask,
@@ -17,6 +20,8 @@ import {
   isSpellingTodo,
   type AlphabetTaskWithEphemeral,
   type AlphabetTodo,
+  type AnimalsTaskWithEphemeral,
+  type AnimalsTodo,
   type LargeNumbersTaskWithEphemeral,
   type LargeNumbersTodo,
   type MathTaskWithEphemeral,
@@ -32,6 +37,7 @@ import {
 import type { ChoreStage } from './choreModeDefinitions'
 import {
   renderAlphabetChore,
+  renderAnimalsChore,
   renderArithmeticChore,
   renderLargeNumbersChore,
   renderPositionalNotationChore,
@@ -44,7 +50,13 @@ import type {
 import { isTaskItem, type UnifiedChoreState } from './unifiedChoreState'
 import { clamp, noop } from './unifiedChoreRenderUtils'
 
-type TestVariant = 'math' | 'largeNumbers' | 'pv' | 'alphabet' | 'spelling'
+type TestVariant =
+  | 'math'
+  | 'largeNumbers'
+  | 'pv'
+  | 'alphabet'
+  | 'spelling'
+  | 'animals'
 type TestOutcome = TaskOutcome | null
 type TestContentRenderer<T extends UnifiedChoreItem> = (
   deps: UnifiedChoreDeps,
@@ -158,6 +170,22 @@ const renderSpellingTask = (
       updateSpellingProblems(deps, item, item.spellingTotalProblems, delta),
   })
 
+const renderAnimalsTask = (
+  deps: UnifiedChoreDeps,
+  state: UnifiedChoreState,
+  item: AnimalsTaskWithEphemeral
+) =>
+  renderAnimalsChore({
+    theme: deps.theme,
+    totalProblems: item.animalsTotalProblems ?? DEFAULT_ANIMALS_PROBLEMS,
+    ...createTaskActivityProps(deps, state, item, 'animals'),
+    isCompleted: Boolean(item.manageAnimalsCompletedAt),
+    isFailed:
+      isFailureModeEnabled(deps) && item.manageAnimalsLastOutcome === 'failure',
+    onAdjustProblems: (delta) =>
+      updateAnimalsProblems(deps, item, item.animalsTotalProblems, delta),
+  })
+
 const renderMathTodo = (
   deps: UnifiedChoreDeps,
   state: UnifiedChoreState,
@@ -243,6 +271,25 @@ const renderSpellingTodo = (
     onAdjustProblems: noop,
   })
 
+const renderAnimalsTodo = (
+  deps: UnifiedChoreDeps,
+  state: UnifiedChoreState,
+  item: AnimalsTodo
+) =>
+  renderAnimalsChore({
+    theme: deps.theme,
+    totalProblems: item.animalsTotalProblems ?? DEFAULT_ANIMALS_PROBLEMS,
+    ...createTodoActivityProps(
+      deps,
+      state,
+      item,
+      'animals',
+      item.animalsLastOutcome
+    ),
+    isCompleted: Boolean(item.completedAt),
+    onAdjustProblems: noop,
+  })
+
 const createTestRenderer =
   <T extends UnifiedChoreItem, TMatch extends T>(
     matches: (item: T) => item is TMatch,
@@ -290,6 +337,10 @@ const taskTestRenderers = [
     isSpellingTask,
     renderSpellingTask
   ),
+  createTestRenderer<TaskWithEphemeral, AnimalsTaskWithEphemeral>(
+    isAnimalsTask,
+    renderAnimalsTask
+  ),
 ] satisfies readonly TestContentRenderer<TaskWithEphemeral>[]
 
 const todoTestRenderers = [
@@ -310,6 +361,7 @@ const todoTestRenderers = [
     isSpellingTodo,
     renderSpellingTodo
   ),
+  createTestRenderer<TodoRecord, AnimalsTodo>(isAnimalsTodo, renderAnimalsTodo),
 ] satisfies readonly TestContentRenderer<TodoRecord>[]
 
 const createTaskActivityProps = (
@@ -320,7 +372,8 @@ const createTaskActivityProps = (
     | LargeNumbersTaskWithEphemeral
     | PVTaskWithEphemeral
     | AlphabetTaskWithEphemeral
-    | SpellingTaskWithEphemeral,
+    | SpellingTaskWithEphemeral
+    | AnimalsTaskWithEphemeral,
   variant: TestVariant
 ) => {
   const failureModeEnabled = isFailureModeEnabled(deps)
@@ -349,7 +402,8 @@ const createTodoActivityProps = (
     | LargeNumbersTodo
     | PositionalNotationTodo
     | AlphabetTodo
-    | SpellingTodo,
+    | SpellingTodo
+    | AnimalsTodo,
   variant: TestVariant,
   lastOutcome: TestOutcome
 ) => ({
@@ -371,6 +425,7 @@ const getActiveTestId = (deps: UnifiedChoreDeps, variant: TestVariant) => {
     pv: deps.activePVId,
     alphabet: deps.activeAlphabetId,
     spelling: deps.activeSpellingId,
+    animals: deps.activeAnimalsId,
   }
   return activeIds[variant]
 }
@@ -386,6 +441,7 @@ const getCheckTrigger = (
     pv: deps.pvCheckTriggers,
     alphabet: deps.alphabetCheckTriggers,
     spelling: deps.spellingCheckTriggers,
+    animals: deps.animalsCheckTriggers,
   }
   return triggers[variant][id] ?? 0
 }
@@ -450,6 +506,20 @@ const updateSpellingProblems = (
   deps.onUpdateTaskField?.(item.id, {
     spellingTotalProblems: clamp(
       (current ?? DEFAULT_SPELLING_PROBLEMS) + delta,
+      1,
+      10
+    ),
+  })
+
+const updateAnimalsProblems = (
+  deps: UnifiedChoreDeps,
+  item: AnimalsTaskWithEphemeral,
+  current: number | undefined,
+  delta: number
+) =>
+  deps.onUpdateTaskField?.(item.id, {
+    animalsTotalProblems: clamp(
+      (current ?? DEFAULT_ANIMALS_PROBLEMS) + delta,
       1,
       10
     ),

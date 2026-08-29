@@ -44,6 +44,7 @@ type TriggerKey =
   | 'positionalNotation'
   | 'alphabet'
   | 'spelling'
+  | 'animals'
 type ActivityCheckTriggers = Record<TriggerKey, TriggerMap>
 
 const createEmptyActivityCheckTriggers = (): ActivityCheckTriggers => ({
@@ -52,6 +53,7 @@ const createEmptyActivityCheckTriggers = (): ActivityCheckTriggers => ({
   positionalNotation: {},
   alphabet: {},
   spelling: {},
+  animals: {},
 })
 
 const createTriggerSetter =
@@ -275,6 +277,7 @@ const DashboardPage = () => {
     activePVId: activity.activePVId,
     activeAlphabetId: activity.activeAlphabetId,
     activeSpellingId: activity.activeSpellingId,
+    activeAnimalsId: activity.activeAnimalsId,
     activeDinnerId: activity.activeDinnerId,
     activeWaterToiletId: activity.activeWaterToiletId,
     mathCheckTriggers: activityCheckTriggers.math,
@@ -282,6 +285,7 @@ const DashboardPage = () => {
     pvCheckTriggers: activityCheckTriggers.positionalNotation,
     alphabetCheckTriggers: activityCheckTriggers.alphabet,
     spellingCheckTriggers: activityCheckTriggers.spelling,
+    animalsCheckTriggers: activityCheckTriggers.animals,
     setMathCheckTriggers: createTriggerSetter(setActivityCheckTriggers, 'math'),
     setLargeNumbersCheckTriggers: createTriggerSetter(
       setActivityCheckTriggers,
@@ -298,6 +302,10 @@ const DashboardPage = () => {
     setSpellingCheckTriggers: createTriggerSetter(
       setActivityCheckTriggers,
       'spelling'
+    ),
+    setAnimalsCheckTriggers: createTriggerSetter(
+      setActivityCheckTriggers,
+      'animals'
     ),
     biteCooldownSeconds,
     biteCooldownEndsAt,

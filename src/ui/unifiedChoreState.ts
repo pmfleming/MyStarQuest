@@ -40,7 +40,8 @@ export const isTestType = (type: TaskType) =>
   type === 'large-numbers' ||
   type === 'positional-notation' ||
   type === 'alphabet' ||
-  type === 'spelling'
+  type === 'spelling' ||
+  type === 'animals'
 
 export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
   const princessAsset = (asset?: string): PrincessAsset =>
@@ -147,6 +148,7 @@ const isActiveItem = (deps: UnifiedChoreDeps, id: string) =>
   deps.activePVId === id ||
   deps.activeAlphabetId === id ||
   deps.activeSpellingId === id ||
+  deps.activeAnimalsId === id ||
   deps.activeDinnerId === id ||
   deps.activeWaterToiletId === id
 

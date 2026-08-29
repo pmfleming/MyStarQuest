@@ -47,6 +47,7 @@ type ActivityPrimaryActionConfig<T> = SharedPrimaryActionBase & {
     | 'positional-notation'
     | 'alphabet'
     | 'spelling'
+    | 'animals'
   >
   onStart: (item: T) => void | Promise<void>
   onFinish: (item: T) => void | Promise<void>

@@ -2,6 +2,7 @@ import { type ComponentType, type ReactNode, lazy, Suspense } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import type { ToiletStatus, WaterLevel } from '../data/types'
 import type { AlphabetTesterProps } from '../components/AlphabetTester'
+import type { AnimalTesterProps } from '../components/AnimalTester'
 import type { ArithmeticTesterProps } from '../components/ArithmeticTester'
 import type { DinnerCountdownProps } from '../components/DinnerCountdown'
 import type { LargeNumbersTesterProps } from '../components/LargeNumbersTester'
@@ -14,6 +15,7 @@ const LargeNumbersTester = lazy(
   () => import('../components/LargeNumbersTester')
 )
 const AlphabetTester = lazy(() => import('../components/AlphabetTester'))
+const AnimalTester = lazy(() => import('../components/AnimalTester'))
 const DinnerCountdown = lazy(() => import('../components/DinnerCountdown'))
 const PositionalNotation = lazy(
   () => import('../components/PositionalNotation')
@@ -63,6 +65,9 @@ export const renderAlphabetChore = (props: AlphabetTesterProps): ReactNode =>
 
 export const renderSpellingChore = (props: SpellingTesterProps): ReactNode =>
   renderLazy(SpellingTester, props)
+
+export const renderAnimalsChore = (props: AnimalTesterProps): ReactNode =>
+  renderLazy(AnimalTester, props)
 
 export const renderWaterToiletChore = ({
   theme,

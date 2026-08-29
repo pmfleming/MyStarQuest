@@ -38,6 +38,7 @@ export type UnifiedChoreDeps = {
   activePVId: string | null
   activeAlphabetId: string | null
   activeSpellingId: string | null
+  activeAnimalsId: string | null
   activeDinnerId: string | null
   activeWaterToiletId: string | null
   mathCheckTriggers: Record<string, number>
@@ -45,6 +46,7 @@ export type UnifiedChoreDeps = {
   pvCheckTriggers: Record<string, number>
   alphabetCheckTriggers: Record<string, number>
   spellingCheckTriggers: Record<string, number>
+  animalsCheckTriggers: Record<string, number>
   setMathCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
   setLargeNumbersCheckTriggers?: Dispatch<
     SetStateAction<Record<string, number>>
@@ -52,6 +54,7 @@ export type UnifiedChoreDeps = {
   setPVCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
   setAlphabetCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
   setSpellingCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
+  setAnimalsCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
   biteCooldownSeconds: number
   biteCooldownEndsAt?: number | null
   activePrincessMealIcon?: string

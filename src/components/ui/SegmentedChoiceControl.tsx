@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
 import { StandardIconImage } from './IconActionControls'
@@ -7,6 +7,7 @@ export type SegmentedChoiceOption<TValue extends string> = {
   value: TValue
   label: string
   icon?: string
+  symbol?: ReactNode
   disabled?: boolean
 }
 
@@ -102,6 +103,34 @@ const SegmentedChoiceControl = <TValue extends string>({
                 maxHeight: uiTokens.listActionHeight - 24,
               }}
             />
+          ) : option.symbol ? (
+            <span
+              aria-hidden="true"
+              style={{
+                display: 'flex',
+                minWidth: 0,
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 1,
+              }}
+            >
+              <span style={{ fontSize: '1.35rem', lineHeight: 1 }}>
+                {option.symbol}
+              </span>
+              <span
+                style={{
+                  maxWidth: '100%',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  fontSize: '0.7rem',
+                  lineHeight: 1,
+                }}
+              >
+                {option.label}
+              </span>
+            </span>
           ) : (
             option.label
           )}

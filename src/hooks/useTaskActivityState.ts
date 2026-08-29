@@ -9,6 +9,7 @@ export const useTaskActivityState = () => {
   const [activePVId, setActivePVId] = useState<string | null>(null)
   const [activeAlphabetId, setActiveAlphabetId] = useState<string | null>(null)
   const [activeSpellingId, setActiveSpellingId] = useState<string | null>(null)
+  const [activeAnimalsId, setActiveAnimalsId] = useState<string | null>(null)
   const [activeDinnerId, setActiveDinnerId] = useState<string | null>(null)
   const [activeWaterToiletId, setActiveWaterToiletId] = useState<string | null>(
     null
@@ -20,6 +21,7 @@ export const useTaskActivityState = () => {
     setActivePVId(null)
     setActiveAlphabetId(null)
     setActiveSpellingId(null)
+    setActiveAnimalsId(null)
     setActiveDinnerId(null)
     setActiveWaterToiletId(null)
   }, [])
@@ -32,6 +34,7 @@ export const useTaskActivityState = () => {
       else if (taskType === 'positional-notation') setActivePVId(id)
       else if (taskType === 'alphabet') setActiveAlphabetId(id)
       else if (taskType === 'spelling') setActiveSpellingId(id)
+      else if (taskType === 'animals') setActiveAnimalsId(id)
       else if (taskType === 'eating') setActiveDinnerId(id)
       else if (taskType === 'watertoiletcheck') setActiveWaterToiletId(id)
     },
@@ -44,6 +47,7 @@ export const useTaskActivityState = () => {
     activePVId,
     activeAlphabetId,
     activeSpellingId,
+    activeAnimalsId,
     activeDinnerId,
     activeWaterToiletId,
     setActiveDinnerId,

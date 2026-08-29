@@ -190,13 +190,15 @@ const incrementCheckTrigger = (
     'positional-notation': deps.setPVCheckTriggers,
     alphabet: deps.setAlphabetCheckTriggers,
     spelling: deps.setSpellingCheckTriggers,
+    animals: deps.setAnimalsCheckTriggers,
   }
   const setter =
     type === 'math' ||
     type === 'large-numbers' ||
     type === 'positional-notation' ||
     type === 'alphabet' ||
-    type === 'spelling'
+    type === 'spelling' ||
+    type === 'animals'
       ? setters[type]
       : undefined
 

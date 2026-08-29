@@ -11,6 +11,7 @@ export const useTestCheckTriggers = () => {
   const [pvCheckTriggers, setPVCheckTriggers] = useTriggerMap()
   const [alphabetCheckTriggers, setAlphabetCheckTriggers] = useTriggerMap()
   const [spellingCheckTriggers, setSpellingCheckTriggers] = useTriggerMap()
+  const [animalsCheckTriggers, setAnimalsCheckTriggers] = useTriggerMap()
 
   const clearCheckTriggers = useCallback(() => {
     setMathCheckTriggers({})
@@ -18,12 +19,14 @@ export const useTestCheckTriggers = () => {
     setPVCheckTriggers({})
     setAlphabetCheckTriggers({})
     setSpellingCheckTriggers({})
+    setAnimalsCheckTriggers({})
   }, [
     setAlphabetCheckTriggers,
     setLargeNumbersCheckTriggers,
     setMathCheckTriggers,
     setPVCheckTriggers,
     setSpellingCheckTriggers,
+    setAnimalsCheckTriggers,
   ])
 
   return {
@@ -32,11 +35,13 @@ export const useTestCheckTriggers = () => {
     pvCheckTriggers,
     alphabetCheckTriggers,
     spellingCheckTriggers,
+    animalsCheckTriggers,
     setMathCheckTriggers,
     setLargeNumbersCheckTriggers,
     setPVCheckTriggers,
     setAlphabetCheckTriggers,
     setSpellingCheckTriggers,
+    setAnimalsCheckTriggers,
     clearCheckTriggers,
   }
 }

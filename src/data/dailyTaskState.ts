@@ -41,6 +41,7 @@ const todoUpdatableFieldKeys: Array<keyof TodoUpdatableFields> = [
   'pvLastOutcome',
   'alphabetLastOutcome',
   'spellingLastOutcome',
+  'animalsLastOutcome',
   'waterLevel',
   'toiletStatus',
 ]
@@ -52,6 +53,7 @@ const testOutcomeFieldByType: Partial<
   'large-numbers': 'largeNumbersLastOutcome',
   alphabet: 'alphabetLastOutcome',
   spelling: 'spellingLastOutcome',
+  animals: 'animalsLastOutcome',
   'positional-notation': 'pvLastOutcome',
 }
 
@@ -78,6 +80,10 @@ const manageOutcomePatchByType: Partial<
   spelling: {
     completedAt: 'manageSpellingCompletedAt',
     outcome: 'manageSpellingLastOutcome',
+  },
+  animals: {
+    completedAt: 'manageAnimalsCompletedAt',
+    outcome: 'manageAnimalsLastOutcome',
   },
   'positional-notation': {
     completedAt: 'managePVCompletedAt',
@@ -234,6 +240,12 @@ export const mergeTaskEphemeral = (
         manageSpellingCompletedAt: state.manageSpellingCompletedAt,
         manageSpellingLastOutcome: state.manageSpellingLastOutcome,
       }
+    case 'animals':
+      return {
+        ...task,
+        manageAnimalsCompletedAt: state.manageAnimalsCompletedAt,
+        manageAnimalsLastOutcome: state.manageAnimalsLastOutcome,
+      }
     case 'watertoiletcheck':
       return {
         ...task,
@@ -321,6 +333,7 @@ export const getChoreLastActive = (state: TaskEphemeralState) =>
   state.managePVCompletedAt ||
   state.manageAlphabetCompletedAt ||
   state.manageSpellingCompletedAt ||
+  state.manageAnimalsCompletedAt ||
   state.manageWaterToiletCompletedAt
 
 export const getTestLastActive = (state: TaskEphemeralState) =>
@@ -328,7 +341,8 @@ export const getTestLastActive = (state: TaskEphemeralState) =>
   state.manageLargeNumbersCompletedAt ||
   state.managePVCompletedAt ||
   state.manageAlphabetCompletedAt ||
-  state.manageSpellingCompletedAt
+  state.manageSpellingCompletedAt ||
+  state.manageAnimalsCompletedAt
 
 export const todoOutcomePatch = (
   taskType: TaskType,

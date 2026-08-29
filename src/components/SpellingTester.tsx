@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { uiTokens } from '../tokens'
-import animalsSetIcon from '../assets/global/cat-camel-cow.webp'
 import teenieSetIcon from '../assets/global/teenieping.webp'
 import pokemonSetIcon from '../assets/pokemon/pikachu.png'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
@@ -38,18 +37,13 @@ type SpellingAnimal = {
   image: string
 }
 
-type SpellingWordSetId = 'animals' | 'teenie' | 'pokemon'
+type SpellingWordSetId = 'teenie' | 'pokemon'
 
 type LetterChoice = {
   id: string
   letter: string
   state: 'idle' | 'correct' | 'leaving'
 }
-
-const SPELLING_ANIMAL_ASSET_MODULES = import.meta.glob(
-  '../assets/spelling/*.{png,jpg,jpeg,webp,svg}',
-  { eager: true, import: 'default' }
-) as Record<string, string>
 
 const TEENIE_ASSET_MODULES = import.meta.glob(
   '../assets/teenie/*.{png,jpg,jpeg,webp,svg}',
@@ -78,14 +72,12 @@ const getSpellingWords = (
     }))
     .sort((a, b) => a.name.localeCompare(b.name))
 
-const SPELLING_ANIMALS = getSpellingWords(SPELLING_ANIMAL_ASSET_MODULES)
 const SPELLING_TEENIE = getSpellingWords(TEENIE_ASSET_MODULES)
 const SPELLING_POKEMON = getSpellingWords(POKEMON_ASSET_MODULES, (name) =>
   name.replace(/^grrowlithe$/i, 'growlithe')
 )
 
 const SPELLING_WORD_SETS: Record<SpellingWordSetId, SpellingAnimal[]> = {
-  animals: SPELLING_ANIMALS,
   teenie: SPELLING_TEENIE,
   pokemon: SPELLING_POKEMON,
 }
@@ -95,7 +87,6 @@ const SPELLING_SET_OPTIONS: {
   label: string
   icon: string
 }[] = [
-  { id: 'animals', label: 'Animals', icon: animalsSetIcon },
   { id: 'teenie', label: 'Teenie', icon: teenieSetIcon },
   { id: 'pokemon', label: 'Pokémon', icon: pokemonSetIcon },
 ]
@@ -319,7 +310,7 @@ const SpellingTester = ({
   const [choices, setChoices] = useState<LetterChoice[]>([])
   const [resultHistory, setResultHistory] = useState<ActivityResult[]>([])
   const [isFailurePending, setIsFailurePending] = useState(false)
-  const [spellingSet, setSpellingSet] = useState<SpellingWordSetId>('animals')
+  const [spellingSet, setSpellingSet] = useState<SpellingWordSetId>('teenie')
   const spellingWords = SPELLING_WORD_SETS[spellingSet]
   const { isSeen, markSeen, clearHistory } = useProblemHistory([
     spellingSet,

@@ -2,6 +2,8 @@ import { serverTimestamp } from 'firebase/firestore'
 import {
   DEFAULT_ALPHABET_PROBLEMS,
   DEFAULT_ALPHABET_STARS,
+  DEFAULT_ANIMALS_PROBLEMS,
+  DEFAULT_ANIMALS_STARS,
   DEFAULT_DINNER_BITES,
   DEFAULT_DINNER_DURATION_SECONDS,
   DEFAULT_DINNER_STARS,
@@ -91,6 +93,14 @@ const TEST_TEMPLATES: Record<TestType, TaskTemplate> = {
       spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
     },
   },
+  animals: {
+    title: 'Animals',
+    category: 'animals',
+    starValue: DEFAULT_ANIMALS_STARS,
+    extras: {
+      animalsTotalProblems: DEFAULT_ANIMALS_PROBLEMS,
+    },
+  },
 }
 
 const TEST_TYPES: TestType[] = [
@@ -99,6 +109,7 @@ const TEST_TYPES: TestType[] = [
   'positional-notation',
   'alphabet',
   'spelling',
+  'animals',
 ]
 
 const buildBaseTaskDocument = (
@@ -202,6 +213,12 @@ const buildDefaultTest = (
         ...base,
         taskType: 'spelling',
         spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
+      }
+    case 'animals':
+      return {
+        ...base,
+        taskType: 'animals',
+        animalsTotalProblems: DEFAULT_ANIMALS_PROBLEMS,
       }
   }
 }

@@ -5,6 +5,7 @@ import {
   princessMathsIcon,
 } from '../assets/themes/princess/assets'
 import type { TaskType } from '../data/types'
+import animalsIcon from '../assets/global/cat-camel-cow.webp'
 
 const princessIconByTaskType = {
   standard: princessChoresIcon,
@@ -15,6 +16,7 @@ const princessIconByTaskType = {
   'positional-notation': princessMathsIcon,
   alphabet: princessMathsIcon,
   spelling: princessMathsIcon,
+  animals: animalsIcon,
 } satisfies Record<TaskType, string>
 
 export const getPrincessTaskTypeIcon = (taskType: TaskType) =>

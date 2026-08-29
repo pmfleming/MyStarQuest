@@ -15,7 +15,13 @@ import { useTestCheckTriggers } from '../hooks/useTestCheckTriggers'
 import { createTestActivityBindings } from '../ui/testActivityBindings'
 import { getPrincessTaskTypeIcon } from '../ui/taskTypeIcons'
 
-type TestChoiceKey = 'math' | 'largeNumbers' | 'pv' | 'alphabet' | 'spelling'
+type TestChoiceKey =
+  | 'math'
+  | 'largeNumbers'
+  | 'pv'
+  | 'alphabet'
+  | 'spelling'
+  | 'animals'
 
 const testChoices: Array<[TestChoiceKey, string, string]> = [
   ['math', 'Arithmetic', getPrincessTaskTypeIcon('math')],
@@ -23,6 +29,7 @@ const testChoices: Array<[TestChoiceKey, string, string]> = [
   ['pv', 'Positional Notation', getPrincessTaskTypeIcon('positional-notation')],
   ['alphabet', 'Alphabet Match', getPrincessTaskTypeIcon('alphabet')],
   ['spelling', 'Spelling', getPrincessTaskTypeIcon('spelling')],
+  ['animals', 'Animals', getPrincessTaskTypeIcon('animals')],
 ]
 
 const ManageTestsPage = () => {
@@ -42,6 +49,7 @@ const ManageTestsPage = () => {
     createPVTest,
     createAlphabetTest,
     createSpellingTest,
+    createAnimalsTest,
     completeTest,
     failTest,
     resetTest,
@@ -119,6 +127,7 @@ const ManageTestsPage = () => {
                         pv: createPVTest,
                         alphabet: createAlphabetTest,
                         spelling: createSpellingTest,
+                        animals: createAnimalsTest,
                       }
                       createByKey[key]()
                       setShowAddChooser(false)
