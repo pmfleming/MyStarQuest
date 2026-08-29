@@ -78,6 +78,27 @@ const teenieNames = getAssetNames(teenieAssetModules)
 const pokemonNames = getAssetNames(pokemonAssetModules)
   .map((name) => name.replace(/^grrowlithe$/i, 'growlithe'))
   .sort()
+const addedPokemonNames = [
+  'blastoise',
+  'charizard',
+  'charmeleon',
+  'corsola',
+  'dewott',
+  'floragato',
+  'igglybuff',
+  'jolteon',
+  'joltik',
+  'meowscarada',
+  'oshawott',
+  'plusle',
+  'samurott',
+  'slowpoke',
+  'tinkatink',
+  'tinkaton',
+  'tinkatuff',
+  'wartortle',
+  'wigglytuff',
+]
 
 const defaultProps = {
   theme: themes.princess,
@@ -133,6 +154,9 @@ describe('SpellingTester', () => {
   })
 
   it('offers pokemon as a third word set and uses its asset filenames', async () => {
+    expect(pokemonNames).toHaveLength(44)
+    expect(pokemonNames).toEqual(expect.arrayContaining(addedPokemonNames))
+
     const user = userEvent.setup()
     const { rerender } = render(<SpellingTester {...defaultProps} />)
 
