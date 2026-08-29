@@ -3,6 +3,9 @@ import abilityImage from '../assets/animal-facts/ability.webp'
 import foodImage from '../assets/animal-facts/food.webp'
 import habitatCoverImage from '../assets/animal-facts/habitat-cover.webp'
 import habitatPlaceImage from '../assets/animal-facts/habitat-place.webp'
+import learnModeImage from '../assets/animal-mode-icons/learn.webp'
+import onePlayerModeImage from '../assets/animal-mode-icons/one-player.webp'
+import twoPlayersModeImage from '../assets/animal-mode-icons/two-players.webp'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { getAnimalAbilityImage } from '../data/animalAbilityAssets'
@@ -49,9 +52,21 @@ type CatalogAnimal = AnimalKnowledge & {
 }
 
 const MODE_OPTIONS = [
-  { value: 'learn' as const, label: 'Learn', symbol: '📚' },
-  { value: 'solo' as const, label: '1 Player', symbol: '👤' },
-  { value: 'together' as const, label: '2 Players', symbol: '👥' },
+  {
+    value: 'learn' as const,
+    label: 'Learn',
+    icon: learnModeImage,
+  },
+  {
+    value: 'solo' as const,
+    label: '1 Player',
+    icon: onePlayerModeImage,
+  },
+  {
+    value: 'together' as const,
+    label: '2 Players',
+    icon: twoPlayersModeImage,
+  },
 ]
 
 const QUESTION_PROMPTS = [
@@ -124,11 +139,9 @@ const getTeachingFacts = (animal: CatalogAnimal): VisualFact[] => [
 const FactCard = ({
   fact,
   theme,
-  showCategory = false,
 }: {
   fact: VisualFact
   theme: ActivityChoreProps['theme']
-  showCategory?: boolean
 }) => (
   <button
     type="button"
@@ -163,7 +176,7 @@ const FactCard = ({
         {fact.visual}
       </span>
     )}
-    {(showCategory || fact.word) && (
+    {fact.word && (
       <strong
         style={{
           fontFamily: theme.fonts.heading,
@@ -172,7 +185,7 @@ const FactCard = ({
           lineHeight: 1,
         }}
       >
-        {showCategory ? getLabelWord(fact.label) : fact.word}
+        {fact.word}
       </strong>
     )}
   </button>
@@ -181,11 +194,9 @@ const FactCard = ({
 const FactGrid = ({
   facts,
   theme,
-  showCategories = false,
 }: {
   facts: VisualFact[]
   theme: ActivityChoreProps['theme']
-  showCategories?: boolean
 }) => (
   <div
     style={{
@@ -196,12 +207,7 @@ const FactGrid = ({
     }}
   >
     {facts.map((fact) => (
-      <FactCard
-        key={`${fact.label}-${fact.text}`}
-        fact={fact}
-        theme={theme}
-        showCategory={showCategories}
-      />
+      <FactCard key={`${fact.label}-${fact.text}`} fact={fact} theme={theme} />
     ))}
   </div>
 )
@@ -466,12 +472,7 @@ const AnimalTester = ({
           {mode === 'learn' && (
             <>
               <AnimalPortrait animal={animal} theme={theme} compact />
-              <SectionHeading symbol="📚" title="Learn" theme={theme} />
-              <FactGrid
-                facts={getTeachingFacts(animal)}
-                theme={theme}
-                showCategories
-              />
+              <FactGrid facts={getTeachingFacts(animal)} theme={theme} />
               <PrimaryAction
                 label={animalIndex + 1 >= totalProblems ? 'Finish' : 'Next'}
                 icon="🐾"

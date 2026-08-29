@@ -120,7 +120,12 @@ describe('AnimalTester', () => {
     const modePicker = screen.getByRole('radiogroup', {
       name: 'Animal game mode',
     })
-    expect(within(modePicker).getAllByRole('radio')).toHaveLength(3)
+    const modeOptions = within(modePicker).getAllByRole('radio')
+    expect(modeOptions).toHaveLength(3)
+    expect(modeOptions.every((option) => option.querySelector('img'))).toBe(
+      true
+    )
+    expect(modePicker).toHaveTextContent('')
     expect(screen.getByRole('radio', { name: 'Learn' })).toHaveAttribute(
       'aria-checked',
       'true'
@@ -136,7 +141,9 @@ describe('AnimalTester', () => {
 
     rerender(<AnimalTester {...props} isRunning />)
 
-    expect(screen.getByRole('heading', { name: 'Learn' })).toBeInTheDocument()
+    expect(
+      screen.queryByRole('heading', { name: 'Learn' })
+    ).not.toBeInTheDocument()
     const teachingCards = screen.getAllByRole('button', {
       name: /Tap to hear it/i,
     })
@@ -147,12 +154,21 @@ describe('AnimalTester', () => {
         (card) => (card.textContent?.trim().split(/\s+/).length ?? 0) <= 1
       )
     ).toBe(true)
-    expect(teachingCards.map((card) => card.textContent?.trim())).toEqual([
+    expect(teachingCards.map((card) => card.textContent?.trim())).not.toEqual([
       'Location',
       'Environment',
       'Food',
       'Ability',
     ])
+    expect(
+      teachingCards.every((card) => {
+        const category = card
+          .getAttribute('aria-label')
+          ?.split(':', 1)[0]
+          .toLowerCase()
+        return card.textContent?.trim().toLowerCase() !== category
+      })
+    ).toBe(true)
     expect(
       teachingCards.map((card) => card.getAttribute('aria-label'))
     ).toEqual(
