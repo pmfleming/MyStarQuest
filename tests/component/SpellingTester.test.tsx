@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import SpellingTester from '../../src/components/SpellingTester'
 import { themes } from '../../src/contexts/ThemeContext'
+import { ANIMAL_ASSETS } from '../../src/data/animalAssets'
 
 const teenieAssetModules = import.meta.glob(
   '../../src/assets/teenie/*.{png,jpg,jpeg,webp,svg}',
@@ -70,9 +71,7 @@ describe('SpellingTester', () => {
       'aria-checked',
       'true'
     )
-    expect(
-      screen.queryByRole('radio', { name: 'Animals' })
-    ).not.toBeInTheDocument()
+    expect(screen.getByRole('radio', { name: 'Animals' })).toBeInTheDocument()
 
     rerender(<SpellingTester {...defaultProps} isRunning />)
 
@@ -85,7 +84,31 @@ describe('SpellingTester', () => {
     })
   })
 
-  it('offers pokemon as the second word set and uses its asset filenames', async () => {
+  it('offers animals using the new animal game assets', async () => {
+    expect(ANIMAL_ASSETS).toHaveLength(75)
+
+    const user = userEvent.setup()
+    const { rerender } = render(<SpellingTester {...defaultProps} />)
+
+    await user.click(screen.getByRole('radio', { name: 'Animals' }))
+    expect(screen.getByRole('radio', { name: 'Animals' })).toHaveAttribute(
+      'aria-checked',
+      'true'
+    )
+
+    rerender(<SpellingTester {...defaultProps} isRunning />)
+
+    await waitFor(() => {
+      const image = screen.getByRole('img')
+      const animal = ANIMAL_ASSETS.find(
+        ({ name }) => name === image.getAttribute('alt')
+      )
+
+      expect(animal?.image).toBe(image.getAttribute('src'))
+    })
+  })
+
+  it('offers pokemon as the third word set and uses its asset filenames', async () => {
     expect(pokemonNames).toHaveLength(44)
     expect(pokemonNames).toEqual(expect.arrayContaining(addedPokemonNames))
 
@@ -95,8 +118,8 @@ describe('SpellingTester', () => {
     const options = within(
       screen.getByRole('radiogroup', { name: 'Spelling pictures' })
     ).getAllByRole('radio')
-    expect(options).toHaveLength(2)
-    expect(options[1]).toHaveAccessibleName('Pokémon')
+    expect(options).toHaveLength(3)
+    expect(options[2]).toHaveAccessibleName('Pokémon')
 
     await user.click(screen.getByRole('radio', { name: 'Pokémon' }))
 

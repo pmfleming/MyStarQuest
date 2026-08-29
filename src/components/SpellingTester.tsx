@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { uiTokens } from '../tokens'
+import animalsSetIcon from '../assets/global/cat-camel-cow.webp'
 import teenieSetIcon from '../assets/global/teenieping.webp'
 import pokemonSetIcon from '../assets/pokemon/pikachu.png'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
@@ -12,6 +13,7 @@ import {
 } from '../lib/activityOutcome'
 import { preloadImage } from '../lib/imageLoading'
 import { useProblemHistory } from '../lib/useProblemHistory'
+import { ANIMAL_ASSETS } from '../data/animalAssets'
 import {
   ActivityOutcomeShell,
   ActivityPlayArea,
@@ -37,7 +39,7 @@ type SpellingAnimal = {
   image: string
 }
 
-type SpellingWordSetId = 'teenie' | 'pokemon'
+type SpellingWordSetId = 'teenie' | 'animals' | 'pokemon'
 
 type LetterChoice = {
   id: string
@@ -73,12 +75,14 @@ const getSpellingWords = (
     .sort((a, b) => a.name.localeCompare(b.name))
 
 const SPELLING_TEENIE = getSpellingWords(TEENIE_ASSET_MODULES)
+const SPELLING_ANIMALS = ANIMAL_ASSETS
 const SPELLING_POKEMON = getSpellingWords(POKEMON_ASSET_MODULES, (name) =>
   name.replace(/^grrowlithe$/i, 'growlithe')
 )
 
 const SPELLING_WORD_SETS: Record<SpellingWordSetId, SpellingAnimal[]> = {
   teenie: SPELLING_TEENIE,
+  animals: SPELLING_ANIMALS,
   pokemon: SPELLING_POKEMON,
 }
 
@@ -88,6 +92,7 @@ const SPELLING_SET_OPTIONS: {
   icon: string
 }[] = [
   { id: 'teenie', label: 'Teenie', icon: teenieSetIcon },
+  { id: 'animals', label: 'Animals', icon: animalsSetIcon },
   { id: 'pokemon', label: 'Pokémon', icon: pokemonSetIcon },
 ]
 
