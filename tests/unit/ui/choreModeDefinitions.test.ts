@@ -97,15 +97,15 @@ describe('chore mode definitions', () => {
     }).toMatchInlineSnapshot(`
       {
         "dinner": {
-          "activityIdle": "Start",
+          "activityIdle": "Run",
           "activityRunning": "Bite",
-          "completed": "Start",
-          "setup": "Start",
+          "completed": "Run",
+          "setup": "Run",
         },
         "test": {
-          "activity": "Check Answer",
-          "completed": "Start",
-          "setup": "Start",
+          "activity": "Check result",
+          "completed": "Run",
+          "setup": "Run",
         },
       }
     `)

@@ -141,6 +141,27 @@ export const useTitleDraftBackfill = <T extends DraftableItem>(
   }, [items, setDrafts])
 }
 
+export const setDraftValue = (
+  setDrafts: Dispatch<SetStateAction<Record<string, string>>>,
+  id: string,
+  value: string
+) => setDrafts((previous) => ({ ...previous, [id]: value }))
+
+export const commitBoundedDraft = (
+  value: string,
+  maxLength: number,
+  savedValue: string | undefined,
+  onCommit: (value: string) => void,
+  onRestore: (value: string) => void
+) => {
+  const trimmed = value.trim()
+  if (trimmed.length > 0 && trimmed.length <= maxLength) {
+    onCommit(trimmed)
+  } else if (savedValue !== undefined) {
+    onRestore(savedValue)
+  }
+}
+
 export const pruneResolvedTodoOverrides = <T extends TodoLike>(
   previousOverrides: Record<string, TodoUpdatableFields>,
   nextTodos: T[]

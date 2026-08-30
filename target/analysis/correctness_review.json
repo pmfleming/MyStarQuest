@@ -1,43 +1,21 @@
 {
-  "schema_version": "0.3.0",
+  "schema_version": "0.1.0",
   "task_id": "correctness.all",
   "project": {
     "name": "MyStarQuest",
-    "root": "/home/laufan/Projects/MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
   },
   "provenance": {
     "lens": "ts-react-quality-lens",
-    "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure all --config /home/laufan/Projects/MyStarQuest/ts-react-quality-lens.config.json",
-    "host": "thinkpad",
-    "measured_at": "2026-08-22T10:59:27.423Z",
+    "schema_version": "0.1.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-08-30T13:44:21.735Z",
     "source_type": "static",
-    "source_set_hash": "sha256:bbd2e517aef16fddd295cb9e635d7dff6f65a7b59c884f1d55ee5d90e7040a83"
-  },
-  "analysis_identity": {
-    "id": "sha256:787cfff9a1ab079dbe0f1e9bae0a9b77425548587acc80756e71723c291d12be",
-    "schema_version": "0.3.0",
-    "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:46ff20a9e8fd7287eaa1324b1c33f022a248df5c5fdf443aee7614616c2387ed",
-    "rulesets": {
-      "typed_lint": "tsrqlens-typescript-recommended-v1",
-      "react": "recommended-v2",
-      "accessibility": "jsx-a11y-recommended-v1",
-      "cleanup": "knip-normalized-v1"
-    },
-    "integration_versions": {
-      "typescript_eslint": "8.67.0",
-      "react_hooks": "7.1.1",
-      "jsx_a11y": "6.10.2",
-      "knip": "6.32.2",
-      "publint": "0.3.24",
-      "are_the_types_wrong": "0.18.5",
-      "dependency_cruiser": null,
-      "jscpd": "4.3.0"
-    }
+    "source_set_hash": "sha256:ec345305efe041da4dafd87767ef598e3ed46af2a333d3c93dd5ebea419a94de"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -54,8 +32,6 @@
     "typescript_program_loaded": true,
     "typescript_program_reason": null,
     "framework_conventions_detected": true,
-    "workspaces_detected": 1,
-    "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
     "analysis_cache_status": "miss",
     "unsupported_pattern": [],
@@ -82,7 +58,6 @@
       "typescript_compiler_api_available",
       "typescript_program_loaded",
       "framework_conventions_detected",
-      "workspace_projects_complete",
       "analysis_cache_enabled",
       "test_command_configured"
     ],
@@ -90,17 +65,15 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 24,
-    "colocated_tests": 22,
-    "external_tests": 2,
-    "execution_status": "passed",
-    "blocking_findings": 0
+    "tests": 32,
+    "colocated_tests": 27,
+    "external_tests": 5,
+    "execution_status": "passed"
   },
   "execution": {
     "status": "passed",
     "command": "npm run test"
   },
-  "records": [],
   "tests": [
     {
       "id": "test:tests/component/ActivityControls.test.tsx",
@@ -108,11 +81,30 @@
       "path": "tests/component/ActivityControls.test.tsx",
       "framework": "vitest",
       "locality": "colocated",
-      "source_mapping": [
-        "src/components/ui/ActivityControls.tsx",
-        "src/contexts/ThemeContext.tsx"
-      ],
+      "source_mapping": ["src/components/ui/ActivityControls.tsx"],
       "assertions": 6,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/AlphabetTester.test.tsx",
+      "name": "AlphabetTester.test.tsx",
+      "path": "tests/component/AlphabetTester.test.tsx",
+      "framework": "vitest",
+      "locality": "colocated",
+      "source_mapping": ["src/components/AlphabetTester.tsx"],
+      "assertions": 4,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/AnimalTester.test.tsx",
+      "name": "AnimalTester.test.tsx",
+      "path": "tests/component/AnimalTester.test.tsx",
+      "framework": "vitest",
+      "locality": "colocated",
+      "source_mapping": ["src/components/AnimalTester.tsx"],
+      "assertions": 66,
       "skipped": 0,
       "todo": 0
     },
@@ -135,7 +127,7 @@
       "locality": "colocated",
       "source_mapping": [
         "src/components/ui/Carousel.tsx",
-        "src/contexts/ThemeContext.tsx"
+        "src/components/ui/ImageOptionCarousel.tsx"
       ],
       "assertions": 7,
       "skipped": 0,
@@ -146,12 +138,8 @@
       "name": "ChildFailureModeControl.test.tsx",
       "path": "tests/component/ChildFailureModeControl.test.tsx",
       "framework": "vitest",
-      "locality": "colocated",
-      "source_mapping": [
-        "src/contexts/ThemeContext.tsx",
-        "src/data/types.ts",
-        "src/ui/definitionRowDescriptors.tsx"
-      ],
+      "locality": "external",
+      "source_mapping": [],
       "assertions": 4,
       "skipped": 0,
       "todo": 0
@@ -162,12 +150,19 @@
       "path": "tests/component/ChoreCreationFlow.test.tsx",
       "framework": "vitest",
       "locality": "colocated",
-      "source_mapping": [
-        "src/pages/ChoreCreationFlow.tsx",
-        "src/contexts/ThemeContext.tsx",
-        "src/data/types.ts"
-      ],
+      "source_mapping": ["src/pages/ChoreCreationFlow.tsx"],
       "assertions": 6,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/DashboardHeaderActions.test.tsx",
+      "name": "DashboardHeaderActions.test.tsx",
+      "path": "tests/component/DashboardHeaderActions.test.tsx",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [],
+      "assertions": 3,
       "skipped": 0,
       "todo": 0
     },
@@ -177,11 +172,19 @@
       "path": "tests/component/DinnerCountdown.test.tsx",
       "framework": "vitest",
       "locality": "colocated",
-      "source_mapping": [
-        "src/components/DinnerCountdown.tsx",
-        "src/contexts/ThemeContext.tsx"
-      ],
+      "source_mapping": ["src/components/DinnerCountdown.tsx"],
       "assertions": 6,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/PositionalNotation.test.tsx",
+      "name": "PositionalNotation.test.tsx",
+      "path": "tests/component/PositionalNotation.test.tsx",
+      "framework": "vitest",
+      "locality": "colocated",
+      "source_mapping": ["src/components/PositionalNotation.tsx"],
+      "assertions": 11,
       "skipped": 0,
       "todo": 0
     },
@@ -190,13 +193,9 @@
       "name": "RewardAvailableSummary.test.tsx",
       "path": "tests/component/RewardAvailableSummary.test.tsx",
       "framework": "vitest",
-      "locality": "colocated",
-      "source_mapping": [
-        "src/contexts/ThemeContext.tsx",
-        "src/ui/definitionRowDescriptors.tsx",
-        "src/data/types.ts"
-      ],
-      "assertions": 6,
+      "locality": "external",
+      "source_mapping": [],
+      "assertions": 10,
       "skipped": 0,
       "todo": 0
     },
@@ -206,11 +205,8 @@
       "path": "tests/component/RewardCreationFlow.test.tsx",
       "framework": "vitest",
       "locality": "colocated",
-      "source_mapping": [
-        "src/pages/RewardCreationFlow.tsx",
-        "src/contexts/ThemeContext.tsx"
-      ],
-      "assertions": 4,
+      "source_mapping": ["src/pages/RewardCreationFlow.tsx"],
+      "assertions": 9,
       "skipped": 0,
       "todo": 0
     },
@@ -220,10 +216,7 @@
       "path": "tests/component/SegmentedChoiceControl.test.tsx",
       "framework": "vitest",
       "locality": "colocated",
-      "source_mapping": [
-        "src/components/ui/SegmentedChoiceControl.tsx",
-        "src/contexts/ThemeContext.tsx"
-      ],
+      "source_mapping": ["src/components/ui/SegmentedChoiceControl.tsx"],
       "assertions": 13,
       "skipped": 0,
       "todo": 0
@@ -234,11 +227,19 @@
       "path": "tests/component/SpellingTester.test.tsx",
       "framework": "vitest",
       "locality": "colocated",
-      "source_mapping": [
-        "src/components/SpellingTester.tsx",
-        "src/contexts/ThemeContext.tsx"
-      ],
-      "assertions": 3,
+      "source_mapping": ["src/components/SpellingTester.tsx"],
+      "assertions": 16,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/StandardActionList.test.tsx",
+      "name": "StandardActionList.test.tsx",
+      "path": "tests/component/StandardActionList.test.tsx",
+      "framework": "vitest",
+      "locality": "colocated",
+      "source_mapping": ["src/components/ui/StandardActionList.tsx"],
+      "assertions": 16,
       "skipped": 0,
       "todo": 0
     },
@@ -248,11 +249,8 @@
       "path": "tests/component/StarDisplay.test.tsx",
       "framework": "vitest",
       "locality": "colocated",
-      "source_mapping": [
-        "src/components/ui/StarDisplay.tsx",
-        "src/contexts/ThemeContext.tsx"
-      ],
-      "assertions": 4,
+      "source_mapping": ["src/components/ui/StarDisplay.tsx"],
+      "assertions": 6,
       "skipped": 0,
       "todo": 0
     },
@@ -273,12 +271,19 @@
       "path": "tests/component/ui/unifiedChoreDescriptors.test.tsx",
       "framework": "vitest",
       "locality": "colocated",
-      "source_mapping": [
-        "src/ui/unifiedChoreDescriptors.tsx",
-        "src/contexts/ThemeContext.tsx",
-        "src/data/types.ts"
-      ],
-      "assertions": 10,
+      "source_mapping": ["src/ui/unifiedChoreDescriptors.tsx"],
+      "assertions": 13,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/useCoalescedDocumentUpdates.test.tsx",
+      "name": "useCoalescedDocumentUpdates.test.tsx",
+      "path": "tests/component/useCoalescedDocumentUpdates.test.tsx",
+      "framework": "vitest",
+      "locality": "colocated",
+      "source_mapping": ["src/hooks/useCoalescedDocumentUpdates.ts"],
+      "assertions": 6,
       "skipped": 0,
       "todo": 0
     },
@@ -310,7 +315,7 @@
       "path": "tests/unit/choreLogic.test.ts",
       "framework": "vitest",
       "locality": "colocated",
-      "source_mapping": ["src/lib/choreLogic.ts", "src/data/types.ts"],
+      "source_mapping": ["src/lib/choreLogic.ts"],
       "assertions": 13,
       "skipped": 0,
       "todo": 0
@@ -332,7 +337,7 @@
       "path": "tests/unit/dailyTaskState.test.ts",
       "framework": "vitest",
       "locality": "colocated",
-      "source_mapping": ["src/data/dailyTaskState.ts", "src/data/types.ts"],
+      "source_mapping": ["src/data/dailyTaskState.ts"],
       "assertions": 4,
       "skipped": 0,
       "todo": 0
@@ -343,7 +348,7 @@
       "path": "tests/unit/lib/choreParser.test.ts",
       "framework": "vitest",
       "locality": "colocated",
-      "source_mapping": ["src/lib/choreParser.ts", "src/data/types.ts"],
+      "source_mapping": ["src/lib/choreParser.ts"],
       "assertions": 34,
       "skipped": 0,
       "todo": 0
@@ -371,6 +376,17 @@
       "todo": 0
     },
     {
+      "id": "test:tests/unit/positionalNotationProblems.test.ts",
+      "name": "positionalNotationProblems.test.ts",
+      "path": "tests/unit/positionalNotationProblems.test.ts",
+      "framework": "vitest",
+      "locality": "colocated",
+      "source_mapping": ["src/lib/positionalNotationProblems.ts"],
+      "assertions": 3,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
       "id": "test:tests/unit/starActions.test.ts",
       "name": "starActions.test.ts",
       "path": "tests/unit/starActions.test.ts",
@@ -378,6 +394,17 @@
       "locality": "colocated",
       "source_mapping": ["src/lib/starActions.ts"],
       "assertions": 13,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/unit/taskLimits.test.ts",
+      "name": "taskLimits.test.ts",
+      "path": "tests/unit/taskLimits.test.ts",
+      "framework": "vitest",
+      "locality": "colocated",
+      "source_mapping": ["src/data/taskLimits.ts"],
+      "assertions": 15,
       "skipped": 0,
       "todo": 0
     },

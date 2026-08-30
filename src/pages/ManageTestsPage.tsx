@@ -107,6 +107,7 @@ const ManageTestsPage = () => {
             theme={theme}
             items={tests}
             getKey={(test) => test.id}
+            getItemLabel={(test) => test.title}
             {...toStandardActionListDescriptor(descriptor)}
             hideEdit
             onDelete={(test) => deleteTest(test.id)}

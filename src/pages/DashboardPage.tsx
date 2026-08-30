@@ -35,6 +35,7 @@ import {
 } from '../assets/themes/princess/assets'
 import { DashboardHeaderActions } from './dashboardChoreUi'
 import ChoreCreationFlow from './ChoreCreationFlow'
+import InlineNotice from '../components/ui/InlineNotice'
 
 type ChorePanelMode = 'create' | null
 type TriggerMap = Record<string, number>
@@ -321,16 +322,7 @@ const DashboardPage = () => {
   const renderTodayChoreEdit = (chore: (typeof todayChores)[number]) => {
     if (!isEditableChore(chore)) {
       return (
-        <div
-          className="rounded-2xl px-4 py-3 text-center text-sm font-bold"
-          style={{
-            background: `${theme.colors.secondary}20`,
-            color: theme.colors.text,
-            border: `2px solid ${theme.colors.secondary}`,
-          }}
-        >
-          Could not open chore editor.
-        </div>
+        <InlineNotice theme={theme}>Could not open chore editor.</InlineNotice>
       )
     }
 
@@ -376,28 +368,10 @@ const DashboardPage = () => {
           <StarInfoBox theme={theme} totalStars={selectedChild.totalStars} />
         )}
         {resetTodayError && (
-          <div
-            className="rounded-2xl px-4 py-3 text-center text-sm font-bold"
-            style={{
-              background: `${theme.colors.secondary}20`,
-              color: theme.colors.text,
-              border: `2px solid ${theme.colors.secondary}`,
-            }}
-          >
-            {resetTodayError}
-          </div>
+          <InlineNotice theme={theme}>{resetTodayError}</InlineNotice>
         )}
         {createChoreError && (
-          <div
-            className="rounded-2xl px-4 py-3 text-center text-sm font-bold"
-            style={{
-              background: `${theme.colors.secondary}20`,
-              color: theme.colors.text,
-              border: `2px solid ${theme.colors.secondary}`,
-            }}
-          >
-            {createChoreError}
-          </div>
+          <InlineNotice theme={theme}>{createChoreError}</InlineNotice>
         )}
         {!activeChildId ? (
           <div className="mt-10 flex flex-col items-center text-center opacity-70">
@@ -413,6 +387,7 @@ const DashboardPage = () => {
             theme={theme}
             items={todayChores}
             getKey={(chore) => chore.id}
+            getItemLabel={(chore) => chore.title}
             {...toStandardActionListDescriptor(descriptor)}
             editingId={editingChoreId ?? undefined}
             renderInlineEdit={renderTodayChoreEdit}

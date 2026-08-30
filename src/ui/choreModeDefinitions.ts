@@ -67,8 +67,8 @@ export const shouldHidePresetPrimaryButton = (
     presetChoreModeDefinitions[type].hidePrimaryButtonInChore)
 
 export const getTestPrimaryActionLabel = (stage: ChoreStage) => {
-  if (stage === 'activity') return 'Check Answer'
-  return 'Start'
+  if (stage === 'activity') return 'Check result'
+  return 'Run'
 }
 
 export const getDinnerPrimaryActionLabel = (
@@ -76,10 +76,10 @@ export const getDinnerPrimaryActionLabel = (
   isTimerRunning: boolean
 ) => {
   if (stage === 'activity' && isTimerRunning) return 'Bite'
-  return 'Start'
+  return 'Run'
 }
 
 export const getActivityPrimaryActionLabel = (stage: ChoreStage) => {
   if (stage === 'activity') return 'Finish'
-  return 'Start'
+  return 'Run'
 }

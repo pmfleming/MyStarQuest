@@ -21,7 +21,12 @@ describe('reward available summary', () => {
       handleGiveReward: vi.fn(),
     })
 
-    render(<>{descriptor.renderItem(reward)}</>)
+    render(
+      <>
+        {descriptor.renderHeader?.(reward)}
+        {descriptor.renderItem(reward)}
+      </>
+    )
 
     expect(
       screen.getByLabelText('Computer Games available reward')
@@ -35,5 +40,32 @@ describe('reward available summary', () => {
     expect(
       screen.queryByRole('button', { name: 'Keep available after buying' })
     ).not.toBeInTheDocument()
+  })
+
+  it('uses the princess lock image when the child needs more stars', () => {
+    const descriptor = createRewardDefinitionListRowDescriptor({
+      theme: themes.princess,
+      activeChildId: 'child-1',
+      activeChildStars: 3,
+      isRedeeming: false,
+      handleGiveReward: vi.fn(),
+    })
+
+    const action = descriptor.getPrimaryAction?.(reward)
+
+    const { container } = render(<>{action?.icon}</>)
+
+    const lockImage = container.querySelector('img')
+
+    expect(lockImage).toHaveAttribute('alt', '')
+    expect(lockImage).toHaveAttribute(
+      'src',
+      expect.stringContaining('locked-reward.png')
+    )
+    expect(lockImage).toHaveStyle({
+      width: '22px',
+      height: '22px',
+      objectFit: 'contain',
+    })
   })
 })

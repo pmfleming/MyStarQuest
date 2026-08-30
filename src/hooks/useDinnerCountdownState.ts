@@ -50,8 +50,21 @@ export const useDinnerCountdownState = ({
       isTimerRunning || (biteCooldownEndsAt && biteCooldownEndsAt > Date.now())
     if (!needsTick) return
 
-    const interval = window.setInterval(() => setTick((tick) => tick + 1), 100)
-    return () => window.clearInterval(interval)
+    let interval: number | undefined
+    const updateTimer = () => {
+      if (interval !== undefined) window.clearInterval(interval)
+      interval = undefined
+      if (!document.hidden) {
+        interval = window.setInterval(() => setTick((tick) => tick + 1), 250)
+      }
+    }
+
+    updateTimer()
+    document.addEventListener('visibilitychange', updateTimer)
+    return () => {
+      if (interval !== undefined) window.clearInterval(interval)
+      document.removeEventListener('visibilitychange', updateTimer)
+    }
   }, [isTimerRunning, biteCooldownEndsAt])
 
   useEffect(() => {

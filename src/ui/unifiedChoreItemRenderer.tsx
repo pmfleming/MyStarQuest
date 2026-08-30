@@ -32,22 +32,8 @@ export const renderUnifiedChoreItem = (
   item: UnifiedChoreItem
 ): ReactNode => {
   const stage = state.getStage(item)
-  const type = getChoreType(item)
   const content = renderChoreContent(deps, state, item, stage)
-
-  return renderChoreItemContainer(deps, item, stage, type, content)
-}
-
-const renderChoreItemContainer = (
-  deps: UnifiedChoreDeps,
-  item: UnifiedChoreItem,
-  stage: ChoreStage,
-  type: ReturnType<typeof getChoreType>,
-  content: ReactNode
-) => {
   const isManage = deps.mode === 'manage'
-  const hideTitle = shouldHidePresetChoreTitle(stage)
-  const titleLabel = isTestType(type) ? 'Test Name' : 'Chore Name'
 
   return (
     <div
@@ -56,7 +42,6 @@ const renderChoreItemContainer = (
         gap: `${isManage ? uiTokens.singleVerticalSpace : Math.max(12, uiTokens.singleVerticalSpace / 2)}px`,
       }}
     >
-      {!hideTitle && renderTitle(deps, item, titleLabel)}
       {content}
       {isManage &&
         stage === 'setup' &&
@@ -64,6 +49,18 @@ const renderChoreItemContainer = (
         deps.renderDayTypeControl?.(item)}
     </div>
   )
+}
+
+export const renderUnifiedChoreHeader = (
+  deps: UnifiedChoreDeps,
+  state: UnifiedChoreState,
+  item: UnifiedChoreItem
+): ReactNode => {
+  const stage = state.getStage(item)
+  if (shouldHidePresetChoreTitle(stage)) return null
+  const type = getChoreType(item)
+  const titleLabel = isTestType(type) ? 'Test Name' : 'Chore Name'
+  return renderTitle(deps, item, titleLabel)
 }
 
 const renderTitle = (
@@ -84,13 +81,14 @@ const renderTitle = (
       transparent
     />
   ) : (
-    <div
+    <h2
       style={{
         ...getStandardActionHeadingStyle(deps.theme),
+        margin: 0,
       }}
     >
       {item.title}
-    </div>
+    </h2>
   )
 
 const renderChoreContent = (
@@ -206,7 +204,7 @@ const renderStandardContent = (
                   deps.onUpdateTaskField?.(item.id, { starValue: value || 1 })
                 }
                 min={1}
-                max={3}
+                max={9}
               />
             </div>
           )}

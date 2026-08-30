@@ -70,11 +70,31 @@ describe('RewardCreationFlow', () => {
     })
   })
 
+  it('offers Pikachu as a reward image', async () => {
+    const user = userEvent.setup()
+    const { onSave } = renderFlow()
+
+    await user.click(screen.getByRole('button', { name: 'Previous: Pikachu' }))
+    expect(screen.getByLabelText('Selected: Pikachu')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Save reward' }))
+
+    expect(onSave).toHaveBeenCalledWith(
+      expect.objectContaining({ imageKey: 'pikachu' })
+    )
+  })
+
   it('discards the staged reward draft', async () => {
     const user = userEvent.setup()
     const { onCancel } = renderFlow()
 
-    await user.click(screen.getByRole('button', { name: 'Discard reward' }))
+    const discardButton = screen.getByRole('button', { name: 'Discard reward' })
+    expect(discardButton.querySelector('img')).toHaveAttribute(
+      'src',
+      expect.stringContaining('exit-princess.png')
+    )
+
+    await user.click(discardButton)
 
     expect(onCancel).toHaveBeenCalledOnce()
   })

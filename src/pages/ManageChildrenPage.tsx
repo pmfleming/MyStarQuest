@@ -101,6 +101,7 @@ const ManageChildrenPage = () => {
           theme={theme}
           items={children}
           getKey={(child) => child.id}
+          getItemLabel={(child) => child.displayName}
           {...childListDescriptor}
           hideEdit
           onDelete={(child) => handleDelete(child.id)}

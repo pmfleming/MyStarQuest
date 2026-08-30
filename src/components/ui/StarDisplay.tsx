@@ -1,6 +1,7 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
-import StepperButton, { getStepperEdgePositionStyle } from './StepperButton'
+import StepperButton from './StepperButton'
+import { getStepperEdgePositionStyle } from './stepperLayout'
 import { uiTokens } from '../../tokens'
 import starSvgUrl from '../../assets/global/star.svg'
 import starNegativeSvgUrl from '../../assets/global/star-negative.svg'
@@ -37,7 +38,6 @@ export type StarDisplayProps = {
   theme?: Theme
 }
 
-const CONTROLS_DELAY_MS = 550
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
 
 type DensityClass = 'low' | 'medium'
@@ -297,20 +297,9 @@ const StarDisplay = ({
   max,
   theme,
 }: StarDisplayProps) => {
-  const [controlsVisible, setControlsVisible] = useState(false)
-
   useEffect(() => {
     injectStarDisplayStyles()
   }, [])
-
-  useEffect(() => {
-    if (!editable) {
-      setControlsVisible(false)
-      return
-    }
-    const timer = setTimeout(() => setControlsVisible(true), CONTROLS_DELAY_MS)
-    return () => clearTimeout(timer)
-  }, [editable])
 
   const handleDecrement = () => {
     if (onChange && count > min) onChange(count - 1)
@@ -320,7 +309,7 @@ const StarDisplay = ({
     if (onChange && (max === undefined || count < max)) onChange(count + 1)
   }
 
-  const showControls = editable && controlsVisible
+  const showControls = editable
 
   if (editable && theme) {
     return (

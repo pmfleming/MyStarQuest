@@ -9,6 +9,7 @@ type ActionVariant = 'primary' | 'neutral' | 'danger'
 
 export type StandardActionListDescriptor<T> = Pick<
   StandardActionListProps<T>,
+  | 'renderHeader'
   | 'renderItem'
   | 'getStarCount'
   | 'isHighlighted'
@@ -32,6 +33,7 @@ export type ResolvedListUtilityAction<T> = ResolvedListAction<T> & {
 }
 
 export type ListRowDescriptor<T> = {
+  renderHeader?: (item: T) => ReactNode
   renderItem: (item: T) => ReactNode
   getPrimaryAction: (item: T) => ResolvedListAction<T>
   getUtilityAction?: (item: T) => ResolvedListUtilityAction<T> | undefined
@@ -76,6 +78,7 @@ export const toStandardActionListDescriptor = <T>(
       : undefined
 
   return {
+    renderHeader: descriptor.renderHeader,
     renderItem: descriptor.renderItem,
     getStarCount: descriptor.getStarCount,
     isHighlighted: descriptor.isHighlighted,

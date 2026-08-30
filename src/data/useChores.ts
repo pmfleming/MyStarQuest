@@ -1,6 +1,6 @@
 // ── Chores subscription + mutations ──
 
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   addDoc,
   collection,
@@ -16,7 +16,9 @@ import { parseChoreSnapshot } from '../lib/choreParser'
 import { buildChoreDocument, type ChoreDocumentSettings } from './taskDocuments'
 import { isScheduledForDay } from '../lib/today'
 import {
+  commitBoundedDraft,
   mergeTaskEphemeral,
+  setDraftValue,
   useTitleDraftBackfill,
   useTodayInfo,
 } from './dailyTaskState'
@@ -30,6 +32,9 @@ import {
   type TaskEphemeralState,
   type TaskUpdatableFields,
 } from './types'
+import { validateTaskFields } from './taskLimits'
+import { mergeOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
+import { useUserDocumentUpdates } from './useUserDocumentUpdates'
 
 export function useChores() {
   const { user } = useAuth()
@@ -42,6 +47,18 @@ export function useChores() {
     Record<string, string>
   >({})
   const todayInfo = useTodayInfo()
+
+  const {
+    overrides: optimisticFields,
+    queueUpdate: queueTaskField,
+    cancelUpdate: cancelTaskFieldUpdate,
+    reconcile: reconcileTaskFields,
+    persistUpdate: persistTaskField,
+  } = useUserDocumentUpdates<TaskUpdatableFields>({
+    userId: user?.uid,
+    collectionName: 'chores',
+    errorMessage: 'Failed to update chore',
+  })
 
   const parseChoreDocument = useCallback(
     (id: string, data: DocumentData) => parseChoreSnapshot(id, data),
@@ -63,13 +80,24 @@ export function useChores() {
     onClear: clearEphemeral,
   })
 
+  useEffect(() => {
+    reconcileTaskFields(rawChores)
+  }, [rawChores, reconcileTaskFields])
+
   // ── Derived Data ──
-  const rawChoreTemplates = rawChores
+  const rawChoreTemplates = useMemo(
+    () => mergeOptimisticItems(rawChores, optimisticFields),
+    [optimisticFields, rawChores]
+  )
 
   useTitleDraftBackfill(rawChoreTemplates, setTaskTitleDrafts)
 
-  const chores = rawChoreTemplates.map((chore) =>
-    mergeTaskEphemeral(chore, ephemeral[chore.id])
+  const chores = useMemo(
+    () =>
+      rawChoreTemplates.map((chore) =>
+        mergeTaskEphemeral(chore, ephemeral[chore.id])
+      ),
+    [ephemeral, rawChoreTemplates]
   )
 
   const activeChildChores = useMemo(
@@ -141,12 +169,9 @@ export function useChores() {
   }
 
   // ── Generic Mutations ──
-  const updateTaskField = async (
-    taskId: string,
-    field: TaskUpdatableFields
-  ) => {
-    if (!user) return
-    await updateDoc(doc(db, 'users', user.uid, 'chores', taskId), field)
+  const updateTaskField = (taskId: string, field: TaskUpdatableFields) => {
+    validateTaskFields(field)
+    queueTaskField(taskId, field)
   }
 
   const updateChoreAndTodayTodoField = async (
@@ -161,23 +186,22 @@ export function useChores() {
       patch.manageDinnerBitesLeft = field.dinnerTotalBites
     }
 
-    await updateTaskField(taskId, patch)
+    validateTaskFields(patch)
+    await persistTaskField(taskId, patch)
   }
 
   // ── Title Draft Helpers ──
   const setTaskTitleDraft = (taskId: string, value: string) =>
-    setTaskTitleDrafts((prev) => ({ ...prev, [taskId]: value }))
+    setDraftValue(setTaskTitleDrafts, taskId, value)
 
-  const commitTaskTitle = (taskId: string, title: string) => {
-    const trimmed = title.trim()
-    if (trimmed.length > 0 && trimmed.length <= 80) {
-      updateTaskField(taskId, { title: trimmed })
-    } else {
-      const saved = rawChoreTemplates.find((t) => t.id === taskId)
-      if (saved)
-        setTaskTitleDrafts((prev) => ({ ...prev, [taskId]: saved.title }))
-    }
-  }
+  const commitTaskTitle = (taskId: string, title: string) =>
+    commitBoundedDraft(
+      title,
+      80,
+      rawChoreTemplates.find((task) => task.id === taskId)?.title,
+      (nextTitle) => updateTaskField(taskId, { title: nextTitle }),
+      (savedTitle) => setTaskTitleDraft(taskId, savedTitle)
+    )
 
   // ── Creation Handlers ──
   const createChoreTask = async (
@@ -209,6 +233,7 @@ export function useChores() {
 
   const deleteTask = async (taskId: string) => {
     if (!user) return
+    cancelTaskFieldUpdate(taskId)
     await deleteDoc(doc(db, 'users', user.uid, 'chores', taskId))
 
     setTaskTitleDrafts((prev) => {

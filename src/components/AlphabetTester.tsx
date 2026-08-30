@@ -93,7 +93,7 @@ import zebra from '../assets/alphabet/zebra.webp'
 /* ------------------------------------------------------------------ */
 
 const MIN_PROBLEMS = 1
-const MAX_PROBLEMS = 10
+const MAX_PROBLEMS = 9
 const CELEBRATION_DELAY_MS = 1500
 const SHAKE_DURATION_MS = 600
 const FAILURE_TRANSITION_DELAY_MS = 3000

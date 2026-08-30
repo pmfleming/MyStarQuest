@@ -32,7 +32,7 @@ Use these values directly through `uiTokens`:
 - `sectionGap`: 2
 - `singleVerticalSpace`: 24
 - `doubleVerticalSpace`: 48
-- `contentMaxWidth`: 340
+- `contentMaxWidth`: 380
 - `actionButtonHeight`: 88
 - `actionButtonRadius`: 30
 - `actionButtonFontSize`: 28
@@ -165,6 +165,7 @@ Prefer these components over custom one-off UI:
 - Keep labels short and direct (examples: “Chores”, “Rewards”, “Add Child”).
 - Use “Chores” as the user-facing term for tasks.
 - Prefer icon-first actions where existing UI already uses icon-only controls.
+- Card footer actions are image-only; their full verb-and-target label is exposed through the accessible name.
 - Preserve existing route names and page titles unless product requirements change.
 
 ## 8) Accessibility Baseline (Current Expectations)

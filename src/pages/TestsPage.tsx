@@ -87,6 +87,7 @@ const TestsPage = () => {
             theme={theme}
             items={visibleTests}
             getKey={(test) => test.id}
+            getItemLabel={(test) => test.title}
             {...toStandardActionListDescriptor(descriptor)}
             getStarCount={() => undefined}
             hideEdit

@@ -8,6 +8,7 @@ import { createRewardDefinitionListRowDescriptor } from '../ui/definitionRowDesc
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { useRewards } from '../data/useRewards'
 import RewardCreationFlow from './RewardCreationFlow'
+import InlineNotice from '../components/ui/InlineNotice'
 import type { RewardRecord } from '../data/types'
 import type { RewardDocumentSettings } from '../data/useRewards'
 
@@ -84,21 +85,15 @@ const RewardsPage = () => {
         }}
       >
         {createRewardError && (
-          <div
-            className="mb-6 rounded-2xl px-4 py-3 text-center text-sm font-bold"
-            style={{
-              background: `${theme.colors.secondary}20`,
-              color: theme.colors.text,
-              border: `2px solid ${theme.colors.secondary}`,
-            }}
-          >
+          <InlineNotice theme={theme} className="mb-6">
             {createRewardError}
-          </div>
+          </InlineNotice>
         )}
         <StandardActionList
           theme={theme}
           items={rewards}
           getKey={(reward) => reward.id}
+          getItemLabel={(reward) => reward.title}
           {...rewardListDescriptor}
           hideEdit
           onDelete={(reward) => handleDelete(reward.id)}

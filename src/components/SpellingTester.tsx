@@ -26,7 +26,7 @@ import LetterCaseControl, { type LetterCase } from './ui/LetterCaseControl'
 import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
 
 const MIN_PROBLEMS = 1
-const MAX_PROBLEMS = 10
+const MAX_PROBLEMS = 9
 const NEXT_LETTER_DELAY_MS = 450
 const NEXT_WORD_DELAY_MS = 1100
 const FLY_AWAY_DURATION_MS = 650

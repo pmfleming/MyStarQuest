@@ -81,8 +81,49 @@ describe('createUnifiedChoreDescriptor', () => {
 
     descriptor.getPrimaryAction(todo).onClick(todo)
 
+    expect(descriptor.getPrimaryAction(todo)).toMatchObject({
+      label: 'Run',
+      ariaLabel: 'Run Arithmetic',
+      showLabel: false,
+    })
     expect(onEnterChore).toHaveBeenCalledWith(todo)
     expect(onComplete).not.toHaveBeenCalled()
+  })
+
+  it('standardizes Check result and item-specific reset accessibility names', () => {
+    const descriptor = createUnifiedChoreDescriptor({
+      ...createBaseDeps(),
+      activeMathId: 'math-1',
+    })
+
+    const todo: TodoRecord = {
+      id: 'math-1',
+      title: 'Arithmetic',
+      childId: 'child-1',
+      sourceTaskId: 'task-1',
+      sourceTaskType: 'math',
+      starValue: 3,
+      schoolDayEnabled: true,
+      nonSchoolDayEnabled: true,
+      autoAdded: false,
+      completedAt: null,
+      dateKey: '2026-03-23',
+      mathTotalProblems: 5,
+      mathDifficulty: 'easy',
+      mathLastOutcome: null,
+    }
+
+    expect(descriptor.getPrimaryAction(todo)).toMatchObject({
+      label: 'Check result',
+      ariaLabel: 'Check result Arithmetic',
+      showLabel: false,
+    })
+    expect(descriptor.getUtilityAction?.(todo)).toMatchObject({
+      label: 'Reset',
+      ariaLabel: 'Reset Arithmetic',
+      variant: 'neutral',
+      exits: false,
+    })
   })
 
   it('keeps dinner in activity stage until the final bite cooldown ends', () => {

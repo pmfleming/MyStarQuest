@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import abilityImage from '../assets/animal-facts/ability.webp'
 import foodImage from '../assets/animal-facts/food.webp'
 import habitatCoverImage from '../assets/animal-facts/habitat-cover.webp'
@@ -42,7 +42,10 @@ import {
 import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
 
 const MIN_PROBLEMS = 1
-const MAX_PROBLEMS = 10
+const MAX_PROBLEMS = 9
+const LEARN_AUTO_ADVANCE_MS = 6500
+const CHOICE_ANIMATION_MS = 650
+const CLUE_REVEAL_INTERVAL_MS = 3000
 
 type AnimalMode = 'learn' | 'solo' | 'together'
 type TogetherPhase = 'keeper' | 'questions' | 'answer'
@@ -90,14 +93,6 @@ const ANIMAL_CATALOG: CatalogAnimal[] = ANIMAL_KNOWLEDGE.flatMap((animal) => {
   return image ? [{ ...animal, image }] : []
 })
 
-const speak = (text: string) => {
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
-  window.speechSynthesis.cancel()
-  const utterance = new SpeechSynthesisUtterance(text)
-  utterance.rate = 0.82
-  window.speechSynthesis.speak(utterance)
-}
-
 type VisualFact = AnimalFact & {
   illustration?: string
   word?: string
@@ -143,10 +138,8 @@ const FactCard = ({
   fact: VisualFact
   theme: ActivityChoreProps['theme']
 }) => (
-  <button
-    type="button"
-    onClick={() => speak(fact.text)}
-    aria-label={`${fact.label}: ${fact.text}. Tap to hear it.`}
+  <div
+    aria-label={`${fact.label}: ${fact.text}`}
     style={{
       minHeight: 174,
       padding: '8px',
@@ -162,7 +155,6 @@ const FactCard = ({
       justifyContent: 'center',
       gap: 2,
       textAlign: 'center',
-      cursor: 'pointer',
     }}
   >
     {fact.illustration ? (
@@ -188,7 +180,7 @@ const FactCard = ({
         {fact.word}
       </strong>
     )}
-  </button>
+  </div>
 )
 
 const FactGrid = ({
@@ -337,9 +329,12 @@ const AnimalTester = ({
   const [animalOrder, setAnimalOrder] = useState(() => shuffle(ANIMAL_CATALOG))
   const [animalIndex, setAnimalIndex] = useState(0)
   const [results, setResults] = useState<ActivityResult[]>([])
-  const [wrongChoices, setWrongChoices] = useState<string[]>([])
+  const [leavingChoice, setLeavingChoice] = useState<string | null>(null)
+  const [dismissedChoices, setDismissedChoices] = useState<string[]>([])
   const [answeredCorrectly, setAnsweredCorrectly] = useState(false)
+  const [visibleSoloClues, setVisibleSoloClues] = useState(1)
   const [togetherPhase, setTogetherPhase] = useState<TogetherPhase>('keeper')
+  const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const isSetup = !isRunning && !isCompleted
   const { isSuccessState, isFinished } = getActivityOutcome({
@@ -359,11 +354,14 @@ const AnimalTester = ({
   }, [animal])
 
   const resetPlayState = useCallback(() => {
+    if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
     setAnimalOrder(shuffle(ANIMAL_CATALOG))
     setAnimalIndex(0)
     setResults([])
-    setWrongChoices([])
+    setLeavingChoice(null)
+    setDismissedChoices([])
     setAnsweredCorrectly(false)
+    setVisibleSoloClues(1)
     setTogetherPhase('keeper')
   }, [])
 
@@ -371,48 +369,86 @@ const AnimalTester = ({
     if (!isRunning && !isCompleted) resetPlayState()
   }, [isCompleted, isRunning, resetPlayState])
 
-  const finishAnimal = (result: ActivityResult = 'correct') => {
-    const nextResults = [...results, result]
-    setResults(nextResults)
-    if (animalIndex + 1 >= totalProblems) {
-      if (result === 'correct') celebrateSuccess()
-      onComplete()
-      return
-    }
+  const finishAnimal = useCallback(
+    (result: ActivityResult = 'correct', shouldCelebrate = true) => {
+      setResults((previous) => [...previous, result])
+      if (animalIndex + 1 >= totalProblems) {
+        if (result === 'correct' && shouldCelebrate) celebrateSuccess()
+        onComplete()
+        return
+      }
 
-    setAnimalIndex((index) => index + 1)
-    setWrongChoices([])
-    setAnsweredCorrectly(false)
-    setTogetherPhase('keeper')
-  }
+      setAnimalIndex((index) => index + 1)
+      setLeavingChoice(null)
+      setDismissedChoices([])
+      setAnsweredCorrectly(false)
+      setVisibleSoloClues(1)
+      setTogetherPhase('keeper')
+    },
+    [animalIndex, onComplete, totalProblems]
+  )
+
+  useEffect(() => {
+    if (!isRunning || isFinished || mode !== 'learn' || !animal) return
+
+    const timer = setTimeout(finishAnimal, LEARN_AUTO_ADVANCE_MS)
+    return () => clearTimeout(timer)
+  }, [animal, finishAnimal, isFinished, isRunning, mode])
+
+  useEffect(() => {
+    if (!isRunning || isFinished || mode !== 'solo' || !animal) return
+
+    setVisibleSoloClues(1)
+    let revealedClues = 1
+    const clueCount = getTeachingFacts(animal).length
+    const timer = setInterval(() => {
+      revealedClues += 1
+      setVisibleSoloClues(revealedClues)
+      if (revealedClues >= clueCount) clearInterval(timer)
+    }, CLUE_REVEAL_INTERVAL_MS)
+
+    return () => clearInterval(timer)
+  }, [animal, isFinished, isRunning, mode])
+
+  useEffect(
+    () => () => {
+      if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
+    },
+    []
+  )
 
   const handleSoloChoice = (choice: CatalogAnimal) => {
-    if (answeredCorrectly || wrongChoices.includes(choice.name)) return
+    if (
+      answeredCorrectly ||
+      leavingChoice ||
+      dismissedChoices.includes(choice.name)
+    )
+      return
+
     if (choice.name === animal.name) {
       setAnsweredCorrectly(true)
-      setResults((previous) => [...previous, 'correct'])
       celebrateSuccess()
+      feedbackTimer.current = setTimeout(
+        () => finishAnimal('correct', false),
+        CHOICE_ANIMATION_MS
+      )
       return
     }
 
-    const nextWrongChoices = [...wrongChoices, choice.name]
-    setWrongChoices(nextWrongChoices)
+    setLeavingChoice(choice.name)
+    let shouldFail = false
     if (failureModeEnabled) {
       const nextResults: ActivityResult[] = [...results, 'incorrect']
       setResults(nextResults)
       const mistakes = nextResults.filter((result) => result === 'incorrect')
-      if (mistakes.length >= MAX_ACTIVITY_MISTAKES) onFail?.()
+      shouldFail = mistakes.length >= MAX_ACTIVITY_MISTAKES
     }
-  }
 
-  const handleSoloNext = () => {
-    if (animalIndex + 1 >= totalProblems) {
-      onComplete()
-      return
-    }
-    setAnimalIndex((index) => index + 1)
-    setWrongChoices([])
-    setAnsweredCorrectly(false)
+    feedbackTimer.current = setTimeout(() => {
+      setDismissedChoices((previous) => [...previous, choice.name])
+      setLeavingChoice(null)
+      if (shouldFail) onFail?.()
+    }, CHOICE_ANIMATION_MS)
   }
 
   return (
@@ -473,19 +509,15 @@ const AnimalTester = ({
             <>
               <AnimalPortrait animal={animal} theme={theme} compact />
               <FactGrid facts={getTeachingFacts(animal)} theme={theme} />
-              <PrimaryAction
-                label={animalIndex + 1 >= totalProblems ? 'Finish' : 'Next'}
-                icon="🐾"
-                onClick={() => finishAnimal()}
-                theme={theme}
-              />
             </>
           )}
 
           {mode === 'solo' && (
             <>
-              <SectionHeading symbol="🔎" title="Guess" theme={theme} />
-              <FactGrid facts={getTeachingFacts(animal)} theme={theme} />
+              <FactGrid
+                facts={getTeachingFacts(animal).slice(0, visibleSoloClues)}
+                theme={theme}
+              />
               <div
                 aria-label="Animal choices"
                 style={{
@@ -495,59 +527,57 @@ const AnimalTester = ({
                   width: '100%',
                 }}
               >
-                {answerChoices.map((choice) => {
-                  const isWrong = wrongChoices.includes(choice.name)
-                  const isCorrect =
-                    answeredCorrectly && choice.name === animal.name
-                  return (
-                    <button
-                      key={choice.name}
-                      type="button"
-                      onClick={() => handleSoloChoice(choice)}
-                      disabled={isWrong || answeredCorrectly}
-                      aria-label={formatAnimalName(choice.name)}
-                      style={{
-                        minHeight: 126,
-                        padding: 5,
-                        borderRadius: 20,
-                        border: `4px solid ${
-                          isCorrect
-                            ? theme.colors.primary
-                            : isWrong
-                              ? theme.colors.secondary
-                              : theme.colors.accent
-                        }`,
-                        background: theme.colors.surface,
-                        color: theme.colors.text,
-                        opacity: isWrong ? 0.45 : 1,
-                        fontFamily: theme.fonts.heading,
-                        fontSize: '0.76rem',
-                        fontWeight: 800,
-                      }}
-                    >
-                      <img
-                        src={choice.image}
-                        alt=""
+                {answerChoices
+                  .filter((choice) => !dismissedChoices.includes(choice.name))
+                  .map((choice) => {
+                    const isWrong = leavingChoice === choice.name
+                    const isCorrect =
+                      answeredCorrectly && choice.name === animal.name
+                    return (
+                      <button
+                        key={choice.name}
+                        type="button"
+                        onClick={() => handleSoloChoice(choice)}
+                        disabled={Boolean(leavingChoice) || answeredCorrectly}
+                        aria-label={formatAnimalName(choice.name)}
                         style={{
-                          width: '100%',
-                          height: 84,
-                          objectFit: 'contain',
+                          minHeight: 126,
+                          padding: 5,
+                          borderRadius: 20,
+                          border: `4px solid ${
+                            isCorrect
+                              ? theme.colors.primary
+                              : isWrong
+                                ? theme.colors.secondary
+                                : theme.colors.accent
+                          }`,
+                          background: theme.colors.surface,
+                          color: theme.colors.text,
+                          fontFamily: theme.fonts.heading,
+                          fontSize: '0.76rem',
+                          fontWeight: 800,
+                          animation: isWrong
+                            ? 'animal-choice-fly-away 0.65s ease-in forwards'
+                            : isCorrect
+                              ? 'animal-choice-pop 0.32s ease both'
+                              : undefined,
                         }}
-                      />
-                      {formatAnimalName(choice.name)}
-                      {isCorrect ? ' ✓' : isWrong ? ' ✕' : ''}
-                    </button>
-                  )
-                })}
+                      >
+                        <img
+                          src={choice.image}
+                          alt=""
+                          style={{
+                            width: '100%',
+                            height: 84,
+                            objectFit: 'contain',
+                          }}
+                        />
+                        {formatAnimalName(choice.name)}
+                        {isCorrect ? ' ✓' : isWrong ? ' ✕' : ''}
+                      </button>
+                    )
+                  })}
               </div>
-              {answeredCorrectly && (
-                <PrimaryAction
-                  label={animalIndex + 1 >= totalProblems ? 'Finish' : 'Next'}
-                  icon="🐾"
-                  onClick={handleSoloNext}
-                  theme={theme}
-                />
-              )}
             </>
           )}
 
@@ -662,6 +692,19 @@ const AnimalTester = ({
           )}
         </ActivityPlayArea>
       )}
+      <style>{`
+        @keyframes animal-choice-pop {
+          0% { transform: scale(0.88); }
+          70% { transform: scale(1.08); }
+          100% { transform: scale(1); }
+        }
+
+        @keyframes animal-choice-fly-away {
+          0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+          70% { transform: translateY(-44px) rotate(18deg) scale(0.8); opacity: 0.7; }
+          100% { transform: translateY(-84px) rotate(28deg) scale(0.3); opacity: 0; }
+        }
+      `}</style>
     </ActivityOutcomeShell>
   )
 }

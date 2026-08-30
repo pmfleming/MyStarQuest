@@ -56,7 +56,7 @@ type ChoreCreationFlowProps = {
 const DRAFT_DINNER_MIN_MINUTES = 5
 const DRAFT_DINNER_MAX_MINUTES = 30
 const DRAFT_DINNER_MIN_BITES = 1
-const DRAFT_DINNER_MAX_BITES = 16
+const DRAFT_DINNER_MAX_BITES = 9
 
 const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value))
@@ -259,8 +259,8 @@ const ChoreCreationFlow = ({
           theme={theme}
           count={draft.starValue}
           editable
-          min={0}
-          max={10}
+          min={1}
+          max={9}
           onChange={(starValue) => updateDraft({ starValue })}
         />
       </div>

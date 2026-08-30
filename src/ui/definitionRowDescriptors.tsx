@@ -11,6 +11,7 @@ import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import {
   princessActiveIcon,
   princessBuyRewardIcon,
+  princessLockedRewardIcon,
   princessSelectIcon,
 } from '../assets/themes/princess/assets'
 import { getRewardImage } from '../assets/rewards/assets'
@@ -114,19 +115,10 @@ const renderRewardAvailableSummary = (reward: RewardRecord, theme: Theme) => {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        gap: `${uiTokens.singleVerticalSpace}px`,
         minWidth: 0,
         flex: 1,
       }}
     >
-      <div
-        style={{
-          ...getStandardActionHeadingStyle(theme),
-        }}
-      >
-        {reward.title}
-      </div>
-
       <div style={rewardCostFrameStyle}>
         {image && (
           <div style={imageLaneStyle}>
@@ -169,6 +161,29 @@ const renderRewardAvailableSummary = (reward: RewardRecord, theme: Theme) => {
 export const createChildDefinitionListRowDescriptor = (
   deps: ChildDefinitionDescriptorDeps
 ): ListRowDescriptor<ChildProfile> => ({
+  renderHeader: (child) => (
+    <div
+      className="flex flex-col"
+      style={{ gap: `${uiTokens.controlColumnGap}px` }}
+    >
+      <ActionTextInput
+        theme={deps.theme}
+        label="Name"
+        value={deps.nameDrafts[child.id] ?? child.displayName}
+        onChange={(value) => deps.setNameDraft(child.id, value)}
+        onCommit={(value) => deps.commitDisplayName(child.id, value)}
+        maxLength={40}
+        baseColor={deps.theme.colors.primary}
+        inputAriaLabel="Child name"
+        transparent
+      />
+      {deps.activeChildId === child.id && (
+        <span style={{ fontFamily: deps.theme.fonts.body, fontWeight: 700 }}>
+          Active
+        </span>
+      )}
+    </div>
+  ),
   renderItem: (child) => {
     const currentThemeId = child.themeId || 'princess'
     const currentThemeIndex = Math.max(
@@ -181,18 +196,6 @@ export const createChildDefinitionListRowDescriptor = (
         className="flex flex-col"
         style={{ gap: `${uiTokens.singleVerticalSpace}px` }}
       >
-        <ActionTextInput
-          theme={deps.theme}
-          label="Name"
-          value={deps.nameDrafts[child.id] ?? child.displayName}
-          onChange={(value) => deps.setNameDraft(child.id, value)}
-          onCommit={(value) => deps.commitDisplayName(child.id, value)}
-          maxLength={40}
-          baseColor={deps.theme.colors.primary}
-          inputAriaLabel="Child name"
-          transparent
-        />
-
         <Carousel
           key={`${child.id}-${currentThemeId}`}
           items={deps.carouselItems}
@@ -232,9 +235,8 @@ export const createChildDefinitionListRowDescriptor = (
   },
   isHighlighted: (child) => deps.activeChildId === child.id,
   getPrimaryAction: (child) => ({
-    label: deps.activeChildId === child.id ? 'Active' : 'Select',
-    ariaLabel:
-      deps.activeChildId === child.id ? 'Active child' : 'Select child',
+    label: 'Select',
+    ariaLabel: `Select ${child.displayName}`,
     icon:
       deps.theme.id === 'princess' ? (
         <img
@@ -243,7 +245,8 @@ export const createChildDefinitionListRowDescriptor = (
               ? princessActiveIcon
               : princessSelectIcon
           }
-          alt={deps.activeChildId === child.id ? 'Active' : 'Select'}
+          alt=""
+          aria-hidden="true"
           decoding="async"
           className="h-6 w-6 object-contain"
         />
@@ -262,21 +265,46 @@ export const createChildDefinitionListRowDescriptor = (
 export const createRewardDefinitionListRowDescriptor = (
   deps: RewardDefinitionDescriptorDeps
 ): ListRowDescriptor<RewardRecord> => ({
+  renderHeader: (reward) => (
+    <h2
+      style={{
+        ...getStandardActionHeadingStyle(deps.theme),
+        margin: 0,
+      }}
+    >
+      {reward.title}
+    </h2>
+  ),
   renderItem: (reward) => renderRewardAvailableSummary(reward, deps.theme),
   getPrimaryAction: (reward) => {
     const hasEnoughStars = deps.activeChildStars >= reward.costStars
 
     return {
-      label: hasEnoughStars ? 'Buy Reward' : 'Need Stars',
+      label: 'Buy reward',
+      ariaLabel: `Buy ${reward.title}`,
       icon: hasEnoughStars ? (
         <img
           src={princessBuyRewardIcon}
-          alt="Buy Reward"
+          alt=""
+          aria-hidden="true"
           decoding="async"
           className="h-6 w-6 object-contain"
         />
       ) : (
-        '🔒'
+        <img
+          src={princessLockedRewardIcon}
+          alt=""
+          aria-hidden="true"
+          decoding="async"
+          style={{
+            width: 22,
+            height: 22,
+            maxWidth: '100%',
+            maxHeight: '100%',
+            objectFit: 'contain',
+            display: 'block',
+          }}
+        />
       ),
       disabled: deps.isRedeeming || !deps.activeChildId || !hasEnoughStars,
       variant: 'primary',

@@ -15,7 +15,8 @@ export const getStandardActionHeadingStyle = (theme: Theme): CSSProperties => ({
 })
 
 export const getStandardActionBaseStyle = (theme: Theme): CSSProperties => ({
-  height: `${uiTokens.listActionHeight}px`,
+  minHeight: `${uiTokens.listActionHeight}px`,
+  height: '100%',
   borderRadius: `${uiTokens.listActionRadius}px`,
   borderWidth: '2px',
   borderStyle: 'solid',

@@ -78,7 +78,7 @@ const renderEatingTask = (
       const next = clamp(
         (item.dinnerTotalBites ?? DEFAULT_DINNER_BITES) + delta,
         1,
-        16
+        9
       )
       deps.onUpdateTaskField?.(item.id, { dinnerTotalBites: next })
       deps.onUpdateEphemeral?.(item.id, { manageDinnerBitesLeft: next })

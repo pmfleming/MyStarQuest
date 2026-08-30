@@ -1,6 +1,6 @@
 // Tests subscription + mutations.
 
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   addDoc,
   collection,
@@ -19,9 +19,11 @@ import { parseTestSnapshot } from '../lib/choreParser'
 import { calculateAwardTaskPatch } from '../lib/choreLogic'
 import { buildDefaultTests, buildTestDocument } from './taskDocuments'
 import {
+  commitBoundedDraft,
   getTestLastActive,
   manageTestOutcomePatch,
   mergeTestEphemeral,
+  setDraftValue,
   useEphemeralExpiry,
   useTitleDraftBackfill,
   useTodayInfo,
@@ -36,6 +38,11 @@ import {
   type TestWithEphemeral,
 } from './types'
 import { useUserCollection } from './useUserCollection'
+import { validateTaskFields } from './taskLimits'
+import {
+  mergeOptimisticItems,
+  useCoalescedDocumentUpdates,
+} from '../hooks/useCoalescedDocumentUpdates'
 
 const getPersistedAttemptState = (
   test: TestRecord,
@@ -72,6 +79,42 @@ export function useTests() {
     return buildDefaultTests(activeChildId)
   }, [activeChildId])
 
+  const persistTestField = useCallback(
+    async (testId: string, field: TaskUpdatableFields) => {
+      if (!user) return
+      const defaultTest = defaultTests.find((test) => test.id === testId)
+      const testRef = doc(db, 'users', user.uid, 'tests', testId)
+      if (defaultTest) {
+        await runTransaction(db, async (transaction) => {
+          const snapshot = await transaction.get(testRef)
+          if (snapshot.exists()) {
+            transaction.update(testRef, field)
+          } else {
+            transaction.set(testRef, {
+              ...buildTestDocument(defaultTest.childId, defaultTest.taskType),
+              ...field,
+            })
+          }
+        })
+        return
+      }
+
+      await updateDoc(testRef, field)
+    },
+    [defaultTests, user]
+  )
+  const {
+    overrides: optimisticFields,
+    queueUpdate: queueTestField,
+    cancelUpdate: cancelTestFieldUpdate,
+    reconcile: reconcileTestFields,
+  } = useCoalescedDocumentUpdates<TaskUpdatableFields>({
+    persist: persistTestField,
+    onError: (_testId, _field, error) => {
+      console.error('Failed to update test', error)
+    },
+  })
+
   const parseTestDocument = useCallback(
     (id: string, data: DocumentData) => parseTestSnapshot(id, data),
     []
@@ -92,29 +135,43 @@ export function useTests() {
     onClear: clearEphemeral,
   })
 
+  useEffect(() => {
+    reconcileTestFields(rawTests)
+  }, [rawTests, reconcileTestFields])
+
   useTitleDraftBackfill(rawTests, setTestTitleDrafts)
 
-  const savedDefaultsByType = new Map<TestType, TestRecord>()
-  for (const test of rawTests) {
-    if (test.childId !== activeChildId) continue
-    if (!savedDefaultsByType.has(test.taskType)) {
-      savedDefaultsByType.set(test.taskType, test)
+  const configuredTests = useMemo(() => {
+    const savedDefaultsByType = new Map<TestType, TestRecord>()
+    for (const test of rawTests) {
+      if (test.childId !== activeChildId) continue
+      if (!savedDefaultsByType.has(test.taskType)) {
+        savedDefaultsByType.set(test.taskType, test)
+      }
     }
-  }
 
-  const defaultSlotTests = defaultTests.map(
-    (test) => savedDefaultsByType.get(test.taskType) ?? test
-  )
-  const defaultSlotIds = new Set(defaultSlotTests.map((test) => test.id))
+    const defaultSlotTests = defaultTests.map(
+      (test) => savedDefaultsByType.get(test.taskType) ?? test
+    )
+    const defaultSlotIds = new Set(defaultSlotTests.map((test) => test.id))
+    return mergeOptimisticItems(
+      [
+        ...defaultSlotTests,
+        ...rawTests.filter((test) => !defaultSlotIds.has(test.id)),
+      ],
+      optimisticFields
+    )
+  }, [activeChildId, defaultTests, optimisticFields, rawTests])
 
-  const tests = [
-    ...defaultSlotTests,
-    ...rawTests.filter((test) => !defaultSlotIds.has(test.id)),
-  ].map((test) =>
-    mergeTestEphemeral(test, {
-      ...getPersistedAttemptState(test, todayInfo.dateKey),
-      ...ephemeral[test.id],
-    })
+  const tests = useMemo(
+    () =>
+      configuredTests.map((test) =>
+        mergeTestEphemeral(test, {
+          ...getPersistedAttemptState(test, todayInfo.dateKey),
+          ...ephemeral[test.id],
+        })
+      ),
+    [configuredTests, ephemeral, todayInfo.dateKey]
   )
 
   const activeChildTests = useMemo(
@@ -135,45 +192,22 @@ export function useTests() {
     }))
   }
 
-  const updateTestField = async (
-    testId: string,
-    field: TaskUpdatableFields
-  ) => {
-    if (!user) return
-    const defaultTest = defaultTests.find((test) => test.id === testId)
-    const testRef = doc(db, 'users', user.uid, 'tests', testId)
-    if (defaultTest) {
-      await runTransaction(db, async (transaction) => {
-        const snapshot = await transaction.get(testRef)
-        if (snapshot.exists()) {
-          transaction.update(testRef, field)
-        } else {
-          transaction.set(testRef, {
-            ...buildTestDocument(defaultTest.childId, defaultTest.taskType),
-            ...field,
-          })
-        }
-      })
-      return
-    }
-
-    await updateDoc(testRef, field)
+  const updateTestField = (testId: string, field: TaskUpdatableFields) => {
+    validateTaskFields(field)
+    queueTestField(testId, field)
   }
 
   const setTestTitleDraft = (testId: string, value: string) =>
-    setTestTitleDrafts((prev) => ({ ...prev, [testId]: value }))
+    setDraftValue(setTestTitleDrafts, testId, value)
 
-  const commitTestTitle = (testId: string, title: string) => {
-    const trimmed = title.trim()
-    if (trimmed.length > 0 && trimmed.length <= 80) {
-      updateTestField(testId, { title: trimmed })
-    } else {
-      const saved = rawTests.find((test) => test.id === testId)
-      if (saved) {
-        setTestTitleDrafts((prev) => ({ ...prev, [testId]: saved.title }))
-      }
-    }
-  }
+  const commitTestTitle = (testId: string, title: string) =>
+    commitBoundedDraft(
+      title,
+      80,
+      rawTests.find((test) => test.id === testId)?.title,
+      (nextTitle) => updateTestField(testId, { title: nextTitle }),
+      (savedTitle) => setTestTitleDraft(testId, savedTitle)
+    )
 
   const createTest = async (testType: TestType) => {
     if (!user || !activeChildId) return
@@ -192,6 +226,7 @@ export function useTests() {
 
   const deleteTest = async (testId: string) => {
     if (!user) return
+    cancelTestFieldUpdate(testId)
     await deleteDoc(doc(db, 'users', user.uid, 'tests', testId))
   }
 
@@ -200,7 +235,7 @@ export function useTests() {
     attemptedAt: number | null,
     outcome: TaskOutcome | null
   ) => {
-    await updateTestField(item.id, {
+    await persistTestField(item.id, {
       lastAttemptedAt: attemptedAt,
       lastAttemptDateKey: attemptedAt ? todayInfo.dateKey : '',
       lastAttemptOutcome: outcome,

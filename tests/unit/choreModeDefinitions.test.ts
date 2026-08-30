@@ -12,7 +12,7 @@ describe('choreModeDefinitions', () => {
   })
 
   it('uses a finish label for activity monitors once active', () => {
-    expect(getActivityPrimaryActionLabel('setup')).toBe('Start')
+    expect(getActivityPrimaryActionLabel('setup')).toBe('Run')
     expect(getActivityPrimaryActionLabel('activity')).toBe('Finish')
   })
 })

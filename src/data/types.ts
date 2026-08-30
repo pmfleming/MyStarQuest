@@ -2,6 +2,15 @@
 
 import type { ThemeId } from '../ui/themeOptions'
 import { z } from 'zod'
+import { MAX_TASK_VALUE, MIN_TASK_VALUE } from './taskLimits'
+
+export const taskValueSchema = z
+  .number()
+  .int()
+  .min(MIN_TASK_VALUE)
+  .max(MAX_TASK_VALUE)
+
+const taskSnapshotValue = (fallback: number) => taskValueSchema.catch(fallback)
 
 export type TaskType =
   | 'standard'
@@ -104,7 +113,7 @@ export const taskSnapshotDataSchema = z
     taskType: z.string().catch('standard'),
     schoolDayEnabled: z.boolean().catch(false),
     nonSchoolDayEnabled: z.boolean().catch(false),
-    starValue: z.number().finite().catch(1),
+    starValue: taskSnapshotValue(1),
     isRepeating: z.boolean().catch(false),
     imageKey: z.string().optional(),
     createdAt: firestoreTimestampLikeSchema.optional(),
@@ -112,14 +121,14 @@ export const taskSnapshotDataSchema = z
       .number()
       .finite()
       .catch(10 * 60),
-    dinnerTotalBites: z.number().finite().catch(2),
-    mathTotalProblems: z.number().finite().catch(5),
+    dinnerTotalBites: taskSnapshotValue(2),
+    mathTotalProblems: taskSnapshotValue(5),
     mathDifficulty: mathDifficultySchema.catch('easy'),
-    largeNumbersTotalProblems: z.number().finite().catch(5),
-    pvTotalProblems: z.number().finite().catch(5),
-    alphabetTotalProblems: z.number().finite().catch(5),
-    spellingTotalProblems: z.number().finite().catch(5),
-    animalsTotalProblems: z.number().finite().catch(5),
+    largeNumbersTotalProblems: taskSnapshotValue(5),
+    pvTotalProblems: taskSnapshotValue(5),
+    alphabetTotalProblems: taskSnapshotValue(5),
+    spellingTotalProblems: taskSnapshotValue(5),
+    animalsTotalProblems: taskSnapshotValue(5),
     lastAttemptedAt: z.number().finite().nullable().catch(null),
     lastAttemptDateKey: z.string().catch(''),
     lastAttemptOutcome: taskOutcomeSchema.nullable().catch(null),
@@ -150,7 +159,7 @@ export const todoSnapshotDataSchema = z
     sourceTaskType: z.string().catch('standard'),
     sourceChoreId: z.string().optional(),
     sourceChoreType: z.string().optional(),
-    starValue: z.number().finite().catch(1),
+    starValue: taskSnapshotValue(1),
     schoolDayEnabled: z.boolean().catch(false),
     nonSchoolDayEnabled: z.boolean().catch(false),
     autoAdded: z.boolean().catch(false),
@@ -163,21 +172,21 @@ export const todoSnapshotDataSchema = z
       .finite()
       .catch(10 * 60),
     dinnerRemainingSeconds: z.number().finite().optional(),
-    dinnerTotalBites: z.number().finite().catch(2),
+    dinnerTotalBites: taskSnapshotValue(2),
     dinnerBitesLeft: z.number().finite().optional(),
     dinnerTimerStartedAt: z.number().finite().nullable().catch(null),
-    mathTotalProblems: z.number().finite().catch(5),
+    mathTotalProblems: taskSnapshotValue(5),
     mathDifficulty: mathDifficultySchema.catch('easy'),
     mathLastOutcome: taskOutcomeSchema.nullable().catch(null),
-    largeNumbersTotalProblems: z.number().finite().catch(5),
+    largeNumbersTotalProblems: taskSnapshotValue(5),
     largeNumbersLastOutcome: taskOutcomeSchema.nullable().catch(null),
-    pvTotalProblems: z.number().finite().catch(5),
+    pvTotalProblems: taskSnapshotValue(5),
     pvLastOutcome: taskOutcomeSchema.nullable().catch(null),
-    alphabetTotalProblems: z.number().finite().catch(5),
+    alphabetTotalProblems: taskSnapshotValue(5),
     alphabetLastOutcome: taskOutcomeSchema.nullable().catch(null),
-    spellingTotalProblems: z.number().finite().catch(5),
+    spellingTotalProblems: taskSnapshotValue(5),
     spellingLastOutcome: taskOutcomeSchema.nullable().catch(null),
-    animalsTotalProblems: z.number().finite().catch(5),
+    animalsTotalProblems: taskSnapshotValue(5),
     animalsLastOutcome: taskOutcomeSchema.nullable().catch(null),
     waterLevel: waterLevelSchema.catch('full'),
     toiletStatus: toiletStatusSchema.catch('notpeepee'),
@@ -574,7 +583,7 @@ export const DEFAULT_SPELLING_PROBLEMS = 5
 export const DEFAULT_SPELLING_STARS = 3
 export const DEFAULT_ANIMALS_PROBLEMS = 5
 export const DEFAULT_ANIMALS_STARS = 3
-export const DEFAULT_WATER_TOILET_STARS = 0
+export const DEFAULT_WATER_TOILET_STARS = 1
 export const DEFAULT_WATER_LEVEL: WaterLevel = 'full'
 export const DEFAULT_TOILET_STATUS: ToiletStatus = 'notpeepee'
 export const MANAGE_STATUS_RESET_MS = 15 * 60 * 1000

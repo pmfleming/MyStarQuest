@@ -21,7 +21,7 @@ import { CounterGroup, MathCounter, TenRod } from './ui/ActivityMathCounters'
 import StepperButton from './ui/StepperButton'
 
 const MIN_PROBLEMS = 1
-const MAX_PROBLEMS = 10
+const MAX_PROBLEMS = 9
 const MIN_ADDEND = 11
 const MAX_SUM = 99
 const MAX_FIRST_ADDEND = MAX_SUM - MIN_ADDEND

@@ -86,7 +86,14 @@ export const DashboardHeaderActions = ({
               src={themeAssets.exitIcon}
               alt="Exit"
               decoding="async"
-              className="h-10 w-10 object-contain"
+              style={{
+                width: 30,
+                height: 30,
+                maxWidth: '100%',
+                maxHeight: '100%',
+                objectFit: 'contain',
+                display: 'block',
+              }}
             />
           ) : (
             <span className="text-2xl">X</span>

@@ -13,16 +13,6 @@ type StepperButtonProps = {
   children?: ReactNode
 }
 
-export const getStepperEdgePositionStyle = (
-  direction: StepperButtonProps['direction']
-): CSSProperties => ({
-  position: 'absolute',
-  [direction === 'prev' ? 'left' : 'right']: 0,
-  top: '50%',
-  transform: 'translateY(-50%)',
-  zIndex: 3,
-})
-
 /**
  * Standardized rectangular stepper button used for increment/decrement
  * controls across the app (Carousel navigation, editable star controls, etc.)
@@ -59,6 +49,9 @@ const StepperButton = ({
       : '0 6px 0 rgba(0, 0, 0, 0.12)',
     opacity: disabled ? 0.4 : 1,
     transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+    touchAction: 'manipulation',
+    WebkitTapHighlightColor: 'transparent',
+    contain: 'layout paint',
     ...style,
   }
 

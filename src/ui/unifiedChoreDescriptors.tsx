@@ -2,10 +2,10 @@ import {
   princessActiveIcon,
   princessBiteIcon,
   princessGiveStarIcon,
-  princessMathsIcon,
   princessPlateImage,
 } from '../assets/themes/princess/assets'
 import { getChoreImage } from '../assets/chores/assets'
+import { getPrincessTaskTypeIcon } from './taskTypeIcons'
 import { isInChoreStage, shouldUseResetUtility } from './choreModeDefinitions'
 import type { ListRowDescriptor } from './listDescriptorTypes'
 import {
@@ -19,7 +19,10 @@ import {
   getChoreType,
   isTaskItem,
 } from './unifiedChoreState'
-import { renderUnifiedChoreItem } from './unifiedChoreItemRenderer'
+import {
+  renderUnifiedChoreHeader,
+  renderUnifiedChoreItem,
+} from './unifiedChoreItemRenderer'
 import type {
   UnifiedChoreDeps,
   UnifiedChoreItem,
@@ -34,6 +37,7 @@ export function createUnifiedChoreDescriptor(
   const state = createUnifiedChoreState(deps)
 
   return {
+    renderHeader: (item) => renderUnifiedChoreHeader(deps, state, item),
     renderItem: (item) => renderUnifiedChoreItem(deps, state, item),
     getStarCount: (item) => {
       if (isManage) return undefined
@@ -55,11 +59,17 @@ export function createUnifiedChoreDescriptor(
       if (type === 'standard') {
         const isItemCompleted = state.isCompleted(item)
         return {
-          label: isItemCompleted ? 'Done' : isManage ? 'Give' : 'Open chore',
+          label: 'Give stars',
+          ariaLabel: `Give stars for ${item.title}`,
           icon: (
             <img
-              src={isItemCompleted ? princessActiveIcon : princessGiveStarIcon}
-              alt="icon"
+              src={
+                isItemCompleted
+                  ? princessActiveIcon
+                  : (getChoreImage(item.imageKey) ?? princessGiveStarIcon)
+              }
+              alt=""
+              aria-hidden="true"
               decoding="async"
               className="h-6 w-6 object-contain"
             />
@@ -77,7 +87,7 @@ export function createUnifiedChoreDescriptor(
       }
 
       if (type === 'watertoiletcheck') {
-        return createPresetActivityPrimaryAction<UnifiedChoreItem>({
+        const action = createPresetActivityPrimaryAction<UnifiedChoreItem>({
           choreType: type,
           stage,
           icon: (
@@ -85,7 +95,8 @@ export function createUnifiedChoreDescriptor(
               src={
                 stage === 'setup' ? princessGiveStarIcon : princessActiveIcon
               }
-              alt="icon"
+              alt=""
+              aria-hidden="true"
               decoding="async"
               className="h-6 w-6 object-contain"
             />
@@ -94,15 +105,17 @@ export function createUnifiedChoreDescriptor(
           onFinish: (selected) => deps.onComplete?.(selected),
           onStart: (selected) => enterOrComplete(deps, selected),
         })
+        return { ...action, ariaLabel: `${action.label} ${item.title}` }
       }
 
-      return createPresetTestPrimaryAction({
+      const action = createPresetTestPrimaryAction<UnifiedChoreItem>({
         choreType: type,
         stage,
         icon: (
           <img
-            src={stage === 'setup' ? princessGiveStarIcon : princessMathsIcon}
-            alt="icon"
+            src={getPrincessTaskTypeIcon(type)}
+            alt=""
+            aria-hidden="true"
             decoding="async"
             className="h-6 w-6 object-contain"
           />
@@ -111,6 +124,7 @@ export function createUnifiedChoreDescriptor(
         onCheck: (selected) => incrementCheckTrigger(deps, type, selected.id),
         onStart: (selected) => enterOrComplete(deps, selected),
       })
+      return { ...action, ariaLabel: `${action.label} ${item.title}` }
     },
     getUtilityAction: (item) => {
       const stage = state.getStage(item)
@@ -120,14 +134,13 @@ export function createUnifiedChoreDescriptor(
 
       return createPresetUtilityAction<UnifiedChoreItem>({
         stage,
-        resetAriaLabel: 'Reset',
-        deleteAriaLabel: 'Delete',
+        resetAriaLabel: `Reset ${item.title}`,
+        deleteAriaLabel: `Delete ${item.title}`,
         onReset: (selected) => deps.onReset?.(selected),
         onDelete: (selected) =>
           isManage || isTaskItem(selected)
             ? deps.onDeleteTask?.(selected.id)
             : deps.onDeleteTodo?.(selected.id),
-        theme: deps.theme,
       })
     },
   }
@@ -144,13 +157,14 @@ const createEatingPrimaryAction = (
     typeof deps.biteCooldownEndsAt === 'number' &&
     deps.biteCooldownEndsAt > Date.now()
 
-  return createPresetDinnerPrimaryAction<UnifiedChoreItem>({
+  const action = createPresetDinnerPrimaryAction<UnifiedChoreItem>({
     stage,
     isTimerRunning: isActive,
     icon: (
       <img
         src={eatingActionIcon(deps, isActive, isFinished)}
-        alt={isFinished ? 'Reset' : 'icon'}
+        alt=""
+        aria-hidden="true"
         decoding="async"
         className="h-6 w-6 object-contain"
       />
@@ -160,6 +174,7 @@ const createEatingPrimaryAction = (
     onBite: (selected) => deps.onApplyBite?.(selected),
     onStart: (selected) => deps.onStartDinner?.(selected),
   })
+  return { ...action, ariaLabel: `${action.label} ${item.title}` }
 }
 
 const eatingActionIcon = (

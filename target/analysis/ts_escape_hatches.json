@@ -1,43 +1,21 @@
 {
-  "schema_version": "0.3.0",
+  "schema_version": "0.1.0",
   "task_id": "quality.escape_hatches",
   "project": {
     "name": "MyStarQuest",
-    "root": "/home/laufan/Projects/MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
   },
   "provenance": {
     "lens": "ts-react-quality-lens",
-    "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure all --config /home/laufan/Projects/MyStarQuest/ts-react-quality-lens.config.json",
-    "host": "thinkpad",
-    "measured_at": "2026-08-22T10:59:03.590Z",
+    "schema_version": "0.1.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-08-30T13:44:04.884Z",
     "source_type": "static",
-    "source_set_hash": "sha256:bbd2e517aef16fddd295cb9e635d7dff6f65a7b59c884f1d55ee5d90e7040a83"
-  },
-  "analysis_identity": {
-    "id": "sha256:787cfff9a1ab079dbe0f1e9bae0a9b77425548587acc80756e71723c291d12be",
-    "schema_version": "0.3.0",
-    "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:46ff20a9e8fd7287eaa1324b1c33f022a248df5c5fdf443aee7614616c2387ed",
-    "rulesets": {
-      "typed_lint": "tsrqlens-typescript-recommended-v1",
-      "react": "recommended-v2",
-      "accessibility": "jsx-a11y-recommended-v1",
-      "cleanup": "knip-normalized-v1"
-    },
-    "integration_versions": {
-      "typescript_eslint": "8.67.0",
-      "react_hooks": "7.1.1",
-      "jsx_a11y": "6.10.2",
-      "knip": "6.32.2",
-      "publint": "0.3.24",
-      "are_the_types_wrong": "0.18.5",
-      "dependency_cruiser": null,
-      "jscpd": "4.3.0"
-    }
+    "source_set_hash": "sha256:ec345305efe041da4dafd87767ef598e3ed46af2a333d3c93dd5ebea419a94de"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -54,8 +32,6 @@
     "typescript_program_loaded": true,
     "typescript_program_reason": null,
     "framework_conventions_detected": true,
-    "workspaces_detected": 1,
-    "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
     "analysis_cache_status": "miss",
     "unsupported_pattern": [],
@@ -81,42 +57,32 @@
       "typescript_compiler_api_available",
       "typescript_program_loaded",
       "framework_conventions_detected",
-      "workspace_projects_complete",
       "analysis_cache_enabled"
     ],
     "missing_input": [],
     "stale_input": []
   },
   "summary": {
-    "records": 55,
-    "files_with_escape_hatches": 23,
+    "records": 108,
+    "files_with_escape_hatches": 41,
     "by_kind": {
       "eslint_suppression": 4,
-      "browser_global": 40,
+      "unknown_without_narrowing": 32,
+      "browser_global": 43,
+      "type_assertion": 23,
       "non_null_assertion": 3,
-      "type_assertion": 5,
       "direct_dom_mutation": 3
     }
   },
   "records": [
     {
-      "id": "escape:src/auth/AuthContext:eslint_suppression:83:2117",
+      "id": "escape:src/auth/AuthContext:eslint_suppression:92:2397",
       "module_id": "src/auth/AuthContext",
       "file": "src/auth/AuthContext.tsx",
       "kind": "eslint_suppression",
       "severity": "medium",
-      "line": 83,
+      "line": 92,
       "evidence": " // eslint-disable-next-line",
-      "rule_id": "ts-react-quality-lens/eslint_suppression",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": " // eslint-disable-next-line",
-      "reason_code": "ts-react-quality-lens/eslint_suppression",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -130,7 +96,7 @@
           "description": "Keep this eslint_suppression finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/auth/AuthContext:eslint_suppression:83:2117",
+            "id": "escape:src/auth/AuthContext:eslint_suppression:92:2397",
             "kind": "eslint_suppression",
             "file": "src/auth/AuthContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -139,23 +105,42 @@
       ]
     },
     {
-      "id": "escape:src/components/AlphabetTester:browser_global:303:12659",
+      "id": "escape:src/auth/AuthContext:unknown_without_narrowing:31:726",
+      "module_id": "src/auth/AuthContext",
+      "file": "src/auth/AuthContext.tsx",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 31,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/auth/AuthContext:unknown_without_narrowing:31:726",
+            "kind": "unknown_without_narrowing",
+            "file": "src/auth/AuthContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AlphabetTester:browser_global:322:13145",
       "module_id": "src/components/AlphabetTester",
       "file": "src/components/AlphabetTester.tsx",
       "kind": "browser_global",
       "severity": "low",
-      "line": 303,
+      "line": 322,
       "evidence": "window.setTimeout",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.setTimeout",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -169,9 +154,154 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/AlphabetTester:browser_global:303:12659",
+            "id": "escape:src/components/AlphabetTester:browser_global:322:13145",
             "kind": "browser_global",
             "file": "src/components/AlphabetTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AnimalTester:type_assertion:59:2052",
+      "module_id": "src/components/AnimalTester",
+      "file": "src/components/AnimalTester.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 59,
+      "evidence": "'learn' as const",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/AnimalTester:type_assertion:59:2052",
+            "kind": "type_assertion",
+            "file": "src/components/AnimalTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AnimalTester:type_assertion:64:2136",
+      "module_id": "src/components/AnimalTester",
+      "file": "src/components/AnimalTester.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 64,
+      "evidence": "'solo' as const",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/AnimalTester:type_assertion:64:2136",
+            "kind": "type_assertion",
+            "file": "src/components/AnimalTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AnimalTester:type_assertion:69:2226",
+      "module_id": "src/components/AnimalTester",
+      "file": "src/components/AnimalTester.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 69,
+      "evidence": "'together' as const",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/AnimalTester:type_assertion:69:2226",
+            "kind": "type_assertion",
+            "file": "src/components/AnimalTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AnimalTester:type_assertion:75:2335",
+      "module_id": "src/components/AnimalTester",
+      "file": "src/components/AnimalTester.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 75,
+      "evidence": "[ [habitatPlaceImage, 'Location'], [habitatCoverImage, 'Environment'], [foodImage, 'Food'], [abilityImage, 'Ability'], ]",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/AnimalTester:type_assertion:75:2335",
+            "kind": "type_assertion",
+            "file": "src/components/AnimalTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AppErrorBoundary:unknown_without_narrowing:11:203",
+      "module_id": "src/components/AppErrorBoundary",
+      "file": "src/components/AppErrorBoundary.tsx",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 11,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/AppErrorBoundary:unknown_without_narrowing:11:203",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/AppErrorBoundary.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -185,16 +315,6 @@
       "severity": "low",
       "line": 30,
       "evidence": "window.addEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.addEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -224,16 +344,6 @@
       "severity": "low",
       "line": 31,
       "evidence": "window.addEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.addEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -263,16 +373,6 @@
       "severity": "low",
       "line": 35,
       "evidence": "window.removeEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.removeEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -302,16 +402,6 @@
       "severity": "low",
       "line": 36,
       "evidence": "window.removeEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.removeEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -341,16 +431,6 @@
       "severity": "medium",
       "line": 74,
       "evidence": "activeTabId!",
-      "rule_id": "ts-react-quality-lens/non_null_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "activeTabId!",
-      "reason_code": "ts-react-quality-lens/non_null_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -380,16 +460,6 @@
       "severity": "low",
       "line": 97,
       "evidence": "localStorage.getItem",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "localStorage.getItem",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -419,16 +489,6 @@
       "severity": "low",
       "line": 98,
       "evidence": "localStorage.getItem",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "localStorage.getItem",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -458,16 +518,6 @@
       "severity": "low",
       "line": 121,
       "evidence": "localStorage.setItem",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "localStorage.setItem",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -497,16 +547,6 @@
       "severity": "low",
       "line": 122,
       "evidence": "localStorage.setItem",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "localStorage.setItem",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -529,23 +569,13 @@
       ]
     },
     {
-      "id": "escape:src/components/SpellingTester:type_assertion:89:3310",
+      "id": "escape:src/components/SpellingTester:type_assertion:50:1608",
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 89,
+      "line": 50,
       "evidence": "import.meta.glob( '../assets/teenie/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, s",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "import.meta.glob( '../assets/teenie/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, s",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -559,7 +589,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/SpellingTester:type_assertion:89:3310",
+            "id": "escape:src/components/SpellingTester:type_assertion:50:1608",
             "kind": "type_assertion",
             "file": "src/components/SpellingTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -568,23 +598,274 @@
       ]
     },
     {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:405:11442",
+      "id": "escape:src/components/SpellingTester:type_assertion:55:1770",
+      "module_id": "src/components/SpellingTester",
+      "file": "src/components/SpellingTester.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 55,
+      "evidence": "import.meta.glob( '../assets/pokemon/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, ",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/SpellingTester:type_assertion:55:1770",
+            "kind": "type_assertion",
+            "file": "src/components/SpellingTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:128:3048",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 128,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:128:3048",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:134:3239",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 134,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:134:3239",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:142:3464",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 142,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:142:3464",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:145:3581",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 145,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:145:3581",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:148:3723",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 148,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:148:3723",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:158:4000",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 158,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:158:4000",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:171:4348",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 171,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:171:4348",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:184:4733",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 184,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:unknown_without_narrowing:184:4733",
+            "kind": "unknown_without_narrowing",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:408:11610",
       "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
       "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 405,
+      "line": 408,
       "evidence": "window.devicePixelRatio",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.devicePixelRatio",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -598,7 +879,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:405:11442",
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:408:11610",
             "kind": "browser_global",
             "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -607,23 +888,13 @@
       ]
     },
     {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:513:14454",
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:534:15248",
       "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
       "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 513,
+      "line": 534,
       "evidence": "window.requestAnimationFrame",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.requestAnimationFrame",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -637,7 +908,36 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:513:14454",
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:534:15248",
+            "kind": "browser_global",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:556:15862",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 556,
+      "evidence": "window.requestAnimationFrame",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:556:15862",
             "kind": "browser_global",
             "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -653,16 +953,6 @@
       "severity": "medium",
       "line": 81,
       "evidence": "null!",
-      "rule_id": "ts-react-quality-lens/non_null_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "null!",
-      "reason_code": "ts-react-quality-lens/non_null_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -692,16 +982,6 @@
       "severity": "low",
       "line": 276,
       "evidence": "window.addEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.addEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -731,16 +1011,6 @@
       "severity": "low",
       "line": 277,
       "evidence": "window.addEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.addEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -770,16 +1040,6 @@
       "severity": "low",
       "line": 278,
       "evidence": "window.addEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.addEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -809,16 +1069,6 @@
       "severity": "low",
       "line": 282,
       "evidence": "window.removeEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.removeEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -848,16 +1098,6 @@
       "severity": "low",
       "line": 283,
       "evidence": "window.removeEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.removeEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -887,16 +1127,6 @@
       "severity": "low",
       "line": 284,
       "evidence": "window.removeEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.removeEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -919,6 +1149,35 @@
       ]
     },
     {
+      "id": "escape:src/components/ui/CardShell:type_assertion:35:871",
+      "module_id": "src/components/ui/CardShell",
+      "file": "src/components/ui/CardShell.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 35,
+      "evidence": "'column' as const",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/CardShell:type_assertion:35:871",
+            "kind": "type_assertion",
+            "file": "src/components/ui/CardShell.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "escape:src/components/ui/DragScrollRegion:browser_global:72:1798",
       "module_id": "src/components/ui/DragScrollRegion",
       "file": "src/components/ui/DragScrollRegion.tsx",
@@ -926,16 +1185,6 @@
       "severity": "low",
       "line": 72,
       "evidence": "window.addEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.addEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -965,16 +1214,6 @@
       "severity": "low",
       "line": 77,
       "evidence": "window.removeEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.removeEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1004,16 +1243,6 @@
       "severity": "low",
       "line": 91,
       "evidence": "window.removeEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.removeEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1043,16 +1272,6 @@
       "severity": "low",
       "line": 92,
       "evidence": "window.removeEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.removeEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1082,16 +1301,6 @@
       "severity": "low",
       "line": 117,
       "evidence": "window.setTimeout",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.setTimeout",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1121,16 +1330,6 @@
       "severity": "low",
       "line": 141,
       "evidence": "window.addEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.addEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1160,16 +1359,6 @@
       "severity": "low",
       "line": 142,
       "evidence": "window.addEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.addEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1192,23 +1381,42 @@
       ]
     },
     {
-      "id": "escape:src/components/ui/StandardActionList:direct_dom_mutation:23:580",
+      "id": "escape:src/components/ui/PositionalNotationPlayArea:type_assertion:31:1123",
+      "module_id": "src/components/ui/PositionalNotationPlayArea",
+      "file": "src/components/ui/PositionalNotationPlayArea.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 31,
+      "evidence": "{ hundreds: { label: 'Hundreds', factor: 100 }, tens: { label: 'Tens', factor: 10 }, ones: { label: 'Ones', factor: 1 },",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/PositionalNotationPlayArea:type_assertion:31:1123",
+            "kind": "type_assertion",
+            "file": "src/components/ui/PositionalNotationPlayArea.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/StandardActionList:direct_dom_mutation:25:666",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "kind": "direct_dom_mutation",
       "severity": "medium",
-      "line": 23,
+      "line": 25,
       "evidence": "document.getElementById(WHIMSICAL_STYLES_ID)",
-      "rule_id": "ts-react-quality-lens/direct_dom_mutation",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "document.getElementById(WHIMSICAL_STYLES_ID)",
-      "reason_code": "ts-react-quality-lens/direct_dom_mutation",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1222,7 +1430,7 @@
           "description": "Keep this direct_dom_mutation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/ui/StandardActionList:direct_dom_mutation:23:580",
+            "id": "escape:src/components/ui/StandardActionList:direct_dom_mutation:25:666",
             "kind": "direct_dom_mutation",
             "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1231,23 +1439,42 @@
       ]
     },
     {
-      "id": "escape:src/components/ui/StarDisplay:direct_dom_mutation:10:463",
+      "id": "escape:src/components/ui/StandardActionList:browser_global:504:14422",
+      "module_id": "src/components/ui/StandardActionList",
+      "file": "src/components/ui/StandardActionList.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 504,
+      "evidence": "window.confirm",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/StandardActionList:browser_global:504:14422",
+            "kind": "browser_global",
+            "file": "src/components/ui/StandardActionList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/StarDisplay:direct_dom_mutation:11:492",
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
       "kind": "direct_dom_mutation",
       "severity": "medium",
-      "line": 10,
+      "line": 11,
       "evidence": "document.getElementById(STAR_DISPLAY_STYLES_ID)",
-      "rule_id": "ts-react-quality-lens/direct_dom_mutation",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "document.getElementById(STAR_DISPLAY_STYLES_ID)",
-      "reason_code": "ts-react-quality-lens/direct_dom_mutation",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1261,7 +1488,7 @@
           "description": "Keep this direct_dom_mutation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/ui/StarDisplay:direct_dom_mutation:10:463",
+            "id": "escape:src/components/ui/StarDisplay:direct_dom_mutation:11:492",
             "kind": "direct_dom_mutation",
             "file": "src/components/ui/StarDisplay.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1277,16 +1504,6 @@
       "severity": "medium",
       "line": 9,
       "evidence": "/* eslint-disable",
-      "rule_id": "ts-react-quality-lens/eslint_suppression",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "/* eslint-disable",
-      "reason_code": "ts-react-quality-lens/eslint_suppression",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1316,16 +1533,6 @@
       "severity": "low",
       "line": 41,
       "evidence": "window.localStorage",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.localStorage",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1355,16 +1562,6 @@
       "severity": "low",
       "line": 83,
       "evidence": "window.localStorage",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.localStorage",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1394,16 +1591,6 @@
       "severity": "low",
       "line": 88,
       "evidence": "window.localStorage",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.localStorage",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1433,16 +1620,6 @@
       "severity": "medium",
       "line": 8,
       "evidence": "/* eslint-disable",
-      "rule_id": "ts-react-quality-lens/eslint_suppression",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "/* eslint-disable",
-      "reason_code": "ts-react-quality-lens/eslint_suppression",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1472,16 +1649,6 @@
       "severity": "medium",
       "line": 34,
       "evidence": "/* eslint-disable",
-      "rule_id": "ts-react-quality-lens/eslint_suppression",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "/* eslint-disable",
-      "reason_code": "ts-react-quality-lens/eslint_suppression",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1504,23 +1671,13 @@
       ]
     },
     {
-      "id": "escape:src/data/types:type_assertion:665:19728",
-      "module_id": "src/data/types",
-      "file": "src/data/types.ts",
+      "id": "escape:src/data/animalAbilityAssets:type_assertion:6:100",
+      "module_id": "src/data/animalAbilityAssets",
+      "file": "src/data/animalAbilityAssets.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 665,
-      "evidence": "task as TaskCompletionState",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "task as TaskCompletionState",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
+      "line": 6,
+      "evidence": "import.meta.glob( '../assets/animal-abilities/*.webp', { eager: true, import: 'default' } ) as Record<string, string>",
       "actions": [
         {
           "type": "suppress-line",
@@ -1534,7 +1691,268 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/data/types:type_assertion:665:19728",
+            "id": "escape:src/data/animalAbilityAssets:type_assertion:6:100",
+            "kind": "type_assertion",
+            "file": "src/data/animalAbilityAssets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/animalAssets:type_assertion:6:91",
+      "module_id": "src/data/animalAssets",
+      "file": "src/data/animalAssets.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 6,
+      "evidence": "import.meta.glob( '../assets/animals/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, ",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/animalAssets:type_assertion:6:91",
+            "kind": "type_assertion",
+            "file": "src/data/animalAssets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/animalFoodAssets:type_assertion:12:634",
+      "module_id": "src/data/animalFoodAssets",
+      "file": "src/data/animalFoodAssets.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 12,
+      "evidence": "[ 'Fish', 'Insects', 'Seeds', 'Fruit', 'Plants', 'Meat', 'Nectar', 'Worms', 'Shellfish', 'Food', ] as const",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/animalFoodAssets:type_assertion:12:634",
+            "kind": "type_assertion",
+            "file": "src/data/animalFoodAssets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/animalHabitatAssets:type_assertion:17:987",
+      "module_id": "src/data/animalHabitatAssets",
+      "file": "src/data/animalHabitatAssets.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 17,
+      "evidence": "[ 'Ocean', 'Forest', 'Grassland', 'Desert', 'Wetland', 'Mountain', 'River', 'Pond', 'Tundra', 'Farm', 'Town', 'Trees', '",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/animalHabitatAssets:type_assertion:17:987",
+            "kind": "type_assertion",
+            "file": "src/data/animalHabitatAssets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/animalLocationAssets:type_assertion:12:792",
+      "module_id": "src/data/animalLocationAssets",
+      "file": "src/data/animalLocationAssets.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 12,
+      "evidence": "[ 'Africa', 'Asia', 'Europe', 'Australia', 'Arctic', 'Antarctica', 'Ocean', 'Worldwide', 'America', 'Earth', ] as const",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/animalLocationAssets:type_assertion:12:792",
+            "kind": "type_assertion",
+            "file": "src/data/animalLocationAssets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/taskDocuments:unknown_without_narrowing:30:738",
+      "module_id": "src/data/taskDocuments",
+      "file": "src/data/taskDocuments.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 30,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/taskDocuments:unknown_without_narrowing:30:738",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/taskDocuments.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/taskLimits:unknown_without_narrowing:4:100",
+      "module_id": "src/data/taskLimits",
+      "file": "src/data/taskLimits.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 4,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/taskLimits:unknown_without_narrowing:4:100",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/taskLimits.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/taskLimits:unknown_without_narrowing:10:284",
+      "module_id": "src/data/taskLimits",
+      "file": "src/data/taskLimits.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 10,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/taskLimits:unknown_without_narrowing:10:284",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/taskLimits.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/taskLimits:unknown_without_narrowing:31:863",
+      "module_id": "src/data/taskLimits",
+      "file": "src/data/taskLimits.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 31,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/taskLimits:unknown_without_narrowing:31:863",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/taskLimits.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/types:type_assertion:707:20710",
+      "module_id": "src/data/types",
+      "file": "src/data/types.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 707,
+      "evidence": "task as TaskCompletionState",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/types:type_assertion:707:20710",
             "kind": "type_assertion",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1543,23 +1961,71 @@
       ]
     },
     {
-      "id": "escape:src/data/useChores:type_assertion:115:3211",
+      "id": "escape:src/data/useChildren:unknown_without_narrowing:43:1206",
+      "module_id": "src/data/useChildren",
+      "file": "src/data/useChildren.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 43,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/useChildren:unknown_without_narrowing:43:1206",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/useChildren.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/useChores:unknown_without_narrowing:124:3606",
+      "module_id": "src/data/useChores",
+      "file": "src/data/useChores.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 124,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/useChores:unknown_without_narrowing:124:3606",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/useChores.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/useChores:type_assertion:145:4179",
       "module_id": "src/data/useChores",
       "file": "src/data/useChores.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 115,
+      "line": 145,
       "evidence": "Object.keys(patch) as Array< keyof TaskEphemeralState >",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "Object.keys(patch) as Array< keyof TaskEphemeralState >",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1573,9 +2039,67 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/data/useChores:type_assertion:115:3211",
+            "id": "escape:src/data/useChores:type_assertion:145:4179",
             "kind": "type_assertion",
             "file": "src/data/useChores.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/useRewards:unknown_without_narrowing:44:1309",
+      "module_id": "src/data/useRewards",
+      "file": "src/data/useRewards.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 44,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/useRewards:unknown_without_narrowing:44:1309",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/useRewards.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/useUserCollection:unknown_without_narrowing:19:419",
+      "module_id": "src/data/useUserCollection",
+      "file": "src/data/useUserCollection.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 19,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/useUserCollection:unknown_without_narrowing:19:419",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/useUserCollection.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1589,16 +2113,6 @@
       "severity": "low",
       "line": 83,
       "evidence": "window.setTimeout",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.setTimeout",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1621,6 +2135,267 @@
       ]
     },
     {
+      "id": "escape:src/hooks/useCoalescedDocumentUpdates:unknown_without_narrowing:16:470",
+      "module_id": "src/hooks/useCoalescedDocumentUpdates",
+      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 16,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useCoalescedDocumentUpdates:unknown_without_narrowing:16:470",
+            "kind": "unknown_without_narrowing",
+            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:25:670",
+      "module_id": "src/hooks/useCoalescedDocumentUpdates",
+      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 25,
+      "evidence": "{ ...current } as Record<string, unknown>",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:25:670",
+            "kind": "type_assertion",
+            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useCoalescedDocumentUpdates:unknown_without_narrowing:25:703",
+      "module_id": "src/hooks/useCoalescedDocumentUpdates",
+      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 25,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useCoalescedDocumentUpdates:unknown_without_narrowing:25:703",
+            "kind": "unknown_without_narrowing",
+            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:30:868",
+      "module_id": "src/hooks/useCoalescedDocumentUpdates",
+      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 30,
+      "evidence": "next as Patch",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:30:868",
+            "kind": "type_assertion",
+            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:42:1174",
+      "module_id": "src/hooks/useCoalescedDocumentUpdates",
+      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 42,
+      "evidence": "{ ...item, ...overrides[item.id] } as Item",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:42:1174",
+            "kind": "type_assertion",
+            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:96:2854",
+      "module_id": "src/hooks/useCoalescedDocumentUpdates",
+      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 96,
+      "evidence": "{ ...previous[id], ...patch } as Patch",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:96:2854",
+            "kind": "type_assertion",
+            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:102:3033",
+      "module_id": "src/hooks/useCoalescedDocumentUpdates",
+      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 102,
+      "evidence": "{ ...existing?.patch, ...patch } as Patch",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:102:3033",
+            "kind": "type_assertion",
+            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:127:3852",
+      "module_id": "src/hooks/useCoalescedDocumentUpdates",
+      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 127,
+      "evidence": "itemById.get(id) as Record<string, unknown> | undefined",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:127:3852",
+            "kind": "type_assertion",
+            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useCoalescedDocumentUpdates:unknown_without_narrowing:127:3887",
+      "module_id": "src/hooks/useCoalescedDocumentUpdates",
+      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 127,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useCoalescedDocumentUpdates:unknown_without_narrowing:127:3887",
+            "kind": "unknown_without_narrowing",
+            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "escape:src/hooks/useDeviceFrame:browser_global:12:358",
       "module_id": "src/hooks/useDeviceFrame",
       "file": "src/hooks/useDeviceFrame.ts",
@@ -1628,16 +2403,6 @@
       "severity": "low",
       "line": 12,
       "evidence": "window.screen",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.screen",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1667,16 +2432,6 @@
       "severity": "low",
       "line": 12,
       "evidence": "window.screen",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.screen",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1706,16 +2461,6 @@
       "severity": "low",
       "line": 14,
       "evidence": "window.visualViewport",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.visualViewport",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1745,16 +2490,6 @@
       "severity": "low",
       "line": 14,
       "evidence": "window.innerHeight",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.innerHeight",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1784,16 +2519,6 @@
       "severity": "low",
       "line": 38,
       "evidence": "window.addEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.addEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1823,16 +2548,6 @@
       "severity": "low",
       "line": 39,
       "evidence": "window.visualViewport",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.visualViewport",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1862,16 +2577,6 @@
       "severity": "low",
       "line": 42,
       "evidence": "window.removeEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.removeEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1901,16 +2606,6 @@
       "severity": "low",
       "line": 43,
       "evidence": "window.visualViewport",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.visualViewport",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -1933,62 +2628,13 @@
       ]
     },
     {
-      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:53:1736",
+      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:55:1818",
       "module_id": "src/hooks/useDinnerCountdownState",
       "file": "src/hooks/useDinnerCountdownState.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 53,
-      "evidence": "window.setInterval",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.setInterval",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this browser_global finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:53:1736",
-            "kind": "browser_global",
-            "file": "src/hooks/useDinnerCountdownState.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:54:1812",
-      "module_id": "src/hooks/useDinnerCountdownState",
-      "file": "src/hooks/useDinnerCountdownState.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 54,
+      "line": 55,
       "evidence": "window.clearInterval",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.clearInterval",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2002,7 +2648,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:54:1812",
+            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:55:1818",
             "kind": "browser_global",
             "file": "src/hooks/useDinnerCountdownState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2011,23 +2657,158 @@
       ]
     },
     {
-      "id": "escape:src/lib/choreParser:type_assertion:200:5924",
+      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:58:1925",
+      "module_id": "src/hooks/useDinnerCountdownState",
+      "file": "src/hooks/useDinnerCountdownState.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 58,
+      "evidence": "window.setInterval",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:58:1925",
+            "kind": "browser_global",
+            "file": "src/hooks/useDinnerCountdownState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:65:2133",
+      "module_id": "src/hooks/useDinnerCountdownState",
+      "file": "src/hooks/useDinnerCountdownState.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 65,
+      "evidence": "window.clearInterval",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:65:2133",
+            "kind": "browser_global",
+            "file": "src/hooks/useDinnerCountdownState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/choreParser:unknown_without_narrowing:28:666",
+      "module_id": "src/lib/choreParser",
+      "file": "src/lib/choreParser.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 28,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/choreParser:unknown_without_narrowing:28:666",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/choreParser:unknown_without_narrowing:32:754",
+      "module_id": "src/lib/choreParser",
+      "file": "src/lib/choreParser.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 32,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/choreParser:unknown_without_narrowing:32:754",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/choreParser:unknown_without_narrowing:67:1720",
+      "module_id": "src/lib/choreParser",
+      "file": "src/lib/choreParser.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 67,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/choreParser:unknown_without_narrowing:67:1720",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/choreParser:type_assertion:204:6047",
       "module_id": "src/lib/choreParser",
       "file": "src/lib/choreParser.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 200,
+      "line": 204,
       "evidence": "withVariantFields( base, 'taskType', taskType, taskData, taskVariantFields[taskType] ) as TaskRecord",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "withVariantFields( base, 'taskType', taskType, taskData, taskVariantFields[taskType] ) as TaskRecord",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2041,7 +2822,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/choreParser:type_assertion:200:5924",
+            "id": "escape:src/lib/choreParser:type_assertion:204:6047",
             "kind": "type_assertion",
             "file": "src/lib/choreParser.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2050,23 +2831,13 @@
       ]
     },
     {
-      "id": "escape:src/lib/choreParser:type_assertion:309:8900",
+      "id": "escape:src/lib/choreParser:type_assertion:317:9153",
       "module_id": "src/lib/choreParser",
       "file": "src/lib/choreParser.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 309,
+      "line": 317,
       "evidence": "withVariantFields( base, 'sourceTaskType', sourceTaskType, todoData, todoVariantFields[sourceTaskType] ) as TodoRecord",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "withVariantFields( base, 'sourceTaskType', sourceTaskType, todoData, todoVariantFields[sourceTaskType] ) as TodoRecord",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2080,9 +2851,183 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/choreParser:type_assertion:309:8900",
+            "id": "escape:src/lib/choreParser:type_assertion:317:9153",
             "kind": "type_assertion",
             "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/starActions:unknown_without_narrowing:25:544",
+      "module_id": "src/lib/starActions",
+      "file": "src/lib/starActions.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 25,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/starActions:unknown_without_narrowing:25:544",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/starActions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/starActions:unknown_without_narrowing:26:588",
+      "module_id": "src/lib/starActions",
+      "file": "src/lib/starActions.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 26,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/starActions:unknown_without_narrowing:26:588",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/starActions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/today:unknown_without_narrowing:98:2830",
+      "module_id": "src/lib/today",
+      "file": "src/lib/today.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 98,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/today:unknown_without_narrowing:98:2830",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/today:unknown_without_narrowing:99:2862",
+      "module_id": "src/lib/today",
+      "file": "src/lib/today.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 99,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/today:unknown_without_narrowing:99:2862",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/today:unknown_without_narrowing:100:2882",
+      "module_id": "src/lib/today",
+      "file": "src/lib/today.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 100,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/today:unknown_without_narrowing:100:2882",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/today.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/useProblemHistory:unknown_without_narrowing:7:238",
+      "module_id": "src/lib/useProblemHistory",
+      "file": "src/lib/useProblemHistory.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 7,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/useProblemHistory:unknown_without_narrowing:7:238",
+            "kind": "unknown_without_narrowing",
+            "file": "src/lib/useProblemHistory.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2096,16 +3041,6 @@
       "severity": "medium",
       "line": 6,
       "evidence": "document.getElementById('root')!",
-      "rule_id": "ts-react-quality-lens/non_null_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "document.getElementById('root')!",
-      "reason_code": "ts-react-quality-lens/non_null_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2135,16 +3070,6 @@
       "severity": "medium",
       "line": 6,
       "evidence": "document.getElementById('root')",
-      "rule_id": "ts-react-quality-lens/direct_dom_mutation",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "document.getElementById('root')",
-      "reason_code": "ts-react-quality-lens/direct_dom_mutation",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2167,6 +3092,35 @@
       ]
     },
     {
+      "id": "escape:src/pages/LoginPage:unknown_without_narrowing:10:456",
+      "module_id": "src/pages/LoginPage",
+      "file": "src/pages/LoginPage.tsx",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 10,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/pages/LoginPage:unknown_without_narrowing:10:456",
+            "kind": "unknown_without_narrowing",
+            "file": "src/pages/LoginPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "escape:src/pages/LoginPage:browser_global:61:1933",
       "module_id": "src/pages/LoginPage",
       "file": "src/pages/LoginPage.tsx",
@@ -2174,16 +3128,6 @@
       "severity": "low",
       "line": 61,
       "evidence": "window.setTimeout",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.setTimeout",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2213,16 +3157,6 @@
       "severity": "low",
       "line": 65,
       "evidence": "window.clearTimeout",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.clearTimeout",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "suppress-line",
@@ -2239,6 +3173,35 @@
             "id": "escape:src/pages/LoginPage:browser_global:65:2048",
             "kind": "browser_global",
             "file": "src/pages/LoginPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/ui/definitionRowDescriptors:unknown_without_narrowing:40:1538",
+      "module_id": "src/ui/definitionRowDescriptors",
+      "file": "src/ui/definitionRowDescriptors.tsx",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 40,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/ui/definitionRowDescriptors:unknown_without_narrowing:40:1538",
+            "kind": "unknown_without_narrowing",
+            "file": "src/ui/definitionRowDescriptors.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

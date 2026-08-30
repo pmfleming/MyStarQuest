@@ -361,7 +361,7 @@ export const StarRewardControl = ({
   theme,
   starReward,
   onStarsChange,
-  max = 3,
+  max = 9,
   style,
   isEditable = true,
 }: StarRewardControlProps) => (

@@ -29,4 +29,23 @@ describe('StarDisplay', () => {
     expect(screen.getByRole('img', { name: '11 stars' })).toBeInTheDocument()
     expect(screen.getByText('11')).toBeInTheDocument()
   })
+
+  it('makes stepper controls interactive immediately', () => {
+    render(
+      <StarDisplay
+        count={3}
+        editable
+        theme={themes.princess}
+        onChange={() => {}}
+      />
+    )
+
+    expect(
+      screen.getByLabelText('Decrease star value').parentElement
+    ).toHaveStyle({
+      opacity: '1',
+      pointerEvents: 'auto',
+    })
+    expect(screen.getByLabelText('Increase star value')).toBeEnabled()
+  })
 })

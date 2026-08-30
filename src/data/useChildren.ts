@@ -6,6 +6,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
   type ReactNode,
 } from 'react'
@@ -15,7 +16,6 @@ import {
   deleteDoc,
   doc,
   serverTimestamp,
-  updateDoc,
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
 import { useAuth } from '../auth/AuthContext'
@@ -26,8 +26,14 @@ import {
   type ChildProfile,
   type ChildUpdatableFields,
 } from './types'
-import { mergeMissingTitleDrafts } from './dailyTaskState'
+import {
+  commitBoundedDraft,
+  mergeMissingTitleDrafts,
+  setDraftValue,
+} from './dailyTaskState'
 import { useUserCollection } from './useUserCollection'
+import { mergeOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
+import { useUserDocumentUpdates } from './useUserDocumentUpdates'
 
 const useChildrenState = () => {
   const { user } = useAuth()
@@ -74,7 +80,18 @@ const useChildrenState = () => {
 
   const clearChildren = useCallback(() => setNameDrafts({}), [])
 
-  const children = useUserCollection({
+  const {
+    overrides: optimisticFields,
+    queueUpdate: queueChildField,
+    cancelUpdate: cancelChildFieldUpdate,
+    reconcile: reconcileChildFields,
+  } = useUserDocumentUpdates<ChildUpdatableFields>({
+    userId: user?.uid,
+    collectionName: 'children',
+    errorMessage: 'Failed to update child profile',
+  })
+
+  const rawChildren = useUserCollection({
     userId: user?.uid,
     collectionName: 'children',
     orderByField: 'createdAt',
@@ -84,34 +101,31 @@ const useChildrenState = () => {
     onClear: clearChildren,
   })
 
+  useEffect(() => {
+    reconcileChildFields(rawChildren)
+  }, [rawChildren, reconcileChildFields])
+
+  const children = useMemo(
+    () => mergeOptimisticItems(rawChildren, optimisticFields),
+    [optimisticFields, rawChildren]
+  )
+
   // ── Generic field update ──
-  const updateChildField = async (id: string, field: ChildUpdatableFields) => {
-    if (!user) return
-    try {
-      await updateDoc(
-        doc(collection(db, 'users', user.uid, 'children'), id),
-        field
-      )
-    } catch (error) {
-      console.error('Failed to update child profile', error)
-    }
-  }
+  const updateChildField = (id: string, field: ChildUpdatableFields) =>
+    queueChildField(id, field)
 
   // ── Name draft helpers ──
   const setNameDraft = (childId: string, value: string) =>
-    setNameDrafts((prev) => ({ ...prev, [childId]: value }))
+    setDraftValue(setNameDrafts, childId, value)
 
-  const commitDisplayName = (childId: string, value: string) => {
-    const trimmed = value.trim()
-    if (trimmed.length > 0 && trimmed.length <= 40) {
-      updateChildField(childId, { displayName: trimmed })
-      return
-    }
-    const saved = children.find((child) => child.id === childId)
-    if (saved) {
-      setNameDrafts((prev) => ({ ...prev, [childId]: saved.displayName }))
-    }
-  }
+  const commitDisplayName = (childId: string, value: string) =>
+    commitBoundedDraft(
+      value,
+      40,
+      children.find((child) => child.id === childId)?.displayName,
+      (displayName) => updateChildField(childId, { displayName }),
+      (displayName) => setNameDraft(childId, displayName)
+    )
 
   // ── Theme change ──
   const changeTheme = (child: ChildProfile, nextThemeId: ThemeId) => {
@@ -141,6 +155,7 @@ const useChildrenState = () => {
   // ── Delete ──
   const deleteChild = async (id: string) => {
     if (!user) return
+    cancelChildFieldUpdate(id)
     await deleteDoc(doc(collection(db, 'users', user.uid, 'children'), id))
     if (id === activeChildId) clearActiveChild()
   }

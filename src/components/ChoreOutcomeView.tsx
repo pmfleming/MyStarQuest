@@ -15,13 +15,9 @@ const ChoreOutcomeView = ({
   successAlt = 'All done!',
   failureAlt = 'Try again!',
 }: ChoreOutcomeViewProps) => {
-  const {
-    outcomeContainerMinHeight,
-    outcomeContainerRadius,
-    outcomeContainerPadding,
-    quizOutcomeImageMaxWidth,
-    quizOutcomeImageMaxHeight,
-  } = uiTokens.activityTokens
+  const { outcomeContainerRadius, quizOutcomeImageMaxWidth } =
+    uiTokens.activityTokens
+  const announcement = outcome === 'success' ? successAlt : failureAlt
 
   return (
     <div
@@ -30,22 +26,25 @@ const ChoreOutcomeView = ({
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        minHeight: `${outcomeContainerMinHeight}px`,
-        padding: `${outcomeContainerPadding}px`,
+        height: `${uiTokens.cardSuccessImageHeight}px`,
         borderRadius: `${outcomeContainerRadius}px`,
         boxSizing: 'border-box',
       }}
+      role="status"
+      aria-live="polite"
+      aria-label={announcement}
     >
       <img
         src={
           imageSrc ??
           (outcome === 'success' ? quizCorrectIcon : quizIncorrectIcon)
         }
-        alt={outcome === 'success' ? successAlt : failureAlt}
+        alt=""
+        aria-hidden="true"
         style={{
           width: '100%',
           maxWidth: `${quizOutcomeImageMaxWidth}px`,
-          maxHeight: `${quizOutcomeImageMaxHeight}px`,
+          maxHeight: '100%',
           objectFit: 'contain',
         }}
       />

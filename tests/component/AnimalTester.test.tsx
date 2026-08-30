@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import AnimalTester, { ANIMAL_CATALOG } from '../../src/components/AnimalTester'
@@ -134,8 +134,7 @@ describe('AnimalTester', () => {
     expect(screen.getByRole('radio', { name: '2 Players' })).toBeInTheDocument()
   })
 
-  it('teaches location, environment, food, and ability on one visual page', async () => {
-    const user = userEvent.setup()
+  it('teaches location, environment, food, and ability without a next button', () => {
     const props = createProps()
     const { rerender } = render(<AnimalTester {...props} />)
 
@@ -144,9 +143,9 @@ describe('AnimalTester', () => {
     expect(
       screen.queryByRole('heading', { name: 'Learn' })
     ).not.toBeInTheDocument()
-    const teachingCards = screen.getAllByRole('button', {
-      name: /Tap to hear it/i,
-    })
+    const teachingCards = screen.getAllByLabelText(
+      /^(LOCATION|ENVIRONMENT|FOOD|ABILITY):/
+    )
     expect(teachingCards).toHaveLength(4)
     expect(teachingCards.every((card) => card.querySelector('img'))).toBe(true)
     expect(
@@ -183,33 +182,85 @@ describe('AnimalTester', () => {
     expect(
       screen.queryByRole('button', { name: 'Next' })
     ).not.toBeInTheDocument()
-
-    await user.click(screen.getByRole('button', { name: 'Finish' }))
-    expect(props.onComplete).toHaveBeenCalledOnce()
+    expect(
+      screen.queryByRole('button', { name: 'Finish' })
+    ).not.toBeInTheDocument()
   })
 
-  it('uses three picture choices in the one-player guessing mode', async () => {
-    const user = userEvent.setup()
-    const props = createProps()
-    const { rerender } = render(<AnimalTester {...props} />)
+  it('removes wrong choices and advances after the correct solo choice', () => {
+    vi.useFakeTimers()
+    try {
+      const props = createProps()
+      const { rerender } = render(<AnimalTester {...props} />)
 
-    await user.click(screen.getByRole('radio', { name: '1 Player' }))
-    rerender(<AnimalTester {...props} isRunning />)
+      fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
+      rerender(<AnimalTester {...props} isRunning />)
 
-    expect(screen.getByRole('heading', { name: 'Guess' })).toBeInTheDocument()
-    const choices = within(
-      screen.getByLabelText('Animal choices')
-    ).getAllByRole('button')
-    expect(choices).toHaveLength(3)
-    expect(choices.every((choice) => choice.querySelector('img'))).toBe(true)
+      expect(
+        screen.queryByRole('heading', { name: 'Guess' })
+      ).not.toBeInTheDocument()
+      expect(screen.getByLabelText(/^LOCATION:/)).toBeInTheDocument()
+      expect(screen.queryByLabelText(/^ENVIRONMENT:/)).not.toBeInTheDocument()
 
-    for (const choice of choices) {
-      await user.click(choice)
-      if (screen.queryByRole('button', { name: 'Finish' })) break
+      act(() => vi.advanceTimersByTime(3000))
+      expect(screen.getByLabelText(/^ENVIRONMENT:/)).toBeInTheDocument()
+      expect(screen.queryByLabelText(/^FOOD:/)).not.toBeInTheDocument()
+
+      act(() => vi.advanceTimersByTime(3000))
+      expect(screen.getByLabelText(/^FOOD:/)).toBeInTheDocument()
+      expect(screen.queryByLabelText(/^ABILITY:/)).not.toBeInTheDocument()
+
+      act(() => vi.advanceTimersByTime(3000))
+      expect(screen.getByLabelText(/^ABILITY:/)).toBeInTheDocument()
+
+      const choices = within(
+        screen.getByLabelText('Animal choices')
+      ).getAllByRole('button')
+      expect(choices).toHaveLength(3)
+      expect(choices.every((choice) => choice.querySelector('img'))).toBe(true)
+
+      const factText = (category: string) =>
+        screen
+          .getByLabelText(new RegExp(`^${category}:`))
+          .getAttribute('aria-label')
+          ?.replace(`${category}: `, '')
+      const currentAnimal = ANIMAL_CATALOG.find(
+        (animal) =>
+          animal.habitat[0].text === factText('LOCATION') &&
+          animal.habitat[1].text === factText('ENVIRONMENT') &&
+          animal.food[1].text === factText('FOOD') &&
+          animal.abilities[0].text === factText('ABILITY')
+      )
+      expect(currentAnimal).toBeDefined()
+      if (!currentAnimal)
+        throw new Error('Expected the displayed animal in catalog')
+
+      const answerName = currentAnimal.name
+        .split('-')
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(' ')
+      const wrongChoice = choices.find(
+        (choice) => choice.getAttribute('aria-label') !== answerName
+      )
+      expect(wrongChoice).toBeDefined()
+
+      fireEvent.click(wrongChoice!)
+      expect(wrongChoice).toHaveStyle({
+        animation: 'animal-choice-fly-away 0.65s ease-in forwards',
+      })
+      act(() => vi.advanceTimersByTime(650))
+      expect(wrongChoice).not.toBeInTheDocument()
+
+      fireEvent.click(screen.getByRole('button', { name: answerName }))
+      expect(
+        screen.queryByRole('button', { name: /^(Next|Finish)$/ })
+      ).not.toBeInTheDocument()
+
+      act(() => vi.advanceTimersByTime(650))
+      expect(props.onComplete).toHaveBeenCalledOnce()
+    } finally {
+      vi.useRealTimers()
     }
-
-    await user.click(screen.getByRole('button', { name: 'Finish' }))
-    expect(props.onComplete).toHaveBeenCalledOnce()
   })
 
   it('protects the answer during the two-player question phase', async () => {

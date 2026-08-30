@@ -21,6 +21,7 @@ import {
   type TestRecord,
   type TestType,
 } from './types'
+import { validateTaskFields } from './taskLimits'
 
 type TaskTemplate = {
   title: string
@@ -149,15 +150,19 @@ export const buildChoreDocument = (
   childId: string,
   choreType: ChoreType,
   settings: ChoreDocumentSettings = {}
-) => ({
-  ...buildBaseTaskDocument(childId, choreType, CHORE_TEMPLATES[choreType]),
-  choreType,
-  nonSchoolDayEnabled:
-    choreType === 'watertoiletcheck'
-      ? false
-      : (CHORE_TEMPLATES[choreType].extras?.nonSchoolDayEnabled ?? true),
-  ...settings,
-})
+) => {
+  const document = {
+    ...buildBaseTaskDocument(childId, choreType, CHORE_TEMPLATES[choreType]),
+    choreType,
+    nonSchoolDayEnabled:
+      choreType === 'watertoiletcheck'
+        ? false
+        : (CHORE_TEMPLATES[choreType].extras?.nonSchoolDayEnabled ?? true),
+    ...settings,
+  }
+  validateTaskFields(document)
+  return document
+}
 
 export const buildTestDocument = (childId: string, testType: TestType) => ({
   ...buildBaseTaskDocument(childId, testType, TEST_TEMPLATES[testType]),
