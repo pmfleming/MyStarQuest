@@ -25,7 +25,7 @@ const injectStarDisplayStyles = () => {
   document.head.appendChild(style)
 }
 
-export type StarDisplayProps = {
+type StarDisplayProps = {
   count: number
   animate?: boolean
   style?: CSSProperties
@@ -285,6 +285,40 @@ const renderEditableValue = ({
   )
 }
 
+type StarStepperProps = {
+  direction: 'prev' | 'next'
+  theme: Theme
+  onClick: () => void
+  disabled: boolean
+  ariaLabel: string
+}
+
+const StarStepper = ({
+  direction,
+  theme,
+  onClick,
+  disabled,
+  ariaLabel,
+}: StarStepperProps) => (
+  <div
+    style={{
+      ...getStepperEdgePositionStyle(direction),
+      opacity: 1,
+      pointerEvents: 'auto',
+      zIndex: 3,
+    }}
+  >
+    <StepperButton
+      theme={theme}
+      direction={direction}
+      onClick={onClick}
+      disabled={disabled}
+      ariaLabel={ariaLabel}
+      style={{ position: 'relative', zIndex: 3 }}
+    />
+  </div>
+)
+
 const StarDisplay = ({
   count,
   animate = true,
@@ -309,8 +343,6 @@ const StarDisplay = ({
     if (onChange && (max === undefined || count < max)) onChange(count + 1)
   }
 
-  const showControls = editable
-
   if (editable && theme) {
     return (
       <div
@@ -326,47 +358,25 @@ const StarDisplay = ({
         }}
         className={className}
       >
-        <div
-          style={{
-            ...getStepperEdgePositionStyle('prev'),
-            opacity: showControls ? 1 : 0,
-            transition: 'opacity 0.3s ease',
-            pointerEvents: showControls ? 'auto' : 'none',
-            zIndex: showControls ? 3 : 1,
-          }}
-        >
-          <StepperButton
-            theme={theme}
-            direction="prev"
-            onClick={handleDecrement}
-            disabled={count <= min}
-            ariaLabel="Decrease star value"
-            style={{ position: 'relative', zIndex: 3 }}
-          />
-        </div>
+        <StarStepper
+          theme={theme}
+          direction="prev"
+          onClick={handleDecrement}
+          disabled={count <= min}
+          ariaLabel="Decrease star value"
+        />
 
         <div style={{ width: '100%', minWidth: 0 }}>
           {renderEditableValue({ count, animate, theme })}
         </div>
 
-        <div
-          style={{
-            ...getStepperEdgePositionStyle('next'),
-            opacity: showControls ? 1 : 0,
-            transition: 'opacity 0.3s ease',
-            pointerEvents: showControls ? 'auto' : 'none',
-            zIndex: showControls ? 3 : 1,
-          }}
-        >
-          <StepperButton
-            theme={theme}
-            direction="next"
-            onClick={handleIncrement}
-            disabled={max !== undefined && count >= max}
-            ariaLabel="Increase star value"
-            style={{ position: 'relative', zIndex: 3 }}
-          />
-        </div>
+        <StarStepper
+          theme={theme}
+          direction="next"
+          onClick={handleIncrement}
+          disabled={max !== undefined && count >= max}
+          ariaLabel="Increase star value"
+        />
       </div>
     )
   }

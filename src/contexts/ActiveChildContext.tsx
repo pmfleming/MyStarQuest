@@ -1,23 +1,17 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 /* eslint-disable react-refresh/only-export-components */
 import { useAuth } from '../auth/AuthContext'
+import { useRequiredContext } from '../hooks/useRequiredContext'
 import { useTheme } from './ThemeContext'
 
 const STORAGE_PREFIX = 'mystarquest:active-child'
 
-export type ActiveChildState = {
+type ActiveChildState = {
   id: string | null
   themeId: string | null
 }
 
-export interface ActiveChildContextValue {
+interface ActiveChildContextValue {
   activeChildId: string | null
   activeThemeId: string | null
   setActiveChild: (next: { id: string; themeId: string }) => void
@@ -123,9 +117,9 @@ export const ActiveChildProvider = ({
 }
 
 export const useActiveChild = () => {
-  const context = useContext(ActiveChildContext)
-  if (!context) {
-    throw new Error('useActiveChild must be used within an ActiveChildProvider')
-  }
-  return context
+  return useRequiredContext(
+    ActiveChildContext,
+    'useActiveChild',
+    'ActiveChildProvider'
+  )
 }

@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:38:08.104Z",
+    "measured_at": "2026-08-31T23:43:42.120Z",
     "source_type": "static",
-    "source_set_hash": "sha256:4d3ccae0e33ffd8c5b010c9c6fadcc808067a849a4e262a4f28122202cac423b"
+    "source_set_hash": "sha256:b43c67a5411affb9f43cefcc8ea80cd9050083721aa51cf6110cf0759242e765"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -67,8 +67,8 @@
     "stale_input": []
   },
   "summary": {
-    "components": 95,
-    "records": 96,
+    "components": 96,
+    "records": 97,
     "hook_lint_findings": 0,
     "a11y_findings": 0,
     "high_risk_components": 21
@@ -183,7 +183,7 @@
       "module_id": "src/auth/AuthContext",
       "file": "src/auth/AuthContext.tsx",
       "name": "AuthProvider",
-      "line": 48,
+      "line": 42,
       "score": 71,
       "risk": "high",
       "signals": [
@@ -2623,12 +2623,43 @@
       ]
     },
     {
+      "id": "component:src/components/ui/StarDisplay:StarStepper",
+      "module_id": "src/components/ui/StarDisplay",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "name": "StarStepper",
+      "line": 296,
+      "score": 5,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/StarDisplay:StarStepper",
+            "kind": "component",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/ui/StarDisplay:StarDisplay",
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "StarDisplay",
-      "line": 288,
-      "score": 41,
+      "line": 322,
+      "score": 35,
       "risk": "medium",
       "signals": [],
       "kind": "component",
@@ -2797,7 +2828,7 @@
       "module_id": "src/contexts/ActiveChildContext",
       "file": "src/contexts/ActiveChildContext.tsx",
       "name": "ActiveChildProvider",
-      "line": 56,
+      "line": 50,
       "score": 112,
       "risk": "high",
       "signals": [
@@ -2839,7 +2870,7 @@
       "module_id": "src/contexts/SelectedDateContext",
       "file": "src/contexts/SelectedDateContext.tsx",
       "name": "SelectedDateProvider",
-      "line": 30,
+      "line": 25,
       "score": 49,
       "risk": "medium",
       "signals": [],

@@ -34,7 +34,7 @@ import type { Season } from '../lib/seasons'
 /* eslint-disable react-refresh/only-export-components */
 
 // Define the shape of a theme
-export interface ThemeColors {
+interface ThemeColors {
   bg: string
   surface: string
   text: string
@@ -216,7 +216,7 @@ export const themes: Record<ThemeId, Theme> = {
 }
 
 // Define the shape of the theme context
-export interface ThemeContextValue {
+interface ThemeContextValue {
   theme: Theme
   currentTheme: ThemeId
   setTheme: (themeId: ThemeId | string) => void

@@ -9,15 +9,9 @@ import {
   signOut,
 } from 'firebase/auth'
 import type { ReactNode } from 'react'
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import { auth } from '../firebase'
+import { useRequiredContext } from '../hooks/useRequiredContext'
 
 type AuthContextValue = {
   user: User | null
@@ -92,11 +86,5 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
-  const context = useContext(AuthContext)
-
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
-
-  return context
+  return useRequiredContext(AuthContext, 'useAuth', 'AuthProvider')
 }

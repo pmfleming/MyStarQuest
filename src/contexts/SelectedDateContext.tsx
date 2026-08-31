@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from 'react'
+import { createContext, useCallback, useMemo, useState } from 'react'
 /* eslint-disable react-refresh/only-export-components */
 import {
   DEFAULT_LOCATION,
@@ -12,6 +6,7 @@ import {
   type SolarLocation,
 } from '../lib/solar'
 import { buildDateKey, getTodayDescriptor, parseDateKey } from '../lib/today'
+import { useRequiredContext } from '../hooks/useRequiredContext'
 
 type SelectedDateContextValue = {
   selectedDateKey: string
@@ -67,15 +62,11 @@ export const SelectedDateProvider = ({
 }
 
 export const useSelectedDate = () => {
-  const context = useContext(SelectedDateContext)
-
-  if (!context) {
-    throw new Error(
-      'useSelectedDate must be used within a SelectedDateProvider'
-    )
-  }
-
-  return context
+  return useRequiredContext(
+    SelectedDateContext,
+    'useSelectedDate',
+    'SelectedDateProvider'
+  )
 }
 
 export const useSolarTimes = (location: SolarLocation = DEFAULT_LOCATION) => {

@@ -12,7 +12,6 @@ import {
   type TaskWithEphemeral,
   type TestRecord,
   type TestWithEphemeral,
-  type TodoUpdatableFields,
 } from './types'
 
 type DraftableItem = {
@@ -22,43 +21,6 @@ type DraftableItem = {
 
 type ChildTaskItem = DraftableItem & {
   childId: string
-}
-
-type TodoLike = {
-  id: string
-} & Partial<TodoUpdatableFields>
-
-const todoUpdatableFieldKeys: Array<keyof TodoUpdatableFields> = [
-  'title',
-  'starValue',
-  'schoolDayEnabled',
-  'nonSchoolDayEnabled',
-  'imageKey',
-  'completedAt',
-  'dinnerDurationSeconds',
-  'dinnerRemainingSeconds',
-  'dinnerTotalBites',
-  'dinnerBitesLeft',
-  'dinnerTimerStartedAt',
-  'mathLastOutcome',
-  'largeNumbersLastOutcome',
-  'pvLastOutcome',
-  'alphabetLastOutcome',
-  'spellingLastOutcome',
-  'animalsLastOutcome',
-  'waterLevel',
-  'toiletStatus',
-]
-
-const testOutcomeFieldByType: Partial<
-  Record<TaskType, keyof TodoUpdatableFields>
-> = {
-  math: 'mathLastOutcome',
-  'large-numbers': 'largeNumbersLastOutcome',
-  alphabet: 'alphabetLastOutcome',
-  spelling: 'spellingLastOutcome',
-  animals: 'animalsLastOutcome',
-  'positional-notation': 'pvLastOutcome',
 }
 
 type ManageOutcomePatchFields = {
@@ -95,16 +57,6 @@ const manageOutcomePatchByType: Partial<
   },
 }
 
-const copyRemainingPatchField = <K extends keyof TodoUpdatableFields>(
-  remainingPatch: TodoUpdatableFields,
-  key: K,
-  todo: TodoLike,
-  patch: TodoUpdatableFields
-) => {
-  const value = patch[key]
-  if (todo[key] !== value) remainingPatch[key] = value
-}
-
 export const useTodayInfo = () => {
   const [todayInfo, setTodayInfo] = useState(() => getTodayDescriptor())
 
@@ -136,7 +88,7 @@ export const mergeMissingTitleDrafts = <T extends DraftableItem>(
   return changed ? next : previousDrafts
 }
 
-export const useTitleDraftBackfill = <T extends DraftableItem>(
+const useTitleDraftBackfill = <T extends DraftableItem>(
   items: T[],
   setDrafts: Dispatch<SetStateAction<Record<string, string>>>
 ) => {
@@ -202,42 +154,6 @@ export const commitBoundedDraft = (
     onRestore(savedValue)
   }
 }
-
-export const pruneResolvedTodoOverrides = <T extends TodoLike>(
-  previousOverrides: Record<string, TodoUpdatableFields>,
-  nextTodos: T[]
-) => {
-  let changed = false
-  const todoMap = new Map(nextTodos.map((todo) => [todo.id, todo]))
-  const nextOverrides: Record<string, TodoUpdatableFields> = {}
-
-  for (const [todoId, patch] of Object.entries(previousOverrides)) {
-    const todo = todoMap.get(todoId)
-    if (!todo) {
-      changed = true
-      continue
-    }
-
-    const remainingPatch: TodoUpdatableFields = {}
-    for (const key of todoUpdatableFieldKeys) {
-      if (!(key in patch)) continue
-      copyRemainingPatchField(remainingPatch, key, todo, patch)
-    }
-
-    if (Object.keys(remainingPatch).length > 0) {
-      nextOverrides[todoId] = remainingPatch
-    } else {
-      changed = true
-    }
-  }
-
-  return changed ? nextOverrides : previousOverrides
-}
-
-export const mergeTodoOverrides = <T extends TodoLike>(
-  todos: T[],
-  overrides: Record<string, TodoUpdatableFields>
-) => todos.map((todo): T => ({ ...todo, ...overrides[todo.id] }))
 
 export const mergeTaskEphemeral = (
   task: TaskRecord,
@@ -336,28 +252,6 @@ export const mergeTestEphemeral = (
   throw new Error(`Expected test task, received ${task.taskType}`)
 }
 
-export const removeOptimisticPatchFields = (
-  previousOverrides: Record<string, TodoUpdatableFields>,
-  todoId: string,
-  field: TodoUpdatableFields
-) => {
-  const existingPatch = previousOverrides[todoId]
-  if (!existingPatch) return previousOverrides
-
-  const nextPatch = { ...existingPatch }
-  for (const key of todoUpdatableFieldKeys) {
-    if (key in field) delete nextPatch[key]
-  }
-
-  const next = { ...previousOverrides }
-  if (Object.keys(nextPatch).length === 0) {
-    delete next[todoId]
-  } else {
-    next[todoId] = nextPatch
-  }
-  return next
-}
-
 export const useEphemeralExpiry = <T extends { id: string }>(
   enabled: boolean,
   items: T[],
@@ -387,17 +281,6 @@ export const useEphemeralExpiry = <T extends { id: string }>(
   }, [enabled, getLastActive, items, setEphemeral])
 }
 
-export const getChoreLastActive = (state: TaskEphemeralState) =>
-  state.manageCompletedAt ||
-  state.manageDinnerCompletedAt ||
-  state.manageMathCompletedAt ||
-  state.manageLargeNumbersCompletedAt ||
-  state.managePVCompletedAt ||
-  state.manageAlphabetCompletedAt ||
-  state.manageSpellingCompletedAt ||
-  state.manageAnimalsCompletedAt ||
-  state.manageWaterToiletCompletedAt
-
 export const getTestLastActive = (state: TaskEphemeralState) =>
   state.manageMathCompletedAt ||
   state.manageLargeNumbersCompletedAt ||
@@ -405,17 +288,6 @@ export const getTestLastActive = (state: TaskEphemeralState) =>
   state.manageAlphabetCompletedAt ||
   state.manageSpellingCompletedAt ||
   state.manageAnimalsCompletedAt
-
-export const todoOutcomePatch = (
-  taskType: TaskType,
-  completedAt: number | null,
-  outcome: TaskOutcome | null
-): TodoUpdatableFields => {
-  const outcomeField = testOutcomeFieldByType[taskType]
-  return outcomeField
-    ? { completedAt, [outcomeField]: outcome }
-    : { completedAt }
-}
 
 export const manageTestOutcomePatch = (
   taskType: TaskType,

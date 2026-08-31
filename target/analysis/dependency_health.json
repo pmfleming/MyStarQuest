@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:38:05.174Z",
+    "measured_at": "2026-08-31T23:43:39.047Z",
     "source_type": "static",
-    "source_set_hash": "sha256:4d3ccae0e33ffd8c5b010c9c6fadcc808067a849a4e262a4f28122202cac423b"
+    "source_set_hash": "sha256:b43c67a5411affb9f43cefcc8ea80cd9050083721aa51cf6110cf0759242e765"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -67,8 +67,8 @@
     "stale_input": []
   },
   "summary": {
-    "internal_edges": 703,
-    "external_edges": 118,
+    "internal_edges": 707,
+    "external_edges": 119,
     "cycles": 43,
     "heuristic_cycles": 0,
     "dependency_cruiser_cycles": 62,
@@ -88,8 +88,8 @@
         "warn": 0,
         "info": 0,
         "ignore": 0,
-        "totalCruised": 515,
-        "totalDependenciesCruised": 1275,
+        "totalCruised": 525,
+        "totalDependenciesCruised": 1298,
         "optionsUsed": {
           "baseDir": "C:\\Code\\MyStarQuest",
           "combinedDependencies": false,
@@ -6813,12 +6813,12 @@
       ]
     },
     {
-      "id": "layer:src/data/useChildren:21:src/auth/AuthContext",
+      "id": "layer:src/data/useChildren:20:src/auth/AuthContext",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/data/useChildren",
-      "line": 21,
+      "line": 20,
       "target": "src/auth/AuthContext",
       "from_layer": "hook",
       "to_layer": "ui",
@@ -6843,7 +6843,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/data/useChildren:21:src/auth/AuthContext",
+            "id": "layer:src/data/useChildren:20:src/auth/AuthContext",
             "kind": "layer_violation",
             "file": "src/data/useChildren",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6852,12 +6852,12 @@
       ]
     },
     {
-      "id": "layer:src/data/useChildren:22:src/contexts/ActiveChildContext",
+      "id": "layer:src/data/useChildren:21:src/contexts/ActiveChildContext",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/data/useChildren",
-      "line": 22,
+      "line": 21,
       "target": "src/contexts/ActiveChildContext",
       "from_layer": "hook",
       "to_layer": "ui",
@@ -6882,7 +6882,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/data/useChildren:22:src/contexts/ActiveChildContext",
+            "id": "layer:src/data/useChildren:21:src/contexts/ActiveChildContext",
             "kind": "layer_violation",
             "file": "src/data/useChildren",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7992,6 +7992,11 @@
         "layer": "hook"
       },
       {
+        "id": "src/hooks/useRequiredContext",
+        "file": "src/hooks/useRequiredContext.ts",
+        "layer": "hook"
+      },
+      {
         "id": "src/hooks/useTaskActivityState",
         "file": "src/hooks/useTaskActivityState.ts",
         "layer": "hook"
@@ -8403,10 +8408,10 @@
       },
       {
         "from": "src/App",
-        "to": "react-router-dom",
+        "to": "node_modules/react-router-dom/dist/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 2,
+        "line": null,
         "source": "dependency-cruiser"
       },
       {
@@ -8414,7 +8419,15 @@
         "to": "src/firebase",
         "kind": "relative",
         "import_kind": "static",
-        "line": 20,
+        "line": 13,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/auth/AuthContext",
+        "to": "src/hooks/useRequiredContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 14,
         "source": "dependency-cruiser"
       },
       {
@@ -8610,16 +8623,8 @@
         "source": "dependency-cruiser"
       },
       {
-        "from": "node_modules/@capacitor-firebase/authentication/dist/plugin.cjs",
-        "to": "node_modules/@capacitor/core/dist/index.cjs",
-        "kind": "relative",
-        "import_kind": "static",
-        "line": null,
-        "source": "dependency-cruiser"
-      },
-      {
-        "from": "node_modules/@capacitor-firebase/authentication/dist/plugin.cjs",
-        "to": "node_modules/firebase/auth/dist/index.cjs",
+        "from": "src/hooks/useRequiredContext",
+        "to": "node_modules/react/index",
         "kind": "relative",
         "import_kind": "static",
         "line": null,
@@ -8642,6 +8647,22 @@
         "source": "dependency-cruiser"
       },
       {
+        "from": "node_modules/@capacitor-firebase/authentication/dist/plugin.cjs",
+        "to": "node_modules/@capacitor/core/dist/index.cjs",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/@capacitor-firebase/authentication/dist/plugin.cjs",
+        "to": "node_modules/firebase/auth/dist/index.cjs",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
         "from": "src/components/AppErrorBoundary",
         "to": "node_modules/react/index",
         "kind": "relative",
@@ -8654,7 +8675,15 @@
         "to": "src/auth/AuthContext",
         "kind": "relative",
         "import_kind": "static",
-        "line": 10,
+        "line": 3,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/contexts/ActiveChildContext",
+        "to": "src/hooks/useRequiredContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 4,
         "source": "dependency-cruiser"
       },
       {
@@ -8662,7 +8691,7 @@
         "to": "src/contexts/ThemeContext",
         "kind": "relative",
         "import_kind": "static",
-        "line": 11,
+        "line": 5,
         "source": "dependency-cruiser"
       },
       {
@@ -8931,7 +8960,7 @@
       },
       {
         "from": "src/contexts/SelectedDateContext",
-        "to": "src/lib/solar",
+        "to": "src/hooks/useRequiredContext",
         "kind": "relative",
         "import_kind": "static",
         "line": 9,
@@ -8939,10 +8968,18 @@
       },
       {
         "from": "src/contexts/SelectedDateContext",
+        "to": "src/lib/solar",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 3,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/contexts/SelectedDateContext",
         "to": "src/lib/today",
         "kind": "relative",
         "import_kind": "static",
-        "line": 14,
+        "line": 8,
         "source": "dependency-cruiser"
       },
       {
@@ -11118,7 +11155,7 @@
         "to": "src/auth/AuthContext",
         "kind": "relative",
         "import_kind": "static",
-        "line": 21,
+        "line": 20,
         "source": "dependency-cruiser"
       },
       {
@@ -11126,7 +11163,7 @@
         "to": "src/contexts/ActiveChildContext",
         "kind": "relative",
         "import_kind": "static",
-        "line": 22,
+        "line": 21,
         "source": "dependency-cruiser"
       },
       {
@@ -11134,7 +11171,7 @@
         "to": "src/firebaseDb",
         "kind": "relative",
         "import_kind": "static",
-        "line": 20,
+        "line": 19,
         "source": "dependency-cruiser"
       },
       {
@@ -11142,7 +11179,15 @@
         "to": "src/hooks/useCoalescedDocumentUpdates",
         "kind": "relative",
         "import_kind": "static",
-        "line": 35,
+        "line": 34,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/data/useChildren",
+        "to": "src/hooks/useRequiredContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 36,
         "source": "dependency-cruiser"
       },
       {
@@ -11150,7 +11195,7 @@
         "to": "src/ui/themeOptions",
         "kind": "relative",
         "import_kind": "static",
-        "line": 23,
+        "line": 22,
         "source": "dependency-cruiser"
       },
       {
@@ -11158,7 +11203,7 @@
         "to": "src/data/dailyTaskState",
         "kind": "relative",
         "import_kind": "static",
-        "line": 29,
+        "line": 28,
         "source": "dependency-cruiser"
       },
       {
@@ -11166,7 +11211,7 @@
         "to": "src/data/types",
         "kind": "relative",
         "import_kind": "static",
-        "line": 24,
+        "line": 23,
         "source": "dependency-cruiser"
       },
       {
@@ -11174,7 +11219,7 @@
         "to": "src/data/useUserCollection",
         "kind": "relative",
         "import_kind": "static",
-        "line": 34,
+        "line": 33,
         "source": "dependency-cruiser"
       },
       {
@@ -11182,7 +11227,7 @@
         "to": "src/data/useUserDocumentUpdates",
         "kind": "relative",
         "import_kind": "static",
-        "line": 36,
+        "line": 35,
         "source": "dependency-cruiser"
       },
       {
@@ -12459,7 +12504,23 @@
       },
       {
         "from": "node_modules/protobufjs/src/util",
+        "to": "node_modules/protobufjs/src/util/fs",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/protobufjs/src/util",
         "to": "node_modules/protobufjs/src/util/minimal",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/protobufjs/src/util",
+        "to": "node_modules/protobufjs/src/util/patterns",
         "kind": "relative",
         "import_kind": "static",
         "line": null,
@@ -12779,14 +12840,6 @@
       },
       {
         "from": "node_modules/protobufjs/src/util/minimal",
-        "to": "node_modules/@protobufjs/inquire/index",
-        "kind": "relative",
-        "import_kind": "static",
-        "line": null,
-        "source": "dependency-cruiser"
-      },
-      {
-        "from": "node_modules/protobufjs/src/util/minimal",
         "to": "node_modules/@protobufjs/pool/index",
         "kind": "relative",
         "import_kind": "static",
@@ -12796,6 +12849,14 @@
       {
         "from": "node_modules/protobufjs/src/util/minimal",
         "to": "node_modules/@protobufjs/utf8/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/protobufjs/src/util/minimal",
+        "to": "node_modules/long/umd/index",
         "kind": "relative",
         "import_kind": "static",
         "line": null,
@@ -12906,8 +12967,32 @@
         "source": "dependency-cruiser"
       },
       {
+        "from": "node_modules/protobufjs/src/wrappers",
+        "to": "node_modules/protobufjs/src/util/minimal",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
         "from": "node_modules/protobufjs/src/writer",
         "to": "node_modules/protobufjs/src/util/minimal",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/protobufjs/src/util/fs",
+        "to": "fs",
+        "kind": "external",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/@protobufjs/fetch/index",
+        "to": "node_modules/@protobufjs/fetch/util/fs",
         "kind": "relative",
         "import_kind": "static",
         "line": null,
@@ -12922,9 +13007,9 @@
         "source": "dependency-cruiser"
       },
       {
-        "from": "node_modules/@protobufjs/fetch/index",
-        "to": "node_modules/@protobufjs/inquire/index",
-        "kind": "relative",
+        "from": "node_modules/@protobufjs/fetch/util/fs",
+        "to": "fs",
+        "kind": "external",
         "import_kind": "static",
         "line": null,
         "source": "dependency-cruiser"
@@ -15835,10 +15920,114 @@
       },
       {
         "from": "src/components/ui/ActionButton",
-        "to": "react-router-dom",
+        "to": "node_modules/react-router-dom/dist/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 2,
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router-dom/dist/index",
+        "to": "node_modules/react-router/dist/development/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router-dom/dist/index",
+        "to": "react-router/dom",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router/dist/development/index",
+        "to": "node_modules/react-router/dist/development/chunk-3UVS743K",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router/dist/development/index",
+        "to": "node_modules/react-router/dist/development/chunk-7XGYIT3M",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router/dist/development/index",
+        "to": "node_modules/react-router/dist/development/chunk-HHGH3NKS",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router/dist/development/index",
+        "to": "node_modules/cookie/dist/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router/dist/development/index",
+        "to": "node_modules/react/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router/dist/development/index",
+        "to": "node_modules/set-cookie-parser/lib/set-cookie",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router/dist/development/chunk-3UVS743K",
+        "to": "node_modules/react-router/dist/development/chunk-HHGH3NKS",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router/dist/development/chunk-3UVS743K",
+        "to": "node_modules/react/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router/dist/development/chunk-HHGH3NKS",
+        "to": "node_modules/react/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router/dist/development/chunk-7XGYIT3M",
+        "to": "node_modules/react-router/dist/development/chunk-HHGH3NKS",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "node_modules/react-router/dist/development/chunk-7XGYIT3M",
+        "to": "node_modules/react/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
         "source": "dependency-cruiser"
       },
       {
@@ -16739,10 +16928,10 @@
       },
       {
         "from": "src/components/ui/TopIconButton",
-        "to": "react-router-dom",
+        "to": "node_modules/react-router-dom/dist/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 2,
+        "line": null,
         "source": "dependency-cruiser"
       },
       {
@@ -16803,10 +16992,10 @@
       },
       {
         "from": "src/pages/LoginPage",
-        "to": "react-router-dom",
+        "to": "node_modules/react-router-dom/dist/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 2,
+        "line": null,
         "source": "dependency-cruiser"
       },
       {
@@ -16875,10 +17064,10 @@
       },
       {
         "from": "src/components/PageShell",
-        "to": "react-router-dom",
+        "to": "node_modules/react-router-dom/dist/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 7,
+        "line": null,
         "source": "dependency-cruiser"
       },
       {
@@ -16931,10 +17120,10 @@
       },
       {
         "from": "src/components/ui/BottomNav",
-        "to": "react-router-dom",
+        "to": "node_modules/react-router-dom/dist/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 1,
+        "line": null,
         "source": "dependency-cruiser"
       },
       {
@@ -18163,10 +18352,10 @@
       },
       {
         "from": "src/routes/AnimatedTabLayout",
-        "to": "react-router-dom",
+        "to": "node_modules/react-router-dom/dist/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 2,
+        "line": null,
         "source": "dependency-cruiser"
       },
       {
@@ -18179,10 +18368,10 @@
       },
       {
         "from": "src/routes/ProtectedDataRoute",
-        "to": "react-router-dom",
+        "to": "node_modules/react-router-dom/dist/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 1,
+        "line": null,
         "source": "dependency-cruiser"
       },
       {
@@ -18195,10 +18384,10 @@
       },
       {
         "from": "src/routes/ProtectedRoute",
-        "to": "react-router-dom",
+        "to": "node_modules/react-router-dom/dist/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 1,
+        "line": null,
         "source": "dependency-cruiser"
       },
       {

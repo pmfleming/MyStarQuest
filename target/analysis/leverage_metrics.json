@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:38:05.504Z",
+    "measured_at": "2026-08-31T23:43:39.418Z",
     "source_type": "static",
-    "source_set_hash": "sha256:4d3ccae0e33ffd8c5b010c9c6fadcc808067a849a4e262a4f28122202cac423b"
+    "source_set_hash": "sha256:b43c67a5411affb9f43cefcc8ea80cd9050083721aa51cf6110cf0759242e765"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -63,8 +63,8 @@
     "stale_input": []
   },
   "summary": {
-    "records": 143,
-    "shared_hubs": 41
+    "records": 144,
+    "shared_hubs": 42
   },
   "records": [
     {
@@ -1260,7 +1260,7 @@
       "score": 100,
       "risk": "low",
       "inbound_reach": 13,
-      "public_surface": 18,
+      "public_surface": 15,
       "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "shared_hub",
@@ -2184,10 +2184,10 @@
       "id": "leverage:src/components/ui/StepperButton",
       "module_id": "src/components/ui/StepperButton",
       "file": "src/components/ui/StepperButton.tsx",
-      "score": 74,
+      "score": 72,
       "risk": "low",
       "inbound_reach": 7,
-      "public_surface": 2,
+      "public_surface": 1,
       "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "shared_hub",
@@ -2573,7 +2573,7 @@
       "score": 100,
       "risk": "high",
       "inbound_reach": 10,
-      "public_surface": 6,
+      "public_surface": 4,
       "weak_surface": 1,
       "dead_export_surface": 0,
       "classification": "shared_hub",
@@ -2673,7 +2673,7 @@
       "score": 100,
       "risk": "high",
       "inbound_reach": 54,
-      "public_surface": 14,
+      "public_surface": 12,
       "weak_surface": 1,
       "dead_export_surface": 0,
       "classification": "shared_hub",
@@ -3035,10 +3035,10 @@
       "id": "leverage:src/data/dailyTaskState",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
-      "score": 100,
+      "score": 90,
       "risk": "low",
       "inbound_reach": 6,
-      "public_surface": 22,
+      "public_surface": 15,
       "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "shared_hub",
@@ -3822,6 +3822,51 @@
             "id": "leverage:src/hooks/useDinnerCountdownState",
             "kind": "leverage",
             "file": "src/hooks/useDinnerCountdownState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/hooks/useRequiredContext",
+      "module_id": "src/hooks/useRequiredContext",
+      "file": "src/hooks/useRequiredContext.ts",
+      "score": 42,
+      "risk": "low",
+      "inbound_reach": 4,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/hooks/useRequiredContext",
+            "kind": "leverage",
+            "file": "src/hooks/useRequiredContext.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         },

@@ -4,7 +4,6 @@ import {
   createContext,
   createElement,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
@@ -34,6 +33,7 @@ import {
 import { useUserCollection } from './useUserCollection'
 import { mergeOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
 import { useUserDocumentUpdates } from './useUserDocumentUpdates'
+import { useRequiredContext } from '../hooks/useRequiredContext'
 
 const useChildrenState = () => {
   const { user } = useAuth()
@@ -208,11 +208,5 @@ export const ChildrenProvider = ({ children }: { children: ReactNode }) => {
 }
 
 export function useChildren() {
-  const context = useContext(ChildrenContext)
-
-  if (!context) {
-    throw new Error('useChildren must be used within a ChildrenProvider')
-  }
-
-  return context
+  return useRequiredContext(ChildrenContext, 'useChildren', 'ChildrenProvider')
 }

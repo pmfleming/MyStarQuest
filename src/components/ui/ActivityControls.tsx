@@ -27,7 +27,7 @@ export type ActivityChoreProps = {
 }
 
 export const MAX_ACTIVITY_MISTAKES = 3
-export const ACTIVITY_SETUP_FIELD_GAP = uiTokens.panelStackGap
+const ACTIVITY_SETUP_FIELD_GAP = uiTokens.panelStackGap
 
 const { statusBarHeight, statusIconSize, statusIconGap } =
   uiTokens.activityTokens
@@ -107,7 +107,7 @@ type ActivityResultBarProps = {
   style?: CSSProperties
 }
 
-export const ActivityResultBar = ({
+const ActivityResultBar = ({
   theme,
   results,
   correctIcon,
@@ -291,7 +291,7 @@ type ProblemCountControlProps = {
   isEditable?: boolean
 }
 
-export const ProblemCountControl = ({
+const ProblemCountControl = ({
   theme,
   totalProblems,
   min,

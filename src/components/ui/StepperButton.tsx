@@ -76,4 +76,3 @@ const StepperButton = ({
 }
 
 export default StepperButton
-export type { StepperButtonProps }

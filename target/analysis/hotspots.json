@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:37:59.373Z",
+    "measured_at": "2026-08-31T23:43:29.110Z",
     "source_type": "static",
-    "source_set_hash": "sha256:4d3ccae0e33ffd8c5b010c9c6fadcc808067a849a4e262a4f28122202cac423b"
+    "source_set_hash": "sha256:b43c67a5411affb9f43cefcc8ea80cd9050083721aa51cf6110cf0759242e765"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -63,9 +63,9 @@
     "stale_input": []
   },
   "summary": {
-    "source_files": 143,
-    "records": 735,
-    "high_risk_records": 176
+    "source_files": 144,
+    "records": 732,
+    "high_risk_records": 173
   },
   "records": [
     {
@@ -1030,55 +1030,6 @@
             "id": "file:src/pages/DashboardPage",
             "kind": "file",
             "file": "src/pages/DashboardPage.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "file:src/data/dailyTaskState",
-      "kind": "file",
-      "module_id": "src/data/dailyTaskState",
-      "file": "src/data/dailyTaskState.ts",
-      "line": 1,
-      "score": 264,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 445
-        },
-        {
-          "kind": "branch_count",
-          "value": 62
-        },
-        {
-          "kind": "import_count",
-          "value": 3
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this file finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line file"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/data/dailyTaskState",
-            "kind": "file",
-            "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2080,55 +2031,6 @@
       ]
     },
     {
-      "id": "file:src/components/ui/StarDisplay",
-      "kind": "file",
-      "module_id": "src/components/ui/StarDisplay",
-      "file": "src/components/ui/StarDisplay.tsx",
-      "line": 1,
-      "score": 198,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 386
-        },
-        {
-          "kind": "branch_count",
-          "value": 34
-        },
-        {
-          "kind": "import_count",
-          "value": 7
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this file finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line file"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/components/ui/StarDisplay",
-            "kind": "file",
-            "file": "src/components/ui/StarDisplay.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "file:src/data/useTests",
       "kind": "file",
       "module_id": "src/data/useTests",
@@ -2506,6 +2408,55 @@
       ]
     },
     {
+      "id": "file:src/components/ui/StarDisplay",
+      "kind": "file",
+      "module_id": "src/components/ui/StarDisplay",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "line": 1,
+      "score": 189,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 396
+        },
+        {
+          "kind": "branch_count",
+          "value": 28
+        },
+        {
+          "kind": "import_count",
+          "value": 7
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/components/ui/StarDisplay",
+            "kind": "file",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "file:src/data/useChores",
       "kind": "file",
       "module_id": "src/data/useChores",
@@ -2555,12 +2506,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:mergeTaskEphemeral:242",
+      "id": "src/data/dailyTaskState.ts:mergeTaskEphemeral:158",
       "kind": "reducer",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "mergeTaskEphemeral",
-      "line": 242,
+      "line": 158,
       "score": 188,
       "risk": "high",
       "signals": [
@@ -2596,7 +2547,7 @@
           "description": "Keep this reducer finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:mergeTaskEphemeral:242",
+            "id": "src/data/dailyTaskState.ts:mergeTaskEphemeral:158",
             "kind": "reducer",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2654,30 +2605,25 @@
       ]
     },
     {
-      "id": "src/components/ui/StarDisplay.tsx:StarDisplay:288",
-      "kind": "component",
-      "module_id": "src/components/ui/StarDisplay",
-      "file": "src/components/ui/StarDisplay.tsx",
-      "name": "StarDisplay",
-      "line": 288,
-      "score": 183,
+      "id": "file:src/data/dailyTaskState",
+      "kind": "file",
+      "module_id": "src/data/dailyTaskState",
+      "file": "src/data/dailyTaskState.ts",
+      "line": 1,
+      "score": 185,
       "risk": "high",
       "signals": [
         {
-          "kind": "cognitive_complexity_proxy",
-          "value": 15
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 3
-        },
-        {
           "kind": "line_count",
-          "value": 85
+          "value": 317
         },
         {
-          "kind": "jsx_density",
-          "value": 7
+          "kind": "branch_count",
+          "value": 42
+        },
+        {
+          "kind": "import_count",
+          "value": 3
         }
       ],
       "actions": [
@@ -2690,18 +2636,18 @@
         {
           "type": "suppress-line",
           "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
         },
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StarDisplay.tsx:StarDisplay:288",
-            "kind": "component",
-            "file": "src/components/ui/StarDisplay.tsx",
+            "id": "file:src/data/dailyTaskState",
+            "kind": "file",
+            "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3481,55 +3427,6 @@
       ]
     },
     {
-      "id": "file:src/data/useChildren",
-      "kind": "file",
-      "module_id": "src/data/useChildren",
-      "file": "src/data/useChildren.ts",
-      "line": 1,
-      "score": 152,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 219
-        },
-        {
-          "kind": "branch_count",
-          "value": 32
-        },
-        {
-          "kind": "import_count",
-          "value": 11
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this file finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line file"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/data/useChildren",
-            "kind": "file",
-            "file": "src/data/useChildren.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/ui/PositionalNotationPlayArea.tsx:PositionalNotationPlayArea:305",
       "kind": "component",
       "module_id": "src/components/ui/PositionalNotationPlayArea",
@@ -3582,6 +3479,55 @@
             "id": "src/components/ui/PositionalNotationPlayArea.tsx:PositionalNotationPlayArea:305",
             "kind": "component",
             "file": "src/components/ui/PositionalNotationPlayArea.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/data/useChildren",
+      "kind": "file",
+      "module_id": "src/data/useChildren",
+      "file": "src/data/useChildren.ts",
+      "line": 1,
+      "score": 150,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 213
+        },
+        {
+          "kind": "branch_count",
+          "value": 31
+        },
+        {
+          "kind": "import_count",
+          "value": 12
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/data/useChildren",
+            "kind": "file",
+            "file": "src/data/useChildren.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -4569,6 +4515,60 @@
       ]
     },
     {
+      "id": "src/components/ui/StarDisplay.tsx:StarDisplay:322",
+      "kind": "component",
+      "module_id": "src/components/ui/StarDisplay",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "name": "StarDisplay",
+      "line": 322,
+      "score": 121,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 9
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 3
+        },
+        {
+          "kind": "line_count",
+          "value": 61
+        },
+        {
+          "kind": "jsx_density",
+          "value": 5
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/components/ui/StarDisplay.tsx:StarDisplay:322",
+            "kind": "component",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/data/useChoreActivityActions.ts:applyTaskBite:53",
       "kind": "function",
       "module_id": "src/data/useChoreActivityActions",
@@ -4726,12 +4726,12 @@
       ]
     },
     {
-      "id": "src/contexts/ActiveChildContext.tsx:ActiveChildProvider:56",
+      "id": "src/contexts/ActiveChildContext.tsx:ActiveChildProvider:50",
       "kind": "component",
       "module_id": "src/contexts/ActiveChildContext",
       "file": "src/contexts/ActiveChildContext.tsx",
       "name": "ActiveChildProvider",
-      "line": 56,
+      "line": 50,
       "score": 114,
       "risk": "high",
       "signals": [
@@ -4771,7 +4771,7 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/ActiveChildContext.tsx:ActiveChildProvider:56",
+            "id": "src/contexts/ActiveChildContext.tsx:ActiveChildProvider:50",
             "kind": "component",
             "file": "src/contexts/ActiveChildContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4928,12 +4928,12 @@
       ]
     },
     {
-      "id": "src/contexts/ActiveChildContext.tsx:readStoredState:33",
+      "id": "src/contexts/ActiveChildContext.tsx:readStoredState:27",
       "kind": "function",
       "module_id": "src/contexts/ActiveChildContext",
       "file": "src/contexts/ActiveChildContext.tsx",
       "name": "readStoredState",
-      "line": 33,
+      "line": 27,
       "score": 113,
       "risk": "high",
       "signals": [
@@ -4969,7 +4969,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/ActiveChildContext.tsx:readStoredState:33",
+            "id": "src/contexts/ActiveChildContext.tsx:readStoredState:27",
             "kind": "function",
             "file": "src/contexts/ActiveChildContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5143,12 +5143,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:useEphemeralExpiry:361",
+      "id": "src/data/dailyTaskState.ts:useEphemeralExpiry:255",
       "kind": "hook",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "useEphemeralExpiry",
-      "line": 361,
+      "line": 255,
       "score": 110,
       "risk": "high",
       "signals": [
@@ -5184,7 +5184,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:useEphemeralExpiry:361",
+            "id": "src/data/dailyTaskState.ts:useEphemeralExpiry:255",
             "kind": "hook",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6241,56 +6241,6 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:pruneResolvedTodoOverrides:206",
-      "kind": "function",
-      "module_id": "src/data/dailyTaskState",
-      "file": "src/data/dailyTaskState.ts",
-      "name": "pruneResolvedTodoOverrides",
-      "line": 206,
-      "score": 97,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 7
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 6
-        },
-        {
-          "kind": "line_count",
-          "value": 27
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/data/dailyTaskState.ts:pruneResolvedTodoOverrides:206",
-            "kind": "function",
-            "file": "src/data/dailyTaskState.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/SpellingTester.tsx:SpellingWordTiles:210",
       "kind": "component",
       "module_id": "src/components/SpellingTester",
@@ -6498,12 +6448,12 @@
       ]
     },
     {
-      "id": "src/auth/AuthContext.tsx:getNativeGoogleIdToken:31",
+      "id": "src/auth/AuthContext.tsx:getNativeGoogleIdToken:25",
       "kind": "function",
       "module_id": "src/auth/AuthContext",
       "file": "src/auth/AuthContext.tsx",
       "name": "getNativeGoogleIdToken",
-      "line": 31,
+      "line": 25,
       "score": 93,
       "risk": "high",
       "signals": [
@@ -6539,7 +6489,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/auth/AuthContext.tsx:getNativeGoogleIdToken:31",
+            "id": "src/auth/AuthContext.tsx:getNativeGoogleIdToken:25",
             "kind": "function",
             "file": "src/auth/AuthContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7010,12 +6960,12 @@
       ]
     },
     {
-      "id": "src/auth/AuthContext.tsx:AuthProvider:48",
+      "id": "src/auth/AuthContext.tsx:AuthProvider:42",
       "kind": "component",
       "module_id": "src/auth/AuthContext",
       "file": "src/auth/AuthContext.tsx",
       "name": "AuthProvider",
-      "line": 48,
+      "line": 42,
       "score": 88,
       "risk": "high",
       "signals": [
@@ -7055,7 +7005,7 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/auth/AuthContext.tsx:AuthProvider:48",
+            "id": "src/auth/AuthContext.tsx:AuthProvider:42",
             "kind": "component",
             "file": "src/auth/AuthContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7901,55 +7851,6 @@
       ]
     },
     {
-      "id": "file:src/contexts/ActiveChildContext",
-      "kind": "file",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "line": 1,
-      "score": 78,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 132
-        },
-        {
-          "kind": "branch_count",
-          "value": 16
-        },
-        {
-          "kind": "import_count",
-          "value": 3
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this file finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line file"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/contexts/ActiveChildContext",
-            "kind": "file",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/PageShell.tsx:handleTouchEnd:61",
       "kind": "function",
       "module_id": "src/components/PageShell",
@@ -8249,26 +8150,25 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:getChoreLastActive:390",
-      "kind": "function",
-      "module_id": "src/data/dailyTaskState",
-      "file": "src/data/dailyTaskState.ts",
-      "name": "getChoreLastActive",
-      "line": 390,
+      "id": "file:src/contexts/ActiveChildContext",
+      "kind": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 1,
       "score": 76,
       "risk": "high",
       "signals": [
         {
-          "kind": "cognitive_complexity_proxy",
-          "value": 9
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
           "kind": "line_count",
-          "value": 9
+          "value": 126
+        },
+        {
+          "kind": "branch_count",
+          "value": 15
+        },
+        {
+          "kind": "import_count",
+          "value": 4
         }
       ],
       "actions": [
@@ -8281,18 +8181,18 @@
         {
           "type": "suppress-line",
           "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
         },
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:getChoreLastActive:390",
-            "kind": "function",
-            "file": "src/data/dailyTaskState.ts",
+            "id": "file:src/contexts/ActiveChildContext",
+            "kind": "file",
+            "file": "src/contexts/ActiveChildContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -8550,55 +8450,6 @@
             "id": "src/components/AnimalTester.tsx:handleSoloChoice:702",
             "kind": "function",
             "file": "src/components/AnimalTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "file:src/auth/AuthContext",
-      "kind": "file",
-      "module_id": "src/auth/AuthContext",
-      "file": "src/auth/AuthContext.tsx",
-      "line": 1,
-      "score": 73,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 103
-        },
-        {
-          "kind": "branch_count",
-          "value": 14
-        },
-        {
-          "kind": "import_count",
-          "value": 7
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this file finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line file"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/auth/AuthContext",
-            "kind": "file",
-            "file": "src/auth/AuthContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -9214,6 +9065,49 @@
       ]
     },
     {
+      "id": "file:src/auth/AuthContext",
+      "kind": "file",
+      "module_id": "src/auth/AuthContext",
+      "file": "src/auth/AuthContext.tsx",
+      "line": 1,
+      "score": 69,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 91
+        },
+        {
+          "kind": "branch_count",
+          "value": 13
+        },
+        {
+          "kind": "import_count",
+          "value": 8
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/auth/AuthContext",
+            "kind": "file",
+            "file": "src/auth/AuthContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "file:src/components/WaterToiletMonitor",
       "kind": "file",
       "module_id": "src/components/WaterToiletMonitor",
@@ -9758,50 +9652,6 @@
             "id": "file:src/components/ui/SegmentedChoiceControl",
             "kind": "file",
             "file": "src/components/ui/SegmentedChoiceControl.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/data/dailyTaskState.ts:removeOptimisticPatchFields:339",
-      "kind": "function",
-      "module_id": "src/data/dailyTaskState",
-      "file": "src/data/dailyTaskState.ts",
-      "name": "removeOptimisticPatchFields",
-      "line": 339,
-      "score": 67,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 5
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 4
-        },
-        {
-          "kind": "line_count",
-          "value": 17
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/data/dailyTaskState.ts:removeOptimisticPatchFields:339",
-            "kind": "function",
-            "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -10575,12 +10425,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:mergeMissingTitleDrafts:124",
+      "id": "src/data/dailyTaskState.ts:mergeMissingTitleDrafts:76",
       "kind": "function",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "mergeMissingTitleDrafts",
-      "line": 124,
+      "line": 76,
       "score": 61,
       "risk": "medium",
       "signals": [
@@ -10610,7 +10460,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:mergeMissingTitleDrafts:124",
+            "id": "src/data/dailyTaskState.ts:mergeMissingTitleDrafts:76",
             "kind": "function",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -11603,12 +11453,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:commitBoundedDraft:191",
+      "id": "src/data/dailyTaskState.ts:commitBoundedDraft:143",
       "kind": "function",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "commitBoundedDraft",
-      "line": 191,
+      "line": 143,
       "score": 55,
       "risk": "medium",
       "signals": [
@@ -11638,7 +11488,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:commitBoundedDraft:191",
+            "id": "src/data/dailyTaskState.ts:commitBoundedDraft:143",
             "kind": "function",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -12465,12 +12315,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:getTestLastActive:401",
+      "id": "src/data/dailyTaskState.ts:getTestLastActive:284",
       "kind": "function",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "getTestLastActive",
-      "line": 401,
+      "line": 284,
       "score": 50,
       "risk": "medium",
       "signals": [
@@ -12500,7 +12350,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:getTestLastActive:401",
+            "id": "src/data/dailyTaskState.ts:getTestLastActive:284",
             "kind": "function",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -13034,12 +12884,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:useTodayInfo:108",
+      "id": "src/data/dailyTaskState.ts:useTodayInfo:60",
       "kind": "hook",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "useTodayInfo",
-      "line": 108,
+      "line": 60,
       "score": 47,
       "risk": "medium",
       "signals": [
@@ -13069,7 +12919,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:useTodayInfo:108",
+            "id": "src/data/dailyTaskState.ts:useTodayInfo:60",
             "kind": "hook",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -13264,7 +13114,7 @@
       "signals": [
         {
           "kind": "line_count",
-          "value": 80
+          "value": 79
         },
         {
           "kind": "branch_count",
@@ -14178,12 +14028,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:resetManageChorePatch:431",
+      "id": "src/data/dailyTaskState.ts:resetManageChorePatch:303",
       "kind": "function",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "resetManageChorePatch",
-      "line": 431,
+      "line": 303,
       "score": 44,
       "risk": "medium",
       "signals": [
@@ -14213,7 +14063,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:resetManageChorePatch:431",
+            "id": "src/data/dailyTaskState.ts:resetManageChorePatch:303",
             "kind": "function",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -14529,12 +14379,12 @@
       ]
     },
     {
-      "id": "src/components/ui/StarDisplay.tsx:handleIncrement:308",
+      "id": "src/components/ui/StarDisplay.tsx:handleIncrement:342",
       "kind": "function",
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "handleIncrement",
-      "line": 308,
+      "line": 342,
       "score": 43,
       "risk": "medium",
       "signals": [
@@ -14564,7 +14414,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StarDisplay.tsx:handleIncrement:308",
+            "id": "src/components/ui/StarDisplay.tsx:handleIncrement:342",
             "kind": "function",
             "file": "src/components/ui/StarDisplay.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15031,12 +14881,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:useCollectionTitleDrafts:148",
+      "id": "src/data/dailyTaskState.ts:useCollectionTitleDrafts:100",
       "kind": "hook",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "useCollectionTitleDrafts",
-      "line": 148,
+      "line": 100,
       "score": 41,
       "risk": "medium",
       "signals": [
@@ -15066,7 +14916,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:useCollectionTitleDrafts:148",
+            "id": "src/data/dailyTaskState.ts:useCollectionTitleDrafts:100",
             "kind": "hook",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15831,50 +15681,6 @@
       ]
     },
     {
-      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:buildOrbitLine:22",
-      "kind": "function",
-      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
-      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
-      "name": "buildOrbitLine",
-      "line": 22,
-      "score": 38,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 3
-        },
-        {
-          "kind": "line_count",
-          "value": 18
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:buildOrbitLine:22",
-            "kind": "function",
-            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/ui/listDescriptorTypes.ts:toStandardActionListDescriptor:44",
       "kind": "function",
       "module_id": "src/ui/listDescriptorTypes",
@@ -16221,6 +16027,50 @@
             "id": "src/lib/choreLogic.ts:calculateNextDinnerBiteState:89",
             "kind": "function",
             "file": "src/lib/choreLogic.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:buildOrbitLine:22",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "name": "buildOrbitLine",
+      "line": 22,
+      "score": 37,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 2
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 3
+        },
+        {
+          "kind": "line_count",
+          "value": 14
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:buildOrbitLine:22",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -17521,49 +17371,6 @@
       ]
     },
     {
-      "id": "file:src/contexts/SelectedDateContext",
-      "kind": "file",
-      "module_id": "src/contexts/SelectedDateContext",
-      "file": "src/contexts/SelectedDateContext.tsx",
-      "line": 1,
-      "score": 35,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 89
-        },
-        {
-          "kind": "branch_count",
-          "value": 1
-        },
-        {
-          "kind": "import_count",
-          "value": 3
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this file finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line file"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/contexts/SelectedDateContext",
-            "kind": "file",
-            "file": "src/contexts/SelectedDateContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "file:src/lib/activityOutcome",
       "kind": "file",
       "module_id": "src/lib/activityOutcome",
@@ -17601,50 +17408,6 @@
             "id": "file:src/lib/activityOutcome",
             "kind": "file",
             "file": "src/lib/activityOutcome.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/auth/AuthContext.tsx:useAuth:94",
-      "kind": "hook",
-      "module_id": "src/auth/AuthContext",
-      "file": "src/auth/AuthContext.tsx",
-      "name": "useAuth",
-      "line": 94,
-      "score": 35,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 3
-        },
-        {
-          "kind": "line_count",
-          "value": 9
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this hook finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line hook"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/auth/AuthContext.tsx:useAuth:94",
-            "kind": "hook",
-            "file": "src/auth/AuthContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -17703,12 +17466,12 @@
       ]
     },
     {
-      "id": "src/components/ui/StarDisplay.tsx:handleDecrement:304",
+      "id": "src/components/ui/StarDisplay.tsx:handleDecrement:338",
       "kind": "function",
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "handleDecrement",
-      "line": 304,
+      "line": 338,
       "score": 35,
       "risk": "medium",
       "signals": [
@@ -17738,7 +17501,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StarDisplay.tsx:handleDecrement:304",
+            "id": "src/components/ui/StarDisplay.tsx:handleDecrement:338",
             "kind": "function",
             "file": "src/components/ui/StarDisplay.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17789,94 +17552,6 @@
             "id": "src/components/ui/StarDisplay.tsx:StarIcon:70",
             "kind": "component",
             "file": "src/components/ui/StarDisplay.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/contexts/SelectedDateContext.tsx:useSelectedDate:69",
-      "kind": "hook",
-      "module_id": "src/contexts/SelectedDateContext",
-      "file": "src/contexts/SelectedDateContext.tsx",
-      "name": "useSelectedDate",
-      "line": 69,
-      "score": 35,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 3
-        },
-        {
-          "kind": "line_count",
-          "value": 11
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this hook finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line hook"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/contexts/SelectedDateContext.tsx:useSelectedDate:69",
-            "kind": "hook",
-            "file": "src/contexts/SelectedDateContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/data/useChildren.ts:useChildren:210",
-      "kind": "hook",
-      "module_id": "src/data/useChildren",
-      "file": "src/data/useChildren.ts",
-      "name": "useChildren",
-      "line": 210,
-      "score": 35,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 3
-        },
-        {
-          "kind": "line_count",
-          "value": 9
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this hook finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line hook"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/data/useChildren.ts:useChildren:210",
-            "kind": "hook",
-            "file": "src/data/useChildren.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -18254,56 +17929,12 @@
       ]
     },
     {
-      "id": "src/contexts/ActiveChildContext.tsx:useActiveChild:125",
-      "kind": "hook",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "name": "useActiveChild",
-      "line": 125,
-      "score": 34,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 3
-        },
-        {
-          "kind": "line_count",
-          "value": 7
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this hook finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line hook"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/contexts/ActiveChildContext.tsx:useActiveChild:125",
-            "kind": "hook",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/contexts/SelectedDateContext.tsx:SelectedDateProvider:30",
+      "id": "src/contexts/SelectedDateContext.tsx:SelectedDateProvider:25",
       "kind": "component",
       "module_id": "src/contexts/SelectedDateContext",
       "file": "src/contexts/SelectedDateContext.tsx",
       "name": "SelectedDateProvider",
-      "line": 30,
+      "line": 25,
       "score": 34,
       "risk": "low",
       "signals": [
@@ -18337,7 +17968,7 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/SelectedDateContext.tsx:SelectedDateProvider:30",
+            "id": "src/contexts/SelectedDateContext.tsx:SelectedDateProvider:25",
             "kind": "component",
             "file": "src/contexts/SelectedDateContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -18472,6 +18103,50 @@
             "id": "src/data/taskLimits.ts:isBoundedInteger:6",
             "kind": "function",
             "file": "src/data/taskLimits.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/hooks/useRequiredContext.ts:useRequiredContext:3",
+      "kind": "hook",
+      "module_id": "src/hooks/useRequiredContext",
+      "file": "src/hooks/useRequiredContext.ts",
+      "name": "useRequiredContext",
+      "line": 3,
+      "score": 34,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 2
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 3
+        },
+        {
+          "kind": "line_count",
+          "value": 7
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this hook finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line hook"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/hooks/useRequiredContext.ts:useRequiredContext:3",
+            "kind": "hook",
+            "file": "src/hooks/useRequiredContext.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -19047,6 +18722,49 @@
             "id": "src/ui/unifiedChoreState.ts:getTodoWaterToiletRenderState:172",
             "kind": "function",
             "file": "src/ui/unifiedChoreState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/contexts/SelectedDateContext",
+      "kind": "file",
+      "module_id": "src/contexts/SelectedDateContext",
+      "file": "src/contexts/SelectedDateContext.tsx",
+      "line": 1,
+      "score": 32,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 80
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 4
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/contexts/SelectedDateContext",
+            "kind": "file",
+            "file": "src/contexts/SelectedDateContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -19933,56 +19651,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:copyRemainingPatchField:98",
-      "kind": "function",
-      "module_id": "src/data/dailyTaskState",
-      "file": "src/data/dailyTaskState.ts",
-      "name": "copyRemainingPatchField",
-      "line": 98,
-      "score": 28,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 2
-        },
-        {
-          "kind": "line_count",
-          "value": 4
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/data/dailyTaskState.ts:copyRemainingPatchField:98",
-            "kind": "function",
-            "file": "src/data/dailyTaskState.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/data/dailyTaskState.ts:mergeTestEphemeral:330",
+      "id": "src/data/dailyTaskState.ts:mergeTestEphemeral:246",
       "kind": "function",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "mergeTestEphemeral",
-      "line": 330,
+      "line": 246,
       "score": 28,
       "risk": "low",
       "signals": [
@@ -20012,7 +19686,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:mergeTestEphemeral:330",
+            "id": "src/data/dailyTaskState.ts:mergeTestEphemeral:246",
             "kind": "function",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -20021,12 +19695,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:removeDraft:158",
+      "id": "src/data/dailyTaskState.ts:removeDraft:110",
       "kind": "function",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "removeDraft",
-      "line": 158,
+      "line": 110,
       "score": 28,
       "risk": "low",
       "signals": [
@@ -20056,7 +19730,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:removeDraft:158",
+            "id": "src/data/dailyTaskState.ts:removeDraft:110",
             "kind": "function",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -20109,12 +19783,12 @@
       ]
     },
     {
-      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:getCenteredLongitude:44",
+      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:getCenteredLongitude:40",
       "kind": "function",
       "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
       "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
       "name": "getCenteredLongitude",
-      "line": 44,
+      "line": 40,
       "score": 28,
       "risk": "low",
       "signals": [
@@ -20144,7 +19818,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:getCenteredLongitude:44",
+            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:getCenteredLongitude:40",
             "kind": "function",
             "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -20372,49 +20046,6 @@
       ]
     },
     {
-      "id": "file:src/lib/dayNightExplorer/solarSystemGeometry",
-      "kind": "file",
-      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
-      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
-      "line": 1,
-      "score": 27,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 64
-        },
-        {
-          "kind": "branch_count",
-          "value": 2
-        },
-        {
-          "kind": "import_count",
-          "value": 2
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this file finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line file"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/lib/dayNightExplorer/solarSystemGeometry",
-            "kind": "file",
-            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/AnimalTester.tsx:NavigationArrow:328",
       "kind": "component",
       "module_id": "src/components/AnimalTester",
@@ -20632,6 +20263,49 @@
             "id": "file:src/components/ui/MathActivityShell",
             "kind": "file",
             "file": "src/components/ui/MathActivityShell.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/lib/dayNightExplorer/solarSystemGeometry",
+      "kind": "file",
+      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "line": 1,
+      "score": 26,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 60
+        },
+        {
+          "kind": "branch_count",
+          "value": 2
+        },
+        {
+          "kind": "import_count",
+          "value": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/lib/dayNightExplorer/solarSystemGeometry",
+            "kind": "file",
+            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -21940,12 +21614,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:manageTestOutcomePatch:420",
+      "id": "src/data/dailyTaskState.ts:manageTestOutcomePatch:292",
       "kind": "function",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "manageTestOutcomePatch",
-      "line": 420,
+      "line": 292,
       "score": 23,
       "risk": "low",
       "signals": [
@@ -21975,51 +21649,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:manageTestOutcomePatch:420",
-            "kind": "function",
-            "file": "src/data/dailyTaskState.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/data/dailyTaskState.ts:todoOutcomePatch:409",
-      "kind": "function",
-      "module_id": "src/data/dailyTaskState",
-      "file": "src/data/dailyTaskState.ts",
-      "name": "todoOutcomePatch",
-      "line": 409,
-      "score": 23,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 1
-        },
-        {
-          "kind": "line_count",
-          "value": 6
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/data/dailyTaskState.ts:todoOutcomePatch:409",
+            "id": "src/data/dailyTaskState.ts:manageTestOutcomePatch:292",
             "kind": "function",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -22962,6 +22592,54 @@
       ]
     },
     {
+      "id": "src/components/ui/StarDisplay.tsx:StarStepper:296",
+      "kind": "component",
+      "module_id": "src/components/ui/StarDisplay",
+      "file": "src/components/ui/StarDisplay.tsx",
+      "name": "StarStepper",
+      "line": 296,
+      "score": 20,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 1
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 19
+        },
+        {
+          "kind": "jsx_density",
+          "value": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/components/ui/StarDisplay.tsx:StarStepper:296",
+            "kind": "component",
+            "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/data/assetCatalog.ts:createAssetCatalog:6",
       "kind": "function",
       "module_id": "src/data/assetCatalog",
@@ -23006,12 +22684,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:useTitleDraftBackfill:139",
+      "id": "src/data/dailyTaskState.ts:useTitleDraftBackfill:91",
       "kind": "hook",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "useTitleDraftBackfill",
-      "line": 139,
+      "line": 91,
       "score": 20,
       "risk": "low",
       "signals": [
@@ -23041,7 +22719,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:useTitleDraftBackfill:139",
+            "id": "src/data/dailyTaskState.ts:useTitleDraftBackfill:91",
             "kind": "hook",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -23847,12 +23525,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:filterActiveChildItems:177",
+      "id": "src/data/dailyTaskState.ts:filterActiveChildItems:129",
       "kind": "function",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "filterActiveChildItems",
-      "line": 177,
+      "line": 129,
       "score": 17,
       "risk": "low",
       "signals": [
@@ -23882,7 +23560,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:filterActiveChildItems:177",
+            "id": "src/data/dailyTaskState.ts:filterActiveChildItems:129",
             "kind": "function",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -24911,12 +24589,100 @@
       ]
     },
     {
-      "id": "src/contexts/SelectedDateContext.tsx:useSolarTimes:81",
+      "id": "src/contexts/ActiveChildContext.tsx:useActiveChild:119",
+      "kind": "hook",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "name": "useActiveChild",
+      "line": 119,
+      "score": 16,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 1
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 7
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this hook finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line hook"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/contexts/ActiveChildContext.tsx:useActiveChild:119",
+            "kind": "hook",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/contexts/SelectedDateContext.tsx:useSelectedDate:64",
+      "kind": "hook",
+      "module_id": "src/contexts/SelectedDateContext",
+      "file": "src/contexts/SelectedDateContext.tsx",
+      "name": "useSelectedDate",
+      "line": 64,
+      "score": 16,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 1
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 7
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this hook finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line hook"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/contexts/SelectedDateContext.tsx:useSelectedDate:64",
+            "kind": "hook",
+            "file": "src/contexts/SelectedDateContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/contexts/SelectedDateContext.tsx:useSolarTimes:72",
       "kind": "hook",
       "module_id": "src/contexts/SelectedDateContext",
       "file": "src/contexts/SelectedDateContext.tsx",
       "name": "useSolarTimes",
-      "line": 81,
+      "line": 72,
       "score": 16,
       "risk": "low",
       "signals": [
@@ -24946,7 +24712,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/SelectedDateContext.tsx:useSolarTimes:81",
+            "id": "src/contexts/SelectedDateContext.tsx:useSolarTimes:72",
             "kind": "hook",
             "file": "src/contexts/SelectedDateContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -24999,12 +24765,12 @@
       ]
     },
     {
-      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:lerpAngle:57",
+      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:lerpAngle:53",
       "kind": "function",
       "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
       "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
       "name": "lerpAngle",
-      "line": 57,
+      "line": 53,
       "score": 16,
       "risk": "low",
       "signals": [
@@ -25034,7 +24800,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:lerpAngle:57",
+            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:lerpAngle:53",
             "kind": "function",
             "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -26547,6 +26313,50 @@
       ]
     },
     {
+      "id": "src/auth/AuthContext.tsx:useAuth:88",
+      "kind": "hook",
+      "module_id": "src/auth/AuthContext",
+      "file": "src/auth/AuthContext.tsx",
+      "name": "useAuth",
+      "line": 88,
+      "score": 14,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 1
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 3
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this hook finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line hook"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/auth/AuthContext.tsx:useAuth:88",
+            "kind": "hook",
+            "file": "src/auth/AuthContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/components/ArithmeticTester.tsx:getProblemKey:72",
       "kind": "function",
       "module_id": "src/components/ArithmeticTester",
@@ -27693,6 +27503,50 @@
             "id": "src/data/types.ts:isWaterToiletTodo:689",
             "kind": "function",
             "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/data/useChildren.ts:useChildren:210",
+      "kind": "hook",
+      "module_id": "src/data/useChildren",
+      "file": "src/data/useChildren.ts",
+      "name": "useChildren",
+      "line": 210,
+      "score": 14,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 1
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 3
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this hook finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line hook"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/data/useChildren.ts:useChildren:210",
+            "kind": "hook",
+            "file": "src/data/useChildren.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -29108,12 +28962,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:commitDraft:165",
+      "id": "src/data/dailyTaskState.ts:commitDraft:117",
       "kind": "function",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "commitDraft",
-      "line": 165,
+      "line": 117,
       "score": 11,
       "risk": "low",
       "signals": [
@@ -29143,7 +28997,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:commitDraft:165",
+            "id": "src/data/dailyTaskState.ts:commitDraft:117",
             "kind": "function",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -30081,6 +29935,49 @@
       ]
     },
     {
+      "id": "file:src/hooks/useRequiredContext",
+      "kind": "file",
+      "module_id": "src/hooks/useRequiredContext",
+      "file": "src/hooks/useRequiredContext.ts",
+      "line": 1,
+      "score": 8,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 14
+        },
+        {
+          "kind": "branch_count",
+          "value": 1
+        },
+        {
+          "kind": "import_count",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/hooks/useRequiredContext",
+            "kind": "file",
+            "file": "src/hooks/useRequiredContext.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/assets/chores/assets.ts:isChoreImageKey:23",
       "kind": "function",
       "module_id": "src/assets/chores/assets",
@@ -30565,12 +30462,12 @@
       ]
     },
     {
-      "id": "src/contexts/SelectedDateContext.tsx:getInitialSelectedDateKey:28",
+      "id": "src/contexts/SelectedDateContext.tsx:getInitialSelectedDateKey:23",
       "kind": "function",
       "module_id": "src/contexts/SelectedDateContext",
       "file": "src/contexts/SelectedDateContext.tsx",
       "name": "getInitialSelectedDateKey",
-      "line": 28,
+      "line": 23,
       "score": 8,
       "risk": "low",
       "signals": [
@@ -30600,7 +30497,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/SelectedDateContext.tsx:getInitialSelectedDateKey:28",
+            "id": "src/contexts/SelectedDateContext.tsx:getInitialSelectedDateKey:23",
             "kind": "function",
             "file": "src/contexts/SelectedDateContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -30697,56 +30594,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:mergeTodoOverrides:237",
-      "kind": "function",
-      "module_id": "src/data/dailyTaskState",
-      "file": "src/data/dailyTaskState.ts",
-      "name": "mergeTodoOverrides",
-      "line": 237,
-      "score": 8,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 1
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 1
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/data/dailyTaskState.ts:mergeTodoOverrides:237",
-            "kind": "function",
-            "file": "src/data/dailyTaskState.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/data/dailyTaskState.ts:setDraft:156",
+      "id": "src/data/dailyTaskState.ts:setDraft:108",
       "kind": "function",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "setDraft",
-      "line": 156,
+      "line": 108,
       "score": 8,
       "risk": "low",
       "signals": [
@@ -30776,7 +30629,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:setDraft:156",
+            "id": "src/data/dailyTaskState.ts:setDraft:108",
             "kind": "function",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -30785,12 +30638,12 @@
       ]
     },
     {
-      "id": "src/data/dailyTaskState.ts:setDraftValue:185",
+      "id": "src/data/dailyTaskState.ts:setDraftValue:137",
       "kind": "function",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
       "name": "setDraftValue",
-      "line": 185,
+      "line": 137,
       "score": 8,
       "risk": "low",
       "signals": [
@@ -30820,7 +30673,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/dailyTaskState.ts:setDraftValue:185",
+            "id": "src/data/dailyTaskState.ts:setDraftValue:137",
             "kind": "function",
             "file": "src/data/dailyTaskState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -32237,12 +32090,12 @@
       ]
     },
     {
-      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:getEarthViewRotationY:54",
+      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:getEarthViewRotationY:50",
       "kind": "function",
       "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
       "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
       "name": "getEarthViewRotationY",
-      "line": 54,
+      "line": 50,
       "score": 8,
       "risk": "low",
       "signals": [
@@ -32272,7 +32125,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:getEarthViewRotationY:54",
+            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:getEarthViewRotationY:50",
             "kind": "function",
             "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -32281,12 +32134,12 @@
       ]
     },
     {
-      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:normalizeLongitude:41",
+      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:normalizeLongitude:37",
       "kind": "function",
       "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
       "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
       "name": "normalizeLongitude",
-      "line": 41,
+      "line": 37,
       "score": 8,
       "risk": "low",
       "signals": [
@@ -32316,7 +32169,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:normalizeLongitude:41",
+            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:normalizeLongitude:37",
             "kind": "function",
             "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
             "reason": "Intentional finding; document the project-specific reason."

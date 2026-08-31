@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:38:05.476Z",
+    "measured_at": "2026-08-31T23:43:39.380Z",
     "source_type": "static",
-    "source_set_hash": "sha256:4d3ccae0e33ffd8c5b010c9c6fadcc808067a849a4e262a4f28122202cac423b"
+    "source_set_hash": "sha256:b43c67a5411affb9f43cefcc8ea80cd9050083721aa51cf6110cf0759242e765"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -63,7 +63,7 @@
     "stale_input": []
   },
   "summary": {
-    "records": 143,
+    "records": 144,
     "high_risk_records": 58
   },
   "records": [
@@ -455,33 +455,29 @@
       "id": "locality:src/auth/AuthContext",
       "module_id": "src/auth/AuthContext",
       "file": "src/auth/AuthContext.tsx",
-      "score": 91,
+      "score": 87,
       "risk": "high",
-      "dependency_distance": 1,
+      "dependency_distance": 2,
       "hidden_coupling": [
         {
           "kind": "react_context",
-          "line": 29
-        },
-        {
-          "kind": "react_context",
-          "line": 95
+          "line": 23
         }
       ],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 4,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
         {
-          "file": "src/firebase.ts",
+          "file": "src/data/useChildren.ts",
           "commits": 3
         },
         {
-          "file": "src/data/useChildren.ts",
-          "commits": 2
+          "file": "src/firebase.ts",
+          "commits": 3
         },
         {
           "file": "src/data/useChores.ts",
@@ -504,31 +500,32 @@
           "commits": 1
         },
         {
-          "file": "src/data/types.ts",
+          "file": "src/components/ui/ActivityControls.tsx",
           "commits": 1
         },
         {
-          "file": "src/data/useTests.ts",
+          "file": "src/components/ui/StarDisplay.tsx",
           "commits": 1
         },
         {
-          "file": "src/data/useUserCollection.ts",
+          "file": "src/components/ui/StepperButton.tsx",
           "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "far_import",
-          "line": 20,
+          "line": 13,
           "specifier": "../firebase"
         },
         {
-          "kind": "react_context",
-          "line": 29
+          "kind": "far_import",
+          "line": 14,
+          "specifier": "../hooks/useRequiredContext"
         },
         {
           "kind": "react_context",
-          "line": 95
+          "line": 23
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -2661,7 +2658,7 @@
       ],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 4,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 0,
@@ -3502,13 +3499,13 @@
       "id": "locality:src/components/ui/ActivityControls",
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
-      "score": 63,
+      "score": 65,
       "risk": "medium",
       "dependency_distance": 3,
       "hidden_coupling": [],
       "test_locality": "direct_evidence",
       "churn": {
-        "commits": 6,
+        "commits": 7,
         "contributors": 1
       },
       "defect_commits": 0,
@@ -3523,6 +3520,18 @@
         },
         {
           "file": "src/components/ui/StarDisplay.tsx",
+          "commits": 5
+        },
+        {
+          "file": "src/components/ui/StepperButton.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 4
+        },
+        {
+          "file": "src/data/useChildren.ts",
           "commits": 4
         },
         {
@@ -3539,18 +3548,6 @@
         },
         {
           "file": "src/App.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/AnimalTester.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/ArithmeticTester.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/DinnerCountdown.tsx",
           "commits": 3
         }
       ],
@@ -5623,13 +5620,13 @@
       "id": "locality:src/components/ui/StarDisplay",
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
-      "score": 80,
+      "score": 82,
       "risk": "high",
       "dependency_distance": 4,
       "hidden_coupling": [],
       "test_locality": "direct_evidence",
       "churn": {
-        "commits": 7,
+        "commits": 8,
         "contributors": 1
       },
       "defect_commits": 0,
@@ -5651,6 +5648,18 @@
           "commits": 5
         },
         {
+          "file": "src/components/ui/ActivityControls.tsx",
+          "commits": 5
+        },
+        {
+          "file": "src/components/ui/StepperButton.tsx",
+          "commits": 5
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 5
+        },
+        {
           "file": "src/data/types.ts",
           "commits": 5
         },
@@ -5661,18 +5670,6 @@
         {
           "file": "src/ui/definitionRowDescriptors.tsx",
           "commits": 5
-        },
-        {
-          "file": "src/assets/themes/princess/assets.ts",
-          "commits": 4
-        },
-        {
-          "file": "src/components/DinnerCountdown.tsx",
-          "commits": 4
-        },
-        {
-          "file": "src/components/PositionalNotation.tsx",
-          "commits": 4
         }
       ],
       "signals": [
@@ -5853,17 +5850,21 @@
       "id": "locality:src/components/ui/StepperButton",
       "module_id": "src/components/ui/StepperButton",
       "file": "src/components/ui/StepperButton.tsx",
-      "score": 62,
+      "score": 67,
       "risk": "medium",
       "dependency_distance": 2,
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 4,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
+        {
+          "file": "src/components/ui/StarDisplay.tsx",
+          "commits": 5
+        },
         {
           "file": "src/components/AlphabetTester.tsx",
           "commits": 4
@@ -5873,11 +5874,19 @@
           "commits": 4
         },
         {
+          "file": "src/components/ui/ActivityControls.tsx",
+          "commits": 4
+        },
+        {
           "file": "src/components/ui/StandardActionList.tsx",
           "commits": 4
         },
         {
-          "file": "src/components/ui/StarDisplay.tsx",
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 4
+        },
+        {
+          "file": "src/data/useChildren.ts",
           "commits": 4
         },
         {
@@ -5891,18 +5900,6 @@
         {
           "file": "src/ui/definitionRowDescriptors.tsx",
           "commits": 4
-        },
-        {
-          "file": "src/ui/unifiedChoreDescriptors.tsx",
-          "commits": 4
-        },
-        {
-          "file": "src/assets/themes/princess/assets.ts",
-          "commits": 3
-        },
-        {
-          "file": "src/components/ArithmeticTester.tsx",
-          "commits": 3
         }
       ],
       "signals": [
@@ -5921,7 +5918,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 4
+          "value": 5
         }
       ],
       "kind": "locality",
@@ -6711,66 +6708,95 @@
       "file": "src/contexts/ActiveChildContext.tsx",
       "score": 100,
       "risk": "high",
-      "dependency_distance": 1,
+      "dependency_distance": 2,
       "hidden_coupling": [
         {
           "kind": "react_context",
-          "line": 27
+          "line": 21
         },
         {
           "kind": "window_global",
-          "line": 41
+          "line": 35
         },
         {
           "kind": "window_global",
-          "line": 83
+          "line": 77
         },
         {
           "kind": "window_global",
-          "line": 88
-        },
-        {
-          "kind": "react_context",
-          "line": 126
+          "line": 82
         }
       ],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
         {
           "file": "src/contexts/ThemeContext.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/ActivityControls.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/StarDisplay.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/StepperButton.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/contexts/SelectedDateContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useChildren.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/hooks/useRequiredContext.ts",
           "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "far_import",
-          "line": 10,
+          "line": 3,
           "specifier": "../auth/AuthContext"
         },
         {
-          "kind": "react_context",
-          "line": 27
-        },
-        {
-          "kind": "window_global",
-          "line": 41
-        },
-        {
-          "kind": "window_global",
-          "line": 83
-        },
-        {
-          "kind": "window_global",
-          "line": 88
+          "kind": "far_import",
+          "line": 4,
+          "specifier": "../hooks/useRequiredContext"
         },
         {
           "kind": "react_context",
-          "line": 126
+          "line": 21
+        },
+        {
+          "kind": "window_global",
+          "line": 35
+        },
+        {
+          "kind": "window_global",
+          "line": 77
+        },
+        {
+          "kind": "window_global",
+          "line": 82
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -6781,7 +6807,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -6822,22 +6848,18 @@
       "id": "locality:src/contexts/SelectedDateContext",
       "module_id": "src/contexts/SelectedDateContext",
       "file": "src/contexts/SelectedDateContext.tsx",
-      "score": 93,
+      "score": 89,
       "risk": "high",
-      "dependency_distance": 2,
+      "dependency_distance": 3,
       "hidden_coupling": [
         {
           "kind": "react_context",
-          "line": 24
-        },
-        {
-          "kind": "react_context",
-          "line": 70
+          "line": 19
         }
       ],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 3,
+        "commits": 4,
         "contributors": 1
       },
       "defect_commits": 0,
@@ -6848,6 +6870,10 @@
         },
         {
           "file": "src/App.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
           "commits": 2
         },
         {
@@ -6863,6 +6889,10 @@
           "commits": 2
         },
         {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 1
+        },
+        {
           "file": "src/components/dayNightExplorer/AnalogClockFace.tsx",
           "commits": 1
         },
@@ -6873,34 +6903,27 @@
         {
           "file": "src/components/dayNightExplorer/ExplorerClockPanel.tsx",
           "commits": 1
-        },
-        {
-          "file": "src/components/dayNightExplorer/ExplorerGlobe.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/dayNightExplorer/ExplorerLocationSelector.tsx",
-          "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "far_import",
-          "line": 9,
+          "line": 3,
           "specifier": "../lib/solar"
         },
         {
           "kind": "far_import",
-          "line": 14,
+          "line": 8,
           "specifier": "../lib/today"
         },
         {
-          "kind": "react_context",
-          "line": 24
+          "kind": "far_import",
+          "line": 9,
+          "specifier": "../hooks/useRequiredContext"
         },
         {
           "kind": "react_context",
-          "line": 70
+          "line": 19
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -6963,7 +6986,7 @@
       ],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 13,
+        "commits": 14,
         "contributors": 2
       },
       "defect_commits": 4,
@@ -6981,7 +7004,15 @@
           "commits": 3
         },
         {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 3
+        },
+        {
           "file": "src/data/types.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/data/useChildren.ts",
           "commits": 3
         },
         {
@@ -6998,14 +7029,6 @@
         },
         {
           "file": "src/pages/DashboardPage.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/pages/ManageChildrenPage.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/pages/ManageTasksPage.tsx",
           "commits": 3
         }
       ],
@@ -8102,13 +8125,13 @@
       "id": "locality:src/data/dailyTaskState",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
-      "score": 44,
+      "score": 46,
       "risk": "medium",
       "dependency_distance": 1,
       "hidden_coupling": [],
       "test_locality": "direct_evidence",
       "churn": {
-        "commits": 7,
+        "commits": 8,
         "contributors": 2
       },
       "defect_commits": 0,
@@ -8138,6 +8161,10 @@
           "commits": 5
         },
         {
+          "file": "src/components/ui/StarDisplay.tsx",
+          "commits": 5
+        },
+        {
           "file": "src/data/taskDocuments.ts",
           "commits": 5
         },
@@ -8147,10 +8174,6 @@
         },
         {
           "file": "src/data/useChores.ts",
-          "commits": 5
-        },
-        {
-          "file": "src/ui/unifiedChoreDescriptors.tsx",
           "commits": 5
         }
       ],
@@ -8553,20 +8576,16 @@
       "file": "src/data/useChildren.ts",
       "score": 100,
       "risk": "high",
-      "dependency_distance": 5,
+      "dependency_distance": 6,
       "hidden_coupling": [
         {
           "kind": "react_context",
           "line": 200
-        },
-        {
-          "kind": "react_context",
-          "line": 211
         }
       ],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 8,
+        "commits": 9,
         "contributors": 1
       },
       "defect_commits": 0,
@@ -8588,63 +8607,64 @@
           "commits": 5
         },
         {
+          "file": "src/components/ui/ActivityControls.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/components/ui/StarDisplay.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/components/ui/StepperButton.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 4
+        },
+        {
           "file": "src/pages/DashboardPage.tsx",
           "commits": 4
         },
         {
           "file": "src/pages/ManageChildrenPage.tsx",
           "commits": 4
-        },
-        {
-          "file": "src/ui/definitionRowDescriptors.tsx",
-          "commits": 4
-        },
-        {
-          "file": "src/App.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/ArithmeticTester.tsx",
-          "commits": 3
         }
       ],
       "signals": [
         {
           "kind": "far_import",
-          "line": 20,
+          "line": 19,
           "specifier": "../firebaseDb"
         },
         {
           "kind": "far_import",
-          "line": 21,
+          "line": 20,
           "specifier": "../auth/AuthContext"
         },
         {
           "kind": "far_import",
-          "line": 22,
+          "line": 21,
           "specifier": "../contexts/ActiveChildContext"
         },
         {
           "kind": "far_import",
-          "line": 23,
+          "line": 22,
           "specifier": "../ui/themeOptions"
         },
         {
           "kind": "far_import",
-          "line": 35,
+          "line": 34,
           "specifier": "../hooks/useCoalescedDocumentUpdates"
+        },
+        {
+          "kind": "far_import",
+          "line": 36,
+          "specifier": "../hooks/useRequiredContext"
         },
         {
           "kind": "react_context",
           "line": 200
-        },
-        {
-          "kind": "react_context",
-          "line": 211
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -10091,6 +10111,104 @@
       ]
     },
     {
+      "id": "locality:src/hooks/useRequiredContext",
+      "module_id": "src/hooks/useRequiredContext",
+      "file": "src/hooks/useRequiredContext.ts",
+      "score": 41,
+      "risk": "medium",
+      "dependency_distance": 0,
+      "hidden_coupling": [
+        {
+          "kind": "react_context",
+          "line": 8
+        }
+      ],
+      "test_locality": "no_evidence",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/ActivityControls.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/StarDisplay.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/StepperButton.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/contexts/ActiveChildContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/contexts/SelectedDateContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useChildren.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "react_context",
+          "line": 8
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line locality"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/hooks/useRequiredContext",
+            "kind": "locality",
+            "file": "src/hooks/useRequiredContext.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file locality"
+        }
+      ]
+    },
+    {
       "id": "locality:src/hooks/useTaskActivityState",
       "module_id": "src/hooks/useTaskActivityState",
       "file": "src/hooks/useTaskActivityState.ts",
@@ -11205,20 +11323,37 @@
       "id": "locality:src/lib/dayNightExplorer/solarSystemGeometry",
       "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
       "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/dayNightExplorer/worldTopology.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -11253,20 +11388,37 @@
       "id": "locality:src/lib/dayNightExplorer/worldMapCanvas",
       "module_id": "src/lib/dayNightExplorer/worldMapCanvas",
       "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/dayNightExplorer/worldTopology.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -11301,20 +11453,37 @@
       "id": "locality:src/lib/dayNightExplorer/worldTopology",
       "module_id": "src/lib/dayNightExplorer/worldTopology",
       "file": "src/lib/dayNightExplorer/worldTopology.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
