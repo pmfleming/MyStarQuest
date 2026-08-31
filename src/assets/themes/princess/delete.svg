@@ -1,41 +1,44 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
-  <title id="title">Royal task delete</title>
-  <desc id="desc">A royal task card marked with a bold ribbon X and dissolving into sparkles.</desc>
+  <title id="title">Royal magic poof delete</title>
+  <desc id="desc">A glossy pink and purple magic poof makes a golden star disappear.</desc>
   <defs>
-    <linearGradient id="card" x1="21" y1="20" x2="99" y2="108" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFF8EC"/>
-      <stop offset="1" stop-color="#F5C9DA"/>
+    <radialGradient id="cloud" cx="38%" cy="28%" r="78%">
+      <stop stop-color="#FFF2FD"/>
+      <stop offset="0.35" stop-color="#FF9DD4"/>
+      <stop offset="0.72" stop-color="#F044A6"/>
+      <stop offset="1" stop-color="#A62D91"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="41" y1="37" x2="83" y2="83" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFBD1"/>
+      <stop offset="0.28" stop-color="#FFE36A"/>
+      <stop offset="0.62" stop-color="#FFBE26"/>
+      <stop offset="1" stop-color="#E68310"/>
     </linearGradient>
-    <linearGradient id="ribbon" x1="42" y1="45" x2="82" y2="88" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#F7B5CC"/>
-      <stop offset="0.55" stop-color="#E17AA6"/>
-      <stop offset="1" stop-color="#BE5688"/>
-    </linearGradient>
-    <linearGradient id="gold" x1="75" y1="20" x2="103" y2="48" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFF4B4"/>
-      <stop offset="0.55" stop-color="#FFD269"/>
-      <stop offset="1" stop-color="#E4A03A"/>
+    <linearGradient id="purple" x1="43" y1="43" x2="85" y2="86" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ECA4FF"/>
+      <stop offset="0.5" stop-color="#B34BFF"/>
+      <stop offset="1" stop-color="#7124C7"/>
     </linearGradient>
     <filter id="shadow" x="-30%" y="-30%" width="170%" height="170%">
-      <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#784760" flood-opacity="0.3"/>
+      <feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#671F65" flood-opacity="0.4"/>
     </filter>
   </defs>
 
-  <path d="M34 20H78L98 40V98C98 105 93 110 86 110H34C27 110 22 105 22 98V32C22 25 27 20 34 20Z" fill="url(#card)" stroke="#8B506A" stroke-width="4" stroke-linejoin="round" filter="url(#shadow)"/>
-  <path d="M78 20V35C78 39 81 42 85 42H98" fill="url(#gold)" stroke="#8B506A" stroke-width="4" stroke-linejoin="round"/>
-  <path d="M38 35H66" fill="none" stroke="#E3A0B7" stroke-width="4" stroke-linecap="round"/>
+  <path d="M34 96C20 94 14 81 21 69C10 58 17 42 31 40C33 25 50 19 60 29C71 16 90 23 91 39C107 37 117 53 108 66C120 76 114 94 98 96C92 110 75 114 64 104C51 115 38 108 34 96Z" fill="#742567" stroke="#65245F" stroke-width="8" stroke-linejoin="round" filter="url(#shadow)"/>
+  <path d="M34 92C22 90 18 80 24 70C15 60 21 47 33 45C35 32 50 27 59 36C69 24 85 31 86 44C100 42 109 55 102 66C113 75 108 89 95 91C90 103 75 107 65 98C54 108 41 103 34 92Z" fill="url(#cloud)" stroke="#FFCE47" stroke-width="4" stroke-linejoin="round"/>
+
+  <path d="M64 37L70 52L86 53L74 64L77 80L64 72L50 80L54 64L42 53L58 52Z" fill="url(#gold)" stroke="#7A3567" stroke-width="4" stroke-linejoin="round" filter="url(#shadow)"/>
 
   <g filter="url(#shadow)">
-    <path d="M42 51L79 88" fill="none" stroke="#824D68" stroke-width="14" stroke-linecap="round"/>
-    <path d="M79 51L42 88" fill="none" stroke="#824D68" stroke-width="14" stroke-linecap="round"/>
-    <path d="M42 51L79 88" fill="none" stroke="url(#ribbon)" stroke-width="8" stroke-linecap="round"/>
-    <path d="M79 51L42 88" fill="none" stroke="url(#ribbon)" stroke-width="8" stroke-linecap="round"/>
-    <path d="M47 53L76 82" fill="none" stroke="#FFDDEA" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+    <path d="M48 49L80 81M80 49L48 81" stroke="#6C2468" stroke-width="17" stroke-linecap="round"/>
+    <path d="M48 49L80 81M80 49L48 81" stroke="url(#purple)" stroke-width="11" stroke-linecap="round"/>
+    <path d="M49 48L62 61M79 50L68 61" stroke="#F5CAFF" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
   </g>
 
-  <path d="M105 31V42M99.5 36.5H110.5" stroke="#E5A23C" stroke-width="3" stroke-linecap="round"/>
-  <path d="M110 53V61M106 57H114" stroke="#E99DB8" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M104 73L106 77L110 79L106 81L104 85L102 81L98 79L102 77Z" fill="#FFF2B8" stroke="#B77478" stroke-width="1.5" stroke-linejoin="round"/>
-  <circle cx="112" cy="91" r="3" fill="#F3B0C7" stroke="#9A5B72" stroke-width="1.5"/>
-  <circle cx="105" cy="100" r="2" fill="#FFF2C4" stroke="#C18375" stroke-width="1.5"/>
+  <path d="M31 49C34 39 43 33 52 34" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.82"/>
+  <path d="M19 22L23 31L32 35L23 39L19 48L15 39L6 35L15 31Z" fill="url(#gold)" stroke="#A45855" stroke-width="2"/>
+  <path d="M108 18V30M102 24H114" stroke="#FFB820" stroke-width="4" stroke-linecap="round"/>
+  <path d="M109 83L113 91L121 95L113 99L109 107L105 99L97 95L105 91Z" fill="#FF6EC1" stroke="#742A6B" stroke-width="2.5"/>
+  <circle cx="20" cy="105" r="5" fill="#8F49FF" stroke="#65245F" stroke-width="2"/>
+  <circle cx="115" cy="55" r="3.5" fill="#62DFFF" stroke="#3D76A8" stroke-width="2"/>
 </svg>
