@@ -33,7 +33,7 @@ export const uiTokens = {
   listUtilityActionWidth: 60,
   listActionArtworkScale: 2.8,
   listActionSpinnerSize: 24,
-  listUtilityIconSize: 24,
+  listUtilityArtworkSize: 52,
   cardSuccessImageHeight: 220,
   actionButtonHeight: 88,
   actionButtonRadius: surfaceRadius,

@@ -2,7 +2,12 @@
 
 import type { ThemeId } from '../ui/themeOptions'
 import { z } from 'zod'
-import { MAX_TASK_VALUE, MIN_TASK_VALUE } from './taskLimits'
+import {
+  MAX_DINNER_SLICES,
+  MAX_TASK_VALUE,
+  MIN_DINNER_SLICES,
+  MIN_TASK_VALUE,
+} from './taskLimits'
 
 export const taskValueSchema = z
   .number()
@@ -10,7 +15,15 @@ export const taskValueSchema = z
   .min(MIN_TASK_VALUE)
   .max(MAX_TASK_VALUE)
 
+export const dinnerSliceCountSchema = z
+  .number()
+  .int()
+  .min(MIN_DINNER_SLICES)
+  .max(MAX_DINNER_SLICES)
+
 const taskSnapshotValue = (fallback: number) => taskValueSchema.catch(fallback)
+const dinnerSliceSnapshotValue = (fallback: number) =>
+  dinnerSliceCountSchema.catch(fallback)
 
 export type TaskType =
   | 'standard'
@@ -121,7 +134,7 @@ export const taskSnapshotDataSchema = z
       .number()
       .finite()
       .catch(10 * 60),
-    dinnerTotalBites: taskSnapshotValue(2),
+    dinnerTotalBites: dinnerSliceSnapshotValue(2),
     mathTotalProblems: taskSnapshotValue(5),
     mathDifficulty: mathDifficultySchema.catch('easy'),
     largeNumbersTotalProblems: taskSnapshotValue(5),
@@ -172,7 +185,7 @@ export const todoSnapshotDataSchema = z
       .finite()
       .catch(10 * 60),
     dinnerRemainingSeconds: z.number().finite().optional(),
-    dinnerTotalBites: taskSnapshotValue(2),
+    dinnerTotalBites: dinnerSliceSnapshotValue(2),
     dinnerBitesLeft: z.number().finite().optional(),
     dinnerTimerStartedAt: z.number().finite().nullable().catch(null),
     mathTotalProblems: taskSnapshotValue(5),

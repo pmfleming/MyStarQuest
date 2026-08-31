@@ -21,6 +21,30 @@ import { useAsyncAction } from './useAsyncAction'
 
 // Inject whimsical CSS animations once
 const WHIMSICAL_STYLES_ID = 'whimsical-action-list-styles'
+const CARD_EXIT_DURATION_MS = 400
+
+const prefersReducedMotion = () =>
+  typeof window.matchMedia === 'function' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+const waitForCardExit = (card: HTMLElement | null) => {
+  if (!card || prefersReducedMotion()) return Promise.resolve()
+
+  return new Promise<void>((resolve) => {
+    const finish = () => {
+      card.removeEventListener('animationend', handleAnimationEnd)
+      window.clearTimeout(fallbackTimer)
+      resolve()
+    }
+    const handleAnimationEnd = (event: AnimationEvent) => {
+      if (event.target === card) finish()
+    }
+
+    card.addEventListener('animationend', handleAnimationEnd)
+    const fallbackTimer = window.setTimeout(finish, CARD_EXIT_DURATION_MS + 100)
+  })
+}
+
 const injectWhimsicalStyles = () => {
   if (document.getElementById(WHIMSICAL_STYLES_ID)) return
   const style = document.createElement('style')
@@ -31,7 +55,7 @@ const injectWhimsicalStyles = () => {
       100% { transform: scale(0) rotate(45deg); opacity: 0; }
     }
     .whimsical-card-exiting {
-      animation: whimsical-poof 0.4s ease-in forwards !important;
+      animation: whimsical-poof ${CARD_EXIT_DURATION_MS}ms ease-in forwards !important;
       pointer-events: none;
     }
     .whimsical-btn {
@@ -196,7 +220,8 @@ const DefaultActionIcon = ({
       aria-hidden="true"
       loading="lazy"
       decoding="async"
-      className="h-6 w-6 object-contain"
+      className="h-full w-full object-contain"
+      style={{ transform: 'scale(1.7)' }}
     />
   )
 }
@@ -238,8 +263,8 @@ const UtilityButton = ({
       <span
         aria-hidden="true"
         style={{
-          width: `${uiTokens.listUtilityIconSize}px`,
-          height: `${uiTokens.listUtilityIconSize}px`,
+          width: `${uiTokens.listUtilityArtworkSize}px`,
+          height: `${uiTokens.listUtilityArtworkSize}px`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -460,6 +485,7 @@ const ActionCard = <T,>({
   renderInlineEdit,
 }: ActionCardProps<T>) => {
   const [isExiting, setIsExiting] = useState(false)
+  const isExitingRef = useRef(false)
   const { pendingAction, actionError, runAction } = useAsyncAction<
     'primary' | 'edit' | 'utility'
   >()
@@ -493,15 +519,13 @@ const ActionCard = <T,>({
     : undefined
 
   const handleUtilityAction = async () => {
-    const requiresConfirmation =
-      utility.exits || utility.ariaLabel.toLowerCase().startsWith('reset')
-    if (requiresConfirmation) {
-      const confirmation = utility.exits
-        ? itemLabel
-          ? `Delete ${itemLabel}?`
-          : `${utility.ariaLabel}?`
-        : `${utility.ariaLabel}?`
-      if (!window.confirm(confirmation)) return
+    if (isExitingRef.current) return
+
+    if (utility.exits) {
+      isExitingRef.current = true
+      const exitFinished = waitForCardExit(cardRef.current)
+      setIsExiting(true)
+      await exitFinished
     }
 
     const succeeded = await runAction(
@@ -510,7 +534,10 @@ const ActionCard = <T,>({
       () => (utility.action ? utility.action.onClick(item) : onDelete(item))
     )
 
-    if (succeeded && utility.exits) setIsExiting(true)
+    if (!succeeded && utility.exits) {
+      isExitingRef.current = false
+      setIsExiting(false)
+    }
   }
 
   useEffect(() => {

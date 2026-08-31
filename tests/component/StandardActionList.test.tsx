@@ -75,9 +75,18 @@ describe('StandardActionList card contract', () => {
       alignItems: 'stretch',
       minHeight: '60px',
     })
+    for (const utilityAction of actions.slice(1)) {
+      const artwork = utilityAction.querySelector('img')
+      expect(artwork).toHaveClass('h-full', 'w-full', 'object-contain')
+      expect(artwork).toHaveStyle({ transform: 'scale(1.7)' })
+      expect(artwork?.parentElement).toHaveStyle({
+        width: '52px',
+        height: '52px',
+      })
+    }
   })
 
-  it('confirms and exposes a busy state while resetting', async () => {
+  it('resets immediately and exposes a busy state', async () => {
     let finishReset: (() => void) | undefined
     const reset = vi.fn(
       () =>
@@ -85,7 +94,7 @@ describe('StandardActionList card contract', () => {
           finishReset = resolve
         })
     )
-    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
 
     renderList({
       utilityAction: {
@@ -100,7 +109,7 @@ describe('StandardActionList card contract', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Reset Arithmetic' }))
 
-    expect(window.confirm).toHaveBeenCalledWith('Reset Arithmetic?')
+    expect(confirm).not.toHaveBeenCalled()
     expect(reset).toHaveBeenCalledWith(item)
     expect(
       screen.getByRole('button', { name: 'Reset Arithmetic' })
@@ -115,18 +124,39 @@ describe('StandardActionList card contract', () => {
   })
 
   it('keeps the card visible and reports a failed deletion', async () => {
-    vi.spyOn(window, 'confirm').mockReturnValue(true)
+    const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
     vi.spyOn(console, 'error').mockImplementation(() => undefined)
     const onDelete = vi.fn().mockRejectedValue(new Error('offline'))
     renderList({ onDelete })
 
     fireEvent.click(screen.getByRole('button', { name: 'Delete Arithmetic' }))
 
-    expect(window.confirm).toHaveBeenCalledWith('Delete Arithmetic?')
+    expect(confirm).not.toHaveBeenCalled()
+    const card = screen.getByRole('article')
+    expect(card).toHaveClass('whimsical-card-exiting')
+    expect(onDelete).not.toHaveBeenCalled()
+
+    fireEvent.animationEnd(card)
+
     expect(await screen.findByRole('alert')).toHaveTextContent(
       'Delete failed. Please try again.'
     )
-    expect(screen.getByRole('article')).toBeInTheDocument()
+    expect(card).not.toHaveClass('whimsical-card-exiting')
     expect(screen.getByRole('heading', { name: 'Arithmetic' })).toBeVisible()
+  })
+
+  it('finishes the exit animation before deleting a card', async () => {
+    const onDelete = vi.fn()
+    renderList({ onDelete })
+
+    fireEvent.click(screen.getByRole('button', { name: 'Delete Arithmetic' }))
+
+    const card = screen.getByRole('article')
+    expect(card).toHaveClass('whimsical-card-exiting')
+    expect(onDelete).not.toHaveBeenCalled()
+
+    fireEvent.animationEnd(card)
+
+    await waitFor(() => expect(onDelete).toHaveBeenCalledWith(item))
   })
 })

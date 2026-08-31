@@ -158,7 +158,7 @@ Prefer these components over custom one-off UI:
 - Actions should provide immediate visual response (`hover/active` states are already present in shared buttons).
 - Positive outcomes may trigger celebration feedback via `celebrateSuccess`.
 - For star transactions, business logic should go through `src/services/starActions.ts`.
-- Keep confirmations simple (`window.confirm`) for destructive actions in current MVP behavior.
+- Card actions execute immediately without confirmation dialogs; preserve clear danger styling and actionable failure feedback for destructive actions.
 
 ## 7) Content and Labeling
 

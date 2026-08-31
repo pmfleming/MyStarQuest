@@ -17,6 +17,7 @@ import {
   type ChoreWithEphemeral,
 } from '../data/types'
 import type { ChoreDocumentSettings } from '../data/taskDocuments'
+import { clampDinnerSliceCount } from '../data/taskLimits'
 import {
   princessExitIcon,
   princessGiveStarIcon,
@@ -55,8 +56,6 @@ type ChoreCreationFlowProps = {
 
 const DRAFT_DINNER_MIN_MINUTES = 5
 const DRAFT_DINNER_MAX_MINUTES = 30
-const DRAFT_DINNER_MIN_BITES = 1
-const DRAFT_DINNER_MAX_BITES = 9
 
 const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value))
@@ -286,10 +285,8 @@ const ChoreCreationFlow = ({
               }),
             onAdjustBites: (delta) =>
               updateDraft({
-                dinnerTotalBites: clamp(
-                  draft.dinnerTotalBites + delta,
-                  DRAFT_DINNER_MIN_BITES,
-                  DRAFT_DINNER_MAX_BITES
+                dinnerTotalBites: clampDinnerSliceCount(
+                  draft.dinnerTotalBites + delta
                 ),
               }),
             onStarsChange: (starValue) => updateDraft({ starValue }),

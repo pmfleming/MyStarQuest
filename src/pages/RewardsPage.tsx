@@ -46,6 +46,7 @@ const RewardsPage = () => {
       await deleteReward(id)
     } catch (error) {
       console.error('Failed to delete reward', error)
+      throw error
     }
   }
 

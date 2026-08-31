@@ -21,6 +21,7 @@ import type {
 } from './unifiedChoreDescriptorTypes'
 import { isTaskItem, type UnifiedChoreState } from './unifiedChoreState'
 import { clamp, noop } from './unifiedChoreRenderUtils'
+import { clampDinnerSliceCount } from '../data/taskLimits'
 
 export const renderEatingContent = (
   deps: UnifiedChoreDeps,
@@ -75,10 +76,8 @@ const renderEatingTask = (
       })
     },
     onAdjustBites: (delta) => {
-      const next = clamp(
-        (item.dinnerTotalBites ?? DEFAULT_DINNER_BITES) + delta,
-        1,
-        9
+      const next = clampDinnerSliceCount(
+        (item.dinnerTotalBites ?? DEFAULT_DINNER_BITES) + delta
       )
       deps.onUpdateTaskField?.(item.id, { dinnerTotalBites: next })
       deps.onUpdateEphemeral?.(item.id, { manageDinnerBitesLeft: next })

@@ -43,24 +43,24 @@ The shared shell owns width, border, radius, gutters, region gaps, footer grid, 
 
 All measurements are CSS pixels.
 
-| Property                        |             Contract value | Rule                                                                      |
-| ------------------------------- | -------------------------: | ------------------------------------------------------------------------- |
-| Card width                      | 100% of its content column | Must not exceed `uiTokens.contentMaxWidth` (currently 380px).             |
-| Outer radius                    |                       32px | Applies to all card variants.                                             |
-| Border                          |                        4px | Uses the theme surface color; state variants may change color, not width. |
-| Horizontal gutter               |                       12px | Left and right internal padding.                                          |
-| Top/bottom gutter               |                       12px | Top and bottom internal padding.                                          |
-| Region spacing                  |                       24px | Between header, body, optional status/stars, and footer.                  |
-| Card-to-card spacing            |                       24px | Vertical space between adjacent cards.                                    |
-| Header minimum height           |                       60px | Content is vertically centered; it may grow for wrapping or controls.     |
-| Footer minimum height           |                       60px | May grow as one row for accessibility text scaling.                       |
-| Footer action gap               |                       14px | Horizontal gap between all footer buttons.                                |
-| Primary action height           |               60px minimum | Fills the footer row height.                                              |
-| Utility action size             |       60px × 60px normally | Width remains 60px; height fills the footer row when it grows.            |
-| Button content gap              |                        8px | Between an icon and label.                                                |
-| Primary action artwork viewport |       Full button interior | Artwork is intentionally oversized and clipped by the button.             |
-| Utility icon box                |                24px × 24px | Centered inside the utility action.                                       |
-| Success image box               |               100% × 220px | Image is centered and contained within this fixed-height body region.     |
+| Property                        |             Contract value | Rule                                                                                                                                                  |
+| ------------------------------- | -------------------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Card width                      | 100% of its content column | Must not exceed `uiTokens.contentMaxWidth` (currently 380px).                                                                                         |
+| Outer radius                    |                       32px | Applies to all card variants.                                                                                                                         |
+| Border                          |                        4px | Uses the theme surface color; state variants may change color, not width.                                                                             |
+| Horizontal gutter               |                       12px | Left and right internal padding.                                                                                                                      |
+| Top/bottom gutter               |                       12px | Top and bottom internal padding.                                                                                                                      |
+| Region spacing                  |                       24px | Between header, body, optional status/stars, and footer.                                                                                              |
+| Card-to-card spacing            |                       24px | Vertical space between adjacent cards.                                                                                                                |
+| Header minimum height           |                       60px | Content is vertically centered; it may grow for wrapping or controls.                                                                                 |
+| Footer minimum height           |                       60px | May grow as one row for accessibility text scaling.                                                                                                   |
+| Footer action gap               |                       14px | Horizontal gap between all footer buttons.                                                                                                            |
+| Primary action height           |               60px minimum | Fills the footer row height.                                                                                                                          |
+| Utility action size             |       60px × 60px normally | Width remains 60px; height fills the footer row when it grows.                                                                                        |
+| Button content gap              |                        8px | Between an icon and label.                                                                                                                            |
+| Primary action artwork viewport |       Full button interior | Artwork is intentionally oversized and clipped by the button.                                                                                         |
+| Utility artwork viewport        |                52px × 52px | Edit/delete artwork is enlarged and clipped as needed to visually fill this centered viewport; smaller utility icons may retain their intrinsic size. |
+| Success image box               |               100% × 220px | Image is centered and contained within this fixed-height body region.                                                                                 |
 
 The 12px gutter is the distance from the inside edge of the border to card content. Components inside the body must not add another full-card horizontal gutter. Nested groups may use their own inset only when they have a visible surface or grouping purpose.
 
@@ -148,7 +148,7 @@ Reset is always a utility action and never occupies the primary-action slot. Whe
 - Its accessible name must be specific where context is not unambiguous, for example `Reset dinner progress` or `Reset spelling test`.
 - Use the theme's established reset icon. The icon must not be reused for delete.
 - Reset always uses the neutral utility treatment. An operation that permanently removes user-created or earned data is destructive and must not be represented as Reset.
-- A reset that discards meaningful progress must request confirmation or provide an immediate undo. A harmless reset may act immediately.
+- Reset acts immediately without opening a confirmation dialog.
 - While reset is running, the button must be disabled, expose `aria-busy="true"`, and replace its icon with the standard loading indicator. Its position and dimensions must not change.
 
 If reset replaces delete for a card state, it occupies the same rightmost slot so the footer geometry remains stable.
@@ -179,16 +179,16 @@ This section defines domain limits displayed and edited by cards. These are data
 | Value                             | Minimum | Maximum | Stored fields                                                                                                                                 |
 | --------------------------------- | ------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | Stars assigned to a chore or test |       1 |       9 | `starValue`                                                                                                                                   |
-| Dinner activity items             |       1 |       9 | `dinnerTotalBites`                                                                                                                            |
+| Dinner plate slices               |       1 |      20 | `dinnerTotalBites`                                                                                                                            |
 | Test activity items               |       1 |       9 | `mathTotalProblems`, `largeNumbersTotalProblems`, `pvTotalProblems`, `alphabetTotalProblems`, `spellingTotalProblems`, `animalsTotalProblems` |
 
-An activity item means one configured unit the child completes inside an activity: one dinner bite or one test problem. It does not mean the number of cards in a chore/test list. Standard chores and water/toilet checks currently have no configurable item-count field, so the item-count limit is not applicable to them. Any future chore/test count field must adopt the same 1–9 integer range unless a later contract explicitly replaces it.
+An activity item means one configured unit the child completes inside an activity: one dinner slice or one test problem. It does not mean the number of cards in a chore/test list. Dinner plate slices are the explicit 1–20 exception to the general 1–9 activity-item limit. Standard chores and water/toilet checks currently have no configurable item-count field, so the item-count limit is not applicable to them. Any future chore/test count field must adopt the 1–9 integer range unless a later contract explicitly replaces it.
 
-- Stars and activity-item counts must be integers from 1 through 9 inclusive. Zero, negative, fractional, non-finite, or greater-than-nine values are invalid.
-- Create and edit controls must stop incrementing at 9 and stop decrementing at 1.
+- Stars and test activity-item counts must be integers from 1 through 9 inclusive. Dinner plate slices must be integers from 1 through 20 inclusive. Values outside their applicable range, fractional values, and non-finite values are invalid.
+- Create and edit controls must stop incrementing at the applicable maximum (9 or 20) and stop decrementing at 1.
 - UI controls, save commands, and persistence schemas must all enforce the same range. Client-side controls are not the sole validation boundary.
 - An attempted invalid save must be rejected with validation beside the affected control; values must not be silently changed during an explicit save.
-- Before enforcement is released, existing persisted out-of-range values must be migrated with `min(9, max(1, round(value)))`; missing or non-finite values become 1. The migration must be explicit and testable, not a silent write during ordinary reads.
+- Before enforcement is released, existing persisted out-of-range values must be migrated with `min(maximum, max(1, round(value)))`, where maximum is 9 for stars/tests and 20 for dinner slices; missing or non-finite values become 1. The migration must be explicit and testable, not a silent write during ordinary reads.
 - The limits apply equally to create and edit flows and to every theme.
 - Cards displaying these values must show the actual numeric value without abbreviation or reliance on imagery alone.
 
@@ -198,7 +198,7 @@ An activity item means one configured unit the child completes inside an activit
 - Delete occupies the rightmost slot when reset is not present.
 - Edit uses the neutral treatment. Delete uses the danger treatment.
 - Both are icon-only in the footer and require an accessible name.
-- Destructive deletion must use the app's confirmation behavior.
+- Destructive deletion starts its exit interaction immediately without opening a confirmation dialog.
 - Hiding a utility must remove it from layout and focus order; an invisible placeholder must not remain.
 
 ## 12. Standard Card Actions
@@ -271,7 +271,7 @@ Cards must use the following canonical actions. A card does not show every actio
 - Delete removes the chore/test or other user-created item itself.
 - It is always the rightmost action when Reset is absent.
 - Use the established delete icon and danger treatment. Do not display visible `Delete` text in a standard card footer.
-- Delete requires confirmation and must name the item being removed.
+- Delete executes immediately; its accessible name must identify the item being removed.
 - Delete must never be used to clear only progress; that operation is Reset.
 
 ### Action availability and transitions
@@ -282,7 +282,7 @@ Cards must use the following canonical actions. A card does not show every actio
 - Disabled actions must explain the unmet condition through nearby text or an accessible description when the reason is not obvious.
 - Repeated activation must be guarded while an asynchronous action is in progress. The active button is disabled, exposes `aria-busy="true"`, and replaces its image with the standard loading indicator while preserving its label, dimensions, and position.
 - A failed Run, Check result, Finish, Bite, Give stars, Buy reward, Edit-save, or Reset operation leaves the card visible in its prior stable state and shows an actionable error beside the relevant region.
-- Delete asks for confirmation naming the item, performs deletion, and only then plays the exit animation and removes the card. If deletion fails, the card remains visible and reports the error.
+- Delete starts the whole-card exit animation immediately and commits the destructive action when that animation finishes. The card is then removed by the updated list data. If deletion fails, the card animates back to its visible state and reports the error.
 
 ## 13. Card Variants
 
@@ -345,7 +345,7 @@ A card complies only when all applicable answers are yes:
 - Is Reset icon-only, specifically named for assistive technology, and always neutral?
 - Does success use suitable chore/test-specific or generic imagery without changing the outcome layout?
 - Are chore/test stars constrained to 1–9?
-- Are applicable dinner-bite and test-problem counts constrained to integers from 1–9 at UI, command, and schema boundaries?
+- Are dinner plate slices constrained to 1–20 and test-problem counts constrained to 1–9 at UI, command, and schema boundaries?
 - Do Run and Check result use the exact canonical labels and occupy the primary-action slot?
 - Are Edit, Reset, and Delete icon-only utilities with the canonical order, variants, and accessible names?
 - Are Reset and Delete mutually exclusive in the standard footer and used for different operations?
@@ -364,8 +364,8 @@ Implementation is not complete until automated tests cover:
 - exact canonical accessible names and image-only presentation for every action in the action table;
 - Reset/Delete mutual exclusion, neutral/danger variants, and their distinct operations;
 - disabled, focus, pressed, loading, success, failure, and reduced-motion states;
-- successful deletion, cancelled deletion, and failed deletion without premature card removal;
-- 1 and 9 boundary values plus rejection of 0, 10, fractions, non-finite values, and repeated asynchronous activation;
+- successful and failed deletion without premature card removal;
+- 1 and 9 boundaries for stars/tests, 1 and 20 boundaries for dinner slices, plus rejection of adjacent out-of-range values, fractions, non-finite values, and repeated asynchronous activation;
 - representative cards in every theme, at narrow width, and with enlarged text;
 - keyboard order, focus visibility, accessible names/descriptions, live outcome announcements, and decorative button images.
 

@@ -6,6 +6,7 @@ import { getStepperEdgePositionStyle } from './ui/stepperLayout'
 import { uiTokens } from '../tokens'
 import { useDinnerCountdownState } from '../hooks/useDinnerCountdownState'
 import { StarRewardControl } from './ui/ActivityControls'
+import { MAX_DINNER_SLICES, MIN_DINNER_SLICES } from '../data/taskLimits'
 
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
@@ -24,8 +25,6 @@ const SLICE_COLORS = [
 
 const MIN_DURATION = 5 * 60 // 5 minutes
 const MAX_DURATION = 30 * 60 // 30 minutes
-const MIN_BITES = 1
-const MAX_BITES = 16
 const TIME_STEP = 5 * 60 // ±5 minutes
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
 const PLATE_CENTER = 110
@@ -648,7 +647,7 @@ const DinnerCountdown = ({
               theme={theme}
               direction="prev"
               onClick={() => onAdjustBites(-1)}
-              disabled={!isSetup || totalBites <= MIN_BITES}
+              disabled={!isSetup || totalBites <= MIN_DINNER_SLICES}
               ariaLabel="Decrease bites"
               visible={showVisualSetupControls}
               isSetup={isSetup}
@@ -672,7 +671,7 @@ const DinnerCountdown = ({
               theme={theme}
               direction="next"
               onClick={() => onAdjustBites(1)}
-              disabled={!isSetup || totalBites >= MAX_BITES}
+              disabled={!isSetup || totalBites >= MAX_DINNER_SLICES}
               ariaLabel="Increase bites"
               visible={showVisualSetupControls}
               isSetup={isSetup}

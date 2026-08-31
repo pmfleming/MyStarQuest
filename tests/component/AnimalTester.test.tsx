@@ -134,8 +134,8 @@ describe('AnimalTester', () => {
     expect(screen.getByRole('radio', { name: '2 Players' })).toBeInTheDocument()
   })
 
-  it('teaches location, environment, food, and ability without a next button', () => {
-    const props = createProps()
+  it('teaches location, environment, food, and ability with an image-only Continue button', () => {
+    const props = { ...createProps(), totalProblems: 2 }
     const { rerender } = render(<AnimalTester {...props} />)
 
     rerender(<AnimalTester {...props} isRunning />)
@@ -179,12 +179,18 @@ describe('AnimalTester', () => {
       ])
     )
     expect(screen.queryByRole('paragraph')).not.toBeInTheDocument()
-    expect(
-      screen.queryByRole('button', { name: 'Next' })
-    ).not.toBeInTheDocument()
+    const continueButton = screen.getByRole('button', { name: 'Continue' })
+    expect(continueButton).toHaveTextContent('')
+    expect(continueButton.querySelector('img')).toBeInTheDocument()
     expect(
       screen.queryByRole('button', { name: 'Finish' })
     ).not.toBeInTheDocument()
+
+    fireEvent.click(continueButton)
+    expect(props.onComplete).not.toHaveBeenCalled()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
+    expect(props.onComplete).toHaveBeenCalledOnce()
   })
 
   it('removes wrong choices and advances after the correct solo choice', () => {

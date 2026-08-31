@@ -43,7 +43,6 @@ import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 9
-const LEARN_AUTO_ADVANCE_MS = 6500
 const CHOICE_ANIMATION_MS = 650
 const CLUE_REVEAL_INTERVAL_MS = 3000
 
@@ -307,6 +306,44 @@ const PrimaryAction = ({
   />
 )
 
+const LearningContinueButton = ({
+  theme,
+  onClick,
+}: {
+  theme: ActivityChoreProps['theme']
+  onClick: () => void
+}) => (
+  <ActionButton
+    label="Continue"
+    icon={null}
+    theme={theme}
+    color={theme.colors.primary}
+    onClick={onClick}
+    hideArrow
+    content={
+      <img
+        src={learnModeImage}
+        alt=""
+        aria-hidden="true"
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          transform: 'scale(1.35)',
+        }}
+      />
+    }
+    styleOverride={{
+      minHeight: 72,
+      height: 72,
+      marginTop: 6,
+      padding: 0,
+      overflow: 'hidden',
+      justifyContent: 'center',
+    }}
+  />
+)
+
 export type AnimalTesterProps = ActivityChoreProps
 
 const AnimalTester = ({
@@ -387,13 +424,6 @@ const AnimalTester = ({
     },
     [animalIndex, onComplete, totalProblems]
   )
-
-  useEffect(() => {
-    if (!isRunning || isFinished || mode !== 'learn' || !animal) return
-
-    const timer = setTimeout(finishAnimal, LEARN_AUTO_ADVANCE_MS)
-    return () => clearTimeout(timer)
-  }, [animal, finishAnimal, isFinished, isRunning, mode])
 
   useEffect(() => {
     if (!isRunning || isFinished || mode !== 'solo' || !animal) return
@@ -509,6 +539,10 @@ const AnimalTester = ({
             <>
               <AnimalPortrait animal={animal} theme={theme} compact />
               <FactGrid facts={getTeachingFacts(animal)} theme={theme} />
+              <LearningContinueButton
+                theme={theme}
+                onClick={() => finishAnimal()}
+              />
             </>
           )}
 

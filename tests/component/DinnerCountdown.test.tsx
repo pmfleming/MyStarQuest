@@ -34,4 +34,24 @@ describe('DinnerCountdown', () => {
     expect(onAdjustTime).toHaveBeenCalledWith(5 * 60)
     expect(onAdjustBites).toHaveBeenCalledWith(-1)
   })
+
+  it('allows up to twenty dinner plate slices', () => {
+    render(
+      <DinnerCountdown
+        theme={themes.princess}
+        duration={10 * 60}
+        remaining={10 * 60}
+        totalBites={20}
+        bitesLeft={20}
+        starReward={3}
+        isTimerRunning={false}
+        onAdjustTime={vi.fn()}
+        onAdjustBites={vi.fn()}
+        onStarsChange={vi.fn()}
+      />
+    )
+
+    expect(screen.getByLabelText('Increase bites')).toBeDisabled()
+    expect(screen.getByLabelText('Decrease bites')).toBeEnabled()
+  })
 })
