@@ -1,5 +1,4 @@
 import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import AlphabetTester from '../../src/components/AlphabetTester'
 import { themes } from '../../src/contexts/ThemeContext'
@@ -15,21 +14,14 @@ const defaultProps = {
 }
 
 describe('AlphabetTester', () => {
-  it('shows only lowercase choices when lowercase is selected', async () => {
-    const user = userEvent.setup()
+  it('lists lowercase first and uses it by default', async () => {
     const { rerender } = render(<AlphabetTester {...defaultProps} />)
 
-    expect(screen.getByRole('radio', { name: 'ABC' })).toHaveAttribute(
-      'aria-checked',
-      'true'
-    )
-
-    await user.click(screen.getByRole('radio', { name: 'abc' }))
-
-    expect(screen.getByRole('radio', { name: 'abc' })).toHaveAttribute(
-      'aria-checked',
-      'true'
-    )
+    const caseOptions = screen.getAllByRole('radio')
+    expect(
+      caseOptions.map((option) => option.getAttribute('aria-label'))
+    ).toEqual(['abc', 'ABC'])
+    expect(caseOptions[0]).toHaveAttribute('aria-checked', 'true')
 
     rerender(<AlphabetTester {...defaultProps} isRunning />)
 

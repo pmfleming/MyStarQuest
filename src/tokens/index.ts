@@ -34,7 +34,7 @@ export const uiTokens = {
   listActionArtworkScale: 2.8,
   listActionSpinnerSize: 24,
   listUtilityArtworkSize: 52,
-  cardSuccessImageHeight: 220,
+  cardOutcomeBodyHeight: 220,
   actionButtonHeight: 88,
   actionButtonRadius: surfaceRadius,
   actionButtonFontSize: 28,

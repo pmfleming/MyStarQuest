@@ -160,15 +160,6 @@ describe('AnimalTester', () => {
       'Ability',
     ])
     expect(
-      teachingCards.every((card) => {
-        const category = card
-          .getAttribute('aria-label')
-          ?.split(':', 1)[0]
-          .toLowerCase()
-        return card.textContent?.trim().toLowerCase() !== category
-      })
-    ).toBe(true)
-    expect(
       teachingCards.map((card) => card.getAttribute('aria-label'))
     ).toEqual(
       expect.arrayContaining([

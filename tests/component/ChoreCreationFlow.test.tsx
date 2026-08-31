@@ -46,7 +46,22 @@ describe('ChoreCreationFlow', () => {
       expect(screen.getByLabelText('Selected: Tidying up')).toBeInTheDocument()
     })
 
-    await user.click(screen.getByRole('button', { name: 'Save' }))
+    const saveButton = screen.getByRole('button', { name: 'Save' })
+    const backButton = screen.getByRole('button', { name: 'Back' })
+    expect(saveButton.parentElement).toHaveStyle({
+      height: '60px',
+      minHeight: '60px',
+      alignItems: 'stretch',
+      gap: '14px',
+    })
+    expect(saveButton).toHaveStyle({ height: '100%' })
+    expect(backButton).toHaveStyle({
+      width: '60px',
+      minWidth: '60px',
+      height: '100%',
+    })
+
+    await user.click(saveButton)
 
     expect(onSave).toHaveBeenCalledWith(
       'standard',

@@ -139,16 +139,22 @@ describe('SpellingTester', () => {
     })
   })
 
-  it('uses lowercase letters when lowercase is selected', async () => {
-    const user = userEvent.setup()
+  it('lists lowercase first and uses it by default', async () => {
     const { rerender } = render(<SpellingTester {...defaultProps} />)
 
-    expect(screen.getByRole('radio', { name: 'ABC' })).toHaveAttribute(
+    const caseOptions = screen
+      .getByRole('radiogroup', {
+        name: 'Letter case',
+      })
+      .querySelectorAll('[role="radio"]')
+    expect(
+      Array.from(caseOptions, (option) => option.getAttribute('aria-label'))
+    ).toEqual(['abc', 'ABC'])
+    expect(screen.getByRole('radio', { name: 'abc' })).toHaveAttribute(
       'aria-checked',
       'true'
     )
 
-    await user.click(screen.getByRole('radio', { name: 'abc' }))
     rerender(<SpellingTester {...defaultProps} isRunning />)
 
     await waitFor(() => {

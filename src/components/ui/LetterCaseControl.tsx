@@ -18,8 +18,8 @@ const LetterCaseControl = ({
     theme={theme}
     value={value}
     options={[
-      { value: 'upper', label: 'ABC' },
       { value: 'lower', label: 'abc' },
+      { value: 'upper', label: 'ABC' },
     ]}
     onChange={onChange}
     ariaLabel="Letter case"

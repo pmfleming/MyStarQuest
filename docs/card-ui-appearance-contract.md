@@ -60,7 +60,8 @@ All measurements are CSS pixels.
 | Button content gap              |                        8px | Between an icon and label.                                                                                                                            |
 | Primary action artwork viewport |       Full button interior | Artwork is intentionally oversized and clipped by the button.                                                                                         |
 | Utility artwork viewport        |                52px × 52px | Edit/delete artwork is enlarged and clipped as needed to visually fill this centered viewport; smaller utility icons may retain their intrinsic size. |
-| Success image box               |               100% × 220px | Image is centered and contained within this fixed-height body region.                                                                                 |
+| Outcome body height             |                      220px | Reserves the established completed-card geometry; success artwork may extend beyond it as the card's full-bleed art layer.                            |
+| Success artwork coverage        |         Full card interior | Uses centered `object-fit: cover` behind all card regions, including the footer; proportional edge cropping is allowed.                               |
 
 The 12px gutter is the distance from the inside edge of the border to card content. Components inside the body must not add another full-card horizontal gutter. Nested groups may use their own inset only when they have a visible surface or grouping purpose.
 
@@ -166,9 +167,10 @@ Success imagery follows this order:
 3. If neither exists, show the established non-image success treatment; never show an empty image frame or broken asset.
 
 - A success image must be visually distinct from the action image when both appear in the same state, unless the asset is deliberately designed for both roles.
-- The success image belongs in the card body or success/outcome region, above the footer. It must not be placed inside the reset utility button.
-- It is horizontally and vertically centered in a 100%-wide, 220px-high body container and uses `object-fit: contain` with its original aspect ratio.
-- Generic and specific success images use that same containing box so changing between them does not change card alignment or cause layout shift.
+- The success image is the card's full-bleed art layer. It fills the complete card interior, including the area behind the footer, and must not be placed inside an action button.
+- It uses centered `object-fit: cover` with its original aspect ratio. Proportional cropping at the outer edges is allowed so no unfilled band remains inside the card.
+- The 220px outcome body spacer remains in normal flow to preserve the established completed-card height. Generic and specific success images use the same full-card layer, so changing assets does not move the footer or alter card geometry.
+- The footer remains in its standard bottom position and is painted above the success image. Its buttons may overlap the artwork, but each button must retain its normal opaque surface, dimensions, contrast, and focus treatment.
 - The image may celebrate success but must not be the only success cue. Accompany it with text, status, or an accessible announcement.
 - Decorative success imagery must use empty alternative text. Meaningful imagery must have concise alternative text describing information not already stated nearby.
 

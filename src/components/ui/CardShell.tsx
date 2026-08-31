@@ -28,6 +28,12 @@ const CardRegion = ({
     data-card-region={name}
     style={{
       minWidth: 0,
+      ...(name === 'body'
+        ? {}
+        : {
+            position: 'relative' as const,
+            zIndex: 1,
+          }),
       ...(name === 'header'
         ? {
             minHeight: `${uiTokens.listActionHeight}px`,
@@ -82,6 +88,9 @@ const CardShell = forwardRef<HTMLElement, CardShellProps>(function CardShell(
     display: 'flex',
     flexDirection: 'column',
     gap: `${uiTokens.panelStackGap}px`,
+    position: 'relative',
+    overflow: 'hidden',
+    isolation: 'isolate',
     contentVisibility: 'auto',
     containIntrinsicSize: 'auto 420px',
     ...style,

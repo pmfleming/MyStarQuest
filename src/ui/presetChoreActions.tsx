@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import { princessResetIcon } from '../assets/themes/princess/assets'
 import type {
   ResolvedListAction,
   ResolvedListUtilityAction,
@@ -108,15 +107,6 @@ export const createResetUtilityAction = <T,>(
 ): ResolvedListUtilityAction<T> => ({
   label: 'Reset',
   ariaLabel,
-  icon: (
-    <img
-      src={princessResetIcon}
-      alt=""
-      aria-hidden="true"
-      decoding="async"
-      className="h-6 w-6 object-contain"
-    />
-  ),
   exits: false,
   variant: 'neutral',
   onClick,

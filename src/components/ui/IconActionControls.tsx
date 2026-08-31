@@ -131,7 +131,13 @@ export const IconActionRow = ({
 }: IconActionRowProps) => (
   <div
     className="flex items-center"
-    style={{ gap: `${uiTokens.actionRowGap}px`, ...style }}
+    style={{
+      height: `${uiTokens.listActionHeight}px`,
+      minHeight: `${uiTokens.listActionHeight}px`,
+      alignItems: 'stretch',
+      gap: `${uiTokens.actionRowGap}px`,
+      ...style,
+    }}
   >
     <IconActionButton
       theme={theme}

@@ -123,6 +123,30 @@ describe('StandardActionList card contract', () => {
     )
   })
 
+  it.each([
+    ['princess', themes.princess, 'Royal%20orbit%20reset'],
+    ['generic', themes.space, 'assets/global/reset.svg'],
+  ])(
+    'uses the %s reset artwork when no override is supplied',
+    (_, theme, marker) => {
+      renderList({
+        theme,
+        utilityAction: {
+          label: 'Reset',
+          exits: false,
+          variant: 'neutral',
+          onClick: vi.fn(),
+        },
+      })
+
+      const resetButton = screen.getByRole('button', { name: 'Reset' })
+      expect(resetButton.querySelector('img')).toHaveAttribute(
+        'src',
+        expect.stringContaining(marker)
+      )
+    }
+  )
+
   it('keeps the card visible and reports a failed deletion', async () => {
     const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
     vi.spyOn(console, 'error').mockImplementation(() => undefined)

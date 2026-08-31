@@ -304,7 +304,7 @@ const SpellingTester = ({
   failureImage,
   failureModeEnabled = true,
 }: SpellingTesterProps) => {
-  const [letterCase, setLetterCase] = useState<LetterCase>('upper')
+  const [letterCase, setLetterCase] = useState<LetterCase>('lower')
   const [problemIndex, setProblemIndex] = useState(0)
   const [successCount, setSuccessCount] = useState(0)
   const [retryCount, setRetryCount] = useState(0)

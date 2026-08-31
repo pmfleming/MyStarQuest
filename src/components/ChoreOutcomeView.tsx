@@ -18,6 +18,7 @@ const ChoreOutcomeView = ({
   const { outcomeContainerRadius, quizOutcomeImageMaxWidth } =
     uiTokens.activityTokens
   const announcement = outcome === 'success' ? successAlt : failureAlt
+  const fillsCard = outcome === 'success'
 
   return (
     <div
@@ -26,7 +27,7 @@ const ChoreOutcomeView = ({
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        height: `${uiTokens.cardSuccessImageHeight}px`,
+        height: `${uiTokens.cardOutcomeBodyHeight}px`,
         borderRadius: `${outcomeContainerRadius}px`,
         boxSizing: 'border-box',
       }}
@@ -42,10 +43,17 @@ const ChoreOutcomeView = ({
         alt=""
         aria-hidden="true"
         style={{
+          position: fillsCard ? 'absolute' : undefined,
+          inset: fillsCard ? 0 : undefined,
           width: '100%',
-          maxWidth: `${quizOutcomeImageMaxWidth}px`,
-          maxHeight: '100%',
-          objectFit: 'contain',
+          height: fillsCard ? '100%' : undefined,
+          maxWidth: fillsCard ? 'none' : `${quizOutcomeImageMaxWidth}px`,
+          maxHeight: fillsCard ? 'none' : '100%',
+          objectFit: fillsCard ? 'cover' : 'contain',
+          objectPosition: 'center',
+          display: 'block',
+          pointerEvents: 'none',
+          zIndex: 0,
         }}
       />
     </div>

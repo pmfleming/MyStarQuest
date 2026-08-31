@@ -7,9 +7,9 @@ import {
 } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import {
-  princessDeleteIcon,
-  princessEditIcon,
-} from '../../assets/themes/princess/assets'
+  getThemeActionIcon,
+  type ThemeActionIcon,
+} from '../../ui/themeActionAssets'
 import { uiTokens } from '../../tokens'
 import StarDisplay from './StarDisplay'
 import {
@@ -207,21 +207,28 @@ const DefaultActionIcon = ({
   type,
 }: {
   theme: Theme
-  type: 'edit' | 'delete'
+  type: ThemeActionIcon
 }) => {
-  if (theme.id !== 'princess') {
-    return <span>{type === 'edit' ? '✏️' : '🗑️'}</span>
+  const artwork = getThemeActionIcon(theme.id, type)
+
+  if (!artwork) {
+    const fallback = { edit: '✏️', delete: '🗑️', reset: '↻' }[type]
+    return <span>{fallback}</span>
   }
 
   return (
     <img
-      src={type === 'edit' ? princessEditIcon : princessDeleteIcon}
+      src={artwork}
       alt=""
       aria-hidden="true"
       loading="lazy"
       decoding="async"
-      className="h-full w-full object-contain"
-      style={{ transform: 'scale(1.7)' }}
+      className={
+        type === 'reset'
+          ? 'h-6 w-6 object-contain'
+          : 'h-full w-full object-contain'
+      }
+      style={type === 'reset' ? undefined : { transform: 'scale(1.7)' }}
     />
   )
 }
@@ -446,10 +453,14 @@ const getUtilityIcon = <T,>(
 const resolveUtilityState = <T,>(
   item: T,
   utilityAction: UtilityActionConfig<T> | undefined,
-  defaultIcon: ReactNode
+  theme: Theme
 ) => {
   const hidden = resolveBoolean(utilityAction?.hideButton, item)
   const action = hidden ? undefined : utilityAction
+  const exits = action ? resolveBoolean(action.exits, item) : true
+  const defaultIcon = (
+    <DefaultActionIcon theme={theme} type={exits ? 'delete' : 'reset'} />
+  )
 
   return {
     action,
@@ -457,7 +468,7 @@ const resolveUtilityState = <T,>(
     variant: resolveVariant(action?.variant, item, 'danger'),
     ariaLabel: getUtilityAriaLabel(action, item),
     disabled: action?.disabled?.(item) ?? false,
-    exits: action ? resolveBoolean(action.exits, item) : true,
+    exits,
     icon: getUtilityIcon(action, item, defaultIcon),
   }
 }
@@ -490,11 +501,7 @@ const ActionCard = <T,>({
     'primary' | 'edit' | 'utility'
   >()
   const cardRef = useRef<HTMLElement>(null)
-  const resolvedUtility = resolveUtilityState(
-    item,
-    utilityAction,
-    <DefaultActionIcon theme={theme} type="delete" />
-  )
+  const resolvedUtility = resolveUtilityState(item, utilityAction, theme)
   const itemLabel = getItemLabel?.(item)
   const utility = {
     ...resolvedUtility,

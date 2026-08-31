@@ -3,8 +3,8 @@ import TopIconButton from '../components/ui/TopIconButton'
 import {
   princessChildrenIcon,
   princessExitIcon,
-  princessResetIcon,
 } from '../assets/themes/princess/assets'
+import { getThemeActionIcon } from '../ui/themeActionAssets'
 
 const getThemeAssets = (themeId: string) => {
   if (themeId === 'princess') {
@@ -36,6 +36,7 @@ export const DashboardHeaderActions = ({
   onLogout,
 }: DashboardHeaderActionsProps) => {
   const themeAssets = getThemeAssets(theme.id)
+  const resetIcon = getThemeActionIcon(theme.id, 'reset')
 
   return (
     <>
@@ -45,18 +46,12 @@ export const DashboardHeaderActions = ({
         disabled={!activeChildId || isResettingToday}
         ariaLabel="Reset today"
         icon={
-          theme.id === 'princess' ? (
-            <img
-              src={princessResetIcon}
-              alt="Reset today"
-              decoding="async"
-              className="h-10 w-10 object-contain"
-            />
-          ) : (
-            <span className="text-2xl" role="img" aria-hidden="true">
-              R
-            </span>
-          )
+          <img
+            src={resetIcon}
+            alt="Reset today"
+            decoding="async"
+            className="h-10 w-10 object-contain"
+          />
         }
       />
       <TopIconButton
