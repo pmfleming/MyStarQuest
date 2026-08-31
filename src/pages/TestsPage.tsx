@@ -11,6 +11,7 @@ import { useChildren } from '../data/useChildren'
 import { useTaskActivityState } from '../hooks/useTaskActivityState'
 import { useTestCheckTriggers } from '../hooks/useTestCheckTriggers'
 import { createTestActivityBindings } from '../ui/testActivityBindings'
+import { filterActiveChildItems } from '../data/dailyTaskState'
 
 const TestsPage = () => {
   const { activeChildId } = useActiveChild()
@@ -56,10 +57,7 @@ const TestsPage = () => {
   })
 
   const visibleTests = useMemo(
-    () =>
-      tests.filter(
-        (test) => test.childId === activeChildId && test.title.trim().length > 0
-      ),
+    () => filterActiveChildItems(tests, activeChildId),
     [tests, activeChildId]
   )
 

@@ -7,7 +7,6 @@ import {
   deleteDoc,
   doc,
   runTransaction,
-  type DocumentData,
   updateDoc,
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
@@ -19,17 +18,15 @@ import { parseTestSnapshot } from '../lib/choreParser'
 import { calculateAwardTaskPatch } from '../lib/choreLogic'
 import { buildDefaultTests, buildTestDocument } from './taskDocuments'
 import {
-  commitBoundedDraft,
+  filterActiveChildItems,
   getTestLastActive,
   manageTestOutcomePatch,
   mergeTestEphemeral,
-  setDraftValue,
+  useCollectionTitleDrafts,
   useEphemeralExpiry,
-  useTitleDraftBackfill,
   useTodayInfo,
 } from './dailyTaskState'
 import {
-  sortByCreatedAtThenTitle,
   type TaskEphemeralState,
   type TaskOutcome,
   type TaskUpdatableFields,
@@ -37,12 +34,12 @@ import {
   type TestType,
   type TestWithEphemeral,
 } from './types'
-import { useUserCollection } from './useUserCollection'
 import { validateTaskFields } from './taskLimits'
 import {
   mergeOptimisticItems,
   useCoalescedDocumentUpdates,
 } from '../hooks/useCoalescedDocumentUpdates'
+import { useChildTaskCollection } from './useChildTaskCollection'
 
 const getPersistedAttemptState = (
   test: TestRecord,
@@ -68,9 +65,6 @@ export function useTests() {
 
   const [ephemeral, setEphemeral] = useState<
     Record<string, TaskEphemeralState>
-  >({})
-  const [testTitleDrafts, setTestTitleDrafts] = useState<
-    Record<string, string>
   >({})
   const todayInfo = useTodayInfo()
 
@@ -115,31 +109,18 @@ export function useTests() {
     },
   })
 
-  const parseTestDocument = useCallback(
-    (id: string, data: DocumentData) => parseTestSnapshot(id, data),
-    []
-  )
-  const sortTests = useCallback(
-    (tests: TestRecord[]) => [...tests].sort(sortByCreatedAtThenTitle),
-    []
-  )
-  const clearEphemeral = useCallback(() => setEphemeral({}), [])
-  const rawTests = useUserCollection({
-    userId: activeChildId ? user?.uid : undefined,
+  const rawTests = useChildTaskCollection({
+    userId: user?.uid,
+    activeChildId,
     collectionName: 'tests',
-    whereEqualToField: 'childId',
-    whereEqualToValue: activeChildId ?? undefined,
     errorMessage: 'Failed to subscribe to tests',
-    mapDocument: parseTestDocument,
-    normalizeItems: sortTests,
-    onClear: clearEphemeral,
+    parseDocument: parseTestSnapshot,
+    clearEphemeral: setEphemeral,
   })
 
   useEffect(() => {
     reconcileTestFields(rawTests)
   }, [rawTests, reconcileTestFields])
-
-  useTitleDraftBackfill(rawTests, setTestTitleDrafts)
 
   const configuredTests = useMemo(() => {
     const savedDefaultsByType = new Map<TestType, TestRecord>()
@@ -175,10 +156,7 @@ export function useTests() {
   )
 
   const activeChildTests = useMemo(
-    () =>
-      tests.filter(
-        (test) => test.childId === activeChildId && test.title.trim().length > 0
-      ),
+    () => filterActiveChildItems(tests, activeChildId),
     [tests, activeChildId]
   )
 
@@ -197,17 +175,14 @@ export function useTests() {
     queueTestField(testId, field)
   }
 
-  const setTestTitleDraft = (testId: string, value: string) =>
-    setDraftValue(setTestTitleDrafts, testId, value)
-
-  const commitTestTitle = (testId: string, title: string) =>
-    commitBoundedDraft(
-      title,
-      80,
-      rawTests.find((test) => test.id === testId)?.title,
-      (nextTitle) => updateTestField(testId, { title: nextTitle }),
-      (savedTitle) => setTestTitleDraft(testId, savedTitle)
-    )
+  const {
+    drafts: testTitleDrafts,
+    setDraft: setTestTitleDraft,
+    removeDraft: removeTestTitleDraft,
+    commitDraft: commitTestTitle,
+  } = useCollectionTitleDrafts(rawTests, (testId, title) =>
+    updateTestField(testId, { title })
+  )
 
   const createTest = async (testType: TestType) => {
     if (!user || !activeChildId) return
@@ -228,6 +203,7 @@ export function useTests() {
     if (!user) return
     cancelTestFieldUpdate(testId)
     await deleteDoc(doc(db, 'users', user.uid, 'tests', testId))
+    removeTestTitleDraft(testId)
   }
 
   const persistTestAttempt = async (

@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:29:23.258Z",
+    "measured_at": "2026-08-31T23:33:36.014Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f1bc73f5db18e3a2d6d8c52fcf5a47576e32d97d5e2e60833b1968b1cf9ff4fd"
+    "source_set_hash": "sha256:0d1df54f4bf447cef6b181a1c4348819f39f70cd15d98cf534711d648ea11b47"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -64,10 +64,10 @@
     "partial": false
   },
   "summary": {
-    "nodes": 139,
-    "edges": 810,
+    "nodes": 140,
+    "edges": 815,
     "entrypoint_nodes": 0,
-    "high_risk_nodes": 105,
+    "high_risk_nodes": 106,
     "unknown_metric_nodes": 0,
     "missing_inputs": 0,
     "stale_inputs": 0,
@@ -335,7 +335,7 @@
       "id": "src/components/ui",
       "label": "src/components/ui",
       "node_count": 33,
-      "risk_score": 278,
+      "risk_score": 277,
       "kind": "src/components/ui",
       "actions": [
         {
@@ -398,7 +398,7 @@
     {
       "id": "src/data",
       "label": "src/data",
-      "node_count": 18,
+      "node_count": 19,
       "risk_score": 501,
       "kind": "src/data",
       "actions": [
@@ -2573,14 +2573,14 @@
         "maintainability": 193,
         "correctness": 40,
         "architecture": 20,
-        "change": 54,
+        "change": 59,
         "render_performance": 48,
         "performance": 48,
         "quality": 156,
         "total": 89
       },
       "maintainability_risk": 193,
-      "change_risk": 54,
+      "change_risk": 59,
       "performance_risk": 48,
       "correctness_risk": 40,
       "architectural_risk": 20,
@@ -2606,26 +2606,26 @@
       "type": "component",
       "group": "src/components/ui",
       "entrypoint_roles": [],
-      "risk_score": 278,
+      "risk_score": 277,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 278,
+        "maintainability": 277,
         "correctness": 0,
         "architecture": 63,
         "change": 62,
-        "render_performance": 84,
-        "performance": 84,
+        "render_performance": 83,
+        "performance": 83,
         "quality": 175,
-        "total": 113
+        "total": 112
       },
-      "maintainability_risk": 278,
+      "maintainability_risk": 277,
       "change_risk": 62,
-      "performance_risk": 84,
+      "performance_risk": 83,
       "correctness_risk": 0,
       "architectural_risk": 63,
       "quality_risk": 175,
-      "total_score": 113,
+      "total_score": 112,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2890,22 +2890,22 @@
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 21,
+        "maintainability": 20,
         "correctness": 40,
         "architecture": 28,
-        "change": 18,
+        "change": 23,
         "render_performance": 0,
         "performance": 0,
         "quality": 0,
-        "total": 19
+        "total": 20
       },
-      "maintainability_risk": 21,
-      "change_risk": 18,
+      "maintainability_risk": 20,
+      "change_risk": 23,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 28,
       "quality_risk": 0,
-      "total_score": 19,
+      "total_score": 20,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2933,19 +2933,19 @@
         "maintainability": 19,
         "correctness": 40,
         "architecture": 60,
-        "change": 30,
+        "change": 35,
         "render_performance": 0,
         "performance": 0,
         "quality": 222,
-        "total": 67
+        "total": 68
       },
       "maintainability_risk": 19,
-      "change_risk": 30,
+      "change_risk": 35,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 60,
       "quality_risk": 222,
-      "total_score": 67,
+      "total_score": 68,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -3486,36 +3486,36 @@
       "type": "module",
       "group": "src/data",
       "entrypoint_roles": [],
-      "risk_score": 245,
+      "risk_score": 264,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 245,
+        "maintainability": 264,
         "correctness": 0,
-        "architecture": 96,
+        "architecture": 100,
         "change": 42,
         "render_performance": 0,
         "performance": 0,
         "quality": 8,
-        "total": 71
+        "total": 75
       },
-      "maintainability_risk": 245,
+      "maintainability_risk": 264,
       "change_risk": 42,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 96,
+      "architectural_risk": 100,
       "quality_risk": 8,
-      "total_score": 71,
+      "total_score": 75,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
         "imports": 3,
-        "exports": 16,
-        "functions": 17,
+        "exports": 18,
+        "functions": 22,
         "components": 0,
-        "types": 3,
+        "types": 4,
         "entrypoint_roles": 0
       }
     },
@@ -3640,6 +3640,46 @@
       }
     },
     {
+      "id": "src/data/useChildTaskCollection",
+      "label": "useChildTaskCollection.ts",
+      "file": "src/data/useChildTaskCollection.ts",
+      "type": "module",
+      "group": "src/data",
+      "entrypoint_roles": [],
+      "risk_score": 88,
+      "risk": "high",
+      "classification": "warning",
+      "category_scores": {
+        "maintainability": 30,
+        "correctness": 40,
+        "architecture": 26,
+        "change": 18,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 88,
+        "total": 37
+      },
+      "maintainability_risk": 30,
+      "change_risk": 18,
+      "performance_risk": 0,
+      "correctness_risk": 40,
+      "architectural_risk": 26,
+      "quality_risk": 88,
+      "total_score": 37,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 1,
+      "risk_calibration": "v1-static-analysis",
+      "evidence": {
+        "imports": 4,
+        "exports": 1,
+        "functions": 1,
+        "components": 0,
+        "types": 2,
+        "entrypoint_roles": 0
+      }
+    },
+    {
       "id": "src/data/useChildren",
       "label": "useChildren.ts",
       "file": "src/data/useChildren.ts",
@@ -3726,26 +3766,26 @@
       "type": "module",
       "group": "src/data",
       "entrypoint_roles": [],
-      "risk_score": 307,
+      "risk_score": 280,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 307,
+        "maintainability": 280,
         "correctness": 40,
         "architecture": 4,
         "change": 100,
         "render_performance": 0,
         "performance": 0,
         "quality": 45,
-        "total": 90
+        "total": 85
       },
-      "maintainability_risk": 307,
+      "maintainability_risk": 280,
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 4,
       "quality_risk": 45,
-      "total_score": 90,
+      "total_score": 85,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -3753,7 +3793,7 @@
       "evidence": {
         "imports": 15,
         "exports": 1,
-        "functions": 14,
+        "functions": 12,
         "components": 0,
         "types": 0,
         "entrypoint_roles": 0
@@ -3766,11 +3806,11 @@
       "type": "module",
       "group": "src/data",
       "entrypoint_roles": [],
-      "risk_score": 185,
+      "risk_score": 181,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 185,
+        "maintainability": 181,
         "correctness": 40,
         "architecture": 36,
         "change": 100,
@@ -3779,7 +3819,7 @@
         "quality": 20,
         "total": 69
       },
-      "maintainability_risk": 185,
+      "maintainability_risk": 181,
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 40,
@@ -3793,7 +3833,7 @@
       "evidence": {
         "imports": 11,
         "exports": 2,
-        "functions": 7,
+        "functions": 5,
         "components": 0,
         "types": 1,
         "entrypoint_roles": 0
@@ -3806,26 +3846,26 @@
       "type": "module",
       "group": "src/data",
       "entrypoint_roles": [],
-      "risk_score": 349,
+      "risk_score": 325,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 349,
+        "maintainability": 325,
         "correctness": 40,
-        "architecture": 33,
+        "architecture": 32,
         "change": 100,
         "render_performance": 0,
         "performance": 0,
         "quality": 18,
-        "total": 98
+        "total": 94
       },
-      "maintainability_risk": 349,
+      "maintainability_risk": 325,
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 33,
+      "architectural_risk": 32,
       "quality_risk": 18,
-      "total_score": 98,
+      "total_score": 94,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -3833,7 +3873,7 @@
       "evidence": {
         "imports": 15,
         "exports": 1,
-        "functions": 18,
+        "functions": 16,
         "components": 0,
         "types": 0,
         "entrypoint_roles": 0
@@ -3852,20 +3892,20 @@
       "category_scores": {
         "maintainability": 108,
         "correctness": 40,
-        "architecture": 44,
+        "architecture": 34,
         "change": 45,
         "render_performance": 0,
         "performance": 0,
         "quality": 109,
-        "total": 63
+        "total": 61
       },
       "maintainability_risk": 108,
       "change_risk": 45,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 44,
+      "architectural_risk": 34,
       "quality_risk": 109,
-      "total_score": 63,
+      "total_score": 61,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -5286,32 +5326,32 @@
       "type": "component",
       "group": "src/pages",
       "entrypoint_roles": [],
-      "risk_score": 106,
+      "risk_score": 105,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 92,
+        "maintainability": 82,
         "correctness": 40,
         "architecture": 10,
         "change": 100,
-        "render_performance": 106,
-        "performance": 106,
+        "render_performance": 105,
+        "performance": 105,
         "quality": 55,
-        "total": 64
+        "total": 62
       },
-      "maintainability_risk": 92,
+      "maintainability_risk": 82,
       "change_risk": 100,
-      "performance_risk": 106,
+      "performance_risk": 105,
       "correctness_risk": 40,
       "architectural_risk": 10,
       "quality_risk": 55,
-      "total_score": 64,
+      "total_score": 62,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 13,
+        "imports": 14,
         "exports": 0,
         "functions": 1,
         "components": 1,
@@ -5653,14 +5693,14 @@
         "maintainability": 38,
         "correctness": 40,
         "architecture": 100,
-        "change": 52,
+        "change": 54,
         "render_performance": 0,
         "performance": 0,
         "quality": 76,
         "total": 56
       },
       "maintainability_risk": 38,
-      "change_risk": 52,
+      "change_risk": 54,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 100,
@@ -9038,7 +9078,7 @@
       "from": "src/components/ui/standardActionConfig",
       "to": "src/components/ui/standardActionListTypes",
       "type": "type_only_import",
-      "source": "import type { ActionConfig, ActionVariant, } from './standardActionListTypes'",
+      "source": "import type { ActionConfig, ActionVariant } from './standardActionListTypes'",
       "line": 2
     },
     {
@@ -9850,6 +9890,38 @@
       "line": 5
     },
     {
+      "id": "import:src/data/useChildTaskCollection:react:1",
+      "from": "src/data/useChildTaskCollection",
+      "to": "react",
+      "type": "static_import",
+      "source": "import { useCallback, type Dispatch, type SetStateAction } from 'react'",
+      "line": 1
+    },
+    {
+      "id": "import:src/data/useChildTaskCollection:firebase/firestore:2",
+      "from": "src/data/useChildTaskCollection",
+      "to": "firebase/firestore",
+      "type": "type_only_import",
+      "source": "import type { DocumentData } from 'firebase/firestore'",
+      "line": 2
+    },
+    {
+      "id": "import:src/data/useChildTaskCollection:src/data/types:3",
+      "from": "src/data/useChildTaskCollection",
+      "to": "src/data/types",
+      "type": "static_import",
+      "source": "import { sortByCreatedAtThenTitle } from './types'",
+      "line": 3
+    },
+    {
+      "id": "import:src/data/useChildTaskCollection:src/data/useUserCollection:4",
+      "from": "src/data/useChildTaskCollection",
+      "to": "src/data/useUserCollection",
+      "type": "static_import",
+      "source": "import { useUserCollection } from './useUserCollection'",
+      "line": 4
+    },
+    {
       "id": "import:src/data/useChildren:react:3",
       "from": "src/data/useChildren",
       "to": "react",
@@ -9982,7 +10054,7 @@
       "from": "src/data/useChores",
       "to": "react",
       "type": "static_import",
-      "source": "import { useCallback, useEffect, useMemo, useState } from 'react'",
+      "source": "import { useEffect, useMemo, useState } from 'react'",
       "line": 3
     },
     {
@@ -9990,112 +10062,112 @@
       "from": "src/data/useChores",
       "to": "firebase/firestore",
       "type": "static_import",
-      "source": "import { addDoc, collection, deleteDoc, doc, type DocumentData, updateDoc, } from 'firebase/firestore'",
+      "source": "import { addDoc, collection, deleteDoc, doc, updateDoc, } from 'firebase/firestore'",
       "line": 4
     },
     {
-      "id": "import:src/data/useChores:src/firebaseDb:12",
+      "id": "import:src/data/useChores:src/firebaseDb:11",
       "from": "src/data/useChores",
       "to": "src/firebaseDb",
       "type": "static_import",
       "source": "import { db } from '../firebaseDb'",
-      "line": 12
+      "line": 11
     },
     {
-      "id": "import:src/data/useChores:src/auth/AuthContext:13",
+      "id": "import:src/data/useChores:src/auth/AuthContext:12",
       "from": "src/data/useChores",
       "to": "src/auth/AuthContext",
       "type": "static_import",
       "source": "import { useAuth } from '../auth/AuthContext'",
-      "line": 13
+      "line": 12
     },
     {
-      "id": "import:src/data/useChores:src/contexts/ActiveChildContext:14",
+      "id": "import:src/data/useChores:src/contexts/ActiveChildContext:13",
       "from": "src/data/useChores",
       "to": "src/contexts/ActiveChildContext",
       "type": "static_import",
       "source": "import { useActiveChild } from '../contexts/ActiveChildContext'",
-      "line": 14
+      "line": 13
     },
     {
-      "id": "import:src/data/useChores:src/lib/choreParser:15",
+      "id": "import:src/data/useChores:src/lib/choreParser:14",
       "from": "src/data/useChores",
       "to": "src/lib/choreParser",
       "type": "static_import",
       "source": "import { parseChoreSnapshot } from '../lib/choreParser'",
-      "line": 15
+      "line": 14
     },
     {
-      "id": "import:src/data/useChores:src/data/taskDocuments:16",
+      "id": "import:src/data/useChores:src/data/taskDocuments:15",
       "from": "src/data/useChores",
       "to": "src/data/taskDocuments",
       "type": "static_import",
       "source": "import { buildChoreDocument, type ChoreDocumentSettings } from './taskDocuments'",
-      "line": 16
+      "line": 15
     },
     {
-      "id": "import:src/data/useChores:src/lib/today:17",
+      "id": "import:src/data/useChores:src/lib/today:16",
       "from": "src/data/useChores",
       "to": "src/lib/today",
       "type": "static_import",
       "source": "import { isScheduledForDay } from '../lib/today'",
-      "line": 17
+      "line": 16
     },
     {
-      "id": "import:src/data/useChores:src/data/dailyTaskState:18",
+      "id": "import:src/data/useChores:src/data/dailyTaskState:17",
       "from": "src/data/useChores",
       "to": "src/data/dailyTaskState",
       "type": "static_import",
-      "source": "import { commitBoundedDraft, mergeTaskEphemeral, setDraftValue, useTitleDraftBackfill, useTodayInfo, } from './dailyTaskState'",
-      "line": 18
+      "source": "import { filterActiveChildItems, mergeTaskEphemeral, useCollectionTitleDrafts, useTodayInfo, } from './dailyTaskState'",
+      "line": 17
     },
     {
-      "id": "import:src/data/useChores:src/data/useChoreActivityActions:25",
+      "id": "import:src/data/useChores:src/data/useChoreActivityActions:23",
       "from": "src/data/useChores",
       "to": "src/data/useChoreActivityActions",
       "type": "static_import",
       "source": "import { useChoreActivityActions } from './useChoreActivityActions'",
-      "line": 25
+      "line": 23
     },
     {
-      "id": "import:src/data/useChores:src/data/useUserCollection:26",
-      "from": "src/data/useChores",
-      "to": "src/data/useUserCollection",
-      "type": "static_import",
-      "source": "import { useUserCollection } from './useUserCollection'",
-      "line": 26
-    },
-    {
-      "id": "import:src/data/useChores:src/data/types:27",
+      "id": "import:src/data/useChores:src/data/types:24",
       "from": "src/data/useChores",
       "to": "src/data/types",
       "type": "static_import",
-      "source": "import { sortByCreatedAtThenTitle, getManageTaskCompletedAt, type ChoreRecord, type ChoreType, type TaskEphemeralState, type TaskUpdatableFields, } from './types'",
-      "line": 27
+      "source": "import { getManageTaskCompletedAt, type ChoreRecord, type ChoreType, type TaskEphemeralState, type TaskUpdatableFields, } from './types'",
+      "line": 24
     },
     {
-      "id": "import:src/data/useChores:src/data/taskLimits:35",
+      "id": "import:src/data/useChores:src/data/taskLimits:31",
       "from": "src/data/useChores",
       "to": "src/data/taskLimits",
       "type": "static_import",
       "source": "import { validateTaskFields } from './taskLimits'",
-      "line": 35
+      "line": 31
     },
     {
-      "id": "import:src/data/useChores:src/hooks/useCoalescedDocumentUpdates:36",
+      "id": "import:src/data/useChores:src/hooks/useCoalescedDocumentUpdates:32",
       "from": "src/data/useChores",
       "to": "src/hooks/useCoalescedDocumentUpdates",
       "type": "static_import",
       "source": "import { mergeOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'",
-      "line": 36
+      "line": 32
     },
     {
-      "id": "import:src/data/useChores:src/data/useUserDocumentUpdates:37",
+      "id": "import:src/data/useChores:src/data/useUserDocumentUpdates:33",
       "from": "src/data/useChores",
       "to": "src/data/useUserDocumentUpdates",
       "type": "static_import",
       "source": "import { useUserDocumentUpdates } from './useUserDocumentUpdates'",
-      "line": 37
+      "line": 33
+    },
+    {
+      "id": "import:src/data/useChores:src/data/useChildTaskCollection:34",
+      "from": "src/data/useChores",
+      "to": "src/data/useChildTaskCollection",
+      "type": "static_import",
+      "source": "import { useChildTaskCollection } from './useChildTaskCollection'",
+      "line": 34
     },
     {
       "id": "import:src/data/useRewards:react:3",
@@ -10158,32 +10230,32 @@
       "from": "src/data/useRewards",
       "to": "src/data/dailyTaskState",
       "type": "static_import",
-      "source": "import { commitBoundedDraft, mergeMissingTitleDrafts, setDraftValue, } from './dailyTaskState'",
+      "source": "import { useCollectionTitleDrafts, } from './dailyTaskState'",
       "line": 22
     },
     {
-      "id": "import:src/data/useRewards:src/data/useUserCollection:27",
+      "id": "import:src/data/useRewards:src/data/useUserCollection:25",
       "from": "src/data/useRewards",
       "to": "src/data/useUserCollection",
       "type": "static_import",
       "source": "import { useUserCollection } from './useUserCollection'",
-      "line": 27
+      "line": 25
     },
     {
-      "id": "import:src/data/useRewards:src/hooks/useCoalescedDocumentUpdates:28",
+      "id": "import:src/data/useRewards:src/hooks/useCoalescedDocumentUpdates:26",
       "from": "src/data/useRewards",
       "to": "src/hooks/useCoalescedDocumentUpdates",
       "type": "static_import",
       "source": "import { mergeOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'",
-      "line": 28
+      "line": 26
     },
     {
-      "id": "import:src/data/useRewards:src/data/useUserDocumentUpdates:29",
+      "id": "import:src/data/useRewards:src/data/useUserDocumentUpdates:27",
       "from": "src/data/useRewards",
       "to": "src/data/useUserDocumentUpdates",
       "type": "static_import",
       "source": "import { useUserDocumentUpdates } from './useUserDocumentUpdates'",
-      "line": 29
+      "line": 27
     },
     {
       "id": "import:src/data/useTests:react:3",
@@ -10198,111 +10270,111 @@
       "from": "src/data/useTests",
       "to": "firebase/firestore",
       "type": "static_import",
-      "source": "import { addDoc, collection, deleteDoc, doc, runTransaction, type DocumentData, updateDoc, } from 'firebase/firestore'",
+      "source": "import { addDoc, collection, deleteDoc, doc, runTransaction, updateDoc, } from 'firebase/firestore'",
       "line": 4
     },
     {
-      "id": "import:src/data/useTests:src/firebaseDb:13",
+      "id": "import:src/data/useTests:src/firebaseDb:12",
       "from": "src/data/useTests",
       "to": "src/firebaseDb",
       "type": "static_import",
       "source": "import { db } from '../firebaseDb'",
-      "line": 13
+      "line": 12
     },
     {
-      "id": "import:src/data/useTests:src/auth/AuthContext:14",
+      "id": "import:src/data/useTests:src/auth/AuthContext:13",
       "from": "src/data/useTests",
       "to": "src/auth/AuthContext",
       "type": "static_import",
       "source": "import { useAuth } from '../auth/AuthContext'",
-      "line": 14
+      "line": 13
     },
     {
-      "id": "import:src/data/useTests:src/contexts/ActiveChildContext:15",
+      "id": "import:src/data/useTests:src/contexts/ActiveChildContext:14",
       "from": "src/data/useTests",
       "to": "src/contexts/ActiveChildContext",
       "type": "static_import",
       "source": "import { useActiveChild } from '../contexts/ActiveChildContext'",
-      "line": 15
+      "line": 14
     },
     {
-      "id": "import:src/data/useTests:src/lib/starActions:16",
+      "id": "import:src/data/useTests:src/lib/starActions:15",
       "from": "src/data/useTests",
       "to": "src/lib/starActions",
       "type": "static_import",
       "source": "import { completeTaskAndAwardStars } from '../lib/starActions'",
-      "line": 16
+      "line": 15
     },
     {
-      "id": "import:src/data/useTests:src/lib/celebrate:17",
+      "id": "import:src/data/useTests:src/lib/celebrate:16",
       "from": "src/data/useTests",
       "to": "src/lib/celebrate",
       "type": "static_import",
       "source": "import { celebrateSuccess } from '../lib/celebrate'",
-      "line": 17
+      "line": 16
     },
     {
-      "id": "import:src/data/useTests:src/lib/choreParser:18",
+      "id": "import:src/data/useTests:src/lib/choreParser:17",
       "from": "src/data/useTests",
       "to": "src/lib/choreParser",
       "type": "static_import",
       "source": "import { parseTestSnapshot } from '../lib/choreParser'",
-      "line": 18
+      "line": 17
     },
     {
-      "id": "import:src/data/useTests:src/lib/choreLogic:19",
+      "id": "import:src/data/useTests:src/lib/choreLogic:18",
       "from": "src/data/useTests",
       "to": "src/lib/choreLogic",
       "type": "static_import",
       "source": "import { calculateAwardTaskPatch } from '../lib/choreLogic'",
-      "line": 19
+      "line": 18
     },
     {
-      "id": "import:src/data/useTests:src/data/taskDocuments:20",
+      "id": "import:src/data/useTests:src/data/taskDocuments:19",
       "from": "src/data/useTests",
       "to": "src/data/taskDocuments",
       "type": "static_import",
       "source": "import { buildDefaultTests, buildTestDocument } from './taskDocuments'",
-      "line": 20
+      "line": 19
     },
     {
-      "id": "import:src/data/useTests:src/data/dailyTaskState:21",
+      "id": "import:src/data/useTests:src/data/dailyTaskState:20",
       "from": "src/data/useTests",
       "to": "src/data/dailyTaskState",
       "type": "static_import",
-      "source": "import { commitBoundedDraft, getTestLastActive, manageTestOutcomePatch, mergeTestEphemeral, setDraftValue, useEphemeralExpiry, useTitleDraftBackfill, useTodayInfo, } from './dailyT",
-      "line": 21
+      "source": "import { filterActiveChildItems, getTestLastActive, manageTestOutcomePatch, mergeTestEphemeral, useCollectionTitleDrafts, useEphemeralExpiry, useTodayInfo, } from './dailyTaskState",
+      "line": 20
     },
     {
-      "id": "import:src/data/useTests:src/data/types:31",
+      "id": "import:src/data/useTests:src/data/types:29",
       "from": "src/data/useTests",
       "to": "src/data/types",
       "type": "static_import",
-      "source": "import { sortByCreatedAtThenTitle, type TaskEphemeralState, type TaskOutcome, type TaskUpdatableFields, type TestRecord, type TestType, type TestWithEphemeral, } from './types'",
-      "line": 31
+      "source": "import { type TaskEphemeralState, type TaskOutcome, type TaskUpdatableFields, type TestRecord, type TestType, type TestWithEphemeral, } from './types'",
+      "line": 29
     },
     {
-      "id": "import:src/data/useTests:src/data/useUserCollection:40",
-      "from": "src/data/useTests",
-      "to": "src/data/useUserCollection",
-      "type": "static_import",
-      "source": "import { useUserCollection } from './useUserCollection'",
-      "line": 40
-    },
-    {
-      "id": "import:src/data/useTests:src/data/taskLimits:41",
+      "id": "import:src/data/useTests:src/data/taskLimits:37",
       "from": "src/data/useTests",
       "to": "src/data/taskLimits",
       "type": "static_import",
       "source": "import { validateTaskFields } from './taskLimits'",
-      "line": 41
+      "line": 37
     },
     {
-      "id": "import:src/data/useTests:src/hooks/useCoalescedDocumentUpdates:42",
+      "id": "import:src/data/useTests:src/hooks/useCoalescedDocumentUpdates:38",
       "from": "src/data/useTests",
       "to": "src/hooks/useCoalescedDocumentUpdates",
       "type": "static_import",
       "source": "import { mergeOptimisticItems, useCoalescedDocumentUpdates, } from '../hooks/useCoalescedDocumentUpdates'",
+      "line": 38
+    },
+    {
+      "id": "import:src/data/useTests:src/data/useChildTaskCollection:42",
+      "from": "src/data/useTests",
+      "to": "src/data/useChildTaskCollection",
+      "type": "static_import",
+      "source": "import { useChildTaskCollection } from './useChildTaskCollection'",
       "line": 42
     },
     {
@@ -11624,6 +11696,14 @@
       "type": "static_import",
       "source": "import { createTestActivityBindings } from '../ui/testActivityBindings'",
       "line": 13
+    },
+    {
+      "id": "import:src/pages/TestsPage:src/data/dailyTaskState:14",
+      "from": "src/pages/TestsPage",
+      "to": "src/data/dailyTaskState",
+      "type": "static_import",
+      "source": "import { filterActiveChildItems } from '../data/dailyTaskState'",
+      "line": 14
     },
     {
       "id": "import:src/pages/TimeExplorerPage:react:1",

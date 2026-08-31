@@ -20,6 +20,10 @@ type DraftableItem = {
   title: string
 }
 
+type ChildTaskItem = DraftableItem & {
+  childId: string
+}
+
 type TodoLike = {
   id: string
 } & Partial<TodoUpdatableFields>
@@ -140,6 +144,43 @@ export const useTitleDraftBackfill = <T extends DraftableItem>(
     setDrafts((prev) => mergeMissingTitleDrafts(prev, items))
   }, [items, setDrafts])
 }
+
+export const useCollectionTitleDrafts = <T extends DraftableItem>(
+  items: T[],
+  onCommit: (id: string, title: string) => void,
+  maxLength = 80
+) => {
+  const [drafts, setDrafts] = useState<Record<string, string>>({})
+  useTitleDraftBackfill(items, setDrafts)
+
+  const setDraft = (id: string, value: string) =>
+    setDraftValue(setDrafts, id, value)
+  const removeDraft = (id: string) =>
+    setDrafts((previous) => {
+      if (!(id in previous)) return previous
+      const next = { ...previous }
+      delete next[id]
+      return next
+    })
+  const commitDraft = (id: string, value: string) =>
+    commitBoundedDraft(
+      value,
+      maxLength,
+      items.find((item) => item.id === id)?.title,
+      (title) => onCommit(id, title),
+      (title) => setDraft(id, title)
+    )
+
+  return { drafts, setDraft, removeDraft, commitDraft }
+}
+
+export const filterActiveChildItems = <T extends ChildTaskItem>(
+  items: T[],
+  activeChildId: string | null
+) =>
+  items.filter(
+    (item) => item.childId === activeChildId && item.title.trim().length > 0
+  )
 
 export const setDraftValue = (
   setDrafts: Dispatch<SetStateAction<Record<string, string>>>,

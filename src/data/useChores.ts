@@ -1,12 +1,11 @@
 // ── Chores subscription + mutations ──
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
-  type DocumentData,
   updateDoc,
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
@@ -16,16 +15,13 @@ import { parseChoreSnapshot } from '../lib/choreParser'
 import { buildChoreDocument, type ChoreDocumentSettings } from './taskDocuments'
 import { isScheduledForDay } from '../lib/today'
 import {
-  commitBoundedDraft,
+  filterActiveChildItems,
   mergeTaskEphemeral,
-  setDraftValue,
-  useTitleDraftBackfill,
+  useCollectionTitleDrafts,
   useTodayInfo,
 } from './dailyTaskState'
 import { useChoreActivityActions } from './useChoreActivityActions'
-import { useUserCollection } from './useUserCollection'
 import {
-  sortByCreatedAtThenTitle,
   getManageTaskCompletedAt,
   type ChoreRecord,
   type ChoreType,
@@ -35,6 +31,7 @@ import {
 import { validateTaskFields } from './taskLimits'
 import { mergeOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
 import { useUserDocumentUpdates } from './useUserDocumentUpdates'
+import { useChildTaskCollection } from './useChildTaskCollection'
 
 export function useChores() {
   const { user } = useAuth()
@@ -42,9 +39,6 @@ export function useChores() {
 
   const [ephemeral, setEphemeral] = useState<
     Record<string, TaskEphemeralState>
-  >({})
-  const [taskTitleDrafts, setTaskTitleDrafts] = useState<
-    Record<string, string>
   >({})
   const todayInfo = useTodayInfo()
 
@@ -60,24 +54,13 @@ export function useChores() {
     errorMessage: 'Failed to update chore',
   })
 
-  const parseChoreDocument = useCallback(
-    (id: string, data: DocumentData) => parseChoreSnapshot(id, data),
-    []
-  )
-  const sortChores = useCallback(
-    (chores: ChoreRecord[]) => [...chores].sort(sortByCreatedAtThenTitle),
-    []
-  )
-  const clearEphemeral = useCallback(() => setEphemeral({}), [])
-  const rawChores = useUserCollection({
-    userId: activeChildId ? user?.uid : undefined,
+  const rawChores = useChildTaskCollection({
+    userId: user?.uid,
+    activeChildId,
     collectionName: 'chores',
-    whereEqualToField: 'childId',
-    whereEqualToValue: activeChildId ?? undefined,
     errorMessage: 'Failed to subscribe to chores',
-    mapDocument: parseChoreDocument,
-    normalizeItems: sortChores,
-    onClear: clearEphemeral,
+    parseDocument: parseChoreSnapshot,
+    clearEphemeral: setEphemeral,
   })
 
   useEffect(() => {
@@ -90,8 +73,6 @@ export function useChores() {
     [optimisticFields, rawChores]
   )
 
-  useTitleDraftBackfill(rawChoreTemplates, setTaskTitleDrafts)
-
   const chores = useMemo(
     () =>
       rawChoreTemplates.map((chore) =>
@@ -101,10 +82,7 @@ export function useChores() {
   )
 
   const activeChildChores = useMemo(
-    () =>
-      chores.filter(
-        (t) => t.childId === activeChildId && t.title.trim().length > 0
-      ),
+    () => filterActiveChildItems(chores, activeChildId),
     [chores, activeChildId]
   )
 
@@ -190,18 +168,14 @@ export function useChores() {
     await persistTaskField(taskId, patch)
   }
 
-  // ── Title Draft Helpers ──
-  const setTaskTitleDraft = (taskId: string, value: string) =>
-    setDraftValue(setTaskTitleDrafts, taskId, value)
-
-  const commitTaskTitle = (taskId: string, title: string) =>
-    commitBoundedDraft(
-      title,
-      80,
-      rawChoreTemplates.find((task) => task.id === taskId)?.title,
-      (nextTitle) => updateTaskField(taskId, { title: nextTitle }),
-      (savedTitle) => setTaskTitleDraft(taskId, savedTitle)
-    )
+  const {
+    drafts: taskTitleDrafts,
+    setDraft: setTaskTitleDraft,
+    removeDraft: removeTaskTitleDraft,
+    commitDraft: commitTaskTitle,
+  } = useCollectionTitleDrafts(rawChoreTemplates, (taskId, title) =>
+    updateTaskField(taskId, { title })
+  )
 
   // ── Creation Handlers ──
   const createChoreTask = async (
@@ -236,11 +210,7 @@ export function useChores() {
     cancelTaskFieldUpdate(taskId)
     await deleteDoc(doc(db, 'users', user.uid, 'chores', taskId))
 
-    setTaskTitleDrafts((prev) => {
-      const next = { ...prev }
-      delete next[taskId]
-      return next
-    })
+    removeTaskTitleDraft(taskId)
     setEphemeral((prev) => {
       const next = { ...prev }
       delete next[taskId]

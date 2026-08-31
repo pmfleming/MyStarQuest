@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:29:05.673Z",
+    "measured_at": "2026-08-31T23:33:20.335Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f1bc73f5db18e3a2d6d8c52fcf5a47576e32d97d5e2e60833b1968b1cf9ff4fd"
+    "source_set_hash": "sha256:0d1df54f4bf447cef6b181a1c4348819f39f70cd15d98cf534711d648ea11b47"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -63,8 +63,8 @@
     "stale_input": []
   },
   "summary": {
-    "records": 139,
-    "shared_hubs": 41
+    "records": 140,
+    "shared_hubs": 40
   },
   "records": [
     {
@@ -3035,17 +3035,17 @@
       "id": "leverage:src/data/dailyTaskState",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
-      "score": 88,
+      "score": 100,
       "risk": "low",
-      "inbound_reach": 5,
-      "public_surface": 19,
+      "inbound_reach": 6,
+      "public_surface": 22,
       "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "shared_hub",
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 5
+          "value": 6
         }
       ],
       "kind": "leverage",
@@ -3188,7 +3188,7 @@
       "file": "src/data/types.ts",
       "score": 100,
       "risk": "high",
-      "inbound_reach": 28,
+      "inbound_reach": 29,
       "public_surface": 176,
       "weak_surface": 1,
       "dead_export_surface": 0,
@@ -3196,7 +3196,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 28
+          "value": 29
         },
         {
           "kind": "weak_public_surface",
@@ -3226,6 +3226,46 @@
             "id": "leverage:src/data/types",
             "kind": "leverage",
             "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/data/useChildTaskCollection",
+      "module_id": "src/data/useChildTaskCollection",
+      "file": "src/data/useChildTaskCollection.ts",
+      "score": 26,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/data/useChildTaskCollection",
+            "kind": "leverage",
+            "file": "src/data/useChildTaskCollection.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         },
@@ -3451,19 +3491,14 @@
       "id": "leverage:src/data/useUserCollection",
       "module_id": "src/data/useUserCollection",
       "file": "src/data/useUserCollection.ts",
-      "score": 44,
+      "score": 34,
       "risk": "low",
-      "inbound_reach": 4,
+      "inbound_reach": 3,
       "public_surface": 2,
       "weak_surface": 0,
       "dead_export_surface": 0,
-      "classification": "shared_hub",
-      "signals": [
-        {
-          "kind": "broad_inbound_reach",
-          "value": 4
-        }
-      ],
+      "classification": "local_dependency",
+      "signals": [],
       "kind": "leverage",
       "actions": [
         {

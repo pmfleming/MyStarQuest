@@ -19,11 +19,7 @@ import {
   type RewardRecord,
   type RewardUpdatableFields,
 } from './types'
-import {
-  commitBoundedDraft,
-  mergeMissingTitleDrafts,
-  setDraftValue,
-} from './dailyTaskState'
+import { useCollectionTitleDrafts } from './dailyTaskState'
 import { useUserCollection } from './useUserCollection'
 import { mergeOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
 import { useUserDocumentUpdates } from './useUserDocumentUpdates'
@@ -39,7 +35,6 @@ export function useRewards() {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
   const [activeChildStars, setActiveChildStars] = useState<number>(0)
-  const [titleDrafts, setTitleDrafts] = useState<Record<string, string>>({})
 
   const mapRewardDocument = useCallback((id: string, data: unknown) => {
     const parsed = rewardSnapshotDataSchema.safeParse(data)
@@ -62,10 +57,6 @@ export function useRewards() {
     }
   }, [])
 
-  const handleRewards = useCallback((nextRewards: RewardRecord[]) => {
-    setTitleDrafts((prev) => mergeMissingTitleDrafts(prev, nextRewards))
-  }, [])
-
   const {
     overrides: optimisticFields,
     queueUpdate: queueRewardField,
@@ -83,7 +74,6 @@ export function useRewards() {
     orderByField: 'createdAt',
     errorMessage: 'Failed to subscribe to rewards',
     mapDocument: mapRewardDocument,
-    onItems: handleRewards,
   })
 
   useEffect(() => {
@@ -93,6 +83,17 @@ export function useRewards() {
   const rewards = useMemo(
     () => mergeOptimisticItems(rawRewards, optimisticFields),
     [optimisticFields, rawRewards]
+  )
+
+  const updateRewardField = (rewardId: string, field: RewardUpdatableFields) =>
+    queueRewardField(rewardId, field)
+  const {
+    drafts: titleDrafts,
+    setDraft: setTitleDraft,
+    removeDraft: removeTitleDraft,
+    commitDraft: commitTitle,
+  } = useCollectionTitleDrafts(rawRewards, (rewardId, title) =>
+    updateRewardField(rewardId, { title })
   )
 
   // ── Active child star balance subscription ──
@@ -126,23 +127,6 @@ export function useRewards() {
 
     return unsubscribe
   }, [user, activeChildId])
-
-  // ── Generic field update ──
-  const updateRewardField = (rewardId: string, field: RewardUpdatableFields) =>
-    queueRewardField(rewardId, field)
-
-  // ── Title draft helpers ──
-  const setTitleDraft = (rewardId: string, value: string) =>
-    setDraftValue(setTitleDrafts, rewardId, value)
-
-  const commitTitle = (rewardId: string, title: string) =>
-    commitBoundedDraft(
-      title,
-      80,
-      rewards.find((reward) => reward.id === rewardId)?.title,
-      (nextTitle) => updateRewardField(rewardId, { title: nextTitle }),
-      (savedTitle) => setTitleDraft(rewardId, savedTitle)
-    )
 
   // ── Create ──
   const createStandardReward = async (
@@ -181,6 +165,7 @@ export function useRewards() {
     if (!user) return
     cancelRewardFieldUpdate(id)
     await deleteDoc(doc(collection(db, 'users', user.uid, 'rewards'), id))
+    removeTitleDraft(id)
   }
 
   return {

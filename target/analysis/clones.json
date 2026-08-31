@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:29:01.978Z",
+    "measured_at": "2026-08-31T23:33:16.696Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f1bc73f5db18e3a2d6d8c52fcf5a47576e32d97d5e2e60833b1968b1cf9ff4fd"
+    "source_set_hash": "sha256:0d1df54f4bf447cef6b181a1c4348819f39f70cd15d98cf534711d648ea11b47"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -67,15 +67,15 @@
     "stale_input": []
   },
   "summary": {
-    "clone_groups": 17,
-    "jscpd_clone_groups": 4,
+    "clone_groups": 16,
+    "jscpd_clone_groups": 5,
     "heuristic_clone_groups": 0,
-    "ast_clone_groups": 14,
-    "source_clone_groups": 17,
+    "ast_clone_groups": 11,
+    "source_clone_groups": 16,
     "test_clone_groups": 0,
-    "duplication_records": 23,
+    "duplication_records": 21,
     "high_duplication_records": 1,
-    "clone_pressure_records": 23,
+    "clone_pressure_records": 21,
     "same_purpose_records": 0
   },
   "tool_status": {
@@ -84,7 +84,7 @@
       "ran": true,
       "reason": null,
       "statistics": {
-        "detectionDate": "2026-08-31T23:29:00.268Z",
+        "detectionDate": "2026-08-31T23:33:13.701Z",
         "formats": {
           "typescript": {
             "sources": {
@@ -209,8 +209,8 @@
                 "newClones": 0
               },
               "src/components/ui/standardActionConfig.ts": {
-                "lines": 27,
-                "tokens": 334,
+                "lines": 24,
+                "tokens": 331,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -689,20 +689,20 @@
                 "newClones": 0
               },
               "src/data/useTests.ts": {
-                "lines": 309,
-                "tokens": 2638,
+                "lines": 285,
+                "tokens": 2354,
                 "sources": 1,
-                "clones": 0,
-                "duplicatedLines": 0,
-                "duplicatedTokens": 0,
-                "percentage": 0,
-                "percentageTokens": 0,
+                "clones": 1,
+                "duplicatedLines": 9,
+                "duplicatedTokens": 82,
+                "percentage": 3.16,
+                "percentageTokens": 3.48,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/data/useRewards.ts": {
-                "lines": 196,
-                "tokens": 1511,
+                "lines": 183,
+                "tokens": 1354,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -713,8 +713,20 @@
                 "newClones": 0
               },
               "src/data/useChores.ts": {
-                "lines": 276,
-                "tokens": 2265,
+                "lines": 246,
+                "tokens": 1933,
+                "sources": 1,
+                "clones": 1,
+                "duplicatedLines": 9,
+                "duplicatedTokens": 82,
+                "percentage": 3.66,
+                "percentageTokens": 4.24,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/data/useChoreActivityActions.ts": {
+                "lines": 170,
+                "tokens": 1328,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -724,9 +736,9 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/data/useChoreActivityActions.ts": {
-                "lines": 170,
-                "tokens": 1328,
+              "src/data/useChildTaskCollection.ts": {
+                "lines": 47,
+                "tokens": 419,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -785,8 +797,8 @@
                 "newClones": 0
               },
               "src/data/dailyTaskState.ts": {
-                "lines": 402,
-                "tokens": 3163,
+                "lines": 443,
+                "tokens": 3586,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -894,14 +906,14 @@
               }
             },
             "total": {
-              "lines": 7410,
-              "tokens": 61322,
-              "sources": 67,
-              "clones": 0,
-              "duplicatedLines": 0,
-              "duplicatedTokens": 0,
-              "percentage": 0,
-              "percentageTokens": 0,
+              "lines": 7428,
+              "tokens": 61388,
+              "sources": 68,
+              "clones": 1,
+              "duplicatedLines": 9,
+              "duplicatedTokens": 82,
+              "percentage": 0.12,
+              "percentageTokens": 0.13,
               "newDuplicatedLines": 0,
               "newClones": 0
             }
@@ -957,8 +969,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 363,
-                "tokens": 2814,
+                "lines": 360,
+                "tokens": 2809,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1642,8 +1654,8 @@
               }
             },
             "total": {
-              "lines": 5990,
-              "tokens": 40780,
+              "lines": 5987,
+              "tokens": 40775,
               "sources": 61,
               "clones": 3,
               "duplicatedLines": 32,
@@ -1705,8 +1717,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 411,
-                "tokens": 3146,
+                "lines": 408,
+                "tokens": 3141,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2137,8 +2149,8 @@
                 "newClones": 0
               },
               "src/pages/TestsPage.tsx": {
-                "lines": 109,
-                "tokens": 860,
+                "lines": 107,
+                "tokens": 840,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2498,8 +2510,8 @@
               }
             },
             "total": {
-              "lines": 13332,
-              "tokens": 97609,
+              "lines": 13327,
+              "tokens": 97584,
               "sources": 70,
               "clones": 1,
               "duplicatedLines": 16,
@@ -2600,14 +2612,14 @@
           }
         },
         "total": {
-          "lines": 26824,
-          "tokens": 200318,
-          "sources": 204,
-          "clones": 4,
-          "duplicatedLines": 48,
-          "duplicatedTokens": 293,
-          "percentage": 0.18,
-          "percentageTokens": 0.15,
+          "lines": 26834,
+          "tokens": 200354,
+          "sources": 205,
+          "clones": 5,
+          "duplicatedLines": 57,
+          "duplicatedTokens": 375,
+          "percentage": 0.21,
+          "percentageTokens": 0.19,
           "newDuplicatedLines": 0,
           "newClones": 0
         }
@@ -2616,7 +2628,7 @@
   },
   "groups": [
     {
-      "id": "jscpd:tsx:3",
+      "id": "jscpd:tsx:4",
       "engine": "jscpd",
       "hash": null,
       "classification": "source_clone",
@@ -2669,7 +2681,7 @@
           "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "jscpd:tsx:3",
+            "id": "jscpd:tsx:4",
             "kind": "jscpd",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -2760,151 +2772,7 @@
       ]
     },
     {
-      "id": "ast-clone:8b18aff6",
-      "engine": "ast",
-      "hash": "8b18aff6",
-      "classification": "source_clone",
-      "test_code": false,
-      "score": 100,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "instance_count",
-          "value": 3
-        },
-        {
-          "kind": "file_count",
-          "value": 3
-        },
-        {
-          "kind": "confidence_scope",
-          "value": "syntax_facts"
-        }
-      ],
-      "instances": [
-        {
-          "file": "src/data/useChores.ts",
-          "start_line": 105,
-          "end_line": 107
-        },
-        {
-          "file": "src/data/useTests.ts",
-          "start_line": 179,
-          "end_line": 181
-        },
-        {
-          "file": "src/pages/TestsPage.tsx",
-          "start_line": 60,
-          "end_line": 62
-        }
-      ],
-      "kind": "ast-clone",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this ast-clone finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line ast-clone"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this ast-clone finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "ast-clone:8b18aff6",
-            "kind": "ast-clone",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        },
-        {
-          "type": "suppress-file",
-          "auto_fixable": false,
-          "description": "Suppress this ast-clone finding for the whole file.",
-          "comment": "// ts-react-quality-lens-ignore-file ast-clone"
-        }
-      ]
-    },
-    {
-      "id": "ast-clone:2e4436ff",
-      "engine": "ast",
-      "hash": "2e4436ff",
-      "classification": "source_clone",
-      "test_code": false,
-      "score": 100,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "instance_count",
-          "value": 3
-        },
-        {
-          "kind": "file_count",
-          "value": 3
-        },
-        {
-          "kind": "confidence_scope",
-          "value": "syntax_facts"
-        }
-      ],
-      "instances": [
-        {
-          "file": "src/data/useChores.ts",
-          "start_line": 198,
-          "end_line": 204
-        },
-        {
-          "file": "src/data/useRewards.ts",
-          "start_line": 139,
-          "end_line": 145
-        },
-        {
-          "file": "src/data/useTests.ts",
-          "start_line": 204,
-          "end_line": 210
-        }
-      ],
-      "kind": "ast-clone",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this ast-clone finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line ast-clone"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this ast-clone finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "ast-clone:2e4436ff",
-            "kind": "ast-clone",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        },
-        {
-          "type": "suppress-file",
-          "auto_fixable": false,
-          "description": "Suppress this ast-clone finding for the whole file.",
-          "comment": "// ts-react-quality-lens-ignore-file ast-clone"
-        }
-      ]
-    },
-    {
-      "id": "jscpd:javascript:2",
+      "id": "jscpd:javascript:3",
       "engine": "jscpd",
       "hash": null,
       "classification": "source_clone",
@@ -2957,7 +2825,7 @@
           "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "jscpd:javascript:2",
+            "id": "jscpd:javascript:3",
             "kind": "jscpd",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -2971,7 +2839,7 @@
       ]
     },
     {
-      "id": "jscpd:javascript:4",
+      "id": "jscpd:javascript:5",
       "engine": "jscpd",
       "hash": null,
       "classification": "source_clone",
@@ -3024,7 +2892,74 @@
           "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "jscpd:javascript:4",
+            "id": "jscpd:javascript:5",
+            "kind": "jscpd",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this jscpd finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file jscpd"
+        }
+      ]
+    },
+    {
+      "id": "jscpd:typescript:2",
+      "engine": "jscpd",
+      "hash": null,
+      "classification": "source_clone",
+      "test_code": false,
+      "score": 91,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 10
+        },
+        {
+          "kind": "file_count",
+          "value": 2
+        },
+        {
+          "kind": "format",
+          "value": "typescript"
+        }
+      ],
+      "instances": [
+        {
+          "file": "src/data/useChores.ts",
+          "start_line": 36,
+          "end_line": 45
+        },
+        {
+          "file": "src/data/useTests.ts",
+          "start_line": 62,
+          "end_line": 71
+        }
+      ],
+      "kind": "jscpd",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this jscpd finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line jscpd"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "jscpd:typescript:2",
             "kind": "jscpd",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -3786,9 +3721,9 @@
       "risk": "high",
       "duplicated_lines": 29,
       "clone_group_ids": [
-        "jscpd:tsx:3",
-        "jscpd:javascript:2",
-        "jscpd:javascript:4"
+        "jscpd:tsx:4",
+        "jscpd:javascript:3",
+        "jscpd:javascript:5"
       ],
       "entrypoint_roles": [],
       "signals": [
@@ -3901,126 +3836,6 @@
       ]
     },
     {
-      "id": "duplication-pressure:src/data/useChores",
-      "kind": "duplication_pressure",
-      "module_id": "src/data/useChores",
-      "file": "src/data/useChores.ts",
-      "line": 1,
-      "score": 66,
-      "risk": "medium",
-      "duplicated_lines": 10,
-      "clone_group_ids": ["ast-clone:8b18aff6", "ast-clone:2e4436ff"],
-      "entrypoint_roles": [],
-      "signals": [
-        {
-          "kind": "clone_group_count",
-          "value": 2
-        },
-        {
-          "kind": "cross_file_clone_groups",
-          "value": 2
-        },
-        {
-          "kind": "ast_clone_groups",
-          "value": 2
-        },
-        {
-          "kind": "duplicated_line_count",
-          "value": 10
-        },
-        {
-          "kind": "clone_engine_count",
-          "value": 1
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this duplication_pressure finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line duplication_pressure"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "duplication-pressure:src/data/useChores",
-            "kind": "duplication_pressure",
-            "file": "src/data/useChores.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "duplication-pressure:src/data/useTests",
-      "kind": "duplication_pressure",
-      "module_id": "src/data/useTests",
-      "file": "src/data/useTests.ts",
-      "line": 1,
-      "score": 66,
-      "risk": "medium",
-      "duplicated_lines": 10,
-      "clone_group_ids": ["ast-clone:8b18aff6", "ast-clone:2e4436ff"],
-      "entrypoint_roles": [],
-      "signals": [
-        {
-          "kind": "clone_group_count",
-          "value": 2
-        },
-        {
-          "kind": "cross_file_clone_groups",
-          "value": 2
-        },
-        {
-          "kind": "ast_clone_groups",
-          "value": 2
-        },
-        {
-          "kind": "duplicated_line_count",
-          "value": 10
-        },
-        {
-          "kind": "clone_engine_count",
-          "value": 1
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this duplication_pressure finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line duplication_pressure"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "duplication-pressure:src/data/useTests",
-            "kind": "duplication_pressure",
-            "file": "src/data/useTests.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "duplication-pressure:src/components/LargeNumbersTester",
       "kind": "duplication_pressure",
       "module_id": "src/components/LargeNumbersTester",
@@ -4029,7 +3844,7 @@
       "score": 64,
       "risk": "medium",
       "duplicated_lines": 29,
-      "clone_group_ids": ["jscpd:tsx:3", "jscpd:javascript:2"],
+      "clone_group_ids": ["jscpd:tsx:4", "jscpd:javascript:3"],
       "entrypoint_roles": [],
       "signals": [
         {
@@ -4621,66 +4436,6 @@
       ]
     },
     {
-      "id": "duplication-pressure:src/data/useRewards",
-      "kind": "duplication_pressure",
-      "module_id": "src/data/useRewards",
-      "file": "src/data/useRewards.ts",
-      "line": 1,
-      "score": 34,
-      "risk": "low",
-      "duplicated_lines": 7,
-      "clone_group_ids": ["ast-clone:2e4436ff"],
-      "entrypoint_roles": [],
-      "signals": [
-        {
-          "kind": "clone_group_count",
-          "value": 1
-        },
-        {
-          "kind": "cross_file_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "ast_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "duplicated_line_count",
-          "value": 7
-        },
-        {
-          "kind": "clone_engine_count",
-          "value": 1
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this duplication_pressure finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line duplication_pressure"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "duplication-pressure:src/data/useRewards",
-            "kind": "duplication_pressure",
-            "file": "src/data/useRewards.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "duplication-pressure:src/ui/presetChoreActions",
       "kind": "duplication_pressure",
       "module_id": "src/ui/presetChoreActions",
@@ -4801,66 +4556,6 @@
       ]
     },
     {
-      "id": "duplication-pressure:src/pages/TestsPage",
-      "kind": "duplication_pressure",
-      "module_id": "src/pages/TestsPage",
-      "file": "src/pages/TestsPage.tsx",
-      "line": 1,
-      "score": 31,
-      "risk": "low",
-      "duplicated_lines": 3,
-      "clone_group_ids": ["ast-clone:8b18aff6"],
-      "entrypoint_roles": [],
-      "signals": [
-        {
-          "kind": "clone_group_count",
-          "value": 1
-        },
-        {
-          "kind": "cross_file_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "ast_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "duplicated_line_count",
-          "value": 3
-        },
-        {
-          "kind": "clone_engine_count",
-          "value": 1
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this duplication_pressure finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line duplication_pressure"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "duplication-pressure:src/pages/TestsPage",
-            "kind": "duplication_pressure",
-            "file": "src/pages/TestsPage.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "duplication-pressure:src/components/ArithmeticTester",
       "kind": "duplication_pressure",
       "module_id": "src/components/ArithmeticTester",
@@ -4869,7 +4564,7 @@
       "score": 30,
       "risk": "low",
       "duplicated_lines": 12,
-      "clone_group_ids": ["jscpd:javascript:4"],
+      "clone_group_ids": ["jscpd:javascript:5"],
       "entrypoint_roles": [],
       "signals": [
         {
@@ -4915,6 +4610,126 @@
             "id": "duplication-pressure:src/components/ArithmeticTester",
             "kind": "duplication_pressure",
             "file": "src/components/ArithmeticTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "duplication-pressure:src/data/useChores",
+      "kind": "duplication_pressure",
+      "module_id": "src/data/useChores",
+      "file": "src/data/useChores.ts",
+      "line": 1,
+      "score": 29,
+      "risk": "low",
+      "duplicated_lines": 10,
+      "clone_group_ids": ["jscpd:typescript:2"],
+      "entrypoint_roles": [],
+      "signals": [
+        {
+          "kind": "clone_group_count",
+          "value": 1
+        },
+        {
+          "kind": "cross_file_clone_groups",
+          "value": 1
+        },
+        {
+          "kind": "ast_clone_groups",
+          "value": 0
+        },
+        {
+          "kind": "duplicated_line_count",
+          "value": 10
+        },
+        {
+          "kind": "clone_engine_count",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Extract the duplicated logic or document why the clone should remain.",
+          "fix": "deduplicate-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this duplication_pressure finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line duplication_pressure"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "duplication-pressure:src/data/useChores",
+            "kind": "duplication_pressure",
+            "file": "src/data/useChores.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "duplication-pressure:src/data/useTests",
+      "kind": "duplication_pressure",
+      "module_id": "src/data/useTests",
+      "file": "src/data/useTests.ts",
+      "line": 1,
+      "score": 29,
+      "risk": "low",
+      "duplicated_lines": 10,
+      "clone_group_ids": ["jscpd:typescript:2"],
+      "entrypoint_roles": [],
+      "signals": [
+        {
+          "kind": "clone_group_count",
+          "value": 1
+        },
+        {
+          "kind": "cross_file_clone_groups",
+          "value": 1
+        },
+        {
+          "kind": "ast_clone_groups",
+          "value": 0
+        },
+        {
+          "kind": "duplicated_line_count",
+          "value": 10
+        },
+        {
+          "kind": "clone_engine_count",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Extract the duplicated logic or document why the clone should remain.",
+          "fix": "deduplicate-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this duplication_pressure finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line duplication_pressure"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "duplication-pressure:src/data/useTests",
+            "kind": "duplication_pressure",
+            "file": "src/data/useTests.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
