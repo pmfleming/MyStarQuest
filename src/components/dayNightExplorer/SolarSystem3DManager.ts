@@ -5,6 +5,16 @@ import type {
   ExplorerFocusId,
 } from '../../lib/dayNightExplorer/dayNightExplorerOptions'
 import type { SunPosition } from '../../lib/solar'
+import { parseWorldFeatureCollections } from '../../lib/dayNightExplorer/worldTopology'
+import { drawFeatureCollection } from '../../lib/dayNightExplorer/worldMapCanvas'
+import {
+  buildOrbitLine,
+  getCenteredLongitude,
+  getEarthViewRotationY,
+  latLonToVector,
+  lerpAngle,
+  normalizeLongitude,
+} from '../../lib/dayNightExplorer/solarSystemGeometry'
 
 const EARTH_RADIUS = 0.26
 const EARTH_ORBIT_X = 1.55
@@ -64,286 +74,6 @@ export type SolarSystemSceneState = {
   cityOptions: ExplorerCityOption[]
   sunPosition: SunPosition
   monthLabelFontFamily: string
-}
-
-type GeoCoordinate = [number, number]
-type GeoRing = GeoCoordinate[]
-type GeoPolygonCoordinates = GeoRing[]
-type GeoMultiPolygonCoordinates = GeoPolygonCoordinates[]
-
-type GeoPolygonFeature = {
-  geometry: {
-    type: 'Polygon'
-    coordinates: GeoPolygonCoordinates
-  }
-}
-
-type GeoMultiPolygonFeature = {
-  geometry: {
-    type: 'MultiPolygon'
-    coordinates: GeoMultiPolygonCoordinates
-  }
-}
-
-type GeoFeature = GeoPolygonFeature | GeoMultiPolygonFeature
-
-type GeoFeatureCollection = {
-  features: GeoFeature[]
-}
-
-type TopoJsonArcPoint = [number, number]
-type TopoJsonArc = TopoJsonArcPoint[]
-
-type TopoJsonTransform = {
-  scale: [number, number]
-  translate: [number, number]
-}
-
-type TopoJsonPolygonGeometry = {
-  type: 'Polygon'
-  arcs: number[][]
-}
-
-type TopoJsonMultiPolygonGeometry = {
-  type: 'MultiPolygon'
-  arcs: number[][][]
-}
-
-type TopoJsonGeometry = TopoJsonPolygonGeometry | TopoJsonMultiPolygonGeometry
-
-type TopoJsonGeometryCollection = {
-  type: 'GeometryCollection'
-  geometries: TopoJsonGeometry[]
-}
-
-type TopoJsonWorldData = {
-  transform: TopoJsonTransform
-  arcs: TopoJsonArc[]
-  objects: {
-    land: TopoJsonGeometryCollection
-    countries: TopoJsonGeometryCollection
-  }
-}
-
-const isNumberPair = (value: unknown): value is [number, number] =>
-  Array.isArray(value) &&
-  value.length === 2 &&
-  typeof value[0] === 'number' &&
-  typeof value[1] === 'number'
-
-const isTopoJsonTransform = (value: unknown): value is TopoJsonTransform =>
-  typeof value === 'object' &&
-  value !== null &&
-  'scale' in value &&
-  isNumberPair(value.scale) &&
-  'translate' in value &&
-  isNumberPair(value.translate)
-
-const isArc = (value: unknown): value is TopoJsonArc =>
-  Array.isArray(value) && value.every(isNumberPair)
-
-const isNumberArray = (value: unknown): value is number[] =>
-  Array.isArray(value) && value.every((entry) => typeof entry === 'number')
-
-const isPolygonGeometry = (value: unknown): value is TopoJsonPolygonGeometry =>
-  typeof value === 'object' &&
-  value !== null &&
-  'type' in value &&
-  value.type === 'Polygon' &&
-  'arcs' in value &&
-  Array.isArray(value.arcs) &&
-  value.arcs.every(isNumberArray)
-
-const isMultiPolygonGeometry = (
-  value: unknown
-): value is TopoJsonMultiPolygonGeometry =>
-  typeof value === 'object' &&
-  value !== null &&
-  'type' in value &&
-  value.type === 'MultiPolygon' &&
-  'arcs' in value &&
-  Array.isArray(value.arcs) &&
-  value.arcs.every(
-    (polygon) => Array.isArray(polygon) && polygon.every(isNumberArray)
-  )
-
-const isGeometryCollection = (
-  value: unknown
-): value is TopoJsonGeometryCollection =>
-  typeof value === 'object' &&
-  value !== null &&
-  'type' in value &&
-  value.type === 'GeometryCollection' &&
-  'geometries' in value &&
-  Array.isArray(value.geometries) &&
-  value.geometries.every(
-    (geometry) =>
-      isPolygonGeometry(geometry) || isMultiPolygonGeometry(geometry)
-  )
-
-const parseTopoJsonWorldData = (value: unknown): TopoJsonWorldData => {
-  if (
-    typeof value === 'object' &&
-    value !== null &&
-    'transform' in value &&
-    isTopoJsonTransform(value.transform) &&
-    'arcs' in value &&
-    Array.isArray(value.arcs) &&
-    value.arcs.every(isArc) &&
-    'objects' in value &&
-    typeof value.objects === 'object' &&
-    value.objects !== null &&
-    'land' in value.objects &&
-    'countries' in value.objects &&
-    isGeometryCollection(value.objects.land) &&
-    isGeometryCollection(value.objects.countries)
-  ) {
-    return {
-      transform: value.transform,
-      arcs: value.arcs,
-      objects: {
-        land: value.objects.land,
-        countries: value.objects.countries,
-      },
-    }
-  }
-
-  throw new Error('Invalid TopoJSON world data')
-}
-
-const decodeTopologyArcs = (world: TopoJsonWorldData) =>
-  world.arcs.map((arc) => {
-    let x = 0
-    let y = 0
-
-    return arc.map(([dx, dy]) => {
-      x += dx
-      y += dy
-
-      return [
-        x * world.transform.scale[0] + world.transform.translate[0],
-        y * world.transform.scale[1] + world.transform.translate[1],
-      ] satisfies GeoCoordinate
-    })
-  })
-
-const getDecodedArc = (decodedArcs: GeoRing[], arcIndex: number): GeoRing => {
-  const resolvedIndex = arcIndex >= 0 ? arcIndex : ~arcIndex
-  const points = decodedArcs[resolvedIndex] ?? []
-
-  return arcIndex >= 0 ? points : [...points].reverse()
-}
-
-const stitchRing = (decodedArcs: GeoRing[], ringArcIndexes: number[]) =>
-  ringArcIndexes.flatMap((arcIndex, index) => {
-    const points = getDecodedArc(decodedArcs, arcIndex)
-    return index === 0 ? points : points.slice(1)
-  })
-
-const topologyObjectToFeatureCollection = (
-  world: TopoJsonWorldData,
-  object: TopoJsonGeometryCollection
-): GeoFeatureCollection => {
-  const decodedArcs = decodeTopologyArcs(world)
-
-  return {
-    features: object.geometries.map((geometry) => {
-      if (geometry.type === 'Polygon') {
-        return {
-          geometry: {
-            type: 'Polygon',
-            coordinates: geometry.arcs.map((ring) =>
-              stitchRing(decodedArcs, ring)
-            ),
-          },
-        } satisfies GeoPolygonFeature
-      }
-
-      return {
-        geometry: {
-          type: 'MultiPolygon',
-          coordinates: geometry.arcs.map((polygon) =>
-            polygon.map((ring) => stitchRing(decodedArcs, ring))
-          ),
-        },
-      } satisfies GeoMultiPolygonFeature
-    }),
-  }
-}
-
-const drawRing = (
-  context: CanvasRenderingContext2D,
-  ring: GeoRing,
-  project: (lon: number, lat: number) => number[]
-) => {
-  ring.forEach((coord, i: number) => {
-    const [x, y] = project(coord[0], coord[1])
-    if (i === 0) context.moveTo(x, y)
-    else context.lineTo(x, y)
-  })
-}
-
-const latLonToVector = (
-  latitude: number,
-  longitude: number,
-  radius: number
-) => {
-  const phi = THREE.MathUtils.degToRad(90 - latitude)
-  const theta = THREE.MathUtils.degToRad(longitude + 180)
-
-  return new THREE.Vector3(
-    -radius * Math.sin(phi) * Math.cos(theta),
-    radius * Math.cos(phi),
-    radius * Math.sin(phi) * Math.sin(theta)
-  )
-}
-
-const buildOrbitLine = () => {
-  const points: THREE.Vector3[] = []
-  const segments = 128
-
-  for (let index = 0; index <= segments; index += 1) {
-    const progress = index / segments
-    const angle = Math.PI / 2 - progress * Math.PI * 2
-    points.push(
-      new THREE.Vector3(
-        Math.cos(angle) * EARTH_ORBIT_X,
-        Math.sin(angle) * EARTH_ORBIT_Y,
-        0
-      )
-    )
-  }
-
-  return new THREE.BufferGeometry().setFromPoints(points)
-}
-
-const normalizeLongitude = (longitude: number) =>
-  ((((longitude + 180) % 360) + 360) % 360) - 180
-
-const getCenteredLongitude = (state: SolarSystemSceneState) => {
-  if (state.activeFocusId === 'earth') {
-    return normalizeLongitude(state.sunPosition.longitude + 90)
-  }
-
-  const city = state.cityOptions.find(
-    (entry) => entry.id === state.activeFocusId
-  )
-  if (city) {
-    return city.location.longitude
-  }
-
-  return normalizeLongitude(state.sunPosition.longitude + 90)
-}
-
-const getEarthViewRotationY = (centeredLongitude: number) =>
-  THREE.MathUtils.degToRad(-(centeredLongitude + 90))
-
-const lerpAngle = (current: number, target: number, amount: number) => {
-  const delta = Math.atan2(
-    Math.sin(target - current),
-    Math.cos(target - current)
-  )
-  return current + delta * amount
 }
 
 export default class SolarSystem3DManager {
@@ -421,7 +151,7 @@ export default class SolarSystem3DManager {
     this.scene.add(this.sunMesh)
 
     this.orbitLine = new THREE.LineLoop(
-      buildOrbitLine(),
+      buildOrbitLine(EARTH_ORBIT_X, EARTH_ORBIT_Y),
       new THREE.LineBasicMaterial({
         color: '#7fb2ff',
         transparent: true,
@@ -569,7 +299,11 @@ export default class SolarSystem3DManager {
         0.12
       )
 
-      const centeredLongitude = getCenteredLongitude(state)
+      const centeredLongitude = getCenteredLongitude(
+        state.activeFocusId,
+        state.cityOptions,
+        state.sunPosition.longitude
+      )
       const targetRotationY = getEarthViewRotationY(centeredLongitude)
       this.earthMesh.rotation.x = lerpAngle(
         this.earthMesh.rotation.x,
@@ -600,7 +334,11 @@ export default class SolarSystem3DManager {
     }
 
     if (state.displayMode === 'earth-focus') {
-      const centeredLongitude = getCenteredLongitude(state)
+      const centeredLongitude = getCenteredLongitude(
+        state.activeFocusId,
+        state.cityOptions,
+        state.sunPosition.longitude
+      )
       const relativeSunLongitude = normalizeLongitude(
         state.sunPosition.longitude - centeredLongitude
       )
@@ -963,14 +701,11 @@ export default class SolarSystem3DManager {
         throw new Error(`Map data request failed with ${response.status}`)
       }
 
-      const world = parseTopoJsonWorldData(await response.json())
-      const land = topologyObjectToFeatureCollection(world, world.objects.land)
-      const countries = topologyObjectToFeatureCollection(
-        world,
-        world.objects.countries
+      const { land, countries } = parseWorldFeatureCollections(
+        await response.json()
       )
 
-      const project = (lon: number, lat: number) => {
+      const project = (lon: number, lat: number): [number, number] => {
         const x = ((lon + 180) / 360) * width
         const y = ((90 - lat) / 180) * height
         return [x, y]
@@ -978,37 +713,13 @@ export default class SolarSystem3DManager {
 
       // Draw land
       context.beginPath()
-      land.features.forEach((feature: GeoFeature) => {
-        if (feature.geometry.type === 'Polygon') {
-          feature.geometry.coordinates.forEach((ring) => {
-            drawRing(context, ring, project)
-          })
-        } else {
-          feature.geometry.coordinates.forEach((polygon) => {
-            polygon.forEach((ring) => {
-              drawRing(context, ring, project)
-            })
-          })
-        }
-      })
+      drawFeatureCollection(context, land, project)
       context.fillStyle = '#2ed573'
       context.fill()
 
       // Draw country outlines
       context.beginPath()
-      countries.features.forEach((feature: GeoFeature) => {
-        if (feature.geometry.type === 'Polygon') {
-          feature.geometry.coordinates.forEach((ring) => {
-            drawRing(context, ring, project)
-          })
-        } else {
-          feature.geometry.coordinates.forEach((polygon) => {
-            polygon.forEach((ring) => {
-              drawRing(context, ring, project)
-            })
-          })
-        }
-      })
+      drawFeatureCollection(context, countries, project)
       context.strokeStyle = 'rgba(0, 80, 0, 0.4)'
       context.lineWidth = 1
       context.stroke()

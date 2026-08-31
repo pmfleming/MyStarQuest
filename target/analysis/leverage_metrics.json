@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:33:20.335Z",
+    "measured_at": "2026-08-31T23:38:05.504Z",
     "source_type": "static",
-    "source_set_hash": "sha256:0d1df54f4bf447cef6b181a1c4348819f39f70cd15d98cf534711d648ea11b47"
+    "source_set_hash": "sha256:4d3ccae0e33ffd8c5b010c9c6fadcc808067a849a4e262a4f28122202cac423b"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -63,8 +63,8 @@
     "stale_input": []
   },
   "summary": {
-    "records": 140,
-    "shared_hubs": 40
+    "records": 143,
+    "shared_hubs": 41
   },
   "records": [
     {
@@ -967,10 +967,10 @@
       "id": "leverage:src/components/dayNightExplorer/SolarSystem3DManager",
       "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
       "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "score": 52,
+      "score": 20,
       "risk": "low",
       "inbound_reach": 1,
-      "public_surface": 21,
+      "public_surface": 5,
       "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "local_dependency",
@@ -4278,10 +4278,55 @@
       "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerOptions",
       "module_id": "src/lib/dayNightExplorer/dayNightExplorerOptions",
       "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
-      "score": 56,
+      "score": 66,
       "risk": "low",
-      "inbound_reach": 3,
+      "inbound_reach": 4,
       "public_surface": 13,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerOptions",
+            "kind": "leverage",
+            "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/dayNightExplorer/solarSystemGeometry",
+      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "score": 22,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 6,
       "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "local_dependency",
@@ -4300,9 +4345,89 @@
           "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerOptions",
+            "id": "leverage:src/lib/dayNightExplorer/solarSystemGeometry",
             "kind": "leverage",
-            "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/dayNightExplorer/worldMapCanvas",
+      "module_id": "src/lib/dayNightExplorer/worldMapCanvas",
+      "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+      "score": 12,
+      "risk": "low",
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/dayNightExplorer/worldMapCanvas",
+            "kind": "leverage",
+            "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file leverage"
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/lib/dayNightExplorer/worldTopology",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "score": 56,
+      "risk": "low",
+      "inbound_reach": 2,
+      "public_surface": 18,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this leverage finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line leverage"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/dayNightExplorer/worldTopology",
+            "kind": "leverage",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         },

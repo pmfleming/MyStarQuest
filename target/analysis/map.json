@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:33:36.014Z",
+    "measured_at": "2026-08-31T23:38:20.066Z",
     "source_type": "static",
-    "source_set_hash": "sha256:0d1df54f4bf447cef6b181a1c4348819f39f70cd15d98cf534711d648ea11b47"
+    "source_set_hash": "sha256:4d3ccae0e33ffd8c5b010c9c6fadcc808067a849a4e262a4f28122202cac423b"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -64,10 +64,10 @@
     "partial": false
   },
   "summary": {
-    "nodes": 140,
-    "edges": 815,
+    "nodes": 143,
+    "edges": 821,
     "entrypoint_nodes": 0,
-    "high_risk_nodes": 106,
+    "high_risk_nodes": 108,
     "unknown_metric_nodes": 0,
     "missing_inputs": 0,
     "stale_inputs": 0,
@@ -303,7 +303,7 @@
       "id": "src/components/dayNightExplorer",
       "label": "src/components/dayNightExplorer",
       "node_count": 6,
-      "risk_score": 422,
+      "risk_score": 345,
       "kind": "src/components/dayNightExplorer",
       "actions": [
         {
@@ -494,8 +494,8 @@
     {
       "id": "src/lib/dayNightExplorer",
       "label": "src/lib/dayNightExplorer",
-      "node_count": 5,
-      "risk_score": 102,
+      "node_count": 8,
+      "risk_score": 160,
       "kind": "src/lib/dayNightExplorer",
       "actions": [
         {
@@ -1566,36 +1566,36 @@
       "type": "module",
       "group": "src/components/dayNightExplorer",
       "entrypoint_roles": [],
-      "risk_score": 422,
+      "risk_score": 237,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 422,
+        "maintainability": 237,
         "correctness": 40,
-        "architecture": 76,
+        "architecture": 44,
         "change": 100,
         "render_performance": 0,
         "performance": 0,
         "quality": 186,
-        "total": 150
+        "total": 110
       },
-      "maintainability_risk": 422,
+      "maintainability_risk": 237,
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 76,
+      "architectural_risk": 44,
       "quality_risk": 186,
-      "total_score": 150,
+      "total_score": 110,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 3,
+        "imports": 6,
         "exports": 2,
-        "functions": 20,
+        "functions": 1,
         "components": 0,
-        "types": 19,
+        "types": 3,
         "entrypoint_roles": 0
       }
     },
@@ -3493,19 +3493,19 @@
         "maintainability": 264,
         "correctness": 0,
         "architecture": 100,
-        "change": 42,
+        "change": 44,
         "render_performance": 0,
         "performance": 0,
         "quality": 8,
-        "total": 75
+        "total": 76
       },
       "maintainability_risk": 264,
-      "change_risk": 42,
+      "change_risk": 44,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 100,
       "quality_risk": 8,
-      "total_score": 75,
+      "total_score": 76,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -3653,19 +3653,19 @@
         "maintainability": 30,
         "correctness": 40,
         "architecture": 26,
-        "change": 18,
+        "change": 23,
         "render_performance": 0,
         "performance": 0,
         "quality": 88,
-        "total": 37
+        "total": 38
       },
       "maintainability_risk": 30,
-      "change_risk": 18,
+      "change_risk": 23,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 26,
       "quality_risk": 88,
-      "total_score": 37,
+      "total_score": 38,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -4612,20 +4612,20 @@
       "category_scores": {
         "maintainability": 46,
         "correctness": 40,
-        "architecture": 56,
+        "architecture": 66,
         "change": 100,
         "render_performance": 0,
         "performance": 0,
         "quality": 25,
-        "total": 49
+        "total": 50
       },
       "maintainability_risk": 46,
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 56,
+      "architectural_risk": 66,
       "quality_risk": 25,
-      "total_score": 49,
+      "total_score": 50,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -4636,6 +4636,126 @@
         "functions": 1,
         "components": 0,
         "types": 5,
+        "entrypoint_roles": 0
+      }
+    },
+    {
+      "id": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "label": "solarSystemGeometry.ts",
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "type": "module",
+      "group": "src/lib/dayNightExplorer",
+      "entrypoint_roles": [],
+      "risk_score": 40,
+      "risk": "medium",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 38,
+        "correctness": 40,
+        "architecture": 22,
+        "change": 18,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 0,
+        "total": 21
+      },
+      "maintainability_risk": 38,
+      "change_risk": 18,
+      "performance_risk": 0,
+      "correctness_risk": 40,
+      "architectural_risk": 22,
+      "quality_risk": 0,
+      "total_score": 21,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 1,
+      "risk_calibration": "v1-static-analysis",
+      "evidence": {
+        "imports": 2,
+        "exports": 6,
+        "functions": 6,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      }
+    },
+    {
+      "id": "src/lib/dayNightExplorer/worldMapCanvas",
+      "label": "worldMapCanvas.ts",
+      "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+      "type": "module",
+      "group": "src/lib/dayNightExplorer",
+      "entrypoint_roles": [],
+      "risk_score": 75,
+      "risk": "high",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 75,
+        "correctness": 40,
+        "architecture": 12,
+        "change": 18,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 0,
+        "total": 26
+      },
+      "maintainability_risk": 75,
+      "change_risk": 18,
+      "performance_risk": 0,
+      "correctness_risk": 40,
+      "architectural_risk": 12,
+      "quality_risk": 0,
+      "total_score": 26,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 1,
+      "risk_calibration": "v1-static-analysis",
+      "evidence": {
+        "imports": 1,
+        "exports": 1,
+        "functions": 2,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      }
+    },
+    {
+      "id": "src/lib/dayNightExplorer/worldTopology",
+      "label": "worldTopology.ts",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "type": "module",
+      "group": "src/lib/dayNightExplorer",
+      "entrypoint_roles": [],
+      "risk_score": 160,
+      "risk": "high",
+      "classification": "warning",
+      "category_scores": {
+        "maintainability": 160,
+        "correctness": 40,
+        "architecture": 56,
+        "change": 18,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 20,
+        "total": 53
+      },
+      "maintainability_risk": 160,
+      "change_risk": 18,
+      "performance_risk": 0,
+      "correctness_risk": 40,
+      "architectural_risk": 56,
+      "quality_risk": 20,
+      "total_score": 53,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 1,
+      "risk_calibration": "v1-static-analysis",
+      "evidence": {
+        "imports": 0,
+        "exports": 3,
+        "functions": 13,
+        "components": 0,
+        "types": 15,
         "entrypoint_roles": 0
       }
     },
@@ -7994,6 +8114,30 @@
       "line": 7
     },
     {
+      "id": "import:src/components/dayNightExplorer/SolarSystem3DManager:src/lib/dayNightExplorer/worldTopology:8",
+      "from": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "to": "src/lib/dayNightExplorer/worldTopology",
+      "type": "static_import",
+      "source": "import { parseWorldFeatureCollections } from '../../lib/dayNightExplorer/worldTopology'",
+      "line": 8
+    },
+    {
+      "id": "import:src/components/dayNightExplorer/SolarSystem3DManager:src/lib/dayNightExplorer/worldMapCanvas:9",
+      "from": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "to": "src/lib/dayNightExplorer/worldMapCanvas",
+      "type": "static_import",
+      "source": "import { drawFeatureCollection } from '../../lib/dayNightExplorer/worldMapCanvas'",
+      "line": 9
+    },
+    {
+      "id": "import:src/components/dayNightExplorer/SolarSystem3DManager:src/lib/dayNightExplorer/solarSystemGeometry:10",
+      "from": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "to": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "type": "static_import",
+      "source": "import { buildOrbitLine, getCenteredLongitude, getEarthViewRotationY, latLonToVector, lerpAngle, normalizeLongitude, } from '../../lib/dayNightExplorer/solarSystemGeometry'",
+      "line": 10
+    },
+    {
       "id": "import:src/components/dayNightExplorer/SpinningPlanet:react:1",
       "from": "src/components/dayNightExplorer/SpinningPlanet",
       "to": "react",
@@ -10230,32 +10374,32 @@
       "from": "src/data/useRewards",
       "to": "src/data/dailyTaskState",
       "type": "static_import",
-      "source": "import { useCollectionTitleDrafts, } from './dailyTaskState'",
+      "source": "import { useCollectionTitleDrafts } from './dailyTaskState'",
       "line": 22
     },
     {
-      "id": "import:src/data/useRewards:src/data/useUserCollection:25",
+      "id": "import:src/data/useRewards:src/data/useUserCollection:23",
       "from": "src/data/useRewards",
       "to": "src/data/useUserCollection",
       "type": "static_import",
       "source": "import { useUserCollection } from './useUserCollection'",
-      "line": 25
+      "line": 23
     },
     {
-      "id": "import:src/data/useRewards:src/hooks/useCoalescedDocumentUpdates:26",
+      "id": "import:src/data/useRewards:src/hooks/useCoalescedDocumentUpdates:24",
       "from": "src/data/useRewards",
       "to": "src/hooks/useCoalescedDocumentUpdates",
       "type": "static_import",
       "source": "import { mergeOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'",
-      "line": 26
+      "line": 24
     },
     {
-      "id": "import:src/data/useRewards:src/data/useUserDocumentUpdates:27",
+      "id": "import:src/data/useRewards:src/data/useUserDocumentUpdates:25",
       "from": "src/data/useRewards",
       "to": "src/data/useUserDocumentUpdates",
       "type": "static_import",
       "source": "import { useUserDocumentUpdates } from './useUserDocumentUpdates'",
-      "line": 27
+      "line": 25
     },
     {
       "id": "import:src/data/useTests:react:3",
@@ -10736,6 +10880,30 @@
       "type": "static_import",
       "source": "import taipeiCitySvg from '../../assets/cities/taipei.svg'",
       "line": 7
+    },
+    {
+      "id": "import:src/lib/dayNightExplorer/solarSystemGeometry:three:1",
+      "from": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "to": "three",
+      "type": "static_import",
+      "source": "import * as THREE from 'three'",
+      "line": 1
+    },
+    {
+      "id": "import:src/lib/dayNightExplorer/solarSystemGeometry:src/lib/dayNightExplorer/dayNightExplorerOptions:2",
+      "from": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "to": "src/lib/dayNightExplorer/dayNightExplorerOptions",
+      "type": "type_only_import",
+      "source": "import type { ExplorerCityOption, ExplorerFocusId, } from './dayNightExplorerOptions'",
+      "line": 2
+    },
+    {
+      "id": "import:src/lib/dayNightExplorer/worldMapCanvas:src/lib/dayNightExplorer/worldTopology:1",
+      "from": "src/lib/dayNightExplorer/worldMapCanvas",
+      "to": "src/lib/dayNightExplorer/worldTopology",
+      "type": "type_only_import",
+      "source": "import type { GeoFeatureCollection, GeoRing } from './worldTopology'",
+      "line": 1
     },
     {
       "id": "import:src/lib/starActions:firebase/firestore:1",

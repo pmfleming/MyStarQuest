@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:33:20.309Z",
+    "measured_at": "2026-08-31T23:38:05.476Z",
     "source_type": "static",
-    "source_set_hash": "sha256:0d1df54f4bf447cef6b181a1c4348819f39f70cd15d98cf534711d648ea11b47"
+    "source_set_hash": "sha256:4d3ccae0e33ffd8c5b010c9c6fadcc808067a849a4e262a4f28122202cac423b"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -63,7 +63,7 @@
     "stale_input": []
   },
   "summary": {
-    "records": 140,
+    "records": 143,
     "high_risk_records": 58
   },
   "records": [
@@ -2644,19 +2644,19 @@
       "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
       "score": 100,
       "risk": "high",
-      "dependency_distance": 2,
+      "dependency_distance": 5,
       "hidden_coupling": [
         {
           "kind": "window_global",
-          "line": 408
+          "line": 138
         },
         {
           "kind": "window_global",
-          "line": 534
+          "line": 264
         },
         {
           "kind": "window_global",
-          "line": 556
+          "line": 286
         }
       ],
       "test_locality": "no_evidence",
@@ -2719,16 +2719,31 @@
           "specifier": "../../lib/solar"
         },
         {
-          "kind": "window_global",
-          "line": 408
+          "kind": "far_import",
+          "line": 8,
+          "specifier": "../../lib/dayNightExplorer/worldTopology"
+        },
+        {
+          "kind": "far_import",
+          "line": 9,
+          "specifier": "../../lib/dayNightExplorer/worldMapCanvas"
+        },
+        {
+          "kind": "far_import",
+          "line": 10,
+          "specifier": "../../lib/dayNightExplorer/solarSystemGeometry"
         },
         {
           "kind": "window_global",
-          "line": 534
+          "line": 138
         },
         {
           "kind": "window_global",
-          "line": 556
+          "line": 264
+        },
+        {
+          "kind": "window_global",
+          "line": 286
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -8087,19 +8102,23 @@
       "id": "locality:src/data/dailyTaskState",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
-      "score": 42,
+      "score": 44,
       "risk": "medium",
       "dependency_distance": 1,
       "hidden_coupling": [],
       "test_locality": "direct_evidence",
       "churn": {
-        "commits": 6,
+        "commits": 7,
         "contributors": 2
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/data/useTests.ts",
+          "commits": 7
+        },
+        {
+          "file": "src/data/useRewards.ts",
           "commits": 6
         },
         {
@@ -8108,6 +8127,10 @@
         },
         {
           "file": "src/pages/ManageTestsPage.tsx",
+          "commits": 6
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
           "commits": 6
         },
         {
@@ -8123,19 +8146,11 @@
           "commits": 5
         },
         {
-          "file": "src/data/useRewards.ts",
-          "commits": 5
-        },
-        {
-          "file": "src/pages/TestsPage.tsx",
+          "file": "src/data/useChores.ts",
           "commits": 5
         },
         {
           "file": "src/ui/unifiedChoreDescriptors.tsx",
-          "commits": 5
-        },
-        {
-          "file": "src/ui/unifiedChoreDescriptorTypes.ts",
           "commits": 5
         }
       ],
@@ -8147,7 +8162,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 6
+          "value": 7
         }
       ],
       "kind": "locality",
@@ -8463,20 +8478,45 @@
       "id": "locality:src/data/useChildTaskCollection",
       "module_id": "src/data/useChildTaskCollection",
       "file": "src/data/useChildTaskCollection.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useChores.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useRewards.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -8766,25 +8806,25 @@
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 10,
+        "commits": 11,
         "contributors": 2
       },
       "defect_commits": 1,
       "cochange_partners": [
+        {
+          "file": "src/data/useRewards.ts",
+          "commits": 7
+        },
+        {
+          "file": "src/data/useTests.ts",
+          "commits": 7
+        },
         {
           "file": "src/pages/DashboardPage.tsx",
           "commits": 7
         },
         {
           "file": "src/data/useChildren.ts",
-          "commits": 6
-        },
-        {
-          "file": "src/data/useRewards.ts",
-          "commits": 6
-        },
-        {
-          "file": "src/data/useTests.ts",
           "commits": 6
         },
         {
@@ -8800,16 +8840,16 @@
           "commits": 5
         },
         {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 5
+        },
+        {
           "file": "src/data/types.ts",
           "commits": 5
         },
         {
           "file": "src/lib/choreParser.ts",
           "commits": 5
-        },
-        {
-          "file": "src/App.tsx",
-          "commits": 4
         }
       ],
       "signals": [
@@ -8899,7 +8939,7 @@
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 9,
+        "commits": 10,
         "contributors": 2
       },
       "defect_commits": 0,
@@ -8914,10 +8954,14 @@
         },
         {
           "file": "src/data/useChores.ts",
-          "commits": 6
+          "commits": 7
         },
         {
           "file": "src/data/useTests.ts",
+          "commits": 7
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
           "commits": 6
         },
         {
@@ -8925,15 +8969,11 @@
           "commits": 6
         },
         {
-          "file": "src/data/dailyTaskState.ts",
-          "commits": 5
+          "file": "src/pages/TestsPage.tsx",
+          "commits": 6
         },
         {
           "file": "src/pages/ManageTestsPage.tsx",
-          "commits": 5
-        },
-        {
-          "file": "src/pages/TestsPage.tsx",
           "commits": 5
         },
         {
@@ -8968,7 +9008,7 @@
         },
         {
           "kind": "far_import",
-          "line": 26,
+          "line": 24,
           "specifier": "../hooks/useCoalescedDocumentUpdates"
         },
         {
@@ -9023,22 +9063,22 @@
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 8,
+        "commits": 9,
         "contributors": 2
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/data/dailyTaskState.ts",
-          "commits": 6
+          "commits": 7
         },
         {
           "file": "src/data/useChores.ts",
-          "commits": 6
+          "commits": 7
         },
         {
           "file": "src/data/useRewards.ts",
-          "commits": 6
+          "commits": 7
         },
         {
           "file": "src/pages/DashboardPage.tsx",
@@ -9046,6 +9086,10 @@
         },
         {
           "file": "src/pages/ManageTestsPage.tsx",
+          "commits": 6
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
           "commits": 6
         },
         {
@@ -9062,10 +9106,6 @@
         },
         {
           "file": "src/data/useChildren.ts",
-          "commits": 5
-        },
-        {
-          "file": "src/pages/TestsPage.tsx",
           "commits": 5
         }
       ],
@@ -9115,7 +9155,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 6
+          "value": 7
         }
       ],
       "kind": "locality",
@@ -11162,6 +11202,150 @@
       ]
     },
     {
+      "id": "locality:src/lib/dayNightExplorer/solarSystemGeometry",
+      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "score": 18,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_evidence",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line locality"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/lib/dayNightExplorer/solarSystemGeometry",
+            "kind": "locality",
+            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file locality"
+        }
+      ]
+    },
+    {
+      "id": "locality:src/lib/dayNightExplorer/worldMapCanvas",
+      "module_id": "src/lib/dayNightExplorer/worldMapCanvas",
+      "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+      "score": 18,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_evidence",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line locality"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/lib/dayNightExplorer/worldMapCanvas",
+            "kind": "locality",
+            "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file locality"
+        }
+      ]
+    },
+    {
+      "id": "locality:src/lib/dayNightExplorer/worldTopology",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "score": 18,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_evidence",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line locality"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/lib/dayNightExplorer/worldTopology",
+            "kind": "locality",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file locality"
+        }
+      ]
+    },
+    {
       "id": "locality:src/lib/imageLoading",
       "module_id": "src/lib/imageLoading",
       "file": "src/lib/imageLoading.ts",
@@ -13180,11 +13364,23 @@
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 6,
+        "commits": 7,
         "contributors": 2
       },
       "defect_commits": 0,
       "cochange_partners": [
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 6
+        },
+        {
+          "file": "src/data/useRewards.ts",
+          "commits": 6
+        },
+        {
+          "file": "src/data/useTests.ts",
+          "commits": 6
+        },
         {
           "file": "src/pages/ManageTestsPage.tsx",
           "commits": 6
@@ -13198,19 +13394,11 @@
           "commits": 5
         },
         {
-          "file": "src/data/dailyTaskState.ts",
-          "commits": 5
-        },
-        {
           "file": "src/data/types.ts",
           "commits": 5
         },
         {
-          "file": "src/data/useRewards.ts",
-          "commits": 5
-        },
-        {
-          "file": "src/data/useTests.ts",
+          "file": "src/data/useChores.ts",
           "commits": 5
         },
         {
@@ -13220,10 +13408,6 @@
         {
           "file": "src/pages/DashboardPage.tsx",
           "commits": 5
-        },
-        {
-          "file": "src/assets/rewards/assets.ts",
-          "commits": 4
         }
       ],
       "signals": [

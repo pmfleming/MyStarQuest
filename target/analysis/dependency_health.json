@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:33:20.023Z",
+    "measured_at": "2026-08-31T23:38:05.174Z",
     "source_type": "static",
-    "source_set_hash": "sha256:0d1df54f4bf447cef6b181a1c4348819f39f70cd15d98cf534711d648ea11b47"
+    "source_set_hash": "sha256:4d3ccae0e33ffd8c5b010c9c6fadcc808067a849a4e262a4f28122202cac423b"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -67,12 +67,12 @@
     "stale_input": []
   },
   "summary": {
-    "internal_edges": 698,
-    "external_edges": 117,
+    "internal_edges": 703,
+    "external_edges": 118,
     "cycles": 43,
     "heuristic_cycles": 0,
     "dependency_cruiser_cycles": 62,
-    "deep_relative_imports": 92,
+    "deep_relative_imports": 95,
     "barrel_modules": 1,
     "layer_violations": 29,
     "unsupported_patterns": 0
@@ -88,8 +88,8 @@
         "warn": 0,
         "info": 0,
         "ignore": 0,
-        "totalCruised": 512,
-        "totalDependenciesCruised": 1271,
+        "totalCruised": 515,
+        "totalDependenciesCruised": 1275,
         "optionsUsed": {
           "baseDir": "C:\\Code\\MyStarQuest",
           "combinedDependencies": false,
@@ -3320,6 +3320,114 @@
           "config_key": "suppressions",
           "value": {
             "id": "deep-import:src/components/dayNightExplorer/SolarSystem3DManager:7",
+            "kind": "deep_relative_import",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/dayNightExplorer/SolarSystem3DManager:8",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "line": 8,
+      "specifier": "../../lib/dayNightExplorer/worldTopology",
+      "evidence": "import { parseWorldFeatureCollections } from '../../lib/dayNightExplorer/worldTopology'",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this deep_relative_import finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line deep_relative_import"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/dayNightExplorer/SolarSystem3DManager:8",
+            "kind": "deep_relative_import",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/dayNightExplorer/SolarSystem3DManager:9",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "line": 9,
+      "specifier": "../../lib/dayNightExplorer/worldMapCanvas",
+      "evidence": "import { drawFeatureCollection } from '../../lib/dayNightExplorer/worldMapCanvas'",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this deep_relative_import finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line deep_relative_import"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/dayNightExplorer/SolarSystem3DManager:9",
+            "kind": "deep_relative_import",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/dayNightExplorer/SolarSystem3DManager:10",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "line": 10,
+      "specifier": "../../lib/dayNightExplorer/solarSystemGeometry",
+      "evidence": "import { buildOrbitLine, getCenteredLongitude, getEarthViewRotationY, latLonToVector, lerpAngle, normalizeLongitude, } from '../../lib/dayNightExplorer/solarSystemGeometry'",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this deep_relative_import finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line deep_relative_import"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/dayNightExplorer/SolarSystem3DManager:10",
             "kind": "deep_relative_import",
             "file": "src/components/dayNightExplorer/SolarSystem3DManager",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7936,6 +8044,21 @@
       {
         "id": "src/lib/dayNightExplorer/dayNightExplorerOptions",
         "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+        "layer": "lib"
+      },
+      {
+        "id": "src/lib/dayNightExplorer/solarSystemGeometry",
+        "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+        "layer": "lib"
+      },
+      {
+        "id": "src/lib/dayNightExplorer/worldMapCanvas",
+        "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+        "layer": "lib"
+      },
+      {
+        "id": "src/lib/dayNightExplorer/worldTopology",
+        "file": "src/lib/dayNightExplorer/worldTopology.ts",
         "layer": "lib"
       },
       {
@@ -17139,7 +17262,7 @@
         "to": "src/hooks/useCoalescedDocumentUpdates",
         "kind": "relative",
         "import_kind": "static",
-        "line": 26,
+        "line": 24,
         "source": "dependency-cruiser"
       },
       {
@@ -17171,7 +17294,7 @@
         "to": "src/data/useUserCollection",
         "kind": "relative",
         "import_kind": "static",
-        "line": 25,
+        "line": 23,
         "source": "dependency-cruiser"
       },
       {
@@ -17179,7 +17302,7 @@
         "to": "src/data/useUserDocumentUpdates",
         "kind": "relative",
         "import_kind": "static",
-        "line": 27,
+        "line": 25,
         "source": "dependency-cruiser"
       },
       {
@@ -17896,6 +18019,38 @@
       },
       {
         "from": "src/components/dayNightExplorer/SolarSystem3DManager",
+        "to": "src/lib/dayNightExplorer/solarSystemGeometry",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 10,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/dayNightExplorer/SolarSystem3DManager",
+        "to": "src/lib/dayNightExplorer/worldMapCanvas",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 9,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/dayNightExplorer/SolarSystem3DManager",
+        "to": "src/lib/dayNightExplorer/worldTopology",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 8,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/dayNightExplorer/SolarSystem3DManager",
+        "to": "node_modules/three/build/three",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/lib/dayNightExplorer/solarSystemGeometry",
         "to": "node_modules/three/build/three",
         "kind": "relative",
         "import_kind": "static",

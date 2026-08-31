@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:33:11.425Z",
+    "measured_at": "2026-08-31T23:37:59.373Z",
     "source_type": "static",
-    "source_set_hash": "sha256:0d1df54f4bf447cef6b181a1c4348819f39f70cd15d98cf534711d648ea11b47"
+    "source_set_hash": "sha256:4d3ccae0e33ffd8c5b010c9c6fadcc808067a849a4e262a4f28122202cac423b"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -63,9 +63,9 @@
     "stale_input": []
   },
   "summary": {
-    "source_files": 140,
-    "records": 730,
-    "high_risk_records": 174
+    "source_files": 143,
+    "records": 735,
+    "high_risk_records": 176
   },
   "records": [
     {
@@ -170,55 +170,6 @@
             "id": "src/pages/DashboardPage.tsx:DashboardPage:70",
             "kind": "component",
             "file": "src/pages/DashboardPage.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "file:src/components/dayNightExplorer/SolarSystem3DManager",
-      "kind": "file",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "line": 1,
-      "score": 422,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 1039
-        },
-        {
-          "kind": "branch_count",
-          "value": 52
-        },
-        {
-          "kind": "import_count",
-          "value": 3
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this file finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line file"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/components/dayNightExplorer/SolarSystem3DManager",
-            "kind": "file",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1547,6 +1498,55 @@
       ]
     },
     {
+      "id": "file:src/components/dayNightExplorer/SolarSystem3DManager",
+      "kind": "file",
+      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "line": 1,
+      "score": 237,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 750
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 6
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/components/dayNightExplorer/SolarSystem3DManager",
+            "kind": "file",
+            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/components/ui/DragScrollRegion.tsx:DragScrollRegion:33",
       "kind": "component",
       "module_id": "src/components/ui/DragScrollRegion",
@@ -2708,12 +2708,12 @@
       ]
     },
     {
-      "id": "src/data/useRewards.ts:useRewards:36",
+      "id": "src/data/useRewards.ts:useRewards:34",
       "kind": "hook",
       "module_id": "src/data/useRewards",
       "file": "src/data/useRewards.ts",
       "name": "useRewards",
-      "line": 36,
+      "line": 34,
       "score": 181,
       "risk": "high",
       "signals": [
@@ -2749,7 +2749,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/useRewards.ts:useRewards:36",
+            "id": "src/data/useRewards.ts:useRewards:34",
             "kind": "hook",
             "file": "src/data/useRewards.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3325,6 +3325,55 @@
       ]
     },
     {
+      "id": "file:src/lib/dayNightExplorer/worldTopology",
+      "kind": "file",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "line": 1,
+      "score": 160,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 213
+        },
+        {
+          "kind": "branch_count",
+          "value": 48
+        },
+        {
+          "kind": "import_count",
+          "value": 0
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/lib/dayNightExplorer/worldTopology",
+            "kind": "file",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "file:src/ui/unifiedTestRenderer",
       "kind": "file",
       "module_id": "src/ui/unifiedTestRenderer",
@@ -3588,12 +3637,12 @@
       ]
     },
     {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:parseTopoJsonWorldData:184",
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:parseTopoJsonWorldData:115",
       "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
       "name": "parseTopoJsonWorldData",
-      "line": 184,
+      "line": 115,
       "score": 147,
       "risk": "high",
       "signals": [
@@ -3629,9 +3678,9 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:parseTopoJsonWorldData:184",
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:parseTopoJsonWorldData:115",
             "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -4677,55 +4726,6 @@
       ]
     },
     {
-      "id": "file:src/data/useRewards",
-      "kind": "file",
-      "module_id": "src/data/useRewards",
-      "file": "src/data/useRewards.ts",
-      "line": 1,
-      "score": 114,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 185
-        },
-        {
-          "kind": "branch_count",
-          "value": 18
-        },
-        {
-          "kind": "import_count",
-          "value": 11
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this file finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line file"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/data/useRewards",
-            "kind": "file",
-            "file": "src/data/useRewards.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/contexts/ActiveChildContext.tsx:ActiveChildProvider:56",
       "kind": "component",
       "module_id": "src/contexts/ActiveChildContext",
@@ -4774,6 +4774,55 @@
             "id": "src/contexts/ActiveChildContext.tsx:ActiveChildProvider:56",
             "kind": "component",
             "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/data/useRewards",
+      "kind": "file",
+      "module_id": "src/data/useRewards",
+      "file": "src/data/useRewards.ts",
+      "line": 1,
+      "score": 113,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 183
+        },
+        {
+          "kind": "branch_count",
+          "value": 18
+        },
+        {
+          "kind": "import_count",
+          "value": 11
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/data/useRewards",
+            "kind": "file",
+            "file": "src/data/useRewards.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -8349,6 +8398,56 @@
       ]
     },
     {
+      "id": "src/lib/dayNightExplorer/worldMapCanvas.ts:drawFeatureCollection:15",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldMapCanvas",
+      "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+      "name": "drawFeatureCollection",
+      "line": 15,
+      "score": 75,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 5
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 6
+        },
+        {
+          "kind": "line_count",
+          "value": 12
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldMapCanvas.ts:drawFeatureCollection:15",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/components/AnimalTester.tsx:FactCard:121",
       "kind": "component",
       "module_id": "src/components/AnimalTester",
@@ -9394,94 +9493,6 @@
       ]
     },
     {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isGeometryCollection:170",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "isGeometryCollection",
-      "line": 170,
-      "score": 68,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 8
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 10
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isGeometryCollection:170",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isMultiPolygonGeometry:157",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "isMultiPolygonGeometry",
-      "line": 157,
-      "score": 68,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 8
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 9
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isMultiPolygonGeometry:157",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/ui/ActivityControls.tsx:ProblemCountControl:294",
       "kind": "component",
       "module_id": "src/components/ui/ActivityControls",
@@ -9528,6 +9539,94 @@
             "id": "src/components/ui/ActivityControls.tsx:ProblemCountControl:294",
             "kind": "component",
             "file": "src/components/ui/ActivityControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:isGeometryCollection:101",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "name": "isGeometryCollection",
+      "line": 101,
+      "score": 68,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 8
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 10
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:isGeometryCollection:101",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:isMultiPolygonGeometry:88",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "name": "isMultiPolygonGeometry",
+      "line": 88,
+      "score": 68,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 8
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 9
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:isMultiPolygonGeometry:88",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -10787,50 +10886,6 @@
       ]
     },
     {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isPolygonGeometry:148",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "isPolygonGeometry",
-      "line": 148,
-      "score": 59,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 7
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 7
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isPolygonGeometry:148",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/ui/standardActionCardAnimations.ts:waitForExit:11",
       "kind": "function",
       "module_id": "src/components/ui/standardActionCardAnimations",
@@ -11001,6 +11056,50 @@
             "id": "src/lib/activityOutcome.ts:getActivityOutcome:13",
             "kind": "function",
             "file": "src/lib/activityOutcome.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:isPolygonGeometry:79",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "name": "isPolygonGeometry",
+      "line": 79,
+      "score": 59,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 7
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 7
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:isPolygonGeometry:79",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -12234,12 +12333,12 @@
       ]
     },
     {
-      "id": "src/data/useRewards.ts:giveReward:153",
+      "id": "src/data/useRewards.ts:giveReward:151",
       "kind": "function",
       "module_id": "src/data/useRewards",
       "file": "src/data/useRewards.ts",
       "name": "giveReward",
-      "line": 153,
+      "line": 151,
       "score": 51,
       "risk": "medium",
       "signals": [
@@ -12269,7 +12368,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/useRewards.ts:giveReward:153",
+            "id": "src/data/useRewards.ts:giveReward:151",
             "kind": "function",
             "file": "src/data/useRewards.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -12366,50 +12465,6 @@
       ]
     },
     {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isTopoJsonTransform:134",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "isTopoJsonTransform",
-      "line": 134,
-      "score": 50,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 6
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 6
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isTopoJsonTransform:134",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/data/dailyTaskState.ts:getTestLastActive:401",
       "kind": "function",
       "module_id": "src/data/dailyTaskState",
@@ -12492,6 +12547,50 @@
             "id": "src/hooks/useDeviceFrame.ts:useDeviceFrame:25",
             "kind": "hook",
             "file": "src/hooks/useDeviceFrame.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:isTopoJsonTransform:65",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "name": "isTopoJsonTransform",
+      "line": 65,
+      "score": 50,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 6
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 6
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:isTopoJsonTransform:65",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -12929,50 +13028,6 @@
             "id": "src/tokens/index.ts:getActionButtonStyle:114",
             "kind": "function",
             "file": "src/tokens/index.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:topologyObjectToFeatureCollection:243",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "topologyObjectToFeatureCollection",
-      "line": 243,
-      "score": 47,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 4
-        },
-        {
-          "kind": "line_count",
-          "value": 27
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:topologyObjectToFeatureCollection:243",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -13458,6 +13513,50 @@
       ]
     },
     {
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:topologyObjectToFeatureCollection:173",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "name": "topologyObjectToFeatureCollection",
+      "line": 173,
+      "score": 46,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 2
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 4
+        },
+        {
+          "kind": "line_count",
+          "value": 25
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:topologyObjectToFeatureCollection:173",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/pages/TimeExplorerPage.tsx:renderIcon:37",
       "kind": "function",
       "module_id": "src/pages/TimeExplorerPage",
@@ -13630,50 +13729,6 @@
             "id": "src/components/ArithmeticTester.tsx:generateEasyProblem:45",
             "kind": "function",
             "file": "src/components/ArithmeticTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:getCenteredLongitude:323",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "getCenteredLongitude",
-      "line": 323,
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 3
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 3
-        },
-        {
-          "kind": "line_count",
-          "value": 14
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:getCenteredLongitude:323",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -15688,56 +15743,12 @@
       ]
     },
     {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:buildOrbitLine:301",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "buildOrbitLine",
-      "line": 301,
-      "score": 38,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 3
-        },
-        {
-          "kind": "line_count",
-          "value": 18
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:buildOrbitLine:301",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/data/useRewards.ts:createStandardReward:134",
+      "id": "src/data/useRewards.ts:createStandardReward:132",
       "kind": "function",
       "module_id": "src/data/useRewards",
       "file": "src/data/useRewards.ts",
       "name": "createStandardReward",
-      "line": 134,
+      "line": 132,
       "score": 38,
       "risk": "medium",
       "signals": [
@@ -15767,7 +15778,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/useRewards.ts:createStandardReward:134",
+            "id": "src/data/useRewards.ts:createStandardReward:132",
             "kind": "function",
             "file": "src/data/useRewards.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15814,6 +15825,50 @@
             "id": "src/lib/choreParser.ts:parseChoreTodoSnapshot:327",
             "kind": "function",
             "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:buildOrbitLine:22",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "name": "buildOrbitLine",
+      "line": 22,
+      "score": 38,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 2
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 3
+        },
+        {
+          "kind": "line_count",
+          "value": 18
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:buildOrbitLine:22",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -16895,12 +16950,12 @@
       ]
     },
     {
-      "id": "src/data/useRewards.ts:deleteReward:166",
+      "id": "src/data/useRewards.ts:deleteReward:164",
       "kind": "function",
       "module_id": "src/data/useRewards",
       "file": "src/data/useRewards.ts",
       "name": "deleteReward",
-      "line": 166,
+      "line": 164,
       "score": 36,
       "risk": "medium",
       "signals": [
@@ -16930,7 +16985,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/useRewards.ts:deleteReward:166",
+            "id": "src/data/useRewards.ts:deleteReward:164",
             "kind": "function",
             "file": "src/data/useRewards.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -18099,94 +18154,6 @@
       ]
     },
     {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:drawRing:274",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "drawRing",
-      "line": 274,
-      "score": 34,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 3
-        },
-        {
-          "kind": "line_count",
-          "value": 7
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:drawRing:274",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isNumberPair:128",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "isNumberPair",
-      "line": 128,
-      "score": 34,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 4
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 4
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isNumberPair:128",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/SpellingTester.tsx:SpellingChoiceButtons:266",
       "kind": "component",
       "module_id": "src/components/SpellingTester",
@@ -18637,6 +18604,94 @@
             "id": "src/lib/dayNightExplorer/dayNightExplorerMath.ts:formatTime:35",
             "kind": "function",
             "file": "src/lib/dayNightExplorer/dayNightExplorerMath.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/worldMapCanvas.ts:drawRing:3",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldMapCanvas",
+      "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+      "name": "drawRing",
+      "line": 3,
+      "score": 34,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 2
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 3
+        },
+        {
+          "kind": "line_count",
+          "value": 7
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldMapCanvas.ts:drawRing:3",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:isNumberPair:59",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "name": "isNumberPair",
+      "line": 59,
+      "score": 34,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 4
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 4
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:isNumberPair:59",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -19308,12 +19363,12 @@
       ]
     },
     {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:getDecodedArc:230",
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:getDecodedArc:161",
       "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
       "name": "getDecodedArc",
-      "line": 230,
+      "line": 161,
       "score": 31,
       "risk": "low",
       "signals": [
@@ -19327,7 +19382,7 @@
         },
         {
           "kind": "line_count",
-          "value": 6
+          "value": 5
         }
       ],
       "actions": [
@@ -19343,9 +19398,9 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:getDecodedArc:230",
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:getDecodedArc:161",
             "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -20054,6 +20109,50 @@
       ]
     },
     {
+      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:getCenteredLongitude:44",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "name": "getCenteredLongitude",
+      "line": 44,
+      "score": 28,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 2
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 2
+        },
+        {
+          "kind": "line_count",
+          "value": 5
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:getCenteredLongitude:44",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/ui/choreModeDefinitions.ts:getActivityPrimaryActionLabel:82",
       "kind": "function",
       "module_id": "src/ui/choreModeDefinitions",
@@ -20267,6 +20366,49 @@
             "id": "file:src/components/TabContent",
             "kind": "file",
             "file": "src/components/TabContent.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/lib/dayNightExplorer/solarSystemGeometry",
+      "kind": "file",
+      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "line": 1,
+      "score": 27,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 64
+        },
+        {
+          "kind": "branch_count",
+          "value": 2
+        },
+        {
+          "kind": "import_count",
+          "value": 2
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/lib/dayNightExplorer/solarSystemGeometry",
+            "kind": "file",
+            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -21081,50 +21223,6 @@
       ]
     },
     {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:decodeTopologyArcs:214",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "decodeTopologyArcs",
-      "line": 214,
-      "score": 24,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 1
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 2
-        },
-        {
-          "kind": "line_count",
-          "value": 14
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:decodeTopologyArcs:214",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/LargeNumbersTester.tsx:generateLargeNumbersProblem:48",
       "kind": "function",
       "module_id": "src/components/LargeNumbersTester",
@@ -21533,6 +21631,50 @@
       ]
     },
     {
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:decodeTopologyArcs:145",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "name": "decodeTopologyArcs",
+      "line": 145,
+      "score": 24,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 1
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 2
+        },
+        {
+          "kind": "line_count",
+          "value": 14
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:decodeTopologyArcs:145",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "file:src/assets/rewards/assets",
       "kind": "file",
       "module_id": "src/assets/rewards/assets",
@@ -21656,50 +21798,6 @@
             "id": "file:src/data/useUserDocumentUpdates",
             "kind": "file",
             "file": "src/data/useUserDocumentUpdates.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:stitchRing:237",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "stitchRing",
-      "line": 237,
-      "score": 23,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 1
-        },
-        {
-          "kind": "line_count",
-          "value": 4
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:stitchRing:237",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -22062,6 +22160,50 @@
       ]
     },
     {
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:stitchRing:167",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "name": "stitchRing",
+      "line": 167,
+      "score": 23,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 2
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 4
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:stitchRing:167",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/components/ui/StandardActionList.tsx:handlePrimaryAction:122",
       "kind": "function",
       "module_id": "src/components/ui/StandardActionList",
@@ -22362,6 +22504,49 @@
             "id": "file:src/components/ui/useAsyncAction",
             "kind": "file",
             "file": "src/components/ui/useAsyncAction.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/lib/dayNightExplorer/worldMapCanvas",
+      "kind": "file",
+      "module_id": "src/lib/dayNightExplorer/worldMapCanvas",
+      "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
+      "line": 1,
+      "score": 21,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 31
+        },
+        {
+          "kind": "branch_count",
+          "value": 5
+        },
+        {
+          "kind": "import_count",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this file finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line file"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/lib/dayNightExplorer/worldMapCanvas",
+            "kind": "file",
+            "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -23526,50 +23711,6 @@
       ]
     },
     {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:latLonToVector:286",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "latLonToVector",
-      "line": 286,
-      "score": 17,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 1
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 1
-        },
-        {
-          "kind": "line_count",
-          "value": 10
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:latLonToVector:286",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/dayNightExplorer/useDayNightExplorerModel.ts:getYearProgress:44",
       "kind": "function",
       "module_id": "src/components/dayNightExplorer/useDayNightExplorerModel",
@@ -23832,6 +23973,94 @@
             "id": "src/lib/dayNightExplorer/dayNightExplorerMath.ts:getClockAngles:122",
             "kind": "function",
             "file": "src/lib/dayNightExplorer/dayNightExplorerMath.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:latLonToVector:7",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "name": "latLonToVector",
+      "line": 7,
+      "score": 17,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 1
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 10
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:latLonToVector:7",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:parseWorldFeatureCollections:202",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "name": "parseWorldFeatureCollections",
+      "line": 202,
+      "score": 17,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 1
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 11
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:parseWorldFeatureCollections:202",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -24228,138 +24457,6 @@
             "id": "src/components/ArithmeticTester.tsx:generateProblem:69",
             "kind": "function",
             "file": "src/components/ArithmeticTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isArc:142",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "isArc",
-      "line": 142,
-      "score": 16,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 1
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isArc:142",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isNumberArray:145",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "isNumberArray",
-      "line": 145,
-      "score": 16,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 2
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 1
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:isNumberArray:145",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:lerpAngle:341",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "lerpAngle",
-      "line": 341,
-      "score": 16,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 1
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 1
-        },
-        {
-          "kind": "line_count",
-          "value": 7
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:lerpAngle:341",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -24902,6 +24999,138 @@
       ]
     },
     {
+      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:lerpAngle:57",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "name": "lerpAngle",
+      "line": 57,
+      "score": 16,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 1
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 7
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:lerpAngle:57",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:isArc:73",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "name": "isArc",
+      "line": 73,
+      "score": 16,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 2
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:isArc:73",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/worldTopology.ts:isNumberArray:76",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/worldTopology",
+      "file": "src/lib/dayNightExplorer/worldTopology.ts",
+      "name": "isNumberArray",
+      "line": 76,
+      "score": 16,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 2
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/worldTopology.ts:isNumberArray:76",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/worldTopology.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/pages/DashboardPage.tsx:shouldHideEditChore:275",
       "kind": "function",
       "module_id": "src/pages/DashboardPage",
@@ -25295,12 +25524,12 @@
       ]
     },
     {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:project:973",
+      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:project:708",
       "kind": "function",
       "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
       "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
       "name": "project",
-      "line": 973,
+      "line": 708,
       "score": 15,
       "risk": "low",
       "signals": [
@@ -25330,7 +25559,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:project:973",
+            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:project:708",
             "kind": "function",
             "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -30028,94 +30257,6 @@
       ]
     },
     {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:getEarthViewRotationY:338",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "getEarthViewRotationY",
-      "line": 338,
-      "score": 8,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 1
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 1
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:getEarthViewRotationY:338",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:normalizeLongitude:320",
-      "kind": "function",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "name": "normalizeLongitude",
-      "line": 320,
-      "score": 8,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cognitive_complexity_proxy",
-          "value": 1
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 1
-        }
-      ],
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this function finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line function"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/dayNightExplorer/SolarSystem3DManager.ts:normalizeLongitude:320",
-            "kind": "function",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/LargeNumbersTester.tsx:clamp:67",
       "kind": "function",
       "module_id": "src/components/LargeNumbersTester",
@@ -31612,12 +31753,12 @@
       ]
     },
     {
-      "id": "src/data/useRewards.ts:updateRewardField:90",
+      "id": "src/data/useRewards.ts:updateRewardField:88",
       "kind": "function",
       "module_id": "src/data/useRewards",
       "file": "src/data/useRewards.ts",
       "name": "updateRewardField",
-      "line": 90,
+      "line": 88,
       "score": 8,
       "risk": "low",
       "signals": [
@@ -31647,7 +31788,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/data/useRewards.ts:updateRewardField:90",
+            "id": "src/data/useRewards.ts:updateRewardField:88",
             "kind": "function",
             "file": "src/data/useRewards.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -32090,6 +32231,94 @@
             "id": "src/lib/choreParser.ts:normalizeTestSnapshotData:100",
             "kind": "function",
             "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:getEarthViewRotationY:54",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "name": "getEarthViewRotationY",
+      "line": 54,
+      "score": 8,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 1
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:getEarthViewRotationY:54",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:normalizeLongitude:41",
+      "kind": "function",
+      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "name": "normalizeLongitude",
+      "line": 41,
+      "score": 8,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cognitive_complexity_proxy",
+          "value": 1
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this function finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line function"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/dayNightExplorer/solarSystemGeometry.ts:normalizeLongitude:41",
+            "kind": "function",
+            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
