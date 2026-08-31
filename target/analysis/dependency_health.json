@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:17:31.337Z",
+    "measured_at": "2026-08-31T23:29:05.325Z",
     "source_type": "static",
-    "source_set_hash": "sha256:880aa1869445521316c1d3fbe58ecc2c8f1995e3c0df61aa52f5c4fe1db5fe0e"
+    "source_set_hash": "sha256:f1bc73f5db18e3a2d6d8c52fcf5a47576e32d97d5e2e60833b1968b1cf9ff4fd"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -67,12 +67,12 @@
     "stale_input": []
   },
   "summary": {
-    "internal_edges": 684,
-    "external_edges": 111,
+    "internal_edges": 695,
+    "external_edges": 115,
     "cycles": 43,
     "heuristic_cycles": 0,
     "dependency_cruiser_cycles": 62,
-    "deep_relative_imports": 88,
+    "deep_relative_imports": 92,
     "barrel_modules": 1,
     "layer_violations": 29,
     "unsupported_patterns": 0
@@ -88,8 +88,8 @@
         "warn": 0,
         "info": 0,
         "ignore": 0,
-        "totalCruised": 507,
-        "totalDependenciesCruised": 1261,
+        "totalCruised": 511,
+        "totalDependenciesCruised": 1268,
         "optionsUsed": {
           "baseDir": "C:\\Code\\MyStarQuest",
           "combinedDependencies": false,
@@ -5308,12 +5308,12 @@
       ]
     },
     {
-      "id": "deep-import:src/components/ui/StandardActionList:8",
+      "id": "deep-import:src/components/ui/StandardActionButtons:2",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
-      "file": "src/components/ui/StandardActionList",
-      "line": 8,
+      "file": "src/components/ui/StandardActionButtons",
+      "line": 2,
       "specifier": "../../contexts/ThemeContext",
       "evidence": "import type { Theme } from '../../contexts/ThemeContext'",
       "actions": [
@@ -5335,21 +5335,21 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/ui/StandardActionList:8",
+            "id": "deep-import:src/components/ui/StandardActionButtons:2",
             "kind": "deep_relative_import",
-            "file": "src/components/ui/StandardActionList",
+            "file": "src/components/ui/StandardActionButtons",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "deep-import:src/components/ui/StandardActionList:9",
+      "id": "deep-import:src/components/ui/StandardActionButtons:3",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
-      "file": "src/components/ui/StandardActionList",
-      "line": 9,
+      "file": "src/components/ui/StandardActionButtons",
+      "line": 3,
       "specifier": "../../ui/themeActionAssets",
       "evidence": "import { getThemeActionIcon, type ThemeActionIcon, } from '../../ui/themeActionAssets'",
       "actions": [
@@ -5371,21 +5371,21 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/ui/StandardActionList:9",
+            "id": "deep-import:src/components/ui/StandardActionButtons:3",
             "kind": "deep_relative_import",
-            "file": "src/components/ui/StandardActionList",
+            "file": "src/components/ui/StandardActionButtons",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "deep-import:src/components/ui/StandardActionList:13",
+      "id": "deep-import:src/components/ui/StandardActionButtons:7",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
-      "file": "src/components/ui/StandardActionList",
-      "line": 13,
+      "file": "src/components/ui/StandardActionButtons",
+      "line": 7,
       "specifier": "../../tokens",
       "evidence": "import { uiTokens } from '../../tokens'",
       "actions": [
@@ -5407,7 +5407,79 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/ui/StandardActionList:13",
+            "id": "deep-import:src/components/ui/StandardActionButtons:7",
+            "kind": "deep_relative_import",
+            "file": "src/components/ui/StandardActionButtons",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/ui/StandardActionList:2",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/ui/StandardActionList",
+      "line": 2,
+      "specifier": "../../contexts/ThemeContext",
+      "evidence": "import type { Theme } from '../../contexts/ThemeContext'",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this deep_relative_import finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line deep_relative_import"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/ui/StandardActionList:2",
+            "kind": "deep_relative_import",
+            "file": "src/components/ui/StandardActionList",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/ui/StandardActionList:3",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/ui/StandardActionList",
+      "line": 3,
+      "specifier": "../../tokens",
+      "evidence": "import { uiTokens } from '../../tokens'",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this deep_relative_import finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line deep_relative_import"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/ui/StandardActionList:3",
             "kind": "deep_relative_import",
             "file": "src/components/ui/StandardActionList",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5806,6 +5878,78 @@
             "id": "deep-import:src/components/ui/TopIconButton:4",
             "kind": "deep_relative_import",
             "file": "src/components/ui/TopIconButton",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/ui/standardActionCardAnimations:2",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/ui/standardActionCardAnimations",
+      "line": 2,
+      "specifier": "../../tokens",
+      "evidence": "import { uiTokens } from '../../tokens'",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this deep_relative_import finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line deep_relative_import"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/ui/standardActionCardAnimations:2",
+            "kind": "deep_relative_import",
+            "file": "src/components/ui/standardActionCardAnimations",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/ui/standardActionListTypes:2",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/ui/standardActionListTypes",
+      "line": 2,
+      "specifier": "../../contexts/ThemeContext",
+      "evidence": "import type { Theme } from '../../contexts/ThemeContext'",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this deep_relative_import finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line deep_relative_import"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/ui/standardActionListTypes:2",
+            "kind": "deep_relative_import",
+            "file": "src/components/ui/standardActionListTypes",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -7029,17 +7173,17 @@
       ]
     },
     {
-      "id": "layer:src/ui/listDescriptorTypes:2:src/components/ui/StandardActionList",
+      "id": "layer:src/ui/listDescriptorTypes:2:src/components/ui/standardActionListTypes",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/ui/listDescriptorTypes",
       "line": 2,
-      "target": "src/components/ui/StandardActionList",
+      "target": "src/components/ui/standardActionListTypes",
       "from_layer": "core",
       "to_layer": "ui",
-      "specifier": "../components/ui/StandardActionList",
-      "evidence": "core imports upward into ui: ../components/ui/StandardActionList",
+      "specifier": "../components/ui/standardActionListTypes",
+      "evidence": "core imports upward into ui: ../components/ui/standardActionListTypes",
       "actions": [
         {
           "type": "fix",
@@ -7059,7 +7203,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/ui/listDescriptorTypes:2:src/components/ui/StandardActionList",
+            "id": "layer:src/ui/listDescriptorTypes:2:src/components/ui/standardActionListTypes",
             "kind": "layer_violation",
             "file": "src/ui/listDescriptorTypes",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7535,6 +7679,11 @@
         "layer": "ui"
       },
       {
+        "id": "src/components/ui/StandardActionButtons",
+        "file": "src/components/ui/StandardActionButtons.tsx",
+        "layer": "ui"
+      },
+      {
         "id": "src/components/ui/StandardActionList",
         "file": "src/components/ui/StandardActionList.tsx",
         "layer": "ui"
@@ -7562,6 +7711,21 @@
       {
         "id": "src/components/ui/activityAnimationStyles",
         "file": "src/components/ui/activityAnimationStyles.ts",
+        "layer": "ui"
+      },
+      {
+        "id": "src/components/ui/standardActionCardAnimations",
+        "file": "src/components/ui/standardActionCardAnimations.ts",
+        "layer": "ui"
+      },
+      {
+        "id": "src/components/ui/standardActionConfig",
+        "file": "src/components/ui/standardActionConfig.ts",
+        "layer": "ui"
+      },
+      {
+        "id": "src/components/ui/standardActionListTypes",
+        "file": "src/components/ui/standardActionListTypes.ts",
         "layer": "ui"
       },
       {
@@ -9194,15 +9358,7 @@
         "to": "src/tokens/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 13,
-        "source": "dependency-cruiser"
-      },
-      {
-        "from": "src/components/ui/StandardActionList",
-        "to": "src/ui/themeActionAssets",
-        "kind": "relative",
-        "import_kind": "static",
-        "line": 9,
+        "line": 3,
         "source": "dependency-cruiser"
       },
       {
@@ -9210,7 +9366,31 @@
         "to": "src/components/ui/CardShell",
         "kind": "relative",
         "import_kind": "static",
-        "line": 19,
+        "line": 9,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/ui/StandardActionList",
+        "to": "src/components/ui/StandardActionButtons",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 11,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/ui/StandardActionList",
+        "to": "src/components/ui/standardActionCardAnimations",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 22,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/ui/StandardActionList",
+        "to": "src/components/ui/standardActionConfig",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 16,
         "source": "dependency-cruiser"
       },
       {
@@ -9218,7 +9398,7 @@
         "to": "src/components/ui/standardActionStyles",
         "kind": "relative",
         "import_kind": "static",
-        "line": 15,
+        "line": 5,
         "source": "dependency-cruiser"
       },
       {
@@ -9226,7 +9406,7 @@
         "to": "src/components/ui/StarDisplay",
         "kind": "relative",
         "import_kind": "static",
-        "line": 14,
+        "line": 4,
         "source": "dependency-cruiser"
       },
       {
@@ -9234,7 +9414,7 @@
         "to": "src/components/ui/useAsyncAction",
         "kind": "relative",
         "import_kind": "static",
-        "line": 20,
+        "line": 10,
         "source": "dependency-cruiser"
       },
       {
@@ -9243,6 +9423,46 @@
         "kind": "relative",
         "import_kind": "static",
         "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/ui/CardShell",
+        "to": "src/tokens/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 3,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/ui/CardShell",
+        "to": "node_modules/react/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/ui/StandardActionButtons",
+        "to": "src/tokens/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 7,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/ui/StandardActionButtons",
+        "to": "src/ui/themeActionAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 3,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/ui/StandardActionButtons",
+        "to": "src/components/ui/standardActionConfig",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 13,
         "source": "dependency-cruiser"
       },
       {
@@ -9262,15 +9482,15 @@
         "source": "dependency-cruiser"
       },
       {
-        "from": "src/components/ui/CardShell",
+        "from": "src/components/ui/standardActionCardAnimations",
         "to": "src/tokens/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 3,
+        "line": 2,
         "source": "dependency-cruiser"
       },
       {
-        "from": "src/components/ui/CardShell",
+        "from": "src/components/ui/standardActionCardAnimations",
         "to": "node_modules/react/index",
         "kind": "relative",
         "import_kind": "static",

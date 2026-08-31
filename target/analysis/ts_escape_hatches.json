@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:17:28.013Z",
+    "measured_at": "2026-08-31T23:29:02.019Z",
     "source_type": "static",
-    "source_set_hash": "sha256:880aa1869445521316c1d3fbe58ecc2c8f1995e3c0df61aa52f5c4fe1db5fe0e"
+    "source_set_hash": "sha256:f1bc73f5db18e3a2d6d8c52fcf5a47576e32d97d5e2e60833b1968b1cf9ff4fd"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -1439,151 +1439,6 @@
       ]
     },
     {
-      "id": "escape:src/components/ui/StandardActionList:browser_global:27:696",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 27,
-      "evidence": "window.matchMedia",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this browser_global finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/ui/StandardActionList:browser_global:27:696",
-            "kind": "browser_global",
-            "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/ui/StandardActionList:browser_global:28:734",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 28,
-      "evidence": "window.matchMedia",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this browser_global finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/ui/StandardActionList:browser_global:28:734",
-            "kind": "browser_global",
-            "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/ui/StandardActionList:browser_global:36:1060",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 36,
-      "evidence": "window.clearTimeout",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this browser_global finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/ui/StandardActionList:browser_global:36:1060",
-            "kind": "browser_global",
-            "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/ui/StandardActionList:browser_global:44:1314",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 44,
-      "evidence": "window.setTimeout",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this browser_global finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/ui/StandardActionList:browser_global:44:1314",
-            "kind": "browser_global",
-            "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/ui/StandardActionList:direct_dom_mutation:49:1421",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "kind": "direct_dom_mutation",
-      "severity": "medium",
-      "line": 49,
-      "evidence": "document.getElementById(WHIMSICAL_STYLES_ID)",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this direct_dom_mutation finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line direct_dom_mutation"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this direct_dom_mutation finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/ui/StandardActionList:direct_dom_mutation:49:1421",
-            "kind": "direct_dom_mutation",
-            "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "escape:src/components/ui/StarDisplay:direct_dom_mutation:11:492",
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
@@ -1607,6 +1462,151 @@
             "id": "escape:src/components/ui/StarDisplay:direct_dom_mutation:11:492",
             "kind": "direct_dom_mutation",
             "file": "src/components/ui/StarDisplay.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/standardActionCardAnimations:browser_global:8:205",
+      "module_id": "src/components/ui/standardActionCardAnimations",
+      "file": "src/components/ui/standardActionCardAnimations.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 8,
+      "evidence": "window.matchMedia",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/standardActionCardAnimations:browser_global:8:205",
+            "kind": "browser_global",
+            "file": "src/components/ui/standardActionCardAnimations.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/standardActionCardAnimations:browser_global:9:243",
+      "module_id": "src/components/ui/standardActionCardAnimations",
+      "file": "src/components/ui/standardActionCardAnimations.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 9,
+      "evidence": "window.matchMedia",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/standardActionCardAnimations:browser_global:9:243",
+            "kind": "browser_global",
+            "file": "src/components/ui/standardActionCardAnimations.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/standardActionCardAnimations:browser_global:17:565",
+      "module_id": "src/components/ui/standardActionCardAnimations",
+      "file": "src/components/ui/standardActionCardAnimations.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 17,
+      "evidence": "window.clearTimeout",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/standardActionCardAnimations:browser_global:17:565",
+            "kind": "browser_global",
+            "file": "src/components/ui/standardActionCardAnimations.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/standardActionCardAnimations:browser_global:25:819",
+      "module_id": "src/components/ui/standardActionCardAnimations",
+      "file": "src/components/ui/standardActionCardAnimations.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 25,
+      "evidence": "window.setTimeout",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this browser_global finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line browser_global"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/standardActionCardAnimations:browser_global:25:819",
+            "kind": "browser_global",
+            "file": "src/components/ui/standardActionCardAnimations.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/standardActionCardAnimations:direct_dom_mutation:30:933",
+      "module_id": "src/components/ui/standardActionCardAnimations",
+      "file": "src/components/ui/standardActionCardAnimations.ts",
+      "kind": "direct_dom_mutation",
+      "severity": "medium",
+      "line": 30,
+      "evidence": "document.getElementById(STYLES_ID)",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this direct_dom_mutation finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line direct_dom_mutation"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this direct_dom_mutation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/standardActionCardAnimations:direct_dom_mutation:30:933",
+            "kind": "direct_dom_mutation",
+            "file": "src/components/ui/standardActionCardAnimations.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

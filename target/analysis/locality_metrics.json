@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:17:31.635Z",
+    "measured_at": "2026-08-31T23:29:05.628Z",
     "source_type": "static",
-    "source_set_hash": "sha256:880aa1869445521316c1d3fbe58ecc2c8f1995e3c0df61aa52f5c4fe1db5fe0e"
+    "source_set_hash": "sha256:f1bc73f5db18e3a2d6d8c52fcf5a47576e32d97d5e2e60833b1968b1cf9ff4fd"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -63,7 +63,7 @@
     "stale_input": []
   },
   "summary": {
-    "records": 135,
+    "records": 139,
     "high_risk_records": 58
   },
   "records": [
@@ -591,26 +591,26 @@
       ],
       "test_locality": "direct_evidence",
       "churn": {
-        "commits": 18,
+        "commits": 19,
         "contributors": 2
       },
       "defect_commits": 2,
       "cochange_partners": [
         {
           "file": "src/components/ArithmeticTester.tsx",
-          "commits": 10
+          "commits": 11
         },
         {
           "file": "src/components/PositionalNotation.tsx",
-          "commits": 10
+          "commits": 11
         },
         {
           "file": "src/pages/DashboardPage.tsx",
-          "commits": 10
+          "commits": 11
         },
         {
           "file": "src/components/SpellingTester.tsx",
-          "commits": 9
+          "commits": 10
         },
         {
           "file": "src/ui/unifiedChoreDescriptors.tsx",
@@ -626,7 +626,7 @@
         },
         {
           "file": "src/data/types.ts",
-          "commits": 7
+          "commits": 8
         },
         {
           "file": "src/pages/ChoresPage.tsx",
@@ -683,7 +683,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 10
+          "value": 11
         }
       ],
       "kind": "locality",
@@ -730,13 +730,25 @@
       "hidden_coupling": [],
       "test_locality": "direct_evidence",
       "churn": {
-        "commits": 7,
+        "commits": 8,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/components/SpellingTester.tsx",
+          "commits": 5
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 5
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "commits": 5
+        },
+        {
+          "file": "src/components/AlphabetTester.tsx",
           "commits": 4
         },
         {
@@ -744,19 +756,11 @@
           "commits": 4
         },
         {
-          "file": "src/data/types.ts",
-          "commits": 4
-        },
-        {
-          "file": "src/pages/DashboardPage.tsx",
-          "commits": 4
-        },
-        {
           "file": "src/ui/unifiedTestRenderer.tsx",
           "commits": 4
         },
         {
-          "file": "src/components/AlphabetTester.tsx",
+          "file": "src/components/LargeNumbersTester.tsx",
           "commits": 3
         },
         {
@@ -769,10 +773,6 @@
         },
         {
           "file": "src/data/taskDocuments.ts",
-          "commits": 3
-        },
-        {
-          "file": "src/ui/unifiedChoreDescriptors.tsx",
           "commits": 3
         }
       ],
@@ -854,7 +854,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 4
+          "value": 5
         }
       ],
       "kind": "locality",
@@ -1136,26 +1136,26 @@
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 14,
+        "commits": 15,
         "contributors": 1
       },
       "defect_commits": 2,
       "cochange_partners": [
         {
           "file": "src/components/PositionalNotation.tsx",
-          "commits": 11
+          "commits": 12
         },
         {
           "file": "src/components/AlphabetTester.tsx",
-          "commits": 10
+          "commits": 11
         },
         {
           "file": "src/pages/DashboardPage.tsx",
-          "commits": 10
+          "commits": 11
         },
         {
           "file": "src/data/types.ts",
-          "commits": 9
+          "commits": 10
         },
         {
           "file": "src/ui/unifiedChoreDescriptors.tsx",
@@ -1227,7 +1227,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 11
+          "value": 12
         }
       ],
       "kind": "locality",
@@ -1503,29 +1503,41 @@
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 4,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/components/AlphabetTester.tsx",
-          "commits": 4
+          "commits": 5
         },
         {
           "file": "src/components/SpellingTester.tsx",
-          "commits": 4
+          "commits": 5
         },
         {
           "file": "src/data/types.ts",
-          "commits": 4
+          "commits": 5
         },
         {
           "file": "src/components/ArithmeticTester.tsx",
-          "commits": 3
+          "commits": 4
         },
         {
           "file": "src/components/PositionalNotation.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/components/AnimalTester.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/components/ui/MathActivityShell.tsx",
           "commits": 3
         },
         {
@@ -1534,18 +1546,6 @@
         },
         {
           "file": "src/data/taskDocuments.ts",
-          "commits": 3
-        },
-        {
-          "file": "src/pages/ChoreCreationFlow.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/pages/dashboardChoreUi.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/pages/DashboardPage.tsx",
           "commits": 3
         }
       ],
@@ -1585,7 +1585,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 4
+          "value": 5
         }
       ],
       "kind": "locality",
@@ -1632,17 +1632,17 @@
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 11,
+        "commits": 12,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/components/PageShell.tsx",
-          "commits": 6
+          "file": "src/pages/DashboardPage.tsx",
+          "commits": 7
         },
         {
-          "file": "src/pages/DashboardPage.tsx",
+          "file": "src/components/PageShell.tsx",
           "commits": 6
         },
         {
@@ -1654,28 +1654,28 @@
           "commits": 5
         },
         {
+          "file": "src/components/AlphabetTester.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/components/ArithmeticTester.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/components/PositionalNotation.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/components/ui/BottomNav.tsx",
+          "commits": 4
+        },
+        {
           "file": "src/pages/LoginPage.tsx",
           "commits": 4
         },
         {
           "file": "src/pages/ManageTasksPage.tsx",
           "commits": 4
-        },
-        {
-          "file": "src/assets/themes/princess/assets.ts",
-          "commits": 3
-        },
-        {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/ArithmeticTester.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/PositionalNotation.tsx",
-          "commits": 3
         }
       ],
       "signals": [
@@ -1694,7 +1694,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 6
+          "value": 7
         }
       ],
       "kind": "locality",
@@ -1864,26 +1864,26 @@
       "hidden_coupling": [],
       "test_locality": "direct_evidence",
       "churn": {
-        "commits": 13,
+        "commits": 14,
         "contributors": 1
       },
       "defect_commits": 2,
       "cochange_partners": [
         {
           "file": "src/components/ArithmeticTester.tsx",
-          "commits": 11
+          "commits": 12
         },
         {
           "file": "src/components/AlphabetTester.tsx",
-          "commits": 10
+          "commits": 11
         },
         {
           "file": "src/pages/DashboardPage.tsx",
-          "commits": 8
+          "commits": 9
         },
         {
           "file": "src/data/types.ts",
-          "commits": 7
+          "commits": 8
         },
         {
           "file": "src/components/DinnerCountdown.tsx",
@@ -1892,6 +1892,10 @@
         {
           "file": "src/ui/unifiedChoreDescriptors.tsx",
           "commits": 6
+        },
+        {
+          "file": "src/components/SpellingTester.tsx",
+          "commits": 5
         },
         {
           "file": "src/pages/ChoresPage.tsx",
@@ -1903,10 +1907,6 @@
         },
         {
           "file": "src/App.tsx",
-          "commits": 4
-        },
-        {
-          "file": "src/components/dayNightExplorer/Clock.tsx",
           "commits": 4
         }
       ],
@@ -1932,7 +1932,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 11
+          "value": 12
         }
       ],
       "kind": "locality",
@@ -2145,25 +2145,25 @@
       "hidden_coupling": [],
       "test_locality": "direct_evidence",
       "churn": {
-        "commits": 14,
+        "commits": 15,
         "contributors": 2
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/components/AlphabetTester.tsx",
-          "commits": 9
-        },
-        {
-          "file": "src/components/ui/StandardActionList.tsx",
-          "commits": 6
+          "commits": 10
         },
         {
           "file": "src/data/types.ts",
-          "commits": 6
+          "commits": 7
         },
         {
           "file": "src/pages/DashboardPage.tsx",
+          "commits": 7
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
           "commits": 6
         },
         {
@@ -2179,15 +2179,15 @@
           "commits": 6
         },
         {
-          "file": "src/data/dailyTaskState.ts",
+          "file": "src/components/AnimalTester.tsx",
           "commits": 5
         },
         {
-          "file": "src/data/taskDocuments.ts",
+          "file": "src/components/ArithmeticTester.tsx",
           "commits": 5
         },
         {
-          "file": "src/data/useTests.ts",
+          "file": "src/components/LargeNumbersTester.tsx",
           "commits": 5
         }
       ],
@@ -2244,7 +2244,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 9
+          "value": 10
         }
       ],
       "kind": "locality",
@@ -3685,43 +3685,47 @@
       "id": "locality:src/components/ui/BottomNav",
       "module_id": "src/components/ui/BottomNav",
       "file": "src/components/ui/BottomNav.tsx",
-      "score": 74,
+      "score": 79,
       "risk": "high",
       "dependency_distance": 3,
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 4,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/tokens/index.ts",
-          "commits": 4
+          "commits": 5
         },
         {
           "file": "src/components/AlphabetTester.tsx",
-          "commits": 3
+          "commits": 4
         },
         {
           "file": "src/components/ArithmeticTester.tsx",
-          "commits": 3
+          "commits": 4
+        },
+        {
+          "file": "src/components/PageHeader.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/components/PositionalNotation.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "commits": 4
         },
         {
           "file": "src/components/dayNightExplorer/Clock.tsx",
           "commits": 3
         },
         {
-          "file": "src/components/PageHeader.tsx",
-          "commits": 3
-        },
-        {
           "file": "src/components/PageShell.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/PositionalNotation.tsx",
           "commits": 3
         },
         {
@@ -3730,10 +3734,6 @@
         },
         {
           "file": "src/components/ui/StarInfoBox.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/lib/dayNightExplorer/dayNightExplorer.constants.ts",
           "commits": 3
         }
       ],
@@ -3758,7 +3758,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 4
+          "value": 5
         }
       ],
       "kind": "locality",
@@ -4876,27 +4876,43 @@
       "id": "locality:src/components/ui/MathActivityShell",
       "module_id": "src/components/ui/MathActivityShell",
       "file": "src/components/ui/MathActivityShell.tsx",
-      "score": 28,
+      "score": 33,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/components/AlphabetTester.tsx",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/components/LargeNumbersTester.tsx",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/components/SpellingTester.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/components/AnimalTester.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/ArithmeticTester.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/PositionalNotation.tsx",
           "commits": 2
         },
         {
@@ -4904,28 +4920,12 @@
           "commits": 2
         },
         {
-          "file": "src/data/types.ts",
+          "file": "src/data/taskLimits.ts",
           "commits": 2
         },
         {
-          "file": "src/pages/ChoreCreationFlow.tsx",
+          "file": "src/lib/activityOutcome.ts",
           "commits": 2
-        },
-        {
-          "file": "src/pages/dashboardChoreUi.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/pages/ManageTestsPage.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/pages/TestsPage.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/assets/rewards/assets.ts",
-          "commits": 1
         }
       ],
       "signals": [
@@ -4934,7 +4934,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -5417,30 +5417,76 @@
       ]
     },
     {
+      "id": "locality:src/components/ui/StandardActionButtons",
+      "module_id": "src/components/ui/StandardActionButtons",
+      "file": "src/components/ui/StandardActionButtons.tsx",
+      "score": 54,
+      "risk": "medium",
+      "dependency_distance": 3,
+      "hidden_coupling": [],
+      "test_locality": "no_evidence",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 2,
+          "specifier": "../../contexts/ThemeContext"
+        },
+        {
+          "kind": "far_import",
+          "line": 3,
+          "specifier": "../../ui/themeActionAssets"
+        },
+        {
+          "kind": "far_import",
+          "line": 7,
+          "specifier": "../../tokens"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line locality"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/ui/StandardActionButtons",
+            "kind": "locality",
+            "file": "src/components/ui/StandardActionButtons.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file locality"
+        }
+      ]
+    },
+    {
       "id": "locality:src/components/ui/StandardActionList",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
-      "score": 100,
-      "risk": "high",
-      "dependency_distance": 3,
-      "hidden_coupling": [
-        {
-          "kind": "window_global",
-          "line": 27
-        },
-        {
-          "kind": "window_global",
-          "line": 28
-        },
-        {
-          "kind": "window_global",
-          "line": 36
-        },
-        {
-          "kind": "window_global",
-          "line": 44
-        }
-      ],
+      "score": 62,
+      "risk": "medium",
+      "dependency_distance": 2,
+      "hidden_coupling": [],
       "test_locality": "direct_evidence",
       "churn": {
         "commits": 10,
@@ -5492,34 +5538,13 @@
       "signals": [
         {
           "kind": "far_import",
-          "line": 8,
+          "line": 2,
           "specifier": "../../contexts/ThemeContext"
         },
         {
           "kind": "far_import",
-          "line": 9,
-          "specifier": "../../ui/themeActionAssets"
-        },
-        {
-          "kind": "far_import",
-          "line": 13,
+          "line": 3,
           "specifier": "../../tokens"
-        },
-        {
-          "kind": "window_global",
-          "line": 27
-        },
-        {
-          "kind": "window_global",
-          "line": 28
-        },
-        {
-          "kind": "window_global",
-          "line": 36
-        },
-        {
-          "kind": "window_global",
-          "line": 44
         },
         {
           "kind": "cochange_ripple",
@@ -5528,12 +5553,6 @@
       ],
       "kind": "locality",
       "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
         {
           "type": "suppress-line",
           "auto_fixable": false,
@@ -6078,6 +6097,199 @@
             "id": "locality:src/components/ui/activityAnimationStyles",
             "kind": "locality",
             "file": "src/components/ui/activityAnimationStyles.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file locality"
+        }
+      ]
+    },
+    {
+      "id": "locality:src/components/ui/standardActionCardAnimations",
+      "module_id": "src/components/ui/standardActionCardAnimations",
+      "file": "src/components/ui/standardActionCardAnimations.ts",
+      "score": 100,
+      "risk": "high",
+      "dependency_distance": 1,
+      "hidden_coupling": [
+        {
+          "kind": "window_global",
+          "line": 8
+        },
+        {
+          "kind": "window_global",
+          "line": 9
+        },
+        {
+          "kind": "window_global",
+          "line": 17
+        },
+        {
+          "kind": "window_global",
+          "line": 25
+        }
+      ],
+      "test_locality": "no_evidence",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 2,
+          "specifier": "../../tokens"
+        },
+        {
+          "kind": "window_global",
+          "line": 8
+        },
+        {
+          "kind": "window_global",
+          "line": 9
+        },
+        {
+          "kind": "window_global",
+          "line": 17
+        },
+        {
+          "kind": "window_global",
+          "line": 25
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line locality"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/ui/standardActionCardAnimations",
+            "kind": "locality",
+            "file": "src/components/ui/standardActionCardAnimations.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file locality"
+        }
+      ]
+    },
+    {
+      "id": "locality:src/components/ui/standardActionConfig",
+      "module_id": "src/components/ui/standardActionConfig",
+      "file": "src/components/ui/standardActionConfig.ts",
+      "score": 18,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_evidence",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line locality"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/ui/standardActionConfig",
+            "kind": "locality",
+            "file": "src/components/ui/standardActionConfig.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        },
+        {
+          "type": "suppress-file",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding for the whole file.",
+          "comment": "// ts-react-quality-lens-ignore-file locality"
+        }
+      ]
+    },
+    {
+      "id": "locality:src/components/ui/standardActionListTypes",
+      "module_id": "src/components/ui/standardActionListTypes",
+      "file": "src/components/ui/standardActionListTypes.ts",
+      "score": 30,
+      "risk": "low",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_evidence",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 2,
+          "specifier": "../../contexts/ThemeContext"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this locality finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line locality"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/ui/standardActionListTypes",
+            "kind": "locality",
+            "file": "src/components/ui/standardActionListTypes.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         },
@@ -7963,19 +8175,31 @@
       "id": "locality:src/data/taskLimits",
       "module_id": "src/data/taskLimits",
       "file": "src/data/taskLimits.ts",
-      "score": 10,
+      "score": 15,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_evidence",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/components/AnimalTester.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/tokens/index.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/components/AlphabetTester.tsx",
           "commits": 2
         },
         {
@@ -7983,42 +8207,30 @@
           "commits": 2
         },
         {
-          "file": "src/components/ui/StandardActionList.tsx",
+          "file": "src/components/LargeNumbersTester.tsx",
           "commits": 2
         },
         {
-          "file": "src/data/types.ts",
+          "file": "src/components/SpellingTester.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/ui/MathActivityShell.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
           "commits": 2
         },
         {
           "file": "src/pages/ChoreCreationFlow.tsx",
           "commits": 2
-        },
-        {
-          "file": "src/pages/RewardsPage.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/tokens/index.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/ui/unifiedEatingRenderer.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/assets/rewards/assets.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/assets/themes/princess/assets.ts",
-          "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -8059,25 +8271,29 @@
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 18,
+        "commits": 19,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/pages/DashboardPage.tsx",
-          "commits": 10
+          "commits": 11
         },
         {
           "file": "src/components/ArithmeticTester.tsx",
-          "commits": 9
+          "commits": 10
         },
         {
           "file": "src/components/AlphabetTester.tsx",
-          "commits": 7
+          "commits": 8
         },
         {
           "file": "src/components/PositionalNotation.tsx",
+          "commits": 8
+        },
+        {
+          "file": "src/components/SpellingTester.tsx",
           "commits": 7
         },
         {
@@ -8089,20 +8305,16 @@
           "commits": 7
         },
         {
+          "file": "src/lib/choreParser.ts",
+          "commits": 7
+        },
+        {
           "file": "src/pages/RewardsPage.tsx",
           "commits": 7
         },
         {
           "file": "src/ui/unifiedChoreDescriptors.tsx",
           "commits": 7
-        },
-        {
-          "file": "src/components/SpellingTester.tsx",
-          "commits": 6
-        },
-        {
-          "file": "src/data/taskDocuments.ts",
-          "commits": 6
         }
       ],
       "signals": [
@@ -8116,7 +8328,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 10
+          "value": 11
         }
       ],
       "kind": "locality",
@@ -9183,7 +9395,7 @@
       "id": "locality:src/hooks/useActivityChallenge",
       "module_id": "src/hooks/useActivityChallenge",
       "file": "src/hooks/useActivityChallenge.ts",
-      "score": 70,
+      "score": 75,
       "risk": "high",
       "dependency_distance": 2,
       "hidden_coupling": [
@@ -9194,21 +9406,37 @@
       ],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/App.tsx",
-          "commits": 2
-        },
-        {
           "file": "src/components/AlphabetTester.tsx",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/components/ArithmeticTester.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/components/PositionalNotation.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/lib/choreParser.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/App.tsx",
           "commits": 2
         },
         {
@@ -9216,27 +9444,11 @@
           "commits": 2
         },
         {
-          "file": "src/components/PositionalNotation.tsx",
+          "file": "src/components/LargeNumbersTester.tsx",
           "commits": 2
         },
         {
-          "file": "src/components/ui/ActivityControls.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/ui/InlineChoiceList.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/ui/NumberStepperControl.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/ui/StandardActionList.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/ui/standardActionStyles.ts",
+          "file": "src/components/SpellingTester.tsx",
           "commits": 2
         }
       ],
@@ -9260,7 +9472,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -9885,23 +10097,47 @@
       "id": "locality:src/lib/activityOutcome",
       "module_id": "src/lib/activityOutcome",
       "file": "src/lib/activityOutcome.ts",
-      "score": 35,
+      "score": 40,
       "risk": "medium",
       "dependency_distance": 1,
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/components/AlphabetTester.tsx",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/components/ArithmeticTester.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/LargeNumbersTester.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/PositionalNotation.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/SpellingTester.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/ui/MathActivityShell.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/components/AnimalTester.tsx",
           "commits": 1
         },
         {
@@ -9909,31 +10145,7 @@
           "commits": 1
         },
         {
-          "file": "src/components/LargeNumbersTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/PositionalNotation.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/SpellingTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/ui/ActivityMathCounters.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/ui/CrownDifficultyControl.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/ui/ImageOptionCarousel.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/ui/MathActivityShell.tsx",
+          "file": "src/components/PageHeader.tsx",
           "commits": 1
         }
       ],
@@ -9948,7 +10160,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -10076,23 +10288,27 @@
       "id": "locality:src/lib/choreLogic",
       "module_id": "src/lib/choreLogic",
       "file": "src/lib/choreLogic.ts",
-      "score": 37,
+      "score": 42,
       "risk": "medium",
       "dependency_distance": 1,
       "hidden_coupling": [],
       "test_locality": "direct_evidence",
       "churn": {
-        "commits": 5,
+        "commits": 6,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/lib/choreParser.ts",
-          "commits": 5
+          "commits": 6
         },
         {
           "file": "src/pages/DashboardPage.tsx",
+          "commits": 6
+        },
+        {
+          "file": "src/data/types.ts",
           "commits": 5
         },
         {
@@ -10100,7 +10316,7 @@
           "commits": 5
         },
         {
-          "file": "src/data/types.ts",
+          "file": "src/components/SpellingTester.tsx",
           "commits": 4
         },
         {
@@ -10116,15 +10332,11 @@
           "commits": 4
         },
         {
-          "file": "src/components/SpellingTester.tsx",
+          "file": "src/components/AlphabetTester.tsx",
           "commits": 3
         },
         {
-          "file": "src/components/ui/StarDisplay.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/data/dailyTaskState.ts",
+          "file": "src/components/ArithmeticTester.tsx",
           "commits": 3
         }
       ],
@@ -10136,7 +10348,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 5
+          "value": 6
         }
       ],
       "kind": "locality",
@@ -10171,19 +10383,23 @@
       "id": "locality:src/lib/choreParser",
       "module_id": "src/lib/choreParser",
       "file": "src/lib/choreParser.ts",
-      "score": 54,
+      "score": 56,
       "risk": "medium",
       "dependency_distance": 1,
       "hidden_coupling": [],
       "test_locality": "direct_evidence",
       "churn": {
-        "commits": 8,
+        "commits": 9,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
         {
           "file": "src/pages/DashboardPage.tsx",
+          "commits": 8
+        },
+        {
+          "file": "src/data/types.ts",
           "commits": 7
         },
         {
@@ -10191,15 +10407,19 @@
           "commits": 7
         },
         {
-          "file": "src/data/types.ts",
+          "file": "src/lib/choreLogic.ts",
           "commits": 6
         },
         {
-          "file": "src/data/useChores.ts",
+          "file": "src/components/AlphabetTester.tsx",
           "commits": 5
         },
         {
-          "file": "src/lib/choreLogic.ts",
+          "file": "src/components/ArithmeticTester.tsx",
+          "commits": 5
+        },
+        {
+          "file": "src/data/useChores.ts",
           "commits": 5
         },
         {
@@ -10207,19 +10427,11 @@
           "commits": 5
         },
         {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 4
-        },
-        {
-          "file": "src/components/ArithmeticTester.tsx",
-          "commits": 4
-        },
-        {
           "file": "src/components/DinnerCountdown.tsx",
           "commits": 4
         },
         {
-          "file": "src/components/ui/StarDisplay.tsx",
+          "file": "src/components/PositionalNotation.tsx",
           "commits": 4
         }
       ],
@@ -10235,7 +10447,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 7
+          "value": 8
         }
       ],
       "kind": "locality",
@@ -11838,7 +12050,7 @@
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 36,
+        "commits": 37,
         "contributors": 2
       },
       "defect_commits": 4,
@@ -11856,6 +12068,18 @@
           "commits": 11
         },
         {
+          "file": "src/components/AlphabetTester.tsx",
+          "commits": 11
+        },
+        {
+          "file": "src/components/ArithmeticTester.tsx",
+          "commits": 11
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 11
+        },
+        {
           "file": "src/pages/RewardsPage.tsx",
           "commits": 11
         },
@@ -11865,18 +12089,6 @@
         },
         {
           "file": "src/App.tsx",
-          "commits": 10
-        },
-        {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 10
-        },
-        {
-          "file": "src/components/ArithmeticTester.tsx",
-          "commits": 10
-        },
-        {
-          "file": "src/data/types.ts",
           "commits": 10
         },
         {
@@ -13534,23 +13746,27 @@
       "id": "locality:src/tokens/index",
       "module_id": "src/tokens/index",
       "file": "src/tokens/index.ts",
-      "score": 63,
+      "score": 68,
       "risk": "medium",
       "dependency_distance": 1,
       "hidden_coupling": [],
       "test_locality": "no_evidence",
       "churn": {
-        "commits": 9,
+        "commits": 10,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/components/AlphabetTester.tsx",
-          "commits": 5
+          "commits": 6
         },
         {
           "file": "src/components/dayNightExplorer/Clock.tsx",
+          "commits": 5
+        },
+        {
+          "file": "src/components/ui/BottomNav.tsx",
           "commits": 5
         },
         {
@@ -13559,6 +13775,10 @@
         },
         {
           "file": "src/lib/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 5
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
           "commits": 5
         },
         {
@@ -13574,15 +13794,7 @@
           "commits": 4
         },
         {
-          "file": "src/components/DinnerCountdown.tsx",
-          "commits": 4
-        },
-        {
-          "file": "src/components/ui/BottomNav.tsx",
-          "commits": 4
-        },
-        {
-          "file": "src/components/ui/StarDisplay.tsx",
+          "file": "src/components/ArithmeticTester.tsx",
           "commits": 4
         }
       ],
@@ -13597,7 +13809,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 5
+          "value": 6
         }
       ],
       "kind": "locality",
@@ -13946,7 +14158,7 @@
         {
           "kind": "far_import",
           "line": 2,
-          "specifier": "../components/ui/StandardActionList"
+          "specifier": "../components/ui/standardActionListTypes"
         },
         {
           "kind": "missing_direct_test_evidence"

@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:17:27.972Z",
+    "measured_at": "2026-08-31T23:29:01.978Z",
     "source_type": "static",
-    "source_set_hash": "sha256:880aa1869445521316c1d3fbe58ecc2c8f1995e3c0df61aa52f5c4fe1db5fe0e"
+    "source_set_hash": "sha256:f1bc73f5db18e3a2d6d8c52fcf5a47576e32d97d5e2e60833b1968b1cf9ff4fd"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -73,10 +73,10 @@
     "ast_clone_groups": 14,
     "source_clone_groups": 17,
     "test_clone_groups": 0,
-    "duplication_records": 24,
-    "high_duplication_records": 2,
+    "duplication_records": 23,
+    "high_duplication_records": 1,
     "clone_pressure_records": 23,
-    "same_purpose_records": 1
+    "same_purpose_records": 0
   },
   "tool_status": {
     "jscpd": {
@@ -84,7 +84,7 @@
       "ran": true,
       "reason": null,
       "statistics": {
-        "detectionDate": "2026-08-31T23:17:26.254Z",
+        "detectionDate": "2026-08-31T23:29:00.268Z",
         "formats": {
           "typescript": {
             "sources": {
@@ -187,6 +187,42 @@
               "src/components/ui/standardActionStyles.ts": {
                 "lines": 88,
                 "tokens": 754,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/standardActionListTypes.ts": {
+                "lines": 48,
+                "tokens": 615,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/standardActionConfig.ts": {
+                "lines": 27,
+                "tokens": 334,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/standardActionCardAnimations.ts": {
+                "lines": 130,
+                "tokens": 614,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -858,9 +894,9 @@
               }
             },
             "total": {
-              "lines": 7205,
-              "tokens": 59759,
-              "sources": 64,
+              "lines": 7410,
+              "tokens": 61322,
+              "sources": 67,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -921,8 +957,20 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 590,
-                "tokens": 4354,
+                "lines": 363,
+                "tokens": 2814,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/StandardActionButtons.tsx": {
+                "lines": 213,
+                "tokens": 1444,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1594,9 +1642,9 @@
               }
             },
             "total": {
-              "lines": 6004,
-              "tokens": 40876,
-              "sources": 60,
+              "lines": 5990,
+              "tokens": 40780,
+              "sources": 61,
               "clones": 3,
               "duplicatedLines": 32,
               "duplicatedTokens": 205,
@@ -1657,8 +1705,20 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 831,
-                "tokens": 6123,
+                "lines": 411,
+                "tokens": 3146,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/StandardActionButtons.tsx": {
+                "lines": 250,
+                "tokens": 1689,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2438,9 +2498,9 @@
               }
             },
             "total": {
-              "lines": 13502,
-              "tokens": 98897,
-              "sources": 69,
+              "lines": 13332,
+              "tokens": 97609,
+              "sources": 70,
               "clones": 1,
               "duplicatedLines": 16,
               "duplicatedTokens": 88,
@@ -2540,9 +2600,9 @@
           }
         },
         "total": {
-          "lines": 26803,
-          "tokens": 200139,
-          "sources": 199,
+          "lines": 26824,
+          "tokens": 200318,
+          "sources": 204,
           "clones": 4,
           "duplicatedLines": 48,
           "duplicatedTokens": 293,
@@ -3775,92 +3835,6 @@
             "id": "duplication-pressure:src/components/PositionalNotation",
             "kind": "duplication_pressure",
             "file": "src/components/PositionalNotation.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "same-purpose:component:1ceaa387",
-      "kind": "same_purpose_component",
-      "file": "src/components/ui/ActionButton.tsx",
-      "files": [
-        "src/components/ui/ActionButton.tsx",
-        "src/components/ui/StandardActionList.tsx"
-      ],
-      "line": 21,
-      "score": 78,
-      "risk": "high",
-      "purpose_key": "action:button",
-      "purpose_terms": ["action", "button"],
-      "candidates": [
-        {
-          "module_id": "src/components/ui/ActionButton",
-          "file": "src/components/ui/ActionButton.tsx",
-          "name": "ActionButton",
-          "line": 21,
-          "exported": false,
-          "signature": "({ to, label, icon, theme, color, onClick, disabled, hideArrow, content, ariaPressed, styleOverride, className, }: ActionButtonProps) => Element",
-          "entrypoint_roles": []
-        },
-        {
-          "module_id": "src/components/ui/StandardActionList",
-          "file": "src/components/ui/StandardActionList.tsx",
-          "name": "ActionButtons",
-          "line": 339,
-          "exported": false,
-          "signature": "<T>({ item, theme, primaryAction, primaryDisabled, hidePrimary, hideEdit, hideUtility, onPrimary, onEdit, editAriaLabel, onUtility, utilityIcon, utilityAriaLabel, utilityDisabled, utilityVariant, actionBaseStyle, getActionStyle, pendingAction, errorId, }: ActionButtonsProps<T>) => Element",
-          "entrypoint_roles": []
-        }
-      ],
-      "signals": [
-        {
-          "kind": "same_purpose_name_heuristic",
-          "value": "action:button"
-        },
-        {
-          "kind": "candidate_count",
-          "value": 2
-        },
-        {
-          "kind": "file_count",
-          "value": 2
-        },
-        {
-          "kind": "distinct_name_count",
-          "value": 2
-        },
-        {
-          "kind": "exported_candidate_count",
-          "value": 0
-        },
-        {
-          "kind": "typed_candidate_count",
-          "value": 2
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this same_purpose_component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line same_purpose_component"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this same_purpose_component finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "same-purpose:component:1ceaa387",
-            "kind": "same_purpose_component",
-            "file": "src/components/ui/ActionButton.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

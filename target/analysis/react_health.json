@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:17:34.198Z",
+    "measured_at": "2026-08-31T23:29:08.159Z",
     "source_type": "static",
-    "source_set_hash": "sha256:880aa1869445521316c1d3fbe58ecc2c8f1995e3c0df61aa52f5c4fe1db5fe0e"
+    "source_set_hash": "sha256:f1bc73f5db18e3a2d6d8c52fcf5a47576e32d97d5e2e60833b1968b1cf9ff4fd"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -2270,12 +2270,12 @@
       ]
     },
     {
-      "id": "component:src/components/ui/StandardActionList:DefaultActionIcon",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
+      "id": "component:src/components/ui/StandardActionButtons:DefaultActionIcon",
+      "module_id": "src/components/ui/StandardActionButtons",
+      "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "DefaultActionIcon",
-      "line": 219,
-      "score": 6,
+      "line": 19,
+      "score": 5,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -2292,51 +2292,20 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "component:src/components/ui/StandardActionList:DefaultActionIcon",
+            "id": "component:src/components/ui/StandardActionButtons:DefaultActionIcon",
             "kind": "component",
-            "file": "src/components/ui/StandardActionList.tsx",
+            "file": "src/components/ui/StandardActionButtons.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "component:src/components/ui/StandardActionList:UtilityButton",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "name": "UtilityButton",
-      "line": 260,
-      "score": 14,
-      "risk": "low",
-      "signals": [],
-      "kind": "component",
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "component:src/components/ui/StandardActionList:UtilityButton",
-            "kind": "component",
-            "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "component:src/components/ui/StandardActionList:ActionSpinner",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
+      "id": "component:src/components/ui/StandardActionButtons:ActionSpinner",
+      "module_id": "src/components/ui/StandardActionButtons",
+      "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "ActionSpinner",
-      "line": 323,
+      "line": 47,
       "score": 4,
       "risk": "low",
       "signals": [],
@@ -2354,21 +2323,52 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "component:src/components/ui/StandardActionList:ActionSpinner",
+            "id": "component:src/components/ui/StandardActionButtons:ActionSpinner",
             "kind": "component",
-            "file": "src/components/ui/StandardActionList.tsx",
+            "file": "src/components/ui/StandardActionButtons.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "component:src/components/ui/StandardActionList:ActionButtons",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "name": "ActionButtons",
-      "line": 339,
-      "score": 47,
+      "id": "component:src/components/ui/StandardActionButtons:UtilityButton",
+      "module_id": "src/components/ui/StandardActionButtons",
+      "file": "src/components/ui/StandardActionButtons.tsx",
+      "name": "UtilityButton",
+      "line": 74,
+      "score": 14,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/StandardActionButtons:UtilityButton",
+            "kind": "component",
+            "file": "src/components/ui/StandardActionButtons.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/StandardActionButtons:StandardActionButtons",
+      "module_id": "src/components/ui/StandardActionButtons",
+      "file": "src/components/ui/StandardActionButtons.tsx",
+      "name": "StandardActionButtons",
+      "line": 137,
+      "score": 48,
       "risk": "medium",
       "signals": [],
       "kind": "component",
@@ -2385,9 +2385,9 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "component:src/components/ui/StandardActionList:ActionButtons",
+            "id": "component:src/components/ui/StandardActionButtons:StandardActionButtons",
             "kind": "component",
-            "file": "src/components/ui/StandardActionList.tsx",
+            "file": "src/components/ui/StandardActionButtons.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2398,15 +2398,10 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ActionCard",
-      "line": 490,
-      "score": 103,
+      "line": 83,
+      "score": 84,
       "risk": "high",
-      "signals": [
-        {
-          "kind": "oversized_component",
-          "value": 131
-        }
-      ],
+      "signals": [],
       "kind": "component",
       "actions": [
         {
@@ -2440,7 +2435,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListMessage",
-      "line": 642,
+      "line": 222,
       "score": 3,
       "risk": "low",
       "signals": [],
@@ -2471,7 +2466,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListFooter",
-      "line": 670,
+      "line": 250,
       "score": 34,
       "risk": "low",
       "signals": [],
@@ -2502,7 +2497,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "StandardActionList",
-      "line": 736,
+      "line": 316,
       "score": 50,
       "risk": "medium",
       "signals": [],

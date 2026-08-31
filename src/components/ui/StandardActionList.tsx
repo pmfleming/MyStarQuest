@@ -1,15 +1,5 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-  type ReactNode,
-  type CSSProperties,
-} from 'react'
+import { useEffect, type ReactNode, type CSSProperties } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
-import {
-  getThemeActionIcon,
-  type ThemeActionIcon,
-} from '../../ui/themeActionAssets'
 import { uiTokens } from '../../tokens'
 import StarDisplay from './StarDisplay'
 import {
@@ -18,175 +8,54 @@ import {
 } from './standardActionStyles'
 import CardShell from './CardShell'
 import { useAsyncAction } from './useAsyncAction'
+import {
+  ActionSpinner,
+  DefaultActionIcon,
+  StandardActionButtons,
+} from './StandardActionButtons'
+import {
+  resolveActionBoolean,
+  resolveActionText,
+  resolveActionValue,
+  resolveActionVariant,
+} from './standardActionConfig'
+import {
+  injectStandardActionStyles,
+  useCardExitAnimation,
+} from './standardActionCardAnimations'
+import type {
+  ActionConfig,
+  ActionStyleResolver,
+  StandardActionListProps,
+  UtilityActionConfig,
+} from './standardActionListTypes'
 
-// Inject whimsical CSS animations once
-const WHIMSICAL_STYLES_ID = 'whimsical-action-list-styles'
-const CARD_EXIT_DURATION_MS = 400
-
-const prefersReducedMotion = () =>
-  typeof window.matchMedia === 'function' &&
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-const waitForCardExit = (card: HTMLElement | null) => {
-  if (!card || prefersReducedMotion()) return Promise.resolve()
-
-  return new Promise<void>((resolve) => {
-    const finish = () => {
-      card.removeEventListener('animationend', handleAnimationEnd)
-      window.clearTimeout(fallbackTimer)
-      resolve()
-    }
-    const handleAnimationEnd = (event: AnimationEvent) => {
-      if (event.target === card) finish()
-    }
-
-    card.addEventListener('animationend', handleAnimationEnd)
-    const fallbackTimer = window.setTimeout(finish, CARD_EXIT_DURATION_MS + 100)
-  })
-}
-
-const injectWhimsicalStyles = () => {
-  if (document.getElementById(WHIMSICAL_STYLES_ID)) return
-  const style = document.createElement('style')
-  style.id = WHIMSICAL_STYLES_ID
-  style.textContent = `
-    @keyframes whimsical-poof {
-      0% { transform: scale(1); opacity: 1; }
-      100% { transform: scale(0) rotate(45deg); opacity: 0; }
-    }
-    .whimsical-card-exiting {
-      animation: whimsical-poof ${CARD_EXIT_DURATION_MS}ms ease-in forwards !important;
-      pointer-events: none;
-    }
-    .whimsical-btn {
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      cursor: pointer;
-    }
-    .whimsical-btn:hover:not(:disabled) {
-      transform: translateY(-3px) scale(1.02);
-    }
-    .whimsical-btn:active:not(:disabled) {
-      transform: scale(0.92) translateY(4px) !important;
-    }
-    .whimsical-btn-utility:hover:not(:disabled) {
-      transform: translateY(-2px);
-      border-color: #cbd5e1;
-      color: #64748b;
-    }
-    .whimsical-btn-delete:hover:not(:disabled) {
-      background: #fef2f2 !important;
-      color: #ef4444 !important;
-      border-color: #fecaca !important;
-    }
-    @keyframes standard-card-spin {
-      to { transform: rotate(360deg); }
-    }
-    .standard-card-spinner {
-      animation: standard-card-spin 0.8s linear infinite;
-    }
-    .standard-card-primary-art img {
-      width: ${uiTokens.listActionArtworkScale * 100}% !important;
-      height: ${uiTokens.listActionArtworkScale * 100}% !important;
-      max-width: none !important;
-      max-height: none !important;
-      object-fit: contain;
-      display: block;
-    }
-    .standard-card-primary-hidden:has(.activity-inline-action, .activity-inline-action-row)
-      :is(.activity-inline-action, .activity-inline-action-row) {
-      width: calc(100% - ${uiTokens.listUtilityActionWidth + uiTokens.actionRowGap}px) !important;
-      align-self: flex-start;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-    }
-    .standard-card-primary-hidden:has(.activity-inline-action, .activity-inline-action-row)
-      [data-card-region="footer"] {
-      position: absolute !important;
-      right: ${uiTokens.listItemPadding}px;
-      bottom: ${uiTokens.listItemPadding}px;
-      width: ${uiTokens.listUtilityActionWidth}px;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .whimsical-card,
-      .whimsical-card-exiting,
-      .whimsical-btn,
-      .standard-card-spinner {
-        animation: none !important;
-        transition: none !important;
-        transform: none !important;
-      }
-    }
-  `
-  document.head.appendChild(style)
-}
-
-type ActionVariant = 'primary' | 'neutral' | 'danger'
-
-export type ActionConfig<T> = {
-  label: string | ((item: T) => string)
-  onClick: (item: T) => void | Promise<void>
-  icon?: ReactNode | ((item: T) => ReactNode)
-  ariaLabel?: string | ((item: T) => string)
-  disabled?: (item: T) => boolean
-  hideButton?: boolean | ((item: T) => boolean)
-  variant?: ActionVariant | ((item: T) => ActionVariant)
-  showLabel?: boolean | ((item: T) => boolean)
-}
-
-export type UtilityActionConfig<T> = ActionConfig<T> & {
-  exits?: boolean | ((item: T) => boolean)
-}
-
-export type StandardActionListProps<T> = {
-  theme: Theme
-  items: T[]
-  renderHeader?: (item: T) => ReactNode
-  renderItem: (item: T) => ReactNode
-  primaryAction: ActionConfig<T>
-  onEdit?: (item: T) => void | Promise<void>
-  onDelete: (item: T) => void | Promise<void>
-  utilityAction?: UtilityActionConfig<T>
-  addLabel: string
-  onAdd: () => void | Promise<void>
-  addDisabled?: boolean
-  isLoading?: boolean
-  emptyState?: ReactNode
-  getKey?: (item: T) => string
-  getItemLabel?: (item: T) => string
-  isHighlighted?: (item: T) => boolean
-  /** Optional: Return star count for an item to render the star field */
-  getStarCount?: (item: T) => number | undefined
-  /** When true, the Edit button is hidden. Can be scoped per row. */
-  hideEdit?: boolean | ((item: T) => boolean)
-  /** Key of the item currently being edited inline */
-  editingId?: string
-  /** Renders the full inline edit UI in place of normal row content when editingId matches */
-  renderInlineEdit?: (item: T) => ReactNode
-  /** When provided, renders an inline "new item" editor card at the bottom of the list
-   *  (the Add button card is suppressed while this is set) */
-  inlineNewRow?: ReactNode
-  /** When false, renders inlineNewRow directly instead of wrapping it in an add-card frame. */
-  frameInlineNewRow?: boolean
-  /** When true, suppresses the add button card entirely */
-  hideAdd?: boolean
-}
-
-const resolveValue = <T,>(
-  value: string | ReactNode | ((item: T) => string | ReactNode),
-  item: T
-) => (typeof value === 'function' ? value(item) : value)
-
-const resolveTextValue = <T,>(
-  value: string | ((item: T) => string),
-  item: T
-) => (typeof value === 'function' ? value(item) : value)
-
-const resolveVariant = <T,>(
-  value: ActionConfig<T>['variant'],
+const resolveUtilityState = <T,>(
   item: T,
-  fallback: ActionVariant
-): ActionVariant =>
-  typeof value === 'function' ? value(item) : (value ?? fallback)
+  utilityAction: UtilityActionConfig<T> | undefined,
+  theme: Theme
+) => {
+  const hidden = resolveActionBoolean(utilityAction?.hideButton, item)
+  const action = hidden ? undefined : utilityAction
+  const exits = action ? resolveActionBoolean(action.exits, item) : true
+  const defaultIcon = (
+    <DefaultActionIcon theme={theme} type={exits ? 'delete' : 'reset'} />
+  )
+
+  return {
+    action,
+    hidden,
+    variant: resolveActionVariant(action?.variant, item, 'danger'),
+    ariaLabel: action
+      ? resolveActionText(action.ariaLabel ?? action.label, item)
+      : 'Delete',
+    disabled: action?.disabled?.(item) ?? false,
+    exits,
+    icon: action
+      ? resolveActionValue(action.icon ?? defaultIcon, item) || defaultIcon
+      : defaultIcon,
+  }
+}
 
 type ActionCardProps<T> = {
   item: T
@@ -200,7 +69,7 @@ type ActionCardProps<T> = {
   onEdit?: (item: T) => void | Promise<void>
   onDelete: (item: T) => void | Promise<void>
   utilityAction?: UtilityActionConfig<T>
-  getActionStyle: (variant?: ActionConfig<T>['variant']) => CSSProperties
+  getActionStyle: ActionStyleResolver<T>
   actionBaseStyle: CSSProperties
   getKey?: (item: T) => string
   getItemLabel?: (item: T) => string
@@ -208,282 +77,6 @@ type ActionCardProps<T> = {
   hideEdit?: boolean | ((item: T) => boolean)
   editingId?: string
   renderInlineEdit?: (item: T) => ReactNode
-}
-
-const resolveBoolean = <T,>(
-  value: boolean | ((item: T) => boolean) | undefined,
-  item: T,
-  fallback = false
-) => (typeof value === 'function' ? value(item) : (value ?? fallback))
-
-const DefaultActionIcon = ({
-  theme,
-  type,
-}: {
-  theme: Theme
-  type: ThemeActionIcon
-}) => {
-  const artwork = getThemeActionIcon(theme.id, type)
-
-  if (!artwork) {
-    const fallback = { edit: '✏️', delete: '🗑️', reset: '↻' }[type]
-    return <span>{fallback}</span>
-  }
-
-  return (
-    <img
-      src={artwork}
-      alt=""
-      aria-hidden="true"
-      loading="lazy"
-      decoding="async"
-      className={
-        type === 'reset'
-          ? 'h-6 w-6 object-contain'
-          : 'h-full w-full object-contain'
-      }
-    />
-  )
-}
-
-type UtilityButtonProps = {
-  ariaLabel: string
-  icon: ReactNode
-  onClick: () => void | Promise<void>
-  style: CSSProperties
-  disabled?: boolean
-  isDanger?: boolean
-  isPending?: boolean
-  describedBy?: string
-}
-
-const UtilityButton = ({
-  ariaLabel,
-  icon,
-  onClick,
-  style,
-  disabled,
-  isDanger,
-  isPending,
-  describedBy,
-}: UtilityButtonProps) => (
-  <button
-    type="button"
-    onClick={onClick}
-    disabled={disabled || isPending}
-    className={`whimsical-btn whimsical-btn-utility disabled:opacity-60 ${isDanger ? 'whimsical-btn-delete' : ''}`}
-    aria-label={ariaLabel}
-    aria-busy={isPending || undefined}
-    aria-describedby={describedBy}
-    style={style}
-  >
-    {isPending ? (
-      <ActionSpinner />
-    ) : (
-      <span
-        aria-hidden="true"
-        style={{
-          width: `${uiTokens.listUtilityArtworkSize}px`,
-          height: `${uiTokens.listUtilityArtworkSize}px`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden',
-          flexShrink: 0,
-        }}
-      >
-        {icon}
-      </span>
-    )}
-  </button>
-)
-
-type ActionButtonsProps<T> = {
-  item: T
-  theme: Theme
-  primaryAction: ActionConfig<T>
-  primaryDisabled: boolean
-  hidePrimary: boolean
-  hideEdit: boolean
-  hideUtility: boolean
-  onPrimary: () => void | Promise<void>
-  onEdit?: () => void | Promise<void>
-  editAriaLabel: string
-  onUtility: () => void | Promise<void>
-  utilityIcon: ReactNode
-  utilityAriaLabel: string
-  utilityDisabled: boolean
-  utilityVariant: ActionVariant
-  actionBaseStyle: CSSProperties
-  getActionStyle: (variant?: ActionConfig<T>['variant']) => CSSProperties
-  pendingAction: 'primary' | 'edit' | 'utility' | null
-  errorId?: string
-}
-
-const ActionSpinner = () => (
-  <span
-    className="standard-card-spinner"
-    aria-hidden="true"
-    style={{
-      display: 'block',
-      width: `${uiTokens.listActionSpinnerSize}px`,
-      height: `${uiTokens.listActionSpinnerSize}px`,
-      border: '3px solid currentColor',
-      borderRightColor: 'transparent',
-      borderRadius: '9999px',
-      boxSizing: 'border-box',
-    }}
-  />
-)
-
-const ActionButtons = <T,>({
-  item,
-  theme,
-  primaryAction,
-  primaryDisabled,
-  hidePrimary,
-  hideEdit,
-  hideUtility,
-  onPrimary,
-  onEdit,
-  editAriaLabel,
-  onUtility,
-  utilityIcon,
-  utilityAriaLabel,
-  utilityDisabled,
-  utilityVariant,
-  actionBaseStyle,
-  getActionStyle,
-  pendingAction,
-  errorId,
-}: ActionButtonsProps<T>) => {
-  const utilityStyle = {
-    ...actionBaseStyle,
-    width: `${uiTokens.listUtilityActionWidth}px`,
-    minWidth: `${uiTokens.listUtilityActionWidth}px`,
-    padding: 0,
-  }
-  const primaryVariant = resolveVariant(primaryAction.variant, item, 'primary')
-  const anyPending = pendingAction !== null
-
-  return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns:
-          `${hidePrimary ? '' : 'minmax(0, 1fr) '}${!hideEdit && onEdit ? `${uiTokens.listUtilityActionWidth}px ` : ''}${!hideUtility ? `${uiTokens.listUtilityActionWidth}px` : ''}`.trim(),
-        alignItems: 'stretch',
-        gap: `${uiTokens.actionRowGap}px`,
-        justifyContent: hidePrimary ? 'flex-end' : undefined,
-        minHeight: `${uiTokens.listActionHeight}px`,
-      }}
-    >
-      {!hidePrimary && (
-        <button
-          type="button"
-          onClick={onPrimary}
-          disabled={primaryDisabled || anyPending}
-          className="whimsical-btn disabled:opacity-60"
-          aria-label={resolveTextValue(
-            primaryAction.ariaLabel ?? primaryAction.label,
-            item
-          )}
-          aria-busy={pendingAction === 'primary' || undefined}
-          aria-describedby={errorId}
-          style={{
-            ...actionBaseStyle,
-            ...getActionStyle(primaryVariant),
-            position: 'relative',
-            overflow: 'hidden',
-            width: '100%',
-            minWidth: 0,
-            height: '100%',
-            minHeight: `${uiTokens.listActionHeight}px`,
-          }}
-        >
-          {pendingAction === 'primary' ? (
-            <ActionSpinner />
-          ) : (
-            <span
-              className="standard-card-primary-art"
-              aria-hidden="true"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'hidden',
-              }}
-            >
-              {resolveValue(primaryAction.icon ?? '⭐', item)}
-            </span>
-          )}
-        </button>
-      )}
-      {!hideEdit && onEdit && (
-        <UtilityButton
-          ariaLabel={editAriaLabel}
-          icon={<DefaultActionIcon theme={theme} type="edit" />}
-          onClick={onEdit}
-          style={{ ...utilityStyle, ...getActionStyle('neutral') }}
-          disabled={anyPending}
-          isPending={pendingAction === 'edit'}
-          describedBy={errorId}
-        />
-      )}
-      {!hideUtility && (
-        <UtilityButton
-          ariaLabel={utilityAriaLabel}
-          icon={utilityIcon}
-          onClick={onUtility}
-          disabled={utilityDisabled || anyPending}
-          isDanger={utilityVariant === 'danger'}
-          isPending={pendingAction === 'utility'}
-          describedBy={errorId}
-          style={{ ...utilityStyle, ...getActionStyle(utilityVariant) }}
-        />
-      )}
-    </div>
-  )
-}
-
-const getUtilityAriaLabel = <T,>(
-  action: UtilityActionConfig<T> | undefined,
-  item: T
-) =>
-  action ? resolveTextValue(action.ariaLabel ?? action.label, item) : 'Delete'
-
-const getUtilityIcon = <T,>(
-  action: UtilityActionConfig<T> | undefined,
-  item: T,
-  defaultIcon: ReactNode
-) =>
-  action
-    ? resolveValue(action.icon ?? defaultIcon, item) || defaultIcon
-    : defaultIcon
-
-const resolveUtilityState = <T,>(
-  item: T,
-  utilityAction: UtilityActionConfig<T> | undefined,
-  theme: Theme
-) => {
-  const hidden = resolveBoolean(utilityAction?.hideButton, item)
-  const action = hidden ? undefined : utilityAction
-  const exits = action ? resolveBoolean(action.exits, item) : true
-  const defaultIcon = (
-    <DefaultActionIcon theme={theme} type={exits ? 'delete' : 'reset'} />
-  )
-
-  return {
-    action,
-    hidden,
-    variant: resolveVariant(action?.variant, item, 'danger'),
-    ariaLabel: getUtilityAriaLabel(action, item),
-    disabled: action?.disabled?.(item) ?? false,
-    exits,
-    icon: getUtilityIcon(action, item, defaultIcon),
-  }
 }
 
 // Wrapper for individual action card with exit animation support
@@ -508,12 +101,10 @@ const ActionCard = <T,>({
   editingId,
   renderInlineEdit,
 }: ActionCardProps<T>) => {
-  const [isExiting, setIsExiting] = useState(false)
-  const isExitingRef = useRef(false)
   const { pendingAction, actionError, runAction } = useAsyncAction<
     'primary' | 'edit' | 'utility'
   >()
-  const cardRef = useRef<HTMLElement>(null)
+  const { cardRef, isExiting, runWithExit } = useCardExitAnimation()
   const resolvedUtility = resolveUtilityState(item, utilityAction, theme)
   const itemLabel = getItemLabel?.(item)
   const utility = {
@@ -539,35 +130,21 @@ const ActionCard = <T,>({
     : undefined
 
   const handleUtilityAction = async () => {
-    if (isExitingRef.current) return
-
-    if (utility.exits) {
-      isExitingRef.current = true
-      const exitFinished = waitForCardExit(cardRef.current)
-      setIsExiting(true)
-      await exitFinished
-    }
-
-    const succeeded = await runAction(
-      utility.exits ? 'Delete' : 'Reset',
-      'utility',
-      () => (utility.action ? utility.action.onClick(item) : onDelete(item))
+    await runWithExit(utility.exits, () =>
+      runAction(utility.exits ? 'Delete' : 'Reset', 'utility', () =>
+        utility.action ? utility.action.onClick(item) : onDelete(item)
+      )
     )
-
-    if (!succeeded && utility.exits) {
-      isExitingRef.current = false
-      setIsExiting(false)
-    }
   }
 
   useEffect(() => {
     if (!isInlineEditing) return
     cardRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' })
-  }, [isInlineEditing])
+  }, [cardRef, isInlineEditing])
 
   const starCount = getStarCount?.(item)
-  const hidePrimaryButton = resolveBoolean(primaryAction.hideButton, item)
-  const hideEditButton = resolveBoolean(hideEdit, item)
+  const hidePrimaryButton = resolveActionBoolean(primaryAction.hideButton, item)
+  const hideEditButton = resolveActionBoolean(hideEdit, item)
 
   if (isInlineEditing && renderInlineEdit) {
     return (
@@ -583,7 +160,7 @@ const ActionCard = <T,>({
   }
 
   const footer = (
-    <ActionButtons
+    <StandardActionButtons
       item={item}
       theme={theme}
       primaryAction={primaryAction}
@@ -760,7 +337,7 @@ const StandardActionList = <T,>({
 }: StandardActionListProps<T>) => {
   // Inject CSS animations on mount
   useEffect(() => {
-    injectWhimsicalStyles()
+    injectStandardActionStyles()
   }, [])
 
   const actionBaseStyle = getStandardActionBaseStyle(theme)

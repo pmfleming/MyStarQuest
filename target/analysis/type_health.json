@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:17:28.024Z",
+    "measured_at": "2026-08-31T23:29:02.029Z",
     "source_type": "static",
-    "source_set_hash": "sha256:880aa1869445521316c1d3fbe58ecc2c8f1995e3c0df61aa52f5c4fe1db5fe0e"
+    "source_set_hash": "sha256:f1bc73f5db18e3a2d6d8c52fcf5a47576e32d97d5e2e60833b1968b1cf9ff4fd"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -63,7 +63,7 @@
     "stale_input": []
   },
   "summary": {
-    "records": 450,
+    "records": 451,
     "high_risk_records": 27,
     "wide_types": 21,
     "compiler_diagnostics": 0
@@ -9245,296 +9245,13 @@
       ]
     },
     {
-      "id": "type:src/components/ui/StandardActionList:ActionVariant:123",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "name": "ActionVariant",
-      "kind": "type",
-      "exported": false,
-      "line": 123,
-      "score": 15,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "ActionVariant",
-        "kind": "TypeAliasDeclaration",
-        "line": 123,
-        "type": "any",
-        "exported": false
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 0,
-        "union_members": 3,
-        "generic_params": 0
-      },
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this type finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line type"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/components/ui/StandardActionList:ActionVariant:123",
-            "kind": "type",
-            "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/components/ui/StandardActionList:ActionConfig:125",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "name": "ActionConfig",
-      "kind": "type",
-      "exported": true,
-      "line": 125,
-      "score": 144,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "large_union",
-          "value": 14
-        },
-        {
-          "kind": "many_optional_fields",
-          "value": 6
-        }
-      ],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "ActionConfig",
-        "kind": "TypeAliasDeclaration",
-        "line": 125,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 8,
-        "optional_count": 6,
-        "union_members": 14,
-        "generic_params": 1
-      },
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this type finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line type"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/components/ui/StandardActionList:ActionConfig:125",
-            "kind": "type",
-            "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/components/ui/StandardActionList:UtilityActionConfig:136",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "name": "UtilityActionConfig",
-      "kind": "type",
-      "exported": true,
-      "line": 136,
-      "score": 21,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "UtilityActionConfig",
-        "kind": "TypeAliasDeclaration",
-        "line": 136,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 1,
-        "union_members": 2,
-        "generic_params": 1
-      },
-      "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this type finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line type"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/components/ui/StandardActionList:UtilityActionConfig:136",
-            "kind": "type",
-            "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/components/ui/StandardActionList:StandardActionListProps:140",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "name": "StandardActionListProps",
-      "kind": "type",
-      "exported": true,
-      "line": 140,
-      "score": 222,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "wide_surface",
-          "value": 23
-        },
-        {
-          "kind": "large_union",
-          "value": 10
-        },
-        {
-          "kind": "many_optional_fields",
-          "value": 16
-        }
-      ],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "StandardActionListProps",
-        "kind": "TypeAliasDeclaration",
-        "line": 140,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 23,
-        "optional_count": 16,
-        "union_members": 10,
-        "generic_params": 1
-      },
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this type finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line type"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/components/ui/StandardActionList:StandardActionListProps:140",
-            "kind": "type",
-            "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/components/ui/StandardActionList:ActionCardProps:191",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "name": "ActionCardProps",
-      "kind": "type",
-      "exported": false,
-      "line": 191,
-      "score": 178,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "wide_surface",
-          "value": 19
-        },
-        {
-          "kind": "large_union",
-          "value": 8
-        },
-        {
-          "kind": "many_optional_fields",
-          "value": 10
-        }
-      ],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "ActionCardProps",
-        "kind": "TypeAliasDeclaration",
-        "line": 191,
-        "type": "any",
-        "exported": false
-      },
-      "metrics": {
-        "field_count": 19,
-        "optional_count": 10,
-        "union_members": 8,
-        "generic_params": 1
-      },
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this type finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line type"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/components/ui/StandardActionList:ActionCardProps:191",
-            "kind": "type",
-            "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/components/ui/StandardActionList:UtilityButtonProps:249",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
+      "id": "type:src/components/ui/StandardActionButtons:UtilityButtonProps:63",
+      "module_id": "src/components/ui/StandardActionButtons",
+      "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "UtilityButtonProps",
       "kind": "type",
       "exported": false,
-      "line": 249,
+      "line": 63,
       "score": 54,
       "risk": "medium",
       "signals": [],
@@ -9542,7 +9259,7 @@
       "typed_info": {
         "name": "UtilityButtonProps",
         "kind": "TypeAliasDeclaration",
-        "line": 249,
+        "line": 63,
         "type": "any",
         "exported": false
       },
@@ -9565,23 +9282,23 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/components/ui/StandardActionList:UtilityButtonProps:249",
+            "id": "type:src/components/ui/StandardActionButtons:UtilityButtonProps:63",
             "kind": "type",
-            "file": "src/components/ui/StandardActionList.tsx",
+            "file": "src/components/ui/StandardActionButtons.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "type:src/components/ui/StandardActionList:ActionButtonsProps:301",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "name": "ActionButtonsProps",
+      "id": "type:src/components/ui/StandardActionButtons:StandardActionButtonsProps:115",
+      "module_id": "src/components/ui/StandardActionButtons",
+      "file": "src/components/ui/StandardActionButtons.tsx",
+      "name": "StandardActionButtonsProps",
       "kind": "type",
       "exported": false,
-      "line": 301,
-      "score": 159,
+      "line": 115,
+      "score": 156,
       "risk": "high",
       "signals": [
         {
@@ -9595,15 +9312,15 @@
       ],
       "source": "structural-type-scan",
       "typed_info": {
-        "name": "ActionButtonsProps",
+        "name": "StandardActionButtonsProps",
         "kind": "TypeAliasDeclaration",
-        "line": 301,
+        "line": 115,
         "type": "any",
         "exported": false
       },
       "metrics": {
         "field_count": 19,
-        "optional_count": 3,
+        "optional_count": 2,
         "union_members": 10,
         "generic_params": 1
       },
@@ -9626,7 +9343,72 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/components/ui/StandardActionList:ActionButtonsProps:301",
+            "id": "type:src/components/ui/StandardActionButtons:StandardActionButtonsProps:115",
+            "kind": "type",
+            "file": "src/components/ui/StandardActionButtons.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/components/ui/StandardActionList:ActionCardProps:60",
+      "module_id": "src/components/ui/StandardActionList",
+      "file": "src/components/ui/StandardActionList.tsx",
+      "name": "ActionCardProps",
+      "kind": "type",
+      "exported": false,
+      "line": 60,
+      "score": 175,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "wide_surface",
+          "value": 19
+        },
+        {
+          "kind": "large_union",
+          "value": 8
+        },
+        {
+          "kind": "many_optional_fields",
+          "value": 9
+        }
+      ],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ActionCardProps",
+        "kind": "TypeAliasDeclaration",
+        "line": 60,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 19,
+        "optional_count": 9,
+        "union_members": 8,
+        "generic_params": 1
+      },
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/components/ui/StandardActionList:ActionCardProps:60",
             "kind": "type",
             "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -9635,13 +9417,13 @@
       ]
     },
     {
-      "id": "type:src/components/ui/StandardActionList:ListFooterProps:660",
+      "id": "type:src/components/ui/StandardActionList:ListFooterProps:240",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListFooterProps",
       "kind": "type",
       "exported": false,
-      "line": 660,
+      "line": 240,
       "score": 41,
       "risk": "medium",
       "signals": [],
@@ -9649,7 +9431,7 @@
       "typed_info": {
         "name": "ListFooterProps",
         "kind": "TypeAliasDeclaration",
-        "line": 660,
+        "line": 240,
         "type": "any",
         "exported": false
       },
@@ -9672,7 +9454,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/components/ui/StandardActionList:ListFooterProps:660",
+            "id": "type:src/components/ui/StandardActionList:ListFooterProps:240",
             "kind": "type",
             "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -10388,6 +10170,270 @@
           "auto_fixable": false,
           "description": "Suppress this export finding for the whole file.",
           "comment": "// ts-react-quality-lens-ignore-file export"
+        }
+      ]
+    },
+    {
+      "id": "type:src/components/ui/standardActionListTypes:ActionVariant:4",
+      "module_id": "src/components/ui/standardActionListTypes",
+      "file": "src/components/ui/standardActionListTypes.ts",
+      "name": "ActionVariant",
+      "kind": "type",
+      "exported": true,
+      "line": 4,
+      "score": 15,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ActionVariant",
+        "kind": "TypeAliasDeclaration",
+        "line": 4,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 3,
+        "generic_params": 0
+      },
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/components/ui/standardActionListTypes:ActionVariant:4",
+            "kind": "type",
+            "file": "src/components/ui/standardActionListTypes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/components/ui/standardActionListTypes:ActionConfig:6",
+      "module_id": "src/components/ui/standardActionListTypes",
+      "file": "src/components/ui/standardActionListTypes.ts",
+      "name": "ActionConfig",
+      "kind": "type",
+      "exported": true,
+      "line": 6,
+      "score": 144,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "large_union",
+          "value": 14
+        },
+        {
+          "kind": "many_optional_fields",
+          "value": 6
+        }
+      ],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ActionConfig",
+        "kind": "TypeAliasDeclaration",
+        "line": 6,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 8,
+        "optional_count": 6,
+        "union_members": 14,
+        "generic_params": 1
+      },
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/components/ui/standardActionListTypes:ActionConfig:6",
+            "kind": "type",
+            "file": "src/components/ui/standardActionListTypes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/components/ui/standardActionListTypes:UtilityActionConfig:17",
+      "module_id": "src/components/ui/standardActionListTypes",
+      "file": "src/components/ui/standardActionListTypes.ts",
+      "name": "UtilityActionConfig",
+      "kind": "type",
+      "exported": true,
+      "line": 17,
+      "score": 21,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "UtilityActionConfig",
+        "kind": "TypeAliasDeclaration",
+        "line": 17,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 1,
+        "union_members": 2,
+        "generic_params": 1
+      },
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/components/ui/standardActionListTypes:UtilityActionConfig:17",
+            "kind": "type",
+            "file": "src/components/ui/standardActionListTypes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/components/ui/standardActionListTypes:StandardActionListProps:21",
+      "module_id": "src/components/ui/standardActionListTypes",
+      "file": "src/components/ui/standardActionListTypes.ts",
+      "name": "StandardActionListProps",
+      "kind": "type",
+      "exported": true,
+      "line": 21,
+      "score": 222,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "wide_surface",
+          "value": 23
+        },
+        {
+          "kind": "large_union",
+          "value": 10
+        },
+        {
+          "kind": "many_optional_fields",
+          "value": 16
+        }
+      ],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "StandardActionListProps",
+        "kind": "TypeAliasDeclaration",
+        "line": 21,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 23,
+        "optional_count": 16,
+        "union_members": 10,
+        "generic_params": 1
+      },
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/components/ui/standardActionListTypes:StandardActionListProps:21",
+            "kind": "type",
+            "file": "src/components/ui/standardActionListTypes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/components/ui/standardActionListTypes:ActionStyleResolver:47",
+      "module_id": "src/components/ui/standardActionListTypes",
+      "file": "src/components/ui/standardActionListTypes.ts",
+      "name": "ActionStyleResolver",
+      "kind": "type",
+      "exported": true,
+      "line": 47,
+      "score": 11,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ActionStyleResolver",
+        "kind": "TypeAliasDeclaration",
+        "line": 47,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 1,
+        "union_members": 0,
+        "generic_params": 1
+      },
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/components/ui/standardActionListTypes:ActionStyleResolver:47",
+            "kind": "type",
+            "file": "src/components/ui/standardActionListTypes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
         }
       ]
     },
