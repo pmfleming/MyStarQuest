@@ -15,6 +15,7 @@ interface ActionButtonProps {
   content?: ReactNode
   ariaPressed?: boolean
   styleOverride?: CSSProperties
+  className?: string
 }
 
 const ActionButton = ({
@@ -29,6 +30,7 @@ const ActionButton = ({
   content,
   ariaPressed,
   styleOverride,
+  className = '',
 }: ActionButtonProps) => {
   const defaultContent = (
     <>
@@ -71,6 +73,7 @@ const ActionButton = ({
         <button
           type="button"
           aria-label={label}
+          className={`group ${className}`.trim()}
           style={{ ...getActionButtonStyle(theme, color), ...styleOverride }}
           aria-pressed={ariaPressed}
         >
@@ -87,7 +90,7 @@ const ActionButton = ({
       onClick={onClick}
       style={{ ...getActionButtonStyle(theme, color), ...styleOverride }}
       disabled={disabled}
-      className="group"
+      className={`group ${className}`.trim()}
       aria-pressed={ariaPressed}
     >
       {content ?? defaultContent}

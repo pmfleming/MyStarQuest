@@ -87,6 +87,10 @@ Header content must align to the card's left gutter. A trailing status element m
 - Body content must use the theme body font unless it is itself a heading.
 - Related controls use a 10px vertical gap; distinct control groups use a 16px gap.
 - Activity setup controls form one shared stack with 24px between every top-level row. Feature renderers must not add local margins or override this gap.
+- Teaching-only modes must not display the scored result/reward strip; it is reserved for modes that evaluate answers.
+- Teaching navigation uses an ordered item list limited to the configured activity-item count, with image-only Previous and Next controls. Previous is disabled at the first item; the final Next action exits teaching without completing or rewarding the test.
+- Two-player read-aloud activities use one screen showing the item and all teaching cards. They must respect the configured activity-item count and must not add scored result strips or intermediate hide/reveal phases. One image-only Next/Finish action advances beside Reset; the final action exits without completing or rewarding the test.
+- The displayed two-player item may be an image-only hide/show toggle. Hidden identity must be removed from the rendered content and automatically revealed when the activity advances or resets.
 - Text and controls align to the same left and right gutters as the header.
 - Star counts, progress, and outcome information appear after descriptive content and before the footer.
 - Validation or failure feedback appears next to the affected control. It must not displace the footer to another visual order.
@@ -105,6 +109,8 @@ From left to right, actions must appear in this order:
 The primary action must remain leftmost. Utility actions must remain grouped on the right. When the primary action is intentionally hidden, utilities stay right-aligned; they must not stretch to fill the row.
 
 The primary action and every utility action must share the same top and bottom edges. Their visual centers must sit on the same horizontal axis. The primary action fills the available width, while the rightmost utility remains 60px wide and aligned flush with the card's right content gutter. The 14px action gap is measured between outer button edges.
+
+When an activity supplies its primary action from inside the activity body, that action must still reserve the footer utility lane and align on the same 60px row as Reset. An activity-local action must not leave Reset on a separate row.
 
 Inside every action, the icon or image is centered horizontally and vertically. Card footer actions do not carry visible text labels.
 

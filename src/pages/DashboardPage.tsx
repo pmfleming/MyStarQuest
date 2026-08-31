@@ -244,6 +244,7 @@ const DashboardPage = () => {
       if (!('taskType' in item)) return
       activity.enterActivity(item.taskType, item.id)
     },
+    onExitActivity: activity.clearActiveActivities,
     onComplete: (item) =>
       'taskType' in item ? completeChore(item) : undefined,
     onFail: (item) => ('taskType' in item ? failChore(item) : undefined),

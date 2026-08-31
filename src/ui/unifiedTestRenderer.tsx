@@ -313,6 +313,7 @@ const createTaskActivityProps = (
     failureModeEnabled,
     onStarsChange: (value: number) =>
       deps.onUpdateTaskField?.(item.id, { starValue: value }),
+    onExit: deps.onExitActivity,
     onComplete: () => deps.onComplete?.(item),
     onFail: failureModeEnabled ? () => deps.onFail?.(item) : undefined,
     checkTrigger: getCheckTrigger(deps, variant, item.id),
@@ -333,6 +334,7 @@ const createTodoActivityProps = (
   isRunning: getActiveTestId(deps, variant) === item.id,
   isFailed: outcome === 'failure',
   onStarsChange: noop,
+  onExit: deps.onExitActivity,
   onComplete: () => deps.onComplete?.(item),
   onFail: () => deps.onFail?.(item),
   checkTrigger: getCheckTrigger(deps, variant, item.id),

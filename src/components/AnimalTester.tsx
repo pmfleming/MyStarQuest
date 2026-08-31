@@ -1,8 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import abilityImage from '../assets/animal-facts/ability.webp'
-import foodImage from '../assets/animal-facts/food.webp'
-import habitatCoverImage from '../assets/animal-facts/habitat-cover.webp'
-import habitatPlaceImage from '../assets/animal-facts/habitat-place.webp'
 import learnModeImage from '../assets/animal-mode-icons/learn.webp'
 import onePlayerModeImage from '../assets/animal-mode-icons/one-player.webp'
 import twoPlayersModeImage from '../assets/animal-mode-icons/two-players.webp'
@@ -41,7 +38,6 @@ const CHOICE_ANIMATION_MS = 650
 const CLUE_REVEAL_INTERVAL_MS = 3000
 
 type AnimalMode = 'learn' | 'solo' | 'together'
-type TogetherPhase = 'keeper' | 'questions' | 'answer'
 
 type CatalogAnimal = AnimalKnowledge & {
   image: string
@@ -65,13 +61,6 @@ const MODE_OPTIONS = [
   },
 ]
 
-const QUESTION_PROMPTS = [
-  [habitatPlaceImage, 'Location'],
-  [habitatCoverImage, 'Environment'],
-  [foodImage, 'Food'],
-  [abilityImage, 'Ability'],
-] as const
-
 const formatAnimalName = (name: string) =>
   name
     .split('-')
@@ -85,6 +74,10 @@ const ANIMAL_CATALOG: CatalogAnimal[] = ANIMAL_KNOWLEDGE.flatMap((animal) => {
   const image = ANIMAL_ASSET_BY_NAME.get(animal.name)
   return image ? [{ ...animal, image }] : []
 })
+
+const ORDERED_ANIMAL_CATALOG = [...ANIMAL_CATALOG].sort((left, right) =>
+  left.name.localeCompare(right.name)
+)
 
 type VisualFact = AnimalFact & {
   illustration?: string
@@ -248,89 +241,167 @@ const AnimalPortrait = ({
   </div>
 )
 
-const SectionHeading = ({
-  symbol,
-  title,
+const HideableAnimalPortrait = ({
+  animal,
   theme,
+  hidden,
+  onToggle,
 }: {
-  symbol: string
-  title: string
+  animal: CatalogAnimal
   theme: ActivityChoreProps['theme']
+  hidden: boolean
+  onToggle: () => void
 }) => (
-  <div style={{ textAlign: 'center', color: theme.colors.text }}>
-    <div aria-hidden="true" style={{ fontSize: '2rem' }}>
-      {symbol}
-    </div>
-    <h3
-      style={{
+  <button
+    type="button"
+    aria-label={hidden ? 'Show animal' : 'Hide animal'}
+    aria-pressed={hidden}
+    onClick={onToggle}
+    style={{
+      width: '100%',
+      padding: 0,
+      border: 0,
+      borderRadius: 26,
+      background: 'transparent',
+      cursor: 'pointer',
+    }}
+  >
+    {hidden ? (
+      <div
+        style={{
+          width: '100%',
+          minHeight: 170,
+          borderRadius: 26,
+          background: `${theme.colors.surface}dd`,
+          border: `3px solid ${theme.colors.secondary}`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+          padding: 8,
+          boxSizing: 'border-box',
+        }}
+      >
+        <img
+          src={twoPlayersModeImage}
+          alt=""
+          aria-hidden="true"
+          style={{ width: '100%', height: 132, objectFit: 'contain' }}
+        />
+      </div>
+    ) : (
+      <AnimalPortrait animal={animal} theme={theme} compact />
+    )}
+  </button>
+)
+
+const NavigationArrow = ({ direction }: { direction: 'previous' | 'next' }) => (
+  <svg
+    viewBox="0 0 48 48"
+    width="38"
+    height="38"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d={direction === 'previous' ? 'M30 10 16 24l14 14' : 'm18 10 14 14-14 14'}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+const LearningNavigation = ({
+  theme,
+  canGoPrevious,
+  isLastAnimal,
+  onPrevious,
+  onNext,
+}: {
+  theme: ActivityChoreProps['theme']
+  canGoPrevious: boolean
+  isLastAnimal: boolean
+  onPrevious: () => void
+  onNext: () => void
+}) => (
+  <div
+    className="activity-inline-action-row"
+    style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+      gap: uiTokens.actionRowGap,
+      width: '100%',
+      height: uiTokens.listActionHeight,
+    }}
+  >
+    <ActionButton
+      label="Previous animal"
+      icon={null}
+      theme={theme}
+      color={theme.colors.primary}
+      onClick={onPrevious}
+      disabled={!canGoPrevious}
+      hideArrow
+      content={<NavigationArrow direction="previous" />}
+      styleOverride={{
+        minHeight: uiTokens.listActionHeight,
+        height: uiTokens.listActionHeight,
         margin: 0,
-        color: theme.colors.primary,
-        fontFamily: theme.fonts.heading,
-        fontSize: '1.45rem',
+        padding: 0,
+        justifyContent: 'center',
       }}
-    >
-      {title}
-    </h3>
+    />
+    <ActionButton
+      label={isLastAnimal ? 'Finish learning' : 'Next animal'}
+      icon={null}
+      theme={theme}
+      color={theme.colors.primary}
+      onClick={onNext}
+      hideArrow
+      content={<NavigationArrow direction="next" />}
+      styleOverride={{
+        minHeight: uiTokens.listActionHeight,
+        height: uiTokens.listActionHeight,
+        margin: 0,
+        padding: 0,
+        justifyContent: 'center',
+      }}
+    />
   </div>
 )
 
-const PrimaryAction = ({
-  label,
-  icon,
-  onClick,
+const TwoPlayerProgressButton = ({
   theme,
-}: {
-  label: string
-  icon: string
-  onClick: () => void
-  theme: ActivityChoreProps['theme']
-}) => (
-  <ActionButton
-    label={label}
-    icon={icon}
-    theme={theme}
-    color={theme.colors.primary}
-    onClick={onClick}
-    styleOverride={{
-      minHeight: 72,
-      height: 72,
-      fontSize: 22,
-      marginTop: 6,
-    }}
-  />
-)
-
-const LearningContinueButton = ({
-  theme,
+  isLastAnimal,
   onClick,
 }: {
   theme: ActivityChoreProps['theme']
+  isLastAnimal: boolean
   onClick: () => void
 }) => (
   <ActionButton
-    label="Continue"
+    label={isLastAnimal ? 'Finish game' : 'Next animal'}
     icon={null}
     theme={theme}
     color={theme.colors.primary}
     onClick={onClick}
     hideArrow
+    className="activity-inline-action"
     content={
       <img
-        src={learnModeImage}
+        src={twoPlayersModeImage}
         alt=""
         aria-hidden="true"
-        style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'contain',
-          transform: 'scale(1.35)',
-        }}
+        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
       />
     }
     styleOverride={{
-      minHeight: 72,
-      height: 72,
-      marginTop: 6,
+      minHeight: uiTokens.listActionHeight,
+      height: uiTokens.listActionHeight,
+      margin: 0,
       padding: 0,
       overflow: 'hidden',
       justifyContent: 'center',
@@ -351,6 +422,7 @@ const AnimalTester = ({
   onAdjustProblems,
   onStarsChange,
   onComplete,
+  onExit,
   onFail,
   completionImage,
   failureImage,
@@ -364,7 +436,7 @@ const AnimalTester = ({
   const [dismissedChoices, setDismissedChoices] = useState<string[]>([])
   const [answeredCorrectly, setAnsweredCorrectly] = useState(false)
   const [visibleSoloClues, setVisibleSoloClues] = useState(1)
-  const [togetherPhase, setTogetherPhase] = useState<TogetherPhase>('keeper')
+  const [isTogetherAnimalHidden, setIsTogetherAnimalHidden] = useState(false)
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const isSetup = !isRunning && !isCompleted
@@ -375,7 +447,16 @@ const AnimalTester = ({
     results,
   })
 
-  const animal = animalOrder[animalIndex % animalOrder.length]
+  const itemLimit = Math.min(
+    Math.max(totalProblems, MIN_PROBLEMS),
+    MAX_PROBLEMS,
+    ANIMAL_CATALOG.length
+  )
+  const activeAnimalOrder = (
+    mode === 'learn' ? ORDERED_ANIMAL_CATALOG : animalOrder
+  ).slice(0, itemLimit)
+  const animal = activeAnimalOrder[animalIndex]
+  const isLastAnimal = animalIndex + 1 >= activeAnimalOrder.length
   const answerChoices = useMemo(() => {
     if (!animal) return []
     const alternatives = shuffle(
@@ -393,7 +474,7 @@ const AnimalTester = ({
     setDismissedChoices([])
     setAnsweredCorrectly(false)
     setVisibleSoloClues(1)
-    setTogetherPhase('keeper')
+    setIsTogetherAnimalHidden(false)
   }, [])
 
   useEffect(() => {
@@ -403,7 +484,7 @@ const AnimalTester = ({
   const finishAnimal = useCallback(
     (result: ActivityResult = 'correct', shouldCelebrate = true) => {
       setResults((previous) => [...previous, result])
-      if (animalIndex + 1 >= totalProblems) {
+      if (isLastAnimal) {
         if (result === 'correct' && shouldCelebrate) celebrateSuccess()
         onComplete()
         return
@@ -414,10 +495,21 @@ const AnimalTester = ({
       setDismissedChoices([])
       setAnsweredCorrectly(false)
       setVisibleSoloClues(1)
-      setTogetherPhase('keeper')
+      setIsTogetherAnimalHidden(false)
     },
-    [animalIndex, onComplete, totalProblems]
+    [isLastAnimal, onComplete]
   )
+
+  const exitUnscoredMode = onExit ?? onComplete
+
+  const showNextUnscoredAnimal = () => {
+    if (isLastAnimal) {
+      exitUnscoredMode()
+      return
+    }
+    setAnimalIndex((index) => index + 1)
+    setIsTogetherAnimalHidden(false)
+  }
 
   useEffect(() => {
     if (!isRunning || isFinished || mode !== 'solo' || !animal) return
@@ -527,14 +619,20 @@ const AnimalTester = ({
           correctIcon={quizCorrectIcon}
           incorrectIcon={quizIncorrectIcon}
           hideAlt
+          showResultBar={mode === 'solo'}
         >
           {mode === 'learn' && (
             <>
               <AnimalPortrait animal={animal} theme={theme} compact />
               <FactGrid facts={getTeachingFacts(animal)} theme={theme} />
-              <LearningContinueButton
+              <LearningNavigation
                 theme={theme}
-                onClick={() => finishAnimal()}
+                canGoPrevious={animalIndex > 0}
+                isLastAnimal={isLastAnimal}
+                onPrevious={() =>
+                  setAnimalIndex((index) => Math.max(0, index - 1))
+                }
+                onNext={showNextUnscoredAnimal}
               />
             </>
           )}
@@ -608,113 +706,20 @@ const AnimalTester = ({
             </>
           )}
 
-          {mode === 'together' && togetherPhase === 'keeper' && (
+          {mode === 'together' && (
             <>
-              <SectionHeading symbol="🤫" title="Secret" theme={theme} />
-              <AnimalPortrait animal={animal} theme={theme} compact />
+              <HideableAnimalPortrait
+                animal={animal}
+                theme={theme}
+                hidden={isTogetherAnimalHidden}
+                onToggle={() => setIsTogetherAnimalHidden((hidden) => !hidden)}
+              />
               <FactGrid facts={getTeachingFacts(animal)} theme={theme} />
-              <PrimaryAction
-                label="Hide"
-                icon="🙈"
-                onClick={() => setTogetherPhase('questions')}
+              <TwoPlayerProgressButton
                 theme={theme}
+                isLastAnimal={isLastAnimal}
+                onClick={showNextUnscoredAnimal}
               />
-            </>
-          )}
-
-          {mode === 'together' && togetherPhase === 'questions' && (
-            <>
-              <SectionHeading symbol="❓" title="Guess" theme={theme} />
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                  gap: 10,
-                  width: '100%',
-                }}
-              >
-                {QUESTION_PROMPTS.map(([illustration, prompt]) => (
-                  <div
-                    key={prompt}
-                    style={{
-                      minHeight: 104,
-                      padding: 10,
-                      borderRadius: 22,
-                      border: `3px solid ${theme.colors.accent}`,
-                      background: theme.colors.surface,
-                      color: theme.colors.text,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 5,
-                      textAlign: 'center',
-                      fontFamily: theme.fonts.body,
-                      fontWeight: 800,
-                      lineHeight: 1.18,
-                    }}
-                  >
-                    <img
-                      src={illustration}
-                      alt=""
-                      style={{
-                        width: '100%',
-                        height: 80,
-                        objectFit: 'contain',
-                      }}
-                    />
-                    {prompt}
-                  </div>
-                ))}
-              </div>
-              <PrimaryAction
-                label="Reveal"
-                icon="👀"
-                onClick={() => setTogetherPhase('answer')}
-                theme={theme}
-              />
-            </>
-          )}
-
-          {mode === 'together' && togetherPhase === 'answer' && (
-            <>
-              <SectionHeading symbol="🎉" title="Answer" theme={theme} />
-              <AnimalPortrait animal={animal} theme={theme} />
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                  gap: 10,
-                  width: '100%',
-                }}
-              >
-                <ActionButton
-                  label="Again"
-                  icon="❓"
-                  theme={theme}
-                  color={theme.colors.secondary}
-                  onClick={() => setTogetherPhase('questions')}
-                  hideArrow
-                  styleOverride={{
-                    height: 72,
-                    fontSize: 17,
-                    padding: '0 12px',
-                  }}
-                />
-                <ActionButton
-                  label={animalIndex + 1 >= totalProblems ? 'Finish' : 'Next'}
-                  icon="🐾"
-                  theme={theme}
-                  color={theme.colors.primary}
-                  onClick={() => finishAnimal()}
-                  hideArrow
-                  styleOverride={{
-                    height: 72,
-                    fontSize: 17,
-                    padding: '0 12px',
-                  }}
-                />
-              </div>
             </>
           )}
         </ActivityPlayArea>

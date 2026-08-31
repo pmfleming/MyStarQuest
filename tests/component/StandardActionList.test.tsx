@@ -84,6 +84,36 @@ describe('StandardActionList card contract', () => {
         height: '52px',
       })
     }
+
+    cleanup()
+    renderList({
+      renderItem: () => (
+        <button type="button" className="activity-inline-action">
+          Continue
+        </button>
+      ),
+      primaryAction: {
+        label: 'Continue',
+        hideButton: true,
+        onClick: vi.fn(),
+      },
+      hideEdit: true,
+      utilityAction: {
+        label: 'Reset',
+        exits: false,
+        variant: 'neutral',
+        onClick: vi.fn(),
+      },
+    })
+
+    expect(screen.getByRole('article')).toHaveClass(
+      'standard-card-primary-hidden'
+    )
+    expect(
+      document.getElementById('whimsical-action-list-styles')
+    ).toHaveTextContent(
+      '.standard-card-primary-hidden:has(.activity-inline-action, .activity-inline-action-row)'
+    )
   })
 
   it('resets immediately, exposes busy state, and uses themed artwork', async () => {

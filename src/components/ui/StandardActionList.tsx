@@ -92,6 +92,20 @@ const injectWhimsicalStyles = () => {
       object-fit: contain;
       display: block;
     }
+    .standard-card-primary-hidden:has(.activity-inline-action, .activity-inline-action-row)
+      :is(.activity-inline-action, .activity-inline-action-row) {
+      width: calc(100% - ${uiTokens.listUtilityActionWidth + uiTokens.actionRowGap}px) !important;
+      align-self: flex-start;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+    .standard-card-primary-hidden:has(.activity-inline-action, .activity-inline-action-row)
+      [data-card-region="footer"] {
+      position: absolute !important;
+      right: ${uiTokens.listItemPadding}px;
+      bottom: ${uiTokens.listItemPadding}px;
+      width: ${uiTokens.listUtilityActionWidth}px;
+    }
     @media (prefers-reduced-motion: reduce) {
       .whimsical-card,
       .whimsical-card-exiting,
@@ -600,7 +614,7 @@ const ActionCard = <T,>({
       key={itemKey}
       theme={theme}
       variant={isItemHighlighted ? 'highlighted' : 'default'}
-      className={`whimsical-card ${isExiting ? 'whimsical-card-exiting' : ''}`}
+      className={`whimsical-card ${hidePrimaryButton ? 'standard-card-primary-hidden' : ''} ${isExiting ? 'whimsical-card-exiting' : ''}`}
       header={renderHeader?.(item)}
       body={renderItem(item)}
       status={

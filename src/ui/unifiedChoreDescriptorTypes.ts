@@ -26,6 +26,7 @@ export type UnifiedChoreDeps = {
   onDeleteTask?: (id: string) => MaybePromise
   onDeleteTodo?: (id: string) => MaybePromise
   onEnterChore?: (item: UnifiedChoreItem) => MaybePromise
+  onExitActivity?: () => void
   onComplete?: (item: UnifiedChoreItem) => MaybePromise
   onFail?: (item: UnifiedChoreItem) => MaybePromise
   onReset?: (item: UnifiedChoreItem) => MaybePromise

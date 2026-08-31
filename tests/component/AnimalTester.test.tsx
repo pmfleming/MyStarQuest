@@ -1,5 +1,4 @@
 import { act, fireEvent, render, screen, within } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import AnimalTester, { ANIMAL_CATALOG } from '../../src/components/AnimalTester'
 import { themes } from '../../src/contexts/ThemeContext'
@@ -32,6 +31,7 @@ const createProps = () => ({
   onAdjustProblems: vi.fn(),
   onStarsChange: vi.fn(),
   onComplete: vi.fn(),
+  onExit: vi.fn(),
 })
 
 const EXPECTED_DISPLAY_CATEGORIES = {
@@ -214,7 +214,7 @@ describe('AnimalTester', () => {
     expect(screen.getByRole('radio', { name: '2 Players' })).toBeInTheDocument()
   })
 
-  it('teaches location, environment, food, and ability with an image-only Continue button', () => {
+  it('teaches an ordered animal list with image-only backward and forward controls', () => {
     const props = { ...createProps(), totalProblems: 2 }
     const { rerender } = render(<AnimalTester {...props} />)
 
@@ -223,6 +223,10 @@ describe('AnimalTester', () => {
     expect(
       screen.queryByRole('heading', { name: 'Learn' })
     ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('[data-activity-result-bar]')
+    ).not.toBeInTheDocument()
+    expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
     const teachingCards = screen.getAllByLabelText(
       /^(LOCATION|ENVIRONMENT|FOOD|ABILITY):/
     )
@@ -250,18 +254,30 @@ describe('AnimalTester', () => {
       ])
     )
     expect(screen.queryByRole('paragraph')).not.toBeInTheDocument()
-    const continueButton = screen.getByRole('button', { name: 'Continue' })
-    expect(continueButton).toHaveTextContent('')
-    expect(continueButton.querySelector('img')).toBeInTheDocument()
-    expect(
-      screen.queryByRole('button', { name: 'Finish' })
-    ).not.toBeInTheDocument()
+    const previousButton = screen.getByRole('button', {
+      name: 'Previous animal',
+    })
+    const nextButton = screen.getByRole('button', { name: 'Next animal' })
+    expect(previousButton).toBeDisabled()
+    expect(previousButton).toHaveTextContent('')
+    expect(nextButton).toHaveTextContent('')
+    expect(previousButton.querySelector('svg')).toBeInTheDocument()
+    expect(nextButton.querySelector('svg')).toBeInTheDocument()
 
-    fireEvent.click(continueButton)
+    fireEvent.click(nextButton)
     expect(props.onComplete).not.toHaveBeenCalled()
+    expect(screen.getByAltText('Ant')).toBeInTheDocument()
+    expect(previousButton).toBeEnabled()
 
-    fireEvent.click(screen.getByRole('button', { name: 'Continue' }))
-    expect(props.onComplete).toHaveBeenCalledOnce()
+    fireEvent.click(previousButton)
+    expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
+    expect(screen.getByAltText('Ant')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Finish learning' }))
+    expect(props.onExit).toHaveBeenCalledOnce()
+    expect(props.onComplete).not.toHaveBeenCalled()
   })
 
   it('removes wrong choices and advances after the correct solo choice', () => {
@@ -273,6 +289,9 @@ describe('AnimalTester', () => {
       fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
       rerender(<AnimalTester {...props} isRunning />)
 
+      expect(
+        document.querySelector('[data-activity-result-bar]')
+      ).toBeInTheDocument()
       expect(
         screen.queryByRole('heading', { name: 'Guess' })
       ).not.toBeInTheDocument()
@@ -340,28 +359,67 @@ describe('AnimalTester', () => {
     }
   })
 
-  it('protects the answer during the two-player question phase', async () => {
-    const user = userEvent.setup()
-    const props = createProps()
+  it('shows one read-aloud screen and advances the two-player game directly', () => {
+    const props = { ...createProps(), totalProblems: 2 }
     const { rerender } = render(<AnimalTester {...props} />)
 
-    await user.click(screen.getByRole('radio', { name: '2 Players' }))
+    fireEvent.click(screen.getByRole('radio', { name: '2 Players' }))
     rerender(<AnimalTester {...props} isRunning />)
 
-    expect(screen.getByRole('heading', { name: 'Secret' })).toBeInTheDocument()
-    await user.click(screen.getByRole('button', { name: 'Hide' }))
-
-    expect(screen.getByRole('heading', { name: 'Guess' })).toBeInTheDocument()
-    expect(screen.getByText('Location')).toBeInTheDocument()
-    expect(screen.getByText('Environment')).toBeInTheDocument()
-    expect(screen.getByText('Food')).toBeInTheDocument()
-    expect(screen.getByText('Ability')).toBeInTheDocument()
     expect(
-      screen.queryByAltText(/^(?!Mystery animal).+/)
+      document.querySelector('[data-activity-result-bar]')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('heading', { name: /^(Secret|Guess|Answer)$/ })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Hide' })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'Reveal' })
     ).not.toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: 'Reveal' }))
-    expect(screen.getByRole('heading', { name: 'Answer' })).toBeInTheDocument()
-    expect(screen.getByRole('img')).toBeInTheDocument()
+    const teachingCards = screen.getAllByLabelText(
+      /^(LOCATION|ENVIRONMENT|FOOD|ABILITY):/
+    )
+    expect(teachingCards).toHaveLength(4)
+    expect(teachingCards.every((card) => card.querySelector('img'))).toBe(true)
+    expect(
+      screen
+        .getAllByRole('img')
+        .some((image) => Boolean(image.getAttribute('alt')))
+    ).toBe(true)
+
+    const hideAnimalButton = screen.getByRole('button', {
+      name: 'Hide animal',
+    })
+    const animalName = within(hideAnimalButton)
+      .getByRole('img')
+      .getAttribute('alt')
+    expect(animalName).toBeTruthy()
+
+    fireEvent.click(hideAnimalButton)
+    expect(screen.getByRole('button', { name: 'Show animal' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    )
+    expect(screen.queryByAltText(animalName!)).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Show animal' }))
+    expect(screen.getByAltText(animalName!)).toBeInTheDocument()
+
+    const nextButton = screen.getByRole('button', { name: 'Next animal' })
+    expect(nextButton).toHaveTextContent('')
+    expect(nextButton).toHaveClass('activity-inline-action')
+    fireEvent.click(nextButton)
+    expect(props.onComplete).not.toHaveBeenCalled()
+    expect(screen.getByRole('button', { name: 'Hide animal' })).toHaveAttribute(
+      'aria-pressed',
+      'false'
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'Finish game' }))
+    expect(props.onExit).toHaveBeenCalledOnce()
+    expect(props.onComplete).not.toHaveBeenCalled()
   })
 })

@@ -18,6 +18,7 @@ export type ActivityChoreProps = {
   onAdjustProblems: (delta: number) => void
   onStarsChange: (value: number) => void
   onComplete: () => void
+  onExit?: () => void
   onFail?: () => void
   checkTrigger?: number
   completionImage?: string
@@ -116,6 +117,7 @@ export const ActivityResultBar = ({
   style,
 }: ActivityResultBarProps) => (
   <div
+    data-activity-result-bar
     className="flex w-full items-center justify-center"
     style={{
       background: `${theme.colors.primary}12`,
@@ -238,6 +240,7 @@ type ActivityPlayAreaProps = {
   className?: string
   slideAnimationName?: string
   hideAlt?: boolean
+  showResultBar?: boolean
 }
 
 export const ActivityPlayArea = ({
@@ -251,6 +254,7 @@ export const ActivityPlayArea = ({
   className = 'flex flex-col items-center',
   slideAnimationName,
   hideAlt,
+  showResultBar = true,
 }: ActivityPlayAreaProps) => (
   <div
     className={className}
@@ -262,14 +266,16 @@ export const ActivityPlayArea = ({
     }}
     key={shakeKey}
   >
-    <ActivityResultBar
-      theme={theme}
-      results={results}
-      correctIcon={correctIcon}
-      incorrectIcon={incorrectIcon}
-      slideAnimationName={slideAnimationName}
-      hideAlt={hideAlt}
-    />
+    {showResultBar && (
+      <ActivityResultBar
+        theme={theme}
+        results={results}
+        correctIcon={correctIcon}
+        incorrectIcon={incorrectIcon}
+        slideAnimationName={slideAnimationName}
+        hideAlt={hideAlt}
+      />
+    )}
     {children}
   </div>
 )
