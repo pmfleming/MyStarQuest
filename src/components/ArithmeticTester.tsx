@@ -4,7 +4,7 @@ import { uiTokens } from '../tokens'
 import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
-import { useProblemHistory } from '../lib/useProblemHistory'
+import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import { useActivityChallenge } from '../hooks/useActivityChallenge'
 import type { MathDifficulty } from '../data/types'
 import {
@@ -16,6 +16,7 @@ import CrownDifficultyControl, {
   type CrownDifficultyOption,
 } from './ui/CrownDifficultyControl'
 import MathActivityShell from './ui/MathActivityShell'
+import { getActivityFeedbackAnimationStyles } from './ui/activityAnimationStyles'
 
 const MAX_ANSWER = 30
 const MATH_DIFFICULTIES: CrownDifficultyOption<MathDifficulty>[] = [
@@ -113,12 +114,10 @@ const ArithmeticTester = ({
   })()
 
   const nextProblem = useCallback(() => {
-    let p = generateProblem(difficulty)
-    let attempts = 0
-    while (isSeen(getProblemKey(p)) && attempts < 10) {
-      p = generateProblem(difficulty)
-      attempts++
-    }
+    const p = pickUnseenProblem(
+      () => generateProblem(difficulty),
+      (problem) => isSeen(getProblemKey(problem))
+    )
     markSeen(getProblemKey(p))
     setValA(p.a)
     setValB(p.b)
@@ -194,21 +193,7 @@ const ArithmeticTester = ({
       completionImage={completionImage}
       failureImage={failureImage}
       isSetup={isSetup}
-      animationStyles={`
-        @keyframes dotmath-pop-in {
-          0% { transform: scale(0); }
-          100% { transform: scale(1); }
-        }
-        @keyframes dotmath-shake {
-          0%, 100% { transform: translateX(0); }
-          20%, 60% { transform: translateX(-8px); }
-          40%, 80% { transform: translateX(8px); }
-        }
-        @keyframes dotmath-slide-in-right {
-          0% { transform: translateX(28px); opacity: 0; }
-          100% { transform: translateX(0); opacity: 1; }
-        }
-      `}
+      animationStyles={getActivityFeedbackAnimationStyles('dotmath')}
       difficultyControl={
         <CrownDifficultyControl
           theme={theme}

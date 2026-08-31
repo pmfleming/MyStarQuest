@@ -7,7 +7,7 @@ import {
   getVisibleActivityResults,
 } from '../lib/activityOutcome'
 import { preloadImage } from '../lib/imageLoading'
-import { useProblemHistory } from '../lib/useProblemHistory'
+import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import {
   ActivityOutcomeShell,
   ActivityPlayArea,
@@ -268,13 +268,14 @@ const AlphabetTester = ({
   const isWrong = feedback === 'wrong'
 
   const nextProblem = useCallback(() => {
-    let p = queuedProblem.current ?? generateAlphabetProblem()
-    queuedProblem.current = null
-    let attempts = 0
-    while (isSeen(p.letter) && attempts < 10) {
-      p = generateAlphabetProblem()
-      attempts++
+    const generateCurrent = () => {
+      const problem = queuedProblem.current ?? generateAlphabetProblem()
+      queuedProblem.current = null
+      return problem
     }
+    const p = pickUnseenProblem(generateCurrent, (problem) =>
+      isSeen(problem.letter)
+    )
     markSeen(p.letter)
     setCurrentTarget(p.letter)
     setCurrentImage(p.image)
@@ -282,12 +283,10 @@ const AlphabetTester = ({
     setFeedback('idle')
     setWrongChoice(null)
 
-    let next = generateAlphabetProblem()
-    attempts = 0
-    while ((next.letter === p.letter || isSeen(next.letter)) && attempts < 10) {
-      next = generateAlphabetProblem()
-      attempts++
-    }
+    const next = pickUnseenProblem(
+      generateAlphabetProblem,
+      (problem) => problem.letter === p.letter || isSeen(problem.letter)
+    )
     queuedProblem.current = next
     preloadImage(next.image)
   }, [isSeen, markSeen])

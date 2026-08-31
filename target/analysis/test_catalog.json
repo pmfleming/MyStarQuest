@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-30T13:44:21.738Z",
+    "measured_at": "2026-08-31T22:53:57.655Z",
     "source_type": "static",
-    "source_set_hash": "sha256:ec345305efe041da4dafd87767ef598e3ed46af2a333d3c93dd5ebea419a94de"
+    "source_set_hash": "sha256:8f4e38e66f317026f6e21d2e82c3c8737c676cc4430ea5c5e3b81b89795c0d87"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -63,8 +63,8 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 32,
-    "colocated_tests": 27,
+    "tests": 33,
+    "colocated_tests": 28,
     "external_tests": 5,
     "execution_status": "passed"
   },
@@ -138,6 +138,16 @@
       "path": "tests/component/ChoreCreationFlow.test.tsx",
       "framework": "vitest",
       "source_mapping": ["src/pages/ChoreCreationFlow.tsx"],
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/ChoreOutcomeView.test.tsx",
+      "name": "ChoreOutcomeView.test.tsx",
+      "path": "tests/component/ChoreOutcomeView.test.tsx",
+      "framework": "vitest",
+      "source_mapping": ["src/components/ChoreOutcomeView.tsx"],
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"

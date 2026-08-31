@@ -52,10 +52,10 @@ type ActivityRenderer = (props: ActivityChoreProps) => ReactNode
 
 type TaskActivityOptions = {
   variant: TestVariant
+  problemField: ProblemField
   totalProblems: number
   completedAt?: number | null
   outcome?: TestOutcome
-  onAdjustProblems: (delta: number) => void
   render: ActivityRenderer
 }
 
@@ -87,17 +87,10 @@ const renderTaskTest = (
       const totalProblems = item.mathTotalProblems ?? DEFAULT_MATH_PROBLEMS
       return renderTaskActivity(deps, state, item, {
         variant: 'math',
+        problemField: 'mathTotalProblems',
         totalProblems,
         completedAt: item.manageMathCompletedAt,
         outcome: item.manageMathLastOutcome,
-        onAdjustProblems: (delta) =>
-          updateProblemCount(
-            deps,
-            item.id,
-            'mathTotalProblems',
-            totalProblems,
-            delta
-          ),
         render: (props) =>
           renderArithmeticChore({
             ...props,
@@ -114,17 +107,10 @@ const renderTaskTest = (
         item.largeNumbersTotalProblems ?? DEFAULT_LARGE_NUMBERS_PROBLEMS
       return renderTaskActivity(deps, state, item, {
         variant: 'largeNumbers',
+        problemField: 'largeNumbersTotalProblems',
         totalProblems,
         completedAt: item.manageLargeNumbersCompletedAt,
         outcome: item.manageLargeNumbersLastOutcome,
-        onAdjustProblems: (delta) =>
-          updateProblemCount(
-            deps,
-            item.id,
-            'largeNumbersTotalProblems',
-            totalProblems,
-            delta
-          ),
         render: renderLargeNumbersChore,
       })
     }
@@ -132,17 +118,10 @@ const renderTaskTest = (
       const totalProblems = item.pvTotalProblems ?? DEFAULT_PV_PROBLEMS
       return renderTaskActivity(deps, state, item, {
         variant: 'pv',
+        problemField: 'pvTotalProblems',
         totalProblems,
         completedAt: item.managePVCompletedAt,
         outcome: item.managePVLastOutcome,
-        onAdjustProblems: (delta) =>
-          updateProblemCount(
-            deps,
-            item.id,
-            'pvTotalProblems',
-            totalProblems,
-            delta
-          ),
         render: renderPositionalNotationChore,
       })
     }
@@ -151,17 +130,10 @@ const renderTaskTest = (
         item.alphabetTotalProblems ?? DEFAULT_ALPHABET_PROBLEMS
       return renderTaskActivity(deps, state, item, {
         variant: 'alphabet',
+        problemField: 'alphabetTotalProblems',
         totalProblems,
         completedAt: item.manageAlphabetCompletedAt,
         outcome: item.manageAlphabetLastOutcome,
-        onAdjustProblems: (delta) =>
-          updateProblemCount(
-            deps,
-            item.id,
-            'alphabetTotalProblems',
-            totalProblems,
-            delta
-          ),
         render: renderAlphabetChore,
       })
     }
@@ -170,17 +142,10 @@ const renderTaskTest = (
         item.spellingTotalProblems ?? DEFAULT_SPELLING_PROBLEMS
       return renderTaskActivity(deps, state, item, {
         variant: 'spelling',
+        problemField: 'spellingTotalProblems',
         totalProblems,
         completedAt: item.manageSpellingCompletedAt,
         outcome: item.manageSpellingLastOutcome,
-        onAdjustProblems: (delta) =>
-          updateProblemCount(
-            deps,
-            item.id,
-            'spellingTotalProblems',
-            totalProblems,
-            delta
-          ),
         render: renderSpellingChore,
       })
     }
@@ -189,17 +154,10 @@ const renderTaskTest = (
         item.animalsTotalProblems ?? DEFAULT_ANIMALS_PROBLEMS
       return renderTaskActivity(deps, state, item, {
         variant: 'animals',
+        problemField: 'animalsTotalProblems',
         totalProblems,
         completedAt: item.manageAnimalsCompletedAt,
         outcome: item.manageAnimalsLastOutcome,
-        onAdjustProblems: (delta) =>
-          updateProblemCount(
-            deps,
-            item.id,
-            'animalsTotalProblems',
-            totalProblems,
-            delta
-          ),
         render: renderAnimalsChore,
       })
     }
@@ -274,7 +232,14 @@ const renderTaskActivity = (
     ...createTaskActivityProps(deps, state, item, options.variant),
     isCompleted: Boolean(options.completedAt),
     isFailed: isFailureModeEnabled(deps) && options.outcome === 'failure',
-    onAdjustProblems: options.onAdjustProblems,
+    onAdjustProblems: (delta) =>
+      updateProblemCount(
+        deps,
+        item.id,
+        options.problemField,
+        options.totalProblems,
+        delta
+      ),
   })
 
 const renderTodoActivity = (

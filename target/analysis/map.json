@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-30T13:44:21.772Z",
+    "measured_at": "2026-08-31T22:53:57.685Z",
     "source_type": "static",
-    "source_set_hash": "sha256:ec345305efe041da4dafd87767ef598e3ed46af2a333d3c93dd5ebea419a94de"
+    "source_set_hash": "sha256:8f4e38e66f317026f6e21d2e82c3c8737c676cc4430ea5c5e3b81b89795c0d87"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -64,10 +64,10 @@
     "partial": false
   },
   "summary": {
-    "nodes": 131,
-    "edges": 834,
+    "nodes": 135,
+    "edges": 859,
     "entrypoint_nodes": 0,
-    "high_risk_nodes": 99,
+    "high_risk_nodes": 102,
     "unknown_metric_nodes": 0,
     "missing_inputs": 0,
     "stale_inputs": 0,
@@ -175,7 +175,7 @@
       "id": "src/assets/rewards",
       "label": "src/assets/rewards",
       "node_count": 1,
-      "risk_score": 45,
+      "risk_score": 50,
       "kind": "src/assets/rewards",
       "actions": [
         {
@@ -271,7 +271,7 @@
       "id": "src/components",
       "label": "src/components",
       "node_count": 15,
-      "risk_score": 665,
+      "risk_score": 431,
       "kind": "src/components",
       "actions": [
         {
@@ -334,8 +334,8 @@
     {
       "id": "src/components/ui",
       "label": "src/components/ui",
-      "node_count": 27,
-      "risk_score": 430,
+      "node_count": 29,
+      "risk_score": 448,
       "kind": "src/components/ui",
       "actions": [
         {
@@ -398,8 +398,8 @@
     {
       "id": "src/data",
       "label": "src/data",
-      "node_count": 17,
-      "risk_score": 464,
+      "node_count": 18,
+      "risk_score": 501,
       "kind": "src/data",
       "actions": [
         {
@@ -527,7 +527,7 @@
       "id": "src/pages",
       "label": "src/pages",
       "node_count": 10,
-      "risk_score": 584,
+      "risk_score": 573,
       "kind": "src/pages",
       "actions": [
         {
@@ -622,8 +622,8 @@
     {
       "id": "src/ui",
       "label": "src/ui",
-      "node_count": 17,
-      "risk_score": 384,
+      "node_count": 18,
+      "risk_score": 391,
       "kind": "src/ui",
       "actions": [
         {
@@ -806,21 +806,21 @@
       "type": "module",
       "group": "src/assets/rewards",
       "entrypoint_roles": [],
-      "risk_score": 45,
+      "risk_score": 50,
       "risk": "medium",
       "classification": "warning",
       "category_scores": {
         "maintainability": 44,
         "correctness": 40,
         "architecture": 36,
-        "change": 45,
+        "change": 50,
         "render_performance": 0,
         "performance": 0,
         "quality": 25,
         "total": 35
       },
       "maintainability_risk": 44,
-      "change_risk": 45,
+      "change_risk": 50,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 36,
@@ -926,34 +926,34 @@
       "type": "component",
       "group": "src/components",
       "entrypoint_roles": [],
-      "risk_score": 465,
+      "risk_score": 431,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 465,
+        "maintainability": 431,
         "correctness": 0,
         "architecture": 40,
         "change": 100,
-        "render_performance": 257,
-        "performance": 257,
+        "render_performance": 256,
+        "performance": 256,
         "quality": 55,
-        "total": 143
+        "total": 137
       },
-      "maintainability_risk": 465,
+      "maintainability_risk": 431,
       "change_risk": 100,
-      "performance_risk": 257,
+      "performance_risk": 256,
       "correctness_risk": 0,
       "architectural_risk": 40,
       "quality_risk": 55,
-      "total_score": 143,
+      "total_score": 137,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 77,
+        "imports": 76,
         "exports": 1,
-        "functions": 3,
+        "functions": 4,
         "components": 1,
         "types": 1,
         "entrypoint_roles": 0
@@ -966,35 +966,35 @@
       "type": "component",
       "group": "src/components",
       "entrypoint_roles": [],
-      "risk_score": 665,
+      "risk_score": 385,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 665,
+        "maintainability": 385,
         "correctness": 0,
-        "architecture": 26,
+        "architecture": 34,
         "change": 100,
-        "render_performance": 334,
-        "performance": 334,
-        "quality": 55,
-        "total": 184
+        "render_performance": 231,
+        "performance": 231,
+        "quality": 78,
+        "total": 130
       },
-      "maintainability_risk": 665,
+      "maintainability_risk": 385,
       "change_risk": 100,
-      "performance_risk": 334,
+      "performance_risk": 231,
       "correctness_risk": 0,
-      "architectural_risk": 26,
-      "quality_risk": 55,
-      "total_score": 184,
+      "architectural_risk": 34,
+      "quality_risk": 78,
+      "total_score": 130,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 22,
+        "imports": 20,
         "exports": 2,
-        "functions": 11,
-        "components": 6,
+        "functions": 15,
+        "components": 9,
         "types": 5,
         "entrypoint_roles": 0
       }
@@ -1086,32 +1086,32 @@
       "type": "component",
       "group": "src/components",
       "entrypoint_roles": [],
-      "risk_score": 415,
+      "risk_score": 393,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 415,
+        "maintainability": 393,
         "correctness": 40,
-        "architecture": 40,
+        "architecture": 39,
         "change": 100,
-        "render_performance": 237,
-        "performance": 237,
+        "render_performance": 233,
+        "performance": 233,
         "quality": 55,
-        "total": 140
+        "total": 135
       },
-      "maintainability_risk": 415,
+      "maintainability_risk": 393,
       "change_risk": 100,
-      "performance_risk": 237,
+      "performance_risk": 233,
       "correctness_risk": 40,
-      "architectural_risk": 40,
+      "architectural_risk": 39,
       "quality_risk": 55,
-      "total_score": 140,
+      "total_score": 135,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 13,
+        "imports": 14,
         "exports": 1,
         "functions": 6,
         "components": 1,
@@ -1126,23 +1126,23 @@
       "type": "component",
       "group": "src/components",
       "entrypoint_roles": [],
-      "risk_score": 72,
+      "risk_score": 99,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 48,
-        "correctness": 40,
+        "maintainability": 99,
+        "correctness": 0,
         "architecture": 42,
-        "change": 72,
-        "render_performance": 9,
-        "performance": 9,
+        "change": 64,
+        "render_performance": 11,
+        "performance": 11,
         "quality": 55,
         "total": 48
       },
-      "maintainability_risk": 48,
-      "change_risk": 72,
-      "performance_risk": 9,
-      "correctness_risk": 40,
+      "maintainability_risk": 99,
+      "change_risk": 64,
+      "performance_risk": 11,
+      "correctness_risk": 0,
       "architectural_risk": 42,
       "quality_risk": 55,
       "total_score": 48,
@@ -1166,32 +1166,32 @@
       "type": "component",
       "group": "src/components",
       "entrypoint_roles": [],
-      "risk_score": 295,
+      "risk_score": 297,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 295,
+        "maintainability": 297,
         "correctness": 0,
         "architecture": 58,
-        "change": 98,
+        "change": 100,
         "render_performance": 70,
         "performance": 70,
         "quality": 160,
-        "total": 117
+        "total": 118
       },
-      "maintainability_risk": 295,
-      "change_risk": 98,
+      "maintainability_risk": 297,
+      "change_risk": 100,
       "performance_risk": 70,
       "correctness_risk": 0,
       "architectural_risk": 58,
       "quality_risk": 160,
-      "total_score": 117,
+      "total_score": 118,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 8,
+        "imports": 9,
         "exports": 1,
         "functions": 8,
         "components": 3,
@@ -1206,32 +1206,32 @@
       "type": "component",
       "group": "src/components",
       "entrypoint_roles": [],
-      "risk_score": 438,
+      "risk_score": 411,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 438,
+        "maintainability": 411,
         "correctness": 40,
-        "architecture": 52,
+        "architecture": 51,
         "change": 100,
-        "render_performance": 218,
-        "performance": 218,
+        "render_performance": 214,
+        "performance": 214,
         "quality": 55,
-        "total": 144
+        "total": 139
       },
-      "maintainability_risk": 438,
+      "maintainability_risk": 411,
       "change_risk": 100,
-      "performance_risk": 218,
+      "performance_risk": 214,
       "correctness_risk": 40,
-      "architectural_risk": 52,
+      "architectural_risk": 51,
       "quality_risk": 55,
-      "total_score": 144,
+      "total_score": 139,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 10,
+        "imports": 11,
         "exports": 1,
         "functions": 14,
         "components": 1,
@@ -1326,34 +1326,34 @@
       "type": "component",
       "group": "src/components",
       "entrypoint_roles": [],
-      "risk_score": 139,
+      "risk_score": 137,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 132,
+        "maintainability": 108,
         "correctness": 0,
         "architecture": 24,
         "change": 90,
-        "render_performance": 139,
-        "performance": 139,
+        "render_performance": 137,
+        "performance": 137,
         "quality": 55,
-        "total": 67
+        "total": 63
       },
-      "maintainability_risk": 132,
+      "maintainability_risk": 108,
       "change_risk": 90,
-      "performance_risk": 139,
+      "performance_risk": 137,
       "correctness_risk": 0,
       "architectural_risk": 24,
       "quality_risk": 55,
-      "total_score": 67,
+      "total_score": 63,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 8,
+        "imports": 9,
         "exports": 1,
-        "functions": 2,
+        "functions": 3,
         "components": 1,
         "types": 1,
         "entrypoint_roles": 0
@@ -1406,26 +1406,26 @@
       "type": "component",
       "group": "src/components",
       "entrypoint_roles": [],
-      "risk_score": 385,
+      "risk_score": 380,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 385,
+        "maintainability": 380,
         "correctness": 0,
-        "architecture": 44,
+        "architecture": 43,
         "change": 100,
-        "render_performance": 286,
-        "performance": 286,
+        "render_performance": 283,
+        "performance": 283,
         "quality": 55,
-        "total": 132
+        "total": 131
       },
-      "maintainability_risk": 385,
+      "maintainability_risk": 380,
       "change_risk": 100,
-      "performance_risk": 286,
+      "performance_risk": 283,
       "correctness_risk": 0,
-      "architectural_risk": 44,
+      "architectural_risk": 43,
       "quality_risk": 55,
-      "total_score": 132,
+      "total_score": 131,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -1530,22 +1530,22 @@
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 182,
+        "maintainability": 175,
         "correctness": 40,
-        "architecture": 49,
+        "architecture": 47,
         "change": 100,
         "render_performance": 0,
         "performance": 0,
         "quality": 222,
-        "total": 108
+        "total": 106
       },
-      "maintainability_risk": 182,
+      "maintainability_risk": 175,
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 49,
+      "architectural_risk": 47,
       "quality_risk": 222,
-      "total_score": 108,
+      "total_score": 106,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -1766,26 +1766,26 @@
       "type": "component",
       "group": "src/components/ui",
       "entrypoint_roles": [],
-      "risk_score": 87,
+      "risk_score": 88,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
         "maintainability": 87,
         "correctness": 40,
         "architecture": 22,
-        "change": 57,
-        "render_performance": 22,
-        "performance": 22,
-        "quality": 81,
-        "total": 54
+        "change": 62,
+        "render_performance": 23,
+        "performance": 23,
+        "quality": 88,
+        "total": 56
       },
       "maintainability_risk": 87,
-      "change_risk": 57,
-      "performance_risk": 22,
+      "change_risk": 62,
+      "performance_risk": 23,
       "correctness_risk": 40,
       "architectural_risk": 22,
-      "quality_risk": 81,
-      "total_score": 54,
+      "quality_risk": 88,
+      "total_score": 56,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -1846,26 +1846,26 @@
       "type": "component",
       "group": "src/components/ui",
       "entrypoint_roles": [],
-      "risk_score": 160,
+      "risk_score": 162,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 160,
+        "maintainability": 162,
         "correctness": 0,
         "architecture": 100,
-        "change": 51,
+        "change": 63,
         "render_performance": 23,
         "performance": 23,
-        "quality": 100,
-        "total": 77
+        "quality": 107,
+        "total": 81
       },
-      "maintainability_risk": 160,
-      "change_risk": 51,
+      "maintainability_risk": 162,
+      "change_risk": 63,
       "performance_risk": 23,
       "correctness_risk": 0,
       "architectural_risk": 100,
-      "quality_risk": 100,
-      "total_score": 77,
+      "quality_risk": 107,
+      "total_score": 81,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -1970,22 +1970,22 @@
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 44,
+        "maintainability": 49,
         "correctness": 40,
-        "architecture": 4,
-        "change": 42,
-        "render_performance": 5,
-        "performance": 5,
+        "architecture": 0,
+        "change": 52,
+        "render_performance": 6,
+        "performance": 6,
         "quality": 88,
-        "total": 40
+        "total": 42
       },
-      "maintainability_risk": 44,
-      "change_risk": 42,
-      "performance_risk": 5,
+      "maintainability_risk": 49,
+      "change_risk": 52,
+      "performance_risk": 6,
       "correctness_risk": 40,
-      "architectural_risk": 4,
+      "architectural_risk": 0,
       "quality_risk": 88,
-      "total_score": 40,
+      "total_score": 42,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2128,24 +2128,24 @@
       "entrypoint_roles": [],
       "risk_score": 143,
       "risk": "high",
-      "classification": "warning",
+      "classification": "bad",
       "category_scores": {
-        "maintainability": 75,
+        "maintainability": 77,
         "correctness": 40,
         "architecture": 68,
-        "change": 47,
+        "change": 52,
         "render_performance": 8,
         "performance": 8,
         "quality": 143,
-        "total": 69
+        "total": 70
       },
-      "maintainability_risk": 75,
-      "change_risk": 47,
+      "maintainability_risk": 77,
+      "change_risk": 52,
       "performance_risk": 8,
       "correctness_risk": 40,
       "architectural_risk": 68,
       "quality_risk": 143,
-      "total_score": 69,
+      "total_score": 70,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2196,6 +2196,46 @@
         "functions": 1,
         "components": 1,
         "types": 2,
+        "entrypoint_roles": 0
+      }
+    },
+    {
+      "id": "src/components/ui/ImageStarFrame",
+      "label": "ImageStarFrame.tsx",
+      "file": "src/components/ui/ImageStarFrame.tsx",
+      "type": "component",
+      "group": "src/components/ui",
+      "entrypoint_roles": [],
+      "risk_score": 72,
+      "risk": "high",
+      "classification": "warning",
+      "category_scores": {
+        "maintainability": 72,
+        "correctness": 40,
+        "architecture": 22,
+        "change": 42,
+        "render_performance": 25,
+        "performance": 25,
+        "quality": 55,
+        "total": 44
+      },
+      "maintainability_risk": 72,
+      "change_risk": 42,
+      "performance_risk": 25,
+      "correctness_risk": 40,
+      "architectural_risk": 22,
+      "quality_risk": 55,
+      "total_score": 44,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 1,
+      "risk_calibration": "v1-static-analysis",
+      "evidence": {
+        "imports": 3,
+        "exports": 0,
+        "functions": 1,
+        "components": 1,
+        "types": 1,
         "entrypoint_roles": 0
       }
     },
@@ -2253,19 +2293,19 @@
         "maintainability": 15,
         "correctness": 40,
         "architecture": 22,
-        "change": 30,
+        "change": 35,
         "render_performance": 3,
         "performance": 3,
         "quality": 55,
-        "total": 30
+        "total": 31
       },
       "maintainability_risk": 15,
-      "change_risk": 30,
+      "change_risk": 35,
       "performance_risk": 3,
       "correctness_risk": 40,
       "architectural_risk": 22,
       "quality_risk": 55,
-      "total_score": 30,
+      "total_score": 31,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2293,19 +2333,19 @@
         "maintainability": 15,
         "correctness": 40,
         "architecture": 26,
-        "change": 35,
+        "change": 40,
         "render_performance": 3,
         "performance": 3,
         "quality": 55,
-        "total": 31
+        "total": 32
       },
       "maintainability_risk": 15,
-      "change_risk": 35,
+      "change_risk": 40,
       "performance_risk": 3,
       "correctness_risk": 40,
       "architectural_risk": 26,
       "quality_risk": 55,
-      "total_score": 31,
+      "total_score": 32,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2333,19 +2373,19 @@
         "maintainability": 26,
         "correctness": 40,
         "architecture": 22,
-        "change": 23,
+        "change": 28,
         "render_performance": 6,
         "performance": 6,
         "quality": 55,
-        "total": 31
+        "total": 32
       },
       "maintainability_risk": 26,
-      "change_risk": 23,
+      "change_risk": 28,
       "performance_risk": 6,
       "correctness_risk": 40,
       "architectural_risk": 22,
       "quality_risk": 55,
-      "total_score": 31,
+      "total_score": 32,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2526,26 +2566,26 @@
       "type": "component",
       "group": "src/components/ui",
       "entrypoint_roles": [],
-      "risk_score": 430,
+      "risk_score": 448,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 430,
+        "maintainability": 448,
         "correctness": 0,
         "architecture": 100,
-        "change": 79,
-        "render_performance": 95,
-        "performance": 95,
+        "change": 100,
+        "render_performance": 103,
+        "performance": 103,
         "quality": 222,
-        "total": 160
+        "total": 168
       },
-      "maintainability_risk": 430,
-      "change_risk": 79,
-      "performance_risk": 95,
+      "maintainability_risk": 448,
+      "change_risk": 100,
+      "performance_risk": 103,
       "correctness_risk": 0,
       "architectural_risk": 100,
       "quality_risk": 222,
-      "total_score": 160,
+      "total_score": 168,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2553,7 +2593,7 @@
       "evidence": {
         "imports": 8,
         "exports": 3,
-        "functions": 20,
+        "functions": 24,
         "components": 8,
         "types": 8,
         "entrypoint_roles": 0
@@ -2572,20 +2612,20 @@
       "category_scores": {
         "maintainability": 198,
         "correctness": 0,
-        "architecture": 87,
-        "change": 78,
+        "architecture": 97,
+        "change": 80,
         "render_performance": 71,
         "performance": 71,
         "quality": 75,
-        "total": 86
+        "total": 88
       },
       "maintainability_risk": 198,
-      "change_risk": 78,
+      "change_risk": 80,
       "performance_risk": 71,
       "correctness_risk": 0,
-      "architectural_risk": 87,
+      "architectural_risk": 97,
       "quality_risk": 75,
-      "total_score": 86,
+      "total_score": 88,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2653,19 +2693,19 @@
         "maintainability": 105,
         "correctness": 40,
         "architecture": 74,
-        "change": 57,
+        "change": 62,
         "render_performance": 12,
         "performance": 12,
         "quality": 57,
-        "total": 62
+        "total": 63
       },
       "maintainability_risk": 105,
-      "change_risk": 57,
+      "change_risk": 62,
       "performance_risk": 12,
       "correctness_risk": 40,
       "architectural_risk": 74,
       "quality_risk": 57,
-      "total_score": 62,
+      "total_score": 63,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2720,6 +2760,46 @@
       }
     },
     {
+      "id": "src/components/ui/activityAnimationStyles",
+      "label": "activityAnimationStyles.ts",
+      "file": "src/components/ui/activityAnimationStyles.ts",
+      "type": "module",
+      "group": "src/components/ui",
+      "entrypoint_roles": [],
+      "risk_score": 54,
+      "risk": "medium",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 14,
+        "correctness": 40,
+        "architecture": 54,
+        "change": 18,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 0,
+        "total": 23
+      },
+      "maintainability_risk": 14,
+      "change_risk": 18,
+      "performance_risk": 0,
+      "correctness_risk": 40,
+      "architectural_risk": 54,
+      "quality_risk": 0,
+      "total_score": 23,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 1,
+      "risk_calibration": "v1-static-analysis",
+      "evidence": {
+        "imports": 0,
+        "exports": 2,
+        "functions": 2,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      }
+    },
+    {
       "id": "src/components/ui/standardActionStyles",
       "label": "standardActionStyles.ts",
       "file": "src/components/ui/standardActionStyles.ts",
@@ -2733,19 +2813,19 @@
         "maintainability": 61,
         "correctness": 40,
         "architecture": 64,
-        "change": 52,
+        "change": 57,
         "render_performance": 0,
         "performance": 0,
         "quality": 15,
-        "total": 42
+        "total": 43
       },
       "maintainability_risk": 61,
-      "change_risk": 52,
+      "change_risk": 57,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 64,
       "quality_risk": 15,
-      "total_score": 42,
+      "total_score": 43,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2773,19 +2853,19 @@
         "maintainability": 19,
         "correctness": 40,
         "architecture": 22,
-        "change": 18,
+        "change": 23,
         "render_performance": 0,
         "performance": 0,
         "quality": 0,
-        "total": 18
+        "total": 19
       },
       "maintainability_risk": 19,
-      "change_risk": 18,
+      "change_risk": 23,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 22,
       "quality_risk": 0,
-      "total_score": 18,
+      "total_score": 19,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2813,19 +2893,19 @@
         "maintainability": 73,
         "correctness": 40,
         "architecture": 12,
-        "change": 18,
+        "change": 23,
         "render_performance": 0,
         "performance": 0,
         "quality": 0,
-        "total": 26
+        "total": 27
       },
       "maintainability_risk": 73,
-      "change_risk": 18,
+      "change_risk": 23,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 12,
       "quality_risk": 0,
-      "total_score": 26,
+      "total_score": 27,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -2966,34 +3046,34 @@
       "type": "module",
       "group": "src/data",
       "entrypoint_roles": [],
-      "risk_score": 56,
+      "risk_score": 45,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 56,
+        "maintainability": 8,
         "correctness": 40,
         "architecture": 12,
         "change": 23,
         "render_performance": 0,
         "performance": 0,
         "quality": 45,
-        "total": 32
+        "total": 23
       },
-      "maintainability_risk": 56,
+      "maintainability_risk": 8,
       "change_risk": 23,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 12,
       "quality_risk": 45,
-      "total_score": 32,
+      "total_score": 23,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 0,
+        "imports": 1,
         "exports": 4,
-        "functions": 2,
+        "functions": 1,
         "components": 0,
         "types": 1,
         "entrypoint_roles": 0
@@ -3006,34 +3086,34 @@
       "type": "module",
       "group": "src/data",
       "entrypoint_roles": [],
-      "risk_score": 56,
+      "risk_score": 45,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 56,
+        "maintainability": 6,
         "correctness": 40,
         "architecture": 20,
         "change": 23,
         "render_performance": 0,
         "performance": 0,
         "quality": 45,
-        "total": 33
+        "total": 24
       },
-      "maintainability_risk": 56,
+      "maintainability_risk": 6,
       "change_risk": 23,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 20,
       "quality_risk": 45,
-      "total_score": 33,
+      "total_score": 24,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 0,
+        "imports": 1,
         "exports": 3,
-        "functions": 1,
+        "functions": 0,
         "components": 0,
         "types": 1,
         "entrypoint_roles": 0
@@ -3050,30 +3130,30 @@
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 39,
+        "maintainability": 49,
         "correctness": 40,
-        "architecture": 14,
+        "architecture": 20,
         "change": 100,
         "render_performance": 0,
         "performance": 0,
         "quality": 45,
-        "total": 43
+        "total": 46
       },
-      "maintainability_risk": 39,
+      "maintainability_risk": 49,
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 14,
+      "architectural_risk": 20,
       "quality_risk": 45,
-      "total_score": 43,
+      "total_score": 46,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 10,
-        "exports": 5,
-        "functions": 3,
+        "imports": 16,
+        "exports": 3,
+        "functions": 0,
         "components": 0,
         "types": 1,
         "entrypoint_roles": 0
@@ -3090,20 +3170,20 @@
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 55,
+        "maintainability": 46,
         "correctness": 40,
-        "architecture": 14,
+        "architecture": 20,
         "change": 100,
         "render_performance": 0,
         "performance": 0,
         "quality": 45,
         "total": 46
       },
-      "maintainability_risk": 55,
+      "maintainability_risk": 46,
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 14,
+      "architectural_risk": 20,
       "quality_risk": 45,
       "total_score": 46,
       "unknown_metrics": [],
@@ -3112,8 +3192,8 @@
       "risk_calibration": "v1-static-analysis",
       "evidence": {
         "imports": 15,
-        "exports": 5,
-        "functions": 3,
+        "exports": 3,
+        "functions": 0,
         "components": 0,
         "types": 1,
         "entrypoint_roles": 0
@@ -3126,36 +3206,36 @@
       "type": "module",
       "group": "src/data",
       "entrypoint_roles": [],
-      "risk_score": 464,
+      "risk_score": 501,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 464,
+        "maintainability": 501,
         "correctness": 40,
-        "architecture": 50,
-        "change": 23,
+        "architecture": 44,
+        "change": 28,
         "render_performance": 0,
         "performance": 0,
-        "quality": 16,
-        "total": 108
+        "quality": 45,
+        "total": 120
       },
-      "maintainability_risk": 464,
-      "change_risk": 23,
+      "maintainability_risk": 501,
+      "change_risk": 28,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 50,
-      "quality_risk": 16,
-      "total_score": 108,
+      "architectural_risk": 44,
+      "quality_risk": 45,
+      "total_score": 120,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 0,
+        "imports": 3,
         "exports": 4,
         "functions": 1,
         "components": 0,
-        "types": 4,
+        "types": 5,
         "entrypoint_roles": 0
       }
     },
@@ -3166,34 +3246,74 @@
       "type": "module",
       "group": "src/data",
       "entrypoint_roles": [],
-      "risk_score": 104,
+      "risk_score": 100,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 104,
+        "maintainability": 32,
         "correctness": 40,
-        "architecture": 14,
+        "architecture": 20,
         "change": 100,
         "render_performance": 0,
         "performance": 0,
         "quality": 45,
-        "total": 55
+        "total": 43
       },
-      "maintainability_risk": 104,
+      "maintainability_risk": 32,
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 14,
+      "architectural_risk": 20,
       "quality_risk": 45,
-      "total_score": 55,
+      "total_score": 43,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
         "imports": 10,
-        "exports": 5,
-        "functions": 3,
+        "exports": 3,
+        "functions": 0,
+        "components": 0,
+        "types": 1,
+        "entrypoint_roles": 0
+      }
+    },
+    {
+      "id": "src/data/assetCatalog",
+      "label": "assetCatalog.ts",
+      "file": "src/data/assetCatalog.ts",
+      "type": "module",
+      "group": "src/data",
+      "entrypoint_roles": [],
+      "risk_score": 40,
+      "risk": "medium",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 20,
+        "correctness": 40,
+        "architecture": 26,
+        "change": 18,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 8,
+        "total": 20
+      },
+      "maintainability_risk": 20,
+      "change_risk": 18,
+      "performance_risk": 0,
+      "correctness_risk": 40,
+      "architectural_risk": 26,
+      "quality_risk": 8,
+      "total_score": 20,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 1,
+      "risk_calibration": "v1-static-analysis",
+      "evidence": {
+        "imports": 0,
+        "exports": 2,
+        "functions": 1,
         "components": 0,
         "types": 1,
         "entrypoint_roles": 0
@@ -3213,19 +3333,19 @@
         "maintainability": 245,
         "correctness": 0,
         "architecture": 96,
-        "change": 37,
+        "change": 42,
         "render_performance": 0,
         "performance": 0,
         "quality": 8,
-        "total": 70
+        "total": 71
       },
       "maintainability_risk": 245,
-      "change_risk": 37,
+      "change_risk": 42,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 96,
       "quality_risk": 8,
-      "total_score": 70,
+      "total_score": 71,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -3246,21 +3366,21 @@
       "type": "module",
       "group": "src/data",
       "entrypoint_roles": [],
-      "risk_score": 91,
+      "risk_score": 88,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 91,
+        "maintainability": 88,
         "correctness": 40,
         "architecture": 52,
-        "change": 38,
+        "change": 43,
         "render_performance": 0,
         "performance": 0,
         "quality": 30,
         "total": 46
       },
-      "maintainability_risk": 91,
-      "change_risk": 38,
+      "maintainability_risk": 88,
+      "change_risk": 43,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 52,
@@ -3286,34 +3406,34 @@
       "type": "module",
       "group": "src/data",
       "entrypoint_roles": [],
-      "risk_score": 60,
-      "risk": "medium",
-      "classification": "ok",
+      "risk_score": 92,
+      "risk": "high",
+      "classification": "warning",
       "category_scores": {
-        "maintainability": 60,
+        "maintainability": 77,
         "correctness": 0,
-        "architecture": 52,
-        "change": 0,
+        "architecture": 92,
+        "change": 10,
         "render_performance": 0,
         "performance": 0,
         "quality": 20,
-        "total": 24
+        "total": 36
       },
-      "maintainability_risk": 60,
-      "change_risk": 0,
+      "maintainability_risk": 77,
+      "change_risk": 10,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 52,
+      "architectural_risk": 92,
       "quality_risk": 20,
-      "total_score": 24,
+      "total_score": 36,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
         "imports": 0,
-        "exports": 6,
-        "functions": 4,
+        "exports": 11,
+        "functions": 7,
         "components": 0,
         "types": 0,
         "entrypoint_roles": 0
@@ -3330,30 +3450,30 @@
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 256,
+        "maintainability": 249,
         "correctness": 40,
         "architecture": 100,
         "change": 68,
         "render_performance": 0,
         "performance": 0,
         "quality": 354,
-        "total": 149
+        "total": 147
       },
-      "maintainability_risk": 256,
+      "maintainability_risk": 249,
       "change_risk": 68,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 100,
       "quality_risk": 354,
-      "total_score": 149,
+      "total_score": 147,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
         "imports": 3,
-        "exports": 117,
-        "functions": 28,
+        "exports": 120,
+        "functions": 30,
         "components": 0,
         "types": 55,
         "entrypoint_roles": 0
@@ -3613,19 +3733,19 @@
         "maintainability": 47,
         "correctness": 40,
         "architecture": 34,
-        "change": 42,
+        "change": 47,
         "render_performance": 0,
         "performance": 0,
         "quality": 15,
-        "total": 32
+        "total": 33
       },
       "maintainability_risk": 47,
-      "change_risk": 42,
+      "change_risk": 47,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 34,
       "quality_risk": 15,
-      "total_score": 32,
+      "total_score": 33,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -3773,19 +3893,19 @@
         "maintainability": 192,
         "correctness": 0,
         "architecture": 16,
-        "change": 0,
+        "change": 5,
         "render_performance": 0,
         "performance": 0,
         "quality": 45,
-        "total": 46
+        "total": 47
       },
       "maintainability_risk": 192,
-      "change_risk": 0,
+      "change_risk": 5,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 16,
       "quality_risk": 45,
-      "total_score": 46,
+      "total_score": 47,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -3926,26 +4046,26 @@
       "type": "hook",
       "group": "src/hooks",
       "entrypoint_roles": [],
-      "risk_score": 40,
+      "risk_score": 48,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
         "maintainability": 34,
         "correctness": 40,
-        "architecture": 38,
+        "architecture": 48,
         "change": 28,
         "render_performance": 0,
         "performance": 0,
         "quality": 0,
-        "total": 25
+        "total": 27
       },
       "maintainability_risk": 34,
       "change_risk": 28,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 38,
+      "architectural_risk": 48,
       "quality_risk": 0,
-      "total_score": 25,
+      "total_score": 27,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -4013,19 +4133,19 @@
         "maintainability": 45,
         "correctness": 40,
         "architecture": 72,
-        "change": 23,
+        "change": 28,
         "render_performance": 0,
         "performance": 0,
         "quality": 0,
-        "total": 33
+        "total": 34
       },
       "maintainability_risk": 45,
-      "change_risk": 23,
+      "change_risk": 28,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 72,
       "quality_risk": 0,
-      "total_score": 33,
+      "total_score": 34,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -4646,34 +4766,34 @@
       "type": "module",
       "group": "src/lib",
       "entrypoint_roles": [],
-      "risk_score": 52,
+      "risk_score": 54,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 37,
+        "maintainability": 43,
         "correctness": 40,
-        "architecture": 52,
+        "architecture": 54,
         "change": 23,
         "render_performance": 0,
         "performance": 0,
         "quality": 20,
-        "total": 31
+        "total": 33
       },
-      "maintainability_risk": 37,
+      "maintainability_risk": 43,
       "change_risk": 23,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 52,
+      "architectural_risk": 54,
       "quality_risk": 20,
-      "total_score": 31,
+      "total_score": 33,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
         "imports": 1,
-        "exports": 1,
-        "functions": 1,
+        "exports": 2,
+        "functions": 2,
         "components": 0,
         "types": 0,
         "entrypoint_roles": 0
@@ -4726,22 +4846,22 @@
       "type": "component",
       "group": "src/pages",
       "entrypoint_roles": [],
-      "risk_score": 250,
+      "risk_score": 249,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 250,
+        "maintainability": 249,
         "correctness": 0,
         "architecture": 18,
         "change": 100,
-        "render_performance": 76,
-        "performance": 76,
+        "render_performance": 75,
+        "performance": 75,
         "quality": 55,
         "total": 84
       },
-      "maintainability_risk": 250,
+      "maintainability_risk": 249,
       "change_risk": 100,
-      "performance_risk": 76,
+      "performance_risk": 75,
       "correctness_risk": 0,
       "architectural_risk": 18,
       "quality_risk": 55,
@@ -4751,7 +4871,7 @@
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 15,
+        "imports": 16,
         "exports": 0,
         "functions": 7,
         "components": 1,
@@ -4766,36 +4886,36 @@
       "type": "component",
       "group": "src/pages",
       "entrypoint_roles": [],
-      "risk_score": 584,
+      "risk_score": 573,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 584,
+        "maintainability": 573,
         "correctness": 40,
-        "architecture": 28,
+        "architecture": 17,
         "change": 100,
-        "render_performance": 284,
-        "performance": 284,
+        "render_performance": 277,
+        "performance": 277,
         "quality": 55,
-        "total": 173
+        "total": 168
       },
-      "maintainability_risk": 584,
+      "maintainability_risk": 573,
       "change_risk": 100,
-      "performance_risk": 284,
+      "performance_risk": 277,
       "correctness_risk": 40,
-      "architectural_risk": 28,
+      "architectural_risk": 17,
       "quality_risk": 55,
-      "total_score": 173,
+      "total_score": 168,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 20,
+        "imports": 21,
         "exports": 0,
-        "functions": 13,
+        "functions": 11,
         "components": 1,
-        "types": 4,
+        "types": 1,
         "entrypoint_roles": 0
       }
     },
@@ -4966,11 +5086,11 @@
       "type": "component",
       "group": "src/pages",
       "entrypoint_roles": [],
-      "risk_score": 192,
+      "risk_score": 193,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 192,
+        "maintainability": 193,
         "correctness": 40,
         "architecture": 10,
         "change": 100,
@@ -4979,7 +5099,7 @@
         "quality": 55,
         "total": 81
       },
-      "maintainability_risk": 192,
+      "maintainability_risk": 193,
       "change_risk": 100,
       "performance_risk": 96,
       "correctness_risk": 40,
@@ -5086,22 +5206,22 @@
       "type": "component",
       "group": "src/pages",
       "entrypoint_roles": [],
-      "risk_score": 111,
+      "risk_score": 96,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 111,
+        "maintainability": 93,
         "correctness": 40,
         "architecture": 14,
-        "change": 74,
-        "render_performance": 35,
-        "performance": 35,
+        "change": 96,
+        "render_performance": 28,
+        "performance": 28,
         "quality": 30,
         "total": 52
       },
-      "maintainability_risk": 111,
-      "change_risk": 74,
-      "performance_risk": 35,
+      "maintainability_risk": 93,
+      "change_risk": 96,
+      "performance_risk": 28,
       "correctness_risk": 40,
       "architectural_risk": 14,
       "quality_risk": 30,
@@ -5111,7 +5231,7 @@
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 3,
+        "imports": 4,
         "exports": 1,
         "functions": 2,
         "components": 1,
@@ -5253,19 +5373,19 @@
         "maintainability": 50,
         "correctness": 40,
         "architecture": 100,
-        "change": 57,
+        "change": 63,
         "render_performance": 0,
         "performance": 0,
         "quality": 0,
-        "total": 45
+        "total": 46
       },
       "maintainability_risk": 50,
-      "change_risk": 57,
+      "change_risk": 63,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 100,
       "quality_risk": 0,
-      "total_score": 45,
+      "total_score": 46,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -5293,19 +5413,19 @@
         "maintainability": 38,
         "correctness": 0,
         "architecture": 98,
-        "change": 38,
+        "change": 40,
         "render_performance": 0,
         "performance": 0,
         "quality": 53,
-        "total": 41
+        "total": 42
       },
       "maintainability_risk": 38,
-      "change_risk": 38,
+      "change_risk": 40,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 98,
       "quality_risk": 53,
-      "total_score": 41,
+      "total_score": 42,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -5332,7 +5452,7 @@
       "category_scores": {
         "maintainability": 155,
         "correctness": 40,
-        "architecture": 33,
+        "architecture": 32,
         "change": 100,
         "render_performance": 0,
         "performance": 0,
@@ -5343,7 +5463,7 @@
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 33,
+      "architectural_risk": 32,
       "quality_risk": 98,
       "total_score": 77,
       "unknown_metrics": [],
@@ -5351,7 +5471,7 @@
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 15,
+        "imports": 16,
         "exports": 2,
         "functions": 3,
         "components": 0,
@@ -5373,19 +5493,19 @@
         "maintainability": 38,
         "correctness": 40,
         "architecture": 100,
-        "change": 47,
+        "change": 52,
         "render_performance": 0,
         "performance": 0,
         "quality": 76,
-        "total": 55
+        "total": 56
       },
       "maintainability_risk": 38,
-      "change_risk": 47,
+      "change_risk": 52,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 100,
       "quality_risk": 76,
-      "total_score": 55,
+      "total_score": 56,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -5410,28 +5530,28 @@
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 75,
+        "maintainability": 70,
         "correctness": 40,
         "architecture": 36,
-        "change": 70,
+        "change": 62,
         "render_performance": 0,
         "performance": 0,
         "quality": 81,
-        "total": 55
+        "total": 53
       },
-      "maintainability_risk": 75,
-      "change_risk": 70,
+      "maintainability_risk": 70,
+      "change_risk": 62,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 36,
       "quality_risk": 81,
-      "total_score": 55,
+      "total_score": 53,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 4,
+        "imports": 3,
         "exports": 6,
         "functions": 7,
         "components": 0,
@@ -5533,14 +5653,14 @@
         "maintainability": 78,
         "correctness": 40,
         "architecture": 26,
-        "change": 76,
+        "change": 78,
         "render_performance": 0,
         "performance": 0,
         "quality": 15,
         "total": 43
       },
       "maintainability_risk": 78,
-      "change_risk": 76,
+      "change_risk": 78,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 26,
@@ -5560,32 +5680,72 @@
       }
     },
     {
+      "id": "src/ui/themeActionAssets",
+      "label": "themeActionAssets.ts",
+      "file": "src/ui/themeActionAssets.ts",
+      "type": "module",
+      "group": "src/ui",
+      "entrypoint_roles": [],
+      "risk_score": 47,
+      "risk": "medium",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 14,
+        "correctness": 40,
+        "architecture": 26,
+        "change": 47,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 15,
+        "total": 26
+      },
+      "maintainability_risk": 14,
+      "change_risk": 47,
+      "performance_risk": 0,
+      "correctness_risk": 40,
+      "architectural_risk": 26,
+      "quality_risk": 15,
+      "total_score": 26,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 1,
+      "risk_calibration": "v1-static-analysis",
+      "evidence": {
+        "imports": 3,
+        "exports": 2,
+        "functions": 1,
+        "components": 0,
+        "types": 1,
+        "entrypoint_roles": 0
+      }
+    },
+    {
       "id": "src/ui/themeOptions",
       "label": "themeOptions.ts",
       "file": "src/ui/themeOptions.ts",
       "type": "module",
       "group": "src/ui",
       "entrypoint_roles": [],
-      "risk_score": 60,
-      "risk": "medium",
+      "risk_score": 70,
+      "risk": "high",
       "classification": "ok",
       "category_scores": {
         "maintainability": 11,
         "correctness": 40,
-        "architecture": 60,
+        "architecture": 70,
         "change": 28,
         "render_performance": 0,
         "performance": 0,
         "quality": 20,
-        "total": 29
+        "total": 31
       },
       "maintainability_risk": 11,
       "change_risk": 28,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 60,
+      "architectural_risk": 70,
       "quality_risk": 20,
-      "total_score": 29,
+      "total_score": 31,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -5606,26 +5766,26 @@
       "type": "module",
       "group": "src/ui",
       "entrypoint_roles": [],
-      "risk_score": 384,
+      "risk_score": 391,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
         "maintainability": 24,
         "correctness": 40,
         "architecture": 94,
-        "change": 55,
+        "change": 60,
         "render_performance": 0,
         "performance": 0,
-        "quality": 384,
-        "total": 109
+        "quality": 391,
+        "total": 111
       },
       "maintainability_risk": 24,
-      "change_risk": 55,
+      "change_risk": 60,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 94,
-      "quality_risk": 384,
-      "total_score": 109,
+      "quality_risk": 391,
+      "total_score": 111,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -5653,25 +5813,25 @@
         "maintainability": 191,
         "correctness": 0,
         "architecture": 34,
-        "change": 78,
+        "change": 90,
         "render_performance": 0,
         "performance": 0,
         "quality": 18,
-        "total": 58
+        "total": 61
       },
       "maintainability_risk": 191,
-      "change_risk": 78,
+      "change_risk": 90,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 34,
       "quality_risk": 18,
-      "total_score": 58,
+      "total_score": 61,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 10,
+        "imports": 11,
         "exports": 2,
         "functions": 5,
         "components": 0,
@@ -5711,7 +5871,7 @@
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 16,
+        "imports": 18,
         "exports": 2,
         "functions": 6,
         "components": 0,
@@ -5772,7 +5932,7 @@
       "category_scores": {
         "maintainability": 252,
         "correctness": 40,
-        "architecture": 76,
+        "architecture": 74,
         "change": 74,
         "render_performance": 0,
         "performance": 0,
@@ -5783,7 +5943,7 @@
       "change_risk": 74,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 76,
+      "architectural_risk": 74,
       "quality_risk": 0,
       "total_score": 80,
       "unknown_metrics": [],
@@ -5792,8 +5952,8 @@
       "risk_calibration": "v1-static-analysis",
       "evidence": {
         "imports": 5,
-        "exports": 6,
-        "functions": 17,
+        "exports": 5,
+        "functions": 16,
         "components": 0,
         "types": 2,
         "entrypoint_roles": 0
@@ -5806,32 +5966,32 @@
       "type": "module",
       "group": "src/ui",
       "entrypoint_roles": [],
-      "risk_score": 107,
+      "risk_score": 106,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 107,
+        "maintainability": 106,
         "correctness": 40,
         "architecture": 12,
-        "change": 52,
+        "change": 74,
         "render_performance": 0,
         "performance": 0,
         "quality": 0,
-        "total": 38
+        "total": 42
       },
-      "maintainability_risk": 107,
-      "change_risk": 52,
+      "maintainability_risk": 106,
+      "change_risk": 74,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 12,
       "quality_risk": 0,
-      "total_score": 38,
+      "total_score": 42,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
       "risk_calibration": "v1-static-analysis",
       "evidence": {
-        "imports": 7,
+        "imports": 8,
         "exports": 1,
         "functions": 3,
         "components": 0,
@@ -5846,26 +6006,26 @@
       "type": "module",
       "group": "src/ui",
       "entrypoint_roles": [],
-      "risk_score": 167,
+      "risk_score": 157,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 167,
+        "maintainability": 157,
         "correctness": 40,
-        "architecture": 35,
-        "change": 62,
+        "architecture": 32,
+        "change": 72,
         "render_performance": 0,
         "performance": 0,
         "quality": 40,
-        "total": 63
+        "total": 62
       },
-      "maintainability_risk": 167,
-      "change_risk": 62,
+      "maintainability_risk": 157,
+      "change_risk": 72,
       "performance_risk": 0,
       "correctness_risk": 40,
-      "architectural_risk": 35,
+      "architectural_risk": 32,
       "quality_risk": 40,
-      "total_score": 63,
+      "total_score": 62,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 1,
@@ -6370,19 +6530,19 @@
       "line": 30
     },
     {
-      "id": "import:src/assets/themes/princess/assets:src/assets/themes/princess/notpeepee.webp:31",
+      "id": "import:src/assets/themes/princess/assets:src/assets/themes/princess/notpeepee.png:31",
       "from": "src/assets/themes/princess/assets",
-      "to": "src/assets/themes/princess/notpeepee.webp",
+      "to": "src/assets/themes/princess/notpeepee.png",
       "type": "static_import",
-      "source": "export { default as princessNotPeePeeImage } from './notpeepee.webp'",
+      "source": "export { default as princessNotPeePeeImage } from './notpeepee.png'",
       "line": 31
     },
     {
-      "id": "import:src/assets/themes/princess/assets:src/assets/themes/princess/didpeepee.webp:32",
+      "id": "import:src/assets/themes/princess/assets:src/assets/themes/princess/didpeepee.png:32",
       "from": "src/assets/themes/princess/assets",
-      "to": "src/assets/themes/princess/didpeepee.webp",
+      "to": "src/assets/themes/princess/didpeepee.png",
       "type": "static_import",
-      "source": "export { default as princessDidPeePeeImage } from './didpeepee.webp'",
+      "source": "export { default as princessDidPeePeeImage } from './didpeepee.png'",
       "line": 32
     },
     {
@@ -6514,612 +6674,604 @@
       "line": 1
     },
     {
-      "id": "import:src/components/AlphabetTester:src/tokens/index:2",
-      "from": "src/components/AlphabetTester",
-      "to": "src/tokens/index",
-      "type": "static_import",
-      "source": "import { uiTokens } from '../tokens'",
-      "line": 2
-    },
-    {
-      "id": "import:src/components/AlphabetTester:src/assets/themes/princess/quiz-correct.svg:3",
+      "id": "import:src/components/AlphabetTester:src/assets/themes/princess/quiz-correct.svg:2",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/themes/princess/quiz-correct.svg",
       "type": "static_import",
       "source": "import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'",
-      "line": 3
+      "line": 2
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/themes/princess/quiz-incorrect.svg:4",
+      "id": "import:src/components/AlphabetTester:src/assets/themes/princess/quiz-incorrect.svg:3",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/themes/princess/quiz-incorrect.svg",
       "type": "static_import",
       "source": "import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'",
-      "line": 4
+      "line": 3
     },
     {
-      "id": "import:src/components/AlphabetTester:src/lib/celebrate:5",
+      "id": "import:src/components/AlphabetTester:src/lib/celebrate:4",
       "from": "src/components/AlphabetTester",
       "to": "src/lib/celebrate",
       "type": "static_import",
       "source": "import { celebrateSuccess } from '../lib/celebrate'",
-      "line": 5
+      "line": 4
     },
     {
-      "id": "import:src/components/AlphabetTester:src/lib/activityOutcome:6",
+      "id": "import:src/components/AlphabetTester:src/lib/activityOutcome:5",
       "from": "src/components/AlphabetTester",
       "to": "src/lib/activityOutcome",
       "type": "static_import",
       "source": "import { getActivityOutcome, getVisibleActivityResults, } from '../lib/activityOutcome'",
-      "line": 6
+      "line": 5
     },
     {
-      "id": "import:src/components/AlphabetTester:src/lib/imageLoading:10",
+      "id": "import:src/components/AlphabetTester:src/lib/imageLoading:9",
       "from": "src/components/AlphabetTester",
       "to": "src/lib/imageLoading",
       "type": "static_import",
       "source": "import { preloadImage } from '../lib/imageLoading'",
-      "line": 10
+      "line": 9
     },
     {
-      "id": "import:src/components/AlphabetTester:src/lib/useProblemHistory:11",
+      "id": "import:src/components/AlphabetTester:src/lib/useProblemHistory:10",
       "from": "src/components/AlphabetTester",
       "to": "src/lib/useProblemHistory",
       "type": "static_import",
-      "source": "import { useProblemHistory } from '../lib/useProblemHistory'",
-      "line": 11
+      "source": "import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'",
+      "line": 10
     },
     {
-      "id": "import:src/components/AlphabetTester:src/components/ui/ActivityControls:12",
+      "id": "import:src/components/AlphabetTester:src/components/ui/ActivityControls:11",
       "from": "src/components/AlphabetTester",
       "to": "src/components/ui/ActivityControls",
       "type": "static_import",
       "source": "import { ActivityOutcomeShell, ActivityPlayArea, ActivitySetupControls, type ActivityChoreProps, MAX_ACTIVITY_MISTAKES, type ActivityResult, } from './ui/ActivityControls'",
-      "line": 12
+      "line": 11
     },
     {
-      "id": "import:src/components/AlphabetTester:src/components/ui/LetterCaseControl:20",
+      "id": "import:src/components/AlphabetTester:src/components/ui/LetterCaseControl:19",
       "from": "src/components/AlphabetTester",
       "to": "src/components/ui/LetterCaseControl",
       "type": "static_import",
       "source": "import LetterCaseControl, { type LetterCase } from './ui/LetterCaseControl'",
-      "line": 20
+      "line": 19
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/ant-aardvark-antelope.svg:23",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/ant-aardvark-antelope.svg:22",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/ant-aardvark-antelope.svg",
       "type": "static_import",
       "source": "import antAardvarkAntelope from '../assets/alphabet/ant-aardvark-antelope.svg'",
-      "line": 23
+      "line": 22
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/apple-avocado-asparagus.svg:24",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/apple-avocado-asparagus.svg:23",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/apple-avocado-asparagus.svg",
       "type": "static_import",
       "source": "import appleAvocadoAsparagus from '../assets/alphabet/apple-avocado-asparagus.svg'",
-      "line": 24
+      "line": 23
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/banana-blueberry-brocolli.svg:25",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/banana-blueberry-brocolli.svg:24",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/banana-blueberry-brocolli.svg",
       "type": "static_import",
       "source": "import bananaBlueberryBrocolli from '../assets/alphabet/banana-blueberry-brocolli.svg'",
-      "line": 25
+      "line": 24
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/bat-bever-butterfly.svg:26",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/bat-bever-butterfly.svg:25",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/bat-bever-butterfly.svg",
       "type": "static_import",
       "source": "import batBeaverButterfly from '../assets/alphabet/bat-bever-butterfly.svg'",
-      "line": 26
+      "line": 25
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/carrot-corn-cucumber.svg:27",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/carrot-corn-cucumber.svg:26",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/carrot-corn-cucumber.svg",
       "type": "static_import",
       "source": "import carrotCornCucumber from '../assets/alphabet/carrot-corn-cucumber.svg'",
-      "line": 27
+      "line": 26
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/cat-camel-cow.webp:28",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/cat-camel-cow.webp:27",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/cat-camel-cow.webp",
       "type": "static_import",
       "source": "import catCamelCow from '../assets/alphabet/cat-camel-cow.webp'",
-      "line": 28
+      "line": 27
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/dates-dandelions-dumplings.svg:29",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/dates-dandelions-dumplings.svg:28",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/dates-dandelions-dumplings.svg",
       "type": "static_import",
       "source": "import datesDandelionsDumplings from '../assets/alphabet/dates-dandelions-dumplings.svg'",
-      "line": 29
+      "line": 28
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/dog-dophin-duckling.svg:30",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/dog-dophin-duckling.svg:29",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/dog-dophin-duckling.svg",
       "type": "static_import",
       "source": "import dogDolphinDuckling from '../assets/alphabet/dog-dophin-duckling.svg'",
-      "line": 30
+      "line": 29
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/eggrolls-eclairs-eggs.svg:31",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/eggrolls-eclairs-eggs.svg:30",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/eggrolls-eclairs-eggs.svg",
       "type": "static_import",
       "source": "import eggrollsEclairsEggs from '../assets/alphabet/eggrolls-eclairs-eggs.svg'",
-      "line": 31
+      "line": 30
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/elephant-eagle-echidna.webp:32",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/elephant-eagle-echidna.webp:31",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/elephant-eagle-echidna.webp",
       "type": "static_import",
       "source": "import elephantEagleEchidna from '../assets/alphabet/elephant-eagle-echidna.webp'",
-      "line": 32
+      "line": 31
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/fennel-fig-fish.svg:33",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/fennel-fig-fish.svg:32",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/fennel-fig-fish.svg",
       "type": "static_import",
       "source": "import fennelFigFish from '../assets/alphabet/fennel-fig-fish.svg'",
-      "line": 33
+      "line": 32
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/fox-frog-flamingo.svg:34",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/fox-frog-flamingo.svg:33",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/fox-frog-flamingo.svg",
       "type": "static_import",
       "source": "import foxFrogFlamingo from '../assets/alphabet/fox-frog-flamingo.svg'",
-      "line": 34
+      "line": 33
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/gecko-guinea pig,-goat.webp:35",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/gecko-guinea pig,-goat.webp:34",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/gecko-guinea pig,-goat.webp",
       "type": "static_import",
       "source": "import geckoGuineaPigGoat from '../assets/alphabet/gecko-guinea pig,-goat.webp'",
-      "line": 35
+      "line": 34
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/gelato-gnocci-grapes.webp:36",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/gelato-gnocci-grapes.webp:35",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/gelato-gnocci-grapes.webp",
       "type": "static_import",
       "source": "import gelatoGnocchiGrapes from '../assets/alphabet/gelato-gnocci-grapes.webp'",
-      "line": 36
+      "line": 35
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/hippopotamus-hamster-humming bird.svg:37",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/hippopotamus-hamster-humming bird.svg:36",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/hippopotamus-hamster-humming bird.svg",
       "type": "static_import",
       "source": "import hippopotamusHamsterHummingBird from '../assets/alphabet/hippopotamus-hamster-humming bird.svg'",
-      "line": 37
+      "line": 36
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/honey-hazelnuts-hamburger.webp:38",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/honey-hazelnuts-hamburger.webp:37",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/honey-hazelnuts-hamburger.webp",
       "type": "static_import",
       "source": "import honeyHazelnutsHamburger from '../assets/alphabet/honey-hazelnuts-hamburger.webp'",
-      "line": 38
+      "line": 37
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/Ibis-iguana-impala.webp:39",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/Ibis-iguana-impala.webp:38",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/Ibis-iguana-impala.webp",
       "type": "static_import",
       "source": "import ibisIguanaImpala from '../assets/alphabet/Ibis-iguana-impala.webp'",
-      "line": 39
+      "line": 38
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/ice pop-instant noodles-ice cream.webp:40",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/ice pop-instant noodles-ice cream.webp:39",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/ice pop-instant noodles-ice cream.webp",
       "type": "static_import",
       "source": "import icePopInstantNoodlesIceCream from '../assets/alphabet/ice pop-instant noodles-ice cream.webp'",
-      "line": 40
+      "line": 39
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/Jackfruit-jam-Jalapeño.webp:41",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/Jackfruit-jam-Jalapeño.webp:40",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/Jackfruit-jam-Jalapeño.webp",
       "type": "static_import",
       "source": "import jackfruitJamJalapeno from '../assets/alphabet/Jackfruit-jam-Jalapeño.webp'",
-      "line": 41
+      "line": 40
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/jaguar-jelly fish-jackal.webp:42",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/jaguar-jelly fish-jackal.webp:41",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/jaguar-jelly fish-jackal.webp",
       "type": "static_import",
       "source": "import jaguarJellyFishJackal from '../assets/alphabet/jaguar-jelly fish-jackal.webp'",
-      "line": 42
+      "line": 41
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/kangaroo-koala-kiwi.webp:43",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/kangaroo-koala-kiwi.webp:42",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/kangaroo-koala-kiwi.webp",
       "type": "static_import",
       "source": "import kangarooKoalaKiwi from '../assets/alphabet/kangaroo-koala-kiwi.webp'",
-      "line": 43
+      "line": 42
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/kiwi-kale-ketchup.webp:44",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/kiwi-kale-ketchup.webp:43",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/kiwi-kale-ketchup.webp",
       "type": "static_import",
       "source": "import kiwiKaleKetchup from '../assets/alphabet/kiwi-kale-ketchup.webp'",
-      "line": 44
+      "line": 43
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/lasagne-lollipop-lemonade.webp:45",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/lasagne-lollipop-lemonade.webp:44",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/lasagne-lollipop-lemonade.webp",
       "type": "static_import",
       "source": "import lasagneLollipopLemonade from '../assets/alphabet/lasagne-lollipop-lemonade.webp'",
-      "line": 45
+      "line": 44
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/lemonlime-lychee-lettuce.webp:46",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/lemonlime-lychee-lettuce.webp:45",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/lemonlime-lychee-lettuce.webp",
       "type": "static_import",
       "source": "import lemonlimeLycheeLettuce from '../assets/alphabet/lemonlime-lychee-lettuce.webp'",
-      "line": 46
+      "line": 45
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/lion-llama-lemur.webp:47",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/lion-llama-lemur.webp:46",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/lion-llama-lemur.webp",
       "type": "static_import",
       "source": "import lionLlamaLemur from '../assets/alphabet/lion-llama-lemur.webp'",
-      "line": 47
+      "line": 46
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/lobster-ladybug-leopard.svg:48",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/lobster-ladybug-leopard.svg:47",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/lobster-ladybug-leopard.svg",
       "type": "static_import",
       "source": "import lobsterLadybugLeopard from '../assets/alphabet/lobster-ladybug-leopard.svg'",
-      "line": 48
+      "line": 47
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/mango-melon-muffin.webp:49",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/mango-melon-muffin.webp:48",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/mango-melon-muffin.webp",
       "type": "static_import",
       "source": "import mangoMelonMuffin from '../assets/alphabet/mango-melon-muffin.webp'",
-      "line": 49
+      "line": 48
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/mouse-meerkat-manatee.webp:50",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/mouse-meerkat-manatee.webp:49",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/mouse-meerkat-manatee.webp",
       "type": "static_import",
       "source": "import mouseMeerkatManatee from '../assets/alphabet/mouse-meerkat-manatee.webp'",
-      "line": 50
+      "line": 49
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/mushroom-meatballs-macaroni.webp:51",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/mushroom-meatballs-macaroni.webp:50",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/mushroom-meatballs-macaroni.webp",
       "type": "static_import",
       "source": "import mushroomMeatballsMacaroni from '../assets/alphabet/mushroom-meatballs-macaroni.webp'",
-      "line": 51
+      "line": 50
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/narwhal-newt-nautilus.webp:52",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/narwhal-newt-nautilus.webp:51",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/narwhal-newt-nautilus.webp",
       "type": "static_import",
       "source": "import narwhalNewtNautilus from '../assets/alphabet/narwhal-newt-nautilus.webp'",
-      "line": 52
+      "line": 51
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/noodles-nachos-nougat.webp:53",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/noodles-nachos-nougat.webp:52",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/noodles-nachos-nougat.webp",
       "type": "static_import",
       "source": "import noodlesNachosNougat from '../assets/alphabet/noodles-nachos-nougat.webp'",
-      "line": 53
+      "line": 52
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/oats-olive oil-onigiri.webp:54",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/oats-olive oil-onigiri.webp:53",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/oats-olive oil-onigiri.webp",
       "type": "static_import",
       "source": "import oatsOliveOilOnigiri from '../assets/alphabet/oats-olive oil-onigiri.webp'",
-      "line": 54
+      "line": 53
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/omelette-oysters-olive oil.webp:55",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/omelette-oysters-olive oil.webp:54",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/omelette-oysters-olive oil.webp",
       "type": "static_import",
       "source": "import omeletteOystersOliveOil from '../assets/alphabet/omelette-oysters-olive oil.webp'",
-      "line": 55
+      "line": 54
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/orange-olive-onion.webp:56",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/orange-olive-onion.webp:55",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/orange-olive-onion.webp",
       "type": "static_import",
       "source": "import orangeOliveOnion from '../assets/alphabet/orange-olive-onion.webp'",
-      "line": 56
+      "line": 55
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/orangutan-otter-owl.webp:57",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/orangutan-otter-owl.webp:56",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/orangutan-otter-owl.webp",
       "type": "static_import",
       "source": "import orangutanOtterOwl from '../assets/alphabet/orangutan-otter-owl.webp'",
-      "line": 57
+      "line": 56
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/owl-ostrich-octopus.webp:58",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/owl-ostrich-octopus.webp:57",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/owl-ostrich-octopus.webp",
       "type": "static_import",
       "source": "import owlOstrichOctopus from '../assets/alphabet/owl-ostrich-octopus.webp'",
-      "line": 58
+      "line": 57
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/pancakes-popcorn-peanut butter.webp:59",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/pancakes-popcorn-peanut butter.webp:58",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/pancakes-popcorn-peanut butter.webp",
       "type": "static_import",
       "source": "import pancakesPopcornPeanutButter from '../assets/alphabet/pancakes-popcorn-peanut butter.webp'",
-      "line": 59
+      "line": 58
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/passion fruit-papaya-plum.webp:60",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/passion fruit-papaya-plum.webp:59",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/passion fruit-papaya-plum.webp",
       "type": "static_import",
       "source": "import passionFruitPapayaPlum from '../assets/alphabet/passion fruit-papaya-plum.webp'",
-      "line": 60
+      "line": 59
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/peach-pear-pineapple.webp:61",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/peach-pear-pineapple.webp:60",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/peach-pear-pineapple.webp",
       "type": "static_import",
       "source": "import peachPearPineapple from '../assets/alphabet/peach-pear-pineapple.webp'",
-      "line": 61
+      "line": 60
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/peacock-platypus-porcupine.webp:62",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/peacock-platypus-porcupine.webp:61",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/peacock-platypus-porcupine.webp",
       "type": "static_import",
       "source": "import peacockPlatypusPorcupine from '../assets/alphabet/peacock-platypus-porcupine.webp'",
-      "line": 62
+      "line": 61
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/pesto-prosciutto-parmesan.webp:63",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/pesto-prosciutto-parmesan.webp:62",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/pesto-prosciutto-parmesan.webp",
       "type": "static_import",
       "source": "import pestoProsciuttoParmesan from '../assets/alphabet/pesto-prosciutto-parmesan.webp'",
-      "line": 63
+      "line": 62
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/pig-penguin-panda.webp:64",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/pig-penguin-panda.webp:63",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/pig-penguin-panda.webp",
       "type": "static_import",
       "source": "import pigPenguinPanda from '../assets/alphabet/pig-penguin-panda.webp'",
-      "line": 64
+      "line": 63
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/potato-parsnip-pumpkin.webp:65",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/potato-parsnip-pumpkin.webp:64",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/potato-parsnip-pumpkin.webp",
       "type": "static_import",
       "source": "import potatoParsnipPumpkin from '../assets/alphabet/potato-parsnip-pumpkin.webp'",
-      "line": 65
+      "line": 64
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/quinoa-quiche-quesadilla.webp:66",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/quinoa-quiche-quesadilla.webp:65",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/quinoa-quiche-quesadilla.webp",
       "type": "static_import",
       "source": "import quinoaQuicheQuesadilla from '../assets/alphabet/quinoa-quiche-quesadilla.webp'",
-      "line": 66
+      "line": 65
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/radish-rhubarb-rocket.webp:67",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/radish-rhubarb-rocket.webp:66",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/radish-rhubarb-rocket.webp",
       "type": "static_import",
       "source": "import radishRhubarbRocket from '../assets/alphabet/radish-rhubarb-rocket.webp'",
-      "line": 67
+      "line": 66
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/ramen-ravioli-risotto.webp:68",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/ramen-ravioli-risotto.webp:67",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/ramen-ravioli-risotto.webp",
       "type": "static_import",
       "source": "import ramenRavioliRisotto from '../assets/alphabet/ramen-ravioli-risotto.webp'",
-      "line": 68
+      "line": 67
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/sandwich-sausage-soup.webp:69",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/sandwich-sausage-soup.webp:68",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/sandwich-sausage-soup.webp",
       "type": "static_import",
       "source": "import sandwichSausageSoup from '../assets/alphabet/sandwich-sausage-soup.webp'",
-      "line": 69
+      "line": 68
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/sashimi-sushi-seaweed.webp:70",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/sashimi-sushi-seaweed.webp:69",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/sashimi-sushi-seaweed.webp",
       "type": "static_import",
       "source": "import sashimiSushiSeaweed from '../assets/alphabet/sashimi-sushi-seaweed.webp'",
-      "line": 70
+      "line": 69
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/seaweed-spinach-sweet potato.webp:71",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/seaweed-spinach-sweet potato.webp:70",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/seaweed-spinach-sweet potato.webp",
       "type": "static_import",
       "source": "import seaweedSpinachSweetPotato from '../assets/alphabet/seaweed-spinach-sweet potato.webp'",
-      "line": 71
+      "line": 70
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/tart-toffee-toast.webp:72",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/tart-toffee-toast.webp:71",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/tart-toffee-toast.webp",
       "type": "static_import",
       "source": "import tartToffeeToast from '../assets/alphabet/tart-toffee-toast.webp'",
-      "line": 72
+      "line": 71
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/tomato-turnip-truffle.webp:73",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/tomato-turnip-truffle.webp:72",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/tomato-turnip-truffle.webp",
       "type": "static_import",
       "source": "import tomatoTurnipTruffle from '../assets/alphabet/tomato-turnip-truffle.webp'",
-      "line": 73
+      "line": 72
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/waffles-wonton soup-wrap.webp:74",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/waffles-wonton soup-wrap.webp:73",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/waffles-wonton soup-wrap.webp",
       "type": "static_import",
       "source": "import wafflesWontonSoupWrap from '../assets/alphabet/waffles-wonton soup-wrap.webp'",
-      "line": 74
+      "line": 73
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/yogurt-yorkshire pudding.webp:75",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/yogurt-yorkshire pudding.webp:74",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/yogurt-yorkshire pudding.webp",
       "type": "static_import",
       "source": "import yogurtYorkshirePudding from '../assets/alphabet/yogurt-yorkshire pudding.webp'",
-      "line": 75
+      "line": 74
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/rabbit-racoon-reindeer.webp:76",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/rabbit-racoon-reindeer.webp:75",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/rabbit-racoon-reindeer.webp",
       "type": "static_import",
       "source": "import rabbitRacoonReindeer from '../assets/alphabet/rabbit-racoon-reindeer.webp'",
-      "line": 76
+      "line": 75
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/rhinoceros-ray-red panda.webp:77",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/rhinoceros-ray-red panda.webp:76",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/rhinoceros-ray-red panda.webp",
       "type": "static_import",
       "source": "import rhinocerosRayRedPanda from '../assets/alphabet/rhinoceros-ray-red panda.webp'",
-      "line": 77
+      "line": 76
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/sea horse-squid-star fish.webp:78",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/sea horse-squid-star fish.webp:77",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/sea horse-squid-star fish.webp",
       "type": "static_import",
       "source": "import seaHorseSquidStarFish from '../assets/alphabet/sea horse-squid-star fish.webp'",
-      "line": 78
+      "line": 77
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/seal-shark-salmon.webp:79",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/seal-shark-salmon.webp:78",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/seal-shark-salmon.webp",
       "type": "static_import",
       "source": "import sealSharkSalmon from '../assets/alphabet/seal-shark-salmon.webp'",
-      "line": 79
+      "line": 78
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/sheep-skunk-squirrel.webp:80",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/sheep-skunk-squirrel.webp:79",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/sheep-skunk-squirrel.webp",
       "type": "static_import",
       "source": "import sheepSkunkSquirrel from '../assets/alphabet/sheep-skunk-squirrel.webp'",
-      "line": 80
+      "line": 79
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/swan-spider-sloth.webp:81",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/swan-spider-sloth.webp:80",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/swan-spider-sloth.webp",
       "type": "static_import",
       "source": "import swanSpiderSloth from '../assets/alphabet/swan-spider-sloth.webp'",
-      "line": 81
+      "line": 80
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/tiger,tortoise turtle,tapir.webp:82",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/tiger,tortoise turtle,tapir.webp:81",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/tiger,tortoise turtle,tapir.webp",
       "type": "static_import",
       "source": "import tigerTortoiseTurtleTapir from '../assets/alphabet/tiger,tortoise turtle,tapir.webp'",
-      "line": 82
+      "line": 81
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/unicorn-urial-uromastyx.webp:83",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/unicorn-urial-uromastyx.webp:82",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/unicorn-urial-uromastyx.webp",
       "type": "static_import",
       "source": "import unicornUrialUromastyx from '../assets/alphabet/unicorn-urial-uromastyx.webp'",
-      "line": 83
+      "line": 82
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/viper-vole-vulture.webp:84",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/viper-vole-vulture.webp:83",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/viper-vole-vulture.webp",
       "type": "static_import",
       "source": "import viperVoleVulture from '../assets/alphabet/viper-vole-vulture.webp'",
-      "line": 84
+      "line": 83
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/walrus-whale-worm.webp:85",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/walrus-whale-worm.webp:84",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/walrus-whale-worm.webp",
       "type": "static_import",
       "source": "import walrusWhaleWorm from '../assets/alphabet/walrus-whale-worm.webp'",
-      "line": 85
+      "line": 84
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/wasp-weasel-woodpecker.webp:86",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/wasp-weasel-woodpecker.webp:85",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/wasp-weasel-woodpecker.webp",
       "type": "static_import",
       "source": "import waspWeaselWoodpecker from '../assets/alphabet/wasp-weasel-woodpecker.webp'",
-      "line": 86
+      "line": 85
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/wolf-weasel-warthog.webp:87",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/wolf-weasel-warthog.webp:86",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/wolf-weasel-warthog.webp",
       "type": "static_import",
       "source": "import wolfWeaselWarthog from '../assets/alphabet/wolf-weasel-warthog.webp'",
-      "line": 87
+      "line": 86
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/yak-yeti.webp:88",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/yak-yeti.webp:87",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/yak-yeti.webp",
       "type": "static_import",
       "source": "import yakYeti from '../assets/alphabet/yak-yeti.webp'",
-      "line": 88
+      "line": 87
     },
     {
-      "id": "import:src/components/AlphabetTester:src/assets/alphabet/zebra.webp:89",
+      "id": "import:src/components/AlphabetTester:src/assets/alphabet/zebra.webp:88",
       "from": "src/components/AlphabetTester",
       "to": "src/assets/alphabet/zebra.webp",
       "type": "static_import",
       "source": "import zebra from '../assets/alphabet/zebra.webp'",
-      "line": 89
+      "line": 88
     },
     {
       "id": "import:src/components/AnimalTester:react:1",
@@ -7138,164 +7290,148 @@
       "line": 2
     },
     {
-      "id": "import:src/components/AnimalTester:src/assets/animal-facts/food.webp:3",
-      "from": "src/components/AnimalTester",
-      "to": "src/assets/animal-facts/food.webp",
-      "type": "static_import",
-      "source": "import foodImage from '../assets/animal-facts/food.webp'",
-      "line": 3
-    },
-    {
-      "id": "import:src/components/AnimalTester:src/assets/animal-facts/habitat-cover.webp:4",
-      "from": "src/components/AnimalTester",
-      "to": "src/assets/animal-facts/habitat-cover.webp",
-      "type": "static_import",
-      "source": "import habitatCoverImage from '../assets/animal-facts/habitat-cover.webp'",
-      "line": 4
-    },
-    {
-      "id": "import:src/components/AnimalTester:src/assets/animal-facts/habitat-place.webp:5",
-      "from": "src/components/AnimalTester",
-      "to": "src/assets/animal-facts/habitat-place.webp",
-      "type": "static_import",
-      "source": "import habitatPlaceImage from '../assets/animal-facts/habitat-place.webp'",
-      "line": 5
-    },
-    {
-      "id": "import:src/components/AnimalTester:src/assets/animal-mode-icons/learn.webp:6",
+      "id": "import:src/components/AnimalTester:src/assets/animal-mode-icons/learn.webp:3",
       "from": "src/components/AnimalTester",
       "to": "src/assets/animal-mode-icons/learn.webp",
       "type": "static_import",
       "source": "import learnModeImage from '../assets/animal-mode-icons/learn.webp'",
-      "line": 6
+      "line": 3
     },
     {
-      "id": "import:src/components/AnimalTester:src/assets/animal-mode-icons/one-player.webp:7",
+      "id": "import:src/components/AnimalTester:src/assets/animal-mode-icons/one-player.webp:4",
       "from": "src/components/AnimalTester",
       "to": "src/assets/animal-mode-icons/one-player.webp",
       "type": "static_import",
       "source": "import onePlayerModeImage from '../assets/animal-mode-icons/one-player.webp'",
-      "line": 7
+      "line": 4
     },
     {
-      "id": "import:src/components/AnimalTester:src/assets/animal-mode-icons/two-players.webp:8",
+      "id": "import:src/components/AnimalTester:src/assets/animal-mode-icons/two-players.webp:5",
       "from": "src/components/AnimalTester",
       "to": "src/assets/animal-mode-icons/two-players.webp",
       "type": "static_import",
       "source": "import twoPlayersModeImage from '../assets/animal-mode-icons/two-players.webp'",
-      "line": 8
+      "line": 5
     },
     {
-      "id": "import:src/components/AnimalTester:src/assets/themes/princess/quiz-correct.svg:9",
+      "id": "import:src/components/AnimalTester:src/assets/themes/princess/quiz-correct.svg:6",
       "from": "src/components/AnimalTester",
       "to": "src/assets/themes/princess/quiz-correct.svg",
       "type": "static_import",
       "source": "import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'",
-      "line": 9
+      "line": 6
     },
     {
-      "id": "import:src/components/AnimalTester:src/assets/themes/princess/quiz-incorrect.svg:10",
+      "id": "import:src/components/AnimalTester:src/assets/themes/princess/quiz-incorrect.svg:7",
       "from": "src/components/AnimalTester",
       "to": "src/assets/themes/princess/quiz-incorrect.svg",
       "type": "static_import",
       "source": "import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'",
-      "line": 10
+      "line": 7
     },
     {
-      "id": "import:src/components/AnimalTester:src/data/animalAbilityAssets:11",
+      "id": "import:src/components/AnimalTester:src/data/animalAbilityAssets:8",
       "from": "src/components/AnimalTester",
       "to": "src/data/animalAbilityAssets",
       "type": "static_import",
       "source": "import { getAnimalAbilityImage } from '../data/animalAbilityAssets'",
-      "line": 11
+      "line": 8
     },
     {
-      "id": "import:src/components/AnimalTester:src/data/animalAssets:12",
+      "id": "import:src/components/AnimalTester:src/data/animalAssets:9",
       "from": "src/components/AnimalTester",
       "to": "src/data/animalAssets",
       "type": "static_import",
       "source": "import { ANIMAL_ASSET_BY_NAME } from '../data/animalAssets'",
-      "line": 12
+      "line": 9
     },
     {
-      "id": "import:src/components/AnimalTester:src/data/animalFoodAssets:13",
+      "id": "import:src/components/AnimalTester:src/data/animalFoodAssets:10",
       "from": "src/components/AnimalTester",
       "to": "src/data/animalFoodAssets",
       "type": "static_import",
-      "source": "import { getAnimalFoodImage, getAnimalFoodName } from '../data/animalFoodAssets'",
-      "line": 13
+      "source": "import { ANIMAL_FOOD_IMAGE_BY_NAME } from '../data/animalFoodAssets'",
+      "line": 10
     },
     {
-      "id": "import:src/components/AnimalTester:src/data/animalHabitatAssets:14",
+      "id": "import:src/components/AnimalTester:src/data/animalHabitatAssets:11",
       "from": "src/components/AnimalTester",
       "to": "src/data/animalHabitatAssets",
       "type": "static_import",
-      "source": "import { getAnimalHabitatImage, getAnimalHabitatName, } from '../data/animalHabitatAssets'",
-      "line": 14
+      "source": "import { ANIMAL_HABITAT_IMAGE_BY_NAME } from '../data/animalHabitatAssets'",
+      "line": 11
     },
     {
-      "id": "import:src/components/AnimalTester:src/data/animalLocationAssets:18",
+      "id": "import:src/components/AnimalTester:src/data/animalLocationAssets:12",
       "from": "src/components/AnimalTester",
       "to": "src/data/animalLocationAssets",
       "type": "static_import",
-      "source": "import { getAnimalLocationImage, getAnimalLocationName, } from '../data/animalLocationAssets'",
-      "line": 18
+      "source": "import { ANIMAL_LOCATION_IMAGE_BY_NAME } from '../data/animalLocationAssets'",
+      "line": 12
     },
     {
-      "id": "import:src/components/AnimalTester:src/data/animalKnowledge:22",
+      "id": "import:src/components/AnimalTester:src/data/animalKnowledge:13",
       "from": "src/components/AnimalTester",
       "to": "src/data/animalKnowledge",
       "type": "static_import",
       "source": "import { ANIMAL_KNOWLEDGE, type AnimalFact, type AnimalKnowledge, } from '../data/animalKnowledge'",
-      "line": 22
+      "line": 13
     },
     {
-      "id": "import:src/components/AnimalTester:src/lib/celebrate:27",
+      "id": "import:src/components/AnimalTester:src/lib/celebrate:18",
       "from": "src/components/AnimalTester",
       "to": "src/lib/celebrate",
       "type": "static_import",
       "source": "import { celebrateSuccess } from '../lib/celebrate'",
-      "line": 27
+      "line": 18
     },
     {
-      "id": "import:src/components/AnimalTester:src/lib/activityOutcome:28",
+      "id": "import:src/components/AnimalTester:src/lib/activityOutcome:19",
       "from": "src/components/AnimalTester",
       "to": "src/lib/activityOutcome",
       "type": "static_import",
       "source": "import { getActivityOutcome, getVisibleActivityResults, } from '../lib/activityOutcome'",
-      "line": 28
+      "line": 19
     },
     {
-      "id": "import:src/components/AnimalTester:src/tokens/index:32",
+      "id": "import:src/components/AnimalTester:src/tokens/index:23",
       "from": "src/components/AnimalTester",
       "to": "src/tokens/index",
       "type": "static_import",
       "source": "import { uiTokens } from '../tokens'",
-      "line": 32
+      "line": 23
     },
     {
-      "id": "import:src/components/AnimalTester:src/components/ui/ActionButton:33",
+      "id": "import:src/components/AnimalTester:src/components/ui/ActionButton:24",
       "from": "src/components/AnimalTester",
       "to": "src/components/ui/ActionButton",
       "type": "static_import",
       "source": "import ActionButton from './ui/ActionButton'",
-      "line": 33
+      "line": 24
     },
     {
-      "id": "import:src/components/AnimalTester:src/components/ui/ActivityControls:34",
+      "id": "import:src/components/AnimalTester:src/components/ui/ActivityControls:25",
       "from": "src/components/AnimalTester",
       "to": "src/components/ui/ActivityControls",
       "type": "static_import",
       "source": "import { ActivityOutcomeShell, ActivityPlayArea, ActivitySetupControls, MAX_ACTIVITY_MISTAKES, type ActivityChoreProps, type ActivityResult, } from './ui/ActivityControls'",
-      "line": 34
+      "line": 25
     },
     {
-      "id": "import:src/components/AnimalTester:src/components/ui/SegmentedChoiceControl:42",
+      "id": "import:src/components/AnimalTester:src/components/ui/SegmentedChoiceControl:33",
       "from": "src/components/AnimalTester",
       "to": "src/components/ui/SegmentedChoiceControl",
       "type": "static_import",
       "source": "import SegmentedChoiceControl from './ui/SegmentedChoiceControl'",
-      "line": 42
+      "line": 33
+    },
+    {
+      "id": "import:src/components/AnimalTester:src/components/ui/activityAnimationStyles:34",
+      "from": "src/components/AnimalTester",
+      "to": "src/components/ui/activityAnimationStyles",
+      "type": "static_import",
+      "source": "import { getChoiceFeedbackAnimationStyles } from './ui/activityAnimationStyles'",
+      "line": 34
     },
     {
       "id": "import:src/components/AppDeviceFrame:react:1",
@@ -7382,7 +7518,7 @@
       "from": "src/components/ArithmeticTester",
       "to": "src/lib/useProblemHistory",
       "type": "static_import",
-      "source": "import { useProblemHistory } from '../lib/useProblemHistory'",
+      "source": "import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'",
       "line": 7
     },
     {
@@ -7432,6 +7568,14 @@
       "type": "static_import",
       "source": "import MathActivityShell from './ui/MathActivityShell'",
       "line": 18
+    },
+    {
+      "id": "import:src/components/ArithmeticTester:src/components/ui/activityAnimationStyles:19",
+      "from": "src/components/ArithmeticTester",
+      "to": "src/components/ui/activityAnimationStyles",
+      "type": "static_import",
+      "source": "import { getActivityFeedbackAnimationStyles } from './ui/activityAnimationStyles'",
+      "line": 19
     },
     {
       "id": "import:src/components/ChoreOutcomeView:src/assets/themes/princess/quiz-correct.svg:1",
@@ -7522,6 +7666,14 @@
       "line": 8
     },
     {
+      "id": "import:src/components/DinnerCountdown:src/data/taskLimits:9",
+      "from": "src/components/DinnerCountdown",
+      "to": "src/data/taskLimits",
+      "type": "static_import",
+      "source": "import { MAX_DINNER_SLICES, MIN_DINNER_SLICES } from '../data/taskLimits'",
+      "line": 9
+    },
+    {
       "id": "import:src/components/LargeNumbersTester:react:1",
       "from": "src/components/LargeNumbersTester",
       "to": "react",
@@ -7566,7 +7718,7 @@
       "from": "src/components/LargeNumbersTester",
       "to": "src/lib/useProblemHistory",
       "type": "static_import",
-      "source": "import { useProblemHistory } from '../lib/useProblemHistory'",
+      "source": "import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'",
       "line": 12
     },
     {
@@ -7600,6 +7752,14 @@
       "type": "static_import",
       "source": "import StepperButton from './ui/StepperButton'",
       "line": 21
+    },
+    {
+      "id": "import:src/components/LargeNumbersTester:src/components/ui/activityAnimationStyles:22",
+      "from": "src/components/LargeNumbersTester",
+      "to": "src/components/ui/activityAnimationStyles",
+      "type": "static_import",
+      "source": "import { getActivityFeedbackAnimationStyles } from './ui/activityAnimationStyles'",
+      "line": 22
     },
     {
       "id": "import:src/components/PageHeader:react:1",
@@ -7726,7 +7886,7 @@
       "from": "src/components/PositionalNotation",
       "to": "src/lib/useProblemHistory",
       "type": "static_import",
-      "source": "import { useProblemHistory } from '../lib/useProblemHistory'",
+      "source": "import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'",
       "line": 3
     },
     {
@@ -7768,6 +7928,14 @@
       "type": "static_import",
       "source": "import MathActivityShell from './ui/MathActivityShell'",
       "line": 18
+    },
+    {
+      "id": "import:src/components/PositionalNotation:src/components/ui/activityAnimationStyles:19",
+      "from": "src/components/PositionalNotation",
+      "to": "src/components/ui/activityAnimationStyles",
+      "type": "static_import",
+      "source": "import { getActivityFeedbackAnimationStyles } from './ui/activityAnimationStyles'",
+      "line": 19
     },
     {
       "id": "import:src/components/SchoolCalendar:react:1",
@@ -7842,115 +8010,115 @@
       "line": 2
     },
     {
-      "id": "import:src/components/SpellingTester:src/tokens/index:3",
-      "from": "src/components/SpellingTester",
-      "to": "src/tokens/index",
-      "type": "static_import",
-      "source": "import { uiTokens } from '../tokens'",
-      "line": 3
-    },
-    {
-      "id": "import:src/components/SpellingTester:src/assets/global/cat-camel-cow.webp:4",
+      "id": "import:src/components/SpellingTester:src/assets/global/cat-camel-cow.webp:3",
       "from": "src/components/SpellingTester",
       "to": "src/assets/global/cat-camel-cow.webp",
       "type": "static_import",
       "source": "import animalsSetIcon from '../assets/global/cat-camel-cow.webp'",
-      "line": 4
+      "line": 3
     },
     {
-      "id": "import:src/components/SpellingTester:src/assets/global/teenieping.webp:5",
+      "id": "import:src/components/SpellingTester:src/assets/global/teenieping.webp:4",
       "from": "src/components/SpellingTester",
       "to": "src/assets/global/teenieping.webp",
       "type": "static_import",
       "source": "import teenieSetIcon from '../assets/global/teenieping.webp'",
-      "line": 5
+      "line": 4
     },
     {
-      "id": "import:src/components/SpellingTester:src/assets/pokemon/pikachu.png:6",
+      "id": "import:src/components/SpellingTester:src/assets/pokemon/pikachu.png:5",
       "from": "src/components/SpellingTester",
       "to": "src/assets/pokemon/pikachu.png",
       "type": "static_import",
       "source": "import pokemonSetIcon from '../assets/pokemon/pikachu.png'",
-      "line": 6
+      "line": 5
     },
     {
-      "id": "import:src/components/SpellingTester:src/assets/themes/princess/quiz-correct.svg:7",
+      "id": "import:src/components/SpellingTester:src/assets/themes/princess/quiz-correct.svg:6",
       "from": "src/components/SpellingTester",
       "to": "src/assets/themes/princess/quiz-correct.svg",
       "type": "static_import",
       "source": "import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'",
-      "line": 7
+      "line": 6
     },
     {
-      "id": "import:src/components/SpellingTester:src/assets/themes/princess/quiz-incorrect.svg:8",
+      "id": "import:src/components/SpellingTester:src/assets/themes/princess/quiz-incorrect.svg:7",
       "from": "src/components/SpellingTester",
       "to": "src/assets/themes/princess/quiz-incorrect.svg",
       "type": "static_import",
       "source": "import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'",
-      "line": 8
+      "line": 7
     },
     {
-      "id": "import:src/components/SpellingTester:src/lib/celebrate:9",
+      "id": "import:src/components/SpellingTester:src/lib/celebrate:8",
       "from": "src/components/SpellingTester",
       "to": "src/lib/celebrate",
       "type": "static_import",
       "source": "import { celebrateSuccess } from '../lib/celebrate'",
-      "line": 9
+      "line": 8
     },
     {
-      "id": "import:src/components/SpellingTester:src/lib/activityOutcome:10",
+      "id": "import:src/components/SpellingTester:src/lib/activityOutcome:9",
       "from": "src/components/SpellingTester",
       "to": "src/lib/activityOutcome",
       "type": "static_import",
       "source": "import { getActivityOutcome, getVisibleActivityResults, } from '../lib/activityOutcome'",
-      "line": 10
+      "line": 9
     },
     {
-      "id": "import:src/components/SpellingTester:src/lib/imageLoading:14",
+      "id": "import:src/components/SpellingTester:src/lib/imageLoading:13",
       "from": "src/components/SpellingTester",
       "to": "src/lib/imageLoading",
       "type": "static_import",
       "source": "import { preloadImage } from '../lib/imageLoading'",
-      "line": 14
+      "line": 13
     },
     {
-      "id": "import:src/components/SpellingTester:src/lib/useProblemHistory:15",
+      "id": "import:src/components/SpellingTester:src/lib/useProblemHistory:14",
       "from": "src/components/SpellingTester",
       "to": "src/lib/useProblemHistory",
       "type": "static_import",
       "source": "import { useProblemHistory } from '../lib/useProblemHistory'",
-      "line": 15
+      "line": 14
     },
     {
-      "id": "import:src/components/SpellingTester:src/data/animalAssets:16",
+      "id": "import:src/components/SpellingTester:src/data/animalAssets:15",
       "from": "src/components/SpellingTester",
       "to": "src/data/animalAssets",
       "type": "static_import",
       "source": "import { ANIMAL_ASSETS } from '../data/animalAssets'",
-      "line": 16
+      "line": 15
     },
     {
-      "id": "import:src/components/SpellingTester:src/components/ui/ActivityControls:17",
+      "id": "import:src/components/SpellingTester:src/components/ui/ActivityControls:16",
       "from": "src/components/SpellingTester",
       "to": "src/components/ui/ActivityControls",
       "type": "static_import",
       "source": "import { ActivityOutcomeShell, ActivityPlayArea, ActivitySetupControls, MAX_ACTIVITY_MISTAKES, type ActivityChoreProps, type ActivityResult, } from './ui/ActivityControls'",
-      "line": 17
+      "line": 16
     },
     {
-      "id": "import:src/components/SpellingTester:src/components/ui/LetterCaseControl:25",
+      "id": "import:src/components/SpellingTester:src/components/ui/LetterCaseControl:24",
       "from": "src/components/SpellingTester",
       "to": "src/components/ui/LetterCaseControl",
       "type": "static_import",
       "source": "import LetterCaseControl, { type LetterCase } from './ui/LetterCaseControl'",
-      "line": 25
+      "line": 24
     },
     {
-      "id": "import:src/components/SpellingTester:src/components/ui/SegmentedChoiceControl:26",
+      "id": "import:src/components/SpellingTester:src/components/ui/SegmentedChoiceControl:25",
       "from": "src/components/SpellingTester",
       "to": "src/components/ui/SegmentedChoiceControl",
       "type": "static_import",
       "source": "import SegmentedChoiceControl from './ui/SegmentedChoiceControl'",
+      "line": 25
+    },
+    {
+      "id": "import:src/components/SpellingTester:src/components/ui/activityAnimationStyles:26",
+      "from": "src/components/SpellingTester",
+      "to": "src/components/ui/activityAnimationStyles",
+      "type": "static_import",
+      "source": "import { getChoiceFeedbackAnimationStyles } from './ui/activityAnimationStyles'",
       "line": 26
     },
     {
@@ -8046,80 +8214,80 @@
       "from": "src/components/dayNightExplorer/Clock",
       "to": "react",
       "type": "static_import",
-      "source": "import { memo, useMemo, type PointerEvent as ReactPointerEvent, type RefObject, } from 'react'",
+      "source": "import { memo, useMemo, type CSSProperties, type PointerEvent as ReactPointerEvent, type RefObject, } from 'react'",
       "line": 1
     },
     {
-      "id": "import:src/components/dayNightExplorer/Clock:src/contexts/ThemeContext:7",
+      "id": "import:src/components/dayNightExplorer/Clock:src/contexts/ThemeContext:8",
       "from": "src/components/dayNightExplorer/Clock",
       "to": "src/contexts/ThemeContext",
       "type": "type_only_import",
       "source": "import type { Theme } from '../../contexts/ThemeContext'",
-      "line": 7
+      "line": 8
     },
     {
-      "id": "import:src/components/dayNightExplorer/Clock:src/tokens/index:8",
+      "id": "import:src/components/dayNightExplorer/Clock:src/tokens/index:9",
       "from": "src/components/dayNightExplorer/Clock",
       "to": "src/tokens/index",
       "type": "static_import",
       "source": "import { uiTokens } from '../../tokens'",
-      "line": 8
+      "line": 9
     },
     {
-      "id": "import:src/components/dayNightExplorer/Clock:src/assets/clock/hourhand.svg:9",
+      "id": "import:src/components/dayNightExplorer/Clock:src/assets/clock/hourhand.svg:10",
       "from": "src/components/dayNightExplorer/Clock",
       "to": "src/assets/clock/hourhand.svg",
       "type": "static_import",
       "source": "import hourHandSvg from '../../assets/clock/hourhand.svg'",
-      "line": 9
+      "line": 10
     },
     {
-      "id": "import:src/components/dayNightExplorer/Clock:src/assets/clock/minutehand.svg:10",
+      "id": "import:src/components/dayNightExplorer/Clock:src/assets/clock/minutehand.svg:11",
       "from": "src/components/dayNightExplorer/Clock",
       "to": "src/assets/clock/minutehand.svg",
       "type": "static_import",
       "source": "import minuteHandSvg from '../../assets/clock/minutehand.svg'",
-      "line": 10
+      "line": 11
     },
     {
-      "id": "import:src/components/dayNightExplorer/Clock:src/assets/clock/pivot.svg:11",
+      "id": "import:src/components/dayNightExplorer/Clock:src/assets/clock/pivot.svg:12",
       "from": "src/components/dayNightExplorer/Clock",
       "to": "src/assets/clock/pivot.svg",
       "type": "static_import",
       "source": "import pivotSvg from '../../assets/clock/pivot.svg'",
-      "line": 11
+      "line": 12
     },
     {
-      "id": "import:src/components/dayNightExplorer/Clock:src/assets/clock/secondhand.svg:12",
+      "id": "import:src/components/dayNightExplorer/Clock:src/assets/clock/secondhand.svg:13",
       "from": "src/components/dayNightExplorer/Clock",
       "to": "src/assets/clock/secondhand.svg",
       "type": "static_import",
       "source": "import secondHandSvg from '../../assets/clock/secondhand.svg'",
-      "line": 12
+      "line": 13
     },
     {
-      "id": "import:src/components/dayNightExplorer/Clock:src/components/ui/StepperButton:13",
+      "id": "import:src/components/dayNightExplorer/Clock:src/components/ui/StepperButton:14",
       "from": "src/components/dayNightExplorer/Clock",
       "to": "src/components/ui/StepperButton",
       "type": "static_import",
       "source": "import StepperButton from '../ui/StepperButton'",
-      "line": 13
+      "line": 14
     },
     {
-      "id": "import:src/components/dayNightExplorer/Clock:src/lib/dayNightExplorer/dayNightExplorer.constants:14",
+      "id": "import:src/components/dayNightExplorer/Clock:src/lib/dayNightExplorer/dayNightExplorer.constants:15",
       "from": "src/components/dayNightExplorer/Clock",
       "to": "src/lib/dayNightExplorer/dayNightExplorer.constants",
       "type": "static_import",
       "source": "import { clockGeometry, explorerUi, } from '../../lib/dayNightExplorer/dayNightExplorer.constants'",
-      "line": 14
+      "line": 15
     },
     {
-      "id": "import:src/components/dayNightExplorer/Clock:src/lib/dayNightExplorer/dayNightExplorerMath:18",
+      "id": "import:src/components/dayNightExplorer/Clock:src/lib/dayNightExplorer/dayNightExplorerMath:19",
       "from": "src/components/dayNightExplorer/Clock",
       "to": "src/lib/dayNightExplorer/dayNightExplorerMath",
       "type": "static_import",
       "source": "import { lerpPoint, roundedRectPerimeterPoint, } from '../../lib/dayNightExplorer/dayNightExplorerMath'",
-      "line": 18
+      "line": 19
     },
     {
       "id": "import:src/components/dayNightExplorer/SolarSystem3DManager:three:1",
@@ -8626,6 +8794,30 @@
       "line": 3
     },
     {
+      "id": "import:src/components/ui/ImageStarFrame:src/contexts/ThemeContext:1",
+      "from": "src/components/ui/ImageStarFrame",
+      "to": "src/contexts/ThemeContext",
+      "type": "type_only_import",
+      "source": "import type { Theme } from '../../contexts/ThemeContext'",
+      "line": 1
+    },
+    {
+      "id": "import:src/components/ui/ImageStarFrame:src/tokens/index:2",
+      "from": "src/components/ui/ImageStarFrame",
+      "to": "src/tokens/index",
+      "type": "static_import",
+      "source": "import { uiTokens } from '../../tokens'",
+      "line": 2
+    },
+    {
+      "id": "import:src/components/ui/ImageStarFrame:src/components/ui/StarDisplay:3",
+      "from": "src/components/ui/ImageStarFrame",
+      "to": "src/components/ui/StarDisplay",
+      "type": "static_import",
+      "source": "import StarDisplay from './StarDisplay'",
+      "line": 3
+    },
+    {
       "id": "import:src/components/ui/InlineChoiceList:react:1",
       "from": "src/components/ui/InlineChoiceList",
       "to": "react",
@@ -8914,11 +9106,11 @@
       "line": 8
     },
     {
-      "id": "import:src/components/ui/StandardActionList:src/assets/themes/princess/assets:9",
+      "id": "import:src/components/ui/StandardActionList:src/ui/themeActionAssets:9",
       "from": "src/components/ui/StandardActionList",
-      "to": "src/assets/themes/princess/assets",
+      "to": "src/ui/themeActionAssets",
       "type": "static_import",
-      "source": "import { princessDeleteIcon, princessEditIcon, } from '../../assets/themes/princess/assets'",
+      "source": "import { getThemeActionIcon, type ThemeActionIcon, } from '../../ui/themeActionAssets'",
       "line": 9
     },
     {
@@ -9458,84 +9650,148 @@
       "line": 33
     },
     {
-      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/fish.webp:1",
+      "id": "import:src/data/animalAbilityAssets:src/data/assetCatalog:1",
+      "from": "src/data/animalAbilityAssets",
+      "to": "src/data/assetCatalog",
+      "type": "static_import",
+      "source": "import { createAssetCatalog, type NamedAsset } from './assetCatalog'",
+      "line": 1
+    },
+    {
+      "id": "import:src/data/animalAssets:src/data/assetCatalog:1",
+      "from": "src/data/animalAssets",
+      "to": "src/data/assetCatalog",
+      "type": "static_import",
+      "source": "import { createAssetCatalog, type NamedAsset } from './assetCatalog'",
+      "line": 1
+    },
+    {
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/bamboo.webp:1",
+      "from": "src/data/animalFoodAssets",
+      "to": "src/assets/animal-foods/bamboo.webp",
+      "type": "static_import",
+      "source": "import bambooImage from '../assets/animal-foods/bamboo.webp'",
+      "line": 1
+    },
+    {
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/deer.webp:2",
+      "from": "src/data/animalFoodAssets",
+      "to": "src/assets/animal-foods/deer.webp",
+      "type": "static_import",
+      "source": "import deerImage from '../assets/animal-foods/deer.webp'",
+      "line": 2
+    },
+    {
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/fish.webp:3",
       "from": "src/data/animalFoodAssets",
       "to": "src/assets/animal-foods/fish.webp",
       "type": "static_import",
       "source": "import fishImage from '../assets/animal-foods/fish.webp'",
-      "line": 1
+      "line": 3
     },
     {
-      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/food.webp:2",
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/food.webp:4",
       "from": "src/data/animalFoodAssets",
       "to": "src/assets/animal-foods/food.webp",
       "type": "static_import",
       "source": "import foodImage from '../assets/animal-foods/food.webp'",
-      "line": 2
+      "line": 4
     },
     {
-      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/fruit.webp:3",
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/fruit.webp:5",
       "from": "src/data/animalFoodAssets",
       "to": "src/assets/animal-foods/fruit.webp",
       "type": "static_import",
       "source": "import fruitImage from '../assets/animal-foods/fruit.webp'",
-      "line": 3
+      "line": 5
     },
     {
-      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/insects.webp:4",
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/insects.webp:6",
       "from": "src/data/animalFoodAssets",
       "to": "src/assets/animal-foods/insects.webp",
       "type": "static_import",
       "source": "import insectsImage from '../assets/animal-foods/insects.webp'",
-      "line": 4
+      "line": 6
     },
     {
-      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/meat.webp:5",
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/krill.webp:7",
+      "from": "src/data/animalFoodAssets",
+      "to": "src/assets/animal-foods/krill.webp",
+      "type": "static_import",
+      "source": "import krillImage from '../assets/animal-foods/krill.webp'",
+      "line": 7
+    },
+    {
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/meat.webp:8",
       "from": "src/data/animalFoodAssets",
       "to": "src/assets/animal-foods/meat.webp",
       "type": "static_import",
       "source": "import meatImage from '../assets/animal-foods/meat.webp'",
-      "line": 5
+      "line": 8
     },
     {
-      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/nectar.webp:6",
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/nectar.webp:9",
       "from": "src/data/animalFoodAssets",
       "to": "src/assets/animal-foods/nectar.webp",
       "type": "static_import",
       "source": "import nectarImage from '../assets/animal-foods/nectar.webp'",
-      "line": 6
+      "line": 9
     },
     {
-      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/plants.webp:7",
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/plants.webp:10",
       "from": "src/data/animalFoodAssets",
       "to": "src/assets/animal-foods/plants.webp",
       "type": "static_import",
       "source": "import plantsImage from '../assets/animal-foods/plants.webp'",
-      "line": 7
+      "line": 10
     },
     {
-      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/seeds.webp:8",
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/seeds.webp:11",
       "from": "src/data/animalFoodAssets",
       "to": "src/assets/animal-foods/seeds.webp",
       "type": "static_import",
       "source": "import seedsImage from '../assets/animal-foods/seeds.webp'",
-      "line": 8
+      "line": 11
     },
     {
-      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/shellfish.webp:9",
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/seals.webp:12",
+      "from": "src/data/animalFoodAssets",
+      "to": "src/assets/animal-foods/seals.webp",
+      "type": "static_import",
+      "source": "import sealsImage from '../assets/animal-foods/seals.webp'",
+      "line": 12
+    },
+    {
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/shellfish.webp:13",
       "from": "src/data/animalFoodAssets",
       "to": "src/assets/animal-foods/shellfish.webp",
       "type": "static_import",
       "source": "import shellfishImage from '../assets/animal-foods/shellfish.webp'",
-      "line": 9
+      "line": 13
     },
     {
-      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/worms.webp:10",
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/shrimp.webp:14",
+      "from": "src/data/animalFoodAssets",
+      "to": "src/assets/animal-foods/shrimp.webp",
+      "type": "static_import",
+      "source": "import shrimpImage from '../assets/animal-foods/shrimp.webp'",
+      "line": 14
+    },
+    {
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/small-animals.webp:15",
+      "from": "src/data/animalFoodAssets",
+      "to": "src/assets/animal-foods/small-animals.webp",
+      "type": "static_import",
+      "source": "import preyImage from '../assets/animal-foods/small-animals.webp'",
+      "line": 15
+    },
+    {
+      "id": "import:src/data/animalFoodAssets:src/assets/animal-foods/worms.webp:16",
       "from": "src/data/animalFoodAssets",
       "to": "src/assets/animal-foods/worms.webp",
       "type": "static_import",
       "source": "import wormsImage from '../assets/animal-foods/worms.webp'",
-      "line": 10
+      "line": 16
     },
     {
       "id": "import:src/data/animalHabitatAssets:src/assets/animal-habitats/burrow.webp:1",
@@ -9658,6 +9914,30 @@
       "line": 15
     },
     {
+      "id": "import:src/data/animalKnowledge:src/data/animalFoodAssets:1",
+      "from": "src/data/animalKnowledge",
+      "to": "src/data/animalFoodAssets",
+      "type": "type_only_import",
+      "source": "import type { AnimalFoodName } from './animalFoodAssets'",
+      "line": 1
+    },
+    {
+      "id": "import:src/data/animalKnowledge:src/data/animalHabitatAssets:2",
+      "from": "src/data/animalKnowledge",
+      "to": "src/data/animalHabitatAssets",
+      "type": "type_only_import",
+      "source": "import type { AnimalHabitatName } from './animalHabitatAssets'",
+      "line": 2
+    },
+    {
+      "id": "import:src/data/animalKnowledge:src/data/animalLocationAssets:3",
+      "from": "src/data/animalKnowledge",
+      "to": "src/data/animalLocationAssets",
+      "type": "type_only_import",
+      "source": "import type { AnimalLocationName } from './animalLocationAssets'",
+      "line": 3
+    },
+    {
       "id": "import:src/data/animalLocationAssets:src/assets/animal-locations/africa-detailed.webp:1",
       "from": "src/data/animalLocationAssets",
       "to": "src/assets/animal-locations/africa-detailed.webp",
@@ -9778,12 +10058,12 @@
       "line": 2
     },
     {
-      "id": "import:src/data/taskDocuments:src/data/taskLimits:24",
+      "id": "import:src/data/taskDocuments:src/data/taskLimits:25",
       "from": "src/data/taskDocuments",
       "to": "src/data/taskLimits",
       "type": "static_import",
       "source": "import { validateTaskFields } from './taskLimits'",
-      "line": 24
+      "line": 25
     },
     {
       "id": "import:src/data/types:src/ui/themeOptions:3",
@@ -9806,7 +10086,7 @@
       "from": "src/data/types",
       "to": "src/data/taskLimits",
       "type": "static_import",
-      "source": "import { MAX_TASK_VALUE, MIN_TASK_VALUE } from './taskLimits'",
+      "source": "import { MAX_DINNER_SLICES, MAX_TASK_VALUE, MIN_DINNER_SLICES, MIN_TASK_VALUE, } from './taskLimits'",
       "line": 5
     },
     {
@@ -10786,188 +11066,204 @@
       "line": 19
     },
     {
-      "id": "import:src/pages/ChoreCreationFlow:src/assets/themes/princess/assets:20",
+      "id": "import:src/pages/ChoreCreationFlow:src/data/taskLimits:20",
+      "from": "src/pages/ChoreCreationFlow",
+      "to": "src/data/taskLimits",
+      "type": "static_import",
+      "source": "import { clampDinnerSliceCount } from '../data/taskLimits'",
+      "line": 20
+    },
+    {
+      "id": "import:src/pages/ChoreCreationFlow:src/assets/themes/princess/assets:21",
       "from": "src/pages/ChoreCreationFlow",
       "to": "src/assets/themes/princess/assets",
       "type": "static_import",
       "source": "import { princessExitIcon, princessGiveStarIcon, princessPlateImage, } from '../assets/themes/princess/assets'",
-      "line": 20
+      "line": 21
     },
     {
-      "id": "import:src/pages/ChoreCreationFlow:src/ui/taskTypeIcons:25",
+      "id": "import:src/pages/ChoreCreationFlow:src/ui/taskTypeIcons:26",
       "from": "src/pages/ChoreCreationFlow",
       "to": "src/ui/taskTypeIcons",
       "type": "static_import",
       "source": "import { getPrincessTaskTypeIcon } from '../ui/taskTypeIcons'",
-      "line": 25
+      "line": 26
     },
     {
-      "id": "import:src/pages/ChoreCreationFlow:src/ui/presetChoreRenderers:26",
+      "id": "import:src/pages/ChoreCreationFlow:src/ui/presetChoreRenderers:27",
       "from": "src/pages/ChoreCreationFlow",
       "to": "src/ui/presetChoreRenderers",
       "type": "static_import",
       "source": "import { renderDinnerChore } from '../ui/presetChoreRenderers'",
-      "line": 26
+      "line": 27
     },
     {
       "id": "import:src/pages/DashboardPage:react:1",
       "from": "src/pages/DashboardPage",
       "to": "react",
       "type": "static_import",
-      "source": "import { useEffect, useMemo, useState, type Dispatch, type SetStateAction, } from 'react'",
+      "source": "import { useEffect, useMemo, useState } from 'react'",
       "line": 1
     },
     {
-      "id": "import:src/pages/DashboardPage:src/auth/AuthContext:8",
+      "id": "import:src/pages/DashboardPage:src/auth/AuthContext:2",
       "from": "src/pages/DashboardPage",
       "to": "src/auth/AuthContext",
       "type": "static_import",
       "source": "import { useAuth } from '../auth/AuthContext'",
-      "line": 8
+      "line": 2
     },
     {
-      "id": "import:src/pages/DashboardPage:src/contexts/ActiveChildContext:9",
+      "id": "import:src/pages/DashboardPage:src/contexts/ActiveChildContext:3",
       "from": "src/pages/DashboardPage",
       "to": "src/contexts/ActiveChildContext",
       "type": "static_import",
       "source": "import { useActiveChild } from '../contexts/ActiveChildContext'",
-      "line": 9
+      "line": 3
     },
     {
-      "id": "import:src/pages/DashboardPage:src/contexts/ThemeContext:10",
+      "id": "import:src/pages/DashboardPage:src/contexts/ThemeContext:4",
       "from": "src/pages/DashboardPage",
       "to": "src/contexts/ThemeContext",
       "type": "static_import",
       "source": "import { useTheme } from '../contexts/ThemeContext'",
-      "line": 10
+      "line": 4
     },
     {
-      "id": "import:src/pages/DashboardPage:src/components/TabContent:11",
+      "id": "import:src/pages/DashboardPage:src/components/TabContent:5",
       "from": "src/pages/DashboardPage",
       "to": "src/components/TabContent",
       "type": "static_import",
       "source": "import TabContent from '../components/TabContent'",
-      "line": 11
+      "line": 5
     },
     {
-      "id": "import:src/pages/DashboardPage:src/components/ui/StandardActionList:12",
+      "id": "import:src/pages/DashboardPage:src/components/ui/StandardActionList:6",
       "from": "src/pages/DashboardPage",
       "to": "src/components/ui/StandardActionList",
       "type": "static_import",
       "source": "import StandardActionList from '../components/ui/StandardActionList'",
-      "line": 12
+      "line": 6
     },
     {
-      "id": "import:src/pages/DashboardPage:src/components/ui/StarInfoBox:13",
+      "id": "import:src/pages/DashboardPage:src/components/ui/StarInfoBox:7",
       "from": "src/pages/DashboardPage",
       "to": "src/components/ui/StarInfoBox",
       "type": "static_import",
       "source": "import StarInfoBox from '../components/ui/StarInfoBox'",
-      "line": 13
+      "line": 7
     },
     {
-      "id": "import:src/pages/DashboardPage:src/ui/listDescriptorTypes:14",
+      "id": "import:src/pages/DashboardPage:src/ui/listDescriptorTypes:8",
       "from": "src/pages/DashboardPage",
       "to": "src/ui/listDescriptorTypes",
       "type": "static_import",
       "source": "import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'",
-      "line": 14
+      "line": 8
     },
     {
-      "id": "import:src/pages/DashboardPage:src/ui/unifiedChoreDescriptors:15",
+      "id": "import:src/pages/DashboardPage:src/ui/unifiedChoreDescriptors:9",
       "from": "src/pages/DashboardPage",
       "to": "src/ui/unifiedChoreDescriptors",
       "type": "static_import",
       "source": "import { createUnifiedChoreDescriptor, type UnifiedChoreDeps, } from '../ui/unifiedChoreDescriptors'",
-      "line": 15
+      "line": 9
     },
     {
-      "id": "import:src/pages/DashboardPage:src/ui/unifiedChoreState:19",
+      "id": "import:src/pages/DashboardPage:src/ui/unifiedChoreState:13",
       "from": "src/pages/DashboardPage",
       "to": "src/ui/unifiedChoreState",
       "type": "static_import",
       "source": "import { createUnifiedChoreState } from '../ui/unifiedChoreState'",
-      "line": 19
+      "line": 13
     },
     {
-      "id": "import:src/pages/DashboardPage:src/tokens/index:20",
+      "id": "import:src/pages/DashboardPage:src/tokens/index:14",
       "from": "src/pages/DashboardPage",
       "to": "src/tokens/index",
       "type": "static_import",
       "source": "import { getSurfaceWidthConstraints, uiTokens } from '../tokens'",
-      "line": 20
+      "line": 14
     },
     {
-      "id": "import:src/pages/DashboardPage:src/data/useChildren:21",
+      "id": "import:src/pages/DashboardPage:src/data/useChildren:15",
       "from": "src/pages/DashboardPage",
       "to": "src/data/useChildren",
       "type": "static_import",
       "source": "import { useChildren } from '../data/useChildren'",
-      "line": 21
+      "line": 15
     },
     {
-      "id": "import:src/pages/DashboardPage:src/data/useChores:22",
+      "id": "import:src/pages/DashboardPage:src/data/useChores:16",
       "from": "src/pages/DashboardPage",
       "to": "src/data/useChores",
       "type": "static_import",
       "source": "import { useChores } from '../data/useChores'",
-      "line": 22
+      "line": 16
     },
     {
-      "id": "import:src/pages/DashboardPage:src/data/types:23",
+      "id": "import:src/pages/DashboardPage:src/data/types:17",
       "from": "src/pages/DashboardPage",
       "to": "src/data/types",
       "type": "static_import",
       "source": "import { BITE_COOLDOWN_SECONDS, type ChoreType, type ChoreWithEphemeral, isEatingTask, } from '../data/types'",
-      "line": 23
+      "line": 17
     },
     {
-      "id": "import:src/pages/DashboardPage:src/data/taskDocuments:29",
+      "id": "import:src/pages/DashboardPage:src/data/taskDocuments:23",
       "from": "src/pages/DashboardPage",
       "to": "src/data/taskDocuments",
       "type": "type_only_import",
       "source": "import type { ChoreDocumentSettings } from '../data/taskDocuments'",
-      "line": 29
+      "line": 23
     },
     {
-      "id": "import:src/pages/DashboardPage:src/hooks/useTaskActivityState:30",
+      "id": "import:src/pages/DashboardPage:src/hooks/useTaskActivityState:24",
       "from": "src/pages/DashboardPage",
       "to": "src/hooks/useTaskActivityState",
       "type": "static_import",
       "source": "import { useTaskActivityState } from '../hooks/useTaskActivityState'",
-      "line": 30
+      "line": 24
     },
     {
-      "id": "import:src/pages/DashboardPage:src/assets/themes/princess/assets:31",
+      "id": "import:src/pages/DashboardPage:src/hooks/useTestCheckTriggers:25",
+      "from": "src/pages/DashboardPage",
+      "to": "src/hooks/useTestCheckTriggers",
+      "type": "static_import",
+      "source": "import { useTestCheckTriggers } from '../hooks/useTestCheckTriggers'",
+      "line": 25
+    },
+    {
+      "id": "import:src/pages/DashboardPage:src/assets/themes/princess/assets:26",
       "from": "src/pages/DashboardPage",
       "to": "src/assets/themes/princess/assets",
       "type": "static_import",
       "source": "import { princessEatingBreakfastIcon, princessEatingDinnerIcon, princessEatingLunchIcon, } from '../assets/themes/princess/assets'",
-      "line": 31
+      "line": 26
     },
     {
-      "id": "import:src/pages/DashboardPage:src/pages/dashboardChoreUi:36",
+      "id": "import:src/pages/DashboardPage:src/pages/dashboardChoreUi:31",
       "from": "src/pages/DashboardPage",
       "to": "src/pages/dashboardChoreUi",
       "type": "static_import",
       "source": "import { DashboardHeaderActions } from './dashboardChoreUi'",
-      "line": 36
+      "line": 31
     },
     {
-      "id": "import:src/pages/DashboardPage:src/pages/ChoreCreationFlow:37",
+      "id": "import:src/pages/DashboardPage:src/pages/ChoreCreationFlow:32",
       "from": "src/pages/DashboardPage",
       "to": "src/pages/ChoreCreationFlow",
       "type": "static_import",
       "source": "import ChoreCreationFlow from './ChoreCreationFlow'",
-      "line": 37
+      "line": 32
     },
     {
-      "id": "import:src/pages/DashboardPage:src/components/ui/InlineNotice:38",
+      "id": "import:src/pages/DashboardPage:src/components/ui/InlineNotice:33",
       "from": "src/pages/DashboardPage",
       "to": "src/components/ui/InlineNotice",
       "type": "static_import",
       "source": "import InlineNotice from '../components/ui/InlineNotice'",
-      "line": 38
+      "line": 33
     },
     {
       "id": "import:src/pages/LoginPage:react:1",
@@ -11670,8 +11966,16 @@
       "from": "src/pages/dashboardChoreUi",
       "to": "src/assets/themes/princess/assets",
       "type": "static_import",
-      "source": "import { princessChildrenIcon, princessExitIcon, princessResetIcon, } from '../assets/themes/princess/assets'",
+      "source": "import { princessChildrenIcon, princessExitIcon, } from '../assets/themes/princess/assets'",
       "line": 3
+    },
+    {
+      "id": "import:src/pages/dashboardChoreUi:src/ui/themeActionAssets:7",
+      "from": "src/pages/dashboardChoreUi",
+      "to": "src/ui/themeActionAssets",
+      "type": "static_import",
+      "source": "import { getThemeActionIcon } from '../ui/themeActionAssets'",
+      "line": 7
     },
     {
       "id": "import:src/routes/AnimatedTabLayout:react:1",
@@ -11790,7 +12094,7 @@
       "from": "src/ui/definitionRowDescriptors",
       "to": "react",
       "type": "type_only_import",
-      "source": "import type { CSSProperties, ReactNode } from 'react'",
+      "source": "import type { ReactNode } from 'react'",
       "line": 1
     },
     {
@@ -11818,92 +12122,100 @@
       "line": 4
     },
     {
-      "id": "import:src/ui/definitionRowDescriptors:src/components/ui/SegmentedChoiceControl:5",
+      "id": "import:src/ui/definitionRowDescriptors:src/components/ui/ImageStarFrame:5",
+      "from": "src/ui/definitionRowDescriptors",
+      "to": "src/components/ui/ImageStarFrame",
+      "type": "static_import",
+      "source": "import ImageStarFrame from '../components/ui/ImageStarFrame'",
+      "line": 5
+    },
+    {
+      "id": "import:src/ui/definitionRowDescriptors:src/components/ui/SegmentedChoiceControl:6",
       "from": "src/ui/definitionRowDescriptors",
       "to": "src/components/ui/SegmentedChoiceControl",
       "type": "static_import",
       "source": "import SegmentedChoiceControl, { type SegmentedChoiceOption, } from '../components/ui/SegmentedChoiceControl'",
-      "line": 5
+      "line": 6
     },
     {
-      "id": "import:src/ui/definitionRowDescriptors:src/components/ui/standardActionStyles:8",
+      "id": "import:src/ui/definitionRowDescriptors:src/components/ui/standardActionStyles:9",
       "from": "src/ui/definitionRowDescriptors",
       "to": "src/components/ui/standardActionStyles",
       "type": "static_import",
       "source": "import { getStandardActionHeadingStyle } from '../components/ui/standardActionStyles'",
-      "line": 8
+      "line": 9
     },
     {
-      "id": "import:src/ui/definitionRowDescriptors:src/assets/themes/princess/quiz-correct.svg:9",
+      "id": "import:src/ui/definitionRowDescriptors:src/assets/themes/princess/quiz-correct.svg:10",
       "from": "src/ui/definitionRowDescriptors",
       "to": "src/assets/themes/princess/quiz-correct.svg",
       "type": "static_import",
       "source": "import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'",
-      "line": 9
+      "line": 10
     },
     {
-      "id": "import:src/ui/definitionRowDescriptors:src/assets/themes/princess/quiz-incorrect.svg:10",
+      "id": "import:src/ui/definitionRowDescriptors:src/assets/themes/princess/quiz-incorrect.svg:11",
       "from": "src/ui/definitionRowDescriptors",
       "to": "src/assets/themes/princess/quiz-incorrect.svg",
       "type": "static_import",
       "source": "import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'",
-      "line": 10
+      "line": 11
     },
     {
-      "id": "import:src/ui/definitionRowDescriptors:src/assets/themes/princess/assets:11",
+      "id": "import:src/ui/definitionRowDescriptors:src/assets/themes/princess/assets:12",
       "from": "src/ui/definitionRowDescriptors",
       "to": "src/assets/themes/princess/assets",
       "type": "static_import",
       "source": "import { princessActiveIcon, princessBuyRewardIcon, princessLockedRewardIcon, princessSelectIcon, } from '../assets/themes/princess/assets'",
-      "line": 11
+      "line": 12
     },
     {
-      "id": "import:src/ui/definitionRowDescriptors:src/assets/rewards/assets:17",
+      "id": "import:src/ui/definitionRowDescriptors:src/assets/rewards/assets:18",
       "from": "src/ui/definitionRowDescriptors",
       "to": "src/assets/rewards/assets",
       "type": "static_import",
       "source": "import { getRewardImage } from '../assets/rewards/assets'",
-      "line": 17
+      "line": 18
     },
     {
-      "id": "import:src/ui/definitionRowDescriptors:src/ui/themeOptions:18",
+      "id": "import:src/ui/definitionRowDescriptors:src/ui/themeOptions:19",
       "from": "src/ui/definitionRowDescriptors",
       "to": "src/ui/themeOptions",
       "type": "type_only_import",
       "source": "import type { ThemeId } from './themeOptions'",
-      "line": 18
+      "line": 19
     },
     {
-      "id": "import:src/ui/definitionRowDescriptors:src/contexts/ThemeContext:19",
+      "id": "import:src/ui/definitionRowDescriptors:src/contexts/ThemeContext:20",
       "from": "src/ui/definitionRowDescriptors",
       "to": "src/contexts/ThemeContext",
       "type": "type_only_import",
       "source": "import type { Theme } from '../contexts/ThemeContext'",
-      "line": 19
+      "line": 20
     },
     {
-      "id": "import:src/ui/definitionRowDescriptors:src/data/types:20",
+      "id": "import:src/ui/definitionRowDescriptors:src/data/types:21",
       "from": "src/ui/definitionRowDescriptors",
       "to": "src/data/types",
       "type": "type_only_import",
       "source": "import type { ChildProfile, RewardRecord } from '../data/types'",
-      "line": 20
+      "line": 21
     },
     {
-      "id": "import:src/ui/definitionRowDescriptors:src/tokens/index:21",
+      "id": "import:src/ui/definitionRowDescriptors:src/tokens/index:22",
       "from": "src/ui/definitionRowDescriptors",
       "to": "src/tokens/index",
       "type": "static_import",
       "source": "import { uiTokens } from '../tokens'",
-      "line": 21
+      "line": 22
     },
     {
-      "id": "import:src/ui/definitionRowDescriptors:src/ui/listDescriptorTypes:22",
+      "id": "import:src/ui/definitionRowDescriptors:src/ui/listDescriptorTypes:23",
       "from": "src/ui/definitionRowDescriptors",
       "to": "src/ui/listDescriptorTypes",
       "type": "type_only_import",
       "source": "import type { ListRowDescriptor } from './listDescriptorTypes'",
-      "line": 22
+      "line": 23
     },
     {
       "id": "import:src/ui/listDescriptorTypes:react:1",
@@ -11930,28 +12242,20 @@
       "line": 1
     },
     {
-      "id": "import:src/ui/presetChoreActions:src/assets/themes/princess/assets:2",
-      "from": "src/ui/presetChoreActions",
-      "to": "src/assets/themes/princess/assets",
-      "type": "static_import",
-      "source": "import { princessResetIcon } from '../assets/themes/princess/assets'",
-      "line": 2
-    },
-    {
-      "id": "import:src/ui/presetChoreActions:src/ui/listDescriptorTypes:3",
+      "id": "import:src/ui/presetChoreActions:src/ui/listDescriptorTypes:2",
       "from": "src/ui/presetChoreActions",
       "to": "src/ui/listDescriptorTypes",
       "type": "type_only_import",
       "source": "import type { ResolvedListAction, ResolvedListUtilityAction, } from './listDescriptorTypes'",
-      "line": 3
+      "line": 2
     },
     {
-      "id": "import:src/ui/presetChoreActions:src/ui/choreModeDefinitions:7",
+      "id": "import:src/ui/presetChoreActions:src/ui/choreModeDefinitions:6",
       "from": "src/ui/presetChoreActions",
       "to": "src/ui/choreModeDefinitions",
       "type": "static_import",
       "source": "import { getActivityPrimaryActionLabel, getDinnerPrimaryActionLabel, getTestPrimaryActionLabel, isFinalChoreStage, shouldHidePresetPrimaryButton, shouldUseResetUtility, type ChoreM",
-      "line": 7
+      "line": 6
     },
     {
       "id": "import:src/ui/presetChoreRenderers:react:1",
@@ -12162,6 +12466,30 @@
       "line": 5
     },
     {
+      "id": "import:src/ui/themeActionAssets:src/assets/global/reset.svg:1",
+      "from": "src/ui/themeActionAssets",
+      "to": "src/assets/global/reset.svg",
+      "type": "static_import",
+      "source": "import genericResetIcon from '../assets/global/reset.svg'",
+      "line": 1
+    },
+    {
+      "id": "import:src/ui/themeActionAssets:src/assets/themes/princess/assets:2",
+      "from": "src/ui/themeActionAssets",
+      "to": "src/assets/themes/princess/assets",
+      "type": "static_import",
+      "source": "import { princessDeleteIcon, princessEditIcon, princessResetIcon, } from '../assets/themes/princess/assets'",
+      "line": 2
+    },
+    {
+      "id": "import:src/ui/themeActionAssets:src/ui/themeOptions:7",
+      "from": "src/ui/themeActionAssets",
+      "to": "src/ui/themeOptions",
+      "type": "type_only_import",
+      "source": "import type { ThemeId } from './themeOptions'",
+      "line": 7
+    },
+    {
       "id": "import:src/ui/unifiedChoreDescriptorTypes:react:1",
       "from": "src/ui/unifiedChoreDescriptorTypes",
       "to": "react",
@@ -12194,75 +12522,83 @@
       "line": 7
     },
     {
-      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/taskTypeIcons:8",
+      "id": "import:src/ui/unifiedChoreDescriptors:src/data/types:8",
+      "from": "src/ui/unifiedChoreDescriptors",
+      "to": "src/data/types",
+      "type": "static_import",
+      "source": "import { isTestType } from '../data/types'",
+      "line": 8
+    },
+    {
+      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/taskTypeIcons:9",
       "from": "src/ui/unifiedChoreDescriptors",
       "to": "src/ui/taskTypeIcons",
       "type": "static_import",
       "source": "import { getPrincessTaskTypeIcon } from './taskTypeIcons'",
-      "line": 8
+      "line": 9
     },
     {
-      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/choreModeDefinitions:9",
+      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/choreModeDefinitions:10",
       "from": "src/ui/unifiedChoreDescriptors",
       "to": "src/ui/choreModeDefinitions",
       "type": "static_import",
       "source": "import { isInChoreStage, shouldUseResetUtility } from './choreModeDefinitions'",
-      "line": 9
+      "line": 10
     },
     {
-      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/listDescriptorTypes:10",
+      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/listDescriptorTypes:11",
       "from": "src/ui/unifiedChoreDescriptors",
       "to": "src/ui/listDescriptorTypes",
       "type": "type_only_import",
       "source": "import type { ListRowDescriptor } from './listDescriptorTypes'",
-      "line": 10
+      "line": 11
     },
     {
-      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/presetChoreActions:11",
+      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/presetChoreActions:12",
       "from": "src/ui/unifiedChoreDescriptors",
       "to": "src/ui/presetChoreActions",
       "type": "static_import",
       "source": "import { createPresetActivityPrimaryAction, createPresetDinnerPrimaryAction, createPresetTestPrimaryAction, createPresetUtilityAction, } from './presetChoreActions'",
-      "line": 11
+      "line": 12
     },
     {
-      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/unifiedChoreState:17",
+      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/unifiedChoreState:18",
       "from": "src/ui/unifiedChoreDescriptors",
       "to": "src/ui/unifiedChoreState",
       "type": "static_import",
       "source": "import { createUnifiedChoreState, getChoreType, isTaskItem, } from './unifiedChoreState'",
-      "line": 17
+      "line": 18
     },
     {
-      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/unifiedChoreItemRenderer:22",
+      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/unifiedChoreItemRenderer:23",
       "from": "src/ui/unifiedChoreDescriptors",
       "to": "src/ui/unifiedChoreItemRenderer",
       "type": "static_import",
       "source": "import { renderUnifiedChoreHeader, renderUnifiedChoreItem, } from './unifiedChoreItemRenderer'",
-      "line": 22
+      "line": 23
     },
     {
-      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/unifiedChoreDescriptorTypes:26",
+      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/unifiedChoreDescriptorTypes:27",
       "from": "src/ui/unifiedChoreDescriptors",
       "to": "src/ui/unifiedChoreDescriptorTypes",
       "type": "type_only_import",
       "source": "import type { UnifiedChoreDeps, UnifiedChoreItem, } from './unifiedChoreDescriptorTypes'",
-      "line": 26
+      "line": 27
     },
     {
-      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/unifiedChoreDescriptorTypes:31",
+      "id": "import:src/ui/unifiedChoreDescriptors:src/ui/unifiedChoreDescriptorTypes:32",
       "from": "src/ui/unifiedChoreDescriptors",
       "to": "src/ui/unifiedChoreDescriptorTypes",
       "type": "type_only_import",
       "source": "export type { UnifiedChoreDeps } from './unifiedChoreDescriptorTypes'",
-      "line": 31
+      "line": 32
     },
     {
       "id": "import:src/ui/unifiedChoreItemRenderer:react:1",
       "from": "src/ui/unifiedChoreItemRenderer",
       "to": "react",
       "type": "type_only_import",
-      "source": "import type { CSSProperties, ReactNode } from 'react'",
+      "source": "import type { ReactNode } from 'react'",
       "line": 1
     },
     {
@@ -12306,84 +12642,100 @@
       "line": 6
     },
     {
-      "id": "import:src/ui/unifiedChoreItemRenderer:src/assets/themes/princess/assets:7",
+      "id": "import:src/ui/unifiedChoreItemRenderer:src/components/ui/ImageStarFrame:7",
+      "from": "src/ui/unifiedChoreItemRenderer",
+      "to": "src/components/ui/ImageStarFrame",
+      "type": "static_import",
+      "source": "import ImageStarFrame from '../components/ui/ImageStarFrame'",
+      "line": 7
+    },
+    {
+      "id": "import:src/ui/unifiedChoreItemRenderer:src/assets/themes/princess/assets:8",
       "from": "src/ui/unifiedChoreItemRenderer",
       "to": "src/assets/themes/princess/assets",
       "type": "static_import",
       "source": "import { princessQuizCorrectImage } from '../assets/themes/princess/assets'",
-      "line": 7
+      "line": 8
     },
     {
-      "id": "import:src/ui/unifiedChoreItemRenderer:src/assets/chores/assets:8",
+      "id": "import:src/ui/unifiedChoreItemRenderer:src/assets/chores/assets:9",
       "from": "src/ui/unifiedChoreItemRenderer",
       "to": "src/assets/chores/assets",
       "type": "static_import",
       "source": "import { choreImageOptions, getChoreImage } from '../assets/chores/assets'",
-      "line": 8
+      "line": 9
     },
     {
-      "id": "import:src/ui/unifiedChoreItemRenderer:src/tokens/index:9",
+      "id": "import:src/ui/unifiedChoreItemRenderer:src/data/types:10",
+      "from": "src/ui/unifiedChoreItemRenderer",
+      "to": "src/data/types",
+      "type": "static_import",
+      "source": "import { isTestType } from '../data/types'",
+      "line": 10
+    },
+    {
+      "id": "import:src/ui/unifiedChoreItemRenderer:src/tokens/index:11",
       "from": "src/ui/unifiedChoreItemRenderer",
       "to": "src/tokens/index",
       "type": "static_import",
       "source": "import { uiTokens } from '../tokens'",
-      "line": 9
+      "line": 11
     },
     {
-      "id": "import:src/ui/unifiedChoreItemRenderer:src/components/ui/standardActionStyles:10",
+      "id": "import:src/ui/unifiedChoreItemRenderer:src/components/ui/standardActionStyles:12",
       "from": "src/ui/unifiedChoreItemRenderer",
       "to": "src/components/ui/standardActionStyles",
       "type": "static_import",
       "source": "import { getStandardActionHeadingStyle } from '../components/ui/standardActionStyles'",
-      "line": 10
+      "line": 12
     },
     {
-      "id": "import:src/ui/unifiedChoreItemRenderer:src/ui/choreModeDefinitions:11",
+      "id": "import:src/ui/unifiedChoreItemRenderer:src/ui/choreModeDefinitions:13",
       "from": "src/ui/unifiedChoreItemRenderer",
       "to": "src/ui/choreModeDefinitions",
       "type": "static_import",
       "source": "import { shouldHidePresetChoreTitle, type ChoreStage, } from './choreModeDefinitions'",
-      "line": 11
+      "line": 13
     },
     {
-      "id": "import:src/ui/unifiedChoreItemRenderer:src/ui/unifiedChoreState:15",
+      "id": "import:src/ui/unifiedChoreItemRenderer:src/ui/unifiedChoreState:17",
       "from": "src/ui/unifiedChoreItemRenderer",
       "to": "src/ui/unifiedChoreState",
       "type": "static_import",
-      "source": "import { getChoreType, isTaskItem, isTestType, type UnifiedChoreState, } from './unifiedChoreState'",
-      "line": 15
+      "source": "import { getChoreType, isTaskItem, type UnifiedChoreState, } from './unifiedChoreState'",
+      "line": 17
     },
     {
-      "id": "import:src/ui/unifiedChoreItemRenderer:src/ui/unifiedEatingRenderer:21",
+      "id": "import:src/ui/unifiedChoreItemRenderer:src/ui/unifiedEatingRenderer:22",
       "from": "src/ui/unifiedChoreItemRenderer",
       "to": "src/ui/unifiedEatingRenderer",
       "type": "static_import",
       "source": "import { renderEatingContent } from './unifiedEatingRenderer'",
-      "line": 21
+      "line": 22
     },
     {
-      "id": "import:src/ui/unifiedChoreItemRenderer:src/ui/unifiedTestRenderer:22",
+      "id": "import:src/ui/unifiedChoreItemRenderer:src/ui/unifiedTestRenderer:23",
       "from": "src/ui/unifiedChoreItemRenderer",
       "to": "src/ui/unifiedTestRenderer",
       "type": "static_import",
       "source": "import { renderTestContent } from './unifiedTestRenderer'",
-      "line": 22
+      "line": 23
     },
     {
-      "id": "import:src/ui/unifiedChoreItemRenderer:src/ui/unifiedWaterToiletRenderer:23",
+      "id": "import:src/ui/unifiedChoreItemRenderer:src/ui/unifiedWaterToiletRenderer:24",
       "from": "src/ui/unifiedChoreItemRenderer",
       "to": "src/ui/unifiedWaterToiletRenderer",
       "type": "static_import",
       "source": "import { renderWaterToiletContent } from './unifiedWaterToiletRenderer'",
-      "line": 23
+      "line": 24
     },
     {
-      "id": "import:src/ui/unifiedChoreItemRenderer:src/ui/unifiedChoreDescriptorTypes:24",
+      "id": "import:src/ui/unifiedChoreItemRenderer:src/ui/unifiedChoreDescriptorTypes:25",
       "from": "src/ui/unifiedChoreItemRenderer",
       "to": "src/ui/unifiedChoreDescriptorTypes",
       "type": "type_only_import",
       "source": "import type { UnifiedChoreDeps, UnifiedChoreItem, } from './unifiedChoreDescriptorTypes'",
-      "line": 24
+      "line": 25
     },
     {
       "id": "import:src/ui/unifiedChoreState:src/data/types:1",
@@ -12480,6 +12832,14 @@
       "type": "static_import",
       "source": "import { clamp, noop } from './unifiedChoreRenderUtils'",
       "line": 23
+    },
+    {
+      "id": "import:src/ui/unifiedEatingRenderer:src/data/taskLimits:24",
+      "from": "src/ui/unifiedEatingRenderer",
+      "to": "src/data/taskLimits",
+      "type": "static_import",
+      "source": "import { clampDinnerSliceCount } from '../data/taskLimits'",
+      "line": 24
     },
     {
       "id": "import:src/ui/unifiedTestRenderer:react:1",

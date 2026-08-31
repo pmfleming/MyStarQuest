@@ -1,10 +1,4 @@
-import {
-  useEffect,
-  useMemo,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -28,6 +22,7 @@ import {
 } from '../data/types'
 import type { ChoreDocumentSettings } from '../data/taskDocuments'
 import { useTaskActivityState } from '../hooks/useTaskActivityState'
+import { useTestCheckTriggers } from '../hooks/useTestCheckTriggers'
 import {
   princessEatingBreakfastIcon,
   princessEatingDinnerIcon,
@@ -38,35 +33,6 @@ import ChoreCreationFlow from './ChoreCreationFlow'
 import InlineNotice from '../components/ui/InlineNotice'
 
 type ChorePanelMode = 'create' | null
-type TriggerMap = Record<string, number>
-type TriggerKey =
-  | 'math'
-  | 'largeNumbers'
-  | 'positionalNotation'
-  | 'alphabet'
-  | 'spelling'
-  | 'animals'
-type ActivityCheckTriggers = Record<TriggerKey, TriggerMap>
-
-const createEmptyActivityCheckTriggers = (): ActivityCheckTriggers => ({
-  math: {},
-  largeNumbers: {},
-  positionalNotation: {},
-  alphabet: {},
-  spelling: {},
-  animals: {},
-})
-
-const createTriggerSetter =
-  (
-    setTriggers: Dispatch<SetStateAction<ActivityCheckTriggers>>,
-    key: TriggerKey
-  ): Dispatch<SetStateAction<TriggerMap>> =>
-  (update) =>
-    setTriggers((prev) => ({
-      ...prev,
-      [key]: typeof update === 'function' ? update(prev[key]) : update,
-    }))
 
 const getPrincessMealIconForHour = (hour: number) => {
   if (hour < 10) return princessEatingBreakfastIcon
@@ -118,9 +84,7 @@ const DashboardPage = () => {
     null
   )
 
-  const [activityCheckTriggers, setActivityCheckTriggers] = useState(
-    createEmptyActivityCheckTriggers
-  )
+  const { clearCheckTriggers, ...testCheckTriggers } = useTestCheckTriggers()
 
   const activePrincessMealIcon = getPrincessMealIconForHour(
     new Date().getHours()
@@ -129,8 +93,8 @@ const DashboardPage = () => {
   useEffect(() => {
     clearActivityIds()
     setBiteCooldownEndsAt(null)
-    setActivityCheckTriggers(createEmptyActivityCheckTriggers())
-  }, [activeChildId, clearActivityIds, todayInfo.dateKey])
+    clearCheckTriggers()
+  }, [activeChildId, clearActivityIds, clearCheckTriggers, todayInfo.dateKey])
 
   useEffect(() => {
     if (biteCooldownEndsAt) {
@@ -282,33 +246,7 @@ const DashboardPage = () => {
     activeAnimalsId: activity.activeAnimalsId,
     activeDinnerId: activity.activeDinnerId,
     activeWaterToiletId: activity.activeWaterToiletId,
-    mathCheckTriggers: activityCheckTriggers.math,
-    largeNumbersCheckTriggers: activityCheckTriggers.largeNumbers,
-    pvCheckTriggers: activityCheckTriggers.positionalNotation,
-    alphabetCheckTriggers: activityCheckTriggers.alphabet,
-    spellingCheckTriggers: activityCheckTriggers.spelling,
-    animalsCheckTriggers: activityCheckTriggers.animals,
-    setMathCheckTriggers: createTriggerSetter(setActivityCheckTriggers, 'math'),
-    setLargeNumbersCheckTriggers: createTriggerSetter(
-      setActivityCheckTriggers,
-      'largeNumbers'
-    ),
-    setPVCheckTriggers: createTriggerSetter(
-      setActivityCheckTriggers,
-      'positionalNotation'
-    ),
-    setAlphabetCheckTriggers: createTriggerSetter(
-      setActivityCheckTriggers,
-      'alphabet'
-    ),
-    setSpellingCheckTriggers: createTriggerSetter(
-      setActivityCheckTriggers,
-      'spelling'
-    ),
-    setAnimalsCheckTriggers: createTriggerSetter(
-      setActivityCheckTriggers,
-      'animals'
-    ),
+    ...testCheckTriggers,
     biteCooldownSeconds,
     biteCooldownEndsAt,
     activePrincessMealIcon,

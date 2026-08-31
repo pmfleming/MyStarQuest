@@ -23,6 +23,7 @@ import {
 } from './ui/ActivityControls'
 import LetterCaseControl, { type LetterCase } from './ui/LetterCaseControl'
 import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
+import { getChoiceFeedbackAnimationStyles } from './ui/activityAnimationStyles'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 9
@@ -557,19 +558,7 @@ const SpellingTester = ({
         </ActivityPlayArea>
       )}
 
-      <style>{`
-        @keyframes spelling-pop {
-          0% { transform: scale(0.88); }
-          70% { transform: scale(1.08); }
-          100% { transform: scale(1); }
-        }
-
-        @keyframes spelling-fly-away {
-          0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
-          70% { transform: translateY(-44px) rotate(18deg) scale(0.8); opacity: 0.7; }
-          100% { transform: translateY(-84px) rotate(28deg) scale(0.3); opacity: 0; }
-        }
-      `}</style>
+      <style>{getChoiceFeedbackAnimationStyles('spelling')}</style>
     </ActivityOutcomeShell>
   )
 }

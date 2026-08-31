@@ -234,6 +234,35 @@ describe('AnimalTester', () => {
     expect(teachingCards.every((card) => card.querySelector('img'))).toBe(true)
     expect(
       teachingCards.every(
+        (card) =>
+          card.style.position === 'relative' && card.style.overflow === 'hidden'
+      )
+    ).toBe(true)
+    expect(
+      teachingCards.every((card) => {
+        const image = card.querySelector<HTMLElement>(
+          '[data-animal-fact-image]'
+        )
+        return (
+          image?.style.position === 'absolute' &&
+          image.style.width === '100%' &&
+          image.style.height === '100%' &&
+          image.style.objectFit === 'cover'
+        )
+      })
+    ).toBe(true)
+    expect(
+      teachingCards.every((card) => {
+        const word = card.querySelector<HTMLElement>('[data-animal-fact-word]')
+        return (
+          word?.style.position === 'absolute' &&
+          word.style.background.includes('0.5') &&
+          word.style.color.length > 0
+        )
+      })
+    ).toBe(true)
+    expect(
+      teachingCards.every(
         (card) => (card.textContent?.trim().split(/\s+/).length ?? 0) <= 1
       )
     ).toBe(true)

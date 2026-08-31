@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useActivityChallenge } from '../hooks/useActivityChallenge'
-import { useProblemHistory } from '../lib/useProblemHistory'
+import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import {
   generateProgressivePositionalNotationProblem,
   MAX_ONE_CROWN_TENS,
@@ -16,6 +16,7 @@ import PositionalNotationPlayArea, {
   type PlaceValues,
 } from './ui/PositionalNotationPlayArea'
 import MathActivityShell from './ui/MathActivityShell'
+import { getActivityFeedbackAnimationStyles } from './ui/activityAnimationStyles'
 
 const EMPTY_VALUES: PlaceValues = { hundreds: 0, tens: 0, ones: 0 }
 const POSITIONAL_NOTATION_DIFFICULTIES: CrownDifficultyOption<PositionalNotationDifficulty>[] =
@@ -55,20 +56,15 @@ const PositionalNotation = ({
 
   const nextProblem = useCallback(
     (nextIndex: number) => {
-      let problem = generateProgressivePositionalNotationProblem(
-        nextIndex,
-        totalProblems,
-        difficulty
-      )
-      let attempts = 0
-      while (isSeen(problem.target.toString()) && attempts < 10) {
-        problem = generateProgressivePositionalNotationProblem(
+      const generate = () =>
+        generateProgressivePositionalNotationProblem(
           nextIndex,
           totalProblems,
           difficulty
         )
-        attempts++
-      }
+      const problem = pickUnseenProblem(generate, (candidate) =>
+        isSeen(candidate.target.toString())
+      )
       markSeen(problem.target.toString())
       setTargetNumber(problem.target)
       setValues(EMPTY_VALUES)
@@ -144,11 +140,7 @@ const PositionalNotation = ({
       completionImage={completionImage}
       failureImage={failureImage}
       isSetup={isSetup}
-      animationStyles={`
-        @keyframes pv-pop-in { 0% { transform: scale(0); } 100% { transform: scale(1); } }
-        @keyframes pv-shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
-        @keyframes pv-slide-in-right { 0% { transform: translateX(28px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
-      `}
+      animationStyles={getActivityFeedbackAnimationStyles('pv')}
       difficultyControl={
         <CrownDifficultyControl
           theme={theme}

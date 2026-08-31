@@ -1,6 +1,7 @@
 import {
   memo,
   useMemo,
+  type CSSProperties,
   type PointerEvent as ReactPointerEvent,
   type RefObject,
 } from 'react'
@@ -84,6 +85,19 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
     color: theme.colors.text,
     fontFamily: theme.fonts.heading,
     lineHeight: 1,
+  }
+  const digitalSeparatorStyle = {
+    ...digitalTimeStyle,
+    fontSize: clockGeometry.digitalClockSeparatorFontSize,
+    opacity: 0.55,
+  }
+  const clockFaceLayerStyle: CSSProperties = {
+    position: 'absolute',
+    inset: '0 0 auto',
+    height: explorerUi.globeCanvasSize,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 
   const imageLayers = [
@@ -332,14 +346,7 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
 
         <div
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: explorerUi.globeCanvasSize,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            ...clockFaceLayerStyle,
             zIndex: 6,
             pointerEvents: 'none',
           }}
@@ -359,14 +366,7 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
 
         <div
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: explorerUi.globeCanvasSize,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            ...clockFaceLayerStyle,
             zIndex: 7,
           }}
         >
@@ -479,33 +479,11 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
           <span ref={clock.digitalHourRef} style={digitalTimeStyle}>
             {clock.hoursLabel}
           </span>
-          <span
-            style={{
-              fontSize: clockGeometry.digitalClockSeparatorFontSize,
-              fontWeight: 700,
-              color: theme.colors.text,
-              fontFamily: theme.fonts.heading,
-              opacity: 0.55,
-              lineHeight: 1,
-            }}
-          >
-            :
-          </span>
+          <span style={digitalSeparatorStyle}>:</span>
           <span ref={clock.digitalMinuteRef} style={digitalTimeStyle}>
             {clock.minutesLabel}
           </span>
-          <span
-            style={{
-              fontSize: clockGeometry.digitalClockSeparatorFontSize,
-              fontWeight: 700,
-              color: theme.colors.text,
-              fontFamily: theme.fonts.heading,
-              opacity: 0.55,
-              lineHeight: 1,
-            }}
-          >
-            :
-          </span>
+          <span style={digitalSeparatorStyle}>:</span>
           <span
             ref={clock.digitalSecondRef}
             style={{

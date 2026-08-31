@@ -9,7 +9,7 @@ import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import { useActivityChallenge } from '../hooks/useActivityChallenge'
-import { useProblemHistory } from '../lib/useProblemHistory'
+import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import { uiTokens } from '../tokens'
 import {
   ActivityOutcomeShell,
@@ -19,6 +19,7 @@ import {
 } from './ui/ActivityControls'
 import { CounterGroup, MathCounter, TenRod } from './ui/ActivityMathCounters'
 import StepperButton from './ui/StepperButton'
+import { getActivityFeedbackAnimationStyles } from './ui/activityAnimationStyles'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 9
@@ -128,12 +129,10 @@ const LargeNumbersTester = ({
   const answerDigits = getDigits(currentAnswer)
 
   const nextProblem = useCallback(() => {
-    let problem = generateLargeNumbersProblem()
-    let attempts = 0
-    while (isSeen(getProblemKey(problem)) && attempts < 10) {
-      problem = generateLargeNumbersProblem()
-      attempts++
-    }
+    const problem = pickUnseenProblem(
+      generateLargeNumbersProblem,
+      (candidate) => isSeen(getProblemKey(candidate))
+    )
     markSeen(getProblemKey(problem))
 
     setAddendA(problem.a)
@@ -421,21 +420,7 @@ const LargeNumbersTester = ({
       completionImage={completionImage}
       failureImage={failureImage}
     >
-      <style>{`
-        @keyframes large-numbers-pop-in {
-          0% { transform: scale(0); }
-          100% { transform: scale(1); }
-        }
-        @keyframes large-numbers-shake {
-          0%, 100% { transform: translateX(0); }
-          20%, 60% { transform: translateX(-8px); }
-          40%, 80% { transform: translateX(8px); }
-        }
-        @keyframes large-numbers-slide-in-right {
-          0% { transform: translateX(28px); opacity: 0; }
-          100% { transform: translateX(0); opacity: 1; }
-        }
-      `}</style>
+      <style>{getActivityFeedbackAnimationStyles('large-numbers')}</style>
 
       <ActivitySetupControls
         isSetup={isSetup}

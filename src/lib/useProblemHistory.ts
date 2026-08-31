@@ -1,5 +1,20 @@
 import { useState, useCallback, useEffect } from 'react'
 
+const MAX_GENERATION_ATTEMPTS = 10
+
+export const pickUnseenProblem = <Problem>(
+  generate: () => Problem,
+  isRejected: (problem: Problem) => boolean
+) => {
+  let problem = generate()
+  let attempts = 0
+  while (isRejected(problem) && attempts < MAX_GENERATION_ATTEMPTS) {
+    problem = generate()
+    attempts += 1
+  }
+  return problem
+}
+
 /**
  * Hook to track a history of seen problem keys to avoid repetitions
  * in random generators during a single activity session.
@@ -7,12 +22,7 @@ import { useState, useCallback, useEffect } from 'react'
 export function useProblemHistory(resetKeys: unknown[] = []) {
   const [history, setHistory] = useState<Set<string>>(new Set())
 
-  const isSeen = useCallback(
-    (key: string) => {
-      return history.has(key)
-    },
-    [history]
-  )
+  const isSeen = useCallback((key: string) => history.has(key), [history])
 
   const markSeen = useCallback((key: string) => {
     setHistory((prev) => {

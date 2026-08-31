@@ -1,11 +1,13 @@
-import type { CSSProperties, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import ActionTextInput from '../components/ui/ActionTextInput'
 import ChoreOutcomeView from '../components/ChoreOutcomeView'
 import Carousel from '../components/ui/Carousel'
 import RepeatControl from '../components/ui/RepeatControl'
 import StarDisplay from '../components/ui/StarDisplay'
+import ImageStarFrame from '../components/ui/ImageStarFrame'
 import { princessQuizCorrectImage } from '../assets/themes/princess/assets'
 import { choreImageOptions, getChoreImage } from '../assets/chores/assets'
+import { isTestType } from '../data/types'
 import { uiTokens } from '../tokens'
 import { getStandardActionHeadingStyle } from '../components/ui/standardActionStyles'
 import {
@@ -15,7 +17,6 @@ import {
 import {
   getChoreType,
   isTaskItem,
-  isTestType,
   type UnifiedChoreState,
 } from './unifiedChoreState'
 import { renderEatingContent } from './unifiedEatingRenderer'
@@ -219,78 +220,11 @@ const renderStandardChoreImageRewardFrame = (
   title: string,
   starValue: number,
   theme: UnifiedChoreDeps['theme']
-) => {
-  const frameStyle: CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-    minHeight: '116px',
-    padding: '10px',
-    borderRadius: `${uiTokens.surfaceRadius}px`,
-    border: `3px dashed ${theme.colors.primary}55`,
-    background: `${theme.colors.bg}88`,
-    overflow: 'visible',
-    boxSizing: 'border-box',
-  }
-
-  const imageLaneStyle: CSSProperties = {
-    flex: '0 0 38%',
-    minWidth: '96px',
-    maxWidth: '152px',
-    marginRight: '-26px',
-    position: 'relative',
-    zIndex: 2,
-  }
-
-  const imageFrameStyle: CSSProperties = {
-    width: '100%',
-    aspectRatio: '1',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'visible',
-  }
-
-  const starLaneStyle: CSSProperties = {
-    flex: '1 1 66%',
-    minWidth: 0,
-    position: 'relative',
-    zIndex: 1,
-  }
-
-  return (
-    <div style={frameStyle}>
-      <div style={imageLaneStyle}>
-        <div style={imageFrameStyle}>
-          <img
-            src={image}
-            alt={`${title} chore`}
-            loading="lazy"
-            decoding="async"
-            style={{
-              width: '112%',
-              height: '112%',
-              objectFit: 'contain',
-              display: 'block',
-            }}
-          />
-        </div>
-      </div>
-
-      <div style={starLaneStyle}>
-        <StarDisplay
-          count={starValue}
-          animate={false}
-          style={{
-            width: '100%',
-            minHeight: '84px',
-            padding: '10px 10px 10px 4px',
-            background: 'transparent',
-            border: '0',
-            boxSizing: 'border-box',
-          }}
-        />
-      </div>
-    </div>
-  )
-}
+) => (
+  <ImageStarFrame
+    theme={theme}
+    image={image}
+    imageAlt={`${title} chore`}
+    starCount={starValue}
+  />
+)

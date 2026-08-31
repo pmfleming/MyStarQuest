@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-30T13:44:10.547Z",
+    "measured_at": "2026-08-31T22:53:46.417Z",
     "source_type": "static",
-    "source_set_hash": "sha256:ec345305efe041da4dafd87767ef598e3ed46af2a333d3c93dd5ebea419a94de"
+    "source_set_hash": "sha256:8f4e38e66f317026f6e21d2e82c3c8737c676cc4430ea5c5e3b81b89795c0d87"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -67,8 +67,8 @@
     "stale_input": []
   },
   "summary": {
-    "components": 91,
-    "records": 91,
+    "components": 95,
+    "records": 95,
     "hook_lint_findings": 0,
     "a11y_findings": 0,
     "high_risk_components": 21
@@ -225,13 +225,13 @@
       "module_id": "src/components/AlphabetTester",
       "file": "src/components/AlphabetTester.tsx",
       "name": "AlphabetTester",
-      "line": 227,
-      "score": 257,
+      "line": 226,
+      "score": 256,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 259
+          "value": 256
         },
         {
           "kind": "many_hooks",
@@ -275,7 +275,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "FactCard",
-      "line": 134,
+      "line": 121,
       "score": 23,
       "risk": "low",
       "signals": [],
@@ -306,7 +306,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "FactGrid",
-      "line": 186,
+      "line": 173,
       "score": 10,
       "risk": "low",
       "signals": [],
@@ -337,7 +337,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalPortrait",
-      "line": 207,
+      "line": 194,
       "score": 16,
       "risk": "low",
       "signals": [],
@@ -364,12 +364,12 @@
       ]
     },
     {
-      "id": "component:src/components/AnimalTester:SectionHeading",
+      "id": "component:src/components/AnimalTester:HideableAnimalPortrait",
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
-      "name": "SectionHeading",
-      "line": 258,
-      "score": 4,
+      "name": "HideableAnimalPortrait",
+      "line": 245,
+      "score": 17,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -386,7 +386,7 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "component:src/components/AnimalTester:SectionHeading",
+            "id": "component:src/components/AnimalTester:HideableAnimalPortrait",
             "kind": "component",
             "file": "src/components/AnimalTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -395,12 +395,12 @@
       ]
     },
     {
-      "id": "component:src/components/AnimalTester:PrimaryAction",
+      "id": "component:src/components/AnimalTester:NavigationArrow",
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
-      "name": "PrimaryAction",
-      "line": 284,
-      "score": 4,
+      "name": "NavigationArrow",
+      "line": 299,
+      "score": 5,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -417,7 +417,100 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "component:src/components/AnimalTester:PrimaryAction",
+            "id": "component:src/components/AnimalTester:NavigationArrow",
+            "kind": "component",
+            "file": "src/components/AnimalTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/AnimalTester:LearningNavigation",
+      "module_id": "src/components/AnimalTester",
+      "file": "src/components/AnimalTester.tsx",
+      "name": "LearningNavigation",
+      "line": 318,
+      "score": 12,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/AnimalTester:LearningNavigation",
+            "kind": "component",
+            "file": "src/components/AnimalTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/AnimalTester:TwoPlayerProgressButton",
+      "module_id": "src/components/AnimalTester",
+      "file": "src/components/AnimalTester.tsx",
+      "name": "TwoPlayerProgressButton",
+      "line": 377,
+      "score": 7,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/AnimalTester:TwoPlayerProgressButton",
+            "kind": "component",
+            "file": "src/components/AnimalTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/AnimalTester:AnimalPlayContent",
+      "module_id": "src/components/AnimalTester",
+      "file": "src/components/AnimalTester.tsx",
+      "name": "AnimalPlayContent",
+      "line": 431,
+      "score": 31,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/AnimalTester:AnimalPlayContent",
             "kind": "component",
             "file": "src/components/AnimalTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -430,25 +523,21 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalTester",
-      "line": 312,
-      "score": 334,
+      "line": 551,
+      "score": 231,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 384
+          "value": 219
         },
         {
           "kind": "many_hooks",
-          "value": 17
+          "value": 16
         },
         {
           "kind": "many_effects",
-          "value": 4
-        },
-        {
-          "kind": "render_branch_complexity",
-          "value": 9
+          "value": 3
         }
       ],
       "kind": "component",
@@ -515,13 +604,13 @@
       "module_id": "src/components/ArithmeticTester",
       "file": "src/components/ArithmeticTester.tsx",
       "name": "ArithmeticTester",
-      "line": 80,
-      "score": 237,
+      "line": 81,
+      "score": 233,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 378
+          "value": 362
         },
         {
           "kind": "many_hooks",
@@ -566,7 +655,7 @@
       "file": "src/components/ChoreOutcomeView.tsx",
       "name": "ChoreOutcomeView",
       "line": 12,
-      "score": 9,
+      "score": 11,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -596,7 +685,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "CountdownVisualRow",
-      "line": 93,
+      "line": 92,
       "score": 4,
       "risk": "low",
       "signals": [],
@@ -627,7 +716,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "CountdownStepperControl",
-      "line": 120,
+      "line": 119,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -658,7 +747,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "DinnerCountdown",
-      "line": 527,
+      "line": 526,
       "score": 70,
       "risk": "high",
       "signals": [
@@ -700,13 +789,13 @@
       "module_id": "src/components/LargeNumbersTester",
       "file": "src/components/LargeNumbersTester.tsx",
       "name": "LargeNumbersTester",
-      "line": 100,
-      "score": 218,
+      "line": 101,
+      "score": 214,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 480
+          "value": 464
         },
         {
           "kind": "many_hooks",
@@ -808,13 +897,13 @@
       "module_id": "src/components/PositionalNotation",
       "file": "src/components/PositionalNotation.tsx",
       "name": "PositionalNotation",
-      "line": 32,
-      "score": 139,
+      "line": 33,
+      "score": 137,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 131
+          "value": 122
         },
         {
           "kind": "many_hooks",
@@ -994,12 +1083,12 @@
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingTester",
       "line": 291,
-      "score": 286,
+      "score": 283,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 273
+          "value": 259
         },
         {
           "kind": "many_hooks",
@@ -1105,8 +1194,8 @@
       "module_id": "src/components/ui/ActionButton",
       "file": "src/components/ui/ActionButton.tsx",
       "name": "ActionButton",
-      "line": 20,
-      "score": 22,
+      "line": 21,
+      "score": 23,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -1167,7 +1256,7 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivityOutcomeShell",
-      "line": 49,
+      "line": 50,
       "score": 12,
       "risk": "low",
       "signals": [],
@@ -1198,7 +1287,7 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivityResultBar",
-      "line": 109,
+      "line": 110,
       "score": 17,
       "risk": "low",
       "signals": [],
@@ -1229,8 +1318,8 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivitySetupControls",
-      "line": 177,
-      "score": 17,
+      "line": 178,
+      "score": 10,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -1260,8 +1349,8 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivityPlayArea",
-      "line": 251,
-      "score": 6,
+      "line": 246,
+      "score": 12,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -1291,7 +1380,7 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ProblemCountControl",
-      "line": 296,
+      "line": 294,
       "score": 23,
       "risk": "low",
       "signals": [],
@@ -1322,7 +1411,7 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "StarRewardControl",
-      "line": 360,
+      "line": 358,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -1509,7 +1598,7 @@
       "file": "src/components/ui/CardShell.tsx",
       "name": "CardRegion",
       "line": 20,
-      "score": 5,
+      "score": 6,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -1725,7 +1814,7 @@
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconActionRow",
       "line": 119,
-      "score": 6,
+      "score": 8,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -1755,7 +1844,7 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconChoiceButton",
-      "line": 165,
+      "line": 171,
       "score": 8,
       "risk": "low",
       "signals": [],
@@ -1807,6 +1896,37 @@
             "id": "component:src/components/ui/ImageOptionCarousel:ImageOptionCarousel",
             "kind": "component",
             "file": "src/components/ui/ImageOptionCarousel.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/ui/ImageStarFrame:ImageStarFrame",
+      "module_id": "src/components/ui/ImageStarFrame",
+      "file": "src/components/ui/ImageStarFrame.tsx",
+      "name": "ImageStarFrame",
+      "line": 12,
+      "score": 25,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this component finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line component"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ImageStarFrame:ImageStarFrame",
+            "kind": "component",
+            "file": "src/components/ui/ImageStarFrame.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2158,8 +2278,8 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "DefaultActionIcon",
-      "line": 181,
-      "score": 4,
+      "line": 219,
+      "score": 6,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -2189,7 +2309,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "UtilityButton",
-      "line": 215,
+      "line": 260,
       "score": 14,
       "risk": "low",
       "signals": [],
@@ -2220,7 +2340,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ActionSpinner",
-      "line": 278,
+      "line": 323,
       "score": 4,
       "risk": "low",
       "signals": [],
@@ -2251,7 +2371,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ActionButtons",
-      "line": 294,
+      "line": 339,
       "score": 47,
       "risk": "medium",
       "signals": [],
@@ -2282,13 +2402,13 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ActionCard",
-      "line": 441,
-      "score": 95,
+      "line": 490,
+      "score": 103,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 133
+          "value": 131
         }
       ],
       "kind": "component",
@@ -2324,7 +2444,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListMessage",
-      "line": 595,
+      "line": 642,
       "score": 3,
       "risk": "low",
       "signals": [],
@@ -2355,7 +2475,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListFooter",
-      "line": 623,
+      "line": 670,
       "score": 34,
       "risk": "low",
       "signals": [],
@@ -2386,7 +2506,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "StandardActionList",
-      "line": 689,
+      "line": 736,
       "score": 50,
       "risk": "medium",
       "signals": [],
@@ -2790,13 +2910,13 @@
       "module_id": "src/pages/ChoreCreationFlow",
       "file": "src/pages/ChoreCreationFlow.tsx",
       "name": "ChoreCreationFlow",
-      "line": 126,
-      "score": 76,
+      "line": 125,
+      "score": 75,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 190
+          "value": 188
         }
       ],
       "kind": "component",
@@ -2832,13 +2952,13 @@
       "module_id": "src/pages/DashboardPage",
       "file": "src/pages/DashboardPage.tsx",
       "name": "DashboardPage",
-      "line": 84,
-      "score": 284,
+      "line": 50,
+      "score": 277,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 343
+          "value": 316
         },
         {
           "kind": "many_hooks",
@@ -3144,8 +3264,8 @@
       "file": "src/pages/dashboardChoreUi.tsx",
       "name": "DashboardHeaderActions",
       "line": 31,
-      "score": 35,
-      "risk": "medium",
+      "score": 28,
+      "risk": "low",
       "signals": [],
       "kind": "component",
       "actions": [

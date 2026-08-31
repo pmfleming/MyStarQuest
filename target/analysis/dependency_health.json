@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-30T13:44:07.851Z",
+    "measured_at": "2026-08-31T22:53:43.727Z",
     "source_type": "static",
-    "source_set_hash": "sha256:ec345305efe041da4dafd87767ef598e3ed46af2a333d3c93dd5ebea419a94de"
+    "source_set_hash": "sha256:8f4e38e66f317026f6e21d2e82c3c8737c676cc4430ea5c5e3b81b89795c0d87"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -67,12 +67,12 @@
     "stale_input": []
   },
   "summary": {
-    "internal_edges": 723,
+    "internal_edges": 748,
     "external_edges": 111,
     "cycles": 43,
     "heuristic_cycles": 0,
     "dependency_cruiser_cycles": 62,
-    "deep_relative_imports": 86,
+    "deep_relative_imports": 88,
     "barrel_modules": 1,
     "layer_violations": 29,
     "unsupported_patterns": 0
@@ -88,8 +88,8 @@
         "warn": 0,
         "info": 0,
         "ignore": 0,
-        "totalCruised": 566,
-        "totalDependenciesCruised": 1306,
+        "totalCruised": 574,
+        "totalDependenciesCruised": 1326,
         "optionsUsed": {
           "baseDir": "C:\\Code\\MyStarQuest",
           "combinedDependencies": false,
@@ -2968,50 +2968,14 @@
       ]
     },
     {
-      "id": "deep-import:src/components/dayNightExplorer/Clock:7",
-      "kind": "deep_relative_import",
-      "severity": "medium",
-      "score": 35,
-      "file": "src/components/dayNightExplorer/Clock",
-      "line": 7,
-      "specifier": "../../contexts/ThemeContext",
-      "evidence": "import type { Theme } from '../../contexts/ThemeContext'",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
-          "fix": "repair-dependency-edge"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this deep_relative_import finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line deep_relative_import"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "deep-import:src/components/dayNightExplorer/Clock:7",
-            "kind": "deep_relative_import",
-            "file": "src/components/dayNightExplorer/Clock",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "deep-import:src/components/dayNightExplorer/Clock:8",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/dayNightExplorer/Clock",
       "line": 8,
-      "specifier": "../../tokens",
-      "evidence": "import { uiTokens } from '../../tokens'",
+      "specifier": "../../contexts/ThemeContext",
+      "evidence": "import type { Theme } from '../../contexts/ThemeContext'",
       "actions": [
         {
           "type": "fix",
@@ -3046,8 +3010,8 @@
       "score": 35,
       "file": "src/components/dayNightExplorer/Clock",
       "line": 9,
-      "specifier": "../../assets/clock/hourhand.svg",
-      "evidence": "import hourHandSvg from '../../assets/clock/hourhand.svg'",
+      "specifier": "../../tokens",
+      "evidence": "import { uiTokens } from '../../tokens'",
       "actions": [
         {
           "type": "fix",
@@ -3082,8 +3046,8 @@
       "score": 35,
       "file": "src/components/dayNightExplorer/Clock",
       "line": 10,
-      "specifier": "../../assets/clock/minutehand.svg",
-      "evidence": "import minuteHandSvg from '../../assets/clock/minutehand.svg'",
+      "specifier": "../../assets/clock/hourhand.svg",
+      "evidence": "import hourHandSvg from '../../assets/clock/hourhand.svg'",
       "actions": [
         {
           "type": "fix",
@@ -3118,8 +3082,8 @@
       "score": 35,
       "file": "src/components/dayNightExplorer/Clock",
       "line": 11,
-      "specifier": "../../assets/clock/pivot.svg",
-      "evidence": "import pivotSvg from '../../assets/clock/pivot.svg'",
+      "specifier": "../../assets/clock/minutehand.svg",
+      "evidence": "import minuteHandSvg from '../../assets/clock/minutehand.svg'",
       "actions": [
         {
           "type": "fix",
@@ -3154,8 +3118,8 @@
       "score": 35,
       "file": "src/components/dayNightExplorer/Clock",
       "line": 12,
-      "specifier": "../../assets/clock/secondhand.svg",
-      "evidence": "import secondHandSvg from '../../assets/clock/secondhand.svg'",
+      "specifier": "../../assets/clock/pivot.svg",
+      "evidence": "import pivotSvg from '../../assets/clock/pivot.svg'",
       "actions": [
         {
           "type": "fix",
@@ -3184,12 +3148,48 @@
       ]
     },
     {
-      "id": "deep-import:src/components/dayNightExplorer/Clock:14",
+      "id": "deep-import:src/components/dayNightExplorer/Clock:13",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/dayNightExplorer/Clock",
-      "line": 14,
+      "line": 13,
+      "specifier": "../../assets/clock/secondhand.svg",
+      "evidence": "import secondHandSvg from '../../assets/clock/secondhand.svg'",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this deep_relative_import finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line deep_relative_import"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/dayNightExplorer/Clock:13",
+            "kind": "deep_relative_import",
+            "file": "src/components/dayNightExplorer/Clock",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/dayNightExplorer/Clock:15",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/dayNightExplorer/Clock",
+      "line": 15,
       "specifier": "../../lib/dayNightExplorer/dayNightExplorer.constants",
       "evidence": "import { clockGeometry, explorerUi, } from '../../lib/dayNightExplorer/dayNightExplorer.constants'",
       "actions": [
@@ -3211,7 +3211,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/dayNightExplorer/Clock:14",
+            "id": "deep-import:src/components/dayNightExplorer/Clock:15",
             "kind": "deep_relative_import",
             "file": "src/components/dayNightExplorer/Clock",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3220,12 +3220,12 @@
       ]
     },
     {
-      "id": "deep-import:src/components/dayNightExplorer/Clock:18",
+      "id": "deep-import:src/components/dayNightExplorer/Clock:19",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/dayNightExplorer/Clock",
-      "line": 18,
+      "line": 19,
       "specifier": "../../lib/dayNightExplorer/dayNightExplorerMath",
       "evidence": "import { lerpPoint, roundedRectPerimeterPoint, } from '../../lib/dayNightExplorer/dayNightExplorerMath'",
       "actions": [
@@ -3247,7 +3247,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/dayNightExplorer/Clock:18",
+            "id": "deep-import:src/components/dayNightExplorer/Clock:19",
             "kind": "deep_relative_import",
             "file": "src/components/dayNightExplorer/Clock",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4552,6 +4552,78 @@
       ]
     },
     {
+      "id": "deep-import:src/components/ui/ImageStarFrame:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/ui/ImageStarFrame",
+      "line": 1,
+      "specifier": "../../contexts/ThemeContext",
+      "evidence": "import type { Theme } from '../../contexts/ThemeContext'",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this deep_relative_import finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line deep_relative_import"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/ui/ImageStarFrame:1",
+            "kind": "deep_relative_import",
+            "file": "src/components/ui/ImageStarFrame",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/ui/ImageStarFrame:2",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/ui/ImageStarFrame",
+      "line": 2,
+      "specifier": "../../tokens",
+      "evidence": "import { uiTokens } from '../../tokens'",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this deep_relative_import finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line deep_relative_import"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/ui/ImageStarFrame:2",
+            "kind": "deep_relative_import",
+            "file": "src/components/ui/ImageStarFrame",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "deep-import:src/components/ui/InlineChoiceList:2",
       "kind": "deep_relative_import",
       "severity": "medium",
@@ -5278,8 +5350,8 @@
       "score": 35,
       "file": "src/components/ui/StandardActionList",
       "line": 9,
-      "specifier": "../../assets/themes/princess/assets",
-      "evidence": "import { princessDeleteIcon, princessEditIcon, } from '../../assets/themes/princess/assets'",
+      "specifier": "../../ui/themeActionAssets",
+      "evidence": "import { getThemeActionIcon, type ThemeActionIcon, } from '../../ui/themeActionAssets'",
       "actions": [
         {
           "type": "fix",
@@ -7418,6 +7490,11 @@
         "layer": "ui"
       },
       {
+        "id": "src/components/ui/ImageStarFrame",
+        "file": "src/components/ui/ImageStarFrame.tsx",
+        "layer": "ui"
+      },
+      {
         "id": "src/components/ui/InlineChoiceList",
         "file": "src/components/ui/InlineChoiceList.tsx",
         "layer": "ui"
@@ -7483,6 +7560,11 @@
         "layer": "ui"
       },
       {
+        "id": "src/components/ui/activityAnimationStyles",
+        "file": "src/components/ui/activityAnimationStyles.ts",
+        "layer": "ui"
+      },
+      {
         "id": "src/components/ui/standardActionStyles",
         "file": "src/components/ui/standardActionStyles.ts",
         "layer": "ui"
@@ -7540,6 +7622,11 @@
       {
         "id": "src/data/animalLocationAssets",
         "file": "src/data/animalLocationAssets.ts",
+        "layer": "core"
+      },
+      {
+        "id": "src/data/assetCatalog",
+        "file": "src/data/assetCatalog.ts",
         "layer": "core"
       },
       {
@@ -7835,6 +7922,11 @@
       {
         "id": "src/ui/testActivityBindings",
         "file": "src/ui/testActivityBindings.ts",
+        "layer": "core"
+      },
+      {
+        "id": "src/ui/themeActionAssets",
+        "file": "src/ui/themeActionAssets.ts",
         "layer": "core"
       },
       {
@@ -8651,7 +8743,7 @@
       },
       {
         "from": "src/assets/themes/princess/assets",
-        "to": "src/assets/themes/princess/didpeepee.webp",
+        "to": "src/assets/themes/princess/didpeepee.png",
         "kind": "relative",
         "import_kind": "static",
         "line": 32,
@@ -8803,7 +8895,7 @@
       },
       {
         "from": "src/assets/themes/princess/assets",
-        "to": "src/assets/themes/princess/notpeepee.webp",
+        "to": "src/assets/themes/princess/notpeepee.png",
         "kind": "relative",
         "import_kind": "static",
         "line": 31,
@@ -8894,7 +8986,7 @@
         "to": "src/assets/themes/princess/assets",
         "kind": "relative",
         "import_kind": "static",
-        "line": 31,
+        "line": 26,
         "source": "dependency-cruiser"
       },
       {
@@ -8902,7 +8994,7 @@
         "to": "src/auth/AuthContext",
         "kind": "relative",
         "import_kind": "static",
-        "line": 8,
+        "line": 2,
         "source": "dependency-cruiser"
       },
       {
@@ -8910,7 +9002,7 @@
         "to": "src/components/TabContent",
         "kind": "relative",
         "import_kind": "static",
-        "line": 11,
+        "line": 5,
         "source": "dependency-cruiser"
       },
       {
@@ -8918,7 +9010,7 @@
         "to": "src/components/ui/InlineNotice",
         "kind": "relative",
         "import_kind": "static",
-        "line": 38,
+        "line": 33,
         "source": "dependency-cruiser"
       },
       {
@@ -8926,7 +9018,7 @@
         "to": "src/components/ui/StandardActionList",
         "kind": "relative",
         "import_kind": "static",
-        "line": 12,
+        "line": 6,
         "source": "dependency-cruiser"
       },
       {
@@ -8934,7 +9026,7 @@
         "to": "src/components/ui/StarInfoBox",
         "kind": "relative",
         "import_kind": "static",
-        "line": 13,
+        "line": 7,
         "source": "dependency-cruiser"
       },
       {
@@ -8942,7 +9034,7 @@
         "to": "src/contexts/ActiveChildContext",
         "kind": "relative",
         "import_kind": "static",
-        "line": 9,
+        "line": 3,
         "source": "dependency-cruiser"
       },
       {
@@ -8950,7 +9042,7 @@
         "to": "src/contexts/ThemeContext",
         "kind": "relative",
         "import_kind": "static",
-        "line": 10,
+        "line": 4,
         "source": "dependency-cruiser"
       },
       {
@@ -8958,7 +9050,7 @@
         "to": "src/data/types",
         "kind": "relative",
         "import_kind": "static",
-        "line": 23,
+        "line": 17,
         "source": "dependency-cruiser"
       },
       {
@@ -8966,7 +9058,7 @@
         "to": "src/data/useChildren",
         "kind": "relative",
         "import_kind": "static",
-        "line": 21,
+        "line": 15,
         "source": "dependency-cruiser"
       },
       {
@@ -8974,7 +9066,7 @@
         "to": "src/data/useChores",
         "kind": "relative",
         "import_kind": "static",
-        "line": 22,
+        "line": 16,
         "source": "dependency-cruiser"
       },
       {
@@ -8982,7 +9074,15 @@
         "to": "src/hooks/useTaskActivityState",
         "kind": "relative",
         "import_kind": "static",
-        "line": 30,
+        "line": 24,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/pages/DashboardPage",
+        "to": "src/hooks/useTestCheckTriggers",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 25,
         "source": "dependency-cruiser"
       },
       {
@@ -8990,7 +9090,7 @@
         "to": "src/tokens/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 20,
+        "line": 14,
         "source": "dependency-cruiser"
       },
       {
@@ -8998,7 +9098,7 @@
         "to": "src/ui/listDescriptorTypes",
         "kind": "relative",
         "import_kind": "static",
-        "line": 14,
+        "line": 8,
         "source": "dependency-cruiser"
       },
       {
@@ -9006,7 +9106,7 @@
         "to": "src/ui/unifiedChoreDescriptors",
         "kind": "relative",
         "import_kind": "static",
-        "line": 15,
+        "line": 9,
         "source": "dependency-cruiser"
       },
       {
@@ -9014,7 +9114,7 @@
         "to": "src/ui/unifiedChoreState",
         "kind": "relative",
         "import_kind": "static",
-        "line": 19,
+        "line": 13,
         "source": "dependency-cruiser"
       },
       {
@@ -9022,7 +9122,7 @@
         "to": "src/pages/ChoreCreationFlow",
         "kind": "relative",
         "import_kind": "static",
-        "line": 37,
+        "line": 32,
         "source": "dependency-cruiser"
       },
       {
@@ -9030,7 +9130,7 @@
         "to": "src/pages/dashboardChoreUi",
         "kind": "relative",
         "import_kind": "static",
-        "line": 36,
+        "line": 31,
         "source": "dependency-cruiser"
       },
       {
@@ -9091,18 +9191,18 @@
       },
       {
         "from": "src/components/ui/StandardActionList",
-        "to": "src/assets/themes/princess/assets",
-        "kind": "relative",
-        "import_kind": "static",
-        "line": 9,
-        "source": "dependency-cruiser"
-      },
-      {
-        "from": "src/components/ui/StandardActionList",
         "to": "src/tokens/index",
         "kind": "relative",
         "import_kind": "static",
         "line": 13,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/ui/StandardActionList",
+        "to": "src/ui/themeActionAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 9,
         "source": "dependency-cruiser"
       },
       {
@@ -9143,6 +9243,22 @@
         "kind": "relative",
         "import_kind": "static",
         "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/ui/themeActionAssets",
+        "to": "src/assets/global/reset.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 1,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/ui/themeActionAssets",
+        "to": "src/assets/themes/princess/assets",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 2,
         "source": "dependency-cruiser"
       },
       {
@@ -14118,7 +14234,7 @@
         "to": "src/data/taskLimits",
         "kind": "relative",
         "import_kind": "static",
-        "line": 24,
+        "line": 25,
         "source": "dependency-cruiser"
       },
       {
@@ -14210,6 +14326,14 @@
         "source": "dependency-cruiser"
       },
       {
+        "from": "src/hooks/useTestCheckTriggers",
+        "to": "node_modules/react/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
         "from": "src/ui/unifiedChoreDescriptors",
         "to": "src/assets/chores/assets",
         "kind": "relative",
@@ -14227,23 +14351,7 @@
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
-        "to": "src/ui/choreModeDefinitions",
-        "kind": "relative",
-        "import_kind": "static",
-        "line": 9,
-        "source": "dependency-cruiser"
-      },
-      {
-        "from": "src/ui/unifiedChoreDescriptors",
-        "to": "src/ui/presetChoreActions",
-        "kind": "relative",
-        "import_kind": "static",
-        "line": 11,
-        "source": "dependency-cruiser"
-      },
-      {
-        "from": "src/ui/unifiedChoreDescriptors",
-        "to": "src/ui/taskTypeIcons",
+        "to": "src/data/types",
         "kind": "relative",
         "import_kind": "static",
         "line": 8,
@@ -14251,10 +14359,34 @@
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
+        "to": "src/ui/choreModeDefinitions",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 10,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/ui/unifiedChoreDescriptors",
+        "to": "src/ui/presetChoreActions",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 12,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/ui/unifiedChoreDescriptors",
+        "to": "src/ui/taskTypeIcons",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 9,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/ui/unifiedChoreDescriptors",
         "to": "src/ui/unifiedChoreItemRenderer",
         "kind": "relative",
         "import_kind": "static",
-        "line": 22,
+        "line": 23,
         "source": "dependency-cruiser"
       },
       {
@@ -14262,7 +14394,7 @@
         "to": "src/ui/unifiedChoreState",
         "kind": "relative",
         "import_kind": "static",
-        "line": 17,
+        "line": 18,
         "source": "dependency-cruiser"
       },
       {
@@ -14283,18 +14415,10 @@
       },
       {
         "from": "src/ui/presetChoreActions",
-        "to": "src/assets/themes/princess/assets",
-        "kind": "relative",
-        "import_kind": "static",
-        "line": 2,
-        "source": "dependency-cruiser"
-      },
-      {
-        "from": "src/ui/presetChoreActions",
         "to": "src/ui/choreModeDefinitions",
         "kind": "relative",
         "import_kind": "static",
-        "line": 7,
+        "line": 6,
         "source": "dependency-cruiser"
       },
       {
@@ -14318,7 +14442,7 @@
         "to": "src/assets/chores/assets",
         "kind": "relative",
         "import_kind": "static",
-        "line": 8,
+        "line": 9,
         "source": "dependency-cruiser"
       },
       {
@@ -14326,7 +14450,7 @@
         "to": "src/assets/themes/princess/assets",
         "kind": "relative",
         "import_kind": "static",
-        "line": 7,
+        "line": 8,
         "source": "dependency-cruiser"
       },
       {
@@ -14355,6 +14479,14 @@
       },
       {
         "from": "src/ui/unifiedChoreItemRenderer",
+        "to": "src/components/ui/ImageStarFrame",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 7,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/ui/unifiedChoreItemRenderer",
         "to": "src/components/ui/RepeatControl",
         "kind": "relative",
         "import_kind": "static",
@@ -14366,7 +14498,7 @@
         "to": "src/components/ui/standardActionStyles",
         "kind": "relative",
         "import_kind": "static",
-        "line": 10,
+        "line": 12,
         "source": "dependency-cruiser"
       },
       {
@@ -14379,15 +14511,15 @@
       },
       {
         "from": "src/ui/unifiedChoreItemRenderer",
-        "to": "src/tokens/index",
+        "to": "src/data/types",
         "kind": "relative",
         "import_kind": "static",
-        "line": 9,
+        "line": 10,
         "source": "dependency-cruiser"
       },
       {
         "from": "src/ui/unifiedChoreItemRenderer",
-        "to": "src/ui/choreModeDefinitions",
+        "to": "src/tokens/index",
         "kind": "relative",
         "import_kind": "static",
         "line": 11,
@@ -14395,10 +14527,18 @@
       },
       {
         "from": "src/ui/unifiedChoreItemRenderer",
+        "to": "src/ui/choreModeDefinitions",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 13,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/ui/unifiedChoreItemRenderer",
         "to": "src/ui/unifiedChoreState",
         "kind": "relative",
         "import_kind": "static",
-        "line": 15,
+        "line": 17,
         "source": "dependency-cruiser"
       },
       {
@@ -14406,7 +14546,7 @@
         "to": "src/ui/unifiedEatingRenderer",
         "kind": "relative",
         "import_kind": "static",
-        "line": 21,
+        "line": 22,
         "source": "dependency-cruiser"
       },
       {
@@ -14414,7 +14554,7 @@
         "to": "src/ui/unifiedTestRenderer",
         "kind": "relative",
         "import_kind": "static",
-        "line": 22,
+        "line": 23,
         "source": "dependency-cruiser"
       },
       {
@@ -14422,7 +14562,7 @@
         "to": "src/ui/unifiedWaterToiletRenderer",
         "kind": "relative",
         "import_kind": "static",
-        "line": 23,
+        "line": 24,
         "source": "dependency-cruiser"
       },
       {
@@ -14474,6 +14614,22 @@
         "source": "dependency-cruiser"
       },
       {
+        "from": "src/components/ui/ImageStarFrame",
+        "to": "src/tokens/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 2,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/ui/ImageStarFrame",
+        "to": "src/components/ui/StarDisplay",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 3,
+        "source": "dependency-cruiser"
+      },
+      {
         "from": "src/components/ui/RepeatControl",
         "to": "src/tokens/index",
         "kind": "relative",
@@ -14511,6 +14667,14 @@
         "kind": "relative",
         "import_kind": "static",
         "line": 1,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/ui/unifiedEatingRenderer",
+        "to": "src/data/taskLimits",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 24,
         "source": "dependency-cruiser"
       },
       {
@@ -14622,7 +14786,7 @@
         "to": "src/assets/alphabet/ant-aardvark-antelope.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 23,
+        "line": 22,
         "source": "dependency-cruiser"
       },
       {
@@ -14630,7 +14794,7 @@
         "to": "src/assets/alphabet/apple-avocado-asparagus.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 24,
+        "line": 23,
         "source": "dependency-cruiser"
       },
       {
@@ -14638,7 +14802,7 @@
         "to": "src/assets/alphabet/banana-blueberry-brocolli.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 25,
+        "line": 24,
         "source": "dependency-cruiser"
       },
       {
@@ -14646,7 +14810,7 @@
         "to": "src/assets/alphabet/bat-bever-butterfly.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 26,
+        "line": 25,
         "source": "dependency-cruiser"
       },
       {
@@ -14654,7 +14818,7 @@
         "to": "src/assets/alphabet/carrot-corn-cucumber.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 27,
+        "line": 26,
         "source": "dependency-cruiser"
       },
       {
@@ -14662,7 +14826,7 @@
         "to": "src/assets/alphabet/cat-camel-cow.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 28,
+        "line": 27,
         "source": "dependency-cruiser"
       },
       {
@@ -14670,7 +14834,7 @@
         "to": "src/assets/alphabet/dates-dandelions-dumplings.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 29,
+        "line": 28,
         "source": "dependency-cruiser"
       },
       {
@@ -14678,7 +14842,7 @@
         "to": "src/assets/alphabet/dog-dophin-duckling.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 30,
+        "line": 29,
         "source": "dependency-cruiser"
       },
       {
@@ -14686,7 +14850,7 @@
         "to": "src/assets/alphabet/eggrolls-eclairs-eggs.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 31,
+        "line": 30,
         "source": "dependency-cruiser"
       },
       {
@@ -14694,7 +14858,7 @@
         "to": "src/assets/alphabet/elephant-eagle-echidna.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 32,
+        "line": 31,
         "source": "dependency-cruiser"
       },
       {
@@ -14702,7 +14866,7 @@
         "to": "src/assets/alphabet/fennel-fig-fish.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 33,
+        "line": 32,
         "source": "dependency-cruiser"
       },
       {
@@ -14710,7 +14874,7 @@
         "to": "src/assets/alphabet/fox-frog-flamingo.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 34,
+        "line": 33,
         "source": "dependency-cruiser"
       },
       {
@@ -14718,7 +14882,7 @@
         "to": "src/assets/alphabet/gecko-guinea pig,-goat.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 35,
+        "line": 34,
         "source": "dependency-cruiser"
       },
       {
@@ -14726,7 +14890,7 @@
         "to": "src/assets/alphabet/gelato-gnocci-grapes.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 36,
+        "line": 35,
         "source": "dependency-cruiser"
       },
       {
@@ -14734,7 +14898,7 @@
         "to": "src/assets/alphabet/hippopotamus-hamster-humming bird.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 37,
+        "line": 36,
         "source": "dependency-cruiser"
       },
       {
@@ -14742,7 +14906,7 @@
         "to": "src/assets/alphabet/honey-hazelnuts-hamburger.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 38,
+        "line": 37,
         "source": "dependency-cruiser"
       },
       {
@@ -14750,7 +14914,7 @@
         "to": "src/assets/alphabet/Ibis-iguana-impala.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 39,
+        "line": 38,
         "source": "dependency-cruiser"
       },
       {
@@ -14758,7 +14922,7 @@
         "to": "src/assets/alphabet/ice pop-instant noodles-ice cream.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 40,
+        "line": 39,
         "source": "dependency-cruiser"
       },
       {
@@ -14766,7 +14930,7 @@
         "to": "src/assets/alphabet/Jackfruit-jam-Jalapeño.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 41,
+        "line": 40,
         "source": "dependency-cruiser"
       },
       {
@@ -14774,7 +14938,7 @@
         "to": "src/assets/alphabet/jaguar-jelly fish-jackal.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 42,
+        "line": 41,
         "source": "dependency-cruiser"
       },
       {
@@ -14782,7 +14946,7 @@
         "to": "src/assets/alphabet/kangaroo-koala-kiwi.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 43,
+        "line": 42,
         "source": "dependency-cruiser"
       },
       {
@@ -14790,7 +14954,7 @@
         "to": "src/assets/alphabet/kiwi-kale-ketchup.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 44,
+        "line": 43,
         "source": "dependency-cruiser"
       },
       {
@@ -14798,7 +14962,7 @@
         "to": "src/assets/alphabet/lasagne-lollipop-lemonade.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 45,
+        "line": 44,
         "source": "dependency-cruiser"
       },
       {
@@ -14806,7 +14970,7 @@
         "to": "src/assets/alphabet/lemonlime-lychee-lettuce.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 46,
+        "line": 45,
         "source": "dependency-cruiser"
       },
       {
@@ -14814,7 +14978,7 @@
         "to": "src/assets/alphabet/lion-llama-lemur.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 47,
+        "line": 46,
         "source": "dependency-cruiser"
       },
       {
@@ -14822,7 +14986,7 @@
         "to": "src/assets/alphabet/lobster-ladybug-leopard.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 48,
+        "line": 47,
         "source": "dependency-cruiser"
       },
       {
@@ -14830,7 +14994,7 @@
         "to": "src/assets/alphabet/mango-melon-muffin.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 49,
+        "line": 48,
         "source": "dependency-cruiser"
       },
       {
@@ -14838,7 +15002,7 @@
         "to": "src/assets/alphabet/mouse-meerkat-manatee.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 50,
+        "line": 49,
         "source": "dependency-cruiser"
       },
       {
@@ -14846,7 +15010,7 @@
         "to": "src/assets/alphabet/mushroom-meatballs-macaroni.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 51,
+        "line": 50,
         "source": "dependency-cruiser"
       },
       {
@@ -14854,7 +15018,7 @@
         "to": "src/assets/alphabet/narwhal-newt-nautilus.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 52,
+        "line": 51,
         "source": "dependency-cruiser"
       },
       {
@@ -14862,7 +15026,7 @@
         "to": "src/assets/alphabet/noodles-nachos-nougat.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 53,
+        "line": 52,
         "source": "dependency-cruiser"
       },
       {
@@ -14870,7 +15034,7 @@
         "to": "src/assets/alphabet/oats-olive oil-onigiri.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 54,
+        "line": 53,
         "source": "dependency-cruiser"
       },
       {
@@ -14878,7 +15042,7 @@
         "to": "src/assets/alphabet/omelette-oysters-olive oil.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 55,
+        "line": 54,
         "source": "dependency-cruiser"
       },
       {
@@ -14886,7 +15050,7 @@
         "to": "src/assets/alphabet/orange-olive-onion.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 56,
+        "line": 55,
         "source": "dependency-cruiser"
       },
       {
@@ -14894,7 +15058,7 @@
         "to": "src/assets/alphabet/orangutan-otter-owl.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 57,
+        "line": 56,
         "source": "dependency-cruiser"
       },
       {
@@ -14902,7 +15066,7 @@
         "to": "src/assets/alphabet/owl-ostrich-octopus.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 58,
+        "line": 57,
         "source": "dependency-cruiser"
       },
       {
@@ -14910,7 +15074,7 @@
         "to": "src/assets/alphabet/pancakes-popcorn-peanut butter.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 59,
+        "line": 58,
         "source": "dependency-cruiser"
       },
       {
@@ -14918,7 +15082,7 @@
         "to": "src/assets/alphabet/passion fruit-papaya-plum.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 60,
+        "line": 59,
         "source": "dependency-cruiser"
       },
       {
@@ -14926,7 +15090,7 @@
         "to": "src/assets/alphabet/peach-pear-pineapple.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 61,
+        "line": 60,
         "source": "dependency-cruiser"
       },
       {
@@ -14934,7 +15098,7 @@
         "to": "src/assets/alphabet/peacock-platypus-porcupine.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 62,
+        "line": 61,
         "source": "dependency-cruiser"
       },
       {
@@ -14942,7 +15106,7 @@
         "to": "src/assets/alphabet/pesto-prosciutto-parmesan.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 63,
+        "line": 62,
         "source": "dependency-cruiser"
       },
       {
@@ -14950,7 +15114,7 @@
         "to": "src/assets/alphabet/pig-penguin-panda.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 64,
+        "line": 63,
         "source": "dependency-cruiser"
       },
       {
@@ -14958,7 +15122,7 @@
         "to": "src/assets/alphabet/potato-parsnip-pumpkin.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 65,
+        "line": 64,
         "source": "dependency-cruiser"
       },
       {
@@ -14966,7 +15130,7 @@
         "to": "src/assets/alphabet/quinoa-quiche-quesadilla.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 66,
+        "line": 65,
         "source": "dependency-cruiser"
       },
       {
@@ -14974,7 +15138,7 @@
         "to": "src/assets/alphabet/rabbit-racoon-reindeer.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 76,
+        "line": 75,
         "source": "dependency-cruiser"
       },
       {
@@ -14982,7 +15146,7 @@
         "to": "src/assets/alphabet/radish-rhubarb-rocket.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 67,
+        "line": 66,
         "source": "dependency-cruiser"
       },
       {
@@ -14990,7 +15154,7 @@
         "to": "src/assets/alphabet/ramen-ravioli-risotto.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 68,
+        "line": 67,
         "source": "dependency-cruiser"
       },
       {
@@ -14998,7 +15162,7 @@
         "to": "src/assets/alphabet/rhinoceros-ray-red panda.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 77,
+        "line": 76,
         "source": "dependency-cruiser"
       },
       {
@@ -15006,7 +15170,7 @@
         "to": "src/assets/alphabet/sandwich-sausage-soup.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 69,
+        "line": 68,
         "source": "dependency-cruiser"
       },
       {
@@ -15014,7 +15178,7 @@
         "to": "src/assets/alphabet/sashimi-sushi-seaweed.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 70,
+        "line": 69,
         "source": "dependency-cruiser"
       },
       {
@@ -15022,7 +15186,7 @@
         "to": "src/assets/alphabet/sea horse-squid-star fish.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 78,
+        "line": 77,
         "source": "dependency-cruiser"
       },
       {
@@ -15030,7 +15194,7 @@
         "to": "src/assets/alphabet/seal-shark-salmon.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 79,
+        "line": 78,
         "source": "dependency-cruiser"
       },
       {
@@ -15038,7 +15202,7 @@
         "to": "src/assets/alphabet/seaweed-spinach-sweet potato.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 71,
+        "line": 70,
         "source": "dependency-cruiser"
       },
       {
@@ -15046,7 +15210,7 @@
         "to": "src/assets/alphabet/sheep-skunk-squirrel.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 80,
+        "line": 79,
         "source": "dependency-cruiser"
       },
       {
@@ -15054,7 +15218,7 @@
         "to": "src/assets/alphabet/swan-spider-sloth.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 81,
+        "line": 80,
         "source": "dependency-cruiser"
       },
       {
@@ -15062,7 +15226,7 @@
         "to": "src/assets/alphabet/tart-toffee-toast.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 72,
+        "line": 71,
         "source": "dependency-cruiser"
       },
       {
@@ -15070,7 +15234,7 @@
         "to": "src/assets/alphabet/tiger,tortoise turtle,tapir.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 82,
+        "line": 81,
         "source": "dependency-cruiser"
       },
       {
@@ -15078,7 +15242,7 @@
         "to": "src/assets/alphabet/tomato-turnip-truffle.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 73,
+        "line": 72,
         "source": "dependency-cruiser"
       },
       {
@@ -15086,7 +15250,7 @@
         "to": "src/assets/alphabet/unicorn-urial-uromastyx.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 83,
+        "line": 82,
         "source": "dependency-cruiser"
       },
       {
@@ -15094,7 +15258,7 @@
         "to": "src/assets/alphabet/viper-vole-vulture.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 84,
+        "line": 83,
         "source": "dependency-cruiser"
       },
       {
@@ -15102,7 +15266,7 @@
         "to": "src/assets/alphabet/waffles-wonton soup-wrap.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 74,
+        "line": 73,
         "source": "dependency-cruiser"
       },
       {
@@ -15110,7 +15274,7 @@
         "to": "src/assets/alphabet/walrus-whale-worm.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 85,
+        "line": 84,
         "source": "dependency-cruiser"
       },
       {
@@ -15118,7 +15282,7 @@
         "to": "src/assets/alphabet/wasp-weasel-woodpecker.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 86,
+        "line": 85,
         "source": "dependency-cruiser"
       },
       {
@@ -15126,7 +15290,7 @@
         "to": "src/assets/alphabet/wolf-weasel-warthog.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 87,
+        "line": 86,
         "source": "dependency-cruiser"
       },
       {
@@ -15134,7 +15298,7 @@
         "to": "src/assets/alphabet/yak-yeti.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 88,
+        "line": 87,
         "source": "dependency-cruiser"
       },
       {
@@ -15142,7 +15306,7 @@
         "to": "src/assets/alphabet/yogurt-yorkshire pudding.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 75,
+        "line": 74,
         "source": "dependency-cruiser"
       },
       {
@@ -15150,7 +15314,7 @@
         "to": "src/assets/alphabet/zebra.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 89,
+        "line": 88,
         "source": "dependency-cruiser"
       },
       {
@@ -15158,7 +15322,7 @@
         "to": "src/assets/themes/princess/quiz-correct.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 3,
+        "line": 2,
         "source": "dependency-cruiser"
       },
       {
@@ -15166,7 +15330,7 @@
         "to": "src/assets/themes/princess/quiz-incorrect.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 4,
+        "line": 3,
         "source": "dependency-cruiser"
       },
       {
@@ -15174,7 +15338,7 @@
         "to": "src/lib/activityOutcome",
         "kind": "relative",
         "import_kind": "static",
-        "line": 6,
+        "line": 5,
         "source": "dependency-cruiser"
       },
       {
@@ -15182,7 +15346,7 @@
         "to": "src/lib/celebrate",
         "kind": "relative",
         "import_kind": "static",
-        "line": 5,
+        "line": 4,
         "source": "dependency-cruiser"
       },
       {
@@ -15190,7 +15354,7 @@
         "to": "src/lib/imageLoading",
         "kind": "relative",
         "import_kind": "static",
-        "line": 10,
+        "line": 9,
         "source": "dependency-cruiser"
       },
       {
@@ -15198,15 +15362,7 @@
         "to": "src/lib/useProblemHistory",
         "kind": "relative",
         "import_kind": "static",
-        "line": 11,
-        "source": "dependency-cruiser"
-      },
-      {
-        "from": "src/components/AlphabetTester",
-        "to": "src/tokens/index",
-        "kind": "relative",
-        "import_kind": "static",
-        "line": 2,
+        "line": 10,
         "source": "dependency-cruiser"
       },
       {
@@ -15214,7 +15370,7 @@
         "to": "src/components/ui/ActivityControls",
         "kind": "relative",
         "import_kind": "static",
-        "line": 12,
+        "line": 11,
         "source": "dependency-cruiser"
       },
       {
@@ -15222,7 +15378,7 @@
         "to": "src/components/ui/LetterCaseControl",
         "kind": "relative",
         "import_kind": "static",
-        "line": 20,
+        "line": 19,
         "source": "dependency-cruiser"
       },
       {
@@ -15331,7 +15487,7 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/assets/animal-facts/food.webp",
+        "to": "src/assets/animal-mode-icons/learn.webp",
         "kind": "relative",
         "import_kind": "static",
         "line": 3,
@@ -15339,7 +15495,7 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/assets/animal-facts/habitat-cover.webp",
+        "to": "src/assets/animal-mode-icons/one-player.webp",
         "kind": "relative",
         "import_kind": "static",
         "line": 4,
@@ -15347,7 +15503,7 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/assets/animal-facts/habitat-place.webp",
+        "to": "src/assets/animal-mode-icons/two-players.webp",
         "kind": "relative",
         "import_kind": "static",
         "line": 5,
@@ -15355,7 +15511,7 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/assets/animal-mode-icons/learn.webp",
+        "to": "src/assets/themes/princess/quiz-correct.svg",
         "kind": "relative",
         "import_kind": "static",
         "line": 6,
@@ -15363,7 +15519,7 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/assets/animal-mode-icons/one-player.webp",
+        "to": "src/assets/themes/princess/quiz-incorrect.svg",
         "kind": "relative",
         "import_kind": "static",
         "line": 7,
@@ -15371,7 +15527,7 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/assets/animal-mode-icons/two-players.webp",
+        "to": "src/data/animalAbilityAssets",
         "kind": "relative",
         "import_kind": "static",
         "line": 8,
@@ -15379,7 +15535,7 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/assets/themes/princess/quiz-correct.svg",
+        "to": "src/data/animalAssets",
         "kind": "relative",
         "import_kind": "static",
         "line": 9,
@@ -15387,7 +15543,7 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/assets/themes/princess/quiz-incorrect.svg",
+        "to": "src/data/animalFoodAssets",
         "kind": "relative",
         "import_kind": "static",
         "line": 10,
@@ -15395,7 +15551,7 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/data/animalAbilityAssets",
+        "to": "src/data/animalHabitatAssets",
         "kind": "relative",
         "import_kind": "static",
         "line": 11,
@@ -15403,15 +15559,7 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/data/animalAssets",
-        "kind": "relative",
-        "import_kind": "static",
-        "line": 12,
-        "source": "dependency-cruiser"
-      },
-      {
-        "from": "src/components/AnimalTester",
-        "to": "src/data/animalFoodAssets",
+        "to": "src/data/animalKnowledge",
         "kind": "relative",
         "import_kind": "static",
         "line": 13,
@@ -15419,26 +15567,10 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/data/animalHabitatAssets",
-        "kind": "relative",
-        "import_kind": "static",
-        "line": 14,
-        "source": "dependency-cruiser"
-      },
-      {
-        "from": "src/components/AnimalTester",
-        "to": "src/data/animalKnowledge",
-        "kind": "relative",
-        "import_kind": "static",
-        "line": 22,
-        "source": "dependency-cruiser"
-      },
-      {
-        "from": "src/components/AnimalTester",
         "to": "src/data/animalLocationAssets",
         "kind": "relative",
         "import_kind": "static",
-        "line": 18,
+        "line": 12,
         "source": "dependency-cruiser"
       },
       {
@@ -15446,7 +15578,7 @@
         "to": "src/lib/activityOutcome",
         "kind": "relative",
         "import_kind": "static",
-        "line": 28,
+        "line": 19,
         "source": "dependency-cruiser"
       },
       {
@@ -15454,7 +15586,7 @@
         "to": "src/lib/celebrate",
         "kind": "relative",
         "import_kind": "static",
-        "line": 27,
+        "line": 18,
         "source": "dependency-cruiser"
       },
       {
@@ -15462,7 +15594,7 @@
         "to": "src/tokens/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 32,
+        "line": 23,
         "source": "dependency-cruiser"
       },
       {
@@ -15470,12 +15602,12 @@
         "to": "src/components/ui/ActionButton",
         "kind": "relative",
         "import_kind": "static",
-        "line": 33,
+        "line": 24,
         "source": "dependency-cruiser"
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/components/ui/ActivityControls",
+        "to": "src/components/ui/activityAnimationStyles",
         "kind": "relative",
         "import_kind": "static",
         "line": 34,
@@ -15483,10 +15615,18 @@
       },
       {
         "from": "src/components/AnimalTester",
+        "to": "src/components/ui/ActivityControls",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 25,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/AnimalTester",
         "to": "src/components/ui/SegmentedChoiceControl",
         "kind": "relative",
         "import_kind": "static",
-        "line": 42,
+        "line": 33,
         "source": "dependency-cruiser"
       },
       {
@@ -15498,8 +15638,16 @@
         "source": "dependency-cruiser"
       },
       {
-        "from": "src/data/animalFoodAssets",
-        "to": "src/assets/animal-foods/fish.webp",
+        "from": "src/data/animalAbilityAssets",
+        "to": "src/data/assetCatalog",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 1,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/data/animalAssets",
+        "to": "src/data/assetCatalog",
         "kind": "relative",
         "import_kind": "static",
         "line": 1,
@@ -15507,7 +15655,15 @@
       },
       {
         "from": "src/data/animalFoodAssets",
-        "to": "src/assets/animal-foods/food.webp",
+        "to": "src/assets/animal-foods/bamboo.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 1,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/data/animalFoodAssets",
+        "to": "src/assets/animal-foods/deer.webp",
         "kind": "relative",
         "import_kind": "static",
         "line": 2,
@@ -15515,7 +15671,7 @@
       },
       {
         "from": "src/data/animalFoodAssets",
-        "to": "src/assets/animal-foods/fruit.webp",
+        "to": "src/assets/animal-foods/fish.webp",
         "kind": "relative",
         "import_kind": "static",
         "line": 3,
@@ -15523,7 +15679,7 @@
       },
       {
         "from": "src/data/animalFoodAssets",
-        "to": "src/assets/animal-foods/insects.webp",
+        "to": "src/assets/animal-foods/food.webp",
         "kind": "relative",
         "import_kind": "static",
         "line": 4,
@@ -15531,7 +15687,7 @@
       },
       {
         "from": "src/data/animalFoodAssets",
-        "to": "src/assets/animal-foods/meat.webp",
+        "to": "src/assets/animal-foods/fruit.webp",
         "kind": "relative",
         "import_kind": "static",
         "line": 5,
@@ -15539,7 +15695,7 @@
       },
       {
         "from": "src/data/animalFoodAssets",
-        "to": "src/assets/animal-foods/nectar.webp",
+        "to": "src/assets/animal-foods/insects.webp",
         "kind": "relative",
         "import_kind": "static",
         "line": 6,
@@ -15547,7 +15703,7 @@
       },
       {
         "from": "src/data/animalFoodAssets",
-        "to": "src/assets/animal-foods/plants.webp",
+        "to": "src/assets/animal-foods/krill.webp",
         "kind": "relative",
         "import_kind": "static",
         "line": 7,
@@ -15555,7 +15711,7 @@
       },
       {
         "from": "src/data/animalFoodAssets",
-        "to": "src/assets/animal-foods/seeds.webp",
+        "to": "src/assets/animal-foods/meat.webp",
         "kind": "relative",
         "import_kind": "static",
         "line": 8,
@@ -15563,7 +15719,7 @@
       },
       {
         "from": "src/data/animalFoodAssets",
-        "to": "src/assets/animal-foods/shellfish.webp",
+        "to": "src/assets/animal-foods/nectar.webp",
         "kind": "relative",
         "import_kind": "static",
         "line": 9,
@@ -15571,10 +15727,58 @@
       },
       {
         "from": "src/data/animalFoodAssets",
-        "to": "src/assets/animal-foods/worms.webp",
+        "to": "src/assets/animal-foods/plants.webp",
         "kind": "relative",
         "import_kind": "static",
         "line": 10,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/data/animalFoodAssets",
+        "to": "src/assets/animal-foods/seals.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 12,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/data/animalFoodAssets",
+        "to": "src/assets/animal-foods/seeds.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 11,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/data/animalFoodAssets",
+        "to": "src/assets/animal-foods/shellfish.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 13,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/data/animalFoodAssets",
+        "to": "src/assets/animal-foods/shrimp.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 14,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/data/animalFoodAssets",
+        "to": "src/assets/animal-foods/small-animals.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 15,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/data/animalFoodAssets",
+        "to": "src/assets/animal-foods/worms.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 16,
         "source": "dependency-cruiser"
       },
       {
@@ -15843,6 +16047,14 @@
       },
       {
         "from": "src/components/ArithmeticTester",
+        "to": "src/components/ui/activityAnimationStyles",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 19,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/ArithmeticTester",
         "to": "src/components/ui/ActivityControls",
         "kind": "relative",
         "import_kind": "static",
@@ -15935,6 +16147,14 @@
         "kind": "relative",
         "import_kind": "static",
         "line": 3,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/DinnerCountdown",
+        "to": "src/data/taskLimits",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 9,
         "source": "dependency-cruiser"
       },
       {
@@ -16067,6 +16287,14 @@
       },
       {
         "from": "src/components/LargeNumbersTester",
+        "to": "src/components/ui/activityAnimationStyles",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 22,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/LargeNumbersTester",
         "to": "src/components/ui/ActivityControls",
         "kind": "relative",
         "import_kind": "static",
@@ -16119,6 +16347,14 @@
         "kind": "relative",
         "import_kind": "static",
         "line": 3,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/components/PositionalNotation",
+        "to": "src/components/ui/activityAnimationStyles",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 19,
         "source": "dependency-cruiser"
       },
       {
@@ -16214,7 +16450,7 @@
         "to": "src/assets/global/cat-camel-cow.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 4,
+        "line": 3,
         "source": "dependency-cruiser"
       },
       {
@@ -16222,7 +16458,7 @@
         "to": "src/assets/global/teenieping.webp",
         "kind": "relative",
         "import_kind": "static",
-        "line": 5,
+        "line": 4,
         "source": "dependency-cruiser"
       },
       {
@@ -16230,7 +16466,7 @@
         "to": "src/assets/pokemon/pikachu.png",
         "kind": "relative",
         "import_kind": "static",
-        "line": 6,
+        "line": 5,
         "source": "dependency-cruiser"
       },
       {
@@ -16238,7 +16474,7 @@
         "to": "src/assets/themes/princess/quiz-correct.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 7,
+        "line": 6,
         "source": "dependency-cruiser"
       },
       {
@@ -16246,7 +16482,7 @@
         "to": "src/assets/themes/princess/quiz-incorrect.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 8,
+        "line": 7,
         "source": "dependency-cruiser"
       },
       {
@@ -16254,7 +16490,7 @@
         "to": "src/data/animalAssets",
         "kind": "relative",
         "import_kind": "static",
-        "line": 16,
+        "line": 15,
         "source": "dependency-cruiser"
       },
       {
@@ -16262,7 +16498,7 @@
         "to": "src/lib/activityOutcome",
         "kind": "relative",
         "import_kind": "static",
-        "line": 10,
+        "line": 9,
         "source": "dependency-cruiser"
       },
       {
@@ -16270,7 +16506,7 @@
         "to": "src/lib/celebrate",
         "kind": "relative",
         "import_kind": "static",
-        "line": 9,
+        "line": 8,
         "source": "dependency-cruiser"
       },
       {
@@ -16278,7 +16514,7 @@
         "to": "src/lib/imageLoading",
         "kind": "relative",
         "import_kind": "static",
-        "line": 14,
+        "line": 13,
         "source": "dependency-cruiser"
       },
       {
@@ -16286,15 +16522,15 @@
         "to": "src/lib/useProblemHistory",
         "kind": "relative",
         "import_kind": "static",
-        "line": 15,
+        "line": 14,
         "source": "dependency-cruiser"
       },
       {
         "from": "src/components/SpellingTester",
-        "to": "src/tokens/index",
+        "to": "src/components/ui/activityAnimationStyles",
         "kind": "relative",
         "import_kind": "static",
-        "line": 3,
+        "line": 26,
         "source": "dependency-cruiser"
       },
       {
@@ -16302,7 +16538,7 @@
         "to": "src/components/ui/ActivityControls",
         "kind": "relative",
         "import_kind": "static",
-        "line": 17,
+        "line": 16,
         "source": "dependency-cruiser"
       },
       {
@@ -16310,7 +16546,7 @@
         "to": "src/components/ui/LetterCaseControl",
         "kind": "relative",
         "import_kind": "static",
-        "line": 25,
+        "line": 24,
         "source": "dependency-cruiser"
       },
       {
@@ -16318,7 +16554,7 @@
         "to": "src/components/ui/SegmentedChoiceControl",
         "kind": "relative",
         "import_kind": "static",
-        "line": 26,
+        "line": 25,
         "source": "dependency-cruiser"
       },
       {
@@ -16438,7 +16674,7 @@
         "to": "src/assets/themes/princess/assets",
         "kind": "relative",
         "import_kind": "static",
-        "line": 20,
+        "line": 21,
         "source": "dependency-cruiser"
       },
       {
@@ -16491,6 +16727,14 @@
       },
       {
         "from": "src/pages/ChoreCreationFlow",
+        "to": "src/data/taskLimits",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 20,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/pages/ChoreCreationFlow",
         "to": "src/data/types",
         "kind": "relative",
         "import_kind": "static",
@@ -16510,7 +16754,7 @@
         "to": "src/ui/presetChoreRenderers",
         "kind": "relative",
         "import_kind": "static",
-        "line": 26,
+        "line": 27,
         "source": "dependency-cruiser"
       },
       {
@@ -16518,7 +16762,7 @@
         "to": "src/ui/taskTypeIcons",
         "kind": "relative",
         "import_kind": "static",
-        "line": 25,
+        "line": 26,
         "source": "dependency-cruiser"
       },
       {
@@ -16623,6 +16867,14 @@
         "kind": "relative",
         "import_kind": "static",
         "line": 2,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/pages/dashboardChoreUi",
+        "to": "src/ui/themeActionAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 7,
         "source": "dependency-cruiser"
       },
       {
@@ -16934,7 +17186,7 @@
         "to": "src/assets/rewards/assets",
         "kind": "relative",
         "import_kind": "static",
-        "line": 17,
+        "line": 18,
         "source": "dependency-cruiser"
       },
       {
@@ -16942,7 +17194,7 @@
         "to": "src/assets/themes/princess/assets",
         "kind": "relative",
         "import_kind": "static",
-        "line": 11,
+        "line": 12,
         "source": "dependency-cruiser"
       },
       {
@@ -16950,7 +17202,7 @@
         "to": "src/assets/themes/princess/quiz-correct.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 9,
+        "line": 10,
         "source": "dependency-cruiser"
       },
       {
@@ -16958,7 +17210,7 @@
         "to": "src/assets/themes/princess/quiz-incorrect.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 10,
+        "line": 11,
         "source": "dependency-cruiser"
       },
       {
@@ -16979,7 +17231,7 @@
       },
       {
         "from": "src/ui/definitionRowDescriptors",
-        "to": "src/components/ui/SegmentedChoiceControl",
+        "to": "src/components/ui/ImageStarFrame",
         "kind": "relative",
         "import_kind": "static",
         "line": 5,
@@ -16987,10 +17239,18 @@
       },
       {
         "from": "src/ui/definitionRowDescriptors",
+        "to": "src/components/ui/SegmentedChoiceControl",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 6,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/ui/definitionRowDescriptors",
         "to": "src/components/ui/standardActionStyles",
         "kind": "relative",
         "import_kind": "static",
-        "line": 8,
+        "line": 9,
         "source": "dependency-cruiser"
       },
       {
@@ -17006,7 +17266,7 @@
         "to": "src/tokens/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 21,
+        "line": 22,
         "source": "dependency-cruiser"
       },
       {
@@ -17506,14 +17766,6 @@
         "source": "dependency-cruiser"
       },
       {
-        "from": "src/hooks/useTestCheckTriggers",
-        "to": "node_modules/react/index",
-        "kind": "relative",
-        "import_kind": "static",
-        "line": null,
-        "source": "dependency-cruiser"
-      },
-      {
         "from": "src/ui/testActivityBindings",
         "to": "src/data/types",
         "kind": "relative",
@@ -17614,7 +17866,7 @@
         "to": "src/assets/clock/hourhand.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 9,
+        "line": 10,
         "source": "dependency-cruiser"
       },
       {
@@ -17622,7 +17874,7 @@
         "to": "src/assets/clock/minutehand.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 10,
+        "line": 11,
         "source": "dependency-cruiser"
       },
       {
@@ -17630,7 +17882,7 @@
         "to": "src/assets/clock/pivot.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 11,
+        "line": 12,
         "source": "dependency-cruiser"
       },
       {
@@ -17638,7 +17890,7 @@
         "to": "src/assets/clock/secondhand.svg",
         "kind": "relative",
         "import_kind": "static",
-        "line": 12,
+        "line": 13,
         "source": "dependency-cruiser"
       },
       {
@@ -17646,7 +17898,7 @@
         "to": "src/lib/dayNightExplorer/dayNightExplorer.constants",
         "kind": "relative",
         "import_kind": "static",
-        "line": 14,
+        "line": 15,
         "source": "dependency-cruiser"
       },
       {
@@ -17654,7 +17906,7 @@
         "to": "src/lib/dayNightExplorer/dayNightExplorerMath",
         "kind": "relative",
         "import_kind": "static",
-        "line": 18,
+        "line": 19,
         "source": "dependency-cruiser"
       },
       {
@@ -17662,7 +17914,7 @@
         "to": "src/tokens/index",
         "kind": "relative",
         "import_kind": "static",
-        "line": 8,
+        "line": 9,
         "source": "dependency-cruiser"
       },
       {
@@ -17670,7 +17922,7 @@
         "to": "src/components/ui/StepperButton",
         "kind": "relative",
         "import_kind": "static",
-        "line": 13,
+        "line": 14,
         "source": "dependency-cruiser"
       },
       {

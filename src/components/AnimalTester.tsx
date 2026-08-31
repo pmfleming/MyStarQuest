@@ -31,6 +31,7 @@ import {
   type ActivityResult,
 } from './ui/ActivityControls'
 import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
+import { getChoiceFeedbackAnimationStyles } from './ui/activityAnimationStyles'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 9
@@ -128,39 +129,68 @@ const FactCard = ({
     aria-label={`${fact.label}: ${fact.text}`}
     style={{
       minHeight: 174,
-      padding: '8px',
       borderRadius: 22,
       border: `3px solid ${theme.colors.accent}`,
       background: theme.colors.surface,
       color: theme.colors.text,
       boxShadow: `0 5px 0 ${theme.colors.accent}66`,
       fontFamily: theme.fonts.body,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: 2,
+      position: 'relative',
+      isolation: 'isolate',
+      overflow: 'hidden',
       textAlign: 'center',
     }}
   >
     {fact.illustration ? (
       <img
+        data-animal-fact-image
         src={fact.illustration}
         alt=""
-        style={{ width: '100%', height: 132, objectFit: 'contain' }}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+        }}
       />
     ) : (
-      <span aria-hidden="true" style={{ fontSize: '5rem', lineHeight: 1 }}>
+      <span
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'grid',
+          placeItems: 'center',
+          fontSize: 'clamp(5rem, 30vw, 9rem)',
+          lineHeight: 1,
+        }}
+      >
         {fact.visual}
       </span>
     )}
     {fact.word && (
       <strong
+        data-animal-fact-word
         style={{
+          position: 'absolute',
+          zIndex: 1,
+          left: '50%',
+          bottom: 10,
+          transform: 'translateX(-50%)',
+          maxWidth: 'calc(100% - 20px)',
+          padding: '5px 12px',
+          border: `2px solid ${theme.colors.surface}`,
+          borderRadius: 999,
+          background: `${theme.colors.surface}80`,
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.28)',
           fontFamily: theme.fonts.heading,
           fontSize: '1rem',
-          color: theme.colors.primary,
+          color: theme.colors.text,
           lineHeight: 1,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
         }}
       >
         {fact.word}
@@ -409,6 +439,142 @@ const TwoPlayerProgressButton = ({
   />
 )
 
+type AnimalPlayContentProps = {
+  mode: AnimalMode
+  animal: CatalogAnimal
+  animalIndex: number
+  isLastAnimal: boolean
+  visibleSoloClues: number
+  answerChoices: CatalogAnimal[]
+  dismissedChoices: string[]
+  leavingChoice: string | null
+  answeredCorrectly: boolean
+  isTogetherAnimalHidden: boolean
+  theme: ActivityChoreProps['theme']
+  onPrevious: () => void
+  onNext: () => void
+  onSoloChoice: (choice: CatalogAnimal) => void
+  onToggleAnimal: () => void
+}
+
+const AnimalPlayContent = ({
+  mode,
+  animal,
+  animalIndex,
+  isLastAnimal,
+  visibleSoloClues,
+  answerChoices,
+  dismissedChoices,
+  leavingChoice,
+  answeredCorrectly,
+  isTogetherAnimalHidden,
+  theme,
+  onPrevious,
+  onNext,
+  onSoloChoice,
+  onToggleAnimal,
+}: AnimalPlayContentProps) => {
+  if (mode === 'learn') {
+    return (
+      <>
+        <AnimalPortrait animal={animal} theme={theme} compact />
+        <FactGrid facts={getTeachingFacts(animal)} theme={theme} />
+        <LearningNavigation
+          theme={theme}
+          canGoPrevious={animalIndex > 0}
+          isLastAnimal={isLastAnimal}
+          onPrevious={onPrevious}
+          onNext={onNext}
+        />
+      </>
+    )
+  }
+
+  if (mode === 'together') {
+    return (
+      <>
+        <HideableAnimalPortrait
+          animal={animal}
+          theme={theme}
+          hidden={isTogetherAnimalHidden}
+          onToggle={onToggleAnimal}
+        />
+        <FactGrid facts={getTeachingFacts(animal)} theme={theme} />
+        <TwoPlayerProgressButton
+          theme={theme}
+          isLastAnimal={isLastAnimal}
+          onClick={onNext}
+        />
+      </>
+    )
+  }
+
+  return (
+    <>
+      <FactGrid
+        facts={getTeachingFacts(animal).slice(0, visibleSoloClues)}
+        theme={theme}
+      />
+      <div
+        aria-label="Animal choices"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+          gap: 8,
+          width: '100%',
+        }}
+      >
+        {answerChoices
+          .filter((choice) => !dismissedChoices.includes(choice.name))
+          .map((choice) => {
+            const isWrong = leavingChoice === choice.name
+            const isCorrect = answeredCorrectly && choice.name === animal.name
+            const borderColor = isCorrect
+              ? theme.colors.primary
+              : isWrong
+                ? theme.colors.secondary
+                : theme.colors.accent
+            const animation = isWrong
+              ? 'animal-choice-fly-away 0.65s ease-in forwards'
+              : isCorrect
+                ? 'animal-choice-pop 0.32s ease both'
+                : undefined
+
+            return (
+              <button
+                key={choice.name}
+                type="button"
+                onClick={() => onSoloChoice(choice)}
+                disabled={Boolean(leavingChoice) || answeredCorrectly}
+                aria-label={formatAnimalName(choice.name)}
+                style={{
+                  minHeight: 126,
+                  padding: 5,
+                  borderRadius: 20,
+                  border: `4px solid ${borderColor}`,
+                  background: theme.colors.surface,
+                  color: theme.colors.text,
+                  fontFamily: theme.fonts.heading,
+                  fontSize: '0.76rem',
+                  fontWeight: 800,
+                  animation,
+                }}
+              >
+                <img
+                  src={choice.image}
+                  alt=""
+                  style={{ width: '100%', height: 84, objectFit: 'contain' }}
+                />
+                {formatAnimalName(choice.name)}
+                {isCorrect ? ' ✓' : isWrong ? ' ✕' : ''}
+              </button>
+            )
+          })}
+      </div>
+    </>
+  )
+}
+
 export type AnimalTesterProps = ActivityChoreProps
 
 const AnimalTester = ({
@@ -621,122 +787,28 @@ const AnimalTester = ({
           hideAlt
           showResultBar={mode === 'solo'}
         >
-          {mode === 'learn' && (
-            <>
-              <AnimalPortrait animal={animal} theme={theme} compact />
-              <FactGrid facts={getTeachingFacts(animal)} theme={theme} />
-              <LearningNavigation
-                theme={theme}
-                canGoPrevious={animalIndex > 0}
-                isLastAnimal={isLastAnimal}
-                onPrevious={() =>
-                  setAnimalIndex((index) => Math.max(0, index - 1))
-                }
-                onNext={showNextUnscoredAnimal}
-              />
-            </>
-          )}
-
-          {mode === 'solo' && (
-            <>
-              <FactGrid
-                facts={getTeachingFacts(animal).slice(0, visibleSoloClues)}
-                theme={theme}
-              />
-              <div
-                aria-label="Animal choices"
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-                  gap: 8,
-                  width: '100%',
-                }}
-              >
-                {answerChoices
-                  .filter((choice) => !dismissedChoices.includes(choice.name))
-                  .map((choice) => {
-                    const isWrong = leavingChoice === choice.name
-                    const isCorrect =
-                      answeredCorrectly && choice.name === animal.name
-                    return (
-                      <button
-                        key={choice.name}
-                        type="button"
-                        onClick={() => handleSoloChoice(choice)}
-                        disabled={Boolean(leavingChoice) || answeredCorrectly}
-                        aria-label={formatAnimalName(choice.name)}
-                        style={{
-                          minHeight: 126,
-                          padding: 5,
-                          borderRadius: 20,
-                          border: `4px solid ${
-                            isCorrect
-                              ? theme.colors.primary
-                              : isWrong
-                                ? theme.colors.secondary
-                                : theme.colors.accent
-                          }`,
-                          background: theme.colors.surface,
-                          color: theme.colors.text,
-                          fontFamily: theme.fonts.heading,
-                          fontSize: '0.76rem',
-                          fontWeight: 800,
-                          animation: isWrong
-                            ? 'animal-choice-fly-away 0.65s ease-in forwards'
-                            : isCorrect
-                              ? 'animal-choice-pop 0.32s ease both'
-                              : undefined,
-                        }}
-                      >
-                        <img
-                          src={choice.image}
-                          alt=""
-                          style={{
-                            width: '100%',
-                            height: 84,
-                            objectFit: 'contain',
-                          }}
-                        />
-                        {formatAnimalName(choice.name)}
-                        {isCorrect ? ' ✓' : isWrong ? ' ✕' : ''}
-                      </button>
-                    )
-                  })}
-              </div>
-            </>
-          )}
-
-          {mode === 'together' && (
-            <>
-              <HideableAnimalPortrait
-                animal={animal}
-                theme={theme}
-                hidden={isTogetherAnimalHidden}
-                onToggle={() => setIsTogetherAnimalHidden((hidden) => !hidden)}
-              />
-              <FactGrid facts={getTeachingFacts(animal)} theme={theme} />
-              <TwoPlayerProgressButton
-                theme={theme}
-                isLastAnimal={isLastAnimal}
-                onClick={showNextUnscoredAnimal}
-              />
-            </>
-          )}
+          <AnimalPlayContent
+            mode={mode}
+            animal={animal}
+            animalIndex={animalIndex}
+            isLastAnimal={isLastAnimal}
+            visibleSoloClues={visibleSoloClues}
+            answerChoices={answerChoices}
+            dismissedChoices={dismissedChoices}
+            leavingChoice={leavingChoice}
+            answeredCorrectly={answeredCorrectly}
+            isTogetherAnimalHidden={isTogetherAnimalHidden}
+            theme={theme}
+            onPrevious={() => setAnimalIndex((index) => Math.max(0, index - 1))}
+            onNext={showNextUnscoredAnimal}
+            onSoloChoice={handleSoloChoice}
+            onToggleAnimal={() =>
+              setIsTogetherAnimalHidden((hidden) => !hidden)
+            }
+          />
         </ActivityPlayArea>
       )}
-      <style>{`
-        @keyframes animal-choice-pop {
-          0% { transform: scale(0.88); }
-          70% { transform: scale(1.08); }
-          100% { transform: scale(1); }
-        }
-
-        @keyframes animal-choice-fly-away {
-          0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
-          70% { transform: translateY(-44px) rotate(18deg) scale(0.8); opacity: 0.7; }
-          100% { transform: translateY(-84px) rotate(28deg) scale(0.3); opacity: 0; }
-        }
-      `}</style>
+      <style>{getChoiceFeedbackAnimationStyles('animal-choice')}</style>
     </ActivityOutcomeShell>
   )
 }

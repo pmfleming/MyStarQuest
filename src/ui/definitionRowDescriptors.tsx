@@ -1,7 +1,8 @@
-import type { CSSProperties, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import Carousel from '../components/ui/Carousel'
 import ActionTextInput from '../components/ui/ActionTextInput'
 import StarDisplay from '../components/ui/StarDisplay'
+import ImageStarFrame from '../components/ui/ImageStarFrame'
 import SegmentedChoiceControl, {
   type SegmentedChoiceOption,
 } from '../components/ui/SegmentedChoiceControl'
@@ -70,45 +71,6 @@ type RewardDefinitionDescriptorDeps = {
 const renderRewardAvailableSummary = (reward: RewardRecord, theme: Theme) => {
   const image = getRewardImage(reward.imageKey)
 
-  const rewardCostFrameStyle: CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    position: 'relative',
-    width: '100%',
-    minHeight: '116px',
-    padding: '10px',
-    borderRadius: `${uiTokens.surfaceRadius}px`,
-    border: `3px dashed ${theme.colors.primary}55`,
-    background: `${theme.colors.bg}88`,
-    overflow: 'visible',
-    boxSizing: 'border-box',
-  }
-
-  const imageLaneStyle: CSSProperties = {
-    flex: '0 0 38%',
-    minWidth: '96px',
-    maxWidth: '152px',
-    marginRight: '-26px',
-    position: 'relative',
-    zIndex: 2,
-  }
-
-  const imageFrameStyle: CSSProperties = {
-    width: '100%',
-    aspectRatio: '1',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'visible',
-  }
-
-  const starLaneStyle: CSSProperties = {
-    flex: '1 1 66%',
-    minWidth: 0,
-    position: 'relative',
-    zIndex: 1,
-  }
-
   return (
     <div
       aria-label={`${reward.title} available reward`}
@@ -119,41 +81,12 @@ const renderRewardAvailableSummary = (reward: RewardRecord, theme: Theme) => {
         flex: 1,
       }}
     >
-      <div style={rewardCostFrameStyle}>
-        {image && (
-          <div style={imageLaneStyle}>
-            <div style={imageFrameStyle}>
-              <img
-                src={image}
-                alt={`${reward.title} reward`}
-                loading="lazy"
-                decoding="async"
-                style={{
-                  width: '112%',
-                  height: '112%',
-                  objectFit: 'contain',
-                  display: 'block',
-                }}
-              />
-            </div>
-          </div>
-        )}
-
-        <div style={starLaneStyle}>
-          <StarDisplay
-            count={reward.costStars}
-            animate={false}
-            style={{
-              width: '100%',
-              minHeight: '84px',
-              padding: image ? '10px 10px 10px 4px' : '10px',
-              background: 'transparent',
-              border: '0',
-              boxSizing: 'border-box',
-            }}
-          />
-        </div>
-      </div>
+      <ImageStarFrame
+        theme={theme}
+        image={image}
+        imageAlt={`${reward.title} reward`}
+        starCount={reward.costStars}
+      />
     </div>
   )
 }

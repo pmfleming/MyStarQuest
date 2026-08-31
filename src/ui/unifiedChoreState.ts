@@ -35,14 +35,6 @@ export const isTaskItem = (item: UnifiedChoreItem): item is TaskWithEphemeral =>
 export const getChoreType = (item: UnifiedChoreItem): TaskType =>
   isTaskItem(item) ? item.taskType : item.sourceTaskType
 
-export const isTestType = (type: TaskType) =>
-  type === 'math' ||
-  type === 'large-numbers' ||
-  type === 'positional-notation' ||
-  type === 'alphabet' ||
-  type === 'spelling' ||
-  type === 'animals'
-
 export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
   const princessAsset = (asset?: string): PrincessAsset =>
     deps.theme.id === 'princess' ? asset : undefined

@@ -82,6 +82,11 @@ export const testTypeSchema = z.enum([
   'spelling',
   'animals',
 ])
+export const TEST_TYPES = testTypeSchema.options
+const TEST_TYPE_SET: ReadonlySet<TaskType> = new Set(TEST_TYPES)
+
+export const isTestType = (type: TaskType): type is TestType =>
+  TEST_TYPE_SET.has(type)
 
 export const waterLevelSchema = z.enum([
   'full',
@@ -417,14 +422,7 @@ export function isChoreRecord(task: TaskRecord): task is ChoreRecord {
 }
 
 export function isTestRecord(task: TaskRecord): task is TestRecord {
-  return (
-    task.taskType === 'math' ||
-    task.taskType === 'large-numbers' ||
-    task.taskType === 'positional-notation' ||
-    task.taskType === 'alphabet' ||
-    task.taskType === 'spelling' ||
-    task.taskType === 'animals'
-  )
+  return isTestType(task.taskType)
 }
 
 export function isTaskWithEphemeral(

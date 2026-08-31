@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-30T13:44:10.729Z",
+    "measured_at": "2026-08-31T22:53:46.561Z",
     "source_type": "static",
-    "source_set_hash": "sha256:ec345305efe041da4dafd87767ef598e3ed46af2a333d3c93dd5ebea419a94de"
+    "source_set_hash": "sha256:8f4e38e66f317026f6e21d2e82c3c8737c676cc4430ea5c5e3b81b89795c0d87"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -63,9 +63,9 @@
     "stale_input": []
   },
   "summary": {
-    "records": 158,
+    "records": 155,
     "unused_files": 0,
-    "unused_exports": 124,
+    "unused_exports": 121,
     "unused_dependencies": 30,
     "unlisted_dependencies": 0,
     "type_only_production_dependencies": 0,
@@ -570,7 +570,7 @@
       "id": "cleanup:unused-export:src/components/ui/ActivityControls:ACTIVITY_SETUP_FIELD_GAP",
       "kind": "unused_export",
       "file": "src/components/ui/ActivityControls.tsx",
-      "line": 29,
+      "line": 30,
       "name": "ACTIVITY_SETUP_FIELD_GAP",
       "score": 45,
       "risk": "medium",
@@ -611,7 +611,7 @@
       "id": "cleanup:unused-export:src/components/ui/ActivityControls:ActivityResultBar",
       "kind": "unused_export",
       "file": "src/components/ui/ActivityControls.tsx",
-      "line": 109,
+      "line": 110,
       "name": "ActivityResultBar",
       "score": 45,
       "risk": "medium",
@@ -652,7 +652,7 @@
       "id": "cleanup:unused-export:src/components/ui/ActivityControls:ProblemCountControl",
       "kind": "unused_export",
       "file": "src/components/ui/ActivityControls.tsx",
-      "line": 296,
+      "line": 294,
       "name": "ProblemCountControl",
       "score": 45,
       "risk": "medium",
@@ -1185,7 +1185,7 @@
       "id": "cleanup:unused-export:src/data/animalAbilityAssets:AnimalAbilityAsset",
       "kind": "unused_export",
       "file": "src/data/animalAbilityAssets.ts",
-      "line": 1,
+      "line": 3,
       "name": "AnimalAbilityAsset",
       "score": 45,
       "risk": "medium",
@@ -1226,7 +1226,7 @@
       "id": "cleanup:unused-export:src/data/animalAbilityAssets:ANIMAL_ABILITY_ASSETS",
       "kind": "unused_export",
       "file": "src/data/animalAbilityAssets.ts",
-      "line": 17,
+      "line": 11,
       "name": "ANIMAL_ABILITY_ASSETS",
       "score": 45,
       "risk": "medium",
@@ -1267,7 +1267,7 @@
       "id": "cleanup:unused-export:src/data/animalAbilityAssets:ANIMAL_ABILITY_IMAGE_BY_NAME",
       "kind": "unused_export",
       "file": "src/data/animalAbilityAssets.ts",
-      "line": 26,
+      "line": 12,
       "name": "ANIMAL_ABILITY_IMAGE_BY_NAME",
       "score": 45,
       "risk": "medium",
@@ -1308,7 +1308,7 @@
       "id": "cleanup:unused-export:src/data/animalAssets:AnimalAsset",
       "kind": "unused_export",
       "file": "src/data/animalAssets.ts",
-      "line": 1,
+      "line": 3,
       "name": "AnimalAsset",
       "score": 45,
       "risk": "medium",
@@ -1349,7 +1349,7 @@
       "id": "cleanup:unused-export:src/data/animalFoodAssets:ANIMAL_FOOD_NAMES",
       "kind": "unused_export",
       "file": "src/data/animalFoodAssets.ts",
-      "line": 12,
+      "line": 18,
       "name": "ANIMAL_FOOD_NAMES",
       "score": 45,
       "risk": "medium",
@@ -1379,88 +1379,6 @@
           "config_key": "suppressions",
           "value": {
             "id": "cleanup:unused-export:src/data/animalFoodAssets:ANIMAL_FOOD_NAMES",
-            "kind": "unused_export",
-            "file": "src/data/animalFoodAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/data/animalFoodAssets:AnimalFoodName",
-      "kind": "unused_export",
-      "file": "src/data/animalFoodAssets.ts",
-      "line": 25,
-      "name": "AnimalFoodName",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "AnimalFoodName"
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unused_export finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/data/animalFoodAssets:AnimalFoodName",
-            "kind": "unused_export",
-            "file": "src/data/animalFoodAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/data/animalFoodAssets:ANIMAL_FOOD_IMAGE_BY_NAME",
-      "kind": "unused_export",
-      "file": "src/data/animalFoodAssets.ts",
-      "line": 27,
-      "name": "ANIMAL_FOOD_IMAGE_BY_NAME",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "ANIMAL_FOOD_IMAGE_BY_NAME"
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unused_export finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/data/animalFoodAssets:ANIMAL_FOOD_IMAGE_BY_NAME",
             "kind": "unused_export",
             "file": "src/data/animalFoodAssets.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1510,92 +1428,10 @@
       ]
     },
     {
-      "id": "cleanup:unused-export:src/data/animalHabitatAssets:AnimalHabitatName",
-      "kind": "unused_export",
-      "file": "src/data/animalHabitatAssets.ts",
-      "line": 35,
-      "name": "AnimalHabitatName",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "AnimalHabitatName"
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unused_export finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/data/animalHabitatAssets:AnimalHabitatName",
-            "kind": "unused_export",
-            "file": "src/data/animalHabitatAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/data/animalHabitatAssets:ANIMAL_HABITAT_IMAGE_BY_NAME",
-      "kind": "unused_export",
-      "file": "src/data/animalHabitatAssets.ts",
-      "line": 37,
-      "name": "ANIMAL_HABITAT_IMAGE_BY_NAME",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "ANIMAL_HABITAT_IMAGE_BY_NAME"
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unused_export finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/data/animalHabitatAssets:ANIMAL_HABITAT_IMAGE_BY_NAME",
-            "kind": "unused_export",
-            "file": "src/data/animalHabitatAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "cleanup:unused-export:src/data/animalKnowledge:ANIMAL_KNOWLEDGE_BY_NAME",
       "kind": "unused_export",
       "file": "src/data/animalKnowledge.ts",
-      "line": 1543,
+      "line": 1646,
       "name": "ANIMAL_KNOWLEDGE_BY_NAME",
       "score": 45,
       "risk": "medium",
@@ -1666,88 +1502,6 @@
           "config_key": "suppressions",
           "value": {
             "id": "cleanup:unused-export:src/data/animalLocationAssets:ANIMAL_LOCATION_NAMES",
-            "kind": "unused_export",
-            "file": "src/data/animalLocationAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/data/animalLocationAssets:AnimalLocationName",
-      "kind": "unused_export",
-      "file": "src/data/animalLocationAssets.ts",
-      "line": 25,
-      "name": "AnimalLocationName",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "AnimalLocationName"
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unused_export finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/data/animalLocationAssets:AnimalLocationName",
-            "kind": "unused_export",
-            "file": "src/data/animalLocationAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/data/animalLocationAssets:ANIMAL_LOCATION_IMAGE_BY_NAME",
-      "kind": "unused_export",
-      "file": "src/data/animalLocationAssets.ts",
-      "line": 27,
-      "name": "ANIMAL_LOCATION_IMAGE_BY_NAME",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "ANIMAL_LOCATION_IMAGE_BY_NAME"
-        }
-      ],
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this unused_export finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/data/animalLocationAssets:ANIMAL_LOCATION_IMAGE_BY_NAME",
             "kind": "unused_export",
             "file": "src/data/animalLocationAssets.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1964,7 +1718,7 @@
       "id": "cleanup:unused-export:src/data/taskLimits:isTaskValue",
       "kind": "unused_export",
       "file": "src/data/taskLimits.ts",
-      "line": 4,
+      "line": 6,
       "name": "isTaskValue",
       "score": 45,
       "risk": "medium",
@@ -2005,7 +1759,7 @@
       "id": "cleanup:unused-export:src/data/taskLimits:assertTaskValue",
       "kind": "unused_export",
       "file": "src/data/taskLimits.ts",
-      "line": 10,
+      "line": 12,
       "name": "assertTaskValue",
       "score": 45,
       "risk": "medium",
@@ -2046,7 +1800,7 @@
       "id": "cleanup:unused-export:src/data/taskLimits:clampTaskValue",
       "kind": "unused_export",
       "file": "src/data/taskLimits.ts",
-      "line": 17,
+      "line": 19,
       "name": "clampTaskValue",
       "score": 45,
       "risk": "medium",
@@ -2084,10 +1838,92 @@
       ]
     },
     {
+      "id": "cleanup:unused-export:src/data/taskLimits:isDinnerSliceCount",
+      "kind": "unused_export",
+      "file": "src/data/taskLimits.ts",
+      "line": 22,
+      "name": "isDinnerSliceCount",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "isDinnerSliceCount"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/taskLimits:isDinnerSliceCount",
+            "kind": "unused_export",
+            "file": "src/data/taskLimits.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/data/taskLimits:assertDinnerSliceCount",
+      "kind": "unused_export",
+      "file": "src/data/taskLimits.ts",
+      "line": 28,
+      "name": "assertDinnerSliceCount",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "assertDinnerSliceCount"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/taskLimits:assertDinnerSliceCount",
+            "kind": "unused_export",
+            "file": "src/data/taskLimits.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "cleanup:unused-export:src/data/types:taskValueSchema",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 7,
+      "line": 12,
       "name": "taskValueSchema",
       "score": 45,
       "risk": "medium",
@@ -2125,10 +1961,51 @@
       ]
     },
     {
+      "id": "cleanup:unused-export:src/data/types:dinnerSliceCountSchema",
+      "kind": "unused_export",
+      "file": "src/data/types.ts",
+      "line": 18,
+      "name": "dinnerSliceCountSchema",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "dinnerSliceCountSchema"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unused_export finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unused_export"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/data/types:dinnerSliceCountSchema",
+            "kind": "unused_export",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "cleanup:unused-export:src/data/types:choreTypeSchema",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 58,
+      "line": 71,
       "name": "choreTypeSchema",
       "score": 45,
       "risk": "medium",
@@ -2169,7 +2046,7 @@
       "id": "cleanup:unused-export:src/data/types:testTypeSchema",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 64,
+      "line": 77,
       "name": "testTypeSchema",
       "score": 45,
       "risk": "medium",
@@ -2210,7 +2087,7 @@
       "id": "cleanup:unused-export:src/data/types:waterLevelSchema",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 73,
+      "line": 91,
       "name": "waterLevelSchema",
       "score": 45,
       "risk": "medium",
@@ -2251,7 +2128,7 @@
       "id": "cleanup:unused-export:src/data/types:toiletStatusSchema",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 79,
+      "line": 97,
       "name": "toiletStatusSchema",
       "score": 45,
       "risk": "medium",
@@ -2292,7 +2169,7 @@
       "id": "cleanup:unused-export:src/data/types:mathDifficultySchema",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 80,
+      "line": 98,
       "name": "mathDifficultySchema",
       "score": 45,
       "risk": "medium",
@@ -2333,7 +2210,7 @@
       "id": "cleanup:unused-export:src/data/types:taskOutcomeSchema",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 81,
+      "line": 99,
       "name": "taskOutcomeSchema",
       "score": 45,
       "risk": "medium",
@@ -2374,7 +2251,7 @@
       "id": "cleanup:unused-export:src/data/types:choreSnapshotDataSchema",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 146,
+      "line": 164,
       "name": "choreSnapshotDataSchema",
       "score": 45,
       "risk": "medium",
@@ -2415,7 +2292,7 @@
       "id": "cleanup:unused-export:src/data/types:testSnapshotDataSchema",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 150,
+      "line": 168,
       "name": "testSnapshotDataSchema",
       "score": 45,
       "risk": "medium",
@@ -2456,7 +2333,7 @@
       "id": "cleanup:unused-export:src/data/types:choreTodoSnapshotDataSchema",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 196,
+      "line": 214,
       "name": "choreTodoSnapshotDataSchema",
       "score": 45,
       "risk": "medium",
@@ -2497,7 +2374,7 @@
       "id": "cleanup:unused-export:src/data/types:resetTodayTodosResultSchema",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 207,
+      "line": 225,
       "name": "resetTodayTodosResultSchema",
       "score": 45,
       "risk": "medium",
@@ -2538,7 +2415,7 @@
       "id": "cleanup:unused-export:src/data/types:StandardTaskState",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 229,
+      "line": 247,
       "name": "StandardTaskState",
       "score": 45,
       "risk": "medium",
@@ -2579,7 +2456,7 @@
       "id": "cleanup:unused-export:src/data/types:EatingTaskState",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 232,
+      "line": 250,
       "name": "EatingTaskState",
       "score": 45,
       "risk": "medium",
@@ -2620,7 +2497,7 @@
       "id": "cleanup:unused-export:src/data/types:WaterToiletTaskState",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 238,
+      "line": 256,
       "name": "WaterToiletTaskState",
       "score": 45,
       "risk": "medium",
@@ -2661,7 +2538,7 @@
       "id": "cleanup:unused-export:src/data/types:StandardTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 244,
+      "line": 262,
       "name": "StandardTask",
       "score": 45,
       "risk": "medium",
@@ -2702,7 +2579,7 @@
       "id": "cleanup:unused-export:src/data/types:EatingTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 246,
+      "line": 264,
       "name": "EatingTask",
       "score": 45,
       "risk": "medium",
@@ -2743,7 +2620,7 @@
       "id": "cleanup:unused-export:src/data/types:MathTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 254,
+      "line": 272,
       "name": "MathTask",
       "score": 45,
       "risk": "medium",
@@ -2784,7 +2661,7 @@
       "id": "cleanup:unused-export:src/data/types:LargeNumbersTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 259,
+      "line": 277,
       "name": "LargeNumbersTask",
       "score": 45,
       "risk": "medium",
@@ -2825,7 +2702,7 @@
       "id": "cleanup:unused-export:src/data/types:PositionalNotationTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 263,
+      "line": 281,
       "name": "PositionalNotationTask",
       "score": 45,
       "risk": "medium",
@@ -2866,7 +2743,7 @@
       "id": "cleanup:unused-export:src/data/types:AlphabetTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 267,
+      "line": 285,
       "name": "AlphabetTask",
       "score": 45,
       "risk": "medium",
@@ -2907,7 +2784,7 @@
       "id": "cleanup:unused-export:src/data/types:SpellingTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 271,
+      "line": 289,
       "name": "SpellingTask",
       "score": 45,
       "risk": "medium",
@@ -2948,7 +2825,7 @@
       "id": "cleanup:unused-export:src/data/types:AnimalsTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 275,
+      "line": 293,
       "name": "AnimalsTask",
       "score": 45,
       "risk": "medium",
@@ -2989,7 +2866,7 @@
       "id": "cleanup:unused-export:src/data/types:WaterToiletTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 279,
+      "line": 297,
       "name": "WaterToiletTask",
       "score": 45,
       "risk": "medium",
@@ -3030,7 +2907,7 @@
       "id": "cleanup:unused-export:src/data/types:StandardTaskWithEphemeral",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 340,
+      "line": 358,
       "name": "StandardTaskWithEphemeral",
       "score": 45,
       "risk": "medium",
@@ -3071,7 +2948,7 @@
       "id": "cleanup:unused-export:src/data/types:MathTaskWithEphemeral",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 342,
+      "line": 360,
       "name": "MathTaskWithEphemeral",
       "score": 45,
       "risk": "medium",
@@ -3112,7 +2989,7 @@
       "id": "cleanup:unused-export:src/data/types:LargeNumbersTaskWithEphemeral",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 346,
+      "line": 364,
       "name": "LargeNumbersTaskWithEphemeral",
       "score": 45,
       "risk": "medium",
@@ -3153,7 +3030,7 @@
       "id": "cleanup:unused-export:src/data/types:PVTaskWithEphemeral",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 350,
+      "line": 368,
       "name": "PVTaskWithEphemeral",
       "score": 45,
       "risk": "medium",
@@ -3194,7 +3071,7 @@
       "id": "cleanup:unused-export:src/data/types:AlphabetTaskWithEphemeral",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 354,
+      "line": 372,
       "name": "AlphabetTaskWithEphemeral",
       "score": 45,
       "risk": "medium",
@@ -3235,7 +3112,7 @@
       "id": "cleanup:unused-export:src/data/types:SpellingTaskWithEphemeral",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 358,
+      "line": 376,
       "name": "SpellingTaskWithEphemeral",
       "score": 45,
       "risk": "medium",
@@ -3276,7 +3153,7 @@
       "id": "cleanup:unused-export:src/data/types:AnimalsTaskWithEphemeral",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 362,
+      "line": 380,
       "name": "AnimalsTaskWithEphemeral",
       "score": 45,
       "risk": "medium",
@@ -3317,7 +3194,7 @@
       "id": "cleanup:unused-export:src/data/types:WaterToiletTaskWithEphemeral",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 366,
+      "line": 384,
       "name": "WaterToiletTaskWithEphemeral",
       "score": 45,
       "risk": "medium",
@@ -3358,7 +3235,7 @@
       "id": "cleanup:unused-export:src/data/types:isTaskWithEphemeral",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 417,
+      "line": 428,
       "name": "isTaskWithEphemeral",
       "score": 45,
       "risk": "medium",
@@ -3399,7 +3276,7 @@
       "id": "cleanup:unused-export:src/data/types:StandardTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 446,
+      "line": 457,
       "name": "StandardTodo",
       "score": 45,
       "risk": "medium",
@@ -3440,7 +3317,7 @@
       "id": "cleanup:unused-export:src/data/types:MathTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 455,
+      "line": 466,
       "name": "MathTodo",
       "score": 45,
       "risk": "medium",
@@ -3481,7 +3358,7 @@
       "id": "cleanup:unused-export:src/data/types:LargeNumbersTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 461,
+      "line": 472,
       "name": "LargeNumbersTodo",
       "score": 45,
       "risk": "medium",
@@ -3522,7 +3399,7 @@
       "id": "cleanup:unused-export:src/data/types:PositionalNotationTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 466,
+      "line": 477,
       "name": "PositionalNotationTodo",
       "score": 45,
       "risk": "medium",
@@ -3563,7 +3440,7 @@
       "id": "cleanup:unused-export:src/data/types:AlphabetTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 471,
+      "line": 482,
       "name": "AlphabetTodo",
       "score": 45,
       "risk": "medium",
@@ -3604,7 +3481,7 @@
       "id": "cleanup:unused-export:src/data/types:SpellingTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 476,
+      "line": 487,
       "name": "SpellingTodo",
       "score": 45,
       "risk": "medium",
@@ -3645,7 +3522,7 @@
       "id": "cleanup:unused-export:src/data/types:AnimalsTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 481,
+      "line": 492,
       "name": "AnimalsTodo",
       "score": 45,
       "risk": "medium",
@@ -3686,7 +3563,7 @@
       "id": "cleanup:unused-export:src/data/types:WaterToiletTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 486,
+      "line": 497,
       "name": "WaterToiletTodo",
       "score": 45,
       "risk": "medium",
@@ -3727,7 +3604,7 @@
       "id": "cleanup:unused-export:src/data/types:isMathTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 600,
+      "line": 611,
       "name": "isMathTask",
       "score": 45,
       "risk": "medium",
@@ -3768,7 +3645,7 @@
       "id": "cleanup:unused-export:src/data/types:isLargeNumbersTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 606,
+      "line": 617,
       "name": "isLargeNumbersTask",
       "score": 45,
       "risk": "medium",
@@ -3809,7 +3686,7 @@
       "id": "cleanup:unused-export:src/data/types:isPositionalNotationTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 612,
+      "line": 623,
       "name": "isPositionalNotationTask",
       "score": 45,
       "risk": "medium",
@@ -3850,7 +3727,7 @@
       "id": "cleanup:unused-export:src/data/types:isAlphabetTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 618,
+      "line": 629,
       "name": "isAlphabetTask",
       "score": 45,
       "risk": "medium",
@@ -3891,7 +3768,7 @@
       "id": "cleanup:unused-export:src/data/types:isSpellingTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 624,
+      "line": 635,
       "name": "isSpellingTask",
       "score": 45,
       "risk": "medium",
@@ -3932,7 +3809,7 @@
       "id": "cleanup:unused-export:src/data/types:isAnimalsTask",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 630,
+      "line": 641,
       "name": "isAnimalsTask",
       "score": 45,
       "risk": "medium",
@@ -3973,7 +3850,7 @@
       "id": "cleanup:unused-export:src/data/types:isMathTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 646,
+      "line": 657,
       "name": "isMathTodo",
       "score": 45,
       "risk": "medium",
@@ -4014,7 +3891,7 @@
       "id": "cleanup:unused-export:src/data/types:isLargeNumbersTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 650,
+      "line": 661,
       "name": "isLargeNumbersTodo",
       "score": 45,
       "risk": "medium",
@@ -4055,7 +3932,7 @@
       "id": "cleanup:unused-export:src/data/types:isPositionalNotationTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 654,
+      "line": 665,
       "name": "isPositionalNotationTodo",
       "score": 45,
       "risk": "medium",
@@ -4096,7 +3973,7 @@
       "id": "cleanup:unused-export:src/data/types:isAlphabetTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 660,
+      "line": 671,
       "name": "isAlphabetTodo",
       "score": 45,
       "risk": "medium",
@@ -4137,7 +4014,7 @@
       "id": "cleanup:unused-export:src/data/types:isSpellingTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 664,
+      "line": 675,
       "name": "isSpellingTodo",
       "score": 45,
       "risk": "medium",
@@ -4178,7 +4055,7 @@
       "id": "cleanup:unused-export:src/data/types:isAnimalsTodo",
       "kind": "unused_export",
       "file": "src/data/types.ts",
-      "line": 668,
+      "line": 679,
       "name": "isAnimalsTodo",
       "score": 45,
       "risk": "medium",
@@ -5039,7 +4916,7 @@
       "id": "cleanup:unused-export:src/ui/presetChoreActions:createDeleteUtilityAction",
       "kind": "unused_export",
       "file": "src/ui/presetChoreActions.tsx",
-      "line": 94,
+      "line": 93,
       "name": "createDeleteUtilityAction",
       "score": 45,
       "risk": "medium",
@@ -5080,7 +4957,7 @@
       "id": "cleanup:unused-export:src/ui/presetChoreActions:createResetUtilityAction",
       "kind": "unused_export",
       "file": "src/ui/presetChoreActions.tsx",
-      "line": 105,
+      "line": 104,
       "name": "createResetUtilityAction",
       "score": 45,
       "risk": "medium",
@@ -5121,7 +4998,7 @@
       "id": "cleanup:unused-export:src/ui/unifiedChoreState:RenderableTaskRecord",
       "kind": "unused_export",
       "file": "src/ui/unifiedChoreState.ts",
-      "line": 203,
+      "line": 195,
       "name": "RenderableTaskRecord",
       "score": 45,
       "risk": "medium",
@@ -6587,7 +6464,7 @@
       "id": "cleanup:duplicate-export:UnifiedChoreDeps:src/ui/unifiedChoreDescriptors",
       "kind": "duplicate_export",
       "file": "src/ui/unifiedChoreDescriptors.tsx",
-      "line": 31,
+      "line": 32,
       "name": "UnifiedChoreDeps",
       "score": 40,
       "risk": "medium",

@@ -16,6 +16,7 @@ import {
   DEFAULT_SPELLING_PROBLEMS,
   DEFAULT_SPELLING_STARS,
   DEFAULT_WATER_TOILET_STARS,
+  TEST_TYPES,
   type ChoreType,
   type ChoreRecord,
   type TestRecord,
@@ -103,15 +104,6 @@ const TEST_TEMPLATES: Record<TestType, TaskTemplate> = {
     },
   },
 }
-
-const TEST_TYPES: TestType[] = [
-  'math',
-  'large-numbers',
-  'positional-notation',
-  'alphabet',
-  'spelling',
-  'animals',
-]
 
 const buildBaseTaskDocument = (
   childId: string,

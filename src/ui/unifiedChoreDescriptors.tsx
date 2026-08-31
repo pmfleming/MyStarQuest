@@ -5,6 +5,7 @@ import {
   princessPlateImage,
 } from '../assets/themes/princess/assets'
 import { getChoreImage } from '../assets/chores/assets'
+import { isTestType } from '../data/types'
 import { getPrincessTaskTypeIcon } from './taskTypeIcons'
 import { isInChoreStage, shouldUseResetUtility } from './choreModeDefinitions'
 import type { ListRowDescriptor } from './listDescriptorTypes'
@@ -207,15 +208,7 @@ const incrementCheckTrigger = (
     spelling: deps.setSpellingCheckTriggers,
     animals: deps.setAnimalsCheckTriggers,
   }
-  const setter =
-    type === 'math' ||
-    type === 'large-numbers' ||
-    type === 'positional-notation' ||
-    type === 'alphabet' ||
-    type === 'spelling' ||
-    type === 'animals'
-      ? setters[type]
-      : undefined
+  const setter = isTestType(type) ? setters[type] : undefined
 
   setter?.((prev) => ({
     ...prev,
