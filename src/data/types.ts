@@ -431,6 +431,12 @@ export function isTaskWithEphemeral(
   return 'taskType' in item
 }
 
+export function isChoreWithEphemeral(
+  item: TaskWithEphemeral | TodoRecord
+): item is ChoreWithEphemeral {
+  return isTaskWithEphemeral(item) && isChoreRecord(item)
+}
+
 export function isTestWithEphemeral(
   item: TaskWithEphemeral | TodoRecord
 ): item is TestWithEphemeral {

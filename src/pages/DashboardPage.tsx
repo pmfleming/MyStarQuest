@@ -11,6 +11,7 @@ import {
   type UnifiedChoreDeps,
 } from '../ui/unifiedChoreDescriptors'
 import { createUnifiedChoreState } from '../ui/unifiedChoreState'
+import type { UnifiedChoreItem } from '../ui/unifiedChoreDescriptorTypes'
 import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 import { useChildren } from '../data/useChildren'
 import { useChores } from '../data/useChores'
@@ -18,6 +19,7 @@ import {
   BITE_COOLDOWN_SECONDS,
   type ChoreType,
   type ChoreWithEphemeral,
+  isChoreWithEphemeral,
   isEatingTask,
 } from '../data/types'
 import type { ChoreDocumentSettings } from '../data/taskDocuments'
@@ -46,6 +48,24 @@ const isEditableChore = (
   chore.taskType === 'standard' ||
   chore.taskType === 'eating' ||
   chore.taskType === 'watertoiletcheck'
+
+const withTaskItem = <Result,>(
+  item: UnifiedChoreItem,
+  action: (task: ChoreWithEphemeral) => Result
+) => (isChoreWithEphemeral(item) ? action(item) : undefined)
+
+const runDashboardAction = async (
+  action: () => Promise<void>,
+  errorLabel: string,
+  onError: () => void
+) => {
+  try {
+    await action()
+  } catch (error) {
+    console.error(errorLabel, error)
+    onError()
+  }
+}
 
 const DashboardPage = () => {
   const { logout } = useAuth()
@@ -97,17 +117,15 @@ const DashboardPage = () => {
   }, [activeChildId, clearActivityIds, clearCheckTriggers, todayInfo.dateKey])
 
   useEffect(() => {
-    if (biteCooldownEndsAt) {
-      const remaining = biteCooldownEndsAt - Date.now()
-      if (remaining > 0) {
-        const timer = setTimeout(() => {
-          setBiteCooldownEndsAt(null)
-        }, remaining)
-        return () => clearTimeout(timer)
-      } else {
-        setBiteCooldownEndsAt(null)
-      }
+    if (!biteCooldownEndsAt) return
+    const remaining = biteCooldownEndsAt - Date.now()
+    if (remaining <= 0) {
+      setBiteCooldownEndsAt(null)
+      return
     }
+
+    const timer = setTimeout(() => setBiteCooldownEndsAt(null), remaining)
+    return () => clearTimeout(timer)
   }, [biteCooldownEndsAt])
 
   const biteCooldownSeconds = BITE_COOLDOWN_SECONDS
@@ -125,15 +143,15 @@ const DashboardPage = () => {
 
     setIsCreatingChore(true)
     setCreateChoreError(null)
-    try {
-      await createChoreForToday(choreType, settings)
-      setChorePanelMode(null)
-    } catch (error) {
-      console.error('Failed to create chore', error)
-      setCreateChoreError('Could not save chore.')
-    } finally {
-      setIsCreatingChore(false)
-    }
+    await runDashboardAction(
+      async () => {
+        await createChoreForToday(choreType, settings)
+        setChorePanelMode(null)
+      },
+      'Failed to create chore',
+      () => setCreateChoreError('Could not save chore.')
+    )
+    setIsCreatingChore(false)
   }
 
   const handleResetToday = async () => {
@@ -141,19 +159,19 @@ const DashboardPage = () => {
 
     setIsResettingToday(true)
     setResetTodayError(null)
-    try {
-      await Promise.all(
-        todayChores.map((chore) =>
-          isEatingTask(chore) ? resetDinner(chore) : resetChore(chore)
+    await runDashboardAction(
+      async () => {
+        await Promise.all(
+          todayChores.map((chore) =>
+            isEatingTask(chore) ? resetDinner(chore) : resetChore(chore)
+          )
         )
-      )
-      clearActiveActivities()
-    } catch (error) {
-      console.error('Failed to reset today chores', error)
-      setResetTodayError('Reset failed.')
-    } finally {
-      setIsResettingToday(false)
-    }
+        clearActiveActivities()
+      },
+      'Failed to reset today chores',
+      () => setResetTodayError('Reset failed.')
+    )
+    setIsResettingToday(false)
   }
 
   const handleUpdateChore = async (
@@ -164,15 +182,15 @@ const DashboardPage = () => {
 
     setSavingEditedChoreId(choreId)
     setCreateChoreError(null)
-    try {
-      await updateChoreAndTodayTodoField(choreId, settings)
-      setEditingChoreId(null)
-    } catch (error) {
-      console.error('Failed to update chore', error)
-      setCreateChoreError('Could not save chore.')
-    } finally {
-      setSavingEditedChoreId(null)
-    }
+    await runDashboardAction(
+      async () => {
+        await updateChoreAndTodayTodoField(choreId, settings)
+        setEditingChoreId(null)
+      },
+      'Failed to update chore',
+      () => setCreateChoreError('Could not save chore.')
+    )
+    setSavingEditedChoreId(null)
   }
 
   const handleEditChore = (chore: (typeof todayChores)[number]) => {
@@ -204,40 +222,39 @@ const DashboardPage = () => {
     mode: 'today',
     onUpdateEphemeral: updateEphemeral,
     onDeleteTask: handleDeleteChore,
-    onEnterChore: (item) => {
-      if (!('taskType' in item)) return
-      activity.enterActivity(item.taskType, item.id)
-    },
+    onEnterChore: (item) =>
+      withTaskItem(item, (task) =>
+        activity.enterActivity(task.taskType, task.id)
+      ),
     onExitActivity: activity.clearActiveActivities,
-    onComplete: (item) =>
-      'taskType' in item ? completeChore(item) : undefined,
-    onFail: (item) => ('taskType' in item ? failChore(item) : undefined),
-    onReset: async (item) => {
-      if (!('taskType' in item)) return
-      if (isEatingTask(item)) await resetDinner(item)
-      else await resetChore(item)
-      clearActiveActivities()
-    },
+    onComplete: (item) => withTaskItem(item, completeChore),
+    onFail: (item) => withTaskItem(item, failChore),
+    onReset: (item) =>
+      withTaskItem(item, async (task) => {
+        if (isEatingTask(task)) await resetDinner(task)
+        else await resetChore(task)
+        clearActiveActivities()
+      }),
     onStartDinner: (item) => {
       if (!item) {
         activity.setActiveDinnerId(null)
         setBiteCooldownEndsAt(null)
         return
       }
-      if (!('taskType' in item)) return
-      if (!isEatingTask(item)) return
-      clearActiveActivities()
-      activity.enterActivity('eating', item.id)
-      return startDinnerTimer(item)
+      return withTaskItem(item, (task) => {
+        if (!isEatingTask(task)) return
+        clearActiveActivities()
+        activity.enterActivity('eating', task.id)
+        return startDinnerTimer(task)
+      })
     },
-    onApplyBite: async (item) => {
-      if (!('taskType' in item)) return
-      if (biteCooldownEndsAt && Date.now() < biteCooldownEndsAt) return
-      setBiteCooldownEndsAt(Date.now() + biteCooldownSeconds * 1000)
-      await applyBite(item)
-    },
-    onExpireDinner: (item) =>
-      'taskType' in item ? expireDinnerTimer(item) : undefined,
+    onApplyBite: (item) =>
+      withTaskItem(item, async (task) => {
+        if (biteCooldownEndsAt && Date.now() < biteCooldownEndsAt) return
+        setBiteCooldownEndsAt(Date.now() + biteCooldownSeconds * 1000)
+        await applyBite(task)
+      }),
+    onExpireDinner: (item) => withTaskItem(item, expireDinnerTimer),
     activeMathId: activity.activeMathId,
     activeLargeNumbersId: activity.activeLargeNumbersId,
     activePVId: activity.activePVId,

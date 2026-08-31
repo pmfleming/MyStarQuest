@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T22:53:46.417Z",
+    "measured_at": "2026-08-31T23:17:34.198Z",
     "source_type": "static",
-    "source_set_hash": "sha256:8f4e38e66f317026f6e21d2e82c3c8737c676cc4430ea5c5e3b81b89795c0d87"
+    "source_set_hash": "sha256:880aa1869445521316c1d3fbe58ecc2c8f1995e3c0df61aa52f5c4fe1db5fe0e"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -68,7 +68,7 @@
   },
   "summary": {
     "components": 95,
-    "records": 95,
+    "records": 96,
     "hook_lint_findings": 0,
     "a11y_findings": 0,
     "high_risk_components": 21
@@ -225,17 +225,17 @@
       "module_id": "src/components/AlphabetTester",
       "file": "src/components/AlphabetTester.tsx",
       "name": "AlphabetTester",
-      "line": 226,
-      "score": 256,
+      "line": 87,
+      "score": 238,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 256
+          "value": 247
         },
         {
           "kind": "many_hooks",
-          "value": 18
+          "value": 16
         },
         {
           "kind": "many_effects",
@@ -276,7 +276,7 @@
       "file": "src/components/AnimalTester.tsx",
       "name": "FactCard",
       "line": 121,
-      "score": 23,
+      "score": 31,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -306,7 +306,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "FactGrid",
-      "line": 173,
+      "line": 202,
       "score": 10,
       "risk": "low",
       "signals": [],
@@ -337,7 +337,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalPortrait",
-      "line": 194,
+      "line": 223,
       "score": 16,
       "risk": "low",
       "signals": [],
@@ -368,7 +368,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "HideableAnimalPortrait",
-      "line": 245,
+      "line": 274,
       "score": 17,
       "risk": "low",
       "signals": [],
@@ -399,7 +399,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "NavigationArrow",
-      "line": 299,
+      "line": 328,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -430,7 +430,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "LearningNavigation",
-      "line": 318,
+      "line": 347,
       "score": 12,
       "risk": "low",
       "signals": [],
@@ -461,7 +461,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "TwoPlayerProgressButton",
-      "line": 377,
+      "line": 406,
       "score": 7,
       "risk": "low",
       "signals": [],
@@ -492,7 +492,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalPlayContent",
-      "line": 431,
+      "line": 460,
       "score": 31,
       "risk": "low",
       "signals": [],
@@ -523,13 +523,13 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalTester",
-      "line": 551,
-      "score": 231,
+      "line": 580,
+      "score": 230,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 219
+          "value": 214
         },
         {
           "kind": "many_hooks",
@@ -605,16 +605,16 @@
       "file": "src/components/ArithmeticTester.tsx",
       "name": "ArithmeticTester",
       "line": 81,
-      "score": 233,
+      "score": 209,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 362
+          "value": 349
         },
         {
           "kind": "many_hooks",
-          "value": 11
+          "value": 10
         },
         {
           "kind": "render_branch_complexity",
@@ -789,17 +789,17 @@
       "module_id": "src/components/LargeNumbersTester",
       "file": "src/components/LargeNumbersTester.tsx",
       "name": "LargeNumbersTester",
-      "line": 101,
-      "score": 214,
+      "line": 97,
+      "score": 189,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 464
+          "value": 443
         },
         {
           "kind": "many_hooks",
-          "value": 10
+          "value": 9
         }
       ],
       "kind": "component",
@@ -836,7 +836,7 @@
       "file": "src/components/PageHeader.tsx",
       "name": "PageHeader",
       "line": 12,
-      "score": 12,
+      "score": 9,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -898,16 +898,12 @@
       "file": "src/components/PositionalNotation.tsx",
       "name": "PositionalNotation",
       "line": 33,
-      "score": 137,
+      "score": 106,
       "risk": "high",
       "signals": [
         {
-          "kind": "oversized_component",
-          "value": 122
-        },
-        {
           "kind": "many_hooks",
-          "value": 11
+          "value": 9
         }
       ],
       "kind": "component",
@@ -1083,16 +1079,16 @@
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingTester",
       "line": 291,
-      "score": 283,
+      "score": 264,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 259
+          "value": 248
         },
         {
           "kind": "many_hooks",
-          "value": 22
+          "value": 20
         },
         {
           "kind": "many_effects",
@@ -1567,7 +1563,7 @@
       "file": "src/components/ui/BottomNav.tsx",
       "name": "BottomNav",
       "line": 11,
-      "score": 32,
+      "score": 29,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -2952,13 +2948,13 @@
       "module_id": "src/pages/DashboardPage",
       "file": "src/pages/DashboardPage.tsx",
       "name": "DashboardPage",
-      "line": 50,
-      "score": 277,
+      "line": 70,
+      "score": 276,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 316
+          "value": 313
         },
         {
           "kind": "many_hooks",
@@ -3377,6 +3373,45 @@
             "id": "component:src/routes/ProtectedRoute:ProtectedRoute",
             "kind": "component",
             "file": "src/routes/ProtectedRoute.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "framework:route-responsibility:src/pages/DashboardPage.tsx",
+      "module_id": "src/pages/DashboardPage",
+      "file": "src/pages/DashboardPage.tsx",
+      "name": "next_pages_route",
+      "line": 1,
+      "score": 45,
+      "risk": "medium",
+      "source": "framework-adapter",
+      "signals": [
+        {
+          "kind": "route_renders_ui"
+        },
+        {
+          "kind": "route_data_or_server_responsibility"
+        }
+      ],
+      "kind": "framework",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this framework finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line framework"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this framework finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "framework:route-responsibility:src/pages/DashboardPage.tsx",
+            "kind": "framework",
+            "file": "src/pages/DashboardPage.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

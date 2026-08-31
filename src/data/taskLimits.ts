@@ -3,40 +3,46 @@ export const MAX_TASK_VALUE = 9
 export const MIN_DINNER_SLICES = 1
 export const MAX_DINNER_SLICES = 20
 
-export const isTaskValue = (value: unknown): value is number =>
+const isBoundedInteger = (value: unknown, min: number, max: number) =>
   typeof value === 'number' &&
   Number.isInteger(value) &&
-  value >= MIN_TASK_VALUE &&
-  value <= MAX_TASK_VALUE
+  value >= min &&
+  value <= max
 
-export const assertTaskValue = (value: unknown, fieldName: string): number => {
-  if (!isTaskValue(value)) {
-    throw new RangeError(`${fieldName} must be an integer from 1 to 9.`)
+const assertBoundedInteger = (
+  value: unknown,
+  fieldName: string,
+  min: number,
+  max: number
+) => {
+  if (!isBoundedInteger(value, min, max)) {
+    throw new RangeError(
+      `${fieldName} must be an integer from ${min} to ${max}.`
+    )
   }
-  return value
+  return value as number
 }
+
+const clampInteger = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, Math.round(value)))
+
+export const isTaskValue = (value: unknown): value is number =>
+  isBoundedInteger(value, MIN_TASK_VALUE, MAX_TASK_VALUE)
+
+export const assertTaskValue = (value: unknown, fieldName: string) =>
+  assertBoundedInteger(value, fieldName, MIN_TASK_VALUE, MAX_TASK_VALUE)
 
 export const clampTaskValue = (value: number) =>
-  Math.min(MAX_TASK_VALUE, Math.max(MIN_TASK_VALUE, Math.round(value)))
+  clampInteger(value, MIN_TASK_VALUE, MAX_TASK_VALUE)
 
 export const isDinnerSliceCount = (value: unknown): value is number =>
-  typeof value === 'number' &&
-  Number.isInteger(value) &&
-  value >= MIN_DINNER_SLICES &&
-  value <= MAX_DINNER_SLICES
+  isBoundedInteger(value, MIN_DINNER_SLICES, MAX_DINNER_SLICES)
 
-export const assertDinnerSliceCount = (
-  value: unknown,
-  fieldName: string
-): number => {
-  if (!isDinnerSliceCount(value)) {
-    throw new RangeError(`${fieldName} must be an integer from 1 to 20.`)
-  }
-  return value
-}
+export const assertDinnerSliceCount = (value: unknown, fieldName: string) =>
+  assertBoundedInteger(value, fieldName, MIN_DINNER_SLICES, MAX_DINNER_SLICES)
 
 export const clampDinnerSliceCount = (value: number) =>
-  Math.min(MAX_DINNER_SLICES, Math.max(MIN_DINNER_SLICES, Math.round(value)))
+  clampInteger(value, MIN_DINNER_SLICES, MAX_DINNER_SLICES)
 
 const LIMITED_TASK_FIELDS = new Set([
   'starValue',

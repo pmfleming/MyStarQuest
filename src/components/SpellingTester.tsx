@@ -7,6 +7,7 @@ import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
 import {
+  getActivityMistakeUpdate,
   getActivityOutcome,
   getVisibleActivityResults,
 } from '../lib/activityOutcome'
@@ -17,7 +18,6 @@ import {
   ActivityOutcomeShell,
   ActivityPlayArea,
   ActivitySetupControls,
-  MAX_ACTIVITY_MISTAKES,
   type ActivityChoreProps,
   type ActivityResult,
 } from './ui/ActivityControls'
@@ -306,8 +306,6 @@ const SpellingTester = ({
 }: SpellingTesterProps) => {
   const [letterCase, setLetterCase] = useState<LetterCase>('lower')
   const [problemIndex, setProblemIndex] = useState(0)
-  const [successCount, setSuccessCount] = useState(0)
-  const [retryCount, setRetryCount] = useState(0)
   const [currentAnimal, setCurrentAnimal] = useState<SpellingAnimal | null>(
     null
   )
@@ -348,8 +346,6 @@ const SpellingTester = ({
     clearFeedbackTimer()
     clearHistory()
     setProblemIndex(0)
-    setSuccessCount(0)
-    setRetryCount(0)
     setCurrentAnimal(null)
     setSpelledCount(0)
     setChoices([])
@@ -418,8 +414,6 @@ const SpellingTester = ({
   useEffect(() => {
     if (isRunning && !currentAnimal) {
       setProblemIndex(0)
-      setSuccessCount(0)
-      setRetryCount(0)
       setResultHistory([])
       nextAnimal()
     }
@@ -447,8 +441,6 @@ const SpellingTester = ({
         setSpelledCount(nextSpelledCount)
 
         if (nextSpelledCount >= animalLetters.length) {
-          const nextSuccessCount = successCount + 1
-          setSuccessCount(nextSuccessCount)
           setResultHistory((previous) => [...previous, 'correct'])
           celebrateSuccess()
 
@@ -468,14 +460,11 @@ const SpellingTester = ({
       return
     }
 
-    if (failureModeEnabled) {
-      setResultHistory((previous) => [...previous, 'incorrect'])
-    }
-    const nextRetryCount = retryCount + 1
-    setRetryCount(nextRetryCount)
+    const mistake = getActivityMistakeUpdate(resultHistory, failureModeEnabled)
+    setResultHistory(mistake.nextResults)
     setChoices((previous) => updateChoiceState(previous, choice.id, 'leaving'))
 
-    if (failureModeEnabled && nextRetryCount >= MAX_ACTIVITY_MISTAKES) {
+    if (mistake.shouldFail) {
       setIsFailurePending(true)
       feedbackTimer.current = setTimeout(() => {
         onFail?.()

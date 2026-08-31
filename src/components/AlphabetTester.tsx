@@ -3,6 +3,7 @@ import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
 import {
+  getActivityMistakeUpdate,
   getActivityOutcome,
   getVisibleActivityResults,
 } from '../lib/activityOutcome'
@@ -13,79 +14,11 @@ import {
   ActivityPlayArea,
   ActivitySetupControls,
   type ActivityChoreProps,
-  MAX_ACTIVITY_MISTAKES,
   type ActivityResult,
 } from './ui/ActivityControls'
 import LetterCaseControl, { type LetterCase } from './ui/LetterCaseControl'
 
-// Import all alphabet SVGs
-import antAardvarkAntelope from '../assets/alphabet/ant-aardvark-antelope.svg'
-import appleAvocadoAsparagus from '../assets/alphabet/apple-avocado-asparagus.svg'
-import bananaBlueberryBrocolli from '../assets/alphabet/banana-blueberry-brocolli.svg'
-import batBeaverButterfly from '../assets/alphabet/bat-bever-butterfly.svg'
-import carrotCornCucumber from '../assets/alphabet/carrot-corn-cucumber.svg'
-import catCamelCow from '../assets/alphabet/cat-camel-cow.webp'
-import datesDandelionsDumplings from '../assets/alphabet/dates-dandelions-dumplings.svg'
-import dogDolphinDuckling from '../assets/alphabet/dog-dophin-duckling.svg'
-import eggrollsEclairsEggs from '../assets/alphabet/eggrolls-eclairs-eggs.svg'
-import elephantEagleEchidna from '../assets/alphabet/elephant-eagle-echidna.webp'
-import fennelFigFish from '../assets/alphabet/fennel-fig-fish.svg'
-import foxFrogFlamingo from '../assets/alphabet/fox-frog-flamingo.svg'
-import geckoGuineaPigGoat from '../assets/alphabet/gecko-guinea pig,-goat.webp'
-import gelatoGnocchiGrapes from '../assets/alphabet/gelato-gnocci-grapes.webp'
-import hippopotamusHamsterHummingBird from '../assets/alphabet/hippopotamus-hamster-humming bird.svg'
-import honeyHazelnutsHamburger from '../assets/alphabet/honey-hazelnuts-hamburger.webp'
-import ibisIguanaImpala from '../assets/alphabet/Ibis-iguana-impala.webp'
-import icePopInstantNoodlesIceCream from '../assets/alphabet/ice pop-instant noodles-ice cream.webp'
-import jackfruitJamJalapeno from '../assets/alphabet/Jackfruit-jam-Jalapeño.webp'
-import jaguarJellyFishJackal from '../assets/alphabet/jaguar-jelly fish-jackal.webp'
-import kangarooKoalaKiwi from '../assets/alphabet/kangaroo-koala-kiwi.webp'
-import kiwiKaleKetchup from '../assets/alphabet/kiwi-kale-ketchup.webp'
-import lasagneLollipopLemonade from '../assets/alphabet/lasagne-lollipop-lemonade.webp'
-import lemonlimeLycheeLettuce from '../assets/alphabet/lemonlime-lychee-lettuce.webp'
-import lionLlamaLemur from '../assets/alphabet/lion-llama-lemur.webp'
-import lobsterLadybugLeopard from '../assets/alphabet/lobster-ladybug-leopard.svg'
-import mangoMelonMuffin from '../assets/alphabet/mango-melon-muffin.webp'
-import mouseMeerkatManatee from '../assets/alphabet/mouse-meerkat-manatee.webp'
-import mushroomMeatballsMacaroni from '../assets/alphabet/mushroom-meatballs-macaroni.webp'
-import narwhalNewtNautilus from '../assets/alphabet/narwhal-newt-nautilus.webp'
-import noodlesNachosNougat from '../assets/alphabet/noodles-nachos-nougat.webp'
-import oatsOliveOilOnigiri from '../assets/alphabet/oats-olive oil-onigiri.webp'
-import omeletteOystersOliveOil from '../assets/alphabet/omelette-oysters-olive oil.webp'
-import orangeOliveOnion from '../assets/alphabet/orange-olive-onion.webp'
-import orangutanOtterOwl from '../assets/alphabet/orangutan-otter-owl.webp'
-import owlOstrichOctopus from '../assets/alphabet/owl-ostrich-octopus.webp'
-import pancakesPopcornPeanutButter from '../assets/alphabet/pancakes-popcorn-peanut butter.webp'
-import passionFruitPapayaPlum from '../assets/alphabet/passion fruit-papaya-plum.webp'
-import peachPearPineapple from '../assets/alphabet/peach-pear-pineapple.webp'
-import peacockPlatypusPorcupine from '../assets/alphabet/peacock-platypus-porcupine.webp'
-import pestoProsciuttoParmesan from '../assets/alphabet/pesto-prosciutto-parmesan.webp'
-import pigPenguinPanda from '../assets/alphabet/pig-penguin-panda.webp'
-import potatoParsnipPumpkin from '../assets/alphabet/potato-parsnip-pumpkin.webp'
-import quinoaQuicheQuesadilla from '../assets/alphabet/quinoa-quiche-quesadilla.webp'
-import radishRhubarbRocket from '../assets/alphabet/radish-rhubarb-rocket.webp'
-import ramenRavioliRisotto from '../assets/alphabet/ramen-ravioli-risotto.webp'
-import sandwichSausageSoup from '../assets/alphabet/sandwich-sausage-soup.webp'
-import sashimiSushiSeaweed from '../assets/alphabet/sashimi-sushi-seaweed.webp'
-import seaweedSpinachSweetPotato from '../assets/alphabet/seaweed-spinach-sweet potato.webp'
-import tartToffeeToast from '../assets/alphabet/tart-toffee-toast.webp'
-import tomatoTurnipTruffle from '../assets/alphabet/tomato-turnip-truffle.webp'
-import wafflesWontonSoupWrap from '../assets/alphabet/waffles-wonton soup-wrap.webp'
-import yogurtYorkshirePudding from '../assets/alphabet/yogurt-yorkshire pudding.webp'
-import rabbitRacoonReindeer from '../assets/alphabet/rabbit-racoon-reindeer.webp'
-import rhinocerosRayRedPanda from '../assets/alphabet/rhinoceros-ray-red panda.webp'
-import seaHorseSquidStarFish from '../assets/alphabet/sea horse-squid-star fish.webp'
-import sealSharkSalmon from '../assets/alphabet/seal-shark-salmon.webp'
-import sheepSkunkSquirrel from '../assets/alphabet/sheep-skunk-squirrel.webp'
-import swanSpiderSloth from '../assets/alphabet/swan-spider-sloth.webp'
-import tigerTortoiseTurtleTapir from '../assets/alphabet/tiger,tortoise turtle,tapir.webp'
-import unicornUrialUromastyx from '../assets/alphabet/unicorn-urial-uromastyx.webp'
-import viperVoleVulture from '../assets/alphabet/viper-vole-vulture.webp'
-import walrusWhaleWorm from '../assets/alphabet/walrus-whale-worm.webp'
-import waspWeaselWoodpecker from '../assets/alphabet/wasp-weasel-woodpecker.webp'
-import wolfWeaselWarthog from '../assets/alphabet/wolf-weasel-warthog.webp'
-import yakYeti from '../assets/alphabet/yak-yeti.webp'
-import zebra from '../assets/alphabet/zebra.webp'
+import { createAssetCatalog } from '../data/assetCatalog'
 
 /* ------------------------------------------------------------------ */
 /*  Constants & Assets                                                 */
@@ -97,97 +30,25 @@ const CELEBRATION_DELAY_MS = 1500
 const SHAKE_DURATION_MS = 600
 const FAILURE_TRANSITION_DELAY_MS = 3000
 
-const ALPHABET_ASSETS = [
-  { letter: 'A', files: [antAardvarkAntelope, appleAvocadoAsparagus] },
-  { letter: 'B', files: [bananaBlueberryBrocolli, batBeaverButterfly] },
-  { letter: 'C', files: [carrotCornCucumber, catCamelCow] },
-  { letter: 'D', files: [datesDandelionsDumplings, dogDolphinDuckling] },
-  { letter: 'E', files: [eggrollsEclairsEggs, elephantEagleEchidna] },
-  { letter: 'F', files: [fennelFigFish, foxFrogFlamingo] },
-  { letter: 'G', files: [geckoGuineaPigGoat, gelatoGnocchiGrapes] },
-  {
-    letter: 'H',
-    files: [hippopotamusHamsterHummingBird, honeyHazelnutsHamburger],
-  },
-  { letter: 'I', files: [ibisIguanaImpala, icePopInstantNoodlesIceCream] },
-  { letter: 'J', files: [jackfruitJamJalapeno, jaguarJellyFishJackal] },
-  { letter: 'K', files: [kangarooKoalaKiwi, kiwiKaleKetchup] },
-  {
-    letter: 'L',
-    files: [
-      lasagneLollipopLemonade,
-      lemonlimeLycheeLettuce,
-      lionLlamaLemur,
-      lobsterLadybugLeopard,
-    ],
-  },
-  {
-    letter: 'M',
-    files: [mangoMelonMuffin, mouseMeerkatManatee, mushroomMeatballsMacaroni],
-  },
-  { letter: 'N', files: [narwhalNewtNautilus, noodlesNachosNougat] },
-  {
-    letter: 'O',
-    files: [
-      oatsOliveOilOnigiri,
-      omeletteOystersOliveOil,
-      orangeOliveOnion,
-      orangutanOtterOwl,
-      owlOstrichOctopus,
-    ],
-  },
-  {
-    letter: 'P',
-    files: [
-      pancakesPopcornPeanutButter,
-      passionFruitPapayaPlum,
-      peachPearPineapple,
-      peacockPlatypusPorcupine,
-      pestoProsciuttoParmesan,
-      pigPenguinPanda,
-      potatoParsnipPumpkin,
-    ],
-  },
-  { letter: 'Q', files: [quinoaQuicheQuesadilla] },
-  {
-    letter: 'R',
-    files: [
-      radishRhubarbRocket,
-      ramenRavioliRisotto,
-      rabbitRacoonReindeer,
-      rhinocerosRayRedPanda,
-    ],
-  },
-  {
-    letter: 'S',
-    files: [
-      sandwichSausageSoup,
-      sashimiSushiSeaweed,
-      seaweedSpinachSweetPotato,
-      seaHorseSquidStarFish,
-      sealSharkSalmon,
-      sheepSkunkSquirrel,
-      swanSpiderSloth,
-    ],
-  },
-  {
-    letter: 'T',
-    files: [tartToffeeToast, tomatoTurnipTruffle, tigerTortoiseTurtleTapir],
-  },
-  { letter: 'U', files: [unicornUrialUromastyx] },
-  { letter: 'V', files: [viperVoleVulture] },
-  {
-    letter: 'W',
-    files: [
-      wafflesWontonSoupWrap,
-      walrusWhaleWorm,
-      waspWeaselWoodpecker,
-      wolfWeaselWarthog,
-    ],
-  },
-  { letter: 'Y', files: [yogurtYorkshirePudding, yakYeti] },
-  { letter: 'Z', files: [zebra] },
-]
+const ALPHABET_ASSET_MODULES = import.meta.glob(
+  '../assets/alphabet/*.{png,jpg,jpeg,webp,svg}',
+  { eager: true, import: 'default' }
+) as Record<string, string>
+
+const alphabetAssetsByLetter = new Map<string, string[]>()
+for (const { name, image } of createAssetCatalog(ALPHABET_ASSET_MODULES)
+  .assets) {
+  const letter = name.charAt(0).toUpperCase()
+  alphabetAssetsByLetter.set(letter, [
+    ...(alphabetAssetsByLetter.get(letter) ?? []),
+    image,
+  ])
+}
+
+const ALPHABET_ASSETS = Array.from(
+  alphabetAssetsByLetter,
+  ([letter, files]) => ({ letter, files })
+)
 
 const ALL_LETTERS = ALPHABET_ASSETS.map((asset) => asset.letter)
 
@@ -241,8 +102,6 @@ const AlphabetTester = ({
 }: AlphabetTesterProps) => {
   const [letterCase, setLetterCase] = useState<LetterCase>('lower')
   const [problemIndex, setProblemIndex] = useState(0)
-  const [successCount, setSuccessCount] = useState(0)
-  const [retryCount, setRetryCount] = useState(0)
   const [currentTarget, setCurrentTarget] = useState('')
   const [currentImage, setCurrentImage] = useState('')
   const [currentChoices, setCurrentChoices] = useState<string[]>([])
@@ -299,8 +158,6 @@ const AlphabetTester = ({
       !currentTarget
     ) {
       setProblemIndex(0)
-      setSuccessCount(0)
-      setRetryCount(0)
       nextProblem()
     }
   }, [isRunning, problemIndex, feedback, currentTarget, nextProblem])
@@ -320,9 +177,6 @@ const AlphabetTester = ({
       window.setTimeout(() => {
         setResultHistory((prev) => [...prev, 'correct'])
       }, 120)
-      const nextSuccess = successCount + 1
-      setSuccessCount(nextSuccess)
-
       feedbackTimer.current = setTimeout(() => {
         if (problemIndex + 1 >= totalProblems) {
           onComplete()
@@ -334,13 +188,13 @@ const AlphabetTester = ({
     } else {
       setFeedback('wrong')
       setWrongChoice(selectedLetter)
-      if (failureModeEnabled) {
-        setResultHistory((prev) => [...prev, 'incorrect'])
-      }
-      const nextRetryCount = retryCount + 1
-      setRetryCount(nextRetryCount)
+      const mistake = getActivityMistakeUpdate(
+        resultHistory,
+        failureModeEnabled
+      )
+      setResultHistory(mistake.nextResults)
 
-      if (failureModeEnabled && nextRetryCount >= MAX_ACTIVITY_MISTAKES) {
+      if (mistake.shouldFail) {
         setIsFailurePending(true)
         feedbackTimer.current = setTimeout(() => {
           onFail?.()
@@ -359,8 +213,6 @@ const AlphabetTester = ({
     if (!isRunning && !isCompleted) {
       clearHistory()
       setProblemIndex(0)
-      setSuccessCount(0)
-      setRetryCount(0)
       setCurrentTarget('')
       setCurrentImage('')
       setCurrentChoices([])

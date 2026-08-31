@@ -13,9 +13,9 @@
     "schema_version": "0.1.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T22:53:40.640Z",
+    "measured_at": "2026-08-31T23:17:28.013Z",
     "source_type": "static",
-    "source_set_hash": "sha256:8f4e38e66f317026f6e21d2e82c3c8737c676cc4430ea5c5e3b81b89795c0d87"
+    "source_set_hash": "sha256:880aa1869445521316c1d3fbe58ecc2c8f1995e3c0df61aa52f5c4fe1db5fe0e"
   },
   "confidence": {
     "source_roots_exist": true,
@@ -63,13 +63,13 @@
     "stale_input": []
   },
   "summary": {
-    "records": 114,
+    "records": 118,
     "files_with_escape_hatches": 42,
     "by_kind": {
       "eslint_suppression": 4,
-      "unknown_without_narrowing": 34,
+      "unknown_without_narrowing": 36,
+      "type_assertion": 26,
       "browser_global": 46,
-      "type_assertion": 24,
       "non_null_assertion": 3,
       "direct_dom_mutation": 3
     }
@@ -134,12 +134,41 @@
       ]
     },
     {
-      "id": "escape:src/components/AlphabetTester:browser_global:320:13116",
+      "id": "escape:src/components/AlphabetTester:type_assertion:33:1217",
+      "module_id": "src/components/AlphabetTester",
+      "file": "src/components/AlphabetTester.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 33,
+      "evidence": "import.meta.glob( '../assets/alphabet/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string,",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/AlphabetTester:type_assertion:33:1217",
+            "kind": "type_assertion",
+            "file": "src/components/AlphabetTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/AlphabetTester:browser_global:177:5727",
       "module_id": "src/components/AlphabetTester",
       "file": "src/components/AlphabetTester.tsx",
       "kind": "browser_global",
       "severity": "low",
-      "line": 320,
+      "line": 177,
       "evidence": "window.setTimeout",
       "actions": [
         {
@@ -154,7 +183,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/AlphabetTester:browser_global:320:13116",
+            "id": "escape:src/components/AlphabetTester:browser_global:177:5727",
             "kind": "browser_global",
             "file": "src/components/AlphabetTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -163,7 +192,7 @@
       ]
     },
     {
-      "id": "escape:src/components/AnimalTester:type_assertion:49:1784",
+      "id": "escape:src/components/AnimalTester:type_assertion:49:1787",
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "kind": "type_assertion",
@@ -183,7 +212,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/AnimalTester:type_assertion:49:1784",
+            "id": "escape:src/components/AnimalTester:type_assertion:49:1787",
             "kind": "type_assertion",
             "file": "src/components/AnimalTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -192,7 +221,7 @@
       ]
     },
     {
-      "id": "escape:src/components/AnimalTester:type_assertion:54:1868",
+      "id": "escape:src/components/AnimalTester:type_assertion:54:1871",
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "kind": "type_assertion",
@@ -212,7 +241,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/AnimalTester:type_assertion:54:1868",
+            "id": "escape:src/components/AnimalTester:type_assertion:54:1871",
             "kind": "type_assertion",
             "file": "src/components/AnimalTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -221,7 +250,7 @@
       ]
     },
     {
-      "id": "escape:src/components/AnimalTester:type_assertion:59:1958",
+      "id": "escape:src/components/AnimalTester:type_assertion:59:1961",
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "kind": "type_assertion",
@@ -241,7 +270,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/AnimalTester:type_assertion:59:1958",
+            "id": "escape:src/components/AnimalTester:type_assertion:59:1961",
             "kind": "type_assertion",
             "file": "src/components/AnimalTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -540,7 +569,7 @@
       ]
     },
     {
-      "id": "escape:src/components/SpellingTester:type_assertion:50:1651",
+      "id": "escape:src/components/SpellingTester:type_assertion:50:1654",
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "kind": "type_assertion",
@@ -560,7 +589,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/SpellingTester:type_assertion:50:1651",
+            "id": "escape:src/components/SpellingTester:type_assertion:50:1654",
             "kind": "type_assertion",
             "file": "src/components/SpellingTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -569,7 +598,7 @@
       ]
     },
     {
-      "id": "escape:src/components/SpellingTester:type_assertion:55:1813",
+      "id": "escape:src/components/SpellingTester:type_assertion:55:1816",
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "kind": "type_assertion",
@@ -589,7 +618,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/SpellingTester:type_assertion:55:1813",
+            "id": "escape:src/components/SpellingTester:type_assertion:55:1816",
             "kind": "type_assertion",
             "file": "src/components/SpellingTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1961,7 +1990,7 @@
       ]
     },
     {
-      "id": "escape:src/data/taskLimits:unknown_without_narrowing:6:171",
+      "id": "escape:src/data/taskLimits:unknown_without_narrowing:6:169",
       "module_id": "src/data/taskLimits",
       "file": "src/data/taskLimits.ts",
       "kind": "unknown_without_narrowing",
@@ -1981,7 +2010,7 @@
           "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/data/taskLimits:unknown_without_narrowing:6:171",
+            "id": "escape:src/data/taskLimits:unknown_without_narrowing:6:169",
             "kind": "unknown_without_narrowing",
             "file": "src/data/taskLimits.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1990,12 +2019,12 @@
       ]
     },
     {
-      "id": "escape:src/data/taskLimits:unknown_without_narrowing:12:355",
+      "id": "escape:src/data/taskLimits:unknown_without_narrowing:13:341",
       "module_id": "src/data/taskLimits",
       "file": "src/data/taskLimits.ts",
       "kind": "unknown_without_narrowing",
       "severity": "low",
-      "line": 12,
+      "line": 13,
       "evidence": "unknown",
       "actions": [
         {
@@ -2010,7 +2039,7 @@
           "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/data/taskLimits:unknown_without_narrowing:12:355",
+            "id": "escape:src/data/taskLimits:unknown_without_narrowing:13:341",
             "kind": "unknown_without_narrowing",
             "file": "src/data/taskLimits.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2019,28 +2048,28 @@
       ]
     },
     {
-      "id": "escape:src/data/taskLimits:unknown_without_narrowing:22:684",
+      "id": "escape:src/data/taskLimits:type_assertion:23:559",
       "module_id": "src/data/taskLimits",
       "file": "src/data/taskLimits.ts",
-      "kind": "unknown_without_narrowing",
-      "severity": "low",
-      "line": 22,
-      "evidence": "unknown",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 23,
+      "evidence": "value as number",
       "actions": [
         {
           "type": "suppress-line",
           "auto_fixable": false,
-          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+          "description": "Suppress this type_assertion finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line type_assertion"
         },
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/data/taskLimits:unknown_without_narrowing:22:684",
-            "kind": "unknown_without_narrowing",
+            "id": "escape:src/data/taskLimits:type_assertion:23:559",
+            "kind": "type_assertion",
             "file": "src/data/taskLimits.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -2048,7 +2077,7 @@
       ]
     },
     {
-      "id": "escape:src/data/taskLimits:unknown_without_narrowing:29:884",
+      "id": "escape:src/data/taskLimits:unknown_without_narrowing:29:730",
       "module_id": "src/data/taskLimits",
       "file": "src/data/taskLimits.ts",
       "kind": "unknown_without_narrowing",
@@ -2068,7 +2097,7 @@
           "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/data/taskLimits:unknown_without_narrowing:29:884",
+            "id": "escape:src/data/taskLimits:unknown_without_narrowing:29:730",
             "kind": "unknown_without_narrowing",
             "file": "src/data/taskLimits.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2077,12 +2106,12 @@
       ]
     },
     {
-      "id": "escape:src/data/taskLimits:unknown_without_narrowing:51:1465",
+      "id": "escape:src/data/taskLimits:unknown_without_narrowing:32:857",
       "module_id": "src/data/taskLimits",
       "file": "src/data/taskLimits.ts",
       "kind": "unknown_without_narrowing",
       "severity": "low",
-      "line": 51,
+      "line": 32,
       "evidence": "unknown",
       "actions": [
         {
@@ -2097,7 +2126,7 @@
           "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/data/taskLimits:unknown_without_narrowing:51:1465",
+            "id": "escape:src/data/taskLimits:unknown_without_narrowing:32:857",
             "kind": "unknown_without_narrowing",
             "file": "src/data/taskLimits.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2106,12 +2135,99 @@
       ]
     },
     {
-      "id": "escape:src/data/types:type_assertion:718:20982",
+      "id": "escape:src/data/taskLimits:unknown_without_narrowing:38:1108",
+      "module_id": "src/data/taskLimits",
+      "file": "src/data/taskLimits.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 38,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/taskLimits:unknown_without_narrowing:38:1108",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/taskLimits.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/taskLimits:unknown_without_narrowing:41:1248",
+      "module_id": "src/data/taskLimits",
+      "file": "src/data/taskLimits.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 41,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/taskLimits:unknown_without_narrowing:41:1248",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/taskLimits.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/taskLimits:unknown_without_narrowing:57:1746",
+      "module_id": "src/data/taskLimits",
+      "file": "src/data/taskLimits.ts",
+      "kind": "unknown_without_narrowing",
+      "severity": "low",
+      "line": 57,
+      "evidence": "unknown",
+      "actions": [
+        {
+          "type": "suppress-line",
+          "auto_fixable": false,
+          "description": "Suppress this unknown_without_narrowing finding on the affected line.",
+          "comment": "// ts-react-quality-lens-ignore-next-line unknown_without_narrowing"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unknown_without_narrowing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/taskLimits:unknown_without_narrowing:57:1746",
+            "kind": "unknown_without_narrowing",
+            "file": "src/data/taskLimits.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/data/types:type_assertion:724:21152",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 718,
+      "line": 724,
       "evidence": "task as TaskCompletionState",
       "actions": [
         {
@@ -2126,7 +2242,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/data/types:type_assertion:718:20982",
+            "id": "escape:src/data/types:type_assertion:724:21152",
             "kind": "type_assertion",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2280,7 +2396,7 @@
       ]
     },
     {
-      "id": "escape:src/hooks/useActivityChallenge:browser_global:83:2502",
+      "id": "escape:src/hooks/useActivityChallenge:browser_global:83:2509",
       "module_id": "src/hooks/useActivityChallenge",
       "file": "src/hooks/useActivityChallenge.ts",
       "kind": "browser_global",
@@ -2300,7 +2416,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/hooks/useActivityChallenge:browser_global:83:2502",
+            "id": "escape:src/hooks/useActivityChallenge:browser_global:83:2509",
             "kind": "browser_global",
             "file": "src/hooks/useActivityChallenge.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2976,12 +3092,12 @@
       ]
     },
     {
-      "id": "escape:src/lib/choreParser:type_assertion:204:6047",
+      "id": "escape:src/lib/choreParser:type_assertion:205:6038",
       "module_id": "src/lib/choreParser",
       "file": "src/lib/choreParser.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 204,
+      "line": 205,
       "evidence": "withVariantFields( base, 'taskType', taskType, taskData, taskVariantFields[taskType] ) as TaskRecord",
       "actions": [
         {
@@ -2996,7 +3112,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/choreParser:type_assertion:204:6047",
+            "id": "escape:src/lib/choreParser:type_assertion:205:6038",
             "kind": "type_assertion",
             "file": "src/lib/choreParser.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3005,12 +3121,12 @@
       ]
     },
     {
-      "id": "escape:src/lib/choreParser:type_assertion:317:9153",
+      "id": "escape:src/lib/choreParser:type_assertion:318:9144",
       "module_id": "src/lib/choreParser",
       "file": "src/lib/choreParser.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 317,
+      "line": 318,
       "evidence": "withVariantFields( base, 'sourceTaskType', sourceTaskType, todoData, todoVariantFields[sourceTaskType] ) as TodoRecord",
       "actions": [
         {
@@ -3025,7 +3141,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/choreParser:type_assertion:317:9153",
+            "id": "escape:src/lib/choreParser:type_assertion:318:9144",
             "kind": "type_assertion",
             "file": "src/lib/choreParser.ts",
             "reason": "Intentional finding; document the project-specific reason."

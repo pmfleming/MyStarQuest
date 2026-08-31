@@ -1,6 +1,5 @@
 import {
   useCallback,
-  useEffect,
   useState,
   type CSSProperties,
   type ReactNode,
@@ -8,21 +7,18 @@ import {
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
-import { useActivityChallenge } from '../hooks/useActivityChallenge'
+import { useCheckedActivityChallenge } from '../hooks/useActivityChallenge'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import { uiTokens } from '../tokens'
 import {
-  ActivityOutcomeShell,
   ActivityPlayArea,
-  ActivitySetupControls,
   type ActivityChoreProps,
 } from './ui/ActivityControls'
 import { CounterGroup, MathCounter, TenRod } from './ui/ActivityMathCounters'
 import StepperButton from './ui/StepperButton'
 import { getActivityFeedbackAnimationStyles } from './ui/activityAnimationStyles'
+import MathActivityShell from './ui/MathActivityShell'
 
-const MIN_PROBLEMS = 1
-const MAX_PROBLEMS = 9
 const MIN_ADDEND = 11
 const MAX_SUM = 99
 const MAX_FIRST_ADDEND = MAX_SUM - MIN_ADDEND
@@ -159,9 +155,7 @@ const LargeNumbersTester = ({
     isSuccessState,
     isCorrect,
     isWrong,
-    consumeCheckTrigger,
-    resetFeedback,
-  } = useActivityChallenge({
+  } = useCheckedActivityChallenge({
     isRunning,
     isCompleted,
     isFailed,
@@ -173,20 +167,9 @@ const LargeNumbersTester = ({
     onComplete,
     onFail,
     failureModeEnabled,
+    isAnswerCorrect: currentAnswer === expectedAnswer,
+    onNextProblem: nextProblem,
   })
-
-  useEffect(() => {
-    consumeCheckTrigger(currentAnswer === expectedAnswer, () => {
-      resetFeedback()
-      nextProblem()
-    })
-  }, [
-    consumeCheckTrigger,
-    currentAnswer,
-    expectedAnswer,
-    nextProblem,
-    resetFeedback,
-  ])
 
   const adjustOnes = (delta: number) => {
     const nextState = getAdjustedOnesState(
@@ -414,28 +397,20 @@ const LargeNumbersTester = ({
   )
 
   return (
-    <ActivityOutcomeShell
+    <MathActivityShell
+      theme={theme}
+      totalProblems={totalProblems}
+      starReward={starReward}
+      isEditable={isEditable}
+      onAdjustProblems={onAdjustProblems}
+      onStarsChange={onStarsChange}
       isFinished={isFinished}
       isSuccessState={isSuccessState}
       completionImage={completionImage}
       failureImage={failureImage}
+      isSetup={isSetup}
+      animationStyles={getActivityFeedbackAnimationStyles('large-numbers')}
     >
-      <style>{getActivityFeedbackAnimationStyles('large-numbers')}</style>
-
-      <ActivitySetupControls
-        isSetup={isSetup}
-        theme={theme}
-        totalProblems={totalProblems}
-        min={MIN_PROBLEMS}
-        max={MAX_PROBLEMS}
-        onAdjustProblems={onAdjustProblems}
-        starReward={starReward}
-        onStarsChange={onStarsChange}
-        previousAriaLabel="Fewer puzzles"
-        nextAriaLabel="More puzzles"
-        isEditable={isEditable}
-      />
-
       {isRunning && (
         <ActivityPlayArea
           theme={theme}
@@ -575,7 +550,7 @@ const LargeNumbersTester = ({
           </div>
         </ActivityPlayArea>
       )}
-    </ActivityOutcomeShell>
+    </MathActivityShell>
   )
 }
 

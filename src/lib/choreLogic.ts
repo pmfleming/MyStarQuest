@@ -23,6 +23,9 @@ const toiletStatusStarMap: Record<ToiletStatus, number> = {
   didpeepee: 1,
 }
 
+const getNextCycleValue = <Value>(cycle: readonly Value[], current: Value) =>
+  cycle[(cycle.indexOf(current) + 1) % cycle.length]
+
 export function calculateWaterToiletStars(
   waterLevel: WaterLevel,
   toiletStatus: ToiletStatus
@@ -31,13 +34,11 @@ export function calculateWaterToiletStars(
 }
 
 export function getNextWaterLevel(currentLevel: WaterLevel) {
-  const currentIndex = waterLevelCycle.indexOf(currentLevel)
-  return waterLevelCycle[(currentIndex + 1) % waterLevelCycle.length]
+  return getNextCycleValue(waterLevelCycle, currentLevel)
 }
 
 export function getNextToiletStatus(currentStatus: ToiletStatus) {
-  const currentIndex = toiletStatusCycle.indexOf(currentStatus)
-  return toiletStatusCycle[(currentIndex + 1) % toiletStatusCycle.length]
+  return getNextCycleValue(toiletStatusCycle, currentStatus)
 }
 
 export function getWaterToiletOutcome(

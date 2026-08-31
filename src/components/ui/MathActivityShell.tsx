@@ -17,7 +17,7 @@ type MathActivityShellProps = Pick<
   isFinished: boolean
   isSuccessState: boolean
   animationStyles: string
-  difficultyControl: ReactNode
+  difficultyControl?: ReactNode
   children: ReactNode
 }
 

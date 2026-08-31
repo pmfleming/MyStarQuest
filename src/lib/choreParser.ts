@@ -78,32 +78,33 @@ const withVariantFields = <T extends Record<string, unknown>>(
   ),
 })
 
-const normalizeChoreSnapshotData = (data: SnapshotData): SnapshotData => {
+const withLegacyAliases = (
+  data: SnapshotData,
+  aliases: Record<string, string>
+): SnapshotData => {
   if (!data || typeof data !== 'object') return data
   return {
     ...data,
-    taskType: data.taskType ?? data.choreType,
-    category: data.category ?? data.choreType,
+    ...Object.fromEntries(
+      Object.entries(aliases).map(([key, legacyKey]) => [
+        key,
+        data[key] ?? data[legacyKey],
+      ])
+    ),
   }
 }
 
-const normalizeTestSnapshotData = (data: SnapshotData): SnapshotData => {
-  if (!data || typeof data !== 'object') return data
-  return {
-    ...data,
-    taskType: data.taskType ?? data.testType,
-    category: data.category ?? data.testType,
-  }
-}
+const normalizeChoreSnapshotData = (data: SnapshotData) =>
+  withLegacyAliases(data, { taskType: 'choreType', category: 'choreType' })
 
-const normalizeChoreTodoSnapshotData = (data: SnapshotData): SnapshotData => {
-  if (!data || typeof data !== 'object') return data
-  return {
-    ...data,
-    sourceTaskId: data.sourceTaskId ?? data.sourceChoreId,
-    sourceTaskType: data.sourceTaskType ?? data.sourceChoreType,
-  }
-}
+const normalizeTestSnapshotData = (data: SnapshotData) =>
+  withLegacyAliases(data, { taskType: 'testType', category: 'testType' })
+
+const normalizeChoreTodoSnapshotData = (data: SnapshotData) =>
+  withLegacyAliases(data, {
+    sourceTaskId: 'sourceChoreId',
+    sourceTaskType: 'sourceChoreType',
+  })
 
 const taskVariantFields = {
   standard: [],

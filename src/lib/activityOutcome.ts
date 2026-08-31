@@ -37,3 +37,20 @@ export const getVisibleActivityResults = (
   failureModeEnabled
     ? results
     : results.filter((result) => result === 'correct')
+
+export const getActivityMistakeUpdate = (
+  results: ActivityResult[],
+  failureModeEnabled: boolean
+) => {
+  const nextResults: ActivityResult[] = failureModeEnabled
+    ? [...results, 'incorrect']
+    : results
+
+  return {
+    nextResults,
+    shouldFail:
+      failureModeEnabled &&
+      nextResults.filter((result) => result === 'incorrect').length >=
+        MAX_ACTIVITY_MISTAKES,
+  }
+}

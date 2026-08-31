@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react'
-import { useActivityChallenge } from '../hooks/useActivityChallenge'
+import { useCallback, useState } from 'react'
+import { useCheckedActivityChallenge } from '../hooks/useActivityChallenge'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import {
   generateProgressivePositionalNotationProblem,
@@ -95,9 +95,7 @@ const PositionalNotation = ({
     isSuccessState,
     isCorrect,
     isWrong,
-    consumeCheckTrigger,
-    resetFeedback,
-  } = useActivityChallenge({
+  } = useCheckedActivityChallenge({
     isRunning,
     isCompleted,
     isFailed,
@@ -109,19 +107,9 @@ const PositionalNotation = ({
     onComplete,
     onFail,
     failureModeEnabled,
+    isAnswerCorrect: getTotal(values) === targetNumber,
+    onNextProblem: nextProblem,
   })
-
-  const handleNextProblem = useCallback(
-    (nextIndex: number) => {
-      resetFeedback()
-      nextProblem(nextIndex)
-    },
-    [nextProblem, resetFeedback]
-  )
-
-  useEffect(() => {
-    consumeCheckTrigger(getTotal(values) === targetNumber, handleNextProblem)
-  }, [consumeCheckTrigger, handleNextProblem, targetNumber, values])
 
   const setPlaceValue = useCallback((kind: PlaceValueKind, value: number) => {
     setValues((current) => ({ ...current, [kind]: value }))

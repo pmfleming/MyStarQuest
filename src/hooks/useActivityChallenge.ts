@@ -7,7 +7,7 @@ import {
 
 export type ActivityFeedback = 'idle' | 'correct' | 'wrong'
 
-type UseActivityChallengeArgs = {
+export type UseActivityChallengeArgs = {
   isRunning: boolean
   isCompleted: boolean
   isFailed: boolean
@@ -139,6 +139,8 @@ export const useActivityChallenge = ({
     onReset()
   }, [clearFeedbackTimer, onReset])
 
+  const resetFeedback = useCallback(() => setFeedback('idle'), [])
+
   useEffect(() => clearFeedbackTimer, [clearFeedbackTimer])
 
   useEffect(() => {
@@ -176,6 +178,33 @@ export const useActivityChallenge = ({
     isWrong,
     submitAnswer,
     consumeCheckTrigger,
-    resetFeedback: () => setFeedback('idle'),
+    resetFeedback,
   }
+}
+
+type UseCheckedActivityChallengeArgs = UseActivityChallengeArgs & {
+  isAnswerCorrect: boolean
+  onNextProblem: (nextIndex: number) => void
+}
+
+export const useCheckedActivityChallenge = ({
+  isAnswerCorrect,
+  onNextProblem,
+  ...challengeArgs
+}: UseCheckedActivityChallengeArgs) => {
+  const challenge = useActivityChallenge(challengeArgs)
+  const { consumeCheckTrigger, resetFeedback } = challenge
+  const advance = useCallback(
+    (nextIndex: number) => {
+      resetFeedback()
+      onNextProblem(nextIndex)
+    },
+    [onNextProblem, resetFeedback]
+  )
+
+  useEffect(() => {
+    consumeCheckTrigger(isAnswerCorrect, advance)
+  }, [advance, consumeCheckTrigger, isAnswerCorrect])
+
+  return challenge
 }

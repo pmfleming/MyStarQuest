@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import StepperButton from './ui/StepperButton'
 import { uiTokens } from '../tokens'
 import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
-import { useActivityChallenge } from '../hooks/useActivityChallenge'
+import { useCheckedActivityChallenge } from '../hooks/useActivityChallenge'
 import type { MathDifficulty } from '../data/types'
 import {
   ActivityPlayArea,
@@ -145,9 +145,7 @@ const ArithmeticTester = ({
     isSuccessState,
     isCorrect,
     isWrong,
-    consumeCheckTrigger,
-    resetFeedback,
-  } = useActivityChallenge({
+  } = useCheckedActivityChallenge({
     isRunning,
     isCompleted,
     isFailed,
@@ -159,20 +157,9 @@ const ArithmeticTester = ({
     onComplete,
     onFail,
     failureModeEnabled,
+    isAnswerCorrect: userAnswer === expectedAnswer,
+    onNextProblem: nextProblem,
   })
-
-  useEffect(() => {
-    consumeCheckTrigger(userAnswer === expectedAnswer, () => {
-      resetFeedback()
-      nextProblem()
-    })
-  }, [
-    consumeCheckTrigger,
-    expectedAnswer,
-    nextProblem,
-    resetFeedback,
-    userAnswer,
-  ])
 
   const playAnimation = isWrong
     ? 'dotmath-shake 0.5s ease'

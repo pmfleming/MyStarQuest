@@ -72,6 +72,26 @@ export const getSurfaceWidthConstraints = (): CSSProperties => ({
   boxSizing: 'border-box',
 })
 
+export const getFloatingSurfaceStyle = (
+  theme: Theme,
+  edge: Pick<CSSProperties, 'top' | 'bottom'>,
+  shadowOffset = 8
+): CSSProperties => ({
+  position: 'absolute',
+  ...edge,
+  left: '50%',
+  transform: 'translateX(-50%)',
+  ...getSurfaceWidthConstraints(),
+  height: `${uiTokens.floatingNavHeight}px`,
+  background: `${theme.colors.surface}99`,
+  backdropFilter: 'blur(16px)',
+  WebkitBackdropFilter: 'blur(16px)',
+  borderRadius: `${uiTokens.surfaceRadius}px`,
+  border: `2px solid ${theme.colors.accent}44`,
+  boxShadow: `0 ${shadowOffset}px 32px ${theme.colors.primary}33`,
+  zIndex: 100,
+})
+
 export const getTopIconStyle = (
   theme: Theme,
   isSelected = false

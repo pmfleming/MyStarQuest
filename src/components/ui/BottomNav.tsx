@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import type { Theme } from '../../contexts/ThemeContext'
-import { getSurfaceWidthConstraints, uiTokens } from '../../tokens'
+import { getFloatingSurfaceStyle, uiTokens } from '../../tokens'
 import { appTabs, getTabIcon, type AppTabId } from '../../lib/tabNavigation'
 
 interface BottomNavProps {
@@ -15,24 +15,11 @@ const BottomNav = ({ theme, activeTabId }: BottomNavProps) => {
     <nav
       aria-label="Primary tabs"
       style={{
-        position: 'absolute',
-        bottom: '24px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        ...getSurfaceWidthConstraints(),
-        height: `${uiTokens.floatingNavHeight}px`,
+        ...getFloatingSurfaceStyle(theme, { bottom: '24px' }, 12),
         display: 'grid',
         gridTemplateColumns: `repeat(${appTabs.length}, minmax(0, 1fr))`,
         gap: `${uiTokens.navItemGap}px`,
         padding: '0 12px',
-        // Translucent background with glassmorphism
-        background: `${theme.colors.surface}99`,
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        borderRadius: `${uiTokens.surfaceRadius}px`,
-        border: `2px solid ${theme.colors.accent}44`,
-        boxShadow: `0 12px 32px ${theme.colors.primary}33`,
-        zIndex: 100,
       }}
     >
       {appTabs.map((tab) => {

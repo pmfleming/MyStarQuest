@@ -17,6 +17,7 @@ import {
 } from '../data/animalKnowledge'
 import { celebrateSuccess } from '../lib/celebrate'
 import {
+  getActivityMistakeUpdate,
   getActivityOutcome,
   getVisibleActivityResults,
 } from '../lib/activityOutcome'
@@ -26,7 +27,6 @@ import {
   ActivityOutcomeShell,
   ActivityPlayArea,
   ActivitySetupControls,
-  MAX_ACTIVITY_MISTAKES,
   type ActivityChoreProps,
   type ActivityResult,
 } from './ui/ActivityControls'
@@ -718,18 +718,13 @@ const AnimalTester = ({
     }
 
     setLeavingChoice(choice.name)
-    let shouldFail = false
-    if (failureModeEnabled) {
-      const nextResults: ActivityResult[] = [...results, 'incorrect']
-      setResults(nextResults)
-      const mistakes = nextResults.filter((result) => result === 'incorrect')
-      shouldFail = mistakes.length >= MAX_ACTIVITY_MISTAKES
-    }
+    const mistake = getActivityMistakeUpdate(results, failureModeEnabled)
+    setResults(mistake.nextResults)
 
     feedbackTimer.current = setTimeout(() => {
       setDismissedChoices((previous) => [...previous, choice.name])
       setLeavingChoice(null)
-      if (shouldFail) onFail?.()
+      if (mistake.shouldFail) onFail?.()
     }, CHOICE_ANIMATION_MS)
   }
 
