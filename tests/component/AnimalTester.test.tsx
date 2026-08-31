@@ -11,18 +11,15 @@ import { ANIMAL_ASSETS } from '../../src/data/animalAssets'
 import {
   ANIMAL_FOOD_IMAGE_BY_NAME,
   ANIMAL_FOOD_NAMES,
-  getAnimalFoodImage,
 } from '../../src/data/animalFoodAssets'
 import {
   ANIMAL_HABITAT_IMAGE_BY_NAME,
   ANIMAL_HABITAT_NAMES,
-  getAnimalHabitatImage,
 } from '../../src/data/animalHabitatAssets'
 import { ANIMAL_KNOWLEDGE } from '../../src/data/animalKnowledge'
 import {
   ANIMAL_LOCATION_IMAGE_BY_NAME,
   ANIMAL_LOCATION_NAMES,
-  getAnimalLocationImage,
 } from '../../src/data/animalLocationAssets'
 
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
@@ -37,8 +34,86 @@ const createProps = () => ({
   onComplete: vi.fn(),
 })
 
+const EXPECTED_DISPLAY_CATEGORIES = {
+  alpaca: ['America', 'Mountain', 'Plants'],
+  ant: ['Worldwide', 'Burrow', 'Insects'],
+  armadillo: ['America', 'Grassland', 'Insects'],
+  bat: ['Worldwide', 'Cave', 'Insects'],
+  bear: ['Earth', 'Forest', 'Fish'],
+  beaver: ['Earth', 'River', 'Plants'],
+  bee: ['Worldwide', 'Trees', 'Nectar'],
+  'blue-whale': ['Ocean', 'Ocean', 'Krill'],
+  bluebird: ['America', 'Grassland', 'Insects'],
+  butterfly: ['Worldwide', 'Grassland', 'Nectar'],
+  camel: ['Earth', 'Desert', 'Plants'],
+  cat: ['Worldwide', 'Town', 'Meat'],
+  cheetah: ['Africa', 'Grassland', 'Meat'],
+  chicken: ['Worldwide', 'Farm', 'Seeds'],
+  chimpanzee: ['Africa', 'Forest', 'Fruit'],
+  cow: ['Worldwide', 'Farm', 'Plants'],
+  crab: ['Ocean', 'Ocean', 'Shellfish'],
+  crocodile: ['Earth', 'River', 'Fish'],
+  deer: ['Worldwide', 'Forest', 'Plants'],
+  dog: ['Worldwide', 'Town', 'Food'],
+  dolphin: ['Ocean', 'Ocean', 'Fish'],
+  duck: ['Worldwide', 'Wetland', 'Plants'],
+  eagle: ['Earth', 'Mountain', 'Meat'],
+  elephant: ['Earth', 'Grassland', 'Plants'],
+  flamingo: ['Earth', 'Wetland', 'Shrimp'],
+  fox: ['Worldwide', 'Forest', 'Meat'],
+  frog: ['Worldwide', 'Pond', 'Insects'],
+  gecko: ['Worldwide', 'Trees', 'Insects'],
+  giraffe: ['Africa', 'Grassland', 'Plants'],
+  goat: ['Worldwide', 'Mountain', 'Plants'],
+  gorilla: ['Africa', 'Forest', 'Plants'],
+  'green-tree-python': ['Australia', 'Forest', 'Prey'],
+  hedgehog: ['Earth', 'Grassland', 'Insects'],
+  hippo: ['Africa', 'River', 'Plants'],
+  horse: ['Worldwide', 'Farm', 'Plants'],
+  ibis: ['Worldwide', 'Wetland', 'Insects'],
+  jackal: ['Earth', 'Grassland', 'Meat'],
+  jaguar: ['America', 'Forest', 'Meat'],
+  kangaroo: ['Australia', 'Grassland', 'Plants'],
+  kiwi: ['Australia', 'Forest', 'Worms'],
+  koala: ['Australia', 'Forest', 'Plants'],
+  lion: ['Africa', 'Grassland', 'Meat'],
+  llama: ['America', 'Mountain', 'Plants'],
+  meerkat: ['Africa', 'Desert', 'Insects'],
+  mole: ['Earth', 'Burrow', 'Worms'],
+  monkey: ['Earth', 'Forest', 'Fruit'],
+  mouse: ['Worldwide', 'Farm', 'Seeds'],
+  newt: ['Earth', 'Pond', 'Worms'],
+  octopus: ['Ocean', 'Ocean', 'Shellfish'],
+  otter: ['Worldwide', 'River', 'Fish'],
+  owl: ['Worldwide', 'Forest', 'Meat'],
+  panda: ['Asia', 'Forest', 'Bamboo'],
+  parrot: ['Worldwide', 'Forest', 'Fruit'],
+  penguin: ['Earth', 'Ocean', 'Fish'],
+  pig: ['Worldwide', 'Farm', 'Plants'],
+  'polar-bear': ['Arctic', 'Tundra', 'Seals'],
+  rabbit: ['Worldwide', 'Grassland', 'Plants'],
+  raccoon: ['America', 'Forest', 'Fruit'],
+  rhino: ['Earth', 'Grassland', 'Plants'],
+  rooster: ['Worldwide', 'Farm', 'Seeds'],
+  seal: ['Worldwide', 'Ocean', 'Fish'],
+  shark: ['Ocean', 'Ocean', 'Fish'],
+  sheep: ['Worldwide', 'Grassland', 'Plants'],
+  skunk: ['America', 'Forest', 'Insects'],
+  sloth: ['America', 'Forest', 'Plants'],
+  snail: ['Worldwide', 'Nature', 'Plants'],
+  swan: ['Worldwide', 'Wetland', 'Plants'],
+  tarantula: ['Worldwide', 'Burrow', 'Insects'],
+  tiger: ['Asia', 'Forest', 'Meat'],
+  tortoise: ['Earth', 'Grassland', 'Plants'],
+  turkey: ['Worldwide', 'Forest', 'Seeds'],
+  vole: ['Earth', 'Grassland', 'Plants'],
+  wolf: ['Earth', 'Forest', 'Deer'],
+  yak: ['Asia', 'Mountain', 'Plants'],
+  zebra: ['Africa', 'Grassland', 'Plants'],
+} as const
+
 describe('AnimalTester', () => {
-  it('has 75 specific animals with matching images and learning profiles', () => {
+  it('keeps the complete animal catalog and all visual mappings aligned', () => {
     const assetNames = ANIMAL_ASSETS.map((animal) => animal.name)
     const knowledgeNames = ANIMAL_KNOWLEDGE.map((animal) => animal.name)
 
@@ -68,41 +143,46 @@ describe('AnimalTester', () => {
         'octopus',
       ])
     )
-  })
 
-  it('assigns a unique project-style image to every habitat', () => {
+    const actualCategories = Object.fromEntries(
+      ANIMAL_KNOWLEDGE.map((animal) => [
+        animal.name,
+        [animal.locationCategory, animal.habitatCategory, animal.foodCategory],
+      ])
+    )
+
+    expect(actualCategories).toEqual(EXPECTED_DISPLAY_CATEGORIES)
+
     const habitatImages = Object.values(ANIMAL_HABITAT_IMAGE_BY_NAME)
 
     expect(ANIMAL_HABITAT_NAMES).toHaveLength(15)
     expect(new Set(habitatImages).size).toBe(15)
     expect(
       ANIMAL_CATALOG.every(
-        (animal) => getAnimalHabitatImage(animal.habitat[1].text).length > 0
+        (animal) =>
+          ANIMAL_HABITAT_IMAGE_BY_NAME[animal.habitatCategory].length > 0
       )
     ).toBe(true)
-  })
 
-  it('assigns a unique image to every location and food category', () => {
     const locationImages = Object.values(ANIMAL_LOCATION_IMAGE_BY_NAME)
     const foodImages = Object.values(ANIMAL_FOOD_IMAGE_BY_NAME)
 
     expect(ANIMAL_LOCATION_NAMES).toHaveLength(10)
     expect(new Set(locationImages).size).toBe(10)
-    expect(ANIMAL_FOOD_NAMES).toHaveLength(10)
-    expect(new Set(foodImages).size).toBe(10)
+    expect(ANIMAL_FOOD_NAMES).toHaveLength(16)
+    expect(new Set(foodImages).size).toBe(16)
     expect(
       ANIMAL_CATALOG.every(
-        (animal) => getAnimalLocationImage(animal.habitat[0].text).length > 0
+        (animal) =>
+          ANIMAL_LOCATION_IMAGE_BY_NAME[animal.locationCategory].length > 0
       )
     ).toBe(true)
     expect(
       ANIMAL_CATALOG.every(
-        (animal) => getAnimalFoodImage(animal.food[1].text).length > 0
+        (animal) => ANIMAL_FOOD_IMAGE_BY_NAME[animal.foodCategory].length > 0
       )
     ).toBe(true)
-  })
 
-  it('assigns a unique special-ability image to every animal', () => {
     const abilityImages = ANIMAL_ABILITY_ASSETS.map((ability) => ability.image)
 
     expect(ANIMAL_ABILITY_ASSETS).toHaveLength(75)

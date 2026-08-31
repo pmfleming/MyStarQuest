@@ -23,8 +23,8 @@ import {
 } from '../../../src/lib/choreParser'
 
 describe('choreParser', () => {
-  it('parses eating chores and applies schema fallbacks for invalid values', () => {
-    const chore = parseChoreSnapshot('chore-1', {
+  it('normalizes chore and test snapshots, including compatibility fields', () => {
+    const eatingChore = parseChoreSnapshot('chore-1', {
       choreType: 'eating',
       title: 123,
       childId: 'child-1',
@@ -37,7 +37,7 @@ describe('choreParser', () => {
       dinnerTotalBites: null,
     })
 
-    expect(chore).toEqual({
+    expect(eatingChore).toEqual({
       id: 'chore-1',
       title: '',
       childId: 'child-1',
@@ -51,9 +51,7 @@ describe('choreParser', () => {
       dinnerDurationSeconds: DEFAULT_DINNER_DURATION_SECONDS,
       dinnerTotalBites: DEFAULT_DINNER_BITES,
     })
-  })
 
-  it('parses specialized test variants through normalized test type detection', () => {
     const mathTest = parseTestSnapshot('test-2', {
       testType: 'math',
       childId: 'child-1',
@@ -116,9 +114,7 @@ describe('choreParser', () => {
     expect(spellingTest).toMatchObject({
       spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
     })
-  })
 
-  it('skips obsolete daynight snapshots', () => {
     expect(
       parseChoreSnapshot('obsolete-chore', {
         choreType: 'daynight',
@@ -137,6 +133,30 @@ describe('choreParser', () => {
         '2026-04-01'
       )
     ).toBeNull()
+
+    const compatibleChore = parseChoreSnapshot('chore-2', {
+      choreType: 'eating',
+      childId: 'child-1',
+      dinnerDurationSeconds: 300,
+      dinnerTotalBites: 4,
+    })
+    const compatibleTest = parseTestSnapshot('test-7', {
+      testType: 'math',
+      childId: 'child-1',
+      mathTotalProblems: 6,
+      mathDifficulty: 'hard',
+    })
+
+    expect(compatibleChore?.taskType).toBe('eating')
+    expect(compatibleChore).toMatchObject({
+      dinnerDurationSeconds: 300,
+      dinnerTotalBites: 4,
+    })
+    expect(compatibleTest?.taskType).toBe('math')
+    expect(compatibleTest).toMatchObject({
+      mathTotalProblems: 6,
+      mathDifficulty: 'hard',
+    })
   })
 
   it('returns null and warns for completely invalid chore or todo payloads', () => {
@@ -151,8 +171,8 @@ describe('choreParser', () => {
     warnSpy.mockRestore()
   })
 
-  it('parses chore todos with defaults and fallback date key', () => {
-    const todo = parseChoreTodoSnapshot(
+  it('normalizes chore todos and compatibility fields', () => {
+    const eatingTodo = parseChoreTodoSnapshot(
       'chore-todo-1',
       {
         sourceChoreType: 'eating',
@@ -166,7 +186,7 @@ describe('choreParser', () => {
       '2026-04-01'
     )
 
-    expect(todo).toEqual({
+    expect(eatingTodo).toEqual({
       id: 'chore-todo-1',
       title: '',
       childId: 'child-1',
@@ -185,10 +205,8 @@ describe('choreParser', () => {
       dinnerBitesLeft: DEFAULT_DINNER_BITES,
       dinnerTimerStartedAt: null,
     })
-  })
 
-  it('parses watertoilet chore todos with safe defaults', () => {
-    const todo = parseChoreTodoSnapshot(
+    const waterToiletTodo = parseChoreTodoSnapshot(
       'chore-todo-2',
       {
         sourceChoreType: 'watertoiletcheck',
@@ -200,41 +218,12 @@ describe('choreParser', () => {
       '2026-04-01'
     )
 
-    expect(todo).toMatchObject({
+    expect(waterToiletTodo).toMatchObject({
       sourceTaskType: 'watertoiletcheck',
       waterLevel: DEFAULT_WATER_LEVEL,
       toiletStatus: DEFAULT_TOILET_STATUS,
     })
-  })
 
-  it('parses split chore and test templates through compatibility fields', () => {
-    const chore = parseChoreSnapshot('chore-1', {
-      choreType: 'eating',
-      childId: 'child-1',
-      dinnerDurationSeconds: 300,
-      dinnerTotalBites: 4,
-    })
-
-    const test = parseTestSnapshot('test-1', {
-      testType: 'math',
-      childId: 'child-1',
-      mathTotalProblems: 6,
-      mathDifficulty: 'hard',
-    })
-
-    expect(chore?.taskType).toBe('eating')
-    expect(chore).toMatchObject({
-      dinnerDurationSeconds: 300,
-      dinnerTotalBites: 4,
-    })
-    expect(test?.taskType).toBe('math')
-    expect(test).toMatchObject({
-      mathTotalProblems: 6,
-      mathDifficulty: 'hard',
-    })
-  })
-
-  it('parses split chore todos through compatibility fields', () => {
     const choreTodo = parseChoreTodoSnapshot(
       'chore-todo-1',
       {
@@ -255,7 +244,7 @@ describe('choreParser', () => {
 })
 
 describe('runtime schemas', () => {
-  it('applies defaults for child and reward snapshot data', () => {
+  it('applies defaults and parses supported callable snapshot data', () => {
     expect(childSnapshotDataSchema.parse({})).toMatchObject({
       displayName: '',
       avatarToken: '⭐',
@@ -273,9 +262,7 @@ describe('runtime schemas', () => {
     ).toMatchObject({
       imageKey: 'yoshiEgg',
     })
-  })
 
-  it('applies defaults for chore/test and daily todo snapshot schemas', () => {
     expect(choreSnapshotDataSchema.parse({})).toMatchObject({
       title: '',
       childId: '',
@@ -349,9 +336,7 @@ describe('runtime schemas', () => {
       sourceChoreId: 'chore-1',
       sourceChoreType: 'standard',
     })
-  })
 
-  it('parses child star snapshots and callable results', () => {
     expect(
       childStarsSnapshotDataSchema.parse({ totalStars: 7 }).totalStars
     ).toBe(7)

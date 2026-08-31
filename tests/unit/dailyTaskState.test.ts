@@ -14,20 +14,19 @@ const baseTask = {
 }
 
 describe('mergeTaskEphemeral', () => {
-  it('uses an explicit null completion to reset a completed standard chore', () => {
-    const task: ChoreRecord = {
+  it('uses explicit null state to reset every chore type', () => {
+    const standardTask: ChoreRecord = {
       ...baseTask,
       taskType: 'standard',
       manageCompletedAt: 123,
     }
 
     expect(
-      mergeTaskEphemeral(task, { manageCompletedAt: null }).manageCompletedAt
+      mergeTaskEphemeral(standardTask, { manageCompletedAt: null })
+        .manageCompletedAt
     ).toBeNull()
-  })
 
-  it('uses explicit null state to reset a completed dinner', () => {
-    const task: ChoreRecord = {
+    const dinnerTask: ChoreRecord = {
       ...baseTask,
       taskType: 'eating',
       dinnerDurationSeconds: 600,
@@ -36,25 +35,24 @@ describe('mergeTaskEphemeral', () => {
       manageDinnerCompletedAt: 456,
     }
 
-    const merged = mergeTaskEphemeral(task, {
+    const mergedDinner = mergeTaskEphemeral(dinnerTask, {
       manageDinnerTimerStartedAt: null,
       manageDinnerCompletedAt: null,
     })
 
-    expect(merged.manageDinnerTimerStartedAt).toBeNull()
-    expect(merged.manageDinnerCompletedAt).toBeNull()
-  })
+    expect(mergedDinner.manageDinnerTimerStartedAt).toBeNull()
+    expect(mergedDinner.manageDinnerCompletedAt).toBeNull()
 
-  it('uses an explicit null completion to reset a water/toilet chore', () => {
-    const task: ChoreRecord = {
+    const waterToiletTask: ChoreRecord = {
       ...baseTask,
       taskType: 'watertoiletcheck',
       manageWaterToiletCompletedAt: 123,
     }
 
     expect(
-      mergeTaskEphemeral(task, { manageWaterToiletCompletedAt: null })
-        .manageWaterToiletCompletedAt
+      mergeTaskEphemeral(waterToiletTask, {
+        manageWaterToiletCompletedAt: null,
+      }).manageWaterToiletCompletedAt
     ).toBeNull()
   })
 })

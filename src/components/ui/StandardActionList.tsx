@@ -228,7 +228,6 @@ const DefaultActionIcon = ({
           ? 'h-6 w-6 object-contain'
           : 'h-full w-full object-contain'
       }
-      style={type === 'reset' ? undefined : { transform: 'scale(1.7)' }}
     />
   )
 }

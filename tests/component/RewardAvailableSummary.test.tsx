@@ -12,7 +12,7 @@ const reward: RewardRecord = {
 }
 
 describe('reward available summary', () => {
-  it('renders existing rewards as a compact available reward instead of setup controls', () => {
+  it('renders a compact reward and locks it when stars are insufficient', () => {
     const descriptor = createRewardDefinitionListRowDescriptor({
       theme: themes.princess,
       activeChildId: 'child-1',
@@ -40,10 +40,8 @@ describe('reward available summary', () => {
     expect(
       screen.queryByRole('button', { name: 'Keep available after buying' })
     ).not.toBeInTheDocument()
-  })
 
-  it('uses the princess lock image when the child needs more stars', () => {
-    const descriptor = createRewardDefinitionListRowDescriptor({
+    const lockedDescriptor = createRewardDefinitionListRowDescriptor({
       theme: themes.princess,
       activeChildId: 'child-1',
       activeChildStars: 3,
@@ -51,7 +49,7 @@ describe('reward available summary', () => {
       handleGiveReward: vi.fn(),
     })
 
-    const action = descriptor.getPrimaryAction?.(reward)
+    const action = lockedDescriptor.getPrimaryAction?.(reward)
 
     const { container } = render(<>{action?.icon}</>)
 

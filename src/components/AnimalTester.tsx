@@ -10,15 +10,9 @@ import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { getAnimalAbilityImage } from '../data/animalAbilityAssets'
 import { ANIMAL_ASSET_BY_NAME } from '../data/animalAssets'
-import { getAnimalFoodImage, getAnimalFoodName } from '../data/animalFoodAssets'
-import {
-  getAnimalHabitatImage,
-  getAnimalHabitatName,
-} from '../data/animalHabitatAssets'
-import {
-  getAnimalLocationImage,
-  getAnimalLocationName,
-} from '../data/animalLocationAssets'
+import { ANIMAL_FOOD_IMAGE_BY_NAME } from '../data/animalFoodAssets'
+import { ANIMAL_HABITAT_IMAGE_BY_NAME } from '../data/animalHabitatAssets'
+import { ANIMAL_LOCATION_IMAGE_BY_NAME } from '../data/animalLocationAssets'
 import {
   ANIMAL_KNOWLEDGE,
   type AnimalFact,
@@ -107,20 +101,20 @@ const getTeachingFacts = (animal: CatalogAnimal): VisualFact[] => [
   {
     ...animal.habitat[0],
     label: 'LOCATION',
-    illustration: getAnimalLocationImage(animal.habitat[0].text),
-    word: getAnimalLocationName(animal.habitat[0].text),
+    illustration: ANIMAL_LOCATION_IMAGE_BY_NAME[animal.locationCategory],
+    word: animal.locationCategory,
   },
   {
     ...animal.habitat[1],
     label: 'ENVIRONMENT',
-    illustration: getAnimalHabitatImage(animal.habitat[1].text),
-    word: getAnimalHabitatName(animal.habitat[1].text),
+    illustration: ANIMAL_HABITAT_IMAGE_BY_NAME[animal.habitatCategory],
+    word: animal.habitatCategory,
   },
   {
     ...animal.food[1],
     label: 'FOOD',
-    illustration: getAnimalFoodImage(animal.food[1].text),
-    word: getAnimalFoodName(animal.food[1].text),
+    illustration: ANIMAL_FOOD_IMAGE_BY_NAME[animal.foodCategory],
+    word: animal.foodCategory,
   },
   {
     ...animal.abilities[0],
@@ -490,7 +484,6 @@ const AnimalTester = ({
       successAlt="Amazing animal explorer!"
       failureAlt="Let's learn some more animals!"
       className="flex w-full flex-col items-center"
-      style={{ gap: uiTokens.sectionGap }}
     >
       {isSetup && !isEditable && (
         <div style={{ width: uiTokens.controlRowWidth, maxWidth: '100%' }}>

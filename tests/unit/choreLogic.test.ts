@@ -9,15 +9,9 @@ import {
 import type { WaterToiletTaskWithEphemeral } from '../../src/data/types'
 
 describe('calculateWaterToiletStars', () => {
-  it('awards both empty flask and toilet completion', () => {
+  it('calculates complete, failed, and neutral water/toilet scores', () => {
     expect(calculateWaterToiletStars('empty', 'didpeepee')).toBe(2)
-  })
-
-  it('applies the combined penalty when neither check is complete', () => {
     expect(calculateWaterToiletStars('full', 'notpeepee')).toBe(-6)
-  })
-
-  it('supports neutral water states', () => {
     expect(calculateWaterToiletStars('twothirds', 'didpeepee')).toBe(1)
     expect(calculateWaterToiletStars('onethird', 'notpeepee')).toBe(-5)
   })
@@ -44,19 +38,13 @@ describe('calculateAwardTaskPatch', () => {
 })
 
 describe('water/toilet helpers', () => {
-  it('cycles through the full flask sequence', () => {
+  it('cycles state and derives success or failure', () => {
     expect(getNextWaterLevel('full')).toBe('twothirds')
     expect(getNextWaterLevel('twothirds')).toBe('onethird')
     expect(getNextWaterLevel('onethird')).toBe('empty')
     expect(getNextWaterLevel('empty')).toBe('full')
-  })
-
-  it('toggles the toilet status sequence', () => {
     expect(getNextToiletStatus('notpeepee')).toBe('didpeepee')
     expect(getNextToiletStatus('didpeepee')).toBe('notpeepee')
-  })
-
-  it('derives success and failure from the shared water/toilet outcome rules', () => {
     expect(getWaterToiletOutcome('empty', 'didpeepee')).toBe('success')
     expect(getWaterToiletOutcome('full', 'notpeepee')).toBe('failure')
   })

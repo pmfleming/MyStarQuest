@@ -169,7 +169,6 @@ type ActivitySetupControlsProps = {
   previousAriaLabel: string
   nextAriaLabel: string
   starMax?: number
-  starStyle?: CSSProperties
   beforeProblemControl?: ReactNode
   isEditable?: boolean
 }
@@ -186,7 +185,6 @@ export const ActivitySetupControls = ({
   previousAriaLabel,
   nextAriaLabel,
   starMax,
-  starStyle,
   beforeProblemControl,
   isEditable = true,
 }: ActivitySetupControlsProps) => {
@@ -206,32 +204,26 @@ export const ActivitySetupControls = ({
   )
 
   return (
-    <>
-      {beforeProblemControl && isEditable ? (
-        <div
-          className="flex flex-col items-center"
-          style={{
-            gap: ACTIVITY_SETUP_FIELD_GAP,
-            width: CONTROL_ROW_WIDTH,
-            maxWidth: '100%',
-          }}
-        >
-          {beforeProblemControl}
-          {problemControl}
-        </div>
-      ) : (
-        problemControl
-      )}
+    <div
+      className="flex flex-col items-center"
+      data-activity-setup
+      style={{
+        gap: ACTIVITY_SETUP_FIELD_GAP,
+        width: CONTROL_ROW_WIDTH,
+        maxWidth: '100%',
+      }}
+    >
+      {beforeProblemControl && isEditable && beforeProblemControl}
+      {problemControl}
 
       <StarRewardControl
         theme={theme}
         starReward={starReward}
         onStarsChange={onStarsChange}
         max={starMax}
-        style={starStyle}
         isEditable={isEditable}
       />
-    </>
+    </div>
   )
 }
 

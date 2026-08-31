@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
-import { uiTokens } from '../tokens'
 import animalsSetIcon from '../assets/global/cat-camel-cow.webp'
 import teenieSetIcon from '../assets/global/teenieping.webp'
 import pokemonSetIcon from '../assets/pokemon/pikachu.png'
@@ -497,7 +496,6 @@ const SpellingTester = ({
       successAlt="Great spelling!"
       failureAlt="Keep trying!"
       className="flex w-full flex-col items-center"
-      style={{ gap: uiTokens.sectionGap }}
     >
       <ActivitySetupControls
         isSetup={isSetup}
@@ -532,7 +530,6 @@ const SpellingTester = ({
         }
         isEditable={isEditable}
         starMax={10}
-        starStyle={{ marginTop: uiTokens.singleVerticalSpace }}
       />
 
       {isRunning && currentAnimal && (

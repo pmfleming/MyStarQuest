@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { uiTokens } from '../tokens'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
@@ -383,7 +382,6 @@ const AlphabetTester = ({
       successAlt="Great job!"
       failureAlt="Keep trying!"
       className="flex w-full flex-col items-center"
-      style={{ gap: uiTokens.sectionGap }}
     >
       <ActivitySetupControls
         isSetup={isSetup}
@@ -405,7 +403,6 @@ const AlphabetTester = ({
         }
         isEditable={isEditable}
         starMax={10}
-        starStyle={{ marginTop: uiTokens.singleVerticalSpace }}
       />
 
       {isRunning && currentTarget && (

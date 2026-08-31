@@ -1,4 +1,10 @@
-import { render, screen, waitFor, within } from '@testing-library/react'
+import {
+  cleanup,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import SpellingTester from '../../src/components/SpellingTester'
@@ -64,8 +70,11 @@ const defaultProps = {
 }
 
 describe('SpellingTester', () => {
-  it('uses teenie pictures as the default spelling set', async () => {
-    const { rerender } = render(<SpellingTester {...defaultProps} />)
+  it('offers teenie, animal, and Pokémon image sets', async () => {
+    const user = userEvent.setup()
+    const { rerender: rerenderTeenie } = render(
+      <SpellingTester {...defaultProps} />
+    )
 
     expect(screen.getByRole('radio', { name: 'Teenie' })).toHaveAttribute(
       'aria-checked',
@@ -73,7 +82,7 @@ describe('SpellingTester', () => {
     )
     expect(screen.getByRole('radio', { name: 'Animals' })).toBeInTheDocument()
 
-    rerender(<SpellingTester {...defaultProps} isRunning />)
+    rerenderTeenie(<SpellingTester {...defaultProps} isRunning />)
 
     await waitFor(() => {
       const image = screen.getByRole('img', {
@@ -82,13 +91,13 @@ describe('SpellingTester', () => {
 
       expect(teenieNames).toContain(image.getAttribute('alt'))
     })
-  })
 
-  it('offers animals using the new animal game assets', async () => {
+    cleanup()
     expect(ANIMAL_ASSETS).toHaveLength(75)
 
-    const user = userEvent.setup()
-    const { rerender } = render(<SpellingTester {...defaultProps} />)
+    const { rerender: rerenderAnimals } = render(
+      <SpellingTester {...defaultProps} />
+    )
 
     await user.click(screen.getByRole('radio', { name: 'Animals' }))
     expect(screen.getByRole('radio', { name: 'Animals' })).toHaveAttribute(
@@ -96,7 +105,7 @@ describe('SpellingTester', () => {
       'true'
     )
 
-    rerender(<SpellingTester {...defaultProps} isRunning />)
+    rerenderAnimals(<SpellingTester {...defaultProps} isRunning />)
 
     await waitFor(() => {
       const image = screen.getByRole('img')
@@ -106,14 +115,14 @@ describe('SpellingTester', () => {
 
       expect(animal?.image).toBe(image.getAttribute('src'))
     })
-  })
 
-  it('offers pokemon as the third word set and uses its asset filenames', async () => {
+    cleanup()
     expect(pokemonNames).toHaveLength(44)
     expect(pokemonNames).toEqual(expect.arrayContaining(addedPokemonNames))
 
-    const user = userEvent.setup()
-    const { rerender } = render(<SpellingTester {...defaultProps} />)
+    const { rerender: rerenderPokemon } = render(
+      <SpellingTester {...defaultProps} />
+    )
 
     const options = within(
       screen.getByRole('radiogroup', { name: 'Spelling pictures' })
@@ -128,7 +137,7 @@ describe('SpellingTester', () => {
       'true'
     )
 
-    rerender(<SpellingTester {...defaultProps} isRunning />)
+    rerenderPokemon(<SpellingTester {...defaultProps} isRunning />)
 
     await waitFor(() => {
       const image = screen.getByRole('img', {

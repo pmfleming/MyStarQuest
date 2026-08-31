@@ -28,7 +28,7 @@ const spaceTheme = {
 }
 
 describe('waterToiletAssets', () => {
-  it('returns the shared princess in-chore images for water and toilet state', () => {
+  it('returns princess state images and no assets for other themes', () => {
     expect(getWaterImage(princessTheme, 'full')).toContain('flask-full')
     expect(getWaterImage(princessTheme, 'twothirds')).toContain(
       'flask-twothirds'
@@ -37,9 +37,6 @@ describe('waterToiletAssets', () => {
     expect(getWaterImage(princessTheme, 'empty')).toContain('drink-success')
     expect(getToiletImage(princessTheme, 'notpeepee')).toContain('notpeepee')
     expect(getToiletImage(princessTheme, 'didpeepee')).toContain('didpeepee')
-  })
-
-  it('returns no themed in-chore images outside princess theme', () => {
     expect(getWaterImage(spaceTheme, 'full')).toBeNull()
     expect(getToiletImage(spaceTheme, 'didpeepee')).toBeNull()
   })

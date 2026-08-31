@@ -21,18 +21,14 @@ const TAIPEI_LOCATION = {
 } as const
 
 describe('solar helpers', () => {
-  it('counts the day of year correctly', () => {
+  it('derives day number and seasonal solar declination', () => {
     expect(getDayOfYear(new Date(2026, 0, 1))).toBe(1)
     expect(getDayOfYear(new Date(2026, 11, 31))).toBe(365)
-  })
 
-  it('keeps declination near zero around the March equinox', () => {
     const declination = getSolarDeclinationDegrees(new Date(2026, 2, 20))
 
     expect(Math.abs(declination)).toBeLessThan(1.5)
-  })
 
-  it('tilts north in June and south in December', () => {
     const juneDeclination = getSolarDeclinationDegrees(new Date(2026, 5, 21))
     const decemberDeclination = getSolarDeclinationDegrees(
       new Date(2026, 11, 21)
@@ -40,9 +36,7 @@ describe('solar helpers', () => {
 
     expect(juneDeclination).toBeGreaterThan(20)
     expect(decemberDeclination).toBeLessThan(-20)
-  })
 
-  it('returns opposite declination directions across the equinoxes', () => {
     const septemberDeclination = getSolarDeclinationDegrees(
       new Date(2026, 8, 22)
     )
@@ -50,7 +44,7 @@ describe('solar helpers', () => {
     expect(Math.abs(septemberDeclination)).toBeLessThan(2)
   })
 
-  it('returns ordered Amsterdam solar phases for a spring date', () => {
+  it('returns ordered solar phases and expanded twilight windows', () => {
     const times = getSolarTimes(new Date(2026, 2, 25))
 
     expect(times.sunriseMinutes).toBeLessThan(times.daylightStartMinutes)
@@ -59,21 +53,27 @@ describe('solar helpers', () => {
     expect(times.phaseAtMinutes(times.sunriseMinutes)).toBe('sunrise')
     expect(times.phaseAtMinutes(times.daylightStartMinutes)).toBe('day')
     expect(times.phaseAtMinutes(times.daylightEndMinutes)).toBe('sunset')
-  })
 
-  it('uses sunrise and sunset as the expanded dawn and twilight windows', () => {
-    const times = getSolarTimes(new Date(2026, 5, 21))
+    const solsticeTimes = getSolarTimes(new Date(2026, 5, 21))
 
-    expect(times.isNightAtMinutes(times.sunriseMinutes - 1)).toBe(true)
-    expect(times.phaseAtMinutes(times.sunriseMinutes + 10)).toBe('sunrise')
-    expect(times.isDaylightAtMinutes(times.daylightStartMinutes + 10)).toBe(
-      true
+    expect(
+      solsticeTimes.isNightAtMinutes(solsticeTimes.sunriseMinutes - 1)
+    ).toBe(true)
+    expect(
+      solsticeTimes.phaseAtMinutes(solsticeTimes.sunriseMinutes + 10)
+    ).toBe('sunrise')
+    expect(
+      solsticeTimes.isDaylightAtMinutes(solsticeTimes.daylightStartMinutes + 10)
+    ).toBe(true)
+    expect(solsticeTimes.phaseAtMinutes(solsticeTimes.sunsetMinutes - 10)).toBe(
+      'sunset'
     )
-    expect(times.phaseAtMinutes(times.sunsetMinutes - 10)).toBe('sunset')
-    expect(times.isNightAtMinutes(times.sunsetMinutes + 1)).toBe(true)
+    expect(
+      solsticeTimes.isNightAtMinutes(solsticeTimes.sunsetMinutes + 1)
+    ).toBe(true)
   })
 
-  it('builds Amsterdam local noon as the correct UTC instant across offsets', () => {
+  it('converts location dates and clocks correctly across DST and cities', () => {
     const winterNoon = buildLocationDateTime(
       new Date(2026, 0, 15),
       12 * 60,
@@ -89,9 +89,7 @@ describe('solar helpers', () => {
 
     expect(winterNoon.toISOString()).toBe('2026-01-15T11:00:00.000Z')
     expect(dstTransitionNoon.toISOString()).toBe('2026-03-29T10:00:00.000Z')
-  })
 
-  it('reads the current clock time in Amsterdam from a UTC instant', () => {
     const locationClockTime = getLocationClockTime(
       new Date(Date.UTC(2026, 2, 29, 10, 15, 45)),
       DEFAULT_LOCATION
@@ -101,9 +99,7 @@ describe('solar helpers', () => {
     expect(locationClockTime.minutes).toBe(15)
     expect(locationClockTime.seconds).toBe(45)
     expect(locationClockTime.totalMinutes).toBe(12 * 60 + 15)
-  })
 
-  it('applies seasonal DST differences when reading city clock times', () => {
     const summerInstant = new Date(Date.UTC(2026, 5, 15, 10, 0, 0))
     const winterInstant = new Date(Date.UTC(2026, 0, 15, 10, 0, 0))
 
@@ -116,7 +112,7 @@ describe('solar helpers', () => {
     expect(getLocationClockTime(winterInstant, TAIPEI_LOCATION).hours).toBe(18)
   })
 
-  it('aligns the subsolar longitude with Amsterdam at local solar noon', () => {
+  it('tracks subsolar latitude and longitude over place and time', () => {
     const date = new Date(2026, 2, 25)
     const solarTimes = getSolarTimes(date, DEFAULT_LOCATION)
     const solarNoonMinutes =
@@ -132,9 +128,7 @@ describe('solar helpers', () => {
     expect(
       Math.abs(sunPosition.longitude - DEFAULT_LOCATION.longitude)
     ).toBeLessThan(0.5)
-  })
 
-  it('keeps the subsolar latitude stable while longitude shifts by half a globe over 12 hours', () => {
     const midnightUtc = getSunPosition(new Date(Date.UTC(2026, 5, 21, 0, 0, 0)))
     const middayUtc = getSunPosition(new Date(Date.UTC(2026, 5, 21, 12, 0, 0)))
     const longitudeDifference = Math.abs(

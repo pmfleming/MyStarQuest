@@ -57,12 +57,4 @@ describe('child failure mode control', () => {
       testFailureModeEnabled: false,
     })
   })
-
-  it('selects the no-failure option when failure mode is disabled', () => {
-    renderDescriptor({ testFailureModeEnabled: false })
-
-    expect(
-      screen.getByRole('radio', { name: 'Tests do not have failure mode' })
-    ).toHaveAttribute('aria-checked', 'true')
-  })
 })

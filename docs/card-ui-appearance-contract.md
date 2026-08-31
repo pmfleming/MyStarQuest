@@ -1,6 +1,6 @@
 # Card UI Appearance Contract
 
-Status: **Normative design contract; not yet implemented or enforced**
+Status: **Normative design contract; enforced through shared card and activity primitives**
 
 This document defines the visual and content contract for every card in MyStarQuest. A card may display different controls or states, but it must keep the same shell geometry, internal regions, action placement, and labeling rules. Content may change a card's height; shell geometry means its width, border, radius, gutters, and footer alignment remain consistent.
 
@@ -51,6 +51,7 @@ All measurements are CSS pixels.
 | Horizontal gutter               |                       12px | Left and right internal padding.                                                                                                                      |
 | Top/bottom gutter               |                       12px | Top and bottom internal padding.                                                                                                                      |
 | Region spacing                  |                       24px | Between header, body, optional status/stars, and footer.                                                                                              |
+| Activity setup row spacing      |                       24px | Between every top-level setup control, including mode, item count, and star reward rows.                                                              |
 | Card-to-card spacing            |                       24px | Vertical space between adjacent cards.                                                                                                                |
 | Header minimum height           |                       60px | Content is vertically centered; it may grow for wrapping or controls.                                                                                 |
 | Footer minimum height           |                       60px | May grow as one row for accessibility text scaling.                                                                                                   |
@@ -85,6 +86,7 @@ Header content must align to the card's left gutter. A trailing status element m
 
 - Body content must use the theme body font unless it is itself a heading.
 - Related controls use a 10px vertical gap; distinct control groups use a 16px gap.
+- Activity setup controls form one shared stack with 24px between every top-level row. Feature renderers must not add local margins or override this gap.
 - Text and controls align to the same left and right gutters as the header.
 - Star counts, progress, and outcome information appear after descriptive content and before the footer.
 - Validation or failure feedback appears next to the affected control. It must not displace the footer to another visual order.

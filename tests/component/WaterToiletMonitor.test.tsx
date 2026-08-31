@@ -23,8 +23,8 @@ const princessTheme = {
 }
 
 describe('WaterToiletMonitor', () => {
-  it('shows notpeepee while in-chore before toilet completion', () => {
-    render(
+  it('shows both interactive toilet states', () => {
+    const { rerender } = render(
       <WaterToiletMonitor
         theme={princessTheme}
         waterLevel="full"
@@ -39,10 +39,8 @@ describe('WaterToiletMonitor', () => {
       'src',
       expect.stringContaining('notpeepee')
     )
-  })
 
-  it('shows didpeepee while in-chore after toilet completion', () => {
-    render(
+    rerender(
       <WaterToiletMonitor
         theme={princessTheme}
         waterLevel="full"
@@ -52,15 +50,15 @@ describe('WaterToiletMonitor', () => {
       />
     )
 
-    const toiletImage = screen.getByAltText('Has gone to the toilet')
-    expect(toiletImage).toHaveAttribute(
+    const completedToiletImage = screen.getByAltText('Has gone to the toilet')
+    expect(completedToiletImage).toHaveAttribute(
       'src',
       expect.stringContaining('didpeepee')
     )
   })
 
-  it('shows both water and toilet tiles when the completed state is successful', () => {
-    render(
+  it('shows successful and unsuccessful completed tile states', () => {
+    const { rerender } = render(
       <WaterToiletMonitor
         theme={princessTheme}
         waterLevel="empty"
@@ -82,10 +80,8 @@ describe('WaterToiletMonitor', () => {
       'src',
       expect.stringContaining('didpeepee')
     )
-  })
 
-  it('shows both water and toilet tiles when the completed state is unsuccessful', () => {
-    render(
+    rerender(
       <WaterToiletMonitor
         theme={princessTheme}
         waterLevel="full"
@@ -96,14 +92,14 @@ describe('WaterToiletMonitor', () => {
       />
     )
 
-    const waterImage = screen.getByAltText('Full flask')
-    const toiletImage = screen.getByAltText('Has not gone to the toilet')
+    const failedWaterImage = screen.getByAltText('Full flask')
+    const failedToiletImage = screen.getByAltText('Has not gone to the toilet')
 
-    expect(waterImage).toHaveAttribute(
+    expect(failedWaterImage).toHaveAttribute(
       'src',
       expect.stringContaining('flask-full')
     )
-    expect(toiletImage).toHaveAttribute(
+    expect(failedToiletImage).toHaveAttribute(
       'src',
       expect.stringContaining('notpeepee')
     )

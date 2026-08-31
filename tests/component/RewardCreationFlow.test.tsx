@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import RewardCreationFlow from '../../src/pages/RewardCreationFlow'
 import { ThemeContext, themes } from '../../src/contexts/ThemeContext'
@@ -31,8 +31,9 @@ const renderFlow = ({
 }
 
 describe('RewardCreationFlow', () => {
-  it('orders title, image, then stars', () => {
-    renderFlow()
+  it('orders the fields and saves the staged reward draft', async () => {
+    const user = userEvent.setup()
+    const { onSave } = renderFlow()
 
     const titleInput = screen.getByRole('textbox', { name: 'Reward name' })
     const selectedImage = screen.getByLabelText('Selected: No image')
@@ -46,11 +47,6 @@ describe('RewardCreationFlow', () => {
       selectedImage.compareDocumentPosition(starControl) &
         Node.DOCUMENT_POSITION_FOLLOWING
     ).toBeTruthy()
-  })
-
-  it('saves the staged reward draft', async () => {
-    const user = userEvent.setup()
-    const { onSave } = renderFlow()
 
     await user.clear(screen.getByRole('textbox', { name: 'Reward name' }))
     await user.type(
@@ -70,7 +66,7 @@ describe('RewardCreationFlow', () => {
     })
   })
 
-  it('offers Pikachu as a reward image', async () => {
+  it('selects image artwork and discards a separate staged draft', async () => {
     const user = userEvent.setup()
     const { onSave } = renderFlow()
 
@@ -82,10 +78,8 @@ describe('RewardCreationFlow', () => {
     expect(onSave).toHaveBeenCalledWith(
       expect.objectContaining({ imageKey: 'pikachu' })
     )
-  })
 
-  it('discards the staged reward draft', async () => {
-    const user = userEvent.setup()
+    cleanup()
     const { onCancel } = renderFlow()
 
     const discardButton = screen.getByRole('button', { name: 'Discard reward' })

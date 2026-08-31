@@ -37,24 +37,3 @@ export const ANIMAL_LOCATION_IMAGE_BY_NAME: Record<AnimalLocationName, string> =
     America: americaImage,
     Earth: earthImage,
   }
-
-const includesAny = (text: string, values: string[]) =>
-  values.some((value) => text.includes(value))
-
-export const getAnimalLocationName = (text: string): AnimalLocationName => {
-  const value = text.toLowerCase()
-  if (value.includes('antarctic')) return 'Antarctica'
-  if (value.includes('arctic')) return 'Arctic'
-  if (includesAny(value, ['ocean', 'sea'])) return 'Ocean'
-  if (includesAny(value, ['world', 'earth', 'everywhere'])) return 'Worldwide'
-  if (value.includes('africa')) return 'Africa'
-  if (value.includes('asia') || value.includes('china')) return 'Asia'
-  if (value.includes('europe')) return 'Europe'
-  if (includesAny(value, ['australia', 'new zealand', 'new guinea', 'oceania']))
-    return 'Australia'
-  if (value.includes('america')) return 'America'
-  return 'Earth'
-}
-
-export const getAnimalLocationImage = (text: string) =>
-  ANIMAL_LOCATION_IMAGE_BY_NAME[getAnimalLocationName(text)]

@@ -51,33 +51,3 @@ export const ANIMAL_HABITAT_IMAGE_BY_NAME: Record<AnimalHabitatName, string> = {
   Burrow: burrowImage,
   Nature: natureImage,
 }
-
-const includesAny = (text: string, values: string[]) =>
-  values.some((value) => text.includes(value))
-
-export const getAnimalHabitatName = (text: string): AnimalHabitatName => {
-  const value = text.toLowerCase()
-  const habitats: Array<[string[], AnimalHabitatName]> = [
-    [['ocean', 'sea', 'reef'], 'Ocean'],
-    [['forest', 'woodland', 'jungle'], 'Forest'],
-    [['grassland', 'savanna', 'meadow'], 'Grassland'],
-    [['desert', 'sand'], 'Desert'],
-    [['wetland', 'swamp', 'marsh', 'mangrove'], 'Wetland'],
-    [['mountain', 'cliff'], 'Mountain'],
-    [['river', 'stream'], 'River'],
-    [['pond', 'lake'], 'Pond'],
-    [['tundra', 'ice'], 'Tundra'],
-    [['farm', 'field'], 'Farm'],
-    [['garden', 'town', 'building', 'roof'], 'Town'],
-    [['tree', 'canopy', 'hollow'], 'Trees'],
-    [['cave', 'rock'], 'Cave'],
-    [['burrow', 'tunnel', 'soil', 'underground'], 'Burrow'],
-  ]
-
-  return (
-    habitats.find(([needles]) => includesAny(value, needles))?.[1] ?? 'Nature'
-  )
-}
-
-export const getAnimalHabitatImage = (text: string) =>
-  ANIMAL_HABITAT_IMAGE_BY_NAME[getAnimalHabitatName(text)]

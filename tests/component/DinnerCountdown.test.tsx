@@ -4,11 +4,11 @@ import DinnerCountdown from '../../src/components/DinnerCountdown'
 import { themes } from '../../src/contexts/ThemeContext'
 
 describe('DinnerCountdown', () => {
-  it('uses visual setup controls for dinner minutes and bites', () => {
+  it('uses visual dinner controls and enforces the twenty-slice maximum', () => {
     const onAdjustTime = vi.fn()
     const onAdjustBites = vi.fn()
 
-    render(
+    const { rerender } = render(
       <DinnerCountdown
         theme={themes.princess}
         duration={10 * 60}
@@ -33,10 +33,8 @@ describe('DinnerCountdown', () => {
 
     expect(onAdjustTime).toHaveBeenCalledWith(5 * 60)
     expect(onAdjustBites).toHaveBeenCalledWith(-1)
-  })
 
-  it('allows up to twenty dinner plate slices', () => {
-    render(
+    rerender(
       <DinnerCountdown
         theme={themes.princess}
         duration={10 * 60}

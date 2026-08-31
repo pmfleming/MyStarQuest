@@ -4,7 +4,7 @@ import StarDisplay from '../../src/components/ui/StarDisplay'
 import { themes } from '../../src/contexts/ThemeContext'
 
 describe('StarDisplay', () => {
-  it('uses a compact editable count only when stars exceed ten', () => {
+  it('switches to a compact count and keeps editable controls responsive', () => {
     const { rerender } = render(
       <StarDisplay
         count={10}
@@ -28,10 +28,8 @@ describe('StarDisplay', () => {
 
     expect(screen.getByRole('img', { name: '11 stars' })).toBeInTheDocument()
     expect(screen.getByText('11')).toBeInTheDocument()
-  })
 
-  it('makes stepper controls interactive immediately', () => {
-    render(
+    rerender(
       <StarDisplay
         count={3}
         editable

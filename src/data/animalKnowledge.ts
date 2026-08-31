@@ -1,3 +1,7 @@
+import type { AnimalFoodName } from './animalFoodAssets'
+import type { AnimalHabitatName } from './animalHabitatAssets'
+import type { AnimalLocationName } from './animalLocationAssets'
+
 export type AnimalFact = {
   label: string
   visual: string
@@ -6,6 +10,9 @@ export type AnimalFact = {
 
 export type AnimalKnowledge = {
   name: string
+  locationCategory: AnimalLocationName
+  habitatCategory: AnimalHabitatName
+  foodCategory: AnimalFoodName
   habitat: AnimalFact[]
   food: AnimalFact[]
   abilities: AnimalFact[]
@@ -17,6 +24,12 @@ type AnimalKnowledgeSeed = {
   habitat: readonly FactSeed[]
   food: readonly FactSeed[]
   abilities: readonly FactSeed[]
+}
+
+type AnimalDisplayCategories = {
+  location: AnimalLocationName
+  habitat: AnimalHabitatName
+  food: AnimalFoodName
 }
 
 const makeFacts = (facts: readonly FactSeed[]): AnimalFact[] =>
@@ -1529,15 +1542,105 @@ const KNOWLEDGE_SEEDS = {
   },
 } satisfies Record<string, AnimalKnowledgeSeed>
 
-export const ANIMAL_KNOWLEDGE: AnimalKnowledge[] = Object.entries(
-  KNOWLEDGE_SEEDS
+const DISPLAY_CATEGORY_SEEDS = {
+  alpaca: { location: 'America', habitat: 'Mountain', food: 'Plants' },
+  ant: { location: 'Worldwide', habitat: 'Burrow', food: 'Insects' },
+  armadillo: { location: 'America', habitat: 'Grassland', food: 'Insects' },
+  bat: { location: 'Worldwide', habitat: 'Cave', food: 'Insects' },
+  bear: { location: 'Earth', habitat: 'Forest', food: 'Fish' },
+  beaver: { location: 'Earth', habitat: 'River', food: 'Plants' },
+  bee: { location: 'Worldwide', habitat: 'Trees', food: 'Nectar' },
+  'blue-whale': { location: 'Ocean', habitat: 'Ocean', food: 'Krill' },
+  bluebird: { location: 'America', habitat: 'Grassland', food: 'Insects' },
+  butterfly: { location: 'Worldwide', habitat: 'Grassland', food: 'Nectar' },
+  camel: { location: 'Earth', habitat: 'Desert', food: 'Plants' },
+  cat: { location: 'Worldwide', habitat: 'Town', food: 'Meat' },
+  cheetah: { location: 'Africa', habitat: 'Grassland', food: 'Meat' },
+  chicken: { location: 'Worldwide', habitat: 'Farm', food: 'Seeds' },
+  chimpanzee: { location: 'Africa', habitat: 'Forest', food: 'Fruit' },
+  cow: { location: 'Worldwide', habitat: 'Farm', food: 'Plants' },
+  crab: { location: 'Ocean', habitat: 'Ocean', food: 'Shellfish' },
+  crocodile: { location: 'Earth', habitat: 'River', food: 'Fish' },
+  deer: { location: 'Worldwide', habitat: 'Forest', food: 'Plants' },
+  dog: { location: 'Worldwide', habitat: 'Town', food: 'Food' },
+  dolphin: { location: 'Ocean', habitat: 'Ocean', food: 'Fish' },
+  duck: { location: 'Worldwide', habitat: 'Wetland', food: 'Plants' },
+  eagle: { location: 'Earth', habitat: 'Mountain', food: 'Meat' },
+  elephant: { location: 'Earth', habitat: 'Grassland', food: 'Plants' },
+  flamingo: { location: 'Earth', habitat: 'Wetland', food: 'Shrimp' },
+  fox: { location: 'Worldwide', habitat: 'Forest', food: 'Meat' },
+  frog: { location: 'Worldwide', habitat: 'Pond', food: 'Insects' },
+  gecko: { location: 'Worldwide', habitat: 'Trees', food: 'Insects' },
+  giraffe: { location: 'Africa', habitat: 'Grassland', food: 'Plants' },
+  goat: { location: 'Worldwide', habitat: 'Mountain', food: 'Plants' },
+  gorilla: { location: 'Africa', habitat: 'Forest', food: 'Plants' },
+  'green-tree-python': {
+    location: 'Australia',
+    habitat: 'Forest',
+    food: 'Prey',
+  },
+  hedgehog: { location: 'Earth', habitat: 'Grassland', food: 'Insects' },
+  hippo: { location: 'Africa', habitat: 'River', food: 'Plants' },
+  horse: { location: 'Worldwide', habitat: 'Farm', food: 'Plants' },
+  ibis: { location: 'Worldwide', habitat: 'Wetland', food: 'Insects' },
+  jackal: { location: 'Earth', habitat: 'Grassland', food: 'Meat' },
+  jaguar: { location: 'America', habitat: 'Forest', food: 'Meat' },
+  kangaroo: { location: 'Australia', habitat: 'Grassland', food: 'Plants' },
+  kiwi: { location: 'Australia', habitat: 'Forest', food: 'Worms' },
+  koala: { location: 'Australia', habitat: 'Forest', food: 'Plants' },
+  lion: { location: 'Africa', habitat: 'Grassland', food: 'Meat' },
+  llama: { location: 'America', habitat: 'Mountain', food: 'Plants' },
+  meerkat: { location: 'Africa', habitat: 'Desert', food: 'Insects' },
+  mole: { location: 'Earth', habitat: 'Burrow', food: 'Worms' },
+  monkey: { location: 'Earth', habitat: 'Forest', food: 'Fruit' },
+  mouse: { location: 'Worldwide', habitat: 'Farm', food: 'Seeds' },
+  newt: { location: 'Earth', habitat: 'Pond', food: 'Worms' },
+  octopus: { location: 'Ocean', habitat: 'Ocean', food: 'Shellfish' },
+  otter: { location: 'Worldwide', habitat: 'River', food: 'Fish' },
+  owl: { location: 'Worldwide', habitat: 'Forest', food: 'Meat' },
+  panda: { location: 'Asia', habitat: 'Forest', food: 'Bamboo' },
+  parrot: { location: 'Worldwide', habitat: 'Forest', food: 'Fruit' },
+  penguin: { location: 'Earth', habitat: 'Ocean', food: 'Fish' },
+  pig: { location: 'Worldwide', habitat: 'Farm', food: 'Plants' },
+  'polar-bear': { location: 'Arctic', habitat: 'Tundra', food: 'Seals' },
+  rabbit: { location: 'Worldwide', habitat: 'Grassland', food: 'Plants' },
+  raccoon: { location: 'America', habitat: 'Forest', food: 'Fruit' },
+  rhino: { location: 'Earth', habitat: 'Grassland', food: 'Plants' },
+  rooster: { location: 'Worldwide', habitat: 'Farm', food: 'Seeds' },
+  seal: { location: 'Worldwide', habitat: 'Ocean', food: 'Fish' },
+  shark: { location: 'Ocean', habitat: 'Ocean', food: 'Fish' },
+  sheep: { location: 'Worldwide', habitat: 'Grassland', food: 'Plants' },
+  skunk: { location: 'America', habitat: 'Forest', food: 'Insects' },
+  sloth: { location: 'America', habitat: 'Forest', food: 'Plants' },
+  snail: { location: 'Worldwide', habitat: 'Nature', food: 'Plants' },
+  swan: { location: 'Worldwide', habitat: 'Wetland', food: 'Plants' },
+  tarantula: { location: 'Worldwide', habitat: 'Burrow', food: 'Insects' },
+  tiger: { location: 'Asia', habitat: 'Forest', food: 'Meat' },
+  tortoise: { location: 'Earth', habitat: 'Grassland', food: 'Plants' },
+  turkey: { location: 'Worldwide', habitat: 'Forest', food: 'Seeds' },
+  vole: { location: 'Earth', habitat: 'Grassland', food: 'Plants' },
+  wolf: { location: 'Earth', habitat: 'Forest', food: 'Deer' },
+  yak: { location: 'Asia', habitat: 'Mountain', food: 'Plants' },
+  zebra: { location: 'Africa', habitat: 'Grassland', food: 'Plants' },
+} satisfies Record<keyof typeof KNOWLEDGE_SEEDS, AnimalDisplayCategories>
+
+export const ANIMAL_KNOWLEDGE: AnimalKnowledge[] = (
+  Object.entries(KNOWLEDGE_SEEDS) as Array<
+    [keyof typeof KNOWLEDGE_SEEDS, AnimalKnowledgeSeed]
+  >
 )
-  .map(([name, seed]) => ({
-    name,
-    habitat: makeFacts(seed.habitat),
-    food: makeFacts(seed.food),
-    abilities: makeFacts(seed.abilities),
-  }))
+  .map(([name, seed]) => {
+    const categories = DISPLAY_CATEGORY_SEEDS[name]
+    return {
+      name,
+      locationCategory: categories.location,
+      habitatCategory: categories.habitat,
+      foodCategory: categories.food,
+      habitat: makeFacts(seed.habitat),
+      food: makeFacts(seed.food),
+      abilities: makeFacts(seed.abilities),
+    }
+  })
   .sort((a, b) => a.name.localeCompare(b.name))
 
 export const ANIMAL_KNOWLEDGE_BY_NAME = new Map(

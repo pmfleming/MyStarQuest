@@ -1,4 +1,5 @@
 import {
+  cleanup,
   fireEvent,
   render,
   screen,
@@ -78,7 +79,6 @@ describe('StandardActionList card contract', () => {
     for (const utilityAction of actions.slice(1)) {
       const artwork = utilityAction.querySelector('img')
       expect(artwork).toHaveClass('h-full', 'w-full', 'object-contain')
-      expect(artwork).toHaveStyle({ transform: 'scale(1.7)' })
       expect(artwork?.parentElement).toHaveStyle({
         width: '52px',
         height: '52px',
@@ -86,7 +86,7 @@ describe('StandardActionList card contract', () => {
     }
   })
 
-  it('resets immediately and exposes a busy state', async () => {
+  it('resets immediately, exposes busy state, and uses themed artwork', async () => {
     let finishReset: (() => void) | undefined
     const reset = vi.fn(
       () =>
@@ -100,7 +100,6 @@ describe('StandardActionList card contract', () => {
       utilityAction: {
         label: 'Reset',
         ariaLabel: (value) => `Reset ${value.title}`,
-        icon: <img src="/reset.png" alt="" />,
         exits: false,
         variant: 'neutral',
         onClick: reset,
@@ -121,31 +120,27 @@ describe('StandardActionList card contract', () => {
         screen.getByRole('button', { name: 'Reset Arithmetic' })
       ).not.toHaveAttribute('aria-busy')
     )
+    expect(
+      screen
+        .getByRole('button', { name: 'Reset Arithmetic' })
+        .querySelector('img')
+    ).toHaveAttribute('src', expect.stringContaining('Royal%20orbit%20reset'))
+
+    cleanup()
+    renderList({
+      theme: themes.space,
+      utilityAction: {
+        label: 'Reset',
+        exits: false,
+        variant: 'neutral',
+        onClick: vi.fn(),
+      },
+    })
+
+    expect(
+      screen.getByRole('button', { name: 'Reset' }).querySelector('img')
+    ).toHaveAttribute('src', expect.stringContaining('assets/global/reset.svg'))
   })
-
-  it.each([
-    ['princess', themes.princess, 'Royal%20orbit%20reset'],
-    ['generic', themes.space, 'assets/global/reset.svg'],
-  ])(
-    'uses the %s reset artwork when no override is supplied',
-    (_, theme, marker) => {
-      renderList({
-        theme,
-        utilityAction: {
-          label: 'Reset',
-          exits: false,
-          variant: 'neutral',
-          onClick: vi.fn(),
-        },
-      })
-
-      const resetButton = screen.getByRole('button', { name: 'Reset' })
-      expect(resetButton.querySelector('img')).toHaveAttribute(
-        'src',
-        expect.stringContaining(marker)
-      )
-    }
-  )
 
   it('keeps the card visible and reports a failed deletion', async () => {
     const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)

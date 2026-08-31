@@ -5,13 +5,10 @@ import {
 } from '../../src/ui/choreModeDefinitions'
 
 describe('choreModeDefinitions', () => {
-  it('keeps the Water/Toilet primary action visible while in-chore', () => {
+  it('defines active monitor button visibility and labels', () => {
     expect(shouldHidePresetPrimaryButton('watertoiletcheck', 'activity')).toBe(
       false
     )
-  })
-
-  it('uses a finish label for activity monitors once active', () => {
     expect(getActivityPrimaryActionLabel('setup')).toBe('Run')
     expect(getActivityPrimaryActionLabel('activity')).toBe('Finish')
   })
