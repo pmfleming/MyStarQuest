@@ -22,20 +22,19 @@ export const AppDeviceFrame = ({
   <div
     className={`flex w-full overflow-hidden transition-colors duration-500 ${
       isNativePlatform
-        ? 'items-stretch justify-start'
-        : 'items-center justify-center'
+        ? 'native-safe-area-frame items-stretch justify-start'
+        : 'items-center justify-center p-5'
     }`}
     style={{
       height: '100dvh',
       background: isNativePlatform ? theme.colors.bg : '#000',
-      padding: isNativePlatform ? '0px' : '20px',
       boxSizing: 'border-box',
     }}
   >
     <div
       className={contentClassName}
       style={{
-        height: isNativePlatform ? '100dvh' : `${browserFrameHeight}px`,
+        height: isNativePlatform ? '100%' : `${browserFrameHeight}px`,
         maxWidth: isNativePlatform ? '100%' : `${uiTokens.deviceMaxWidth}px`,
         borderRadius: isNativePlatform ? '0px' : '40px',
         boxShadow: isNativePlatform

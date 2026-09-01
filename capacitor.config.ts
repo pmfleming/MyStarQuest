@@ -8,6 +8,12 @@ const config: CapacitorConfig = {
     FirebaseAuthentication: {
       providers: ['google.com'],
     },
+    SystemBars: {
+      insetsHandling: 'css',
+      style: 'DEFAULT',
+      hidden: false,
+      animation: 'NONE',
+    },
   },
 }
 
