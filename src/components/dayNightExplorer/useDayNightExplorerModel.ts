@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   useSelectedDate,
   useSolarTimes,
@@ -129,26 +129,8 @@ export default function useDayNightExplorerModel(
     useSolarSystem3D(planetSceneState)
 
   // Direct visual updates during dragging (bypassing React re-renders)
-  onUpdateRef.current = useCallback(
+  const updateEphemeralScene = useCallback(
     (nextMinutes: number, nextSeconds: number) => {
-      // 1. Digital Clock direct DOM updates
-      const formatted = formatTime(nextMinutes)
-      if (clock.digitalHourRef.current) {
-        clock.digitalHourRef.current.textContent = formatted.h
-      }
-      if (clock.digitalMinuteRef.current) {
-        clock.digitalMinuteRef.current.textContent = formatted.m
-      }
-      if (clock.digitalSecondRef.current) {
-        clock.digitalSecondRef.current.textContent = String(
-          Math.floor(nextSeconds)
-        ).padStart(2, '0')
-      }
-      if (clock.digitalAmpmRef.current) {
-        clock.digitalAmpmRef.current.textContent = formatted.ampm
-      }
-
-      // 2. Planet scene direct updates
       const ephemeralInstant = buildExplorerInstant(
         selectedDate,
         nextMinutes,
@@ -171,14 +153,14 @@ export default function useDayNightExplorerModel(
       calculationLocation,
       displayMode,
       selectedDate,
-      clock.digitalHourRef,
-      clock.digitalMinuteRef,
-      clock.digitalSecondRef,
-      clock.digitalAmpmRef,
       theme.fontFamily,
       updateSceneState,
     ]
   )
+
+  useEffect(() => {
+    onUpdateRef.current = updateEphemeralScene
+  }, [updateEphemeralScene])
 
   const handleFocusSelection = useCallback(
     (focusId: ExplorerFocusId) => {

@@ -111,20 +111,21 @@ const DashboardPage = () => {
   )
 
   useEffect(() => {
-    clearActivityIds()
-    setBiteCooldownEndsAt(null)
-    clearCheckTriggers()
+    const frame = requestAnimationFrame(() => {
+      clearActivityIds()
+      setBiteCooldownEndsAt(null)
+      clearCheckTriggers()
+    })
+    return () => cancelAnimationFrame(frame)
   }, [activeChildId, clearActivityIds, clearCheckTriggers, todayInfo.dateKey])
 
   useEffect(() => {
     if (!biteCooldownEndsAt) return
     const remaining = biteCooldownEndsAt - Date.now()
-    if (remaining <= 0) {
-      setBiteCooldownEndsAt(null)
-      return
-    }
-
-    const timer = setTimeout(() => setBiteCooldownEndsAt(null), remaining)
+    const timer = setTimeout(
+      () => setBiteCooldownEndsAt(null),
+      Math.max(0, remaining)
+    )
     return () => clearTimeout(timer)
   }, [biteCooldownEndsAt])
 

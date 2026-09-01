@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -22,8 +22,7 @@ const LoginPage = () => {
   const location = useLocation()
 
   const [isLoggingIn, setIsLoggingIn] = useState(false)
-  const [loginSuccess, setLoginSuccess] = useState(false)
-  const redirectPathRef = useRef('/')
+  const loginSuccess = !loading && Boolean(user)
   // 1. Add state for login errors
   const [error, setError] = useState<string | null>(null)
 
@@ -42,28 +41,15 @@ const LoginPage = () => {
   }
 
   useEffect(() => {
-    if (loading) return
-
-    if (user) {
-      redirectPathRef.current = getRedirectPath(location.state)
-      setLoginSuccess(true)
-      return
-    }
-
-    if (isLoggingIn) {
-      setIsLoggingIn(false)
-    }
-  }, [loading, user, location, isLoggingIn])
-
-  useEffect(() => {
     if (!loginSuccess) return
 
+    const redirectPath = getRedirectPath(location.state)
     const timer = window.setTimeout(() => {
-      navigate(redirectPathRef.current, { replace: true })
+      navigate(redirectPath, { replace: true })
     }, 900)
 
     return () => window.clearTimeout(timer)
-  }, [loginSuccess, navigate])
+  }, [location.state, loginSuccess, navigate])
 
   const isBusy = loading || isLoggingIn || loginSuccess
 

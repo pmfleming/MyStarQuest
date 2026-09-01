@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { explorerUi } from '../../lib/dayNightExplorer/dayNightExplorer.constants'
 import {
+  formatTime,
   getClockAngles,
   normalizeExactTime,
   normalizeMinutes,
@@ -41,7 +42,6 @@ const useExplorerClock = ({
   const { minutes, seconds: snapshotSeconds } = clockSnapshot
 
   const minutesRef = useRef(minutes)
-  minutesRef.current = minutes
 
   const svgRef = useRef<SVGSVGElement>(null)
   const hourHandRef = useRef<SVGGElement>(null)
@@ -87,6 +87,22 @@ const useExplorerClock = ({
           : 'none'
         secondHandRef.current.style.transform = `rotate(${secondAngle}deg)`
         lastRenderedSecondRef.current = nextSeconds
+      }
+
+      const formatted = formatTime(nextMinutes)
+      if (digitalHourRef.current) {
+        digitalHourRef.current.textContent = formatted.h
+      }
+      if (digitalMinuteRef.current) {
+        digitalMinuteRef.current.textContent = formatted.m
+      }
+      if (digitalSecondRef.current) {
+        digitalSecondRef.current.textContent = String(
+          Math.floor(nextSeconds)
+        ).padStart(2, '0')
+      }
+      if (digitalAmpmRef.current) {
+        digitalAmpmRef.current.textContent = formatted.ampm
       }
 
       // External callback for unthrottled visual updates (e.g. globe)
@@ -290,10 +306,10 @@ const useExplorerClock = ({
 
   return {
     minutes,
-    seconds: exactSecondsRef.current,
+    seconds: snapshotSeconds,
     isDragging,
     handTransition: isDragging ? 'none' : DEFAULT_HAND_TRANSITION,
-    ...getClockAngles(minutes, exactSecondsRef.current),
+    ...getClockAngles(minutes, snapshotSeconds),
     svgRef,
     hourHandRef,
     minuteHandRef,

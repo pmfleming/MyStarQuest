@@ -34,14 +34,13 @@ const Carousel = ({
 }: CarouselProps) => {
   const { theme } = useTheme()
   const safeItems = useMemo(() => items ?? [], [items])
-  const [currentIndex, setCurrentIndex] = useState(
+  const [selectedIndex, setSelectedIndex] = useState(
     Math.max(0, Math.min(initialIndex, safeItems.length - 1))
   )
-
-  useEffect(() => {
-    if (safeItems.length === 0) return
-    setCurrentIndex((prev) => Math.max(0, Math.min(prev, safeItems.length - 1)))
-  }, [safeItems.length])
+  const currentIndex = Math.max(
+    0,
+    Math.min(selectedIndex, safeItems.length - 1)
+  )
 
   useEffect(() => {
     if (!onChange) return
@@ -59,7 +58,9 @@ const Carousel = ({
 
   const navigate = (delta: number) => {
     if (safeItems.length <= 1) return
-    setCurrentIndex((index) => getWrappedIndex(index + delta, safeItems.length))
+    setSelectedIndex((index) =>
+      getWrappedIndex(index + delta, safeItems.length)
+    )
   }
 
   if (safeItems.length === 0) return null

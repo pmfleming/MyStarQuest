@@ -1,7 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import type { Theme } from '../../contexts/ThemeContext'
 import { getFloatingSurfaceStyle, uiTokens } from '../../tokens'
-import { appTabs, getTabIcon, type AppTabId } from '../../lib/tabNavigation'
+import {
+  appTabs,
+  getTabIcon,
+  getTabIndex,
+  type AppTabId,
+} from '../../lib/tabNavigation'
 
 interface BottomNavProps {
   theme: Theme
@@ -31,7 +36,14 @@ const BottomNav = ({ theme, activeTabId }: BottomNavProps) => {
             type="button"
             aria-label={tab.ariaLabel}
             aria-current={isActive ? 'page' : undefined}
-            onClick={() => navigate(tab.path)}
+            onClick={() =>
+              navigate(tab.path, {
+                state: {
+                  tabTransitionDirection:
+                    getTabIndex(tab.id) < getTabIndex(activeTabId) ? -1 : 1,
+                },
+              })
+            }
             style={{
               display: 'flex',
               alignItems: 'center',

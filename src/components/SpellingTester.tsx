@@ -413,9 +413,12 @@ const SpellingTester = ({
 
   useEffect(() => {
     if (isRunning && !currentAnimal) {
-      setProblemIndex(0)
-      setResultHistory([])
-      nextAnimal()
+      const frame = requestAnimationFrame(() => {
+        setProblemIndex(0)
+        setResultHistory([])
+        nextAnimal()
+      })
+      return () => cancelAnimationFrame(frame)
     }
   }, [currentAnimal, isRunning, nextAnimal])
 
@@ -423,7 +426,8 @@ const SpellingTester = ({
 
   useEffect(() => {
     if (!isRunning && !isCompleted) {
-      resetRoundState()
+      const frame = requestAnimationFrame(resetRoundState)
+      return () => cancelAnimationFrame(frame)
     }
   }, [isCompleted, isRunning, resetRoundState])
 

@@ -231,12 +231,14 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
       hasAnimatedRef.current = true
       prevTotalStarsRef.current = 0
       isRunningRef.current = false
-      setDisplayedCount(0)
-      setHeroState('pulsing')
-      setShowResult(true)
-      setStarStates([])
-      setIsRunning(false)
-      return
+      const frame = requestAnimationFrame(() => {
+        setDisplayedCount(0)
+        setHeroState('pulsing')
+        setShowResult(true)
+        setStarStates([])
+        setIsRunning(false)
+      })
+      return () => cancelAnimationFrame(frame)
     }
 
     if (totalStars !== prevTotalStarsRef.current) {

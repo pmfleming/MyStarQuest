@@ -53,14 +53,28 @@ export const ActiveChildProvider = ({
   children: React.ReactNode
 }) => {
   const { user } = useAuth()
+
+  return (
+    <ActiveChildStateProvider
+      key={user?.uid ?? 'signed-out'}
+      userId={user?.uid}
+    >
+      {children}
+    </ActiveChildStateProvider>
+  )
+}
+
+const ActiveChildStateProvider = ({
+  children,
+  userId,
+}: {
+  children: React.ReactNode
+  userId: string | undefined
+}) => {
   const { setTheme } = useTheme()
   const [state, setState] = useState<ActiveChildState>(() =>
-    readStoredState(null)
+    readStoredState(userId)
   )
-
-  useEffect(() => {
-    setState(readStoredState(user?.uid))
-  }, [user?.uid])
 
   useEffect(() => {
     if (state.themeId) {
@@ -71,21 +85,21 @@ export const ActiveChildProvider = ({
   const persist = useCallback(
     (next: ActiveChildState) => {
       setState(next)
-      if (!user?.uid || !isBrowser) return
+      if (!userId || !isBrowser) return
       try {
         if (next.id) {
           window.localStorage.setItem(
-            `${STORAGE_PREFIX}:${user.uid}`,
+            `${STORAGE_PREFIX}:${userId}`,
             JSON.stringify(next)
           )
         } else {
-          window.localStorage.removeItem(`${STORAGE_PREFIX}:${user.uid}`)
+          window.localStorage.removeItem(`${STORAGE_PREFIX}:${userId}`)
         }
       } catch (error) {
         console.warn('Unable to persist active child selection', error)
       }
     },
-    [user?.uid]
+    [userId]
   )
 
   const setActiveChild = useCallback(

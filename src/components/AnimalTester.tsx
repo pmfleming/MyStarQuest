@@ -715,7 +715,10 @@ const AnimalTester = ({
   }, [])
 
   useEffect(() => {
-    if (!isRunning && !isCompleted) resetPlayState()
+    if (!isRunning && !isCompleted) {
+      const frame = requestAnimationFrame(resetPlayState)
+      return () => cancelAnimationFrame(frame)
+    }
   }, [isCompleted, isRunning, resetPlayState])
 
   const finishAnimal = useCallback(
@@ -752,7 +755,6 @@ const AnimalTester = ({
   useEffect(() => {
     if (!isRunning || isFinished || mode !== 'solo' || !animal) return
 
-    setVisibleSoloClues(1)
     let revealedClues = 1
     const clueCount = getTeachingFacts(animal, theme.id).length
     const timer = setInterval(() => {

@@ -41,7 +41,6 @@ export const useUserCollection = <T>({
 
   useEffect(() => {
     if (!userId) {
-      setItems([])
       onClear?.()
       return
     }
@@ -93,5 +92,5 @@ export const useUserCollection = <T>({
     whereEqualToValue,
   ])
 
-  return items
+  return userId ? items : []
 }

@@ -59,8 +59,10 @@ export const useCoalescedDocumentUpdates = <Patch extends FieldPatch>({
   const onErrorRef = useRef(onError)
   const mountedRef = useRef(true)
 
-  persistRef.current = persist
-  onErrorRef.current = onError
+  useEffect(() => {
+    persistRef.current = persist
+    onErrorRef.current = onError
+  }, [onError, persist])
 
   const settleOverride = useCallback((id: string, patch: Patch) => {
     if (!mountedRef.current) return

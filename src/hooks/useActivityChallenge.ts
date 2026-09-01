@@ -150,7 +150,10 @@ export const useActivityChallenge = ({
   }, [canStart, feedback, isRunning, onStart, problemIndex])
 
   useEffect(() => {
-    if (isSetup) resetChallenge()
+    if (isSetup) {
+      const frame = requestAnimationFrame(resetChallenge)
+      return () => cancelAnimationFrame(frame)
+    }
   }, [isSetup, resetChallenge])
 
   const consumeCheckTrigger = useCallback(

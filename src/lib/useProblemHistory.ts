@@ -39,7 +39,8 @@ export function useProblemHistory(resetKeys: unknown[] = []) {
   // Auto-clear when reset keys change (e.g. child switching)
   const resetKeySignature = JSON.stringify(resetKeys)
   useEffect(() => {
-    clearHistory()
+    const frame = requestAnimationFrame(clearHistory)
+    return () => cancelAnimationFrame(frame)
   }, [resetKeySignature, clearHistory])
 
   return {

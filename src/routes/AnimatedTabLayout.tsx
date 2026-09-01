@@ -1,7 +1,7 @@
-import { useEffect, useRef, type CSSProperties } from 'react'
+import { type CSSProperties } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { useTheme } from '../contexts/ThemeContext'
-import { getTabIdForPath, getTabIndex } from '../lib/tabNavigation'
+import { getTabIdForPath } from '../lib/tabNavigation'
 import { uiTokens } from '../tokens'
 import BottomNav from '../components/ui/BottomNav'
 import { AppDeviceFrame } from '../components/AppDeviceFrame'
@@ -17,17 +17,8 @@ const AnimatedTabLayout = () => {
   const { theme } = useTheme()
   const location = useLocation()
   const { isNativePlatform, browserFrameHeight } = useDeviceFrame()
-  const previousPathRef = useRef(location.pathname)
-
   const activeTabId = getTabIdForPath(location.pathname)
-  const incomingDirection = getTabTransitionDirection(
-    previousPathRef.current,
-    location.pathname
-  )
-
-  useEffect(() => {
-    previousPathRef.current = location.pathname
-  }, [location.pathname])
+  const incomingDirection = getTabTransitionDirection(location.state)
 
   const incomingTransform = `translate3d(${incomingDirection * 18}px, 0, 0)`
   const tabTransitionStyle: TabTransitionStyle = {
@@ -59,18 +50,8 @@ const AnimatedTabLayout = () => {
 
 export default AnimatedTabLayout
 
-const getTabTransitionDirection = (
-  previousPath: string,
-  nextPath: string
-): 1 | -1 => {
-  if (previousPath === nextPath) return 1
-
-  const previousTabId = getTabIdForPath(previousPath)
-  const nextTabId = getTabIdForPath(nextPath)
-  const previousIndex = previousTabId ? getTabIndex(previousTabId) : -1
-  const nextIndex = nextTabId ? getTabIndex(nextTabId) : -1
-
-  return previousIndex !== -1 && nextIndex !== -1 && nextIndex < previousIndex
-    ? -1
-    : 1
+const getTabTransitionDirection = (state: unknown): 1 | -1 => {
+  if (!state || typeof state !== 'object') return 1
+  if (!('tabTransitionDirection' in state)) return 1
+  return state.tabTransitionDirection === -1 ? -1 : 1
 }

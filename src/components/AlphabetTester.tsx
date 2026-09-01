@@ -157,8 +157,8 @@ const AlphabetTester = ({
       feedback === 'idle' &&
       !currentTarget
     ) {
-      setProblemIndex(0)
-      nextProblem()
+      const frame = requestAnimationFrame(nextProblem)
+      return () => cancelAnimationFrame(frame)
     }
   }, [isRunning, problemIndex, feedback, currentTarget, nextProblem])
 
@@ -211,16 +211,19 @@ const AlphabetTester = ({
 
   useEffect(() => {
     if (!isRunning && !isCompleted) {
-      clearHistory()
-      setProblemIndex(0)
-      setCurrentTarget('')
-      setCurrentImage('')
-      setCurrentChoices([])
-      setResultHistory([])
-      setIsFailurePending(false)
-      setFeedback('idle')
-      setWrongChoice(null)
-      queuedProblem.current = null
+      const frame = requestAnimationFrame(() => {
+        clearHistory()
+        setProblemIndex(0)
+        setCurrentTarget('')
+        setCurrentImage('')
+        setCurrentChoices([])
+        setResultHistory([])
+        setIsFailurePending(false)
+        setFeedback('idle')
+        setWrongChoice(null)
+        queuedProblem.current = null
+      })
+      return () => cancelAnimationFrame(frame)
     }
   }, [isRunning, isCompleted, clearHistory])
 

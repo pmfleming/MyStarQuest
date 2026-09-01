@@ -99,7 +99,6 @@ export function useRewards() {
   // ── Active child star balance subscription ──
   useEffect(() => {
     if (!user || !activeChildId) {
-      setActiveChildStars(0)
       return
     }
 
@@ -170,7 +169,7 @@ export function useRewards() {
 
   return {
     rewards,
-    activeChildStars,
+    activeChildStars: user && activeChildId ? activeChildStars : 0,
     titleDrafts,
     setTitleDraft,
     commitTitle,

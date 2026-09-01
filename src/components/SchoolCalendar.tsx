@@ -83,14 +83,17 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   const todayDateKey = getTodayDescriptor().dateKey
 
   useEffect(() => {
-    setViewDate((currentDate) => {
-      const selectedDate = parseDateKey(selectedDateKey)
-      const sameMonth =
-        currentDate.getFullYear() === selectedDate.getFullYear() &&
-        currentDate.getMonth() === selectedDate.getMonth()
+    const frame = requestAnimationFrame(() => {
+      setViewDate((currentDate) => {
+        const selectedDate = parseDateKey(selectedDateKey)
+        const sameMonth =
+          currentDate.getFullYear() === selectedDate.getFullYear() &&
+          currentDate.getMonth() === selectedDate.getMonth()
 
-      return sameMonth ? currentDate : selectedDate
+        return sameMonth ? currentDate : selectedDate
+      })
     })
+    return () => cancelAnimationFrame(frame)
   }, [selectedDateKey])
 
   useEffect(() => {
@@ -100,9 +103,11 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
     if (cached && cachedTs && Date.now() - Number(cachedTs) < CACHE_TTL_MS) {
       try {
         const parsed = JSON.parse(cached)
-        setEvents(parsed)
-        setLoaded(true)
-        return
+        const frame = requestAnimationFrame(() => {
+          setEvents(parsed)
+          setLoaded(true)
+        })
+        return () => cancelAnimationFrame(frame)
       } catch {
         // fall through to fetch
       }

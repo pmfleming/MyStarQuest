@@ -23,12 +23,10 @@ export const useDinnerCountdownState = ({
   timerStartedAt,
   onExpire,
 }: UseDinnerCountdownStateArgs) => {
-  const [, setTick] = useState(0)
+  const [now, setNow] = useState(() => Date.now())
   const [animSlice, setAnimSlice] = useState<number | null>(null)
   const [biteVis, setBiteVis] = useState(false)
   const prevBites = useRef(bitesLeft)
-  const now = Date.now()
-
   const liveRemainingFloat =
     isTimerRunning && timerStartedAt
       ? Math.max(0, remaining - (now - timerStartedAt) / 1000)
@@ -55,7 +53,8 @@ export const useDinnerCountdownState = ({
       if (interval !== undefined) window.clearInterval(interval)
       interval = undefined
       if (!document.hidden) {
-        interval = window.setInterval(() => setTick((tick) => tick + 1), 250)
+        setNow(Date.now())
+        interval = window.setInterval(() => setNow(Date.now()), 250)
       }
     }
 

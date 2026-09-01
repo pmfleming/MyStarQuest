@@ -123,20 +123,26 @@ const FieldVariant = ({
   const [animatingOut, setAnimatingOut] = useState<number[]>([])
 
   useEffect(() => {
-    if (displayMagnitude < prevCount && animate) {
-      const removedCount = prevCount - displayMagnitude
-      const removedIndices = Array.from(
-        { length: removedCount },
-        (_, i) => displayMagnitude + i
-      )
-      setAnimatingOut(removedIndices)
-      const timer = setTimeout(() => {
-        setAnimatingOut([])
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const frame = requestAnimationFrame(() => {
+      if (displayMagnitude < prevCount && animate) {
+        const removedCount = prevCount - displayMagnitude
+        const removedIndices = Array.from(
+          { length: removedCount },
+          (_, i) => displayMagnitude + i
+        )
+        setAnimatingOut(removedIndices)
+        timer = setTimeout(() => {
+          setAnimatingOut([])
+          setPrevCount(displayMagnitude)
+        }, 300)
+      } else {
         setPrevCount(displayMagnitude)
-      }, 300)
-      return () => clearTimeout(timer)
-    } else {
-      setPrevCount(displayMagnitude)
+      }
+    })
+    return () => {
+      cancelAnimationFrame(frame)
+      if (timer) clearTimeout(timer)
     }
   }, [displayMagnitude, prevCount, animate])
 
