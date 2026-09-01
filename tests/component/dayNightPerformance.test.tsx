@@ -1,3 +1,4 @@
+import { StrictMode } from 'react'
 import { act, render, renderHook } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { getClockImageLayers } from '../../src/components/dayNightExplorer/clockImageLayers'
@@ -55,6 +56,20 @@ describe('day/night performance safeguards', () => {
     expect(vi.getTimerCount()).toBeGreaterThan(0)
     unmount()
     expect(vi.getTimerCount()).toBe(0)
+  })
+
+  it('restarts the star animation after the Strict Mode effect replay', () => {
+    const { container } = render(
+      <StrictMode>
+        <StarInfoBox theme={themes.princess} totalStars={5} />
+      </StrictMode>
+    )
+
+    expect(vi.getTimerCount()).toBeGreaterThan(0)
+
+    act(() => vi.advanceTimersByTime(5000))
+
+    expect(container).toHaveTextContent('5')
   })
 
   it('renders Earth map data through the worker-compatible renderer', () => {

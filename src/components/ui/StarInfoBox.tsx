@@ -215,7 +215,13 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
     [schedulePhase]
   )
 
-  useEffect(() => cancelAnimation, [cancelAnimation])
+  useEffect(
+    () => () => {
+      cancelAnimation()
+      hasAnimatedRef.current = false
+    },
+    [cancelAnimation]
+  )
 
   // Trigger animation when totalStars changes OR on initial mount
   useEffect(() => {
