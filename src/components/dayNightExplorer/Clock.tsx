@@ -20,6 +20,7 @@ import {
   lerpPoint,
   roundedRectPerimeterPoint,
 } from '../../lib/dayNightExplorer/dayNightExplorerMath'
+import { getClockImageLayers } from './clockImageLayers'
 
 type ClockHandId = 'hour' | 'minute' | 'second'
 
@@ -100,20 +101,11 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
     justifyContent: 'center',
   }
 
-  const imageLayers = [
-    {
-      key: 'base',
-      image: clock.explorerBaseBackgroundImage,
-      opacity: 0.5,
-      zIndex: 3,
-    },
-    {
-      key: 'overlay',
-      image: clock.explorerOverlayBackgroundImage,
-      opacity: clock.overlayOpacity * 0.5,
-      zIndex: 4,
-    },
-  ]
+  const imageLayers = getClockImageLayers(
+    clock.explorerBaseBackgroundImage,
+    clock.explorerOverlayBackgroundImage,
+    clock.overlayOpacity
+  )
 
   const hourNumbers = useMemo(
     () =>
@@ -281,40 +273,38 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
           }}
         />
 
-        {imageLayers.map((layer) =>
-          layer.image ? (
-            <div
-              key={layer.key}
+        {imageLayers.map((layer) => (
+          <div
+            key={layer.key}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: controlHeight,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: layer.zIndex,
+              pointerEvents: 'none',
+            }}
+          >
+            <img
+              src={layer.image}
+              alt=""
+              aria-hidden="true"
               style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
+                width: '100%',
                 height: controlHeight,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                zIndex: layer.zIndex,
-                pointerEvents: 'none',
+                objectFit: 'cover',
+                objectPosition: 'center center',
+                borderTopLeftRadius: explorerUi.clockFaceRadius,
+                borderTopRightRadius: explorerUi.clockFaceRadius,
+                opacity: layer.opacity,
               }}
-            >
-              <img
-                src={layer.image}
-                alt=""
-                aria-hidden="true"
-                style={{
-                  width: '100%',
-                  height: controlHeight,
-                  objectFit: 'cover',
-                  objectPosition: 'center center',
-                  borderTopLeftRadius: explorerUi.clockFaceRadius,
-                  borderTopRightRadius: explorerUi.clockFaceRadius,
-                  opacity: layer.opacity,
-                }}
-              />
-            </div>
-          ) : null
-        )}
+            />
+          </div>
+        ))}
 
         <div
           style={{

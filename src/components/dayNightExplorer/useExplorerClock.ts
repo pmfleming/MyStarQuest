@@ -33,9 +33,12 @@ const useExplorerClock = ({
   initialSeconds,
   onUpdate,
 }: UseExplorerClockOptions) => {
-  const [minutes, setMinutes] = useState(initialMinutes)
-  const [seconds, setSeconds] = useState(initialSeconds)
+  const [clockSnapshot, setClockSnapshot] = useState({
+    minutes: initialMinutes,
+    seconds: initialSeconds,
+  })
   const [isDragging, setIsDragging] = useState(false)
+  const { minutes, seconds: snapshotSeconds } = clockSnapshot
 
   const minutesRef = useRef(minutes)
   minutesRef.current = minutes
@@ -52,9 +55,9 @@ const useExplorerClock = ({
 
   const activeHandRef = useRef<ClockHandId | null>(null)
   const lastAngleRef = useRef(0)
-  const exactMinutesRef = useRef(minutes)
-  const exactSecondsRef = useRef(seconds)
-  const lastRenderedSecondRef = useRef(seconds)
+  const exactMinutesRef = useRef(initialMinutes)
+  const exactSecondsRef = useRef(initialSeconds)
+  const lastRenderedSecondRef = useRef(initialSeconds)
   const pendingUpdateRef = useRef<{ x: number; y: number } | null>(null)
   const rafIdRef = useRef<number | null>(null)
   const lastDragCommitRef = useRef(0)
@@ -112,41 +115,36 @@ const useExplorerClock = ({
 
       lastDragCommitRef.current = now
       minutesRef.current = normalized.minutes
-      setMinutes(normalized.minutes)
-      setSeconds(normalized.seconds)
+      setClockSnapshot(normalized)
       return normalized
     },
     []
   )
 
   const adjustMinutes = useCallback((delta: number) => {
-    setMinutes((previousMinutes) => {
-      const nextMinutes = previousMinutes + delta
-      minutesRef.current = nextMinutes
-      exactMinutesRef.current = nextMinutes
-      return nextMinutes
+    const normalized = normalizeExactTime(
+      exactMinutesRef.current + delta,
+      exactSecondsRef.current
+    )
+    minutesRef.current = normalized.minutes
+    exactMinutesRef.current = normalized.minutes
+    exactSecondsRef.current = normalized.seconds
+    setClockSnapshot(normalized)
+  }, [])
+
+  const syncClockTime = useCallback((clockTime: ClockTime) => {
+    minutesRef.current = clockTime.totalMinutes
+    exactMinutesRef.current = clockTime.totalMinutes
+    exactSecondsRef.current = clockTime.seconds
+    setClockSnapshot({
+      minutes: clockTime.totalMinutes,
+      seconds: clockTime.seconds,
     })
   }, [])
 
-  const syncClockTime = useCallback(
-    (clockTime: ClockTime) => {
-      minutesRef.current = clockTime.totalMinutes
-      exactMinutesRef.current = clockTime.totalMinutes
-      exactSecondsRef.current = clockTime.seconds
-      applyHandTransforms(clockTime.totalMinutes, clockTime.seconds)
-      setMinutes(clockTime.totalMinutes)
-      setSeconds(clockTime.seconds)
-    },
-    [applyHandTransforms]
-  )
-
   useEffect(() => {
-    exactSecondsRef.current = seconds
-  }, [seconds])
-
-  useEffect(() => {
-    applyHandTransforms(minutes, seconds)
-  }, [applyHandTransforms, minutes, seconds])
+    applyHandTransforms(minutes, snapshotSeconds)
+  }, [applyHandTransforms, minutes, snapshotSeconds])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -161,13 +159,16 @@ const useExplorerClock = ({
 
       exactMinutesRef.current = normalized.minutes
       exactSecondsRef.current = normalized.seconds
-      minutesRef.current = normalized.minutes
-      setMinutes(normalized.minutes)
-      setSeconds(normalized.seconds)
+      applyHandTransforms(normalized.minutes, normalized.seconds)
+
+      if (normalized.minutes !== minutesRef.current) {
+        minutesRef.current = normalized.minutes
+        setClockSnapshot(normalized)
+      }
     }, 1000)
 
     return () => clearInterval(timer)
-  }, [])
+  }, [applyHandTransforms])
 
   const getAngle = useCallback((clientX: number, clientY: number) => {
     if (!svgRef.current) {
@@ -196,11 +197,10 @@ const useExplorerClock = ({
       setIsDragging(true)
       activeHandRef.current = hand
       exactMinutesRef.current = minutesRef.current
-      exactSecondsRef.current = seconds
       lastDragCommitRef.current = 0
       lastAngleRef.current = getAngle(event.clientX, event.clientY)
     },
-    [getAngle, seconds]
+    [getAngle]
   )
 
   useEffect(() => {
@@ -290,10 +290,10 @@ const useExplorerClock = ({
 
   return {
     minutes,
-    seconds,
+    seconds: exactSecondsRef.current,
     isDragging,
     handTransition: isDragging ? 'none' : DEFAULT_HAND_TRANSITION,
-    ...getClockAngles(minutes, seconds),
+    ...getClockAngles(minutes, exactSecondsRef.current),
     svgRef,
     hourHandRef,
     minuteHandRef,

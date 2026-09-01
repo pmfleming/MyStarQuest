@@ -88,6 +88,7 @@ export default function useDayNightExplorerModel(
       []
     ),
   })
+  const syncClockTime = clock.syncClockTime
 
   const currentInstant = useMemo(
     () =>
@@ -193,13 +194,11 @@ export default function useDayNightExplorerModel(
       }
 
       const nextCity = getExplorerCityOption(focusId)
-      clock.syncClockTime(
-        getClockTimeForInstant(currentInstant, nextCity.location)
-      )
+      syncClockTime(getClockTimeForInstant(currentInstant, nextCity.location))
       setActiveCalculationCityId(focusId)
       setActiveFocusId(focusId)
     },
-    [clock, currentInstant, displayMode]
+    [currentInstant, displayMode, syncClockTime]
   )
 
   const filteredOptions = useMemo(() => {

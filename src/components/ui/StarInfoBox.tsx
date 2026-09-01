@@ -115,6 +115,26 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
   const hasAnimatedRef = useRef(false)
   const isRunningRef = useRef(false)
   const prevTotalStarsRef = useRef(totalStars)
+  const spawnIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const phaseTimeoutsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
+
+  const cancelAnimation = useCallback(() => {
+    if (spawnIntervalRef.current !== null) {
+      clearInterval(spawnIntervalRef.current)
+      spawnIntervalRef.current = null
+    }
+    phaseTimeoutsRef.current.forEach(clearTimeout)
+    phaseTimeoutsRef.current.clear()
+    isRunningRef.current = false
+  }, [])
+
+  const schedulePhase = useCallback((callback: () => void, delay: number) => {
+    const timeout = setTimeout(() => {
+      phaseTimeoutsRef.current.delete(timeout)
+      callback()
+    }, delay)
+    phaseTimeoutsRef.current.add(timeout)
+  }, [])
 
   // Generate pseudo-random looking positions constrained to fit within the box
   const starPositions = useMemo(() => {
@@ -135,64 +155,73 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
     })
   }, [])
 
-  const runAnimation = useCallback((targetCount: number) => {
-    if (isRunningRef.current) return
+  const runAnimation = useCallback(
+    (targetCount: number) => {
+      if (isRunningRef.current) return
 
-    isRunningRef.current = true
-    setIsRunning(true)
-    setShowResult(false)
-    setHeroState('hidden')
-    starsSpawnedRef.current = 0
+      isRunningRef.current = true
+      setIsRunning(true)
+      setShowResult(false)
+      setHeroState('hidden')
+      starsSpawnedRef.current = 0
 
-    const visualCount = Math.max(0, Math.min(targetCount, 50))
+      const visualCount = Math.max(0, Math.min(targetCount, 50))
 
-    // Initialize all stars as hidden
-    setStarStates(Array(visualCount).fill('hidden'))
+      // Initialize all stars as hidden
+      setStarStates(Array(visualCount).fill('hidden'))
 
-    // Phase 1: Spawn stars one by one (they swarm outward)
-    const spawnInterval = setInterval(() => {
-      starsSpawnedRef.current += 1
-      const spawned = starsSpawnedRef.current
+      // Phase 1: Spawn stars one by one (they swarm outward)
+      spawnIntervalRef.current = setInterval(() => {
+        starsSpawnedRef.current += 1
+        const spawned = starsSpawnedRef.current
 
-      setStarStates((prev) => {
-        const next = [...prev]
-        if (spawned <= visualCount) {
-          next[spawned - 1] = 'swarming'
+        setStarStates((prev) => {
+          const next = [...prev]
+          if (spawned <= visualCount) {
+            next[spawned - 1] = 'swarming'
+          }
+          return next
+        })
+
+        if (spawned >= visualCount) {
+          if (spawnIntervalRef.current !== null) {
+            clearInterval(spawnIntervalRef.current)
+            spawnIntervalRef.current = null
+          }
+
+          // After swarm animation completes, mark as swarmed
+          schedulePhase(() => {
+            setStarStates(Array(visualCount).fill('swarmed'))
+
+            // Phase 2: After pause, start gathering
+            schedulePhase(() => {
+              setHeroState('growing')
+              setStarStates(Array(visualCount).fill('gathering'))
+
+              // Phase 3: After gather completes, stars have merged
+              schedulePhase(() => {
+                setStarStates(Array(visualCount).fill('gathered'))
+                setHeroState('pulsing')
+                setShowResult(true)
+                setDisplayedCount(targetCount)
+                isRunningRef.current = false
+                setIsRunning(false)
+              }, PHASE_DURATION + 100)
+            }, PAUSE_DURATION)
+          }, PHASE_DURATION)
         }
-        return next
-      })
+      }, 35)
+    },
+    [schedulePhase]
+  )
 
-      if (spawned >= visualCount) {
-        clearInterval(spawnInterval)
-
-        // After swarm animation completes, mark as swarmed
-        setTimeout(() => {
-          setStarStates(Array(visualCount).fill('swarmed'))
-
-          // Phase 2: After pause, start gathering
-          setTimeout(() => {
-            setHeroState('growing')
-            setStarStates(Array(visualCount).fill('gathering'))
-
-            // Phase 3: After gather completes, stars have merged
-            setTimeout(() => {
-              setStarStates(Array(visualCount).fill('gathered'))
-              setHeroState('pulsing')
-              setShowResult(true)
-              setDisplayedCount(targetCount)
-              isRunningRef.current = false
-              setIsRunning(false)
-            }, PHASE_DURATION + 100)
-          }, PAUSE_DURATION)
-        }, PHASE_DURATION)
-      }
-    }, 35)
-  }, [])
+  useEffect(() => cancelAnimation, [cancelAnimation])
 
   // Trigger animation when totalStars changes OR on initial mount
   useEffect(() => {
     // Skip animation if totalStars is 0 (data not loaded yet)
     if (totalStars === 0) {
+      cancelAnimation()
       hasAnimatedRef.current = true
       prevTotalStarsRef.current = 0
       isRunningRef.current = false
@@ -205,6 +234,7 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
     }
 
     if (totalStars !== prevTotalStarsRef.current) {
+      cancelAnimation()
       prevTotalStarsRef.current = totalStars
       hasAnimatedRef.current = true
       runAnimation(totalStars)
@@ -214,7 +244,7 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
       prevTotalStarsRef.current = totalStars
       runAnimation(totalStars)
     }
-  }, [runAnimation, totalStars])
+  }, [cancelAnimation, runAnimation, totalStars])
 
   const handleClick = () => {
     if (!isRunning) {

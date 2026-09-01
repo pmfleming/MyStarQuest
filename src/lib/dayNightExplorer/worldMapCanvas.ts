@@ -1,7 +1,9 @@
 import type { GeoFeatureCollection, GeoRing } from './worldTopology'
 
+type PathDrawingContext = Pick<CanvasRenderingContext2D, 'lineTo' | 'moveTo'>
+
 const drawRing = (
-  context: CanvasRenderingContext2D,
+  context: PathDrawingContext,
   ring: GeoRing,
   project: (longitude: number, latitude: number) => [number, number]
 ) => {
@@ -13,7 +15,7 @@ const drawRing = (
 }
 
 export const drawFeatureCollection = (
-  context: CanvasRenderingContext2D,
+  context: PathDrawingContext,
   collection: GeoFeatureCollection,
   project: (longitude: number, latitude: number) => [number, number]
 ) => {
