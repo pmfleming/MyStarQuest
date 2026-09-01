@@ -291,7 +291,7 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
           <MiniStar
             key={i}
             index={i}
-            targetPos={starPositions[i]}
+            targetPos={starPositions[i] ?? { x: 0, y: 0, rot: 0 }}
             starState={state}
           />
         ))}

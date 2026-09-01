@@ -98,6 +98,19 @@ const SPELLING_SET_OPTIONS: {
 
 const shuffle = <T,>(items: T[]) => [...items].sort(() => Math.random() - 0.5)
 
+const getRequiredItem = <T,>(
+  items: readonly T[],
+  index: number,
+  description: string
+): T => {
+  const item = items[index]
+  if (item === undefined) throw new Error(`Missing ${description}`)
+  return item
+}
+
+const pickRandomItem = <T,>(items: readonly T[], description: string): T =>
+  getRequiredItem(items, Math.floor(Math.random() * items.length), description)
+
 const makeChoiceId = (letter: string, index: number) =>
   `${letter}-${index}-${Math.random().toString(36).slice(2)}`
 
@@ -113,7 +126,7 @@ const generateChoices = (
   const distractors = letters.filter((letter) => letter !== targetLetter)
 
   while (choices.length < 3) {
-    const next = distractors[Math.floor(Math.random() * distractors.length)]
+    const next = pickRandomItem(distractors, 'spelling distractor')
     if (!choices.includes(next)) choices.push(next)
   }
 
@@ -376,8 +389,7 @@ const SpellingTester = ({
 
   const chooseAnimal = useCallback(
     (excludedName?: string) => {
-      let animal =
-        spellingWords[Math.floor(Math.random() * spellingWords.length)]
+      let animal = pickRandomItem(spellingWords, 'spelling word')
       let attempts = 0
 
       while (
@@ -385,7 +397,7 @@ const SpellingTester = ({
           isSeen(`${spellingSet}-${animal.name}`)) &&
         attempts < 20
       ) {
-        animal = spellingWords[Math.floor(Math.random() * spellingWords.length)]
+        animal = pickRandomItem(spellingWords, 'spelling word')
         attempts++
       }
 
@@ -401,9 +413,12 @@ const SpellingTester = ({
     markSeen(`${spellingSet}-${animal.name}`)
     setCurrentAnimal(animal)
     setSpelledCount(0)
-    setChoices(
-      generateChoices(getAnimalLetters(animal, letterCase)[0], letterCase)
+    const firstLetter = getRequiredItem(
+      getAnimalLetters(animal, letterCase),
+      0,
+      `first letter for ${animal.name}`
     )
+    setChoices(generateChoices(firstLetter, letterCase))
     setIsFailurePending(false)
 
     const next = chooseAnimal(animal.name)
@@ -459,7 +474,12 @@ const SpellingTester = ({
           return
         }
 
-        setChoices(generateChoices(animalLetters[nextSpelledCount], letterCase))
+        const nextLetter = getRequiredItem(
+          animalLetters,
+          nextSpelledCount,
+          `letter ${nextSpelledCount + 1}`
+        )
+        setChoices(generateChoices(nextLetter, letterCase))
       }, NEXT_LETTER_DELAY_MS)
       return
     }

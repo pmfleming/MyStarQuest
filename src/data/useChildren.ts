@@ -170,13 +170,14 @@ const useChildrenState = () => {
 
   // ── Auto-select first child if none active ──
   useEffect(() => {
-    if (children.length > 0) {
+    const firstChild = children[0]
+    if (firstChild) {
       const isCurrentActive =
         activeChildId && children.some((c) => c.id === activeChildId)
       if (!isCurrentActive) {
         setActiveChild({
-          id: children[0].id,
-          themeId: children[0].themeId || 'princess',
+          id: firstChild.id,
+          themeId: firstChild.themeId || 'princess',
         })
       }
     }

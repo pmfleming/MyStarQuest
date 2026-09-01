@@ -25,6 +25,12 @@ const SIDE_SCALE = 1
 const getWrappedIndex = (index: number, length: number) =>
   (index + length) % length
 
+const getRequiredItem = (items: CarouselItem[], index: number) => {
+  const item = items[index]
+  if (!item) throw new Error(`Missing carousel item at index ${index}`)
+  return item
+}
+
 const Carousel = ({
   items,
   initialIndex = 0,
@@ -50,9 +56,15 @@ const Carousel = ({
   const visibleItems = useMemo(() => {
     if (safeItems.length === 0) return []
     return [
-      safeItems[getWrappedIndex(currentIndex - 1, safeItems.length)],
-      safeItems[currentIndex],
-      safeItems[getWrappedIndex(currentIndex + 1, safeItems.length)],
+      getRequiredItem(
+        safeItems,
+        getWrappedIndex(currentIndex - 1, safeItems.length)
+      ),
+      getRequiredItem(safeItems, currentIndex),
+      getRequiredItem(
+        safeItems,
+        getWrappedIndex(currentIndex + 1, safeItems.length)
+      ),
     ]
   }, [safeItems, currentIndex])
 

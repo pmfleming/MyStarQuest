@@ -113,36 +113,47 @@ const getTeachingFacts = (
   animal: CatalogAnimal,
   themeId: ActivityChoreProps['theme']['id'],
   useGenericAbilityImage = false
-): VisualFact[] => [
-  {
-    ...animal.habitat[0],
-    label: 'LOCATION',
-    illustration: ANIMAL_LOCATION_IMAGE_BY_NAME[animal.locationCategory],
-    word: animal.habitat[0].text,
-  },
-  {
-    ...animal.habitat[1],
-    label: 'ENVIRONMENT',
-    illustration: ANIMAL_HABITAT_IMAGE_BY_NAME[animal.habitatCategory],
-    word: animal.habitatCategory,
-  },
-  {
-    ...animal.food[1],
-    label: 'FOOD',
-    illustration: ANIMAL_FOOD_IMAGE_BY_NAME[animal.foodCategory],
-    word: animal.foodCategory,
-  },
-  {
-    ...animal.abilities[0],
-    label: 'ABILITY',
-    illustration: useGenericAbilityImage
-      ? (getGenericAnimalAbilityImage(themeId, animal.abilities[0].label) ??
-        abilityImage)
-      : (getAnimalAbilityImage(animal.name) ?? abilityImage),
-    illustrationFit: useGenericAbilityImage ? 'contain' : 'cover',
-    word: getLabelWord(animal.abilities[0].label),
-  },
-]
+): VisualFact[] => {
+  const locationFact = animal.habitat[0]
+  const environmentFact = animal.habitat[1]
+  const foodFact = animal.food[1]
+  const abilityFact = animal.abilities[0]
+
+  if (!locationFact || !environmentFact || !foodFact || !abilityFact) {
+    throw new Error(`Animal knowledge is incomplete for ${animal.name}`)
+  }
+
+  return [
+    {
+      ...locationFact,
+      label: 'LOCATION',
+      illustration: ANIMAL_LOCATION_IMAGE_BY_NAME[animal.locationCategory],
+      word: locationFact.text,
+    },
+    {
+      ...environmentFact,
+      label: 'ENVIRONMENT',
+      illustration: ANIMAL_HABITAT_IMAGE_BY_NAME[animal.habitatCategory],
+      word: animal.habitatCategory,
+    },
+    {
+      ...foodFact,
+      label: 'FOOD',
+      illustration: ANIMAL_FOOD_IMAGE_BY_NAME[animal.foodCategory],
+      word: animal.foodCategory,
+    },
+    {
+      ...abilityFact,
+      label: 'ABILITY',
+      illustration: useGenericAbilityImage
+        ? (getGenericAnimalAbilityImage(themeId, abilityFact.label) ??
+          abilityImage)
+        : (getAnimalAbilityImage(animal.name) ?? abilityImage),
+      illustrationFit: useGenericAbilityImage ? 'contain' : 'cover',
+      word: getLabelWord(abilityFact.label),
+    },
+  ]
+}
 
 const FactCard = ({
   fact,
@@ -774,6 +785,8 @@ const AnimalTester = ({
   )
 
   const handleSoloChoice = (choice: CatalogAnimal) => {
+    if (!animal) return
+
     if (
       answeredCorrectly ||
       leavingChoice ||

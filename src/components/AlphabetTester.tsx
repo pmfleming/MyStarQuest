@@ -52,6 +52,12 @@ const ALPHABET_ASSETS = Array.from(
 
 const ALL_LETTERS = ALPHABET_ASSETS.map((asset) => asset.letter)
 
+const pickRandomItem = <T,>(items: readonly T[]): T => {
+  const item = items[Math.floor(Math.random() * items.length)]
+  if (item === undefined) throw new Error('Cannot choose from an empty list')
+  return item
+}
+
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
 /* ------------------------------------------------------------------ */
@@ -61,16 +67,14 @@ function generateAlphabetProblem(): {
   image: string
   choices: string[]
 } {
-  const targetIdx = Math.floor(Math.random() * ALPHABET_ASSETS.length)
-  const targetData = ALPHABET_ASSETS[targetIdx]
-  const fileIdx = Math.floor(Math.random() * targetData.files.length)
-  const image = targetData.files[fileIdx]
+  const targetData = pickRandomItem(ALPHABET_ASSETS)
+  const image = pickRandomItem(targetData.files)
   const letter = targetData.letter
 
   const choices = [letter]
   const others = ALL_LETTERS.filter((l) => l !== letter)
   while (choices.length < 3) {
-    const rand = others[Math.floor(Math.random() * others.length)]
+    const rand = pickRandomItem(others)
     if (!choices.includes(rand)) choices.push(rand)
   }
   choices.sort(() => Math.random() - 0.5)

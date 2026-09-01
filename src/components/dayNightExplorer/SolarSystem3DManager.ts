@@ -398,7 +398,8 @@ export default class SolarSystem3DManager {
 
   private rebuildCityMarkers(state: SolarSystemSceneState) {
     while (this.cityMarkerGroup.children.length > 0) {
-      const child = this.cityMarkerGroup.children[0]
+      const child = this.cityMarkerGroup.children.at(-1)
+      if (!child) break
       this.cityMarkerGroup.remove(child)
       this.disposeObject(child)
     }
@@ -644,7 +645,8 @@ export default class SolarSystem3DManager {
 
   private rebuildMonthLabels(fontFamily: string) {
     while (this.monthLabelGroup.children.length > 0) {
-      const child = this.monthLabelGroup.children[0]
+      const child = this.monthLabelGroup.children.at(-1)
+      if (!child) break
       this.monthLabelGroup.remove(child)
       this.disposeObject(child)
     }

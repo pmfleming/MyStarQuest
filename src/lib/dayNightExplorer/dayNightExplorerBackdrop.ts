@@ -128,6 +128,7 @@ export const getExplorerBackdropColor = (
   for (let i = 0; i < colorStops.length - 1; i++) {
     const currentStop = colorStops[i]
     const nextStop = colorStops[i + 1]
+    if (!currentStop || !nextStop) continue
 
     if (
       adjustedMinutes >= currentStop.minute &&
@@ -175,6 +176,7 @@ export const getExplorerBackgroundBlend = (
   for (let i = 0; i < imageStops.length - 1; i++) {
     const currentStop = imageStops[i]
     const nextStop = imageStops[i + 1]
+    if (!currentStop || !nextStop) continue
 
     if (
       adjustedMinutes >= currentStop.minute &&

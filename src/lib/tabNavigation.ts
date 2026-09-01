@@ -13,12 +13,14 @@ type AppTab = {
   ariaLabel: string
 }
 
-export const appTabs: AppTab[] = [
-  {
-    id: 'chores',
-    path: '/tabs/chores',
-    ariaLabel: 'Chores tab',
-  },
+const defaultTab = {
+  id: 'chores',
+  path: '/tabs/chores',
+  ariaLabel: 'Chores tab',
+} satisfies AppTab
+
+export const appTabs = [
+  defaultTab,
   {
     id: 'tests',
     path: '/tabs/tests',
@@ -34,7 +36,7 @@ export const appTabs: AppTab[] = [
     path: '/tabs/time-explorer',
     ariaLabel: 'Time Explorer tab',
   },
-]
+] satisfies readonly AppTab[]
 
 export const getTabIcon = (tabId: AppTabId) => {
   if (tabId === 'chores') return princessChoresIcon
@@ -44,7 +46,7 @@ export const getTabIcon = (tabId: AppTabId) => {
   return princessCalendarIcon
 }
 
-export const defaultTabPath = appTabs[0].path
+export const defaultTabPath = defaultTab.path
 
 export const getTabIndex = (tabId: AppTabId) =>
   appTabs.findIndex((tab) => tab.id === tabId)

@@ -60,7 +60,7 @@ const DRAFT_DINNER_MAX_MINUTES = 30
 const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value))
 
-const typeOptions: ChoreTypeOption[] = [
+const typeOptions = [
   {
     type: 'standard',
     label: 'Standard Chore',
@@ -103,10 +103,13 @@ const typeOptions: ChoreTypeOption[] = [
       dinnerTotalBites: DEFAULT_DINNER_BITES,
     },
   },
-]
+] satisfies readonly ChoreTypeOption[]
 
-const getOption = (type: ChoreType) =>
-  typeOptions.find((option) => option.type === type) ?? typeOptions[0]
+const getOption = (type: ChoreType): ChoreTypeOption => {
+  const option = typeOptions.find((candidate) => candidate.type === type)
+  if (!option) throw new Error(`Missing chore type option: ${type}`)
+  return option
+}
 
 const getDraftForChore = (chore: ChoreWithEphemeral): ChoreDraft => ({
   title: chore.title,
@@ -134,7 +137,9 @@ const ChoreCreationFlow = ({
     initialChore?.taskType ?? null
   )
   const [draft, setDraft] = useState<ChoreDraft>(
-    initialChore ? getDraftForChore(initialChore) : typeOptions[0].defaultDraft
+    initialChore
+      ? getDraftForChore(initialChore)
+      : getOption('standard').defaultDraft
   )
 
   const updateDraft = (patch: Partial<ChoreDraft>) => {
