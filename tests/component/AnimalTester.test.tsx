@@ -1,11 +1,18 @@
 import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import AnimalTester, { ANIMAL_CATALOG } from '../../src/components/AnimalTester'
+import AnimalTester, {
+  ANIMAL_CATALOG,
+  getActiveAnimalOrder,
+} from '../../src/components/AnimalTester'
 import { themes } from '../../src/contexts/ThemeContext'
 import {
   ANIMAL_ABILITY_ASSETS,
   getAnimalAbilityImage,
 } from '../../src/data/animalAbilityAssets'
+import {
+  PRINCESS_GENERIC_ANIMAL_ABILITY_ASSETS,
+  getGenericAnimalAbilityImage,
+} from '../../src/data/genericAnimalAbilityAssets'
 import { ANIMAL_ASSETS } from '../../src/data/animalAssets'
 import {
   ANIMAL_FOOD_IMAGE_BY_NAME,
@@ -192,6 +199,22 @@ describe('AnimalTester', () => {
         (animal) => (getAnimalAbilityImage(animal.name)?.length ?? 0) > 0
       )
     ).toBe(true)
+
+    expect(PRINCESS_GENERIC_ANIMAL_ABILITY_ASSETS).toHaveLength(52)
+    expect(
+      new Set(
+        PRINCESS_GENERIC_ANIMAL_ABILITY_ASSETS.map((asset) => asset.image)
+      ).size
+    ).toBe(52)
+    expect(
+      ANIMAL_CATALOG.every((animal) => {
+        const abilityLabel = animal.abilities[0].label
+        return (
+          (getGenericAnimalAbilityImage('princess', abilityLabel)?.length ??
+            0) > 0
+        )
+      })
+    ).toBe(true)
   })
 
   it('offers teaching, one-player, and two-player modes', () => {
@@ -212,9 +235,43 @@ describe('AnimalTester', () => {
     )
     expect(screen.getByRole('radio', { name: '1 Player' })).toBeInTheDocument()
     expect(screen.getByRole('radio', { name: '2 Players' })).toBeInTheDocument()
+    expect(
+      screen.queryByRole('radiogroup', { name: 'Animal difficulty' })
+    ).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
+    const difficultyPicker = screen.getByRole('radiogroup', {
+      name: 'Animal difficulty',
+    })
+    const easyOption = within(difficultyPicker).getByRole('radio', {
+      name: 'Easy',
+    })
+    const hardOption = within(difficultyPicker).getByRole('radio', {
+      name: 'Hard',
+    })
+    expect(easyOption).toHaveAttribute('aria-checked', 'true')
+    expect(easyOption.querySelectorAll('img')).toHaveLength(1)
+    expect(hardOption.querySelectorAll('img')).toHaveLength(2)
   })
 
-  it('teaches an ordered animal list with image-only backward and forward controls', () => {
+  it('limits game modes by item count but makes every animal available for learning', () => {
+    const shuffledAnimals = [...ANIMAL_CATALOG].reverse()
+
+    expect(getActiveAnimalOrder('learn', shuffledAnimals, 2)).toHaveLength(75)
+    expect(
+      getActiveAnimalOrder('learn', shuffledAnimals, 2).map(
+        (animal) => animal.name
+      )
+    ).toEqual(
+      ANIMAL_CATALOG.map((animal) => animal.name).sort((left, right) =>
+        left.localeCompare(right)
+      )
+    )
+    expect(getActiveAnimalOrder('solo', shuffledAnimals, 2)).toHaveLength(2)
+    expect(getActiveAnimalOrder('together', shuffledAnimals, 2)).toHaveLength(2)
+  })
+
+  it('teaches the complete ordered animal list regardless of the item limit', () => {
     const props = { ...createProps(), totalProblems: 2 }
     const { rerender } = render(<AnimalTester {...props} />)
 
@@ -257,15 +314,20 @@ describe('AnimalTester', () => {
         return (
           word?.style.position === 'absolute' &&
           word.style.background.includes('0.5') &&
-          word.style.color.length > 0
+          word.style.color.length > 0 &&
+          word.style.whiteSpace === 'normal'
         )
       })
     ).toBe(true)
     expect(
-      teachingCards.every(
-        (card) => (card.textContent?.trim().split(/\s+/).length ?? 0) <= 1
-      )
+      teachingCards
+        .slice(1)
+        .every(
+          (card) => (card.textContent?.trim().split(/\s+/).length ?? 0) <= 1
+        )
     ).toBe(true)
+    expect(teachingCards[0]).toHaveTextContent('The Andes of South America')
+    expect(teachingCards[0]).not.toHaveTextContent(/^(Earth|Worldwide)$/)
     expect(teachingCards.map((card) => card.textContent?.trim())).not.toEqual([
       'Location',
       'Environment',
@@ -282,6 +344,31 @@ describe('AnimalTester', () => {
         expect.stringMatching(/^ABILITY:/),
       ])
     )
+
+    const abilityCard = screen.getByRole('button', { name: /^ABILITY:/ })
+    expect(abilityCard).toHaveAttribute('aria-pressed', 'false')
+    expect(abilityCard.querySelector('img')).toHaveAttribute(
+      'src',
+      getAnimalAbilityImage('alpaca')
+    )
+
+    fireEvent.click(abilityCard)
+    expect(abilityCard).toHaveAttribute('aria-pressed', 'true')
+    expect(abilityCard.querySelector('img')).toHaveAttribute(
+      'src',
+      getGenericAnimalAbilityImage('nature', 'WOOL')
+    )
+
+    fireEvent.click(abilityCard)
+    expect(abilityCard).toHaveAttribute('aria-pressed', 'false')
+    expect(abilityCard.querySelector('img')).toHaveAttribute(
+      'src',
+      getAnimalAbilityImage('alpaca')
+    )
+
+    fireEvent.click(abilityCard)
+    expect(abilityCard).toHaveAttribute('aria-pressed', 'true')
+
     expect(screen.queryByRole('paragraph')).not.toBeInTheDocument()
     const previousButton = screen.getByRole('button', {
       name: 'Previous animal',
@@ -296,6 +383,15 @@ describe('AnimalTester', () => {
     fireEvent.click(nextButton)
     expect(props.onComplete).not.toHaveBeenCalled()
     expect(screen.getByAltText('Ant')).toBeInTheDocument()
+    expect(screen.getByLabelText(/^LOCATION:/)).toHaveTextContent(
+      'Almost everywhere on Earth'
+    )
+    const antAbilityCard = screen.getByRole('button', { name: /^ABILITY:/ })
+    expect(antAbilityCard).toHaveAttribute('aria-pressed', 'false')
+    expect(antAbilityCard.querySelector('img')).toHaveAttribute(
+      'src',
+      getAnimalAbilityImage('ant')
+    )
     expect(previousButton).toBeEnabled()
 
     fireEvent.click(previousButton)
@@ -304,8 +400,20 @@ describe('AnimalTester', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
     expect(screen.getByAltText('Ant')).toBeInTheDocument()
 
-    fireEvent.click(screen.getByRole('button', { name: 'Finish learning' }))
-    expect(props.onExit).toHaveBeenCalledOnce()
+    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
+    expect(screen.getByAltText('Armadillo')).toBeInTheDocument()
+    expect(props.onExit).not.toHaveBeenCalled()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
+    expect(screen.getByAltText('Bear')).toBeInTheDocument()
+    expect(screen.getByLabelText(/^LOCATION:/)).toHaveTextContent(
+      'North America, Europe, and Asia'
+    )
+    expect(screen.getByLabelText(/^LOCATION:/)).not.toHaveTextContent(
+      /^(Earth|Worldwide)$/
+    )
+
     expect(props.onComplete).not.toHaveBeenCalled()
   })
 
@@ -360,6 +468,10 @@ describe('AnimalTester', () => {
       if (!currentAnimal)
         throw new Error('Expected the displayed animal in catalog')
 
+      expect(
+        screen.getByLabelText(/^ABILITY:/).querySelector('img')
+      ).toHaveAttribute('src', getAnimalAbilityImage(currentAnimal.name))
+
       const answerName = currentAnimal.name
         .split('-')
         .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
@@ -383,6 +495,48 @@ describe('AnimalTester', () => {
 
       act(() => vi.advanceTimersByTime(650))
       expect(props.onComplete).toHaveBeenCalledOnce()
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('uses the generic ability card in hard one-player mode', () => {
+    vi.useFakeTimers()
+    try {
+      const props = createProps()
+      const { rerender } = render(<AnimalTester {...props} />)
+
+      fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
+      fireEvent.click(screen.getByRole('radio', { name: 'Hard' }))
+      expect(screen.getByRole('radio', { name: 'Hard' })).toHaveAttribute(
+        'aria-checked',
+        'true'
+      )
+
+      rerender(<AnimalTester {...props} isRunning />)
+      act(() => vi.advanceTimersByTime(9000))
+
+      const abilityCard = screen.getByLabelText(/^ABILITY:/)
+      const abilityText = abilityCard
+        .getAttribute('aria-label')
+        ?.replace('ABILITY: ', '')
+      const currentAnimal = ANIMAL_CATALOG.find(
+        (animal) => animal.abilities[0].text === abilityText
+      )
+      expect(currentAnimal).toBeDefined()
+      if (!currentAnimal)
+        throw new Error('Expected the displayed animal in catalog')
+
+      expect(abilityCard.querySelector('img')).toHaveAttribute(
+        'src',
+        getGenericAnimalAbilityImage(
+          props.theme.id,
+          currentAnimal.abilities[0].label
+        )
+      )
+      expect(abilityCard.querySelector('img')).toHaveStyle({
+        objectFit: 'contain',
+      })
     } finally {
       vi.useRealTimers()
     }
@@ -422,20 +576,49 @@ describe('AnimalTester', () => {
     const hideAnimalButton = screen.getByRole('button', {
       name: 'Hide animal',
     })
-    const animalName = within(hideAnimalButton)
-      .getByRole('img')
-      .getAttribute('alt')
+    const animalPortrait = within(hideAnimalButton).getByRole('img')
+    const animalName = animalPortrait.getAttribute('alt')
     expect(animalName).toBeTruthy()
+    const currentAnimal = ANIMAL_CATALOG.find(
+      (animal) => animal.image === animalPortrait.getAttribute('src')
+    )
+    expect(currentAnimal).toBeDefined()
+    const abilityCard = screen.getByLabelText(/^ABILITY:/)
+    expect(abilityCard.querySelector('img')).toHaveAttribute(
+      'src',
+      getAnimalAbilityImage(currentAnimal!.name)
+    )
 
     fireEvent.click(hideAnimalButton)
-    expect(screen.getByRole('button', { name: 'Show animal' })).toHaveAttribute(
-      'aria-pressed',
-      'true'
+    const showAnimalButton = screen.getByRole('button', {
+      name: 'Show animal',
+    })
+    expect(showAnimalButton).toHaveAttribute('aria-pressed', 'true')
+    expect(showAnimalButton.querySelector('img')).not.toHaveAttribute(
+      'src',
+      getGenericAnimalAbilityImage(
+        props.theme.id,
+        currentAnimal!.abilities[0].label
+      )
     )
+    expect(abilityCard.querySelector('img')).toHaveAttribute(
+      'src',
+      getGenericAnimalAbilityImage(
+        props.theme.id,
+        currentAnimal!.abilities[0].label
+      )
+    )
+    expect(abilityCard.querySelector('img')).toHaveStyle({
+      objectFit: 'contain',
+    })
     expect(screen.queryByAltText(animalName!)).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Show animal' }))
     expect(screen.getByAltText(animalName!)).toBeInTheDocument()
+    expect(abilityCard.querySelector('img')).toHaveAttribute(
+      'src',
+      getAnimalAbilityImage(currentAnimal!.name)
+    )
 
     const nextButton = screen.getByRole('button', { name: 'Next animal' })
     expect(nextButton).toHaveTextContent('')

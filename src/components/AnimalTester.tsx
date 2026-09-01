@@ -10,6 +10,7 @@ import { ANIMAL_ASSET_BY_NAME } from '../data/animalAssets'
 import { ANIMAL_FOOD_IMAGE_BY_NAME } from '../data/animalFoodAssets'
 import { ANIMAL_HABITAT_IMAGE_BY_NAME } from '../data/animalHabitatAssets'
 import { ANIMAL_LOCATION_IMAGE_BY_NAME } from '../data/animalLocationAssets'
+import { getGenericAnimalAbilityImage } from '../data/genericAnimalAbilityAssets'
 import {
   ANIMAL_KNOWLEDGE,
   type AnimalFact,
@@ -30,6 +31,9 @@ import {
   type ActivityChoreProps,
   type ActivityResult,
 } from './ui/ActivityControls'
+import CrownDifficultyControl, {
+  type CrownDifficultyOption,
+} from './ui/CrownDifficultyControl'
 import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
 import { getChoiceFeedbackAnimationStyles } from './ui/activityAnimationStyles'
 
@@ -39,6 +43,7 @@ const CHOICE_ANIMATION_MS = 650
 const CLUE_REVEAL_INTERVAL_MS = 3000
 
 type AnimalMode = 'learn' | 'solo' | 'together'
+type AnimalDifficulty = 'easy' | 'hard'
 
 type CatalogAnimal = AnimalKnowledge & {
   image: string
@@ -62,6 +67,11 @@ const MODE_OPTIONS = [
   },
 ]
 
+const ANIMAL_DIFFICULTIES: CrownDifficultyOption<AnimalDifficulty>[] = [
+  { value: 'easy', label: 'Easy', crowns: 1 },
+  { value: 'hard', label: 'Hard', crowns: 2 },
+]
+
 const formatAnimalName = (name: string) =>
   name
     .split('-')
@@ -80,8 +90,16 @@ const ORDERED_ANIMAL_CATALOG = [...ANIMAL_CATALOG].sort((left, right) =>
   left.name.localeCompare(right.name)
 )
 
+const getActiveAnimalOrder = (
+  mode: AnimalMode,
+  shuffledOrder: CatalogAnimal[],
+  itemLimit: number
+) =>
+  mode === 'learn' ? ORDERED_ANIMAL_CATALOG : shuffledOrder.slice(0, itemLimit)
+
 type VisualFact = AnimalFact & {
   illustration?: string
+  illustrationFit?: 'cover' | 'contain'
   word?: string
 }
 
@@ -91,12 +109,16 @@ const getLabelWord = (label: string) => {
   return word.charAt(0).toUpperCase() + word.slice(1)
 }
 
-const getTeachingFacts = (animal: CatalogAnimal): VisualFact[] => [
+const getTeachingFacts = (
+  animal: CatalogAnimal,
+  themeId: ActivityChoreProps['theme']['id'],
+  useGenericAbilityImage = false
+): VisualFact[] => [
   {
     ...animal.habitat[0],
     label: 'LOCATION',
     illustration: ANIMAL_LOCATION_IMAGE_BY_NAME[animal.locationCategory],
-    word: animal.locationCategory,
+    word: animal.habitat[0].text,
   },
   {
     ...animal.habitat[1],
@@ -113,7 +135,11 @@ const getTeachingFacts = (animal: CatalogAnimal): VisualFact[] => [
   {
     ...animal.abilities[0],
     label: 'ABILITY',
-    illustration: getAnimalAbilityImage(animal.name) ?? abilityImage,
+    illustration: useGenericAbilityImage
+      ? (getGenericAnimalAbilityImage(themeId, animal.abilities[0].label) ??
+        abilityImage)
+      : (getAnimalAbilityImage(animal.name) ?? abilityImage),
+    illustrationFit: useGenericAbilityImage ? 'contain' : 'cover',
     word: getLabelWord(animal.abilities[0].label),
   },
 ]
@@ -121,90 +147,108 @@ const getTeachingFacts = (animal: CatalogAnimal): VisualFact[] => [
 const FactCard = ({
   fact,
   theme,
+  onClick,
+  isPressed = false,
 }: {
   fact: VisualFact
   theme: ActivityChoreProps['theme']
-}) => (
-  <div
-    aria-label={`${fact.label}: ${fact.text}`}
-    style={{
-      minHeight: 174,
-      borderRadius: 22,
-      border: `3px solid ${theme.colors.accent}`,
-      background: theme.colors.surface,
-      color: theme.colors.text,
-      boxShadow: `0 5px 0 ${theme.colors.accent}66`,
-      fontFamily: theme.fonts.body,
-      position: 'relative',
-      isolation: 'isolate',
-      overflow: 'hidden',
-      textAlign: 'center',
-    }}
-  >
-    {fact.illustration ? (
-      <img
-        data-animal-fact-image
-        src={fact.illustration}
-        alt=""
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-        }}
-      />
-    ) : (
-      <span
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'grid',
-          placeItems: 'center',
-          fontSize: 'clamp(5rem, 30vw, 9rem)',
-          lineHeight: 1,
-        }}
-      >
-        {fact.visual}
-      </span>
-    )}
-    {fact.word && (
-      <strong
-        data-animal-fact-word
-        style={{
-          position: 'absolute',
-          zIndex: 1,
-          left: '50%',
-          bottom: 10,
-          transform: 'translateX(-50%)',
-          maxWidth: 'calc(100% - 20px)',
-          padding: '5px 12px',
-          border: `2px solid ${theme.colors.surface}`,
-          borderRadius: 999,
-          background: `${theme.colors.surface}80`,
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.28)',
-          fontFamily: theme.fonts.heading,
-          fontSize: '1rem',
-          color: theme.colors.text,
-          lineHeight: 1,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {fact.word}
-      </strong>
-    )}
-  </div>
-)
+  onClick?: () => void
+  isPressed?: boolean
+}) => {
+  const CardElement = onClick ? 'button' : 'div'
+
+  return (
+    <CardElement
+      type={onClick ? 'button' : undefined}
+      onClick={onClick}
+      aria-pressed={onClick ? isPressed : undefined}
+      aria-label={`${fact.label}: ${fact.text}`}
+      style={{
+        width: '100%',
+        minHeight: 174,
+        padding: 0,
+        borderRadius: 22,
+        border: `3px solid ${theme.colors.accent}`,
+        background: theme.colors.surface,
+        color: theme.colors.text,
+        boxShadow: `0 5px 0 ${theme.colors.accent}66`,
+        fontFamily: theme.fonts.body,
+        position: 'relative',
+        isolation: 'isolate',
+        overflow: 'hidden',
+        textAlign: 'center',
+        cursor: onClick ? 'pointer' : undefined,
+      }}
+    >
+      {fact.illustration ? (
+        <img
+          data-animal-fact-image
+          src={fact.illustration}
+          alt=""
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: fact.illustrationFit ?? 'cover',
+          }}
+        />
+      ) : (
+        <span
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'grid',
+            placeItems: 'center',
+            fontSize: 'clamp(5rem, 30vw, 9rem)',
+            lineHeight: 1,
+          }}
+        >
+          {fact.visual}
+        </span>
+      )}
+      {fact.word && (
+        <strong
+          data-animal-fact-word
+          style={{
+            position: 'absolute',
+            zIndex: 1,
+            left: '50%',
+            bottom: 10,
+            transform: 'translateX(-50%)',
+            maxWidth: 'calc(100% - 20px)',
+            padding: '5px 12px',
+            border: `2px solid ${theme.colors.surface}`,
+            borderRadius: 999,
+            background: `${theme.colors.surface}80`,
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.28)',
+            fontFamily: theme.fonts.heading,
+            fontSize: 'clamp(0.72rem, 2.6vw, 1rem)',
+            color: theme.colors.text,
+            lineHeight: 1.1,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'normal',
+          }}
+        >
+          {fact.word}
+        </strong>
+      )}
+    </CardElement>
+  )
+}
 
 const FactGrid = ({
   facts,
   theme,
+  onAbilityClick,
+  isGenericAbilityShown = false,
 }: {
   facts: VisualFact[]
   theme: ActivityChoreProps['theme']
+  onAbilityClick?: () => void
+  isGenericAbilityShown?: boolean
 }) => (
   <div
     style={{
@@ -215,7 +259,13 @@ const FactGrid = ({
     }}
   >
     {facts.map((fact) => (
-      <FactCard key={`${fact.label}-${fact.text}`} fact={fact} theme={theme} />
+      <FactCard
+        key={`${fact.label}-${fact.text}`}
+        fact={fact}
+        theme={theme}
+        onClick={fact.label === 'ABILITY' ? onAbilityClick : undefined}
+        isPressed={fact.label === 'ABILITY' && isGenericAbilityShown}
+      />
     ))}
   </div>
 )
@@ -281,49 +331,51 @@ const HideableAnimalPortrait = ({
   theme: ActivityChoreProps['theme']
   hidden: boolean
   onToggle: () => void
-}) => (
-  <button
-    type="button"
-    aria-label={hidden ? 'Show animal' : 'Hide animal'}
-    aria-pressed={hidden}
-    onClick={onToggle}
-    style={{
-      width: '100%',
-      padding: 0,
-      border: 0,
-      borderRadius: 26,
-      background: 'transparent',
-      cursor: 'pointer',
-    }}
-  >
-    {hidden ? (
-      <div
-        style={{
-          width: '100%',
-          minHeight: 170,
-          borderRadius: 26,
-          background: `${theme.colors.surface}dd`,
-          border: `3px solid ${theme.colors.secondary}`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden',
-          padding: 8,
-          boxSizing: 'border-box',
-        }}
-      >
-        <img
-          src={twoPlayersModeImage}
-          alt=""
-          aria-hidden="true"
-          style={{ width: '100%', height: 132, objectFit: 'contain' }}
-        />
-      </div>
-    ) : (
-      <AnimalPortrait animal={animal} theme={theme} compact />
-    )}
-  </button>
-)
+}) => {
+  return (
+    <button
+      type="button"
+      aria-label={hidden ? 'Show animal' : 'Hide animal'}
+      aria-pressed={hidden}
+      onClick={onToggle}
+      style={{
+        width: '100%',
+        padding: 0,
+        border: 0,
+        borderRadius: 26,
+        background: 'transparent',
+        cursor: 'pointer',
+      }}
+    >
+      {hidden ? (
+        <div
+          style={{
+            width: '100%',
+            minHeight: 170,
+            borderRadius: 26,
+            background: `${theme.colors.surface}dd`,
+            border: `3px solid ${theme.colors.secondary}`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+            padding: 8,
+            boxSizing: 'border-box',
+          }}
+        >
+          <img
+            src={twoPlayersModeImage}
+            alt=""
+            aria-hidden="true"
+            style={{ width: '100%', height: 132, objectFit: 'contain' }}
+          />
+        </div>
+      ) : (
+        <AnimalPortrait animal={animal} theme={theme} compact />
+      )}
+    </button>
+  )
+}
 
 const NavigationArrow = ({ direction }: { direction: 'previous' | 'next' }) => (
   <svg
@@ -441,6 +493,8 @@ const TwoPlayerProgressButton = ({
 
 type AnimalPlayContentProps = {
   mode: AnimalMode
+  difficulty: AnimalDifficulty
+  isGenericLearnAbilityShown: boolean
   animal: CatalogAnimal
   animalIndex: number
   isLastAnimal: boolean
@@ -455,10 +509,13 @@ type AnimalPlayContentProps = {
   onNext: () => void
   onSoloChoice: (choice: CatalogAnimal) => void
   onToggleAnimal: () => void
+  onToggleLearnAbility: () => void
 }
 
 const AnimalPlayContent = ({
   mode,
+  difficulty,
+  isGenericLearnAbilityShown,
   animal,
   animalIndex,
   isLastAnimal,
@@ -473,12 +530,18 @@ const AnimalPlayContent = ({
   onNext,
   onSoloChoice,
   onToggleAnimal,
+  onToggleLearnAbility,
 }: AnimalPlayContentProps) => {
   if (mode === 'learn') {
     return (
       <>
         <AnimalPortrait animal={animal} theme={theme} compact />
-        <FactGrid facts={getTeachingFacts(animal)} theme={theme} />
+        <FactGrid
+          facts={getTeachingFacts(animal, theme.id, isGenericLearnAbilityShown)}
+          theme={theme}
+          onAbilityClick={onToggleLearnAbility}
+          isGenericAbilityShown={isGenericLearnAbilityShown}
+        />
         <LearningNavigation
           theme={theme}
           canGoPrevious={animalIndex > 0}
@@ -499,7 +562,10 @@ const AnimalPlayContent = ({
           hidden={isTogetherAnimalHidden}
           onToggle={onToggleAnimal}
         />
-        <FactGrid facts={getTeachingFacts(animal)} theme={theme} />
+        <FactGrid
+          facts={getTeachingFacts(animal, theme.id, isTogetherAnimalHidden)}
+          theme={theme}
+        />
         <TwoPlayerProgressButton
           theme={theme}
           isLastAnimal={isLastAnimal}
@@ -512,7 +578,10 @@ const AnimalPlayContent = ({
   return (
     <>
       <FactGrid
-        facts={getTeachingFacts(animal).slice(0, visibleSoloClues)}
+        facts={getTeachingFacts(animal, theme.id, difficulty === 'hard').slice(
+          0,
+          visibleSoloClues
+        )}
         theme={theme}
       />
       <div
@@ -595,6 +664,7 @@ const AnimalTester = ({
   failureModeEnabled = true,
 }: AnimalTesterProps) => {
   const [mode, setMode] = useState<AnimalMode>('learn')
+  const [difficulty, setDifficulty] = useState<AnimalDifficulty>('easy')
   const [animalOrder, setAnimalOrder] = useState(() => shuffle(ANIMAL_CATALOG))
   const [animalIndex, setAnimalIndex] = useState(0)
   const [results, setResults] = useState<ActivityResult[]>([])
@@ -603,6 +673,8 @@ const AnimalTester = ({
   const [answeredCorrectly, setAnsweredCorrectly] = useState(false)
   const [visibleSoloClues, setVisibleSoloClues] = useState(1)
   const [isTogetherAnimalHidden, setIsTogetherAnimalHidden] = useState(false)
+  const [isGenericLearnAbilityShown, setIsGenericLearnAbilityShown] =
+    useState(false)
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const isSetup = !isRunning && !isCompleted
@@ -618,9 +690,7 @@ const AnimalTester = ({
     MAX_PROBLEMS,
     ANIMAL_CATALOG.length
   )
-  const activeAnimalOrder = (
-    mode === 'learn' ? ORDERED_ANIMAL_CATALOG : animalOrder
-  ).slice(0, itemLimit)
+  const activeAnimalOrder = getActiveAnimalOrder(mode, animalOrder, itemLimit)
   const animal = activeAnimalOrder[animalIndex]
   const isLastAnimal = animalIndex + 1 >= activeAnimalOrder.length
   const answerChoices = useMemo(() => {
@@ -641,6 +711,7 @@ const AnimalTester = ({
     setAnsweredCorrectly(false)
     setVisibleSoloClues(1)
     setIsTogetherAnimalHidden(false)
+    setIsGenericLearnAbilityShown(false)
   }, [])
 
   useEffect(() => {
@@ -675,6 +746,7 @@ const AnimalTester = ({
     }
     setAnimalIndex((index) => index + 1)
     setIsTogetherAnimalHidden(false)
+    setIsGenericLearnAbilityShown(false)
   }
 
   useEffect(() => {
@@ -682,7 +754,7 @@ const AnimalTester = ({
 
     setVisibleSoloClues(1)
     let revealedClues = 1
-    const clueCount = getTeachingFacts(animal).length
+    const clueCount = getTeachingFacts(animal, theme.id).length
     const timer = setInterval(() => {
       revealedClues += 1
       setVisibleSoloClues(revealedClues)
@@ -690,7 +762,7 @@ const AnimalTester = ({
     }, CLUE_REVEAL_INTERVAL_MS)
 
     return () => clearInterval(timer)
-  }, [animal, isFinished, isRunning, mode])
+  }, [animal, isFinished, isRunning, mode, theme.id])
 
   useEffect(
     () => () => {
@@ -739,7 +811,15 @@ const AnimalTester = ({
       className="flex w-full flex-col items-center"
     >
       {isSetup && !isEditable && (
-        <div style={{ width: uiTokens.controlRowWidth, maxWidth: '100%' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: uiTokens.panelStackGap,
+            width: uiTokens.controlRowWidth,
+            maxWidth: '100%',
+          }}
+        >
           <SegmentedChoiceControl
             theme={theme}
             value={mode}
@@ -747,6 +827,15 @@ const AnimalTester = ({
             onChange={setMode}
             ariaLabel="Animal game mode"
           />
+          {mode === 'solo' && (
+            <CrownDifficultyControl
+              theme={theme}
+              value={difficulty}
+              options={ANIMAL_DIFFICULTIES}
+              onChange={setDifficulty}
+              ariaLabel="Animal difficulty"
+            />
+          )}
         </div>
       )}
       <ActivitySetupControls
@@ -763,13 +852,24 @@ const AnimalTester = ({
         isEditable={isEditable}
         starMax={10}
         beforeProblemControl={
-          <SegmentedChoiceControl
-            theme={theme}
-            value={mode}
-            options={MODE_OPTIONS}
-            onChange={setMode}
-            ariaLabel="Animal game mode"
-          />
+          <>
+            <SegmentedChoiceControl
+              theme={theme}
+              value={mode}
+              options={MODE_OPTIONS}
+              onChange={setMode}
+              ariaLabel="Animal game mode"
+            />
+            {mode === 'solo' && (
+              <CrownDifficultyControl
+                theme={theme}
+                value={difficulty}
+                options={ANIMAL_DIFFICULTIES}
+                onChange={setDifficulty}
+                ariaLabel="Animal difficulty"
+              />
+            )}
+          </>
         }
       />
 
@@ -784,6 +884,8 @@ const AnimalTester = ({
         >
           <AnimalPlayContent
             mode={mode}
+            difficulty={difficulty}
+            isGenericLearnAbilityShown={isGenericLearnAbilityShown}
             animal={animal}
             animalIndex={animalIndex}
             isLastAnimal={isLastAnimal}
@@ -794,11 +896,17 @@ const AnimalTester = ({
             answeredCorrectly={answeredCorrectly}
             isTogetherAnimalHidden={isTogetherAnimalHidden}
             theme={theme}
-            onPrevious={() => setAnimalIndex((index) => Math.max(0, index - 1))}
+            onPrevious={() => {
+              setAnimalIndex((index) => Math.max(0, index - 1))
+              setIsGenericLearnAbilityShown(false)
+            }}
             onNext={showNextUnscoredAnimal}
             onSoloChoice={handleSoloChoice}
             onToggleAnimal={() =>
               setIsTogetherAnimalHidden((hidden) => !hidden)
+            }
+            onToggleLearnAbility={() =>
+              setIsGenericLearnAbilityShown((shown) => !shown)
             }
           />
         </ActivityPlayArea>
@@ -808,5 +916,5 @@ const AnimalTester = ({
   )
 }
 
-export { ANIMAL_CATALOG }
+export { ANIMAL_CATALOG, getActiveAnimalOrder }
 export default AnimalTester
