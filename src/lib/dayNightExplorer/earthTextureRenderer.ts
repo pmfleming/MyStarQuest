@@ -6,12 +6,10 @@ export const EARTH_TEXTURE_HEIGHT = 1024
 export const EARTH_OCEAN_COLOR = '#1e3799'
 
 type EarthTextureContext =
-  | CanvasRenderingContext2D
-  | OffscreenCanvasRenderingContext2D
+  CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D
 
 export type EarthTextureWorkerResponse =
-  | { type: 'ready'; pixels: ArrayBuffer }
-  | { type: 'error'; message: string }
+  { type: 'ready'; pixels: ArrayBuffer } | { type: 'error'; message: string }
 
 export const renderEarthTexture = (
   context: EarthTextureContext,

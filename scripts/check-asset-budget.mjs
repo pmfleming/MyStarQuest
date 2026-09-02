@@ -3,7 +3,9 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
 const ASSET_BUDGET_BYTES = 95 * 1024 * 1024
-const assetDirectory = fileURLToPath(new URL('../dist/assets/', import.meta.url))
+const assetDirectory = fileURLToPath(
+  new URL('../dist/assets/', import.meta.url)
+)
 
 const collectFiles = async (directory) => {
   const entries = await readdir(directory, { withFileTypes: true })

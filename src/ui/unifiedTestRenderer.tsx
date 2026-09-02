@@ -30,12 +30,7 @@ import { isTaskItem, type UnifiedChoreState } from './unifiedChoreState'
 import { clamp, noop } from './unifiedChoreRenderUtils'
 
 type TestVariant =
-  | 'math'
-  | 'largeNumbers'
-  | 'pv'
-  | 'alphabet'
-  | 'spelling'
-  | 'animals'
+  'math' | 'largeNumbers' | 'pv' | 'alphabet' | 'spelling' | 'animals'
 type TestTaskItem = Extract<TaskWithEphemeral, { taskType: TestType }>
 type TestTodoItem = Extract<TodoRecord, { sourceTaskType: TestType }>
 type TestOutcome = TaskOutcome | null | undefined

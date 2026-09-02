@@ -16,12 +16,7 @@ import { createTestActivityBindings } from '../ui/testActivityBindings'
 import { getPrincessTaskTypeIcon } from '../ui/taskTypeIcons'
 
 type TestChoiceKey =
-  | 'math'
-  | 'largeNumbers'
-  | 'pv'
-  | 'alphabet'
-  | 'spelling'
-  | 'animals'
+  'math' | 'largeNumbers' | 'pv' | 'alphabet' | 'spelling' | 'animals'
 
 const testChoices: Array<[TestChoiceKey, string, string]> = [
   ['math', 'Arithmetic', getPrincessTaskTypeIcon('math')],

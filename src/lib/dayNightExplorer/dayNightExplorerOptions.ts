@@ -7,11 +7,7 @@ import sunCitySvg from '../../assets/cities/sun.svg'
 import taipeiCitySvg from '../../assets/cities/taipei.svg'
 
 export type ExplorerFocusId =
-  | 'sun'
-  | 'earth'
-  | 'amsterdam'
-  | 'dublin'
-  | 'taipei'
+  'sun' | 'earth' | 'amsterdam' | 'dublin' | 'taipei'
 export type ExplorerCityId = Exclude<ExplorerFocusId, 'sun' | 'earth'>
 export type ExplorerDisplayMode = 'earth-focus' | 'solar-focus'
 
