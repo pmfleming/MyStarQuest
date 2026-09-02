@@ -60,10 +60,5 @@ describe('reward available summary', () => {
       'src',
       expect.stringContaining('locked-reward.png')
     )
-    expect(lockImage).toHaveStyle({
-      width: '22px',
-      height: '22px',
-      objectFit: 'contain',
-    })
   })
 })

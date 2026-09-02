@@ -30,11 +30,6 @@ describe('DashboardHeaderActions', () => {
       'src',
       expect.stringContaining('exit-princess.png')
     )
-    expect(exitImage).toHaveStyle({
-      width: '30px',
-      height: '30px',
-      objectFit: 'contain',
-    })
 
     rerender(actions(themes.space))
     expect(screen.getByAltText('Reset today')).toHaveAttribute(

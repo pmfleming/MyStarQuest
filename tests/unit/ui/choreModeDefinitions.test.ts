@@ -1,4 +1,5 @@
 import {
+  getActivityPrimaryActionLabel,
   getDinnerPrimaryActionLabel,
   getTestPrimaryActionLabel,
   shouldHidePresetChoreStars,
@@ -18,6 +19,8 @@ describe('chore mode definitions', () => {
       'positional-notation',
       'alphabet',
       'spelling',
+      'animals',
+      'watertoiletcheck',
     ] as const
 
     const matrix = stages.map((stage) => ({
@@ -38,11 +41,13 @@ describe('chore mode definitions', () => {
         {
           "hidePrimaryButtonByType": {
             "alphabet": false,
+            "animals": false,
             "eating": false,
             "large-numbers": false,
             "math": false,
             "positional-notation": false,
             "spelling": false,
+            "watertoiletcheck": false,
           },
           "hideStars": false,
           "hideTitle": false,
@@ -52,11 +57,13 @@ describe('chore mode definitions', () => {
         {
           "hidePrimaryButtonByType": {
             "alphabet": true,
+            "animals": true,
             "eating": false,
             "large-numbers": false,
             "math": false,
             "positional-notation": false,
             "spelling": true,
+            "watertoiletcheck": false,
           },
           "hideStars": true,
           "hideTitle": true,
@@ -66,11 +73,13 @@ describe('chore mode definitions', () => {
         {
           "hidePrimaryButtonByType": {
             "alphabet": true,
+            "animals": true,
             "eating": true,
             "large-numbers": true,
             "math": true,
             "positional-notation": true,
             "spelling": true,
+            "watertoiletcheck": true,
           },
           "hideStars": true,
           "hideTitle": true,
@@ -94,8 +103,18 @@ describe('chore mode definitions', () => {
         activityIdle: getDinnerPrimaryActionLabel('activity', false),
         completed: getDinnerPrimaryActionLabel('completed', false),
       },
+      activity: {
+        setup: getActivityPrimaryActionLabel('setup'),
+        activity: getActivityPrimaryActionLabel('activity'),
+        completed: getActivityPrimaryActionLabel('completed'),
+      },
     }).toMatchInlineSnapshot(`
       {
+        "activity": {
+          "activity": "Finish",
+          "completed": "Run",
+          "setup": "Run",
+        },
         "dinner": {
           "activityIdle": "Run",
           "activityRunning": "Bite",

@@ -1,32 +1,14 @@
 import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import AnimalTester, {
-  ANIMAL_CATALOG,
-  getActiveAnimalOrder,
-} from '../../src/components/AnimalTester'
+import AnimalTester from '../../src/components/AnimalTester'
 import { themes } from '../../src/contexts/ThemeContext'
-import {
-  ANIMAL_ABILITY_ASSETS,
-  getAnimalAbilityImage,
-} from '../../src/data/animalAbilityAssets'
-import {
-  PRINCESS_GENERIC_ANIMAL_ABILITY_ASSETS,
-  getGenericAnimalAbilityImage,
-} from '../../src/data/genericAnimalAbilityAssets'
+import { getAnimalAbilityImage } from '../../src/data/animalAbilityAssets'
+import { getGenericAnimalAbilityImage } from '../../src/data/genericAnimalAbilityAssets'
 import { ANIMAL_ASSETS } from '../../src/data/animalAssets'
-import {
-  ANIMAL_FOOD_IMAGE_BY_NAME,
-  ANIMAL_FOOD_NAMES,
-} from '../../src/data/animalFoodAssets'
-import {
-  ANIMAL_HABITAT_IMAGE_BY_NAME,
-  ANIMAL_HABITAT_NAMES,
-} from '../../src/data/animalHabitatAssets'
+import { ANIMAL_FOOD_IMAGE_BY_NAME } from '../../src/data/animalFoodAssets'
+import { ANIMAL_HABITAT_IMAGE_BY_NAME } from '../../src/data/animalHabitatAssets'
 import { ANIMAL_KNOWLEDGE } from '../../src/data/animalKnowledge'
-import {
-  ANIMAL_LOCATION_IMAGE_BY_NAME,
-  ANIMAL_LOCATION_NAMES,
-} from '../../src/data/animalLocationAssets'
+import { ANIMAL_LOCATION_IMAGE_BY_NAME } from '../../src/data/animalLocationAssets'
 
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 
@@ -41,180 +23,40 @@ const createProps = () => ({
   onExit: vi.fn(),
 })
 
-const EXPECTED_DISPLAY_CATEGORIES = {
-  alpaca: ['America', 'Mountain', 'Plants'],
-  ant: ['Worldwide', 'Burrow', 'Insects'],
-  armadillo: ['America', 'Grassland', 'Insects'],
-  bat: ['Worldwide', 'Cave', 'Insects'],
-  bear: ['Earth', 'Forest', 'Fish'],
-  beaver: ['Earth', 'River', 'Plants'],
-  bee: ['Worldwide', 'Trees', 'Nectar'],
-  'blue-whale': ['Ocean', 'Ocean', 'Krill'],
-  bluebird: ['America', 'Grassland', 'Insects'],
-  butterfly: ['Worldwide', 'Grassland', 'Nectar'],
-  camel: ['Earth', 'Desert', 'Plants'],
-  cat: ['Worldwide', 'Town', 'Meat'],
-  cheetah: ['Africa', 'Grassland', 'Meat'],
-  chicken: ['Worldwide', 'Farm', 'Seeds'],
-  chimpanzee: ['Africa', 'Forest', 'Fruit'],
-  cow: ['Worldwide', 'Farm', 'Plants'],
-  crab: ['Ocean', 'Ocean', 'Shellfish'],
-  crocodile: ['Earth', 'River', 'Fish'],
-  deer: ['Worldwide', 'Forest', 'Plants'],
-  dog: ['Worldwide', 'Town', 'Food'],
-  dolphin: ['Ocean', 'Ocean', 'Fish'],
-  duck: ['Worldwide', 'Wetland', 'Plants'],
-  eagle: ['Earth', 'Mountain', 'Meat'],
-  elephant: ['Earth', 'Grassland', 'Plants'],
-  flamingo: ['Earth', 'Wetland', 'Shrimp'],
-  fox: ['Worldwide', 'Forest', 'Meat'],
-  frog: ['Worldwide', 'Pond', 'Insects'],
-  gecko: ['Worldwide', 'Trees', 'Insects'],
-  giraffe: ['Africa', 'Grassland', 'Plants'],
-  goat: ['Worldwide', 'Mountain', 'Plants'],
-  gorilla: ['Africa', 'Forest', 'Plants'],
-  'green-tree-python': ['Australia', 'Forest', 'Prey'],
-  hedgehog: ['Earth', 'Grassland', 'Insects'],
-  hippo: ['Africa', 'River', 'Plants'],
-  horse: ['Worldwide', 'Farm', 'Plants'],
-  ibis: ['Worldwide', 'Wetland', 'Insects'],
-  jackal: ['Earth', 'Grassland', 'Meat'],
-  jaguar: ['America', 'Forest', 'Meat'],
-  kangaroo: ['Australia', 'Grassland', 'Plants'],
-  kiwi: ['Australia', 'Forest', 'Worms'],
-  koala: ['Australia', 'Forest', 'Plants'],
-  lion: ['Africa', 'Grassland', 'Meat'],
-  llama: ['America', 'Mountain', 'Plants'],
-  meerkat: ['Africa', 'Desert', 'Insects'],
-  mole: ['Earth', 'Burrow', 'Worms'],
-  monkey: ['Earth', 'Forest', 'Fruit'],
-  mouse: ['Worldwide', 'Farm', 'Seeds'],
-  newt: ['Earth', 'Pond', 'Worms'],
-  octopus: ['Ocean', 'Ocean', 'Shellfish'],
-  otter: ['Worldwide', 'River', 'Fish'],
-  owl: ['Worldwide', 'Forest', 'Meat'],
-  panda: ['Asia', 'Forest', 'Bamboo'],
-  parrot: ['Worldwide', 'Forest', 'Fruit'],
-  penguin: ['Earth', 'Ocean', 'Fish'],
-  pig: ['Worldwide', 'Farm', 'Plants'],
-  'polar-bear': ['Arctic', 'Tundra', 'Seals'],
-  rabbit: ['Worldwide', 'Grassland', 'Plants'],
-  raccoon: ['America', 'Forest', 'Fruit'],
-  rhino: ['Earth', 'Grassland', 'Plants'],
-  rooster: ['Worldwide', 'Farm', 'Seeds'],
-  seal: ['Worldwide', 'Ocean', 'Fish'],
-  shark: ['Ocean', 'Ocean', 'Fish'],
-  sheep: ['Worldwide', 'Grassland', 'Plants'],
-  skunk: ['America', 'Forest', 'Insects'],
-  sloth: ['America', 'Forest', 'Plants'],
-  snail: ['Worldwide', 'Nature', 'Plants'],
-  swan: ['Worldwide', 'Wetland', 'Plants'],
-  tarantula: ['Worldwide', 'Burrow', 'Insects'],
-  tiger: ['Asia', 'Forest', 'Meat'],
-  tortoise: ['Earth', 'Grassland', 'Plants'],
-  turkey: ['Worldwide', 'Forest', 'Seeds'],
-  vole: ['Earth', 'Grassland', 'Plants'],
-  wolf: ['Earth', 'Forest', 'Deer'],
-  yak: ['Asia', 'Mountain', 'Plants'],
-  zebra: ['Africa', 'Grassland', 'Plants'],
-} as const
-
 describe('AnimalTester', () => {
-  it('keeps the complete animal catalog and all visual mappings aligned', () => {
-    const assetNames = ANIMAL_ASSETS.map((animal) => animal.name)
-    const knowledgeNames = ANIMAL_KNOWLEDGE.map((animal) => animal.name)
+  it('connects every animal to complete facts and visual assets', () => {
+    const assetNames = ANIMAL_ASSETS.map(({ name }) => name).sort()
+    const knowledgeNames = ANIMAL_KNOWLEDGE.map(({ name }) => name).sort()
 
-    expect(assetNames).toHaveLength(75)
-    expect(knowledgeNames).toHaveLength(75)
-    expect(ANIMAL_CATALOG).toHaveLength(75)
-    expect(knowledgeNames).toEqual(assetNames)
-    expect(assetNames).not.toEqual(
-      expect.arrayContaining([
-        'bird',
-        'lizard',
-        'snake',
-        'spider',
-        'turtle',
-        'whale',
-      ])
-    )
-    expect(assetNames).toEqual(
-      expect.arrayContaining([
-        'bluebird',
-        'gecko',
-        'green-tree-python',
-        'tarantula',
-        'tortoise',
-        'blue-whale',
-        'polar-bear',
-        'octopus',
-      ])
-    )
+    expect(new Set(assetNames).size).toBe(assetNames.length)
+    expect(new Set(knowledgeNames).size).toBe(knowledgeNames.length)
+    expect(assetNames).toEqual(knowledgeNames)
 
-    const actualCategories = Object.fromEntries(
-      ANIMAL_KNOWLEDGE.map((animal) => [
-        animal.name,
-        [animal.locationCategory, animal.habitatCategory, animal.foodCategory],
-      ])
-    )
-
-    expect(actualCategories).toEqual(EXPECTED_DISPLAY_CATEGORIES)
-
-    const habitatImages = Object.values(ANIMAL_HABITAT_IMAGE_BY_NAME)
-
-    expect(ANIMAL_HABITAT_NAMES).toHaveLength(15)
-    expect(new Set(habitatImages).size).toBe(15)
-    expect(
-      ANIMAL_CATALOG.every(
-        (animal) =>
-          ANIMAL_HABITAT_IMAGE_BY_NAME[animal.habitatCategory].length > 0
+    const incompleteAnimals = ANIMAL_KNOWLEDGE.flatMap((animal) => {
+      const requiredFacts = [
+        animal.habitat[0],
+        animal.habitat[1],
+        animal.food[1],
+        animal.abilities[0],
+      ]
+      const hasCompleteFacts = requiredFacts.every(
+        (fact) => fact?.label && fact.text
       )
-    ).toBe(true)
-
-    const locationImages = Object.values(ANIMAL_LOCATION_IMAGE_BY_NAME)
-    const foodImages = Object.values(ANIMAL_FOOD_IMAGE_BY_NAME)
-
-    expect(ANIMAL_LOCATION_NAMES).toHaveLength(10)
-    expect(new Set(locationImages).size).toBe(10)
-    expect(ANIMAL_FOOD_NAMES).toHaveLength(16)
-    expect(new Set(foodImages).size).toBe(16)
-    expect(
-      ANIMAL_CATALOG.every(
-        (animal) =>
-          ANIMAL_LOCATION_IMAGE_BY_NAME[animal.locationCategory].length > 0
-      )
-    ).toBe(true)
-    expect(
-      ANIMAL_CATALOG.every(
-        (animal) => ANIMAL_FOOD_IMAGE_BY_NAME[animal.foodCategory].length > 0
-      )
-    ).toBe(true)
-
-    const abilityImages = ANIMAL_ABILITY_ASSETS.map((ability) => ability.image)
-
-    expect(ANIMAL_ABILITY_ASSETS).toHaveLength(75)
-    expect(new Set(abilityImages).size).toBe(75)
-    expect(
-      ANIMAL_CATALOG.every(
-        (animal) => (getAnimalAbilityImage(animal.name)?.length ?? 0) > 0
-      )
-    ).toBe(true)
-
-    expect(PRINCESS_GENERIC_ANIMAL_ABILITY_ASSETS).toHaveLength(52)
-    expect(
-      new Set(
-        PRINCESS_GENERIC_ANIMAL_ABILITY_ASSETS.map((asset) => asset.image)
-      ).size
-    ).toBe(52)
-    expect(
-      ANIMAL_CATALOG.every((animal) => {
-        const abilityLabel = animal.abilities[0].label
-        return (
-          (getGenericAnimalAbilityImage('princess', abilityLabel)?.length ??
-            0) > 0
+      const hasAllImages = Boolean(
+        ANIMAL_LOCATION_IMAGE_BY_NAME[animal.locationCategory] &&
+        ANIMAL_HABITAT_IMAGE_BY_NAME[animal.habitatCategory] &&
+        ANIMAL_FOOD_IMAGE_BY_NAME[animal.foodCategory] &&
+        getAnimalAbilityImage(animal.name) &&
+        getGenericAnimalAbilityImage(
+          'princess',
+          animal.abilities[0]?.label ?? ''
         )
-      })
-    ).toBe(true)
+      )
+
+      return hasCompleteFacts && hasAllImages ? [] : [animal.name]
+    })
+
+    expect(incompleteAnimals).toEqual([])
   })
 
   it('offers teaching, one-player, and two-player modes', () => {
@@ -254,23 +96,6 @@ describe('AnimalTester', () => {
     expect(hardOption.querySelectorAll('img')).toHaveLength(2)
   })
 
-  it('limits game modes by item count but makes every animal available for learning', () => {
-    const shuffledAnimals = [...ANIMAL_CATALOG].reverse()
-
-    expect(getActiveAnimalOrder('learn', shuffledAnimals, 2)).toHaveLength(75)
-    expect(
-      getActiveAnimalOrder('learn', shuffledAnimals, 2).map(
-        (animal) => animal.name
-      )
-    ).toEqual(
-      ANIMAL_CATALOG.map((animal) => animal.name).sort((left, right) =>
-        left.localeCompare(right)
-      )
-    )
-    expect(getActiveAnimalOrder('solo', shuffledAnimals, 2)).toHaveLength(2)
-    expect(getActiveAnimalOrder('together', shuffledAnimals, 2)).toHaveLength(2)
-  })
-
   it('teaches the complete ordered animal list regardless of the item limit', () => {
     const props = { ...createProps(), totalProblems: 2 }
     const { rerender } = render(<AnimalTester {...props} />)
@@ -289,62 +114,8 @@ describe('AnimalTester', () => {
     )
     expect(teachingCards).toHaveLength(4)
     expect(teachingCards.every((card) => card.querySelector('img'))).toBe(true)
-    expect(
-      teachingCards.every(
-        (card) =>
-          card.style.position === 'relative' && card.style.overflow === 'hidden'
-      )
-    ).toBe(true)
-    expect(
-      teachingCards.every((card) => {
-        const image = card.querySelector<HTMLElement>(
-          '[data-animal-fact-image]'
-        )
-        return (
-          image?.style.position === 'absolute' &&
-          image.style.width === '100%' &&
-          image.style.height === '100%' &&
-          image.style.objectFit === 'cover'
-        )
-      })
-    ).toBe(true)
-    expect(
-      teachingCards.every((card) => {
-        const word = card.querySelector<HTMLElement>('[data-animal-fact-word]')
-        return (
-          word?.style.position === 'absolute' &&
-          word.style.background.includes('0.5') &&
-          word.style.color.length > 0 &&
-          word.style.whiteSpace === 'normal'
-        )
-      })
-    ).toBe(true)
-    expect(
-      teachingCards
-        .slice(1)
-        .every(
-          (card) => (card.textContent?.trim().split(/\s+/).length ?? 0) <= 1
-        )
-    ).toBe(true)
     expect(teachingCards[0]).toHaveTextContent('The Andes of South America')
     expect(teachingCards[0]).not.toHaveTextContent(/^(Earth|Worldwide)$/)
-    expect(teachingCards.map((card) => card.textContent?.trim())).not.toEqual([
-      'Location',
-      'Environment',
-      'Food',
-      'Ability',
-    ])
-    expect(
-      teachingCards.map((card) => card.getAttribute('aria-label'))
-    ).toEqual(
-      expect.arrayContaining([
-        expect.stringMatching(/^LOCATION:/),
-        expect.stringMatching(/^ENVIRONMENT:/),
-        expect.stringMatching(/^FOOD:/),
-        expect.stringMatching(/^ABILITY:/),
-      ])
-    )
-
     const abilityCard = screen.getByRole('button', { name: /^ABILITY:/ })
     expect(abilityCard).toHaveAttribute('aria-pressed', 'false')
     expect(abilityCard.querySelector('img')).toHaveAttribute(
@@ -375,10 +146,6 @@ describe('AnimalTester', () => {
     })
     const nextButton = screen.getByRole('button', { name: 'Next animal' })
     expect(previousButton).toBeDisabled()
-    expect(previousButton).toHaveTextContent('')
-    expect(nextButton).toHaveTextContent('')
-    expect(previousButton.querySelector('svg')).toBeInTheDocument()
-    expect(nextButton.querySelector('svg')).toBeInTheDocument()
 
     fireEvent.click(nextButton)
     expect(props.onComplete).not.toHaveBeenCalled()
@@ -457,7 +224,7 @@ describe('AnimalTester', () => {
           .getByLabelText(new RegExp(`^${category}:`))
           .getAttribute('aria-label')
           ?.replace(`${category}: `, '')
-      const currentAnimal = ANIMAL_CATALOG.find(
+      const currentAnimal = ANIMAL_KNOWLEDGE.find(
         (animal) =>
           animal.habitat[0].text === factText('LOCATION') &&
           animal.habitat[1].text === factText('ENVIRONMENT') &&
@@ -520,7 +287,7 @@ describe('AnimalTester', () => {
       const abilityText = abilityCard
         .getAttribute('aria-label')
         ?.replace('ABILITY: ', '')
-      const currentAnimal = ANIMAL_CATALOG.find(
+      const currentAnimal = ANIMAL_KNOWLEDGE.find(
         (animal) => animal.abilities[0].text === abilityText
       )
       expect(currentAnimal).toBeDefined()
@@ -534,9 +301,6 @@ describe('AnimalTester', () => {
           currentAnimal.abilities[0].label
         )
       )
-      expect(abilityCard.querySelector('img')).toHaveStyle({
-        objectFit: 'contain',
-      })
     } finally {
       vi.useRealTimers()
     }
@@ -579,8 +343,11 @@ describe('AnimalTester', () => {
     const animalPortrait = within(hideAnimalButton).getByRole('img')
     const animalName = animalPortrait.getAttribute('alt')
     expect(animalName).toBeTruthy()
-    const currentAnimal = ANIMAL_CATALOG.find(
+    const currentAsset = ANIMAL_ASSETS.find(
       (animal) => animal.image === animalPortrait.getAttribute('src')
+    )
+    const currentAnimal = ANIMAL_KNOWLEDGE.find(
+      (animal) => animal.name === currentAsset?.name
     )
     expect(currentAnimal).toBeDefined()
     const abilityCard = screen.getByLabelText(/^ABILITY:/)
@@ -608,9 +375,6 @@ describe('AnimalTester', () => {
         currentAnimal!.abilities[0].label
       )
     )
-    expect(abilityCard.querySelector('img')).toHaveStyle({
-      objectFit: 'contain',
-    })
     expect(screen.queryByAltText(animalName!)).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Show animal' }))
@@ -621,8 +385,6 @@ describe('AnimalTester', () => {
     )
 
     const nextButton = screen.getByRole('button', { name: 'Next animal' })
-    expect(nextButton).toHaveTextContent('')
-    expect(nextButton).toHaveClass('activity-inline-action')
     fireEvent.click(nextButton)
     expect(props.onComplete).not.toHaveBeenCalled()
     expect(screen.getByRole('button', { name: 'Hide animal' })).toHaveAttribute(

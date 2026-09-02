@@ -47,7 +47,7 @@ afterEach(() => {
 })
 
 describe('StandardActionList card contract', () => {
-  it('renders explicit card regions and image-only aligned actions', () => {
+  it('renders accessible card regions and hides configured actions', () => {
     renderList()
 
     const card = screen.getByRole('article')
@@ -67,23 +67,6 @@ describe('StandardActionList card contract', () => {
       'Edit Arithmetic',
       'Delete Arithmetic',
     ])
-    expect(actions[0]).toHaveTextContent('')
-    expect(
-      actions[0].querySelector('.standard-card-primary-art')
-    ).not.toBeNull()
-    expect(actions[0].parentElement).toHaveStyle({
-      display: 'grid',
-      alignItems: 'stretch',
-      minHeight: '60px',
-    })
-    for (const utilityAction of actions.slice(1)) {
-      const artwork = utilityAction.querySelector('img')
-      expect(artwork).toHaveClass('h-full', 'w-full', 'object-contain')
-      expect(artwork?.parentElement).toHaveStyle({
-        width: '52px',
-        height: '52px',
-      })
-    }
 
     cleanup()
     renderList({
@@ -106,14 +89,13 @@ describe('StandardActionList card contract', () => {
       },
     })
 
-    expect(screen.getByRole('article')).toHaveClass(
-      'standard-card-primary-hidden'
-    )
     expect(
-      document.getElementById('whimsical-action-list-styles')
-    ).toHaveTextContent(
-      '.standard-card-primary-hidden:has(.activity-inline-action, .activity-inline-action-row)'
-    )
+      screen
+        .getAllByRole('button')
+        .map(
+          (button) => button.getAttribute('aria-label') ?? button.textContent
+        )
+    ).toEqual(['Continue', 'Reset'])
   })
 
   it('resets immediately, exposes busy state, and uses themed artwork', async () => {

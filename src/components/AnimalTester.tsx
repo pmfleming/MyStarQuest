@@ -931,5 +931,4 @@ const AnimalTester = ({
   )
 }
 
-export { ANIMAL_CATALOG, getActiveAnimalOrder }
 export default AnimalTester

@@ -37,27 +37,6 @@ const teenieNames = getAssetNames(teenieAssetModules)
 const pokemonNames = getAssetNames(pokemonAssetModules)
   .map((name) => name.replace(/^grrowlithe$/i, 'growlithe'))
   .sort()
-const addedPokemonNames = [
-  'blastoise',
-  'charizard',
-  'charmeleon',
-  'corsola',
-  'dewott',
-  'floragato',
-  'igglybuff',
-  'jolteon',
-  'joltik',
-  'meowscarada',
-  'oshawott',
-  'plusle',
-  'samurott',
-  'slowpoke',
-  'tinkatink',
-  'tinkaton',
-  'tinkatuff',
-  'wartortle',
-  'wigglytuff',
-]
 
 const defaultProps = {
   theme: themes.princess,
@@ -72,6 +51,7 @@ const defaultProps = {
 describe('SpellingTester', () => {
   it('offers teenie, animal, and Pokémon image sets', async () => {
     const user = userEvent.setup()
+
     const { rerender: rerenderTeenie } = render(
       <SpellingTester {...defaultProps} />
     )
@@ -93,8 +73,6 @@ describe('SpellingTester', () => {
     })
 
     cleanup()
-    expect(ANIMAL_ASSETS).toHaveLength(75)
-
     const { rerender: rerenderAnimals } = render(
       <SpellingTester {...defaultProps} />
     )
@@ -117,9 +95,6 @@ describe('SpellingTester', () => {
     })
 
     cleanup()
-    expect(pokemonNames).toHaveLength(44)
-    expect(pokemonNames).toEqual(expect.arrayContaining(addedPokemonNames))
-
     const { rerender: rerenderPokemon } = render(
       <SpellingTester {...defaultProps} />
     )

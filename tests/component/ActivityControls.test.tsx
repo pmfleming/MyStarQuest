@@ -1,33 +1,39 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { themes } from '../../src/contexts/ThemeContext'
 import { ActivitySetupControls } from '../../src/components/ui/ActivityControls'
 
 describe('ActivitySetupControls', () => {
-  it('standardizes editable spacing and read-only setup controls', () => {
-    const { container, rerender } = render(
+  it('reports edits and removes editing controls in read-only mode', async () => {
+    const user = userEvent.setup()
+    const onAdjustProblems = vi.fn()
+    const onStarsChange = vi.fn()
+    const { rerender } = render(
       <ActivitySetupControls
         isSetup
         theme={themes.princess}
         totalProblems={6}
         min={1}
         max={9}
-        onAdjustProblems={vi.fn()}
+        onAdjustProblems={onAdjustProblems}
         starReward={3}
-        onStarsChange={vi.fn()}
+        onStarsChange={onStarsChange}
         previousAriaLabel="Fewer problems"
         nextAriaLabel="More problems"
         beforeProblemControl={<button type="button">Mode</button>}
       />
     )
 
-    const setup = container.querySelector('[data-activity-setup]')
-
-    expect(setup).toHaveStyle({ gap: '24px' })
-    expect(setup).toHaveStyle({ width: '380px', maxWidth: '100%' })
-    expect(screen.getByText('Mode')).toBe(setup?.children[0])
     expect(screen.getByText('6')).toBeInTheDocument()
-    expect(setup?.children).toHaveLength(3)
+    expect(screen.getByRole('button', { name: 'Mode' })).toBeInTheDocument()
+
+    await user.click(screen.getByLabelText('Fewer problems'))
+    await user.click(screen.getByLabelText('More problems'))
+    await user.click(screen.getByLabelText('Increase star value'))
+
+    expect(onAdjustProblems.mock.calls).toEqual([[-1], [1]])
+    expect(onStarsChange).toHaveBeenCalledWith(4)
 
     rerender(
       <ActivitySetupControls

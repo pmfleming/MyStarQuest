@@ -23,7 +23,7 @@ const princessTheme = {
 }
 
 describe('WaterToiletMonitor', () => {
-  it('shows both interactive toilet states', () => {
+  it('renders every interactive water and toilet state accessibly', () => {
     const { rerender } = render(
       <WaterToiletMonitor
         theme={princessTheme}
@@ -34,8 +34,31 @@ describe('WaterToiletMonitor', () => {
       />
     )
 
-    const toiletImage = screen.getByAltText('Has not gone to the toilet')
-    expect(toiletImage).toHaveAttribute(
+    const waterStates = [
+      ['full', 'Full flask', 'flask-full'],
+      ['twothirds', 'Two-thirds full flask', 'flask-twothirds'],
+      ['onethird', 'One-third full flask', 'flask-onethird'],
+      ['empty', 'Empty flask', 'drink-success'],
+    ] as const
+
+    for (const [waterLevel, label, assetName] of waterStates) {
+      rerender(
+        <WaterToiletMonitor
+          theme={princessTheme}
+          waterLevel={waterLevel}
+          toiletStatus="notpeepee"
+          starDelta={0}
+          isInteractive
+        />
+      )
+
+      expect(screen.getByAltText(label)).toHaveAttribute(
+        'src',
+        expect.stringContaining(assetName)
+      )
+    }
+
+    expect(screen.getByAltText('Has not gone to the toilet')).toHaveAttribute(
       'src',
       expect.stringContaining('notpeepee')
     )
@@ -71,6 +94,11 @@ describe('WaterToiletMonitor', () => {
 
     const waterImage = screen.getByAltText('Empty flask')
     const toiletImage = screen.getByAltText('Has gone to the toilet')
+
+    expect(screen.getByRole('button', { name: 'Empty flask' })).toBeDisabled()
+    expect(
+      screen.getByRole('button', { name: 'Has gone to the toilet' })
+    ).toBeDisabled()
 
     expect(waterImage).toHaveAttribute(
       'src',

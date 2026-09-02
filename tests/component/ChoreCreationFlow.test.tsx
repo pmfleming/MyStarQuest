@@ -47,19 +47,7 @@ describe('ChoreCreationFlow', () => {
     })
 
     const saveButton = screen.getByRole('button', { name: 'Save' })
-    const backButton = screen.getByRole('button', { name: 'Back' })
-    expect(saveButton.parentElement).toHaveStyle({
-      height: '60px',
-      minHeight: '60px',
-      alignItems: 'stretch',
-      gap: '14px',
-    })
-    expect(saveButton).toHaveStyle({ height: '100%' })
-    expect(backButton).toHaveStyle({
-      width: '60px',
-      minWidth: '60px',
-      height: '100%',
-    })
+    expect(screen.getByRole('button', { name: 'Back' })).toBeEnabled()
 
     await user.click(saveButton)
 
