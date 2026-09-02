@@ -33,6 +33,22 @@ const getAssetNames = (assetModules: Record<string, unknown>) =>
     .sort()
 
 const teenieNames = getAssetNames(teenieAssetModules)
+const newTeenieNames = [
+  'blank',
+  'chacha',
+  'charm',
+  'dada',
+  'ego',
+  'gogo',
+  'kiki',
+  'lala',
+  'mimic',
+  'mosey',
+  'narr',
+  'romi',
+  'spook',
+  'tutu',
+]
 
 const pokemonNames = getAssetNames(pokemonAssetModules)
   .map((name) => name.replace(/^grrowlithe$/i, 'growlithe'))
@@ -51,6 +67,7 @@ const defaultProps = {
 describe('SpellingTester', () => {
   it('offers teenie, animal, and Pokémon image sets', async () => {
     const user = userEvent.setup()
+    expect(teenieNames).toEqual(expect.arrayContaining(newTeenieNames))
 
     const { rerender: rerenderTeenie } = render(
       <SpellingTester {...defaultProps} />
