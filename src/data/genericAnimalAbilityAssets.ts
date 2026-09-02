@@ -2,7 +2,7 @@ import type { ThemeId } from '../ui/themeOptions'
 import { createAssetCatalog } from './assetCatalog'
 
 const princessModules = import.meta.glob<string>(
-  '../assets/animal-abilities-generic/princess/*.png',
+  '../assets/animal-abilities-generic/princess/*.webp',
   {
     eager: true,
     import: 'default',
