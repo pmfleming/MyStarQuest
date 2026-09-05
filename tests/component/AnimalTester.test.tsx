@@ -8,7 +8,10 @@ import { ANIMAL_ASSETS } from '../../src/data/animalAssets'
 import { ANIMAL_FOOD_IMAGE_BY_NAME } from '../../src/data/animalFoodAssets'
 import { ANIMAL_HABITAT_IMAGE_BY_NAME } from '../../src/data/animalHabitatAssets'
 import { ANIMAL_KNOWLEDGE } from '../../src/data/animalKnowledge'
-import { ANIMAL_LOCATION_IMAGE_BY_NAME } from '../../src/data/animalLocationAssets'
+import {
+  ANIMAL_LOCATION_IMAGE_BY_NAME,
+  REVIEWED_ANIMAL_LOCATIONS,
+} from '../../src/data/animalLocationAssets'
 
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 
@@ -24,6 +27,40 @@ const createProps = () => ({
 })
 
 describe('AnimalTester', () => {
+  it('keeps shared region captions and maps together despite different animal facts', () => {
+    render(<AnimalTester {...createProps()} isRunning />)
+    const expected = {
+      Bat: 'Worldwide',
+      Crocodile: 'Warm regions',
+      Deer: 'Five continents',
+      Eagle: 'Worldwide',
+      Flamingo: 'Five continents',
+      Hedgehog: 'Afro-Eurasia',
+      Monkey: 'Africa, Asia & Americas',
+      Otter: 'Five continents',
+    } as const
+    const seen = new Set<string>()
+    for (let index = 0; index < ANIMAL_KNOWLEDGE.length; index++) {
+      for (const [name, category] of Object.entries(expected)) {
+        if (!screen.queryByAltText(name)) continue
+        const location = screen.getByLabelText(/^LOCATION:/)
+        const { label, image } = REVIEWED_ANIMAL_LOCATIONS[category]
+        expect(
+          location.querySelector('[data-animal-fact-word]')?.textContent
+        ).toBe(label)
+        expect(location.querySelector('img')).toHaveAttribute('src', image)
+        seen.add(name)
+      }
+      if (seen.size === Object.keys(expected).length) break
+      fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
+    }
+    expect([...seen].sort()).toEqual(Object.keys(expected).sort())
+    const maps = Object.values(REVIEWED_ANIMAL_LOCATIONS).map(
+      ({ image }) => image
+    )
+    expect(new Set(maps).size).toBe(maps.length)
+  })
+
   it('connects every animal to complete facts and visual assets', () => {
     const assetNames = ANIMAL_ASSETS.map(({ name }) => name).sort()
     const knowledgeNames = ANIMAL_KNOWLEDGE.map(({ name }) => name).sort()

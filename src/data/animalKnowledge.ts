@@ -38,7 +38,7 @@ const makeFacts = (facts: readonly FactSeed[]): AnimalFact[] =>
 const KNOWLEDGE_SEEDS = {
   ant: {
     habitat: [
-      ['PLACE', '🌍', 'Almost everywhere on Earth'],
+      ['PLACE', '🌍', 'Ant species live on every continent except Antarctica'],
       ['HOME', '🕳️', 'Nests in soil, wood, or plants'],
       ['CLIMATE', '🌤️', 'Many different climates'],
       ['COLONY', '🐜🐜', 'Lives with many other ants'],
@@ -58,7 +58,11 @@ const KNOWLEDGE_SEEDS = {
   },
   bat: {
     habitat: [
-      ['PLACE', '🌍', 'Most parts of the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Bat species live on every continent except Antarctica; most avoid polar regions',
+      ],
       ['HOME', '🦇', 'Caves, trees, roofs, and hollows'],
       ['CLIMATE', '🌦️', 'Warm and cool places'],
       ['WHEN', '🌙', 'Comes out mostly at night'],
@@ -98,7 +102,7 @@ const KNOWLEDGE_SEEDS = {
   },
   bee: {
     habitat: [
-      ['PLACE', '🌍', 'Flowering places around the world'],
+      ['PLACE', '🌍', 'Bee species live on every continent except Antarctica'],
       ['HOME', '🏡', 'Hives, tree holes, or ground nests'],
       ['CLIMATE', '☀️', 'Most active in warm weather'],
       ['FLOWERS', '🌼', 'Needs places with many flowers'],
@@ -138,7 +142,11 @@ const KNOWLEDGE_SEEDS = {
   },
   butterfly: {
     habitat: [
-      ['PLACE', '🌍', 'Many warm parts of the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Butterfly species live on every continent except Antarctica, including cool regions',
+      ],
       ['HOME', '🌼', 'Meadows, gardens, and forests'],
       ['CLIMATE', '☀️', 'Likes warm, sunny weather'],
       ['FLOWERS', '🌸', 'Needs flowers and food plants'],
@@ -178,7 +186,11 @@ const KNOWLEDGE_SEEDS = {
   },
   cat: {
     habitat: [
-      ['PLACE', '🌍', 'Homes and farms around the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Domestic cats live with people on every inhabited continent',
+      ],
       ['HOME', '🏠', 'Lives close to people'],
       ['CLIMATE', '🌤️', 'Many different climates'],
       ['SHELTER', '🧺', 'Likes warm, safe resting places'],
@@ -198,7 +210,11 @@ const KNOWLEDGE_SEEDS = {
   },
   chicken: {
     habitat: [
-      ['PLACE', '🌍', 'Farms around the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Domestic chickens are kept on farms on every inhabited continent',
+      ],
       ['HOME', '🏡', 'Coops, yards, and farms'],
       ['CLIMATE', '🌤️', 'Many mild climates'],
       ['SHELTER', '🪹', 'Roosts safely at night'],
@@ -218,7 +234,11 @@ const KNOWLEDGE_SEEDS = {
   },
   cow: {
     habitat: [
-      ['PLACE', '🌍', 'Farms around the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Domestic cattle are kept on farms on every inhabited continent',
+      ],
       ['HOME', '🌾', 'Pastures, barns, and grasslands'],
       ['CLIMATE', '🌤️', 'Many mild climates'],
       ['WATER', '💧', 'Needs plenty of fresh water'],
@@ -261,7 +281,7 @@ const KNOWLEDGE_SEEDS = {
       [
         'PLACE',
         '🌍',
-        'Warm parts of Africa, Asia, the Americas, and Australia',
+        'Crocodiles live in warm parts of Africa, southern Asia, the Americas and northern Australia',
       ],
       ['HOME', '🏞️', 'Rivers, lakes, and wetlands'],
       ['TEMPERATURE', '☀️', 'Warm and tropical'],
@@ -282,7 +302,11 @@ const KNOWLEDGE_SEEDS = {
   },
   deer: {
     habitat: [
-      ['PLACE', '🌍', 'Many parts of the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Native deer live in the Americas, Europe, Asia and northern Africa; introduced deer also live in Australia and New Zealand',
+      ],
       ['HOME', '🌲', 'Forests, meadows, and mountains'],
       ['CLIMATE', '🍂', 'Cool and mild seasons'],
       ['COVER', '🌳', 'Uses trees and tall plants for shelter'],
@@ -302,7 +326,11 @@ const KNOWLEDGE_SEEDS = {
   },
   dog: {
     habitat: [
-      ['PLACE', '🌍', 'Lives with people worldwide'],
+      [
+        'PLACE',
+        '🌍',
+        'Domestic dogs live with people on every inhabited continent',
+      ],
       ['HOME', '🏠', 'Homes, farms, and working places'],
       ['CLIMATE', '🌦️', 'Many different climates'],
       ['PEOPLE', '👨‍👩‍👧', 'Depends on people for care'],
@@ -342,7 +370,11 @@ const KNOWLEDGE_SEEDS = {
   },
   duck: {
     habitat: [
-      ['PLACE', '🌍', 'Wetlands around the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Duck species live in wetlands on every continent except Antarctica',
+      ],
       ['HOME', '🏞️', 'Ponds, lakes, rivers, and marshes'],
       ['CLIMATE', '🌦️', 'Warm and cool places'],
       ['WATER', '💧', 'Lives close to fresh or salt water'],
@@ -362,7 +394,11 @@ const KNOWLEDGE_SEEDS = {
   },
   eagle: {
     habitat: [
-      ['PLACE', '🌍', 'Many continents'],
+      [
+        'PLACE',
+        '🌍',
+        'Eagle species live on every continent except Antarctica',
+      ],
       ['HOME', '🏔️', 'Mountains, forests, coasts, and plains'],
       ['CLIMATE', '🌤️', 'Many different climates'],
       ['NEST', '🪺', 'Builds a large nest high up'],
@@ -402,7 +438,11 @@ const KNOWLEDGE_SEEDS = {
   },
   fox: {
     habitat: [
-      ['PLACE', '🌍', 'Many parts of the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Fox species live in the Americas, Europe, Asia and Africa; red foxes were introduced to Australia',
+      ],
       ['HOME', '🌲', 'Forests, grasslands, deserts, and towns'],
       ['CLIMATE', '🌦️', 'Cold, cool, and warm places'],
       ['DEN', '🕳️', 'Rests and raises young in a den'],
@@ -422,7 +462,7 @@ const KNOWLEDGE_SEEDS = {
   },
   frog: {
     habitat: [
-      ['PLACE', '🌍', 'Most parts of the world'],
+      ['PLACE', '🌍', 'Frog species live on every continent except Antarctica'],
       ['HOME', '🏞️', 'Ponds, wetlands, forests, and gardens'],
       ['CLIMATE', '🌧️', 'Moist places, often warm or mild'],
       ['WATER', '💧', 'Needs water or damp shelter'],
@@ -462,7 +502,7 @@ const KNOWLEDGE_SEEDS = {
   },
   goat: {
     habitat: [
-      ['PLACE', '🌍', 'Farms and mountains worldwide'],
+      ['PLACE', '🌍', 'Domestic goats are kept on every inhabited continent'],
       ['HOME', '⛰️', 'Rocky slopes, grasslands, and farms'],
       ['CLIMATE', '🌦️', 'Many warm and cool climates'],
       ['GROUND', '🪨', 'Handles steep, uneven ground'],
@@ -502,7 +542,7 @@ const KNOWLEDGE_SEEDS = {
   },
   horse: {
     habitat: [
-      ['PLACE', '🌍', 'Farms and grasslands worldwide'],
+      ['PLACE', '🌍', 'Domestic horses are kept on every inhabited continent'],
       ['HOME', '🌾', 'Open fields, pastures, and stables'],
       ['CLIMATE', '🌦️', 'Many different climates'],
       ['WATER', '💧', 'Needs fresh water every day'],
@@ -522,7 +562,11 @@ const KNOWLEDGE_SEEDS = {
   },
   ibis: {
     habitat: [
-      ['PLACE', '🌍', 'Warm regions around the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Ibis species live on every continent except Antarctica, including warm and temperate wetlands',
+      ],
       ['HOME', '🏞️', 'Wetlands, marshes, and muddy shores'],
       ['TEMPERATURE', '☀️', 'Mostly warm and mild'],
       ['WATER', '💧', 'Feeds in shallow water'],
@@ -642,7 +686,11 @@ const KNOWLEDGE_SEEDS = {
   },
   gecko: {
     habitat: [
-      ['PLACE', '🌍', 'Warm regions around the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Gecko species live on every continent except Antarctica, mostly in warm regions but also in mild climates',
+      ],
       ['HOME', '🌴🪨', 'Trees, rocks, caves, and buildings'],
       ['TEMPERATURE', '☀️', 'Warm and tropical'],
       ['SHELTER', '🌙', 'Hides by day and often comes out at night'],
@@ -702,7 +750,11 @@ const KNOWLEDGE_SEEDS = {
   },
   monkey: {
     habitat: [
-      ['PLACE', '🌍', 'Warm regions of Africa, Asia, and the Americas'],
+      [
+        'PLACE',
+        '🌍',
+        'Monkeys are native to Africa, Asia, Mexico, Central America and South America; some live in snowy mountains',
+      ],
       ['HOME', '🌴', 'Forests, woodlands, and grasslands'],
       ['CLIMATE', '☀️🌧️', 'Mostly warm, often rainy'],
       ['TREES', '🌳', 'Many spend much of their time in trees'],
@@ -722,7 +774,11 @@ const KNOWLEDGE_SEEDS = {
   },
   mouse: {
     habitat: [
-      ['PLACE', '🌍', 'Many parts of the world'],
+      [
+        'PLACE',
+        '🌍',
+        'House mice live on every inhabited continent, spread by people',
+      ],
       ['HOME', '🌾🏠', 'Fields, forests, farms, and buildings'],
       ['CLIMATE', '🌦️', 'Many different climates'],
       ['NEST', '🪹', 'Makes a hidden nest'],
@@ -762,7 +818,11 @@ const KNOWLEDGE_SEEDS = {
   },
   otter: {
     habitat: [
-      ['PLACE', '🌍', 'Rivers and coasts around the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Otters live in parts of the Americas, Europe, Asia and Africa; none are native to Australia or Antarctica',
+      ],
       ['HOME', '🏞️', 'Rivers, lakes, wetlands, and seashores'],
       ['CLIMATE', '🌦️', 'Cool, mild, and warm places'],
       ['WATER', '💧', 'Needs healthy water with plenty of food'],
@@ -782,7 +842,7 @@ const KNOWLEDGE_SEEDS = {
   },
   owl: {
     habitat: [
-      ['PLACE', '🌍', 'Almost everywhere in the world'],
+      ['PLACE', '🌍', 'Owl species live on every continent except Antarctica'],
       ['HOME', '🌲', 'Forests, farms, deserts, and tundra'],
       ['CLIMATE', '🌦️', 'Many different climates'],
       ['NEST', '🪹', 'Uses hollows, ledges, or old nests'],
@@ -822,7 +882,11 @@ const KNOWLEDGE_SEEDS = {
   },
   parrot: {
     habitat: [
-      ['PLACE', '🌍', 'Warm regions worldwide'],
+      [
+        'PLACE',
+        '🌍',
+        'Parrots are native to the Americas, Africa, Asia and Australasia, including cold New Zealand habitats; introduced populations also live in Europe',
+      ],
       ['HOME', '🌴', 'Rainforests, woodlands, and savannas'],
       ['CLIMATE', '☀️🌧️', 'Mostly warm, often rainy'],
       ['TREES', '🌳', 'Feeds and nests in trees'],
@@ -862,7 +926,11 @@ const KNOWLEDGE_SEEDS = {
   },
   pig: {
     habitat: [
-      ['PLACE', '🌍', 'Farms and wild places worldwide'],
+      [
+        'PLACE',
+        '🌍',
+        'Domestic pigs are kept on every inhabited continent; wild pig ranges vary by species',
+      ],
       ['HOME', '🏡🌲', 'Farms, forests, and grasslands'],
       ['CLIMATE', '🌦️', 'Many different climates'],
       ['MUD', '🟤', 'Uses mud and shade to stay cool'],
@@ -882,7 +950,11 @@ const KNOWLEDGE_SEEDS = {
   },
   rabbit: {
     habitat: [
-      ['PLACE', '🌍', 'Many parts of the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Rabbits live on every inhabited continent, including introduced populations in Australia and New Zealand',
+      ],
       ['HOME', '🌾', 'Grasslands, woods, farms, and gardens'],
       ['CLIMATE', '🌦️', 'Mostly mild and cool places'],
       ['BURROW', '🕳️', 'Many shelter in underground burrows'],
@@ -922,7 +994,11 @@ const KNOWLEDGE_SEEDS = {
   },
   rooster: {
     habitat: [
-      ['PLACE', '🌍', 'Farms around the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Roosters are male domestic chickens, kept on every inhabited continent',
+      ],
       ['HOME', '🏡', 'Coops, yards, and farms'],
       ['CLIMATE', '🌤️', 'Many mild climates'],
       ['ROOST', '🌳', 'Sleeps on a raised perch'],
@@ -942,7 +1018,11 @@ const KNOWLEDGE_SEEDS = {
   },
   seal: {
     habitat: [
-      ['PLACE', '🌍', 'Coasts around the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Seal species live mainly along cold and temperate coasts worldwide, with some in warmer seas',
+      ],
       ['HOME', '🌊', 'Oceans, rocky shores, beaches, and ice'],
       ['TEMPERATURE', '❄️', 'Mostly cold and cool water'],
       ['REST', '🏖️', 'Comes onto land or ice to rest'],
@@ -982,7 +1062,7 @@ const KNOWLEDGE_SEEDS = {
   },
   sheep: {
     habitat: [
-      ['PLACE', '🌍', 'Farms and hills worldwide'],
+      ['PLACE', '🌍', 'Domestic sheep are kept on every inhabited continent'],
       ['HOME', '🌾', 'Grasslands, farms, and mountain pastures'],
       ['CLIMATE', '🌦️', 'Many cool and mild climates'],
       ['SHELTER', '🏡', 'Needs shelter from extreme weather'],
@@ -1042,7 +1122,11 @@ const KNOWLEDGE_SEEDS = {
   },
   snail: {
     habitat: [
-      ['PLACE', '🌍', 'Land and water around the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Snail species live in land or water habitats on every inhabited continent',
+      ],
       ['HOME', '🌿', 'Gardens, forests, ponds, and seas'],
       ['CLIMATE', '🌧️', 'Often cool or moist'],
       ['RAIN', '💧', 'Land snails are active when it is damp'],
@@ -1082,7 +1166,11 @@ const KNOWLEDGE_SEEDS = {
   },
   tarantula: {
     habitat: [
-      ['PLACE', '🌍', 'Warm regions around the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Tarantulas live in warm parts of every continent except Antarctica',
+      ],
       ['HOME', '🕳️', 'Burrows, tree hollows, and sheltered ground'],
       ['CLIMATE', '☀️', 'Warm, from dry scrub to rainforest'],
       ['SHELTER', '🍂', 'Hides in a silk-lined retreat'],
@@ -1102,7 +1190,11 @@ const KNOWLEDGE_SEEDS = {
   },
   swan: {
     habitat: [
-      ['PLACE', '🌍', 'Temperate regions around the world'],
+      [
+        'PLACE',
+        '🌍',
+        'Swans mainly live in temperate parts of North America, Europe, Asia, South America and Australia; some breed in the Arctic',
+      ],
       ['HOME', '🏞️', 'Lakes, rivers, marshes, and coasts'],
       ['CLIMATE', '🌦️', 'Mostly cool and mild'],
       ['WATER', '💧', 'Lives and feeds on the water'],
@@ -1142,7 +1234,11 @@ const KNOWLEDGE_SEEDS = {
   },
   turkey: {
     habitat: [
-      ['PLACE', '🌎', 'North America and farms worldwide'],
+      [
+        'PLACE',
+        '🌎',
+        'Wild turkeys are native to North America; domestic turkeys are farmed worldwide',
+      ],
       ['HOME', '🌲🏡', 'Woodlands, fields, and farms'],
       ['CLIMATE', '🌦️', 'Mostly mild and cool'],
       ['ROOST', '🌳', 'Wild turkeys sleep in trees'],
@@ -1162,7 +1258,11 @@ const KNOWLEDGE_SEEDS = {
   },
   tortoise: {
     habitat: [
-      ['PLACE', '🌍', 'Warm parts of Africa, Asia, Europe, and the Americas'],
+      [
+        'PLACE',
+        '🌍',
+        'Tortoises are native to parts of the Americas, Africa, Europe and Asia, including Madagascar and ocean islands',
+      ],
       ['HOME', '🏜️🌾', 'Dry grasslands, scrub, and islands'],
       ['TEMPERATURE', '☀️', 'Warm and often dry'],
       ['SHELTER', '🕳️', 'Uses shade or burrows in extreme heat'],
@@ -1382,9 +1482,13 @@ const KNOWLEDGE_SEEDS = {
   },
   flamingo: {
     habitat: [
-      ['PLACE', '🌍', 'Warm regions of Africa, Asia, Europe, and the Americas'],
+      [
+        'PLACE',
+        '🌍',
+        'Flamingos live in parts of Africa, Europe, Asia and the Americas, including cold Andean lakes',
+      ],
       ['HOME', '🏞️', 'Shallow salty lakes, lagoons, and mudflats'],
-      ['TEMPERATURE', '☀️', 'Warm and sunny'],
+      ['TEMPERATURE', '🌦️', 'Warm lagoons and cold high-altitude lakes'],
       ['WATER', '🧂', 'Often feeds in salty or alkaline water'],
     ],
     food: [
@@ -1422,7 +1526,11 @@ const KNOWLEDGE_SEEDS = {
   },
   hedgehog: {
     habitat: [
-      ['PLACE', '🌍', 'Europe, Asia, Africa, and New Zealand'],
+      [
+        'PLACE',
+        '🌍',
+        'Hedgehogs are native to Africa, Europe and Asia; European hedgehogs were introduced to New Zealand',
+      ],
       ['HOME', '🌿', 'Hedgerows, grasslands, woods, and gardens'],
       ['TEMPERATURE', '🌦️', 'Mostly mild and cool'],
       ['NEST', '🍂', 'Sleeps in a nest of leaves and grass'],
@@ -1559,7 +1667,11 @@ const DISPLAY_CATEGORY_SEEDS = {
   },
   bee: { location: 'Worldwide', habitat: 'Trees', food: 'Flowers & Nectar' },
   'blue-whale': { location: 'Ocean', habitat: 'Ocean', food: 'Krill' },
-  bluebird: { location: 'America', habitat: 'Grassland', food: 'Insects' },
+  bluebird: {
+    location: 'North America',
+    habitat: 'Grassland',
+    food: 'Insects',
+  },
   butterfly: {
     location: 'Worldwide',
     habitat: 'Grassland',
@@ -1575,15 +1687,15 @@ const DISPLAY_CATEGORY_SEEDS = {
   chicken: { location: 'Worldwide', habitat: 'Farm', food: 'Seeds & Nuts' },
   chimpanzee: { location: 'Africa', habitat: 'Forest', food: 'Fruit' },
   cow: { location: 'Worldwide', habitat: 'Farm', food: 'Grass' },
-  crab: { location: 'Ocean', habitat: 'Coastline', food: 'Shellfish' },
-  crocodile: { location: 'Earth', habitat: 'River', food: 'Fish' },
-  deer: { location: 'Worldwide', habitat: 'Forest', food: 'Leaves' },
+  crab: { location: 'Global coasts', habitat: 'Coastline', food: 'Shellfish' },
+  crocodile: { location: 'Warm regions', habitat: 'River', food: 'Fish' },
+  deer: { location: 'Five continents', habitat: 'Forest', food: 'Leaves' },
   dog: { location: 'Worldwide', habitat: 'Town', food: 'Food' },
   dolphin: { location: 'Ocean', habitat: 'Ocean', food: 'Fish' },
   duck: { location: 'Worldwide', habitat: 'Wetland', food: 'Seeds & Nuts' },
-  eagle: { location: 'Earth', habitat: 'Mountain', food: 'Birds' },
+  eagle: { location: 'Worldwide', habitat: 'Mountain', food: 'Birds' },
   elephant: { location: 'Earth', habitat: 'Grassland', food: 'Leaves' },
-  flamingo: { location: 'Earth', habitat: 'Wetland', food: 'Shrimp' },
+  flamingo: { location: 'Five continents', habitat: 'Wetland', food: 'Shrimp' },
   fox: { location: 'Worldwide', habitat: 'Forest', food: 'Rodents' },
   frog: { location: 'Worldwide', habitat: 'Pond', food: 'Insects' },
   gecko: { location: 'Worldwide', habitat: 'Trees', food: 'Insects' },
@@ -1595,11 +1707,11 @@ const DISPLAY_CATEGORY_SEEDS = {
     habitat: 'Forest',
     food: 'Rodents',
   },
-  hedgehog: { location: 'Earth', habitat: 'Grassland', food: 'Insects' },
+  hedgehog: { location: 'Afro-Eurasia', habitat: 'Grassland', food: 'Insects' },
   hippo: { location: 'Africa', habitat: 'River', food: 'Grass' },
   horse: { location: 'Worldwide', habitat: 'Farm', food: 'Grass' },
   ibis: { location: 'Worldwide', habitat: 'Wetland', food: 'Insects' },
-  jackal: { location: 'Earth', habitat: 'Grassland', food: 'Rodents' },
+  jackal: { location: 'Afro-Eurasia', habitat: 'Grassland', food: 'Rodents' },
   jaguar: { location: 'America', habitat: 'Forest', food: 'Reptiles' },
   kangaroo: { location: 'Australia', habitat: 'Grassland', food: 'Grass' },
   kiwi: { location: 'Australia', habitat: 'Forest', food: 'Worms' },
@@ -1608,11 +1720,15 @@ const DISPLAY_CATEGORY_SEEDS = {
   llama: { location: 'Andes', habitat: 'Mountain', food: 'Grass' },
   meerkat: { location: 'Africa', habitat: 'Desert', food: 'Insects' },
   mole: { location: 'Earth', habitat: 'Burrow', food: 'Worms' },
-  monkey: { location: 'Earth', habitat: 'Forest', food: 'Fruit' },
+  monkey: {
+    location: 'Africa, Asia & Americas',
+    habitat: 'Forest',
+    food: 'Fruit',
+  },
   mouse: { location: 'Worldwide', habitat: 'Farm', food: 'Seeds & Nuts' },
   newt: { location: 'Earth', habitat: 'Pond', food: 'Worms' },
   octopus: { location: 'Ocean', habitat: 'Ocean', food: 'Shellfish' },
-  otter: { location: 'Worldwide', habitat: 'River', food: 'Fish' },
+  otter: { location: 'Five continents', habitat: 'River', food: 'Fish' },
   owl: { location: 'Worldwide', habitat: 'Forest', food: 'Rodents' },
   panda: { location: 'Asia', habitat: 'Forest', food: 'Bamboo' },
   parrot: { location: 'Worldwide', habitat: 'Forest', food: 'Fruit' },
@@ -1620,20 +1736,28 @@ const DISPLAY_CATEGORY_SEEDS = {
   pig: { location: 'Worldwide', habitat: 'Farm', food: 'Roots' },
   'polar-bear': { location: 'Arctic', habitat: 'Tundra', food: 'Seals' },
   rabbit: { location: 'Worldwide', habitat: 'Grassland', food: 'Grass' },
-  raccoon: { location: 'America', habitat: 'Forest', food: 'Fruit' },
+  raccoon: { location: 'North America', habitat: 'Forest', food: 'Fruit' },
   rhino: { location: 'Earth', habitat: 'Grassland', food: 'Grass' },
   rooster: { location: 'Worldwide', habitat: 'Farm', food: 'Seeds & Nuts' },
-  seal: { location: 'Worldwide', habitat: 'Ocean', food: 'Fish' },
+  seal: { location: 'Global coasts', habitat: 'Ocean', food: 'Fish' },
   shark: { location: 'Ocean', habitat: 'Ocean', food: 'Fish' },
   sheep: { location: 'Worldwide', habitat: 'Grassland', food: 'Grass' },
   skunk: { location: 'America', habitat: 'Forest', food: 'Insects' },
   sloth: { location: 'America', habitat: 'Forest', food: 'Leaves' },
   snail: { location: 'Worldwide', habitat: 'Nature', food: 'Leaves' },
-  swan: { location: 'Worldwide', habitat: 'Wetland', food: 'Grass' },
+  swan: { location: 'Mild regions', habitat: 'Wetland', food: 'Grass' },
   tarantula: { location: 'Worldwide', habitat: 'Burrow', food: 'Insects' },
   tiger: { location: 'Asia', habitat: 'Forest', food: 'Deer' },
-  tortoise: { location: 'Earth', habitat: 'Grassland', food: 'Leaves' },
-  turkey: { location: 'Worldwide', habitat: 'Forest', food: 'Seeds & Nuts' },
+  tortoise: {
+    location: 'Five continents',
+    habitat: 'Grassland',
+    food: 'Leaves',
+  },
+  turkey: {
+    location: 'North America',
+    habitat: 'Forest',
+    food: 'Seeds & Nuts',
+  },
   vole: {
     location: 'North America, Europe, and Asia',
     habitat: 'Grassland',
