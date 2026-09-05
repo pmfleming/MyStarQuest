@@ -164,21 +164,9 @@ export const createPresetTestPrimaryAction = <T,>({
   })
 
 export const createPresetActivityPrimaryAction = <T,>({
-  choreType,
-  stage,
-  icon,
-  disabled,
-  onStart,
   onFinish,
-  onReset,
-}: ActivityPrimaryActionConfig<T>): ResolvedListAction<T> =>
-  createStagedPrimaryAction({
-    stage,
-    label: getActivityPrimaryActionLabel(stage),
-    icon,
-    disabled,
-    hideButton: shouldHidePresetPrimaryButton(choreType, stage),
-    onSetup: onStart,
-    onActivity: onFinish,
-    onFinal: onReset,
-  })
+  ...config
+}: ActivityPrimaryActionConfig<T>): ResolvedListAction<T> => ({
+  ...createPresetTestPrimaryAction({ ...config, onCheck: onFinish }),
+  label: getActivityPrimaryActionLabel(config.stage),
+})

@@ -4,13 +4,17 @@ import {
   DEFAULT_TOILET_STATUS,
   DEFAULT_WATER_LEVEL,
   MANAGE_STATUS_RESET_MS,
-  isTestWithEphemeral,
+  isTestRecord,
+  isTestType,
+  manageCompletedAtFieldByType,
+  type ChoreRecord,
   type TaskEphemeralState,
   type TaskOutcome,
   type TaskRecord,
   type TaskType,
   type TaskWithEphemeral,
   type TestRecord,
+  type TestType,
   type TestWithEphemeral,
 } from './types'
 
@@ -23,38 +27,18 @@ type ChildTaskItem = DraftableItem & {
   childId: string
 }
 
-type ManageOutcomePatchFields = {
-  completedAt: keyof TaskEphemeralState
-  outcome: keyof TaskEphemeralState
-}
-
-const manageOutcomePatchByType: Partial<
-  Record<TaskType, ManageOutcomePatchFields>
-> = {
-  math: {
-    completedAt: 'manageMathCompletedAt',
-    outcome: 'manageMathLastOutcome',
-  },
-  'large-numbers': {
-    completedAt: 'manageLargeNumbersCompletedAt',
-    outcome: 'manageLargeNumbersLastOutcome',
-  },
-  alphabet: {
-    completedAt: 'manageAlphabetCompletedAt',
-    outcome: 'manageAlphabetLastOutcome',
-  },
-  spelling: {
-    completedAt: 'manageSpellingCompletedAt',
-    outcome: 'manageSpellingLastOutcome',
-  },
-  animals: {
-    completedAt: 'manageAnimalsCompletedAt',
-    outcome: 'manageAnimalsLastOutcome',
-  },
-  'positional-notation': {
-    completedAt: 'managePVCompletedAt',
-    outcome: 'managePVLastOutcome',
-  },
+const manageOutcomeFieldByType = {
+  math: 'manageMathLastOutcome',
+  'large-numbers': 'manageLargeNumbersLastOutcome',
+  alphabet: 'manageAlphabetLastOutcome',
+  spelling: 'manageSpellingLastOutcome',
+  animals: 'manageAnimalsLastOutcome',
+  'positional-notation': 'managePVLastOutcome',
+} satisfies {
+  [Type in TestType]: Extract<
+    keyof Extract<TestWithEphemeral, { taskType: Type }>,
+    `${string}LastOutcome`
+  >
 }
 
 export const useTodayInfo = () => {
@@ -155,101 +139,53 @@ export const commitBoundedDraft = (
   }
 }
 
+const choreEphemeralFields = {
+  standard: ['manageCompletedAt'],
+  eating: [
+    'manageDinnerRemainingSeconds',
+    'manageDinnerBitesLeft',
+    'manageDinnerTimerStartedAt',
+    'manageDinnerCompletedAt',
+  ],
+  watertoiletcheck: [
+    'manageWaterLevel',
+    'manageToiletStatus',
+    'manageWaterToiletCompletedAt',
+  ],
+} satisfies {
+  [Type in ChoreRecord['taskType']]: (keyof Extract<
+    ChoreRecord,
+    { taskType: Type }
+  > &
+    keyof TaskEphemeralState)[]
+}
+
 export const mergeTaskEphemeral = (
   task: TaskRecord,
   state: TaskEphemeralState = {}
 ): TaskWithEphemeral => {
-  switch (task.taskType) {
-    case 'standard':
-      return {
-        ...task,
-        manageCompletedAt:
-          state.manageCompletedAt !== undefined
-            ? state.manageCompletedAt
-            : task.manageCompletedAt,
-      }
-    case 'eating':
-      return {
-        ...task,
-        manageDinnerRemainingSeconds:
-          state.manageDinnerRemainingSeconds !== undefined
-            ? state.manageDinnerRemainingSeconds
-            : task.manageDinnerRemainingSeconds,
-        manageDinnerBitesLeft:
-          state.manageDinnerBitesLeft !== undefined
-            ? state.manageDinnerBitesLeft
-            : task.manageDinnerBitesLeft,
-        manageDinnerTimerStartedAt:
-          state.manageDinnerTimerStartedAt !== undefined
-            ? state.manageDinnerTimerStartedAt
-            : task.manageDinnerTimerStartedAt,
-        manageDinnerCompletedAt:
-          state.manageDinnerCompletedAt !== undefined
-            ? state.manageDinnerCompletedAt
-            : task.manageDinnerCompletedAt,
-      }
-    case 'math':
-      return {
-        ...task,
-        manageMathCompletedAt: state.manageMathCompletedAt,
-        manageMathLastOutcome: state.manageMathLastOutcome,
-      }
-    case 'large-numbers':
-      return {
-        ...task,
-        manageLargeNumbersCompletedAt: state.manageLargeNumbersCompletedAt,
-        manageLargeNumbersLastOutcome: state.manageLargeNumbersLastOutcome,
-      }
-    case 'positional-notation':
-      return {
-        ...task,
-        managePVCompletedAt: state.managePVCompletedAt,
-        managePVLastOutcome: state.managePVLastOutcome,
-      }
-    case 'alphabet':
-      return {
-        ...task,
-        manageAlphabetCompletedAt: state.manageAlphabetCompletedAt,
-        manageAlphabetLastOutcome: state.manageAlphabetLastOutcome,
-      }
-    case 'spelling':
-      return {
-        ...task,
-        manageSpellingCompletedAt: state.manageSpellingCompletedAt,
-        manageSpellingLastOutcome: state.manageSpellingLastOutcome,
-      }
-    case 'animals':
-      return {
-        ...task,
-        manageAnimalsCompletedAt: state.manageAnimalsCompletedAt,
-        manageAnimalsLastOutcome: state.manageAnimalsLastOutcome,
-      }
-    case 'watertoiletcheck':
-      return {
-        ...task,
-        manageWaterLevel:
-          state.manageWaterLevel !== undefined
-            ? state.manageWaterLevel
-            : task.manageWaterLevel,
-        manageToiletStatus:
-          state.manageToiletStatus !== undefined
-            ? state.manageToiletStatus
-            : task.manageToiletStatus,
-        manageWaterToiletCompletedAt:
-          state.manageWaterToiletCompletedAt !== undefined
-            ? state.manageWaterToiletCompletedAt
-            : task.manageWaterToiletCompletedAt,
-      }
-  }
+  if (isTestRecord(task)) return mergeTestEphemeral(task, state)
+  const saved: TaskEphemeralState = task
+  const patch = Object.fromEntries(
+    choreEphemeralFields[task.taskType].map((key) => [
+      key,
+      state[key] !== undefined ? state[key] : saved[key],
+    ])
+  )
+  return { ...task, ...patch }
 }
 
 export const mergeTestEphemeral = (
   task: TestRecord,
   state: TaskEphemeralState = {}
 ): TestWithEphemeral => {
-  const merged = mergeTaskEphemeral(task, state)
-  if (isTestWithEphemeral(merged)) return merged
-  throw new Error(`Expected test task, received ${task.taskType}`)
+  const completedAt = manageCompletedAtFieldByType[task.taskType]
+  const outcome = manageOutcomeFieldByType[task.taskType]
+  return {
+    ...task,
+    [completedAt]: state[completedAt],
+    [outcome]: state[outcome],
+  }
 }
 
 export const useEphemeralExpiry = <T extends { id: string }>(
@@ -294,10 +230,11 @@ export const manageTestOutcomePatch = (
   completedAt: number | null,
   outcome: TaskOutcome | null
 ): Partial<TaskEphemeralState> => {
-  const fields = manageOutcomePatchByType[taskType]
-  return fields
-    ? { [fields.completedAt]: completedAt, [fields.outcome]: outcome }
-    : {}
+  if (!isTestType(taskType)) return {}
+  return {
+    [manageCompletedAtFieldByType[taskType]]: completedAt,
+    [manageOutcomeFieldByType[taskType]]: outcome,
+  }
 }
 
 export const resetManageChorePatch = (

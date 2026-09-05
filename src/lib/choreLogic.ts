@@ -1,4 +1,9 @@
-import type { TaskWithEphemeral, ToiletStatus, WaterLevel } from '../data/types'
+import {
+  manageCompletedAtFieldByType,
+  type TaskWithEphemeral,
+  type ToiletStatus,
+  type WaterLevel,
+} from '../data/types'
 
 export type WaterToiletOutcome = 'success' | 'failure'
 
@@ -58,28 +63,8 @@ export function calculateAwardTaskPatch(
   task: TaskWithEphemeral,
   timestamp: number
 ) {
-  switch (task.taskType) {
-    case 'standard':
-      return { manageCompletedAt: timestamp }
-    case 'eating':
-      return { manageDinnerCompletedAt: timestamp }
-    case 'math':
-      return { manageMathCompletedAt: timestamp }
-    case 'large-numbers':
-      return { manageLargeNumbersCompletedAt: timestamp }
-    case 'positional-notation':
-      return { managePVCompletedAt: timestamp }
-    case 'alphabet':
-      return { manageAlphabetCompletedAt: timestamp }
-    case 'spelling':
-      return { manageSpellingCompletedAt: timestamp }
-    case 'animals':
-      return { manageAnimalsCompletedAt: timestamp }
-    case 'watertoiletcheck':
-      return { manageWaterToiletCompletedAt: timestamp }
-    default:
-      return {}
-  }
+  const field = manageCompletedAtFieldByType[task.taskType]
+  return field ? { [field]: timestamp } : {}
 }
 
 /**

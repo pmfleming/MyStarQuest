@@ -5,6 +5,7 @@ import {
   princessPlateImage,
 } from '../assets/themes/princess/assets'
 import { getChoreImage } from '../assets/chores/assets'
+import { getPresetChoreOverviewImage } from './choreOverviewAssets'
 import { isTestType } from '../data/types'
 import { getPrincessTaskTypeIcon } from './taskTypeIcons'
 import { isInChoreStage, shouldUseResetUtility } from './choreModeDefinitions'
@@ -45,7 +46,10 @@ export function createUnifiedChoreDescriptor(
       const stage = state.getStage(item)
       if (isInChoreStage(stage)) return undefined
       const type = getChoreType(item)
-      if (type === 'standard' && getChoreImage(item.imageKey)) {
+      if (
+        (type === 'standard' && getChoreImage(item.imageKey)) ||
+        getPresetChoreOverviewImage(type)
+      ) {
         return undefined
       }
       return type === 'watertoiletcheck'

@@ -22,37 +22,20 @@ type MathActivityShellProps = Pick<
 }
 
 const MathActivityShell = ({
-  theme,
-  totalProblems,
-  starReward,
-  isEditable,
-  onAdjustProblems,
-  onStarsChange,
-  completionImage,
-  failureImage,
+  isEditable = true,
   isSetup,
-  isFinished,
-  isSuccessState,
   animationStyles,
   difficultyControl,
   children,
+  ...props
 }: MathActivityShellProps) => (
-  <ActivityOutcomeShell
-    isFinished={isFinished}
-    isSuccessState={isSuccessState}
-    completionImage={completionImage}
-    failureImage={failureImage}
-  >
+  <ActivityOutcomeShell {...props}>
     <style>{animationStyles}</style>
     <ActivitySetupControls
+      {...props}
       isSetup={isSetup}
-      theme={theme}
-      totalProblems={totalProblems}
       min={1}
       max={9}
-      onAdjustProblems={onAdjustProblems}
-      starReward={starReward}
-      onStarsChange={onStarsChange}
       previousAriaLabel="Fewer puzzles"
       nextAriaLabel="More puzzles"
       isEditable={isEditable}

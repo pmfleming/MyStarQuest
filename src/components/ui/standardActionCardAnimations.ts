@@ -59,6 +59,11 @@ export const injectStandardActionStyles = () => {
       color: #ef4444 !important;
       border-color: #fecaca !important;
     }
+    [data-action-theme="princess"] .whimsical-btn-delete:hover:not(:disabled) {
+      background: #FCE7F3 !important;
+      color: #831843 !important;
+      border-color: #C76598 !important;
+    }
     @keyframes standard-card-spin {
       to { transform: rotate(360deg); }
     }

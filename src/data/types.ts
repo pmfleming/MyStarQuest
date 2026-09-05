@@ -704,7 +704,7 @@ export const getManageWaterLevel = (task: WaterToiletTaskWithEphemeral) =>
 export const getManageToiletStatus = (task: WaterToiletTaskWithEphemeral) =>
   task.manageToiletStatus ?? DEFAULT_TOILET_STATUS
 
-const manageCompletedAtFieldByType = {
+export const manageCompletedAtFieldByType = {
   standard: 'manageCompletedAt',
   eating: 'manageDinnerCompletedAt',
   math: 'manageMathCompletedAt',
@@ -714,15 +714,17 @@ const manageCompletedAtFieldByType = {
   spelling: 'manageSpellingCompletedAt',
   animals: 'manageAnimalsCompletedAt',
   watertoiletcheck: 'manageWaterToiletCompletedAt',
-} satisfies Record<TaskType, keyof TaskEphemeralState>
+} satisfies {
+  [Type in TaskType]: Extract<
+    keyof Extract<TaskWithEphemeral, { taskType: Type }>,
+    `${string}CompletedAt`
+  >
+}
 
-type TaskCompletionState = Partial<
-  Record<(typeof manageCompletedAtFieldByType)[TaskType], number | null>
->
-
-export const getManageTaskCompletedAt = (task: TaskWithEphemeral) =>
-  (task as TaskCompletionState)[manageCompletedAtFieldByType[task.taskType]] ??
-  null
+export const getManageTaskCompletedAt = (task: TaskWithEphemeral) => {
+  const state: TaskEphemeralState = task
+  return state[manageCompletedAtFieldByType[task.taskType]] ?? null
+}
 
 export const sortByCreatedAtThenTitle = <
   T extends { createdAt?: Date; title: string },

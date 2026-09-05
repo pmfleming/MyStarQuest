@@ -582,7 +582,8 @@ const DinnerCountdown = ({
   return (
     <div
       style={{
-        position: 'relative',
+        // Let success artwork fill the surrounding card, including its footer.
+        position: isSuccess ? 'static' : 'relative',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

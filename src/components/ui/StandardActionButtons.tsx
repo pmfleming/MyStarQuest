@@ -170,6 +170,7 @@ export const StandardActionButtons = <T,>({
 
   return (
     <div
+      data-action-theme={theme.id}
       style={{
         display: 'grid',
         gridTemplateColumns:

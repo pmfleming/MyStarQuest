@@ -1,11 +1,12 @@
+import { getSeason, getSeasonForMonth } from './seasons'
+export type { Season } from './seasons'
+
 export type CurrentDayType = 'schoolday' | 'nonschoolday'
 
 export type ChoreSchedule = {
   schoolDayEnabled: boolean
   nonSchoolDayEnabled: boolean
 }
-
-export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
 
 export const APP_TIME_ZONE = 'Europe/London'
 
@@ -40,13 +41,6 @@ const getDatePartsInTimeZone = (date: Date, timeZone: string) => {
       parts.find((part) => part.type === 'weekday')?.value ??
       date.toLocaleDateString('en-GB', { weekday: 'long', timeZone }),
   }
-}
-
-const getSeasonForMonth = (month: number): Season => {
-  if (month >= 3 && month <= 5) return 'spring'
-  if (month >= 6 && month <= 8) return 'summer'
-  if (month >= 9 && month <= 11) return 'autumn'
-  return 'winter'
 }
 
 export const buildDateKey = (date: Date) => {
@@ -85,14 +79,7 @@ export const getCurrentDayTypeForDate = (date: Date): CurrentDayType => {
   return dayOfWeek === 0 || dayOfWeek === 6 ? 'nonschoolday' : 'schoolday'
 }
 
-export const getSeasonForDate = (date: Date): Season => {
-  const month = date.getMonth()
-
-  if (month >= 2 && month <= 4) return 'spring'
-  if (month >= 5 && month <= 7) return 'summer'
-  if (month >= 8 && month <= 10) return 'autumn'
-  return 'winter'
-}
+export const getSeasonForDate = getSeason
 
 export const normalizeChoreSchedule = (value: {
   schoolDayEnabled?: unknown

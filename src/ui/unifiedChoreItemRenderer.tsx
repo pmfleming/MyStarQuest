@@ -7,6 +7,7 @@ import StarDisplay from '../components/ui/StarDisplay'
 import ImageStarFrame from '../components/ui/ImageStarFrame'
 import { princessQuizCorrectImage } from '../assets/themes/princess/assets'
 import { choreImageOptions, getChoreImage } from '../assets/chores/assets'
+import { getPresetChoreOverviewImage } from './choreOverviewAssets'
 import { isTestType } from '../data/types'
 import { uiTokens } from '../tokens'
 import { getStandardActionHeadingStyle } from '../components/ui/standardActionStyles'
@@ -99,6 +100,21 @@ const renderChoreContent = (
   stage: ChoreStage
 ) => {
   const type = getChoreType(item)
+  const overviewImage = getPresetChoreOverviewImage(type)
+  if (deps.mode === 'today' && stage === 'setup' && overviewImage) {
+    return (
+      <ImageStarFrame
+        theme={deps.theme}
+        image={overviewImage}
+        imageAlt={`${item.title} chore`}
+        starCount={
+          type === 'watertoiletcheck'
+            ? state.getWaterToiletDelta(item)
+            : item.starValue
+        }
+      />
+    )
+  }
   if (type === 'standard')
     return renderStandardContent(deps, state, item, stage)
   if (type === 'eating') return renderEatingContent(deps, state, item, stage)

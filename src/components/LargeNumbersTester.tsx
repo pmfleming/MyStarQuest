@@ -94,23 +94,8 @@ const getAdjustedOnesState = (
 
 export type LargeNumbersTesterProps = ActivityChoreProps
 
-const LargeNumbersTester = ({
-  theme,
-  totalProblems,
-  starReward,
-  isRunning,
-  isEditable = true,
-  isCompleted = false,
-  isFailed = false,
-  onAdjustProblems,
-  onStarsChange,
-  onComplete,
-  onFail,
-  checkTrigger = 0,
-  completionImage,
-  failureImage,
-  failureModeEnabled = true,
-}: LargeNumbersTesterProps) => {
+const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
+  const { theme, isRunning } = props
   const [addendA, setAddendA] = useState(0)
   const [addendB, setAddendB] = useState(0)
   const [userTensRods, setUserTensRods] = useState(0)
@@ -156,17 +141,10 @@ const LargeNumbersTester = ({
     isCorrect,
     isWrong,
   } = useCheckedActivityChallenge({
-    isRunning,
-    isCompleted,
-    isFailed,
-    totalProblems,
-    checkTrigger,
+    ...props,
     canStart: addendA === 0,
     onStart: nextProblem,
     onReset: resetProblem,
-    onComplete,
-    onFail,
-    failureModeEnabled,
     isAnswerCorrect: currentAnswer === expectedAnswer,
     onNextProblem: nextProblem,
   })
@@ -398,16 +376,9 @@ const LargeNumbersTester = ({
 
   return (
     <MathActivityShell
-      theme={theme}
-      totalProblems={totalProblems}
-      starReward={starReward}
-      isEditable={isEditable}
-      onAdjustProblems={onAdjustProblems}
-      onStarsChange={onStarsChange}
+      {...props}
       isFinished={isFinished}
       isSuccessState={isSuccessState}
-      completionImage={completionImage}
-      failureImage={failureImage}
       isSetup={isSetup}
       animationStyles={getActivityFeedbackAnimationStyles('large-numbers')}
     >

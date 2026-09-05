@@ -11,38 +11,18 @@ export type ChoreModeType =
   | 'animals'
   | 'watertoiletcheck'
 
-type PresetChoreModeDefinition = {
-  hidePrimaryButtonInChore: boolean
-}
-
-const presetChoreModeDefinitions: Record<
+const hidePrimaryButtonInChore: Record<
   Exclude<ChoreModeType, 'standard'>,
-  PresetChoreModeDefinition
+  boolean
 > = {
-  eating: {
-    hidePrimaryButtonInChore: false,
-  },
-  math: {
-    hidePrimaryButtonInChore: false,
-  },
-  'large-numbers': {
-    hidePrimaryButtonInChore: false,
-  },
-  'positional-notation': {
-    hidePrimaryButtonInChore: false,
-  },
-  alphabet: {
-    hidePrimaryButtonInChore: true,
-  },
-  spelling: {
-    hidePrimaryButtonInChore: true,
-  },
-  animals: {
-    hidePrimaryButtonInChore: true,
-  },
-  watertoiletcheck: {
-    hidePrimaryButtonInChore: false,
-  },
+  eating: false,
+  math: false,
+  'large-numbers': false,
+  'positional-notation': false,
+  alphabet: true,
+  spelling: true,
+  animals: true,
+  watertoiletcheck: false,
 }
 
 export const isInChoreStage = (stage: ChoreStage) => stage !== 'setup'
@@ -63,8 +43,7 @@ export const shouldHidePresetPrimaryButton = (
   stage: ChoreStage
 ) =>
   isFinalChoreStage(stage) ||
-  (stage === 'activity' &&
-    presetChoreModeDefinitions[type].hidePrimaryButtonInChore)
+  (stage === 'activity' && hidePrimaryButtonInChore[type])
 
 export const getTestPrimaryActionLabel = (stage: ChoreStage) => {
   if (stage === 'activity') return 'Check result'

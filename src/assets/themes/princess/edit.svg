@@ -1,64 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
-  <title id="title">Royal charm tuner edit</title>
-  <desc id="desc">Three glossy magical controls with a golden star, purple heart, and jeweled crown.</desc>
+  <title id="title">Royal settings</title>
+  <desc id="desc">Golden sliders with rose pink star, heart, and crown charms.</desc>
   <defs>
-    <linearGradient id="pinkRail" x1="16" y1="18" x2="112" y2="108" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FF9BD2"/>
-      <stop offset="0.48" stop-color="#FF4FA3"/>
-      <stop offset="1" stop-color="#C92B89"/>
+    <linearGradient id="gold" x2="0" y2="1">
+      <stop stop-color="#FFF4B8"/>
+      <stop offset="1" stop-color="#E8A638"/>
     </linearGradient>
-    <linearGradient id="gold" x1="28" y1="14" x2="74" y2="58" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFFBD0"/>
-      <stop offset="0.28" stop-color="#FFE66B"/>
-      <stop offset="0.62" stop-color="#FFC128"/>
-      <stop offset="1" stop-color="#E88912"/>
+    <linearGradient id="rose" x2="0" y2="1">
+      <stop stop-color="#FFEAF3"/>
+      <stop offset="1" stop-color="#E88FB4"/>
     </linearGradient>
-    <linearGradient id="purple" x1="67" y1="48" x2="99" y2="81" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#E7A1FF"/>
-      <stop offset="0.5" stop-color="#AE4CFF"/>
-      <stop offset="1" stop-color="#6D25C8"/>
-    </linearGradient>
-    <linearGradient id="blue" x1="41" y1="82" x2="74" y2="114" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#9CF4FF"/>
-      <stop offset="0.5" stop-color="#55CCF7"/>
-      <stop offset="1" stop-color="#398BD9"/>
-    </linearGradient>
-    <filter id="shadow" x="-30%" y="-30%" width="170%" height="170%">
-      <feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#6B2467" flood-opacity="0.38"/>
-    </filter>
   </defs>
-
-  <g filter="url(#shadow)">
-    <path d="M18 31C44 24 76 38 110 29" fill="none" stroke="#772B67" stroke-width="13" stroke-linecap="round"/>
-    <path d="M18 31C44 24 76 38 110 29" fill="none" stroke="url(#pinkRail)" stroke-width="8" stroke-linecap="round"/>
-    <path d="M18 29C44 23 74 35 107 28" fill="none" stroke="#FFD9EF" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
-
-    <path d="M18 64C45 73 78 54 110 63" fill="none" stroke="#772B67" stroke-width="13" stroke-linecap="round"/>
-    <path d="M18 64C45 73 78 54 110 63" fill="none" stroke="url(#pinkRail)" stroke-width="8" stroke-linecap="round"/>
-    <path d="M20 62C45 69 76 53 107 60" fill="none" stroke="#FFD9EF" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
-
-    <path d="M18 98C47 88 77 107 110 96" fill="none" stroke="#772B67" stroke-width="13" stroke-linecap="round"/>
-    <path d="M18 98C47 88 77 107 110 96" fill="none" stroke="url(#pinkRail)" stroke-width="8" stroke-linecap="round"/>
-    <path d="M20 95C47 87 76 103 107 93" fill="none" stroke="#FFD9EF" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+  <g stroke="#9B5D63" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="17" y="28" width="94" height="8" rx="4" fill="url(#gold)"/>
+    <rect x="17" y="60" width="94" height="8" rx="4" fill="url(#gold)"/>
+    <rect x="17" y="92" width="94" height="8" rx="4" fill="url(#gold)"/>
+    <circle cx="43" cy="32" r="17" fill="url(#rose)"/>
+    <circle cx="85" cy="64" r="17" fill="url(#rose)"/>
+    <circle cx="51" cy="96" r="17" fill="url(#rose)"/>
+    <path d="M43 20L47 28L56 29L49 35L51 44L43 39L35 44L37 35L30 29L39 28Z" fill="url(#gold)" stroke-width="2"/>
+    <path d="M85 75C81 72 74 67 74 61C74 54 82 53 85 59C89 53 96 54 96 61C96 67 89 72 85 75Z" fill="#EC6D9F" stroke-width="2"/>
+    <path d="M38 91L45 96L51 85L57 96L64 91L61 105H41Z" fill="url(#gold)" stroke-width="2"/>
+    <path d="M42 101H60" fill="none" stroke="#FFF4B8" stroke-width="2"/>
   </g>
-
-  <g filter="url(#shadow)">
-    <circle cx="45" cy="30" r="17" fill="url(#gold)" stroke="#7C3565" stroke-width="4"/>
-    <path d="M45 17L49 25L58 26L51 32L53 41L45 36L37 41L39 32L32 26L41 25Z" fill="#FFF7A3" stroke="#E69816" stroke-width="2" stroke-linejoin="round"/>
-    <path d="M36 23C39 18 45 16 50 18" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-
-    <circle cx="84" cy="63" r="18" fill="url(#purple)" stroke="#71306D" stroke-width="4"/>
-    <path d="M73 59C73 53 80 51 84 57C88 51 96 54 96 60C96 66 84 74 84 74C84 74 73 66 73 59Z" fill="#FF8BC8" stroke="#762C72" stroke-width="2.5"/>
-    <path d="M75 54C78 50 83 49 87 51" fill="none" stroke="#FFE8F7" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
-
-    <circle cx="58" cy="97" r="18" fill="url(#blue)" stroke="#71306D" stroke-width="4"/>
-    <path d="M45 101L48 87L55 94L62 85L68 94L75 88L72 103Z" fill="url(#gold)" stroke="#7B3566" stroke-width="3" stroke-linejoin="round"/>
-    <path d="M48 89L55 96L62 88" fill="none" stroke="#FFF7B7" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="62" cy="86" r="3.5" fill="#D450FF" stroke="#74316D" stroke-width="1.5"/>
-    <path d="M47 91C50 85 55 82 60 81" fill="none" stroke="#E9FCFF" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <g fill="none" stroke="#FFF9F3" stroke-width="2.5" stroke-linecap="round">
+    <path d="M33 23L36 21M75 55L78 53M41 87L44 85"/>
+    <path d="M78 60C78 58 80 58 81 59"/>
   </g>
-
-  <path d="M108 12V23M102.5 17.5H113.5" stroke="#FFB820" stroke-width="3.5" stroke-linecap="round"/>
-  <path d="M111 75L114 81L120 84L114 87L111 93L108 87L102 84L108 81Z" fill="#FF77C4" stroke="#7B356B" stroke-width="2"/>
-  <circle cx="17" cy="77" r="4" fill="#B54DFF" stroke="#71306D" stroke-width="2"/>
+  <path d="M103 13V23M98 18H108" stroke="#E8A638" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="22" cy="110" r="2.5" fill="#F7C6D8"/>
 </svg>

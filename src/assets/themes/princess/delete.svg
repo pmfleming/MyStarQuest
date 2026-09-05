@@ -1,44 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
-  <title id="title">Royal magic poof delete</title>
-  <desc id="desc">A glossy pink and purple magic poof makes a golden star disappear.</desc>
+  <title id="title">Royal delete</title>
+  <desc id="desc">A rose pink cross on a softly scalloped golden royal seal.</desc>
   <defs>
-    <radialGradient id="cloud" cx="38%" cy="28%" r="78%">
-      <stop stop-color="#FFFBFF"/>
-      <stop offset="0.35" stop-color="#FFD4ED"/>
-      <stop offset="0.72" stop-color="#FFA0D3"/>
-      <stop offset="1" stop-color="#F06AB8"/>
-    </radialGradient>
-    <linearGradient id="gold" x1="41" y1="37" x2="83" y2="83" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFFBD1"/>
-      <stop offset="0.28" stop-color="#FFE36A"/>
-      <stop offset="0.62" stop-color="#FFBE26"/>
-      <stop offset="1" stop-color="#E68310"/>
+    <linearGradient id="gold" x2="0" y2="1">
+      <stop stop-color="#FFF4B8"/>
+      <stop offset="1" stop-color="#E8A638"/>
     </linearGradient>
-    <linearGradient id="purple" x1="43" y1="43" x2="85" y2="86" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#A957D1"/>
-      <stop offset="0.5" stop-color="#6B1F91"/>
-      <stop offset="1" stop-color="#3A0B5E"/>
+    <linearGradient id="rose" x2="0" y2="1">
+      <stop stop-color="#FFF6F9"/>
+      <stop offset="1" stop-color="#F7C6D8"/>
     </linearGradient>
-    <filter id="shadow" x="-30%" y="-30%" width="170%" height="170%">
-      <feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#671F65" flood-opacity="0.4"/>
-    </filter>
+    <linearGradient id="cross" x2="0" y2="1">
+      <stop stop-color="#EC6D9F"/>
+      <stop offset="1" stop-color="#C76598"/>
+    </linearGradient>
   </defs>
-
-  <path d="M34 96C20 94 14 81 21 69C10 58 17 42 31 40C33 25 50 19 60 29C71 16 90 23 91 39C107 37 117 53 108 66C120 76 114 94 98 96C92 110 75 114 64 104C51 115 38 108 34 96Z" fill="#742567" stroke="#65245F" stroke-width="8" stroke-linejoin="round" filter="url(#shadow)"/>
-  <path d="M34 92C22 90 18 80 24 70C15 60 21 47 33 45C35 32 50 27 59 36C69 24 85 31 86 44C100 42 109 55 102 66C113 75 108 89 95 91C90 103 75 107 65 98C54 108 41 103 34 92Z" fill="url(#cloud)" stroke="#FFCE47" stroke-width="4" stroke-linejoin="round"/>
-
-  <path d="M64 37L70 52L86 53L74 64L77 80L64 72L50 80L54 64L42 53L58 52Z" fill="url(#gold)" stroke="#7A3567" stroke-width="4" stroke-linejoin="round" filter="url(#shadow)"/>
-
-  <g filter="url(#shadow)">
-    <path d="M48 49L80 81M80 49L48 81" stroke="#350942" stroke-width="17" stroke-linecap="round"/>
-    <path d="M48 49L80 81M80 49L48 81" stroke="url(#purple)" stroke-width="11" stroke-linecap="round"/>
-    <path d="M49 48L62 61M79 50L68 61" stroke="#DFA9EE" stroke-width="3" stroke-linecap="round" opacity="0.82"/>
+  <g stroke="#9B5D63" stroke-width="3" stroke-linejoin="round">
+    <path d="M64 17C73 10 83 16 86 25C98 24 106 32 103 43C114 49 116 59 109 68C116 79 109 90 98 92C96 104 86 110 76 105C69 115 57 115 50 105C39 110 29 104 27 92C16 90 11 79 18 68C11 59 14 48 25 43C22 32 30 24 42 25C45 16 55 10 64 17Z" fill="url(#gold)"/>
+    <circle cx="64" cy="64" r="37" fill="url(#rose)" stroke-width="2.5"/>
   </g>
-
-  <path d="M31 49C34 39 43 33 52 34" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.82"/>
-  <path d="M19 22L23 31L32 35L23 39L19 48L15 39L6 35L15 31Z" fill="url(#gold)" stroke="#A45855" stroke-width="2"/>
-  <path d="M108 18V30M102 24H114" stroke="#FFB820" stroke-width="4" stroke-linecap="round"/>
-  <path d="M109 83L113 91L121 95L113 99L109 107L105 99L97 95L105 91Z" fill="#FF6EC1" stroke="#742A6B" stroke-width="2.5"/>
-  <circle cx="20" cy="105" r="5" fill="#8F49FF" stroke="#65245F" stroke-width="2"/>
-  <circle cx="115" cy="55" r="3.5" fill="#62DFFF" stroke="#3D76A8" stroke-width="2"/>
+  <g fill="none" stroke-linecap="round">
+    <path d="M49 49L79 79M79 49L49 79" stroke="#9B5D63" stroke-width="15"/>
+    <path d="M49 49L79 79M79 49L49 79" stroke="url(#cross)" stroke-width="10"/>
+    <path d="M40 43C45 35 55 31 64 31M49 47L59 57M79 47L71 55" stroke="#FFF9F3" stroke-width="2.5"/>
+  </g>
+  <path d="M105 13V23M100 18H110" stroke="#E8A638" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="22" cy="110" r="2.5" fill="#F7C6D8"/>
 </svg>

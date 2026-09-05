@@ -78,25 +78,8 @@ export interface ArithmeticTesterProps extends ActivityChoreProps {
   onDifficultyChange?: (difficulty: MathDifficulty) => void
 }
 
-const ArithmeticTester = ({
-  theme,
-  totalProblems,
-  starReward,
-  difficulty = 'easy',
-  isRunning,
-  isEditable = true,
-  isCompleted = false,
-  isFailed = false,
-  onAdjustProblems,
-  onStarsChange,
-  onDifficultyChange,
-  onComplete,
-  onFail,
-  checkTrigger = 0,
-  completionImage,
-  failureImage,
-  failureModeEnabled = true,
-}: ArithmeticTesterProps) => {
+const ArithmeticTester = (props: ArithmeticTesterProps) => {
+  const { theme, isRunning, difficulty = 'easy', onDifficultyChange } = props
   const [valA, setValA] = useState(0)
   const [valB, setValB] = useState(0)
   const [valC, setValC] = useState<number | undefined>(undefined)
@@ -146,17 +129,10 @@ const ArithmeticTester = ({
     isCorrect,
     isWrong,
   } = useCheckedActivityChallenge({
-    isRunning,
-    isCompleted,
-    isFailed,
-    totalProblems,
-    checkTrigger,
+    ...props,
     canStart: valA === 0,
     onStart: nextProblem,
     onReset: resetProblem,
-    onComplete,
-    onFail,
-    failureModeEnabled,
     isAnswerCorrect: userAnswer === expectedAnswer,
     onNextProblem: nextProblem,
   })
@@ -169,16 +145,9 @@ const ArithmeticTester = ({
 
   return (
     <MathActivityShell
-      theme={theme}
-      totalProblems={totalProblems}
-      starReward={starReward}
-      isEditable={isEditable}
-      onAdjustProblems={onAdjustProblems}
-      onStarsChange={onStarsChange}
+      {...props}
       isFinished={isFinished}
       isSuccessState={isSuccessState}
-      completionImage={completionImage}
-      failureImage={failureImage}
       isSetup={isSetup}
       animationStyles={getActivityFeedbackAnimationStyles('dotmath')}
       difficultyControl={

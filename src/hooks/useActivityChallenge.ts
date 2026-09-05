@@ -9,10 +9,10 @@ export type ActivityFeedback = 'idle' | 'correct' | 'wrong'
 
 export type UseActivityChallengeArgs = {
   isRunning: boolean
-  isCompleted: boolean
-  isFailed: boolean
+  isCompleted?: boolean
+  isFailed?: boolean
   totalProblems: number
-  checkTrigger: number
+  checkTrigger?: number
   canStart: boolean
   onStart: () => void
   onReset: () => void
@@ -27,10 +27,10 @@ const FAILURE_TRANSITION_DELAY_MS = 3000
 
 export const useActivityChallenge = ({
   isRunning,
-  isCompleted,
-  isFailed,
+  isCompleted = false,
+  isFailed = false,
   totalProblems,
-  checkTrigger,
+  checkTrigger = 0,
   canStart,
   onStart,
   onReset,

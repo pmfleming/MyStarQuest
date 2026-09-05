@@ -30,23 +30,8 @@ const getTotal = ({ hundreds, tens, ones }: PlaceValues) =>
 
 export type PositionalNotationProps = ActivityChoreProps
 
-const PositionalNotation = ({
-  theme,
-  totalProblems,
-  starReward,
-  isRunning,
-  isEditable = true,
-  isCompleted = false,
-  isFailed = false,
-  onAdjustProblems,
-  onStarsChange,
-  onComplete,
-  onFail,
-  checkTrigger = 0,
-  completionImage,
-  failureImage,
-  failureModeEnabled = true,
-}: PositionalNotationProps) => {
+const PositionalNotation = (props: PositionalNotationProps) => {
+  const { theme, isRunning, totalProblems } = props
   const [difficulty, setDifficulty] =
     useState<PositionalNotationDifficulty>('one-crown')
   const [targetNumber, setTargetNumber] = useState(0)
@@ -96,17 +81,10 @@ const PositionalNotation = ({
     isCorrect,
     isWrong,
   } = useCheckedActivityChallenge({
-    isRunning,
-    isCompleted,
-    isFailed,
-    totalProblems,
-    checkTrigger,
+    ...props,
     canStart: targetNumber === 0,
     onStart: () => nextProblem(0),
     onReset: resetProblem,
-    onComplete,
-    onFail,
-    failureModeEnabled,
     isAnswerCorrect: getTotal(values) === targetNumber,
     onNextProblem: nextProblem,
   })
@@ -117,16 +95,9 @@ const PositionalNotation = ({
 
   return (
     <MathActivityShell
-      theme={theme}
-      totalProblems={totalProblems}
-      starReward={starReward}
-      isEditable={isEditable}
-      onAdjustProblems={onAdjustProblems}
-      onStarsChange={onStarsChange}
+      {...props}
       isFinished={isFinished}
       isSuccessState={isSuccessState}
-      completionImage={completionImage}
-      failureImage={failureImage}
       isSetup={isSetup}
       animationStyles={getActivityFeedbackAnimationStyles('pv')}
       difficultyControl={

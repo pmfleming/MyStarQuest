@@ -35,6 +35,25 @@ export const isTaskItem = (item: UnifiedChoreItem): item is TaskWithEphemeral =>
 export const getChoreType = (item: UnifiedChoreItem): TaskType =>
   isTaskItem(item) ? item.taskType : item.sourceTaskType
 
+const getDinnerState = (item: UnifiedChoreItem) => {
+  if (isTaskItem(item)) {
+    return isEatingTask(item)
+      ? {
+          remaining: getManageDinnerRemaining(item),
+          startedAt: item.manageDinnerTimerStartedAt,
+          bitesLeft: getManageDinnerBitesLeft(item),
+        }
+      : null
+  }
+  return isEatingTodo(item)
+    ? {
+        remaining: item.dinnerRemainingSeconds,
+        startedAt: item.dinnerTimerStartedAt,
+        bitesLeft: item.dinnerBitesLeft,
+      }
+    : null
+}
+
 export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
   const princessAsset = (asset?: string): PrincessAsset =>
     deps.theme.id === 'princess' ? asset : undefined
@@ -53,44 +72,14 @@ export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
       ? Boolean(getManageTaskCompletedAt(item))
       : Boolean(item.completedAt)
 
-  const isDinnerAwaitingFinalCooldown = (item: UnifiedChoreItem) => {
-    if (getChoreType(item) !== 'eating' || !isCompleted(item)) return false
-
-    if (isTaskItem(item)) {
-      return isEatingTask(item) && getManageDinnerBitesLeft(item) <= 0
-        ? hasActiveDinnerCooldown(item)
-        : false
-    }
-
-    return isEatingTodo(item) && item.dinnerBitesLeft <= 0
-      ? hasActiveDinnerCooldown(item)
-      : false
-  }
-
-  const isDinnerTimedOut = (item: UnifiedChoreItem) => {
-    if (getChoreType(item) !== 'eating') return false
-
-    if (isTaskItem(item)) {
-      if (!isEatingTask(item)) return false
-      return hasExpiredDinnerTimer(
-        getManageDinnerRemaining(item),
-        item.manageDinnerTimerStartedAt,
-        getManageDinnerBitesLeft(item)
-      )
-    }
-
-    return isEatingTodo(item)
-      ? hasExpiredDinnerTimer(
-          item.dinnerRemainingSeconds,
-          item.dinnerTimerStartedAt,
-          item.dinnerBitesLeft
-        )
-      : false
-  }
-
   const getStage = (item: UnifiedChoreItem): ChoreStage => {
-    if (isCompleted(item) || isDinnerTimedOut(item)) {
-      return isDinnerAwaitingFinalCooldown(item) ? 'activity' : 'completed'
+    const dinner = getDinnerState(item)
+    const completed = isCompleted(item)
+    if (completed || (dinner && hasExpiredDinnerTimer(dinner))) {
+      const awaitingFinalBite = completed && dinner && dinner.bitesLeft <= 0
+      return awaitingFinalBite && hasActiveDinnerCooldown(item)
+        ? 'activity'
+        : 'completed'
     }
 
     return isActiveItem(deps, item.id) ? 'activity' : 'setup'
@@ -124,25 +113,26 @@ export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
   }
 }
 
-const hasExpiredDinnerTimer = (
-  remaining: number,
-  startedAt: number | null | undefined,
-  bitesLeft: number
-) => {
-  if (!startedAt) return remaining <= 0 && bitesLeft > 0
-  const elapsed = (Date.now() - startedAt) / 1000
+const hasExpiredDinnerTimer = ({
+  remaining,
+  startedAt,
+  bitesLeft,
+}: NonNullable<ReturnType<typeof getDinnerState>>) => {
+  const elapsed = startedAt ? (Date.now() - startedAt) / 1000 : 0
   return remaining - elapsed <= 0 && bitesLeft > 0
 }
 
 const isActiveItem = (deps: UnifiedChoreDeps, id: string) =>
-  deps.activeMathId === id ||
-  deps.activeLargeNumbersId === id ||
-  deps.activePVId === id ||
-  deps.activeAlphabetId === id ||
-  deps.activeSpellingId === id ||
-  deps.activeAnimalsId === id ||
-  deps.activeDinnerId === id ||
-  deps.activeWaterToiletId === id
+  [
+    deps.activeMathId,
+    deps.activeLargeNumbersId,
+    deps.activePVId,
+    deps.activeAlphabetId,
+    deps.activeSpellingId,
+    deps.activeAnimalsId,
+    deps.activeDinnerId,
+    deps.activeWaterToiletId,
+  ].includes(id)
 
 const getTaskWaterToiletRenderState = (
   deps: UnifiedChoreDeps,

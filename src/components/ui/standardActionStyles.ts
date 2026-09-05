@@ -41,6 +41,14 @@ export const getStandardActionVariantStyle = (
 
   switch (variant) {
     case 'danger':
+      if (theme.id === 'princess') {
+        return {
+          backgroundColor: '#FFF1F5',
+          borderColor: '#E88FB4',
+          color: theme.colors.text,
+          boxShadow: '0 6px 0 #F7C6D8',
+        }
+      }
       return {
         backgroundColor: 'rgba(239,68,68,0.15)',
         borderColor: 'rgba(239,68,68,0.6)',

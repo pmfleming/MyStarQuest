@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { themes } from '../../../src/contexts/ThemeContext'
 import { createUnifiedChoreDescriptor } from '../../../src/ui/unifiedChoreDescriptors'
+import { createUnifiedChoreState } from '../../../src/ui/unifiedChoreState'
 import type { TaskWithEphemeral, TodoRecord } from '../../../src/data/types'
 
 const createBaseDeps = () => ({
@@ -138,6 +139,55 @@ describe('createUnifiedChoreDescriptor', () => {
 
     expect(primaryAction.hideButton).toBe(false)
     expect(primaryAction.disabled).toBe(true)
+
+    const state = createUnifiedChoreState({
+      ...createBaseDeps(),
+      activeDinnerId: todo.id,
+      biteCooldownEndsAt: futureCooldown,
+    })
+    const task: TaskWithEphemeral = {
+      id: todo.id,
+      title: todo.title,
+      childId: todo.childId,
+      category: 'eating',
+      taskType: 'eating',
+      starValue: 3,
+      schoolDayEnabled: true,
+      nonSchoolDayEnabled: true,
+      isRepeating: true,
+      dinnerDurationSeconds: 600,
+      dinnerTotalBites: 2,
+      manageDinnerCompletedAt: todo.completedAt,
+      manageDinnerBitesLeft: 0,
+      manageDinnerRemainingSeconds: 120,
+    }
+    expect(state.getStage(task)).toBe('activity')
+    expect(state.getStage({ ...task, manageDinnerBitesLeft: 1 })).toBe(
+      'completed'
+    )
+    expect(
+      state.getStage({
+        ...task,
+        manageDinnerCompletedAt: null,
+        manageDinnerBitesLeft: 1,
+        manageDinnerTimerStartedAt: Date.now() - 121_000,
+      })
+    ).toBe('completed')
+    expect(
+      state.getStage({
+        ...todo,
+        completedAt: null,
+        dinnerBitesLeft: 1,
+        dinnerTimerStartedAt: Date.now() - 121_000,
+      })
+    ).toBe('completed')
+    const expired = createUnifiedChoreState({
+      ...createBaseDeps(),
+      activeDinnerId: todo.id,
+      biteCooldownEndsAt: Date.now() - 1,
+    })
+    expect(expired.getStage(task)).toBe('completed')
+    expect(expired.getStage(todo)).toBe('completed')
   })
 
   it('wires Water/Toilet start and active tile updates', async () => {
