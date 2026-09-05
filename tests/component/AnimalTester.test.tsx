@@ -10,7 +10,7 @@ import { ANIMAL_HABITAT_IMAGE_BY_NAME } from '../../src/data/animalHabitatAssets
 import { ANIMAL_KNOWLEDGE } from '../../src/data/animalKnowledge'
 import {
   ANIMAL_LOCATION_IMAGE_BY_NAME,
-  REVIEWED_ANIMAL_LOCATIONS,
+  ANIMAL_LOCATIONS,
 } from '../../src/data/animalLocationAssets'
 
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
@@ -31,11 +31,17 @@ describe('AnimalTester', () => {
     render(<AnimalTester {...createProps()} isRunning />)
     const expected = {
       Bat: 'Worldwide',
+      Chimpanzee: 'Central & West Africa',
       Crocodile: 'Warm regions',
       Deer: 'Five continents',
       Eagle: 'Worldwide',
       Flamingo: 'Five continents',
+      Gorilla: 'Central Africa',
+      'Green Tree Python': 'New Guinea & N. Australia',
       Hedgehog: 'Afro-Eurasia',
+      Kiwi: 'New Zealand',
+      Koala: 'Eastern Australia',
+      Lion: 'Africa & India',
       Monkey: 'Africa, Asia & Americas',
       Otter: 'Five continents',
     } as const
@@ -44,7 +50,7 @@ describe('AnimalTester', () => {
       for (const [name, category] of Object.entries(expected)) {
         if (!screen.queryByAltText(name)) continue
         const location = screen.getByLabelText(/^LOCATION:/)
-        const { label, image } = REVIEWED_ANIMAL_LOCATIONS[category]
+        const { label, image } = ANIMAL_LOCATIONS[category]
         expect(
           location.querySelector('[data-animal-fact-word]')?.textContent
         ).toBe(label)
@@ -55,9 +61,7 @@ describe('AnimalTester', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
     }
     expect([...seen].sort()).toEqual(Object.keys(expected).sort())
-    const maps = Object.values(REVIEWED_ANIMAL_LOCATIONS).map(
-      ({ image }) => image
-    )
+    const maps = Object.values(ANIMAL_LOCATIONS).map(({ image }) => image)
     expect(new Set(maps).size).toBe(maps.length)
   })
 

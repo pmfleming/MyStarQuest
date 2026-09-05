@@ -10,10 +10,7 @@ import { ANIMAL_ASSET_BY_NAME } from '../data/animalAssets'
 import { getAnimalCardLabel } from '../data/animalCardLabels'
 import { ANIMAL_FOOD_IMAGE_BY_NAME } from '../data/animalFoodAssets'
 import { ANIMAL_HABITAT_IMAGE_BY_NAME } from '../data/animalHabitatAssets'
-import {
-  ANIMAL_LOCATION_IMAGE_BY_NAME,
-  ANIMAL_LOCATION_LABEL_BY_NAME,
-} from '../data/animalLocationAssets'
+import { ANIMAL_LOCATIONS } from '../data/animalLocationAssets'
 import { getGenericAnimalAbilityImage } from '../data/genericAnimalAbilityAssets'
 import {
   INSECT_COLLECTION_NAMES,
@@ -183,10 +180,8 @@ const getTeachingFacts = (
     {
       ...locationFact,
       label: 'LOCATION',
-      illustration: ANIMAL_LOCATION_IMAGE_BY_NAME[animal.locationCategory],
-      word:
-        ANIMAL_LOCATION_LABEL_BY_NAME[animal.locationCategory] ??
-        locationFact.text,
+      illustration: ANIMAL_LOCATIONS[animal.locationCategory].image,
+      word: ANIMAL_LOCATIONS[animal.locationCategory].label,
       illustrationFit: 'contain',
     },
     {

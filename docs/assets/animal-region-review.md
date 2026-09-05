@@ -1,5 +1,7 @@
 # Animal location review — 5 September 2026
 
+Artwork update: the factual review below is retained, but its initial eight cutout maps have been superseded by the [consistent scenic location set](scenic-location-images.md). Current category captions and images are defined together in `ANIMAL_LOCATIONS`.
+
 Reviewed all 35 profiles previously displaying **Warm regions**, **Many regions**, or **Worldwide**, or using the Worldwide image category. Four additional profiles (bluebird, crab, jackal, raccoon) now reuse the matching reviewed category so an identical location caption cannot select a different image.
 
 ## Map conventions
