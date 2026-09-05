@@ -1,5 +1,6 @@
 import burrowImage from '../assets/animal-habitats/burrow.webp'
 import caveImage from '../assets/animal-habitats/cave.webp'
+import coastlineImage from '../assets/animal-habitats/coastline-card-art.webp'
 import desertImage from '../assets/animal-habitats/desert.webp'
 import farmImage from '../assets/animal-habitats/farm.webp'
 import forestImage from '../assets/animal-habitats/forest.webp'
@@ -16,6 +17,7 @@ import wetlandImage from '../assets/animal-habitats/wetland.webp'
 
 export const ANIMAL_HABITAT_NAMES = [
   'Ocean',
+  'Coastline',
   'Forest',
   'Grassland',
   'Desert',
@@ -36,6 +38,7 @@ export type AnimalHabitatName = (typeof ANIMAL_HABITAT_NAMES)[number]
 
 export const ANIMAL_HABITAT_IMAGE_BY_NAME: Record<AnimalHabitatName, string> = {
   Ocean: oceanImage,
+  Coastline: coastlineImage,
   Forest: forestImage,
   Grassland: grasslandImage,
   Desert: desertImage,

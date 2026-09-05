@@ -7,10 +7,20 @@ import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { getAnimalAbilityImage } from '../data/animalAbilityAssets'
 import { ANIMAL_ASSET_BY_NAME } from '../data/animalAssets'
+import { getAnimalCardLabel } from '../data/animalCardLabels'
 import { ANIMAL_FOOD_IMAGE_BY_NAME } from '../data/animalFoodAssets'
 import { ANIMAL_HABITAT_IMAGE_BY_NAME } from '../data/animalHabitatAssets'
-import { ANIMAL_LOCATION_IMAGE_BY_NAME } from '../data/animalLocationAssets'
+import {
+  ANIMAL_LOCATION_IMAGE_BY_NAME,
+  ANIMAL_LOCATION_LABEL_BY_NAME,
+} from '../data/animalLocationAssets'
 import { getGenericAnimalAbilityImage } from '../data/genericAnimalAbilityAssets'
+import {
+  INSECT_COLLECTION_NAMES,
+  INSECT_KNOWLEDGE,
+  getInsectBearAbilityImage,
+  type InsectKnowledge,
+} from '../data/insectKnowledge'
 import {
   ANIMAL_KNOWLEDGE,
   type AnimalFact,
@@ -44,10 +54,11 @@ const CLUE_REVEAL_INTERVAL_MS = 3000
 
 type AnimalMode = 'learn' | 'solo' | 'together'
 type AnimalDifficulty = 'easy' | 'hard'
+type CreatureCollection = 'animals' | 'insects'
 
-type CatalogAnimal = AnimalKnowledge & {
-  image: string
-}
+type CatalogAnimal =
+  | (AnimalKnowledge & { kind: 'animal'; image: string })
+  | (InsectKnowledge & { kind: 'insect' })
 
 const MODE_OPTIONS = [
   {
@@ -82,25 +93,31 @@ const shuffle = <T,>(items: readonly T[]) =>
   [...items].sort(() => Math.random() - 0.5)
 
 const ANIMAL_CATALOG: CatalogAnimal[] = ANIMAL_KNOWLEDGE.flatMap((animal) => {
+  if (INSECT_COLLECTION_NAMES.has(animal.name)) return []
   const image = ANIMAL_ASSET_BY_NAME.get(animal.name)
-  return image ? [{ ...animal, image }] : []
+  return image ? [{ ...animal, image, kind: 'animal' as const }] : []
 })
 
-const ORDERED_ANIMAL_CATALOG = [...ANIMAL_CATALOG].sort((left, right) =>
-  left.name.localeCompare(right.name)
-)
+const INSECT_CATALOG: CatalogAnimal[] = INSECT_KNOWLEDGE.map((insect) => ({
+  ...insect,
+  kind: 'insect',
+}))
+const COLLECTION_CATALOGS = { animals: ANIMAL_CATALOG, insects: INSECT_CATALOG }
 
 const getActiveAnimalOrder = (
   mode: AnimalMode,
+  catalog: CatalogAnimal[],
   shuffledOrder: CatalogAnimal[],
   itemLimit: number
-) =>
-  mode === 'learn' ? ORDERED_ANIMAL_CATALOG : shuffledOrder.slice(0, itemLimit)
+) => (mode === 'learn' ? catalog : shuffledOrder.slice(0, itemLimit))
 
 type VisualFact = AnimalFact & {
   illustration?: string
   illustrationFit?: 'cover' | 'contain'
   word?: string
+  isAbility?: boolean
+  detailPosition?: string
+  detailScale?: number
 }
 
 const getLabelWord = (label: string) => {
@@ -114,6 +131,45 @@ const getTeachingFacts = (
   themeId: ActivityChoreProps['theme']['id'],
   useGenericAbilityImage = false
 ): VisualFact[] => {
+  if (animal.kind === 'insect') {
+    return [
+      {
+        label: 'HOME',
+        text: animal.home,
+        visual: '',
+        word: animal.home,
+        illustration: animal.homeImage,
+      },
+      {
+        label: 'FOOD',
+        text: animal.food,
+        visual: '',
+        word: animal.food,
+        illustration: animal.foodIllustration,
+      },
+      {
+        label: 'LOOKS',
+        text: animal.looks,
+        visual: '',
+        word: animal.looks,
+        illustration: animal.image,
+        illustrationFit: animal.looksScale === 1 ? 'contain' : 'cover',
+        detailPosition: animal.looksPosition,
+        detailScale: animal.looksScale,
+      },
+      {
+        label: 'SPECIAL',
+        text: animal.abilityText,
+        visual: '',
+        word: animal.ability,
+        isAbility: true,
+        illustration: useGenericAbilityImage
+          ? getInsectBearAbilityImage(themeId, animal.bear)
+          : animal.abilityImage,
+        illustrationFit: 'contain',
+      },
+    ]
+  }
   const locationFact = animal.habitat[0]
   const environmentFact = animal.habitat[1]
   const foodFact = animal.food[1]
@@ -128,23 +184,29 @@ const getTeachingFacts = (
       ...locationFact,
       label: 'LOCATION',
       illustration: ANIMAL_LOCATION_IMAGE_BY_NAME[animal.locationCategory],
-      word: locationFact.text,
+      word:
+        ANIMAL_LOCATION_LABEL_BY_NAME[animal.locationCategory] ??
+        locationFact.text,
+      illustrationFit: 'contain',
     },
     {
       ...environmentFact,
       label: 'ENVIRONMENT',
       illustration: ANIMAL_HABITAT_IMAGE_BY_NAME[animal.habitatCategory],
+      illustrationFit: 'contain',
       word: animal.habitatCategory,
     },
     {
       ...foodFact,
       label: 'FOOD',
       illustration: ANIMAL_FOOD_IMAGE_BY_NAME[animal.foodCategory],
+      illustrationFit: 'contain',
       word: animal.foodCategory,
     },
     {
       ...abilityFact,
       label: 'ABILITY',
+      isAbility: true,
       illustration: useGenericAbilityImage
         ? (getGenericAnimalAbilityImage(themeId, abilityFact.label) ??
           abilityImage)
@@ -176,7 +238,7 @@ const FactCard = ({
       aria-label={`${fact.label}: ${fact.text}`}
       style={{
         width: '100%',
-        minHeight: 174,
+        aspectRatio: '1 / 1',
         padding: 0,
         borderRadius: 22,
         border: `3px solid ${theme.colors.accent}`,
@@ -202,6 +264,13 @@ const FactCard = ({
             width: '100%',
             height: '100%',
             objectFit: fact.illustrationFit ?? 'cover',
+            ...(fact.detailPosition
+              ? {
+                  objectPosition: fact.detailPosition,
+                  transform: `scale(${fact.detailScale ?? 2.1})`,
+                  transformOrigin: fact.detailPosition,
+                }
+              : {}),
           }}
         />
       ) : (
@@ -226,10 +295,11 @@ const FactCard = ({
             position: 'absolute',
             zIndex: 1,
             left: '50%',
-            bottom: 10,
+            bottom: 0,
             transform: 'translateX(-50%)',
-            maxWidth: 'calc(100% - 20px)',
-            padding: '5px 12px',
+            width: 'max-content',
+            maxWidth: 'calc(100% - 8px)',
+            padding: '5px 8px',
             border: `2px solid ${theme.colors.surface}`,
             borderRadius: 999,
             background: `${theme.colors.surface}80`,
@@ -239,11 +309,10 @@ const FactCard = ({
             color: theme.colors.text,
             lineHeight: 1.1,
             overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'normal',
+            whiteSpace: 'nowrap',
           }}
         >
-          {fact.word}
+          {getAnimalCardLabel(fact.word)}
         </strong>
       )}
     </CardElement>
@@ -274,8 +343,8 @@ const FactGrid = ({
         key={`${fact.label}-${fact.text}`}
         fact={fact}
         theme={theme}
-        onClick={fact.label === 'ABILITY' ? onAbilityClick : undefined}
-        isPressed={fact.label === 'ABILITY' && isGenericAbilityShown}
+        onClick={fact.isAbility ? onAbilityClick : undefined}
+        isPressed={Boolean(fact.isAbility && isGenericAbilityShown)}
       />
     ))}
   </div>
@@ -310,7 +379,7 @@ const AnimalPortrait = ({
   >
     <img
       src={animal.image}
-      alt={showName ? formatAnimalName(animal.name) : 'Mystery animal'}
+      alt={showName ? formatAnimalName(animal.name) : `Mystery ${animal.kind}`}
       style={{
         width: '100%',
         height: compact ? 132 : 172,
@@ -346,7 +415,7 @@ const HideableAnimalPortrait = ({
   return (
     <button
       type="button"
-      aria-label={hidden ? 'Show animal' : 'Hide animal'}
+      aria-label={`${hidden ? 'Show' : 'Hide'} ${animal.kind}`}
       aria-pressed={hidden}
       onClick={onToggle}
       style={{
@@ -408,12 +477,14 @@ const NavigationArrow = ({ direction }: { direction: 'previous' | 'next' }) => (
 )
 
 const LearningNavigation = ({
+  creatureName,
   theme,
   canGoPrevious,
   isLastAnimal,
   onPrevious,
   onNext,
 }: {
+  creatureName: string
   theme: ActivityChoreProps['theme']
   canGoPrevious: boolean
   isLastAnimal: boolean
@@ -431,7 +502,7 @@ const LearningNavigation = ({
     }}
   >
     <ActionButton
-      label="Previous animal"
+      label={`Previous ${creatureName}`}
       icon={null}
       theme={theme}
       color={theme.colors.primary}
@@ -448,7 +519,7 @@ const LearningNavigation = ({
       }}
     />
     <ActionButton
-      label={isLastAnimal ? 'Finish learning' : 'Next animal'}
+      label={isLastAnimal ? 'Finish learning' : `Next ${creatureName}`}
       icon={null}
       theme={theme}
       color={theme.colors.primary}
@@ -467,16 +538,18 @@ const LearningNavigation = ({
 )
 
 const TwoPlayerProgressButton = ({
+  creatureName,
   theme,
   isLastAnimal,
   onClick,
 }: {
+  creatureName: string
   theme: ActivityChoreProps['theme']
   isLastAnimal: boolean
   onClick: () => void
 }) => (
   <ActionButton
-    label={isLastAnimal ? 'Finish game' : 'Next animal'}
+    label={isLastAnimal ? 'Finish game' : `Next ${creatureName}`}
     icon={null}
     theme={theme}
     color={theme.colors.primary}
@@ -554,6 +627,7 @@ const AnimalPlayContent = ({
           isGenericAbilityShown={isGenericLearnAbilityShown}
         />
         <LearningNavigation
+          creatureName={animal.kind}
           theme={theme}
           canGoPrevious={animalIndex > 0}
           isLastAnimal={isLastAnimal}
@@ -578,6 +652,7 @@ const AnimalPlayContent = ({
           theme={theme}
         />
         <TwoPlayerProgressButton
+          creatureName={animal.kind}
           theme={theme}
           isLastAnimal={isLastAnimal}
           onClick={onNext}
@@ -596,7 +671,9 @@ const AnimalPlayContent = ({
         theme={theme}
       />
       <div
-        aria-label="Animal choices"
+        aria-label={
+          animal.kind === 'insect' ? 'Insect choices' : 'Animal choices'
+        }
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
@@ -674,6 +751,8 @@ const AnimalTester = ({
   failureImage,
   failureModeEnabled = true,
 }: AnimalTesterProps) => {
+  const [collection, setCollection] = useState<CreatureCollection>('animals')
+  const catalog = COLLECTION_CATALOGS[collection]
   const [mode, setMode] = useState<AnimalMode>('learn')
   const [difficulty, setDifficulty] = useState<AnimalDifficulty>('easy')
   const [animalOrder, setAnimalOrder] = useState(() => shuffle(ANIMAL_CATALOG))
@@ -699,22 +778,27 @@ const AnimalTester = ({
   const itemLimit = Math.min(
     Math.max(totalProblems, MIN_PROBLEMS),
     MAX_PROBLEMS,
-    ANIMAL_CATALOG.length
+    catalog.length
   )
-  const activeAnimalOrder = getActiveAnimalOrder(mode, animalOrder, itemLimit)
+  const activeAnimalOrder = getActiveAnimalOrder(
+    mode,
+    catalog,
+    animalOrder,
+    itemLimit
+  )
   const animal = activeAnimalOrder[animalIndex]
   const isLastAnimal = animalIndex + 1 >= activeAnimalOrder.length
   const answerChoices = useMemo(() => {
     if (!animal) return []
     const alternatives = shuffle(
-      ANIMAL_CATALOG.filter((candidate) => candidate.name !== animal.name)
+      catalog.filter((candidate) => candidate.name !== animal.name)
     ).slice(0, 2)
     return shuffle([animal, ...alternatives])
-  }, [animal])
+  }, [animal, catalog])
 
   const resetPlayState = useCallback(() => {
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
-    setAnimalOrder(shuffle(ANIMAL_CATALOG))
+    setAnimalOrder(shuffle(catalog))
     setAnimalIndex(0)
     setResults([])
     setLeavingChoice(null)
@@ -723,7 +807,14 @@ const AnimalTester = ({
     setVisibleSoloClues(1)
     setIsTogetherAnimalHidden(false)
     setIsGenericLearnAbilityShown(false)
-  }, [])
+  }, [catalog])
+
+  const changeCollection = (next: CreatureCollection) => {
+    if (next === collection || (isRunning && mode !== 'learn')) return
+    resetPlayState()
+    setAnimalOrder(shuffle(COLLECTION_CATALOGS[next]))
+    setCollection(next)
+  }
 
   useEffect(() => {
     if (!isRunning && !isCompleted) {
@@ -821,10 +912,34 @@ const AnimalTester = ({
       isSuccessState={isSuccessState}
       completionImage={completionImage}
       failureImage={failureImage}
-      successAlt="Amazing animal explorer!"
-      failureAlt="Let's learn some more animals!"
+      successAlt={`Amazing ${collection === 'insects' ? 'insect' : 'animal'} explorer!`}
+      failureAlt={`Let's learn some more ${collection}!`}
       className="flex w-full flex-col items-center"
     >
+      <SegmentedChoiceControl
+        theme={theme}
+        value={collection}
+        ariaLabel="Creature collection"
+        onChange={changeCollection}
+        style={{
+          width: uiTokens.controlRowWidth,
+          maxWidth: '100%',
+        }}
+        options={[
+          {
+            value: 'animals',
+            label: 'Animals',
+            icon: ANIMAL_ASSET_BY_NAME.get('lion'),
+            disabled: isRunning && mode !== 'learn',
+          },
+          {
+            value: 'insects',
+            label: 'Insects',
+            icon: ANIMAL_ASSET_BY_NAME.get('butterfly'),
+            disabled: isRunning && mode !== 'learn',
+          },
+        ]}
+      />
       {isSetup && !isEditable && (
         <div
           style={{
@@ -840,7 +955,9 @@ const AnimalTester = ({
             value={mode}
             options={MODE_OPTIONS}
             onChange={setMode}
-            ariaLabel="Animal game mode"
+            ariaLabel={
+              collection === 'insects' ? 'Insect game mode' : 'Animal game mode'
+            }
           />
           {mode === 'solo' && (
             <CrownDifficultyControl
@@ -848,7 +965,11 @@ const AnimalTester = ({
               value={difficulty}
               options={ANIMAL_DIFFICULTIES}
               onChange={setDifficulty}
-              ariaLabel="Animal difficulty"
+              ariaLabel={
+                collection === 'insects'
+                  ? 'Insect difficulty'
+                  : 'Animal difficulty'
+              }
             />
           )}
         </div>
@@ -862,8 +983,8 @@ const AnimalTester = ({
         onAdjustProblems={onAdjustProblems}
         starReward={starReward}
         onStarsChange={onStarsChange}
-        previousAriaLabel="Fewer animals"
-        nextAriaLabel="More animals"
+        previousAriaLabel={`Fewer ${collection}`}
+        nextAriaLabel={`More ${collection}`}
         isEditable={isEditable}
         starMax={10}
         beforeProblemControl={
@@ -873,7 +994,11 @@ const AnimalTester = ({
               value={mode}
               options={MODE_OPTIONS}
               onChange={setMode}
-              ariaLabel="Animal game mode"
+              ariaLabel={
+                collection === 'insects'
+                  ? 'Insect game mode'
+                  : 'Animal game mode'
+              }
             />
             {mode === 'solo' && (
               <CrownDifficultyControl
@@ -881,7 +1006,11 @@ const AnimalTester = ({
                 value={difficulty}
                 options={ANIMAL_DIFFICULTIES}
                 onChange={setDifficulty}
-                ariaLabel="Animal difficulty"
+                ariaLabel={
+                  collection === 'insects'
+                    ? 'Insect difficulty'
+                    : 'Animal difficulty'
+                }
               />
             )}
           </>

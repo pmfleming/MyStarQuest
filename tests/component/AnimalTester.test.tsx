@@ -114,7 +114,11 @@ describe('AnimalTester', () => {
     )
     expect(teachingCards).toHaveLength(4)
     expect(teachingCards.every((card) => card.querySelector('img'))).toBe(true)
-    expect(teachingCards[0]).toHaveTextContent('The Andes of South America')
+    expect(teachingCards[0]).toHaveTextContent(/^Andes$/)
+    expect(teachingCards[0]).toHaveAttribute(
+      'aria-label',
+      'LOCATION: The Andes of South America'
+    )
     expect(teachingCards[0]).not.toHaveTextContent(/^(Earth|Worldwide)$/)
     const abilityCard = screen.getByRole('button', { name: /^ABILITY:/ })
     expect(abilityCard).toHaveAttribute('aria-pressed', 'false')
@@ -149,15 +153,13 @@ describe('AnimalTester', () => {
 
     fireEvent.click(nextButton)
     expect(props.onComplete).not.toHaveBeenCalled()
-    expect(screen.getByAltText('Ant')).toBeInTheDocument()
-    expect(screen.getByLabelText(/^LOCATION:/)).toHaveTextContent(
-      'Almost everywhere on Earth'
-    )
+    expect(screen.getByAltText('Armadillo')).toBeInTheDocument()
+    expect(screen.getByLabelText(/^LOCATION:/)).toHaveTextContent('Americas')
     const antAbilityCard = screen.getByRole('button', { name: /^ABILITY:/ })
     expect(antAbilityCard).toHaveAttribute('aria-pressed', 'false')
     expect(antAbilityCard.querySelector('img')).toHaveAttribute(
       'src',
-      getAnimalAbilityImage('ant')
+      getAnimalAbilityImage('armadillo')
     )
     expect(previousButton).toBeEnabled()
 
@@ -165,17 +167,16 @@ describe('AnimalTester', () => {
     expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
-    expect(screen.getByAltText('Ant')).toBeInTheDocument()
+    expect(screen.getByAltText('Armadillo')).toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
-    expect(screen.getByAltText('Armadillo')).toBeInTheDocument()
+    expect(screen.getByAltText('Bat')).toBeInTheDocument()
     expect(props.onExit).not.toHaveBeenCalled()
 
     fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
     expect(screen.getByAltText('Bear')).toBeInTheDocument()
     expect(screen.getByLabelText(/^LOCATION:/)).toHaveTextContent(
-      'North America, Europe, and Asia'
+      'N. Am. & Eurasia'
     )
     expect(screen.getByLabelText(/^LOCATION:/)).not.toHaveTextContent(
       /^(Earth|Worldwide)$/

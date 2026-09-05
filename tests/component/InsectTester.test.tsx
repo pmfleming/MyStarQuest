@@ -1,0 +1,217 @@
+import { act, fireEvent, render, screen, within } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
+import AnimalTester from '../../src/components/AnimalTester'
+import { themes } from '../../src/contexts/ThemeContext'
+import {
+  INSECT_KNOWLEDGE,
+  INSECT_COLLECTION_NAMES,
+  getInsectBearAbilityImage,
+} from '../../src/data/insectKnowledge'
+
+vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
+
+const props = () => ({
+  theme: themes.princess,
+  totalProblems: 2,
+  starReward: 3,
+  isRunning: false,
+  onAdjustProblems: vi.fn(),
+  onStarsChange: vi.fn(),
+  onComplete: vi.fn(),
+  onExit: vi.fn(),
+})
+const name = (value: string) =>
+  value
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+const selectInsects = () =>
+  fireEvent.click(screen.getByRole('radio', { name: 'Insects' }))
+const clueImages = () =>
+  ['HOME', 'FOOD', 'LOOKS'].map((category) =>
+    screen
+      .getByLabelText(new RegExp(`^${category}:`))
+      .querySelector('img')
+      ?.getAttribute('src')
+  )
+
+describe('Insect collection', () => {
+  it('has 34 complete, individually illustrated creatures and matching bear abilities', () => {
+    expect(INSECT_KNOWLEDGE).toHaveLength(34)
+    expect(new Set(INSECT_KNOWLEDGE.map((item) => item.name)).size).toBe(34)
+    expect(new Set(INSECT_KNOWLEDGE.map((item) => item.image)).size).toBe(34)
+    expect(
+      new Set(INSECT_KNOWLEDGE.map((item) => item.abilityImage)).size
+    ).toBe(34)
+    expect(INSECT_COLLECTION_NAMES.has('tarantula')).toBe(true)
+    expect(
+      INSECT_KNOWLEDGE.find((item) => item.name === 'tarantula')
+    ).toMatchObject({
+      home: 'Burrow',
+      food: 'Insects',
+      looks: 'Eight hairy legs',
+      abilityText: 'Lines its burrow with silk',
+    })
+    for (const item of INSECT_KNOWLEDGE) {
+      expect(item.homeImage).toBeTruthy()
+      expect(item.foodIllustration).toBeTruthy()
+      expect(item.looks).toBeTruthy()
+      expect(item.species).toBeTruthy()
+      expect(getInsectBearAbilityImage('princess', item.bear)).toBeTruthy()
+      expect(getInsectBearAbilityImage('nature', item.bear)).toBeTruthy()
+      expect(getInsectBearAbilityImage('space', item.bear)).toBeTruthy()
+    }
+  })
+
+  it('keeps the image selector accessible, including non-editable setup', () => {
+    render(<AnimalTester {...props()} isEditable={false} />)
+    const picker = screen.getByRole('radiogroup', {
+      name: 'Creature collection',
+    })
+    expect(
+      within(picker).getByRole('radio', { name: 'Animals' })
+    ).toHaveAttribute('aria-checked', 'true')
+    expect(picker.textContent).toBe('')
+    selectInsects()
+    expect(
+      within(picker).getByRole('radio', { name: 'Insects' })
+    ).toHaveAttribute('aria-checked', 'true')
+  })
+
+  it('teaches all insects and toggles only Special to the princess bear', () => {
+    const p = props()
+    const { rerender } = render(<AnimalTester {...p} />)
+    selectInsects()
+    rerender(<AnimalTester {...p} isRunning />)
+    expect(
+      screen.getByRole('button', { name: 'Previous insect' })
+    ).toBeDisabled()
+    for (const insect of INSECT_KNOWLEDGE) {
+      expect(screen.getByAltText(name(insect.name))).toBeInTheDocument()
+      expect(
+        screen.getAllByLabelText(/^(HOME|FOOD|LOOKS|SPECIAL):/)
+      ).toHaveLength(4)
+      const originals = clueImages()
+      const special = screen.getByRole('button', { name: /^SPECIAL:/ })
+      expect(special.querySelector('img')).toHaveAttribute(
+        'src',
+        insect.abilityImage
+      )
+      expect(special).toHaveAttribute('aria-pressed', 'false')
+      fireEvent.click(special)
+      expect(special.querySelector('img')).toHaveAttribute(
+        'src',
+        getInsectBearAbilityImage('princess', insect.bear)
+      )
+      expect(clueImages()).toEqual(originals)
+      fireEvent.click(
+        screen.getByRole('button', {
+          name:
+            insect === INSECT_KNOWLEDGE.at(-1)
+              ? 'Finish learning'
+              : 'Next insect',
+        })
+      )
+    }
+    expect(p.onExit).toHaveBeenCalledOnce()
+    expect(p.onComplete).not.toHaveBeenCalled()
+  }, 15000)
+
+  it('resets navigation and Special when switching collections in Learn', () => {
+    const p = props()
+    const { rerender } = render(<AnimalTester {...p} />)
+    selectInsects()
+    rerender(<AnimalTester {...p} isRunning />)
+    fireEvent.click(screen.getByRole('button', { name: 'Next insect' }))
+    fireEvent.click(screen.getByRole('button', { name: /^SPECIAL:/ }))
+    fireEvent.click(screen.getByRole('radio', { name: 'Animals' }))
+    expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Previous animal' })
+    ).toBeDisabled()
+    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
+    expect(screen.getByAltText('Armadillo')).toBeInTheDocument()
+    selectInsects()
+    expect(screen.getByAltText('Ant')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /^SPECIAL:/ })).toHaveAttribute(
+      'aria-pressed',
+      'false'
+    )
+  })
+
+  it.each(['Easy', 'Hard'])(
+    'plays %s solo rounds using only insect choices',
+    (difficulty) => {
+      vi.useFakeTimers()
+      try {
+        const p = { ...props(), totalProblems: 1 }
+        const { rerender } = render(<AnimalTester {...p} />)
+        selectInsects()
+        fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
+        fireEvent.click(screen.getByRole('radio', { name: difficulty }))
+        rerender(<AnimalTester {...p} isRunning />)
+        expect(screen.getByRole('radio', { name: 'Animals' })).toBeDisabled()
+        expect(screen.getByLabelText(/^HOME:/)).toBeInTheDocument()
+        expect(screen.queryByLabelText(/^SPECIAL:/)).not.toBeInTheDocument()
+        act(() => vi.advanceTimersByTime(9000))
+        const ability = screen.getByLabelText(/^SPECIAL:/)
+        const looks = screen
+          .getByLabelText(/^LOOKS:/)
+          .getAttribute('aria-label')
+        const current = INSECT_KNOWLEDGE.find(
+          (item) => `LOOKS: ${item.looks}` === looks
+        )!
+        expect(current).toBeDefined()
+        expect(ability.querySelector('img')).toHaveAttribute(
+          'src',
+          difficulty === 'Hard'
+            ? getInsectBearAbilityImage('princess', current.bear)
+            : current.abilityImage
+        )
+        const choices = within(
+          screen.getByLabelText('Insect choices')
+        ).getAllByRole('button')
+        expect(choices).toHaveLength(3)
+        expect(
+          choices.every((choice) =>
+            INSECT_KNOWLEDGE.some(
+              (item) => name(item.name) === choice.getAttribute('aria-label')
+            )
+          )
+        ).toBe(true)
+        const wrong = choices.find(
+          (choice) => choice.getAttribute('aria-label') !== name(current.name)
+        )!
+        fireEvent.click(wrong)
+        act(() => vi.advanceTimersByTime(650))
+        expect(wrong).not.toBeInTheDocument()
+        fireEvent.click(
+          screen.getByRole('button', { name: name(current.name) })
+        )
+        act(() => vi.advanceTimersByTime(650))
+        expect(p.onComplete).toHaveBeenCalledOnce()
+      } finally {
+        vi.useRealTimers()
+      }
+    }
+  )
+
+  it('hides the two-player portrait and replaces only Special, then restores it', () => {
+    const p = { ...props(), totalProblems: 1 }
+    const { rerender } = render(<AnimalTester {...p} />)
+    selectInsects()
+    fireEvent.click(screen.getByRole('radio', { name: '2 Players' }))
+    rerender(<AnimalTester {...p} isRunning />)
+    const originalClues = clueImages()
+    const special = screen.getByLabelText(/^SPECIAL:/).querySelector('img')!
+    const originalAbility = special.getAttribute('src')
+    fireEvent.click(screen.getByRole('button', { name: 'Hide insect' }))
+    expect(special.getAttribute('src')).not.toBe(originalAbility)
+    expect(clueImages()).toEqual(originalClues)
+    fireEvent.click(screen.getByRole('button', { name: 'Show insect' }))
+    expect(special).toHaveAttribute('src', originalAbility)
+    fireEvent.click(screen.getByRole('button', { name: 'Finish game' }))
+    expect(p.onExit).toHaveBeenCalledOnce()
+    expect(p.onComplete).not.toHaveBeenCalled()
+  })
+})
