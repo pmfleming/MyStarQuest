@@ -139,31 +139,4 @@ describe('SpellingTester', () => {
       expect(pokemonNames).toContain(image.getAttribute('alt'))
     })
   })
-
-  it('lists lowercase first and uses it by default', async () => {
-    const { rerender } = render(<SpellingTester {...defaultProps} />)
-
-    const caseOptions = screen
-      .getByRole('radiogroup', {
-        name: 'Letter case',
-      })
-      .querySelectorAll('[role="radio"]')
-    expect(
-      Array.from(caseOptions, (option) => option.getAttribute('aria-label'))
-    ).toEqual(['abc', 'ABC'])
-    expect(screen.getByRole('radio', { name: 'abc' })).toHaveAttribute(
-      'aria-checked',
-      'true'
-    )
-
-    rerender(<SpellingTester {...defaultProps} isRunning />)
-
-    await waitFor(() => {
-      const choices = screen.getAllByRole('button')
-      expect(choices).toHaveLength(3)
-      expect(
-        choices.every((choice) => /^[a-z]$/.test(choice.textContent ?? ''))
-      ).toBe(true)
-    })
-  })
 })

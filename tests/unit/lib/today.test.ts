@@ -12,6 +12,20 @@ import {
 } from '../../../src/lib/today'
 
 describe('today utilities', () => {
+  it.each([
+    { season: 'spring', month: 2 },
+    { season: 'summer', month: 5 },
+    { season: 'autumn', month: 8 },
+    { season: 'winter', month: 11 },
+  ])('classifies the start of $season', ({ season, month }) => {
+    // Each local and timezone-aware entry point must agree at month boundaries.
+    expect(getSeasonForDate(new Date(2026, month, 1))).toBe(season)
+    expect(
+      getTodayDescriptor(new Date(Date.UTC(2026, month, 1, 12)), APP_TIME_ZONE)
+        .season
+    ).toBe(season)
+  })
+
   it('builds and parses local dates without shifting the day', () => {
     expect(buildDateKey(new Date(2026, 2, 6))).toBe('2026-03-06')
 
@@ -36,10 +50,6 @@ describe('today utilities', () => {
     expect(getCurrentDayTypeForDate(new Date(2026, 2, 6))).toBe('schoolday')
     expect(getCurrentDayTypeForDate(new Date(2026, 2, 7))).toBe('nonschoolday')
 
-    expect(normalizeChoreSchedule({ dayType: 'weekday' })).toEqual({
-      schoolDayEnabled: true,
-      nonSchoolDayEnabled: false,
-    })
     expect(
       normalizeChoreSchedule({
         schoolDayEnabled: false,

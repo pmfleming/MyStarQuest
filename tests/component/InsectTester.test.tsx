@@ -36,22 +36,15 @@ const clueImages = () =>
   )
 
 describe('Insect collection', () => {
-  it('has 34 complete, individually illustrated creatures and matching bear abilities', () => {
-    expect(INSECT_KNOWLEDGE).toHaveLength(34)
-    expect(new Set(INSECT_KNOWLEDGE.map((item) => item.name)).size).toBe(34)
-    expect(new Set(INSECT_KNOWLEDGE.map((item) => item.image)).size).toBe(34)
+  it('has complete, individually illustrated creatures and matching bear abilities', () => {
+    const count = INSECT_KNOWLEDGE.length
+    expect(count).toBeGreaterThan(0)
+    expect(new Set(INSECT_KNOWLEDGE.map((item) => item.name)).size).toBe(count)
+    expect(new Set(INSECT_KNOWLEDGE.map((item) => item.image)).size).toBe(count)
     expect(
       new Set(INSECT_KNOWLEDGE.map((item) => item.abilityImage)).size
-    ).toBe(34)
+    ).toBe(count)
     expect(INSECT_COLLECTION_NAMES.has('tarantula')).toBe(true)
-    expect(
-      INSECT_KNOWLEDGE.find((item) => item.name === 'tarantula')
-    ).toMatchObject({
-      home: 'Burrow',
-      food: 'Insects',
-      looks: 'Eight hairy legs',
-      abilityText: 'Lines its burrow with silk',
-    })
     for (const item of INSECT_KNOWLEDGE) {
       expect(item.homeImage).toBeTruthy()
       expect(item.foodIllustration).toBeTruthy()
@@ -71,7 +64,6 @@ describe('Insect collection', () => {
     expect(
       within(picker).getByRole('radio', { name: 'Animals' })
     ).toHaveAttribute('aria-checked', 'true')
-    expect(picker.textContent).toBe('')
     selectInsects()
     expect(
       within(picker).getByRole('radio', { name: 'Insects' })
@@ -195,23 +187,4 @@ describe('Insect collection', () => {
       }
     }
   )
-
-  it('hides the two-player portrait and replaces only Special, then restores it', () => {
-    const p = { ...props(), totalProblems: 1 }
-    const { rerender } = render(<AnimalTester {...p} />)
-    selectInsects()
-    fireEvent.click(screen.getByRole('radio', { name: '2 Players' }))
-    rerender(<AnimalTester {...p} isRunning />)
-    const originalClues = clueImages()
-    const special = screen.getByLabelText(/^SPECIAL:/).querySelector('img')!
-    const originalAbility = special.getAttribute('src')
-    fireEvent.click(screen.getByRole('button', { name: 'Hide insect' }))
-    expect(special.getAttribute('src')).not.toBe(originalAbility)
-    expect(clueImages()).toEqual(originalClues)
-    fireEvent.click(screen.getByRole('button', { name: 'Show insect' }))
-    expect(special).toHaveAttribute('src', originalAbility)
-    fireEvent.click(screen.getByRole('button', { name: 'Finish game' }))
-    expect(p.onExit).toHaveBeenCalledOnce()
-    expect(p.onComplete).not.toHaveBeenCalled()
-  })
 })

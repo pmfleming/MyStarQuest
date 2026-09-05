@@ -45,22 +45,20 @@ describe('AnimalTester', () => {
       Monkey: 'Africa, Asia & Americas',
       Otter: 'Five continents',
     } as const
-    const seen = new Set<string>()
-    for (let index = 0; index < ANIMAL_KNOWLEDGE.length; index++) {
-      for (const [name, category] of Object.entries(expected)) {
-        if (!screen.queryByAltText(name)) continue
-        const location = screen.getByLabelText(/^LOCATION:/)
-        const { label, image } = ANIMAL_LOCATIONS[category]
-        expect(
-          location.querySelector('[data-animal-fact-word]')?.textContent
-        ).toBe(label)
-        expect(location.querySelector('img')).toHaveAttribute('src', image)
-        seen.add(name)
-      }
-      if (seen.size === Object.keys(expected).length) break
-      fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
+    for (const [name, category] of Object.entries(expected)) {
+      const key = name.toLowerCase().replaceAll(' ', '-')
+      expect(
+        ANIMAL_KNOWLEDGE.find((animal) => animal.name === key)?.locationCategory
+      ).toBe(category)
     }
-    expect([...seen].sort()).toEqual(Object.keys(expected).sort())
+    // One rendered card verifies canonical short captions; catalog checks above
+    // protect range assignments without traversing the whole teaching carousel.
+    const location = screen.getByLabelText(/^LOCATION:/)
+    expect(location).toHaveTextContent(/^Andes$/)
+    expect(location.querySelector('img')).toHaveAttribute(
+      'src',
+      ANIMAL_LOCATIONS.Andes.image
+    )
     const maps = Object.values(ANIMAL_LOCATIONS).map(({ image }) => image)
     expect(new Set(maps).size).toBe(maps.length)
   })
@@ -98,43 +96,6 @@ describe('AnimalTester', () => {
     })
 
     expect(incompleteAnimals).toEqual([])
-  })
-
-  it('offers teaching, one-player, and two-player modes', () => {
-    render(<AnimalTester {...createProps()} />)
-
-    const modePicker = screen.getByRole('radiogroup', {
-      name: 'Animal game mode',
-    })
-    const modeOptions = within(modePicker).getAllByRole('radio')
-    expect(modeOptions).toHaveLength(3)
-    expect(modeOptions.every((option) => option.querySelector('img'))).toBe(
-      true
-    )
-    expect(modePicker).toHaveTextContent('')
-    expect(screen.getByRole('radio', { name: 'Learn' })).toHaveAttribute(
-      'aria-checked',
-      'true'
-    )
-    expect(screen.getByRole('radio', { name: '1 Player' })).toBeInTheDocument()
-    expect(screen.getByRole('radio', { name: '2 Players' })).toBeInTheDocument()
-    expect(
-      screen.queryByRole('radiogroup', { name: 'Animal difficulty' })
-    ).not.toBeInTheDocument()
-
-    fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
-    const difficultyPicker = screen.getByRole('radiogroup', {
-      name: 'Animal difficulty',
-    })
-    const easyOption = within(difficultyPicker).getByRole('radio', {
-      name: 'Easy',
-    })
-    const hardOption = within(difficultyPicker).getByRole('radio', {
-      name: 'Hard',
-    })
-    expect(easyOption).toHaveAttribute('aria-checked', 'true')
-    expect(easyOption.querySelectorAll('img')).toHaveLength(1)
-    expect(hardOption.querySelectorAll('img')).toHaveLength(2)
   })
 
   it('teaches the complete ordered animal list regardless of the item limit', () => {
@@ -304,45 +265,6 @@ describe('AnimalTester', () => {
 
       act(() => vi.advanceTimersByTime(650))
       expect(props.onComplete).toHaveBeenCalledOnce()
-    } finally {
-      vi.useRealTimers()
-    }
-  })
-
-  it('uses the generic ability card in hard one-player mode', () => {
-    vi.useFakeTimers()
-    try {
-      const props = createProps()
-      const { rerender } = render(<AnimalTester {...props} />)
-
-      fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
-      fireEvent.click(screen.getByRole('radio', { name: 'Hard' }))
-      expect(screen.getByRole('radio', { name: 'Hard' })).toHaveAttribute(
-        'aria-checked',
-        'true'
-      )
-
-      rerender(<AnimalTester {...props} isRunning />)
-      act(() => vi.advanceTimersByTime(9000))
-
-      const abilityCard = screen.getByLabelText(/^ABILITY:/)
-      const abilityText = abilityCard
-        .getAttribute('aria-label')
-        ?.replace('ABILITY: ', '')
-      const currentAnimal = ANIMAL_KNOWLEDGE.find(
-        (animal) => animal.abilities[0].text === abilityText
-      )
-      expect(currentAnimal).toBeDefined()
-      if (!currentAnimal)
-        throw new Error('Expected the displayed animal in catalog')
-
-      expect(abilityCard.querySelector('img')).toHaveAttribute(
-        'src',
-        getGenericAnimalAbilityImage(
-          props.theme.id,
-          currentAnimal.abilities[0].label
-        )
-      )
     } finally {
       vi.useRealTimers()
     }

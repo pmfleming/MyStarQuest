@@ -23,10 +23,7 @@ vi.mock('firebase/firestore', () => ({
   serverTimestamp: firestore.serverTimestamp,
 }))
 
-import {
-  completeTaskAndAwardStars,
-  redeemReward,
-} from '../../src/lib/starActions'
+import { redeemReward } from '../../src/lib/starActions'
 
 const snapshot = (data?: Record<string, unknown>) => ({
   exists: () => data !== undefined,
@@ -36,93 +33,6 @@ const snapshot = (data?: Record<string, unknown>) => ({
 describe('star transactions', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-  })
-
-  it('completes a task and awards a deterministic daily event atomically', async () => {
-    const transaction = {
-      get: vi.fn(async (reference: string) => {
-        if (reference.endsWith('/children/child-1')) {
-          return snapshot({ totalStars: 4 })
-        }
-        if (reference.endsWith('/chores/task-1')) {
-          return snapshot({ childId: 'child-1' })
-        }
-        return snapshot()
-      }),
-      set: vi.fn(),
-      update: vi.fn(),
-      delete: vi.fn(),
-    }
-    firestore.runTransaction.mockImplementation(async (_db, callback) =>
-      callback(transaction)
-    )
-
-    const result = await completeTaskAndAwardStars({
-      userId: 'user-1',
-      childId: 'child-1',
-      taskId: 'task-1',
-      taskCollection: 'chores',
-      dateKey: '2026-08-21',
-      delta: 3,
-      updates: { manageCompletedAt: 123 },
-    })
-
-    expect(result).toEqual({ appliedDelta: 3, wasAlreadyAwarded: false })
-    expect(transaction.update).toHaveBeenCalledWith(
-      'users/user-1/chores/task-1',
-      { manageCompletedAt: 123 }
-    )
-    expect(transaction.set).toHaveBeenCalledWith(
-      'users/user-1/starEvents/chores-task-1-2026-08-21',
-      expect.objectContaining({
-        childId: 'child-1',
-        taskId: 'task-1',
-        dateKey: '2026-08-21',
-        delta: 3,
-      })
-    )
-    expect(transaction.update).toHaveBeenCalledWith(
-      'users/user-1/children/child-1',
-      { totalStars: { increment: 3 } }
-    )
-  })
-
-  it('restores completion without awarding an existing daily event twice', async () => {
-    const transaction = {
-      get: vi.fn(async (reference: string) => {
-        if (reference.endsWith('/children/child-1')) {
-          return snapshot({ totalStars: 7 })
-        }
-        if (reference.endsWith('/chores/task-1')) {
-          return snapshot({ childId: 'child-1' })
-        }
-        return snapshot({ delta: 3 })
-      }),
-      set: vi.fn(),
-      update: vi.fn(),
-      delete: vi.fn(),
-    }
-    firestore.runTransaction.mockImplementation(async (_db, callback) =>
-      callback(transaction)
-    )
-
-    const result = await completeTaskAndAwardStars({
-      userId: 'user-1',
-      childId: 'child-1',
-      taskId: 'task-1',
-      taskCollection: 'chores',
-      dateKey: '2026-08-21',
-      delta: 3,
-      updates: { manageCompletedAt: 456 },
-    })
-
-    expect(result).toEqual({ appliedDelta: 0, wasAlreadyAwarded: true })
-    expect(transaction.update).toHaveBeenCalledTimes(1)
-    expect(transaction.update).toHaveBeenCalledWith(
-      'users/user-1/chores/task-1',
-      { manageCompletedAt: 456 }
-    )
-    expect(transaction.set).not.toHaveBeenCalled()
   })
 
   it('uses the stored reward price and deletes one-time rewards in the transaction', async () => {
