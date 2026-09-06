@@ -1,9 +1,12 @@
 import { Line, Mesh, Points, Sprite, type Object3D } from 'three'
 import type { BufferGeometry, Material } from 'three'
 
-// Textures are owned/disposed separately by the scene manager. Sprite's quad
-// geometry is shared internally by Three.js rather than allocated by our scene.
-export const disposeSceneObject = (object: Object3D) => {
+// Textures are owned/disposed separately by the scene manager. Keep the shared
+// sprite quad during label rebuilds; release its GPU buffers at scene teardown.
+export const disposeSceneObject = (
+  object: Object3D,
+  disposeSpriteGeometry = false
+) => {
   const geometries = new Set<BufferGeometry>()
   const materials = new Set<Material>()
 
@@ -16,6 +19,8 @@ export const disposeSceneObject = (object: Object3D) => {
       geometries.add(node.geometry)
     } else if (!(node instanceof Sprite)) {
       return
+    } else if (disposeSpriteGeometry) {
+      geometries.add(node.geometry)
     }
 
     const entries = Array.isArray(node.material)

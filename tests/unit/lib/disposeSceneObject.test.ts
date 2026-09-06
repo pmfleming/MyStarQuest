@@ -48,3 +48,15 @@ it('releases owned resources for meshes, starfields, ticks and labels exactly on
   expect(internalSpriteGeometry).not.toHaveBeenCalled()
   vi.restoreAllMocks()
 })
+
+it('releases the shared sprite quad once when the entire scene is destroyed', () => {
+  const group = new Group()
+  const first = new Sprite(new SpriteMaterial())
+  const second = new Sprite(new SpriteMaterial())
+  group.add(first, second)
+  expect(first.geometry).toBe(second.geometry)
+  const dispose = vi.spyOn(first.geometry, 'dispose')
+  disposeSceneObject(group, true)
+  expect(dispose).toHaveBeenCalledOnce()
+  vi.restoreAllMocks()
+})

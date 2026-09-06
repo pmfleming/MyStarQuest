@@ -7,12 +7,17 @@ import {
 
 const TEXTURE_LOAD_TIMEOUT_MS = 15000
 
+export type CachedEarthTexture = {
+  pixels: Uint8Array
+  generateMipmaps: boolean
+}
+
 // One 8 MiB pixel buffer (and one in-flight build) per application session.
 // A new app bundle/session invalidates it along with the versioned map source.
 // Consumers may upload these pixels, but must not mutate or transfer the buffer.
-let pixelsPromise: Promise<Uint8Array> | undefined
+let pixelsPromise: Promise<CachedEarthTexture> | undefined
 
-export const loadEarthTexturePixels = (): Promise<Uint8Array> => {
+export const loadEarthTexturePixels = (): Promise<CachedEarthTexture> => {
   if (!pixelsPromise) {
     pixelsPromise = buildEarthTexturePixels().catch((error: unknown) => {
       pixelsPromise = undefined
@@ -25,12 +30,13 @@ export const loadEarthTexturePixels = (): Promise<Uint8Array> => {
 const buildEarthTexturePixels = async () => {
   if (typeof Worker !== 'undefined' && typeof OffscreenCanvas !== 'undefined') {
     try {
-      return await buildInWorker()
+      return { pixels: await buildInWorker(), generateMipmaps: false }
     } catch {
       // WebViews may expose the APIs but reject worker or canvas creation.
     }
   }
-  return buildOnMainThread()
+  // Preserve the previous CanvasTexture fallback's linear/mipmap sampling.
+  return { pixels: await buildOnMainThread(), generateMipmaps: true }
 }
 
 const buildInWorker = () =>

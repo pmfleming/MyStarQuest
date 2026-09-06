@@ -3,6 +3,7 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import SolarSystem3DManager, {
   type SolarSystemSceneState,
 } from '../../src/components/dayNightExplorer/SolarSystem3DManager'
+import type { CachedEarthTexture } from '../../src/lib/dayNightExplorer/earthTextureCache'
 
 const loadPixels = vi.hoisted(() => vi.fn())
 const rendererDispose = vi.hoisted(() => vi.fn())
@@ -48,7 +49,10 @@ afterEach(() => {
 })
 
 it('cleans up replaced labels and makes scene disposal idempotent', async () => {
-  loadPixels.mockResolvedValue(new Uint8Array(16))
+  loadPixels.mockResolvedValue({
+    pixels: new Uint8Array(16),
+    generateMipmaps: false,
+  })
   const materialDispose = vi.spyOn(THREE.Material.prototype, 'dispose')
   const geometryDispose = vi.spyOn(THREE.BufferGeometry.prototype, 'dispose')
   const textureDispose = vi.spyOn(THREE.Texture.prototype, 'dispose')
@@ -64,7 +68,7 @@ it('cleans up replaced labels and makes scene disposal idempotent', async () => 
   manager.dispose()
   // Sun, Earth, atmosphere, orbit, starfield, 12 ticks, 12 current labels.
   expect(materialDispose).toHaveBeenCalledTimes(12 + 29)
-  expect(geometryDispose).toHaveBeenCalledTimes(17)
+  expect(geometryDispose).toHaveBeenCalledTimes(18)
   expect(textureDispose).toHaveBeenCalledTimes(12 + 12 + 1)
   expect(rendererDispose).toHaveBeenCalledOnce()
   manager.dispose()
@@ -73,9 +77,9 @@ it('cleans up replaced labels and makes scene disposal idempotent', async () => 
 })
 
 it('does not upload shared pixels when a tab closes before generation finishes', async () => {
-  let complete!: (pixels: Uint8Array) => void
+  let complete!: (pixels: CachedEarthTexture) => void
   loadPixels.mockReturnValue(
-    new Promise<Uint8Array>((resolve) => {
+    new Promise<CachedEarthTexture>((resolve) => {
       complete = resolve
     })
   )
@@ -86,7 +90,7 @@ it('does not upload shared pixels when a tab closes before generation finishes',
   manager.dispose()
   const textureDispose = vi.spyOn(THREE.Texture.prototype, 'dispose')
   const colorSet = vi.spyOn(THREE.Color.prototype, 'set')
-  complete(new Uint8Array(16))
+  complete({ pixels: new Uint8Array(16), generateMipmaps: false })
   await Promise.resolve()
   expect(colorSet).not.toHaveBeenCalled()
   expect(textureDispose).not.toHaveBeenCalled()

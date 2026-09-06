@@ -260,7 +260,7 @@ export default class SolarSystem3DManager {
     }
     this.monthLabelTextures.forEach((texture) => texture.dispose())
     this.monthLabelTextures = []
-    disposeSceneObject(this.scene)
+    disposeSceneObject(this.scene, true)
     this.scene.clear()
     this.cityVisuals = []
     this.renderer.dispose()
@@ -697,7 +697,7 @@ export default class SolarSystem3DManager {
   private initEarthTexture() {
     // The shared build survives tab unmounts; a disposed scene must not upload it.
     void loadEarthTexturePixels()
-      .then((pixels) => {
+      .then(({ pixels, generateMipmaps }) => {
         if (this.disposed) return
         const texture = new THREE.DataTexture(
           pixels,
@@ -706,6 +706,11 @@ export default class SolarSystem3DManager {
           THREE.RGBAFormat
         )
         texture.flipY = true
+        if (generateMipmaps) {
+          texture.generateMipmaps = true
+          texture.magFilter = THREE.LinearFilter
+          texture.minFilter = THREE.LinearMipmapLinearFilter
+        }
         this.applyEarthTexture(texture)
       })
       .catch((error: unknown) => {

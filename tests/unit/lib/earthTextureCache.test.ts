@@ -51,7 +51,8 @@ describe('Earth texture session cache', () => {
     )
 
     const pixels = await first
-    expect(pixels.buffer).toBe(buffer)
+    expect(pixels.pixels.buffer).toBe(buffer)
+    expect(pixels.generateMipmaps).toBe(false)
     for (let visit = 0; visit < 10; visit += 1) {
       expect(await loadEarthTexturePixels()).toBe(pixels)
     }
@@ -88,7 +89,8 @@ describe('Earth texture session cache', () => {
       { map: 'fixture' }
     )
     expect(getImageData).toHaveBeenCalledWith(0, 0, 2048, 1024)
-    expect((await first).buffer).toBe(buffer)
+    expect((await first).pixels.buffer).toBe(buffer)
+    expect((await first).generateMipmaps).toBe(true)
     expect(vi.getTimerCount()).toBe(0)
   })
 
@@ -110,7 +112,7 @@ describe('Earth texture session cache', () => {
         data: { type: 'ready', pixels: new ArrayBuffer(16) },
       })
     )
-    await expect(retry).resolves.toBeInstanceOf(Uint8Array)
+    expect((await retry).pixels).toBeInstanceOf(Uint8Array)
     expect(vi.getTimerCount()).toBe(0)
   })
 
