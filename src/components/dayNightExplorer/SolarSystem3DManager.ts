@@ -9,9 +9,8 @@ import {
   EARTH_OCEAN_COLOR,
   EARTH_TEXTURE_HEIGHT,
   EARTH_TEXTURE_WIDTH,
-  renderEarthTexture,
-  type EarthTextureWorkerResponse,
 } from '../../lib/dayNightExplorer/earthTextureRenderer'
+import { loadEarthTexturePixels } from '../../lib/dayNightExplorer/earthTextureCache'
 import {
   buildOrbitLine,
   getCenteredLongitude,
@@ -124,10 +123,6 @@ export default class SolarSystem3DManager {
   private isDocumentVisible = document.visibilityState !== 'hidden'
   private sceneState: SolarSystemSceneState
   private earthTexture: THREE.Texture | null = null
-  private earthTextureWorker: Worker | null = null
-  private earthTextureAbortController: AbortController | null = null
-  private earthTextureIdleCallbackId: number | null = null
-  private earthTextureIdleCallbackUsesTimeout = false
   private monthLabelTextures: THREE.CanvasTexture[] = []
   private cityVisuals: CityVisual[] = []
 
@@ -252,7 +247,6 @@ export default class SolarSystem3DManager {
       this.handleVisibilityChange
     )
     this.intersectionObserver?.disconnect()
-    this.cancelEarthTextureInitialization()
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId)
       this.animationFrameId = null
@@ -705,119 +699,22 @@ export default class SolarSystem3DManager {
   }
 
   private initEarthTexture() {
-    if (
-      typeof Worker === 'undefined' ||
-      typeof OffscreenCanvas === 'undefined'
-    ) {
-      this.scheduleEarthTextureFallback()
-      return
-    }
-
-    let worker: Worker
-    try {
-      worker = new Worker(
-        new URL('./earthTexture.worker.ts', import.meta.url),
-        { type: 'module' }
-      )
-    } catch {
-      this.scheduleEarthTextureFallback()
-      return
-    }
-    this.earthTextureWorker = worker
-
-    worker.onmessage = (event: MessageEvent<EarthTextureWorkerResponse>) => {
-      if (this.earthTextureWorker !== worker) return
-
-      this.earthTextureWorker = null
-      worker.terminate()
-      if (event.data.type === 'error') {
-        this.scheduleEarthTextureFallback()
-        return
-      }
-      if (this.disposed) {
-        return
-      }
-
-      const texture = new THREE.DataTexture(
-        new Uint8Array(event.data.pixels),
-        EARTH_TEXTURE_WIDTH,
-        EARTH_TEXTURE_HEIGHT,
-        THREE.RGBAFormat
-      )
-      texture.flipY = true
-      this.applyEarthTexture(texture)
-    }
-
-    worker.onerror = () => {
-      if (this.earthTextureWorker !== worker) return
-      this.earthTextureWorker = null
-      worker.terminate()
-      this.scheduleEarthTextureFallback()
-    }
-  }
-
-  private scheduleEarthTextureFallback() {
-    if (this.disposed || this.earthTextureIdleCallbackId !== null) return
-
-    const loadTexture = () => {
-      this.earthTextureIdleCallbackId = null
-      void this.loadEarthTextureOnMainThread()
-    }
-
-    const idleWindow = window as Window & {
-      requestIdleCallback?: typeof window.requestIdleCallback
-    }
-    if (typeof idleWindow.requestIdleCallback === 'function') {
-      this.earthTextureIdleCallbackUsesTimeout = false
-      this.earthTextureIdleCallbackId = idleWindow.requestIdleCallback(
-        loadTexture,
-        { timeout: 1500 }
-      )
-    } else {
-      this.earthTextureIdleCallbackUsesTimeout = true
-      this.earthTextureIdleCallbackId = window.setTimeout(loadTexture, 0)
-    }
-  }
-
-  private async loadEarthTextureOnMainThread() {
-    const abortController = new AbortController()
-    this.earthTextureAbortController = abortController
-
-    try {
-      const response = await fetch('/data/world-50m-2024.json', {
-        signal: abortController.signal,
+    // The shared build survives tab unmounts; a disposed scene must not upload it.
+    void loadEarthTexturePixels()
+      .then((pixels) => {
+        if (this.disposed) return
+        const texture = new THREE.DataTexture(
+          pixels,
+          EARTH_TEXTURE_WIDTH,
+          EARTH_TEXTURE_HEIGHT,
+          THREE.RGBAFormat
+        )
+        texture.flipY = true
+        this.applyEarthTexture(texture)
       })
-      if (!response.ok) {
-        throw new Error(`Map data request failed with ${response.status}`)
-      }
-
-      const worldData: unknown = await response.json()
-      if (this.disposed || abortController.signal.aborted) return
-
-      const canvas = document.createElement('canvas')
-      canvas.width = EARTH_TEXTURE_WIDTH
-      canvas.height = EARTH_TEXTURE_HEIGHT
-      const context = canvas.getContext('2d')
-      if (!context) return
-
-      renderEarthTexture(
-        context,
-        EARTH_TEXTURE_WIDTH,
-        EARTH_TEXTURE_HEIGHT,
-        worldData
-      )
-      if (this.disposed || abortController.signal.aborted) return
-
-      this.applyEarthTexture(new THREE.CanvasTexture(canvas))
-    } catch (error) {
-      if (!abortController.signal.aborted) {
-        console.error('Failed to load map data for 3D Earth', error)
-      }
-    } finally {
-      if (this.earthTextureAbortController === abortController) {
-        this.earthTextureAbortController = null
-      }
-    }
+      .catch((error: unknown) => {
+        if (!this.disposed) console.error('Failed to load Earth texture', error)
+      })
   }
 
   private applyEarthTexture(texture: THREE.Texture) {
@@ -829,21 +726,6 @@ export default class SolarSystem3DManager {
     this.earthMesh.material.map = texture
     this.earthMesh.material.color.set('#ffffff')
     this.earthMesh.material.needsUpdate = true
-  }
-
-  private cancelEarthTextureInitialization() {
-    this.earthTextureWorker?.terminate()
-    this.earthTextureWorker = null
-    this.earthTextureAbortController?.abort()
-    this.earthTextureAbortController = null
-
-    if (this.earthTextureIdleCallbackId === null) return
-    if (this.earthTextureIdleCallbackUsesTimeout) {
-      clearTimeout(this.earthTextureIdleCallbackId)
-    } else {
-      window.cancelIdleCallback(this.earthTextureIdleCallbackId)
-    }
-    this.earthTextureIdleCallbackId = null
   }
 
   private disposeObject(object: THREE.Object3D) {
