@@ -6,6 +6,7 @@ import { uiTokens } from '../tokens'
 import BottomNav from '../components/ui/BottomNav'
 import { AppDeviceFrame } from '../components/AppDeviceFrame'
 import { useDeviceFrame } from '../hooks/useDeviceFrame'
+import TabPageBoundary from './TabPageBoundary'
 
 const TAB_TRANSITION_MS = uiTokens.tabTransitionMs
 
@@ -39,7 +40,9 @@ const AnimatedTabLayout = () => {
           className="h-full w-full min-w-0"
           style={tabTransitionStyle}
         >
-          <Outlet />
+          <TabPageBoundary>
+            <Outlet />
+          </TabPageBoundary>
         </div>
       </div>
 

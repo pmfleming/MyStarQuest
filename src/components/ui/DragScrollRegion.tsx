@@ -42,6 +42,8 @@ const DragScrollRegion = ({
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const dragStateRef = useRef<DragState | null>(null)
   const suppressClickRef = useRef(false)
+  const dragCleanupRef = useRef<(() => void) | null>(null)
+  const suppressClickTimerRef = useRef<number | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [canScroll, setCanScroll] = useState(false)
 
@@ -80,6 +82,10 @@ const DragScrollRegion = ({
 
   useEffect(() => {
     return () => {
+      dragCleanupRef.current?.()
+      if (suppressClickTimerRef.current !== null) {
+        window.clearTimeout(suppressClickTimerRef.current)
+      }
       document.body.style.removeProperty('user-select')
     }
   }, [])
@@ -88,8 +94,7 @@ const DragScrollRegion = ({
     dragStateRef.current = null
     setIsDragging(false)
     document.body.style.removeProperty('user-select')
-    window.removeEventListener('mousemove', handleWindowMouseMove)
-    window.removeEventListener('mouseup', handleWindowMouseUp)
+    dragCleanupRef.current?.()
   }
 
   const handleWindowMouseMove = (event: MouseEvent) => {
@@ -114,9 +119,15 @@ const DragScrollRegion = ({
 
   const handleWindowMouseUp = () => {
     stopDragging()
-    window.setTimeout(() => {
+    suppressClickTimerRef.current = window.setTimeout(() => {
+      suppressClickTimerRef.current = null
       suppressClickRef.current = false
     }, 0)
+  }
+
+  const handleWindowBlur = () => {
+    stopDragging()
+    suppressClickRef.current = false
   }
 
   const handleMouseDown = (event: ReactMouseEvent<HTMLDivElement>) => {
@@ -131,6 +142,12 @@ const DragScrollRegion = ({
     const scrollElement = scrollRef.current
     if (!scrollElement) return
 
+    dragCleanupRef.current?.()
+    if (suppressClickTimerRef.current !== null) {
+      window.clearTimeout(suppressClickTimerRef.current)
+      suppressClickTimerRef.current = null
+    }
+    suppressClickRef.current = false
     dragStateRef.current = {
       startY: event.clientY,
       startScrollTop: scrollElement.scrollTop,
@@ -140,6 +157,17 @@ const DragScrollRegion = ({
     document.body.style.userSelect = 'none'
     window.addEventListener('mousemove', handleWindowMouseMove)
     window.addEventListener('mouseup', handleWindowMouseUp)
+    window.addEventListener('blur', handleWindowBlur)
+    // Capture the registered handlers so navigation can remove them even if
+    // the drag caused a render or never received its mouseup event.
+    dragCleanupRef.current = () => {
+      window.removeEventListener('mousemove', handleWindowMouseMove)
+      window.removeEventListener('mouseup', handleWindowMouseUp)
+      window.removeEventListener('blur', handleWindowBlur)
+      dragStateRef.current = null
+      dragCleanupRef.current = null
+      document.body.style.removeProperty('user-select')
+    }
   }
 
   const handleClickCapture = (event: ReactMouseEvent<HTMLDivElement>) => {
