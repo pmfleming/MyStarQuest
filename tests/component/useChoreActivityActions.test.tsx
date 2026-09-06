@@ -45,6 +45,26 @@ describe('chore completion persistence', () => {
     vi.resetAllMocks()
   })
 
+  it('does not complete dinner after a reset during the final bite animation', async () => {
+    vi.useFakeTimers().setSystemTime(20_000)
+    vi.mocked(completeTaskAndAwardStars).mockResolvedValue({
+      appliedDelta: 3,
+      wasAlreadyAwarded: false,
+    })
+    const actions = setup()
+    const pendingBite = actions.applyBite(dinner)
+    await actions.resetDinner(dinner)
+    await vi.advanceTimersByTimeAsync(850)
+    await expect(pendingBite).resolves.toBe(false)
+    expect(completeTaskAndAwardStars).not.toHaveBeenCalled()
+    expect(actions.updateEphemeral).toHaveBeenLastCalledWith(dinner.id, {
+      manageDinnerBitesLeft: 2,
+      manageDinnerRemainingSeconds: 600,
+      manageDinnerTimerStartedAt: null,
+      manageDinnerCompletedAt: null,
+    })
+  })
+
   it.each([true, false])(
     'freezes time before the final bite delay (signed in: %s)',
     async (signedIn) => {

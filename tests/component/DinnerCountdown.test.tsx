@@ -1,9 +1,33 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, renderHook, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import DinnerCountdown from '../../src/components/DinnerCountdown'
 import { themes } from '../../src/contexts/ThemeContext'
+import { useDinnerCountdownState } from '../../src/hooks/useDinnerCountdownState'
 
 describe('DinnerCountdown', () => {
+  it('records expiry once and accepts a reset without writing expiry again', () => {
+    const onExpire = vi.fn()
+    const { rerender, result } = renderHook(
+      ({ remaining, isCompleted }) =>
+        useDinnerCountdownState({
+          remaining,
+          isCompleted,
+          bitesLeft: 1,
+          isTimerRunning: false,
+          biteCooldownSeconds: 15,
+          onExpire: () => onExpire(),
+        }),
+      { initialProps: { remaining: 0, isCompleted: false } }
+    )
+    expect(onExpire).toHaveBeenCalledTimes(1)
+    rerender({ remaining: 0, isCompleted: true })
+    rerender({ remaining: 0, isCompleted: true })
+    expect(onExpire).toHaveBeenCalledTimes(1)
+    rerender({ remaining: 600, isCompleted: false })
+    expect(result.current.isFinished).toBe(false)
+    expect(result.current.liveRemaining).toBe(600)
+    expect(onExpire).toHaveBeenCalledTimes(1)
+  })
   it('uses visual dinner controls and enforces the twenty-slice maximum', () => {
     const onAdjustTime = vi.fn()
     const onAdjustBites = vi.fn()

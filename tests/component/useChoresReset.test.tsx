@@ -12,13 +12,14 @@ import StandardActionList from '../../src/components/ui/StandardActionList'
 import { themes } from '../../src/contexts/ThemeContext'
 import { createUnifiedChoreDescriptor } from '../../src/ui/unifiedChoreDescriptors'
 import { toStandardActionListDescriptor } from '../../src/ui/listDescriptorTypes'
-import { isChoreWithEphemeral } from '../../src/data/types'
+import { isChoreWithEphemeral, isEatingTask } from '../../src/data/types'
 
 const firestore = vi.hoisted(() => ({
   onSnapshot: vi.fn(),
   updateDoc: vi.fn(),
 }))
 vi.mock('../../src/firebaseDb', () => ({ db: {} }))
+vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 vi.mock('../../src/auth/AuthContext', () => ({
   useAuth: () => ({ user: { uid: 'parent' } }),
 }))
@@ -40,17 +41,82 @@ vi.mock('firebase/firestore', () => ({
   runTransaction: vi.fn(),
 }))
 
-const storedChore = {
+const baseChore = {
   childId: 'child',
-  title: 'Get dressed',
-  taskType: 'standard',
   starValue: 1,
   isRepeating: true,
   schoolDayEnabled: true,
   nonSchoolDayEnabled: true,
-  manageCompletedAt: 123,
 }
-let emitSnapshot: (completedAt: number | null) => void
+const choreCases = [
+  {
+    title: 'Get dressed',
+    fields: { taskType: 'standard', manageCompletedAt: 123 },
+    reset: { manageCompletedAt: null },
+    completed: { manageCompletedAt: 456 },
+    readyLabel: 'Give stars for Get dressed',
+  },
+  {
+    title: 'Dinner',
+    fields: {
+      taskType: 'eating',
+      dinnerTotalBites: 4,
+      dinnerDurationSeconds: 900,
+      manageDinnerBitesLeft: 0,
+      manageDinnerRemainingSeconds: 120,
+      manageDinnerTimerStartedAt: null,
+      manageDinnerCompletedAt: 123,
+    },
+    reset: {
+      manageDinnerBitesLeft: 4,
+      manageDinnerRemainingSeconds: 900,
+      manageDinnerTimerStartedAt: null,
+      manageDinnerCompletedAt: null,
+    },
+    completed: { manageDinnerBitesLeft: 0, manageDinnerCompletedAt: 456 },
+    readyLabel: 'Run Dinner',
+  },
+  {
+    title: 'Expired dinner',
+    fields: {
+      taskType: 'eating',
+      dinnerTotalBites: 2,
+      dinnerDurationSeconds: 600,
+      manageDinnerBitesLeft: 1,
+      manageDinnerRemainingSeconds: 0,
+      manageDinnerTimerStartedAt: null,
+      manageDinnerCompletedAt: 123,
+    },
+    reset: {
+      manageDinnerBitesLeft: 2,
+      manageDinnerRemainingSeconds: 600,
+      manageDinnerTimerStartedAt: null,
+      manageDinnerCompletedAt: null,
+    },
+    completed: {
+      manageDinnerRemainingSeconds: 0,
+      manageDinnerCompletedAt: 456,
+    },
+    readyLabel: 'Run Expired dinner',
+  },
+  {
+    title: 'Water and toilet',
+    fields: {
+      taskType: 'watertoiletcheck',
+      manageWaterLevel: 'empty',
+      manageToiletStatus: 'didpeepee',
+      manageWaterToiletCompletedAt: 123,
+    },
+    reset: {
+      manageWaterLevel: 'full',
+      manageToiletStatus: 'notpeepee',
+      manageWaterToiletCompletedAt: null,
+    },
+    completed: { manageWaterToiletCompletedAt: 456 },
+    readyLabel: 'Run Water and toilet',
+  },
+]
+let emitSnapshot: (patch: object) => void
 let resolveWrite: () => void
 let rejectWrite: (error: Error) => void
 
@@ -60,7 +126,11 @@ function ChoreList() {
     theme: themes.princess,
     mode: 'today',
     onReset: (item) => {
-      if (isChoreWithEphemeral(item)) return chores.resetChore(item)
+      if (isChoreWithEphemeral(item)) {
+        return isEatingTask(item)
+          ? chores.resetDinner(item)
+          : chores.resetChore(item)
+      }
     },
   })
   return (
@@ -78,89 +148,84 @@ function ChoreList() {
   )
 }
 
-describe('saved chore reset', () => {
-  beforeEach(() => {
-    firestore.onSnapshot.mockImplementation((_query, callback) => {
-      emitSnapshot = (manageCompletedAt) =>
-        callback({
-          docs: [
-            {
-              id: 'get-dressed',
-              data: () => ({ ...storedChore, manageCompletedAt }),
-            },
-          ],
-        })
-      emitSnapshot(123)
-      return vi.fn()
+describe.each(choreCases)(
+  '$title reset',
+  ({ title, fields, reset, completed, readyLabel }) => {
+    beforeEach(() => {
+      firestore.onSnapshot.mockImplementation((_query, callback) => {
+        emitSnapshot = (patch) =>
+          callback({
+            docs: [
+              {
+                id: 'get-dressed',
+                data: () => ({ ...baseChore, title, ...fields, ...patch }),
+              },
+            ],
+          })
+        emitSnapshot({})
+        return vi.fn()
+      })
+      firestore.updateDoc.mockImplementation(
+        () =>
+          new Promise<void>((resolve, reject) => {
+            resolveWrite = resolve
+            rejectWrite = reject
+          })
+      )
     })
-    firestore.updateDoc.mockImplementation(
-      () =>
-        new Promise<void>((resolve, reject) => {
-          resolveWrite = resolve
-          rejectWrite = reject
-        })
-    )
-  })
-  afterEach(() => {
-    cleanup()
-    vi.restoreAllMocks()
-  })
+    afterEach(() => {
+      cleanup()
+      vi.restoreAllMocks()
+    })
 
-  it.each(['write-first', 'snapshot-first'] as const)(
-    'keeps Get dressed reset when updates arrive %s, then accepts a later completion',
-    async (order) => {
+    it.each(['write-first', 'snapshot-first'] as const)(
+      'keeps the chore reset when updates arrive %s, then accepts a later completion',
+      async (order) => {
+        render(<ChoreList />)
+        fireEvent.click(
+          await screen.findByRole('button', { name: `Reset ${title}` })
+        )
+        expect(firestore.updateDoc).toHaveBeenCalledWith(
+          'users/parent/chores/get-dressed',
+          reset
+        )
+        expect(screen.getByRole('button', { name: readyLabel })).toBeVisible()
+
+        if (order === 'write-first') {
+          await act(async () => resolveWrite())
+          expect(screen.getByRole('button', { name: readyLabel })).toBeEnabled()
+          act(() => emitSnapshot(reset))
+        } else {
+          act(() => emitSnapshot(reset))
+          await act(async () => resolveWrite())
+        }
+        expect(screen.getByRole('button', { name: readyLabel })).toBeEnabled()
+
+        act(() => emitSnapshot(completed))
+        expect(
+          await screen.findByRole('button', { name: `Reset ${title}` })
+        ).toBeEnabled()
+        expect(
+          screen.queryByRole('button', { name: readyLabel })
+        ).not.toBeInTheDocument()
+      }
+    )
+
+    it('restores completion and reports a failed reset, allowing a retry', async () => {
+      vi.spyOn(console, 'error').mockImplementation(() => {})
       render(<ChoreList />)
       fireEvent.click(
-        await screen.findByRole('button', { name: 'Reset Get dressed' })
+        await screen.findByRole('button', { name: `Reset ${title}` })
       )
-      expect(firestore.updateDoc).toHaveBeenCalledWith(
-        'users/parent/chores/get-dressed',
-        { manageCompletedAt: null }
+      await act(async () => rejectWrite(new Error('Write failed')))
+      expect(await screen.findByRole('alert')).toHaveTextContent('Reset failed')
+      fireEvent.click(screen.getByRole('button', { name: `Reset ${title}` }))
+      act(() => emitSnapshot(reset))
+      await act(async () => resolveWrite())
+      await waitFor(() =>
+        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       )
-      expect(
-        screen.getByRole('button', { name: 'Give stars for Get dressed' })
-      ).toBeVisible()
-
-      if (order === 'write-first') {
-        await act(async () => resolveWrite())
-        expect(
-          screen.getByRole('button', { name: 'Give stars for Get dressed' })
-        ).toBeEnabled()
-        act(() => emitSnapshot(null))
-      } else {
-        act(() => emitSnapshot(null))
-        await act(async () => resolveWrite())
-      }
-      expect(
-        screen.getByRole('button', { name: 'Give stars for Get dressed' })
-      ).toBeEnabled()
-
-      act(() => emitSnapshot(456))
-      expect(
-        await screen.findByRole('button', { name: 'Reset Get dressed' })
-      ).toBeEnabled()
-      expect(
-        screen.queryByRole('button', { name: 'Give stars for Get dressed' })
-      ).not.toBeInTheDocument()
-    }
-  )
-
-  it('restores completion and reports a failed reset, allowing a retry', async () => {
-    vi.spyOn(console, 'error').mockImplementation(() => {})
-    render(<ChoreList />)
-    fireEvent.click(
-      await screen.findByRole('button', { name: 'Reset Get dressed' })
-    )
-    await act(async () => rejectWrite(new Error('Write failed')))
-    expect(await screen.findByRole('alert')).toHaveTextContent('Reset failed')
-    fireEvent.click(screen.getByRole('button', { name: 'Reset Get dressed' }))
-    act(() => emitSnapshot(null))
-    await act(async () => resolveWrite())
-    await waitFor(() =>
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-    )
-    expect(
-      screen.getByRole('button', { name: 'Give stars for Get dressed' })
-    ).toBeEnabled()
-  })
-})
+      expect(screen.getByRole('button', { name: readyLabel })).toBeEnabled()
+    })
+  }
+)

@@ -17,6 +17,7 @@ import { isScheduledForDay } from '../lib/today'
 import {
   filterActiveChildItems,
   mergeTaskEphemeral,
+  reconcileTaskEphemeral,
   useCollectionTitleDrafts,
   useTodayInfo,
 } from './dailyTaskState'
@@ -57,26 +58,7 @@ export function useChores() {
   const reconcileActivityState = useCallback((items: ChoreRecord[]) => {
     // Keep optimistic activity changes until the subscription reflects them.
     // A successful write can settle before React receives the new snapshot.
-    setEphemeral((previous) => {
-      let next = previous
-      for (const chore of items) {
-        const patch = previous[chore.id]
-        if (!patch) continue
-        const saved: TaskEphemeralState = chore
-        const remaining = { ...patch }
-        for (const key of Object.keys(patch) as Array<
-          keyof TaskEphemeralState
-        >) {
-          if (Object.is(saved[key], patch[key])) delete remaining[key]
-        }
-        if (Object.keys(remaining).length === Object.keys(patch).length)
-          continue
-        if (next === previous) next = { ...previous }
-        if (Object.keys(remaining).length === 0) delete next[chore.id]
-        else next[chore.id] = remaining
-      }
-      return next
-    })
+    setEphemeral((previous) => reconcileTaskEphemeral(previous, items))
   }, [])
 
   const rawChores = useChildTaskCollection({

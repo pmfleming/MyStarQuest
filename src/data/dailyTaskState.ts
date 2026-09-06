@@ -188,6 +188,26 @@ export const mergeTestEphemeral = (
   }
 }
 
+export const reconcileTaskEphemeral = (
+  previous: Record<string, TaskEphemeralState>,
+  items: Array<{ id: string } & TaskEphemeralState>
+) => {
+  let next = previous
+  for (const item of items) {
+    const patch = previous[item.id]
+    if (!patch) continue
+    const remaining = { ...patch }
+    for (const key of Object.keys(patch) as Array<keyof TaskEphemeralState>) {
+      if (Object.is(item[key], patch[key])) delete remaining[key]
+    }
+    if (Object.keys(remaining).length === Object.keys(patch).length) continue
+    if (next === previous) next = { ...previous }
+    if (Object.keys(remaining).length === 0) delete next[item.id]
+    else next[item.id] = remaining
+  }
+  return next
+}
+
 export const useEphemeralExpiry = <T extends { id: string }>(
   enabled: boolean,
   items: T[],

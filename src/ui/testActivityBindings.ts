@@ -33,8 +33,8 @@ export const createTestActivityBindings = ({
     isTestWithEphemeral(item) ? failTest(item) : undefined,
   onReset: async (item: UnifiedChoreItem) => {
     if (!isTestWithEphemeral(item)) return
-    await resetTest(item)
     activity.clearActiveActivities()
+    await resetTest(item)
   },
   activeMathId: activity.activeMathId,
   activeLargeNumbersId: activity.activeLargeNumbersId,

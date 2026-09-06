@@ -71,8 +71,8 @@ export const useDinnerCountdownState = ({
   }, [isSuccess])
 
   useEffect(() => {
-    if (isTimeout) onExpire?.()
-  }, [isTimeout, onExpire])
+    if (isTimeout && !isCompleted) onExpire?.()
+  }, [isCompleted, isTimeout, onExpire])
 
   useEffect(() => {
     if (bitesLeft < prevBites.current) {

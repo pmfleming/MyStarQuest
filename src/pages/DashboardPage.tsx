@@ -162,12 +162,12 @@ const DashboardPage = () => {
     setResetTodayError(null)
     await runDashboardAction(
       async () => {
+        clearActiveActivities()
         await Promise.all(
           todayChores.map((chore) =>
             isEatingTask(chore) ? resetDinner(chore) : resetChore(chore)
           )
         )
-        clearActiveActivities()
       },
       'Failed to reset today chores',
       () => setResetTodayError('Reset failed.')
@@ -232,9 +232,9 @@ const DashboardPage = () => {
     onFail: (item) => withTaskItem(item, failChore),
     onReset: (item) =>
       withTaskItem(item, async (task) => {
+        clearActiveActivities()
         if (isEatingTask(task)) await resetDinner(task)
         else await resetChore(task)
-        clearActiveActivities()
       }),
     onStartDinner: (item) => {
       if (!item) {

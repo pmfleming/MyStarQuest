@@ -14,6 +14,7 @@ import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { completeTaskAndAwardStars } from '../lib/starActions'
 import { celebrateSuccess } from '../lib/celebrate'
+import { getTodayDescriptor } from '../lib/today'
 import { parseTestSnapshot } from '../lib/choreParser'
 import { calculateAwardTaskPatch } from '../lib/choreLogic'
 import { buildDefaultTests, buildTestDocument } from './taskDocuments'
@@ -22,6 +23,7 @@ import {
   getTestLastActive,
   manageTestOutcomePatch,
   mergeTestEphemeral,
+  reconcileTaskEphemeral,
   useCollectionTitleDrafts,
   useEphemeralExpiry,
   useTodayInfo,
@@ -49,7 +51,7 @@ const getPersistedAttemptState = (
     test.lastAttemptDateKey !== dateKey ||
     typeof test.lastAttemptedAt !== 'number'
   ) {
-    return {}
+    return manageTestOutcomePatch(test.taskType, null, null)
   }
 
   return manageTestOutcomePatch(
@@ -109,6 +111,19 @@ export function useTests() {
     },
   })
 
+  const reconcileAttemptState = useCallback((items: TestRecord[]) => {
+    const dateKey = getTodayDescriptor().dateKey
+    setEphemeral((previous) =>
+      reconcileTaskEphemeral(
+        previous,
+        items.map((test) => ({
+          id: test.id,
+          ...getPersistedAttemptState(test, dateKey),
+        }))
+      )
+    )
+  }, [])
+
   const rawTests = useChildTaskCollection({
     userId: user?.uid,
     activeChildId,
@@ -116,6 +131,7 @@ export function useTests() {
     errorMessage: 'Failed to subscribe to tests',
     parseDocument: parseTestSnapshot,
     clearEphemeral: setEphemeral,
+    onItems: reconcileAttemptState,
   })
 
   useEffect(() => {
@@ -175,6 +191,38 @@ export function useTests() {
     queueTestField(testId, field)
   }
 
+  const persistEphemeral = async <T>(
+    testId: string,
+    patch: TaskEphemeralState,
+    persist: () => Promise<T>
+  ) => {
+    const previousPatch = ephemeral[testId]
+    updateEphemeral(testId, patch)
+    try {
+      return await persist()
+    } catch (error) {
+      setEphemeral((previous) => {
+        const current = previous[testId]
+        if (!current) return previous
+        const remaining = { ...current }
+        for (const key of Object.keys(patch) as Array<
+          keyof TaskEphemeralState
+        >) {
+          if (!Object.is(current[key], patch[key])) continue
+          delete remaining[key]
+          if (previousPatch && key in previousPatch) {
+            Object.assign(remaining, { [key]: previousPatch[key] })
+          }
+        }
+        const next = { ...previous }
+        if (Object.keys(remaining).length === 0) delete next[testId]
+        else next[testId] = remaining
+        return next
+      })
+      throw error
+    }
+  }
+
   const {
     drafts: testTitleDrafts,
     setDraft: setTestTitleDraft,
@@ -211,11 +259,16 @@ export function useTests() {
     attemptedAt: number | null,
     outcome: TaskOutcome | null
   ) => {
-    await persistTestField(item.id, {
-      lastAttemptedAt: attemptedAt,
-      lastAttemptDateKey: attemptedAt ? todayInfo.dateKey : '',
-      lastAttemptOutcome: outcome,
-    })
+    await persistEphemeral(
+      item.id,
+      manageTestOutcomePatch(item.taskType, attemptedAt, outcome),
+      () =>
+        persistTestField(item.id, {
+          lastAttemptedAt: attemptedAt,
+          lastAttemptDateKey: attemptedAt ? todayInfo.dateKey : '',
+          lastAttemptOutcome: outcome,
+        })
+    )
   }
 
   const completeTest = async (item: TestWithEphemeral) => {
@@ -223,24 +276,25 @@ export function useTests() {
     const patch = calculateAwardTaskPatch(item, now)
     if (user && activeChildId) {
       const defaultTest = defaultTests.find((test) => test.id === item.id)
-      const result = await completeTaskAndAwardStars({
-        userId: user.uid,
-        childId: activeChildId,
-        taskId: item.id,
-        taskCollection: 'tests',
-        dateKey: todayInfo.dateKey,
-        delta: item.starValue,
-        updates: {
-          lastAttemptedAt: now,
-          lastAttemptDateKey: todayInfo.dateKey,
-          lastAttemptOutcome: 'success',
-        },
-        initialTaskData: defaultTest
-          ? buildTestDocument(defaultTest.childId, defaultTest.taskType)
-          : undefined,
-        deleteOnComplete: !item.isRepeating,
-      })
-      updateEphemeral(item.id, patch)
+      const result = await persistEphemeral(item.id, patch, () =>
+        completeTaskAndAwardStars({
+          userId: user.uid,
+          childId: activeChildId,
+          taskId: item.id,
+          taskCollection: 'tests',
+          dateKey: todayInfo.dateKey,
+          delta: item.starValue,
+          updates: {
+            lastAttemptedAt: now,
+            lastAttemptDateKey: todayInfo.dateKey,
+            lastAttemptOutcome: 'success',
+          },
+          initialTaskData: defaultTest
+            ? buildTestDocument(defaultTest.childId, defaultTest.taskType)
+            : undefined,
+          deleteOnComplete: !item.isRepeating,
+        })
+      )
       if (result.appliedDelta > 0) celebrateSuccess()
     } else {
       updateEphemeral(item.id, patch)
@@ -249,15 +303,10 @@ export function useTests() {
 
   const failTest = async (item: TestWithEphemeral) => {
     const now = Date.now()
-    updateEphemeral(
-      item.id,
-      manageTestOutcomePatch(item.taskType, now, 'failure')
-    )
     await persistTestAttempt(item, now, 'failure')
   }
 
   const resetTest = async (item: TestWithEphemeral) => {
-    updateEphemeral(item.id, manageTestOutcomePatch(item.taskType, null, null))
     await persistTestAttempt(item, null, null)
   }
 

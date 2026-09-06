@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { completeTaskAndAwardStars } from '../lib/starActions'
 import { celebrateSuccess } from '../lib/celebrate'
 import {
@@ -35,6 +36,7 @@ export const useChoreActivityActions = ({
   dateKey,
   updateEphemeral,
 }: UseChoreActivityActionsArgs) => {
+  const dinnerResetVersions = useRef(new Map<string, number>())
   const getCompletionDelta = (item: TaskWithEphemeral) => {
     return isWaterToiletTask(item)
       ? calculateWaterToiletStars(
@@ -88,7 +90,9 @@ export const useChoreActivityActions = ({
       return false
     }
 
+    const resetVersion = dinnerResetVersions.current.get(item.id)
     await delay(850)
+    if (dinnerResetVersions.current.get(item.id) !== resetVersion) return false
     const completionPatch = {
       manageDinnerBitesLeft: result.nextBites,
       manageDinnerCompletedAt: Date.now(),
@@ -115,6 +119,10 @@ export const useChoreActivityActions = ({
 
   const resetDinner = async (item: TaskWithEphemeral) => {
     if (!isEatingTask(item)) return Promise.resolve()
+    dinnerResetVersions.current.set(
+      item.id,
+      (dinnerResetVersions.current.get(item.id) ?? 0) + 1
+    )
     return updateEphemeral(item.id, {
       manageDinnerBitesLeft: item.dinnerTotalBites,
       manageDinnerRemainingSeconds: item.dinnerDurationSeconds,

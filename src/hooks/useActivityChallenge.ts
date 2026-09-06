@@ -44,9 +44,14 @@ export const useActivityChallenge = ({
   const [isFailurePending, setIsFailurePending] = useState(false)
   const [feedback, setFeedback] = useState<ActivityFeedback>('idle')
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const historyTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const prevCheckTrigger = useRef(checkTrigger)
 
   const clearFeedbackTimer = useCallback(() => {
+    if (historyTimer.current !== null) {
+      clearTimeout(historyTimer.current)
+      historyTimer.current = null
+    }
     if (!feedbackTimer.current) return
     clearTimeout(feedbackTimer.current)
     feedbackTimer.current = null
@@ -80,7 +85,8 @@ export const useActivityChallenge = ({
       if (isAnswerCorrect) {
         setFeedback('correct')
         celebrateSuccess()
-        window.setTimeout(() => {
+        historyTimer.current = setTimeout(() => {
+          historyTimer.current = null
           setResultHistory((prev) => [...prev, 'correct'])
         }, 120)
 
