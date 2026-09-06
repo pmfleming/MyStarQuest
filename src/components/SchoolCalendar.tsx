@@ -1,3 +1,4 @@
+import { nonSchoolDayImages } from '../ui/seasonAssets'
 import { useEffect, useMemo, useState } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import { useSelectedDate } from '../contexts/SelectedDateContext'
@@ -12,13 +13,7 @@ import {
   CACHE_TS_KEY,
   CACHE_TTL_MS,
 } from '../lib/schoolCalendarCache'
-import {
-  princessSchoolDayImage,
-  princessNonSchoolDaySpringImage,
-  princessNonSchoolDaySummerImage,
-  princessNonSchoolDayAutumnImage,
-  princessNonSchoolDayWinterImage,
-} from '../assets/themes/princess/assets'
+import { princessSchoolDayImage } from '../assets/themes/princess/assets'
 import { uiTokens } from '../tokens'
 
 const CALENDAR_URL = 'https://getschoolcalendar-6ujocyt4pq-uc.a.run.app'
@@ -28,20 +23,6 @@ const TOTAL_CALENDAR_CELLS = 42
 
 type CalendarDayData = {
   isNonSchoolDay?: boolean
-}
-
-const getNonSchoolDayIcon = (season: ReturnType<typeof getSeasonForDate>) => {
-  switch (season) {
-    case 'spring':
-      return princessNonSchoolDaySpringImage
-    case 'summer':
-      return princessNonSchoolDaySummerImage
-    case 'autumn':
-      return princessNonSchoolDayAutumnImage
-    case 'winter':
-    default:
-      return princessNonSchoolDayWinterImage
-  }
 }
 
 const getMondayFirstOffset = (date: Date) => {
@@ -147,7 +128,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
 
   const season = useMemo(() => getSeasonForDate(viewDate), [viewDate])
   const schoolIcon = princessSchoolDayImage
-  const nonSchoolIcon = getNonSchoolDayIcon(season)
+  const nonSchoolIcon = nonSchoolDayImages[season]
 
   const isDaySchool = (day: number) => {
     const date = new Date(year, month, day)

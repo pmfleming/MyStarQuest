@@ -1,13 +1,8 @@
+import { nonSchoolDayImages } from '../../ui/seasonAssets'
 import type { Theme } from '../../contexts/ThemeContext'
 import type { TaskRecord, TaskUpdatableFields } from '../../data/types'
 import { getSeasonForDate } from '../../lib/today'
-import {
-  princessNonSchoolDayAutumnImage,
-  princessNonSchoolDaySpringImage,
-  princessNonSchoolDaySummerImage,
-  princessNonSchoolDayWinterImage,
-  princessSchoolDayImage,
-} from '../../assets/themes/princess/assets'
+import { princessSchoolDayImage } from '../../assets/themes/princess/assets'
 import { uiTokens } from '../../tokens'
 import { IconChoiceButton } from './IconActionControls'
 
@@ -22,26 +17,12 @@ type ScheduleDayTypeControlProps = {
   onUpdate: (taskId: string, field: TaskUpdatableFields) => void
 }
 
-const getPrincessNonSchoolDayImage = () => {
-  switch (getSeasonForDate(new Date())) {
-    case 'spring':
-      return princessNonSchoolDaySpringImage
-    case 'summer':
-      return princessNonSchoolDaySummerImage
-    case 'autumn':
-      return princessNonSchoolDayAutumnImage
-    case 'winter':
-    default:
-      return princessNonSchoolDayWinterImage
-  }
-}
-
 const ScheduleDayTypeControl = ({
   theme,
   task,
   onUpdate,
 }: ScheduleDayTypeControlProps) => {
-  const nonSchoolDayImage = getPrincessNonSchoolDayImage()
+  const nonSchoolDayImage = nonSchoolDayImages[getSeasonForDate(new Date())]
 
   return (
     <div

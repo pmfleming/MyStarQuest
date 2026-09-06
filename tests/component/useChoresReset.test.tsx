@@ -125,6 +125,9 @@ function ChoreList() {
   const descriptor = createUnifiedChoreDescriptor({
     theme: themes.princess,
     mode: 'today',
+    activeIds: {},
+    checkTriggers: {},
+    biteCooldownSeconds: 15,
     onReset: (item) => {
       if (isChoreWithEphemeral(item)) {
         return isEatingTask(item)

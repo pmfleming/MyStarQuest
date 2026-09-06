@@ -6,14 +6,11 @@
  */
 
 import { initializeApp } from 'firebase-admin/app'
-import {
-  getFirestore,
-  type DocumentData,
-  type QueryDocumentSnapshot,
-} from 'firebase-admin/firestore'
+import { getFirestore, type DocumentData } from 'firebase-admin/firestore'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, onRequest, HttpsError } from 'firebase-functions/v2/https'
 import * as ical from 'node-ical'
+import { buildSchoolCalendar } from './schoolCalendar'
 
 initializeApp()
 const db = getFirestore()
@@ -99,29 +96,26 @@ type ActivityType =
   | 'alphabet'
   | 'spelling'
 
+// Preserve legacy category/type precedence for existing documents.
+const ACTIVITY_TYPE_PRIORITY: ActivityType[] = [
+  'positional-notation',
+  'large-numbers',
+  'math',
+  'alphabet',
+  'spelling',
+  'watertoiletcheck',
+  'eating',
+]
+
 const getActivityType = (data: DocumentData): ActivityType => {
   const explicitType = data.taskType ?? data.choreType ?? data.testType
   const category = data.category
 
-  if (
-    explicitType === 'positional-notation' ||
-    category === 'positional-notation'
-  ) {
-    return 'positional-notation'
-  }
-  if (explicitType === 'large-numbers' || category === 'large-numbers') {
-    return 'large-numbers'
-  }
-  if (explicitType === 'math' || category === 'math') return 'math'
-  if (explicitType === 'alphabet' || category === 'alphabet') return 'alphabet'
-  if (explicitType === 'spelling' || category === 'spelling') {
-    return 'spelling'
-  }
-  if (explicitType === 'watertoiletcheck' || category === 'watertoiletcheck') {
-    return 'watertoiletcheck'
-  }
-  if (explicitType === 'eating' || category === 'eating') return 'eating'
-  return 'standard'
+  return (
+    ACTIVITY_TYPE_PRIORITY.find(
+      (type) => type === explicitType || type === category
+    ) ?? 'standard'
+  )
 }
 
 const isChoreType = (type: ActivityType) =>
@@ -139,18 +133,10 @@ const getTemplateDocs = async (uid: string, childId: string) => {
     .where('childId', '==', childId)
     .get()
 
-  const templateDocs = new Map<string, QueryDocumentSnapshot<DocumentData>>()
-
-  for (const taskDoc of currentSnapshot.docs) {
+  return currentSnapshot.docs.filter((taskDoc) => {
     const data = taskDoc.data()
-    if (isLegacyDayNight(data)) continue
-    const taskType = getActivityType(data)
-    if (isChoreType(taskType)) {
-      templateDocs.set(taskDoc.id, taskDoc)
-    }
-  }
-
-  return Array.from(templateDocs.values())
+    return !isLegacyDayNight(data) && isChoreType(getActivityType(data))
+  })
 }
 
 const createDailyActivities = async (
@@ -309,12 +295,6 @@ export const resetTodayTodos = onCall(async (request) => {
 const SCHOOL_CALENDAR_BASE_URL =
   'https://calendar.parro.com/ical/4885298933/8eaf8fb5-1f77-4a8b-bb79-8d8b404f4943'
 
-type CalendarDayPayload = {
-  summaries: string[]
-  hasAllDayEvent: boolean
-  isNonSchoolDay: boolean
-}
-
 export const getSchoolCalendar = onRequest(
   { cors: true },
   async (_req, res): Promise<void> => {
@@ -353,118 +333,7 @@ export const getSchoolCalendar = onRequest(
         return
       }
 
-      const parsedCalendar: Record<string, CalendarDayPayload> = {}
-
-      // Format dates in the school's timezone to avoid UTC off-by-one errors
-      const nlFormatter = new Intl.DateTimeFormat('en-CA', {
-        timeZone: 'Europe/Amsterdam',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      })
-
-      const formatDate = (date: Date) => nlFormatter.format(date)
-      const isWeekendDateKey = (dateKey: string) => {
-        const dayOfWeek = new Date(`${dateKey}T00:00:00Z`).getUTCDay()
-        return dayOfWeek === 0 || dayOfWeek === 6
-      }
-
-      const appendSummary = (
-        date: Date,
-        summary: string,
-        hasAllDayEvent: boolean
-      ) => {
-        const dateKey = formatDate(date)
-        const isWeekday = !isWeekendDateKey(dateKey)
-
-        // Weekends are always non-school; weekdays are non-school if they have an all-day event
-        const isNonSchoolDay = !isWeekday || hasAllDayEvent
-
-        const existing = parsedCalendar[dateKey]
-
-        if (!existing) {
-          parsedCalendar[dateKey] = {
-            summaries: [summary],
-            hasAllDayEvent,
-            isNonSchoolDay,
-          }
-          return
-        }
-
-        if (!existing.summaries.includes(summary)) {
-          existing.summaries.push(summary)
-        }
-
-        // Carry over truthy values from overlapping events on the same day
-        existing.hasAllDayEvent = existing.hasAllDayEvent || hasAllDayEvent
-        existing.isNonSchoolDay = existing.isNonSchoolDay || isNonSchoolDay
-      }
-
-      for (const key of Object.keys(events)) {
-        const event = events[key]
-        if (!event || event.type !== 'VEVENT') continue
-
-        const vevent = event as ical.VEvent
-        const rawSummary = vevent.summary
-        const summary: string =
-          typeof rawSummary === 'string'
-            ? rawSummary
-            : (rawSummary?.val ?? 'School Event')
-
-        // iCal specifies all-day events with datetype 'date' (vs 'date-time')
-        const hasAllDayEvent = vevent.datetype === 'date'
-
-        if (vevent.start) {
-          const startDate = new Date(vevent.start)
-          const endDate = vevent.end
-            ? new Date(vevent.end)
-            : new Date(vevent.start)
-
-          // Capture the exact duration of the event for potential recurrences
-          const durationMs = endDate.getTime() - startDate.getTime()
-
-          // --- PROCESS THE INITIAL EVENT ---
-          const currentDate = new Date(startDate.getTime())
-
-          // iCal all-day events use an exclusive end date, so use strict <
-          while (currentDate < endDate) {
-            appendSummary(currentDate, summary, hasAllDayEvent)
-            // Use setUTCDate to mathematically increment 24 hours safely
-            currentDate.setUTCDate(currentDate.getUTCDate() + 1)
-          }
-
-          // Single-instant events where start === end (duration is 0)
-          if (formatDate(startDate) === formatDate(endDate)) {
-            appendSummary(endDate, summary, hasAllDayEvent)
-          }
-
-          // --- PROCESS RECURRING EVENTS ---
-          if (vevent.rrule) {
-            const now = new Date()
-            const nextYear = new Date(
-              now.getFullYear() + 1,
-              now.getMonth(),
-              now.getDate()
-            )
-            const occurrenceStarts = vevent.rrule.between(now, nextYear)
-
-            for (const occStart of occurrenceStarts) {
-              // Reconstruct the multiday end date for THIS specific occurrence
-              const occEnd = new Date(occStart.getTime() + durationMs)
-              const currOcc = new Date(occStart.getTime())
-
-              while (currOcc < occEnd) {
-                appendSummary(currOcc, summary, hasAllDayEvent)
-                currOcc.setUTCDate(currOcc.getUTCDate() + 1)
-              }
-
-              if (formatDate(occStart) === formatDate(occEnd)) {
-                appendSummary(occEnd, summary, hasAllDayEvent)
-              }
-            }
-          }
-        }
-      }
+      const parsedCalendar = buildSchoolCalendar(events)
 
       res.set('Cache-Control', 'public, max-age=3600, s-maxage=3600')
       res.set('Content-Type', 'application/json')

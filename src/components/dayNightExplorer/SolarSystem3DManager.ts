@@ -577,9 +577,7 @@ export default class SolarSystem3DManager {
     )
   }
 
-  private createMonthLabels(fontFamily: string) {
-    const group = new THREE.Group()
-
+  private createMonthLabels(fontFamily: string, group = new THREE.Group()) {
     MONTH_LABELS.forEach((label, index) => {
       const progress = index / MONTH_LABELS.length
       const angle = Math.PI / 2 - progress * Math.PI * 2
@@ -643,24 +641,7 @@ export default class SolarSystem3DManager {
     this.monthLabelTextures.forEach((texture) => texture.dispose())
     this.monthLabelTextures = []
 
-    MONTH_LABELS.forEach((label, index) => {
-      const progress = index / MONTH_LABELS.length
-      const angle = Math.PI / 2 - progress * Math.PI * 2
-      const x = Math.cos(angle) * (EARTH_ORBIT_X + MONTH_LABEL_OFFSET_X)
-      const y = Math.sin(angle) * (EARTH_ORBIT_Y + MONTH_LABEL_OFFSET_Y)
-      const sprite = new THREE.Sprite(
-        new THREE.SpriteMaterial({
-          map: this.createMonthLabelTexture(label, fontFamily),
-          transparent: true,
-          depthTest: true,
-          depthWrite: false,
-        })
-      )
-      sprite.position.set(x, y, MONTH_LABEL_Z)
-      sprite.scale.set(MONTH_LABEL_SCALE_X, MONTH_LABEL_SCALE_Y, 1)
-      sprite.material.rotation = 0
-      this.monthLabelGroup.add(sprite)
-    })
+    this.createMonthLabels(fontFamily, this.monthLabelGroup)
   }
 
   private createMonthLabelTexture(label: string, fontFamily: string) {

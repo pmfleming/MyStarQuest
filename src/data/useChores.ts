@@ -1,6 +1,6 @@
 // ── Chores subscription + mutations ──
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import {
   addDoc,
   collection,
@@ -30,7 +30,7 @@ import {
   type TaskUpdatableFields,
 } from './types'
 import { validateTaskFields } from './taskLimits'
-import { mergeOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
+import { useOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
 import { useUserDocumentUpdates } from './useUserDocumentUpdates'
 import { useChildTaskCollection } from './useChildTaskCollection'
 
@@ -71,14 +71,10 @@ export function useChores() {
     onItems: reconcileActivityState,
   })
 
-  useEffect(() => {
-    reconcileTaskFields(rawChores)
-  }, [rawChores, reconcileTaskFields])
-
-  // ── Derived Data ──
-  const rawChoreTemplates = useMemo(
-    () => mergeOptimisticItems(rawChores, optimisticFields),
-    [optimisticFields, rawChores]
+  const rawChoreTemplates = useOptimisticItems(
+    rawChores,
+    optimisticFields,
+    reconcileTaskFields
   )
 
   const chores = useMemo(

@@ -53,12 +53,13 @@ const CHORE_TEMPLATES: Record<ChoreType, TaskTemplate> = {
   },
 }
 
-const TEST_TEMPLATES: Record<TestType, TaskTemplate> = {
+const TEST_TEMPLATES = {
   math: {
     title: 'Arithmetic',
     category: 'math',
     starValue: DEFAULT_MATH_STARS,
     extras: {
+      taskType: 'math',
       mathTotalProblems: DEFAULT_MATH_PROBLEMS,
       mathDifficulty: 'easy',
     },
@@ -68,6 +69,7 @@ const TEST_TEMPLATES: Record<TestType, TaskTemplate> = {
     category: 'large-numbers',
     starValue: DEFAULT_LARGE_NUMBERS_STARS,
     extras: {
+      taskType: 'large-numbers',
       largeNumbersTotalProblems: DEFAULT_LARGE_NUMBERS_PROBLEMS,
     },
   },
@@ -76,6 +78,7 @@ const TEST_TEMPLATES: Record<TestType, TaskTemplate> = {
     category: 'positional-notation',
     starValue: DEFAULT_PV_STARS,
     extras: {
+      taskType: 'positional-notation',
       pvTotalProblems: DEFAULT_PV_PROBLEMS,
     },
   },
@@ -84,6 +87,7 @@ const TEST_TEMPLATES: Record<TestType, TaskTemplate> = {
     category: 'alphabet',
     starValue: DEFAULT_ALPHABET_STARS,
     extras: {
+      taskType: 'alphabet',
       alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
     },
   },
@@ -92,6 +96,7 @@ const TEST_TEMPLATES: Record<TestType, TaskTemplate> = {
     category: 'spelling',
     starValue: DEFAULT_SPELLING_STARS,
     extras: {
+      taskType: 'spelling',
       spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
     },
   },
@@ -100,9 +105,16 @@ const TEST_TEMPLATES: Record<TestType, TaskTemplate> = {
     category: 'animals',
     starValue: DEFAULT_ANIMALS_STARS,
     extras: {
+      taskType: 'animals',
       animalsTotalProblems: DEFAULT_ANIMALS_PROBLEMS,
     },
   },
+} satisfies {
+  [Type in TestType]: TaskTemplate & {
+    extras: Omit<Extract<TestRecord, { taskType: Type }>, keyof TestRecord> & {
+      taskType: Type
+    }
+  }
 }
 
 const buildBaseTaskDocument = (
@@ -166,57 +178,16 @@ const buildDefaultTest = (
   testType: TestType,
   index: number
 ): TestRecord => {
-  const template = TEST_TEMPLATES[testType]
-  const base = {
+  const { extras, ...definition } = TEST_TEMPLATES[testType]
+  return {
     id: `default-${testType}-${childId}`,
-    title: template.title,
+    ...definition,
+    ...extras,
     childId,
-    category: template.category,
     schoolDayEnabled: true,
     nonSchoolDayEnabled: true,
-    starValue: template.starValue,
     isRepeating: true,
     createdAt: new Date(index),
-  }
-
-  switch (testType) {
-    case 'math':
-      return {
-        ...base,
-        taskType: 'math',
-        mathTotalProblems: DEFAULT_MATH_PROBLEMS,
-        mathDifficulty: 'easy',
-      }
-    case 'large-numbers':
-      return {
-        ...base,
-        taskType: 'large-numbers',
-        largeNumbersTotalProblems: DEFAULT_LARGE_NUMBERS_PROBLEMS,
-      }
-    case 'positional-notation':
-      return {
-        ...base,
-        taskType: 'positional-notation',
-        pvTotalProblems: DEFAULT_PV_PROBLEMS,
-      }
-    case 'alphabet':
-      return {
-        ...base,
-        taskType: 'alphabet',
-        alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
-      }
-    case 'spelling':
-      return {
-        ...base,
-        taskType: 'spelling',
-        spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
-      }
-    case 'animals':
-      return {
-        ...base,
-        taskType: 'animals',
-        animalsTotalProblems: DEFAULT_ANIMALS_PROBLEMS,
-      }
   }
 }
 

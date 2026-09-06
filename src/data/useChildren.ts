@@ -5,7 +5,6 @@ import {
   createElement,
   useCallback,
   useEffect,
-  useMemo,
   useState,
   type ReactNode,
 } from 'react'
@@ -31,7 +30,7 @@ import {
   setDraftValue,
 } from './dailyTaskState'
 import { useUserCollection } from './useUserCollection'
-import { mergeOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
+import { useOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
 import { useUserDocumentUpdates } from './useUserDocumentUpdates'
 import { useRequiredContext } from '../hooks/useRequiredContext'
 
@@ -101,13 +100,10 @@ const useChildrenState = () => {
     onClear: clearChildren,
   })
 
-  useEffect(() => {
-    reconcileChildFields(rawChildren)
-  }, [rawChildren, reconcileChildFields])
-
-  const children = useMemo(
-    () => mergeOptimisticItems(rawChildren, optimisticFields),
-    [optimisticFields, rawChildren]
+  const children = useOptimisticItems(
+    rawChildren,
+    optimisticFields,
+    reconcileChildFields
   )
 
   // ── Generic field update ──

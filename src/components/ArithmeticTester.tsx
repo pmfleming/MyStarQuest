@@ -40,6 +40,8 @@ type ArithmeticProblem = {
   op2?: '+' | '-'
 }
 
+const EMPTY_PROBLEM: ArithmeticProblem = { a: 0, b: 0, op1: '+' }
+
 const randomOperand = () => Math.floor(Math.random() * 10) + 1
 
 const generateEasyProblem = (): ArithmeticProblem => {
@@ -80,11 +82,8 @@ export interface ArithmeticTesterProps extends ActivityChoreProps {
 
 const ArithmeticTester = (props: ArithmeticTesterProps) => {
   const { theme, isRunning, difficulty = 'easy', onDifficultyChange } = props
-  const [valA, setValA] = useState(0)
-  const [valB, setValB] = useState(0)
-  const [valC, setValC] = useState<number | undefined>(undefined)
-  const [op1, setOp1] = useState<'+' | '-'>('+')
-  const [op2, setOp2] = useState<'+' | '-' | undefined>(undefined)
+  const [problem, setProblem] = useState(EMPTY_PROBLEM)
+  const { a: valA, b: valB, c: valC, op1, op2 } = problem
   const [userAnswer, setUserAnswer] = useState(0)
   const { isSeen, markSeen, clearHistory } = useProblemHistory()
 
@@ -102,21 +101,13 @@ const ArithmeticTester = (props: ArithmeticTesterProps) => {
       (problem) => isSeen(getProblemKey(problem))
     )
     markSeen(getProblemKey(p))
-    setValA(p.a)
-    setValB(p.b)
-    setValC(p.c)
-    setOp1(p.op1)
-    setOp2(p.op2)
+    setProblem(p)
     setUserAnswer(0)
   }, [difficulty, isSeen, markSeen])
 
   const resetProblem = useCallback(() => {
     clearHistory()
-    setValA(0)
-    setValB(0)
-    setValC(undefined)
-    setOp1('+')
-    setOp2(undefined)
+    setProblem(EMPTY_PROBLEM)
     setUserAnswer(0)
   }, [clearHistory])
 

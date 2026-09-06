@@ -96,11 +96,10 @@ export type LargeNumbersTesterProps = ActivityChoreProps
 
 const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
   const { theme, isRunning } = props
-  const [addendA, setAddendA] = useState(0)
-  const [addendB, setAddendB] = useState(0)
+  const [{ a: addendA, b: addendB }, setProblem] = useState({ a: 0, b: 0 })
   const [userTensRods, setUserTensRods] = useState(0)
-  const [userOnesTens, setUserOnesTens] = useState(0)
-  const [userOnes, setUserOnes] = useState(0)
+  const [onesState, setOnesState] = useState({ ones: 0, onesTens: 0 })
+  const { ones: userOnes, onesTens: userOnesTens } = onesState
   const { isSeen, markSeen, clearHistory } = useProblemHistory()
 
   const expectedAnswer = addendA + addendB
@@ -116,20 +115,16 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
     )
     markSeen(getProblemKey(problem))
 
-    setAddendA(problem.a)
-    setAddendB(problem.b)
+    setProblem(problem)
     setUserTensRods(0)
-    setUserOnesTens(0)
-    setUserOnes(0)
+    setOnesState({ ones: 0, onesTens: 0 })
   }, [isSeen, markSeen])
 
   const resetProblem = useCallback(() => {
     clearHistory()
-    setAddendA(0)
-    setAddendB(0)
+    setProblem({ a: 0, b: 0 })
     setUserTensRods(0)
-    setUserOnesTens(0)
-    setUserOnes(0)
+    setOnesState({ ones: 0, onesTens: 0 })
   }, [clearHistory])
 
   const {
@@ -150,39 +145,16 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
   })
 
   const adjustOnes = (delta: number) => {
-    const nextState = getAdjustedOnesState(
-      {
-        ones: userOnes,
-        onesTens: userOnesTens,
-      },
-      delta,
-      currentAnswer
-    )
+    const nextState = getAdjustedOnesState(onesState, delta, currentAnswer)
 
     if (!nextState) return
 
-    setUserOnes(nextState.ones)
-    setUserOnesTens(nextState.onesTens)
+    setOnesState(nextState)
   }
 
-  const canAddOne =
-    getAdjustedOnesState(
-      {
-        ones: userOnes,
-        onesTens: userOnesTens,
-      },
-      1,
-      currentAnswer
-    ) !== null
+  const canAddOne = getAdjustedOnesState(onesState, 1, currentAnswer) !== null
   const canRemoveOne =
-    getAdjustedOnesState(
-      {
-        ones: userOnes,
-        onesTens: userOnesTens,
-      },
-      -1,
-      currentAnswer
-    ) !== null
+    getAdjustedOnesState(onesState, -1, currentAnswer) !== null
 
   const canAddTen = currentAnswer + 10 <= MAX_SUM
 

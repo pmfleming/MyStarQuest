@@ -42,9 +42,7 @@ describe('reset an active test', () => {
       act(() => {
         pending = result.current.bindings.onReset(test)
       })
-      for (const [key, value] of Object.entries(result.current.activity)) {
-        if (key.startsWith('active')) expect(value).toBeNull()
-      }
+      expect(result.current.activity.activeIds).toEqual({})
       await act(async () => {
         resolveWrite()
         await pending
@@ -74,7 +72,7 @@ describe('reset an active test', () => {
         failTest: vi.fn(),
       })
       const challenge = useActivityChallenge({
-        isRunning: activity.activeMathId === test.id,
+        isRunning: activity.activeIds.math === test.id,
         totalProblems: 1,
         canStart: true,
         onStart,

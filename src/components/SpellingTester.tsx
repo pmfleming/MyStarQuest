@@ -1,3 +1,4 @@
+import { createAssetCatalog } from '../data/assetCatalog'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import animalsSetIcon from '../assets/global/cat-camel-cow.webp'
@@ -57,28 +58,11 @@ const POKEMON_ASSET_MODULES = import.meta.glob(
   { eager: true, import: 'default' }
 ) as Record<string, string>
 
-const getAssetName = (path: string) =>
-  path
-    .split('/')
-    .pop()
-    ?.replace(/\.[^.]+$/, '') ?? path
-
-const getSpellingWords = (
-  assetModules: Record<string, string>,
-  normalizeName: (name: string) => string = (name) => name
-): SpellingAnimal[] =>
-  Object.entries(assetModules)
-    .map(([path, image]) => ({
-      name: normalizeName(getAssetName(path)),
-      image,
-    }))
-    .sort((a, b) => a.name.localeCompare(b.name))
-
-const SPELLING_TEENIE = getSpellingWords(TEENIE_ASSET_MODULES)
+const SPELLING_TEENIE = createAssetCatalog(TEENIE_ASSET_MODULES).assets
 const SPELLING_ANIMALS = ANIMAL_ASSETS
-const SPELLING_POKEMON = getSpellingWords(POKEMON_ASSET_MODULES, (name) =>
+const SPELLING_POKEMON = createAssetCatalog(POKEMON_ASSET_MODULES, (name) =>
   name.replace(/^grrowlithe$/i, 'growlithe')
-)
+).assets
 
 const SPELLING_WORD_SETS: Record<SpellingWordSetId, SpellingAnimal[]> = {
   teenie: SPELLING_TEENIE,

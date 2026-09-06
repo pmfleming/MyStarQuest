@@ -3,14 +3,18 @@ export type NamedAsset = {
   image: string
 }
 
-export const createAssetCatalog = (modules: Record<string, string>) => {
+export const createAssetCatalog = (
+  modules: Record<string, string>,
+  normalizeName: (name: string) => string = (name) => name
+) => {
   const assets = Object.entries(modules)
     .map(([path, image]) => ({
-      name:
+      name: normalizeName(
         path
           .split('/')
           .pop()
-          ?.replace(/\.[^.]+$/, '') ?? path,
+          ?.replace(/\.[^.]+$/, '') ?? path
+      ),
       image,
     }))
     .sort((left, right) => left.name.localeCompare(right.name))

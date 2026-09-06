@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 export const DEFAULT_UPDATE_COALESCE_MS = 140
 
@@ -40,6 +40,21 @@ export const mergeOptimisticItems = <
   if (Object.keys(overrides).length === 0) return items
   return items.map((item) =>
     overrides[item.id] ? ({ ...item, ...overrides[item.id] } as Item) : item
+  )
+}
+
+export const useOptimisticItems = <
+  Item extends Identifiable,
+  Patch extends FieldPatch,
+>(
+  items: Item[],
+  overrides: Record<string, Patch>,
+  reconcile: (items: Item[]) => void
+) => {
+  useEffect(() => reconcile(items), [items, reconcile])
+  return useMemo(
+    () => mergeOptimisticItems(items, overrides),
+    [items, overrides]
   )
 }
 

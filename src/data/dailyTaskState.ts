@@ -7,6 +7,7 @@ import {
   isTestRecord,
   isTestType,
   manageCompletedAtFieldByType,
+  manageOutcomeFieldByType,
   type ChoreRecord,
   type TaskEphemeralState,
   type TaskOutcome,
@@ -14,7 +15,6 @@ import {
   type TaskType,
   type TaskWithEphemeral,
   type TestRecord,
-  type TestType,
   type TestWithEphemeral,
 } from './types'
 
@@ -25,20 +25,6 @@ type DraftableItem = {
 
 type ChildTaskItem = DraftableItem & {
   childId: string
-}
-
-const manageOutcomeFieldByType = {
-  math: 'manageMathLastOutcome',
-  'large-numbers': 'manageLargeNumbersLastOutcome',
-  alphabet: 'manageAlphabetLastOutcome',
-  spelling: 'manageSpellingLastOutcome',
-  animals: 'manageAnimalsLastOutcome',
-  'positional-notation': 'managePVLastOutcome',
-} satisfies {
-  [Type in TestType]: Extract<
-    keyof Extract<TestWithEphemeral, { taskType: Type }>,
-    `${string}LastOutcome`
-  >
 }
 
 export const useTodayInfo = () => {

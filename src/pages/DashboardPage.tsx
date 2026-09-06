@@ -42,13 +42,6 @@ const getPrincessMealIconForHour = (hour: number) => {
   return princessEatingDinnerIcon
 }
 
-const isEditableChore = (
-  chore: ReturnType<typeof useChores>['chores'][number]
-): chore is ChoreWithEphemeral =>
-  chore.taskType === 'standard' ||
-  chore.taskType === 'eating' ||
-  chore.taskType === 'watertoiletcheck'
-
 const withTaskItem = <Result,>(
   item: UnifiedChoreItem,
   action: (task: ChoreWithEphemeral) => Result
@@ -195,7 +188,7 @@ const DashboardPage = () => {
   }
 
   const handleEditChore = (chore: (typeof todayChores)[number]) => {
-    if (!isEditableChore(chore)) {
+    if (!isChoreWithEphemeral(chore)) {
       console.error('Cannot edit unsupported chore type.')
       setCreateChoreError('Could not edit chore.')
       return
@@ -256,14 +249,7 @@ const DashboardPage = () => {
         await applyBite(task)
       }),
     onExpireDinner: (item) => withTaskItem(item, expireDinnerTimer),
-    activeMathId: activity.activeMathId,
-    activeLargeNumbersId: activity.activeLargeNumbersId,
-    activePVId: activity.activePVId,
-    activeAlphabetId: activity.activeAlphabetId,
-    activeSpellingId: activity.activeSpellingId,
-    activeAnimalsId: activity.activeAnimalsId,
-    activeDinnerId: activity.activeDinnerId,
-    activeWaterToiletId: activity.activeWaterToiletId,
+    activeIds: activity.activeIds,
     ...testCheckTriggers,
     biteCooldownSeconds,
     biteCooldownEndsAt,
@@ -274,10 +260,10 @@ const DashboardPage = () => {
   const descriptor = createUnifiedChoreDescriptor(unifiedChoreDeps)
 
   const shouldHideEditChore = (chore: (typeof todayChores)[number]) =>
-    !isEditableChore(chore) || choreState.getStage(chore) === 'activity'
+    !isChoreWithEphemeral(chore) || choreState.getStage(chore) === 'activity'
 
   const renderTodayChoreEdit = (chore: (typeof todayChores)[number]) => {
-    if (!isEditableChore(chore)) {
+    if (!isChoreWithEphemeral(chore)) {
       return (
         <InlineNotice theme={theme}>Could not open chore editor.</InlineNotice>
       )

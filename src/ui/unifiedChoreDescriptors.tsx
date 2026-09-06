@@ -6,7 +6,6 @@ import {
 } from '../assets/themes/princess/assets'
 import { getChoreImage } from '../assets/chores/assets'
 import { getPresetChoreOverviewImage } from './choreOverviewAssets'
-import { isTestType } from '../data/types'
 import { getPrincessTaskTypeIcon } from './taskTypeIcons'
 import { isInChoreStage, shouldUseResetUtility } from './choreModeDefinitions'
 import type { ListRowDescriptor } from './listDescriptorTypes'
@@ -126,7 +125,7 @@ export function createUnifiedChoreDescriptor(
           />
         ),
         onReset: (selected) => deps.onReset?.(selected),
-        onCheck: (selected) => incrementCheckTrigger(deps, type, selected.id),
+        onCheck: (selected) => deps.onCheck?.(type, selected.id),
         onStart: (selected) => enterOrComplete(deps, selected),
       })
       return { ...action, ariaLabel: `${action.label} ${item.title}` }
@@ -156,7 +155,7 @@ const createEatingPrimaryAction = (
   item: UnifiedChoreItem,
   stage: ReturnType<ReturnType<typeof createUnifiedChoreState>['getStage']>
 ) => {
-  const isActive = deps.activeDinnerId === item.id
+  const isActive = deps.activeIds.eating === item.id
   const isFinished = stage === 'completed'
   const isCoolingDown =
     typeof deps.biteCooldownEndsAt === 'number' &&
@@ -197,25 +196,4 @@ const eatingActionIcon = (
 const enterOrComplete = (deps: UnifiedChoreDeps, item: UnifiedChoreItem) => {
   if (deps.onEnterChore) return deps.onEnterChore(item)
   return deps.onComplete?.(item)
-}
-
-const incrementCheckTrigger = (
-  deps: UnifiedChoreDeps,
-  type: ReturnType<typeof getChoreType>,
-  id: string
-) => {
-  const setters = {
-    math: deps.setMathCheckTriggers,
-    'large-numbers': deps.setLargeNumbersCheckTriggers,
-    'positional-notation': deps.setPVCheckTriggers,
-    alphabet: deps.setAlphabetCheckTriggers,
-    spelling: deps.setSpellingCheckTriggers,
-    animals: deps.setAnimalsCheckTriggers,
-  }
-  const setter = isTestType(type) ? setters[type] : undefined
-
-  setter?.((prev) => ({
-    ...prev,
-    [id]: (prev[id] ?? 0) + 1,
-  }))
 }

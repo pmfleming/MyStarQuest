@@ -29,7 +29,7 @@ export const renderEatingContent = (
   item: UnifiedChoreItem,
   stage: ChoreStage
 ) => {
-  const isActive = deps.activeDinnerId === item.id
+  const isActive = deps.activeIds.eating === item.id
   if (isTaskItem(item)) {
     return isEatingTask(item)
       ? renderEatingTask(deps, state, item, isActive, stage)

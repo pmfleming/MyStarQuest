@@ -1,7 +1,9 @@
-import type { Dispatch, ReactNode, SetStateAction } from 'react'
+import type { ReactNode } from 'react'
 import type {
   TaskEphemeralState,
   TaskRecord,
+  TaskType,
+  TestType,
   TaskUpdatableFields,
   TaskWithEphemeral,
   TodoRecord,
@@ -34,28 +36,9 @@ export type UnifiedChoreDeps = {
   onApplyBite?: (item: UnifiedChoreItem) => MaybePromise
   onExpireDinner?: (item: UnifiedChoreItem) => MaybePromise
   titleDrafts?: Record<string, string>
-  activeMathId: string | null
-  activeLargeNumbersId: string | null
-  activePVId: string | null
-  activeAlphabetId: string | null
-  activeSpellingId: string | null
-  activeAnimalsId: string | null
-  activeDinnerId: string | null
-  activeWaterToiletId: string | null
-  mathCheckTriggers: Record<string, number>
-  largeNumbersCheckTriggers: Record<string, number>
-  pvCheckTriggers: Record<string, number>
-  alphabetCheckTriggers: Record<string, number>
-  spellingCheckTriggers: Record<string, number>
-  animalsCheckTriggers: Record<string, number>
-  setMathCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
-  setLargeNumbersCheckTriggers?: Dispatch<
-    SetStateAction<Record<string, number>>
-  >
-  setPVCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
-  setAlphabetCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
-  setSpellingCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
-  setAnimalsCheckTriggers?: Dispatch<SetStateAction<Record<string, number>>>
+  activeIds: Partial<Record<TaskType, string | null>>
+  checkTriggers: Partial<Record<TestType, Record<string, number>>>
+  onCheck?: (type: TestType, id: string) => void
   biteCooldownSeconds: number
   biteCooldownEndsAt?: number | null
   activePrincessMealIcon?: string

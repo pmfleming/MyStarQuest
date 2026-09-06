@@ -1,6 +1,6 @@
 // ── Real-time rewards subscription + all reward mutations ──
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   addDoc,
   collection,
@@ -21,7 +21,7 @@ import {
 } from './types'
 import { useCollectionTitleDrafts } from './dailyTaskState'
 import { useUserCollection } from './useUserCollection'
-import { mergeOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
+import { useOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
 import { useUserDocumentUpdates } from './useUserDocumentUpdates'
 
 export type RewardDocumentSettings = {
@@ -76,13 +76,10 @@ export function useRewards() {
     mapDocument: mapRewardDocument,
   })
 
-  useEffect(() => {
-    reconcileRewardFields(rawRewards)
-  }, [rawRewards, reconcileRewardFields])
-
-  const rewards = useMemo(
-    () => mergeOptimisticItems(rawRewards, optimisticFields),
-    [optimisticFields, rawRewards]
+  const rewards = useOptimisticItems(
+    rawRewards,
+    optimisticFields,
+    reconcileRewardFields
   )
 
   const updateRewardField = (rewardId: string, field: RewardUpdatableFields) =>

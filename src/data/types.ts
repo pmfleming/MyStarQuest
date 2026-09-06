@@ -413,12 +413,11 @@ export type TestWithEphemeral = Extract<
   }
 >
 
+export const isChoreType = (type: TaskType): type is ChoreType =>
+  type === 'standard' || type === 'eating' || type === 'watertoiletcheck'
+
 export function isChoreRecord(task: TaskRecord): task is ChoreRecord {
-  return (
-    task.taskType === 'standard' ||
-    task.taskType === 'eating' ||
-    task.taskType === 'watertoiletcheck'
-  )
+  return isChoreType(task.taskType)
 }
 
 export function isTestRecord(task: TaskRecord): task is TestRecord {
@@ -523,11 +522,7 @@ export type ChoreTodoRecord = Extract<
 >
 
 export function isChoreTodoRecord(todo: TodoRecord): todo is ChoreTodoRecord {
-  return (
-    todo.sourceTaskType === 'standard' ||
-    todo.sourceTaskType === 'eating' ||
-    todo.sourceTaskType === 'watertoiletcheck'
-  )
+  return isChoreType(todo.sourceTaskType)
 }
 
 // ── Updatable field subsets ──
@@ -718,6 +713,20 @@ export const manageCompletedAtFieldByType = {
   [Type in TaskType]: Extract<
     keyof Extract<TaskWithEphemeral, { taskType: Type }>,
     `${string}CompletedAt`
+  >
+}
+
+export const manageOutcomeFieldByType = {
+  math: 'manageMathLastOutcome',
+  'large-numbers': 'manageLargeNumbersLastOutcome',
+  alphabet: 'manageAlphabetLastOutcome',
+  spelling: 'manageSpellingLastOutcome',
+  animals: 'manageAnimalsLastOutcome',
+  'positional-notation': 'managePVLastOutcome',
+} satisfies {
+  [Type in TestType]: Extract<
+    keyof Extract<TestWithEphemeral, { taskType: Type }>,
+    `${string}LastOutcome`
   >
 }
 

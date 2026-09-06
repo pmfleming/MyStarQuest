@@ -8,20 +8,8 @@ import type { TaskWithEphemeral, TodoRecord } from '../../../src/data/types'
 const createBaseDeps = () => ({
   theme: themes.space,
   mode: 'today' as const,
-  activeMathId: null,
-  activeLargeNumbersId: null,
-  activePVId: null,
-  activeAlphabetId: null,
-  activeSpellingId: null,
-  activeAnimalsId: null,
-  activeDinnerId: null,
-  activeWaterToiletId: null,
-  mathCheckTriggers: {},
-  largeNumbersCheckTriggers: {},
-  pvCheckTriggers: {},
-  alphabetCheckTriggers: {},
-  spellingCheckTriggers: {},
-  animalsCheckTriggers: {},
+  activeIds: {},
+  checkTriggers: {},
   biteCooldownSeconds: 15,
 })
 
@@ -92,7 +80,7 @@ describe('createUnifiedChoreDescriptor', () => {
 
     const activeDescriptor = createUnifiedChoreDescriptor({
       ...createBaseDeps(),
-      activeMathId: 'math-1',
+      activeIds: { math: 'math-1' },
     })
 
     expect(activeDescriptor.getPrimaryAction(todo)).toMatchObject({
@@ -112,7 +100,7 @@ describe('createUnifiedChoreDescriptor', () => {
     const futureCooldown = Date.now() + 15_000
     const descriptor = createUnifiedChoreDescriptor({
       ...createBaseDeps(),
-      activeDinnerId: 'dinner-1',
+      activeIds: { eating: 'dinner-1' },
       biteCooldownEndsAt: futureCooldown,
     })
 
@@ -142,7 +130,7 @@ describe('createUnifiedChoreDescriptor', () => {
 
     const state = createUnifiedChoreState({
       ...createBaseDeps(),
-      activeDinnerId: todo.id,
+      activeIds: { eating: todo.id },
       biteCooldownEndsAt: futureCooldown,
     })
     const task: TaskWithEphemeral = {
@@ -183,7 +171,7 @@ describe('createUnifiedChoreDescriptor', () => {
     ).toBe('completed')
     const expired = createUnifiedChoreState({
       ...createBaseDeps(),
-      activeDinnerId: todo.id,
+      activeIds: { eating: todo.id },
       biteCooldownEndsAt: Date.now() - 1,
     })
     expect(expired.getStage(task)).toBe('completed')
@@ -223,7 +211,7 @@ describe('createUnifiedChoreDescriptor', () => {
     const onUpdateEphemeral = vi.fn()
     const activeDescriptor = createUnifiedChoreDescriptor({
       ...createBaseDeps(),
-      activeWaterToiletId: 'water-1',
+      activeIds: { watertoiletcheck: 'water-1' },
       onUpdateEphemeral,
     })
 
