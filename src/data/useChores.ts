@@ -1,6 +1,6 @@
 // ── Chores subscription + mutations ──
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   addDoc,
   collection,
@@ -54,6 +54,31 @@ export function useChores() {
     errorMessage: 'Failed to update chore',
   })
 
+  const reconcileActivityState = useCallback((items: ChoreRecord[]) => {
+    // Keep optimistic activity changes until the subscription reflects them.
+    // A successful write can settle before React receives the new snapshot.
+    setEphemeral((previous) => {
+      let next = previous
+      for (const chore of items) {
+        const patch = previous[chore.id]
+        if (!patch) continue
+        const saved: TaskEphemeralState = chore
+        const remaining = { ...patch }
+        for (const key of Object.keys(patch) as Array<
+          keyof TaskEphemeralState
+        >) {
+          if (Object.is(saved[key], patch[key])) delete remaining[key]
+        }
+        if (Object.keys(remaining).length === Object.keys(patch).length)
+          continue
+        if (next === previous) next = { ...previous }
+        if (Object.keys(remaining).length === 0) delete next[chore.id]
+        else next[chore.id] = remaining
+      }
+      return next
+    })
+  }, [])
+
   const rawChores = useChildTaskCollection({
     userId: user?.uid,
     activeChildId,
@@ -61,6 +86,7 @@ export function useChores() {
     errorMessage: 'Failed to subscribe to chores',
     parseDocument: parseChoreSnapshot,
     clearEphemeral: setEphemeral,
+    onItems: reconcileActivityState,
   })
 
   useEffect(() => {
@@ -138,12 +164,13 @@ export function useChores() {
       return Promise.resolve()
     }
 
-    return updateDoc(doc(db, 'users', user.uid, 'chores', taskId), patch)
-      .catch((err) => {
+    return updateDoc(doc(db, 'users', user.uid, 'chores', taskId), patch).catch(
+      (err) => {
+        clearResolvedPatch()
         console.error('Failed to update chore state', err)
         throw err
-      })
-      .finally(clearResolvedPatch)
+      }
+    )
   }
 
   // ── Generic Mutations ──

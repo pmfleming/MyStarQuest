@@ -15,6 +15,7 @@ type UseChildTaskCollectionArgs<T extends ChildTaskCollectionItem, E> = {
   errorMessage: string
   parseDocument: (id: string, data: DocumentData) => T | null
   clearEphemeral: Dispatch<SetStateAction<Record<string, E>>>
+  onItems?: (items: T[]) => void
 }
 
 export const useChildTaskCollection = <T extends ChildTaskCollectionItem, E>({
@@ -24,6 +25,7 @@ export const useChildTaskCollection = <T extends ChildTaskCollectionItem, E>({
   errorMessage,
   parseDocument,
   clearEphemeral,
+  onItems,
 }: UseChildTaskCollectionArgs<T, E>) => {
   const mapDocument = useCallback(
     (id: string, data: DocumentData) => parseDocument(id, data),
@@ -44,5 +46,6 @@ export const useChildTaskCollection = <T extends ChildTaskCollectionItem, E>({
     mapDocument,
     normalizeItems,
     onClear,
+    onItems,
   })
 }
