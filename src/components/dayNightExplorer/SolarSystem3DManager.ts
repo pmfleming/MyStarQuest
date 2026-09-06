@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { disposeSceneObject } from '../../lib/dayNightExplorer/disposeSceneObject'
 import type {
   ExplorerCityOption,
   ExplorerDisplayMode,
@@ -241,6 +242,7 @@ export default class SolarSystem3DManager {
   }
 
   dispose() {
+    if (this.disposed) return
     this.disposed = true
     document.removeEventListener(
       'visibilitychange',
@@ -252,14 +254,16 @@ export default class SolarSystem3DManager {
       this.animationFrameId = null
     }
 
-    this.renderer.dispose()
-    this.orbitLine.geometry.dispose()
-    this.orbitLine.material.dispose()
     if (this.earthTexture) {
       this.earthTexture.dispose()
+      this.earthTexture = null
     }
     this.monthLabelTextures.forEach((texture) => texture.dispose())
-    this.disposeObject(this.scene)
+    this.monthLabelTextures = []
+    disposeSceneObject(this.scene)
+    this.scene.clear()
+    this.cityVisuals = []
+    this.renderer.dispose()
   }
 
   private animate = () => {
@@ -391,12 +395,8 @@ export default class SolarSystem3DManager {
   }
 
   private rebuildCityMarkers(state: SolarSystemSceneState) {
-    while (this.cityMarkerGroup.children.length > 0) {
-      const child = this.cityMarkerGroup.children.at(-1)
-      if (!child) break
-      this.cityMarkerGroup.remove(child)
-      this.disposeObject(child)
-    }
+    disposeSceneObject(this.cityMarkerGroup)
+    this.cityMarkerGroup.clear()
 
     this.cityVisuals = state.cityOptions.map((city, index) => {
       const group = new THREE.Group()
@@ -638,12 +638,8 @@ export default class SolarSystem3DManager {
   }
 
   private rebuildMonthLabels(fontFamily: string) {
-    while (this.monthLabelGroup.children.length > 0) {
-      const child = this.monthLabelGroup.children.at(-1)
-      if (!child) break
-      this.monthLabelGroup.remove(child)
-      this.disposeObject(child)
-    }
+    disposeSceneObject(this.monthLabelGroup)
+    this.monthLabelGroup.clear()
     this.monthLabelTextures.forEach((texture) => texture.dispose())
     this.monthLabelTextures = []
 
@@ -726,22 +722,5 @@ export default class SolarSystem3DManager {
     this.earthMesh.material.map = texture
     this.earthMesh.material.color.set('#ffffff')
     this.earthMesh.material.needsUpdate = true
-  }
-
-  private disposeObject(object: THREE.Object3D) {
-    object.traverse((node: THREE.Object3D) => {
-      if (!(node instanceof THREE.Mesh)) return
-      const mesh = node
-      if (mesh.geometry) {
-        mesh.geometry.dispose()
-      }
-
-      const material = mesh.material
-      if (Array.isArray(material)) {
-        material.forEach((entry) => entry.dispose())
-      } else if (material) {
-        material.dispose()
-      }
-    })
   }
 }
