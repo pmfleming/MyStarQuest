@@ -43,12 +43,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (!loginSuccess) return
 
-    const redirectPath = getRedirectPath(location.state)
-    const timer = window.setTimeout(() => {
-      navigate(redirectPath, { replace: true })
-    }, 900)
-
-    return () => window.clearTimeout(timer)
+    navigate(getRedirectPath(location.state), { replace: true })
   }, [location.state, loginSuccess, navigate])
 
   const isBusy = loading || isLoggingIn || loginSuccess
