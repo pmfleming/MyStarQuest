@@ -25,8 +25,12 @@ const name = (value: string) =>
     .split('-')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
-const selectInsects = () =>
-  fireEvent.click(screen.getByRole('radio', { name: 'Insects' }))
+const selectInsects = async () => {
+  await act(async () => {
+    fireEvent.click(screen.getByRole('radio', { name: 'Insects' }))
+    await vi.dynamicImportSettled()
+  })
+}
 const clueImages = () =>
   ['HOME', 'FOOD', 'LOOKS'].map((category) =>
     screen
@@ -36,7 +40,7 @@ const clueImages = () =>
   )
 
 describe('Insect collection', () => {
-  it('has complete, individually illustrated creatures and matching bear abilities', () => {
+  it('has complete, individually illustrated creatures and matching bear abilities', async () => {
     const count = INSECT_KNOWLEDGE.length
     expect(count).toBeGreaterThan(0)
     expect(new Set(INSECT_KNOWLEDGE.map((item) => item.name)).size).toBe(count)
@@ -45,6 +49,14 @@ describe('Insect collection', () => {
       new Set(INSECT_KNOWLEDGE.map((item) => item.abilityImage)).size
     ).toBe(count)
     expect(INSECT_COLLECTION_NAMES.has('tarantula')).toBe(true)
+    expect(INSECT_COLLECTION_NAMES).toEqual(
+      new Set(
+        INSECT_KNOWLEDGE.flatMap((insect) => [
+          insect.name,
+          ...(insect.existing ? [insect.existing] : []),
+        ])
+      )
+    )
     for (const item of INSECT_KNOWLEDGE) {
       expect(item.homeImage).toBeTruthy()
       expect(item.foodIllustration).toBeTruthy()
@@ -56,7 +68,7 @@ describe('Insect collection', () => {
     }
   })
 
-  it('keeps the image selector accessible, including non-editable setup', () => {
+  it('keeps the image selector accessible, including non-editable setup', async () => {
     render(<AnimalTester {...props()} isEditable={false} />)
     const picker = screen.getByRole('radiogroup', {
       name: 'Creature collection',
@@ -64,16 +76,16 @@ describe('Insect collection', () => {
     expect(
       within(picker).getByRole('radio', { name: 'Animals' })
     ).toHaveAttribute('aria-checked', 'true')
-    selectInsects()
+    await selectInsects()
     expect(
       within(picker).getByRole('radio', { name: 'Insects' })
     ).toHaveAttribute('aria-checked', 'true')
   })
 
-  it('teaches all insects and toggles only Special to the princess bear', () => {
+  it('teaches all insects and toggles only Special to the princess bear', async () => {
     const p = props()
     const { rerender } = render(<AnimalTester {...p} />)
-    selectInsects()
+    await selectInsects()
     rerender(<AnimalTester {...p} isRunning />)
     expect(
       screen.getByRole('button', { name: 'Previous insect' })
@@ -109,10 +121,10 @@ describe('Insect collection', () => {
     expect(p.onComplete).not.toHaveBeenCalled()
   }, 15000)
 
-  it('resets navigation and Special when switching collections in Learn', () => {
+  it('resets navigation and Special when switching collections in Learn', async () => {
     const p = props()
     const { rerender } = render(<AnimalTester {...p} />)
-    selectInsects()
+    await selectInsects()
     rerender(<AnimalTester {...p} isRunning />)
     fireEvent.click(screen.getByRole('button', { name: 'Next insect' }))
     fireEvent.click(screen.getByRole('button', { name: /^SPECIAL:/ }))
@@ -123,7 +135,7 @@ describe('Insect collection', () => {
     ).toBeDisabled()
     fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
     expect(screen.getByAltText('Armadillo')).toBeInTheDocument()
-    selectInsects()
+    await selectInsects()
     expect(screen.getByAltText('Ant')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /^SPECIAL:/ })).toHaveAttribute(
       'aria-pressed',
@@ -133,12 +145,12 @@ describe('Insect collection', () => {
 
   it.each(['Easy', 'Hard'])(
     'plays %s solo rounds using only insect choices',
-    (difficulty) => {
+    async (difficulty) => {
       vi.useFakeTimers()
       try {
         const p = { ...props(), totalProblems: 1 }
         const { rerender } = render(<AnimalTester {...p} />)
-        selectInsects()
+        await selectInsects()
         fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
         fireEvent.click(screen.getByRole('radio', { name: difficulty }))
         rerender(<AnimalTester {...p} isRunning />)

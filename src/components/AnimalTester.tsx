@@ -1,35 +1,25 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import abilityImage from '../assets/animal-facts/ability.webp'
 import learnModeImage from '../assets/animal-mode-icons/learn.webp'
 import onePlayerModeImage from '../assets/animal-mode-icons/one-player.webp'
 import twoPlayersModeImage from '../assets/animal-mode-icons/two-players.webp'
 import teeniepingCollectionImage from '../assets/teenie/heart.webp'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
-import { getAnimalAbilityImage } from '../data/animalAbilityAssets'
-import { ANIMAL_ASSET_BY_NAME } from '../data/animalAssets'
+import animalCollection from '../data/creatureCollections/animals'
+import {
+  getLoadedCollection,
+  loadCollection,
+} from '../data/creatureCollections/loadCollection'
+import { TEENIEPING_COLLECTION_AVAILABLE } from '../data/creatureCollections/availability'
+import type {
+  CatalogAnimal,
+  CreatureCollection,
+  CreatureCollectionData,
+  VisualFact,
+} from '../data/creatureCollections/types'
+import animalCollectionImage from '../assets/animals/lion.webp'
+import insectCollectionImage from '../assets/animals/butterfly.webp'
 import { getAnimalCardLabel } from '../data/animalCardLabels'
-import { ANIMAL_FOOD_IMAGE_BY_NAME } from '../data/animalFoodAssets'
-import { ANIMAL_HABITAT_IMAGE_BY_NAME } from '../data/animalHabitatAssets'
-import { ANIMAL_LOCATIONS } from '../data/animalLocationAssets'
-import { getGenericAnimalAbilityImage } from '../data/genericAnimalAbilityAssets'
-import {
-  INSECT_COLLECTION_NAMES,
-  INSECT_KNOWLEDGE,
-  getInsectBearAbilityImage,
-  type InsectKnowledge,
-} from '../data/insectKnowledge'
-import {
-  TEENIEPING_CLUE_CATEGORIES,
-  TEENIEPING_ART_COMPLETE,
-  TEENIEPING_KNOWLEDGE,
-  type TeeniepingKnowledge,
-} from '../data/teeniepingKnowledge'
-import {
-  ANIMAL_KNOWLEDGE,
-  type AnimalFact,
-  type AnimalKnowledge,
-} from '../data/animalKnowledge'
 import { celebrateSuccess } from '../lib/celebrate'
 import { preloadImage } from '../lib/imageLoading'
 import {
@@ -59,12 +49,10 @@ const CLUE_REVEAL_INTERVAL_MS = 3000
 
 type AnimalMode = 'learn' | 'solo' | 'together'
 type AnimalDifficulty = 'easy' | 'hard'
-type CreatureCollection = 'animals' | 'insects' | 'teeniepings'
-
-type CatalogAnimal =
-  | (AnimalKnowledge & { kind: 'animal'; image: string })
-  | (InsectKnowledge & { kind: 'insect' })
-  | (TeeniepingKnowledge & { kind: 'teenieping' })
+const EMPTY_COLLECTION: CreatureCollectionData = {
+  catalog: [],
+  getTeachingFacts: () => [],
+}
 
 const COLLECTION_LABELS = {
   animals: 'Animal',
@@ -104,145 +92,12 @@ const formatAnimalName = (name: string) =>
 const shuffle = <T,>(items: readonly T[]) =>
   [...items].sort(() => Math.random() - 0.5)
 
-const ANIMAL_CATALOG: CatalogAnimal[] = ANIMAL_KNOWLEDGE.flatMap((animal) => {
-  if (INSECT_COLLECTION_NAMES.has(animal.name)) return []
-  const image = ANIMAL_ASSET_BY_NAME.get(animal.name)
-  return image ? [{ ...animal, image, kind: 'animal' as const }] : []
-})
-
-const INSECT_CATALOG: CatalogAnimal[] = INSECT_KNOWLEDGE.map((insect) => ({
-  ...insect,
-  kind: 'insect',
-}))
-const TEENIEPING_CATALOG: CatalogAnimal[] = TEENIEPING_KNOWLEDGE
-const COLLECTION_CATALOGS = {
-  animals: ANIMAL_CATALOG,
-  insects: INSECT_CATALOG,
-  teeniepings: TEENIEPING_CATALOG,
-}
-
 const getActiveAnimalOrder = (
   mode: AnimalMode,
   catalog: CatalogAnimal[],
   shuffledOrder: CatalogAnimal[],
   itemLimit: number
 ) => (mode === 'learn' ? catalog : shuffledOrder.slice(0, itemLimit))
-
-type VisualFact = AnimalFact & {
-  illustration?: string
-  illustrationFit?: 'cover' | 'contain'
-  word?: string
-  isAbility?: boolean
-  detailPosition?: string
-  detailScale?: number
-  wrapCaption?: boolean
-}
-
-const getLabelWord = (label: string) => {
-  const words = label.toLowerCase().split(/\s+/)
-  const word = words.at(-1) ?? label
-  return word.charAt(0).toUpperCase() + word.slice(1)
-}
-
-const getTeachingFacts = (
-  animal: CatalogAnimal,
-  themeId: ActivityChoreProps['theme']['id'],
-  useGenericAbilityImage = false
-): VisualFact[] => {
-  if (animal.kind === 'teenieping') {
-    return TEENIEPING_CLUE_CATEGORIES.map((category) => ({
-      label: category.toUpperCase(),
-      text: animal.clues[category],
-      word: animal.clues[category],
-      visual: '',
-      illustration: animal.clueImages[category],
-      illustrationFit: 'contain',
-      wrapCaption: true,
-    }))
-  }
-  if (animal.kind === 'insect') {
-    return [
-      {
-        label: 'HOME',
-        text: animal.home,
-        visual: '',
-        word: animal.home,
-        illustration: animal.homeImage,
-      },
-      {
-        label: 'FOOD',
-        text: animal.food,
-        visual: '',
-        word: animal.food,
-        illustration: animal.foodIllustration,
-      },
-      {
-        label: 'LOOKS',
-        text: animal.looks,
-        visual: '',
-        word: animal.looks,
-        illustration: animal.image,
-        illustrationFit: animal.looksScale === 1 ? 'contain' : 'cover',
-        detailPosition: animal.looksPosition,
-        detailScale: animal.looksScale,
-      },
-      {
-        label: 'SPECIAL',
-        text: animal.abilityText,
-        visual: '',
-        word: animal.ability,
-        isAbility: true,
-        illustration: useGenericAbilityImage
-          ? getInsectBearAbilityImage(themeId, animal.bear)
-          : animal.abilityImage,
-        illustrationFit: 'contain',
-      },
-    ]
-  }
-  const locationFact = animal.habitat[0]
-  const environmentFact = animal.habitat[1]
-  const foodFact = animal.food[1]
-  const abilityFact = animal.abilities[0]
-
-  if (!locationFact || !environmentFact || !foodFact || !abilityFact) {
-    throw new Error(`Animal knowledge is incomplete for ${animal.name}`)
-  }
-
-  return [
-    {
-      ...locationFact,
-      label: 'LOCATION',
-      illustration: ANIMAL_LOCATIONS[animal.locationCategory].image,
-      word: ANIMAL_LOCATIONS[animal.locationCategory].label,
-      illustrationFit: 'contain',
-    },
-    {
-      ...environmentFact,
-      label: 'ENVIRONMENT',
-      illustration: ANIMAL_HABITAT_IMAGE_BY_NAME[animal.habitatCategory],
-      illustrationFit: 'contain',
-      word: animal.habitatCategory,
-    },
-    {
-      ...foodFact,
-      label: 'FOOD',
-      illustration: ANIMAL_FOOD_IMAGE_BY_NAME[animal.foodCategory],
-      illustrationFit: 'contain',
-      word: animal.foodCategory,
-    },
-    {
-      ...abilityFact,
-      label: 'ABILITY',
-      isAbility: true,
-      illustration: useGenericAbilityImage
-        ? (getGenericAnimalAbilityImage(themeId, abilityFact.label) ??
-          abilityImage)
-        : (getAnimalAbilityImage(animal.name) ?? abilityImage),
-      illustrationFit: useGenericAbilityImage ? 'contain' : 'cover',
-      word: getLabelWord(abilityFact.label),
-    },
-  ]
-}
 
 const FactCard = ({
   fact,
@@ -625,6 +480,7 @@ const TwoPlayerProgressButton = ({
 )
 
 type AnimalPlayContentProps = {
+  getTeachingFacts: CreatureCollectionData['getTeachingFacts']
   mode: AnimalMode
   difficulty: AnimalDifficulty
   isGenericLearnAbilityShown: boolean
@@ -646,6 +502,7 @@ type AnimalPlayContentProps = {
 }
 
 const AnimalPlayContent = ({
+  getTeachingFacts,
   mode,
   difficulty,
   isGenericLearnAbilityShown,
@@ -806,11 +663,24 @@ const AnimalTester = ({
   failureModeEnabled = true,
 }: AnimalTesterProps) => {
   const [collection, setCollection] = useState<CreatureCollection>('animals')
-  const catalog = COLLECTION_CATALOGS[collection]
+  const [loadedCollection, setLoadedCollection] = useState({
+    id: 'animals' as CreatureCollection,
+    data: animalCollection,
+  })
+  const [collectionError, setCollectionError] = useState<string | null>(null)
+  const collectionRequest = useRef(0)
+  const { catalog, getTeachingFacts } =
+    loadedCollection.id === collection
+      ? loadedCollection.data
+      : EMPTY_COLLECTION
+  const isCollectionLoading =
+    loadedCollection.id !== collection && !collectionError
   const collectionLabel = COLLECTION_LABELS[collection]
   const [mode, setMode] = useState<AnimalMode>('learn')
   const [difficulty, setDifficulty] = useState<AnimalDifficulty>('easy')
-  const [animalOrder, setAnimalOrder] = useState(() => shuffle(ANIMAL_CATALOG))
+  const [animalOrder, setAnimalOrder] = useState(() =>
+    shuffle(animalCollection.catalog)
+  )
   const [animalIndex, setAnimalIndex] = useState(0)
   const [results, setResults] = useState<ActivityResult[]>([])
   const [leavingChoice, setLeavingChoice] = useState<string | null>(null)
@@ -852,7 +722,7 @@ const AnimalTester = ({
     for (const fact of getTeachingFacts(nextAnimal, theme.id)) {
       if (fact.illustration) preloadImage(fact.illustration)
     }
-  }, [isFinished, isRunning, nextAnimal, theme.id])
+  }, [getTeachingFacts, isFinished, isRunning, nextAnimal, theme.id])
 
   const answerChoices = useMemo(() => {
     if (!animal) return []
@@ -883,11 +753,39 @@ const AnimalTester = ({
     setIsGenericLearnAbilityShown(false)
   }, [catalog])
 
+  useEffect(
+    () => () => {
+      collectionRequest.current += 1
+    },
+    []
+  )
+
+  const collectionLocked = isRunning && mode !== 'learn' && catalog.length > 0
   const changeCollection = (next: CreatureCollection) => {
-    if (next === collection || (isRunning && mode !== 'learn')) return
+    if (next === collection && !collectionError) return
+    if (collectionLocked && next !== collection) return
+    const request = ++collectionRequest.current
     resetPlayState()
-    setAnimalOrder(shuffle(COLLECTION_CATALOGS[next]))
     setCollection(next)
+    setCollectionError(null)
+    const cached = getLoadedCollection(next)
+    if (cached) {
+      setLoadedCollection({ id: next, data: cached })
+      setAnimalOrder(shuffle(cached.catalog))
+      return
+    }
+
+    setAnimalOrder([])
+    void loadCollection(next)
+      .then((data) => {
+        if (request !== collectionRequest.current) return
+        setLoadedCollection({ id: next, data })
+        setAnimalOrder(shuffle(data.catalog))
+      })
+      .catch(() => {
+        if (request !== collectionRequest.current) return
+        setCollectionError('Pictures could not be loaded. Please try again.')
+      })
   }
 
   useEffect(() => {
@@ -940,7 +838,7 @@ const AnimalTester = ({
     }, CLUE_REVEAL_INTERVAL_MS)
 
     return () => clearInterval(timer)
-  }, [animal, isFinished, isRunning, mode, theme.id])
+  }, [animal, getTeachingFacts, isFinished, isRunning, mode, theme.id])
 
   useEffect(
     () => () => {
@@ -1003,24 +901,38 @@ const AnimalTester = ({
           {
             value: 'animals',
             label: 'Animals',
-            icon: ANIMAL_ASSET_BY_NAME.get('lion'),
-            disabled: isRunning && mode !== 'learn',
+            icon: animalCollectionImage,
+            disabled: collectionLocked,
           },
           {
             value: 'insects',
             label: 'Insects',
-            icon: ANIMAL_ASSET_BY_NAME.get('butterfly'),
-            disabled: isRunning && mode !== 'learn',
+            icon: insectCollectionImage,
+            disabled: collectionLocked,
           },
           {
             value: 'teeniepings',
             label: 'Teeniepings',
             icon: teeniepingCollectionImage,
-            disabled:
-              !TEENIEPING_ART_COMPLETE || (isRunning && mode !== 'learn'),
+            disabled: !TEENIEPING_COLLECTION_AVAILABLE || collectionLocked,
           },
         ]}
       />
+      {isCollectionLoading && (
+        <p role="status">Loading {collectionLabel.toLowerCase()} pictures…</p>
+      )}
+      {collectionError && (
+        <div role="alert">
+          <p>{collectionError}</p>
+          <ActionButton
+            theme={theme}
+            label="Try again"
+            icon={null}
+            color={theme.colors.primary}
+            onClick={() => changeCollection(collection)}
+          />
+        </div>
+      )}
       {isSetup && !isEditable && (
         <div
           style={{
@@ -1094,6 +1006,7 @@ const AnimalTester = ({
           showResultBar={mode === 'solo'}
         >
           <AnimalPlayContent
+            getTeachingFacts={getTeachingFacts}
             mode={mode}
             difficulty={difficulty}
             isGenericLearnAbilityShown={isGenericLearnAbilityShown}

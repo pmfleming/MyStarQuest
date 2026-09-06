@@ -70,11 +70,4 @@ export const getInsectBearAbilityImage = (theme: ThemeId, ability: string) =>
     `${ability} princess bear`
   )
 
-// This game collection includes the user-requested spiders as well as insects.
-// Exclude both collection names and reused-art aliases from the Animals game.
-export const INSECT_COLLECTION_NAMES = new Set(
-  profiles.flatMap((profile) => [
-    profile.name,
-    ...(profile.existing ? [profile.existing] : []),
-  ])
-)
+export { INSECT_COLLECTION_NAMES } from './creatureCollections/insectCollectionNames'

@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import AnimalTester from '../../src/components/AnimalTester'
+import { TEENIEPING_COLLECTION_AVAILABLE } from '../../src/data/creatureCollections/availability'
 import { themes } from '../../src/contexts/ThemeContext'
 import {
   TEENIEPING_ART_COMPLETE,
@@ -20,15 +21,20 @@ const props = () => ({
   onComplete: vi.fn(),
   onExit: vi.fn(),
 })
-const selectTeeniepings = () =>
-  fireEvent.click(screen.getByRole('radio', { name: 'Teeniepings' }))
+const selectTeeniepings = async () => {
+  await act(async () => {
+    fireEvent.click(screen.getByRole('radio', { name: 'Teeniepings' }))
+    await vi.dynamicImportSettled()
+  })
+}
 
 describe('Teenieping collection', () => {
-  it('accounts for every portrait with four distinct illustrated clues', () => {
+  it('accounts for every portrait with four distinct illustrated clues', async () => {
     const portraits = import.meta.glob('../../src/assets/teenie/*.webp')
     expect(TEENIEPING_KNOWLEDGE).toHaveLength(Object.keys(portraits).length)
     expect(TEENIEPING_KNOWLEDGE).toHaveLength(84)
     expect(TEENIEPING_ART_COMPLETE).toBe(true)
+    expect(TEENIEPING_COLLECTION_AVAILABLE).toBe(TEENIEPING_ART_COMPLETE)
     const images = TEENIEPING_KNOWLEDGE.flatMap((item) =>
       TEENIEPING_CLUE_CATEGORIES.map((category) => {
         expect(item.clues[category].length).toBeGreaterThan(0)
@@ -39,11 +45,11 @@ describe('Teenieping collection', () => {
     expect(new Set(images).size).toBe(336)
   })
 
-  it('teaches four picture clues and resets when switching collections', () => {
+  it('teaches four picture clues and resets when switching collections', async () => {
     const p = props()
     const { rerender } = render(<AnimalTester {...p} />)
     expect(screen.getByRole('radio', { name: 'Teeniepings' })).toBeEnabled()
-    selectTeeniepings()
+    await selectTeeniepings()
     rerender(<AnimalTester {...p} isRunning />)
     expect(screen.getByAltText('Artping')).toBeInTheDocument()
     const art = TEENIEPING_KNOWLEDGE[0]
@@ -60,7 +66,7 @@ describe('Teenieping collection', () => {
     expect(screen.getByAltText('Auroraping')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('radio', { name: 'Animals' }))
     expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
-    selectTeeniepings()
+    await selectTeeniepings()
     expect(screen.getByAltText('Artping')).toBeInTheDocument()
     expect(
       screen.getByRole('button', { name: 'Previous teenieping' })
@@ -72,12 +78,12 @@ describe('Teenieping collection', () => {
     ['Hard', 6],
   ] as const)(
     'plays %s with %i choices and reveals appearance last',
-    (difficulty, choiceCount) => {
+    async (difficulty, choiceCount) => {
       vi.useFakeTimers()
       try {
         const p = props()
         const { rerender } = render(<AnimalTester {...p} />)
-        selectTeeniepings()
+        await selectTeeniepings()
         fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
         fireEvent.click(screen.getByRole('radio', { name: difficulty }))
         rerender(<AnimalTester {...p} isRunning />)
@@ -126,10 +132,10 @@ describe('Teenieping collection', () => {
     }
   )
 
-  it('supports two-player reveal and finish', () => {
+  it('supports two-player reveal and finish', async () => {
     const p = props()
     const { rerender } = render(<AnimalTester {...p} />)
-    selectTeeniepings()
+    await selectTeeniepings()
     fireEvent.click(screen.getByRole('radio', { name: '2 Players' }))
     rerender(<AnimalTester {...p} isRunning />)
     expect(screen.getAllByLabelText(/^(LOOKS|PROP|THEME|MAGIC):/)).toHaveLength(
