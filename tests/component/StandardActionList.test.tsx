@@ -9,6 +9,7 @@ import {
 import type { ComponentProps } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import StandardActionList from '../../src/components/ui/StandardActionList'
+import ImageStarFrame from '../../src/components/ui/ImageStarFrame'
 import { themes } from '../../src/contexts/ThemeContext'
 
 type Item = { id: string; title: string }
@@ -47,6 +48,25 @@ afterEach(() => {
 })
 
 describe('StandardActionList card contract', () => {
+  it('loads the first overview eagerly while keeping later card artwork lazy', () => {
+    renderList({
+      items: [item, { id: 'animals-1', title: 'Animals' }],
+      renderItem: (value) => (
+        <ImageStarFrame
+          theme={themes.princess}
+          image={`/${value.id}.webp`}
+          imageAlt={value.title}
+          starCount={3}
+        />
+      ),
+    })
+    expect(screen.getByAltText('Arithmetic')).toHaveAttribute(
+      'loading',
+      'eager'
+    )
+    expect(screen.getByAltText('Animals')).toHaveAttribute('loading', 'lazy')
+  })
+
   it('renders accessible card regions and hides configured actions', () => {
     renderList()
 

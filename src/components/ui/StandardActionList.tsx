@@ -7,6 +7,7 @@ import {
   getStandardActionVariantStyle,
 } from './standardActionStyles'
 import CardShell from './CardShell'
+import { ImageLoadingContext } from './ImageLoadingContext'
 import { useAsyncAction } from './useAsyncAction'
 import {
   ActionSpinner,
@@ -193,7 +194,11 @@ const ActionCard = <T,>({
       variant={isItemHighlighted ? 'highlighted' : 'default'}
       className={`whimsical-card ${hidePrimaryButton ? 'standard-card-primary-hidden' : ''} ${isExiting ? 'whimsical-card-exiting' : ''}`}
       header={renderHeader?.(item)}
-      body={renderItem(item)}
+      body={
+        <ImageLoadingContext value={index === 0 ? 'eager' : 'lazy'}>
+          {renderItem(item)}
+        </ImageLoadingContext>
+      }
       status={
         starCount !== undefined || actionError ? (
           <>

@@ -31,6 +31,7 @@ import {
   type AnimalKnowledge,
 } from '../data/animalKnowledge'
 import { celebrateSuccess } from '../lib/celebrate'
+import { preloadImage } from '../lib/imageLoading'
 import {
   getActivityMistakeUpdate,
   getActivityOutcome,
@@ -286,6 +287,7 @@ const FactCard = ({
         <img
           data-animal-fact-image
           src={fact.illustration}
+          decoding="async"
           alt=""
           style={{
             position: 'absolute',
@@ -425,6 +427,7 @@ const AnimalPortrait = ({
   >
     <img
       src={animal.image}
+      decoding="async"
       alt={showName ? formatAnimalName(animal.name) : `Mystery ${animal.kind}`}
       style={{
         width: '100%',
@@ -769,6 +772,7 @@ const AnimalPlayContent = ({
               >
                 <img
                   src={choice.image}
+                  decoding="async"
                   alt=""
                   style={{ width: '100%', height: 84, objectFit: 'contain' }}
                 />
@@ -838,7 +842,18 @@ const AnimalTester = ({
     itemLimit
   )
   const animal = activeAnimalOrder[animalIndex]
+  const nextAnimal = activeAnimalOrder[animalIndex + 1]
   const isLastAnimal = animalIndex + 1 >= activeAnimalOrder.length
+
+  useEffect(() => {
+    if (!isRunning || isFinished || !nextAnimal) return
+    // Warm only the next round, with low fetch priority so current art wins.
+    preloadImage(nextAnimal.image)
+    for (const fact of getTeachingFacts(nextAnimal, theme.id)) {
+      if (fact.illustration) preloadImage(fact.illustration)
+    }
+  }, [isFinished, isRunning, nextAnimal, theme.id])
+
   const answerChoices = useMemo(() => {
     if (!animal) return []
     const alternatives = shuffle(
