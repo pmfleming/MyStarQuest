@@ -3,6 +3,7 @@ import abilityImage from '../assets/animal-facts/ability.webp'
 import learnModeImage from '../assets/animal-mode-icons/learn.webp'
 import onePlayerModeImage from '../assets/animal-mode-icons/one-player.webp'
 import twoPlayersModeImage from '../assets/animal-mode-icons/two-players.webp'
+import teeniepingCollectionImage from '../assets/teenie/heart.webp'
 import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
 import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { getAnimalAbilityImage } from '../data/animalAbilityAssets'
@@ -18,6 +19,12 @@ import {
   getInsectBearAbilityImage,
   type InsectKnowledge,
 } from '../data/insectKnowledge'
+import {
+  TEENIEPING_CLUE_CATEGORIES,
+  TEENIEPING_ART_COMPLETE,
+  TEENIEPING_KNOWLEDGE,
+  type TeeniepingKnowledge,
+} from '../data/teeniepingKnowledge'
 import {
   ANIMAL_KNOWLEDGE,
   type AnimalFact,
@@ -51,11 +58,18 @@ const CLUE_REVEAL_INTERVAL_MS = 3000
 
 type AnimalMode = 'learn' | 'solo' | 'together'
 type AnimalDifficulty = 'easy' | 'hard'
-type CreatureCollection = 'animals' | 'insects'
+type CreatureCollection = 'animals' | 'insects' | 'teeniepings'
 
 type CatalogAnimal =
   | (AnimalKnowledge & { kind: 'animal'; image: string })
   | (InsectKnowledge & { kind: 'insect' })
+  | (TeeniepingKnowledge & { kind: 'teenieping' })
+
+const COLLECTION_LABELS = {
+  animals: 'Animal',
+  insects: 'Insect',
+  teeniepings: 'Teenieping',
+}
 
 const MODE_OPTIONS = [
   {
@@ -99,7 +113,12 @@ const INSECT_CATALOG: CatalogAnimal[] = INSECT_KNOWLEDGE.map((insect) => ({
   ...insect,
   kind: 'insect',
 }))
-const COLLECTION_CATALOGS = { animals: ANIMAL_CATALOG, insects: INSECT_CATALOG }
+const TEENIEPING_CATALOG: CatalogAnimal[] = TEENIEPING_KNOWLEDGE
+const COLLECTION_CATALOGS = {
+  animals: ANIMAL_CATALOG,
+  insects: INSECT_CATALOG,
+  teeniepings: TEENIEPING_CATALOG,
+}
 
 const getActiveAnimalOrder = (
   mode: AnimalMode,
@@ -115,6 +134,7 @@ type VisualFact = AnimalFact & {
   isAbility?: boolean
   detailPosition?: string
   detailScale?: number
+  wrapCaption?: boolean
 }
 
 const getLabelWord = (label: string) => {
@@ -128,6 +148,17 @@ const getTeachingFacts = (
   themeId: ActivityChoreProps['theme']['id'],
   useGenericAbilityImage = false
 ): VisualFact[] => {
+  if (animal.kind === 'teenieping') {
+    return TEENIEPING_CLUE_CATEGORIES.map((category) => ({
+      label: category.toUpperCase(),
+      text: animal.clues[category],
+      word: animal.clues[category],
+      visual: '',
+      illustration: animal.clueImages[category],
+      illustrationFit: 'contain',
+      wrapCaption: true,
+    }))
+  }
   if (animal.kind === 'insect') {
     return [
       {
@@ -245,6 +276,9 @@ const FactCard = ({
         isolation: 'isolate',
         overflow: 'hidden',
         textAlign: 'center',
+        ...(fact.wrapCaption
+          ? { display: 'flex', flexDirection: 'column' as const }
+          : {}),
         cursor: onClick ? 'pointer' : undefined,
       }}
     >
@@ -259,6 +293,17 @@ const FactCard = ({
             width: '100%',
             height: '100%',
             objectFit: fact.illustrationFit ?? 'cover',
+            ...(fact.wrapCaption
+              ? {
+                  position: 'relative' as const,
+                  inset: 'auto',
+                  flex: 1,
+                  height: 0,
+                  minHeight: 0,
+                  boxSizing: 'border-box' as const,
+                  padding: 8,
+                }
+              : {}),
             ...(fact.detailPosition
               ? {
                   objectPosition: fact.detailPosition,
@@ -303,7 +348,14 @@ const FactCard = ({
             color: theme.colors.text,
             lineHeight: 1.1,
             overflow: 'hidden',
-            whiteSpace: 'nowrap',
+            whiteSpace: fact.wrapCaption ? 'normal' : 'nowrap',
+            ...(fact.wrapCaption
+              ? {
+                  position: 'relative' as const,
+                  flexShrink: 0,
+                  fontSize: 'clamp(0.66rem, 2.4vw, 0.9rem)',
+                }
+              : {}),
           }}
         >
           {getAnimalCardLabel(fact.word)}
@@ -610,6 +662,18 @@ const AnimalPlayContent = ({
   onToggleAnimal,
   onToggleLearnAbility,
 }: AnimalPlayContentProps) => {
+  const teachingFacts = getTeachingFacts(
+    animal,
+    theme.id,
+    difficulty === 'hard'
+  )
+  // Keep the appearance detail until last, so it does not reveal the answer first.
+  const soloFacts =
+    animal.kind === 'teenieping'
+      ? ['THEME', 'PROP', 'MAGIC', 'LOOKS'].flatMap((label) =>
+          teachingFacts.filter((fact) => fact.label === label)
+        )
+      : teachingFacts
   if (mode === 'learn') {
     return (
       <>
@@ -657,17 +721,9 @@ const AnimalPlayContent = ({
 
   return (
     <>
-      <FactGrid
-        facts={getTeachingFacts(animal, theme.id, difficulty === 'hard').slice(
-          0,
-          visibleSoloClues
-        )}
-        theme={theme}
-      />
+      <FactGrid facts={soloFacts.slice(0, visibleSoloClues)} theme={theme} />
       <div
-        aria-label={
-          animal.kind === 'insect' ? 'Insect choices' : 'Animal choices'
-        }
+        aria-label={`${formatAnimalName(animal.kind)} choices`}
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
@@ -747,6 +803,7 @@ const AnimalTester = ({
 }: AnimalTesterProps) => {
   const [collection, setCollection] = useState<CreatureCollection>('animals')
   const catalog = COLLECTION_CATALOGS[collection]
+  const collectionLabel = COLLECTION_LABELS[collection]
   const [mode, setMode] = useState<AnimalMode>('learn')
   const [difficulty, setDifficulty] = useState<AnimalDifficulty>('easy')
   const [animalOrder, setAnimalOrder] = useState(() => shuffle(ANIMAL_CATALOG))
@@ -785,10 +842,18 @@ const AnimalTester = ({
   const answerChoices = useMemo(() => {
     if (!animal) return []
     const alternatives = shuffle(
-      catalog.filter((candidate) => candidate.name !== animal.name)
-    ).slice(0, 2)
+      catalog.filter(
+        (candidate) =>
+          candidate.name !== animal.name &&
+          !(
+            animal.kind === 'teenieping' &&
+            candidate.kind === 'teenieping' &&
+            candidate.identity === animal.identity
+          )
+      )
+    ).slice(0, animal.kind === 'teenieping' && difficulty === 'hard' ? 5 : 2)
     return shuffle([animal, ...alternatives])
-  }, [animal, catalog])
+  }, [animal, catalog, difficulty])
 
   const resetPlayState = useCallback(() => {
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
@@ -906,7 +971,7 @@ const AnimalTester = ({
       isSuccessState={isSuccessState}
       completionImage={completionImage}
       failureImage={failureImage}
-      successAlt={`Amazing ${collection === 'insects' ? 'insect' : 'animal'} explorer!`}
+      successAlt={`Amazing ${collectionLabel.toLowerCase()} explorer!`}
       failureAlt={`Let's learn some more ${collection}!`}
       className="flex w-full flex-col items-center"
     >
@@ -932,6 +997,13 @@ const AnimalTester = ({
             icon: ANIMAL_ASSET_BY_NAME.get('butterfly'),
             disabled: isRunning && mode !== 'learn',
           },
+          {
+            value: 'teeniepings',
+            label: 'Teeniepings',
+            icon: teeniepingCollectionImage,
+            disabled:
+              !TEENIEPING_ART_COMPLETE || (isRunning && mode !== 'learn'),
+          },
         ]}
       />
       {isSetup && !isEditable && (
@@ -949,9 +1021,7 @@ const AnimalTester = ({
             value={mode}
             options={MODE_OPTIONS}
             onChange={setMode}
-            ariaLabel={
-              collection === 'insects' ? 'Insect game mode' : 'Animal game mode'
-            }
+            ariaLabel={`${collectionLabel} game mode`}
           />
           {mode === 'solo' && (
             <CrownDifficultyControl
@@ -959,11 +1029,7 @@ const AnimalTester = ({
               value={difficulty}
               options={ANIMAL_DIFFICULTIES}
               onChange={setDifficulty}
-              ariaLabel={
-                collection === 'insects'
-                  ? 'Insect difficulty'
-                  : 'Animal difficulty'
-              }
+              ariaLabel={`${collectionLabel} difficulty`}
             />
           )}
         </div>
@@ -988,11 +1054,7 @@ const AnimalTester = ({
               value={mode}
               options={MODE_OPTIONS}
               onChange={setMode}
-              ariaLabel={
-                collection === 'insects'
-                  ? 'Insect game mode'
-                  : 'Animal game mode'
-              }
+              ariaLabel={`${collectionLabel} game mode`}
             />
             {mode === 'solo' && (
               <CrownDifficultyControl
@@ -1000,11 +1062,7 @@ const AnimalTester = ({
                 value={difficulty}
                 options={ANIMAL_DIFFICULTIES}
                 onChange={setDifficulty}
-                ariaLabel={
-                  collection === 'insects'
-                    ? 'Insect difficulty'
-                    : 'Animal difficulty'
-                }
+                ariaLabel={`${collectionLabel} difficulty`}
               />
             )}
           </>
