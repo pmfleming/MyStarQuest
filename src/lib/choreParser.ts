@@ -226,6 +226,10 @@ export function parseTestSnapshot(
 ): TestRecord | null {
   const task = parseTaskSnapshot(id, normalizeTestSnapshotData(data))
   if (!task || !isTestRecord(task)) return null
+  // Apply the renamed default to saved games while preserving custom titles.
+  if (task.taskType === 'animals' && task.title === 'Animals') {
+    return { ...task, title: 'Who am I?' }
+  }
   return task
 }
 

@@ -1,7 +1,7 @@
 import { type CSSProperties } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { useTheme } from '../contexts/ThemeContext'
-import { getTabIdForPath } from '../lib/tabNavigation'
+import { getTabIcon, getTabIdForPath } from '../lib/tabNavigation'
 import { uiTokens } from '../tokens'
 import BottomNav from '../components/ui/BottomNav'
 import { AppDeviceFrame } from '../components/AppDeviceFrame'
@@ -40,7 +40,7 @@ const AnimatedTabLayout = () => {
           className="h-full w-full min-w-0"
           style={tabTransitionStyle}
         >
-          <TabPageBoundary>
+          <TabPageBoundary loadingIcon={getTabIcon(activeTabId ?? 'chores')}>
             <Outlet />
           </TabPageBoundary>
         </div>

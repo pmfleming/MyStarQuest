@@ -106,7 +106,9 @@ describe.each([false, true])(
     it('shows loading feedback and keeps tabs usable while the next page downloads', async () => {
       const pendingPage = renderTabs()
       fireEvent.click(screen.getByRole('button', { name: 'Tests tab' }))
-      expect(await screen.findByRole('status')).toHaveTextContent('Loading')
+      const loadingIcon = await screen.findByRole('status')
+      expect(loadingIcon).toHaveAccessibleName('Loading page')
+      expect(loadingIcon).toHaveTextContent('')
       expect(
         screen.getByRole('navigation', { name: 'Primary tabs' })
       ).toBeVisible()

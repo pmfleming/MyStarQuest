@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
 import { StandardIconImage } from './IconActionControls'
+import ResourceLoadingIcon from './ResourceLoadingIcon'
 
 export type SegmentedChoiceOption<TValue extends string> = {
   value: TValue
@@ -9,6 +10,7 @@ export type SegmentedChoiceOption<TValue extends string> = {
   icon?: string
   symbol?: ReactNode
   disabled?: boolean
+  loading?: boolean
 }
 
 type SegmentedChoiceControlProps<TValue extends string> = {
@@ -63,6 +65,7 @@ const SegmentedChoiceControl = <TValue extends string>({
           role="radio"
           aria-checked={isSelected}
           aria-label={option.label}
+          aria-busy={option.loading || undefined}
           disabled={option.disabled}
           onClick={() => onChange(option.value)}
           style={{
@@ -93,7 +96,14 @@ const SegmentedChoiceControl = <TValue extends string>({
             opacity: option.disabled ? 0.55 : undefined,
           }}
         >
-          {option.icon ? (
+          {option.icon && option.loading !== undefined ? (
+            <ResourceLoadingIcon
+              src={option.icon}
+              loading={option.loading}
+              label={`Loading ${option.label}`}
+              size={uiTokens.listActionHeight - 24}
+            />
+          ) : option.icon ? (
             <StandardIconImage
               src={option.icon}
               fit="contain"

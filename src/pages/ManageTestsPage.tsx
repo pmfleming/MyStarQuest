@@ -24,7 +24,7 @@ const testChoices: Array<[TestChoiceKey, string, string]> = [
   ['pv', 'Positional Notation', getPrincessTaskTypeIcon('positional-notation')],
   ['alphabet', 'Alphabet Match', getPrincessTaskTypeIcon('alphabet')],
   ['spelling', 'Spelling', getPrincessTaskTypeIcon('spelling')],
-  ['animals', 'Animals', getPrincessTaskTypeIcon('animals')],
+  ['animals', 'Who am I?', getPrincessTaskTypeIcon('animals')],
 ]
 
 const ManageTestsPage = () => {

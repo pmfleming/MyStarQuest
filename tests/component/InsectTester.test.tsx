@@ -154,7 +154,9 @@ describe('Insect collection', () => {
         fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
         fireEvent.click(screen.getByRole('radio', { name: difficulty }))
         rerender(<AnimalTester {...p} isRunning />)
-        expect(screen.getByRole('radio', { name: 'Animals' })).toBeDisabled()
+        expect(
+          screen.queryByRole('radiogroup', { name: 'Creature collection' })
+        ).not.toBeInTheDocument()
         expect(screen.getByLabelText(/^HOME:/)).toBeInTheDocument()
         expect(screen.queryByLabelText(/^SPECIAL:/)).not.toBeInTheDocument()
         act(() => vi.advanceTimersByTime(9000))

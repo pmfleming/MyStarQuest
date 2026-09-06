@@ -1,6 +1,7 @@
 import { Component, Suspense, type ErrorInfo, type ReactNode } from 'react'
+import ResourceLoadingIcon from '../components/ui/ResourceLoadingIcon'
 
-type Props = { children: ReactNode }
+type Props = { children: ReactNode; loadingIcon: string }
 
 class TabPageBoundary extends Component<Props, { hasError: boolean }> {
   state = { hasError: false }
@@ -36,11 +37,12 @@ class TabPageBoundary extends Component<Props, { hasError: boolean }> {
     return (
       <Suspense
         fallback={
-          <div
-            role="status"
-            className="flex h-full items-center justify-center px-6 pb-32 text-lg font-bold"
-          >
-            Loading page…
+          <div className="flex h-full items-center justify-center px-6 pb-32 text-lg font-bold">
+            <ResourceLoadingIcon
+              src={this.props.loadingIcon}
+              loading
+              label="Loading page"
+            />
           </div>
         }
       >

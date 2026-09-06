@@ -7,6 +7,9 @@ import teeniepings from '../../src/data/creatureCollections/teeniepings'
 import type { CreatureCollectionData } from '../../src/data/creatureCollections/types'
 import { themes } from '../../src/contexts/ThemeContext'
 
+import teeniepingIcon from '../../src/assets/teenie/heart.webp'
+import insectIcon from '../../src/assets/animals/butterfly.webp'
+
 const loadCollection = vi.hoisted(() => vi.fn())
 vi.mock('../../src/data/creatureCollections/loadCollection', () => ({
   loadCollection,
@@ -34,6 +37,38 @@ const deferred = () => {
 
 beforeEach(() => loadCollection.mockReset())
 
+it.each([
+  ['Teeniepings', teeniepingIcon, 'teenieping'],
+  ['Insects', insectIcon, 'insect'],
+])(
+  'uses collection artwork for Next and Finish in %s games',
+  async (collection, icon, kind) => {
+    loadCollection.mockResolvedValue(
+      collection === 'Insects' ? insects : teeniepings
+    )
+    const p = props()
+    const { rerender } = render(<AnimalTester {...p} isRunning={false} />)
+    await act(async () =>
+      fireEvent.click(screen.getByRole('radio', { name: collection }))
+    )
+    fireEvent.click(screen.getByRole('radio', { name: '2 Players' }))
+    rerender(<AnimalTester {...p} />)
+    expect(
+      screen.queryByRole('radiogroup', { name: 'Creature collection' })
+    ).not.toBeInTheDocument()
+    const next = screen.getByRole('button', { name: `Next ${kind}` })
+    expect(next.querySelector('img')).toHaveAttribute('src', icon)
+    fireEvent.click(next)
+    expect(
+      screen.getByRole('button', { name: 'Finish game' }).querySelector('img')
+    ).toHaveAttribute('src', icon)
+    rerender(<AnimalTester {...p} isRunning={false} />)
+    expect(
+      screen.getByRole('radiogroup', { name: 'Creature collection' })
+    ).toBeVisible()
+  }
+)
+
 it('loads on selection and ignores a late response for an older selection', async () => {
   const insectRequest = deferred()
   const teenieRequest = deferred()
@@ -44,15 +79,19 @@ it('loads on selection and ignores a late response for an older selection', asyn
   expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
   expect(loadCollection).not.toHaveBeenCalled()
   fireEvent.click(screen.getByRole('radio', { name: 'Insects' }))
-  expect(screen.getByRole('status')).toHaveTextContent(
-    'Loading insect pictures'
+  expect(screen.getByRole('status')).toHaveAccessibleName('Loading Insects')
+  expect(screen.getByRole('status')).toHaveTextContent('')
+  expect(screen.getByRole('radio', { name: 'Insects' })).toHaveAttribute(
+    'aria-busy',
+    'true'
   )
   fireEvent.click(screen.getByRole('radio', { name: 'Teeniepings' }))
   await act(async () => {
     insectRequest.resolve(insects)
   })
-  expect(screen.getByRole('status')).toHaveTextContent(
-    'Loading teenieping pictures'
+  expect(screen.getByRole('status')).toHaveAccessibleName('Loading Teeniepings')
+  expect(screen.getByRole('radio', { name: 'Insects' })).not.toHaveAttribute(
+    'aria-busy'
   )
   expect(screen.queryByAltText('Ant')).not.toBeInTheDocument()
   await act(async () => {
@@ -60,6 +99,9 @@ it('loads on selection and ignores a late response for an older selection', asyn
   })
   expect(screen.getByAltText('Artping')).toBeInTheDocument()
   expect(screen.queryByRole('status')).not.toBeInTheDocument()
+  expect(
+    screen.getByRole('radio', { name: 'Teeniepings' })
+  ).not.toHaveAttribute('aria-busy')
 })
 
 it('lets a failed collection retry without awarding or finishing a game', async () => {
@@ -90,11 +132,16 @@ it('can start a solo game while the selected collection is still loading', async
   fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
   rerender(<AnimalTester {...p} />)
   expect(screen.getByRole('status')).toBeInTheDocument()
+  expect(
+    screen.queryByRole('radiogroup', { name: 'Creature collection' })
+  ).not.toBeInTheDocument()
   await act(async () => {
     request.resolve(insects)
   })
   expect(screen.getByLabelText('Insect choices')).toBeInTheDocument()
-  expect(screen.getByRole('radio', { name: 'Animals' })).toBeDisabled()
+  expect(
+    screen.queryByRole('radiogroup', { name: 'Creature collection' })
+  ).not.toBeInTheDocument()
   expect(p.onComplete).not.toHaveBeenCalled()
 })
 

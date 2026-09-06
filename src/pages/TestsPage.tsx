@@ -3,6 +3,8 @@ import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import StandardActionList from '../components/ui/StandardActionList'
+import ResourceLoadingIcon from '../components/ui/ResourceLoadingIcon'
+import { getTabIcon } from '../lib/tabNavigation'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { createUnifiedChoreDescriptor } from '../ui/unifiedChoreDescriptors'
 import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
@@ -95,7 +97,11 @@ const TestsPage = () => {
             hideAdd
             emptyState={
               <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
-                Tests are loading.
+                <ResourceLoadingIcon
+                  src={getTabIcon('tests')}
+                  loading
+                  label="Loading tests"
+                />
               </div>
             }
           />

@@ -40,7 +40,9 @@ import CrownDifficultyControl, {
   type CrownDifficultyOption,
 } from './ui/CrownDifficultyControl'
 import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
+import ResourceLoadingIcon from './ui/ResourceLoadingIcon'
 import { getChoiceFeedbackAnimationStyles } from './ui/activityAnimationStyles'
+import './AnimalTester.css'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 9
@@ -132,9 +134,6 @@ const FactCard = ({
         isolation: 'isolate',
         overflow: 'hidden',
         textAlign: 'center',
-        ...(fact.wrapCaption
-          ? { display: 'flex', flexDirection: 'column' as const }
-          : {}),
         cursor: onClick ? 'pointer' : undefined,
       }}
     >
@@ -149,18 +148,9 @@ const FactCard = ({
             inset: 0,
             width: '100%',
             height: '100%',
-            objectFit: fact.illustrationFit ?? 'cover',
-            ...(fact.wrapCaption
-              ? {
-                  position: 'relative' as const,
-                  inset: 'auto',
-                  flex: 1,
-                  height: 0,
-                  minHeight: 0,
-                  boxSizing: 'border-box' as const,
-                  padding: 8,
-                }
-              : {}),
+            objectFit: fact.wrapCaption
+              ? 'cover'
+              : (fact.illustrationFit ?? 'cover'),
             ...(fact.detailPosition
               ? {
                   objectPosition: fact.detailPosition,
@@ -208,8 +198,6 @@ const FactCard = ({
             whiteSpace: fact.wrapCaption ? 'normal' : 'nowrap',
             ...(fact.wrapCaption
               ? {
-                  position: 'relative' as const,
-                  flexShrink: 0,
                   fontSize: 'clamp(0.66rem, 2.4vw, 0.9rem)',
                 }
               : {}),
@@ -462,7 +450,13 @@ const TwoPlayerProgressButton = ({
     className="activity-inline-action"
     content={
       <img
-        src={twoPlayersModeImage}
+        src={
+          creatureName === 'teenieping'
+            ? teeniepingCollectionImage
+            : creatureName === 'insect'
+              ? insectCollectionImage
+              : twoPlayersModeImage
+        }
         alt=""
         aria-hidden="true"
         style={{ width: '100%', height: '100%', objectFit: 'contain' }}
@@ -760,7 +754,7 @@ const AnimalTester = ({
     []
   )
 
-  const collectionLocked = isRunning && mode !== 'learn' && catalog.length > 0
+  const collectionLocked = isRunning && mode !== 'learn'
   const changeCollection = (next: CreatureCollection) => {
     if (next === collection && !collectionError) return
     if (collectionLocked && next !== collection) return
@@ -878,6 +872,36 @@ const AnimalTester = ({
     }, CHOICE_ANIMATION_MS)
   }
 
+  const gameModeControls = (
+    <div style={{ width: uiTokens.controlRowWidth, maxWidth: '100%' }}>
+      <SegmentedChoiceControl
+        theme={theme}
+        value={mode}
+        options={MODE_OPTIONS}
+        onChange={setMode}
+        ariaLabel={`${collectionLabel} game mode`}
+      />
+      <div
+        className="animal-difficulty-reveal"
+        data-expanded={mode === 'solo'}
+        aria-hidden={mode !== 'solo'}
+        inert={mode !== 'solo'}
+      >
+        <div>
+          <div style={{ paddingTop: uiTokens.panelStackGap }}>
+            <CrownDifficultyControl
+              theme={theme}
+              value={difficulty}
+              options={ANIMAL_DIFFICULTIES}
+              onChange={setDifficulty}
+              ariaLabel={`${collectionLabel} difficulty`}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <ActivityOutcomeShell
       isFinished={isFinished}
@@ -888,38 +912,48 @@ const AnimalTester = ({
       failureAlt={`Let's learn some more ${collection}!`}
       className="flex w-full flex-col items-center"
     >
-      <SegmentedChoiceControl
-        theme={theme}
-        value={collection}
-        ariaLabel="Creature collection"
-        onChange={changeCollection}
-        style={{
-          width: uiTokens.controlRowWidth,
-          maxWidth: '100%',
-        }}
-        options={[
-          {
-            value: 'animals',
-            label: 'Animals',
-            icon: animalCollectionImage,
-            disabled: collectionLocked,
-          },
-          {
-            value: 'insects',
-            label: 'Insects',
-            icon: insectCollectionImage,
-            disabled: collectionLocked,
-          },
-          {
-            value: 'teeniepings',
-            label: 'Teeniepings',
-            icon: teeniepingCollectionImage,
-            disabled: !TEENIEPING_COLLECTION_AVAILABLE || collectionLocked,
-          },
-        ]}
-      />
-      {isCollectionLoading && (
-        <p role="status">Loading {collectionLabel.toLowerCase()} pictures…</p>
+      {!collectionLocked && (
+        <SegmentedChoiceControl
+          theme={theme}
+          value={collection}
+          ariaLabel="Creature collection"
+          onChange={changeCollection}
+          style={{
+            width: uiTokens.controlRowWidth,
+            maxWidth: '100%',
+          }}
+          options={[
+            {
+              value: 'animals',
+              label: 'Animals',
+              icon: animalCollectionImage,
+            },
+            {
+              value: 'insects',
+              label: 'Insects',
+              icon: insectCollectionImage,
+              loading: collection === 'insects' && isCollectionLoading,
+            },
+            {
+              value: 'teeniepings',
+              label: 'Teeniepings',
+              icon: teeniepingCollectionImage,
+              loading: collection === 'teeniepings' && isCollectionLoading,
+              disabled: !TEENIEPING_COLLECTION_AVAILABLE,
+            },
+          ]}
+        />
+      )}
+      {collectionLocked && isCollectionLoading && (
+        <ResourceLoadingIcon
+          src={
+            collection === 'teeniepings'
+              ? teeniepingCollectionImage
+              : insectCollectionImage
+          }
+          loading
+          label={`Loading ${collectionLabel} pictures`}
+        />
       )}
       {collectionError && (
         <div role="alert">
@@ -933,34 +967,7 @@ const AnimalTester = ({
           />
         </div>
       )}
-      {isSetup && !isEditable && (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: uiTokens.panelStackGap,
-            width: uiTokens.controlRowWidth,
-            maxWidth: '100%',
-          }}
-        >
-          <SegmentedChoiceControl
-            theme={theme}
-            value={mode}
-            options={MODE_OPTIONS}
-            onChange={setMode}
-            ariaLabel={`${collectionLabel} game mode`}
-          />
-          {mode === 'solo' && (
-            <CrownDifficultyControl
-              theme={theme}
-              value={difficulty}
-              options={ANIMAL_DIFFICULTIES}
-              onChange={setDifficulty}
-              ariaLabel={`${collectionLabel} difficulty`}
-            />
-          )}
-        </div>
-      )}
+      {isSetup && !isEditable && gameModeControls}
       <ActivitySetupControls
         isSetup={isSetup}
         theme={theme}
@@ -974,26 +981,7 @@ const AnimalTester = ({
         nextAriaLabel={`More ${collection}`}
         isEditable={isEditable}
         starMax={10}
-        beforeProblemControl={
-          <>
-            <SegmentedChoiceControl
-              theme={theme}
-              value={mode}
-              options={MODE_OPTIONS}
-              onChange={setMode}
-              ariaLabel={`${collectionLabel} game mode`}
-            />
-            {mode === 'solo' && (
-              <CrownDifficultyControl
-                theme={theme}
-                value={difficulty}
-                options={ANIMAL_DIFFICULTIES}
-                onChange={setDifficulty}
-                ariaLabel={`${collectionLabel} difficulty`}
-              />
-            )}
-          </>
-        }
+        beforeProblemControl={gameModeControls}
       />
 
       {isRunning && animal && (

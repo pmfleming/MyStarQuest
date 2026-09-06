@@ -57,30 +57,36 @@ export const ActivityOutcomeShell = ({
   style,
   successAlt,
   failureAlt,
-}: ActivityOutcomeShellProps) => (
-  <div
-    className={className}
-    style={{
-      position: 'relative',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: `${uiTokens.panelStackGap}px`,
-      ...style,
-    }}
-  >
-    {isFinished ? (
+}: ActivityOutcomeShellProps) => {
+  // Use the same card-level outcome layout as chores, without a positioned
+  // activity wrapper confining the success artwork to the smaller body area.
+  if (isFinished) {
+    return (
       <ChoreOutcomeView
         imageSrc={isSuccessState ? completionImage : failureImage}
         outcome={isSuccessState ? 'success' : 'failure'}
         successAlt={successAlt}
         failureAlt={failureAlt}
       />
-    ) : (
-      <>{children}</>
-    )}
-  </div>
-)
+    )
+  }
+
+  return (
+    <div
+      className={className}
+      style={{
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: `${uiTokens.panelStackGap}px`,
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  )
+}
 
 const getStatusIconOverlap = (iconCount: number) => {
   if (iconCount <= 1) return 0

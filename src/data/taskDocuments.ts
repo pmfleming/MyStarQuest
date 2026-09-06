@@ -96,7 +96,7 @@ const TEST_TEMPLATES: Record<TestType, TaskTemplate> = {
     },
   },
   animals: {
-    title: 'Animals',
+    title: 'Who am I?',
     category: 'animals',
     starValue: DEFAULT_ANIMALS_STARS,
     extras: {
