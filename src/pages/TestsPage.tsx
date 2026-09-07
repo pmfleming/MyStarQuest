@@ -98,7 +98,7 @@ const TestsPage = () => {
             emptyState={
               <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
                 <ResourceLoadingIcon
-                  src={getTabIcon('tests')}
+                  src={getTabIcon('tests', theme.id)}
                   loading
                   label="Loading tests"
                 />

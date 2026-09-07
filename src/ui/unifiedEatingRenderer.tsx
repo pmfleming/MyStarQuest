@@ -1,8 +1,4 @@
-import {
-  princessEatingFailImage,
-  princessEatingFullImage,
-  princessPlateImage,
-} from '../assets/themes/princess/assets'
+import { getThemeAsset } from './themeAssets'
 import {
   DEFAULT_DINNER_BITES,
   DEFAULT_DINNER_DURATION_SECONDS,
@@ -63,7 +59,7 @@ const renderEatingTask = (
     starReward: item.starValue,
     isTimerRunning: isActive,
     timerStartedAt: item.manageDinnerTimerStartedAt,
-    plateImage: state.princessAsset(princessPlateImage),
+    plateImage: state.themedAsset(getThemeAsset(deps.theme.id, 'plateImage')),
     onAdjustTime: (delta) => {
       const next = clamp(
         (item.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS) + delta,
@@ -89,7 +85,7 @@ const renderEatingTask = (
     ...state.testOutcomeImages(),
     biteCooldownSeconds: deps.biteCooldownSeconds,
     biteCooldownEndsAt: deps.biteCooldownEndsAt,
-    biteIcon: state.princessAsset(deps.activePrincessMealIcon),
+    biteIcon: state.themedAsset(deps.activeMealIcon),
     showSetupControls: isManage && !isActive && !isCompleted,
     showStarReward: isManage && !isActive && !isCompleted,
   })
@@ -113,13 +109,17 @@ const renderEatingTodo = (
     starReward: item.starValue,
     isTimerRunning: isActive,
     timerStartedAt: item.dinnerTimerStartedAt,
-    plateImage: state.princessAsset(princessPlateImage),
+    plateImage: state.themedAsset(getThemeAsset(deps.theme.id, 'plateImage')),
     isCompleted,
-    completionImage: state.princessAsset(princessEatingFullImage),
-    failureImage: state.princessAsset(princessEatingFailImage),
+    completionImage: state.themedAsset(
+      getThemeAsset(deps.theme.id, 'eatingFullImage')
+    ),
+    failureImage: state.themedAsset(
+      getThemeAsset(deps.theme.id, 'eatingFailImage')
+    ),
     biteCooldownSeconds: deps.biteCooldownSeconds,
     biteCooldownEndsAt: deps.biteCooldownEndsAt,
-    biteIcon: state.princessAsset(deps.activePrincessMealIcon),
+    biteIcon: state.themedAsset(deps.activeMealIcon),
     onAdjustTime: noop,
     onAdjustBites: noop,
     onStarsChange: noop,

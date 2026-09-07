@@ -4,11 +4,7 @@ import TabContent from '../components/TabContent'
 import TopIconButton from '../components/ui/TopIconButton'
 import SchoolCalendar from '../components/SchoolCalendar'
 import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
-import {
-  princessCalendarIcon,
-  princessClockIcon,
-  princessThermometerIcon,
-} from '../assets/themes/princess/assets'
+import { getThemeAsset, hasIllustratedTheme } from '../ui/themeAssets'
 import SpinningPlanet from '../components/dayNightExplorer/SpinningPlanet'
 import Clock from '../components/dayNightExplorer/Clock'
 import useDayNightExplorerModel from '../components/dayNightExplorer/useDayNightExplorerModel'
@@ -16,12 +12,6 @@ import '../components/dayNightExplorer/dayNightExplorer.css'
 
 type ExplorerPanel = 'clock' | 'calendar'
 type HeaderIconKind = ExplorerPanel | 'thermometer'
-
-const PRINCESS_HEADER_ICONS = {
-  clock: princessClockIcon,
-  calendar: princessCalendarIcon,
-  thermometer: princessThermometerIcon,
-} satisfies Record<HeaderIconKind, string>
 
 const DEFAULT_HEADER_ICONS = {
   clock: '🕒',
@@ -35,10 +25,10 @@ const TimeExplorerPage = () => {
   const explorer = useDayNightExplorerModel(theme)
 
   const renderIcon = (kind: HeaderIconKind) => {
-    if (theme.id === 'princess') {
+    if (hasIllustratedTheme(theme.id)) {
       return (
         <img
-          src={PRINCESS_HEADER_ICONS[kind]}
+          src={getThemeAsset(theme.id, `${kind}Icon`)}
           alt=""
           aria-hidden="true"
           style={{

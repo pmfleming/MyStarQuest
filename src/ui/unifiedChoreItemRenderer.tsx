@@ -1,3 +1,4 @@
+import { getThemeAsset } from './themeAssets'
 import type { ReactNode } from 'react'
 import ActionTextInput from '../components/ui/ActionTextInput'
 import ChoreOutcomeView from '../components/ChoreOutcomeView'
@@ -5,8 +6,7 @@ import Carousel from '../components/ui/Carousel'
 import RepeatControl from '../components/ui/RepeatControl'
 import StarDisplay from '../components/ui/StarDisplay'
 import ImageStarFrame from '../components/ui/ImageStarFrame'
-import { princessQuizCorrectImage } from '../assets/themes/princess/assets'
-import { choreImageOptions, getChoreImage } from '../assets/chores/assets'
+import { getChoreImageOptions, getChoreImage } from '../assets/chores/assets'
 import { getPresetChoreOverviewImage } from './choreOverviewAssets'
 import { isTestType } from '../data/types'
 import { uiTokens } from '../tokens'
@@ -100,7 +100,7 @@ const renderChoreContent = (
   stage: ChoreStage
 ) => {
   const type = getChoreType(item)
-  const overviewImage = getPresetChoreOverviewImage(type)
+  const overviewImage = getPresetChoreOverviewImage(type, deps.theme.id)
   if (deps.mode === 'today' && stage === 'setup' && overviewImage) {
     return (
       <ImageStarFrame
@@ -134,15 +134,15 @@ const renderStandardContent = (
     return (
       <ChoreOutcomeView
         imageSrc={
-          getChoreImage(item.imageKey) ??
-          state.princessAsset(princessQuizCorrectImage)
+          getChoreImage(item.imageKey, deps.theme.id) ??
+          state.themedAsset(getThemeAsset(deps.theme.id, 'quizCorrectImage'))
         }
         outcome="success"
       />
     )
   }
 
-  const standardImage = getChoreImage(item.imageKey)
+  const standardImage = getChoreImage(item.imageKey, deps.theme.id)
   const showImageCarousel = deps.mode === 'manage' && isTaskItem(item)
   const showImageRewardFrame = Boolean(standardImage && !showImageCarousel)
 
@@ -151,7 +151,7 @@ const renderStandardContent = (
       {showImageCarousel ? (
         <Carousel
           key={`${item.id}-${item.imageKey ?? ''}`}
-          items={choreImageOptions.map((option) => ({
+          items={getChoreImageOptions(deps.theme.id).map((option) => ({
             id: option.id,
             label: option.label,
             icon: option.image ? (
@@ -180,10 +180,12 @@ const renderStandardContent = (
           title="Chore image"
           initialIndex={Math.max(
             0,
-            choreImageOptions.findIndex((option) => option.id === item.imageKey)
+            getChoreImageOptions(deps.theme.id).findIndex(
+              (option) => option.id === item.imageKey
+            )
           )}
           onChange={(index) => {
-            const selected = choreImageOptions[index]
+            const selected = getChoreImageOptions(deps.theme.id)[index]
             if (!selected || selected.id === item.imageKey) return
             deps.onUpdateTaskField?.(item.id, { imageKey: selected.id })
           }}

@@ -40,7 +40,9 @@ const AnimatedTabLayout = () => {
           className="h-full w-full min-w-0"
           style={tabTransitionStyle}
         >
-          <TabPageBoundary loadingIcon={getTabIcon(activeTabId ?? 'chores')}>
+          <TabPageBoundary
+            loadingIcon={getTabIcon(activeTabId ?? 'chores', theme.id)}
+          >
             <Outlet />
           </TabPageBoundary>
         </div>

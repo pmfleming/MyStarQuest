@@ -1,16 +1,13 @@
 import type { Theme } from '../contexts/ThemeContext'
 import TopIconButton from '../components/ui/TopIconButton'
-import {
-  princessChildrenIcon,
-  princessExitIcon,
-} from '../assets/themes/princess/assets'
+import { getThemeAsset, hasIllustratedTheme } from '../ui/themeAssets'
 import { getThemeActionIcon } from '../ui/themeActionAssets'
 
-const getThemeAssets = (themeId: string) => {
-  if (themeId === 'princess') {
+const getHeaderAssets = (themeId: string) => {
+  if (hasIllustratedTheme(themeId)) {
     return {
-      switchProfileIcon: princessChildrenIcon,
-      exitIcon: princessExitIcon,
+      switchProfileIcon: getThemeAsset(themeId, 'childrenIcon'),
+      exitIcon: getThemeAsset(themeId, 'exitIcon'),
     }
   }
 
@@ -35,7 +32,7 @@ export const DashboardHeaderActions = ({
   onResetToday,
   onLogout,
 }: DashboardHeaderActionsProps) => {
-  const themeAssets = getThemeAssets(theme.id)
+  const themeAssets = getHeaderAssets(theme.id)
   const resetIcon = getThemeActionIcon(theme.id, 'reset')
 
   return (

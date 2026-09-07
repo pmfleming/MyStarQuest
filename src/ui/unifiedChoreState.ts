@@ -1,3 +1,4 @@
+import { getThemeAsset } from './themeAssets'
 import {
   getManageDinnerBitesLeft,
   getManageDinnerRemaining,
@@ -20,14 +21,10 @@ import {
 } from '../lib/choreLogic'
 import type { ChoreStage } from './choreModeDefinitions'
 import type {
-  PrincessAsset,
+  ThemedAsset,
   UnifiedChoreDeps,
   UnifiedChoreItem,
 } from './unifiedChoreDescriptorTypes'
-import {
-  princessQuizCorrectImage,
-  princessQuizIncorrectImage,
-} from '../assets/themes/princess/assets'
 
 export const isTaskItem = (item: UnifiedChoreItem): item is TaskWithEphemeral =>
   'taskType' in item
@@ -55,11 +52,17 @@ const getDinnerState = (item: UnifiedChoreItem) => {
 }
 
 export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
-  const princessAsset = (asset?: string): PrincessAsset =>
-    deps.theme.id === 'princess' ? asset : undefined
+  const themedAsset = (asset?: string): ThemedAsset =>
+    deps.theme.id === 'princess' || deps.theme.id === 'teenie'
+      ? asset
+      : undefined
   const testOutcomeImages = () => ({
-    completionImage: princessAsset(princessQuizCorrectImage),
-    failureImage: princessAsset(princessQuizIncorrectImage),
+    completionImage: themedAsset(
+      getThemeAsset(deps.theme.id, 'quizCorrectImage')
+    ),
+    failureImage: themedAsset(
+      getThemeAsset(deps.theme.id, 'quizIncorrectImage')
+    ),
   })
 
   const hasActiveDinnerCooldown = (item: UnifiedChoreItem) =>
@@ -104,7 +107,7 @@ export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
   }
 
   return {
-    princessAsset,
+    themedAsset,
     testOutcomeImages,
     isCompleted,
     getStage,

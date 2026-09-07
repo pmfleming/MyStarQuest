@@ -1,3 +1,5 @@
+import { getThemeAsset } from '../../ui/themeAssets'
+import type { ThemeId } from '../../ui/themeOptions'
 import tidyingUpImage from '../themes/princess/tidying-up.webp'
 import writingImage from '../themes/princess/writing.svg'
 import bravePrincessImage from '../themes/princess/brave-princess.png'
@@ -34,7 +36,27 @@ export const choreImageOptions: ChoreImageOption[] = [
 export const isChoreImageKey = (imageKey: string): imageKey is ChoreImageKey =>
   imageKey in choreImages
 
-export const getChoreImage = (imageKey?: string) => {
+export const getChoreImage = (
+  imageKey?: string,
+  themeId: ThemeId = 'princess'
+) => {
   if (!imageKey) return undefined
-  return isChoreImageKey(imageKey) ? choreImages[imageKey] : undefined
+  if (!isChoreImageKey(imageKey)) return undefined
+  const roles = {
+    tidyingUp: 'tidyingUp',
+    writing: 'writing',
+    bravePrincess: 'brave',
+    gettingDressedQuickly: 'gettingDressed',
+  } as const
+  return getThemeAsset(themeId, roles[imageKey])
 }
+
+export const getChoreImageOptions = (themeId: ThemeId) =>
+  choreImageOptions.map((option) => ({
+    ...option,
+    label:
+      themeId === 'teenie' && option.id === 'bravePrincess'
+        ? 'Being brave'
+        : option.label,
+    image: getChoreImage(option.id, themeId),
+  }))

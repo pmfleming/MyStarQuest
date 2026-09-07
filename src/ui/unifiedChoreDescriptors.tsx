@@ -1,12 +1,7 @@
-import {
-  princessActiveIcon,
-  princessBiteIcon,
-  princessGiveStarIcon,
-  princessPlateImage,
-} from '../assets/themes/princess/assets'
+import { getThemeAsset } from './themeAssets'
 import { getChoreImage } from '../assets/chores/assets'
 import { getPresetChoreOverviewImage } from './choreOverviewAssets'
-import { getPrincessTaskTypeIcon } from './taskTypeIcons'
+import { getTaskTypeIcon } from './taskTypeIcons'
 import { isInChoreStage, shouldUseResetUtility } from './choreModeDefinitions'
 import type { ListRowDescriptor } from './listDescriptorTypes'
 import {
@@ -46,8 +41,8 @@ export function createUnifiedChoreDescriptor(
       if (isInChoreStage(stage)) return undefined
       const type = getChoreType(item)
       if (
-        (type === 'standard' && getChoreImage(item.imageKey)) ||
-        getPresetChoreOverviewImage(type)
+        (type === 'standard' && getChoreImage(item.imageKey, deps.theme.id)) ||
+        getPresetChoreOverviewImage(type, deps.theme.id)
       ) {
         return undefined
       }
@@ -69,8 +64,9 @@ export function createUnifiedChoreDescriptor(
             <img
               src={
                 isItemCompleted
-                  ? princessActiveIcon
-                  : (getChoreImage(item.imageKey) ?? princessGiveStarIcon)
+                  ? getThemeAsset(deps.theme.id, 'activeIcon')
+                  : (getChoreImage(item.imageKey, deps.theme.id) ??
+                    getThemeAsset(deps.theme.id, 'giveStarIcon'))
               }
               alt=""
               aria-hidden="true"
@@ -97,7 +93,9 @@ export function createUnifiedChoreDescriptor(
           icon: (
             <img
               src={
-                stage === 'setup' ? princessGiveStarIcon : princessActiveIcon
+                stage === 'setup'
+                  ? getThemeAsset(deps.theme.id, 'giveStarIcon')
+                  : getThemeAsset(deps.theme.id, 'activeIcon')
               }
               alt=""
               aria-hidden="true"
@@ -117,7 +115,7 @@ export function createUnifiedChoreDescriptor(
         stage,
         icon: (
           <img
-            src={getPrincessTaskTypeIcon(type)}
+            src={getTaskTypeIcon(type, deps.theme.id)}
             alt=""
             aria-hidden="true"
             decoding="async"
@@ -186,11 +184,14 @@ const eatingActionIcon = (
   isActive: boolean,
   isFinished: boolean
 ) => {
-  if (isFinished) return princessPlateImage
-  if (deps.theme.id === 'princess' && isActive) {
-    return deps.activePrincessMealIcon ?? princessBiteIcon
+  if (isFinished) return getThemeAsset(deps.theme.id, 'plateImage')
+  if (
+    (deps.theme.id === 'princess' || deps.theme.id === 'teenie') &&
+    isActive
+  ) {
+    return deps.activeMealIcon ?? getThemeAsset(deps.theme.id, 'biteIcon')
   }
-  return princessBiteIcon
+  return getThemeAsset(deps.theme.id, 'biteIcon')
 }
 
 const enterOrComplete = (deps: UnifiedChoreDeps, item: UnifiedChoreItem) => {

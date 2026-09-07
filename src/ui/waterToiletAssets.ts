@@ -1,11 +1,4 @@
-import {
-  princessDidPeePeeImage,
-  princessFlaskOneThirdImage,
-  princessFlaskTwoThirdsImage,
-  princessFlaskFullImage,
-  princessDrinkSuccessImage,
-  princessNotPeePeeImage,
-} from '../assets/themes/princess/assets'
+import { getThemeAsset, hasIllustratedTheme } from '../ui/themeAssets'
 import type { Theme } from '../contexts/ThemeContext'
 import type { ToiletStatus, WaterLevel } from '../data/types'
 import type { WaterToiletOutcome } from '../lib/choreLogic'
@@ -35,33 +28,33 @@ export const fallbackToiletVisuals: Record<ToiletStatus, string> = {
 }
 
 export const getWaterImage = (theme: Theme, waterLevel: WaterLevel) => {
-  if (theme.id !== 'princess') return null
+  if (!hasIllustratedTheme(theme.id)) return null
 
   switch (waterLevel) {
     case 'full':
-      return princessFlaskFullImage
+      return getThemeAsset(theme.id, 'flaskFullImage')
     case 'twothirds':
-      return princessFlaskTwoThirdsImage
+      return getThemeAsset(theme.id, 'flaskTwoThirdsImage')
     case 'onethird':
-      return princessFlaskOneThirdImage
+      return getThemeAsset(theme.id, 'flaskOneThirdImage')
     case 'empty':
-      return princessDrinkSuccessImage
+      return getThemeAsset(theme.id, 'drinkSuccessImage')
   }
 }
 
 export const getToiletImage = (theme: Theme, toiletStatus: ToiletStatus) => {
-  if (theme.id !== 'princess') return null
+  if (!hasIllustratedTheme(theme.id)) return null
   return toiletStatus === 'didpeepee'
-    ? princessDidPeePeeImage
-    : princessNotPeePeeImage
+    ? getThemeAsset(theme.id, 'didPeePeeImage')
+    : getThemeAsset(theme.id, 'notPeePeeImage')
 }
 
 export const getWaterToiletOutcomeImage = (
   theme: Theme,
   outcome: WaterToiletOutcome
 ) => {
-  if (theme.id !== 'princess') return undefined
+  if (!hasIllustratedTheme(theme.id)) return undefined
   return outcome === 'success'
-    ? princessDrinkSuccessImage
-    : princessNotPeePeeImage
+    ? getThemeAsset(theme.id, 'drinkSuccessImage')
+    : getThemeAsset(theme.id, 'notPeePeeImage')
 }

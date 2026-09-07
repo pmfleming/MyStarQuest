@@ -1,8 +1,6 @@
+import { getThemeAsset } from '../../ui/themeAssets'
 import type { CSSProperties } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
-import mathsCounterIcon from '../../assets/themes/princess/maths-counter.svg'
-import quizCorrectIcon from '../../assets/themes/princess/quiz-correct.svg'
-import quizIncorrectIcon from '../../assets/themes/princess/quiz-incorrect.svg'
 import { uiTokens } from '../../tokens'
 import { ActivityPlayArea, type ActivityResult } from './ActivityControls'
 import { EmptyCounterHint, MathCounter, TenRod } from './ActivityMathCounters'
@@ -69,7 +67,7 @@ const CounterCollection = ({
           border: `2px solid ${color}`,
           borderRadius: 4,
           backgroundColor: `${color}18`,
-          backgroundImage: `url("${mathsCounterIcon}")`,
+          backgroundImage: `url("${getThemeAsset(theme.id, 'mathsCounter')}")`,
           backgroundRepeat: 'repeat',
           backgroundSize: '10% 10%',
           animation: `pv-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${index * 0.05}s both`,
@@ -82,7 +80,7 @@ const CounterCollection = ({
     return Array.from({ length: value }, (_, index) => (
       <TenRod
         key={`ten-${index}`}
-        src={mathsCounterIcon}
+        src={getThemeAsset(theme.id, 'mathsCounter')}
         counterSize={compact ? 5 : 12}
         delay={index * 0.05}
         animationName="pv-pop-in"
@@ -96,7 +94,7 @@ const CounterCollection = ({
   return Array.from({ length: value }, (_, index) => (
     <MathCounter
       key={`one-${index}`}
-      src={mathsCounterIcon}
+      src={getThemeAsset(theme.id, 'mathsCounter')}
       alt=""
       size={counterSize}
       delay={index * 0.05}
@@ -333,8 +331,8 @@ const PositionalNotationPlayArea = ({
     <ActivityPlayArea
       theme={theme}
       results={results}
-      correctIcon={quizCorrectIcon}
-      incorrectIcon={quizIncorrectIcon}
+      correctIcon={getThemeAsset(theme.id, 'quizCorrectImage')}
+      incorrectIcon={getThemeAsset(theme.id, 'quizIncorrectImage')}
       slideAnimationName="pv-slide-in-right"
       animation={animation}
       shakeKey={isWrong ? `shake-${retryCount}` : undefined}

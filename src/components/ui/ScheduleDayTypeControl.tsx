@@ -1,8 +1,8 @@
-import { nonSchoolDayImages } from '../../ui/seasonAssets'
+import { getThemeAsset } from '../../ui/themeAssets'
+import { getNonSchoolDayImages } from '../../ui/seasonAssets'
 import type { Theme } from '../../contexts/ThemeContext'
 import type { TaskRecord, TaskUpdatableFields } from '../../data/types'
 import { getSeasonForDate } from '../../lib/today'
-import { princessSchoolDayImage } from '../../assets/themes/princess/assets'
 import { uiTokens } from '../../tokens'
 import { IconChoiceButton } from './IconActionControls'
 
@@ -22,7 +22,9 @@ const ScheduleDayTypeControl = ({
   task,
   onUpdate,
 }: ScheduleDayTypeControlProps) => {
-  const nonSchoolDayImage = nonSchoolDayImages[getSeasonForDate(new Date())]
+  const nonSchoolDayImage = getNonSchoolDayImages(theme.id)[
+    getSeasonForDate(new Date())
+  ]
 
   return (
     <div
@@ -34,7 +36,7 @@ const ScheduleDayTypeControl = ({
     >
       <IconChoiceButton
         theme={theme}
-        icon={princessSchoolDayImage}
+        icon={getThemeAsset(theme.id, 'schoolDayImage')}
         ariaLabel="Schoolday"
         onClick={() =>
           onUpdate(task.id, { schoolDayEnabled: !task.schoolDayEnabled })

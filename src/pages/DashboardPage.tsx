@@ -1,3 +1,4 @@
+import { getThemeAsset } from '../ui/themeAssets'
 import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
@@ -25,21 +26,16 @@ import {
 import type { ChoreDocumentSettings } from '../data/taskDocuments'
 import { useTaskActivityState } from '../hooks/useTaskActivityState'
 import { useTestCheckTriggers } from '../hooks/useTestCheckTriggers'
-import {
-  princessEatingBreakfastIcon,
-  princessEatingDinnerIcon,
-  princessEatingLunchIcon,
-} from '../assets/themes/princess/assets'
 import { DashboardHeaderActions } from './dashboardChoreUi'
 import ChoreCreationFlow from './ChoreCreationFlow'
 import InlineNotice from '../components/ui/InlineNotice'
 
 type ChorePanelMode = 'create' | null
 
-const getPrincessMealIconForHour = (hour: number) => {
-  if (hour < 10) return princessEatingBreakfastIcon
-  if (hour < 16) return princessEatingLunchIcon
-  return princessEatingDinnerIcon
+const getMealIconForHour = (hour: number, themeId: string) => {
+  if (hour < 10) return getThemeAsset(themeId, 'eatingBreakfastIcon')
+  if (hour < 16) return getThemeAsset(themeId, 'eatingLunchIcon')
+  return getThemeAsset(themeId, 'eatingDinnerIcon')
 }
 
 const withTaskItem = <Result,>(
@@ -99,9 +95,7 @@ const DashboardPage = () => {
 
   const { clearCheckTriggers, ...testCheckTriggers } = useTestCheckTriggers()
 
-  const activePrincessMealIcon = getPrincessMealIconForHour(
-    new Date().getHours()
-  )
+  const activeMealIcon = getMealIconForHour(new Date().getHours(), theme.id)
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
@@ -253,7 +247,7 @@ const DashboardPage = () => {
     ...testCheckTriggers,
     biteCooldownSeconds,
     biteCooldownEndsAt,
-    activePrincessMealIcon,
+    activeMealIcon,
   }
 
   const choreState = createUnifiedChoreState(unifiedChoreDeps)

@@ -1,3 +1,4 @@
+import { getTeenieActivities, getTeenieBackgrounds } from '../ui/themeAssets'
 import React, { createContext, useEffect, useMemo, useState } from 'react'
 import { isThemeId, type ThemeId } from '../ui/themeOptions'
 import bedtimeImg from '../assets/themes/princess/bedtime.svg'
@@ -83,6 +84,35 @@ export interface Theme {
 
 // Define the available themes based on the prototype
 export const themes: Record<ThemeId, Theme> = {
+  teenie: {
+    id: 'teenie',
+    name: 'Teenie Friends',
+    emoji: '💖',
+    fontFamily: 'MSQ Nunito',
+    fontHref: natureFontUrl,
+    colors: {
+      bg: '#F5F0FF',
+      surface: '#FFFFFF',
+      text: '#3C2856',
+      primary: '#7751C9',
+      secondary: '#287F7A',
+      accent: '#BDEBE0',
+    },
+    fonts: {
+      heading: '"MSQ Nunito", var(--app-fallback-font), sans-serif',
+      body: '"MSQ Nunito", var(--app-fallback-font), sans-serif',
+    },
+    buttonStyle:
+      'rounded-3xl border-4 border-violet-500 shadow-[4px_4px_0px_#5B389F]',
+    bgPattern: 'linear-gradient(180deg, #F5F0FF 0%, #EDE5FC 55%, #DDF4ED 100%)',
+    confetti: ['⭐', '💖', '✨', '🌸'],
+    get activityImages() {
+      return getTeenieActivities()
+    },
+    get explorerBackgroundImages() {
+      return getTeenieBackgrounds()
+    },
+  },
   space: {
     id: 'space',
     name: 'Galactic Explorer',

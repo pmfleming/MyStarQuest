@@ -1,9 +1,7 @@
+import { getThemeAsset } from '../ui/themeAssets'
 import { useState, useCallback } from 'react'
 import StepperButton from './ui/StepperButton'
 import { uiTokens } from '../tokens'
-import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
-import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
-import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import { useCheckedActivityChallenge } from '../hooks/useActivityChallenge'
 import type { MathDifficulty } from '../data/types'
@@ -156,8 +154,8 @@ const ArithmeticTester = (props: ArithmeticTesterProps) => {
         <ActivityPlayArea
           theme={theme}
           results={resultHistory}
-          correctIcon={quizCorrectIcon}
-          incorrectIcon={quizIncorrectIcon}
+          correctIcon={getThemeAsset(theme.id, 'quizCorrectImage')}
+          incorrectIcon={getThemeAsset(theme.id, 'quizIncorrectImage')}
           slideAnimationName="dotmath-slide-in-right"
           animation={playAnimation}
           shakeKey={isWrong ? `shake-${retryCount}` : undefined}
@@ -256,7 +254,7 @@ const ArithmeticTester = (props: ArithmeticTesterProps) => {
                         }}
                       >
                         <MathCounter
-                          src={mathsCounterIcon}
+                          src={getThemeAsset(theme.id, 'mathsCounter')}
                           size={DOT_SIZE}
                           delay={0.4 + dotIndex * 0.05}
                           animationName="dotmath-pop-in"
@@ -281,7 +279,7 @@ const ArithmeticTester = (props: ArithmeticTesterProps) => {
                     ) : (
                       <MathCounter
                         key={`dot-${index}-${dotIndex}`}
-                        src={mathsCounterIcon}
+                        src={getThemeAsset(theme.id, 'mathsCounter')}
                         size={DOT_SIZE}
                         delay={dotIndex * 0.03}
                         animationName="dotmath-pop-in"
@@ -342,7 +340,7 @@ const ArithmeticTester = (props: ArithmeticTesterProps) => {
                 Array.from({ length: userAnswer }).map((_, index) => (
                   <MathCounter
                     key={`c-${index}`}
-                    src={mathsCounterIcon}
+                    src={getThemeAsset(theme.id, 'mathsCounter')}
                     size={ANSWER_COUNTER_SIZE}
                     delay={0}
                     animationName="dotmath-pop-in"

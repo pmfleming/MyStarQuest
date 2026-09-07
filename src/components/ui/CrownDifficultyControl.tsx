@@ -1,5 +1,5 @@
+import { getThemeAsset } from '../../ui/themeAssets'
 import type { Theme } from '../../contexts/ThemeContext'
-import mathsCounterIcon from '../../assets/themes/princess/maths-counter.svg'
 import { uiTokens } from '../../tokens'
 
 export type CrownDifficultyOption<T extends string> = {
@@ -73,7 +73,7 @@ const CrownDifficultyControl = <T extends string>({
             {Array.from({ length: option.crowns }, (_, index) => (
               <img
                 key={`${option.value}-${index}`}
-                src={mathsCounterIcon}
+                src={getThemeAsset(theme.id, 'mathsCounter')}
                 alt=""
                 decoding="async"
                 style={{

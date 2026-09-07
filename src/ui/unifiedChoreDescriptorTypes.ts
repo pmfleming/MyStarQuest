@@ -11,7 +11,7 @@ import type {
 } from '../data/types'
 
 export type UnifiedChoreItem = TaskWithEphemeral | TodoRecord
-export type PrincessAsset = string | undefined
+export type ThemedAsset = string | undefined
 type MaybePromise = void | Promise<void>
 
 export type UnifiedChoreDeps = {
@@ -41,7 +41,7 @@ export type UnifiedChoreDeps = {
   onCheck?: (type: TestType, id: string) => void
   biteCooldownSeconds: number
   biteCooldownEndsAt?: number | null
-  activePrincessMealIcon?: string
+  activeMealIcon?: string
   testFailureModeEnabled?: boolean
   renderDayTypeControl?: (task: TaskRecord) => ReactNode
   hideDeleteUtility?: boolean

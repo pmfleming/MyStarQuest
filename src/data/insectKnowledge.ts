@@ -66,8 +66,11 @@ export const INSECT_KNOWLEDGE: InsectKnowledge[] = profiles
 
 export const getInsectBearAbilityImage = (theme: ThemeId, ability: string) =>
   required(
-    asset('generic', ability) ?? getGenericAnimalAbilityImage(theme, ability),
-    `${ability} princess bear`
+    theme === 'teenie'
+      ? getGenericAnimalAbilityImage(theme, ability)
+      : (asset('generic', ability) ??
+          getGenericAnimalAbilityImage(theme, ability)),
+    `${ability} theme mascot`
   )
 
 export { INSECT_COLLECTION_NAMES } from './creatureCollections/insectCollectionNames'

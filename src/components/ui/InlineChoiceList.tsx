@@ -1,7 +1,7 @@
+import { getThemeAsset } from '../../ui/themeAssets'
 import type { ReactNode } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
-import { princessExitIcon } from '../../assets/themes/princess/assets'
 import { IconActionButton, IconChoiceButton } from './IconActionControls'
 import {
   getStandardPrimaryActionStyle,
@@ -88,7 +88,7 @@ export const InlineChoiceList = ({
     >
       <IconActionButton
         theme={theme}
-        icon={princessExitIcon}
+        icon={getThemeAsset(theme.id, 'exitIcon')}
         ariaLabel="Cancel"
         onClick={onCancel}
         style={getStandardUtilityActionStyle(theme, 'neutral')}

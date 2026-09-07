@@ -1,4 +1,4 @@
-import type { ThemeId } from '../ui/themeOptions'
+import { themeOptions } from '../ui/themeOptions'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
@@ -7,10 +7,6 @@ import { getSurfaceWidthConstraints } from '../tokens'
 import { createChildDefinitionListRowDescriptor } from '../ui/definitionRowDescriptors'
 import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { useChildren } from '../data/useChildren'
-import { princessThemeIcon } from '../assets/themes/princess/assets'
-import spaceThemeIcon from '../assets/themes/space/space.svg'
-import natureThemeIcon from '../assets/themes/nature/nature.svg'
-import cartoonThemeIcon from '../assets/themes/cartoon/cartoon.svg'
 
 const ManageChildrenPage = () => {
   const { activeChildId } = useActiveChild()
@@ -35,29 +31,6 @@ const ManageChildrenPage = () => {
       console.error('Failed to delete child profile', error)
     }
   }
-
-  const themeOptions = [
-    {
-      id: 'princess',
-      label: 'Princess',
-      image: princessThemeIcon,
-    },
-    {
-      id: 'space',
-      label: 'Space',
-      image: spaceThemeIcon,
-    },
-    {
-      id: 'nature',
-      label: 'Nature',
-      image: natureThemeIcon,
-    },
-    {
-      id: 'cartoon',
-      label: 'Cartoon',
-      image: cartoonThemeIcon,
-    },
-  ] satisfies Array<{ id: ThemeId; label: string; image: string }>
 
   const carouselItems = themeOptions.map((option) => ({
     id: option.id,

@@ -1,4 +1,5 @@
-import { nonSchoolDayImages } from '../ui/seasonAssets'
+import { getThemeAsset } from '../ui/themeAssets'
+import { getNonSchoolDayImages } from '../ui/seasonAssets'
 import { useEffect, useMemo, useState } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import { useSelectedDate } from '../contexts/SelectedDateContext'
@@ -13,7 +14,6 @@ import {
   CACHE_TS_KEY,
   CACHE_TTL_MS,
 } from '../lib/schoolCalendarCache'
-import { princessSchoolDayImage } from '../assets/themes/princess/assets'
 import { uiTokens } from '../tokens'
 
 const CALENDAR_URL = 'https://getschoolcalendar-6ujocyt4pq-uc.a.run.app'
@@ -127,8 +127,8 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   const monthLabel = viewDate.toLocaleString('default', { month: 'long' })
 
   const season = useMemo(() => getSeasonForDate(viewDate), [viewDate])
-  const schoolIcon = princessSchoolDayImage
-  const nonSchoolIcon = nonSchoolDayImages[season]
+  const schoolIcon = getThemeAsset(theme.id, 'schoolDayImage')
+  const nonSchoolIcon = getNonSchoolDayImages(theme.id)[season]
 
   const isDaySchool = (day: number) => {
     const date = new Date(year, month, day)

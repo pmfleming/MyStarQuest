@@ -1,3 +1,4 @@
+import { getThemeAsset } from '../ui/themeAssets'
 import { useState, type CSSProperties } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import ActionTextInput from '../components/ui/ActionTextInput'
@@ -7,7 +8,7 @@ import ScheduleDayTypeControl from '../components/ui/ScheduleDayTypeControl'
 import StarDisplay from '../components/ui/StarDisplay'
 import { InlineChoiceList } from '../components/ui/InlineChoiceList'
 import { uiTokens } from '../tokens'
-import { choreImageOptions } from '../assets/chores/assets'
+import { getChoreImageOptions } from '../assets/chores/assets'
 import {
   DEFAULT_DINNER_BITES,
   DEFAULT_DINNER_DURATION_SECONDS,
@@ -18,12 +19,7 @@ import {
 } from '../data/types'
 import type { ChoreDocumentSettings } from '../data/taskDocuments'
 import { clampDinnerSliceCount } from '../data/taskLimits'
-import {
-  princessExitIcon,
-  princessGiveStarIcon,
-  princessPlateImage,
-} from '../assets/themes/princess/assets'
-import { getPrincessTaskTypeIcon } from '../ui/taskTypeIcons'
+import { getTaskTypeIcon } from '../ui/taskTypeIcons'
 import { renderDinnerChore } from '../ui/presetChoreRenderers'
 
 type ChoreDraft = {
@@ -64,7 +60,7 @@ const typeOptions = [
   {
     type: 'standard',
     label: 'Standard Chore',
-    icon: getPrincessTaskTypeIcon('standard'),
+    icon: getTaskTypeIcon('standard'),
     defaultDraft: {
       title: 'New Chore',
       schoolDayEnabled: true,
@@ -78,7 +74,7 @@ const typeOptions = [
   {
     type: 'eating',
     label: 'Dinner',
-    icon: getPrincessTaskTypeIcon('eating'),
+    icon: getTaskTypeIcon('eating'),
     defaultDraft: {
       title: 'Dinner',
       schoolDayEnabled: true,
@@ -92,7 +88,7 @@ const typeOptions = [
   {
     type: 'watertoiletcheck',
     label: 'Water & Toilet Check',
-    icon: getPrincessTaskTypeIcon('watertoiletcheck'),
+    icon: getTaskTypeIcon('watertoiletcheck'),
     defaultDraft: {
       title: 'Water & Toilet Check',
       schoolDayEnabled: true,
@@ -199,7 +195,7 @@ const ChoreCreationFlow = ({
           choices={typeOptions.map((option) => ({
             key: option.type,
             label: option.label,
-            icon: option.icon,
+            icon: getTaskTypeIcon(option.type, theme.id),
             disabled: isSaving,
             onSelect: () => selectType(option.type),
           }))}
@@ -225,7 +221,7 @@ const ChoreCreationFlow = ({
       {selectedType === 'standard' && (
         <ImageOptionCarousel
           theme={theme}
-          options={choreImageOptions}
+          options={getChoreImageOptions(theme.id)}
           title="Chore image"
           selectedId={draft.imageKey}
           onChange={(imageKey) => updateDraft({ imageKey })}
@@ -279,7 +275,7 @@ const ChoreCreationFlow = ({
             bitesLeft: draft.dinnerTotalBites,
             starReward: draft.starValue,
             isTimerRunning: false,
-            plateImage: princessPlateImage,
+            plateImage: getThemeAsset(theme.id, 'plateImage'),
             onAdjustTime: (delta) =>
               updateDraft({
                 dinnerDurationMinutes: clamp(
@@ -302,12 +298,12 @@ const ChoreCreationFlow = ({
 
       <IconActionRow
         theme={theme}
-        primaryIcon={princessGiveStarIcon}
+        primaryIcon={getThemeAsset(theme.id, 'giveStarIcon')}
         primaryAriaLabel="Save"
         onPrimaryClick={save}
         primaryDisabled={isSaving || draft.title.trim().length === 0}
         primaryIconOpacity={isSaving ? 0.55 : 1}
-        utilityIcon={princessExitIcon}
+        utilityIcon={getThemeAsset(theme.id, 'exitIcon')}
         utilityAriaLabel="Back"
         onUtilityClick={() => {
           if (isEditing) {

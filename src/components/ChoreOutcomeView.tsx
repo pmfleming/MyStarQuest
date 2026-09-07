@@ -1,5 +1,5 @@
-import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
-import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
+import { useTheme } from '../contexts/ThemeContext'
+import { getThemeAsset } from '../ui/themeAssets'
 import { uiTokens } from '../tokens'
 
 type ChoreOutcomeViewProps = {
@@ -15,10 +15,11 @@ const ChoreOutcomeView = ({
   successAlt = 'All done!',
   failureAlt = 'Try again!',
 }: ChoreOutcomeViewProps) => {
+  const { theme } = useTheme()
   const { outcomeContainerRadius, quizOutcomeImageMaxWidth } =
     uiTokens.activityTokens
   const announcement = outcome === 'success' ? successAlt : failureAlt
-  const fillsCard = outcome === 'success'
+  const fillsCard = outcome === 'success' && theme.id !== 'teenie'
 
   return (
     <div
@@ -38,7 +39,9 @@ const ChoreOutcomeView = ({
       <img
         src={
           imageSrc ??
-          (outcome === 'success' ? quizCorrectIcon : quizIncorrectIcon)
+          (outcome === 'success'
+            ? getThemeAsset(theme.id, 'quizCorrectImage')
+            : getThemeAsset(theme.id, 'quizIncorrectImage'))
         }
         alt=""
         aria-hidden="true"

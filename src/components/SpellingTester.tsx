@@ -1,11 +1,10 @@
+import { getThemeAsset } from '../ui/themeAssets'
 import { createAssetCatalog } from '../data/assetCatalog'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import animalsSetIcon from '../assets/global/cat-camel-cow.webp'
 import teenieSetIcon from '../assets/global/teenieping.webp'
 import pokemonSetIcon from '../assets/pokemon/pikachu.png'
-import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
-import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
 import {
   getActivityMistakeUpdate,
@@ -534,8 +533,8 @@ const SpellingTester = ({
         <ActivityPlayArea
           theme={theme}
           results={getVisibleActivityResults(resultHistory, failureModeEnabled)}
-          correctIcon={quizCorrectIcon}
-          incorrectIcon={quizIncorrectIcon}
+          correctIcon={getThemeAsset(theme.id, 'quizCorrectImage')}
+          incorrectIcon={getThemeAsset(theme.id, 'quizIncorrectImage')}
           hideAlt
         >
           <SpellingPicture animal={currentAnimal} theme={theme} />

@@ -1,3 +1,4 @@
+import { getThemeAsset } from './themeAssets'
 import type { ReactNode } from 'react'
 import Carousel from '../components/ui/Carousel'
 import ActionTextInput from '../components/ui/ActionTextInput'
@@ -7,14 +8,6 @@ import SegmentedChoiceControl, {
   type SegmentedChoiceOption,
 } from '../components/ui/SegmentedChoiceControl'
 import { getStandardActionHeadingStyle } from '../components/ui/standardActionStyles'
-import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
-import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
-import {
-  princessActiveIcon,
-  princessBuyRewardIcon,
-  princessLockedRewardIcon,
-  princessSelectIcon,
-} from '../assets/themes/princess/assets'
 import { getRewardImage } from '../assets/rewards/assets'
 import type { ThemeId } from './themeOptions'
 import type { Theme } from '../contexts/ThemeContext'
@@ -46,19 +39,20 @@ type ChildDefinitionDescriptorDeps = {
 
 type TestFailureModeChoice = 'failure' | 'success'
 
-const TEST_FAILURE_MODE_OPTIONS: SegmentedChoiceOption<TestFailureModeChoice>[] =
-  [
-    {
-      value: 'failure',
-      label: 'Tests have failure mode',
-      icon: quizIncorrectIcon,
-    },
-    {
-      value: 'success',
-      label: 'Tests do not have failure mode',
-      icon: quizCorrectIcon,
-    },
-  ]
+const getTestFailureModeOptions = (
+  themeId: ThemeId
+): SegmentedChoiceOption<TestFailureModeChoice>[] => [
+  {
+    value: 'failure',
+    label: 'Tests have failure mode',
+    icon: getThemeAsset(themeId, 'quizIncorrectImage'),
+  },
+  {
+    value: 'success',
+    label: 'Tests do not have failure mode',
+    icon: getThemeAsset(themeId, 'quizCorrectImage'),
+  },
+]
 
 type RewardDefinitionDescriptorDeps = {
   theme: Theme
@@ -155,7 +149,7 @@ export const createChildDefinitionListRowDescriptor = (
         <SegmentedChoiceControl
           theme={deps.theme}
           value={child.testFailureModeEnabled ? 'failure' : 'success'}
-          options={TEST_FAILURE_MODE_OPTIONS}
+          options={getTestFailureModeOptions(deps.theme.id)}
           onChange={(value) =>
             deps.updateChildField(child.id, {
               testFailureModeEnabled: value === 'failure',
@@ -171,12 +165,12 @@ export const createChildDefinitionListRowDescriptor = (
     label: 'Select',
     ariaLabel: `Select ${child.displayName}`,
     icon:
-      deps.theme.id === 'princess' ? (
+      deps.theme.id === 'princess' || deps.theme.id === 'teenie' ? (
         <img
           src={
             deps.activeChildId === child.id
-              ? princessActiveIcon
-              : princessSelectIcon
+              ? getThemeAsset(deps.theme.id, 'activeIcon')
+              : getThemeAsset(deps.theme.id, 'selectIcon')
           }
           alt=""
           aria-hidden="true"
@@ -190,7 +184,10 @@ export const createChildDefinitionListRowDescriptor = (
       ),
     showLabel: false,
     disabled: deps.activeChildId === child.id,
-    variant: deps.theme.id === 'princess' ? 'neutral' : 'primary',
+    variant:
+      deps.theme.id === 'princess' || deps.theme.id === 'teenie'
+        ? 'neutral'
+        : 'primary',
     onClick: (item) => deps.selectChild(item.id),
   }),
 })
@@ -217,7 +214,7 @@ export const createRewardDefinitionListRowDescriptor = (
       ariaLabel: `Buy ${reward.title}`,
       icon: hasEnoughStars ? (
         <img
-          src={princessBuyRewardIcon}
+          src={getThemeAsset(deps.theme.id, 'buyRewardIcon')}
           alt=""
           aria-hidden="true"
           decoding="async"
@@ -225,7 +222,7 @@ export const createRewardDefinitionListRowDescriptor = (
         />
       ) : (
         <img
-          src={princessLockedRewardIcon}
+          src={getThemeAsset(deps.theme.id, 'lockedRewardIcon')}
           alt=""
           aria-hidden="true"
           decoding="async"

@@ -60,7 +60,7 @@ const BottomNav = ({ theme, activeTabId }: BottomNavProps) => {
             }}
           >
             <img
-              src={getTabIcon(tab.id)}
+              src={getTabIcon(tab.id, theme.id)}
               alt=""
               aria-hidden="true"
               style={{

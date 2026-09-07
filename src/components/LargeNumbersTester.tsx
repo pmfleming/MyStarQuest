@@ -1,12 +1,10 @@
+import { getThemeAsset } from '../ui/themeAssets'
 import {
   useCallback,
   useState,
   type CSSProperties,
   type ReactNode,
 } from 'react'
-import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
-import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
-import mathsCounterIcon from '../assets/themes/princess/maths-counter.svg'
 import { useCheckedActivityChallenge } from '../hooks/useActivityChallenge'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import { uiTokens } from '../tokens'
@@ -198,7 +196,7 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
   const renderTenRod = (key: string, index: number) => (
     <TenRod
       key={key}
-      src={mathsCounterIcon}
+      src={getThemeAsset(theme.id, 'mathsCounter')}
       counterSize={TEN_COUNTER_SIZE}
       delay={index * 0.04}
       animationName="large-numbers-pop-in"
@@ -225,7 +223,7 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
       {(index) => (
         <MathCounter
           key={`single-${index}`}
-          src={mathsCounterIcon}
+          src={getThemeAsset(theme.id, 'mathsCounter')}
           size={ONE_COUNTER_SIZE}
           delay={index * 0.04}
           animationName="large-numbers-pop-in"
@@ -358,8 +356,8 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
         <ActivityPlayArea
           theme={theme}
           results={resultHistory}
-          correctIcon={quizCorrectIcon}
-          incorrectIcon={quizIncorrectIcon}
+          correctIcon={getThemeAsset(theme.id, 'quizCorrectImage')}
+          incorrectIcon={getThemeAsset(theme.id, 'quizIncorrectImage')}
           slideAnimationName="large-numbers-slide-in-right"
           animation={playAnimation}
           shakeKey={isWrong ? `shake-${retryCount}` : undefined}

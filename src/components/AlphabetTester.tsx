@@ -1,6 +1,5 @@
+import { getThemeAsset } from '../ui/themeAssets'
 import { useState, useEffect, useCallback, useRef } from 'react'
-import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
-import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import { celebrateSuccess } from '../lib/celebrate'
 import {
   getActivityMistakeUpdate,
@@ -267,8 +266,8 @@ const AlphabetTester = ({
         <ActivityPlayArea
           theme={theme}
           results={getVisibleActivityResults(resultHistory, failureModeEnabled)}
-          correctIcon={quizCorrectIcon}
-          incorrectIcon={quizIncorrectIcon}
+          correctIcon={getThemeAsset(theme.id, 'quizCorrectImage')}
+          incorrectIcon={getThemeAsset(theme.id, 'quizIncorrectImage')}
           hideAlt
         >
           {/* Prompt Image */}

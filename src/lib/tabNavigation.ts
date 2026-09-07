@@ -1,9 +1,5 @@
-import {
-  princessCalendarIcon,
-  princessChoresIcon,
-  princessMathsIcon,
-  princessRewardsIcon,
-} from '../assets/themes/princess/assets'
+import { getThemeAsset } from '../ui/themeAssets'
+import type { ThemeId } from '../ui/themeOptions'
 
 export type AppTabId = 'chores' | 'tests' | 'rewards' | 'time-explorer'
 
@@ -38,12 +34,12 @@ export const appTabs = [
   },
 ] satisfies readonly AppTab[]
 
-export const getTabIcon = (tabId: AppTabId) => {
-  if (tabId === 'chores') return princessChoresIcon
-  if (tabId === 'tests') return princessMathsIcon
-  if (tabId === 'rewards') return princessRewardsIcon
-  if (tabId === 'time-explorer') return princessCalendarIcon
-  return princessCalendarIcon
+export const getTabIcon = (tabId: AppTabId, themeId: ThemeId = 'princess') => {
+  if (tabId === 'chores') return getThemeAsset(themeId, 'choresIcon')
+  if (tabId === 'tests') return getThemeAsset(themeId, 'mathsIcon')
+  if (tabId === 'rewards') return getThemeAsset(themeId, 'rewardsIcon')
+  if (tabId === 'time-explorer') return getThemeAsset(themeId, 'calendarIcon')
+  return getThemeAsset(themeId, 'calendarIcon')
 }
 
 export const defaultTabPath = defaultTab.path

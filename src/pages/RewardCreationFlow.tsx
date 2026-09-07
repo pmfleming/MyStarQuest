@@ -1,3 +1,4 @@
+import { getThemeAsset } from '../ui/themeAssets'
 import { useState, type CSSProperties } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import ActionTextInput from '../components/ui/ActionTextInput'
@@ -6,10 +7,6 @@ import RepeatControl from '../components/ui/RepeatControl'
 import StarDisplay from '../components/ui/StarDisplay'
 import { IconActionRow } from '../components/ui/IconActionControls'
 import { rewardImageOptions } from '../assets/rewards/assets'
-import {
-  princessExitIcon,
-  princessSaveIcon,
-} from '../assets/themes/princess/assets'
 import { uiTokens } from '../tokens'
 import type { RewardDocumentSettings } from '../data/useRewards'
 
@@ -107,12 +104,12 @@ const RewardCreationFlow = ({
 
       <IconActionRow
         theme={theme}
-        primaryIcon={princessSaveIcon}
+        primaryIcon={getThemeAsset(theme.id, 'saveIcon')}
         primaryAriaLabel="Save reward"
         onPrimaryClick={save}
         primaryDisabled={isSaving || draft.title.trim().length === 0}
         primaryIconOpacity={isSaving ? 0.55 : 1}
-        utilityIcon={princessExitIcon}
+        utilityIcon={getThemeAsset(theme.id, 'exitIcon')}
         utilityAriaLabel="Discard reward"
         onUtilityClick={onCancel}
         utilityDisabled={isSaving}

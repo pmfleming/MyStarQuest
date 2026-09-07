@@ -13,18 +13,25 @@ import { useChildren } from '../data/useChildren'
 import { useTaskActivityState } from '../hooks/useTaskActivityState'
 import { useTestCheckTriggers } from '../hooks/useTestCheckTriggers'
 import { createTestActivityBindings } from '../ui/testActivityBindings'
-import { getPrincessTaskTypeIcon } from '../ui/taskTypeIcons'
+import { getTaskTypeIcon } from '../ui/taskTypeIcons'
+import type { ThemeId } from '../ui/themeOptions'
 
 type TestChoiceKey =
   'math' | 'largeNumbers' | 'pv' | 'alphabet' | 'spelling' | 'animals'
 
-const testChoices: Array<[TestChoiceKey, string, string]> = [
-  ['math', 'Arithmetic', getPrincessTaskTypeIcon('math')],
-  ['largeNumbers', 'Large Numbers', getPrincessTaskTypeIcon('large-numbers')],
-  ['pv', 'Positional Notation', getPrincessTaskTypeIcon('positional-notation')],
-  ['alphabet', 'Alphabet Match', getPrincessTaskTypeIcon('alphabet')],
-  ['spelling', 'Spelling', getPrincessTaskTypeIcon('spelling')],
-  ['animals', 'Who am I?', getPrincessTaskTypeIcon('animals')],
+const getTestChoices = (
+  themeId: ThemeId
+): Array<[TestChoiceKey, string, string]> => [
+  ['math', 'Arithmetic', getTaskTypeIcon('math', themeId)],
+  ['largeNumbers', 'Large Numbers', getTaskTypeIcon('large-numbers', themeId)],
+  [
+    'pv',
+    'Positional Notation',
+    getTaskTypeIcon('positional-notation', themeId),
+  ],
+  ['alphabet', 'Alphabet Match', getTaskTypeIcon('alphabet', themeId)],
+  ['spelling', 'Spelling', getTaskTypeIcon('spelling', themeId)],
+  ['animals', 'Who am I?', getTaskTypeIcon('animals', themeId)],
 ]
 
 const ManageTestsPage = () => {
@@ -112,23 +119,25 @@ const ManageTestsPage = () => {
               showAddChooser ? (
                 <InlineChoiceList
                   theme={theme}
-                  choices={testChoices.map(([key, label, icon]) => ({
-                    key,
-                    label,
-                    icon,
-                    onSelect: () => {
-                      const createByKey = {
-                        math: createMathTest,
-                        largeNumbers: createLargeNumbersTest,
-                        pv: createPVTest,
-                        alphabet: createAlphabetTest,
-                        spelling: createSpellingTest,
-                        animals: createAnimalsTest,
-                      }
-                      createByKey[key]()
-                      setShowAddChooser(false)
-                    },
-                  }))}
+                  choices={getTestChoices(theme.id).map(
+                    ([key, label, icon]) => ({
+                      key,
+                      label,
+                      icon,
+                      onSelect: () => {
+                        const createByKey = {
+                          math: createMathTest,
+                          largeNumbers: createLargeNumbersTest,
+                          pv: createPVTest,
+                          alphabet: createAlphabetTest,
+                          spelling: createSpellingTest,
+                          animals: createAnimalsTest,
+                        }
+                        createByKey[key]()
+                        setShowAddChooser(false)
+                      },
+                    })
+                  )}
                   onCancel={() => setShowAddChooser(false)}
                 />
               ) : undefined

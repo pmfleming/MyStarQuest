@@ -1,23 +1,22 @@
-import {
-  princessChoresIcon,
-  princessEatingDinnerIcon,
-  princessFlaskFullImage,
-  princessMathsIcon,
-} from '../assets/themes/princess/assets'
+import { getThemeAssets } from './themeAssets'
 import type { TaskType } from '../data/types'
+import type { ThemeId } from './themeOptions'
 import animalsIcon from '../assets/global/cat-camel-cow.webp'
-
-const princessIconByTaskType = {
-  standard: princessChoresIcon,
-  eating: princessEatingDinnerIcon,
-  watertoiletcheck: princessFlaskFullImage,
-  math: princessMathsIcon,
-  'large-numbers': princessMathsIcon,
-  'positional-notation': princessMathsIcon,
-  alphabet: princessMathsIcon,
-  spelling: princessMathsIcon,
-  animals: animalsIcon,
-} satisfies Record<TaskType, string>
-
-export const getPrincessTaskTypeIcon = (taskType: TaskType) =>
-  princessIconByTaskType[taskType]
+export const getTaskTypeIcon = (
+  taskType: TaskType,
+  themeId: ThemeId = 'princess'
+) => {
+  const assets = getThemeAssets(themeId)
+  const icons = {
+    standard: assets.choresIcon,
+    eating: assets.eatingDinnerIcon,
+    watertoiletcheck: assets.flaskFullImage,
+    math: assets.mathsIcon,
+    'large-numbers': assets.mathsIcon,
+    'positional-notation': assets.mathsIcon,
+    alphabet: assets.mathsIcon,
+    spelling: assets.mathsIcon,
+    animals: animalsIcon,
+  } satisfies Record<TaskType, string>
+  return icons[taskType]
+}

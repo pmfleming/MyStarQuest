@@ -10,6 +10,12 @@ const princessModules = import.meta.glob<string>(
   }
 )
 
+const teenieModules = import.meta.glob<string>(
+  '../assets/animal-abilities-generic/teenie/*.webp',
+  { eager: true, import: 'default', query: '?url' }
+)
+const teenieCatalog = createAssetCatalog(teenieModules)
+
 const princessCatalog = createAssetCatalog(princessModules)
 
 export const PRINCESS_GENERIC_ANIMAL_ABILITY_ASSETS = princessCatalog.assets
@@ -18,6 +24,7 @@ const GENERIC_ANIMAL_ABILITY_ASSETS_BY_THEME: Partial<
   Record<ThemeId, Map<string, string>>
 > = {
   princess: princessCatalog.byName,
+  teenie: teenieCatalog.byName,
 }
 
 export const getAbilityAssetName = (abilityLabel: string) =>
@@ -30,7 +37,11 @@ export const getGenericAnimalAbilityImage = (
   const assetName = getAbilityAssetName(abilityLabel)
   const themedAssets = GENERIC_ANIMAL_ABILITY_ASSETS_BY_THEME[themeId]
 
-  // Princess is the first complete themed mascot set. Other themes use the
-  // same one-to-one ability art until their own mascot set is added.
+  if (themeId === 'teenie') {
+    const image = themedAssets?.get(assetName)
+    if (!image) throw new Error(`Missing Teenie ability: ${assetName}`)
+    return image
+  }
+  // Preserve the original fallback for themes without their own mascot set.
   return themedAssets?.get(assetName) ?? princessCatalog.byName.get(assetName)
 }

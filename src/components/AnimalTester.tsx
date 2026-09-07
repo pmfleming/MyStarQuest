@@ -1,10 +1,9 @@
+import { getThemeAsset } from '../ui/themeAssets'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import learnModeImage from '../assets/animal-mode-icons/learn.webp'
 import onePlayerModeImage from '../assets/animal-mode-icons/one-player.webp'
 import twoPlayersModeImage from '../assets/animal-mode-icons/two-players.webp'
 import teeniepingCollectionImage from '../assets/teenie/heart.webp'
-import quizCorrectIcon from '../assets/themes/princess/quiz-correct.svg'
-import quizIncorrectIcon from '../assets/themes/princess/quiz-incorrect.svg'
 import animalCollection from '../data/creatureCollections/animals'
 import {
   getLoadedCollection,
@@ -628,7 +627,7 @@ const AnimalPlayContent = ({
                   style={{ width: '100%', height: 84, objectFit: 'contain' }}
                 />
                 {formatAnimalName(choice.name)}
-                {isCorrect ? ' ✓' : isWrong ? ' ✕' : ''}
+                {isCorrect ? ' âœ“' : isWrong ? ' âœ•' : ''}
               </button>
             )
           })}
@@ -988,8 +987,8 @@ const AnimalTester = ({
         <ActivityPlayArea
           theme={theme}
           results={getVisibleActivityResults(results, failureModeEnabled)}
-          correctIcon={quizCorrectIcon}
-          incorrectIcon={quizIncorrectIcon}
+          correctIcon={getThemeAsset(theme.id, 'quizCorrectImage')}
+          incorrectIcon={getThemeAsset(theme.id, 'quizIncorrectImage')}
           hideAlt
           showResultBar={mode === 'solo'}
         >
