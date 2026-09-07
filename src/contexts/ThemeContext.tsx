@@ -27,9 +27,7 @@ import winterSunriseImg from '../assets/themes/princess/seasons/winter-sunrise.w
 import winterDaytimeImg from '../assets/themes/princess/seasons/winter-daytime.webp'
 import winterSunsetImg from '../assets/themes/princess/seasons/winter-sunset.webp'
 import winterNightImg from '../assets/themes/princess/seasons/winter-night.webp'
-import spaceFontUrl from '../assets/fonts/Space_Grotesk/SpaceGrotesk-VariableFont_wght.woff2'
-import natureFontUrl from '../assets/fonts/Nunito/Nunito-VariableFont_wght.woff2'
-import cartoonFontUrl from '../assets/fonts/Baloo_2/Baloo2-VariableFont_wght.woff2'
+import teenieFontUrl from '../assets/fonts/Nunito/Nunito-VariableFont_wght.woff2'
 import princessFontUrl from '../assets/fonts/Merienda/Merienda-VariableFont_wght.woff2'
 import type { Season } from '../lib/seasons'
 /* eslint-disable react-refresh/only-export-components */
@@ -89,22 +87,22 @@ export const themes: Record<ThemeId, Theme> = {
     name: 'Teenie Friends',
     emoji: '💖',
     fontFamily: 'MSQ Nunito',
-    fontHref: natureFontUrl,
+    fontHref: teenieFontUrl,
     colors: {
-      bg: '#F5F0FF',
+      bg: '#FFF0F6',
       surface: '#FFFFFF',
       text: '#3C2856',
-      primary: '#7751C9',
-      secondary: '#287F7A',
-      accent: '#BDEBE0',
+      primary: '#B53E88',
+      secondary: '#7751C9',
+      accent: '#F2A3D1',
     },
     fonts: {
       heading: '"MSQ Nunito", var(--app-fallback-font), sans-serif',
       body: '"MSQ Nunito", var(--app-fallback-font), sans-serif',
     },
     buttonStyle:
-      'rounded-3xl border-4 border-violet-500 shadow-[4px_4px_0px_#5B389F]',
-    bgPattern: 'linear-gradient(180deg, #F5F0FF 0%, #EDE5FC 55%, #DDF4ED 100%)',
+      'rounded-3xl border-4 border-pink-400 shadow-[4px_4px_0px_#BA4B94]',
+    bgPattern: 'none',
     confetti: ['⭐', '💖', '✨', '🌸'],
     get activityImages() {
       return getTeenieActivities()
@@ -112,75 +110,6 @@ export const themes: Record<ThemeId, Theme> = {
     get explorerBackgroundImages() {
       return getTeenieBackgrounds()
     },
-  },
-  space: {
-    id: 'space',
-    name: 'Galactic Explorer',
-    emoji: '🚀',
-    fontFamily: 'MSQ Space Grotesk',
-    fontHref: spaceFontUrl,
-    colors: {
-      bg: '#0B1026',
-      surface: '#1B2745',
-      text: '#FFFFFF',
-      primary: '#FFD700',
-      secondary: '#00E5FF',
-      accent: '#9C27B0',
-    },
-    fonts: {
-      heading: '"MSQ Space Grotesk", var(--app-fallback-font), sans-serif',
-      body: '"MSQ Space Grotesk", var(--app-fallback-font), sans-serif',
-    },
-    buttonStyle:
-      'rounded-full border-2 border-cyan-400 shadow-[0_0_15px_rgba(0,229,255,0.4)]',
-    bgPattern: 'radial-gradient(circle at 50% 50%, #1B2745 0%, #0B1026 100%)',
-    confetti: ['⭐', '🚀', '🌟', '✨'],
-  },
-  nature: {
-    id: 'nature',
-    name: 'Sunny Meadow',
-    emoji: '🌿',
-    fontFamily: 'MSQ Nunito',
-    fontHref: natureFontUrl,
-    colors: {
-      bg: '#E8F5E9',
-      surface: '#FFFFFF',
-      text: '#33691E',
-      primary: '#8BC34A',
-      secondary: '#FF9800',
-      accent: '#795548',
-    },
-    fonts: {
-      heading: '"MSQ Nunito", var(--app-fallback-font), sans-serif',
-      body: '"MSQ Nunito", var(--app-fallback-font), sans-serif',
-    },
-    buttonStyle:
-      'rounded-2xl border-4 border-amber-800 shadow-[4px_4px_0px_#5D4037]',
-    bgPattern: 'linear-gradient(180deg, #81D4FA 0%, #E8F5E9 30%, #C8E6C9 100%)',
-    confetti: ['🌻', '🍃', '🌈', '🦋'],
-  },
-  cartoon: {
-    id: 'cartoon',
-    name: 'Super Squad',
-    emoji: '💥',
-    fontFamily: 'MSQ Baloo 2',
-    fontHref: cartoonFontUrl,
-    colors: {
-      bg: '#FFF8E1',
-      surface: '#FFFFFF',
-      text: '#212121',
-      primary: '#F44336',
-      secondary: '#2196F3',
-      accent: '#FFEB3B',
-    },
-    fonts: {
-      heading: '"MSQ Baloo 2", var(--app-fallback-font), sans-serif',
-      body: '"MSQ Baloo 2", var(--app-fallback-font), sans-serif',
-    },
-    buttonStyle:
-      'rounded-xl border-4 border-black shadow-[6px_6px_0px_#000000]',
-    bgPattern: 'radial-gradient(#ddd 1.5px, transparent 1.5px)',
-    confetti: ['💥', '⚡', '🦸', '💪'],
   },
   princess: {
     id: 'princess',
@@ -254,8 +183,8 @@ interface ThemeContextValue {
 
 // Create the theme context
 export const ThemeContext = createContext<ThemeContextValue>({
-  theme: themes.space,
-  currentTheme: 'space',
+  theme: themes.princess,
+  currentTheme: 'princess',
   setTheme: () => {},
 })
 
@@ -263,10 +192,10 @@ export const ThemeContext = createContext<ThemeContextValue>({
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [currentThemeId, setCurrentThemeId] = useState<ThemeId>('space')
+  const [currentThemeId, setCurrentThemeId] = useState<ThemeId>('princess')
 
   useEffect(() => {
-    const activeTheme = themes[currentThemeId] || themes.space
+    const activeTheme = themes[currentThemeId] || themes.princess
 
     if (typeof document !== 'undefined' && 'fonts' in document) {
       void document.fonts.load(`1rem "${activeTheme.fontFamily}"`)
@@ -275,11 +204,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const themeContextValue = useMemo(
     () => ({
-      theme: themes[currentThemeId] || themes.space,
+      theme: themes[currentThemeId] || themes.princess,
       currentTheme: currentThemeId,
       setTheme: (themeId: ThemeId | string) => {
         if (isThemeId(themeId)) {
           setCurrentThemeId(themeId)
+        } else if (['space', 'nature', 'cartoon'].includes(themeId)) {
+          setCurrentThemeId('princess')
         }
       },
     }),

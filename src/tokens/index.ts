@@ -115,20 +115,13 @@ export const getActionButtonStyle = (
   theme: Theme,
   baseColor: string
 ): CSSProperties => {
-  const isDarkTheme = theme.id === 'space'
   return {
     background: baseColor,
-    color: isDarkTheme ? '#000' : '#FFF',
+    color: '#FFF',
     height: `${uiTokens.actionButtonHeight}px`,
     borderRadius: `${uiTokens.actionButtonRadius}px`,
-    border:
-      theme.id === 'space'
-        ? `3px solid ${theme.colors.secondary}`
-        : `4px solid ${theme.colors.primary}`,
-    boxShadow:
-      theme.id === 'space'
-        ? `0 0 20px ${baseColor}66, inset 0 0 20px ${baseColor}1a`
-        : `0 8px 0 ${theme.colors.accent}, 0 0 15px ${theme.colors.primary}33`,
+    border: `4px solid ${theme.colors.primary}`,
+    boxShadow: `0 8px 0 ${theme.colors.accent}, 0 0 15px ${theme.colors.primary}33`,
     fontFamily: theme.fonts.heading,
     fontSize: `${uiTokens.actionButtonFontSize}px`,
     fontWeight: 700,

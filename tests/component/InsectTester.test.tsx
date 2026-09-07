@@ -63,8 +63,7 @@ describe('Insect collection', () => {
       expect(item.looks).toBeTruthy()
       expect(item.species).toBeTruthy()
       expect(getInsectBearAbilityImage('princess', item.bear)).toBeTruthy()
-      expect(getInsectBearAbilityImage('nature', item.bear)).toBeTruthy()
-      expect(getInsectBearAbilityImage('space', item.bear)).toBeTruthy()
+      expect(getInsectBearAbilityImage('teenie', item.bear)).toBeTruthy()
     }
   })
 
@@ -143,12 +142,17 @@ describe('Insect collection', () => {
     )
   })
 
-  it.each(['Easy', 'Hard'])(
-    'plays %s solo rounds using only insect choices',
-    async (difficulty) => {
+  it.each([
+    ['Easy', 'princess'],
+    ['Hard', 'princess'],
+    ['Easy', 'teenie'],
+    ['Hard', 'teenie'],
+  ] as const)(
+    'plays %s solo rounds in %s using only insect choices',
+    async (difficulty, themeId) => {
       vi.useFakeTimers()
       try {
-        const p = { ...props(), totalProblems: 1 }
+        const p = { ...props(), theme: themes[themeId], totalProblems: 1 }
         const { rerender } = render(<AnimalTester {...p} />)
         await selectInsects()
         fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
@@ -170,8 +174,8 @@ describe('Insect collection', () => {
         expect(current).toBeDefined()
         expect(ability.querySelector('img')).toHaveAttribute(
           'src',
-          difficulty === 'Hard'
-            ? getInsectBearAbilityImage('princess', current.bear)
+          difficulty === 'Hard' || themeId === 'teenie'
+            ? getInsectBearAbilityImage(themeId, current.bear)
             : current.abilityImage
         )
         const choices = within(

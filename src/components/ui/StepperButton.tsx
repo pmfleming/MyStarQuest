@@ -33,7 +33,7 @@ const StepperButton = ({
   const buttonStyle: CSSProperties = {
     background: theme.colors.primary,
     border: `3px solid ${theme.colors.accent}`,
-    color: theme.id === 'space' ? '#000' : '#fff',
+    color: '#fff',
     fontSize: '2rem',
     fontWeight: 'bold',
     width: `${uiTokens.listUtilityActionWidth}px`,

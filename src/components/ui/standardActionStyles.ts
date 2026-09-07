@@ -37,10 +37,16 @@ export const getStandardActionVariantStyle = (
   theme: Theme,
   variant: StandardActionVariant = 'primary'
 ): CSSProperties => {
-  const isDarkTheme = theme.id === 'space'
-
   switch (variant) {
     case 'danger':
+      if (theme.id === 'teenie') {
+        return {
+          backgroundColor: '#FFF0F8',
+          borderColor: '#DC77B0',
+          color: '#8D286A',
+          boxShadow: '0 6px 0 #EDB2D5',
+        }
+      }
       if (theme.id === 'princess') {
         return {
           backgroundColor: '#FFF1F5',
@@ -67,7 +73,7 @@ export const getStandardActionVariantStyle = (
       return {
         background: `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`,
         borderColor: theme.colors.accent,
-        color: isDarkTheme ? '#000' : '#FFF',
+        color: '#FFF',
         boxShadow: `0 6px 0 ${theme.colors.secondary}80`,
       }
   }

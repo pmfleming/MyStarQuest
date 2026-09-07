@@ -65,7 +65,6 @@ describe('Teenie Friends theme', () => {
     expect(getToiletImage(themes.teenie, 'didpeepee')).not.toBe(
       getToiletImage(themes.teenie, 'notpeepee')
     )
-    expect(getWaterImage(themes.space, 'full')).toBeNull()
   })
 
   it('covers all 67 abilities and overrides the insect princess fallback', () => {

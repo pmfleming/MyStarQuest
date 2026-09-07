@@ -23,9 +23,6 @@ type SegmentedChoiceControlProps<TValue extends string> = {
   style?: CSSProperties
 }
 
-const getInactiveBackground = (theme: Theme) =>
-  theme.id === 'space' ? `${theme.colors.surface}00` : 'transparent'
-
 const SegmentedChoiceControl = <TValue extends string>({
   theme,
   value,
@@ -73,14 +70,8 @@ const SegmentedChoiceControl = <TValue extends string>({
             minWidth: 0,
             borderRadius: uiTokens.listActionRadius - uiTokens.controlInset / 2,
             border: 'none',
-            background: isSelected
-              ? theme.colors.primary
-              : getInactiveBackground(theme),
-            color: isSelected
-              ? theme.id === 'space'
-                ? '#000'
-                : '#fff'
-              : theme.colors.text,
+            background: isSelected ? theme.colors.primary : 'transparent',
+            color: isSelected ? '#fff' : theme.colors.text,
             fontFamily: theme.fonts.heading,
             fontSize: '1rem',
             fontWeight: 'bold',

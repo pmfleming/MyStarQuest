@@ -460,7 +460,6 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
             alignItems: 'center',
             justifyContent: 'center',
             gap: explorerUi.digitalClockTextGap,
-            paddingBottom: explorerUi.digitalClockBottomInset,
             boxSizing: 'border-box',
             pointerEvents: 'none',
             zIndex: 8,
@@ -488,6 +487,7 @@ const Clock = memo(({ theme, clock }: ClockProps) => {
             ref={clock.digitalAmpmRef}
             style={{
               fontSize: clockGeometry.digitalClockAmpmFontSize,
+              lineHeight: 1,
               fontWeight: 700,
               color: theme.colors.text,
               fontFamily: theme.fonts.body,

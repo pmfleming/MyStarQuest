@@ -73,7 +73,7 @@ const CrownDifficultyControl = <T extends string>({
             {Array.from({ length: option.crowns }, (_, index) => (
               <img
                 key={`${option.value}-${index}`}
-                src={getThemeAsset(theme.id, 'mathsCounter')}
+                src={getThemeAsset(theme.id, 'difficultyIcon')}
                 alt=""
                 decoding="async"
                 style={{

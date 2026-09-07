@@ -40,6 +40,7 @@ import CrownDifficultyControl, {
 } from './ui/CrownDifficultyControl'
 import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
 import ResourceLoadingIcon from './ui/ResourceLoadingIcon'
+import { usePrimaryActionImage } from './ui/PrimaryActionImageContext'
 import { getChoiceFeedbackAnimationStyles } from './ui/activityAnimationStyles'
 import './AnimalTester.css'
 
@@ -518,7 +519,7 @@ const AnimalPlayContent = ({
   const teachingFacts = getTeachingFacts(
     animal,
     theme.id,
-    difficulty === 'hard'
+    difficulty === 'hard' || (mode === 'solo' && theme.id === 'teenie')
   )
   // Keep the appearance detail until last, so it does not reveal the answer first.
   const soloFacts =
@@ -656,6 +657,13 @@ const AnimalTester = ({
   failureModeEnabled = true,
 }: AnimalTesterProps) => {
   const [collection, setCollection] = useState<CreatureCollection>('animals')
+  usePrimaryActionImage(
+    collection === 'teeniepings'
+      ? teeniepingCollectionImage
+      : collection === 'insects'
+        ? insectCollectionImage
+        : null
+  )
   const [loadedCollection, setLoadedCollection] = useState({
     id: 'animals' as CreatureCollection,
     data: animalCollection,
@@ -729,9 +737,9 @@ const AnimalTester = ({
             candidate.identity === animal.identity
           )
       )
-    ).slice(0, animal.kind === 'teenieping' && difficulty === 'hard' ? 5 : 2)
+    ).slice(0, 2)
     return shuffle([animal, ...alternatives])
-  }, [animal, catalog, difficulty])
+  }, [animal, catalog])
 
   const resetPlayState = useCallback(() => {
     if (feedbackTimer.current) clearTimeout(feedbackTimer.current)

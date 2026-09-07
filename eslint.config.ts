@@ -7,7 +7,13 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist', 'build', 'android/**/build/**']),
+  globalIgnores([
+    'dist',
+    'build',
+    'android/**/build/**',
+    'tmp/**',
+    'output/**',
+  ]),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -17,6 +23,7 @@ export default defineConfig([
       eslintConfigPrettier,
     ],
     languageOptions: {
+      parserOptions: { tsconfigRootDir: import.meta.dirname },
       ecmaVersion: 2020,
       globals: globals.browser,
     },

@@ -19,7 +19,6 @@ import { uiTokens } from '../tokens'
 const CALENDAR_URL = 'https://getschoolcalendar-6ujocyt4pq-uc.a.run.app'
 
 const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-const TOTAL_CALENDAR_CELLS = 42
 
 type CalendarDayData = {
   isNonSchoolDay?: boolean
@@ -122,7 +121,8 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   const daysInMonth = new Date(year, month + 1, 0).getDate()
 
   const firstDayOffset = getMondayFirstOffset(new Date(year, month, 1))
-  const trailingDayOffset = TOTAL_CALENDAR_CELLS - firstDayOffset - daysInMonth
+  const weekCount = Math.ceil((firstDayOffset + daysInMonth) / 7)
+  const trailingDayOffset = weekCount * 7 - firstDayOffset - daysInMonth
 
   const monthLabel = viewDate.toLocaleString('default', { month: 'long' })
 
@@ -155,7 +155,6 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   return (
     <section
       style={{
-        height: `${uiTokens.timeExplorerLinkedPanelHeight}px`,
         borderRadius: `${uiTokens.surfaceRadius}px`,
         background: theme.colors.surface,
         padding: '12px 12px 10px',

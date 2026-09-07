@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode, type CSSProperties } from 'react'
+import { useEffect, useState, type ReactNode, type CSSProperties } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
 import StarDisplay from './StarDisplay'
@@ -8,6 +8,7 @@ import {
 } from './standardActionStyles'
 import CardShell from './CardShell'
 import { ImageLoadingContext } from './ImageLoadingContext'
+import { PrimaryActionImageContext } from './PrimaryActionImageContext'
 import { useAsyncAction } from './useAsyncAction'
 import {
   ActionSpinner,
@@ -102,6 +103,9 @@ const ActionCard = <T,>({
   editingId,
   renderInlineEdit,
 }: ActionCardProps<T>) => {
+  const [activityActionImage, setActivityActionImage] = useState<string | null>(
+    null
+  )
   const { pendingAction, actionError, runAction } = useAsyncAction<
     'primary' | 'edit' | 'utility'
   >()
@@ -164,7 +168,22 @@ const ActionCard = <T,>({
     <StandardActionButtons
       item={item}
       theme={theme}
-      primaryAction={primaryAction}
+      primaryAction={
+        activityActionImage
+          ? {
+              ...primaryAction,
+              icon: (
+                <img
+                  src={activityActionImage}
+                  alt=""
+                  aria-hidden="true"
+                  decoding="async"
+                  className="h-6 w-6 object-contain"
+                />
+              ),
+            }
+          : primaryAction
+      }
       primaryDisabled={primaryDisabled}
       hidePrimary={hidePrimaryButton}
       hideEdit={hideEditButton}
@@ -196,7 +215,9 @@ const ActionCard = <T,>({
       header={renderHeader?.(item)}
       body={
         <ImageLoadingContext value={index === 0 ? 'eager' : 'lazy'}>
-          {renderItem(item)}
+          <PrimaryActionImageContext value={setActivityActionImage}>
+            {renderItem(item)}
+          </PrimaryActionImageContext>
         </ImageLoadingContext>
       }
       status={

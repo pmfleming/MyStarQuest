@@ -75,13 +75,13 @@ describe('Teenieping collection', () => {
 
   it.each([
     ['Easy', 3],
-    ['Hard', 6],
+    ['Hard', 3],
   ] as const)(
     'plays %s with %i choices and reveals appearance last',
     async (difficulty, choiceCount) => {
       vi.useFakeTimers()
       try {
-        const p = props()
+        const p = { ...props(), theme: themes.teenie }
         const { rerender } = render(<AnimalTester {...p} />)
         await selectTeeniepings()
         fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))

@@ -6,7 +6,7 @@ import { createUnifiedChoreState } from '../../../src/ui/unifiedChoreState'
 import type { TaskWithEphemeral, TodoRecord } from '../../../src/data/types'
 
 const createBaseDeps = () => ({
-  theme: themes.space,
+  theme: themes.princess,
   mode: 'today' as const,
   activeIds: {},
   checkTriggers: {},

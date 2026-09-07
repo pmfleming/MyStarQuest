@@ -22,16 +22,33 @@ def matte(image, semantic, name):
     rgb = np.asarray(image.convert('RGB')).astype(np.float32)
     neutral = (rgb.max(2) - rgb.min(2) < 7) & (rgb.min(2) > 218)
     interior = ndi.binary_erosion(semantic > 230, iterations=5)
+    if name == 'quiz-correct':
+        interior[:] = False
+    if name == 'drink-success':
+        # Clear the bottle handle even when segmentation bridges its opening.
+        interior[:round(image.height*.5), :round(image.width*.2)] = False
     candidates = neutral & ~interior
+    if name == 'drink-success':
+        # The painted checkerboard in the bottle opening is slightly tinted.
+        ya, yb = round(image.height*230/600), round(image.height*277/600)
+        xa, xb = round(image.width*52/600), round(image.width*81/600)
+        patch = rgb[ya:yb, xa:xb]
+        candidates[ya:yb, xa:xb] |= (patch.min(2) > 180) & (patch.max(2)-patch.min(2) < 35)
     labels, count = ndi.label(candidates)
     boundary = np.unique(np.concatenate([labels[0], labels[-1], labels[:, 0], labels[:, -1]]))
     means = ndi.mean(semantic, labels, np.arange(1, count + 1))
     background_ids = np.union1d(boundary[boundary != 0], np.flatnonzero(means < 120) + 1)
     background = np.isin(labels, background_ids)
+    if name == 'drink-success':
+        handle_label = labels[round(image.height*250/600), round(image.width*64/600)]
+        if handle_label:
+            background |= labels == handle_label
     # Reconnect pale ear interiors to their retained fur outlines. Restrict
     # this repair to the upper hood, away from hands, props and web gaps.
     yy, xx = np.indices(background.shape)
     hood = (yy < image.height * .5) & (xx < image.width * .7)
+    if not name.startswith('ability-'):
+        hood[:] = False
     if name == 'ability-egg-stalks':
         hood |= (xx < image.width * .5) & (yy > image.height * .6) & (yy < image.height * .85)
     if name == 'ability-wool':
@@ -49,6 +66,17 @@ def matte(image, semantic, name):
         ImageDraw.Draw(ear).polygon([(round(x*image.width/600), round(y*image.height/600)) for x, y in
             [(318,45),(330,26),(349,14),(374,13),(395,21),(411,38),(419,60),(418,79),(405,96),(366,83)]], fill=255)
         background[np.asarray(ear) > 0] = False
+    if name == 'drink-success':
+        # Protect the two white hair decorations missed by U2Net. These are
+        # inner contours traced on the 600px source, preserving source RGB.
+        protected = Image.new('L', image.size)
+        pen = ImageDraw.Draw(protected)
+        for points in [
+            [(500,310),(508,295),(528,282),(547,278),(559,281),(566,293),(565,307),(556,320),(538,329),(519,331),(506,325)],
+            [(560,308),(574,310),(583,321),(586,336),(581,350),(572,356),(562,350),(556,336),(555,322)],
+        ]:
+            pen.polygon([(round(x*image.width/600), round(y*image.height/600)) for x, y in points], fill=255)
+        background[np.asarray(protected) > 0] = False
     distance = ndi.distance_transform_edt(~background)
     # A narrow feather removes the baked matte at antialiased edges, without
     # making the white hood or highlights translucent.

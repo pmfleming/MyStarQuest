@@ -10,7 +10,7 @@ vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 
 it('preloads only the next animal and its clues after play starts', () => {
   const props = {
-    theme: themes.nature,
+    theme: themes.princess,
     totalProblems: 2,
     starReward: 3,
     isRunning: false,

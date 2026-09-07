@@ -82,10 +82,7 @@ const Carousel = ({
     border: `6px solid ${theme.colors.primary}`,
     padding: '14px 0 18px',
     textAlign: 'center',
-    boxShadow:
-      theme.id === 'space'
-        ? `0 0 16px ${theme.colors.primary}55`
-        : `0 6px 0 ${theme.colors.accent}80`,
+    boxShadow: `0 6px 0 ${theme.colors.accent}80`,
     borderRadius: 16,
   }
 
@@ -116,10 +113,7 @@ const Carousel = ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow:
-      theme.id === 'space'
-        ? `0 0 12px ${theme.colors.primary}55`
-        : `0 6px 0 ${theme.colors.accent}80`,
+    boxShadow: `0 6px 0 ${theme.colors.accent}80`,
     transform: 'scale(0.85)',
     transition: 'transform 0.35s ease, opacity 0.35s ease',
     opacity: 0.9,

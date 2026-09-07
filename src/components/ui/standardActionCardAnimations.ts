@@ -78,6 +78,10 @@ export const injectStandardActionStyles = () => {
       object-fit: contain;
       display: block;
     }
+    .standard-card-primary-art img[data-artwork-fit="contain"] {
+      width: 100% !important;
+      height: 85% !important;
+    }
     .standard-card-primary-hidden:has(.activity-inline-action, .activity-inline-action-row)
       :is(.activity-inline-action, .activity-inline-action-row) {
       width: calc(100% - ${uiTokens.listUtilityActionWidth + uiTokens.actionRowGap}px) !important;

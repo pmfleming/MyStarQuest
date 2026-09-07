@@ -361,8 +361,10 @@ const renderCountdownPlateDisplay = ({
                 <path
                   d={slicePath(index, totalBites, PLATE_CENTER, PLATE_RADIUS)}
                   fill="none"
-                  stroke={theme.colors.primary}
-                  strokeWidth="4"
+                  stroke={
+                    theme.id === 'teenie' ? '#C997DD' : theme.colors.primary
+                  }
+                  strokeWidth={theme.id === 'teenie' ? 1.25 : 4}
                 />
               </>
             ) : (

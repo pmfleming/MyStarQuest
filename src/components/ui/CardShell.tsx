@@ -65,7 +65,6 @@ const CardShell = forwardRef<HTMLElement, CardShellProps>(function CardShell(
   const isHighlighted = variant === 'highlighted'
   const isEditing = variant === 'editing'
   const isAdd = variant === 'add'
-  const isDarkTheme = theme.id === 'space'
 
   const baseStyle: CSSProperties = {
     width: '100%',
@@ -80,7 +79,7 @@ const CardShell = forwardRef<HTMLElement, CardShellProps>(function CardShell(
     background: isHighlighted
       ? `linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.secondary})`
       : theme.colors.surface,
-    color: isHighlighted ? (isDarkTheme ? '#000' : '#FFF') : theme.colors.text,
+    color: isHighlighted ? '#FFF' : theme.colors.text,
     boxShadow:
       isEditing || isAdd
         ? `0 10px 20px -5px ${theme.colors.primary}20`

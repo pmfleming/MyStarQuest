@@ -130,7 +130,7 @@ describe.each(cases)(
         [problemField.replace('TotalProblems', 'LastOutcome')]: 'failure',
       } as TodoRecord
       const deps: UnifiedChoreDeps = {
-        theme: themes.space,
+        theme: themes.princess,
         mode: 'today',
         biteCooldownSeconds: 15,
         activeIds: { [type]: item.id },

@@ -172,6 +172,11 @@ export const createChildDefinitionListRowDescriptor = (
               ? getThemeAsset(deps.theme.id, 'activeIcon')
               : getThemeAsset(deps.theme.id, 'selectIcon')
           }
+          data-artwork-fit={
+            deps.theme.id === 'teenie' && deps.activeChildId === child.id
+              ? 'contain'
+              : undefined
+          }
           alt=""
           aria-hidden="true"
           decoding="async"

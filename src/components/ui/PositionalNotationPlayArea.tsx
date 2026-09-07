@@ -67,7 +67,7 @@ const CounterCollection = ({
           border: `2px solid ${color}`,
           borderRadius: 4,
           backgroundColor: `${color}18`,
-          backgroundImage: `url("${getThemeAsset(theme.id, 'mathsCounter')}")`,
+          backgroundImage: `url("${getThemeAsset(theme.id, 'placeValueCounter')}")`,
           backgroundRepeat: 'repeat',
           backgroundSize: '10% 10%',
           animation: `pv-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${index * 0.05}s both`,
@@ -80,7 +80,7 @@ const CounterCollection = ({
     return Array.from({ length: value }, (_, index) => (
       <TenRod
         key={`ten-${index}`}
-        src={getThemeAsset(theme.id, 'mathsCounter')}
+        src={getThemeAsset(theme.id, 'placeValueCounter')}
         counterSize={compact ? 5 : 12}
         delay={index * 0.05}
         animationName="pv-pop-in"
@@ -94,7 +94,7 @@ const CounterCollection = ({
   return Array.from({ length: value }, (_, index) => (
     <MathCounter
       key={`one-${index}`}
-      src={getThemeAsset(theme.id, 'mathsCounter')}
+      src={getThemeAsset(theme.id, 'placeValueCounter')}
       alt=""
       size={counterSize}
       delay={index * 0.05}
