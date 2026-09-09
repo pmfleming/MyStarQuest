@@ -1,0 +1,144 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "quality.react_health",
+  "project": {
+    "name": "MyStarQuest Functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
+    "framework": "unknown",
+    "package_manager": "npm",
+    "test_runner": "unknown"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-09-09T15:21:07.795Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
+    "input_set_hash": "sha256:2f2c9f1bb1f3dc792aec9dadb6afc1b8d928ecb19a3e9f0e61c8977db9c32e55"
+  },
+  "analysis_identity": {
+    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "test_mapping": "compiler-imports-v1",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": false,
+    "test_runner_detected": false,
+    "git_history_available": false,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": false,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "eslint_react_hooks_available": true,
+    "eslint_react_hooks_ran": true,
+    "eslint_react_hooks_complete": true,
+    "jsx_a11y_available": true,
+    "jsx_a11y_ran": true,
+    "jsx_a11y_complete": true,
+    "complete": true,
+    "partial": false,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "package_manager_detected",
+      "excludes_applied",
+      "type_information_available",
+      "dependencies_installed",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "workspace_projects_complete",
+      "analysis_cache_enabled",
+      "eslint_react_hooks_available",
+      "eslint_react_hooks_ran",
+      "eslint_react_hooks_complete",
+      "jsx_a11y_available",
+      "jsx_a11y_ran",
+      "jsx_a11y_complete"
+    ],
+    "missing_input": [],
+    "stale_input": []
+  },
+  "summary": {
+    "components": 0,
+    "records": 0,
+    "hook_lint_findings": 0,
+    "a11y_findings": 0,
+    "a11y_tool_findings": 0,
+    "a11y_heuristic_findings": 0,
+    "high_risk_components": 0
+  },
+  "framework": {
+    "framework": "unknown",
+    "routes": [],
+    "stories": [],
+    "client_components": [],
+    "server_only_signals": [],
+    "conventions": {
+      "next_app_router": false,
+      "next_pages_router": false,
+      "remix_routes": false,
+      "storybook": false
+    }
+  },
+  "tool_status": {
+    "eslint_react_hooks": {
+      "available": true,
+      "ran": true,
+      "complete": true,
+      "reason": null,
+      "version": "7.1.1",
+      "ruleset": "recommended-v2"
+    },
+    "jsx_a11y": {
+      "available": true,
+      "ran": true,
+      "complete": true,
+      "reason": null,
+      "version": "6.10.2",
+      "ruleset": "jsx-a11y-recommended-v1"
+    }
+  },
+  "records": []
+}

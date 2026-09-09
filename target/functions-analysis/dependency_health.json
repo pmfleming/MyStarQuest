@@ -1,0 +1,223 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "quality.dependency_health",
+  "project": {
+    "name": "MyStarQuest Functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
+    "framework": "unknown",
+    "package_manager": "npm",
+    "test_runner": "unknown"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-09-09T15:21:04.000Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
+    "input_set_hash": "sha256:e6294a82b3fe61a6c11218e66b5c711277b41c12f9068e0f22c899d44e067d44"
+  },
+  "analysis_identity": {
+    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "test_mapping": "compiler-imports-v1",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": false,
+    "test_runner_detected": false,
+    "git_history_available": false,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": false,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "dependency_cruiser_available": true,
+    "dependency_cruiser_ran": true,
+    "complete": true,
+    "partial": false,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "package_manager_detected",
+      "excludes_applied",
+      "type_information_available",
+      "dependencies_installed",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "workspace_projects_complete",
+      "analysis_cache_enabled",
+      "dependency_cruiser_available",
+      "dependency_cruiser_ran"
+    ],
+    "missing_input": [],
+    "stale_input": []
+  },
+  "summary": {
+    "internal_edges": 1,
+    "external_edges": 6,
+    "cycles": 0,
+    "heuristic_cycles": 0,
+    "dependency_cruiser_cycles": 0,
+    "deep_relative_imports": 0,
+    "barrel_modules": 0,
+    "layer_violations": 0,
+    "unsupported_patterns": 0,
+    "workspaces": 1,
+    "cross_workspace_edges": 0,
+    "incomplete_workspace_projects": 0
+  },
+  "tool_status": {
+    "dependency_cruiser": {
+      "available": true,
+      "ran": true,
+      "reason": null,
+      "summary": {
+        "violations": [],
+        "error": 0,
+        "warn": 0,
+        "info": 0,
+        "ignore": 0,
+        "totalCruised": 12,
+        "totalDependenciesCruised": 11,
+        "optionsUsed": {
+          "baseDir": "C:\\Code\\MyStarQuest\\functions",
+          "combinedDependencies": false,
+          "detectJSDocImports": false,
+          "detectProcessBuiltinModuleCalls": false,
+          "exoticRequireStrings": [],
+          "externalModuleResolutionStrategy": "node_modules",
+          "metrics": false,
+          "moduleSystems": ["es6", "cjs", "tsd", "amd"],
+          "outputTo": "-",
+          "outputType": "json",
+          "preserveSymlinks": false,
+          "skipAnalysisNotInRules": false,
+          "tsPreCompilationDeps": false,
+          "args": "src"
+        }
+      }
+    }
+  },
+  "records": [],
+  "graph": {
+    "nodes": [
+      {
+        "id": "src/index",
+        "file": "src/index.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest-functions"
+      },
+      {
+        "id": "src/schoolCalendar",
+        "file": "src/schoolCalendar.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest-functions"
+      }
+    ],
+    "workspaces": [
+      {
+        "id": "mystarquest-functions",
+        "name": "mystarquest-functions",
+        "root": ".",
+        "private": true,
+        "framework": "unknown",
+        "policy_profile": "baseline",
+        "tsconfigs": ["tsconfig.json"],
+        "source_files": 2,
+        "project_loaded": true,
+        "project_reason": null
+      }
+    ],
+    "workspace_edges": [],
+    "edges": [
+      {
+        "from": "src/index",
+        "to": "src/schoolCalendar",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 13,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/index",
+        "to": "firebase-admin/app",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 8,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/index",
+        "to": "firebase-admin/firestore",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 9,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/index",
+        "to": "firebase-functions/v2/https",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 11,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/index",
+        "to": "firebase-functions/v2/scheduler",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 10,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/index",
+        "to": "node_modules/node-ical/node-ical",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": null,
+        "source": "dependency-cruiser"
+      }
+    ]
+  }
+}

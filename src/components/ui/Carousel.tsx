@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTheme } from '../../contexts/ThemeContext'
 
 type CarouselItem = {
@@ -199,4 +199,3 @@ const Carousel = ({
 }
 
 export default Carousel
-export type { CarouselItem, CarouselProps }

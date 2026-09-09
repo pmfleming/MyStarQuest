@@ -11,6 +11,24 @@ import {
 } from '../../../src/lib/choreParser'
 
 describe('stored document contracts', () => {
+  it('preserves explicit activity resets without manufacturing absent fields', () => {
+    const reset = {
+      manageCompletedAt: null,
+      manageDinnerRemainingSeconds: 0,
+      manageDinnerBitesLeft: 0,
+      manageDinnerTimerStartedAt: null,
+      manageDinnerCompletedAt: null,
+      manageWaterLevel: 'empty',
+      manageToiletStatus: 'didpeepee',
+      manageWaterToiletCompletedAt: null,
+    }
+    expect(
+      parseChoreSnapshot('reset', { choreType: 'eating', ...reset })
+    ).toMatchObject(reset)
+    const fresh = parseChoreSnapshot('fresh', { choreType: 'eating' })
+    for (const key of Object.keys(reset)) expect(fresh).not.toHaveProperty(key)
+  })
+
   it('normalizes malformed chore settings and preserves a recorded test result', () => {
     expect(
       parseChoreSnapshot('dinner', {

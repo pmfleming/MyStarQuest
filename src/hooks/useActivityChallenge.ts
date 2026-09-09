@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { celebrateSuccess } from '../lib/celebrate'
 import {
   MAX_ACTIVITY_MISTAKES,
   type ActivityResult,
-} from '../components/ui/ActivityControls'
+} from '../lib/activityOutcome'
+
+import { celebrateSuccess } from '../lib/celebrate'
 
 export type ActivityFeedback = 'idle' | 'correct' | 'wrong'
 
@@ -185,6 +186,7 @@ export const useActivityChallenge = ({
     isSuccessState,
     isCorrect,
     isWrong,
+    isFailurePending,
     submitAnswer,
     consumeCheckTrigger,
     resetFeedback,

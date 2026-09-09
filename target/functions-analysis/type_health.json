@@ -1,0 +1,631 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "quality.type_health",
+  "project": {
+    "name": "MyStarQuest Functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
+    "framework": "unknown",
+    "package_manager": "npm",
+    "test_runner": "unknown"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-09-09T15:20:59.613Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
+    "input_set_hash": "sha256:1c5481fa14532f5e1a993a5940f83ecde7e25b94e749d10a44310e570f61c5e7"
+  },
+  "analysis_identity": {
+    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "test_mapping": "compiler-imports-v1",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": false,
+    "test_runner_detected": false,
+    "git_history_available": false,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": false,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "complete": true,
+    "partial": false,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "package_manager_detected",
+      "excludes_applied",
+      "type_information_available",
+      "dependencies_installed",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "workspace_projects_complete",
+      "analysis_cache_enabled"
+    ],
+    "missing_input": [],
+    "stale_input": []
+  },
+  "summary": {
+    "records": 10,
+    "high_risk_records": 0,
+    "wide_types": 0,
+    "compiler_diagnostics": 0,
+    "type_coverage_percent": 97.17,
+    "typed_symbols": 412,
+    "untyped_symbols": 12
+  },
+  "compiler_options": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": false,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitOverride": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": false,
+    "forceConsistentCasingInFileNames": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedSideEffectImports": false,
+    "useUnknownInCatchVariables": true,
+    "verbatimModuleSyntax": false,
+    "erasableSyntaxOnly": false,
+    "declaration": false,
+    "isolatedDeclarations": false,
+    "target": 9
+  },
+  "diagnostics": [],
+  "type_coverage": {
+    "summary": {
+      "files": 2,
+      "analyzed_symbols": 424,
+      "typed_symbols": 412,
+      "explicit_any": 0,
+      "inferred_any": 12,
+      "error_types": 0,
+      "unknown": 8,
+      "type_coverage_percent": 97.17
+    },
+    "files": [
+      {
+        "file": "src/schoolCalendar.ts",
+        "analyzed_symbols": 104,
+        "typed_symbols": 104,
+        "explicit_any": 0,
+        "inferred_any": 0,
+        "error_types": 0,
+        "unknown": 0,
+        "type_coverage_percent": 100
+      },
+      {
+        "file": "src/index.ts",
+        "analyzed_symbols": 320,
+        "typed_symbols": 308,
+        "explicit_any": 0,
+        "inferred_any": 12,
+        "error_types": 0,
+        "unknown": 8,
+        "type_coverage_percent": 96.25
+      }
+    ]
+  },
+  "records": [
+    {
+      "id": "type:src/index:CurrentDayType:20",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "CurrentDayType",
+      "kind": "type",
+      "exported": false,
+      "line": 20,
+      "score": 10,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "CurrentDayType",
+        "kind": "TypeAliasDeclaration",
+        "line": 20,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 2,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/index:CurrentDayType:20",
+            "kind": "type",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/index:ScheduledTaskData:22",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "ScheduledTaskData",
+      "kind": "type",
+      "exported": false,
+      "line": 22,
+      "score": 21,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ScheduledTaskData",
+        "kind": "TypeAliasDeclaration",
+        "line": 22,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 3,
+        "optional_count": 3,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/index:ScheduledTaskData:22",
+            "kind": "type",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/index:ActivityType:89",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "ActivityType",
+      "kind": "type",
+      "exported": false,
+      "line": 89,
+      "score": 48,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "large_union",
+          "value": 8
+        }
+      ],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ActivityType",
+        "kind": "TypeAliasDeclaration",
+        "line": 89,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 8,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/index:ActivityType:89",
+            "kind": "type",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/index:explicitType:111",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "explicitType",
+      "kind": "VariableDeclaration",
+      "exported": false,
+      "line": 111,
+      "score": 45,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_inferred_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/VariableDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "VariableDeclaration",
+      "reason_code": "typescript-compiler-api/VariableDeclaration",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/index:explicitType:111",
+            "kind": "VariableDeclaration",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/index:category:112",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "category",
+      "kind": "VariableDeclaration",
+      "exported": false,
+      "line": 112,
+      "score": 45,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_inferred_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/VariableDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "VariableDeclaration",
+      "reason_code": "typescript-compiler-api/VariableDeclaration",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/index:category:112",
+            "kind": "VariableDeclaration",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/index:title:151",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "title",
+      "kind": "VariableDeclaration",
+      "exported": false,
+      "line": 151,
+      "score": 45,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_inferred_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/VariableDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "VariableDeclaration",
+      "reason_code": "typescript-compiler-api/VariableDeclaration",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/index:title:151",
+            "kind": "VariableDeclaration",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/index:duration:233",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "duration",
+      "kind": "VariableDeclaration",
+      "exported": false,
+      "line": 233,
+      "score": 45,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_inferred_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/VariableDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "VariableDeclaration",
+      "reason_code": "typescript-compiler-api/VariableDeclaration",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/index:duration:233",
+            "kind": "VariableDeclaration",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/index:bites:235",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "bites",
+      "kind": "VariableDeclaration",
+      "exported": false,
+      "line": 235,
+      "score": 45,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_inferred_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/VariableDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "VariableDeclaration",
+      "reason_code": "typescript-compiler-api/VariableDeclaration",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/index:bites:235",
+            "kind": "VariableDeclaration",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/index:events:322",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "events",
+      "kind": "VariableDeclaration",
+      "exported": false,
+      "line": 322,
+      "score": 45,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_inferred_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/VariableDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "VariableDeclaration",
+      "reason_code": "typescript-compiler-api/VariableDeclaration",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/index:events:322",
+            "kind": "VariableDeclaration",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/schoolCalendar:CalendarDay:3",
+      "module_id": "src/schoolCalendar",
+      "file": "src/schoolCalendar.ts",
+      "name": "CalendarDay",
+      "kind": "type",
+      "exported": false,
+      "line": 3,
+      "score": 12,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "CalendarDay",
+        "kind": "TypeAliasDeclaration",
+        "line": 3,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 3,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/schoolCalendar:CalendarDay:3",
+            "kind": "type",
+            "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ]
+}

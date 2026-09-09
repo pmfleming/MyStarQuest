@@ -5,7 +5,7 @@ import ChoreOutcomeView from '../ChoreOutcomeView'
 import StarDisplay from './StarDisplay'
 import StepperButton from './StepperButton'
 
-export type ActivityResult = 'correct' | 'incorrect'
+import type { ActivityResult } from '../../lib/activityOutcome'
 
 export type ActivityChoreProps = {
   theme: Theme
@@ -26,7 +26,6 @@ export type ActivityChoreProps = {
   failureModeEnabled?: boolean
 }
 
-export const MAX_ACTIVITY_MISTAKES = 3
 const ACTIVITY_SETUP_FIELD_GAP = uiTokens.panelStackGap
 
 const { statusBarHeight, statusIconSize, statusIconGap } =

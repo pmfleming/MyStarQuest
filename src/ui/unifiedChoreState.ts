@@ -1,4 +1,3 @@
-import { getThemeAsset } from './themeAssets'
 import {
   getManageDinnerBitesLeft,
   getManageDinnerRemaining,
@@ -9,7 +8,6 @@ import {
   isEatingTodo,
   isWaterToiletTask,
   isWaterToiletTodo,
-  type TaskRecord,
   type TaskType,
   type TaskWithEphemeral,
   type TodoRecord,
@@ -20,6 +18,7 @@ import {
   getNextWaterLevel,
 } from '../lib/choreLogic'
 import type { ChoreStage } from './choreModeDefinitions'
+import { getThemeAsset } from './themeAssets'
 import type {
   ThemedAsset,
   UnifiedChoreDeps,
@@ -176,4 +175,3 @@ const getTodoWaterToiletRenderState = (
 }
 
 export type UnifiedChoreState = ReturnType<typeof createUnifiedChoreState>
-export type RenderableTaskRecord = TaskRecord

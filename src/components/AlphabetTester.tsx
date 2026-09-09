@@ -1,19 +1,13 @@
-import { getThemeAsset } from '../ui/themeAssets'
-import { useState, useEffect, useCallback, useRef } from 'react'
-import { celebrateSuccess } from '../lib/celebrate'
-import {
-  getActivityMistakeUpdate,
-  getActivityOutcome,
-  getVisibleActivityResults,
-} from '../lib/activityOutcome'
+import { useCallback, useRef, useState } from 'react'
+import { useActivityChallenge } from '../hooks/useActivityChallenge'
 import { preloadImage } from '../lib/imageLoading'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
+import { getThemeAsset } from '../ui/themeAssets'
 import {
   ActivityOutcomeShell,
   ActivityPlayArea,
   ActivitySetupControls,
   type ActivityChoreProps,
-  type ActivityResult,
 } from './ui/ActivityControls'
 import LetterCaseControl, { type LetterCase } from './ui/LetterCaseControl'
 
@@ -25,9 +19,6 @@ import { createAssetCatalog } from '../data/assetCatalog'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 9
-const CELEBRATION_DELAY_MS = 1500
-const SHAKE_DURATION_MS = 600
-const FAILURE_TRANSITION_DELAY_MS = 3000
 
 const ALPHABET_ASSET_MODULES = import.meta.glob(
   '../assets/alphabet/*.{png,jpg,jpeg,webp,svg}',
@@ -104,30 +95,14 @@ const AlphabetTester = ({
   failureModeEnabled = true,
 }: AlphabetTesterProps) => {
   const [letterCase, setLetterCase] = useState<LetterCase>('lower')
-  const [problemIndex, setProblemIndex] = useState(0)
   const [currentTarget, setCurrentTarget] = useState('')
   const [currentImage, setCurrentImage] = useState('')
   const [currentChoices, setCurrentChoices] = useState<string[]>([])
   const { isSeen, markSeen, clearHistory } = useProblemHistory([letterCase])
-  const [resultHistory, setResultHistory] = useState<ActivityResult[]>([])
-  const [isFailurePending, setIsFailurePending] = useState(false)
-  const [feedback, setFeedback] = useState<'idle' | 'correct' | 'wrong'>('idle')
   const [wrongChoice, setWrongChoice] = useState<string | null>(null)
-  const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const queuedProblem = useRef<ReturnType<
     typeof generateAlphabetProblem
   > | null>(null)
-
-  const isSetup = !isRunning && !isCompleted
-  const { isSuccessState, isFinished } = getActivityOutcome({
-    isCompleted,
-    isFailed,
-    failureModeEnabled,
-    results: resultHistory,
-  })
-
-  const isCorrect = feedback === 'correct'
-  const isWrong = feedback === 'wrong'
 
   const nextProblem = useCallback(() => {
     const generateCurrent = () => {
@@ -142,7 +117,6 @@ const AlphabetTester = ({
     setCurrentTarget(p.letter)
     setCurrentImage(p.image)
     setCurrentChoices(p.choices)
-    setFeedback('idle')
     setWrongChoice(null)
 
     const next = pickUnseenProblem(
@@ -153,82 +127,46 @@ const AlphabetTester = ({
     preloadImage(next.image)
   }, [isSeen, markSeen])
 
-  useEffect(() => {
-    if (
-      isRunning &&
-      problemIndex === 0 &&
-      feedback === 'idle' &&
-      !currentTarget
-    ) {
-      const frame = requestAnimationFrame(nextProblem)
-      return () => cancelAnimationFrame(frame)
-    }
-  }, [isRunning, problemIndex, feedback, currentTarget, nextProblem])
+  const resetProblem = useCallback(() => {
+    clearHistory()
+    setCurrentTarget('')
+    setCurrentImage('')
+    setCurrentChoices([])
+    setWrongChoice(null)
+    queuedProblem.current = null
+  }, [clearHistory])
 
-  useEffect(() => {
-    return () => {
-      if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
-    }
-  }, [])
+  const {
+    resultHistory,
+    isSetup,
+    isSuccessState,
+    isFinished,
+    isCorrect,
+    isWrong,
+    isFailurePending,
+    submitAnswer,
+    resetFeedback,
+  } = useActivityChallenge({
+    isRunning,
+    isCompleted,
+    isFailed: failureModeEnabled && isFailed,
+    totalProblems,
+    onComplete,
+    onFail,
+    failureModeEnabled,
+    canStart: !currentTarget,
+    onStart: nextProblem,
+    onReset: resetProblem,
+  })
 
   const handleChoice = (selectedLetter: string) => {
-    if (feedback !== 'idle' || isFailurePending) return
-
-    if (selectedLetter === currentTarget) {
-      setFeedback('correct')
-      celebrateSuccess()
-      window.setTimeout(() => {
-        setResultHistory((prev) => [...prev, 'correct'])
-      }, 120)
-      feedbackTimer.current = setTimeout(() => {
-        if (problemIndex + 1 >= totalProblems) {
-          onComplete()
-        } else {
-          setProblemIndex((i) => i + 1)
-          nextProblem()
-        }
-      }, CELEBRATION_DELAY_MS)
-    } else {
-      setFeedback('wrong')
-      setWrongChoice(selectedLetter)
-      const mistake = getActivityMistakeUpdate(
-        resultHistory,
-        failureModeEnabled
-      )
-      setResultHistory(mistake.nextResults)
-
-      if (mistake.shouldFail) {
-        setIsFailurePending(true)
-        feedbackTimer.current = setTimeout(() => {
-          onFail?.()
-        }, FAILURE_TRANSITION_DELAY_MS)
-        return
-      }
-
-      feedbackTimer.current = setTimeout(() => {
-        setFeedback('idle')
-        setWrongChoice(null)
-      }, SHAKE_DURATION_MS)
-    }
+    if (isCorrect || isWrong || isFailurePending) return
+    setWrongChoice(selectedLetter)
+    submitAnswer(selectedLetter === currentTarget, () => {
+      resetFeedback()
+      nextProblem()
+    })
   }
-
-  useEffect(() => {
-    if (!isRunning && !isCompleted) {
-      const frame = requestAnimationFrame(() => {
-        clearHistory()
-        setProblemIndex(0)
-        setCurrentTarget('')
-        setCurrentImage('')
-        setCurrentChoices([])
-        setResultHistory([])
-        setIsFailurePending(false)
-        setFeedback('idle')
-        setWrongChoice(null)
-        queuedProblem.current = null
-      })
-      return () => cancelAnimationFrame(frame)
-    }
-  }, [isRunning, isCompleted, clearHistory])
 
   return (
     <ActivityOutcomeShell
@@ -265,7 +203,7 @@ const AlphabetTester = ({
       {isRunning && currentTarget && (
         <ActivityPlayArea
           theme={theme}
-          results={getVisibleActivityResults(resultHistory, failureModeEnabled)}
+          results={resultHistory}
           correctIcon={getThemeAsset(theme.id, 'quizCorrectImage')}
           incorrectIcon={getThemeAsset(theme.id, 'quizIncorrectImage')}
           hideAlt

@@ -1,0 +1,725 @@
+{
+  "tool": {
+    "version": "0.3.0",
+    "repository": "https://github.com/pmfleming/ts-react-quality-lens",
+    "revision": "986c6fd9cc82627866156ba0cf22cb1504ab8587"
+  },
+  "project_base": "8684c4cd4d183e8cd88a214bf1a5767407d242db",
+  "scope": "Same src roots, tests roots, compiler config, exclusions and rules for both frontend runs. Functions analyzed separately.",
+  "baseline_provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-09-09T15:08:46.131Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:c5ba5ab04bffb4f7e3b2255013d75f1c54ff75ed09e2db853f8771c5d5239435",
+    "input_set_hash": "sha256:ad661f8cfc39bf80247aa6a7ef3509d08257917ac87c7a95ce63a8cf984516aa"
+  },
+  "after_provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-09-09T15:24:28.604Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:2a4679a7f675c9bb3f4a2e876cd008a2dfe8a70f8a4d972d3186a3d278294e52",
+    "input_set_hash": "sha256:245bba91c0760028d2275d3465b7b3cb077d515275fb2325f407ee1763b814d2"
+  },
+  "before": {
+    "source_files": 167,
+    "source_lines": 24746,
+    "cyclomatic_complexity": 1645,
+    "cognitive_complexity": 1095,
+    "halstead_effort": 9090975.009999985,
+    "high_risk_hotspots": 120,
+    "clone_groups": 9,
+    "duplication_files": 13,
+    "locality_risk_sum": 7272,
+    "leverage_risk_sum": 734,
+    "unused_exports": 53,
+    "dependency_layer_violations": 31,
+    "deep_relative_imports": 100,
+    "type_coverage_percent": 99.27
+  },
+  "after": {
+    "source_files": 167,
+    "source_lines": 24197,
+    "cyclomatic_complexity": 1592,
+    "cognitive_complexity": 1064,
+    "halstead_effort": 8675408.81999999,
+    "high_risk_hotspots": 118,
+    "clone_groups": 7,
+    "duplication_files": 10,
+    "locality_risk_sum": 7234,
+    "leverage_risk_sum": 716,
+    "unused_exports": 3,
+    "dependency_layer_violations": 29,
+    "deep_relative_imports": 103,
+    "type_coverage_percent": 99.36
+  },
+  "delta": {
+    "source_files": {
+      "absolute": 0,
+      "percent": 0
+    },
+    "source_lines": {
+      "absolute": -549,
+      "percent": -2.22
+    },
+    "cyclomatic_complexity": {
+      "absolute": -53,
+      "percent": -3.22
+    },
+    "cognitive_complexity": {
+      "absolute": -31,
+      "percent": -2.83
+    },
+    "halstead_effort": {
+      "absolute": -415566.18999999575,
+      "percent": -4.57
+    },
+    "high_risk_hotspots": {
+      "absolute": -2,
+      "percent": -1.67
+    },
+    "clone_groups": {
+      "absolute": -2,
+      "percent": -22.22
+    },
+    "duplication_files": {
+      "absolute": -3,
+      "percent": -23.08
+    },
+    "locality_risk_sum": {
+      "absolute": -38,
+      "percent": -0.52
+    },
+    "leverage_risk_sum": {
+      "absolute": -18,
+      "percent": -2.45
+    },
+    "unused_exports": {
+      "absolute": -50,
+      "percent": -94.34
+    },
+    "dependency_layer_violations": {
+      "absolute": -2,
+      "percent": -6.45
+    },
+    "deep_relative_imports": {
+      "absolute": 3,
+      "percent": 3
+    },
+    "type_coverage_percent": {
+      "absolute": 0.09000000000000341,
+      "percent": 0.09
+    }
+  },
+  "summaries": {
+    "before": {
+      "hotspots": {
+        "source_files": 167,
+        "records": 784,
+        "high_risk_records": 120
+      },
+      "clones": {
+        "clone_groups": 9,
+        "jscpd_clone_groups": 2,
+        "heuristic_clone_groups": 0,
+        "ast_clone_groups": 7,
+        "source_clone_groups": 9,
+        "test_clone_groups": 0,
+        "duplication_records": 13,
+        "high_duplication_records": 0,
+        "clone_pressure_records": 13,
+        "same_purpose_records": 0
+      },
+      "locality_metrics": {
+        "records": 167,
+        "high_risk_records": 22
+      },
+      "leverage_metrics": {
+        "records": 167,
+        "shared_hubs": 46
+      },
+      "type_health": {
+        "records": 463,
+        "high_risk_records": 28,
+        "wide_types": 21,
+        "compiler_diagnostics": 0,
+        "type_coverage_percent": 99.27,
+        "typed_symbols": 17356,
+        "untyped_symbols": 127
+      },
+      "lint_health": {
+        "records": 89,
+        "blocking_findings": 63,
+        "warning_findings": 26
+      },
+      "react_health": {
+        "components": 98,
+        "records": 104,
+        "hook_lint_findings": 0,
+        "a11y_findings": 5,
+        "a11y_tool_findings": 5,
+        "a11y_heuristic_findings": 0,
+        "high_risk_components": 21
+      },
+      "dependency_health": {
+        "internal_edges": 804,
+        "external_edges": 127,
+        "cycles": 0,
+        "heuristic_cycles": 0,
+        "dependency_cruiser_cycles": 0,
+        "deep_relative_imports": 100,
+        "barrel_modules": 1,
+        "layer_violations": 31,
+        "unsupported_patterns": 0,
+        "workspaces": 1,
+        "cross_workspace_edges": 0,
+        "incomplete_workspace_projects": 0
+      },
+      "cleanup": {
+        "records": 90,
+        "unused_files": 3,
+        "unused_exports": 53,
+        "unused_dependencies": 0,
+        "unused_dev_dependencies": 1,
+        "unlisted_dependencies": 1,
+        "type_only_production_dependencies": 0,
+        "test_only_production_dependencies": 0,
+        "duplicate_exports": 2,
+        "entrypoint_files": 1,
+        "knip_findings": 90,
+        "tool_confirmed": 52,
+        "tool_disagreed": 2,
+        "tool_not_comparable": 3,
+        "tool_excluded": 0
+      },
+      "correctness_review": {
+        "tests": 49,
+        "colocated_tests": 0,
+        "external_tests": 49,
+        "execution_status": "passed",
+        "execution_scope": "suite",
+        "coverage_status": "not_collected",
+        "blocking_findings": 0
+      },
+      "map": {
+        "nodes": 167,
+        "edges": 931,
+        "workspaces": 1,
+        "cross_workspace_edges": 0,
+        "entrypoint_nodes": 1,
+        "high_risk_nodes": 90,
+        "unknown_metric_nodes": 0,
+        "missing_inputs": 0,
+        "stale_inputs": 0,
+        "artifact_status": {
+          "hotspots": "available",
+          "clones": "available",
+          "escape_hatches": "available",
+          "type_health": "available",
+          "lint": "available",
+          "dependency_health": "available",
+          "correctness": "available",
+          "locality": "available",
+          "leverage": "available",
+          "react_health": "available",
+          "cleanup": "available",
+          "performance": "missing"
+        }
+      },
+      "package_health": {
+        "status": "disabled",
+        "complete": false,
+        "records": 0,
+        "blocking_findings": 0,
+        "publint_messages": 0,
+        "attw_problems": 0,
+        "packed_files": 0,
+        "packed_size": null
+      },
+      "runtime_health": {
+        "status": "not_configured",
+        "configured_inputs": 0,
+        "complete_inputs": 0,
+        "records": 0,
+        "profiler_findings": 0,
+        "accessibility_findings": 0,
+        "react_doctor_findings": 0
+      },
+      "sarif_findings": {
+        "status": "not_configured",
+        "inputs": 0,
+        "complete_inputs": 0,
+        "required_inputs": 0,
+        "records": 0,
+        "blocking_findings": 0,
+        "code_flow_findings": 0,
+        "fixable_findings": 0
+      },
+      "ts_escape_hatches": {
+        "records": 108,
+        "files_with_escape_hatches": 43,
+        "by_kind": {
+          "type_assertion": 41,
+          "eslint_suppression": 4,
+          "browser_global": 52,
+          "non_null_assertion": 3,
+          "double_assertion": 1,
+          "direct_dom_mutation": 3,
+          "module_level_mutable_state": 4
+        }
+      }
+    },
+    "after": {
+      "hotspots": {
+        "source_files": 167,
+        "records": 758,
+        "high_risk_records": 118
+      },
+      "clones": {
+        "clone_groups": 7,
+        "jscpd_clone_groups": 1,
+        "heuristic_clone_groups": 0,
+        "ast_clone_groups": 6,
+        "source_clone_groups": 7,
+        "test_clone_groups": 0,
+        "duplication_records": 10,
+        "high_duplication_records": 0,
+        "clone_pressure_records": 10,
+        "same_purpose_records": 0
+      },
+      "locality_metrics": {
+        "records": 167,
+        "high_risk_records": 22
+      },
+      "leverage_metrics": {
+        "records": 167,
+        "shared_hubs": 46
+      },
+      "type_health": {
+        "records": 444,
+        "high_risk_records": 28,
+        "wide_types": 21,
+        "compiler_diagnostics": 0,
+        "type_coverage_percent": 99.36,
+        "typed_symbols": 16909,
+        "untyped_symbols": 109
+      },
+      "lint_health": {
+        "records": 86,
+        "blocking_findings": 62,
+        "warning_findings": 24
+      },
+      "react_health": {
+        "components": 98,
+        "records": 104,
+        "hook_lint_findings": 0,
+        "a11y_findings": 5,
+        "a11y_tool_findings": 5,
+        "a11y_heuristic_findings": 0,
+        "high_risk_components": 20
+      },
+      "dependency_health": {
+        "internal_edges": 792,
+        "external_edges": 127,
+        "cycles": 0,
+        "heuristic_cycles": 0,
+        "dependency_cruiser_cycles": 0,
+        "deep_relative_imports": 103,
+        "barrel_modules": 1,
+        "layer_violations": 29,
+        "unsupported_patterns": 0,
+        "workspaces": 1,
+        "cross_workspace_edges": 0,
+        "incomplete_workspace_projects": 0
+      },
+      "cleanup": {
+        "records": 35,
+        "unused_files": 2,
+        "unused_exports": 3,
+        "unused_dependencies": 0,
+        "unused_dev_dependencies": 1,
+        "unlisted_dependencies": 1,
+        "type_only_production_dependencies": 0,
+        "test_only_production_dependencies": 0,
+        "duplicate_exports": 0,
+        "entrypoint_files": 1,
+        "knip_findings": 35,
+        "tool_confirmed": 2,
+        "tool_disagreed": 3,
+        "tool_not_comparable": 3,
+        "tool_excluded": 0
+      },
+      "correctness_review": {
+        "tests": 50,
+        "colocated_tests": 0,
+        "external_tests": 50,
+        "execution_status": "passed",
+        "execution_scope": "suite",
+        "coverage_status": "not_collected",
+        "blocking_findings": 0
+      },
+      "map": {
+        "nodes": 167,
+        "edges": 919,
+        "workspaces": 1,
+        "cross_workspace_edges": 0,
+        "entrypoint_nodes": 1,
+        "high_risk_nodes": 89,
+        "unknown_metric_nodes": 0,
+        "missing_inputs": 0,
+        "stale_inputs": 0,
+        "artifact_status": {
+          "hotspots": "available",
+          "clones": "available",
+          "escape_hatches": "available",
+          "type_health": "available",
+          "lint": "available",
+          "dependency_health": "available",
+          "correctness": "available",
+          "locality": "available",
+          "leverage": "available",
+          "react_health": "available",
+          "cleanup": "available",
+          "performance": "missing"
+        }
+      },
+      "package_health": {
+        "status": "disabled",
+        "complete": false,
+        "records": 0,
+        "blocking_findings": 0,
+        "publint_messages": 0,
+        "attw_problems": 0,
+        "packed_files": 0,
+        "packed_size": null
+      },
+      "runtime_health": {
+        "status": "not_configured",
+        "configured_inputs": 0,
+        "complete_inputs": 0,
+        "records": 0,
+        "profiler_findings": 0,
+        "accessibility_findings": 0,
+        "react_doctor_findings": 0
+      },
+      "sarif_findings": {
+        "status": "not_configured",
+        "inputs": 0,
+        "complete_inputs": 0,
+        "required_inputs": 0,
+        "records": 0,
+        "blocking_findings": 0,
+        "code_flow_findings": 0,
+        "fixable_findings": 0
+      },
+      "ts_escape_hatches": {
+        "records": 106,
+        "files_with_escape_hatches": 43,
+        "by_kind": {
+          "type_assertion": 40,
+          "eslint_suppression": 4,
+          "browser_global": 51,
+          "non_null_assertion": 3,
+          "double_assertion": 1,
+          "direct_dom_mutation": 3,
+          "module_level_mutable_state": 4
+        }
+      }
+    }
+  },
+  "targets": {
+    "before": [
+      {
+        "file": "src/components/LargeNumbersTester.tsx",
+        "name": "LargeNumbersTester",
+        "score": 294,
+        "metrics": {
+          "cyclomatic_complexity": 7,
+          "cognitive_complexity": 7,
+          "halstead_effort": 218926.78,
+          "nesting_depth": 0,
+          "line_count": 402,
+          "jsx_density": 40,
+          "render_branch_complexity": 1
+        }
+      },
+      {
+        "file": "src/components/ArithmeticTester.tsx",
+        "name": "ArithmeticTester",
+        "score": 287,
+        "metrics": {
+          "cyclomatic_complexity": 11,
+          "cognitive_complexity": 12,
+          "halstead_effort": 94658.51,
+          "nesting_depth": 0,
+          "line_count": 325,
+          "jsx_density": 21,
+          "render_branch_complexity": 7
+        }
+      },
+      {
+        "file": "src/components/AlphabetTester.tsx",
+        "name": "AlphabetTester",
+        "score": 164,
+        "metrics": {
+          "cyclomatic_complexity": 5,
+          "cognitive_complexity": 4,
+          "halstead_effort": 359276.28,
+          "nesting_depth": 0,
+          "line_count": 250,
+          "jsx_density": 9,
+          "render_branch_complexity": 2
+        }
+      },
+      {
+        "file": "src/lib/choreParser.ts",
+        "name": "parseTaskSnapshot",
+        "score": 138,
+        "metrics": {
+          "cyclomatic_complexity": 17,
+          "cognitive_complexity": 16,
+          "halstead_effort": 71713.71,
+          "nesting_depth": 1,
+          "line_count": 70
+        }
+      },
+      {
+        "file": "src/data/useTests.ts",
+        "name": "useTests",
+        "score": 119,
+        "metrics": {
+          "cyclomatic_complexity": 1,
+          "cognitive_complexity": 0,
+          "halstead_effort": 725125.62,
+          "nesting_depth": 0,
+          "line_count": 272
+        }
+      }
+    ],
+    "after": [
+      {
+        "file": "src/components/LargeNumbersTester.tsx",
+        "name": "LargeNumbersTester",
+        "score": 271,
+        "metrics": {
+          "cyclomatic_complexity": 4,
+          "cognitive_complexity": 3,
+          "halstead_effort": 207128.47,
+          "nesting_depth": 0,
+          "line_count": 395,
+          "jsx_density": 40,
+          "render_branch_complexity": 1
+        }
+      },
+      {
+        "file": "src/components/ArithmeticTester.tsx",
+        "name": "ArithmeticTester",
+        "score": 264,
+        "metrics": {
+          "cyclomatic_complexity": 8,
+          "cognitive_complexity": 8,
+          "halstead_effort": 125489.24,
+          "nesting_depth": 0,
+          "line_count": 318,
+          "jsx_density": 21,
+          "render_branch_complexity": 7
+        }
+      },
+      {
+        "file": "src/components/AlphabetTester.tsx",
+        "name": "AlphabetTester",
+        "score": 142,
+        "metrics": {
+          "cyclomatic_complexity": 5,
+          "cognitive_complexity": 4,
+          "halstead_effort": 172085.24,
+          "nesting_depth": 0,
+          "line_count": 197,
+          "jsx_density": 9,
+          "render_branch_complexity": 2
+        }
+      },
+      {
+        "file": "src/data/useTests.ts",
+        "name": "useTests",
+        "score": 102,
+        "metrics": {
+          "cyclomatic_complexity": 1,
+          "cognitive_complexity": 0,
+          "halstead_effort": 600298.72,
+          "nesting_depth": 0,
+          "line_count": 230
+        }
+      },
+      {
+        "file": "src/lib/choreParser.ts",
+        "name": "parseTaskSnapshot",
+        "score": 82,
+        "metrics": {
+          "cyclomatic_complexity": 9,
+          "cognitive_complexity": 8,
+          "halstead_effort": 41541.15,
+          "nesting_depth": 1,
+          "line_count": 52
+        }
+      }
+    ]
+  },
+  "functions": {
+    "hotspots": {
+      "source_files": 2,
+      "records": 15,
+      "high_risk_records": 3
+    },
+    "clones": {
+      "clone_groups": 0,
+      "jscpd_clone_groups": 0,
+      "heuristic_clone_groups": 0,
+      "ast_clone_groups": 0,
+      "source_clone_groups": 0,
+      "test_clone_groups": 0,
+      "duplication_records": 0,
+      "high_duplication_records": 0,
+      "clone_pressure_records": 0,
+      "same_purpose_records": 0
+    },
+    "locality_metrics": {
+      "records": 2,
+      "high_risk_records": 0
+    },
+    "leverage_metrics": {
+      "records": 2,
+      "shared_hubs": 0
+    },
+    "type_health": {
+      "records": 10,
+      "high_risk_records": 0,
+      "wide_types": 0,
+      "compiler_diagnostics": 0,
+      "type_coverage_percent": 97.17,
+      "typed_symbols": 412,
+      "untyped_symbols": 12
+    },
+    "lint_health": {
+      "records": 13,
+      "blocking_findings": 9,
+      "warning_findings": 4
+    },
+    "react_health": {
+      "components": 0,
+      "records": 0,
+      "hook_lint_findings": 0,
+      "a11y_findings": 0,
+      "a11y_tool_findings": 0,
+      "a11y_heuristic_findings": 0,
+      "high_risk_components": 0
+    },
+    "dependency_health": {
+      "internal_edges": 1,
+      "external_edges": 6,
+      "cycles": 0,
+      "heuristic_cycles": 0,
+      "dependency_cruiser_cycles": 0,
+      "deep_relative_imports": 0,
+      "barrel_modules": 0,
+      "layer_violations": 0,
+      "unsupported_patterns": 0,
+      "workspaces": 1,
+      "cross_workspace_edges": 0,
+      "incomplete_workspace_projects": 0
+    },
+    "cleanup": {
+      "records": 1,
+      "unused_files": 0,
+      "unused_exports": 0,
+      "unused_dependencies": 0,
+      "unused_dev_dependencies": 0,
+      "unlisted_dependencies": 0,
+      "type_only_production_dependencies": 0,
+      "test_only_production_dependencies": 0,
+      "duplicate_exports": 0,
+      "entrypoint_files": 3,
+      "knip_findings": 1,
+      "tool_confirmed": 0,
+      "tool_disagreed": 1,
+      "tool_not_comparable": 0,
+      "tool_excluded": 0
+    },
+    "correctness_review": {
+      "tests": 7,
+      "colocated_tests": 0,
+      "external_tests": 7,
+      "execution_status": "unknown",
+      "execution_scope": "suite",
+      "coverage_status": "not_collected",
+      "blocking_findings": 0
+    },
+    "map": {
+      "nodes": 2,
+      "edges": 7,
+      "workspaces": 1,
+      "cross_workspace_edges": 0,
+      "entrypoint_nodes": 1,
+      "high_risk_nodes": 2,
+      "unknown_metric_nodes": 2,
+      "missing_inputs": 0,
+      "stale_inputs": 0,
+      "artifact_status": {
+        "hotspots": "available",
+        "clones": "available",
+        "escape_hatches": "available",
+        "type_health": "available",
+        "lint": "available",
+        "dependency_health": "available",
+        "correctness": "available",
+        "locality": "available",
+        "leverage": "available",
+        "react_health": "available",
+        "cleanup": "available",
+        "performance": "missing"
+      }
+    },
+    "package_health": {
+      "status": "disabled",
+      "complete": false,
+      "records": 0,
+      "blocking_findings": 0,
+      "publint_messages": 0,
+      "attw_problems": 0,
+      "packed_files": 0,
+      "packed_size": null
+    },
+    "runtime_health": {
+      "status": "not_configured",
+      "configured_inputs": 0,
+      "complete_inputs": 0,
+      "records": 0,
+      "profiler_findings": 0,
+      "accessibility_findings": 0,
+      "react_doctor_findings": 0
+    },
+    "sarif_findings": {
+      "status": "not_configured",
+      "inputs": 0,
+      "complete_inputs": 0,
+      "required_inputs": 0,
+      "records": 0,
+      "blocking_findings": 0,
+      "code_flow_findings": 0,
+      "fixable_findings": 0
+    },
+    "ts_escape_hatches": {
+      "records": 6,
+      "files_with_escape_hatches": 1,
+      "by_kind": {
+        "type_assertion": 4,
+        "non_null_assertion": 2
+      }
+    }
+  }
+}

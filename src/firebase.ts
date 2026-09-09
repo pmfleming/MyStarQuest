@@ -30,5 +30,3 @@ export const app = initializeApp(firebaseConfig)
 // Authentication is required before protected routes load, so keep it in the
 // entry module. Firestore is initialized separately by lazy-loaded data routes.
 export const auth = getAuth(app)
-
-export default app

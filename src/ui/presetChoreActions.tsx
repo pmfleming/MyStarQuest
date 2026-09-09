@@ -1,8 +1,4 @@
 import type { ReactNode } from 'react'
-import type {
-  ResolvedListAction,
-  ResolvedListUtilityAction,
-} from './listDescriptorTypes'
 import {
   getActivityPrimaryActionLabel,
   getDinnerPrimaryActionLabel,
@@ -13,6 +9,10 @@ import {
   type ChoreModeType,
   type ChoreStage,
 } from './choreModeDefinitions'
+import type {
+  ResolvedListAction,
+  ResolvedListUtilityAction,
+} from './listDescriptorTypes'
 
 type PresetChoreType = Exclude<ChoreModeType, 'standard'>
 
@@ -90,7 +90,7 @@ const createStagedPrimaryAction = <T,>({
   },
 })
 
-export const createDeleteUtilityAction = <T,>(
+const createDeleteUtilityAction = <T,>(
   ariaLabel: string,
   onClick: (item: T) => void | Promise<void>
 ): ResolvedListUtilityAction<T> => ({
@@ -101,7 +101,7 @@ export const createDeleteUtilityAction = <T,>(
   onClick,
 })
 
-export const createResetUtilityAction = <T,>(
+const createResetUtilityAction = <T,>(
   ariaLabel: string,
   onClick: (item: T) => void | Promise<void>
 ): ResolvedListUtilityAction<T> => ({

@@ -1,9 +1,10 @@
-import { getThemeAsset } from '../../ui/themeAssets'
 import type { CSSProperties } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
+import { type ActivityResult } from '../../lib/activityOutcome'
 import { uiTokens } from '../../tokens'
-import { ActivityPlayArea, type ActivityResult } from './ActivityControls'
+import { getThemeAsset } from '../../ui/themeAssets'
 import { EmptyCounterHint, MathCounter, TenRod } from './ActivityMathCounters'
+import MathActivityPlayArea from './MathActivityPlayArea'
 import StepperButton from './StepperButton'
 
 export type PlaceValueKind = 'hundreds' | 'tens' | 'ones'
@@ -321,21 +322,14 @@ const PositionalNotationPlayArea = ({
     ones: MAX_DIGIT,
   }
   const plusPositions = isTwoCrown ? ['33.33%', '66.66%'] : ['56.66%']
-  const animation = isWrong
-    ? 'pv-shake 0.5s ease'
-    : isCorrect
-      ? 'pv-pop-in 0.4s ease'
-      : undefined
-
   return (
-    <ActivityPlayArea
+    <MathActivityPlayArea
       theme={theme}
       results={results}
-      correctIcon={getThemeAsset(theme.id, 'quizCorrectImage')}
-      incorrectIcon={getThemeAsset(theme.id, 'quizIncorrectImage')}
-      slideAnimationName="pv-slide-in-right"
-      animation={animation}
-      shakeKey={isWrong ? `shake-${retryCount}` : undefined}
+      animationPrefix="pv"
+      isCorrect={isCorrect}
+      isWrong={isWrong}
+      retryCount={retryCount}
     >
       <TargetNumber targetNumber={targetNumber} theme={theme} />
       <div style={{ position: 'relative', width: '100%' }}>
@@ -394,7 +388,7 @@ const PositionalNotationPlayArea = ({
           </div>
         ))}
       </div>
-    </ActivityPlayArea>
+    </MathActivityPlayArea>
   )
 }
 

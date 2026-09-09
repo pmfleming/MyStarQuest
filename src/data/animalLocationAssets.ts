@@ -1,32 +1,32 @@
-import africaImage from '../assets/animal-locations/scenic/africa.webp'
-import andesImage from '../assets/animal-locations/scenic/andes.webp'
-import northernContinentsImage from '../assets/animal-locations/scenic/northern-continents.webp'
+import africaAsiaAmericasImage from '../assets/animal-locations/scenic/africa-asia-americas.webp'
+import africaAsiaImage from '../assets/animal-locations/scenic/africa-asia.webp'
+import africaIndiaImage from '../assets/animal-locations/scenic/africa-india.webp'
 import africaIranImage from '../assets/animal-locations/scenic/africa-iran.webp'
+import africaImage from '../assets/animal-locations/scenic/africa.webp'
+import afroEurasiaImage from '../assets/animal-locations/scenic/afro-eurasia.webp'
+import americasImage from '../assets/animal-locations/scenic/americas.webp'
+import andesImage from '../assets/animal-locations/scenic/andes.webp'
+import arcticImage from '../assets/animal-locations/scenic/arctic.webp'
 import asiaImage from '../assets/animal-locations/scenic/asia.webp'
 import australiaImage from '../assets/animal-locations/scenic/australia.webp'
-import arcticImage from '../assets/animal-locations/scenic/arctic.webp'
-import oceansImage from '../assets/animal-locations/scenic/oceans.webp'
-import worldwideImage from '../assets/animal-locations/scenic/worldwide.webp'
-import warmRegionsImage from '../assets/animal-locations/scenic/warm-regions.webp'
-import afroEurasiaImage from '../assets/animal-locations/scenic/afro-eurasia.webp'
-import fiveContinentsImage from '../assets/animal-locations/scenic/five-continents.webp'
-import africaAsiaAmericasImage from '../assets/animal-locations/scenic/africa-asia-americas.webp'
-import coastsImage from '../assets/animal-locations/scenic/coasts.webp'
-import mildRegionsImage from '../assets/animal-locations/scenic/mild-regions.webp'
-import northAmericaImage from '../assets/animal-locations/scenic/north-america.webp'
-import americasImage from '../assets/animal-locations/scenic/americas.webp'
-import africaAsiaImage from '../assets/animal-locations/scenic/africa-asia.webp'
-import centralWestAfricaImage from '../assets/animal-locations/scenic/central-west-africa.webp'
 import centralAfricaImage from '../assets/animal-locations/scenic/central-africa.webp'
+import centralAsiaImage from '../assets/animal-locations/scenic/central-asia.webp'
+import centralChinaImage from '../assets/animal-locations/scenic/central-china.webp'
+import centralSouthAmericaImage from '../assets/animal-locations/scenic/central-south-america.webp'
+import centralWestAfricaImage from '../assets/animal-locations/scenic/central-west-africa.webp'
+import coastsImage from '../assets/animal-locations/scenic/coasts.webp'
+import easternAustraliaImage from '../assets/animal-locations/scenic/eastern-australia.webp'
+import fiveContinentsImage from '../assets/animal-locations/scenic/five-continents.webp'
+import mildRegionsImage from '../assets/animal-locations/scenic/mild-regions.webp'
 import newGuineaNorthAustraliaImage from '../assets/animal-locations/scenic/new-guinea-north-australia.webp'
 import newZealandImage from '../assets/animal-locations/scenic/new-zealand.webp'
-import easternAustraliaImage from '../assets/animal-locations/scenic/eastern-australia.webp'
-import africaIndiaImage from '../assets/animal-locations/scenic/africa-india.webp'
+import northAmericaImage from '../assets/animal-locations/scenic/north-america.webp'
+import northernContinentsImage from '../assets/animal-locations/scenic/northern-continents.webp'
+import oceansImage from '../assets/animal-locations/scenic/oceans.webp'
 import southernAfricaImage from '../assets/animal-locations/scenic/southern-africa.webp'
-import centralSouthAmericaImage from '../assets/animal-locations/scenic/central-south-america.webp'
-import centralChinaImage from '../assets/animal-locations/scenic/central-china.webp'
 import southernHemisphereImage from '../assets/animal-locations/scenic/southern-hemisphere.webp'
-import centralAsiaImage from '../assets/animal-locations/scenic/central-asia.webp'
+import warmRegionsImage from '../assets/animal-locations/scenic/warm-regions.webp'
+import worldwideImage from '../assets/animal-locations/scenic/worldwide.webp'
 
 // One location category owns one caption and one scenic map.
 export const ANIMAL_LOCATIONS = {
@@ -80,9 +80,6 @@ export const ANIMAL_LOCATIONS = {
 } as const
 
 export type AnimalLocationName = keyof typeof ANIMAL_LOCATIONS
-export const ANIMAL_LOCATION_NAMES = Object.keys(
-  ANIMAL_LOCATIONS
-) as AnimalLocationName[]
 export const ANIMAL_LOCATION_IMAGE_BY_NAME = Object.fromEntries(
   Object.entries(ANIMAL_LOCATIONS).map(([name, { image }]) => [name, image])
 ) as Record<AnimalLocationName, string>

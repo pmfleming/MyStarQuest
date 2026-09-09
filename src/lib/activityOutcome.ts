@@ -1,7 +1,6 @@
-import {
-  MAX_ACTIVITY_MISTAKES,
-  type ActivityResult,
-} from '../components/ui/ActivityControls'
+export type ActivityResult = 'correct' | 'incorrect'
+
+export const MAX_ACTIVITY_MISTAKES = 3
 
 type ActivityOutcomeArgs = {
   isCompleted: boolean

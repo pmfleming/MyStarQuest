@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.1.0",
+  "schema_version": "0.3.0",
   "task_id": "correctness.catalog",
   "project": {
     "name": "MyStarQuest",
@@ -10,12 +10,39 @@
   },
   "provenance": {
     "lens": "ts-react-quality-lens",
-    "schema_version": "0.1.0",
-    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:43:54.915Z",
+    "measured_at": "2026-09-09T15:25:03.460Z",
     "source_type": "static",
-    "source_set_hash": "sha256:b43c67a5411affb9f43cefcc8ea80cd9050083721aa51cf6110cf0759242e765"
+    "source_set_hash": "sha256:2a4679a7f675c9bb3f4a2e876cd008a2dfe8a70f8a4d972d3186a3d278294e52",
+    "input_set_hash": "sha256:aa0b43844bb4dd620cf34c9d031183d8c573f9f43f84bbaea79a15524075bfdb"
+  },
+  "analysis_identity": {
+    "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:3b0f360d5b74b92560fd4b9739831b0c854a33be6b34130701a6943087442b11",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "test_mapping": "compiler-imports-v1",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
   },
   "confidence": {
     "source_roots_exist": true,
@@ -32,8 +59,10 @@
     "typescript_program_loaded": true,
     "typescript_program_reason": null,
     "framework_conventions_detected": true,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "complete": true,
     "partial": false,
@@ -57,16 +86,19 @@
       "typescript_compiler_api_available",
       "typescript_program_loaded",
       "framework_conventions_detected",
+      "workspace_projects_complete",
       "analysis_cache_enabled"
     ],
     "missing_input": [],
     "stale_input": []
   },
   "summary": {
-    "tests": 33,
-    "colocated_tests": 28,
-    "external_tests": 5,
-    "execution_status": "passed"
+    "tests": 50,
+    "colocated_tests": 0,
+    "external_tests": 50,
+    "execution_status": "passed",
+    "execution_scope": "suite",
+    "coverage_status": "not_collected"
   },
   "tests": [
     {
@@ -74,7 +106,23 @@
       "name": "ActivityControls.test.tsx",
       "path": "tests/component/ActivityControls.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/components/ui/ActivityControls.tsx"],
+      "source_mapping": [
+        "src/contexts/ThemeContext.tsx",
+        "src/components/ui/ActivityControls.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/components/ui/ActivityControls.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -84,7 +132,61 @@
       "name": "AlphabetTester.test.tsx",
       "path": "tests/component/AlphabetTester.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/components/AlphabetTester.tsx"],
+      "source_mapping": [
+        "src/components/AlphabetTester.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/AlphabetTester.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/AnimalImagePreload.test.tsx",
+      "name": "AnimalImagePreload.test.tsx",
+      "path": "tests/component/AnimalImagePreload.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/AnimalTester.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/data/animalAssets.ts",
+        "src/lib/imageLoading.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/AnimalTester.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/animalAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/imageLoading.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -94,17 +196,65 @@
       "name": "AnimalTester.test.tsx",
       "path": "tests/component/AnimalTester.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/components/AnimalTester.tsx"],
-      "status": "not_run",
-      "suite_status": "passed",
-      "command_hint": "npm run test"
-    },
-    {
-      "id": "test:tests/component/App.test.tsx",
-      "name": "App.test.tsx",
-      "path": "tests/component/App.test.tsx",
-      "framework": "vitest",
-      "source_mapping": ["src/App.tsx"],
+      "source_mapping": [
+        "src/components/AnimalTester.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/data/animalAbilityAssets.ts",
+        "src/data/genericAnimalAbilityAssets.ts",
+        "src/data/animalAssets.ts",
+        "src/data/animalFoodAssets.ts",
+        "src/data/animalHabitatAssets.ts",
+        "src/data/animalKnowledge.ts",
+        "src/data/animalLocationAssets.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/AnimalTester.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/animalAbilityAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/genericAnimalAbilityAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/animalAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/animalFoodAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/animalHabitatAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/animalKnowledge.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/animalLocationAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -116,8 +266,21 @@
       "framework": "vitest",
       "source_mapping": [
         "src/components/ui/Carousel.tsx",
-        "src/components/ui/ImageOptionCarousel.tsx"
+        "src/contexts/ThemeContext.tsx"
       ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/Carousel.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -127,7 +290,28 @@
       "name": "ChildFailureModeControl.test.tsx",
       "path": "tests/component/ChildFailureModeControl.test.tsx",
       "framework": "vitest",
-      "source_mapping": [],
+      "source_mapping": [
+        "src/contexts/ThemeContext.tsx",
+        "src/ui/definitionRowDescriptors.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/definitionRowDescriptors.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -137,27 +321,77 @@
       "name": "ChoreCreationFlow.test.tsx",
       "path": "tests/component/ChoreCreationFlow.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/pages/ChoreCreationFlow.tsx"],
+      "source_mapping": [
+        "src/pages/ChoreCreationFlow.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/pages/ChoreCreationFlow.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
     },
     {
-      "id": "test:tests/component/ChoreOutcomeView.test.tsx",
-      "name": "ChoreOutcomeView.test.tsx",
-      "path": "tests/component/ChoreOutcomeView.test.tsx",
+      "id": "test:tests/component/CreatureCollectionLoading.test.tsx",
+      "name": "CreatureCollectionLoading.test.tsx",
+      "path": "tests/component/CreatureCollectionLoading.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/components/ChoreOutcomeView.tsx"],
-      "status": "not_run",
-      "suite_status": "passed",
-      "command_hint": "npm run test"
-    },
-    {
-      "id": "test:tests/component/DashboardHeaderActions.test.tsx",
-      "name": "DashboardHeaderActions.test.tsx",
-      "path": "tests/component/DashboardHeaderActions.test.tsx",
-      "framework": "vitest",
-      "source_mapping": [],
+      "source_mapping": [
+        "src/components/AnimalTester.tsx",
+        "src/data/creatureCollections/animals.ts",
+        "src/data/creatureCollections/insects.ts",
+        "src/data/creatureCollections/teeniepings.ts",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/AnimalTester.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/creatureCollections/animals.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/creatureCollections/insects.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/creatureCollections/teeniepings.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/creatureCollections/types.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -167,7 +401,87 @@
       "name": "DinnerCountdown.test.tsx",
       "path": "tests/component/DinnerCountdown.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/components/DinnerCountdown.tsx"],
+      "source_mapping": [
+        "src/components/DinnerCountdown.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/hooks/useDinnerCountdownState.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/DinnerCountdown.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/hooks/useDinnerCountdownState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/DragScrollRegion.test.tsx",
+      "name": "DragScrollRegion.test.tsx",
+      "path": "tests/component/DragScrollRegion.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/ui/DragScrollRegion.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/DragScrollRegion.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/InsectTester.test.tsx",
+      "name": "InsectTester.test.tsx",
+      "path": "tests/component/InsectTester.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/AnimalTester.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/data/insectKnowledge.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/AnimalTester.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/insectKnowledge.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -177,7 +491,41 @@
       "name": "PositionalNotation.test.tsx",
       "path": "tests/component/PositionalNotation.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/components/PositionalNotation.tsx"],
+      "source_mapping": [
+        "src/components/PositionalNotation.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/PositionalNotation.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/ResourceLoadingIcon.test.tsx",
+      "name": "ResourceLoadingIcon.test.tsx",
+      "path": "tests/component/ResourceLoadingIcon.test.tsx",
+      "framework": "vitest",
+      "source_mapping": ["src/components/ui/ResourceLoadingIcon.tsx"],
+      "source_associations": [
+        {
+          "file": "src/components/ui/ResourceLoadingIcon.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -187,7 +535,28 @@
       "name": "RewardAvailableSummary.test.tsx",
       "path": "tests/component/RewardAvailableSummary.test.tsx",
       "framework": "vitest",
-      "source_mapping": [],
+      "source_mapping": [
+        "src/contexts/ThemeContext.tsx",
+        "src/ui/definitionRowDescriptors.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/definitionRowDescriptors.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -197,7 +566,23 @@
       "name": "RewardCreationFlow.test.tsx",
       "path": "tests/component/RewardCreationFlow.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/pages/RewardCreationFlow.tsx"],
+      "source_mapping": [
+        "src/pages/RewardCreationFlow.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/pages/RewardCreationFlow.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -207,7 +592,48 @@
       "name": "SegmentedChoiceControl.test.tsx",
       "path": "tests/component/SegmentedChoiceControl.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/components/ui/SegmentedChoiceControl.tsx"],
+      "source_mapping": [
+        "src/components/ui/SegmentedChoiceControl.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/SegmentedChoiceControl.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/SolarSystem3DManager.test.ts",
+      "name": "SolarSystem3DManager.test.ts",
+      "path": "tests/component/SolarSystem3DManager.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/dayNightExplorer/SolarSystem3DManager.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -217,7 +643,29 @@
       "name": "SpellingTester.test.tsx",
       "path": "tests/component/SpellingTester.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/components/SpellingTester.tsx"],
+      "source_mapping": [
+        "src/components/SpellingTester.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/data/animalAssets.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/SpellingTester.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/animalAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -227,7 +675,29 @@
       "name": "StandardActionList.test.tsx",
       "path": "tests/component/StandardActionList.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/components/ui/StandardActionList.tsx"],
+      "source_mapping": [
+        "src/components/ui/StandardActionList.tsx",
+        "src/components/ui/ImageStarFrame.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/components/ui/ImageStarFrame.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -237,7 +707,111 @@
       "name": "StarDisplay.test.tsx",
       "path": "tests/component/StarDisplay.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/components/ui/StarDisplay.tsx"],
+      "source_mapping": [
+        "src/components/ui/StarDisplay.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/StarDisplay.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/TeenieThemeSwitching.test.tsx",
+      "name": "TeenieThemeSwitching.test.tsx",
+      "path": "tests/component/TeenieThemeSwitching.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/contexts/ThemeContext.tsx",
+        "src/contexts/ActiveChildContext.tsx",
+        "src/assets/chores/assets.ts",
+        "src/lib/tabNavigation.ts",
+        "src/pages/ChoreCreationFlow.tsx",
+        "src/ui/themeOptions.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ActiveChildContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/assets/chores/assets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/tabNavigation.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/pages/ChoreCreationFlow.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/themeOptions.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/TeeniepingTester.test.tsx",
+      "name": "TeeniepingTester.test.tsx",
+      "path": "tests/component/TeeniepingTester.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/AnimalTester.tsx",
+        "src/data/creatureCollections/availability.ts",
+        "src/contexts/ThemeContext.tsx",
+        "src/data/teeniepingKnowledge.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/AnimalTester.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/creatureCollections/availability.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/teeniepingKnowledge.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -248,6 +822,221 @@
       "path": "tests/component/WaterToiletMonitor.test.tsx",
       "framework": "vitest",
       "source_mapping": ["src/components/WaterToiletMonitor.tsx"],
+      "source_associations": [
+        {
+          "file": "src/components/WaterToiletMonitor.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/WhoAmIButton.test.tsx",
+      "name": "WhoAmIButton.test.tsx",
+      "path": "tests/component/WhoAmIButton.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/AnimalTester.tsx",
+        "src/components/ui/StandardActionList.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/ui/taskTypeIcons.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/AnimalTester.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/taskTypeIcons.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/choreStarAwards.test.tsx",
+      "name": "choreStarAwards.test.tsx",
+      "path": "tests/component/choreStarAwards.test.tsx",
+      "framework": "vitest",
+      "source_mapping": ["src/data/useChoreActivityActions.ts"],
+      "source_associations": [
+        {
+          "file": "src/data/types.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/useChoreActivityActions.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/dayNightPerformance.test.tsx",
+      "name": "dayNightPerformance.test.tsx",
+      "path": "tests/component/dayNightPerformance.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/dayNightExplorer/useExplorerClock.ts",
+        "src/components/ui/StarInfoBox.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/components/ui/StarInfoBox.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/tabNavigation.test.tsx",
+      "name": "tabNavigation.test.tsx",
+      "path": "tests/component/tabNavigation.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/routes/AnimatedTabLayout.tsx",
+        "src/components/AppErrorBoundary.tsx",
+        "src/pages/DashboardPage.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/routes/AnimatedTabLayout.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/components/AppErrorBoundary.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/taskActivityState.test.tsx",
+      "name": "taskActivityState.test.tsx",
+      "path": "tests/component/taskActivityState.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/data/types.ts",
+        "src/hooks/useTaskActivityState.ts",
+        "src/hooks/useTestCheckTriggers.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/data/types.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/hooks/useTaskActivityState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/hooks/useTestCheckTriggers.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/testActivityReset.test.tsx",
+      "name": "testActivityReset.test.tsx",
+      "path": "tests/component/testActivityReset.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/data/taskDocuments.ts",
+        "src/hooks/useTaskActivityState.ts",
+        "src/hooks/useTestCheckTriggers.ts",
+        "src/hooks/useActivityChallenge.ts",
+        "src/ui/testActivityBindings.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/data/taskDocuments.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/hooks/useTaskActivityState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/hooks/useTestCheckTriggers.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/hooks/useActivityChallenge.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/testActivityBindings.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -257,7 +1046,193 @@
       "name": "unifiedChoreDescriptors.test.tsx",
       "path": "tests/component/ui/unifiedChoreDescriptors.test.tsx",
       "framework": "vitest",
-      "source_mapping": ["src/ui/unifiedChoreDescriptors.tsx"],
+      "source_mapping": [
+        "src/contexts/ThemeContext.tsx",
+        "src/ui/unifiedChoreDescriptors.tsx",
+        "src/ui/unifiedChoreState.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/unifiedChoreState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/ui/unifiedTestRenderer.test.tsx",
+      "name": "unifiedTestRenderer.test.tsx",
+      "path": "tests/component/ui/unifiedTestRenderer.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/contexts/ThemeContext.tsx",
+        "src/data/taskDocuments.ts",
+        "src/data/dailyTaskState.ts",
+        "src/lib/choreParser.ts",
+        "src/ui/unifiedTestRenderer.tsx",
+        "src/ui/unifiedChoreState.ts",
+        "src/ui/unifiedChoreDescriptors.tsx",
+        "src/ui/presetChoreRenderers.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/taskDocuments.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/choreParser.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/unifiedChoreState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/presetChoreRenderers.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/unifiedChoreDescriptorTypes.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/useChoreActivityActions.test.tsx",
+      "name": "useChoreActivityActions.test.tsx",
+      "path": "tests/component/useChoreActivityActions.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/data/useChoreActivityActions.ts",
+        "src/lib/starActions.ts",
+        "src/lib/celebrate.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/data/useChoreActivityActions.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/starActions.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/celebrate.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/useChoresReset.test.tsx",
+      "name": "useChoresReset.test.tsx",
+      "path": "tests/component/useChoresReset.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/data/useChores.ts",
+        "src/components/ui/StandardActionList.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/ui/unifiedChoreDescriptors.tsx",
+        "src/ui/listDescriptorTypes.ts",
+        "src/data/types.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/data/useChores.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/listDescriptorTypes.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -268,6 +1243,64 @@
       "path": "tests/component/useCoalescedDocumentUpdates.test.tsx",
       "framework": "vitest",
       "source_mapping": ["src/hooks/useCoalescedDocumentUpdates.ts"],
+      "source_associations": [
+        {
+          "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/useTestsReset.test.tsx",
+      "name": "useTestsReset.test.tsx",
+      "path": "tests/component/useTestsReset.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/data/useTests.ts",
+        "src/data/taskDocuments.ts",
+        "src/data/types.ts",
+        "src/data/dailyTaskState.ts",
+        "src/lib/today.ts",
+        "src/lib/starActions.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/data/useTests.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/taskDocuments.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/today.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/starActions.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -278,6 +1311,8 @@
       "path": "tests/e2e/example.spec.ts",
       "framework": "vitest",
       "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -288,26 +1323,8 @@
       "path": "tests/setup/vitest.setup.ts",
       "framework": "vitest",
       "source_mapping": [],
-      "status": "not_run",
-      "suite_status": "passed",
-      "command_hint": "npm run test"
-    },
-    {
-      "id": "test:tests/unit/choreLogic.test.ts",
-      "name": "choreLogic.test.ts",
-      "path": "tests/unit/choreLogic.test.ts",
-      "framework": "vitest",
-      "source_mapping": ["src/lib/choreLogic.ts"],
-      "status": "not_run",
-      "suite_status": "passed",
-      "command_hint": "npm run test"
-    },
-    {
-      "id": "test:tests/unit/choreModeDefinitions.test.ts",
-      "name": "choreModeDefinitions.test.ts",
-      "path": "tests/unit/choreModeDefinitions.test.ts",
-      "framework": "vitest",
-      "source_mapping": ["src/ui/choreModeDefinitions.ts"],
+      "source_associations": [],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -317,7 +1334,28 @@
       "name": "dailyTaskState.test.ts",
       "path": "tests/unit/dailyTaskState.test.ts",
       "framework": "vitest",
-      "source_mapping": ["src/data/dailyTaskState.ts"],
+      "source_mapping": [
+        "src/data/dailyTaskState.ts",
+        "src/data/taskDocuments.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/taskDocuments.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -327,7 +1365,74 @@
       "name": "choreParser.test.ts",
       "path": "tests/unit/lib/choreParser.test.ts",
       "framework": "vitest",
-      "source_mapping": ["src/lib/choreParser.ts"],
+      "source_mapping": ["src/data/types.ts", "src/lib/choreParser.ts"],
+      "source_associations": [
+        {
+          "file": "src/data/types.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/choreParser.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/lib/disposeSceneObject.test.ts",
+      "name": "disposeSceneObject.test.ts",
+      "path": "tests/unit/lib/disposeSceneObject.test.ts",
+      "framework": "vitest",
+      "source_mapping": ["src/lib/dayNightExplorer/disposeSceneObject.ts"],
+      "source_associations": [
+        {
+          "file": "src/lib/dayNightExplorer/disposeSceneObject.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/lib/earthTextureCache.test.ts",
+      "name": "earthTextureCache.test.ts",
+      "path": "tests/unit/lib/earthTextureCache.test.ts",
+      "framework": "vitest",
+      "source_mapping": ["src/lib/dayNightExplorer/earthTextureCache.ts"],
+      "source_associations": [
+        {
+          "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/lib/imageLoading.test.ts",
+      "name": "imageLoading.test.ts",
+      "path": "tests/unit/lib/imageLoading.test.ts",
+      "framework": "vitest",
+      "source_mapping": ["src/lib/imageLoading.ts"],
+      "source_associations": [
+        {
+          "file": "src/lib/imageLoading.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -338,6 +1443,14 @@
       "path": "tests/unit/lib/solar.test.ts",
       "framework": "vitest",
       "source_mapping": ["src/lib/solar.ts"],
+      "source_associations": [
+        {
+          "file": "src/lib/solar.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -348,6 +1461,32 @@
       "path": "tests/unit/lib/today.test.ts",
       "framework": "vitest",
       "source_mapping": ["src/lib/today.ts"],
+      "source_associations": [
+        {
+          "file": "src/lib/today.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/loadCreatureCollection.test.ts",
+      "name": "loadCreatureCollection.test.ts",
+      "path": "tests/unit/loadCreatureCollection.test.ts",
+      "framework": "vitest",
+      "source_mapping": ["src/data/creatureCollections/loadCollection.ts"],
+      "source_associations": [
+        {
+          "file": "src/data/creatureCollections/loadCollection.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -358,6 +1497,26 @@
       "path": "tests/unit/positionalNotationProblems.test.ts",
       "framework": "vitest",
       "source_mapping": ["src/lib/positionalNotationProblems.ts"],
+      "source_associations": [
+        {
+          "file": "src/lib/positionalNotationProblems.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/schoolCalendar.test.ts",
+      "name": "schoolCalendar.test.ts",
+      "path": "tests/unit/schoolCalendar.test.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -368,6 +1527,14 @@
       "path": "tests/unit/starActions.test.ts",
       "framework": "vitest",
       "source_mapping": ["src/lib/starActions.ts"],
+      "source_associations": [
+        {
+          "file": "src/lib/starActions.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
@@ -377,27 +1544,82 @@
       "name": "taskLimits.test.ts",
       "path": "tests/unit/taskLimits.test.ts",
       "framework": "vitest",
-      "source_mapping": ["src/data/taskLimits.ts"],
+      "source_mapping": ["src/data/taskLimits.ts", "src/data/types.ts"],
+      "source_associations": [
+        {
+          "file": "src/data/taskLimits.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"
     },
     {
-      "id": "test:tests/unit/ui/choreModeDefinitions.test.ts",
-      "name": "choreModeDefinitions.test.ts",
-      "path": "tests/unit/ui/choreModeDefinitions.test.ts",
+      "id": "test:tests/unit/themeAssets.test.ts",
+      "name": "themeAssets.test.ts",
+      "path": "tests/unit/themeAssets.test.ts",
       "framework": "vitest",
-      "source_mapping": ["src/ui/choreModeDefinitions.ts"],
-      "status": "not_run",
-      "suite_status": "passed",
-      "command_hint": "npm run test"
-    },
-    {
-      "id": "test:tests/unit/waterToiletAssets.test.ts",
-      "name": "waterToiletAssets.test.ts",
-      "path": "tests/unit/waterToiletAssets.test.ts",
-      "framework": "vitest",
-      "source_mapping": ["src/ui/waterToiletAssets.ts"],
+      "source_mapping": [
+        "src/ui/themeAssets.ts",
+        "src/contexts/ThemeContext.tsx",
+        "src/ui/themeOptions.ts",
+        "src/assets/chores/assets.ts",
+        "src/data/genericAnimalAbilityAssets.ts",
+        "src/data/insectKnowledge.ts",
+        "src/ui/waterToiletAssets.ts",
+        "src/lib/tabNavigation.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/ui/themeAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/themeOptions.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/assets/chores/assets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/genericAnimalAbilityAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/insectKnowledge.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/waterToiletAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/tabNavigation.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
       "command_hint": "npm run test"

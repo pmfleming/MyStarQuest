@@ -1,0 +1,378 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "map.architecture",
+  "project": {
+    "name": "MyStarQuest Functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
+    "framework": "unknown",
+    "package_manager": "npm",
+    "test_runner": "unknown"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-09-09T15:21:09.438Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
+    "input_set_hash": "sha256:6d5288c44cc50db80dc63da698cefde95500419b8ae18b511ee66b551d0bad2f"
+  },
+  "analysis_identity": {
+    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "test_mapping": "compiler-imports-v1",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": false,
+    "test_runner_detected": false,
+    "git_history_available": false,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": false,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "confidence_scope": "architecture_map_inputs",
+    "required_inputs": [
+      "hotspots",
+      "clones",
+      "escape_hatches",
+      "type_health",
+      "lint",
+      "dependency_health",
+      "correctness",
+      "locality",
+      "leverage",
+      "react_health",
+      "cleanup"
+    ],
+    "observed_inputs": [
+      "hotspots",
+      "clones",
+      "escape_hatches",
+      "type_health",
+      "lint",
+      "dependency_health",
+      "correctness",
+      "locality",
+      "leverage",
+      "react_health",
+      "cleanup"
+    ],
+    "missing_input": [],
+    "stale_input": [],
+    "complete": true,
+    "partial": false
+  },
+  "summary": {
+    "nodes": 2,
+    "edges": 7,
+    "workspaces": 1,
+    "cross_workspace_edges": 0,
+    "entrypoint_nodes": 1,
+    "high_risk_nodes": 2,
+    "unknown_metric_nodes": 2,
+    "missing_inputs": 0,
+    "stale_inputs": 0,
+    "artifact_status": {
+      "hotspots": "available",
+      "clones": "available",
+      "escape_hatches": "available",
+      "type_health": "available",
+      "lint": "available",
+      "dependency_health": "available",
+      "correctness": "available",
+      "locality": "available",
+      "leverage": "available",
+      "react_health": "available",
+      "cleanup": "available",
+      "performance": "missing"
+    }
+  },
+  "meta": {
+    "risk_model_id": "tsrqlens.architecture_risk",
+    "risk_model_version": 3,
+    "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+    "risk_model_weights": {
+      "maintainability": 1,
+      "correctness": 1,
+      "architecture": 1,
+      "change": 1,
+      "performance": 0.5,
+      "quality": 1
+    },
+    "risk_model_tool_scores": {
+      "missing_direct_test_evidence": 40,
+      "failing_test_run": 85,
+      "stale_or_missing_input": null
+    },
+    "performance_inputs": {
+      "bundle_stats": null,
+      "render_costs": null
+    }
+  },
+  "groups": [
+    {
+      "id": "src",
+      "label": "src",
+      "node_count": 2,
+      "risk_score": 183,
+      "kind": "src",
+      "rule_id": "ts-react-quality-lens/src",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "src",
+      "reason_code": "ts-react-quality-lens/src",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this src finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src",
+            "kind": "src",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ],
+  "framework": {
+    "framework": "unknown",
+    "routes": [],
+    "stories": [],
+    "client_components": [],
+    "server_only_signals": [],
+    "conventions": {
+      "next_app_router": false,
+      "next_pages_router": false,
+      "remix_routes": false,
+      "storybook": false
+    }
+  },
+  "workspaces": [
+    {
+      "id": "mystarquest-functions",
+      "name": "mystarquest-functions",
+      "root": ".",
+      "private": true,
+      "framework": "unknown",
+      "policy_profile": "baseline",
+      "tsconfigs": ["tsconfig.json"],
+      "source_files": 2,
+      "project_loaded": true,
+      "project_reason": null
+    }
+  ],
+  "nodes": [
+    {
+      "id": "src/index",
+      "label": "index.ts",
+      "file": "src/index.ts",
+      "type": "module",
+      "group": "src",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "entrypoint_roles": ["configured_public_api"],
+      "risk_score": 183,
+      "risk": "high",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 183,
+        "correctness": null,
+        "architecture": 76,
+        "change": 49,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 90,
+        "total": null
+      },
+      "maintainability_risk": 183,
+      "change_risk": 49,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 76,
+      "quality_risk": 90,
+      "total_score": null,
+      "unknown_metrics": ["correctness:no_measured_evidence"],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 6,
+        "exports": 4,
+        "functions": 10,
+        "components": 0,
+        "types": 3,
+        "entrypoint_roles": 1
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "unknown",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/schoolCalendar",
+      "label": "schoolCalendar.ts",
+      "file": "src/schoolCalendar.ts",
+      "type": "module",
+      "group": "src",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "entrypoint_roles": [],
+      "risk_score": 74,
+      "risk": "high",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 74,
+        "correctness": null,
+        "architecture": 0,
+        "change": 5,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 50,
+        "total": null
+      },
+      "maintainability_risk": 74,
+      "change_risk": 5,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 0,
+      "quality_risk": 50,
+      "total_score": null,
+      "unknown_metrics": ["correctness:no_measured_evidence"],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 1,
+        "exports": 1,
+        "functions": 3,
+        "components": 0,
+        "types": 1,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
+        "suite_status": "unknown",
+        "coverage_status": "not_collected"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "import:src/index:firebase-admin/app:8",
+      "from": "src/index",
+      "to": "firebase-admin/app",
+      "type": "static_import",
+      "source": "import { initializeApp } from 'firebase-admin/app'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 8
+    },
+    {
+      "id": "import:src/index:firebase-admin/firestore:9",
+      "from": "src/index",
+      "to": "firebase-admin/firestore",
+      "type": "static_import",
+      "source": "import { getFirestore, type DocumentData } from 'firebase-admin/firestore'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 9
+    },
+    {
+      "id": "import:src/index:firebase-functions/v2/scheduler:10",
+      "from": "src/index",
+      "to": "firebase-functions/v2/scheduler",
+      "type": "static_import",
+      "source": "import { onSchedule } from 'firebase-functions/v2/scheduler'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 10
+    },
+    {
+      "id": "import:src/index:firebase-functions/v2/https:11",
+      "from": "src/index",
+      "to": "firebase-functions/v2/https",
+      "type": "static_import",
+      "source": "import { onCall, onRequest, HttpsError } from 'firebase-functions/v2/https'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 11
+    },
+    {
+      "id": "import:src/index:node-ical:12",
+      "from": "src/index",
+      "to": "node-ical",
+      "type": "static_import",
+      "source": "import * as ical from 'node-ical'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 12
+    },
+    {
+      "id": "import:src/index:src/schoolCalendar:13",
+      "from": "src/index",
+      "to": "src/schoolCalendar",
+      "type": "static_import",
+      "source": "import { buildSchoolCalendar } from './schoolCalendar'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": "mystarquest-functions",
+      "workspace_dependency": false,
+      "line": 13
+    },
+    {
+      "id": "import:src/schoolCalendar:node-ical:1",
+      "from": "src/schoolCalendar",
+      "to": "node-ical",
+      "type": "type_only_import",
+      "source": "import type { CalendarResponse, VEvent } from 'node-ical'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    }
+  ]
+}

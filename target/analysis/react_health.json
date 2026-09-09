@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.1.0",
+  "schema_version": "0.3.0",
   "task_id": "quality.react_health",
   "project": {
     "name": "MyStarQuest",
@@ -10,12 +10,39 @@
   },
   "provenance": {
     "lens": "ts-react-quality-lens",
-    "schema_version": "0.1.0",
-    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-08-31T23:43:42.120Z",
+    "measured_at": "2026-09-09T15:25:11.651Z",
     "source_type": "static",
-    "source_set_hash": "sha256:b43c67a5411affb9f43cefcc8ea80cd9050083721aa51cf6110cf0759242e765"
+    "source_set_hash": "sha256:2a4679a7f675c9bb3f4a2e876cd008a2dfe8a70f8a4d972d3186a3d278294e52",
+    "input_set_hash": "sha256:ead1fd3795958a2fe7d97d6bebbe3fc6824757501f99cc414c92f743936aefc5"
+  },
+  "analysis_identity": {
+    "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:3b0f360d5b74b92560fd4b9739831b0c854a33be6b34130701a6943087442b11",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "test_mapping": "compiler-imports-v1",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
   },
   "confidence": {
     "source_roots_exist": true,
@@ -32,11 +59,17 @@
     "typescript_program_loaded": true,
     "typescript_program_reason": null,
     "framework_conventions_detected": true,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "eslint_react_hooks_available": true,
     "eslint_react_hooks_ran": true,
+    "eslint_react_hooks_complete": true,
+    "jsx_a11y_available": true,
+    "jsx_a11y_ran": true,
+    "jsx_a11y_complete": true,
     "complete": true,
     "partial": false,
     "confidence_scope": "project_static_analysis",
@@ -59,19 +92,26 @@
       "typescript_compiler_api_available",
       "typescript_program_loaded",
       "framework_conventions_detected",
+      "workspace_projects_complete",
       "analysis_cache_enabled",
       "eslint_react_hooks_available",
-      "eslint_react_hooks_ran"
+      "eslint_react_hooks_ran",
+      "eslint_react_hooks_complete",
+      "jsx_a11y_available",
+      "jsx_a11y_ran",
+      "jsx_a11y_complete"
     ],
     "missing_input": [],
     "stale_input": []
   },
   "summary": {
-    "components": 96,
-    "records": 97,
+    "components": 98,
+    "records": 104,
     "hook_lint_findings": 0,
-    "a11y_findings": 0,
-    "high_risk_components": 21
+    "a11y_findings": 5,
+    "a11y_tool_findings": 5,
+    "a11y_heuristic_findings": 0,
+    "high_risk_components": 20
   },
   "framework": {
     "framework": "vite",
@@ -91,10 +131,6 @@
       {
         "kind": "next_pages_route",
         "file": "src/pages/ManageChildrenPage.tsx"
-      },
-      {
-        "kind": "next_pages_route",
-        "file": "src/pages/ManageTestsPage.tsx"
       },
       {
         "kind": "next_pages_route",
@@ -127,6 +163,10 @@
       {
         "kind": "remix_route",
         "file": "src/routes/ProtectedRoute.tsx"
+      },
+      {
+        "kind": "remix_route",
+        "file": "src/routes/TabPageBoundary.tsx"
       }
     ],
     "stories": [],
@@ -143,7 +183,18 @@
     "eslint_react_hooks": {
       "available": true,
       "ran": true,
-      "reason": null
+      "complete": true,
+      "reason": null,
+      "version": "7.1.1",
+      "ruleset": "recommended-v2"
+    },
+    "jsx_a11y": {
+      "available": true,
+      "ran": true,
+      "complete": true,
+      "reason": null,
+      "version": "6.10.2",
+      "ruleset": "jsx-a11y-recommended-v1"
     }
   },
   "records": [
@@ -157,13 +208,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -193,18 +248,22 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -225,36 +284,36 @@
       "module_id": "src/components/AlphabetTester",
       "file": "src/components/AlphabetTester.tsx",
       "name": "AlphabetTester",
-      "line": 87,
-      "score": 238,
+      "line": 81,
+      "score": 141,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 247
+          "value": 197
         },
         {
           "kind": "many_hooks",
-          "value": 16
-        },
-        {
-          "kind": "many_effects",
-          "value": 3
+          "value": 10
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -275,18 +334,22 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "FactCard",
-      "line": 121,
-      "score": 31,
-      "risk": "low",
+      "line": 104,
+      "score": 37,
+      "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -306,18 +369,22 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "FactGrid",
-      "line": 202,
-      "score": 10,
+      "line": 213,
+      "score": 11,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -337,18 +404,22 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalPortrait",
-      "line": 223,
+      "line": 244,
       "score": 16,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -368,18 +439,22 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "HideableAnimalPortrait",
-      "line": 274,
+      "line": 296,
       "score": 17,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -399,18 +474,22 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "NavigationArrow",
-      "line": 328,
+      "line": 352,
       "score": 5,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -430,18 +509,22 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "LearningNavigation",
-      "line": 347,
+      "line": 371,
       "score": 12,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -461,18 +544,22 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "TwoPlayerProgressButton",
-      "line": 406,
-      "score": 7,
+      "line": 432,
+      "score": 8,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -492,18 +579,27 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalPlayContent",
-      "line": 460,
-      "score": 31,
-      "risk": "low",
-      "signals": [],
-      "kind": "component",
-      "actions": [
+      "line": 498,
+      "score": 36,
+      "risk": "medium",
+      "signals": [
         {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
+          "kind": "oversized_component",
+          "value": 121
+        }
+      ],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -523,36 +619,40 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalTester",
-      "line": 580,
-      "score": 230,
+      "line": 642,
+      "score": 379,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 214
+          "value": 379
         },
         {
           "kind": "many_hooks",
-          "value": 16
+          "value": 25
         },
         {
           "kind": "many_effects",
-          "value": 3
+          "value": 5
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -578,13 +678,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -604,17 +708,17 @@
       "module_id": "src/components/ArithmeticTester",
       "file": "src/components/ArithmeticTester.tsx",
       "name": "ArithmeticTester",
-      "line": 81,
-      "score": 209,
+      "line": 79,
+      "score": 170,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 349
+          "value": 318
         },
         {
           "kind": "many_hooks",
-          "value": 10
+          "value": 6
         },
         {
           "kind": "render_branch_complexity",
@@ -622,18 +726,22 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -655,17 +763,21 @@
       "file": "src/components/ChoreOutcomeView.tsx",
       "name": "ChoreOutcomeView",
       "line": 12,
-      "score": 11,
+      "score": 20,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -690,13 +802,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -721,13 +837,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -747,28 +867,32 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "DinnerCountdown",
-      "line": 526,
+      "line": 528,
       "score": 70,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 144
+          "value": 145
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -789,32 +913,36 @@
       "module_id": "src/components/LargeNumbersTester",
       "file": "src/components/LargeNumbersTester.tsx",
       "name": "LargeNumbersTester",
-      "line": 97,
-      "score": 189,
+      "line": 93,
+      "score": 161,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 443
+          "value": 395
         },
         {
           "kind": "many_hooks",
-          "value": 9
+          "value": 7
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -840,13 +968,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -871,13 +1003,17 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -898,7 +1034,7 @@
       "file": "src/components/PositionalNotation.tsx",
       "name": "PositionalNotation",
       "line": 33,
-      "score": 106,
+      "score": 102,
       "risk": "high",
       "signals": [
         {
@@ -907,18 +1043,22 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -939,13 +1079,13 @@
       "module_id": "src/components/SchoolCalendar",
       "file": "src/components/SchoolCalendar.tsx",
       "name": "SchoolCalendar",
-      "line": 78,
-      "score": 173,
+      "line": 58,
+      "score": 174,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 275
+          "value": 280
         },
         {
           "kind": "many_hooks",
@@ -953,18 +1093,22 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -985,18 +1129,22 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingPicture",
-      "line": 180,
+      "line": 176,
       "score": 5,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1016,18 +1164,22 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingWordTiles",
-      "line": 210,
+      "line": 206,
       "score": 17,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1047,18 +1199,22 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingChoiceButtons",
-      "line": 266,
+      "line": 262,
       "score": 11,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1078,13 +1234,13 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingTester",
-      "line": 291,
-      "score": 264,
+      "line": 287,
+      "score": 267,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 248
+          "value": 259
         },
         {
           "kind": "many_hooks",
@@ -1096,18 +1252,22 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -1133,13 +1293,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1164,13 +1328,17 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1195,13 +1363,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1226,13 +1398,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1252,18 +1428,22 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivityOutcomeShell",
-      "line": 50,
-      "score": 12,
+      "line": 49,
+      "score": 8,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1283,18 +1463,22 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivityResultBar",
-      "line": 110,
+      "line": 115,
       "score": 17,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1314,18 +1498,22 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivitySetupControls",
-      "line": 178,
+      "line": 183,
       "score": 10,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1345,18 +1533,22 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivityPlayArea",
-      "line": 246,
+      "line": 251,
       "score": 12,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1376,18 +1568,22 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ProblemCountControl",
-      "line": 294,
+      "line": 299,
       "score": 23,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1407,18 +1603,22 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "StarRewardControl",
-      "line": 358,
+      "line": 363,
       "score": 5,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1443,13 +1643,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1474,13 +1678,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1505,13 +1713,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1536,13 +1748,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1562,18 +1778,22 @@
       "module_id": "src/components/ui/BottomNav",
       "file": "src/components/ui/BottomNav.tsx",
       "name": "BottomNav",
-      "line": 11,
-      "score": 29,
+      "line": 16,
+      "score": 30,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1598,13 +1818,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1624,32 +1848,32 @@
       "module_id": "src/components/ui/Carousel",
       "file": "src/components/ui/Carousel.tsx",
       "name": "Carousel",
-      "line": 28,
-      "score": 118,
+      "line": 34,
+      "score": 98,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 159
-        },
-        {
-          "kind": "many_hooks",
-          "value": 6
+          "value": 160
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -1675,13 +1899,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1702,31 +1930,35 @@
       "file": "src/components/ui/DragScrollRegion.tsx",
       "name": "DragScrollRegion",
       "line": 33,
-      "score": 118,
+      "score": 141,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 150
+          "value": 178
         },
         {
           "kind": "many_hooks",
-          "value": 7
+          "value": 9
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -1752,13 +1984,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1783,13 +2019,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1814,13 +2054,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1845,13 +2089,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1876,13 +2124,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1902,18 +2154,22 @@
       "module_id": "src/components/ui/ImageStarFrame",
       "file": "src/components/ui/ImageStarFrame.tsx",
       "name": "ImageStarFrame",
-      "line": 12,
-      "score": 25,
+      "line": 16,
+      "score": 34,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1938,13 +2194,17 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1969,13 +2229,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2000,13 +2264,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2022,22 +2290,61 @@
       ]
     },
     {
+      "id": "component:src/components/ui/MathActivityPlayArea:MathActivityPlayArea",
+      "module_id": "src/components/ui/MathActivityPlayArea",
+      "file": "src/components/ui/MathActivityPlayArea.tsx",
+      "name": "MathActivityPlayArea",
+      "line": 15,
+      "score": 5,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/MathActivityPlayArea:MathActivityPlayArea",
+            "kind": "component",
+            "file": "src/components/ui/MathActivityPlayArea.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/ui/MathActivityShell:MathActivityShell",
       "module_id": "src/components/ui/MathActivityShell",
       "file": "src/components/ui/MathActivityShell.tsx",
       "name": "MathActivityShell",
       "line": 24,
-      "score": 6,
+      "score": 4,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2057,18 +2364,22 @@
       "module_id": "src/components/ui/PositionalNotationPlayArea",
       "file": "src/components/ui/PositionalNotationPlayArea.tsx",
       "name": "CounterCollection",
-      "line": 44,
+      "line": 43,
       "score": 13,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2088,18 +2399,22 @@
       "module_id": "src/components/ui/PositionalNotationPlayArea",
       "file": "src/components/ui/PositionalNotationPlayArea.tsx",
       "name": "PlaceValueColumn",
-      "line": 164,
+      "line": 163,
       "score": 22,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2119,18 +2434,22 @@
       "module_id": "src/components/ui/PositionalNotationPlayArea",
       "file": "src/components/ui/PositionalNotationPlayArea.tsx",
       "name": "TargetNumber",
-      "line": 269,
+      "line": 268,
       "score": 7,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2150,18 +2469,22 @@
       "module_id": "src/components/ui/PositionalNotationPlayArea",
       "file": "src/components/ui/PositionalNotationPlayArea.tsx",
       "name": "PositionalNotationPlayArea",
-      "line": 305,
-      "score": 34,
+      "line": 304,
+      "score": 32,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2186,13 +2509,17 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2208,22 +2535,61 @@
       ]
     },
     {
+      "id": "component:src/components/ui/ResourceLoadingIcon:ResourceLoadingIcon",
+      "module_id": "src/components/ui/ResourceLoadingIcon",
+      "file": "src/components/ui/ResourceLoadingIcon.tsx",
+      "name": "ResourceLoadingIcon",
+      "line": 12,
+      "score": 48,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ResourceLoadingIcon:ResourceLoadingIcon",
+            "kind": "component",
+            "file": "src/components/ui/ResourceLoadingIcon.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/ui/ScheduleDayTypeControl:ScheduleDayTypeControl",
       "module_id": "src/components/ui/ScheduleDayTypeControl",
       "file": "src/components/ui/ScheduleDayTypeControl.tsx",
       "name": "ScheduleDayTypeControl",
-      "line": 39,
+      "line": 20,
       "score": 9,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2243,18 +2609,22 @@
       "module_id": "src/components/ui/SegmentedChoiceControl",
       "file": "src/components/ui/SegmentedChoiceControl.tsx",
       "name": "SegmentedChoiceControl",
-      "line": 27,
-      "score": 45,
+      "line": 26,
+      "score": 51,
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2279,13 +2649,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2310,13 +2684,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2341,13 +2719,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2372,13 +2754,17 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2398,23 +2784,32 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ActionCard",
-      "line": 83,
-      "score": 83,
+      "line": 85,
+      "score": 103,
       "risk": "high",
-      "signals": [],
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 139
+        }
+      ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -2435,18 +2830,22 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListMessage",
-      "line": 219,
+      "line": 245,
       "score": 3,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2466,18 +2865,22 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListFooter",
-      "line": 247,
+      "line": 273,
       "score": 34,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2497,18 +2900,22 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "StandardActionList",
-      "line": 313,
+      "line": 339,
       "score": 50,
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2533,13 +2940,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2560,22 +2971,26 @@
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "FieldVariant",
       "line": 109,
-      "score": 71,
+      "score": 73,
       "risk": "high",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -2596,18 +3011,22 @@
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "CompactCountVariant",
-      "line": 209,
+      "line": 215,
       "score": 10,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2627,18 +3046,22 @@
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "StarStepper",
-      "line": 296,
+      "line": 302,
       "score": 5,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2658,18 +3081,22 @@
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "StarDisplay",
-      "line": 322,
+      "line": 328,
       "score": 35,
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2694,13 +3121,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2721,31 +3152,35 @@
       "file": "src/components/ui/StarInfoBox.tsx",
       "name": "StarInfoBox",
       "line": 107,
-      "score": 174,
+      "score": 236,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 217
+          "value": 255
         },
         {
           "kind": "many_hooks",
-          "value": 12
+          "value": 17
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -2771,13 +3206,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2802,13 +3241,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2829,15 +3272,60 @@
       "file": "src/contexts/ActiveChildContext.tsx",
       "name": "ActiveChildProvider",
       "line": 50,
-      "score": 112,
+      "score": 11,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/contexts/ActiveChildContext:ActiveChildProvider",
+            "kind": "component",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/contexts/ActiveChildContext:ActiveChildStateProvider",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "name": "ActiveChildStateProvider",
+      "line": 67,
+      "score": 83,
       "risk": "high",
       "signals": [
         {
           "kind": "many_hooks",
-          "value": 9
+          "value": 7
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -2846,18 +3334,12 @@
           "fix": "reduce-risk"
         },
         {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
-        {
           "type": "add-to-config",
           "auto_fixable": true,
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "component:src/contexts/ActiveChildContext:ActiveChildProvider",
+            "id": "component:src/contexts/ActiveChildContext:ActiveChildStateProvider",
             "kind": "component",
             "file": "src/contexts/ActiveChildContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2875,13 +3357,17 @@
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2901,18 +3387,22 @@
       "module_id": "src/contexts/ThemeContext",
       "file": "src/contexts/ThemeContext.tsx",
       "name": "ThemeProvider",
-      "line": 233,
+      "line": 192,
       "score": 44,
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2932,28 +3422,32 @@
       "module_id": "src/pages/ChoreCreationFlow",
       "file": "src/pages/ChoreCreationFlow.tsx",
       "name": "ChoreCreationFlow",
-      "line": 125,
-      "score": 75,
+      "line": 124,
+      "score": 76,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 188
+          "value": 190
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -2974,13 +3468,13 @@
       "module_id": "src/pages/DashboardPage",
       "file": "src/pages/DashboardPage.tsx",
       "name": "DashboardPage",
-      "line": 70,
-      "score": 276,
+      "line": 59,
+      "score": 274,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 313
+          "value": 305
         },
         {
           "kind": "many_hooks",
@@ -2992,18 +3486,22 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -3025,27 +3523,31 @@
       "file": "src/pages/LoginPage.tsx",
       "name": "LoginPage",
       "line": 18,
-      "score": 146,
+      "score": 105,
       "risk": "high",
       "signals": [
         {
           "kind": "many_hooks",
-          "value": 10
+          "value": 7
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -3066,18 +3568,22 @@
       "module_id": "src/pages/ManageChildrenPage",
       "file": "src/pages/ManageChildrenPage.tsx",
       "name": "ManageChildrenPage",
-      "line": 15,
-      "score": 57,
+      "line": 11,
+      "score": 51,
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -3093,64 +3599,26 @@
       ]
     },
     {
-      "id": "component:src/pages/ManageTestsPage:ManageTestsPage",
-      "module_id": "src/pages/ManageTestsPage",
-      "file": "src/pages/ManageTestsPage.tsx",
-      "name": "ManageTestsPage",
-      "line": 35,
-      "score": 97,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "many_hooks",
-          "value": 7
-        }
-      ],
-      "kind": "component",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "component:src/pages/ManageTestsPage:ManageTestsPage",
-            "kind": "component",
-            "file": "src/pages/ManageTestsPage.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "component:src/pages/RewardCreationFlow:RewardCreationFlow",
       "module_id": "src/pages/RewardCreationFlow",
       "file": "src/pages/RewardCreationFlow.tsx",
       "name": "RewardCreationFlow",
-      "line": 37,
+      "line": 34,
       "score": 28,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -3180,18 +3648,22 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -3212,8 +3684,8 @@
       "module_id": "src/pages/TestsPage",
       "file": "src/pages/TestsPage.tsx",
       "name": "TestsPage",
-      "line": 16,
-      "score": 105,
+      "line": 18,
+      "score": 106,
       "risk": "high",
       "signals": [
         {
@@ -3222,18 +3694,22 @@
         }
       ],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
           "auto_fixable": false,
           "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
           "fix": "reduce-risk"
-        },
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
         },
         {
           "type": "add-to-config",
@@ -3254,18 +3730,22 @@
       "module_id": "src/pages/TimeExplorerPage",
       "file": "src/pages/TimeExplorerPage.tsx",
       "name": "TimeExplorerPage",
-      "line": 32,
+      "line": 22,
       "score": 53,
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -3285,18 +3765,22 @@
       "module_id": "src/pages/dashboardChoreUi",
       "file": "src/pages/dashboardChoreUi.tsx",
       "name": "DashboardHeaderActions",
-      "line": 31,
+      "line": 28,
       "score": 28,
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -3316,18 +3800,22 @@
       "module_id": "src/routes/AnimatedTabLayout",
       "file": "src/routes/AnimatedTabLayout.tsx",
       "name": "AnimatedTabLayout",
-      "line": 16,
-      "score": 69,
+      "line": 17,
+      "score": 40,
       "risk": "medium",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -3352,13 +3840,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -3383,13 +3875,17 @@
       "risk": "low",
       "signals": [],
       "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this component finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line component"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -3399,6 +3895,241 @@
             "id": "component:src/routes/ProtectedRoute:ProtectedRoute",
             "kind": "component",
             "file": "src/routes/ProtectedRoute.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "eslint-plugin-jsx-a11y:e62f675f:1",
+      "rule_id": "jsx-a11y/click-events-have-key-events",
+      "kind": "a11y_click_events_have_key_events",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/DinnerCountdown",
+      "file": "src/components/DinnerCountdown.tsx",
+      "line": 467,
+      "column": 17,
+      "end_line": 478,
+      "end_column": 19,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener.",
+      "signals": [
+        {
+          "kind": "a11y_click_events_have_key_events",
+          "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener."
+        }
+      ],
+      "fingerprint": "e62f675f",
+      "occurrence": 1,
+      "reason_code": "jsx-a11y/click-events-have-key-events",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_click_events_have_key_events finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "eslint-plugin-jsx-a11y:e62f675f:1",
+            "kind": "a11y_click_events_have_key_events",
+            "file": "src/components/DinnerCountdown.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "eslint-plugin-jsx-a11y:812397f8:1",
+      "rule_id": "jsx-a11y/no-noninteractive-element-interactions",
+      "kind": "a11y_no_noninteractive_element_interactions",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/DinnerCountdown",
+      "file": "src/components/DinnerCountdown.tsx",
+      "line": 467,
+      "column": 17,
+      "end_line": 478,
+      "end_column": 19,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "Non-interactive elements should not be assigned mouse or keyboard event listeners.",
+      "signals": [
+        {
+          "kind": "a11y_no_noninteractive_element_interactions",
+          "message": "Non-interactive elements should not be assigned mouse or keyboard event listeners."
+        }
+      ],
+      "fingerprint": "812397f8",
+      "occurrence": 1,
+      "reason_code": "jsx-a11y/no-noninteractive-element-interactions",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_no_noninteractive_element_interactions finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "eslint-plugin-jsx-a11y:812397f8:1",
+            "kind": "a11y_no_noninteractive_element_interactions",
+            "file": "src/components/DinnerCountdown.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "eslint-plugin-jsx-a11y:f37d6a32:1",
+      "rule_id": "jsx-a11y/no-static-element-interactions",
+      "kind": "a11y_no_static_element_interactions",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/DragScrollRegion",
+      "file": "src/components/ui/DragScrollRegion.tsx",
+      "line": 189,
+      "column": 7,
+      "end_line": 213,
+      "end_column": 8,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.",
+      "signals": [
+        {
+          "kind": "a11y_no_static_element_interactions",
+          "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element."
+        }
+      ],
+      "fingerprint": "f37d6a32",
+      "occurrence": 1,
+      "reason_code": "jsx-a11y/no-static-element-interactions",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_no_static_element_interactions finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "eslint-plugin-jsx-a11y:f37d6a32:1",
+            "kind": "a11y_no_static_element_interactions",
+            "file": "src/components/ui/DragScrollRegion.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "eslint-plugin-jsx-a11y:235a9da6:1",
+      "rule_id": "jsx-a11y/click-events-have-key-events",
+      "kind": "a11y_click_events_have_key_events",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/StarInfoBox",
+      "file": "src/components/ui/StarInfoBox.tsx",
+      "line": 264,
+      "column": 5,
+      "end_line": 276,
+      "end_column": 6,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener.",
+      "signals": [
+        {
+          "kind": "a11y_click_events_have_key_events",
+          "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener."
+        }
+      ],
+      "fingerprint": "235a9da6",
+      "occurrence": 1,
+      "reason_code": "jsx-a11y/click-events-have-key-events",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_click_events_have_key_events finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "eslint-plugin-jsx-a11y:235a9da6:1",
+            "kind": "a11y_click_events_have_key_events",
+            "file": "src/components/ui/StarInfoBox.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "eslint-plugin-jsx-a11y:f56035ff:1",
+      "rule_id": "jsx-a11y/no-static-element-interactions",
+      "kind": "a11y_no_static_element_interactions",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/StarInfoBox",
+      "file": "src/components/ui/StarInfoBox.tsx",
+      "line": 264,
+      "column": 5,
+      "end_line": 276,
+      "end_column": 6,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.",
+      "signals": [
+        {
+          "kind": "a11y_no_static_element_interactions",
+          "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element."
+        }
+      ],
+      "fingerprint": "f56035ff",
+      "occurrence": 1,
+      "reason_code": "jsx-a11y/no-static-element-interactions",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_no_static_element_interactions finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "eslint-plugin-jsx-a11y:f56035ff:1",
+            "kind": "a11y_no_static_element_interactions",
+            "file": "src/components/ui/StarInfoBox.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3422,13 +4153,17 @@
         }
       ],
       "kind": "framework",
+      "rule_id": "framework-adapter/framework",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "framework",
+      "reason_code": "framework-adapter/framework",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
       "actions": [
-        {
-          "type": "suppress-line",
-          "auto_fixable": false,
-          "description": "Suppress this framework finding on the affected line.",
-          "comment": "// ts-react-quality-lens-ignore-next-line framework"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,

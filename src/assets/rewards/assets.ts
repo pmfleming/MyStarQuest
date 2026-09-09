@@ -1,10 +1,10 @@
+import pikachuImage from '../pokemon/pikachu.png'
 import yoshiEggImage from './YoshiEgg.webp'
 import teeniepingImage from './teenieping.webp'
-import pikachuImage from '../pokemon/pikachu.png'
 
 export type RewardImageKey = 'yoshiEgg' | 'teenieping' | 'pikachu'
 
-export const rewardImages: Record<RewardImageKey, string> = {
+const rewardImages: Record<RewardImageKey, string> = {
   pikachu: pikachuImage,
   teenieping: teeniepingImage,
   yoshiEgg: yoshiEggImage,
@@ -23,9 +23,8 @@ export const rewardImageOptions: RewardImageOption[] = [
   { id: 'pikachu', label: 'Pikachu', image: pikachuImage },
 ]
 
-export const isRewardImageKey = (
-  imageKey: string
-): imageKey is RewardImageKey => imageKey in rewardImages
+const isRewardImageKey = (imageKey: string): imageKey is RewardImageKey =>
+  imageKey in rewardImages
 
 export const getRewardImage = (imageKey?: string) => {
   if (!imageKey) return undefined

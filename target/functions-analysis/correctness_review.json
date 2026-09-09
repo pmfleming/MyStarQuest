@@ -1,0 +1,205 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "correctness.all",
+  "project": {
+    "name": "MyStarQuest Functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
+    "framework": "unknown",
+    "package_manager": "npm",
+    "test_runner": "unknown"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-09-09T15:21:09.165Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
+    "input_set_hash": "sha256:e7e7eed409860ea5ed194cb92d1e542950b03d2031e5491bb2b6341c877a4064"
+  },
+  "analysis_identity": {
+    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "test_mapping": "compiler-imports-v1",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": false,
+    "test_runner_detected": false,
+    "git_history_available": false,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": false,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "test_command_configured": false,
+    "complete": true,
+    "partial": false,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "package_manager_detected",
+      "excludes_applied",
+      "type_information_available",
+      "dependencies_installed",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "workspace_projects_complete",
+      "analysis_cache_enabled"
+    ],
+    "missing_input": [],
+    "stale_input": []
+  },
+  "summary": {
+    "tests": 7,
+    "colocated_tests": 0,
+    "external_tests": 7,
+    "execution_status": "unknown",
+    "execution_scope": "suite",
+    "coverage_status": "not_collected",
+    "blocking_findings": 0
+  },
+  "execution": {
+    "status": "unknown",
+    "reason": "No test command configured."
+  },
+  "records": [],
+  "tests": [
+    {
+      "id": "test:../tests/unit/dailyTaskState.test.ts",
+      "name": "dailyTaskState.test.ts",
+      "path": "../tests/unit/dailyTaskState.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 8,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/loadCreatureCollection.test.ts",
+      "name": "loadCreatureCollection.test.ts",
+      "path": "../tests/unit/loadCreatureCollection.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 9,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/positionalNotationProblems.test.ts",
+      "name": "positionalNotationProblems.test.ts",
+      "path": "../tests/unit/positionalNotationProblems.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 3,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/schoolCalendar.test.ts",
+      "name": "schoolCalendar.test.ts",
+      "path": "../tests/unit/schoolCalendar.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": ["src/schoolCalendar.ts"],
+      "source_associations": [
+        {
+          "file": "src/schoolCalendar.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 6,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/starActions.test.ts",
+      "name": "starActions.test.ts",
+      "path": "../tests/unit/starActions.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 4,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/taskLimits.test.ts",
+      "name": "taskLimits.test.ts",
+      "path": "../tests/unit/taskLimits.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 25,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/themeAssets.test.ts",
+      "name": "themeAssets.test.ts",
+      "path": "../tests/unit/themeAssets.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 25,
+      "skipped": 0,
+      "todo": 0
+    }
+  ]
+}

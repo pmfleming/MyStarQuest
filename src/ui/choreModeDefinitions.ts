@@ -32,9 +32,6 @@ export const isFinalChoreStage = (stage: ChoreStage) => stage === 'completed'
 export const shouldHidePresetChoreTitle = (stage: ChoreStage) =>
   isInChoreStage(stage)
 
-export const shouldHidePresetChoreStars = (stage: ChoreStage) =>
-  isInChoreStage(stage)
-
 export const shouldUseResetUtility = (stage: ChoreStage) =>
   isInChoreStage(stage)
 

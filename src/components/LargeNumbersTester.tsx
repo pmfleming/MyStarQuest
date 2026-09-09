@@ -1,4 +1,3 @@
-import { getThemeAsset } from '../ui/themeAssets'
 import {
   useCallback,
   useState,
@@ -8,14 +7,13 @@ import {
 import { useCheckedActivityChallenge } from '../hooks/useActivityChallenge'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import { uiTokens } from '../tokens'
-import {
-  ActivityPlayArea,
-  type ActivityChoreProps,
-} from './ui/ActivityControls'
-import { CounterGroup, MathCounter, TenRod } from './ui/ActivityMathCounters'
-import StepperButton from './ui/StepperButton'
+import { getThemeAsset } from '../ui/themeAssets'
 import { getActivityFeedbackAnimationStyles } from './ui/activityAnimationStyles'
+import { type ActivityChoreProps } from './ui/ActivityControls'
+import { CounterGroup, MathCounter, TenRod } from './ui/ActivityMathCounters'
+import MathActivityPlayArea from './ui/MathActivityPlayArea'
 import MathActivityShell from './ui/MathActivityShell'
+import StepperButton from './ui/StepperButton'
 
 const MIN_ADDEND = 11
 const MAX_SUM = 99
@@ -160,12 +158,6 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
     if (delta > 0 && !canAddTen) return
     setUserTensRods((value) => clamp(value + delta, 0, MAX_TENS_RODS))
   }
-
-  const playAnimation = isWrong
-    ? 'large-numbers-shake 0.5s ease'
-    : isCorrect
-      ? 'large-numbers-pop-in 0.4s ease'
-      : undefined
 
   const digitCellStyle = (
     background: string,
@@ -353,14 +345,13 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
       animationStyles={getActivityFeedbackAnimationStyles('large-numbers')}
     >
       {isRunning && (
-        <ActivityPlayArea
+        <MathActivityPlayArea
           theme={theme}
           results={resultHistory}
-          correctIcon={getThemeAsset(theme.id, 'quizCorrectImage')}
-          incorrectIcon={getThemeAsset(theme.id, 'quizIncorrectImage')}
-          slideAnimationName="large-numbers-slide-in-right"
-          animation={playAnimation}
-          shakeKey={isWrong ? `shake-${retryCount}` : undefined}
+          animationPrefix="large-numbers"
+          isCorrect={isCorrect}
+          isWrong={isWrong}
+          retryCount={retryCount}
         >
           <div
             style={{
@@ -489,7 +480,7 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
               renderSingleCounters(userOnes, theme.colors.primary)
             )}
           </div>
-        </ActivityPlayArea>
+        </MathActivityPlayArea>
       )}
     </MathActivityShell>
   )

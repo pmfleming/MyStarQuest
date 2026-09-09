@@ -1,33 +1,30 @@
 // Tests subscription + mutations.
 
+import { doc, runTransaction, updateDoc } from 'firebase/firestore'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  runTransaction,
-  updateDoc,
-} from 'firebase/firestore'
-import { db } from '../firebaseDb'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
-import { completeTaskAndAwardStars } from '../lib/starActions'
+import { db } from '../firebaseDb'
+import {
+  mergeOptimisticItems,
+  useCoalescedDocumentUpdates,
+} from '../hooks/useCoalescedDocumentUpdates'
 import { celebrateSuccess } from '../lib/celebrate'
-import { getTodayDescriptor } from '../lib/today'
-import { parseTestSnapshot } from '../lib/choreParser'
 import { calculateAwardTaskPatch } from '../lib/choreLogic'
-import { buildDefaultTests, buildTestDocument } from './taskDocuments'
+import { parseTestSnapshot } from '../lib/choreParser'
+import { completeTaskAndAwardStars } from '../lib/starActions'
+import { getTodayDescriptor } from '../lib/today'
 import {
   filterActiveChildItems,
   getTestLastActive,
   manageTestOutcomePatch,
   mergeTestEphemeral,
   reconcileTaskEphemeral,
-  useCollectionTitleDrafts,
   useEphemeralExpiry,
   useTodayInfo,
 } from './dailyTaskState'
+import { buildDefaultTests, buildTestDocument } from './taskDocuments'
+import { validateTaskFields } from './taskLimits'
 import {
   type TaskEphemeralState,
   type TaskOutcome,
@@ -36,11 +33,6 @@ import {
   type TestType,
   type TestWithEphemeral,
 } from './types'
-import { validateTaskFields } from './taskLimits'
-import {
-  mergeOptimisticItems,
-  useCoalescedDocumentUpdates,
-} from '../hooks/useCoalescedDocumentUpdates'
 import { useChildTaskCollection } from './useChildTaskCollection'
 
 const getPersistedAttemptState = (
@@ -102,7 +94,6 @@ export function useTests() {
   const {
     overrides: optimisticFields,
     queueUpdate: queueTestField,
-    cancelUpdate: cancelTestFieldUpdate,
     reconcile: reconcileTestFields,
   } = useCoalescedDocumentUpdates<TaskUpdatableFields>({
     persist: persistTestField,
@@ -223,37 +214,6 @@ export function useTests() {
     }
   }
 
-  const {
-    drafts: testTitleDrafts,
-    setDraft: setTestTitleDraft,
-    removeDraft: removeTestTitleDraft,
-    commitDraft: commitTestTitle,
-  } = useCollectionTitleDrafts(rawTests, (testId, title) =>
-    updateTestField(testId, { title })
-  )
-
-  const createTest = async (testType: TestType) => {
-    if (!user || !activeChildId) return
-    await addDoc(
-      collection(db, 'users', user.uid, 'tests'),
-      buildTestDocument(activeChildId, testType)
-    )
-  }
-
-  const createMathTest = () => createTest('math')
-  const createLargeNumbersTest = () => createTest('large-numbers')
-  const createPVTest = () => createTest('positional-notation')
-  const createAlphabetTest = () => createTest('alphabet')
-  const createSpellingTest = () => createTest('spelling')
-  const createAnimalsTest = () => createTest('animals')
-
-  const deleteTest = async (testId: string) => {
-    if (!user) return
-    cancelTestFieldUpdate(testId)
-    await deleteDoc(doc(db, 'users', user.uid, 'tests', testId))
-    removeTestTitleDraft(testId)
-  }
-
   const persistTestAttempt = async (
     item: TestWithEphemeral,
     attemptedAt: number | null,
@@ -316,18 +276,8 @@ export function useTests() {
     tests,
     todayInfo,
     availableTests: activeChildTests,
-    testTitleDrafts,
-    setTestTitleDraft,
-    commitTestTitle,
     updateTestField,
     updateEphemeral,
-    createMathTest,
-    createLargeNumbersTest,
-    createPVTest,
-    createAlphabetTest,
-    createSpellingTest,
-    createAnimalsTest,
-    deleteTest,
     completeTest,
     failTest,
     resetTest,

@@ -1,0 +1,215 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "quality.cleanup",
+  "project": {
+    "name": "MyStarQuest Functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
+    "framework": "unknown",
+    "package_manager": "npm",
+    "test_runner": "unknown"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-09-09T15:21:08.757Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
+    "input_set_hash": "sha256:5ad993158fb104c102790c861ad8c1757030005399a342964edcdc5a5a7f5620"
+  },
+  "analysis_identity": {
+    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "test_mapping": "compiler-imports-v1",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": false,
+    "test_runner_detected": false,
+    "git_history_available": false,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": false,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "knip_available": true,
+    "knip_ran": true,
+    "knip_complete": true,
+    "complete": true,
+    "partial": false,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "package_manager_detected",
+      "excludes_applied",
+      "type_information_available",
+      "dependencies_installed",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "workspace_projects_complete",
+      "analysis_cache_enabled",
+      "knip_available",
+      "knip_ran",
+      "knip_complete"
+    ],
+    "missing_input": [],
+    "stale_input": []
+  },
+  "summary": {
+    "records": 1,
+    "unused_files": 0,
+    "unused_exports": 0,
+    "unused_dependencies": 0,
+    "unused_dev_dependencies": 0,
+    "unlisted_dependencies": 0,
+    "type_only_production_dependencies": 0,
+    "test_only_production_dependencies": 0,
+    "duplicate_exports": 0,
+    "entrypoint_files": 3,
+    "knip_findings": 1,
+    "tool_confirmed": 0,
+    "tool_disagreed": 1,
+    "tool_not_comparable": 0,
+    "tool_excluded": 0
+  },
+  "tool_status": {
+    "knip": {
+      "available": true,
+      "ran": true,
+      "complete": true,
+      "reason": null,
+      "version": "6.32.2",
+      "production": false,
+      "excluded_dependencies": [],
+      "exclusions_complete": true
+    }
+  },
+  "disagreements": [
+    {
+      "id": "cleanup:unlisted-dependency:vitest",
+      "kind": "unlisted_dependency",
+      "name": "vitest",
+      "score": 75,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "observed_but_not_declared",
+          "value": "vitest"
+        }
+      ],
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "disagreed",
+      "validation_scope": "knip/unlisted_dependency",
+      "rule_id": "ts-react-quality-lens-cleanup/unlisted_dependency",
+      "message": "unlisted dependency",
+      "reason_code": "ts-react-quality-lens-cleanup/unlisted_dependency",
+      "semantic_decision": "disagreed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unlisted-dependency:vitest",
+            "kind": "unlisted_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ],
+  "unconfirmed": [],
+  "records": [
+    {
+      "id": "knip:binaries:package.json:firebase:0",
+      "rule_id": "knip/binaries",
+      "kind": "unlisted_binary",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "project",
+      "file": "package.json",
+      "name": "firebase",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unlisted binary: firebase.",
+      "issue_type": "binaries",
+      "signals": [
+        {
+          "kind": "knip_binaries",
+          "value": "firebase"
+        }
+      ],
+      "reason_code": "knip/binaries",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_binary finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:binaries:package.json:firebase:0",
+            "kind": "unlisted_binary",
+            "file": "package.json",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ]
+}

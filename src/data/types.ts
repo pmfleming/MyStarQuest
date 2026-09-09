@@ -1,7 +1,7 @@
 // ── Shared data types and constants for the chore/task system ──
 
-import type { ThemeId } from '../ui/themeOptions'
 import { z } from 'zod'
+import type { ThemeId } from '../ui/themeOptions'
 import {
   MAX_DINNER_SLICES,
   MAX_TASK_VALUE,
@@ -68,13 +68,7 @@ export const taskTypeSchema = z.enum([
   'watertoiletcheck',
 ])
 
-export const choreTypeSchema = z.enum([
-  'standard',
-  'eating',
-  'watertoiletcheck',
-])
-
-export const testTypeSchema = z.enum([
+const testTypeSchema = z.enum([
   'math',
   'large-numbers',
   'positional-notation',
@@ -88,15 +82,10 @@ const TEST_TYPE_SET: ReadonlySet<TaskType> = new Set(TEST_TYPES)
 export const isTestType = (type: TaskType): type is TestType =>
   TEST_TYPE_SET.has(type)
 
-export const waterLevelSchema = z.enum([
-  'full',
-  'twothirds',
-  'onethird',
-  'empty',
-])
-export const toiletStatusSchema = z.enum(['notpeepee', 'didpeepee'])
-export const mathDifficultySchema = z.enum(['easy', 'hard'])
-export const taskOutcomeSchema = z.enum(['success', 'failure'])
+const waterLevelSchema = z.enum(['full', 'twothirds', 'onethird', 'empty'])
+const toiletStatusSchema = z.enum(['notpeepee', 'didpeepee'])
+const mathDifficultySchema = z.enum(['easy', 'hard'])
+const taskOutcomeSchema = z.enum(['success', 'failure'])
 
 export const firestoreTimestampLikeSchema = z.custom<{ toDate?: () => Date }>(
   (value) => value == null || typeof value === 'object'
@@ -161,70 +150,11 @@ export const taskSnapshotDataSchema = z
   })
   .passthrough()
 
-export const choreSnapshotDataSchema = taskSnapshotDataSchema.extend({
-  choreType: z.string().optional(),
-})
-
-export const testSnapshotDataSchema = taskSnapshotDataSchema.extend({
-  testType: z.string().optional(),
-})
-
-export const todoSnapshotDataSchema = z
-  .object({
-    title: z.string().catch(''),
-    childId: z.string().catch(''),
-    sourceTaskId: z.string().catch(''),
-    sourceTaskType: z.string().catch('standard'),
-    sourceChoreId: z.string().optional(),
-    sourceChoreType: z.string().optional(),
-    starValue: taskSnapshotValue(1),
-    schoolDayEnabled: z.boolean().catch(false),
-    nonSchoolDayEnabled: z.boolean().catch(false),
-    autoAdded: z.boolean().catch(false),
-    imageKey: z.string().optional(),
-    completedAt: z.number().finite().nullable().catch(null),
-    dateKey: z.string().optional(),
-    createdAt: firestoreTimestampLikeSchema.optional(),
-    dinnerDurationSeconds: z
-      .number()
-      .finite()
-      .catch(10 * 60),
-    dinnerRemainingSeconds: z.number().finite().optional(),
-    dinnerTotalBites: dinnerSliceSnapshotValue(2),
-    dinnerBitesLeft: z.number().finite().optional(),
-    dinnerTimerStartedAt: z.number().finite().nullable().catch(null),
-    mathTotalProblems: taskSnapshotValue(5),
-    mathDifficulty: mathDifficultySchema.catch('easy'),
-    mathLastOutcome: taskOutcomeSchema.nullable().catch(null),
-    largeNumbersTotalProblems: taskSnapshotValue(5),
-    largeNumbersLastOutcome: taskOutcomeSchema.nullable().catch(null),
-    pvTotalProblems: taskSnapshotValue(5),
-    pvLastOutcome: taskOutcomeSchema.nullable().catch(null),
-    alphabetTotalProblems: taskSnapshotValue(5),
-    alphabetLastOutcome: taskOutcomeSchema.nullable().catch(null),
-    spellingTotalProblems: taskSnapshotValue(5),
-    spellingLastOutcome: taskOutcomeSchema.nullable().catch(null),
-    animalsTotalProblems: taskSnapshotValue(5),
-    animalsLastOutcome: taskOutcomeSchema.nullable().catch(null),
-    waterLevel: waterLevelSchema.catch('full'),
-    toiletStatus: toiletStatusSchema.catch('notpeepee'),
-  })
-  .passthrough()
-
-export const choreTodoSnapshotDataSchema = todoSnapshotDataSchema.extend({
-  sourceChoreId: z.string().catch(''),
-  sourceChoreType: z.string().catch('standard'),
-})
-
 export const childStarsSnapshotDataSchema = z
   .object({
     totalStars: z.number().finite().catch(0),
   })
   .passthrough()
-
-export const resetTodayTodosResultSchema = z.object({
-  data: z.unknown().optional(),
-})
 
 // ── TaskRecord: discriminated union on `taskType` ──
 
@@ -413,7 +343,7 @@ export type TestWithEphemeral = Extract<
   }
 >
 
-export const isChoreType = (type: TaskType): type is ChoreType =>
+const isChoreType = (type: TaskType): type is ChoreType =>
   type === 'standard' || type === 'eating' || type === 'watertoiletcheck'
 
 export function isChoreRecord(task: TaskRecord): task is ChoreRecord {
@@ -424,7 +354,7 @@ export function isTestRecord(task: TaskRecord): task is TestRecord {
   return isTestType(task.taskType)
 }
 
-export function isTaskWithEphemeral(
+function isTaskWithEphemeral(
   item: TaskWithEphemeral | TodoRecord
 ): item is TaskWithEphemeral {
   return 'taskType' in item
@@ -516,15 +446,6 @@ export type TodoRecord =
   | AnimalsTodo
   | WaterToiletTodo
 
-export type ChoreTodoRecord = Extract<
-  TodoRecord,
-  { sourceTaskType: 'standard' | 'eating' | 'watertoiletcheck' }
->
-
-export function isChoreTodoRecord(todo: TodoRecord): todo is ChoreTodoRecord {
-  return isChoreType(todo.sourceTaskType)
-}
-
 // ── Updatable field subsets ──
 
 export type TaskUpdatableFields = Partial<{
@@ -609,42 +530,6 @@ export function isEatingTask<T extends { taskType: TaskType }>(
   return t.taskType === 'eating'
 }
 
-export function isMathTask<T extends { taskType: TaskType }>(
-  t: T
-): t is Extract<T, { taskType: 'math' }> {
-  return t.taskType === 'math'
-}
-
-export function isLargeNumbersTask<T extends { taskType: TaskType }>(
-  t: T
-): t is Extract<T, { taskType: 'large-numbers' }> {
-  return t.taskType === 'large-numbers'
-}
-
-export function isPositionalNotationTask<T extends { taskType: TaskType }>(
-  t: T
-): t is Extract<T, { taskType: 'positional-notation' }> {
-  return t.taskType === 'positional-notation'
-}
-
-export function isAlphabetTask<T extends { taskType: TaskType }>(
-  t: T
-): t is Extract<T, { taskType: 'alphabet' }> {
-  return t.taskType === 'alphabet'
-}
-
-export function isSpellingTask<T extends { taskType: TaskType }>(
-  t: T
-): t is Extract<T, { taskType: 'spelling' }> {
-  return t.taskType === 'spelling'
-}
-
-export function isAnimalsTask<T extends { taskType: TaskType }>(
-  t: T
-): t is Extract<T, { taskType: 'animals' }> {
-  return t.taskType === 'animals'
-}
-
 export function isWaterToiletTask<T extends { taskType: TaskType }>(
   t: T
 ): t is Extract<T, { taskType: 'watertoiletcheck' }> {
@@ -653,32 +538,6 @@ export function isWaterToiletTask<T extends { taskType: TaskType }>(
 
 export function isEatingTodo(t: TodoRecord): t is EatingTodo {
   return t.sourceTaskType === 'eating'
-}
-
-export function isMathTodo(t: TodoRecord): t is MathTodo {
-  return t.sourceTaskType === 'math'
-}
-
-export function isLargeNumbersTodo(t: TodoRecord): t is LargeNumbersTodo {
-  return t.sourceTaskType === 'large-numbers'
-}
-
-export function isPositionalNotationTodo(
-  t: TodoRecord
-): t is PositionalNotationTodo {
-  return t.sourceTaskType === 'positional-notation'
-}
-
-export function isAlphabetTodo(t: TodoRecord): t is AlphabetTodo {
-  return t.sourceTaskType === 'alphabet'
-}
-
-export function isSpellingTodo(t: TodoRecord): t is SpellingTodo {
-  return t.sourceTaskType === 'spelling'
-}
-
-export function isAnimalsTodo(t: TodoRecord): t is AnimalsTodo {
-  return t.sourceTaskType === 'animals'
 }
 
 export function isWaterToiletTodo(t: TodoRecord): t is WaterToiletTodo {

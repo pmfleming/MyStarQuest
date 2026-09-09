@@ -1,25 +1,25 @@
-import { getThemeAsset } from '../ui/themeAssets'
-import { createAssetCatalog } from '../data/assetCatalog'
-import { useCallback, useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import animalsSetIcon from '../assets/global/cat-camel-cow.webp'
 import teenieSetIcon from '../assets/global/teenieping.webp'
 import pokemonSetIcon from '../assets/pokemon/pikachu.png'
-import { celebrateSuccess } from '../lib/celebrate'
+import { ANIMAL_ASSETS } from '../data/animalAssets'
+import { createAssetCatalog } from '../data/assetCatalog'
 import {
   getActivityMistakeUpdate,
   getActivityOutcome,
   getVisibleActivityResults,
+  type ActivityResult,
 } from '../lib/activityOutcome'
+import { celebrateSuccess } from '../lib/celebrate'
 import { preloadImage } from '../lib/imageLoading'
 import { useProblemHistory } from '../lib/useProblemHistory'
-import { ANIMAL_ASSETS } from '../data/animalAssets'
+import { getThemeAsset } from '../ui/themeAssets'
 import {
   ActivityOutcomeShell,
   ActivityPlayArea,
   ActivitySetupControls,
   type ActivityChoreProps,
-  type ActivityResult,
 } from './ui/ActivityControls'
 import LetterCaseControl, { type LetterCase } from './ui/LetterCaseControl'
 import SegmentedChoiceControl from './ui/SegmentedChoiceControl'

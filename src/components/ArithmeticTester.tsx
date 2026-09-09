@@ -1,3 +1,4 @@
+import MathActivityPlayArea from './ui/MathActivityPlayArea'
 import { getThemeAsset } from '../ui/themeAssets'
 import { useState, useCallback } from 'react'
 import StepperButton from './ui/StepperButton'
@@ -5,10 +6,7 @@ import { uiTokens } from '../tokens'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import { useCheckedActivityChallenge } from '../hooks/useActivityChallenge'
 import type { MathDifficulty } from '../data/types'
-import {
-  ActivityPlayArea,
-  type ActivityChoreProps,
-} from './ui/ActivityControls'
+import type { ActivityChoreProps } from './ui/ActivityControls'
 import { EmptyCounterHint, MathCounter } from './ui/ActivityMathCounters'
 import CrownDifficultyControl, {
   type CrownDifficultyOption,
@@ -126,12 +124,6 @@ const ArithmeticTester = (props: ArithmeticTesterProps) => {
     onNextProblem: nextProblem,
   })
 
-  const playAnimation = isWrong
-    ? 'dotmath-shake 0.5s ease'
-    : isCorrect
-      ? 'dotmath-pop-in 0.4s ease'
-      : undefined
-
   return (
     <MathActivityShell
       {...props}
@@ -151,14 +143,13 @@ const ArithmeticTester = (props: ArithmeticTesterProps) => {
       }
     >
       {isRunning && (
-        <ActivityPlayArea
+        <MathActivityPlayArea
           theme={theme}
           results={resultHistory}
-          correctIcon={getThemeAsset(theme.id, 'quizCorrectImage')}
-          incorrectIcon={getThemeAsset(theme.id, 'quizIncorrectImage')}
-          slideAnimationName="dotmath-slide-in-right"
-          animation={playAnimation}
-          shakeKey={isWrong ? `shake-${retryCount}` : undefined}
+          animationPrefix="dotmath"
+          isCorrect={isCorrect}
+          isWrong={isWrong}
+          retryCount={retryCount}
         >
           {[
             { val: valA, op: undefined, color: theme.colors.primary },
@@ -398,7 +389,7 @@ const ArithmeticTester = (props: ArithmeticTesterProps) => {
               />
             </div>
           </div>
-        </ActivityPlayArea>
+        </MathActivityPlayArea>
       )}
     </MathActivityShell>
   )

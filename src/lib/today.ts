@@ -10,12 +10,7 @@ export type ChoreSchedule = {
 
 export const APP_TIME_ZONE = 'Europe/London'
 
-export const CURRENT_DAY_LABELS: Record<CurrentDayType, string> = {
-  schoolday: 'Schoolday',
-  nonschoolday: 'Non-school day',
-}
-
-export const DEFAULT_CHORE_SCHEDULE: ChoreSchedule = {
+const DEFAULT_CHORE_SCHEDULE: ChoreSchedule = {
   schoolDayEnabled: true,
   nonSchoolDayEnabled: true,
 }

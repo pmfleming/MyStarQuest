@@ -1810,7 +1810,3 @@ export const ANIMAL_KNOWLEDGE: AnimalKnowledge[] = (
     }
   })
   .sort((a, b) => a.name.localeCompare(b.name))
-
-export const ANIMAL_KNOWLEDGE_BY_NAME = new Map(
-  ANIMAL_KNOWLEDGE.map((profile) => [profile.name, profile])
-)

@@ -1,6 +1,6 @@
+import type { Season } from '../lib/seasons'
 import { getThemeAssets } from './themeAssets'
 import type { ThemeId } from './themeOptions'
-import type { Season } from '../lib/seasons'
 export const getNonSchoolDayImages = (id: ThemeId): Record<Season, string> => {
   const a = getThemeAssets(id)
   return {
@@ -10,5 +10,3 @@ export const getNonSchoolDayImages = (id: ThemeId): Record<Season, string> => {
     winter: a.nonSchoolDayWinterImage,
   }
 }
-// Compatibility for consumers that explicitly need the original calendar artwork.
-export const nonSchoolDayImages = getNonSchoolDayImages('princess')

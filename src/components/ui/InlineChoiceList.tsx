@@ -1,14 +1,14 @@
-import { getThemeAsset } from '../../ui/themeAssets'
 import type { ReactNode } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
+import { getThemeAsset } from '../../ui/themeAssets'
 import { IconActionButton, IconChoiceButton } from './IconActionControls'
 import {
   getStandardPrimaryActionStyle,
   getStandardUtilityActionStyle,
 } from './standardActionStyles'
 
-export type InlineChoice = {
+type InlineChoice = {
   key: string
   label: ReactNode
   onSelect: () => void

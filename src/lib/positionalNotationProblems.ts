@@ -1,4 +1,4 @@
-export const MAX_ONE_CROWN_TARGET = 120
+const MAX_ONE_CROWN_TARGET = 120
 export const MAX_ONE_CROWN_TENS = Math.floor(MAX_ONE_CROWN_TARGET / 10)
 export const MAX_TWO_CROWN_DIGIT = 9
 

@@ -18,8 +18,6 @@ const teenieCatalog = createAssetCatalog(teenieModules)
 
 const princessCatalog = createAssetCatalog(princessModules)
 
-export const PRINCESS_GENERIC_ANIMAL_ABILITY_ASSETS = princessCatalog.assets
-
 const GENERIC_ANIMAL_ABILITY_ASSETS_BY_THEME: Partial<
   Record<ThemeId, Map<string, string>>
 > = {
@@ -27,7 +25,7 @@ const GENERIC_ANIMAL_ABILITY_ASSETS_BY_THEME: Partial<
   teenie: teenieCatalog.byName,
 }
 
-export const getAbilityAssetName = (abilityLabel: string) =>
+const getAbilityAssetName = (abilityLabel: string) =>
   abilityLabel.trim().toLowerCase().replace(/\s+/g, '-')
 
 export const getGenericAnimalAbilityImage = (

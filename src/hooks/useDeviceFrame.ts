@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
 import { Capacitor } from '@capacitor/core'
+import { useEffect, useState } from 'react'
 import { uiTokens } from '../tokens'
 
-export const getBrowserFrameHeight = (isNativePlatform: boolean) => {
+const getBrowserFrameHeight = (isNativePlatform: boolean) => {
   if (isNativePlatform || typeof window === 'undefined') {
     return uiTokens.deviceMinHeight
   }

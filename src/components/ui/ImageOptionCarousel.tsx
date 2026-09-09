@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import Carousel from './Carousel'
 
-export type ImageOption = {
+type ImageOption = {
   id: string
   label: string
   image?: string

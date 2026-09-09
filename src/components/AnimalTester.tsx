@@ -1,48 +1,48 @@
-import { getThemeAsset } from '../ui/themeAssets'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import learnModeImage from '../assets/animal-mode-icons/learn.webp'
 import onePlayerModeImage from '../assets/animal-mode-icons/one-player.webp'
 import twoPlayersModeImage from '../assets/animal-mode-icons/two-players.webp'
+import insectCollectionImage from '../assets/animals/butterfly.webp'
+import animalCollectionImage from '../assets/animals/lion.webp'
 import teeniepingCollectionImage from '../assets/teenie/heart.webp'
+import { getAnimalCardLabel } from '../data/animalCardLabels'
 import animalCollection from '../data/creatureCollections/animals'
+import { TEENIEPING_COLLECTION_AVAILABLE } from '../data/creatureCollections/availability'
 import {
   getLoadedCollection,
   loadCollection,
 } from '../data/creatureCollections/loadCollection'
-import { TEENIEPING_COLLECTION_AVAILABLE } from '../data/creatureCollections/availability'
 import type {
   CatalogAnimal,
   CreatureCollection,
   CreatureCollectionData,
   VisualFact,
 } from '../data/creatureCollections/types'
-import animalCollectionImage from '../assets/animals/lion.webp'
-import insectCollectionImage from '../assets/animals/butterfly.webp'
-import { getAnimalCardLabel } from '../data/animalCardLabels'
-import { celebrateSuccess } from '../lib/celebrate'
-import { preloadImage } from '../lib/imageLoading'
 import {
   getActivityMistakeUpdate,
   getActivityOutcome,
   getVisibleActivityResults,
+  type ActivityResult,
 } from '../lib/activityOutcome'
+import { celebrateSuccess } from '../lib/celebrate'
+import { preloadImage } from '../lib/imageLoading'
 import { uiTokens } from '../tokens'
+import { getThemeAsset } from '../ui/themeAssets'
+import './AnimalTester.css'
 import ActionButton from './ui/ActionButton'
 import {
   ActivityOutcomeShell,
   ActivityPlayArea,
   ActivitySetupControls,
   type ActivityChoreProps,
-  type ActivityResult,
 } from './ui/ActivityControls'
 import CrownDifficultyControl, {
   type CrownDifficultyOption,
 } from './ui/CrownDifficultyControl'
-import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
-import ResourceLoadingIcon from './ui/ResourceLoadingIcon'
 import { usePrimaryActionImage } from './ui/PrimaryActionImageContext'
+import ResourceLoadingIcon from './ui/ResourceLoadingIcon'
+import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
 import { getChoiceFeedbackAnimationStyles } from './ui/activityAnimationStyles'
-import './AnimalTester.css'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 9
