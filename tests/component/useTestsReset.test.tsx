@@ -40,7 +40,11 @@ vi.mock('firebase/firestore', () => ({
   serverTimestamp: vi.fn(),
 }))
 
-const cases = buildDefaultTests('child')
+// Persistence is shared across test types. Field mappings are covered separately
+// in dailyTaskState.test.ts and unifiedTestRenderer.test.tsx.
+const template = buildDefaultTests('child').find(
+  (test) => test.taskType === 'math'
+)!
 let documents: Record<string, unknown>[]
 let emitSnapshot: () => void
 let resolveWrite: () => void
@@ -54,7 +58,7 @@ const attempt = (
   lastAttemptOutcome: outcome,
 })
 
-describe.each(cases)('$taskType reset persistence', (template) => {
+describe('test reset persistence', () => {
   beforeEach(() => {
     documents = [
       { ...template, id: 'saved-test', createdAt: undefined, ...attempt(123) },

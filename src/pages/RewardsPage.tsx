@@ -34,8 +34,6 @@ const RewardsPage = () => {
     setIsRedeeming(true)
     try {
       await giveReward(reward)
-    } catch (error) {
-      console.error('Failed to give reward', error)
     } finally {
       setIsRedeeming(false)
     }

@@ -1,10 +1,18 @@
-import type { CSSProperties, ReactNode } from 'react'
+import {
+  useEffect,
+  useRef,
+  type CSSProperties,
+  type ReactNode,
+  type Ref,
+} from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import {
   getThemeActionIcon,
   type ThemeActionIcon,
 } from '../../ui/themeActionAssets'
 import { uiTokens } from '../../tokens'
+import { ActionArtwork } from './ActionArtwork'
+import { getThemeAsset } from '../../ui/themeAssets'
 import type {
   ActionConfig,
   ActionStyleResolver,
@@ -69,6 +77,7 @@ type UtilityButtonProps = {
   isDanger?: boolean
   isPending?: boolean
   describedBy?: string
+  buttonRef?: Ref<HTMLButtonElement>
 }
 
 const UtilityButton = ({
@@ -80,8 +89,10 @@ const UtilityButton = ({
   isDanger,
   isPending,
   describedBy,
+  buttonRef,
 }: UtilityButtonProps) => (
   <button
+    ref={buttonRef}
     type="button"
     onClick={onClick}
     disabled={disabled || isPending}
@@ -132,6 +143,9 @@ type StandardActionButtonsProps<T> = {
   getActionStyle: ActionStyleResolver<T>
   pendingAction: 'primary' | 'edit' | 'utility' | null
   errorId?: string
+  confirmingReset: boolean
+  onConfirmReset: () => void
+  onCancelReset: () => void
 }
 
 export const StandardActionButtons = <T,>({
@@ -154,7 +168,26 @@ export const StandardActionButtons = <T,>({
   getActionStyle,
   pendingAction,
   errorId,
+  confirmingReset,
+  onConfirmReset,
+  onCancelReset,
 }: StandardActionButtonsProps<T>) => {
+  const resetButton = useRef<HTMLButtonElement>(null)
+  const cancelButton = useRef<HTMLButtonElement>(null)
+  const restoreResetFocus = useRef(false)
+  useEffect(() => {
+    if (confirmingReset) {
+      restoreResetFocus.current = true
+      cancelButton.current?.focus()
+    } else if (
+      restoreResetFocus.current &&
+      !pendingAction &&
+      !utilityDisabled
+    ) {
+      resetButton.current?.focus()
+      restoreResetFocus.current = false
+    }
+  }, [confirmingReset, pendingAction, utilityDisabled])
   const utilityStyle = {
     ...actionBaseStyle,
     width: `${uiTokens.listUtilityActionWidth}px`,
@@ -174,7 +207,7 @@ export const StandardActionButtons = <T,>({
       style={{
         display: 'grid',
         gridTemplateColumns:
-          `${hidePrimary ? '' : 'minmax(0, 1fr) '}${!hideEdit && onEdit ? `${uiTokens.listUtilityActionWidth}px ` : ''}${!hideUtility ? `${uiTokens.listUtilityActionWidth}px` : ''}`.trim(),
+          `${hidePrimary ? '' : 'minmax(0, 1fr) '}${!hideEdit && onEdit ? `${uiTokens.listUtilityActionWidth}px ` : ''}${!hideUtility ? `repeat(${confirmingReset ? 2 : 1}, ${uiTokens.listUtilityActionWidth}px)` : ''}`.trim(),
         alignItems: 'stretch',
         gap: `${uiTokens.actionRowGap}px`,
         justifyContent: hidePrimary ? 'flex-end' : undefined,
@@ -185,7 +218,7 @@ export const StandardActionButtons = <T,>({
         <button
           type="button"
           onClick={onPrimary}
-          disabled={primaryDisabled || anyPending}
+          disabled={primaryDisabled || anyPending || confirmingReset}
           className="whimsical-btn disabled:opacity-60"
           aria-label={resolveActionText(
             primaryAction.ariaLabel ?? primaryAction.label,
@@ -202,25 +235,15 @@ export const StandardActionButtons = <T,>({
             minWidth: 0,
             height: '100%',
             minHeight: `${uiTokens.listActionHeight}px`,
+            filter: confirmingReset ? 'grayscale(1)' : undefined,
           }}
         >
           {pendingAction === 'primary' ? (
             <ActionSpinner />
           ) : (
-            <span
-              className="standard-card-primary-art"
-              aria-hidden="true"
-              style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'hidden',
-              }}
-            >
+            <ActionArtwork>
               {resolveActionValue(primaryAction.icon ?? '⭐', item)}
-            </span>
+            </ActionArtwork>
           )}
         </button>
       )}
@@ -230,22 +253,55 @@ export const StandardActionButtons = <T,>({
           icon={<DefaultActionIcon theme={theme} type="edit" />}
           onClick={onEdit}
           style={{ ...utilityStyle, ...getActionStyle('neutral') }}
-          disabled={anyPending}
+          disabled={anyPending || confirmingReset}
           isPending={pendingAction === 'edit'}
           describedBy={errorId}
         />
       )}
-      {!hideUtility && (
-        <UtilityButton
-          ariaLabel={utilityAriaLabel}
-          icon={utilityIcon}
-          onClick={onUtility}
-          disabled={utilityDisabled || anyPending}
-          isDanger={utilityVariant === 'danger'}
-          isPending={pendingAction === 'utility'}
-          describedBy={errorId}
-          style={{ ...utilityStyle, ...getActionStyle(utilityVariant) }}
-        />
+      {!hideUtility && confirmingReset ? (
+        <>
+          <UtilityButton
+            ariaLabel="Yes, reset"
+            icon={
+              <img
+                src={getThemeAsset(theme.id, 'confirmExitImage')}
+                alt=""
+                className="h-full w-full object-contain"
+              />
+            }
+            onClick={onConfirmReset}
+            disabled={utilityDisabled || anyPending}
+            style={{ ...utilityStyle, ...getActionStyle('neutral') }}
+          />
+          <UtilityButton
+            buttonRef={cancelButton}
+            ariaLabel="No, keep progress"
+            icon={
+              <img
+                src={getThemeAsset(theme.id, 'continueActivityImage')}
+                alt=""
+                className="h-full w-full object-contain"
+              />
+            }
+            onClick={onCancelReset}
+            disabled={anyPending}
+            style={{ ...utilityStyle, ...getActionStyle('neutral') }}
+          />
+        </>
+      ) : (
+        !hideUtility && (
+          <UtilityButton
+            buttonRef={resetButton}
+            ariaLabel={utilityAriaLabel}
+            icon={utilityIcon}
+            onClick={onUtility}
+            disabled={utilityDisabled || anyPending}
+            isDanger={utilityVariant === 'danger'}
+            isPending={pendingAction === 'utility'}
+            describedBy={errorId}
+            style={{ ...utilityStyle, ...getActionStyle(utilityVariant) }}
+          />
+        )
       )}
     </div>
   )

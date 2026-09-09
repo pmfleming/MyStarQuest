@@ -19,6 +19,7 @@ type SegmentedChoiceControlProps<TValue extends string> = {
   options: SegmentedChoiceOption<TValue>[]
   onChange: (value: TValue) => void
   ariaLabel: string
+  showSymbolLabels?: boolean
   className?: string
   style?: CSSProperties
 }
@@ -29,6 +30,7 @@ const SegmentedChoiceControl = <TValue extends string>({
   options,
   onChange,
   ariaLabel,
+  showSymbolLabels = true,
   className,
   style,
 }: SegmentedChoiceControlProps<TValue>) => (
@@ -119,18 +121,20 @@ const SegmentedChoiceControl = <TValue extends string>({
               <span style={{ fontSize: '1.35rem', lineHeight: 1 }}>
                 {option.symbol}
               </span>
-              <span
-                style={{
-                  maxWidth: '100%',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  fontSize: '0.7rem',
-                  lineHeight: 1,
-                }}
-              >
-                {option.label}
-              </span>
+              {showSymbolLabels && (
+                <span
+                  style={{
+                    maxWidth: '100%',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    fontSize: '0.7rem',
+                    lineHeight: 1,
+                  }}
+                >
+                  {option.label}
+                </span>
+              )}
             </span>
           ) : (
             option.label

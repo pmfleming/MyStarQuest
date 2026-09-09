@@ -171,7 +171,7 @@ const ChoreCreationFlow = ({
       settings.dinnerTotalBites = draft.dinnerTotalBites
     }
 
-    onSave(selectedType, settings)
+    return onSave(selectedType, settings)
   }
 
   const panelStyle: CSSProperties = {

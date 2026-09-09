@@ -68,11 +68,6 @@ export function createUnifiedChoreDescriptor(
                   : (getChoreImage(item.imageKey, deps.theme.id) ??
                     getThemeAsset(deps.theme.id, 'giveStarIcon'))
               }
-              data-artwork-fit={
-                deps.theme.id === 'teenie' && isItemCompleted
-                  ? 'contain'
-                  : undefined
-              }
               alt=""
               aria-hidden="true"
               decoding="async"
@@ -101,11 +96,6 @@ export function createUnifiedChoreDescriptor(
                 stage === 'setup'
                   ? getThemeAsset(deps.theme.id, 'giveStarIcon')
                   : getThemeAsset(deps.theme.id, 'activeIcon')
-              }
-              data-artwork-fit={
-                deps.theme.id === 'teenie' && stage !== 'setup'
-                  ? 'contain'
-                  : undefined
               }
               alt=""
               aria-hidden="true"

@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import RewardCreationFlow from '../../src/pages/RewardCreationFlow'
 import { ThemeContext, themes } from '../../src/contexts/ThemeContext'
@@ -31,22 +31,44 @@ const renderFlow = ({
 }
 
 describe('RewardCreationFlow', () => {
-  it('orders the fields and saves the staged reward draft', async () => {
+  it('keeps the draft after a rejected save and blocks duplicate actions until retry', async () => {
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
+    try {
+      let reject!: (error: Error) => void
+      const onSave = vi
+        .fn()
+        .mockImplementationOnce(
+          () =>
+            new Promise<void>((_resolve, fail) => {
+              reject = fail
+            })
+        )
+        .mockResolvedValueOnce(undefined)
+      renderFlow({ onSave })
+      const save = screen.getByRole('button', { name: 'Save reward' })
+      fireEvent.click(save)
+      fireEvent.click(save)
+      expect(onSave).toHaveBeenCalledOnce()
+      expect(save).toBeDisabled()
+      expect(
+        screen.getByRole('button', { name: 'Discard reward' })
+      ).toBeDisabled()
+      await act(async () => reject(new Error('Offline')))
+      expect(screen.getByRole('alert')).toHaveTextContent('Save reward failed')
+      expect(screen.getByRole('textbox', { name: 'Reward name' })).toHaveValue(
+        'New Reward'
+      )
+      await act(async () => fireEvent.click(save))
+      expect(onSave).toHaveBeenCalledTimes(2)
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    } finally {
+      log.mockRestore()
+    }
+  })
+
+  it('saves the staged reward draft', async () => {
     const user = userEvent.setup()
     const { onSave } = renderFlow()
-
-    const titleInput = screen.getByRole('textbox', { name: 'Reward name' })
-    const selectedImage = screen.getByLabelText('Selected: No image')
-    const starControl = screen.getByLabelText('Decrease star value')
-
-    expect(
-      titleInput.compareDocumentPosition(selectedImage) &
-        Node.DOCUMENT_POSITION_FOLLOWING
-    ).toBeTruthy()
-    expect(
-      selectedImage.compareDocumentPosition(starControl) &
-        Node.DOCUMENT_POSITION_FOLLOWING
-    ).toBeTruthy()
 
     await user.clear(screen.getByRole('textbox', { name: 'Reward name' }))
     await user.type(
@@ -80,16 +102,12 @@ describe('RewardCreationFlow', () => {
     )
 
     cleanup()
-    const { onCancel } = renderFlow()
+    const { onCancel, onSave: cancelledSave } = renderFlow()
 
     const discardButton = screen.getByRole('button', { name: 'Discard reward' })
-    expect(discardButton.querySelector('img')).toHaveAttribute(
-      'src',
-      expect.stringContaining('exit-princess.png')
-    )
-
     await user.click(discardButton)
 
     expect(onCancel).toHaveBeenCalledOnce()
+    expect(cancelledSave).not.toHaveBeenCalled()
   })
 })

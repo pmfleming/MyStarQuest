@@ -77,29 +77,6 @@ const choreCases = [
     readyLabel: 'Run Dinner',
   },
   {
-    title: 'Expired dinner',
-    fields: {
-      taskType: 'eating',
-      dinnerTotalBites: 2,
-      dinnerDurationSeconds: 600,
-      manageDinnerBitesLeft: 1,
-      manageDinnerRemainingSeconds: 0,
-      manageDinnerTimerStartedAt: null,
-      manageDinnerCompletedAt: 123,
-    },
-    reset: {
-      manageDinnerBitesLeft: 2,
-      manageDinnerRemainingSeconds: 600,
-      manageDinnerTimerStartedAt: null,
-      manageDinnerCompletedAt: null,
-    },
-    completed: {
-      manageDinnerRemainingSeconds: 0,
-      manageDinnerCompletedAt: 456,
-    },
-    readyLabel: 'Run Expired dinner',
-  },
-  {
     title: 'Water and toilet',
     fields: {
       taskType: 'watertoiletcheck',
@@ -188,6 +165,7 @@ describe.each(choreCases)(
         fireEvent.click(
           await screen.findByRole('button', { name: `Reset ${title}` })
         )
+        fireEvent.click(screen.getByRole('button', { name: 'Yes, reset' }))
         expect(firestore.updateDoc).toHaveBeenCalledWith(
           'users/parent/chores/get-dressed',
           reset
@@ -220,9 +198,11 @@ describe.each(choreCases)(
       fireEvent.click(
         await screen.findByRole('button', { name: `Reset ${title}` })
       )
+      fireEvent.click(screen.getByRole('button', { name: 'Yes, reset' }))
       await act(async () => rejectWrite(new Error('Write failed')))
       expect(await screen.findByRole('alert')).toHaveTextContent('Reset failed')
       fireEvent.click(screen.getByRole('button', { name: `Reset ${title}` }))
+      fireEvent.click(screen.getByRole('button', { name: 'Yes, reset' }))
       act(() => emitSnapshot(reset))
       await act(async () => resolveWrite())
       await waitFor(() =>

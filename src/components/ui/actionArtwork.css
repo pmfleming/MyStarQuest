@@ -1,0 +1,21 @@
+.action-artwork {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.action-artwork img {
+  width: var(--action-artwork-size) !important;
+  height: var(--action-artwork-size) !important;
+  max-width: none !important;
+  max-height: none !important;
+  flex-shrink: 0;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}

@@ -43,7 +43,15 @@ describe('mergeTaskEphemeral', () => {
 
   it.each([
     ['math', 'manageMathCompletedAt', 'manageMathLastOutcome'],
+    [
+      'large-numbers',
+      'manageLargeNumbersCompletedAt',
+      'manageLargeNumbersLastOutcome',
+    ],
     ['positional-notation', 'managePVCompletedAt', 'managePVLastOutcome'],
+    ['alphabet', 'manageAlphabetCompletedAt', 'manageAlphabetLastOutcome'],
+    ['spelling', 'manageSpellingCompletedAt', 'manageSpellingLastOutcome'],
+    ['animals', 'manageAnimalsCompletedAt', 'manageAnimalsLastOutcome'],
   ])('scopes %s state to its outcome fields', (type, completedAt, outcome) => {
     const task = buildDefaultTests('child-1').find(
       (test) => test.taskType === type

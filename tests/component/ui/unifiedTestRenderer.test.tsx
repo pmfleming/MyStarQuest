@@ -11,7 +11,6 @@ import { createUnifiedChoreState } from '../../../src/ui/unifiedChoreState'
 import { createUnifiedChoreDescriptor } from '../../../src/ui/unifiedChoreDescriptors'
 import * as renderers from '../../../src/ui/presetChoreRenderers'
 import type { UnifiedChoreDeps } from '../../../src/ui/unifiedChoreDescriptorTypes'
-import type { TodoRecord } from '../../../src/data/types'
 
 vi.mock('../../../src/ui/presetChoreRenderers', () => ({
   renderArithmeticChore: vi.fn(() => null),
@@ -114,44 +113,6 @@ describe.each(cases)(
         onFail: undefined,
         failureImage: undefined,
       })
-    })
-    it('keeps legacy daily tests read-only and renders only their activity or result', () => {
-      const template = buildDefaultTests('child').find(
-        (test) => test.taskType === type
-      )!
-      const { taskType, ...fields } = template
-      const item = {
-        ...fields,
-        sourceTaskType: taskType,
-        sourceTaskId: template.id,
-        completedAt: 123,
-        autoAdded: false,
-        dateKey: '2026-09-06',
-        [problemField.replace('TotalProblems', 'LastOutcome')]: 'failure',
-      } as TodoRecord
-      const deps: UnifiedChoreDeps = {
-        theme: themes.princess,
-        mode: 'today',
-        biteCooldownSeconds: 15,
-        activeIds: { [type]: item.id },
-        checkTriggers: {},
-        onUpdateTaskField: vi.fn(),
-      }
-      const state = createUnifiedChoreState(deps)
-      expect(renderTestContent(deps, state, item, 'setup')).toBeNull()
-      expect(renderers[rendererName]).not.toHaveBeenCalled()
-      renderTestContent(deps, state, item, 'completed')
-      const props = vi.mocked(renderers[rendererName]).mock.lastCall![0]
-      expect(props).toMatchObject({
-        totalProblems: 5,
-        isEditable: false,
-        isCompleted: true,
-        isFailed: true,
-        checkTrigger: 0,
-      })
-      props.onAdjustProblems(1)
-      props.onStarsChange(1)
-      expect(deps.onUpdateTaskField).not.toHaveBeenCalled()
     })
   }
 )

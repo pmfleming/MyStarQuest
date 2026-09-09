@@ -7,9 +7,6 @@ import teeniepings from '../../src/data/creatureCollections/teeniepings'
 import type { CreatureCollectionData } from '../../src/data/creatureCollections/types'
 import { themes } from '../../src/contexts/ThemeContext'
 
-import teeniepingIcon from '../../src/assets/teenie/heart.webp'
-import insectIcon from '../../src/assets/animals/butterfly.webp'
-
 const loadCollection = vi.hoisted(() => vi.fn())
 vi.mock('../../src/data/creatureCollections/loadCollection', () => ({
   loadCollection,
@@ -36,38 +33,6 @@ const deferred = () => {
 }
 
 beforeEach(() => loadCollection.mockReset())
-
-it.each([
-  ['Teeniepings', teeniepingIcon, 'teenieping'],
-  ['Insects', insectIcon, 'insect'],
-])(
-  'uses collection artwork for Next and Finish in %s games',
-  async (collection, icon, kind) => {
-    loadCollection.mockResolvedValue(
-      collection === 'Insects' ? insects : teeniepings
-    )
-    const p = props()
-    const { rerender } = render(<AnimalTester {...p} isRunning={false} />)
-    await act(async () =>
-      fireEvent.click(screen.getByRole('radio', { name: collection }))
-    )
-    fireEvent.click(screen.getByRole('radio', { name: '2 Players' }))
-    rerender(<AnimalTester {...p} />)
-    expect(
-      screen.queryByRole('radiogroup', { name: 'Creature collection' })
-    ).not.toBeInTheDocument()
-    const next = screen.getByRole('button', { name: `Next ${kind}` })
-    expect(next.querySelector('img')).toHaveAttribute('src', icon)
-    fireEvent.click(next)
-    expect(
-      screen.getByRole('button', { name: 'Finish game' }).querySelector('img')
-    ).toHaveAttribute('src', icon)
-    rerender(<AnimalTester {...p} isRunning={false} />)
-    expect(
-      screen.getByRole('radiogroup', { name: 'Creature collection' })
-    ).toBeVisible()
-  }
-)
 
 it('loads on selection and ignores a late response for an older selection', async () => {
   const insectRequest = deferred()

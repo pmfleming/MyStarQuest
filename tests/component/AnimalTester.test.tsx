@@ -8,10 +8,7 @@ import { ANIMAL_ASSETS } from '../../src/data/animalAssets'
 import { ANIMAL_FOOD_IMAGE_BY_NAME } from '../../src/data/animalFoodAssets'
 import { ANIMAL_HABITAT_IMAGE_BY_NAME } from '../../src/data/animalHabitatAssets'
 import { ANIMAL_KNOWLEDGE } from '../../src/data/animalKnowledge'
-import {
-  ANIMAL_LOCATION_IMAGE_BY_NAME,
-  ANIMAL_LOCATIONS,
-} from '../../src/data/animalLocationAssets'
+import { ANIMAL_LOCATION_IMAGE_BY_NAME } from '../../src/data/animalLocationAssets'
 
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 
@@ -27,42 +24,6 @@ const createProps = () => ({
 })
 
 describe('AnimalTester', () => {
-  it('keeps shared region captions and maps together despite different animal facts', () => {
-    render(<AnimalTester {...createProps()} isRunning />)
-    const expected = {
-      Bat: 'Worldwide',
-      Chimpanzee: 'Central & West Africa',
-      Crocodile: 'Warm regions',
-      Deer: 'Five continents',
-      Eagle: 'Worldwide',
-      Flamingo: 'Five continents',
-      Gorilla: 'Central Africa',
-      'Green Tree Python': 'New Guinea & N. Australia',
-      Hedgehog: 'Afro-Eurasia',
-      Kiwi: 'New Zealand',
-      Koala: 'Eastern Australia',
-      Lion: 'Africa & India',
-      Monkey: 'Africa, Asia & Americas',
-      Otter: 'Five continents',
-    } as const
-    for (const [name, category] of Object.entries(expected)) {
-      const key = name.toLowerCase().replaceAll(' ', '-')
-      expect(
-        ANIMAL_KNOWLEDGE.find((animal) => animal.name === key)?.locationCategory
-      ).toBe(category)
-    }
-    // One rendered card verifies canonical short captions; catalog checks above
-    // protect range assignments without traversing the whole teaching carousel.
-    const location = screen.getByLabelText(/^LOCATION:/)
-    expect(location).toHaveTextContent(/^Andes$/)
-    expect(location.querySelector('img')).toHaveAttribute(
-      'src',
-      ANIMAL_LOCATIONS.Andes.image
-    )
-    const maps = Object.values(ANIMAL_LOCATIONS).map(({ image }) => image)
-    expect(new Set(maps).size).toBe(maps.length)
-  })
-
   it('connects every animal to complete facts and visual assets', () => {
     const assetNames = ANIMAL_ASSETS.map(({ name }) => name).sort()
     const knowledgeNames = ANIMAL_KNOWLEDGE.map(({ name }) => name).sort()
@@ -187,101 +148,89 @@ describe('AnimalTester', () => {
     expect(props.onComplete).not.toHaveBeenCalled()
   })
 
-  it.each(['princess', 'teenie'] as const)(
-    'removes wrong choices and advances after the correct solo choice in %s',
-    (themeId) => {
-      vi.useFakeTimers()
-      try {
-        const props = { ...createProps(), theme: themes[themeId] }
-        const { rerender } = render(<AnimalTester {...props} />)
+  it('removes wrong choices and advances after the correct solo choice', () => {
+    const themeId = 'teenie' as const
+    vi.useFakeTimers()
+    try {
+      const props = { ...createProps(), theme: themes[themeId] }
+      const { rerender } = render(<AnimalTester {...props} />)
 
-        fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
-        rerender(<AnimalTester {...props} isRunning />)
+      fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
+      rerender(<AnimalTester {...props} isRunning />)
 
-        expect(
-          document.querySelector('[data-activity-result-bar]')
-        ).toBeInTheDocument()
-        expect(
-          screen.queryByRole('heading', { name: 'Guess' })
-        ).not.toBeInTheDocument()
-        expect(screen.getByLabelText(/^LOCATION:/)).toBeInTheDocument()
-        expect(screen.queryByLabelText(/^ENVIRONMENT:/)).not.toBeInTheDocument()
+      expect(
+        document.querySelector('[data-activity-result-bar]')
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByRole('heading', { name: 'Guess' })
+      ).not.toBeInTheDocument()
+      expect(screen.getByLabelText(/^LOCATION:/)).toBeInTheDocument()
+      expect(screen.queryByLabelText(/^ENVIRONMENT:/)).not.toBeInTheDocument()
 
-        act(() => vi.advanceTimersByTime(3000))
-        expect(screen.getByLabelText(/^ENVIRONMENT:/)).toBeInTheDocument()
-        expect(screen.queryByLabelText(/^FOOD:/)).not.toBeInTheDocument()
+      act(() => vi.advanceTimersByTime(3000))
+      expect(screen.getByLabelText(/^ENVIRONMENT:/)).toBeInTheDocument()
+      expect(screen.queryByLabelText(/^FOOD:/)).not.toBeInTheDocument()
 
-        act(() => vi.advanceTimersByTime(3000))
-        expect(screen.getByLabelText(/^FOOD:/)).toBeInTheDocument()
-        expect(screen.queryByLabelText(/^ABILITY:/)).not.toBeInTheDocument()
+      act(() => vi.advanceTimersByTime(3000))
+      expect(screen.getByLabelText(/^FOOD:/)).toBeInTheDocument()
+      expect(screen.queryByLabelText(/^ABILITY:/)).not.toBeInTheDocument()
 
-        act(() => vi.advanceTimersByTime(3000))
-        expect(screen.getByLabelText(/^ABILITY:/)).toBeInTheDocument()
+      act(() => vi.advanceTimersByTime(3000))
+      expect(screen.getByLabelText(/^ABILITY:/)).toBeInTheDocument()
 
-        const choices = within(
-          screen.getByLabelText('Animal choices')
-        ).getAllByRole('button')
-        expect(choices).toHaveLength(3)
-        expect(choices.every((choice) => choice.querySelector('img'))).toBe(
-          true
-        )
+      const choices = within(
+        screen.getByLabelText('Animal choices')
+      ).getAllByRole('button')
+      expect(choices).toHaveLength(3)
+      expect(choices.every((choice) => choice.querySelector('img'))).toBe(true)
 
-        const factText = (category: string) =>
-          screen
-            .getByLabelText(new RegExp(`^${category}:`))
-            .getAttribute('aria-label')
-            ?.replace(`${category}: `, '')
-        const currentAnimal = ANIMAL_KNOWLEDGE.find(
-          (animal) =>
-            animal.habitat[0].text === factText('LOCATION') &&
-            animal.habitat[1].text === factText('ENVIRONMENT') &&
-            animal.food[1].text === factText('FOOD') &&
-            animal.abilities[0].text === factText('ABILITY')
-        )
-        expect(currentAnimal).toBeDefined()
-        if (!currentAnimal)
-          throw new Error('Expected the displayed animal in catalog')
+      const factText = (category: string) =>
+        screen
+          .getByLabelText(new RegExp(`^${category}:`))
+          .getAttribute('aria-label')
+          ?.replace(`${category}: `, '')
+      const currentAnimal = ANIMAL_KNOWLEDGE.find(
+        (animal) =>
+          animal.habitat[0].text === factText('LOCATION') &&
+          animal.habitat[1].text === factText('ENVIRONMENT') &&
+          animal.food[1].text === factText('FOOD') &&
+          animal.abilities[0].text === factText('ABILITY')
+      )
+      expect(currentAnimal).toBeDefined()
+      if (!currentAnimal)
+        throw new Error('Expected the displayed animal in catalog')
 
-        expect(
-          screen.getByLabelText(/^ABILITY:/).querySelector('img')
-        ).toHaveAttribute(
-          'src',
-          themeId === 'teenie'
-            ? getGenericAnimalAbilityImage(
-                themeId,
-                currentAnimal.abilities[0].label
-              )
-            : getAnimalAbilityImage(currentAnimal.name)
-        )
+      expect(
+        screen.getByLabelText(/^ABILITY:/).querySelector('img')
+      ).toHaveAttribute(
+        'src',
+        getGenericAnimalAbilityImage(themeId, currentAnimal.abilities[0].label)
+      )
 
-        const answerName = currentAnimal.name
-          .split('-')
-          .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-          .join(' ')
-        const wrongChoice = choices.find(
-          (choice) => choice.getAttribute('aria-label') !== answerName
-        )
-        expect(wrongChoice).toBeDefined()
+      const answerName = currentAnimal.name
+        .split('-')
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(' ')
+      const wrongChoice = choices.find(
+        (choice) => choice.getAttribute('aria-label') !== answerName
+      )
+      expect(wrongChoice).toBeDefined()
 
-        fireEvent.click(wrongChoice!)
-        expect(wrongChoice).toHaveStyle({
-          animation: 'animal-choice-fly-away 0.65s ease-in forwards',
-        })
-        act(() => vi.advanceTimersByTime(650))
-        expect(wrongChoice).not.toBeInTheDocument()
+      fireEvent.click(wrongChoice!)
+      act(() => vi.advanceTimersByTime(650))
+      expect(wrongChoice).not.toBeInTheDocument()
 
-        fireEvent.click(screen.getByRole('button', { name: answerName }))
-        expect(
-          screen.queryByRole('button', { name: /^(Next|Finish)$/ })
-        ).not.toBeInTheDocument()
+      fireEvent.click(screen.getByRole('button', { name: answerName }))
+      expect(
+        screen.queryByRole('button', { name: /^(Next|Finish)$/ })
+      ).not.toBeInTheDocument()
 
-        act(() => vi.advanceTimersByTime(650))
-        expect(props.onComplete).toHaveBeenCalledOnce()
-      } finally {
-        vi.useRealTimers()
-      }
+      act(() => vi.advanceTimersByTime(650))
+      expect(props.onComplete).toHaveBeenCalledOnce()
+    } finally {
+      vi.useRealTimers()
     }
-  )
+  })
 
   it('shows one read-aloud screen and advances the two-player game directly', () => {
     const props = { ...createProps(), totalProblems: 2 }

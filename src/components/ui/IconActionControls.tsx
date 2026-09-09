@@ -1,6 +1,8 @@
 import type { CSSProperties } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
+import { useAsyncAction } from './useAsyncAction'
+import { ActionArtwork } from './ActionArtwork'
 import {
   getStandardPrimaryActionStyle,
   getStandardUtilityActionStyle,
@@ -72,26 +74,14 @@ export const IconActionButton = ({
   disabled,
   variant,
   shape = 'utility',
-  fit = shape === 'primary' ? 'cover' : 'contain',
+  fit = 'contain',
   iconWidth = shape === 'primary' ? '100%' : 40,
   iconHeight = shape === 'primary' ? '100%' : 40,
   iconOpacity,
   className,
   style,
-}: IconActionButtonProps) => (
-  <button
-    type="button"
-    className={`whimsical-btn ${shape === 'utility' ? 'whimsical-btn-utility' : ''} ${className ?? ''}`.trim()}
-    onClick={onClick}
-    disabled={disabled}
-    aria-label={ariaLabel}
-    style={{
-      ...(shape === 'primary'
-        ? getStandardPrimaryActionStyle(theme, variant ?? 'primary')
-        : getStandardUtilityActionStyle(theme, variant ?? 'neutral')),
-      ...style,
-    }}
-  >
+}: IconActionButtonProps) => {
+  const image = (
     <StandardIconImage
       src={icon}
       fit={fit}
@@ -99,8 +89,25 @@ export const IconActionButton = ({
       height={iconHeight}
       opacity={iconOpacity}
     />
-  </button>
-)
+  )
+  return (
+    <button
+      type="button"
+      className={`whimsical-btn ${shape === 'utility' ? 'whimsical-btn-utility' : ''} ${className ?? ''}`.trim()}
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={ariaLabel}
+      style={{
+        ...(shape === 'primary'
+          ? getStandardPrimaryActionStyle(theme, variant ?? 'primary')
+          : getStandardUtilityActionStyle(theme, variant ?? 'neutral')),
+        ...style,
+      }}
+    >
+      {shape === 'primary' ? <ActionArtwork>{image}</ActionArtwork> : image}
+    </button>
+  )
+}
 
 type IconActionRowProps = {
   theme: Theme
@@ -128,36 +135,48 @@ export const IconActionRow = ({
   onUtilityClick,
   utilityDisabled,
   style,
-}: IconActionRowProps) => (
-  <div
-    className="flex items-center"
-    style={{
-      height: `${uiTokens.listActionHeight}px`,
-      minHeight: `${uiTokens.listActionHeight}px`,
-      alignItems: 'stretch',
-      gap: `${uiTokens.actionRowGap}px`,
-      ...style,
-    }}
-  >
-    <IconActionButton
-      theme={theme}
-      icon={primaryIcon}
-      ariaLabel={primaryAriaLabel}
-      onClick={onPrimaryClick}
-      disabled={primaryDisabled}
-      shape="primary"
-      iconOpacity={primaryIconOpacity}
-    />
-    <IconActionButton
-      theme={theme}
-      icon={utilityIcon}
-      ariaLabel={utilityAriaLabel}
-      onClick={onUtilityClick}
-      disabled={utilityDisabled}
-      shape="utility"
-    />
-  </div>
-)
+}: IconActionRowProps) => {
+  const { pendingAction, actionError, runAction } = useAsyncAction<
+    'primary' | 'utility'
+  >()
+  return (
+    <>
+      <div
+        className="flex items-center"
+        style={{
+          height: `${uiTokens.listActionHeight}px`,
+          minHeight: `${uiTokens.listActionHeight}px`,
+          alignItems: 'stretch',
+          gap: `${uiTokens.actionRowGap}px`,
+          ...style,
+        }}
+      >
+        <IconActionButton
+          theme={theme}
+          icon={primaryIcon}
+          ariaLabel={primaryAriaLabel}
+          onClick={() => {
+            void runAction(primaryAriaLabel, 'primary', onPrimaryClick)
+          }}
+          disabled={primaryDisabled || pendingAction !== null}
+          shape="primary"
+          iconOpacity={primaryIconOpacity}
+        />
+        <IconActionButton
+          theme={theme}
+          icon={utilityIcon}
+          ariaLabel={utilityAriaLabel}
+          onClick={() => {
+            void runAction(utilityAriaLabel, 'utility', onUtilityClick)
+          }}
+          disabled={utilityDisabled || pendingAction !== null}
+          shape="utility"
+        />
+      </div>
+      {actionError && <p role="alert">{actionError}</p>}
+    </>
+  )
+}
 
 type IconChoiceButtonProps = {
   theme: Theme
@@ -190,19 +209,8 @@ export const IconChoiceButton = ({
       padding: `${uiTokens.controlInset}px`,
     }}
   >
-    <span
-      style={{
-        width: '100%',
-        height: '100%',
-        borderRadius: `${uiTokens.listActionRadius - 4}px`,
-        background: `${theme.colors.surface}cc`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden',
-      }}
-    >
-      <StandardIconImage src={icon} fit="cover" width="100%" height="100%" />
-    </span>
+    <ActionArtwork>
+      <StandardIconImage src={icon} width="100%" height="100%" />
+    </ActionArtwork>
   </button>
 )

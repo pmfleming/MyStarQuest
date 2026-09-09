@@ -1,7 +1,7 @@
 export const celebrateSuccess = () => {
   void import('canvas-confetti')
     .then(({ default: confetti }) => {
-      confetti({
+      return confetti({
         particleCount: 120,
         spread: 65,
         origin: { y: 0.7 },

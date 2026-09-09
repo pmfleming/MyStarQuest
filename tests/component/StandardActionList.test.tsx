@@ -7,10 +7,11 @@ import {
   within,
 } from '@testing-library/react'
 import type { ComponentProps } from 'react'
+import userEvent from '@testing-library/user-event'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import StandardActionList from '../../src/components/ui/StandardActionList'
-import ImageStarFrame from '../../src/components/ui/ImageStarFrame'
 import { themes } from '../../src/contexts/ThemeContext'
+import { getThemeAsset } from '../../src/ui/themeAssets'
 
 type Item = { id: string; title: string }
 
@@ -48,25 +49,6 @@ afterEach(() => {
 })
 
 describe('StandardActionList card contract', () => {
-  it('loads the first overview eagerly while keeping later card artwork lazy', () => {
-    renderList({
-      items: [item, { id: 'animals-1', title: 'Animals' }],
-      renderItem: (value) => (
-        <ImageStarFrame
-          theme={themes.princess}
-          image={`/${value.id}.webp`}
-          imageAlt={value.title}
-          starCount={3}
-        />
-      ),
-    })
-    expect(screen.getByAltText('Arithmetic')).toHaveAttribute(
-      'loading',
-      'eager'
-    )
-    expect(screen.getByAltText('Animals')).toHaveAttribute('loading', 'lazy')
-  })
-
   it('renders accessible card regions and hides configured actions', () => {
     renderList()
 
@@ -113,7 +95,7 @@ describe('StandardActionList card contract', () => {
     ).toEqual(['Continue', 'Reset'])
   })
 
-  it('resets immediately and exposes pending state', async () => {
+  it('asks before resetting, allows cancellation, and exposes pending state after Yes', async () => {
     let finishReset: (() => void) | undefined
     const reset = vi.fn(
       () =>
@@ -136,6 +118,27 @@ describe('StandardActionList card contract', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Reset Arithmetic' }))
 
     expect(confirm).not.toHaveBeenCalled()
+    expect(reset).not.toHaveBeenCalled()
+    expect(
+      screen.getByRole('button', { name: 'Run Arithmetic' })
+    ).toBeDisabled()
+    const no = screen.getByRole('button', { name: 'No, keep progress' })
+    expect(no).toHaveFocus()
+    expect(
+      screen.getByRole('button', { name: 'Yes, reset' }).querySelector('img')
+    ).toHaveAttribute('src', getThemeAsset('princess', 'quizIncorrectImage'))
+    expect(no.querySelector('img')).toHaveAttribute(
+      'src',
+      getThemeAsset('princess', 'quizCorrectImage')
+    )
+    fireEvent.click(no)
+    expect(reset).not.toHaveBeenCalled()
+    expect(screen.getByRole('button', { name: 'Run Arithmetic' })).toBeEnabled()
+    expect(
+      screen.getByRole('button', { name: 'Reset Arithmetic' })
+    ).toHaveFocus()
+    fireEvent.click(screen.getByRole('button', { name: 'Reset Arithmetic' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Yes, reset' }))
     expect(reset).toHaveBeenCalledWith(item)
     expect(
       screen.getByRole('button', { name: 'Reset Arithmetic' })
@@ -147,6 +150,44 @@ describe('StandardActionList card contract', () => {
         screen.getByRole('button', { name: 'Reset Arithmetic' })
       ).not.toHaveAttribute('aria-busy')
     )
+  })
+
+  it('uses Teenie artwork and disables inline activity actions while reset is undecided', async () => {
+    const user = userEvent.setup()
+    const advance = vi.fn()
+    const reset = vi.fn()
+    renderList({
+      theme: themes.teenie,
+      hideEdit: true,
+      renderItem: () => (
+        <button className="activity-inline-action" onClick={advance}>
+          Next animal
+        </button>
+      ),
+      primaryAction: { label: 'Continue', hideButton: true, onClick: advance },
+      utilityAction: { label: 'Reset', exits: false, onClick: reset },
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Reset' }))
+    const next = screen.getByRole('button', { name: 'Next animal' })
+    expect(next).toBeDisabled()
+    await user.click(next)
+    expect(advance).not.toHaveBeenCalled()
+    const no = screen.getByRole('button', { name: 'No, keep progress' })
+    expect(no.querySelector('img')).toHaveAttribute(
+      'src',
+      getThemeAsset('teenie', 'continueActivityImage')
+    )
+    expect(
+      screen.getByRole('button', { name: 'Yes, reset' }).querySelector('img')
+    ).toHaveAttribute('src', getThemeAsset('teenie', 'confirmExitImage'))
+    fireEvent.click(no)
+    expect(next).toBeEnabled()
+    fireEvent.click(next)
+    expect(advance).toHaveBeenCalledOnce()
+    expect(reset).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByRole('button', { name: 'Reset' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Yes, reset' }))
+    await waitFor(() => expect(reset).toHaveBeenCalledOnce())
   })
 
   it('keeps the card visible and reports a failed deletion', async () => {

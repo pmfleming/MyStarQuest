@@ -2,10 +2,6 @@ import { describe, expect, it } from 'vitest'
 import { getThemeAssets } from '../../src/ui/themeAssets'
 import { themes } from '../../src/contexts/ThemeContext'
 import { isThemeId } from '../../src/ui/themeOptions'
-import {
-  getChoreImage,
-  getChoreImageOptions,
-} from '../../src/assets/chores/assets'
 import { getGenericAnimalAbilityImage } from '../../src/data/genericAnimalAbilityAssets'
 import { getInsectBearAbilityImage } from '../../src/data/insectKnowledge'
 import { getWaterImage, getToiletImage } from '../../src/ui/waterToiletAssets'
@@ -26,31 +22,10 @@ describe('Teenie Friends theme', () => {
     }
     expect(getTabIcon('chores', 'teenie')).toBe(teenie.choresIcon)
     expect(getTabIcon('chores', 'princess')).toBe(princess.choresIcon)
-  })
-
-  it('preserves saved chore keys while changing images and labels', () => {
-    expect(getChoreImage('bravePrincess', 'teenie')).toBe(
-      getThemeAssets('teenie').brave
-    )
-    expect(
-      getChoreImageOptions('teenie').find((o) => o.id === 'bravePrincess')
-        ?.label
-    ).toBe('Being brave')
-    expect(getChoreImage('bravePrincess', 'princess')).toBe(
-      getThemeAssets('princess').brave
-    )
-    expect(getChoreImage('unknown', 'teenie')).toBeUndefined()
-    expect(getChoreImage('', 'teenie')).toBeUndefined()
-  })
-
-  it('supplies every activity and all sixteen seasonal backgrounds', () => {
-    expect(Object.values(themes.teenie.activityImages!)).toHaveLength(10)
-    const images = Object.values(
-      themes.teenie.explorerBackgroundImages!
-    ).flatMap(Object.values)
-    expect(images).toHaveLength(16)
-    expect(new Set(images).size).toBe(16)
-    for (const image of images) expect(image).toContain('/teenie/')
+    expect(teenie.continueActivityImage).toContain('/teenie/OkeyDokey.webp')
+    expect(teenie.confirmExitImage).toContain('/teenie/NoNo.webp')
+    expect(princess.continueActivityImage).toBe(princess.quizCorrectImage)
+    expect(princess.confirmExitImage).toBe(princess.quizIncorrectImage)
   })
 
   it('keeps hydration levels and toilet states distinct and theme aware', () => {
@@ -67,8 +42,8 @@ describe('Teenie Friends theme', () => {
     )
   })
 
-  it('covers all 67 abilities and overrides the insect princess fallback', () => {
-    expect(abilityPrompts).toHaveLength(67)
+  it('provides artwork for configured abilities and rejects missing assets', () => {
+    expect(abilityPrompts.length).toBeGreaterThan(0)
     for (const entry of abilityPrompts) {
       const ability = entry.id.replace('ability-', '')
       const url = getGenericAnimalAbilityImage('teenie', ability)

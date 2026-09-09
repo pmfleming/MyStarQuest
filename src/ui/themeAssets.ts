@@ -2,6 +2,8 @@ import * as princess from '../assets/themes/princess/assets'
 import type { ThemeId } from './themeOptions'
 import type { Season } from '../lib/seasons'
 import heart from '../assets/teenie/heart.webp'
+import okeydokey from '../assets/teenie/OkeyDokey.webp'
+import nono from '../assets/teenie/NoNo.webp'
 import gift from '../assets/teenie/prop/gift.webp'
 import tidyingUp from '../assets/themes/princess/tidying-up.webp'
 import writing from '../assets/themes/princess/writing.svg'
@@ -23,6 +25,8 @@ const princessAssets = {
   editIcon: princess.princessEditIcon,
   deleteIcon: princess.princessDeleteIcon,
   resetIcon: princess.princessResetIcon,
+  confirmExitImage: princess.princessQuizIncorrectImage,
+  continueActivityImage: princess.princessQuizCorrectImage,
   saveIcon: princess.princessSaveIcon,
   themeIcon: princess.princessThemeIcon,
   activeIcon: princess.princessActiveIcon,
@@ -88,6 +92,8 @@ const teenieRoles = {
   editIcon: 'edit.webp',
   deleteIcon: 'delete.webp',
   resetIcon: 'reset.svg',
+  confirmExitImage: '@nono',
+  continueActivityImage: '@okeydokey',
   saveIcon: 'save.svg',
   themeIcon: '@heart',
   activeIcon: 'active.webp',
@@ -134,7 +140,12 @@ export const hasIllustratedTheme = (id: string) =>
 export const getThemeAssets = (id: ThemeId | string): ThemeAssets => {
   if (id !== 'teenie') return princessAssets
   if (!teenieAssets) {
-    const reused: Record<string, string> = { '@heart': heart, '@gift': gift }
+    const reused: Record<string, string> = {
+      '@heart': heart,
+      '@gift': gift,
+      '@okeydokey': okeydokey,
+      '@nono': nono,
+    }
     teenieAssets = Object.fromEntries(
       Object.entries(teenieRoles).map(([role, file]) => [
         role,

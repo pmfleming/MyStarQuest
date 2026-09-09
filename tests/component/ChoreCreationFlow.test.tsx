@@ -35,6 +35,27 @@ const renderFlow = ({
 }
 
 describe('ChoreCreationFlow', () => {
+  it('shows a rejected chore save and keeps its draft available for retry', async () => {
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
+    try {
+      const user = userEvent.setup()
+      const onSave = vi
+        .fn()
+        .mockRejectedValueOnce(new Error('Offline'))
+        .mockResolvedValueOnce(undefined)
+      renderFlow({ onSave })
+      await user.click(screen.getByRole('button', { name: 'Standard Chore' }))
+      await user.click(screen.getByRole('button', { name: 'Save' }))
+      expect(await screen.findByRole('alert')).toHaveTextContent('Save failed')
+      await user.click(screen.getByRole('button', { name: 'Save' }))
+      expect(onSave).toHaveBeenCalledTimes(2)
+      expect(onSave.mock.calls[1]).toEqual(onSave.mock.calls[0])
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    } finally {
+      log.mockRestore()
+    }
+  })
+
   it('saves a standard chore with the selected image', async () => {
     const user = userEvent.setup()
     const { onSave } = renderFlow()

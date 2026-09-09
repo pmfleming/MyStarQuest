@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import type { Theme } from '../../contexts/ThemeContext'
 import { getActionButtonStyle, uiTokens } from '../../tokens'
+import { ActionArtwork } from './ActionArtwork'
 
 interface ActionButtonProps {
   to?: string
@@ -32,6 +33,12 @@ const ActionButton = ({
   styleOverride,
   className = '',
 }: ActionButtonProps) => {
+  const buttonStyle = {
+    ...getActionButtonStyle(theme, color),
+    ...styleOverride,
+    position: 'relative' as const,
+    overflow: 'hidden',
+  }
   const defaultContent = (
     <>
       <span
@@ -74,10 +81,10 @@ const ActionButton = ({
           type="button"
           aria-label={label}
           className={`group ${className}`.trim()}
-          style={{ ...getActionButtonStyle(theme, color), ...styleOverride }}
+          style={buttonStyle}
           aria-pressed={ariaPressed}
         >
-          {content ?? defaultContent}
+          {content ? <ActionArtwork>{content}</ActionArtwork> : defaultContent}
         </button>
       </Link>
     )
@@ -88,12 +95,12 @@ const ActionButton = ({
       type="button"
       aria-label={label}
       onClick={onClick}
-      style={{ ...getActionButtonStyle(theme, color), ...styleOverride }}
+      style={buttonStyle}
       disabled={disabled}
       className={`group ${className}`.trim()}
       aria-pressed={ariaPressed}
     >
-      {content ?? defaultContent}
+      {content ? <ActionArtwork>{content}</ActionArtwork> : defaultContent}
     </button>
   )
 }

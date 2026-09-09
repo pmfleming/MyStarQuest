@@ -70,21 +70,9 @@ export const injectStandardActionStyles = () => {
     .standard-card-spinner {
       animation: standard-card-spin 0.8s linear infinite;
     }
-    .standard-card-primary-art img {
-      width: ${uiTokens.listActionArtworkScale * 100}% !important;
-      height: ${uiTokens.listActionArtworkScale * 100}% !important;
-      max-width: none !important;
-      max-height: none !important;
-      object-fit: contain;
-      display: block;
-    }
-    .standard-card-primary-art img[data-artwork-fit="contain"] {
-      width: 100% !important;
-      height: 85% !important;
-    }
     .standard-card-primary-hidden:has(.activity-inline-action, .activity-inline-action-row)
       :is(.activity-inline-action, .activity-inline-action-row) {
-      width: calc(100% - ${uiTokens.listUtilityActionWidth + uiTokens.actionRowGap}px) !important;
+      width: calc(100% - var(--card-utility-width, ${uiTokens.listUtilityActionWidth}px) - ${uiTokens.actionRowGap}px) !important;
       align-self: flex-start;
       margin-left: 0 !important;
       margin-right: 0 !important;
@@ -94,7 +82,14 @@ export const injectStandardActionStyles = () => {
       position: absolute !important;
       right: ${uiTokens.listItemPadding}px;
       bottom: ${uiTokens.listItemPadding}px;
-      width: ${uiTokens.listUtilityActionWidth}px;
+      width: var(--card-utility-width, ${uiTokens.listUtilityActionWidth}px);
+    }
+    .standard-card-confirming-reset {
+      --card-utility-width: ${uiTokens.listUtilityActionWidth * 2 + uiTokens.actionRowGap}px;
+    }
+    .standard-card-confirming-reset :is(.activity-inline-action, .activity-inline-action-row) {
+      filter: grayscale(1);
+      opacity: 0.6;
     }
     @media (prefers-reduced-motion: reduce) {
       .whimsical-card,

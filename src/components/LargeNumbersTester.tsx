@@ -5,6 +5,7 @@ import {
   type ReactNode,
 } from 'react'
 import { useCheckedActivityChallenge } from '../hooks/useActivityChallenge'
+import type { MathDifficulty } from '../data/types'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import { uiTokens } from '../tokens'
 import { getThemeAsset } from '../ui/themeAssets'
@@ -14,6 +15,12 @@ import { CounterGroup, MathCounter, TenRod } from './ui/ActivityMathCounters'
 import MathActivityPlayArea from './ui/MathActivityPlayArea'
 import MathActivityShell from './ui/MathActivityShell'
 import StepperButton from './ui/StepperButton'
+import CrownDifficultyControl, {
+  type CrownDifficultyOption,
+} from './ui/CrownDifficultyControl'
+import SegmentedChoiceControl, {
+  type SegmentedChoiceOption,
+} from './ui/SegmentedChoiceControl'
 
 const MIN_ADDEND = 11
 const MAX_SUM = 99
@@ -34,24 +41,56 @@ const { mathCounterGap: DOT_GAP } = uiTokens.activityTokens
 type LargeNumbersProblem = {
   a: number
   b: number
+  operation: '+' | '-'
 }
+
+type OperationMode = 'addition' | 'subtraction' | 'both'
+
+const OPERATION_OPTIONS: SegmentedChoiceOption<OperationMode>[] = [
+  { value: 'addition', label: 'Addition only', symbol: '+' },
+  { value: 'subtraction', label: 'Subtraction only', symbol: '−' },
+  { value: 'both', label: 'Addition and subtraction', symbol: '+ / −' },
+]
+
+const DIFFICULTY_OPTIONS: CrownDifficultyOption<MathDifficulty>[] = [
+  { value: 'easy', label: 'Easy', crowns: 1 },
+  { value: 'hard', label: 'Hard', crowns: 2 },
+]
+
+const EMPTY_PROBLEM: LargeNumbersProblem = { a: 0, b: 0, operation: '+' }
 
 type OnesAnswerState = {
   ones: number
   onesTens: number
 }
 
-function generateLargeNumbersProblem(): LargeNumbersProblem {
+function generateAddends(difficulty: MathDifficulty) {
+  if (difficulty === 'easy') {
+    const choice = Math.floor(Math.random() * 18)
+    const b = choice < 9 ? choice + 1 : (choice - 8) * 10
+    const a = Math.floor(Math.random() * (MAX_SUM - b)) + 1
+    return { a, b }
+  }
   const a =
     Math.floor(Math.random() * (MAX_FIRST_ADDEND - MIN_ADDEND + 1)) + MIN_ADDEND
   const maxB = MAX_SUM - a
   const b = Math.floor(Math.random() * (maxB - MIN_ADDEND + 1)) + MIN_ADDEND
-
   return Math.random() > 0.5 ? { a, b } : { a: b, b: a }
 }
 
+function generateLargeNumbersProblem(
+  mode: OperationMode,
+  difficulty: MathDifficulty
+): LargeNumbersProblem {
+  const { a, b } = generateAddends(difficulty)
+  const subtract =
+    mode === 'subtraction' || (mode === 'both' && Math.random() < 0.5)
+  if (subtract) return { a: a + b, b, operation: '-' }
+  return { a, b, operation: '+' }
+}
+
 function getProblemKey(problem: LargeNumbersProblem): string {
-  return `${problem.a}+${problem.b}`
+  return `${problem.a}${problem.operation}${problem.b}`
 }
 
 const getDigits = (value: number) => ({
@@ -92,21 +131,25 @@ export type LargeNumbersTesterProps = ActivityChoreProps
 
 const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
   const { theme, isRunning } = props
-  const [{ a: addendA, b: addendB }, setProblem] = useState({ a: 0, b: 0 })
+  const [operationMode, setOperationMode] = useState<OperationMode>('addition')
+  const [difficulty, setDifficulty] = useState<MathDifficulty>('hard')
+  const [{ a: operandA, b: operandB, operation }, setProblem] =
+    useState(EMPTY_PROBLEM)
   const [userTensRods, setUserTensRods] = useState(0)
   const [onesState, setOnesState] = useState({ ones: 0, onesTens: 0 })
   const { ones: userOnes, onesTens: userOnesTens } = onesState
   const { isSeen, markSeen, clearHistory } = useProblemHistory()
 
-  const expectedAnswer = addendA + addendB
-  const firstDigits = getDigits(addendA)
-  const secondDigits = getDigits(addendB)
+  const expectedAnswer =
+    operation === '+' ? operandA + operandB : operandA - operandB
+  const firstDigits = getDigits(operandA)
+  const secondDigits = getDigits(operandB)
   const currentAnswer = (userTensRods + userOnesTens) * 10 + userOnes
   const answerDigits = getDigits(currentAnswer)
 
   const nextProblem = useCallback(() => {
     const problem = pickUnseenProblem(
-      generateLargeNumbersProblem,
+      () => generateLargeNumbersProblem(operationMode, difficulty),
       (candidate) => isSeen(getProblemKey(candidate))
     )
     markSeen(getProblemKey(problem))
@@ -114,11 +157,11 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
     setProblem(problem)
     setUserTensRods(0)
     setOnesState({ ones: 0, onesTens: 0 })
-  }, [isSeen, markSeen])
+  }, [isSeen, markSeen, operationMode, difficulty])
 
   const resetProblem = useCallback(() => {
     clearHistory()
-    setProblem({ a: 0, b: 0 })
+    setProblem(EMPTY_PROBLEM)
     setUserTensRods(0)
     setOnesState({ ones: 0, onesTens: 0 })
   }, [clearHistory])
@@ -133,7 +176,7 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
     isWrong,
   } = useCheckedActivityChallenge({
     ...props,
-    canStart: addendA === 0,
+    canStart: operandA === 0,
     onStart: nextProblem,
     onReset: resetProblem,
     isAnswerCorrect: currentAnswer === expectedAnswer,
@@ -343,6 +386,25 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
       isSuccessState={isSuccessState}
       isSetup={isSetup}
       animationStyles={getActivityFeedbackAnimationStyles('large-numbers')}
+      difficultyControl={
+        <>
+          <CrownDifficultyControl
+            theme={theme}
+            value={difficulty}
+            options={DIFFICULTY_OPTIONS}
+            onChange={setDifficulty}
+            ariaLabel="Large numbers difficulty"
+          />
+          <SegmentedChoiceControl
+            theme={theme}
+            value={operationMode}
+            options={OPERATION_OPTIONS}
+            onChange={setOperationMode}
+            ariaLabel="Math operations"
+            showSymbolLabels={false}
+          />
+        </>
+      }
     >
       {isRunning && (
         <MathActivityPlayArea
@@ -354,6 +416,8 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
           retryCount={retryCount}
         >
           <div
+            role="group"
+            aria-label={`${operandA} ${operation === '+' ? 'plus' : 'minus'} ${operandB}`}
             style={{
               width: '100%',
               borderRadius: 18,
@@ -394,7 +458,7 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
                   color: theme.colors.primary,
                 }}
               >
-                +
+                {operation === '+' ? '+' : '−'}
               </div>
               <div />
               <div style={digitCellStyle(`${theme.colors.secondary}24`)}>

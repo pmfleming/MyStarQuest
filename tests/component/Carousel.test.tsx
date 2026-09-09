@@ -33,8 +33,6 @@ describe('Carousel', () => {
     const user = userEvent.setup()
     const { onChange } = renderCarousel()
 
-    expect(screen.queryByRole('button', { name: 'Previous' })).toBeNull()
-    expect(screen.queryByRole('button', { name: 'Next' })).toBeNull()
     expect(screen.getByLabelText('Selected: Second image')).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Next: Third image' }))

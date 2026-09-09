@@ -157,6 +157,7 @@ describe.each([false, true])(
       )
       renderTabs()
       fireEvent.click(screen.getByRole('button', { name: 'Reset Get dressed' }))
+      fireEvent.click(screen.getByRole('button', { name: 'Yes, reset' }))
       expect(actions.resetChore).toHaveBeenCalledTimes(1)
       fireEvent.click(screen.getByRole('button', { name: 'Rewards tab' }))
       expect(

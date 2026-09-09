@@ -10,19 +10,12 @@ import {
   parseDateKey,
 } from '../lib/today'
 import {
-  CACHE_KEY,
-  CACHE_TS_KEY,
-  CACHE_TTL_MS,
-} from '../lib/schoolCalendarCache'
+  loadSchoolCalendar,
+  type SchoolCalendarData,
+} from '../lib/schoolCalendarData'
 import { uiTokens } from '../tokens'
 
-const CALENDAR_URL = 'https://getschoolcalendar-6ujocyt4pq-uc.a.run.app'
-
 const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-
-type CalendarDayData = {
-  isNonSchoolDay?: boolean
-}
 
 const getMondayFirstOffset = (date: Date) => {
   const day = date.getDay()
@@ -57,8 +50,9 @@ type SchoolCalendarProps = {
 
 export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   const { selectedDateKey, setSelectedDateKey } = useSelectedDate()
-  const [events, setEvents] = useState<Record<string, CalendarDayData>>({})
-  const [loaded, setLoaded] = useState(false)
+  const [events, setEvents] = useState<SchoolCalendarData>({})
+  const [loadError, setLoadError] = useState(false)
+  const [request, setRequest] = useState(0)
   const [viewDate, setViewDate] = useState(() => parseDateKey(selectedDateKey))
   const todayDateKey = getTodayDescriptor().dateKey
 
@@ -77,44 +71,18 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   }, [selectedDateKey])
 
   useEffect(() => {
-    const cached = localStorage.getItem(CACHE_KEY)
-    const cachedTs = localStorage.getItem(CACHE_TS_KEY)
-
-    if (cached && cachedTs && Date.now() - Number(cachedTs) < CACHE_TTL_MS) {
-      try {
-        const parsed = JSON.parse(cached)
-        const frame = requestAnimationFrame(() => {
-          setEvents(parsed)
-          setLoaded(true)
-        })
-        return () => cancelAnimationFrame(frame)
-      } catch {
-        // fall through to fetch
-      }
-    }
-
     const controller = new AbortController()
-
-    fetch(CALENDAR_URL, { signal: controller.signal })
-      .then((res) => {
-        if (!res.ok) throw new Error(`${res.status}`)
-        return res.json()
-      })
-      .then((data: Record<string, CalendarDayData>) => {
+    void loadSchoolCalendar(controller.signal)
+      .then((data) => {
+        if (controller.signal.aborted) return
         setEvents(data)
-        setLoaded(true)
-        localStorage.setItem(CACHE_KEY, JSON.stringify(data))
-        localStorage.setItem(CACHE_TS_KEY, String(Date.now()))
+        setLoadError(false)
       })
-      .catch((err) => {
-        if (err.name !== 'AbortError') {
-          console.error('Failed to fetch school calendar', err)
-          setLoaded(true)
-        }
+      .catch(() => {
+        if (!controller.signal.aborted) setLoadError(true)
       })
-
     return () => controller.abort()
-  }, [])
+  }, [request])
 
   const year = viewDate.getFullYear()
   const month = viewDate.getMonth()
@@ -135,11 +103,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
 
     if (isWeekend(date)) return false
 
-    if (loaded) {
-      const dateKey = buildDateKey(date)
-      const eventData = events[dateKey]
-      if (eventData?.isNonSchoolDay) return false
-    }
+    if (events[buildDateKey(date)]?.isNonSchoolDay) return false
 
     return true
   }
@@ -163,6 +127,21 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
         boxSizing: 'border-box',
       }}
     >
+      {loadError && (
+        <div role="alert">
+          Holiday dates could not be loaded. Only weekends are marked as
+          non-school days.
+          <button
+            type="button"
+            onClick={() => {
+              setLoadError(false)
+              setRequest((value) => value + 1)
+            }}
+          >
+            Try again
+          </button>
+        </div>
+      )}
       {/* Month nav */}
       <div
         style={{

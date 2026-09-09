@@ -19,7 +19,7 @@ const ChoreOutcomeView = ({
   const { outcomeContainerRadius, quizOutcomeImageMaxWidth } =
     uiTokens.activityTokens
   const announcement = outcome === 'success' ? successAlt : failureAlt
-  const fillsCard = outcome === 'success' && theme.id !== 'teenie'
+  const fillsCard = outcome === 'success'
 
   return (
     <div

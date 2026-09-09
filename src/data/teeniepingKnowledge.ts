@@ -38,7 +38,7 @@ export const TEENIEPING_KNOWLEDGE: TeeniepingKnowledge[] = profiles.map(
   (profile) => ({
     ...profile,
     kind: 'teenieping',
-    image: requiredImage(profile.id),
+    image: requiredImage(profile.portraitId ?? profile.id),
     get clueImages() {
       return {
         looks: requiredImage(`looks/${profile.id}`),

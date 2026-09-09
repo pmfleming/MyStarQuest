@@ -103,6 +103,7 @@ const ActionCard = <T,>({
   editingId,
   renderInlineEdit,
 }: ActionCardProps<T>) => {
+  const [resetRequested, setResetRequested] = useState(false)
   const [activityActionImage, setActivityActionImage] = useState<string | null>(
     null
   )
@@ -119,6 +120,7 @@ const ActionCard = <T,>({
         ? `Delete ${itemLabel}`
         : resolvedUtility.ariaLabel,
   }
+  const confirmingReset = resetRequested && !utility.exits && !utility.hidden
 
   const itemKey = getKey ? getKey(item) : `${index}`
   const isInlineEditing = editingId !== undefined && editingId === itemKey
@@ -193,7 +195,16 @@ const ActionCard = <T,>({
       editAriaLabel={
         getItemLabel?.(item) ? `Edit ${getItemLabel(item)}` : 'Edit item'
       }
-      onUtility={handleUtilityAction}
+      onUtility={() => {
+        if (utility.exits) void handleUtilityAction()
+        else setResetRequested(true)
+      }}
+      confirmingReset={confirmingReset}
+      onConfirmReset={() => {
+        setResetRequested(false)
+        void handleUtilityAction()
+      }}
+      onCancelReset={() => setResetRequested(false)}
       utilityIcon={utility.icon}
       utilityAriaLabel={utility.ariaLabel}
       utilityDisabled={utility.disabled}
@@ -211,12 +222,17 @@ const ActionCard = <T,>({
       key={itemKey}
       theme={theme}
       variant={isItemHighlighted ? 'highlighted' : 'default'}
-      className={`whimsical-card ${hidePrimaryButton ? 'standard-card-primary-hidden' : ''} ${isExiting ? 'whimsical-card-exiting' : ''}`}
+      className={`whimsical-card ${hidePrimaryButton ? 'standard-card-primary-hidden' : ''} ${confirmingReset ? 'standard-card-confirming-reset' : ''} ${isExiting ? 'whimsical-card-exiting' : ''}`}
       header={renderHeader?.(item)}
       body={
         <ImageLoadingContext value={index === 0 ? 'eager' : 'lazy'}>
           <PrimaryActionImageContext value={setActivityActionImage}>
-            {renderItem(item)}
+            <fieldset
+              disabled={confirmingReset}
+              style={{ display: 'contents' }}
+            >
+              {renderItem(item)}
+            </fieldset>
           </PrimaryActionImageContext>
         </ImageLoadingContext>
       }

@@ -86,6 +86,7 @@ export const getStandardPrimaryActionStyle = (
   ...getStandardActionBaseStyle(theme),
   ...getStandardActionVariantStyle(theme, variant),
   flex: 1,
+  position: 'relative',
   minWidth: 0,
   padding: 0,
   overflow: 'hidden',

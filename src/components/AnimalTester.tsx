@@ -1,4 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  useAnimalSession,
+  type AnimalMode,
+  type AnimalDifficulty,
+} from './animalTester/useAnimalSession'
 import learnModeImage from '../assets/animal-mode-icons/learn.webp'
 import onePlayerModeImage from '../assets/animal-mode-icons/one-player.webp'
 import twoPlayersModeImage from '../assets/animal-mode-icons/two-players.webp'
@@ -6,26 +10,13 @@ import insectCollectionImage from '../assets/animals/butterfly.webp'
 import animalCollectionImage from '../assets/animals/lion.webp'
 import teeniepingCollectionImage from '../assets/teenie/heart.webp'
 import { getAnimalCardLabel } from '../data/animalCardLabels'
-import animalCollection from '../data/creatureCollections/animals'
 import { TEENIEPING_COLLECTION_AVAILABLE } from '../data/creatureCollections/availability'
-import {
-  getLoadedCollection,
-  loadCollection,
-} from '../data/creatureCollections/loadCollection'
 import type {
   CatalogAnimal,
-  CreatureCollection,
   CreatureCollectionData,
   VisualFact,
 } from '../data/creatureCollections/types'
-import {
-  getActivityMistakeUpdate,
-  getActivityOutcome,
-  getVisibleActivityResults,
-  type ActivityResult,
-} from '../lib/activityOutcome'
-import { celebrateSuccess } from '../lib/celebrate'
-import { preloadImage } from '../lib/imageLoading'
+import { getVisibleActivityResults } from '../lib/activityOutcome'
 import { uiTokens } from '../tokens'
 import { getThemeAsset } from '../ui/themeAssets'
 import './AnimalTester.css'
@@ -46,16 +37,6 @@ import { getChoiceFeedbackAnimationStyles } from './ui/activityAnimationStyles'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 9
-const CHOICE_ANIMATION_MS = 650
-const CLUE_REVEAL_INTERVAL_MS = 3000
-
-type AnimalMode = 'learn' | 'solo' | 'together'
-type AnimalDifficulty = 'easy' | 'hard'
-const EMPTY_COLLECTION: CreatureCollectionData = {
-  catalog: [],
-  getTeachingFacts: () => [],
-}
-
 const COLLECTION_LABELS = {
   animals: 'Animal',
   insects: 'Insect',
@@ -90,16 +71,6 @@ const formatAnimalName = (name: string) =>
     .split('-')
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(' ')
-
-const shuffle = <T,>(items: readonly T[]) =>
-  [...items].sort(() => Math.random() - 0.5)
-
-const getActiveAnimalOrder = (
-  mode: AnimalMode,
-  catalog: CatalogAnimal[],
-  shuffledOrder: CatalogAnimal[],
-  itemLimit: number
-) => (mode === 'learn' ? catalog : shuffledOrder.slice(0, itemLimit))
 
 const FactCard = ({
   fact,
@@ -639,24 +610,37 @@ const AnimalPlayContent = ({
 
 export type AnimalTesterProps = ActivityChoreProps
 
-const AnimalTester = ({
-  theme,
-  totalProblems,
-  starReward,
-  isRunning,
-  isEditable = true,
-  isCompleted = false,
-  isFailed = false,
-  onAdjustProblems,
-  onStarsChange,
-  onComplete,
-  onExit,
-  onFail,
-  completionImage,
-  failureImage,
-  failureModeEnabled = true,
-}: AnimalTesterProps) => {
-  const [collection, setCollection] = useState<CreatureCollection>('animals')
+const AnimalTester = (props: AnimalTesterProps) => {
+  const {
+    theme,
+    totalProblems,
+    starReward,
+    isRunning,
+    isEditable = true,
+    onAdjustProblems,
+    onStarsChange,
+    completionImage,
+    failureImage,
+    failureModeEnabled = true,
+  } = props
+  const {
+    collection,
+    collectionError,
+    isCollectionLoading,
+    collectionLocked,
+    changeCollection,
+    mode,
+    setMode,
+    difficulty,
+    setDifficulty,
+    results,
+    isSetup,
+    isSuccessState,
+    isFinished,
+    animal,
+    playProps,
+  } = useAnimalSession(props)
+  const collectionLabel = COLLECTION_LABELS[collection]
   usePrimaryActionImage(
     collection === 'teeniepings'
       ? teeniepingCollectionImage
@@ -664,221 +648,6 @@ const AnimalTester = ({
         ? insectCollectionImage
         : null
   )
-  const [loadedCollection, setLoadedCollection] = useState({
-    id: 'animals' as CreatureCollection,
-    data: animalCollection,
-  })
-  const [collectionError, setCollectionError] = useState<string | null>(null)
-  const collectionRequest = useRef(0)
-  const { catalog, getTeachingFacts } =
-    loadedCollection.id === collection
-      ? loadedCollection.data
-      : EMPTY_COLLECTION
-  const isCollectionLoading =
-    loadedCollection.id !== collection && !collectionError
-  const collectionLabel = COLLECTION_LABELS[collection]
-  const [mode, setMode] = useState<AnimalMode>('learn')
-  const [difficulty, setDifficulty] = useState<AnimalDifficulty>('easy')
-  const [animalOrder, setAnimalOrder] = useState(() =>
-    shuffle(animalCollection.catalog)
-  )
-  const [animalIndex, setAnimalIndex] = useState(0)
-  const [results, setResults] = useState<ActivityResult[]>([])
-  const [leavingChoice, setLeavingChoice] = useState<string | null>(null)
-  const [dismissedChoices, setDismissedChoices] = useState<string[]>([])
-  const [answeredCorrectly, setAnsweredCorrectly] = useState(false)
-  const [visibleSoloClues, setVisibleSoloClues] = useState(1)
-  const [isTogetherAnimalHidden, setIsTogetherAnimalHidden] = useState(false)
-  const [isGenericLearnAbilityShown, setIsGenericLearnAbilityShown] =
-    useState(false)
-  const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  const isSetup = !isRunning && !isCompleted
-  const { isSuccessState, isFinished } = getActivityOutcome({
-    isCompleted,
-    isFailed,
-    failureModeEnabled,
-    results,
-  })
-
-  const itemLimit = Math.min(
-    Math.max(totalProblems, MIN_PROBLEMS),
-    MAX_PROBLEMS,
-    catalog.length
-  )
-  const activeAnimalOrder = getActiveAnimalOrder(
-    mode,
-    catalog,
-    animalOrder,
-    itemLimit
-  )
-  const animal = activeAnimalOrder[animalIndex]
-  const nextAnimal = activeAnimalOrder[animalIndex + 1]
-  const isLastAnimal = animalIndex + 1 >= activeAnimalOrder.length
-
-  useEffect(() => {
-    if (!isRunning || isFinished || !nextAnimal) return
-    // Warm only the next round, with low fetch priority so current art wins.
-    preloadImage(nextAnimal.image)
-    for (const fact of getTeachingFacts(nextAnimal, theme.id)) {
-      if (fact.illustration) preloadImage(fact.illustration)
-    }
-  }, [getTeachingFacts, isFinished, isRunning, nextAnimal, theme.id])
-
-  const answerChoices = useMemo(() => {
-    if (!animal) return []
-    const alternatives = shuffle(
-      catalog.filter(
-        (candidate) =>
-          candidate.name !== animal.name &&
-          !(
-            animal.kind === 'teenieping' &&
-            candidate.kind === 'teenieping' &&
-            candidate.identity === animal.identity
-          )
-      )
-    ).slice(0, 2)
-    return shuffle([animal, ...alternatives])
-  }, [animal, catalog])
-
-  const resetPlayState = useCallback(() => {
-    if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
-    setAnimalOrder(shuffle(catalog))
-    setAnimalIndex(0)
-    setResults([])
-    setLeavingChoice(null)
-    setDismissedChoices([])
-    setAnsweredCorrectly(false)
-    setVisibleSoloClues(1)
-    setIsTogetherAnimalHidden(false)
-    setIsGenericLearnAbilityShown(false)
-  }, [catalog])
-
-  useEffect(
-    () => () => {
-      collectionRequest.current += 1
-    },
-    []
-  )
-
-  const collectionLocked = isRunning && mode !== 'learn'
-  const changeCollection = (next: CreatureCollection) => {
-    if (next === collection && !collectionError) return
-    if (collectionLocked && next !== collection) return
-    const request = ++collectionRequest.current
-    resetPlayState()
-    setCollection(next)
-    setCollectionError(null)
-    const cached = getLoadedCollection(next)
-    if (cached) {
-      setLoadedCollection({ id: next, data: cached })
-      setAnimalOrder(shuffle(cached.catalog))
-      return
-    }
-
-    setAnimalOrder([])
-    void loadCollection(next)
-      .then((data) => {
-        if (request !== collectionRequest.current) return
-        setLoadedCollection({ id: next, data })
-        setAnimalOrder(shuffle(data.catalog))
-      })
-      .catch(() => {
-        if (request !== collectionRequest.current) return
-        setCollectionError('Pictures could not be loaded. Please try again.')
-      })
-  }
-
-  useEffect(() => {
-    if (!isRunning && !isCompleted) {
-      const frame = requestAnimationFrame(resetPlayState)
-      return () => cancelAnimationFrame(frame)
-    }
-  }, [isCompleted, isRunning, resetPlayState])
-
-  const finishAnimal = useCallback(
-    (result: ActivityResult = 'correct', shouldCelebrate = true) => {
-      setResults((previous) => [...previous, result])
-      if (isLastAnimal) {
-        if (result === 'correct' && shouldCelebrate) celebrateSuccess()
-        onComplete()
-        return
-      }
-
-      setAnimalIndex((index) => index + 1)
-      setLeavingChoice(null)
-      setDismissedChoices([])
-      setAnsweredCorrectly(false)
-      setVisibleSoloClues(1)
-      setIsTogetherAnimalHidden(false)
-    },
-    [isLastAnimal, onComplete]
-  )
-
-  const exitUnscoredMode = onExit ?? onComplete
-
-  const showNextUnscoredAnimal = () => {
-    if (isLastAnimal) {
-      exitUnscoredMode()
-      return
-    }
-    setAnimalIndex((index) => index + 1)
-    setIsTogetherAnimalHidden(false)
-    setIsGenericLearnAbilityShown(false)
-  }
-
-  useEffect(() => {
-    if (!isRunning || isFinished || mode !== 'solo' || !animal) return
-
-    let revealedClues = 1
-    const clueCount = getTeachingFacts(animal, theme.id).length
-    const timer = setInterval(() => {
-      revealedClues += 1
-      setVisibleSoloClues(revealedClues)
-      if (revealedClues >= clueCount) clearInterval(timer)
-    }, CLUE_REVEAL_INTERVAL_MS)
-
-    return () => clearInterval(timer)
-  }, [animal, getTeachingFacts, isFinished, isRunning, mode, theme.id])
-
-  useEffect(
-    () => () => {
-      if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
-    },
-    []
-  )
-
-  const handleSoloChoice = (choice: CatalogAnimal) => {
-    if (!animal) return
-
-    if (
-      answeredCorrectly ||
-      leavingChoice ||
-      dismissedChoices.includes(choice.name)
-    )
-      return
-
-    if (choice.name === animal.name) {
-      setAnsweredCorrectly(true)
-      celebrateSuccess()
-      feedbackTimer.current = setTimeout(
-        () => finishAnimal('correct', false),
-        CHOICE_ANIMATION_MS
-      )
-      return
-    }
-
-    setLeavingChoice(choice.name)
-    const mistake = getActivityMistakeUpdate(results, failureModeEnabled)
-    setResults(mistake.nextResults)
-
-    feedbackTimer.current = setTimeout(() => {
-      setDismissedChoices((previous) => [...previous, choice.name])
-      setLeavingChoice(null)
-      if (mistake.shouldFail) onFail?.()
-    }, CHOICE_ANIMATION_MS)
-  }
-
   const gameModeControls = (
     <div style={{ width: uiTokens.controlRowWidth, maxWidth: '100%' }}>
       <SegmentedChoiceControl
@@ -1000,34 +769,7 @@ const AnimalTester = ({
           hideAlt
           showResultBar={mode === 'solo'}
         >
-          <AnimalPlayContent
-            getTeachingFacts={getTeachingFacts}
-            mode={mode}
-            difficulty={difficulty}
-            isGenericLearnAbilityShown={isGenericLearnAbilityShown}
-            animal={animal}
-            animalIndex={animalIndex}
-            isLastAnimal={isLastAnimal}
-            visibleSoloClues={visibleSoloClues}
-            answerChoices={answerChoices}
-            dismissedChoices={dismissedChoices}
-            leavingChoice={leavingChoice}
-            answeredCorrectly={answeredCorrectly}
-            isTogetherAnimalHidden={isTogetherAnimalHidden}
-            theme={theme}
-            onPrevious={() => {
-              setAnimalIndex((index) => Math.max(0, index - 1))
-              setIsGenericLearnAbilityShown(false)
-            }}
-            onNext={showNextUnscoredAnimal}
-            onSoloChoice={handleSoloChoice}
-            onToggleAnimal={() =>
-              setIsTogetherAnimalHidden((hidden) => !hidden)
-            }
-            onToggleLearnAbility={() =>
-              setIsGenericLearnAbilityShown((shown) => !shown)
-            }
-          />
+          <AnimalPlayContent {...playProps} animal={animal} theme={theme} />
         </ActivityPlayArea>
       )}
       <style>{getChoiceFeedbackAnimationStyles('animal-choice')}</style>

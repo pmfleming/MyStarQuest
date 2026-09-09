@@ -13,42 +13,42 @@ afterEach(() => {
 })
 
 describe('reset an active test', () => {
-  it.each(buildDefaultTests('child'))(
-    'stops $taskType immediately while the reset saves',
-    async (test) => {
-      let resolveWrite: () => void
-      const resetTest = vi.fn(
-        () =>
-          new Promise<void>((resolve) => {
-            resolveWrite = resolve
-          })
-      )
-      const { result } = renderHook(() => {
-        const activity = useTaskActivityState()
-        const triggers = useTestCheckTriggers()
-        return {
+  it('stops an activity immediately while the reset saves', async () => {
+    const test = buildDefaultTests('child').find(
+      (item) => item.taskType === 'math'
+    )!
+    let resolveWrite: () => void
+    const resetTest = vi.fn(
+      () =>
+        new Promise<void>((resolve) => {
+          resolveWrite = resolve
+        })
+    )
+    const { result } = renderHook(() => {
+      const activity = useTaskActivityState()
+      const triggers = useTestCheckTriggers()
+      return {
+        activity,
+        bindings: createTestActivityBindings({
           activity,
-          bindings: createTestActivityBindings({
-            activity,
-            triggers,
-            resetTest,
-            completeTest: vi.fn(),
-            failTest: vi.fn(),
-          }),
-        }
-      })
-      act(() => result.current.bindings.onEnterChore(test))
-      let pending: Promise<void>
-      act(() => {
-        pending = result.current.bindings.onReset(test)
-      })
-      expect(result.current.activity.activeIds).toEqual({})
-      await act(async () => {
-        resolveWrite()
-        await pending
-      })
-    }
-  )
+          triggers,
+          resetTest,
+          completeTest: vi.fn(),
+          failTest: vi.fn(),
+        }),
+      }
+    })
+    act(() => result.current.bindings.onEnterChore(test))
+    let pending: Promise<void>
+    act(() => {
+      pending = result.current.bindings.onReset(test)
+    })
+    expect(result.current.activity.activeIds).toEqual({})
+    await act(async () => {
+      resolveWrite()
+      await pending
+    })
+  })
 
   it('cancels a queued result when reset is pressed during answer feedback', async () => {
     vi.useFakeTimers()

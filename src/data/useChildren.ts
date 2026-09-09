@@ -36,7 +36,8 @@ import { useRequiredContext } from '../hooks/useRequiredContext'
 
 const useChildrenState = () => {
   const { user } = useAuth()
-  const { activeChildId, setActiveChild, clearActiveChild } = useActiveChild()
+  const { activeChildId, activeThemeId, setActiveChild, clearActiveChild } =
+    useActiveChild()
   const [nameDrafts, setNameDrafts] = useState<Record<string, string>>({})
 
   const mapChildDocument = useCallback((id: string, data: unknown) => {
@@ -129,10 +130,6 @@ const useChildrenState = () => {
 
     const avatarToken = THEME_ID_LOOKUP.get(nextThemeId)?.emoji || '👤'
     updateChildField(child.id, { themeId: nextThemeId, avatarToken })
-
-    if (child.id === activeChildId) {
-      setActiveChild({ id: child.id, themeId: nextThemeId })
-    }
   }
 
   // ── Create ──
@@ -164,20 +161,16 @@ const useChildrenState = () => {
     }
   }
 
-  // ── Auto-select first child if none active ──
+  // Follow the subscribed profile, including theme edits from another device.
   useEffect(() => {
-    const firstChild = children[0]
-    if (firstChild) {
-      const isCurrentActive =
-        activeChildId && children.some((c) => c.id === activeChildId)
-      if (!isCurrentActive) {
-        setActiveChild({
-          id: firstChild.id,
-          themeId: firstChild.themeId || 'princess',
-        })
-      }
+    const selectedChild =
+      children.find((child) => child.id === activeChildId) ?? children[0]
+    if (!selectedChild) return
+    const themeId = selectedChild.themeId || 'princess'
+    if (selectedChild.id !== activeChildId || themeId !== activeThemeId) {
+      setActiveChild({ id: selectedChild.id, themeId })
     }
-  }, [children, activeChildId, setActiveChild])
+  }, [children, activeChildId, activeThemeId, setActiveChild])
 
   return {
     children,

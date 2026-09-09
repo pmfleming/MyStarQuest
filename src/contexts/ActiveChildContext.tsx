@@ -34,10 +34,14 @@ const readStoredState = (
   try {
     const raw = window.localStorage.getItem(`${STORAGE_PREFIX}:${userId}`)
     if (!raw) return { id: null, themeId: null }
-    const parsed = JSON.parse(raw)
+    const parsed: unknown = JSON.parse(raw)
     if (parsed && typeof parsed === 'object') {
-      const id = typeof parsed.id === 'string' ? parsed.id : null
-      const themeId = typeof parsed.themeId === 'string' ? parsed.themeId : null
+      const id =
+        'id' in parsed && typeof parsed.id === 'string' ? parsed.id : null
+      const themeId =
+        'themeId' in parsed && typeof parsed.themeId === 'string'
+          ? parsed.themeId
+          : null
       return { id, themeId }
     }
   } catch (error) {

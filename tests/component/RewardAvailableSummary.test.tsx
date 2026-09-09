@@ -1,6 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
+import StandardActionList from '../../src/components/ui/StandardActionList'
 import { themes } from '../../src/contexts/ThemeContext'
 import { createRewardDefinitionListRowDescriptor } from '../../src/ui/definitionRowDescriptors'
+import { toStandardActionListDescriptor } from '../../src/ui/listDescriptorTypes'
 import type { RewardRecord } from '../../src/data/types'
 
 const reward: RewardRecord = {
@@ -11,54 +13,51 @@ const reward: RewardRecord = {
   imageKey: 'teenieping',
 }
 
-describe('reward available summary', () => {
-  it('renders a compact reward and locks it when stars are insufficient', () => {
-    const descriptor = createRewardDefinitionListRowDescriptor({
-      theme: themes.princess,
-      activeChildId: 'child-1',
-      activeChildStars: 12,
-      isRedeeming: false,
-      handleGiveReward: vi.fn(),
-    })
-
-    render(
-      <>
-        {descriptor.renderHeader?.(reward)}
-        {descriptor.renderItem(reward)}
-      </>
+describe('reward availability', () => {
+  it('allows purchases only with enough stars, a selected child, and no pending redemption', () => {
+    const handleGiveReward = vi.fn()
+    const list = (
+      activeChildStars: number,
+      activeChildId: string | null = 'child-1',
+      isRedeeming = false
+    ) => (
+      <StandardActionList
+        theme={themes.princess}
+        items={[reward]}
+        getKey={(item) => item.id}
+        getItemLabel={(item) => item.title}
+        {...toStandardActionListDescriptor(
+          createRewardDefinitionListRowDescriptor({
+            theme: themes.princess,
+            activeChildId,
+            activeChildStars,
+            isRedeeming,
+            handleGiveReward,
+          })
+        )}
+        onDelete={vi.fn()}
+        onAdd={vi.fn()}
+        addLabel="Add reward"
+        hideAdd
+      />
     )
+    const { rerender } = render(list(7))
+    const buy = () => screen.getByRole('button', { name: 'Buy Computer Games' })
+    expect(buy()).toBeDisabled()
+    fireEvent.click(buy())
+    expect(handleGiveReward).not.toHaveBeenCalled()
 
-    expect(
-      screen.getByLabelText('Computer Games available reward')
-    ).toBeInTheDocument()
-    expect(screen.getByAltText('Computer Games reward')).toBeInTheDocument()
-    expect(screen.getByText('Computer Games')).toBeInTheDocument()
-    expect(
-      screen.queryByRole('textbox', { name: 'Reward name' })
-    ).not.toBeInTheDocument()
-    expect(screen.queryByText('Reward image')).not.toBeInTheDocument()
-    expect(
-      screen.queryByRole('button', { name: 'Keep available after buying' })
-    ).not.toBeInTheDocument()
+    rerender(list(8))
+    expect(buy()).toBeEnabled()
+    fireEvent.click(buy())
+    expect(handleGiveReward).toHaveBeenCalledExactlyOnceWith(reward)
 
-    const lockedDescriptor = createRewardDefinitionListRowDescriptor({
-      theme: themes.princess,
-      activeChildId: 'child-1',
-      activeChildStars: 3,
-      isRedeeming: false,
-      handleGiveReward: vi.fn(),
-    })
-
-    const action = lockedDescriptor.getPrimaryAction?.(reward)
-
-    const { container } = render(<>{action?.icon}</>)
-
-    const lockImage = container.querySelector('img')
-
-    expect(lockImage).toHaveAttribute('alt', '')
-    expect(lockImage).toHaveAttribute(
-      'src',
-      expect.stringContaining('locked-reward.png')
-    )
+    rerender(list(8, 'child-1', true))
+    expect(buy()).toBeDisabled()
+    fireEvent.click(buy())
+    rerender(list(8, null))
+    expect(buy()).toBeDisabled()
+    fireEvent.click(buy())
+    expect(handleGiveReward).toHaveBeenCalledTimes(1)
   })
 })

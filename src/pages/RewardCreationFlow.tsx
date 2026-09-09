@@ -49,7 +49,7 @@ const RewardCreationFlow = ({
     const trimmedTitle = draft.title.trim()
     if (trimmedTitle.length === 0) return
 
-    onSave({
+    return onSave({
       title: trimmedTitle,
       costStars: draft.costStars,
       isRepeating: draft.isRepeating,

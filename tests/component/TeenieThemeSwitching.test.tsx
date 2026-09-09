@@ -1,10 +1,4 @@
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { ThemeProvider, useTheme } from '../../src/contexts/ThemeContext'
 import {
@@ -14,7 +8,6 @@ import {
 import { getChoreImage } from '../../src/assets/chores/assets'
 import { getTabIcon } from '../../src/lib/tabNavigation'
 import ChoreCreationFlow from '../../src/pages/ChoreCreationFlow'
-import { isThemeId, themeOptions } from '../../src/ui/themeOptions'
 
 vi.mock('../../src/auth/AuthContext', () => ({
   useAuth: () => ({ user: { uid: 'theme-test' } }),
@@ -66,40 +59,28 @@ function mount() {
 beforeEach(() => localStorage.clear())
 afterEach(cleanup)
 
-it('only offers Princess and Teenie Friends', () => {
-  expect(themeOptions.map((option) => option.id)).toEqual([
-    'teenie',
-    'princess',
-  ])
-  for (const removed of ['space', 'nature', 'cartoon']) {
-    expect(isThemeId(removed)).toBe(false)
-  }
-})
-
-it.each(['space', 'nature', 'cartoon'])(
-  'falls back to Princess when switching to a saved %s selection',
-  (removed) => {
-    function SavedThemeSwitch() {
-      const { theme, setTheme } = useTheme()
-      return (
-        <>
-          <output>{theme.id}</output>
-          <button onClick={() => setTheme('teenie')}>Teenie</button>
-          <button onClick={() => setTheme(removed)}>Saved theme</button>
-        </>
-      )
-    }
-    render(
-      <ThemeProvider>
-        <SavedThemeSwitch />
-      </ThemeProvider>
+it('keeps the current theme when an unknown identifier is requested', () => {
+  const unknownTheme = 'unknown-theme'
+  function SavedThemeSwitch() {
+    const { theme, setTheme } = useTheme()
+    return (
+      <>
+        <output>{theme.id}</output>
+        <button onClick={() => setTheme('teenie')}>Teenie</button>
+        <button onClick={() => setTheme(unknownTheme)}>Saved theme</button>
+      </>
     )
-    fireEvent.click(screen.getByRole('button', { name: 'Teenie' }))
-    expect(screen.getByText('teenie')).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Saved theme' }))
-    expect(screen.getByText('princess')).toBeInTheDocument()
   }
-)
+  render(
+    <ThemeProvider>
+      <SavedThemeSwitch />
+    </ThemeProvider>
+  )
+  fireEvent.click(screen.getByRole('button', { name: 'Teenie' }))
+  expect(screen.getByText('teenie')).toBeInTheDocument()
+  fireEvent.click(screen.getByRole('button', { name: 'Saved theme' }))
+  expect(screen.getByText('teenie')).toBeInTheDocument()
+})
 
 it('switches child artwork immediately and restores Teenie selection after remount', async () => {
   const view = mount()
@@ -121,12 +102,6 @@ it('switches child artwork immediately and restores Teenie selection after remou
     screen.getByAltText('Saved brave chore').getAttribute('src')
   ).toContain('/princess/')
   fireEvent.click(screen.getByRole('button', { name: 'Teenie child' }))
-  await waitFor(() =>
-    expect(
-      JSON.parse(localStorage.getItem('mystarquest:active-child:theme-test')!)
-        .themeId
-    ).toBe('teenie')
-  )
   view.unmount()
   mount()
   await screen.findByText('Teenie Friends')

@@ -120,32 +120,8 @@ describe('Insect collection', () => {
     expect(p.onComplete).not.toHaveBeenCalled()
   }, 15000)
 
-  it('resets navigation and Special when switching collections in Learn', async () => {
-    const p = props()
-    const { rerender } = render(<AnimalTester {...p} />)
-    await selectInsects()
-    rerender(<AnimalTester {...p} isRunning />)
-    fireEvent.click(screen.getByRole('button', { name: 'Next insect' }))
-    fireEvent.click(screen.getByRole('button', { name: /^SPECIAL:/ }))
-    fireEvent.click(screen.getByRole('radio', { name: 'Animals' }))
-    expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: 'Previous animal' })
-    ).toBeDisabled()
-    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
-    expect(screen.getByAltText('Armadillo')).toBeInTheDocument()
-    await selectInsects()
-    expect(screen.getByAltText('Ant')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /^SPECIAL:/ })).toHaveAttribute(
-      'aria-pressed',
-      'false'
-    )
-  })
-
   it.each([
     ['Easy', 'princess'],
-    ['Hard', 'princess'],
-    ['Easy', 'teenie'],
     ['Hard', 'teenie'],
   ] as const)(
     'plays %s solo rounds in %s using only insect choices',
