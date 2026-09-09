@@ -34,6 +34,7 @@ const getAssetNames = (assetModules: Record<string, unknown>) =>
 
 const teenieNames = getAssetNames(teenieAssetModules)
 const newTeenieNames = [
+  'memo',
   'OkeyDokey',
   'NoNo',
   'blank',

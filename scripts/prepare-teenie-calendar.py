@@ -1,36 +1,40 @@
-"""Remove the calendar's exterior checkerboard with user-approved local editing."""
+"""Export the Memoping calendar artwork, preserving generated transparency."""
+import hashlib
 import json
 from pathlib import Path
-
-import numpy as np
 from PIL import Image
-from scipy import ndimage as ndi
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def main():
-    entry = json.loads((ROOT / 'docs/assets/teenie-theme-generation/control-calendar.json').read_text())
-    rgb = np.asarray(Image.open(entry['source']).convert('RGB')).astype(float)
-    neutral = (rgb.max(2) - rgb.min(2) < 10) & (rgb.min(2) > 218)
-    labels, _ = ndi.label(neutral)
-    ids = np.unique(np.concatenate([labels[0], labels[-1], labels[:, 0], labels[:, -1]]))
-    background = np.isin(labels, ids[ids != 0])
-    alpha = np.clip(ndi.distance_transform_edt(~background) / 2, 0, 1)
-    rgba = np.zeros((*alpha.shape, 4), dtype=np.uint8)
-    rgba[:, :, :3] = np.clip(255 - (255 - rgb) / np.maximum(alpha[:, :, None], .01), 0, 255)
-    rgba[:, :, 3] = np.round(alpha * 255)
-    target = ROOT / 'output/teenie-theme/local-alpha/control-calendar.png'
-    target.parent.mkdir(parents=True, exist_ok=True)
-    Image.fromarray(rgba).save(target)
-    entry['originalSource'] = entry['source']
-    entry['source'] = str(target)
-    entry['localTransparency'] = {
-        'authorization': 'User authorized local background removal in this task.',
-        'method': 'Remove only edge-connected neutral checkerboard, preserving white page and highlights; narrow matte-corrected edge.',
-        'script': 'scripts/prepare-teenie-calendar.py',
-    }
-    (ROOT / 'docs/assets/teenie-theme-corrections/control-calendar.json').write_text(json.dumps(entry, indent=2) + '\n')
+    record = ROOT / 'docs/assets/teenie-theme-generation/control-calendar.json'
+    entry = json.loads(record.read_text(encoding='utf-8'))
+    with Image.open(entry['source']) as source:
+        assert source.mode == 'RGBA', 'Calendar source must have real transparency'
+        alpha = source.getchannel('A')
+        assert alpha.getextrema() == (0, 255)
+        clear = alpha.histogram()[0] / (source.width * source.height)
+        assert clear >= 0.1
+        assert all(alpha.getpixel(point) <= 2 for point in (
+            (0, 0), (source.width - 1, 0),
+            (0, source.height - 1), (source.width - 1, source.height - 1)
+        ))
+        source.thumbnail(tuple(entry['size']), Image.Resampling.LANCZOS)
+        target = ROOT / entry['output']
+        source.save(target, 'WEBP', quality=78, method=4, exact=True)
+        with Image.open(target) as exported:
+            assert exported.getchannel('A').tobytes() == source.getchannel('A').tobytes()
+        entry.update(status='exported', exportedSize=list(source.size),
+                     bytes=target.stat().st_size,
+                     sourceSha256=hashlib.sha256(Path(entry['source']).read_bytes()).hexdigest(),
+                     alpha={'range': [0, 255], 'clearFraction': round(clear, 3)})
+    record.write_text(json.dumps(entry, indent=2) + '\n', encoding='utf-8')
+    manifest_path = ROOT / 'docs/assets/teenie-theme-artwork.json'
+    manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+    manifest['assets'] = [entry if item['id'] == entry['id'] else item for item in manifest['assets']]
+    manifest_path.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+    print(f"Exported Memoping calendar: {entry['exportedSize']}, alpha preserved")
 
 
 if __name__ == '__main__':

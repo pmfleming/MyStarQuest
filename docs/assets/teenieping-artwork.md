@@ -1,6 +1,6 @@
 # Teenieping game artwork
 
-The third collection in the Animals activity is Teeniepings. Its catalog follows the 86 portraits already in `src/assets/teenie`; castle scenery is excluded.
+The third collection in the Animals activity is Teeniepings. Its catalog follows the 87 portraits already in `src/assets/teenie`; castle scenery is excluded.
 
 Each portrait requires four individually generated illustrations:
 
@@ -11,7 +11,7 @@ Each portrait requires four individually generated illustrations:
 | Theme | A simple visual symbol for an emotion, activity, or motif |
 | Magic | The researched magical effect in action                   |
 
-The complete set contains 344 transparent WebP files under `src/assets/teenie/{looks,prop,theme,magic}/{id}.webp`. The selector is enabled only when the entire set is present. The [artwork preview](teenieping-artwork.html) reports the current exported count and offers coloured backgrounds for checking transparency.
+The complete set contains 348 transparent WebP files under `src/assets/teenie/{looks,prop,theme,magic}/{id}.webp`. The selector is enabled only when the entire set is present. The [artwork preview](teenieping-artwork.html) reports the current exported count and offers coloured backgrounds for checking transparency.
 
 ## Generation and sources
 
@@ -31,7 +31,7 @@ Use the preview on lilac, white, dark blue, and mint to check light outlines, ho
 
 Learn shows all four clues beside each portrait. Solo reveals Theme, Prop, Magic, then Looks, with three answer choices. Alternate forms of the answer's underlying identity are excluded from its distractors: Happying/Giggleping and Henryping/Frogping. The two-player mode supports hiding and showing the main portrait while retaining the clue cards.
 
-The game checks verify portrait coverage, 344 separate clue URLs, collection switching, clue order, answer handling, and two-player controls. On 9 September 2026, all 24 tests across the Animal, Insect, Teenieping, collection loading, Spelling, standard action list, and theme asset suites passed. TypeScript, the production build, and ESLint for the changed code also passed.
+The game checks verify portrait coverage, 348 separate clue URLs, collection switching, clue order, answer handling, and two-player controls. On 9 September 2026, all 24 tests across the Animal, Insect, Teenieping, collection loading, Spelling, standard action list, and theme asset suites passed. TypeScript, the production build, and ESLint for the changed code also passed.
 
 ## Okeydokeyping and Nonoping — 9 September 2026
 
@@ -40,3 +40,11 @@ The supplied `OkeyDokey.webp` and `NoNo.webp` portraits retain their filenames. 
 The eight additions were generated with the built-in image tool and exported with their alpha channels preserved. The complete collection passes transparency validation: 344 of 344 illustrations. Prompts and generation records are included in the manifests. Export only these additions with `python scripts/prepare-teenieping-images.py --characters okeydokey nono`; all other packaged assets are validated without re-encoding them.
 
 The eight new clues were visually checked on white and dark blue. Phone-width browser checks confirmed that Nonoping resets once, Okeydokeyping preserves progress, the activity is disabled while choosing, and the action row fits in both themes.
+
+## Memoping — 9 September 2026
+
+The supplied `memo.webp` portrait is included in Spelling automatically and registered as Memoping in Who Am I. Four dedicated images cover her red-and-blonde braids, turquoise diary and pen, careful organisation, and diary notes coming true. The planning theme is an editorial explanation of meticulousness; the magic scene is an illustrative example. The character and episode sources are recorded in the research catalog.
+
+Generate with the recorded built-in prompts, then export with `python scripts/prepare-teenieping-images.py --characters memo`; other packaged characters are validated without re-encoding.
+
+All 348 illustrations pass transparency validation. Memoping's four additions were reviewed on white and dark blue and in Learn at phone width. Browser checks confirmed her portrait, all four clue cards, previous/next navigation, and a completed `memo` spelling round. The 17 tests across Spelling, Animal, Insect, Teenieping, and collection loading passed, as did the production build. The existing spelling catalog test was extended without adding a test case.

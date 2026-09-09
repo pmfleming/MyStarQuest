@@ -3,9 +3,7 @@ import {
   type AnimalMode,
   type AnimalDifficulty,
 } from './animalTester/useAnimalSession'
-import learnModeImage from '../assets/animal-mode-icons/learn.webp'
-import onePlayerModeImage from '../assets/animal-mode-icons/one-player.webp'
-import twoPlayersModeImage from '../assets/animal-mode-icons/two-players.webp'
+import { CREATURE_MODE_IMAGES } from './animalTester/modeArtwork'
 import insectCollectionImage from '../assets/animals/butterfly.webp'
 import animalCollectionImage from '../assets/animals/lion.webp'
 import teeniepingCollectionImage from '../assets/teenie/heart.webp'
@@ -47,17 +45,14 @@ const MODE_OPTIONS = [
   {
     value: 'learn' as const,
     label: 'Learn',
-    icon: learnModeImage,
   },
   {
     value: 'solo' as const,
     label: '1 Player',
-    icon: onePlayerModeImage,
   },
   {
     value: 'together' as const,
     label: '2 Players',
-    icon: twoPlayersModeImage,
   },
 ]
 
@@ -267,11 +262,13 @@ const AnimalPortrait = ({
 const HideableAnimalPortrait = ({
   animal,
   theme,
+  hiddenImage,
   hidden,
   onToggle,
 }: {
   animal: CatalogAnimal
   theme: ActivityChoreProps['theme']
+  hiddenImage: string
   hidden: boolean
   onToggle: () => void
 }) => {
@@ -307,7 +304,7 @@ const HideableAnimalPortrait = ({
           }}
         >
           <img
-            src={twoPlayersModeImage}
+            src={hiddenImage}
             alt=""
             aria-hidden="true"
             style={{ width: '100%', height: 132, objectFit: 'contain' }}
@@ -402,11 +399,13 @@ const LearningNavigation = ({
 
 const TwoPlayerProgressButton = ({
   creatureName,
+  image,
   theme,
   isLastAnimal,
   onClick,
 }: {
   creatureName: string
+  image: string
   theme: ActivityChoreProps['theme']
   isLastAnimal: boolean
   onClick: () => void
@@ -421,13 +420,7 @@ const TwoPlayerProgressButton = ({
     className="activity-inline-action"
     content={
       <img
-        src={
-          creatureName === 'teenieping'
-            ? teeniepingCollectionImage
-            : creatureName === 'insect'
-              ? insectCollectionImage
-              : twoPlayersModeImage
-        }
+        src={image}
         alt=""
         aria-hidden="true"
         style={{ width: '100%', height: '100%', objectFit: 'contain' }}
@@ -445,6 +438,7 @@ const TwoPlayerProgressButton = ({
 )
 
 type AnimalPlayContentProps = {
+  twoPlayersImage: string
   getTeachingFacts: CreatureCollectionData['getTeachingFacts']
   mode: AnimalMode
   difficulty: AnimalDifficulty
@@ -467,6 +461,7 @@ type AnimalPlayContentProps = {
 }
 
 const AnimalPlayContent = ({
+  twoPlayersImage,
   getTeachingFacts,
   mode,
   difficulty,
@@ -527,6 +522,7 @@ const AnimalPlayContent = ({
         <HideableAnimalPortrait
           animal={animal}
           theme={theme}
+          hiddenImage={twoPlayersImage}
           hidden={isTogetherAnimalHidden}
           onToggle={onToggleAnimal}
         />
@@ -536,6 +532,7 @@ const AnimalPlayContent = ({
         />
         <TwoPlayerProgressButton
           creatureName={animal.kind}
+          image={twoPlayersImage}
           theme={theme}
           isLastAnimal={isLastAnimal}
           onClick={onNext}
@@ -641,6 +638,7 @@ const AnimalTester = (props: AnimalTesterProps) => {
     playProps,
   } = useAnimalSession(props)
   const collectionLabel = COLLECTION_LABELS[collection]
+  const modeImages = CREATURE_MODE_IMAGES[collection]
   usePrimaryActionImage(
     collection === 'teeniepings'
       ? teeniepingCollectionImage
@@ -653,7 +651,10 @@ const AnimalTester = (props: AnimalTesterProps) => {
       <SegmentedChoiceControl
         theme={theme}
         value={mode}
-        options={MODE_OPTIONS}
+        options={MODE_OPTIONS.map((option) => ({
+          ...option,
+          icon: modeImages[option.value],
+        }))}
         onChange={setMode}
         ariaLabel={`${collectionLabel} game mode`}
       />
@@ -769,7 +770,12 @@ const AnimalTester = (props: AnimalTesterProps) => {
           hideAlt
           showResultBar={mode === 'solo'}
         >
-          <AnimalPlayContent {...playProps} animal={animal} theme={theme} />
+          <AnimalPlayContent
+            {...playProps}
+            animal={animal}
+            theme={theme}
+            twoPlayersImage={modeImages.together}
+          />
         </ActivityPlayArea>
       )}
       <style>{getChoiceFeedbackAnimationStyles('animal-choice')}</style>

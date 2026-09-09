@@ -67,7 +67,7 @@ describe('Insect collection', () => {
     }
   })
 
-  it('keeps the image selector accessible, including non-editable setup', async () => {
+  it('updates all mode artwork with the collection in non-editable setup', async () => {
     render(<AnimalTester {...props()} isEditable={false} />)
     const picker = screen.getByRole('radiogroup', {
       name: 'Creature collection',
@@ -75,10 +75,34 @@ describe('Insect collection', () => {
     expect(
       within(picker).getByRole('radio', { name: 'Animals' })
     ).toHaveAttribute('aria-checked', 'true')
-    await selectInsects()
-    expect(
-      within(picker).getByRole('radio', { name: 'Insects' })
-    ).toHaveAttribute('aria-checked', 'true')
+    const modeImages = () =>
+      ['Learn', '1 Player', '2 Players'].map((name) =>
+        screen
+          .getByRole('radio', { name, exact: true })
+          .querySelector('img')!
+          .getAttribute('src')!
+      )
+    const animalImages = modeImages()
+    fireEvent.click(screen.getByRole('radio', { name: '2 Players' }))
+    for (const [label, path] of [
+      ['Insects', '/insects/'],
+      ['Teeniepings', '/teenie'],
+      ['Animals', '/animal-mode-icons/'],
+    ]) {
+      await act(async () => {
+        fireEvent.click(within(picker).getByRole('radio', { name: label }))
+        await vi.dynamicImportSettled()
+      })
+      expect(
+        within(picker).getByRole('radio', { name: label })
+      ).toHaveAttribute('aria-checked', 'true')
+      expect(modeImages().every((image) => image.includes(path))).toBe(true)
+      expect(screen.getByRole('radio', { name: '2 Players' })).toHaveAttribute(
+        'aria-checked',
+        'true'
+      )
+    }
+    expect(modeImages()).toEqual(animalImages)
   })
 
   it('teaches all insects and toggles only Special to the princess bear', async () => {

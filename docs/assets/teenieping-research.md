@@ -1,6 +1,6 @@
 # Teenieping guessing-game research
 
-Research draft — 6 September 2026; extended 9 September 2026. Covers **all 86 portrait assets** in `src/assets/teenie`, including alternate forms and Romi's temporary Teenieping form. The six castle images are scenery; the global/reward Teenieping icons are not additional characters. The catalog now powers the third collection in the Animals activity. See [clue artwork](teenieping-artwork.html).
+Research draft — 6 September 2026; extended 9 September 2026. Covers **all 87 portrait assets** in `src/assets/teenie`, including alternate forms and Romi's temporary Teenieping form. The six castle images are scenery; the global/reward Teenieping icons are not additional characters. The catalog now powers the third collection in the Animals activity. See [clue artwork](teenieping-artwork.html).
 
 ## Proposed four clue categories
 
@@ -72,6 +72,7 @@ Every filename below is relative to `src/assets/teenie/`. Character names link t
 | lala.webp      | [Lalaping](https://catchteenieping.fandom.com/wiki/Lalaping)           | Purple looped hair and musical-note bow          | Microphone                                  | Joy                    | Make others dance                          |
 | lolli.webp     | [Lolliping](https://catchteenieping.fandom.com/wiki/Lolliping)         | Blue, pink and white swirled hair                | Pinwheel                                    | Spinning               | Make things spin with wind                 |
 | lucky.webp     | [Luckyping](https://catchteenieping.fandom.com/wiki/Luckyping)         | Purple curls and clover decorations              | Clover staff                                | Luck                   | Give good or bad luck                      |
+| memo.webp      | [Memoping](https://catchteenieping.fandom.com/wiki/Memoping)           | Red-and-blonde braids and turquoise hair ties    | Turquoise diary and pen                     | Careful organisation   | Make diary notes come true                 |
 | mighty.webp    | [Mightyping](https://catchteenieping.fandom.com/wiki/Mightyping)       | White bear hood and pink ears                    | Honey pot                                   | Strength               | Become super strong after honey            |
 | mimic.webp     | [Mimicping](https://catchteenieping.fandom.com/wiki/Mimicping)         | Orange hair and little yellow bows               | Binoculars                                  | Copying                | Make others copy movements                 |
 | mosey.webp     | [Moseyping](https://catchteenieping.fandom.com/wiki/Moseyping)         | Long dark blue fringe over one eye               | Pillow                                      | Laziness               | Make others lazy and tired                 |
