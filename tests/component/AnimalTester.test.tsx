@@ -24,6 +24,100 @@ const createProps = () => ({
 })
 
 describe('AnimalTester', () => {
+  it.each(['princess', 'teenie'] as const)(
+    'zooms each clue without changing the ability picture in the %s theme',
+    (themeId) => {
+      vi.useFakeTimers()
+      try {
+        const props = {
+          ...createProps(),
+          theme: themes[themeId],
+          isRunning: true,
+        }
+        render(<AnimalTester {...props} />)
+        const cards = screen.getAllByRole('button', {
+          name: /^(LOCATION|ENVIRONMENT|FOOD|ABILITY):/,
+        })
+        const doubleClick = (card: HTMLElement) => {
+          fireEvent.click(card, { detail: 1 })
+          act(() => vi.advanceTimersByTime(100))
+          fireEvent.click(card, { detail: 2 })
+          fireEvent.doubleClick(card, { detail: 2 })
+          act(() => vi.advanceTimersByTime(600))
+        }
+        for (const card of cards) {
+          const originalImage = card.querySelector('img')!.getAttribute('src')
+          doubleClick(card)
+          expect(card).toHaveAttribute('aria-expanded', 'true')
+          expect(card).toHaveStyle({ position: 'absolute', height: '100%' })
+          for (const other of cards.filter((item) => item !== card)) {
+            expect(other).not.toBeVisible()
+          }
+          expect(card.querySelector('img')).toHaveAttribute(
+            'src',
+            originalImage
+          )
+          doubleClick(card)
+          expect(card).toHaveAttribute('aria-expanded', 'false')
+          cards.forEach((item) => expect(item).toBeVisible())
+        }
+        const ability = cards[3]
+        expect(ability).toHaveAttribute('aria-pressed', 'false')
+        fireEvent.click(ability, { detail: 1 })
+        act(() => vi.advanceTimersByTime(500))
+        expect(ability).toHaveAttribute('aria-pressed', 'true')
+        expect(ability.querySelector('img')).toHaveAttribute(
+          'src',
+          getGenericAnimalAbilityImage(themeId, 'WOOL')
+        )
+        doubleClick(ability)
+        expect(ability).toHaveAttribute('aria-pressed', 'true')
+        fireEvent.keyDown(ability, { key: 'Escape' })
+        expect(ability).toHaveAttribute('aria-expanded', 'false')
+        fireEvent.keyDown(ability, { key: 'z' })
+        expect(ability).toHaveAttribute('aria-expanded', 'true')
+        // Navigation discards both zoom and a pending single-click action.
+        fireEvent.click(ability, { detail: 1 })
+        fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
+        act(() => vi.advanceTimersByTime(600))
+        const nextAbility = screen.getByRole('button', { name: /^ABILITY:/ })
+        expect(nextAbility).toHaveAttribute('aria-expanded', 'false')
+        expect(nextAbility).toHaveAttribute('aria-pressed', 'false')
+      } finally {
+        vi.useRealTimers()
+      }
+    }
+  )
+
+  it('keeps the two-player hide control independent of clue zoom', () => {
+    const props = createProps()
+    const { rerender } = render(<AnimalTester {...props} />)
+    fireEvent.click(screen.getByRole('radio', { name: '2 Players' }))
+    rerender(<AnimalTester {...props} isRunning />)
+    const ability = screen.getByRole('button', { name: /^ABILITY:/ })
+    const originalImage = ability.querySelector('img')!.getAttribute('src')!
+    const currentAnimal = ANIMAL_KNOWLEDGE.find(
+      (animal) => getAnimalAbilityImage(animal.name) === originalImage
+    )!
+    fireEvent.doubleClick(ability)
+    fireEvent.click(screen.getByRole('button', { name: 'Hide animal' }))
+    expect(screen.getByRole('button', { name: 'Show animal' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    )
+    expect(ability).toHaveAttribute('aria-expanded', 'true')
+    expect(ability.querySelector('img')).toHaveAttribute(
+      'src',
+      getGenericAnimalAbilityImage('princess', currentAnimal.abilities[0].label)
+    )
+    fireEvent.doubleClick(ability)
+    expect(
+      screen.getByRole('button', { name: 'Show animal' })
+    ).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Show animal' }))
+    expect(ability.querySelector('img')).toHaveAttribute('src', originalImage)
+  })
+
   it('connects every animal to complete facts and visual assets', () => {
     const assetNames = ANIMAL_ASSETS.map(({ name }) => name).sort()
     const knowledgeNames = ANIMAL_KNOWLEDGE.map(({ name }) => name).sort()

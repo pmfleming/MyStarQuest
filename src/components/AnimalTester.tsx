@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import {
   useAnimalSession,
   type AnimalMode,
@@ -72,23 +73,67 @@ const FactCard = ({
   theme,
   onClick,
   isPressed = false,
+  expanded,
+  onToggleZoom,
 }: {
   fact: VisualFact
   theme: ActivityChoreProps['theme']
   onClick?: () => void
   isPressed?: boolean
+  expanded: boolean
+  onToggleZoom: () => void
 }) => {
-  const CardElement = onClick ? 'button' : 'div'
+  const pendingClick = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const cancelClick = () => {
+    if (pendingClick.current !== null) clearTimeout(pendingClick.current)
+    pendingClick.current = null
+  }
+  useEffect(
+    () => () => {
+      if (pendingClick.current !== null) clearTimeout(pendingClick.current)
+    },
+    []
+  )
 
   return (
-    <CardElement
-      type={onClick ? 'button' : undefined}
-      onClick={onClick}
+    <button
+      type="button"
+      onClick={(event) => {
+        cancelClick()
+        // Keyboard activation has no competing double-click gesture.
+        if (event.detail === 0) {
+          if (onClick) onClick()
+          else onToggleZoom()
+        } else if (event.detail === 1 && onClick) {
+          pendingClick.current = setTimeout(() => {
+            pendingClick.current = null
+            onClick()
+          }, 500)
+        }
+      }}
+      onDoubleClick={(event) => {
+        event.preventDefault()
+        cancelClick()
+        onToggleZoom()
+      }}
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && expanded) {
+          cancelClick()
+          onToggleZoom()
+        } else if (event.key.toLowerCase() === 'z') {
+          event.preventDefault()
+          cancelClick()
+          onToggleZoom()
+        }
+      }}
       aria-pressed={onClick ? isPressed : undefined}
+      aria-expanded={expanded}
+      aria-description="Double-click or press Z to enlarge or restore this picture. Press Escape to restore."
       aria-label={`${fact.label}: ${fact.text}`}
       style={{
         width: '100%',
-        aspectRatio: '1 / 1',
+        aspectRatio: expanded ? undefined : '1 / 1',
+        height: expanded ? '100%' : undefined,
         padding: 0,
         borderRadius: 22,
         border: `3px solid ${theme.colors.accent}`,
@@ -96,11 +141,15 @@ const FactCard = ({
         color: theme.colors.text,
         boxShadow: `0 5px 0 ${theme.colors.accent}66`,
         fontFamily: theme.fonts.body,
-        position: 'relative',
+        position: expanded ? 'absolute' : 'relative',
+        inset: expanded ? 0 : undefined,
+        zIndex: expanded ? 2 : undefined,
         isolation: 'isolate',
         overflow: 'hidden',
         textAlign: 'center',
-        cursor: onClick ? 'pointer' : undefined,
+        cursor: expanded ? 'zoom-out' : 'zoom-in',
+        touchAction: 'manipulation',
+        userSelect: 'none',
       }}
     >
       {fact.illustration ? (
@@ -134,7 +183,9 @@ const FactCard = ({
             inset: 0,
             display: 'grid',
             placeItems: 'center',
-            fontSize: 'clamp(5rem, 30vw, 9rem)',
+            fontSize: expanded
+              ? 'clamp(10rem, 60vw, 18rem)'
+              : 'clamp(5rem, 30vw, 9rem)',
             lineHeight: 1,
           }}
         >
@@ -157,14 +208,18 @@ const FactCard = ({
             background: `${theme.colors.surface}80`,
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.28)',
             fontFamily: theme.fonts.heading,
-            fontSize: 'clamp(0.72rem, 2.6vw, 1rem)',
+            fontSize: expanded
+              ? 'clamp(1.44rem, 5.2vw, 2rem)'
+              : 'clamp(0.72rem, 2.6vw, 1rem)',
             color: theme.colors.text,
             lineHeight: 1.1,
             overflow: 'hidden',
             whiteSpace: fact.wrapCaption ? 'normal' : 'nowrap',
             ...(fact.wrapCaption
               ? {
-                  fontSize: 'clamp(0.66rem, 2.4vw, 0.9rem)',
+                  fontSize: expanded
+                    ? 'clamp(1.32rem, 4.8vw, 1.8rem)'
+                    : 'clamp(0.66rem, 2.4vw, 0.9rem)',
                 }
               : {}),
           }}
@@ -172,7 +227,7 @@ const FactCard = ({
           {getAnimalCardLabel(fact.word)}
         </strong>
       )}
-    </CardElement>
+    </button>
   )
 }
 
@@ -186,26 +241,48 @@ const FactGrid = ({
   theme: ActivityChoreProps['theme']
   onAbilityClick?: () => void
   isGenericAbilityShown?: boolean
-}) => (
-  <div
-    style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-      gap: 10,
-      width: '100%',
-    }}
-  >
-    {facts.map((fact) => (
-      <FactCard
-        key={`${fact.label}-${fact.text}`}
-        fact={fact}
-        theme={theme}
-        onClick={fact.isAbility ? onAbilityClick : undefined}
-        isPressed={Boolean(fact.isAbility && isGenericAbilityShown)}
-      />
-    ))}
-  </div>
-)
+}) => {
+  const [expandedLabel, setExpandedLabel] = useState<string | null>(null)
+  return (
+    <div
+      data-animal-fact-grid
+      style={{
+        position: 'relative',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+        gap: 10,
+        width: '100%',
+      }}
+    >
+      {facts.map((fact) => (
+        <div
+          key={fact.label}
+          style={{
+            aspectRatio: '1 / 1',
+            minWidth: 0,
+            visibility:
+              expandedLabel !== null && expandedLabel !== fact.label
+                ? 'hidden'
+                : undefined,
+          }}
+        >
+          <FactCard
+            fact={fact}
+            theme={theme}
+            expanded={expandedLabel === fact.label}
+            onToggleZoom={() =>
+              setExpandedLabel((previous) =>
+                previous === fact.label ? null : fact.label
+              )
+            }
+            onClick={fact.isAbility ? onAbilityClick : undefined}
+            isPressed={Boolean(fact.isAbility && isGenericAbilityShown)}
+          />
+        </div>
+      ))}
+    </div>
+  )
+}
 
 const AnimalPortrait = ({
   animal,
@@ -499,6 +576,7 @@ const AnimalPlayContent = ({
       <>
         <AnimalPortrait animal={animal} theme={theme} compact />
         <FactGrid
+          key={`${animal.kind}-${animal.name}-${mode}`}
           facts={getTeachingFacts(animal, theme.id, isGenericLearnAbilityShown)}
           theme={theme}
           onAbilityClick={onToggleLearnAbility}
@@ -527,6 +605,7 @@ const AnimalPlayContent = ({
           onToggle={onToggleAnimal}
         />
         <FactGrid
+          key={`${animal.kind}-${animal.name}-${mode}`}
           facts={getTeachingFacts(animal, theme.id, isTogetherAnimalHidden)}
           theme={theme}
         />
@@ -543,7 +622,11 @@ const AnimalPlayContent = ({
 
   return (
     <>
-      <FactGrid facts={soloFacts.slice(0, visibleSoloClues)} theme={theme} />
+      <FactGrid
+        key={`${animal.kind}-${animal.name}-${mode}`}
+        facts={soloFacts.slice(0, visibleSoloClues)}
+        theme={theme}
+      />
       <div
         aria-label={`${formatAnimalName(animal.kind)} choices`}
         style={{
