@@ -18,6 +18,12 @@ type Change = {
   precipitation?: { kind: PrecipitationKind; level: WeatherLevel }
 }
 
+// A simple temperature model for the explorer's rain/snow mix.
+export function getExplorationPrecipitation(temperature: number) {
+  if (temperature <= 0) return 'snow'
+  return temperature <= 2 ? 'sleet' : 'rain'
+}
+
 export function useWeatherExploration(
   cityId: string,
   data: WeatherConditions | null
@@ -61,6 +67,18 @@ export function useWeatherExploration(
             level > 0 &&
             (kind === 'hail' ||
               (liveVisuals.thunder && kind === liveVisuals.precipitation))
+        }
+        if (change.temperature !== undefined || change.precipitation) {
+          const kind = nextVisuals.precipitation
+          if (
+            kind !== 'none' &&
+            kind !== 'hail' &&
+            !(kind === 'freezing-rain' && nextVisuals.temperature <= 0)
+          ) {
+            nextVisuals.precipitation = getExplorationPrecipitation(
+              nextVisuals.temperature
+            )
+          }
         }
         return { cityId, draft: { visuals: nextVisuals, windSpeed: nextWind } }
       })

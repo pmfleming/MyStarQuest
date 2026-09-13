@@ -1,5 +1,8 @@
 import { useId, type ReactNode } from 'react'
-import type { WeatherExploration } from '../../hooks/useWeatherExploration'
+import {
+  getExplorationPrecipitation,
+  type WeatherExploration,
+} from '../../hooks/useWeatherExploration'
 import {
   getWeatherWindLevel,
   type PrecipitationKind,
@@ -8,32 +11,30 @@ import {
 import WeatherOptionImage from './WeatherOptionImage'
 import { useTheme } from '../../contexts/ThemeContext'
 
-const precipitationTypes: { kind: PrecipitationKind; label: string }[] = [
-  { kind: 'rain', label: 'rain' },
-  { kind: 'snow', label: 'snow' },
-  { kind: 'sleet', label: 'sleet' },
-  { kind: 'hail', label: 'hail' },
-  { kind: 'freezing-rain', label: 'freezing rain' },
-]
 const levels: { level: WeatherLevel; label: string }[] = [
   { level: 1, label: 'Light' },
   { level: 2, label: 'Moderate' },
   { level: 3, label: 'Heavy' },
 ]
-const precipitationOptions = [
-  {
-    kind: 'none' as PrecipitationKind,
-    level: 0 as WeatherLevel,
-    label: 'None',
-  },
-  ...precipitationTypes.flatMap(({ kind, label }) =>
-    levels.map(({ level, label: intensity }) => ({
-      kind,
-      level,
-      label: `${intensity} ${label}`,
-    }))
-  ),
-]
+const getPrecipitationOptions = (temperature: number) => {
+  const kinds: PrecipitationKind[] = [
+    getExplorationPrecipitation(temperature),
+    'hail',
+  ]
+  if (temperature <= 0) kinds.push('freezing-rain')
+  return [
+    {
+      kind: 'none' as PrecipitationKind,
+      level: 0 as WeatherLevel,
+    },
+    ...kinds.flatMap((kind) =>
+      levels.map(({ level }) => ({
+        kind,
+        level,
+      }))
+    ),
+  ]
+}
 const windOptions = [
   { speed: 0, label: 'Calm' },
   { speed: 10, label: 'Light' },
@@ -101,17 +102,21 @@ export default function WeatherControls({
   const { visuals, windSpeed, adjust } = exploration
   const { theme } = useTheme()
   const temperature = visuals.temperature ?? 18
+  const precipitationOptions = getPrecipitationOptions(temperature)
   const windIndex = getWeatherWindLevel(windSpeed ?? 0)
   const windOption = windOptions[windIndex]!
-  const precipitationIndex = Math.max(
-    0,
-    precipitationOptions.findIndex(
-      (option) =>
-        option.kind === visuals.precipitation &&
-        option.level === visuals.precipitationLevel
-    )
+  const matchingIndex = precipitationOptions.findIndex(
+    (option) =>
+      option.kind === visuals.precipitation &&
+      option.level === visuals.precipitationLevel
   )
-  const precipitation = precipitationOptions[precipitationIndex]!
+  // Report observed weather as received, even outside the explorer's simple model.
+  const precipitationIndex =
+    matchingIndex < 0 ? visuals.precipitationLevel : matchingIndex
+  const precipitationLabel =
+    visuals.precipitationLevel === 0
+      ? 'None'
+      : `${levels[visuals.precipitationLevel - 1]!.label} ${visuals.precipitation.replace('-', ' ')}`
   const changeTemperature = (amount: number) => {
     const next = Math.round((temperature + amount) * 10) / 10
     adjust({
@@ -188,17 +193,15 @@ export default function WeatherControls({
       >
         <WeatherOptionImage
           themeId={theme.id}
-          kind={precipitation.kind}
-          level={precipitation.level}
+          kind={visuals.precipitation}
+          level={visuals.precipitationLevel}
           label={
-            visuals.available
-              ? precipitation.label
-              : 'Precipitation unavailable'
+            visuals.available ? precipitationLabel : 'Precipitation unavailable'
           }
           unavailable={!visuals.available}
         />
         <output aria-label="Precipitation value">
-          {visuals.available ? precipitation.label : '—'}
+          {visuals.available ? precipitationLabel : '—'}
         </output>
       </StepControl>
     </div>

@@ -120,12 +120,33 @@ const openWeather = () =>
   fireEvent.click(screen.getByRole('button', { name: /Show weather:/ }))
 
 describe('Time Explorer weather panel', () => {
-  it('changes all three independent scene layers and resets to the latest live response', () => {
+  it('adapts precipitation to temperature, preserves intensity and wind, and resets to live weather', () => {
     const { rerender } = render(<TimeExplorerPage />)
     openWeather()
-    clickOption('Decrease temperature', 21)
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Moderate rain'
+    )
+    clickOption('Decrease temperature', 14)
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('2°C')
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Moderate sleet'
+    )
+    clickOption('Decrease temperature')
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Moderate sleet'
+    )
+    clickOption('Decrease temperature')
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('0°C')
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Moderate snow'
+    )
+    clickOption('Increase temperature', 3)
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Moderate rain'
+    )
+    clickOption('Decrease temperature', 8)
     clickOption('Increase wind')
-    clickOption('Next precipitation option', 4)
+    clickOption('Next precipitation option')
     for (const scene of document.querySelectorAll('[data-weather-theme]')) {
       expect(scene).toHaveAttribute('data-temperature', '-5')
       expect(scene).toHaveAttribute('data-wind', '3')
@@ -220,13 +241,17 @@ describe('Time Explorer weather panel', () => {
     expect(
       screen.getByRole('button', { name: 'Previous precipitation option' })
     ).toBeDisabled()
-    clickOption('Next precipitation option', 15)
+    clickOption('Decrease temperature')
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
-      'Heavy freezing rain'
+      'None'
+    )
+    clickOption('Next precipitation option', 6)
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Heavy hail'
     )
     expect(
       screen.getByRole('img', { name: /Princess outdoors: Your weather/ })
-    ).toHaveAttribute('data-thunder', 'false')
+    ).toHaveAttribute('data-thunder', 'true')
     expect(
       screen.getByRole('button', { name: 'Next precipitation option' })
     ).toBeDisabled()
@@ -243,6 +268,20 @@ describe('Time Explorer weather panel', () => {
     expect(
       screen.getByRole('button', { name: 'Decrease temperature' })
     ).toBeDisabled()
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Moderate snow'
+    )
+    clickOption('Next precipitation option', 7)
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Heavy freezing rain'
+    )
+    expect(
+      screen.getByRole('button', { name: 'Next precipitation option' })
+    ).toBeDisabled()
+    clickOption('Increase temperature', 23)
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Heavy rain'
+    )
   })
 
   it('shows missing weather honestly and allows retry', () => {
