@@ -1,3 +1,4 @@
+import { AsyncButton } from './AsyncButton'
 import { getThemeAsset } from '../../ui/themeAssets'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
@@ -12,7 +13,7 @@ type CrownDifficultyControlProps<T extends string> = {
   theme: Theme
   value: T
   options: readonly CrownDifficultyOption<T>[]
-  onChange: (value: T) => void
+  onChange: (value: T) => void | Promise<void>
   ariaLabel: string
   crownSize?: number
 }
@@ -43,7 +44,7 @@ const CrownDifficultyControl = <T extends string>({
       const isSelected = value === option.value
 
       return (
-        <button
+        <AsyncButton
           key={option.value}
           type="button"
           role="radio"
@@ -84,7 +85,7 @@ const CrownDifficultyControl = <T extends string>({
               />
             ))}
           </span>
-        </button>
+        </AsyncButton>
       )
     })}
   </div>

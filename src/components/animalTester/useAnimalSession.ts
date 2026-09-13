@@ -1,3 +1,4 @@
+import { useActivityPersistence } from '../../hooks/useActivityPersistence'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import animalCollection from '../../data/creatureCollections/animals'
 import type {
@@ -59,6 +60,11 @@ export function useAnimalSession({
   onFail,
   failureModeEnabled = true,
 }: ActivityChoreProps) {
+  const {
+    complete,
+    fail,
+    feedback: persistence,
+  } = useActivityPersistence({ onComplete, onFail })
   const [mode, setMode] = useState<AnimalMode>('learn')
   const [difficulty, setDifficulty] = useState<AnimalDifficulty>('easy')
   const [animalOrder, setAnimalOrder] = useState(() =>
@@ -151,11 +157,11 @@ export function useAnimalSession({
 
   const finishAnimal = () => {
     setResults((previous) => [...previous, 'correct'])
-    if (isLastAnimal) onComplete()
+    if (isLastAnimal) complete()
     else moveAnimal(1)
   }
 
-  const exitUnscoredMode = onExit ?? onComplete
+  const exitUnscoredMode = onExit ?? complete
 
   const showNextUnscoredAnimal = () => {
     if (isLastAnimal) {
@@ -213,11 +219,12 @@ export function useAnimalSession({
         dismissedChoices: [...previous.dismissedChoices, choice.name],
         leavingChoice: null,
       }))
-      if (mistake.shouldFail) onFail?.()
+      if (mistake.shouldFail) fail()
     }, CHOICE_ANIMATION_MS)
   }
 
   return {
+    persistence,
     collection,
     collectionError,
     isCollectionLoading,

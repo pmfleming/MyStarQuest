@@ -1,3 +1,4 @@
+import { AsyncButton } from '../ui/AsyncButton'
 import { memo } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import type { ExplorerCityOption } from '../../lib/dayNightExplorer/dayNightExplorerOptions'
@@ -16,7 +17,7 @@ type Props = {
   city: ExplorerCityOption
   weather: WeatherSnapshot
   exploration: WeatherExploration
-  onRetry: () => void
+  onRetry: () => void | Promise<void>
 }
 
 export default memo(function WeatherPanel({
@@ -65,7 +66,7 @@ export default memo(function WeatherPanel({
                 : 'Current weather'}
         </span>
         {exploration.isExploring && (
-          <button
+          <AsyncButton
             type="button"
             aria-label="Reset to current"
             title="Reset to current"
@@ -78,11 +79,11 @@ export default memo(function WeatherPanel({
               width={32}
               height={32}
             />
-          </button>
+          </AsyncButton>
         )}
       </div>
       {(error || (!loading && !data)) && (
-        <button
+        <AsyncButton
           type="button"
           className="weather-panel-retry"
           style={{
@@ -92,7 +93,7 @@ export default memo(function WeatherPanel({
           onClick={onRetry}
         >
           Try again
-        </button>
+        </AsyncButton>
       )}
     </section>
   )

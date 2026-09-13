@@ -1,3 +1,4 @@
+import { useAsyncAction } from '../components/ui/useAsyncAction'
 import { useEffect, useRef, useState } from 'react'
 import { BITE_COOLDOWN_SECONDS } from '../data/types'
 import { celebrateSuccess } from '../lib/celebrate'
@@ -10,7 +11,7 @@ type UseDinnerCountdownStateArgs = {
   biteCooldownSeconds: number
   biteCooldownEndsAt?: number | null
   timerStartedAt?: number | null
-  onExpire?: () => void
+  onExpire?: () => void | Promise<void>
 }
 
 export const useDinnerCountdownState = ({
@@ -23,6 +24,8 @@ export const useDinnerCountdownState = ({
   timerStartedAt,
   onExpire,
 }: UseDinnerCountdownStateArgs) => {
+  const { runAction, ...persistence } = useAsyncAction<'expire'>()
+  const expirationAttempted = useRef(false)
   const [now, setNow] = useState(() => Date.now())
   const [animSlice, setAnimSlice] = useState<number | null>(null)
   const [biteVis, setBiteVis] = useState(false)
@@ -74,8 +77,12 @@ export const useDinnerCountdownState = ({
   }, [isSuccess])
 
   useEffect(() => {
-    if (isTimeout && !isCompleted) onExpire?.()
-  }, [isCompleted, isTimeout, onExpire])
+    if (!isTimeout) expirationAttempted.current = false
+    if (isTimeout && !isCompleted && !expirationAttempted.current) {
+      expirationAttempted.current = true
+      void runAction('Save dinner result', 'expire', () => onExpire?.())
+    }
+  }, [isCompleted, isTimeout, onExpire, runAction])
 
   useEffect(() => {
     if (bitesLeft < prevBites.current) {
@@ -93,6 +100,7 @@ export const useDinnerCountdownState = ({
   }, [bitesLeft])
 
   return {
+    persistence,
     animSlice,
     biteVis,
     isSetup,

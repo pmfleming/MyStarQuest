@@ -131,7 +131,7 @@ export const createChildDefinitionListRowDescriptor = (
           onChange={(index) => {
             const selected = deps.themeOptions[index]
             if (!selected) return
-            deps.changeTheme(child, selected.id)
+            return deps.changeTheme(child, selected.id)
           }}
         />
 

@@ -1,3 +1,5 @@
+import { useAsyncAction } from './ui/useAsyncAction'
+import { ActionFeedback } from './ui/ActionFeedback'
 import {
   useRef,
   type ReactNode,
@@ -41,6 +43,7 @@ const PageShell = ({
   children,
 }: PageShellProps) => {
   const navigate = useNavigate()
+  const navigation = useAsyncAction<'navigate'>()
   const { isNativePlatform, browserFrameHeight } = useDeviceFrame()
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
 
@@ -73,7 +76,9 @@ const PageShell = ({
 
     const nextPath = getAdjacentTabPath(activeTabId!, deltaX < 0 ? 1 : -1)
     if (nextPath) {
-      navigate(nextPath)
+      void navigation.runAction('Open tab', 'navigate', () =>
+        navigate(nextPath)
+      )
     }
   }
 
@@ -121,6 +126,7 @@ const PageShell = ({
         )}
       </div>
 
+      <ActionFeedback {...navigation} />
       {effectiveBottomBar}
     </AppDeviceFrame>
   )

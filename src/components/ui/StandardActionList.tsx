@@ -326,7 +326,9 @@ const ListFooter = ({
           aria-label={addLabel}
           aria-busy={isAdding || undefined}
           aria-describedby={addError ? 'card-add-error' : undefined}
-          onClick={handleAdd}
+          onClick={() => {
+            void handleAdd()
+          }}
           disabled={addDisabled || isAdding}
           className="whimsical-btn flex w-full items-center justify-center text-xl font-bold disabled:opacity-60"
           style={{

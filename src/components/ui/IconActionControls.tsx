@@ -1,3 +1,4 @@
+import { AsyncButton } from './AsyncButton'
 import type { CSSProperties } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
@@ -91,7 +92,7 @@ export const IconActionButton = ({
     />
   )
   return (
-    <button
+    <AsyncButton
       type="button"
       className={`whimsical-btn ${shape === 'utility' ? 'whimsical-btn-utility' : ''} ${className ?? ''}`.trim()}
       onClick={onClick}
@@ -105,7 +106,7 @@ export const IconActionButton = ({
       }}
     >
       {shape === 'primary' ? <ActionArtwork>{image}</ActionArtwork> : image}
-    </button>
+    </AsyncButton>
   )
 }
 
@@ -195,7 +196,7 @@ export const IconChoiceButton = ({
   disabled,
   selected,
 }: IconChoiceButtonProps) => (
-  <button
+  <AsyncButton
     type="button"
     className="whimsical-btn"
     onClick={onClick}
@@ -212,5 +213,5 @@ export const IconChoiceButton = ({
     <ActionArtwork>
       <StandardIconImage src={icon} width="100%" height="100%" />
     </ActionArtwork>
-  </button>
+  </AsyncButton>
 )

@@ -36,8 +36,8 @@ type WaterToiletChoreRendererProps = {
   starDelta: number
   isInteractive: boolean
   isCompleted?: boolean
-  onCycleWater: () => void
-  onCycleToilet: () => void
+  onCycleWater: () => void | Promise<void>
+  onCycleToilet: () => void | Promise<void>
 }
 
 const renderLazy = <Props extends object>(

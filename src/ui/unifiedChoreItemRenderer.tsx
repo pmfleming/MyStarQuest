@@ -187,7 +187,7 @@ const renderStandardContent = (
           onChange={(index) => {
             const selected = getChoreImageOptions(deps.theme.id)[index]
             if (!selected || selected.id === item.imageKey) return
-            deps.onUpdateTaskField?.(item.id, { imageKey: selected.id })
+            return deps.onUpdateTaskField?.(item.id, { imageKey: selected.id })
           }}
         />
       ) : (

@@ -32,7 +32,7 @@ type StarDisplayProps = {
   className?: string
   emptyContent?: React.ReactNode
   editable?: boolean
-  onChange?: (value: number) => void
+  onChange?: (value: number) => void | Promise<void>
   min?: number
   max?: number
   theme?: Theme
@@ -294,7 +294,7 @@ const renderEditableValue = ({
 type StarStepperProps = {
   direction: 'prev' | 'next'
   theme: Theme
-  onClick: () => void
+  onClick: () => void | Promise<void>
   disabled: boolean
   ariaLabel: string
 }
@@ -342,11 +342,12 @@ const StarDisplay = ({
   }, [])
 
   const handleDecrement = () => {
-    if (onChange && count > min) onChange(count - 1)
+    if (onChange && count > min) return onChange(count - 1)
   }
 
   const handleIncrement = () => {
-    if (onChange && (max === undefined || count < max)) onChange(count + 1)
+    if (onChange && (max === undefined || count < max))
+      return onChange(count + 1)
   }
 
   if (editable && theme) {

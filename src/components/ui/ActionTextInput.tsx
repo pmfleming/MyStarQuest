@@ -1,3 +1,5 @@
+import { useAsyncAction } from './useAsyncAction'
+import { ActionFeedback } from './ActionFeedback'
 import type { ChangeEvent, KeyboardEvent } from 'react'
 import type { CSSProperties } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
@@ -9,7 +11,7 @@ type ActionTextInputProps = {
   value: string
   onChange: (value: string) => void
   /** Called on blur and Enter key with the current value for auto-save */
-  onCommit?: (value: string) => void
+  onCommit?: (value: string) => void | Promise<void>
   placeholder?: string
   maxLength?: number
   baseColor: string
@@ -31,6 +33,7 @@ const ActionTextInput = ({
   inputAriaLabel,
   transparent = false,
 }: ActionTextInputProps) => {
+  const action = useAsyncAction<'save'>()
   const actionStyle = getActionButtonStyle(theme, baseColor)
 
   const containerStyle: CSSProperties = transparent
@@ -79,7 +82,7 @@ const ActionTextInput = ({
   }
 
   const handleBlur = () => {
-    onCommit?.(value)
+    void action.runAction(`Save ${label}`, 'save', () => onCommit?.(value))
   }
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -91,7 +94,9 @@ const ActionTextInput = ({
   return (
     <div style={containerStyle}>
       {showLabel && <span style={labelStyle}>{label}</span>}
+      <ActionFeedback {...action} />
       <input
+        readOnly={action.pendingAction !== null}
         type="text"
         value={value}
         onChange={handleChange}

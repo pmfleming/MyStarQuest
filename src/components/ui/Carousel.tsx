@@ -1,5 +1,7 @@
+import { useAsyncAction } from './useAsyncAction'
+import { ActionFeedback } from './ActionFeedback'
 import type { CSSProperties, ReactNode } from 'react'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTheme } from '../../contexts/ThemeContext'
 
 type CarouselItem = {
@@ -12,7 +14,7 @@ type CarouselProps = {
   items: CarouselItem[]
   title?: string
   initialIndex?: number
-  onChange?: (index: number) => void
+  onChange?: (index: number) => void | Promise<void>
   className?: string
   style?: CSSProperties
 }
@@ -39,6 +41,7 @@ const Carousel = ({
   style,
 }: CarouselProps) => {
   const { theme } = useTheme()
+  const action = useAsyncAction<'select'>()
   const safeItems = useMemo(() => items ?? [], [items])
   const [selectedIndex, setSelectedIndex] = useState(
     Math.max(0, Math.min(initialIndex, safeItems.length - 1))
@@ -47,11 +50,6 @@ const Carousel = ({
     0,
     Math.min(selectedIndex, safeItems.length - 1)
   )
-
-  useEffect(() => {
-    if (!onChange) return
-    onChange(currentIndex)
-  }, [currentIndex, onChange])
 
   const visibleItems = useMemo(() => {
     if (safeItems.length === 0) return []
@@ -70,9 +68,11 @@ const Carousel = ({
 
   const navigate = (delta: number) => {
     if (safeItems.length <= 1) return
-    setSelectedIndex((index) =>
-      getWrappedIndex(index + delta, safeItems.length)
-    )
+    const next = getWrappedIndex(currentIndex + delta, safeItems.length)
+    void action.runAction('Change selection', 'select', async () => {
+      await onChange?.(next)
+      setSelectedIndex(next)
+    })
   }
 
   if (safeItems.length === 0) return null
@@ -155,6 +155,7 @@ const Carousel = ({
 
   return (
     <div className={className} style={{ ...rootStyle, ...style }}>
+      <ActionFeedback {...action} />
       <div style={stageStyle}>
         <div
           style={{
@@ -184,7 +185,9 @@ const Carousel = ({
                 key={`${item.id}-${index}`}
                 type="button"
                 onClick={onClick}
-                disabled={safeItems.length <= 1}
+                disabled={
+                  safeItems.length <= 1 || action.pendingAction !== null
+                }
                 style={{ ...itemStyle, ...sideButtonStyle }}
                 aria-label={`${direction}: ${item.label}`}
               >

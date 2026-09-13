@@ -1,3 +1,4 @@
+import { AsyncButton } from './ui/AsyncButton'
 import StarDisplay from './ui/StarDisplay'
 import {
   fallbackToiletVisuals,
@@ -19,8 +20,8 @@ type WaterToiletMonitorProps = {
   starDelta: number
   isInteractive: boolean
   isCompleted?: boolean
-  onCycleWater?: () => void
-  onCycleToilet?: () => void
+  onCycleWater?: () => void | Promise<void>
+  onCycleToilet?: () => void | Promise<void>
 }
 
 const WaterToiletMonitor = ({
@@ -77,7 +78,7 @@ const WaterToiletMonitor = ({
           gap: '14px',
         }}
       >
-        <button
+        <AsyncButton
           type="button"
           onClick={onCycleWater}
           disabled={!isActuallyInteractive}
@@ -100,9 +101,9 @@ const WaterToiletMonitor = ({
               {fallbackWaterVisuals[waterLevel]}
             </span>
           )}
-        </button>
+        </AsyncButton>
 
-        <button
+        <AsyncButton
           type="button"
           onClick={onCycleToilet}
           disabled={!isActuallyInteractive}
@@ -125,7 +126,7 @@ const WaterToiletMonitor = ({
               {fallbackToiletVisuals[toiletStatus]}
             </span>
           )}
-        </button>
+        </AsyncButton>
       </div>
 
       <StarDisplay

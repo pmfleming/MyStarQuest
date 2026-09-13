@@ -4,6 +4,11 @@ export const useAsyncAction = <ActionKey extends string>() => {
   const [pendingAction, setPendingAction] = useState<ActionKey | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
   const pendingRef = useRef<ActionKey | null>(null)
+  const failedAction = useRef<{
+    name: string
+    key: ActionKey
+    action: () => void | Promise<void>
+  } | null>(null)
 
   const runAction = useCallback(
     async (
@@ -16,12 +21,16 @@ export const useAsyncAction = <ActionKey extends string>() => {
       pendingRef.current = actionKey
       setPendingAction(actionKey)
       setActionError(null)
+      failedAction.current = null
       try {
-        await action()
+        const result = action()
+        // Synchronous controls must remain usable within the same event turn.
+        if (result) await result
         return true
       } catch (error) {
         console.error(`Failed to run ${actionName}`, error)
         setActionError(`${actionName} failed. Please try again.`)
+        failedAction.current = { name: actionName, key: actionKey, action }
         return false
       } finally {
         pendingRef.current = null
@@ -31,5 +40,10 @@ export const useAsyncAction = <ActionKey extends string>() => {
     []
   )
 
-  return { pendingAction, actionError, runAction }
+  const retryAction = useCallback(() => {
+    const failed = failedAction.current
+    if (failed) void runAction(failed.name, failed.key, failed.action)
+  }, [runAction])
+
+  return { pendingAction, actionError, runAction, retryAction }
 }

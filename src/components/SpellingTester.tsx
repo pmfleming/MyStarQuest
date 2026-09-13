@@ -1,3 +1,4 @@
+import { useActivityPersistence } from '../hooks/useActivityPersistence'
 import type { CSSProperties } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import animalsSetIcon from '../assets/global/cat-camel-cow.webp'
@@ -300,6 +301,11 @@ const SpellingTester = ({
   failureImage,
   failureModeEnabled = true,
 }: SpellingTesterProps) => {
+  const {
+    complete,
+    fail,
+    feedback: persistence,
+  } = useActivityPersistence({ onComplete, onFail })
   const [letterCase, setLetterCase] = useState<LetterCase>('lower')
   const [problemIndex, setProblemIndex] = useState(0)
   const [currentAnimal, setCurrentAnimal] = useState<SpellingAnimal | null>(
@@ -448,7 +454,7 @@ const SpellingTester = ({
 
           feedbackTimer.current = setTimeout(() => {
             if (problemIndex + 1 >= totalProblems) {
-              onComplete()
+              complete()
             } else {
               setProblemIndex((index) => index + 1)
               nextAnimal()
@@ -474,7 +480,7 @@ const SpellingTester = ({
     if (mistake.shouldFail) {
       setIsFailurePending(true)
       feedbackTimer.current = setTimeout(() => {
-        onFail?.()
+        fail()
       }, FAILURE_TRANSITION_DELAY_MS)
       return
     }
@@ -486,6 +492,7 @@ const SpellingTester = ({
 
   return (
     <ActivityOutcomeShell
+      persistence={persistence}
       isFinished={isFinished}
       isSuccessState={isSuccessState}
       completionImage={completionImage}

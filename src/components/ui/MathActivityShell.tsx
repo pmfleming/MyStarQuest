@@ -1,3 +1,4 @@
+import type { ActionFeedbackState } from './ActionFeedback'
 import type { ReactNode } from 'react'
 import type { ActivityChoreProps } from './ActivityControls'
 import { ActivityOutcomeShell, ActivitySetupControls } from './ActivityControls'
@@ -13,6 +14,7 @@ type MathActivityShellProps = Pick<
   | 'completionImage'
   | 'failureImage'
 > & {
+  persistence?: ActionFeedbackState
   isSetup: boolean
   isFinished: boolean
   isSuccessState: boolean

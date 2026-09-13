@@ -95,7 +95,9 @@ const UtilityButton = ({
   <button
     ref={buttonRef}
     type="button"
-    onClick={onClick}
+    onClick={() => {
+      void onClick()
+    }}
     disabled={disabled || isPending}
     className={`whimsical-btn whimsical-btn-utility disabled:opacity-60 ${isDanger ? 'whimsical-btn-delete' : ''}`}
     aria-label={ariaLabel}
@@ -277,7 +279,9 @@ export const StandardActionButtons = <T,>({
       {state.showPrimary && (
         <button
           type="button"
-          onClick={onPrimary}
+          onClick={() => {
+            void onPrimary()
+          }}
           disabled={state.primaryDisabled}
           className="whimsical-btn disabled:opacity-60"
           aria-label={resolveActionText(

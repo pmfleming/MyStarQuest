@@ -1,10 +1,11 @@
+import { AsyncButton } from './AsyncButton'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
 
 type RepeatControlProps = {
   theme: Theme
   value: boolean
-  onChange: (value: boolean) => void
+  onChange: (value: boolean) => void | Promise<void>
   label?: string
   helperText?: string
   className?: string
@@ -26,7 +27,7 @@ const RepeatControl = ({
   showFeedback = false,
 }: RepeatControlProps) => {
   const toggleRepeat = () => {
-    onChange(!value)
+    return onChange(!value)
   }
 
   const feedbackText = () => {
@@ -113,7 +114,7 @@ const RepeatControl = ({
 
       {showLabel && <div className="repeat-control-title">{label}</div>}
 
-      <button
+      <AsyncButton
         className={`repeat-button ${value ? 'active' : ''}`}
         onClick={toggleRepeat}
         aria-pressed={value}
@@ -126,7 +127,7 @@ const RepeatControl = ({
           <polyline points="7 23 3 19 7 15" />
           <path d="M21 13v2a4 4 0 0 1-4 4H3" />
         </svg>
-      </button>
+      </AsyncButton>
 
       {showFeedback && <div className="repeat-feedback">{feedbackText()}</div>}
     </div>

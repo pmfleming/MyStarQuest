@@ -13,7 +13,7 @@ type ImageOptionCarouselProps = {
   title: string
   options: readonly ImageOption[]
   selectedId: string
-  onChange: (id: string) => void
+  onChange: (id: string) => void | Promise<void>
 }
 
 const ImageOptionCarousel = ({
@@ -67,7 +67,8 @@ const ImageOptionCarousel = ({
       initialIndex={selectedIndex}
       onChange={(index) => {
         const nextId = options[index]?.id
-        if (nextId !== undefined && nextId !== selectedId) onChange(nextId)
+        if (nextId !== undefined && nextId !== selectedId)
+          return onChange(nextId)
       }}
     />
   )

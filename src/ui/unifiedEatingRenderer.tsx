@@ -60,23 +60,27 @@ const renderEatingTask = (
     isTimerRunning: isActive,
     timerStartedAt: item.manageDinnerTimerStartedAt,
     plateImage: state.themedAsset(getThemeAsset(deps.theme.id, 'plateImage')),
-    onAdjustTime: (delta) => {
+    onAdjustTime: async (delta) => {
       const next = clamp(
         (item.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS) + delta,
         5 * 60,
         30 * 60
       )
-      deps.onUpdateTaskField?.(item.id, { dinnerDurationSeconds: next })
-      deps.onUpdateEphemeral?.(item.id, {
-        manageDinnerRemainingSeconds: next,
-      })
+      await Promise.all([
+        deps.onUpdateTaskField?.(item.id, { dinnerDurationSeconds: next }),
+        deps.onUpdateEphemeral?.(item.id, {
+          manageDinnerRemainingSeconds: next,
+        }),
+      ])
     },
-    onAdjustBites: (delta) => {
+    onAdjustBites: async (delta) => {
       const next = clampDinnerSliceCount(
         (item.dinnerTotalBites ?? DEFAULT_DINNER_BITES) + delta
       )
-      deps.onUpdateTaskField?.(item.id, { dinnerTotalBites: next })
-      deps.onUpdateEphemeral?.(item.id, { manageDinnerBitesLeft: next })
+      await Promise.all([
+        deps.onUpdateTaskField?.(item.id, { dinnerTotalBites: next }),
+        deps.onUpdateEphemeral?.(item.id, { manageDinnerBitesLeft: next }),
+      ])
     },
     onStarsChange: (value) =>
       deps.onUpdateTaskField?.(item.id, { starValue: value }),

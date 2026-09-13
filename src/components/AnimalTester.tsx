@@ -719,6 +719,7 @@ const AnimalTester = (props: AnimalTesterProps) => {
     isFinished,
     animal,
     playProps,
+    persistence,
   } = useAnimalSession(props)
   const collectionLabel = COLLECTION_LABELS[collection]
   const modeImages = CREATURE_MODE_IMAGES[collection]
@@ -764,6 +765,7 @@ const AnimalTester = (props: AnimalTesterProps) => {
 
   return (
     <ActivityOutcomeShell
+      persistence={persistence}
       isFinished={isFinished}
       isSuccessState={isSuccessState}
       completionImage={completionImage}

@@ -1,3 +1,4 @@
+import { AsyncButton } from './AsyncButton'
 import { useNavigate } from 'react-router-dom'
 import type { Theme } from '../../contexts/ThemeContext'
 import { getFloatingSurfaceStyle, uiTokens } from '../../tokens'
@@ -31,7 +32,7 @@ const BottomNav = ({ theme, activeTabId }: BottomNavProps) => {
         const isActive = tab.id === activeTabId
 
         return (
-          <button
+          <AsyncButton
             key={tab.id}
             type="button"
             aria-label={tab.ariaLabel}
@@ -72,7 +73,7 @@ const BottomNav = ({ theme, activeTabId }: BottomNavProps) => {
                   : 'none',
               }}
             />
-          </button>
+          </AsyncButton>
         )
       })}
     </nav>

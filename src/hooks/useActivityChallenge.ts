@@ -1,3 +1,4 @@
+import { useActivityPersistence } from './useActivityPersistence'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   MAX_ACTIVITY_MISTAKES,
@@ -17,8 +18,8 @@ export type UseActivityChallengeArgs = {
   canStart: boolean
   onStart: () => void
   onReset: () => void
-  onComplete: () => void
-  onFail?: () => void
+  onComplete: () => void | Promise<void>
+  onFail?: () => void | Promise<void>
   failureModeEnabled?: boolean
 }
 
@@ -39,6 +40,11 @@ export const useActivityChallenge = ({
   onFail,
   failureModeEnabled = true,
 }: UseActivityChallengeArgs) => {
+  const {
+    complete,
+    fail,
+    feedback: persistence,
+  } = useActivityPersistence({ onComplete, onFail })
   const [problemIndex, setProblemIndex] = useState(0)
   const [retryCount, setRetryCount] = useState(0)
   const [resultHistory, setResultHistory] = useState<ActivityResult[]>([])
@@ -94,7 +100,7 @@ export const useActivityChallenge = ({
         feedbackTimer.current = setTimeout(() => {
           const nextIndex = problemIndex + 1
           if (nextIndex >= totalProblems) {
-            onComplete()
+            complete()
           } else {
             startNextProblem(nextIndex, onNextProblem)
           }
@@ -112,7 +118,7 @@ export const useActivityChallenge = ({
       if (failureModeEnabled && nextRetryCount >= MAX_ACTIVITY_MISTAKES) {
         setIsFailurePending(true)
         feedbackTimer.current = setTimeout(() => {
-          onFail?.()
+          fail()
         }, FAILURE_TRANSITION_DELAY_MS)
         return
       }
@@ -127,8 +133,8 @@ export const useActivityChallenge = ({
       feedback,
       failureModeEnabled,
       isFailurePending,
-      onComplete,
-      onFail,
+      complete,
+      fail,
       problemIndex,
       retryCount,
       startNextProblem,
@@ -175,6 +181,7 @@ export const useActivityChallenge = ({
   )
 
   return {
+    persistence,
     problemIndex,
     retryCount,
     resultHistory: failureModeEnabled

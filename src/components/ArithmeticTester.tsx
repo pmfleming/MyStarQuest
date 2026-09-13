@@ -73,7 +73,7 @@ function getProblemKey(p: ArithmeticProblem): string {
 
 export interface ArithmeticTesterProps extends ActivityChoreProps {
   difficulty?: MathDifficulty
-  onDifficultyChange?: (difficulty: MathDifficulty) => void
+  onDifficultyChange?: (difficulty: MathDifficulty) => void | Promise<void>
 }
 
 const ArithmeticTester = (props: ArithmeticTesterProps) => {
@@ -113,6 +113,7 @@ const ArithmeticTester = (props: ArithmeticTesterProps) => {
     isSetup,
     isFinished,
     isSuccessState,
+    persistence,
     isCorrect,
     isWrong,
   } = useCheckedActivityChallenge({
@@ -126,6 +127,7 @@ const ArithmeticTester = (props: ArithmeticTesterProps) => {
 
   return (
     <MathActivityShell
+      persistence={persistence}
       {...props}
       isFinished={isFinished}
       isSuccessState={isSuccessState}

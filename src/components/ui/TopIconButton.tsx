@@ -1,3 +1,4 @@
+import { AsyncButton } from './AsyncButton'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import type { Theme } from '../../contexts/ThemeContext'
@@ -38,25 +39,14 @@ const TopIconButton = ({
   }
 
   return (
-    <button
+    <AsyncButton
       type="button"
-      onClick={() => {
-        try {
-          const result = onClick?.()
-          if (result instanceof Promise) {
-            result.catch((error) => {
-              console.error('Failed to run top icon action', error)
-            })
-          }
-        } catch (error) {
-          console.error('Failed to run top icon action', error)
-        }
-      }}
+      onClick={onClick}
       disabled={disabled}
       {...commonProps}
     >
       {icon}
-    </button>
+    </AsyncButton>
   )
 }
 

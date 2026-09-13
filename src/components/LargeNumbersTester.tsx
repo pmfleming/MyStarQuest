@@ -170,6 +170,7 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
     isSetup,
     isFinished,
     isSuccessState,
+    persistence,
     isCorrect,
     isWrong,
   } = useCheckedActivityChallenge({
@@ -379,6 +380,7 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
 
   return (
     <MathActivityShell
+      persistence={persistence}
       {...props}
       isFinished={isFinished}
       isSuccessState={isSuccessState}

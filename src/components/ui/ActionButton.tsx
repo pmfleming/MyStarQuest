@@ -1,3 +1,4 @@
+import { AsyncButton } from './AsyncButton'
 import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import type { Theme } from '../../contexts/ThemeContext'
@@ -10,7 +11,7 @@ interface ActionButtonProps {
   icon: ReactNode
   theme: Theme
   color: string
-  onClick?: () => void
+  onClick?: () => void | Promise<void>
   disabled?: boolean
   hideArrow?: boolean
   content?: ReactNode
@@ -77,7 +78,7 @@ const ActionButton = ({
         className="group no-underline"
         style={{ textDecoration: 'none' }}
       >
-        <button
+        <AsyncButton
           type="button"
           aria-label={label}
           className={`group ${className}`.trim()}
@@ -85,13 +86,13 @@ const ActionButton = ({
           aria-pressed={ariaPressed}
         >
           {content ? <ActionArtwork>{content}</ActionArtwork> : defaultContent}
-        </button>
+        </AsyncButton>
       </Link>
     )
   }
 
   return (
-    <button
+    <AsyncButton
       type="button"
       aria-label={label}
       onClick={onClick}
@@ -101,7 +102,7 @@ const ActionButton = ({
       aria-pressed={ariaPressed}
     >
       {content ? <ActionArtwork>{content}</ActionArtwork> : defaultContent}
-    </button>
+    </AsyncButton>
   )
 }
 

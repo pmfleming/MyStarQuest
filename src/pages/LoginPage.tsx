@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import PageShell from '../components/PageShell'
@@ -18,7 +18,6 @@ const getRedirectPath = (state: unknown) => {
 const LoginPage = () => {
   const { user, loading, loginWithGoogle } = useAuth()
   const { theme } = useTheme()
-  const navigate = useNavigate()
   const location = useLocation()
 
   const [isLoggingIn, setIsLoggingIn] = useState(false)
@@ -40,11 +39,8 @@ const LoginPage = () => {
     }
   }
 
-  useEffect(() => {
-    if (!loginSuccess) return
-
-    navigate(getRedirectPath(location.state), { replace: true })
-  }, [location.state, loginSuccess, navigate])
+  if (loginSuccess)
+    return <Navigate to={getRedirectPath(location.state)} replace />
 
   const isBusy = loading || isLoggingIn || loginSuccess
 

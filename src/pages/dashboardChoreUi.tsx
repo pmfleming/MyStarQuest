@@ -21,8 +21,8 @@ type DashboardHeaderActionsProps = {
   theme: Theme
   activeChildId: string | null
   isResettingToday: boolean
-  onResetToday: () => void
-  onLogout: () => void
+  onResetToday: () => void | Promise<void>
+  onLogout: () => void | Promise<void>
 }
 
 export const DashboardHeaderActions = ({

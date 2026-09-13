@@ -1,3 +1,4 @@
+import { AsyncButton } from './AsyncButton'
 import type { CSSProperties, ReactNode } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
@@ -5,7 +6,7 @@ import { uiTokens } from '../../tokens'
 type StepperButtonProps = {
   theme: Theme
   direction: 'prev' | 'next'
-  onClick: () => void
+  onClick: () => void | Promise<void>
   disabled?: boolean
   ariaLabel?: string
   className?: string
@@ -57,12 +58,12 @@ const StepperButton = ({
 
   const handleClick = () => {
     if (!disabled) {
-      onClick()
+      return onClick()
     }
   }
 
   return (
-    <button
+    <AsyncButton
       type="button"
       className={className}
       style={buttonStyle}
@@ -71,7 +72,7 @@ const StepperButton = ({
       aria-label={ariaLabel ?? (direction === 'prev' ? 'Previous' : 'Next')}
     >
       {content}
-    </button>
+    </AsyncButton>
   )
 }
 

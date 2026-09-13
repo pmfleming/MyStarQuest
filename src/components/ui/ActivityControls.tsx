@@ -1,3 +1,4 @@
+import { ActionFeedback, type ActionFeedbackState } from './ActionFeedback'
 import type { CSSProperties, ReactNode } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
@@ -15,11 +16,11 @@ export type ActivityChoreProps = {
   isEditable?: boolean
   isCompleted?: boolean
   isFailed?: boolean
-  onAdjustProblems: (delta: number) => void
-  onStarsChange: (value: number) => void
-  onComplete: () => void
+  onAdjustProblems: (delta: number) => void | Promise<void>
+  onStarsChange: (value: number) => void | Promise<void>
+  onComplete: () => void | Promise<void>
   onExit?: () => void
-  onFail?: () => void
+  onFail?: () => void | Promise<void>
   checkTrigger?: number
   completionImage?: string
   failureImage?: string
@@ -35,6 +36,7 @@ const STATUS_BAR_HORIZONTAL_PADDING = 12
 const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
 
 type ActivityOutcomeShellProps = {
+  persistence?: ActionFeedbackState
   isFinished: boolean
   isSuccessState: boolean
   completionImage?: string
@@ -47,6 +49,7 @@ type ActivityOutcomeShellProps = {
 }
 
 export const ActivityOutcomeShell = ({
+  persistence,
   isFinished,
   isSuccessState,
   completionImage,
@@ -82,6 +85,7 @@ export const ActivityOutcomeShell = ({
         ...style,
       }}
     >
+      {persistence && <ActionFeedback {...persistence} />}
       {children}
     </div>
   )
@@ -170,9 +174,9 @@ type ActivitySetupControlsProps = {
   totalProblems: number
   min: number
   max: number
-  onAdjustProblems: (delta: number) => void
+  onAdjustProblems: (delta: number) => void | Promise<void>
   starReward: number
-  onStarsChange: (value: number) => void
+  onStarsChange: (value: number) => void | Promise<void>
   previousAriaLabel: string
   nextAriaLabel: string
   starMax?: number
@@ -290,7 +294,7 @@ type ProblemCountControlProps = {
   totalProblems: number
   min: number
   max: number
-  onAdjust: (delta: number) => void
+  onAdjust: (delta: number) => void | Promise<void>
   previousAriaLabel: string
   nextAriaLabel: string
   isEditable?: boolean
@@ -354,7 +358,7 @@ const ProblemCountControl = ({
 type StarRewardControlProps = {
   theme: Theme
   starReward: number
-  onStarsChange: (value: number) => void
+  onStarsChange: (value: number) => void | Promise<void>
   max?: number
   style?: CSSProperties
   isEditable?: boolean

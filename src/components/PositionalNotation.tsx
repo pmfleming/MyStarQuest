@@ -78,6 +78,7 @@ const PositionalNotation = (props: PositionalNotationProps) => {
     isSetup,
     isFinished,
     isSuccessState,
+    persistence,
     isCorrect,
     isWrong,
   } = useCheckedActivityChallenge({
@@ -95,6 +96,7 @@ const PositionalNotation = (props: PositionalNotationProps) => {
 
   return (
     <MathActivityShell
+      persistence={persistence}
       {...props}
       isFinished={isFinished}
       isSuccessState={isSuccessState}

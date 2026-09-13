@@ -1,3 +1,4 @@
+import { AsyncButton } from './AsyncButton'
 import type { CSSProperties, ReactNode } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
@@ -17,7 +18,7 @@ type SegmentedChoiceControlProps<TValue extends string> = {
   theme: Theme
   value: TValue
   options: SegmentedChoiceOption<TValue>[]
-  onChange: (value: TValue) => void
+  onChange: (value: TValue) => void | Promise<void>
   ariaLabel: string
   showSymbolLabels?: boolean
   className?: string
@@ -58,7 +59,7 @@ const SegmentedChoiceControl = <TValue extends string>({
       const isSelected = option.value === value
 
       return (
-        <button
+        <AsyncButton
           key={option.value}
           type="button"
           role="radio"
@@ -139,7 +140,7 @@ const SegmentedChoiceControl = <TValue extends string>({
           ) : (
             option.label
           )}
-        </button>
+        </AsyncButton>
       )
     })}
   </div>

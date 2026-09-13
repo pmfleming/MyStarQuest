@@ -140,6 +140,7 @@ const AlphabetTester = ({
     resultHistory,
     isSetup,
     isSuccessState,
+    persistence,
     isFinished,
     isCorrect,
     isWrong,
@@ -170,6 +171,7 @@ const AlphabetTester = ({
 
   return (
     <ActivityOutcomeShell
+      persistence={persistence}
       isFinished={isFinished}
       isSuccessState={isSuccessState}
       completionImage={completionImage}
