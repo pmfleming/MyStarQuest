@@ -3,7 +3,7 @@ import {
   EARTH_TEXTURE_WIDTH,
   renderEarthTexture,
   type EarthTextureWorkerResponse,
-} from '../../lib/dayNightExplorer/earthTextureRenderer'
+} from './earthTextureRenderer'
 
 type EarthTextureWorkerScope = {
   postMessage: (

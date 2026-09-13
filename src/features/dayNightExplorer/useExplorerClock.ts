@@ -5,13 +5,13 @@ import {
   useState,
   type PointerEvent as ReactPointerEvent,
 } from 'react'
-import { explorerUi } from '../../lib/dayNightExplorer/dayNightExplorer.constants'
+import { explorerUi } from './dayNightExplorer.constants.ts'
 import {
   formatTime,
   getClockAngles,
   normalizeExactTime,
   normalizeMinutes,
-} from '../../lib/dayNightExplorer/dayNightExplorerMath'
+} from './dayNightExplorerMath'
 
 type ClockHandId = 'hour' | 'minute' | 'second'
 
@@ -137,26 +137,23 @@ const useExplorerClock = ({
     []
   )
 
-  const adjustMinutes = useCallback((delta: number) => {
-    const normalized = normalizeExactTime(
-      exactMinutesRef.current + delta,
-      exactSecondsRef.current
-    )
-    minutesRef.current = normalized.minutes
-    exactMinutesRef.current = normalized.minutes
-    exactSecondsRef.current = normalized.seconds
-    setClockSnapshot(normalized)
-  }, [])
+  const adjustMinutes = useCallback(
+    (delta: number) => {
+      commitExplorerTime(
+        exactMinutesRef.current + delta,
+        exactSecondsRef.current,
+        { force: true }
+      )
+    },
+    [commitExplorerTime]
+  )
 
-  const syncClockTime = useCallback((clockTime: ClockTime) => {
-    minutesRef.current = clockTime.totalMinutes
-    exactMinutesRef.current = clockTime.totalMinutes
-    exactSecondsRef.current = clockTime.seconds
-    setClockSnapshot({
-      minutes: clockTime.totalMinutes,
-      seconds: clockTime.seconds,
-    })
-  }, [])
+  const syncClockTime = useCallback(
+    (time: ClockTime) => {
+      commitExplorerTime(time.totalMinutes, time.seconds, { force: true })
+    },
+    [commitExplorerTime]
+  )
 
   useEffect(() => {
     applyHandTransforms(minutes, snapshotSeconds)
@@ -221,8 +218,8 @@ const useExplorerClock = ({
 
   useEffect(() => {
     const processUpdate = () => {
+      rafIdRef.current = null
       if (!activeHandRef.current || !pendingUpdateRef.current) {
-        rafIdRef.current = null
         return
       }
 
@@ -254,14 +251,11 @@ const useExplorerClock = ({
       }
 
       const normalized = normalizeExactTime(nextMinutes, nextSeconds)
-      exactMinutesRef.current = normalized.minutes
-      exactSecondsRef.current = normalized.seconds
       applyHandTransforms(normalized.minutes, normalized.seconds)
       commitExplorerTime(normalized.minutes, normalized.seconds)
 
       lastAngleRef.current = currentAngle
       pendingUpdateRef.current = null
-      rafIdRef.current = requestAnimationFrame(processUpdate)
     }
 
     const handlePointerMove = (event: PointerEvent) => {
@@ -276,6 +270,8 @@ const useExplorerClock = ({
     }
 
     const handlePointerUp = () => {
+      if (rafIdRef.current !== null) cancelAnimationFrame(rafIdRef.current)
+      processUpdate()
       commitExplorerTime(exactMinutesRef.current, exactSecondsRef.current, {
         force: true,
       })
@@ -300,7 +296,9 @@ const useExplorerClock = ({
       window.removeEventListener('pointercancel', handlePointerUp)
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current)
+        rafIdRef.current = null
       }
+      pendingUpdateRef.current = null
     }
   }, [applyHandTransforms, commitExplorerTime, getAngle, isDragging])
 

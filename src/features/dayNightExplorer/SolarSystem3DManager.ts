@@ -1,25 +1,25 @@
 import { normalizeLongitude } from '../../lib/solar'
 import * as THREE from 'three'
-import { disposeSceneObject } from '../../lib/dayNightExplorer/disposeSceneObject'
+import { disposeSceneObject } from './disposeSceneObject'
 import type {
   ExplorerCityOption,
   ExplorerDisplayMode,
   ExplorerFocusId,
-} from '../../lib/dayNightExplorer/dayNightExplorerOptions'
+} from './dayNightExplorerOptions'
 import type { SunPosition } from '../../lib/solar'
 import {
   EARTH_OCEAN_COLOR,
   EARTH_TEXTURE_HEIGHT,
   EARTH_TEXTURE_WIDTH,
-} from '../../lib/dayNightExplorer/earthTextureRenderer'
-import { loadEarthTexturePixels } from '../../lib/dayNightExplorer/earthTextureCache'
+} from './earthTextureRenderer'
+import { loadEarthTexturePixels } from './earthTextureCache'
 import {
   buildOrbitLine,
   getCenteredLongitude,
   getEarthViewRotationY,
   latLonToVector,
   lerpAngle,
-} from '../../lib/dayNightExplorer/solarSystemGeometry'
+} from './solarSystemGeometry'
 
 const EARTH_RADIUS = 0.26
 const EARTH_ORBIT_X = 1.55
@@ -232,6 +232,7 @@ export default class SolarSystem3DManager {
   }
 
   setSceneState(nextState: SolarSystemSceneState) {
+    if (this.disposed) return
     if (
       this.sceneState.monthLabelFontFamily !== nextState.monthLabelFontFamily
     ) {

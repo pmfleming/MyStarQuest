@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure quality.locality_leverage --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T18:48:13.457Z",
+    "measured_at": "2026-09-13T19:13:26.357Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f0394afeb3e3ac7c680c52d95e9a1e36513f80ed510229637b2d92d9b4d885c3",
-    "input_set_hash": "sha256:1c442d52768ef8637763a52c8fab6e4b37d7a6f61e9e08239df4ad920ee9159d"
+    "source_set_hash": "sha256:a86f2d821b8432d16c4ca2d9f528c9f68d30a2d3c48017792e1debbc35157d71",
+    "input_set_hash": "sha256:b3942a3437535fd510d413c39a1b940d1b22b6f3e8cf8a9d7d7eb1653fe29115"
   },
   "analysis_identity": {
     "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
@@ -62,7 +62,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "complete": true,
     "partial": false,
@@ -93,8 +93,8 @@
     "stale_input": []
   },
   "summary": {
-    "records": 185,
-    "shared_hubs": 49
+    "records": 190,
+    "shared_hubs": 52
   },
   "records": [
     {
@@ -1078,328 +1078,6 @@
       ]
     },
     {
-      "id": "leverage:src/components/dayNightExplorer/Clock",
-      "module_id": "src/components/dayNightExplorer/Clock",
-      "file": "src/components/dayNightExplorer/Clock.tsx",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 24,
-      "inbound_reach": 2,
-      "public_surface": 2,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/components/dayNightExplorer/Clock",
-            "kind": "leverage",
-            "file": "src/components/dayNightExplorer/Clock.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/components/dayNightExplorer/SolarSystem3DManager",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 16,
-      "inbound_reach": 1,
-      "public_surface": 3,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/components/dayNightExplorer/SolarSystem3DManager",
-            "kind": "leverage",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/components/dayNightExplorer/SpinningPlanet",
-      "module_id": "src/components/dayNightExplorer/SpinningPlanet",
-      "file": "src/components/dayNightExplorer/SpinningPlanet.tsx",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 12,
-      "inbound_reach": 1,
-      "public_surface": 1,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/components/dayNightExplorer/SpinningPlanet",
-            "kind": "leverage",
-            "file": "src/components/dayNightExplorer/SpinningPlanet.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/components/dayNightExplorer/clockImageLayers",
-      "module_id": "src/components/dayNightExplorer/clockImageLayers",
-      "file": "src/components/dayNightExplorer/clockImageLayers.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 14,
-      "inbound_reach": 1,
-      "public_surface": 2,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/components/dayNightExplorer/clockImageLayers",
-            "kind": "leverage",
-            "file": "src/components/dayNightExplorer/clockImageLayers.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/components/dayNightExplorer/earthTexture.worker",
-      "module_id": "src/components/dayNightExplorer/earthTexture.worker",
-      "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
-      "score": 36,
-      "risk": "medium",
-      "leverage_score": 0,
-      "inbound_reach": 0,
-      "public_surface": 0,
-      "weak_surface": 3,
-      "dead_export_surface": 0,
-      "classification": "leaf",
-      "signals": [
-        {
-          "kind": "weak_public_surface",
-          "value": 3
-        }
-      ],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/components/dayNightExplorer/earthTexture.worker",
-            "kind": "leverage",
-            "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/components/dayNightExplorer/useDayNightExplorerModel",
-      "module_id": "src/components/dayNightExplorer/useDayNightExplorerModel",
-      "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
-      "score": 12,
-      "risk": "low",
-      "leverage_score": 12,
-      "inbound_reach": 1,
-      "public_surface": 1,
-      "weak_surface": 1,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [
-        {
-          "kind": "weak_public_surface",
-          "value": 1
-        }
-      ],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/components/dayNightExplorer/useDayNightExplorerModel",
-            "kind": "leverage",
-            "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/components/dayNightExplorer/useExplorerClock",
-      "module_id": "src/components/dayNightExplorer/useExplorerClock",
-      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 12,
-      "inbound_reach": 1,
-      "public_surface": 1,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/components/dayNightExplorer/useExplorerClock",
-            "kind": "leverage",
-            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/components/dayNightExplorer/useSolarSystem3D",
-      "module_id": "src/components/dayNightExplorer/useSolarSystem3D",
-      "file": "src/components/dayNightExplorer/useSolarSystem3D.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 12,
-      "inbound_reach": 1,
-      "public_surface": 1,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/components/dayNightExplorer/useSolarSystem3D",
-            "kind": "leverage",
-            "file": "src/components/dayNightExplorer/useSolarSystem3D.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "leverage:src/components/ui/ActionArtwork",
       "module_id": "src/components/ui/ActionArtwork",
       "file": "src/components/ui/ActionArtwork.tsx",
@@ -1482,6 +1160,50 @@
             "id": "leverage:src/components/ui/ActionButton",
             "kind": "leverage",
             "file": "src/components/ui/ActionButton.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/ActionFeedback",
+      "module_id": "src/components/ui/ActionFeedback",
+      "file": "src/components/ui/ActionFeedback.tsx",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 64,
+      "inbound_reach": 6,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 6
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/ActionFeedback",
+            "kind": "leverage",
+            "file": "src/components/ui/ActionFeedback.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1609,6 +1331,50 @@
             "id": "leverage:src/components/ui/ActivityMathCounters",
             "kind": "leverage",
             "file": "src/components/ui/ActivityMathCounters.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/AsyncButton",
+      "module_id": "src/components/ui/AsyncButton",
+      "file": "src/components/ui/AsyncButton.tsx",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 100,
+      "inbound_reach": 10,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 10
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/AsyncButton",
+            "kind": "leverage",
+            "file": "src/components/ui/AsyncButton.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2428,15 +2194,20 @@
       "id": "leverage:src/components/ui/StandardActionButtons",
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
-      "score": 0,
+      "score": 24,
       "risk": "low",
       "leverage_score": 16,
       "inbound_reach": 1,
       "public_surface": 3,
-      "weak_surface": 0,
+      "weak_surface": 2,
       "dead_export_surface": 0,
       "classification": "local_dependency",
-      "signals": [],
+      "signals": [
+        {
+          "kind": "weak_public_surface",
+          "value": 2
+        }
+      ],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "evidence_kind": "heuristic",
@@ -2668,6 +2439,45 @@
             "id": "leverage:src/components/ui/TopIconButton",
             "kind": "leverage",
             "file": "src/components/ui/TopIconButton.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/ui/actionButtonState",
+      "module_id": "src/components/ui/actionButtonState",
+      "file": "src/components/ui/actionButtonState.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/ui/actionButtonState",
+            "kind": "leverage",
+            "file": "src/components/ui/actionButtonState.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2928,13 +2738,18 @@
       "file": "src/components/ui/useAsyncAction.ts",
       "score": 0,
       "risk": "low",
-      "leverage_score": 22,
-      "inbound_reach": 2,
+      "leverage_score": 82,
+      "inbound_reach": 8,
       "public_surface": 1,
       "weak_surface": 0,
       "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 8
+        }
+      ],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "evidence_kind": "heuristic",
@@ -4537,6 +4352,772 @@
       ]
     },
     {
+      "id": "leverage:src/features/dayNightExplorer/Clock",
+      "module_id": "src/features/dayNightExplorer/Clock",
+      "file": "src/features/dayNightExplorer/Clock.tsx",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 24,
+      "inbound_reach": 2,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/Clock",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/Clock.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/SolarSystem3DManager",
+      "module_id": "src/features/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 16,
+      "inbound_reach": 1,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/SolarSystem3DManager",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/SpinningPlanet",
+      "module_id": "src/features/dayNightExplorer/SpinningPlanet",
+      "file": "src/features/dayNightExplorer/SpinningPlanet.tsx",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/SpinningPlanet",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/SpinningPlanet.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/clockImageLayers",
+      "module_id": "src/features/dayNightExplorer/clockImageLayers",
+      "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 14,
+      "inbound_reach": 1,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/clockImageLayers",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/dayNightExplorer.constants",
+      "module_id": "src/features/dayNightExplorer/dayNightExplorer.constants",
+      "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 64,
+      "inbound_reach": 6,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 6
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/dayNightExplorer.constants",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/dayNightExplorerBackdrop",
+      "module_id": "src/features/dayNightExplorer/dayNightExplorerBackdrop",
+      "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 20,
+      "inbound_reach": 1,
+      "public_surface": 5,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/dayNightExplorerBackdrop",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/dayNightExplorerCalendar",
+      "module_id": "src/features/dayNightExplorer/dayNightExplorerCalendar",
+      "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 16,
+      "inbound_reach": 1,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/dayNightExplorerCalendar",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/dayNightExplorerMath",
+      "module_id": "src/features/dayNightExplorer/dayNightExplorerMath",
+      "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 52,
+      "inbound_reach": 4,
+      "public_surface": 6,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/dayNightExplorerMath",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/dayNightExplorerOptions",
+      "module_id": "src/features/dayNightExplorer/dayNightExplorerOptions",
+      "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 96,
+      "inbound_reach": 8,
+      "public_surface": 8,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 8
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/dayNightExplorerOptions",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/disposeSceneObject",
+      "module_id": "src/features/dayNightExplorer/disposeSceneObject",
+      "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/disposeSceneObject",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/earthTexture.worker",
+      "module_id": "src/features/dayNightExplorer/earthTexture.worker",
+      "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+      "score": 36,
+      "risk": "medium",
+      "leverage_score": 0,
+      "inbound_reach": 0,
+      "public_surface": 0,
+      "weak_surface": 3,
+      "dead_export_surface": 0,
+      "classification": "leaf",
+      "signals": [
+        {
+          "kind": "weak_public_surface",
+          "value": 3
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/earthTexture.worker",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/earthTextureCache",
+      "module_id": "src/features/dayNightExplorer/earthTextureCache",
+      "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 14,
+      "inbound_reach": 1,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/earthTextureCache",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/earthTextureRenderer",
+      "module_id": "src/features/dayNightExplorer/earthTextureRenderer",
+      "file": "src/features/dayNightExplorer/earthTextureRenderer.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 40,
+      "inbound_reach": 3,
+      "public_surface": 5,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/earthTextureRenderer",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/earthTextureRenderer.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/solarSystemGeometry",
+      "module_id": "src/features/dayNightExplorer/solarSystemGeometry",
+      "file": "src/features/dayNightExplorer/solarSystemGeometry.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 20,
+      "inbound_reach": 1,
+      "public_surface": 5,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/solarSystemGeometry",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/solarSystemGeometry.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/useDayNightExplorerModel",
+      "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
+      "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+      "score": 12,
+      "risk": "low",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/useDayNightExplorerModel",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/useExplorerClock",
+      "module_id": "src/features/dayNightExplorer/useExplorerClock",
+      "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/useExplorerClock",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/useSolarSystem3D",
+      "module_id": "src/features/dayNightExplorer/useSolarSystem3D",
+      "file": "src/features/dayNightExplorer/useSolarSystem3D.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/useSolarSystem3D",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/useSolarSystem3D.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/worldMapCanvas",
+      "module_id": "src/features/dayNightExplorer/worldMapCanvas",
+      "file": "src/features/dayNightExplorer/worldMapCanvas.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/worldMapCanvas",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/worldMapCanvas.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/features/dayNightExplorer/worldTopology",
+      "module_id": "src/features/dayNightExplorer/worldTopology",
+      "file": "src/features/dayNightExplorer/worldTopology.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 26,
+      "inbound_reach": 2,
+      "public_surface": 3,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/features/dayNightExplorer/worldTopology",
+            "kind": "leverage",
+            "file": "src/features/dayNightExplorer/worldTopology.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "leverage:src/firebase",
       "module_id": "src/firebase",
       "file": "src/firebase.ts",
@@ -4658,6 +5239,45 @@
             "id": "leverage:src/hooks/useActivityChallenge",
             "kind": "leverage",
             "file": "src/hooks/useActivityChallenge.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/hooks/useActivityPersistence",
+      "module_id": "src/hooks/useActivityPersistence",
+      "file": "src/hooks/useActivityPersistence.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 32,
+      "inbound_reach": 3,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/hooks/useActivityPersistence",
+            "kind": "leverage",
+            "file": "src/hooks/useActivityPersistence.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -5166,450 +5786,6 @@
       ]
     },
     {
-      "id": "leverage:src/lib/dayNightExplorer/dayNightExplorer.constants",
-      "module_id": "src/lib/dayNightExplorer/dayNightExplorer.constants",
-      "file": "src/lib/dayNightExplorer/dayNightExplorer.constants.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 64,
-      "inbound_reach": 6,
-      "public_surface": 2,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "shared_hub",
-      "signals": [
-        {
-          "kind": "broad_inbound_reach",
-          "value": 6
-        }
-      ],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/lib/dayNightExplorer/dayNightExplorer.constants",
-            "kind": "leverage",
-            "file": "src/lib/dayNightExplorer/dayNightExplorer.constants.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerBackdrop",
-      "module_id": "src/lib/dayNightExplorer/dayNightExplorerBackdrop",
-      "file": "src/lib/dayNightExplorer/dayNightExplorerBackdrop.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 20,
-      "inbound_reach": 1,
-      "public_surface": 5,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerBackdrop",
-            "kind": "leverage",
-            "file": "src/lib/dayNightExplorer/dayNightExplorerBackdrop.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerCalendar",
-      "module_id": "src/lib/dayNightExplorer/dayNightExplorerCalendar",
-      "file": "src/lib/dayNightExplorer/dayNightExplorerCalendar.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 16,
-      "inbound_reach": 1,
-      "public_surface": 3,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerCalendar",
-            "kind": "leverage",
-            "file": "src/lib/dayNightExplorer/dayNightExplorerCalendar.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerMath",
-      "module_id": "src/lib/dayNightExplorer/dayNightExplorerMath",
-      "file": "src/lib/dayNightExplorer/dayNightExplorerMath.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 52,
-      "inbound_reach": 4,
-      "public_surface": 6,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "shared_hub",
-      "signals": [
-        {
-          "kind": "broad_inbound_reach",
-          "value": 4
-        }
-      ],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerMath",
-            "kind": "leverage",
-            "file": "src/lib/dayNightExplorer/dayNightExplorerMath.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerOptions",
-      "module_id": "src/lib/dayNightExplorer/dayNightExplorerOptions",
-      "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 96,
-      "inbound_reach": 8,
-      "public_surface": 8,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "shared_hub",
-      "signals": [
-        {
-          "kind": "broad_inbound_reach",
-          "value": 8
-        }
-      ],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/lib/dayNightExplorer/dayNightExplorerOptions",
-            "kind": "leverage",
-            "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/lib/dayNightExplorer/disposeSceneObject",
-      "module_id": "src/lib/dayNightExplorer/disposeSceneObject",
-      "file": "src/lib/dayNightExplorer/disposeSceneObject.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 12,
-      "inbound_reach": 1,
-      "public_surface": 1,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/lib/dayNightExplorer/disposeSceneObject",
-            "kind": "leverage",
-            "file": "src/lib/dayNightExplorer/disposeSceneObject.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/lib/dayNightExplorer/earthTextureCache",
-      "module_id": "src/lib/dayNightExplorer/earthTextureCache",
-      "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 14,
-      "inbound_reach": 1,
-      "public_surface": 2,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/lib/dayNightExplorer/earthTextureCache",
-            "kind": "leverage",
-            "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/lib/dayNightExplorer/earthTextureRenderer",
-      "module_id": "src/lib/dayNightExplorer/earthTextureRenderer",
-      "file": "src/lib/dayNightExplorer/earthTextureRenderer.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 40,
-      "inbound_reach": 3,
-      "public_surface": 5,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/lib/dayNightExplorer/earthTextureRenderer",
-            "kind": "leverage",
-            "file": "src/lib/dayNightExplorer/earthTextureRenderer.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/lib/dayNightExplorer/solarSystemGeometry",
-      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
-      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 20,
-      "inbound_reach": 1,
-      "public_surface": 5,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/lib/dayNightExplorer/solarSystemGeometry",
-            "kind": "leverage",
-            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/lib/dayNightExplorer/worldMapCanvas",
-      "module_id": "src/lib/dayNightExplorer/worldMapCanvas",
-      "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 12,
-      "inbound_reach": 1,
-      "public_surface": 1,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/lib/dayNightExplorer/worldMapCanvas",
-            "kind": "leverage",
-            "file": "src/lib/dayNightExplorer/worldMapCanvas.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/lib/dayNightExplorer/worldTopology",
-      "module_id": "src/lib/dayNightExplorer/worldTopology",
-      "file": "src/lib/dayNightExplorer/worldTopology.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 26,
-      "inbound_reach": 2,
-      "public_surface": 3,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/lib/dayNightExplorer/worldTopology",
-            "kind": "leverage",
-            "file": "src/lib/dayNightExplorer/worldTopology.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "leverage:src/lib/imageLoading",
       "module_id": "src/lib/imageLoading",
       "file": "src/lib/imageLoading.ts",
@@ -6069,6 +6245,50 @@
       ]
     },
     {
+      "id": "leverage:src/lib/weather/weatherCodes",
+      "module_id": "src/lib/weather/weatherCodes",
+      "file": "src/lib/weather/weatherCodes.ts",
+      "score": 12,
+      "risk": "low",
+      "leverage_score": 40,
+      "inbound_reach": 3,
+      "public_surface": 5,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/weather/weatherCodes",
+            "kind": "leverage",
+            "file": "src/lib/weather/weatherCodes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "leverage:src/lib/weather/weatherConditions",
       "module_id": "src/lib/weather/weatherConditions",
       "file": "src/lib/weather/weatherConditions.ts",
@@ -6203,22 +6423,18 @@
       "id": "leverage:src/lib/weather/weatherVisuals",
       "module_id": "src/lib/weather/weatherVisuals",
       "file": "src/lib/weather/weatherVisuals.ts",
-      "score": 32,
+      "score": 0,
       "risk": "low",
       "leverage_score": 66,
       "inbound_reach": 5,
       "public_surface": 8,
-      "weak_surface": 1,
+      "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "shared_hub",
       "signals": [
         {
           "kind": "broad_inbound_reach",
           "value": 5
-        },
-        {
-          "kind": "weak_public_surface",
-          "value": 1
         }
       ],
       "kind": "leverage",

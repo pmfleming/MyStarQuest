@@ -11,7 +11,7 @@ import {
   SpriteMaterial,
 } from 'three'
 import { expect, it, vi } from 'vitest'
-import { disposeSceneObject } from '../../../src/lib/dayNightExplorer/disposeSceneObject'
+import { disposeSceneObject } from '../../../src/features/dayNightExplorer/disposeSceneObject'
 
 it('releases owned resources for meshes, starfields, ticks and labels exactly once', () => {
   const group = new Group()

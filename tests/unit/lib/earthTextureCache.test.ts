@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const renderEarthTexture = vi.hoisted(() => vi.fn())
-vi.mock('../../../src/lib/dayNightExplorer/earthTextureRenderer', () => ({
+vi.mock('../../../src/features/dayNightExplorer/earthTextureRenderer', () => ({
   EARTH_TEXTURE_WIDTH: 2048,
   EARTH_TEXTURE_HEIGHT: 1024,
   renderEarthTexture,
@@ -36,7 +36,7 @@ describe('Earth texture session cache', () => {
 
   it('shares one build and the same buffer across concurrent and later visits', async () => {
     const { loadEarthTexturePixels } =
-      await import('../../../src/lib/dayNightExplorer/earthTextureCache')
+      await import('../../../src/features/dayNightExplorer/earthTextureCache')
     const first = loadEarthTexturePixels()
     const overlappingVisit = loadEarthTexturePixels()
     expect(overlappingVisit).toBe(first)
@@ -74,7 +74,7 @@ describe('Earth texture session cache', () => {
     })
     vi.stubGlobal('fetch', fetchMap)
     const { loadEarthTexturePixels } =
-      await import('../../../src/lib/dayNightExplorer/earthTextureCache')
+      await import('../../../src/features/dayNightExplorer/earthTextureCache')
     const first = loadEarthTexturePixels()
     const second = loadEarthTexturePixels()
     await vi.runAllTimersAsync()
@@ -98,7 +98,7 @@ describe('Earth texture session cache', () => {
     const fetchMap = vi.fn().mockRejectedValue(new Error('Offline'))
     vi.stubGlobal('fetch', fetchMap)
     const { loadEarthTexturePixels } =
-      await import('../../../src/lib/dayNightExplorer/earthTextureCache')
+      await import('../../../src/features/dayNightExplorer/earthTextureCache')
     const first = loadEarthTexturePixels()
     const rejection = expect(first).rejects.toThrow('Offline')
     TextureWorker.instances[0]!.onerror!()
@@ -119,7 +119,7 @@ describe('Earth texture session cache', () => {
   it('terminates a stalled worker before trying the fallback', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Offline')))
     const { loadEarthTexturePixels } =
-      await import('../../../src/lib/dayNightExplorer/earthTextureCache')
+      await import('../../../src/features/dayNightExplorer/earthTextureCache')
     const rejection = expect(loadEarthTexturePixels()).rejects.toThrow(
       'Offline'
     )

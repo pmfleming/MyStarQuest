@@ -1,4 +1,4 @@
-import type { ExplorerCityOption } from '../dayNightExplorer/dayNightExplorerOptions'
+import type { ExplorerCityOption } from '../../features/dayNightExplorer/dayNightExplorerOptions'
 import {
   fetchCurrentWeather,
   isWeatherUsable,

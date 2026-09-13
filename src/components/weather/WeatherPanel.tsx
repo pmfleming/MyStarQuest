@@ -1,7 +1,7 @@
 import { AsyncButton } from '../ui/AsyncButton'
 import { memo } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
-import type { ExplorerCityOption } from '../../lib/dayNightExplorer/dayNightExplorerOptions'
+import type { ExplorerCityOption } from '../../features/dayNightExplorer/dayNightExplorerOptions'
 import type { WeatherSnapshot } from '../../lib/weather/weatherStore'
 import { getWeatherDescription } from '../../lib/weather/weatherConditions'
 import {

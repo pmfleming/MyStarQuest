@@ -10,14 +10,14 @@ import {
   buildExplorerInstant,
   getClockTimeForInstant,
   getInitialExplorerClockTime,
-} from '../../lib/dayNightExplorer/dayNightExplorerCalendar'
+} from './dayNightExplorerCalendar'
 import {
   getExplorerBackgroundBlend,
   getExplorerBackdropColor,
   getImageForTime,
   resolveBackgroundImage,
-} from '../../lib/dayNightExplorer/dayNightExplorerBackdrop'
-import { formatTime } from '../../lib/dayNightExplorer/dayNightExplorerMath'
+} from './dayNightExplorerBackdrop'
+import { formatTime } from './dayNightExplorerMath'
 import {
   EXPLORER_FOCUS_OPTIONS,
   EXPLORER_CITY_OPTIONS,
@@ -25,7 +25,7 @@ import {
   type ExplorerCityId,
   type ExplorerDisplayMode,
   type ExplorerFocusId,
-} from '../../lib/dayNightExplorer/dayNightExplorerOptions'
+} from './dayNightExplorerOptions'
 import type { ClockViewModel } from './Clock'
 import useExplorerClock from './useExplorerClock'
 import useSolarSystem3D from './useSolarSystem3D'

@@ -42,10 +42,7 @@ const buildEarthTexturePixels = async () => {
 const buildInWorker = () =>
   new Promise<Uint8Array>((resolve, reject) => {
     const worker = new Worker(
-      new URL(
-        '../../components/dayNightExplorer/earthTexture.worker.ts',
-        import.meta.url
-      ),
+      new URL('./earthTexture.worker.ts', import.meta.url),
       { type: 'module' }
     )
     const finish = () => {

@@ -8,7 +8,7 @@ import {
   getSunPosition,
   normalizeLongitude,
 } from '../../../src/lib/solar'
-import { getCenteredLongitude } from '../../../src/lib/dayNightExplorer/solarSystemGeometry'
+import { getCenteredLongitude } from '../../../src/features/dayNightExplorer/solarSystemGeometry'
 
 const DUBLIN_LOCATION = {
   latitude: 53.35,

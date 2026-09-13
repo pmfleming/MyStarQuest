@@ -1,11 +1,11 @@
 import { memo, type RefObject } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
-import { explorerUi } from '../../lib/dayNightExplorer/dayNightExplorer.constants'
+import { explorerUi } from './dayNightExplorer.constants.ts'
 import type {
   ExplorerFocusId,
   ExplorerFocusOption,
-} from '../../lib/dayNightExplorer/dayNightExplorerOptions'
+} from './dayNightExplorerOptions'
 
 type SpinningPlanetProps = {
   theme: Theme

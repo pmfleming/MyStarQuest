@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { EXPLORER_CITY_OPTIONS } from '../../src/lib/dayNightExplorer/dayNightExplorerOptions'
+import { EXPLORER_CITY_OPTIONS } from '../../src/features/dayNightExplorer/dayNightExplorerOptions'
 import type { WeatherSnapshot } from '../../src/lib/weather/weatherStore'
 
 const state = vi.hoisted(() => ({
@@ -33,25 +33,22 @@ vi.mock('../../src/components/TabContent', () => ({
     </>
   ),
 }))
-vi.mock('../../src/components/dayNightExplorer/SpinningPlanet', () => ({
+vi.mock('../../src/features/dayNightExplorer/SpinningPlanet', () => ({
   default: () => <div>Globe</div>,
 }))
-vi.mock('../../src/components/dayNightExplorer/Clock', () => ({
+vi.mock('../../src/features/dayNightExplorer/Clock', () => ({
   default: () => <div>Learning clock</div>,
 }))
 vi.mock('../../src/components/SchoolCalendar', () => ({
   default: () => <div>Learning calendar</div>,
 }))
-vi.mock(
-  '../../src/components/dayNightExplorer/useDayNightExplorerModel',
-  () => ({
-    default: () => ({
-      weatherCity: EXPLORER_CITY_OPTIONS[state.cityIndex],
-      planet: {},
-      clock: {},
-    }),
-  })
-)
+vi.mock('../../src/features/dayNightExplorer/useDayNightExplorerModel', () => ({
+  default: () => ({
+    weatherCity: EXPLORER_CITY_OPTIONS[state.cityIndex],
+    planet: {},
+    clock: {},
+  }),
+}))
 vi.mock('../../src/hooks/useCurrentWeather', () => ({
   useCurrentWeather: () => ({ ...state.weather, retry: state.retry }),
 }))

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { normalizeLongitude } from '../solar'
+import { normalizeLongitude } from '../../lib/solar'
 import type {
   ExplorerCityOption,
   ExplorerFocusId,

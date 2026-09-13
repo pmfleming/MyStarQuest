@@ -1,6 +1,6 @@
 {
   "schema_version": "0.3.0",
-  "task_id": "correctness.all",
+  "task_id": "correctness.catalog",
   "project": {
     "name": "MyStarQuest",
     "root": "C:\\Code\\MyStarQuest",
@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure quality.locality_dynamic --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T18:49:32.893Z",
+    "measured_at": "2026-09-13T19:13:24.189Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f0394afeb3e3ac7c680c52d95e9a1e36513f80ed510229637b2d92d9b4d885c3",
-    "input_set_hash": "sha256:8fef68bf981eac232da33726cf0475fb3a439470627d8aeeb6f80a4259cb9d90"
+    "source_set_hash": "sha256:a86f2d821b8432d16c4ca2d9f528c9f68d30a2d3c48017792e1debbc35157d71",
+    "input_set_hash": "sha256:b41824d3932088436f6ce2d79ba6415a8bbf44519df609013ece178d8aeb5a2f"
   },
   "analysis_identity": {
     "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
@@ -95,16 +95,16 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 59,
+    "tests": 60,
     "colocated_tests": 0,
-    "external_tests": 59,
-    "execution_status": "passed",
+    "external_tests": 60,
+    "execution_status": "not_run",
     "execution_scope": "suite",
     "coverage_status": "not_collected",
     "blocking_findings": 0
   },
   "execution": {
-    "status": "passed",
+    "status": "not_run",
     "command": "npm run test"
   },
   "records": [],
@@ -229,6 +229,33 @@
       ],
       "coverage_status": "not_collected",
       "assertions": 91,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/AsyncActions.test.tsx",
+      "name": "AsyncActions.test.tsx",
+      "path": "tests/component/AsyncActions.test.tsx",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/components/ui/AsyncButton.tsx",
+        "src/hooks/useActivityChallenge.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/AsyncButton.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/hooks/useActivityChallenge.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 13,
       "skipped": 0,
       "todo": 0
     },
@@ -698,22 +725,22 @@
       "framework": "vitest",
       "locality": "external",
       "source_mapping": [
-        "src/components/dayNightExplorer/SolarSystem3DManager.ts"
+        "src/features/dayNightExplorer/SolarSystem3DManager.ts"
       ],
       "source_associations": [
         {
-          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+          "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
           "kind": "direct-import",
           "confidence": "high"
         },
         {
-          "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
           "kind": "type-only-import",
           "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 11,
+      "assertions": 16,
       "skipped": 0,
       "todo": 0
     },
@@ -874,12 +901,12 @@
       "framework": "vitest",
       "locality": "external",
       "source_mapping": [
-        "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+        "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
         "src/pages/TimeExplorerPage.tsx"
       ],
       "source_associations": [
         {
-          "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -1015,13 +1042,13 @@
       "framework": "vitest",
       "locality": "external",
       "source_mapping": [
-        "src/components/dayNightExplorer/useExplorerClock.ts",
+        "src/features/dayNightExplorer/useExplorerClock.ts",
         "src/components/ui/StarInfoBox.tsx",
         "src/contexts/ThemeContext.tsx"
       ],
       "source_associations": [
         {
-          "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+          "file": "src/features/dayNightExplorer/useExplorerClock.ts",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -1037,7 +1064,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 5,
+      "assertions": 12,
       "skipped": 0,
       "todo": 0
     },
@@ -1552,10 +1579,10 @@
       "path": "tests/unit/lib/disposeSceneObject.test.ts",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/lib/dayNightExplorer/disposeSceneObject.ts"],
+      "source_mapping": ["src/features/dayNightExplorer/disposeSceneObject.ts"],
       "source_associations": [
         {
-          "file": "src/lib/dayNightExplorer/disposeSceneObject.ts",
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -1571,10 +1598,10 @@
       "path": "tests/unit/lib/earthTextureCache.test.ts",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/lib/dayNightExplorer/earthTextureCache.ts"],
+      "source_mapping": ["src/features/dayNightExplorer/earthTextureCache.ts"],
       "source_associations": [
         {
-          "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -1611,7 +1638,7 @@
       "locality": "external",
       "source_mapping": [
         "src/lib/solar.ts",
-        "src/lib/dayNightExplorer/solarSystemGeometry.ts"
+        "src/features/dayNightExplorer/solarSystemGeometry.ts"
       ],
       "source_associations": [
         {
@@ -1620,7 +1647,7 @@
           "confidence": "high"
         },
         {
-          "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+          "file": "src/features/dayNightExplorer/solarSystemGeometry.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -1874,7 +1901,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 24,
+      "assertions": 25,
       "skipped": 0,
       "todo": 0
     },
@@ -1886,7 +1913,7 @@
       "locality": "external",
       "source_mapping": [
         "src/lib/weather/weatherData.ts",
-        "src/lib/dayNightExplorer/dayNightExplorerOptions.ts"
+        "src/features/dayNightExplorer/dayNightExplorerOptions.ts"
       ],
       "source_associations": [
         {
@@ -1895,7 +1922,7 @@
           "confidence": "high"
         },
         {
-          "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -1912,12 +1939,12 @@
       "framework": "vitest",
       "locality": "external",
       "source_mapping": [
-        "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+        "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
         "src/lib/weather/weatherStore.ts"
       ],
       "source_associations": [
         {
-          "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
           "kind": "direct-import",
           "confidence": "high"
         },

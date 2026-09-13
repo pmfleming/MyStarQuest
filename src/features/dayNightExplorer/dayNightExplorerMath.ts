@@ -1,5 +1,5 @@
-import { clockGeometry } from './dayNightExplorer.constants'
-import { explorerUi } from './dayNightExplorer.constants'
+import { clockGeometry } from './dayNightExplorer.constants.ts'
+import { explorerUi } from './dayNightExplorer.constants.ts'
 
 export const normalizeMinutes = (totalMinutes: number) => {
   return (

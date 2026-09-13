@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure quality.locality_dynamic --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T18:49:33.017Z",
+    "measured_at": "2026-09-13T19:13:24.349Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f0394afeb3e3ac7c680c52d95e9a1e36513f80ed510229637b2d92d9b4d885c3",
-    "input_set_hash": "sha256:c83a7eb346c285ef8efce50a30bbdf2ab03889ebd11892daea6fe218e418f2e2"
+    "source_set_hash": "sha256:a86f2d821b8432d16c4ca2d9f528c9f68d30a2d3c48017792e1debbc35157d71",
+    "input_set_hash": "sha256:b41824d3932088436f6ce2d79ba6415a8bbf44519df609013ece178d8aeb5a2f"
   },
   "analysis_identity": {
     "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
@@ -93,10 +93,10 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 59,
+    "tests": 60,
     "colocated_tests": 0,
-    "external_tests": 59,
-    "execution_status": "passed",
+    "external_tests": 60,
+    "execution_status": "not_run",
     "execution_scope": "suite",
     "coverage_status": "not_collected"
   },
@@ -124,7 +124,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -150,7 +150,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -218,7 +218,33 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/AsyncActions.test.tsx",
+      "name": "AsyncActions.test.tsx",
+      "path": "tests/component/AsyncActions.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/ui/AsyncButton.tsx",
+        "src/hooks/useActivityChallenge.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/AsyncButton.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/hooks/useActivityChallenge.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -244,7 +270,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -275,7 +301,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -306,7 +332,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -355,7 +381,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -387,7 +413,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -413,7 +439,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -445,7 +471,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -471,7 +497,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -497,7 +523,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -515,7 +541,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -558,7 +584,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -584,7 +610,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -610,7 +636,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -636,7 +662,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -662,7 +688,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -671,23 +697,23 @@
       "path": "tests/component/SolarSystem3DManager.test.ts",
       "framework": "vitest",
       "source_mapping": [
-        "src/components/dayNightExplorer/SolarSystem3DManager.ts"
+        "src/features/dayNightExplorer/SolarSystem3DManager.ts"
       ],
       "source_associations": [
         {
-          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+          "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
           "kind": "direct-import",
           "confidence": "high"
         },
         {
-          "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
           "kind": "type-only-import",
           "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -719,7 +745,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -751,7 +777,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -795,7 +821,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -833,7 +859,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -842,12 +868,12 @@
       "path": "tests/component/TimeExplorerWeather.test.tsx",
       "framework": "vitest",
       "source_mapping": [
-        "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+        "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
         "src/pages/TimeExplorerPage.tsx"
       ],
       "source_associations": [
         {
-          "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -864,7 +890,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -882,7 +908,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -920,7 +946,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -946,7 +972,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -969,7 +995,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -978,13 +1004,13 @@
       "path": "tests/component/dayNightPerformance.test.tsx",
       "framework": "vitest",
       "source_mapping": [
-        "src/components/dayNightExplorer/useExplorerClock.ts",
+        "src/features/dayNightExplorer/useExplorerClock.ts",
         "src/components/ui/StarInfoBox.tsx",
         "src/contexts/ThemeContext.tsx"
       ],
       "source_associations": [
         {
-          "file": "src/components/dayNightExplorer/useExplorerClock.ts",
+          "file": "src/features/dayNightExplorer/useExplorerClock.ts",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -1001,7 +1027,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1033,7 +1059,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1071,7 +1097,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1103,7 +1129,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1147,7 +1173,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1184,7 +1210,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1251,7 +1277,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1288,7 +1314,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1338,7 +1364,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1364,7 +1390,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1414,7 +1440,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1426,7 +1452,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1438,7 +1464,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1469,7 +1495,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1492,7 +1518,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1500,17 +1526,17 @@
       "name": "disposeSceneObject.test.ts",
       "path": "tests/unit/lib/disposeSceneObject.test.ts",
       "framework": "vitest",
-      "source_mapping": ["src/lib/dayNightExplorer/disposeSceneObject.ts"],
+      "source_mapping": ["src/features/dayNightExplorer/disposeSceneObject.ts"],
       "source_associations": [
         {
-          "file": "src/lib/dayNightExplorer/disposeSceneObject.ts",
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1518,17 +1544,17 @@
       "name": "earthTextureCache.test.ts",
       "path": "tests/unit/lib/earthTextureCache.test.ts",
       "framework": "vitest",
-      "source_mapping": ["src/lib/dayNightExplorer/earthTextureCache.ts"],
+      "source_mapping": ["src/features/dayNightExplorer/earthTextureCache.ts"],
       "source_associations": [
         {
-          "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1546,7 +1572,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1556,7 +1582,7 @@
       "framework": "vitest",
       "source_mapping": [
         "src/lib/solar.ts",
-        "src/lib/dayNightExplorer/solarSystemGeometry.ts"
+        "src/features/dayNightExplorer/solarSystemGeometry.ts"
       ],
       "source_associations": [
         {
@@ -1565,14 +1591,14 @@
           "confidence": "high"
         },
         {
-          "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+          "file": "src/features/dayNightExplorer/solarSystemGeometry.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1590,7 +1616,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1608,7 +1634,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1626,7 +1652,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1644,7 +1670,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1656,7 +1682,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1682,7 +1708,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1705,7 +1731,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1728,7 +1754,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1784,7 +1810,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1810,7 +1836,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1820,7 +1846,7 @@
       "framework": "vitest",
       "source_mapping": [
         "src/lib/weather/weatherData.ts",
-        "src/lib/dayNightExplorer/dayNightExplorerOptions.ts"
+        "src/features/dayNightExplorer/dayNightExplorerOptions.ts"
       ],
       "source_associations": [
         {
@@ -1829,14 +1855,14 @@
           "confidence": "high"
         },
         {
-          "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     },
     {
@@ -1845,12 +1871,12 @@
       "path": "tests/unit/weatherStore.test.ts",
       "framework": "vitest",
       "source_mapping": [
-        "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+        "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
         "src/lib/weather/weatherStore.ts"
       ],
       "source_associations": [
         {
-          "file": "src/lib/dayNightExplorer/dayNightExplorerOptions.ts",
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -1862,7 +1888,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "passed",
+      "suite_status": "not_run",
       "command_hint": "npm run test"
     }
   ]

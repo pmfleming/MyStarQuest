@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { EXPLORER_CITY_OPTIONS } from '../../src/lib/dayNightExplorer/dayNightExplorerOptions'
+import { EXPLORER_CITY_OPTIONS } from '../../src/features/dayNightExplorer/dayNightExplorerOptions'
 
 const amsterdam = EXPLORER_CITY_OPTIONS[0]!
 const dublin = EXPLORER_CITY_OPTIONS[1]!

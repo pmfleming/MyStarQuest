@@ -4,7 +4,7 @@ import {
   isWeatherUsable,
   parseWeatherResponse,
 } from '../../src/lib/weather/weatherData'
-import { EXPLORER_CITY_OPTIONS } from '../../src/lib/dayNightExplorer/dayNightExplorerOptions'
+import { EXPLORER_CITY_OPTIONS } from '../../src/features/dayNightExplorer/dayNightExplorerOptions'
 
 const now = Date.parse('2026-09-13T12:00:00Z')
 const payload = () => ({

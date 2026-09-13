@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { ExplorerCityOption } from '../dayNightExplorer/dayNightExplorerOptions'
+import type { ExplorerCityOption } from '../../features/dayNightExplorer/dayNightExplorerOptions'
 import { weatherDateKey, type WeatherConditions } from './weatherConditions'
 
 const nullableNumber = z.number().finite().nullable().catch(null)

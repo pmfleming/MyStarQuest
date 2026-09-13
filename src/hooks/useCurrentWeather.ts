@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useSyncExternalStore } from 'react'
-import type { ExplorerCityOption } from '../lib/dayNightExplorer/dayNightExplorerOptions'
+import type { ExplorerCityOption } from '../features/dayNightExplorer/dayNightExplorerOptions'
 import {
   getWeatherSnapshot,
   retryWeather,

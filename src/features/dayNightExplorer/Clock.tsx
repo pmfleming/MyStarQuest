@@ -11,15 +11,9 @@ import hourHandSvg from '../../assets/clock/hourhand.svg'
 import minuteHandSvg from '../../assets/clock/minutehand.svg'
 import pivotSvg from '../../assets/clock/pivot.svg'
 import secondHandSvg from '../../assets/clock/secondhand.svg'
-import StepperButton from '../ui/StepperButton'
-import {
-  clockGeometry,
-  explorerUi,
-} from '../../lib/dayNightExplorer/dayNightExplorer.constants'
-import {
-  lerpPoint,
-  roundedRectPerimeterPoint,
-} from '../../lib/dayNightExplorer/dayNightExplorerMath'
+import StepperButton from '../../components/ui/StepperButton'
+import { clockGeometry, explorerUi } from './dayNightExplorer.constants.ts'
+import { lerpPoint, roundedRectPerimeterPoint } from './dayNightExplorerMath'
 import { getClockImageLayers } from './clockImageLayers'
 
 type ClockHandId = 'hour' | 'minute' | 'second'

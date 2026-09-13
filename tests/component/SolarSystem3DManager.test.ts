@@ -2,12 +2,12 @@ import * as THREE from 'three'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import SolarSystem3DManager, {
   type SolarSystemSceneState,
-} from '../../src/components/dayNightExplorer/SolarSystem3DManager'
-import type { CachedEarthTexture } from '../../src/lib/dayNightExplorer/earthTextureCache'
+} from '../../src/features/dayNightExplorer/SolarSystem3DManager'
+import type { CachedEarthTexture } from '../../src/features/dayNightExplorer/earthTextureCache'
 
 const loadPixels = vi.hoisted(() => vi.fn())
 const rendererDispose = vi.hoisted(() => vi.fn())
-vi.mock('../../src/lib/dayNightExplorer/earthTextureCache', () => ({
+vi.mock('../../src/features/dayNightExplorer/earthTextureCache', () => ({
   loadEarthTexturePixels: loadPixels,
 }))
 vi.mock('three', async (importOriginal) => ({
@@ -95,4 +95,32 @@ it('does not upload shared pixels when a tab closes before generation finishes',
   expect(colorSet).not.toHaveBeenCalled()
   expect(textureDispose).not.toHaveBeenCalled()
   expect(rendererDispose).toHaveBeenCalledOnce()
+})
+
+it('disconnects visibility observers and never restarts a disposed scene', () => {
+  loadPixels.mockReturnValue(new Promise(() => {}))
+  const disconnect = vi.fn()
+  vi.stubGlobal(
+    'IntersectionObserver',
+    class {
+      observe() {}
+      disconnect = disconnect
+    }
+  )
+  const removeListener = vi.spyOn(document, 'removeEventListener')
+  const manager = new SolarSystem3DManager(
+    document.createElement('canvas'),
+    state
+  )
+  manager.dispose()
+  expect(disconnect).toHaveBeenCalledOnce()
+  expect(removeListener).toHaveBeenCalledWith(
+    'visibilitychange',
+    expect.any(Function)
+  )
+  expect(cancelAnimationFrame).toHaveBeenCalled()
+  vi.mocked(requestAnimationFrame).mockClear()
+  document.dispatchEvent(new Event('visibilitychange'))
+  manager.setSceneState({ ...state, monthLabelFontFamily: 'serif' })
+  expect(requestAnimationFrame).not.toHaveBeenCalled()
 })

@@ -2,9 +2,9 @@ import type {
   ThemeActivityImages,
   ThemeExplorerBackgroundImages,
 } from '../../contexts/ThemeContext'
-import type { SolarTimes } from '../solar'
-import type { Season } from '../seasons'
-import { explorerUi } from './dayNightExplorer.constants'
+import type { SolarTimes } from '../../lib/solar'
+import type { Season } from '../../lib/seasons'
+import { explorerUi } from './dayNightExplorer.constants.ts'
 import { normalizeMinutes } from './dayNightExplorerMath'
 
 type RgbColor = {
