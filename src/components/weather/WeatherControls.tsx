@@ -10,6 +10,8 @@ import { useTheme } from '../../contexts/ThemeContext'
 import StepperButton from '../ui/StepperButton'
 import WeatherThermometer from './WeatherThermometer'
 import { uiTokens } from '../../tokens'
+import { getThemeAsset } from '../../ui/themeAssets'
+import { IconActionButton } from '../ui/IconActionControls'
 
 const levels: { level: WeatherLevel; label: string }[] = [
   { level: 1, label: 'Light' },
@@ -197,6 +199,13 @@ export default function WeatherControls({
           unavailable={!visuals.available}
         />
       </CycleControl>
+      <IconActionButton
+        className="weather-reset-button"
+        theme={theme}
+        icon={getThemeAsset(theme.id, 'resetIcon')}
+        ariaLabel="Reset to current"
+        onClick={exploration.reset}
+      />
     </div>
   )
 }

@@ -110,10 +110,11 @@
   gap: 6px;
   max-width: 100%;
   margin: 0 auto;
-  padding: 12px 8px 8px;
+  padding: 12px 8px 14px;
   box-sizing: border-box;
 }
 .weather-step-control {
+  grid-row: span 2;
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr);
   align-items: start;
@@ -210,18 +211,14 @@
   font-weight: 800;
   white-space: nowrap;
 }
-.weather-controls-footer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: 4px 12px;
-  padding: 8px 18px 14px;
-  font-size: 0.85rem;
+.weather-reset-button {
+  grid-column: 3;
+  grid-row: 2;
+  justify-self: end;
 }
 .weather-step-buttons > button:focus-visible,
 .weather-cycle-button:focus-visible,
-.weather-controls-footer button:focus-visible {
+.weather-reset-button:focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 3px;
 }

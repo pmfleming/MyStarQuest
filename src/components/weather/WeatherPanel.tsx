@@ -10,8 +10,6 @@ import {
 } from '../../hooks/useWeatherExploration'
 import WeatherControls from './WeatherControls'
 import { WeatherScene } from './WeatherScene'
-import { getThemeAsset } from '../../ui/themeAssets'
-import { IconActionButton } from '../ui/IconActionControls'
 
 type Props = {
   theme: Theme
@@ -54,25 +52,17 @@ export default memo(function WeatherPanel({
         label={`${theme.id === 'princess' ? 'Princess' : 'Heartsping'} outdoors: ${description}`}
       />
       <WeatherControls exploration={exploration} />
-      <div className="weather-controls-footer">
-        <span className="sr-only" role="status">
-          {exploration.isExploring
-            ? 'Your weather'
-            : loading
-              ? 'Loading weather…'
-              : error || stale
-                ? data
-                  ? 'Last available weather'
-                  : 'Weather unavailable'
-                : 'Current weather'}
-        </span>
-        <IconActionButton
-          theme={theme}
-          icon={getThemeAsset(theme.id, 'resetIcon')}
-          ariaLabel="Reset to current"
-          onClick={exploration.reset}
-        />
-      </div>
+      <span className="sr-only" role="status">
+        {exploration.isExploring
+          ? 'Your weather'
+          : loading
+            ? 'Loading weather…'
+            : error || stale
+              ? data
+                ? 'Last available weather'
+                : 'Weather unavailable'
+              : 'Current weather'}
+      </span>
       {(error || (!loading && !data)) && (
         <AsyncButton
           type="button"
