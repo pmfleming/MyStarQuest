@@ -3,7 +3,10 @@ import type {
   WeatherLevel,
 } from '../../lib/weather/weatherVisuals'
 import type { ThemeId } from '../../ui/themeOptions'
-import { getWeatherEnvironment } from '../../ui/weatherAssets'
+import { themes } from '../../contexts/ThemeContext'
+import { useSelectedDate } from '../../contexts/SelectedDateContext'
+import { getSeason } from '../../lib/seasons'
+import { resolveBackgroundImage } from '../../features/dayNightExplorer/dayNightExplorerBackdrop'
 
 export default function WeatherOptionImage({
   themeId,
@@ -18,6 +21,12 @@ export default function WeatherOptionImage({
   label: string
   unavailable?: boolean
 }) {
+  const { selectedDate } = useSelectedDate()
+  const background = resolveBackgroundImage(
+    themes[themeId].explorerBackgroundImages,
+    'daytime',
+    getSeason(selectedDate)
+  )
   return (
     <div
       className="weather-option-image"
@@ -25,12 +34,14 @@ export default function WeatherOptionImage({
       aria-label={label}
       data-option-theme={themeId}
     >
-      <img
-        className="weather-option-environment"
-        src={getWeatherEnvironment(themeId)}
-        alt=""
-        aria-hidden="true"
-      />
+      {background && (
+        <img
+          className="weather-option-environment"
+          src={background}
+          alt=""
+          aria-hidden="true"
+        />
+      )}
       {!unavailable && (
         <svg
           className="weather-option-effects"

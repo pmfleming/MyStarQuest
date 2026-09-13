@@ -6,8 +6,12 @@ import type { WeatherSnapshot } from '../../src/lib/weather/weatherStore'
 const state = vi.hoisted(() => ({
   cityIndex: 0,
   themeId: 'princess',
+  selectedDate: new Date(2026, 8, 13),
   weather: null as WeatherSnapshot | null,
   retry: vi.fn(),
+}))
+vi.mock('../../src/contexts/SelectedDateContext', () => ({
+  useSelectedDate: () => ({ selectedDate: state.selectedDate }),
 }))
 vi.mock('../../src/contexts/ThemeContext', async (original) => {
   const actual =
@@ -58,6 +62,7 @@ import TimeExplorerPage from '../../src/pages/TimeExplorerPage'
 beforeEach(() => {
   state.cityIndex = 0
   state.themeId = 'princess'
+  state.selectedDate = new Date(2026, 8, 13)
   state.retry.mockClear()
   const now = Date.parse('2026-09-13T12:00:00Z')
   state.weather = {
@@ -132,6 +137,12 @@ describe('Time Explorer weather panel', () => {
       princess.querySelector('[data-weather-wind="3"]')
     ).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'Strong wind' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('img', { name: 'Strong wind' }).querySelector('img')
+    ).toHaveAttribute(
+      'src',
+      expect.stringContaining('/princess/seasons/autumn-daytime.webp')
+    )
     expect(screen.getByRole('img', { name: 'Heavy snow' })).toBeInTheDocument()
     expect(state.weather!.data!.temperature).toBe(16)
     state.weather = {
@@ -139,6 +150,7 @@ describe('Time Explorer weather panel', () => {
       data: { ...state.weather!.data!, temperature: 22 },
     }
     state.themeId = 'teenie'
+    state.selectedDate = new Date(2026, 11, 13)
     rerender(<TimeExplorerPage />)
     expect(screen.getByLabelText('Temperature value')).toHaveTextContent('-5°C')
     const heartsping = screen.getByRole('img', {
@@ -157,6 +169,14 @@ describe('Time Explorer weather panel', () => {
       'data-option-theme',
       'teenie'
     )
+    for (const name of ['Strong wind', 'Heavy snow']) {
+      expect(
+        screen.getByRole('img', { name }).querySelector('img')
+      ).toHaveAttribute(
+        'src',
+        expect.stringContaining('/teenie/seasons/winter-daytime.webp')
+      )
+    }
     clickOption('Show calendar')
     openWeather()
     expect(screen.getByLabelText('Wind value')).toHaveTextContent('45 km/h')
