@@ -11,8 +11,7 @@ import {
 import WeatherOptionImage from './WeatherOptionImage'
 import { useTheme } from '../../contexts/ThemeContext'
 import StepperButton from '../ui/StepperButton'
-import { StandardIconImage } from '../ui/IconActionControls'
-import { getThemeAsset } from '../../ui/themeAssets'
+import WeatherThermometer from './WeatherThermometer'
 import { uiTokens } from '../../tokens'
 
 const levels: { level: WeatherLevel; label: string }[] = [
@@ -139,11 +138,7 @@ export default function WeatherControls({
         upDisabled={temperature >= 45}
         downDisabled={temperature <= -20}
       >
-        <StandardIconImage
-          src={getThemeAsset(theme.id, 'thermometerIcon')}
-          width={64}
-          height={64}
-        />
+        <WeatherThermometer theme={theme} temperature={visuals.temperature} />
         <output
           className="weather-temperature-value"
           aria-label="Temperature value"
