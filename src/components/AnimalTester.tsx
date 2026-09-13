@@ -5,6 +5,7 @@ import {
   type AnimalDifficulty,
 } from './animalTester/useAnimalSession'
 import { CREATURE_MODE_IMAGES } from './animalTester/modeArtwork'
+import LearningNavigation from './animalTester/LearningNavigation'
 import TrainingPhotoPortrait from './animalTester/TrainingPhotoPortrait'
 import insectCollectionImage from '../assets/animals/butterfly.webp'
 import animalCollectionImage from '../assets/animals/lion.webp'
@@ -237,11 +238,13 @@ const FactGrid = ({
   theme,
   onAbilityClick,
   isGenericAbilityShown = false,
+  creatureKey,
 }: {
   facts: VisualFact[]
   theme: ActivityChoreProps['theme']
   onAbilityClick?: () => void
   isGenericAbilityShown?: boolean
+  creatureKey?: string
 }) => {
   const [expandedLabel, setExpandedLabel] = useState<string | null>(null)
   return (
@@ -268,6 +271,8 @@ const FactGrid = ({
           }}
         >
           <FactCard
+            // Cancel pending clicks on navigation without resetting the grid's zoom.
+            key={creatureKey}
             fact={fact}
             theme={theme}
             expanded={expandedLabel === fact.label}
@@ -401,86 +406,6 @@ const HideableAnimalPortrait = ({
   )
 }
 
-const NavigationArrow = ({ direction }: { direction: 'previous' | 'next' }) => (
-  <svg
-    viewBox="0 0 48 48"
-    width="38"
-    height="38"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d={direction === 'previous' ? 'M30 10 16 24l14 14' : 'm18 10 14 14-14 14'}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
-
-const LearningNavigation = ({
-  creatureName,
-  theme,
-  canGoPrevious,
-  isLastAnimal,
-  onPrevious,
-  onNext,
-}: {
-  creatureName: string
-  theme: ActivityChoreProps['theme']
-  canGoPrevious: boolean
-  isLastAnimal: boolean
-  onPrevious: () => void
-  onNext: () => void
-}) => (
-  <div
-    className="activity-inline-action-row"
-    style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-      gap: uiTokens.actionRowGap,
-      width: '100%',
-      height: uiTokens.listActionHeight,
-    }}
-  >
-    <ActionButton
-      label={`Previous ${creatureName}`}
-      icon={null}
-      theme={theme}
-      color={theme.colors.primary}
-      onClick={onPrevious}
-      disabled={!canGoPrevious}
-      hideArrow
-      content={<NavigationArrow direction="previous" />}
-      styleOverride={{
-        minHeight: uiTokens.listActionHeight,
-        height: uiTokens.listActionHeight,
-        margin: 0,
-        padding: 0,
-        justifyContent: 'center',
-      }}
-    />
-    <ActionButton
-      label={isLastAnimal ? 'Finish learning' : `Next ${creatureName}`}
-      icon={null}
-      theme={theme}
-      color={theme.colors.primary}
-      onClick={onNext}
-      hideArrow
-      content={<NavigationArrow direction="next" />}
-      styleOverride={{
-        minHeight: uiTokens.listActionHeight,
-        height: uiTokens.listActionHeight,
-        margin: 0,
-        padding: 0,
-        justifyContent: 'center',
-      }}
-    />
-  </div>
-)
-
 const TwoPlayerProgressButton = ({
   creatureName,
   image,
@@ -539,6 +464,8 @@ type AnimalPlayContentProps = {
   theme: ActivityChoreProps['theme']
   onPrevious: () => void
   onNext: () => void
+  availableLetters: string[]
+  onSelectLetter: (letter: string) => void
   onSoloChoice: (choice: CatalogAnimal) => void
   onToggleAnimal: () => void
   onToggleLearnAbility: () => void
@@ -562,6 +489,8 @@ const AnimalPlayContent = ({
   theme,
   onPrevious,
   onNext,
+  availableLetters,
+  onSelectLetter,
   onSoloChoice,
   onToggleAnimal,
   onToggleLearnAbility,
@@ -585,7 +514,7 @@ const AnimalPlayContent = ({
           <AnimalPortrait animal={animal} theme={theme} compact />
         ) : (
           <TrainingPhotoPortrait
-            key={`${animal.kind}-${animal.name}`}
+            key={`photo-${animal.kind}`}
             name={animal.name}
             theme={theme}
           >
@@ -608,14 +537,19 @@ const AnimalPlayContent = ({
           </TrainingPhotoPortrait>
         )}
         <FactGrid
-          key={`${animal.kind}-${animal.name}-${mode}`}
+          key={`${animal.kind}-${mode}`}
+          creatureKey={animal.name}
           facts={getTeachingFacts(animal, theme.id, isGenericLearnAbilityShown)}
           theme={theme}
           onAbilityClick={onToggleLearnAbility}
           isGenericAbilityShown={isGenericLearnAbilityShown}
         />
         <LearningNavigation
+          key={animal.kind}
           creatureName={animal.kind}
+          currentLetter={animal.name.charAt(0).toUpperCase()}
+          availableLetters={availableLetters}
+          onSelectLetter={onSelectLetter}
           theme={theme}
           canGoPrevious={animalIndex > 0}
           isLastAnimal={isLastAnimal}

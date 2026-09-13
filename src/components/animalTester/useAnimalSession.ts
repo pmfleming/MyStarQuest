@@ -82,12 +82,17 @@ export function useAnimalSession({
     setResults([])
     setRound(EMPTY_ROUND)
   }, [])
-  const moveAnimal = useCallback((delta: number) => {
-    setRound((previous) => ({
-      ...EMPTY_ROUND,
-      animalIndex: Math.max(0, previous.animalIndex + delta),
-    }))
-  }, [])
+  const moveAnimal = useCallback(
+    (delta: number) => {
+      setRound((previous) => ({
+        ...EMPTY_ROUND,
+        animalIndex: Math.max(0, previous.animalIndex + delta),
+        isGenericLearnAbilityShown:
+          mode === 'learn' && previous.isGenericLearnAbilityShown,
+      }))
+    },
+    [mode]
+  )
   const {
     collection,
     collectionError,
@@ -117,6 +122,26 @@ export function useAnimalSession({
   const animal = activeAnimalOrder[animalIndex]
   const nextAnimal = activeAnimalOrder[animalIndex + 1]
   const isLastAnimal = animalIndex + 1 >= activeAnimalOrder.length
+  const letterIndexes = useMemo(() => {
+    const indexes = new Map<string, number>()
+    catalog.forEach((creature, index) => {
+      const letter = creature.name.charAt(0).toUpperCase()
+      if (!indexes.has(letter)) indexes.set(letter, index)
+    })
+    return indexes
+  }, [catalog])
+
+  const selectLetter = (letter: string) => {
+    if (mode !== 'learn' || !isRunning || isFinished) return
+    const index = letterIndexes.get(letter)
+    if (index !== undefined) {
+      setRound((previous) => ({
+        ...EMPTY_ROUND,
+        animalIndex: index,
+        isGenericLearnAbilityShown: previous.isGenericLearnAbilityShown,
+      }))
+    }
+  }
 
   useEffect(() => {
     if (!isRunning || isFinished || !nextAnimal) return
@@ -249,6 +274,8 @@ export function useAnimalSession({
       answerChoices,
       onPrevious: () => moveAnimal(-1),
       onNext: showNextUnscoredAnimal,
+      availableLetters: [...letterIndexes.keys()],
+      onSelectLetter: selectLetter,
       onSoloChoice: handleSoloChoice,
       onToggleAnimal: () =>
         setRound((previous) => ({

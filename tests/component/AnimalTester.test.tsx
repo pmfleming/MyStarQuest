@@ -24,6 +24,33 @@ const createProps = () => ({
 })
 
 describe('AnimalTester', () => {
+  it('jumps to the first animal for an initial and retains clue state without scoring', () => {
+    const props = { ...createProps(), isRunning: true }
+    render(<AnimalTester {...props} />)
+    expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
+    const ability = screen.getByRole('button', { name: /^ABILITY:/ })
+    fireEvent.click(ability)
+    fireEvent.doubleClick(ability)
+    expect(ability).toHaveAttribute('aria-pressed', 'true')
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Choose starting letter' })
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Jump to B' }))
+    expect(screen.getByAltText('Bat')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /^ABILITY:/ })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    )
+    expect(screen.getByRole('button', { name: /^ABILITY:/ })).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
+    expect(screen.getByAltText('Bear')).toBeInTheDocument()
+    expect(props.onComplete).not.toHaveBeenCalled()
+    expect(props.onExit).not.toHaveBeenCalled()
+  })
+
   it('zooms each clue without changing the ability picture in the teenie theme', () => {
     const themeId = 'teenie' as const
 
@@ -73,13 +100,13 @@ describe('AnimalTester', () => {
       expect(ability).toHaveAttribute('aria-expanded', 'false')
       fireEvent.keyDown(ability, { key: 'z' })
       expect(ability).toHaveAttribute('aria-expanded', 'true')
-      // Navigation discards both zoom and a pending single-click action.
+      // Navigation keeps the view preferences but cancels an unfinished click.
       fireEvent.click(ability, { detail: 1 })
       fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
       act(() => vi.advanceTimersByTime(600))
       const nextAbility = screen.getByRole('button', { name: /^ABILITY:/ })
-      expect(nextAbility).toHaveAttribute('aria-expanded', 'false')
-      expect(nextAbility).toHaveAttribute('aria-pressed', 'false')
+      expect(nextAbility).toHaveAttribute('aria-expanded', 'true')
+      expect(nextAbility).toHaveAttribute('aria-pressed', 'true')
     } finally {
       vi.useRealTimers()
     }

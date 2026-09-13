@@ -16,16 +16,17 @@ export default function TrainingPhotoPortrait({
   ) => ReactNode
 }) {
   const [showPhoto, setShowPhoto] = useState(false)
-  const [failed, setFailed] = useState(false)
+  const [failedName, setFailedName] = useState<string | null>(null)
+  const failed = failedName === name
+  const isPhotoShown = showPhoto && !failed
   const photo = getCreaturePhoto(name)
   const onPhotoError = () => {
-    setShowPhoto(false)
-    setFailed(true)
+    setFailedName(name)
   }
   if (!photo) return children(undefined, onPhotoError)
   const togglePhoto = () => {
-    setFailed(false)
-    setShowPhoto((value) => !value)
+    setFailedName(null)
+    setShowPhoto((value) => failed || !value)
   }
 
   return (
@@ -36,8 +37,8 @@ export default function TrainingPhotoPortrait({
       <button
         type="button"
         className="training-photo-trigger"
-        aria-label={`View ${showPhoto ? 'drawing' : 'real photo'} of ${photo.name.toLowerCase()}`}
-        aria-pressed={showPhoto}
+        aria-label={`View ${isPhotoShown ? 'drawing' : 'real photo'} of ${photo.name.toLowerCase()}`}
+        aria-pressed={isPhotoShown}
         aria-description="Double-click the picture, or press Enter or Space, to switch between the drawing and real photo."
         onDoubleClick={togglePhoto}
         onClick={(event) => {
@@ -45,7 +46,7 @@ export default function TrainingPhotoPortrait({
           if (event.detail === 0) togglePhoto()
         }}
       >
-        {children(showPhoto ? photo : undefined, onPhotoError)}
+        {children(isPhotoShown ? photo : undefined, onPhotoError)}
       </button>
       {failed && (
         <p role="status" className="training-photo-error">

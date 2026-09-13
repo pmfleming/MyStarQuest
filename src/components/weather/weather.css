@@ -171,9 +171,9 @@
   position: relative;
   overflow: hidden;
   border-radius: 12px;
-  width: 64px;
+  width: 100%;
   max-width: 100%;
-  height: 64px;
+  aspect-ratio: 1;
   flex-shrink: 0;
 }
 .weather-option-environment,
@@ -194,7 +194,7 @@
   font-weight: 800;
   color: #35435f;
 }
-.weather-step-value output {
+.weather-step-value output:not(.sr-only) {
   display: flex;
   align-items: center;
   justify-content: center;

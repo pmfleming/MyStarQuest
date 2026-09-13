@@ -63,8 +63,26 @@ describe('Teenieping collection', () => {
     }
     fireEvent.click(screen.getByRole('button', { name: 'Next teenieping' }))
     expect(screen.getByAltText('Auroraping')).toBeInTheDocument()
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Choose starting letter' })
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Jump to B' }))
+    const firstB = TEENIEPING_KNOWLEDGE.find((item) =>
+      item.name.toUpperCase().startsWith('B')
+    )!
+    expect(
+      screen.getByAltText(
+        firstB.name.charAt(0).toUpperCase() + firstB.name.slice(1)
+      )
+    ).toBeInTheDocument()
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Choose starting letter' })
+    )
     fireEvent.click(screen.getByRole('radio', { name: 'Animals' }))
     expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'Choose starting letter' })
+    ).toHaveAttribute('aria-expanded', 'false')
     await selectTeeniepings()
     expect(screen.getByAltText('Artping')).toBeInTheDocument()
     expect(

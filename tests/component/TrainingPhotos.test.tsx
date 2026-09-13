@@ -93,13 +93,15 @@ describe('Who am I training photos', () => {
     expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
   })
 
-  it('resets to the drawing when navigating', () => {
+  it('retains the photo preference when navigating', () => {
     render(<AnimalTester {...props()} />)
     fireEvent.doubleClick(screen.getByAltText('Alpaca'))
     fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
     expect(screen.queryByAltText('Real alpaca')).not.toBeInTheDocument()
-    fireEvent.doubleClick(screen.getByAltText('Armadillo'))
     expect(screen.getByAltText('Real armadillo')).toBeInTheDocument()
+    fireEvent.doubleClick(screen.getByAltText('Real armadillo'))
+    fireEvent.click(screen.getByRole('button', { name: 'Previous animal' }))
+    expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
   })
 
   it('swaps insect photos and excludes Teeniepings', async () => {
