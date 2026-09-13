@@ -3,11 +3,7 @@ import type {
   WeatherLevel,
 } from '../../lib/weather/weatherVisuals'
 import type { ThemeId } from '../../ui/themeOptions'
-import {
-  getWeatherCharacter,
-  getWeatherEnvironment,
-  getWeatherWindPortrait,
-} from '../../ui/weatherAssets'
+import { getWeatherEnvironment } from '../../ui/weatherAssets'
 
 export default function WeatherOptionImage({
   themeId,
@@ -22,15 +18,6 @@ export default function WeatherOptionImage({
   label: string
   unavailable?: boolean
 }) {
-  const windy = kind === 'wind' && level > 0 && !unavailable
-  const pose =
-    unavailable || kind === 'none' || kind === 'wind'
-      ? 'mild'
-      : kind === 'snow'
-        ? 'cold'
-        : kind === 'sleet' || kind === 'freezing-rain'
-          ? 'rain-cold'
-          : 'rain-warm'
   return (
     <div
       className="weather-option-image"
@@ -41,16 +28,6 @@ export default function WeatherOptionImage({
       <img
         className="weather-option-environment"
         src={getWeatherEnvironment(themeId)}
-        alt=""
-        aria-hidden="true"
-      />
-      <img
-        className={`weather-option-character${windy ? 'weather-option-character--wind' : ''}`}
-        src={
-          windy
-            ? getWeatherWindPortrait(themeId)
-            : getWeatherCharacter(themeId, pose)
-        }
         alt=""
         aria-hidden="true"
       />
@@ -66,8 +43,8 @@ export default function WeatherOptionImage({
                   key={i}
                   d={`M${i % 2 === 0 ? -8 : 50} ${24 + i * 11}q18-8 35 0t27-3`}
                   fill="none"
-                  stroke="#fff7e8"
-                  strokeWidth="2"
+                  stroke="#386a90"
+                  strokeWidth="3"
                   strokeLinecap="round"
                 />
               ))
@@ -99,8 +76,8 @@ export default function WeatherOptionImage({
                   <path
                     key={i}
                     d={`M${x + 1} ${y - 3}l-2 5`}
-                    stroke={kind === 'freezing-rain' ? '#e9fcff' : '#94d8ff'}
-                    strokeWidth="1.8"
+                    stroke={kind === 'freezing-rain' ? '#e9fcff' : '#2871b4'}
+                    strokeWidth="2.2"
                     strokeLinecap="round"
                   />
                 )
