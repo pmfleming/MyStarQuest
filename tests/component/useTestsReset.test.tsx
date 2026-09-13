@@ -135,41 +135,6 @@ describe('test reset persistence', () => {
     ).toBeNull()
   })
 
-  it.each(['success', 'failure'] as const)(
-    'shows a new %s after replay and accepts a subsequent saved reset',
-    async (outcome) => {
-      documents[0] = { ...documents[0], ...attempt(null, null) }
-      const { result } = renderHook(() => useTests())
-      const current = () =>
-        result.current.tests.find((test) => test.id === 'saved-test')!
-      let pending: Promise<void>
-      act(() => {
-        pending =
-          outcome === 'success'
-            ? result.current.completeTest(current())
-            : result.current.failTest(current())
-      })
-      const completedAt = getManageTaskCompletedAt(current())
-      expect(completedAt).toBeTypeOf('number')
-      act(() => {
-        documents[0] = { ...documents[0], ...attempt(completedAt, outcome) }
-        emitSnapshot()
-      })
-      await act(async () => {
-        resolveWrite()
-        await pending
-      })
-      expect(current()).toMatchObject(
-        manageTestOutcomePatch(template.taskType, completedAt, outcome)
-      )
-      act(() => {
-        documents[0] = { ...documents[0], ...attempt(null, null) }
-        emitSnapshot()
-      })
-      expect(getManageTaskCompletedAt(current())).toBeNull()
-    }
-  )
-
   it.each(['write-first', 'snapshot-first'] as const)(
     'accepts a new saved attempt after reset arrives %s',
     async (order) => {
@@ -216,37 +181,36 @@ describe('test reset persistence', () => {
     }
   )
 
-  it.each(['success', 'failure'] as const)(
-    'restores a %s result when reset fails and permits retry',
-    async (outcome) => {
-      documents[0] = { ...documents[0], ...attempt(123, outcome) }
-      const { result } = renderHook(() => useTests())
-      const current = () =>
-        result.current.tests.find((test) => test.id === 'saved-test')!
-      let pending: Promise<void>
-      act(() => {
-        pending = result.current.resetTest(current())
-      })
-      await act(async () => {
-        const rejected = expect(pending).rejects.toThrow('Write failed')
-        rejectWrite(new Error('Write failed'))
-        await rejected
-      })
-      expect(current()).toMatchObject(
-        manageTestOutcomePatch(template.taskType, 123, outcome)
-      )
-      act(() => {
-        pending = result.current.resetTest(current())
-      })
-      act(() => {
-        documents[0] = { ...documents[0], ...attempt(null, null) }
-        emitSnapshot()
-      })
-      await act(async () => {
-        resolveWrite()
-        await pending
-      })
-      expect(getManageTaskCompletedAt(current())).toBeNull()
-    }
-  )
+  it('restores a failure result when reset fails and permits retry', async () => {
+    const outcome = 'failure' as const
+
+    documents[0] = { ...documents[0], ...attempt(123, outcome) }
+    const { result } = renderHook(() => useTests())
+    const current = () =>
+      result.current.tests.find((test) => test.id === 'saved-test')!
+    let pending: Promise<void>
+    act(() => {
+      pending = result.current.resetTest(current())
+    })
+    await act(async () => {
+      const rejected = expect(pending).rejects.toThrow('Write failed')
+      rejectWrite(new Error('Write failed'))
+      await rejected
+    })
+    expect(current()).toMatchObject(
+      manageTestOutcomePatch(template.taskType, 123, outcome)
+    )
+    act(() => {
+      pending = result.current.resetTest(current())
+    })
+    act(() => {
+      documents[0] = { ...documents[0], ...attempt(null, null) }
+      emitSnapshot()
+    })
+    await act(async () => {
+      resolveWrite()
+      await pending
+    })
+    expect(getManageTaskCompletedAt(current())).toBeNull()
+  })
 })

@@ -45,6 +45,12 @@ describe('RewardCreationFlow', () => {
         )
         .mockResolvedValueOnce(undefined)
       renderFlow({ onSave })
+      fireEvent.change(screen.getByRole('textbox', { name: 'Reward name' }), {
+        target: { value: 'Movie night' },
+      })
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Keep available after buying' })
+      )
       const save = screen.getByRole('button', { name: 'Save reward' })
       fireEvent.click(save)
       fireEvent.click(save)
@@ -56,36 +62,20 @@ describe('RewardCreationFlow', () => {
       await act(async () => reject(new Error('Offline')))
       expect(screen.getByRole('alert')).toHaveTextContent('Save reward failed')
       expect(screen.getByRole('textbox', { name: 'Reward name' })).toHaveValue(
-        'New Reward'
+        'Movie night'
       )
       await act(async () => fireEvent.click(save))
       expect(onSave).toHaveBeenCalledTimes(2)
+      expect(onSave).toHaveBeenLastCalledWith({
+        title: 'Movie night',
+        costStars: 5,
+        isRepeating: false,
+        imageKey: '',
+      })
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     } finally {
       log.mockRestore()
     }
-  })
-
-  it('saves the staged reward draft', async () => {
-    const user = userEvent.setup()
-    const { onSave } = renderFlow()
-
-    await user.clear(screen.getByRole('textbox', { name: 'Reward name' }))
-    await user.type(
-      screen.getByRole('textbox', { name: 'Reward name' }),
-      'Movie night'
-    )
-    await user.click(
-      screen.getByRole('button', { name: 'Keep available after buying' })
-    )
-    await user.click(screen.getByRole('button', { name: 'Save reward' }))
-
-    expect(onSave).toHaveBeenCalledWith({
-      title: 'Movie night',
-      costStars: 5,
-      isRepeating: false,
-      imageKey: '',
-    })
   })
 
   it('selects image artwork and discards a separate staged draft', async () => {

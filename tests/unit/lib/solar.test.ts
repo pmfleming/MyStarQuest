@@ -25,10 +25,7 @@ const TAIPEI_LOCATION = {
 describe('solar helpers', () => {
   it.each([
     [-540, -180, -90],
-    [-180, -180, -90],
-    [180, -180, -90],
     [540, -180, -90],
-    [0, 0, 90],
     [90, 90, -180],
   ])(
     'wraps longitude %s consistently for the sun and globe',

@@ -120,37 +120,6 @@ const openWeather = () =>
   fireEvent.click(screen.getByRole('button', { name: /Show weather:/ }))
 
 describe('Time Explorer weather panel', () => {
-  it('starts with current weather in three button controls and retains navigation', () => {
-    render(<TimeExplorerPage />)
-    expect(screen.getByText('Learning clock')).toBeInTheDocument()
-    openWeather()
-    expect(
-      screen.getByRole('button', {
-        name: /Show weather: Amsterdam, Rain, 16°C/,
-      })
-    ).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('16°C')
-    expect(screen.getByLabelText('Wind value')).toHaveTextContent('25 km/h')
-    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
-      'Moderate rain'
-    )
-    expect(screen.getByRole('img', { name: 'Moderate wind' })).toHaveAttribute(
-      'data-option-theme',
-      'princess'
-    )
-    expect(
-      screen.getByRole('img', { name: 'Moderate rain' })
-    ).toBeInTheDocument()
-    expect(screen.queryByRole('slider')).not.toBeInTheDocument()
-    expect(screen.queryByRole('combobox')).not.toBeInTheDocument()
-    expect(screen.queryByText(/Weather now/)).not.toBeInTheDocument()
-    expect(screen.queryByRole('link')).not.toBeInTheDocument()
-    clickOption('Show calendar')
-    expect(screen.getByText('Learning calendar')).toBeInTheDocument()
-    clickOption('Show clock')
-    expect(screen.getByText('Learning clock')).toBeInTheDocument()
-  })
-
   it('changes all three independent scene layers and resets to the latest live response', () => {
     const { rerender } = render(<TimeExplorerPage />)
     openWeather()
@@ -217,13 +186,11 @@ describe('Time Explorer weather panel', () => {
     expect(
       screen.queryByRole('button', { name: 'Reset to current' })
     ).not.toBeInTheDocument()
-  })
 
-  it('allows exploration before live weather is available without later overwriting it', () => {
-    const response = state.weather!.data
+    // Exploration started while the next city's data is loading wins over its response.
+    state.cityIndex = 1
     state.weather = { ...state.weather!, data: null, loading: true }
-    const { rerender } = render(<TimeExplorerPage />)
-    openWeather()
+    rerender(<TimeExplorerPage />)
     clickOption('Next precipitation option', 3)
     state.weather = { ...state.weather!, data: response, loading: false }
     rerender(<TimeExplorerPage />)

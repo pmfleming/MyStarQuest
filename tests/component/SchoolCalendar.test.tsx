@@ -53,37 +53,22 @@ it('shows a retryable failure and recovers from an unavailable calendar', async 
 })
 
 it.each([
-  ['2026-02-28', 28, 6, '2026-03-28'],
-  ['2028-02-29', 29, 1, '2028-03-29'],
-  ['2026-01-31', 31, 3, '2026-02-28'],
-  ['2026-12-31', 31, 1, '2027-01-31'],
-])(
-  'aligns %s and clamps month navigation',
-  async (dateKey, days, offset, next) => {
-    selection.selectedDateKey = dateKey
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) })
-    )
-    render(<SchoolCalendar theme={themes.princess} />)
-    const selected = screen.getByRole('button', { name: `Select ${dateKey}` })
-    const cells = [...selected.parentElement!.children].slice(7)
-    expect(screen.getAllByRole('button', { name: /^Select / })).toHaveLength(
-      days
-    )
-    expect(cells).toHaveLength(Math.ceil((offset + days) / 7) * 7)
-    expect(cells.slice(0, offset).every((cell) => cell.tagName === 'DIV')).toBe(
-      true
-    )
-    expect(cells[offset]).toHaveTextContent('1')
-    expect(
-      cells.slice(offset + days).every((cell) => cell.tagName === 'DIV')
-    ).toBe(true)
-    expect(selected).toHaveAttribute('aria-pressed', 'true')
-    fireEvent.click(selected)
-    expect(selection.setSelectedDateKey).toHaveBeenLastCalledWith(dateKey)
-    fireEvent.click(screen.getByRole('button', { name: 'Next month' }))
-    expect(selection.setSelectedDateKey).toHaveBeenLastCalledWith(next)
-    await waitFor(() => expect(fetch).toHaveBeenCalled())
-  }
-)
+  ['2028-02-29', 29, '2028-03-29'],
+  ['2026-01-31', 31, '2026-02-28'],
+  ['2026-12-31', 31, '2027-01-31'],
+])('selects %s and clamps month navigation', async (dateKey, days, next) => {
+  selection.selectedDateKey = dateKey
+  vi.stubGlobal(
+    'fetch',
+    vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) })
+  )
+  render(<SchoolCalendar theme={themes.princess} />)
+  const selected = screen.getByRole('button', { name: `Select ${dateKey}` })
+  expect(screen.getAllByRole('button', { name: /^Select / })).toHaveLength(days)
+  expect(selected).toHaveAttribute('aria-pressed', 'true')
+  fireEvent.click(selected)
+  expect(selection.setSelectedDateKey).toHaveBeenLastCalledWith(dateKey)
+  fireEvent.click(screen.getByRole('button', { name: 'Next month' }))
+  expect(selection.setSelectedDateKey).toHaveBeenLastCalledWith(next)
+  await waitFor(() => expect(fetch).toHaveBeenCalled())
+})

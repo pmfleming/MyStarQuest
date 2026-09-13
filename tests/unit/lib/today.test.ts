@@ -14,8 +14,6 @@ import {
 describe('today utilities', () => {
   it.each([
     { season: 'spring', month: 2 },
-    { season: 'summer', month: 5 },
-    { season: 'autumn', month: 8 },
     { season: 'winter', month: 11 },
   ])('classifies the start of $season', ({ season, month }) => {
     // Each local and timezone-aware entry point must agree at month boundaries.

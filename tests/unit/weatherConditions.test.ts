@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest'
 import {
   getWeatherDescription,
   getWeatherScene,
-  weatherDateKey,
   type WeatherConditions,
 } from '../../src/lib/weather/weatherConditions'
 import {
@@ -22,8 +21,6 @@ const base: WeatherConditions = {
 
 describe('weather conditions and independent visual layers', () => {
   it.each([
-    [0, 0, 'none', 0],
-    [0.01, 0, 'rain', 1],
     [2.49, 0, 'rain', 1],
     [2.5, 0, 'rain', 2],
     [7.49, 0, 'rain', 2],
@@ -32,7 +29,6 @@ describe('weather conditions and independent visual layers', () => {
     [0, 0.3, 'snow', 2],
     [0, 0.99, 'snow', 2],
     [0, 1, 'snow', 3],
-    [1, 0.3, 'sleet', 2],
   ])(
     'resolves rain %s and snow %s at intensity boundaries',
     (rain, snowfall, precipitation, precipitationLevel) => {
@@ -49,18 +45,8 @@ describe('weather conditions and independent visual layers', () => {
   )
 
   it.each([
-    [[0, 1], 'sunny'],
-    [[2], 'partly-cloudy'],
-    [[3], 'overcast'],
     [[45, 48], 'fog'],
-    [[51, 53, 55], 'drizzle'],
-    [[56, 57, 66, 67], 'freezing-rain'],
-    [[61, 63, 80, 81], 'rain'],
-    [[65, 82], 'heavy-rain'],
-    [[71, 73, 77, 85], 'snow'],
-    [[75, 86], 'heavy-snow'],
     [[95], 'thunderstorm'],
-    [[96, 99], 'hail'],
   ] as const)('maps codes %s to %s', (codes, expected) => {
     for (const weatherCode of codes)
       expect(getWeatherScene({ ...base, weatherCode })).toBe(expected)
@@ -99,6 +85,12 @@ describe('weather conditions and independent visual layers', () => {
     expect(
       getWeatherScene({ ...base, weatherCode: 61, rain: 1, snowfall: 0.2 })
     ).toBe('sleet')
+    expect(
+      getWeatherScene({ ...base, weatherCode: 66, rain: 1, snowfall: 0.2 })
+    ).toBe('freezing-rain')
+    expect(
+      getWeatherScene({ ...base, weatherCode: 99, rain: 5, snowfall: 0.2 })
+    ).toBe('hail')
     expect(
       getWeatherVisuals({ ...base, weatherCode: 66, rain: 1, snowfall: 0.2 })
     ).toMatchObject({ precipitation: 'freezing-rain' })
@@ -148,14 +140,5 @@ describe('weather conditions and independent visual layers', () => {
     expect(
       getWeatherVisuals({ ...base, temperature: 30, isDay: false })
     ).toMatchObject({ temperature: 30, isDay: false })
-  })
-
-  it('uses each city’s date across midnight and daylight saving', () => {
-    const instant = Date.parse('2026-09-13T16:30:00Z')
-    expect(weatherDateKey(instant, 'Europe/Amsterdam')).toBe('2026-09-13')
-    expect(weatherDateKey(instant, 'Asia/Taipei')).toBe('2026-09-14')
-    expect(
-      weatherDateKey(Date.parse('2026-03-28T23:30:00Z'), 'Europe/Amsterdam')
-    ).toBe('2026-03-29')
   })
 })

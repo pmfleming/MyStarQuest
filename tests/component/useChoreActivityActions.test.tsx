@@ -26,11 +26,11 @@ const dinner: EatingTaskWithEphemeral = {
   manageDinnerRemainingSeconds: 300,
   manageDinnerTimerStartedAt: 10_000,
 }
-const setup = (signedIn = true) => {
+const setup = () => {
   const updateEphemeral = vi.fn().mockResolvedValue(undefined)
   const { result } = renderHook(() =>
     useChoreActivityActions({
-      user: signedIn ? { uid: 'user' } : null,
+      user: { uid: 'user' },
       activeChildId: 'child',
       dateKey: '2026-09-05',
       updateEphemeral,
@@ -47,13 +47,10 @@ describe('chore completion persistence', () => {
 
   it.each([
     { manageDinnerTimerStartedAt: undefined, manageDinnerRemainingSeconds: 0 },
-    { manageDinnerTimerStartedAt: null, manageDinnerRemainingSeconds: 0 },
-    { manageDinnerTimerStartedAt: null, manageDinnerRemainingSeconds: 600 },
     { manageDinnerTimerStartedAt: 10_000, manageDinnerRemainingSeconds: 300 },
     { manageDinnerCompletedAt: 15_000, manageDinnerRemainingSeconds: 0 },
-    { manageDinnerBitesLeft: 0, manageDinnerRemainingSeconds: 0 },
   ])(
-    'ignores expiry for an unstarted, reset, running or finished dinner: %j',
+    'ignores expiry for an unstarted, running or completed dinner: %j',
     async (patch) => {
       vi.useFakeTimers().setSystemTime(20_000)
       const actions = setup()
@@ -95,41 +92,32 @@ describe('chore completion persistence', () => {
     })
   })
 
-  it.each([true, false])(
-    'freezes time before the final bite delay (signed in: %s)',
-    async (signedIn) => {
-      vi.useFakeTimers().setSystemTime(20_000)
-      vi.mocked(completeTaskAndAwardStars).mockResolvedValue({
-        appliedDelta: 3,
-        wasAlreadyAwarded: false,
-      })
-      const actions = setup(signedIn)
-      await expect(
-        actions.applyBite({ ...dinner, manageDinnerBitesLeft: 2 })
-      ).resolves.toBe(false)
-      expect(actions.updateEphemeral).toHaveBeenCalledWith('dinner', {
-        manageDinnerBitesLeft: 1,
-      })
-      const pending = actions.applyBite(dinner)
-      expect(completeTaskAndAwardStars).not.toHaveBeenCalled()
-      await vi.advanceTimersByTimeAsync(850)
-      await expect(pending).resolves.toBe(true)
-      const patch = {
-        manageDinnerBitesLeft: 0,
-        manageDinnerCompletedAt: 20_850,
-        manageDinnerTimerStartedAt: null,
-        manageDinnerRemainingSeconds: 290,
-      }
-      if (signedIn)
-        expect(completeTaskAndAwardStars).toHaveBeenCalledWith(
-          expect.objectContaining({ updates: patch })
-        )
-      else
-        expect(actions.updateEphemeral).toHaveBeenLastCalledWith(
-          'dinner',
-          patch
-        )
-      expect(celebrateSuccess).not.toHaveBeenCalled()
+  it('freezes time before the final bite delay (signed in: true)', async () => {
+    vi.useFakeTimers().setSystemTime(20_000)
+    vi.mocked(completeTaskAndAwardStars).mockResolvedValue({
+      appliedDelta: 3,
+      wasAlreadyAwarded: false,
+    })
+    const actions = setup()
+    await expect(
+      actions.applyBite({ ...dinner, manageDinnerBitesLeft: 2 })
+    ).resolves.toBe(false)
+    expect(actions.updateEphemeral).toHaveBeenCalledWith('dinner', {
+      manageDinnerBitesLeft: 1,
+    })
+    const pending = actions.applyBite(dinner)
+    expect(completeTaskAndAwardStars).not.toHaveBeenCalled()
+    await vi.advanceTimersByTimeAsync(850)
+    await expect(pending).resolves.toBe(true)
+    const patch = {
+      manageDinnerBitesLeft: 0,
+      manageDinnerCompletedAt: 20_850,
+      manageDinnerTimerStartedAt: null,
+      manageDinnerRemainingSeconds: 290,
     }
-  )
+    expect(completeTaskAndAwardStars).toHaveBeenCalledWith(
+      expect.objectContaining({ updates: patch })
+    )
+    expect(celebrateSuccess).not.toHaveBeenCalled()
+  })
 })

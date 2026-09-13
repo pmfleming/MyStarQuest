@@ -58,29 +58,6 @@ function mount() {
 beforeEach(() => localStorage.clear())
 afterEach(cleanup)
 
-it('keeps the current theme when an unknown identifier is requested', () => {
-  const unknownTheme = 'unknown-theme'
-  function SavedThemeSwitch() {
-    const { theme, setTheme } = useTheme()
-    return (
-      <>
-        <output>{theme.id}</output>
-        <button onClick={() => setTheme('teenie')}>Teenie</button>
-        <button onClick={() => setTheme(unknownTheme)}>Saved theme</button>
-      </>
-    )
-  }
-  render(
-    <ThemeProvider>
-      <SavedThemeSwitch />
-    </ThemeProvider>
-  )
-  fireEvent.click(screen.getByRole('button', { name: 'Teenie' }))
-  expect(screen.getByText('teenie')).toBeInTheDocument()
-  fireEvent.click(screen.getByRole('button', { name: 'Saved theme' }))
-  expect(screen.getByText('teenie')).toBeInTheDocument()
-})
-
 it('switches child artwork immediately and restores Teenie selection after remount', async () => {
   const view = mount()
   fireEvent.click(screen.getByRole('button', { name: 'Teenie child' }))

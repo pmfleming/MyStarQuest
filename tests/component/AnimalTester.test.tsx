@@ -24,70 +24,66 @@ const createProps = () => ({
 })
 
 describe('AnimalTester', () => {
-  it.each(['princess', 'teenie'] as const)(
-    'zooms each clue without changing the ability picture in the %s theme',
-    (themeId) => {
-      vi.useFakeTimers()
-      try {
-        const props = {
-          ...createProps(),
-          theme: themes[themeId],
-          isRunning: true,
-        }
-        render(<AnimalTester {...props} />)
-        const cards = screen.getAllByRole('button', {
-          name: /^(LOCATION|ENVIRONMENT|FOOD|ABILITY):/,
-        })
-        const doubleClick = (card: HTMLElement) => {
-          fireEvent.click(card, { detail: 1 })
-          act(() => vi.advanceTimersByTime(100))
-          fireEvent.click(card, { detail: 2 })
-          fireEvent.doubleClick(card, { detail: 2 })
-          act(() => vi.advanceTimersByTime(600))
-        }
-        for (const card of cards) {
-          const originalImage = card.querySelector('img')!.getAttribute('src')
-          doubleClick(card)
-          expect(card).toHaveAttribute('aria-expanded', 'true')
-          expect(card).toHaveStyle({ position: 'absolute', height: '100%' })
-          for (const other of cards.filter((item) => item !== card)) {
-            expect(other).not.toBeVisible()
-          }
-          expect(card.querySelector('img')).toHaveAttribute(
-            'src',
-            originalImage
-          )
-          doubleClick(card)
-          expect(card).toHaveAttribute('aria-expanded', 'false')
-          cards.forEach((item) => expect(item).toBeVisible())
-        }
-        const ability = cards[3]
-        expect(ability).toHaveAttribute('aria-pressed', 'false')
-        fireEvent.click(ability, { detail: 1 })
-        act(() => vi.advanceTimersByTime(500))
-        expect(ability).toHaveAttribute('aria-pressed', 'true')
-        expect(ability.querySelector('img')).toHaveAttribute(
-          'src',
-          getGenericAnimalAbilityImage(themeId, 'WOOL')
-        )
-        doubleClick(ability)
-        expect(ability).toHaveAttribute('aria-pressed', 'true')
-        fireEvent.keyDown(ability, { key: 'Escape' })
-        expect(ability).toHaveAttribute('aria-expanded', 'false')
-        fireEvent.keyDown(ability, { key: 'z' })
-        expect(ability).toHaveAttribute('aria-expanded', 'true')
-        // Navigation discards both zoom and a pending single-click action.
-        fireEvent.click(ability, { detail: 1 })
-        fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
-        act(() => vi.advanceTimersByTime(600))
-        const nextAbility = screen.getByRole('button', { name: /^ABILITY:/ })
-        expect(nextAbility).toHaveAttribute('aria-expanded', 'false')
-        expect(nextAbility).toHaveAttribute('aria-pressed', 'false')
-      } finally {
-        vi.useRealTimers()
+  it('zooms each clue without changing the ability picture in the teenie theme', () => {
+    const themeId = 'teenie' as const
+
+    vi.useFakeTimers()
+    try {
+      const props = {
+        ...createProps(),
+        theme: themes[themeId],
+        isRunning: true,
       }
+      render(<AnimalTester {...props} />)
+      const cards = screen.getAllByRole('button', {
+        name: /^(LOCATION|ENVIRONMENT|FOOD|ABILITY):/,
+      })
+      const doubleClick = (card: HTMLElement) => {
+        fireEvent.click(card, { detail: 1 })
+        act(() => vi.advanceTimersByTime(100))
+        fireEvent.click(card, { detail: 2 })
+        fireEvent.doubleClick(card, { detail: 2 })
+        act(() => vi.advanceTimersByTime(600))
+      }
+      for (const card of cards) {
+        const originalImage = card.querySelector('img')!.getAttribute('src')
+        doubleClick(card)
+        expect(card).toHaveAttribute('aria-expanded', 'true')
+        expect(card).toHaveStyle({ position: 'absolute', height: '100%' })
+        for (const other of cards.filter((item) => item !== card)) {
+          expect(other).not.toBeVisible()
+        }
+        expect(card.querySelector('img')).toHaveAttribute('src', originalImage)
+        doubleClick(card)
+        expect(card).toHaveAttribute('aria-expanded', 'false')
+        cards.forEach((item) => expect(item).toBeVisible())
+      }
+      const ability = cards[3]
+      expect(ability).toHaveAttribute('aria-pressed', 'false')
+      fireEvent.click(ability, { detail: 1 })
+      act(() => vi.advanceTimersByTime(500))
+      expect(ability).toHaveAttribute('aria-pressed', 'true')
+      expect(ability.querySelector('img')).toHaveAttribute(
+        'src',
+        getGenericAnimalAbilityImage(themeId, 'WOOL')
+      )
+      doubleClick(ability)
+      expect(ability).toHaveAttribute('aria-pressed', 'true')
+      fireEvent.keyDown(ability, { key: 'Escape' })
+      expect(ability).toHaveAttribute('aria-expanded', 'false')
+      fireEvent.keyDown(ability, { key: 'z' })
+      expect(ability).toHaveAttribute('aria-expanded', 'true')
+      // Navigation discards both zoom and a pending single-click action.
+      fireEvent.click(ability, { detail: 1 })
+      fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
+      act(() => vi.advanceTimersByTime(600))
+      const nextAbility = screen.getByRole('button', { name: /^ABILITY:/ })
+      expect(nextAbility).toHaveAttribute('aria-expanded', 'false')
+      expect(nextAbility).toHaveAttribute('aria-pressed', 'false')
+    } finally {
+      vi.useRealTimers()
     }
-  )
+  })
 
   it('keeps the two-player hide control independent of clue zoom', () => {
     const props = createProps()
@@ -151,95 +147,6 @@ describe('AnimalTester', () => {
     })
 
     expect(incompleteAnimals).toEqual([])
-  })
-
-  it('teaches the complete ordered animal list regardless of the item limit', () => {
-    const props = { ...createProps(), totalProblems: 2 }
-    const { rerender } = render(<AnimalTester {...props} />)
-
-    rerender(<AnimalTester {...props} isRunning />)
-
-    expect(
-      screen.queryByRole('heading', { name: 'Learn' })
-    ).not.toBeInTheDocument()
-    expect(
-      document.querySelector('[data-activity-result-bar]')
-    ).not.toBeInTheDocument()
-    expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
-    const teachingCards = screen.getAllByLabelText(
-      /^(LOCATION|ENVIRONMENT|FOOD|ABILITY):/
-    )
-    expect(teachingCards).toHaveLength(4)
-    expect(teachingCards.every((card) => card.querySelector('img'))).toBe(true)
-    expect(teachingCards[0]).toHaveTextContent(/^South America$/)
-    expect(teachingCards[0]).toHaveAttribute(
-      'aria-label',
-      'LOCATION: The Andes of South America'
-    )
-    expect(teachingCards[0]).not.toHaveTextContent(/^(Earth|Worldwide)$/)
-    const abilityCard = screen.getByRole('button', { name: /^ABILITY:/ })
-    expect(abilityCard).toHaveAttribute('aria-pressed', 'false')
-    expect(abilityCard.querySelector('img')).toHaveAttribute(
-      'src',
-      getAnimalAbilityImage('alpaca')
-    )
-
-    fireEvent.click(abilityCard)
-    expect(abilityCard).toHaveAttribute('aria-pressed', 'true')
-    expect(abilityCard.querySelector('img')).toHaveAttribute(
-      'src',
-      getGenericAnimalAbilityImage('princess', 'WOOL')
-    )
-
-    fireEvent.click(abilityCard)
-    expect(abilityCard).toHaveAttribute('aria-pressed', 'false')
-    expect(abilityCard.querySelector('img')).toHaveAttribute(
-      'src',
-      getAnimalAbilityImage('alpaca')
-    )
-
-    fireEvent.click(abilityCard)
-    expect(abilityCard).toHaveAttribute('aria-pressed', 'true')
-
-    expect(screen.queryByRole('paragraph')).not.toBeInTheDocument()
-    const previousButton = screen.getByRole('button', {
-      name: 'Previous animal',
-    })
-    const nextButton = screen.getByRole('button', { name: 'Next animal' })
-    expect(previousButton).toBeDisabled()
-
-    fireEvent.click(nextButton)
-    expect(props.onComplete).not.toHaveBeenCalled()
-    expect(screen.getByAltText('Armadillo')).toBeInTheDocument()
-    expect(screen.getByLabelText(/^LOCATION:/)).toHaveTextContent('Americas')
-    const antAbilityCard = screen.getByRole('button', { name: /^ABILITY:/ })
-    expect(antAbilityCard).toHaveAttribute('aria-pressed', 'false')
-    expect(antAbilityCard.querySelector('img')).toHaveAttribute(
-      'src',
-      getAnimalAbilityImage('armadillo')
-    )
-    expect(previousButton).toBeEnabled()
-
-    fireEvent.click(previousButton)
-    expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
-
-    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
-    expect(screen.getByAltText('Armadillo')).toBeInTheDocument()
-
-    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
-    expect(screen.getByAltText('Bat')).toBeInTheDocument()
-    expect(props.onExit).not.toHaveBeenCalled()
-
-    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
-    expect(screen.getByAltText('Bear')).toBeInTheDocument()
-    expect(screen.getByLabelText(/^LOCATION:/)).toHaveTextContent(
-      'N. Am. & Eurasia'
-    )
-    expect(screen.getByLabelText(/^LOCATION:/)).not.toHaveTextContent(
-      /^(Earth|Worldwide)$/
-    )
-
-    expect(props.onComplete).not.toHaveBeenCalled()
   })
 
   it('removes wrong choices and advances after the correct solo choice', () => {

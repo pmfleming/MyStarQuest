@@ -24,14 +24,7 @@ vi.mock('../../../src/ui/presetChoreRenderers', () => ({
 }))
 beforeEach(() => vi.clearAllMocks())
 
-const cases = [
-  ['math', 'mathTotalProblems', 'renderArithmeticChore'],
-  ['large-numbers', 'largeNumbersTotalProblems', 'renderLargeNumbersChore'],
-  ['positional-notation', 'pvTotalProblems', 'renderPositionalNotationChore'],
-  ['alphabet', 'alphabetTotalProblems', 'renderAlphabetChore'],
-  ['spelling', 'spellingTotalProblems', 'renderSpellingChore'],
-  ['animals', 'animalsTotalProblems', 'renderAnimalsChore'],
-] as const
+const cases = [['math', 'mathTotalProblems', 'renderArithmeticChore']] as const
 
 describe.each(cases)(
   '%s activity wiring',

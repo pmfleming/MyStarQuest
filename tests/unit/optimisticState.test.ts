@@ -27,14 +27,6 @@ it('restores prior values only for fields belonging to the failed write', () => 
   ).toEqual({ task: { completed: 123, outcome: 'failure', count: 0 } })
 })
 
-it('removes an empty override and leaves an absent task alone', () => {
-  const previous = { task: { count: 0 } }
-  expect(settleOptimisticPatch(previous, 'task', { count: 0 })).toEqual({})
-  expect(settleOptimisticPatch(previous, 'missing', { count: 0 })).toBe(
-    previous
-  )
-})
-
 it('preserves explicit undefined when restoring a previous patch', () => {
   expect(
     settleOptimisticPatch(

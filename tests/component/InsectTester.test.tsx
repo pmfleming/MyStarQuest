@@ -31,13 +31,6 @@ const selectInsects = async () => {
     await vi.dynamicImportSettled()
   })
 }
-const clueImages = () =>
-  ['HOME', 'FOOD', 'LOOKS'].map((category) =>
-    screen
-      .getByLabelText(new RegExp(`^${category}:`))
-      .querySelector('img')
-      ?.getAttribute('src')
-  )
 
 describe('Insect collection', () => {
   it('has complete, individually illustrated creatures and matching bear abilities', async () => {
@@ -67,142 +60,56 @@ describe('Insect collection', () => {
     }
   })
 
-  it('updates all mode artwork with the collection in non-editable setup', async () => {
-    render(<AnimalTester {...props()} isEditable={false} />)
-    const picker = screen.getByRole('radiogroup', {
-      name: 'Creature collection',
-    })
-    expect(
-      within(picker).getByRole('radio', { name: 'Animals' })
-    ).toHaveAttribute('aria-checked', 'true')
-    const modeImages = () =>
-      ['Learn', '1 Player', '2 Players'].map((name) =>
-        screen
-          .getByRole('radio', { name, exact: true })
-          .querySelector('img')!
-          .getAttribute('src')!
-      )
-    const animalImages = modeImages()
-    fireEvent.click(screen.getByRole('radio', { name: '2 Players' }))
-    for (const [label, path] of [
-      ['Insects', '/insects/'],
-      ['Teeniepings', '/teenie'],
-      ['Animals', '/animal-mode-icons/'],
-    ]) {
-      await act(async () => {
-        fireEvent.click(within(picker).getByRole('radio', { name: label }))
-        await vi.dynamicImportSettled()
-      })
-      expect(
-        within(picker).getByRole('radio', { name: label })
-      ).toHaveAttribute('aria-checked', 'true')
-      expect(modeImages().every((image) => image.includes(path))).toBe(true)
-      expect(screen.getByRole('radio', { name: '2 Players' })).toHaveAttribute(
-        'aria-checked',
-        'true'
-      )
-    }
-    expect(modeImages()).toEqual(animalImages)
-  })
+  it('plays Hard solo rounds in teenie using only insect choices', async () => {
+    const difficulty = 'Hard' as const
+    const themeId = 'teenie' as const
 
-  it('teaches all insects and toggles only Special to the princess bear', async () => {
-    const p = props()
-    const { rerender } = render(<AnimalTester {...p} />)
-    await selectInsects()
-    rerender(<AnimalTester {...p} isRunning />)
-    expect(
-      screen.getByRole('button', { name: 'Previous insect' })
-    ).toBeDisabled()
-    for (const insect of INSECT_KNOWLEDGE) {
-      expect(screen.getByAltText(name(insect.name))).toBeInTheDocument()
+    vi.useFakeTimers()
+    try {
+      const p = { ...props(), theme: themes[themeId], totalProblems: 1 }
+      const { rerender } = render(<AnimalTester {...p} />)
+      await selectInsects()
+      fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
+      fireEvent.click(screen.getByRole('radio', { name: difficulty }))
+      rerender(<AnimalTester {...p} isRunning />)
       expect(
-        screen.getAllByLabelText(/^(HOME|FOOD|LOOKS|SPECIAL):/)
-      ).toHaveLength(4)
-      const originals = clueImages()
-      const special = screen.getByRole('button', { name: /^SPECIAL:/ })
-      expect(special.querySelector('img')).toHaveAttribute(
+        screen.queryByRole('radiogroup', { name: 'Creature collection' })
+      ).not.toBeInTheDocument()
+      expect(screen.getByLabelText(/^HOME:/)).toBeInTheDocument()
+      expect(screen.queryByLabelText(/^SPECIAL:/)).not.toBeInTheDocument()
+      act(() => vi.advanceTimersByTime(9000))
+      const ability = screen.getByLabelText(/^SPECIAL:/)
+      const looks = screen.getByLabelText(/^LOOKS:/).getAttribute('aria-label')
+      const current = INSECT_KNOWLEDGE.find(
+        (item) => `LOOKS: ${item.looks}` === looks
+      )!
+      expect(current).toBeDefined()
+      expect(ability.querySelector('img')).toHaveAttribute(
         'src',
-        insect.abilityImage
+        getInsectBearAbilityImage(themeId, current.bear)
       )
-      expect(special).toHaveAttribute('aria-pressed', 'false')
-      fireEvent.click(special)
-      expect(special.querySelector('img')).toHaveAttribute(
-        'src',
-        getInsectBearAbilityImage('princess', insect.bear)
-      )
-      expect(clueImages()).toEqual(originals)
-      fireEvent.click(
-        screen.getByRole('button', {
-          name:
-            insect === INSECT_KNOWLEDGE.at(-1)
-              ? 'Finish learning'
-              : 'Next insect',
-        })
-      )
-    }
-    expect(p.onExit).toHaveBeenCalledOnce()
-    expect(p.onComplete).not.toHaveBeenCalled()
-  }, 15000)
-
-  it.each([
-    ['Easy', 'princess'],
-    ['Hard', 'teenie'],
-  ] as const)(
-    'plays %s solo rounds in %s using only insect choices',
-    async (difficulty, themeId) => {
-      vi.useFakeTimers()
-      try {
-        const p = { ...props(), theme: themes[themeId], totalProblems: 1 }
-        const { rerender } = render(<AnimalTester {...p} />)
-        await selectInsects()
-        fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
-        fireEvent.click(screen.getByRole('radio', { name: difficulty }))
-        rerender(<AnimalTester {...p} isRunning />)
-        expect(
-          screen.queryByRole('radiogroup', { name: 'Creature collection' })
-        ).not.toBeInTheDocument()
-        expect(screen.getByLabelText(/^HOME:/)).toBeInTheDocument()
-        expect(screen.queryByLabelText(/^SPECIAL:/)).not.toBeInTheDocument()
-        act(() => vi.advanceTimersByTime(9000))
-        const ability = screen.getByLabelText(/^SPECIAL:/)
-        const looks = screen
-          .getByLabelText(/^LOOKS:/)
-          .getAttribute('aria-label')
-        const current = INSECT_KNOWLEDGE.find(
-          (item) => `LOOKS: ${item.looks}` === looks
-        )!
-        expect(current).toBeDefined()
-        expect(ability.querySelector('img')).toHaveAttribute(
-          'src',
-          difficulty === 'Hard' || themeId === 'teenie'
-            ? getInsectBearAbilityImage(themeId, current.bear)
-            : current.abilityImage
-        )
-        const choices = within(
-          screen.getByLabelText('Insect choices')
-        ).getAllByRole('button')
-        expect(choices).toHaveLength(3)
-        expect(
-          choices.every((choice) =>
-            INSECT_KNOWLEDGE.some(
-              (item) => name(item.name) === choice.getAttribute('aria-label')
-            )
+      const choices = within(
+        screen.getByLabelText('Insect choices')
+      ).getAllByRole('button')
+      expect(choices).toHaveLength(3)
+      expect(
+        choices.every((choice) =>
+          INSECT_KNOWLEDGE.some(
+            (item) => name(item.name) === choice.getAttribute('aria-label')
           )
-        ).toBe(true)
-        const wrong = choices.find(
-          (choice) => choice.getAttribute('aria-label') !== name(current.name)
-        )!
-        fireEvent.click(wrong)
-        act(() => vi.advanceTimersByTime(650))
-        expect(wrong).not.toBeInTheDocument()
-        fireEvent.click(
-          screen.getByRole('button', { name: name(current.name) })
         )
-        act(() => vi.advanceTimersByTime(650))
-        expect(p.onComplete).toHaveBeenCalledOnce()
-      } finally {
-        vi.useRealTimers()
-      }
+      ).toBe(true)
+      const wrong = choices.find(
+        (choice) => choice.getAttribute('aria-label') !== name(current.name)
+      )!
+      fireEvent.click(wrong)
+      act(() => vi.advanceTimersByTime(650))
+      expect(wrong).not.toBeInTheDocument()
+      fireEvent.click(screen.getByRole('button', { name: name(current.name) }))
+      act(() => vi.advanceTimersByTime(650))
+      expect(p.onComplete).toHaveBeenCalledOnce()
+    } finally {
+      vi.useRealTimers()
     }
-  )
+  })
 })

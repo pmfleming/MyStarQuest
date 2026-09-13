@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ChoreCreationFlow from '../../src/pages/ChoreCreationFlow'
 import { ThemeContext, themes } from '../../src/contexts/ThemeContext'
@@ -45,41 +45,24 @@ describe('ChoreCreationFlow', () => {
         .mockResolvedValueOnce(undefined)
       renderFlow({ onSave })
       await user.click(screen.getByRole('button', { name: 'Standard Chore' }))
+      await user.click(screen.getByRole('button', { name: 'Next: Tidying up' }))
       await user.click(screen.getByRole('button', { name: 'Save' }))
       expect(await screen.findByRole('alert')).toHaveTextContent('Save failed')
       await user.click(screen.getByRole('button', { name: 'Save' }))
       expect(onSave).toHaveBeenCalledTimes(2)
+      expect(onSave).toHaveBeenLastCalledWith(
+        'standard',
+        expect.objectContaining({
+          title: 'New Chore',
+          imageKey: 'tidyingUp',
+          starValue: 1,
+        })
+      )
       expect(onSave.mock.calls[1]).toEqual(onSave.mock.calls[0])
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     } finally {
       log.mockRestore()
     }
-  })
-
-  it('saves a standard chore with the selected image', async () => {
-    const user = userEvent.setup()
-    const { onSave } = renderFlow()
-
-    await user.click(screen.getByRole('button', { name: 'Standard Chore' }))
-    await user.click(screen.getByRole('button', { name: 'Next: Tidying up' }))
-
-    await waitFor(() => {
-      expect(screen.getByLabelText('Selected: Tidying up')).toBeInTheDocument()
-    })
-
-    const saveButton = screen.getByRole('button', { name: 'Save' })
-    expect(screen.getByRole('button', { name: 'Back' })).toBeEnabled()
-
-    await user.click(saveButton)
-
-    expect(onSave).toHaveBeenCalledWith(
-      'standard',
-      expect.objectContaining({
-        title: 'New Chore',
-        imageKey: 'tidyingUp',
-        starValue: 1,
-      })
-    )
   })
 
   it('edits an existing standard chore through the creation controls', async () => {

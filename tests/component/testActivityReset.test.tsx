@@ -13,43 +13,6 @@ afterEach(() => {
 })
 
 describe('reset an active test', () => {
-  it('stops an activity immediately while the reset saves', async () => {
-    const test = buildDefaultTests('child').find(
-      (item) => item.taskType === 'math'
-    )!
-    let resolveWrite: () => void
-    const resetTest = vi.fn(
-      () =>
-        new Promise<void>((resolve) => {
-          resolveWrite = resolve
-        })
-    )
-    const { result } = renderHook(() => {
-      const activity = useTaskActivityState()
-      const triggers = useTestCheckTriggers()
-      return {
-        activity,
-        bindings: createTestActivityBindings({
-          activity,
-          triggers,
-          resetTest,
-          completeTest: vi.fn(),
-          failTest: vi.fn(),
-        }),
-      }
-    })
-    act(() => result.current.bindings.onEnterChore(test))
-    let pending: Promise<void>
-    act(() => {
-      pending = result.current.bindings.onReset(test)
-    })
-    expect(result.current.activity.activeIds).toEqual({})
-    await act(async () => {
-      resolveWrite()
-      await pending
-    })
-  })
-
   it('cancels a queued result when reset is pressed during answer feedback', async () => {
     vi.useFakeTimers()
     const test = buildDefaultTests('child')[0]
@@ -79,7 +42,7 @@ describe('reset an active test', () => {
         onReset,
         onComplete,
       })
-      return { bindings, challenge }
+      return { activity, bindings, challenge }
     })
     act(() => result.current.bindings.onEnterChore(test))
     act(() => result.current.challenge.submitAnswer(true, vi.fn()))
@@ -87,6 +50,7 @@ describe('reset an active test', () => {
     act(() => {
       pending = result.current.bindings.onReset(test)
     })
+    expect(result.current.activity.activeIds).toEqual({})
     await act(async () => {
       await vi.advanceTimersByTimeAsync(1600)
     })

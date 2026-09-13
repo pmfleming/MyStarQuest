@@ -158,57 +158,55 @@ describe.each(choreCases)(
       vi.restoreAllMocks()
     })
 
-    it.each(['write-first', 'snapshot-first'] as const)(
-      'keeps the chore reset when updates arrive %s, then accepts a later completion',
-      async (order) => {
-        render(<ChoreList />)
-        fireEvent.click(
-          await screen.findByRole('button', { name: `Reset ${title}` })
-        )
-        fireEvent.click(screen.getByRole('button', { name: 'Yes, reset' }))
-        expect(firestore.updateDoc).toHaveBeenCalledWith(
-          'users/parent/chores/get-dressed',
-          reset
-        )
-        expect(screen.getByRole('button', { name: readyLabel })).toBeVisible()
-
-        if (order === 'write-first') {
-          await act(async () => resolveWrite())
-          expect(screen.getByRole('button', { name: readyLabel })).toBeEnabled()
-          act(() => emitSnapshot(reset))
-        } else {
-          act(() => emitSnapshot(reset))
-          await act(async () => resolveWrite())
-        }
-        expect(screen.getByRole('button', { name: readyLabel })).toBeEnabled()
-
-        act(() => emitSnapshot(completed))
-        expect(
-          await screen.findByRole('button', { name: `Reset ${title}` })
-        ).toBeEnabled()
-        expect(
-          screen.queryByRole('button', { name: readyLabel })
-        ).not.toBeInTheDocument()
-      }
-    )
-
-    it('restores completion and reports a failed reset, allowing a retry', async () => {
+    it('resets saved progress and accepts a later completion', async () => {
+      // Cover each chore's patch once; distribute ordering and retry across them.
+      const order =
+        fields.taskType === 'eating' ? 'snapshot-first' : 'write-first'
       vi.spyOn(console, 'error').mockImplementation(() => {})
       render(<ChoreList />)
       fireEvent.click(
         await screen.findByRole('button', { name: `Reset ${title}` })
       )
       fireEvent.click(screen.getByRole('button', { name: 'Yes, reset' }))
-      await act(async () => rejectWrite(new Error('Write failed')))
-      expect(await screen.findByRole('alert')).toHaveTextContent('Reset failed')
-      fireEvent.click(screen.getByRole('button', { name: `Reset ${title}` }))
-      fireEvent.click(screen.getByRole('button', { name: 'Yes, reset' }))
-      act(() => emitSnapshot(reset))
-      await act(async () => resolveWrite())
+      expect(firestore.updateDoc).toHaveBeenCalledWith(
+        'users/parent/chores/get-dressed',
+        reset
+      )
+      expect(screen.getByRole('button', { name: readyLabel })).toBeVisible()
+
+      if (fields.taskType === 'watertoiletcheck') {
+        await act(async () => rejectWrite(new Error('Write failed')))
+        expect(await screen.findByRole('alert')).toHaveTextContent(
+          'Reset failed'
+        )
+        fireEvent.click(screen.getByRole('button', { name: `Reset ${title}` }))
+        fireEvent.click(screen.getByRole('button', { name: 'Yes, reset' }))
+        expect(firestore.updateDoc).toHaveBeenLastCalledWith(
+          'users/parent/chores/get-dressed',
+          reset
+        )
+      }
+
+      if (order === 'write-first') {
+        await act(async () => resolveWrite())
+        expect(screen.getByRole('button', { name: readyLabel })).toBeEnabled()
+        act(() => emitSnapshot(reset))
+      } else {
+        act(() => emitSnapshot(reset))
+        await act(async () => resolveWrite())
+      }
+      expect(screen.getByRole('button', { name: readyLabel })).toBeEnabled()
       await waitFor(() =>
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       )
-      expect(screen.getByRole('button', { name: readyLabel })).toBeEnabled()
+
+      act(() => emitSnapshot(completed))
+      expect(
+        await screen.findByRole('button', { name: `Reset ${title}` })
+      ).toBeEnabled()
+      expect(
+        screen.queryByRole('button', { name: readyLabel })
+      ).not.toBeInTheDocument()
     })
   }
 )

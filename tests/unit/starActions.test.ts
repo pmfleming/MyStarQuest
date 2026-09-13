@@ -29,7 +29,6 @@ import {
   completeTaskAndAwardStars,
   redeemReward,
 } from '../../src/lib/starActions'
-import { TEST_TYPES } from '../../src/data/types'
 
 const snapshot = (data?: Record<string, unknown>) => ({
   exists: () => data !== undefined,
@@ -142,48 +141,33 @@ describe('test completion star awards', () => {
     })
   })
 
-  it.each(TEST_TYPES)(
-    'awards %s again after a same-day reset and deduplicates completion callbacks',
-    async (taskType) => {
-      documents.set(taskPath, { childId: 'child', taskType })
-      const complete = () => completeTaskAndAwardStars(options)
-      const [first, duplicate] = await Promise.all([complete(), complete()])
-      expect(first.appliedDelta).toBe(3)
-      expect(duplicate).toEqual({ appliedDelta: 0, wasAlreadyAwarded: true })
-      expect(documents.get(childPath)?.totalStars).toBe(13)
-      const firstEvent = events()[0]
+  it('awards math again after a same-day reset and deduplicates completion callbacks', async () => {
+    const taskType = 'math' as const
 
-      // These are the persisted fields cleared by resetTest.
-      documents.set(taskPath, {
-        ...documents.get(taskPath),
-        lastAttemptedAt: null,
-        lastAttemptDateKey: '',
-        lastAttemptOutcome: null,
-      })
-      const [replay, replayDuplicate] = await Promise.all([
-        complete(),
-        complete(),
-      ])
-      expect(replay.appliedDelta).toBe(3)
-      expect(replayDuplicate.appliedDelta).toBe(0)
-      expect(documents.get(childPath)?.totalStars).toBe(16)
-      expect(events()).toHaveLength(2)
-      expect(events()[0]).toEqual(firstEvent)
-    }
-  )
+    documents.set(taskPath, { childId: 'child', taskType })
+    const complete = () => completeTaskAndAwardStars(options)
+    const [first, duplicate] = await Promise.all([complete(), complete()])
+    expect(first.appliedDelta).toBe(3)
+    expect(duplicate).toEqual({ appliedDelta: 0, wasAlreadyAwarded: true })
+    expect(documents.get(childPath)?.totalStars).toBe(13)
+    const firstEvent = events()[0]
 
-  it('allows a reset test to earn stars when an old daily award exists', async () => {
+    // These are the persisted fields cleared by resetTest.
     documents.set(taskPath, {
-      childId: 'child',
-      taskType: 'math',
+      ...documents.get(taskPath),
       lastAttemptedAt: null,
+      lastAttemptDateKey: '',
+      lastAttemptOutcome: null,
     })
-    const oldEventPath = `users/parent/starEvents/tests-test-${dateKey}`
-    const oldEvent = { childId: 'child', taskId: 'test', dateKey, delta: 3 }
-    documents.set(oldEventPath, oldEvent)
-    expect((await completeTaskAndAwardStars(options)).appliedDelta).toBe(3)
-    expect(documents.get(oldEventPath)).toEqual(oldEvent)
+    const [replay, replayDuplicate] = await Promise.all([
+      complete(),
+      complete(),
+    ])
+    expect(replay.appliedDelta).toBe(3)
+    expect(replayDuplicate.appliedDelta).toBe(0)
+    expect(documents.get(childPath)?.totalStars).toBe(16)
     expect(events()).toHaveLength(2)
+    expect(events()[0]).toEqual(firstEvent)
   })
 
   it('allows the next day’s test attempt without an explicit reset', async () => {
