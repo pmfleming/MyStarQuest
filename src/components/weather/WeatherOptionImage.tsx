@@ -7,6 +7,7 @@ import { themes } from '../../contexts/ThemeContext'
 import { useSelectedDate } from '../../contexts/SelectedDateContext'
 import { getSeason } from '../../lib/seasons'
 import { resolveBackgroundImage } from '../../features/dayNightExplorer/dayNightExplorerBackdrop'
+import { RainDrop, WindRibbon } from './WeatherMagic'
 
 export default function WeatherOptionImage({
   themeId,
@@ -49,20 +50,18 @@ export default function WeatherOptionImage({
           aria-hidden="true"
         >
           {kind === 'wind'
-            ? Array.from({ length: level * 2 }, (_, i) => (
-                <path
+            ? Array.from({ length: level }, (_, i) => (
+                <g
                   key={i}
-                  d={`M${i % 2 === 0 ? -8 : 50} ${24 + i * 11}q18-8 35 0t27-3`}
-                  fill="none"
-                  stroke="#386a90"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
+                  transform={`translate(${i % 2 === 0 ? 0 : 8} ${8 + i * 21}) scale(.95)`}
+                >
+                  <WindRibbon themeId={themeId} />
+                </g>
               ))
             : kind !== 'none' &&
-              Array.from({ length: level * 6 }, (_, i) => {
-                const x = 6 + ((i * 31) % 88),
-                  y = 8 + ((i * 19) % 78)
+              Array.from({ length: level * 3 }, (_, i) => {
+                const x = 12 + ((i * 31) % 72),
+                  y = 15 + ((i * 23) % 62)
                 const snow =
                   kind === 'snow' || (kind === 'sleet' && i % 2 === 0)
                 return snow ? (
@@ -84,13 +83,13 @@ export default function WeatherOptionImage({
                     strokeWidth=".7"
                   />
                 ) : (
-                  <path
-                    key={i}
-                    d={`M${x + 1} ${y - 3}l-2 5`}
-                    stroke={kind === 'freezing-rain' ? '#e9fcff' : '#2871b4'}
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                  />
+                  <g key={i} transform={`translate(${x} ${y}) rotate(-12)`}>
+                    <RainDrop
+                      themeId={themeId}
+                      frozen={kind === 'freezing-rain'}
+                      sparkle={i % 3 === 0}
+                    />
+                  </g>
                 )
               })}
           {kind === 'freezing-rain' && (

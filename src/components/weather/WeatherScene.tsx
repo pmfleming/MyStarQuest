@@ -9,6 +9,7 @@ import {
   type WeatherVisuals,
 } from '../../lib/weather/weatherVisuals'
 import './weather.css'
+import { RainDrop, WindRibbon } from './WeatherMagic'
 
 function Character({ source, cell }: { source: string; cell: number }) {
   return (
@@ -53,9 +54,11 @@ const Cloud = ({
 function Precipitation({
   visuals,
   front,
+  themeId,
 }: {
   visuals: WeatherVisuals
   front: boolean
+  themeId: ThemeId
 }) {
   const count = [0, 20, 44, 80][visuals.precipitationLevel] ?? 0
   if (!count || visuals.precipitation === 'none') return null
@@ -97,12 +100,15 @@ function Precipitation({
             stroke="#a9cadf"
           />
         ) : (
-          <path
-            d={`M${x} ${y}l${2 + drift / 4} ${9 + visuals.precipitationLevel * 3}`}
-            stroke={kind === 'freezing-rain' ? '#e6fcff' : '#9cd8fa'}
-            strokeWidth={kind === 'freezing-rain' ? 2.2 : 1.8}
-            strokeLinecap="round"
-          />
+          <g
+            transform={`translate(${x} ${y}) rotate(${-12 - drift}) scale(.8)`}
+          >
+            <RainDrop
+              themeId={themeId}
+              frozen={kind === 'freezing-rain'}
+              sparkle={index % 8 === 0}
+            />
+          </g>
         )}
       </g>
     )
@@ -246,7 +252,7 @@ export const WeatherScene = memo(function WeatherScene({
           )}
         </svg>
       )}
-      <Precipitation visuals={visuals} front={false} />
+      <Precipitation visuals={visuals} front={false} themeId={themeId} />
       <div
         className="weather-character-space"
         style={{ filter: visuals.isDay ? undefined : 'brightness(.78)' }}
@@ -256,7 +262,7 @@ export const WeatherScene = memo(function WeatherScene({
           cell={outfit.band * 2 + Number(outfit.waterproof)}
         />
       </div>
-      <Precipitation visuals={visuals} front />
+      <Precipitation visuals={visuals} front themeId={themeId} />
       {visuals.windLevel > 0 && (
         <svg
           className="weather-layer weather-wind"
@@ -267,18 +273,9 @@ export const WeatherScene = memo(function WeatherScene({
           {Array.from({ length: visuals.windLevel * 2 }, (_, i) => (
             <g
               key={i}
-              transform={`translate(${(i % 2) * 245 - 20} ${130 + i * 37})`}
+              transform={`translate(${(i % 2) * 245 - 20} ${120 + i * 37}) scale(1.2)`}
             >
-              <path
-                d="M0 10Q30-1 65 10T125 4"
-                stroke="#ffffff"
-                strokeOpacity=".85"
-                strokeWidth="2"
-                fill="none"
-              />
-              {visuals.windLevel >= 2 && (
-                <path d="M28 20Q38 4 52 17Q43 32 28 20Z" fill="#d5a24d" />
-              )}
+              <WindRibbon themeId={themeId} />
             </g>
           ))}
         </svg>
