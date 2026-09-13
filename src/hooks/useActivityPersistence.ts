@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useAsyncAction } from '../components/ui/useAsyncAction'
+import { useAsyncAction } from './useAsyncAction'
 
 export const useActivityPersistence = ({
   onComplete,

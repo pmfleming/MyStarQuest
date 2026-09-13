@@ -1,6 +1,6 @@
 import { getTeenieActivities, getTeenieBackgrounds } from '../ui/themeAssets'
-import React, { createContext, useEffect, useMemo, useState } from 'react'
-import { isThemeId, type ThemeId } from '../ui/themeOptions'
+import React, { createContext } from 'react'
+import { type ThemeId } from '../ui/themeOptions'
 import bedtimeImg from '../assets/themes/princess/bedtime.svg'
 import eatingBreakfastImg from '../assets/themes/princess/eating-breakfast.svg'
 import commuteImg from '../assets/themes/princess/commute.svg'
@@ -30,7 +30,6 @@ import winterNightImg from '../assets/themes/princess/seasons/winter-night.webp'
 import teenieFontUrl from '../assets/fonts/Nunito/Nunito-VariableFont_wght.woff2'
 import princessFontUrl from '../assets/fonts/Merienda/Merienda-VariableFont_wght.woff2'
 import type { Season } from '../lib/seasons'
-/* eslint-disable react-refresh/only-export-components */
 
 // Define the shape of a theme
 interface ThemeColors {
@@ -187,42 +186,6 @@ export const ThemeContext = createContext<ThemeContextValue>({
   currentTheme: 'princess',
   setTheme: () => {},
 })
-
-// Create the theme provider
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [currentThemeId, setCurrentThemeId] = useState<ThemeId>('princess')
-
-  useEffect(() => {
-    const activeTheme = themes[currentThemeId] || themes.princess
-
-    if (typeof document !== 'undefined' && 'fonts' in document) {
-      void document.fonts.load(`1rem "${activeTheme.fontFamily}"`)
-    }
-  }, [currentThemeId])
-
-  const themeContextValue = useMemo(
-    () => ({
-      theme: themes[currentThemeId] || themes.princess,
-      currentTheme: currentThemeId,
-      setTheme: (themeId: ThemeId | string) => {
-        if (isThemeId(themeId)) {
-          setCurrentThemeId(themeId)
-        } else if (['space', 'nature', 'cartoon'].includes(themeId)) {
-          setCurrentThemeId('princess')
-        }
-      },
-    }),
-    [currentThemeId]
-  )
-
-  return (
-    <ThemeContext.Provider value={themeContextValue}>
-      {children}
-    </ThemeContext.Provider>
-  )
-}
 
 // Hook to use the theme context
 export const useTheme = () => {

@@ -1,5 +1,5 @@
 import type { ComponentPropsWithRef, MouseEvent } from 'react'
-import { useAsyncAction } from './useAsyncAction'
+import { useAsyncAction } from '../../hooks/useAsyncAction'
 
 type AsyncButtonProps = Omit<ComponentPropsWithRef<'button'>, 'onClick'> & {
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void | Promise<void>

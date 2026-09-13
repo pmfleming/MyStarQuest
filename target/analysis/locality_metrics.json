@@ -3,7 +3,7 @@
   "task_id": "quality.locality_dynamic",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure quality.locality_dynamic --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T19:13:24.779Z",
+    "measured_at": "2026-09-13T19:31:26.735Z",
     "source_type": "static",
-    "source_set_hash": "sha256:a86f2d821b8432d16c4ca2d9f528c9f68d30a2d3c48017792e1debbc35157d71",
-    "input_set_hash": "sha256:f0958ced8b398c7f59c3b1f6e7d53cb73c1e45dd7781c6fd96611c7a10a9b49d"
+    "source_set_hash": "sha256:d8764fd624cb1ca4018c2a494de0ef4b5d0b8a24d9ed441230f37e745dfa6dcb",
+    "input_set_hash": "sha256:4fd02691438f4b8ffd397b5a02bac67eb24285450349f1b9611ea099ff3b4cce"
   },
   "analysis_identity": {
-    "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
+    "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:3b0f360d5b74b92560fd4b9739831b0c854a33be6b34130701a6943087442b11",
+    "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -93,8 +93,8 @@
     "stale_input": []
   },
   "summary": {
-    "records": 190,
-    "high_risk_records": 33
+    "records": 195,
+    "high_risk_records": 34
   },
   "records": [
     {
@@ -482,7 +482,7 @@
       "hidden_coupling": [
         {
           "kind": "react_context",
-          "line": 23
+          "line": 12
         }
       ],
       "test_locality": "no_direct_import_association",
@@ -537,7 +537,7 @@
       "signals": [
         {
           "kind": "react_context",
-          "line": 23
+          "line": 12
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -572,6 +572,53 @@
             "id": "locality:src/auth/AuthContext",
             "kind": "locality",
             "file": "src/auth/AuthContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/auth/AuthProvider",
+      "module_id": "src/auth/AuthProvider",
+      "file": "src/auth/AuthProvider.tsx",
+      "score": 18,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/auth/AuthProvider",
+            "kind": "locality",
+            "file": "src/auth/AuthProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2114,6 +2161,53 @@
       ]
     },
     {
+      "id": "locality:src/components/activities/LazyActivities",
+      "module_id": "src/components/activities/LazyActivities",
+      "file": "src/components/activities/LazyActivities.tsx",
+      "score": 18,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/activities/LazyActivities",
+            "kind": "locality",
+            "file": "src/components/activities/LazyActivities.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "locality:src/components/animalTester/modeArtwork",
       "module_id": "src/components/animalTester/modeArtwork",
       "file": "src/components/animalTester/modeArtwork.ts",
@@ -2770,9 +2864,9 @@
       "id": "locality:src/components/ui/ActionTextInput",
       "module_id": "src/components/ui/ActionTextInput",
       "file": "src/components/ui/ActionTextInput.tsx",
-      "score": 65,
-      "risk": "medium",
-      "dependency_distance": 2,
+      "score": 77,
+      "risk": "high",
+      "dependency_distance": 3,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
@@ -2826,6 +2920,11 @@
       "signals": [
         {
           "kind": "far_import",
+          "line": 1,
+          "specifier": "../../hooks/useAsyncAction"
+        },
+        {
+          "kind": "far_import",
           "line": 5,
           "specifier": "../../contexts/ThemeContext"
         },
@@ -2858,6 +2957,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -3082,9 +3187,9 @@
       "id": "locality:src/components/ui/AsyncButton",
       "module_id": "src/components/ui/AsyncButton",
       "file": "src/components/ui/AsyncButton.tsx",
-      "score": 13,
+      "score": 25,
       "risk": "low",
-      "dependency_distance": 0,
+      "dependency_distance": 1,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
@@ -3136,6 +3241,11 @@
         }
       ],
       "signals": [
+        {
+          "kind": "far_import",
+          "line": 2,
+          "specifier": "../../hooks/useAsyncAction"
+        },
         {
           "kind": "defect_keyword_commits",
           "value": 1
@@ -3394,9 +3504,9 @@
       "id": "locality:src/components/ui/Carousel",
       "module_id": "src/components/ui/Carousel",
       "file": "src/components/ui/Carousel.tsx",
-      "score": 52,
+      "score": 64,
       "risk": "medium",
-      "dependency_distance": 1,
+      "dependency_distance": 2,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
@@ -3448,6 +3558,11 @@
         }
       ],
       "signals": [
+        {
+          "kind": "far_import",
+          "line": 1,
+          "specifier": "../../hooks/useAsyncAction"
+        },
         {
           "kind": "far_import",
           "line": 5,
@@ -3807,9 +3922,9 @@
       "id": "locality:src/components/ui/IconActionControls",
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
-      "score": 70,
+      "score": 82,
       "risk": "high",
-      "dependency_distance": 2,
+      "dependency_distance": 3,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
@@ -3870,6 +3985,11 @@
           "kind": "far_import",
           "line": 4,
           "specifier": "../../tokens"
+        },
+        {
+          "kind": "far_import",
+          "line": 5,
+          "specifier": "../../hooks/useAsyncAction"
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -5498,9 +5618,9 @@
       "id": "locality:src/components/ui/StandardActionList",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
-      "score": 70,
+      "score": 82,
       "risk": "high",
-      "dependency_distance": 2,
+      "dependency_distance": 3,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
@@ -5561,6 +5681,11 @@
           "kind": "far_import",
           "line": 3,
           "specifier": "../../tokens"
+        },
+        {
+          "kind": "far_import",
+          "line": 12,
+          "specifier": "../../hooks/useAsyncAction"
         },
         {
           "kind": "defect_keyword_commits",
@@ -6695,102 +6820,6 @@
       ]
     },
     {
-      "id": "locality:src/components/ui/useAsyncAction",
-      "module_id": "src/components/ui/useAsyncAction",
-      "file": "src/components/ui/useAsyncAction.ts",
-      "score": 36,
-      "risk": "medium",
-      "dependency_distance": 0,
-      "hidden_coupling": [],
-      "test_locality": "no_direct_import_association",
-      "coverage_status": "not_collected",
-      "churn": {
-        "commits": 2,
-        "contributors": 1
-      },
-      "defect_commits": 1,
-      "cochange_partners": [
-        {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/AnimalTester.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/DinnerCountdown.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/LargeNumbersTester.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/SpellingTester.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/ui/ActivityControls.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/ui/MathActivityShell.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/ui/StandardActionList.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/ui/StarDisplay.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/ui/StepperButton.tsx",
-          "commits": 2
-        }
-      ],
-      "signals": [
-        {
-          "kind": "missing_direct_test_evidence"
-        },
-        {
-          "kind": "defect_keyword_commits",
-          "value": 1
-        },
-        {
-          "kind": "cochange_ripple",
-          "value": 2
-        }
-      ],
-      "kind": "locality",
-      "rule_id": "ts-react-quality-lens/locality",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "locality",
-      "reason_code": "ts-react-quality-lens/locality",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "locality:src/components/ui/useAsyncAction",
-            "kind": "locality",
-            "file": "src/components/ui/useAsyncAction.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "locality:src/components/weather/WeatherControls",
       "module_id": "src/components/weather/WeatherControls",
       "file": "src/components/weather/WeatherControls.tsx",
@@ -7015,21 +7044,33 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 4,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
         {
+          "file": "src/pages/TimeExplorerPage.tsx",
+          "commits": 3
+        },
+        {
           "file": "src/components/LargeNumbersTester.tsx",
           "commits": 2
         },
         {
-          "file": "src/lib/weather/weatherVisuals.ts",
+          "file": "src/hooks/useCurrentWeather.ts",
           "commits": 2
         },
         {
-          "file": "src/pages/TimeExplorerPage.tsx",
+          "file": "src/lib/weather/weatherData.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/weather/weatherStore.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/weather/weatherVisuals.ts",
           "commits": 2
         },
         {
@@ -7047,18 +7088,6 @@
         {
           "file": "src/components/animalTester/useAnimalSession.ts",
           "commits": 1
-        },
-        {
-          "file": "src/components/ArithmeticTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
-          "commits": 1
         }
       ],
       "signals": [
@@ -7070,7 +7099,7 @@
         {
           "kind": "far_import",
           "line": 4,
-          "specifier": "../../features/dayNightExplorer/dayNightExplorerOptions"
+          "specifier": "../../lib/weather/weatherData"
         },
         {
           "kind": "far_import",
@@ -7101,7 +7130,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -7243,25 +7272,13 @@
       "id": "locality:src/contexts/ActiveChildContext",
       "module_id": "src/contexts/ActiveChildContext",
       "file": "src/contexts/ActiveChildContext.tsx",
-      "score": 94,
-      "risk": "high",
+      "score": 40,
+      "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
         {
           "kind": "react_context",
-          "line": 21
-        },
-        {
-          "kind": "window_global",
-          "line": 35
-        },
-        {
-          "kind": "window_global",
-          "line": 95
-        },
-        {
-          "kind": "window_global",
-          "line": 100
+          "line": 11
         }
       ],
       "test_locality": "direct_import_association",
@@ -7316,19 +7333,7 @@
       "signals": [
         {
           "kind": "react_context",
-          "line": 21
-        },
-        {
-          "kind": "window_global",
-          "line": 35
-        },
-        {
-          "kind": "window_global",
-          "line": 95
-        },
-        {
-          "kind": "window_global",
-          "line": 100
+          "line": 11
         },
         {
           "kind": "defect_keyword_commits",
@@ -7352,12 +7357,6 @@
       "estimated_effort": 15,
       "actions": [
         {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
           "type": "add-to-config",
           "auto_fixable": true,
           "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
@@ -7366,6 +7365,75 @@
             "id": "locality:src/contexts/ActiveChildContext",
             "kind": "locality",
             "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/contexts/ActiveChildProvider",
+      "module_id": "src/contexts/ActiveChildProvider",
+      "file": "src/contexts/ActiveChildProvider.tsx",
+      "score": 54,
+      "risk": "medium",
+      "dependency_distance": 0,
+      "hidden_coupling": [
+        {
+          "kind": "window_global",
+          "line": 26
+        },
+        {
+          "kind": "window_global",
+          "line": 86
+        },
+        {
+          "kind": "window_global",
+          "line": 91
+        }
+      ],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "window_global",
+          "line": 26
+        },
+        {
+          "kind": "window_global",
+          "line": 86
+        },
+        {
+          "kind": "window_global",
+          "line": 91
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/contexts/ActiveChildProvider",
+            "kind": "locality",
+            "file": "src/contexts/ActiveChildProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -7381,7 +7449,7 @@
       "hidden_coupling": [
         {
           "kind": "react_context",
-          "line": 19
+          "line": 17
         }
       ],
       "test_locality": "no_direct_import_association",
@@ -7436,7 +7504,7 @@
       "signals": [
         {
           "kind": "react_context",
-          "line": 19
+          "line": 17
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -7473,6 +7541,53 @@
       ]
     },
     {
+      "id": "locality:src/contexts/SelectedDateProvider",
+      "module_id": "src/contexts/SelectedDateProvider",
+      "file": "src/contexts/SelectedDateProvider.tsx",
+      "score": 18,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/contexts/SelectedDateProvider",
+            "kind": "locality",
+            "file": "src/contexts/SelectedDateProvider.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "locality:src/contexts/ThemeContext",
       "module_id": "src/contexts/ThemeContext",
       "file": "src/contexts/ThemeContext.tsx",
@@ -7482,11 +7597,11 @@
       "hidden_coupling": [
         {
           "kind": "react_context",
-          "line": 185
+          "line": 184
         },
         {
           "kind": "react_context",
-          "line": 229
+          "line": 192
         }
       ],
       "test_locality": "direct_import_association",
@@ -7541,11 +7656,11 @@
       "signals": [
         {
           "kind": "react_context",
-          "line": 185
+          "line": 184
         },
         {
           "kind": "react_context",
-          "line": 229
+          "line": 192
         },
         {
           "kind": "defect_keyword_commits",
@@ -7583,6 +7698,49 @@
             "id": "locality:src/contexts/ThemeContext",
             "kind": "locality",
             "file": "src/contexts/ThemeContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/contexts/ThemeProvider",
+      "module_id": "src/contexts/ThemeProvider",
+      "file": "src/contexts/ThemeProvider.tsx",
+      "score": 0,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/contexts/ThemeProvider",
+            "kind": "locality",
+            "file": "src/contexts/ThemeProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -10240,11 +10398,52 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "far_import",
@@ -10283,6 +10482,10 @@
         },
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -10321,7 +10524,7 @@
       "id": "locality:src/features/dayNightExplorer/SolarSystem3DManager",
       "module_id": "src/features/dayNightExplorer/SolarSystem3DManager",
       "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
-      "score": 96,
+      "score": 100,
       "risk": "high",
       "dependency_distance": 2,
       "hidden_coupling": [
@@ -10345,11 +10548,52 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "far_import",
@@ -10376,6 +10620,10 @@
         {
           "kind": "window_global",
           "line": 530
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -10414,18 +10662,59 @@
       "id": "locality:src/features/dayNightExplorer/SpinningPlanet",
       "module_id": "src/features/dayNightExplorer/SpinningPlanet",
       "file": "src/features/dayNightExplorer/SpinningPlanet.tsx",
-      "score": 42,
+      "score": 47,
       "risk": "medium",
       "dependency_distance": 2,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "far_import",
@@ -10439,6 +10728,10 @@
         },
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -10471,21 +10764,66 @@
       "id": "locality:src/features/dayNightExplorer/clockImageLayers",
       "module_id": "src/features/dayNightExplorer/clockImageLayers",
       "file": "src/features/dayNightExplorer/clockImageLayers.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -10518,18 +10856,59 @@
       "id": "locality:src/features/dayNightExplorer/dayNightExplorer.constants",
       "module_id": "src/features/dayNightExplorer/dayNightExplorer.constants",
       "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
-      "score": 30,
-      "risk": "low",
+      "score": 35,
+      "risk": "medium",
       "dependency_distance": 1,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "far_import",
@@ -10538,6 +10917,10 @@
         },
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -10570,18 +10953,59 @@
       "id": "locality:src/features/dayNightExplorer/dayNightExplorerBackdrop",
       "module_id": "src/features/dayNightExplorer/dayNightExplorerBackdrop",
       "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
-      "score": 54,
+      "score": 59,
       "risk": "medium",
       "dependency_distance": 3,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "far_import",
@@ -10600,6 +11024,10 @@
         },
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -10632,18 +11060,59 @@
       "id": "locality:src/features/dayNightExplorer/dayNightExplorerCalendar",
       "module_id": "src/features/dayNightExplorer/dayNightExplorerCalendar",
       "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
-      "score": 30,
-      "risk": "low",
+      "score": 35,
+      "risk": "medium",
       "dependency_distance": 1,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "far_import",
@@ -10652,6 +11121,10 @@
         },
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -10684,21 +11157,66 @@
       "id": "locality:src/features/dayNightExplorer/dayNightExplorerMath",
       "module_id": "src/features/dayNightExplorer/dayNightExplorerMath",
       "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -10731,18 +11249,59 @@
       "id": "locality:src/features/dayNightExplorer/dayNightExplorerOptions",
       "module_id": "src/features/dayNightExplorer/dayNightExplorerOptions",
       "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
-      "score": 84,
+      "score": 89,
       "risk": "high",
       "dependency_distance": 7,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "far_import",
@@ -10778,6 +11337,10 @@
           "kind": "far_import",
           "line": 7,
           "specifier": "../../assets/cities/taipei.svg"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -10816,19 +11379,65 @@
       "id": "locality:src/features/dayNightExplorer/disposeSceneObject",
       "module_id": "src/features/dayNightExplorer/disposeSceneObject",
       "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
-      "score": 0,
+      "score": 5,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
-      "signals": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
       "kind": "locality",
       "rule_id": "ts-react-quality-lens/locality",
       "evidence_kind": "heuristic",
@@ -10859,21 +11468,66 @@
       "id": "locality:src/features/dayNightExplorer/earthTexture.worker",
       "module_id": "src/features/dayNightExplorer/earthTexture.worker",
       "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -10906,7 +11560,7 @@
       "id": "locality:src/features/dayNightExplorer/earthTextureCache",
       "module_id": "src/features/dayNightExplorer/earthTextureCache",
       "file": "src/features/dayNightExplorer/earthTextureCache.ts",
-      "score": 36,
+      "score": 41,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
@@ -10922,11 +11576,52 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "window_global",
@@ -10935,6 +11630,10 @@
         {
           "kind": "window_global",
           "line": 76
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -10967,21 +11666,66 @@
       "id": "locality:src/features/dayNightExplorer/earthTextureRenderer",
       "module_id": "src/features/dayNightExplorer/earthTextureRenderer",
       "file": "src/features/dayNightExplorer/earthTextureRenderer.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -11014,23 +11758,68 @@
       "id": "locality:src/features/dayNightExplorer/solarSystemGeometry",
       "module_id": "src/features/dayNightExplorer/solarSystemGeometry",
       "file": "src/features/dayNightExplorer/solarSystemGeometry.ts",
-      "score": 12,
+      "score": 17,
       "risk": "low",
       "dependency_distance": 1,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "far_import",
           "line": 2,
           "specifier": "../../lib/solar"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -11063,18 +11852,59 @@
       "id": "locality:src/features/dayNightExplorer/useDayNightExplorerModel",
       "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
       "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
-      "score": 66,
-      "risk": "medium",
+      "score": 71,
+      "risk": "high",
       "dependency_distance": 4,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "far_import",
@@ -11098,6 +11928,10 @@
         },
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -11112,6 +11946,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -11162,11 +12002,52 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "window_global",
@@ -11191,6 +12072,10 @@
         {
           "kind": "window_global",
           "line": 296
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -11229,21 +12114,66 @@
       "id": "locality:src/features/dayNightExplorer/useSolarSystem3D",
       "module_id": "src/features/dayNightExplorer/useSolarSystem3D",
       "file": "src/features/dayNightExplorer/useSolarSystem3D.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -11276,21 +12206,66 @@
       "id": "locality:src/features/dayNightExplorer/worldMapCanvas",
       "module_id": "src/features/dayNightExplorer/worldMapCanvas",
       "file": "src/features/dayNightExplorer/worldMapCanvas.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -11323,21 +12298,66 @@
       "id": "locality:src/features/dayNightExplorer/worldTopology",
       "module_id": "src/features/dayNightExplorer/worldTopology",
       "file": "src/features/dayNightExplorer/worldTopology.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -11740,6 +12760,53 @@
       ]
     },
     {
+      "id": "locality:src/hooks/useAsyncAction",
+      "module_id": "src/hooks/useAsyncAction",
+      "file": "src/hooks/useAsyncAction.ts",
+      "score": 18,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/hooks/useAsyncAction",
+            "kind": "locality",
+            "file": "src/hooks/useAsyncAction.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "locality:src/hooks/useCoalescedDocumentUpdates",
       "module_id": "src/hooks/useCoalescedDocumentUpdates",
       "file": "src/hooks/useCoalescedDocumentUpdates.ts",
@@ -11832,24 +12899,36 @@
       "id": "locality:src/hooks/useCurrentWeather",
       "module_id": "src/hooks/useCurrentWeather",
       "file": "src/hooks/useCurrentWeather.ts",
-      "score": 23,
+      "score": 28,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
-          "commits": 1
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 2
         },
         {
-          "file": "src/components/weather/WeatherPanel.tsx",
+          "file": "src/lib/weather/weatherData.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/weather/weatherStore.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/pages/TimeExplorerPage.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
           "commits": 1
         },
         {
@@ -11857,27 +12936,19 @@
           "commits": 1
         },
         {
-          "file": "src/lib/weather/weatherConditions.ts",
+          "file": "src/features/dayNightExplorer/Clock.tsx",
           "commits": 1
         },
         {
-          "file": "src/lib/weather/weatherData.ts",
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
           "commits": 1
         },
         {
-          "file": "src/lib/weather/weatherStore.ts",
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
           "commits": 1
         },
         {
-          "file": "src/lib/weather/weatherVisuals.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/pages/TimeExplorerPage.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/ui/weatherAssets.ts",
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
           "commits": 1
         }
       ],
@@ -11887,7 +12958,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -14129,24 +15200,36 @@
       "id": "locality:src/lib/weather/weatherData",
       "module_id": "src/lib/weather/weatherData",
       "file": "src/lib/weather/weatherData.ts",
-      "score": 17,
+      "score": 10,
       "risk": "low",
-      "dependency_distance": 1,
+      "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
-          "commits": 1
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 2
         },
         {
-          "file": "src/components/weather/WeatherPanel.tsx",
+          "file": "src/hooks/useCurrentWeather.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/weather/weatherStore.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/pages/TimeExplorerPage.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
           "commits": 1
         },
         {
@@ -14154,39 +15237,26 @@
           "commits": 1
         },
         {
-          "file": "src/hooks/useCurrentWeather.ts",
+          "file": "src/features/dayNightExplorer/Clock.tsx",
           "commits": 1
         },
         {
-          "file": "src/lib/weather/weatherConditions.ts",
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
           "commits": 1
         },
         {
-          "file": "src/lib/weather/weatherStore.ts",
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
           "commits": 1
         },
         {
-          "file": "src/lib/weather/weatherVisuals.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/pages/TimeExplorerPage.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/ui/weatherAssets.ts",
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
           "commits": 1
         }
       ],
       "signals": [
         {
-          "kind": "far_import",
-          "line": 2,
-          "specifier": "../../features/dayNightExplorer/dayNightExplorerOptions"
-        },
-        {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -14221,7 +15291,7 @@
       "file": "src/lib/weather/weatherStore.ts",
       "score": 100,
       "risk": "high",
-      "dependency_distance": 1,
+      "dependency_distance": 0,
       "hidden_coupling": [
         {
           "kind": "event_bus",
@@ -14245,31 +15315,43 @@
         },
         {
           "kind": "window_global",
-          "line": 144
+          "line": 139
         },
         {
           "kind": "window_global",
-          "line": 148
+          "line": 143
         },
         {
           "kind": "event_bus",
-          "line": 159
+          "line": 154
         }
       ],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
-          "commits": 1
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 2
         },
         {
-          "file": "src/components/weather/WeatherPanel.tsx",
+          "file": "src/hooks/useCurrentWeather.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/weather/weatherData.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/pages/TimeExplorerPage.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
           "commits": 1
         },
         {
@@ -14277,36 +15359,23 @@
           "commits": 1
         },
         {
-          "file": "src/hooks/useCurrentWeather.ts",
+          "file": "src/features/dayNightExplorer/Clock.tsx",
           "commits": 1
         },
         {
-          "file": "src/lib/weather/weatherConditions.ts",
+          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
           "commits": 1
         },
         {
-          "file": "src/lib/weather/weatherData.ts",
+          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
           "commits": 1
         },
         {
-          "file": "src/lib/weather/weatherVisuals.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/pages/TimeExplorerPage.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/ui/weatherAssets.ts",
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
           "commits": 1
         }
       ],
       "signals": [
-        {
-          "kind": "far_import",
-          "line": 1,
-          "specifier": "../../features/dayNightExplorer/dayNightExplorerOptions"
-        },
         {
           "kind": "event_bus",
           "line": 78
@@ -14329,19 +15398,19 @@
         },
         {
           "kind": "window_global",
-          "line": 144
+          "line": 139
         },
         {
           "kind": "window_global",
-          "line": 148
+          "line": 143
         },
         {
           "kind": "event_bus",
-          "line": 159
+          "line": 154
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -15184,7 +16253,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 11,
+        "commits": 12,
         "contributors": 1
       },
       "defect_commits": 0,

@@ -1,138 +1,16 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
-/* eslint-disable react-refresh/only-export-components */
-import { useAuth } from '../auth/AuthContext'
+import { createContext } from 'react'
 import { useRequiredContext } from '../hooks/useRequiredContext'
-import { useTheme } from './ThemeContext'
 
-const STORAGE_PREFIX = 'mystarquest:active-child'
-
-type ActiveChildState = {
-  id: string | null
-  themeId: string | null
-}
-
-interface ActiveChildContextValue {
+export interface ActiveChildContextValue {
   activeChildId: string | null
   activeThemeId: string | null
   setActiveChild: (next: { id: string; themeId: string }) => void
   clearActiveChild: () => void
 }
 
-const ActiveChildContext = createContext<ActiveChildContextValue | undefined>(
-  undefined
-)
-
-const isBrowser = typeof window !== 'undefined'
-
-const readStoredState = (
-  userId: string | undefined | null
-): ActiveChildState => {
-  if (!userId || !isBrowser) {
-    return { id: null, themeId: null }
-  }
-
-  try {
-    const raw = window.localStorage.getItem(`${STORAGE_PREFIX}:${userId}`)
-    if (!raw) return { id: null, themeId: null }
-    const parsed: unknown = JSON.parse(raw)
-    if (parsed && typeof parsed === 'object') {
-      const id =
-        'id' in parsed && typeof parsed.id === 'string' ? parsed.id : null
-      const themeId =
-        'themeId' in parsed && typeof parsed.themeId === 'string'
-          ? parsed.themeId
-          : null
-      return { id, themeId }
-    }
-  } catch (error) {
-    console.warn('Failed to parse stored active child', error)
-  }
-
-  return { id: null, themeId: null }
-}
-
-export const ActiveChildProvider = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
-  const { user } = useAuth()
-
-  return (
-    <ActiveChildStateProvider
-      key={user?.uid ?? 'signed-out'}
-      userId={user?.uid}
-    >
-      {children}
-    </ActiveChildStateProvider>
-  )
-}
-
-const ActiveChildStateProvider = ({
-  children,
-  userId,
-}: {
-  children: React.ReactNode
-  userId: string | undefined
-}) => {
-  const { setTheme } = useTheme()
-  const [state, setState] = useState<ActiveChildState>(() =>
-    readStoredState(userId)
-  )
-
-  useEffect(() => {
-    if (state.themeId) {
-      setTheme(state.themeId)
-    }
-  }, [state.themeId, setTheme])
-
-  const persist = useCallback(
-    (next: ActiveChildState) => {
-      setState(next)
-      if (!userId || !isBrowser) return
-      try {
-        if (next.id) {
-          window.localStorage.setItem(
-            `${STORAGE_PREFIX}:${userId}`,
-            JSON.stringify(next)
-          )
-        } else {
-          window.localStorage.removeItem(`${STORAGE_PREFIX}:${userId}`)
-        }
-      } catch (error) {
-        console.warn('Unable to persist active child selection', error)
-      }
-    },
-    [userId]
-  )
-
-  const setActiveChild = useCallback(
-    (next: { id: string; themeId: string }) => {
-      persist({ id: next.id, themeId: next.themeId })
-    },
-    [persist]
-  )
-
-  const clearActiveChild = useCallback(() => {
-    persist({ id: null, themeId: null })
-  }, [persist])
-
-  const value = useMemo<ActiveChildContextValue>(
-    () => ({
-      activeChildId: state.id,
-      activeThemeId: state.themeId,
-      setActiveChild,
-      clearActiveChild,
-    }),
-    [state.id, state.themeId, setActiveChild, clearActiveChild]
-  )
-
-  return (
-    <ActiveChildContext.Provider value={value}>
-      {children}
-    </ActiveChildContext.Provider>
-  )
-}
+export const ActiveChildContext = createContext<
+  ActiveChildContextValue | undefined
+>(undefined)
 
 export const useActiveChild = () => {
   return useRequiredContext(

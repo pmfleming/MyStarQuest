@@ -1,4 +1,4 @@
-import type { ExplorerCityOption } from '../../features/dayNightExplorer/dayNightExplorerOptions'
+import type { WeatherCity } from './weatherData'
 import {
   fetchCurrentWeather,
   isWeatherUsable,
@@ -16,7 +16,7 @@ export type WeatherSnapshot = {
 }
 
 type Entry = {
-  city: ExplorerCityOption
+  city: WeatherCity
   snapshot: WeatherSnapshot
   listeners: Set<() => void>
   controller?: AbortController
@@ -26,10 +26,10 @@ type Entry = {
 }
 
 const entries = new Map<string, Entry>()
-const cityKey = (city: ExplorerCityOption) =>
+const cityKey = (city: WeatherCity) =>
   `${city.id}:${city.location.latitude}:${city.location.longitude}:${city.location.timeZone}`
 
-function entryFor(city: ExplorerCityOption): Entry {
+function entryFor(city: WeatherCity): Entry {
   const key = cityKey(city)
   let entry = entries.get(key)
   if (!entry) {
@@ -119,15 +119,10 @@ async function refresh(entry: Entry, force = false) {
   }
 }
 
-export const getWeatherSnapshot = (city: ExplorerCityOption) =>
-  entryFor(city).snapshot
-export const retryWeather = (city: ExplorerCityOption) =>
-  refresh(entryFor(city), true)
+export const getWeatherSnapshot = (city: WeatherCity) => entryFor(city).snapshot
+export const retryWeather = (city: WeatherCity) => refresh(entryFor(city), true)
 
-export function subscribeWeather(
-  city: ExplorerCityOption,
-  listener: () => void
-) {
+export function subscribeWeather(city: WeatherCity, listener: () => void) {
   const entry = entryFor(city)
   entry.listeners.add(listener)
   const onVisible = () => {

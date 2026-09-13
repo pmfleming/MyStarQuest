@@ -37,11 +37,9 @@ it('blocks duplicate submissions, shows rejection, and allows retry', async () =
   await act(async () => reject(new Error('offline')))
   expect(screen.getByRole('alert')).toHaveTextContent('failed')
   fireEvent.click(button)
-  await waitFor(() =>
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-  )
+  await waitFor(() => expect(button).toBeEnabled())
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   expect(save).toHaveBeenCalledTimes(2)
-  expect(button).toBeEnabled()
 })
 
 it('retries a failed automatic outcome save without replaying the final puzzle', async () => {

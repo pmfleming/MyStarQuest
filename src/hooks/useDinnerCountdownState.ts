@@ -1,4 +1,4 @@
-import { useAsyncAction } from '../components/ui/useAsyncAction'
+import { useAsyncAction } from './useAsyncAction'
 import { useEffect, useRef, useState } from 'react'
 import { BITE_COOLDOWN_SECONDS } from '../data/types'
 import { celebrateSuccess } from '../lib/celebrate'

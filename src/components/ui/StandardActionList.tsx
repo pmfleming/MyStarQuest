@@ -9,7 +9,7 @@ import {
 import CardShell from './CardShell'
 import { ImageLoadingContext } from './ImageLoadingContext'
 import { PrimaryActionImageContext } from './PrimaryActionImageContext'
-import { useAsyncAction } from './useAsyncAction'
+import { useAsyncAction } from '../../hooks/useAsyncAction'
 import {
   ActionSpinner,
   DefaultActionIcon,

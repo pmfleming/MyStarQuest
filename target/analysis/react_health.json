@@ -3,7 +3,7 @@
   "task_id": "quality.react_health",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T18:48:20.481Z",
+    "measured_at": "2026-09-13T19:31:35.146Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f0394afeb3e3ac7c680c52d95e9a1e36513f80ed510229637b2d92d9b4d885c3",
-    "input_set_hash": "sha256:67099792cf67f187171c233a89df68c4c960491ea936a196ee4f6127ce503ef1"
+    "source_set_hash": "sha256:d8764fd624cb1ca4018c2a494de0ef4b5d0b8a24d9ed441230f37e745dfa6dcb",
+    "input_set_hash": "sha256:5766734fb240338d759afd2ef93bb3228a363f17513f5846642165834ddbc92a"
   },
   "analysis_identity": {
-    "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
+    "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:3b0f360d5b74b92560fd4b9739831b0c854a33be6b34130701a6943087442b11",
+    "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -105,13 +105,13 @@
     "stale_input": []
   },
   "summary": {
-    "components": 107,
-    "records": 114,
+    "components": 109,
+    "records": 116,
     "hook_lint_findings": 0,
     "a11y_findings": 6,
     "a11y_tool_findings": 6,
     "a11y_heuristic_findings": 0,
-    "high_risk_components": 23
+    "high_risk_components": 24
   },
   "framework": {
     "framework": "vite",
@@ -234,11 +234,11 @@
       ]
     },
     {
-      "id": "component:src/auth/AuthContext:AuthProvider",
-      "module_id": "src/auth/AuthContext",
-      "file": "src/auth/AuthContext.tsx",
+      "id": "component:src/auth/AuthProvider:AuthProvider",
+      "module_id": "src/auth/AuthProvider",
+      "file": "src/auth/AuthProvider.tsx",
       "name": "AuthProvider",
-      "line": 42,
+      "line": 34,
       "score": 71,
       "risk": "high",
       "signals": [
@@ -271,9 +271,9 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "component:src/auth/AuthContext:AuthProvider",
+            "id": "component:src/auth/AuthProvider:AuthProvider",
             "kind": "component",
-            "file": "src/auth/AuthContext.tsx",
+            "file": "src/auth/AuthProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -285,12 +285,12 @@
       "file": "src/components/AlphabetTester.tsx",
       "name": "AlphabetTester",
       "line": 81,
-      "score": 141,
+      "score": 142,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 197
+          "value": 199
         },
         {
           "kind": "many_hooks",
@@ -636,7 +636,7 @@
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 175
+          "value": 177
         }
       ],
       "kind": "component",
@@ -717,7 +717,7 @@
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 318
+          "value": 320
         },
         {
           "kind": "many_hooks",
@@ -800,7 +800,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "CountdownVisualRow",
-      "line": 94,
+      "line": 95,
       "score": 4,
       "risk": "low",
       "signals": [],
@@ -835,7 +835,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "CountdownStepperControl",
-      "line": 121,
+      "line": 122,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -870,7 +870,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "CountdownClockDisplay",
-      "line": 162,
+      "line": 163,
       "score": 63,
       "risk": "medium",
       "signals": [
@@ -910,13 +910,13 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "DinnerCountdown",
-      "line": 592,
+      "line": 593,
       "score": 71,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 146
+          "value": 148
         }
       ],
       "kind": "component",
@@ -962,7 +962,7 @@
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 406
+          "value": 408
         },
         {
           "kind": "many_hooks",
@@ -1076,9 +1076,9 @@
       "module_id": "src/components/PageShell",
       "file": "src/components/PageShell.tsx",
       "name": "PageShell",
-      "line": 32,
-      "score": 64,
-      "risk": "medium",
+      "line": 34,
+      "score": 73,
+      "risk": "high",
       "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
@@ -1092,6 +1092,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1112,7 +1118,7 @@
       "file": "src/components/PositionalNotation.tsx",
       "name": "PositionalNotation",
       "line": 33,
-      "score": 102,
+      "score": 103,
       "risk": "high",
       "signals": [
         {
@@ -1207,7 +1213,7 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingPicture",
-      "line": 176,
+      "line": 177,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -1242,7 +1248,7 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingWordTiles",
-      "line": 206,
+      "line": 207,
       "score": 17,
       "risk": "low",
       "signals": [],
@@ -1277,7 +1283,7 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingChoiceButtons",
-      "line": 262,
+      "line": 263,
       "score": 11,
       "risk": "low",
       "signals": [],
@@ -1312,17 +1318,17 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingTester",
-      "line": 287,
-      "score": 267,
+      "line": 288,
+      "score": 276,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 259
+          "value": 265
         },
         {
           "kind": "many_hooks",
-          "value": 20
+          "value": 21
         },
         {
           "kind": "many_effects",
@@ -1401,7 +1407,7 @@
       "module_id": "src/components/WaterToiletMonitor",
       "file": "src/components/WaterToiletMonitor.tsx",
       "name": "WaterToiletMonitor",
-      "line": 26,
+      "line": 27,
       "score": 38,
       "risk": "medium",
       "signals": [],
@@ -1471,7 +1477,7 @@
       "module_id": "src/components/ui/ActionButton",
       "file": "src/components/ui/ActionButton.tsx",
       "name": "ActionButton",
-      "line": 22,
+      "line": 23,
       "score": 36,
       "risk": "medium",
       "signals": [],
@@ -1502,12 +1508,47 @@
       ]
     },
     {
+      "id": "component:src/components/ui/ActionFeedback:ActionFeedback",
+      "module_id": "src/components/ui/ActionFeedback",
+      "file": "src/components/ui/ActionFeedback.tsx",
+      "name": "ActionFeedback",
+      "line": 6,
+      "score": 8,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActionFeedback:ActionFeedback",
+            "kind": "component",
+            "file": "src/components/ui/ActionFeedback.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/ui/ActionTextInput:ActionTextInput",
       "module_id": "src/components/ui/ActionTextInput",
       "file": "src/components/ui/ActionTextInput.tsx",
       "name": "ActionTextInput",
-      "line": 22,
-      "score": 25,
+      "line": 24,
+      "score": 34,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -1541,8 +1582,8 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivityOutcomeShell",
-      "line": 49,
-      "score": 8,
+      "line": 51,
+      "score": 14,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -1576,7 +1617,7 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivityResultBar",
-      "line": 115,
+      "line": 119,
       "score": 17,
       "risk": "low",
       "signals": [],
@@ -1611,7 +1652,7 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivitySetupControls",
-      "line": 183,
+      "line": 187,
       "score": 10,
       "risk": "low",
       "signals": [],
@@ -1646,7 +1687,7 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivityPlayArea",
-      "line": 251,
+      "line": 255,
       "score": 12,
       "risk": "low",
       "signals": [],
@@ -1681,7 +1722,7 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ProblemCountControl",
-      "line": 299,
+      "line": 303,
       "score": 23,
       "risk": "low",
       "signals": [],
@@ -1716,7 +1757,7 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "StarRewardControl",
-      "line": 363,
+      "line": 367,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -1887,11 +1928,46 @@
       ]
     },
     {
+      "id": "component:src/components/ui/AsyncButton:AsyncButton",
+      "module_id": "src/components/ui/AsyncButton",
+      "file": "src/components/ui/AsyncButton.tsx",
+      "name": "AsyncButton",
+      "line": 9,
+      "score": 19,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/AsyncButton:AsyncButton",
+            "kind": "component",
+            "file": "src/components/ui/AsyncButton.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/ui/BottomNav:BottomNav",
       "module_id": "src/components/ui/BottomNav",
       "file": "src/components/ui/BottomNav.tsx",
       "name": "BottomNav",
-      "line": 16,
+      "line": 17,
       "score": 30,
       "risk": "low",
       "signals": [],
@@ -1961,13 +2037,13 @@
       "module_id": "src/components/ui/Carousel",
       "file": "src/components/ui/Carousel.tsx",
       "name": "Carousel",
-      "line": 34,
-      "score": 98,
+      "line": 36,
+      "score": 86,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 160
+          "value": 161
         }
       ],
       "kind": "component",
@@ -2007,7 +2083,7 @@
       "module_id": "src/components/ui/CrownDifficultyControl",
       "file": "src/components/ui/CrownDifficultyControl.tsx",
       "name": "CrownDifficultyControl",
-      "line": 20,
+      "line": 21,
       "score": 22,
       "risk": "low",
       "signals": [],
@@ -2092,7 +2168,7 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "StandardIconImage",
-      "line": 24,
+      "line": 25,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -2127,7 +2203,7 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconActionButton",
-      "line": 69,
+      "line": 70,
       "score": 13,
       "risk": "low",
       "signals": [],
@@ -2162,7 +2238,7 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconActionRow",
-      "line": 126,
+      "line": 127,
       "score": 25,
       "risk": "low",
       "signals": [],
@@ -2197,7 +2273,7 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconChoiceButton",
-      "line": 190,
+      "line": 191,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -2442,7 +2518,7 @@
       "module_id": "src/components/ui/MathActivityShell",
       "file": "src/components/ui/MathActivityShell.tsx",
       "name": "MathActivityShell",
-      "line": 24,
+      "line": 26,
       "score": 4,
       "risk": "low",
       "signals": [],
@@ -2617,7 +2693,7 @@
       "module_id": "src/components/ui/RepeatControl",
       "file": "src/components/ui/RepeatControl.tsx",
       "name": "RepeatControl",
-      "line": 18,
+      "line": 19,
       "score": 39,
       "risk": "medium",
       "signals": [],
@@ -2722,7 +2798,7 @@
       "module_id": "src/components/ui/SegmentedChoiceControl",
       "file": "src/components/ui/SegmentedChoiceControl.tsx",
       "name": "SegmentedChoiceControl",
-      "line": 27,
+      "line": 28,
       "score": 58,
       "risk": "medium",
       "signals": [
@@ -2762,7 +2838,7 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "DefaultActionIcon",
-      "line": 27,
+      "line": 28,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -2797,7 +2873,7 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "ActionSpinner",
-      "line": 55,
+      "line": 56,
       "score": 4,
       "risk": "low",
       "signals": [],
@@ -2832,8 +2908,8 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "UtilityButton",
-      "line": 83,
-      "score": 14,
+      "line": 84,
+      "score": 15,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -2867,17 +2943,17 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "StandardActionButtons",
-      "line": 151,
-      "score": 108,
+      "line": 154,
+      "score": 122,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 135
+          "value": 166
         },
         {
           "kind": "render_branch_complexity",
-          "value": 5
+          "value": 6
         }
       ],
       "kind": "component",
@@ -2917,13 +2993,13 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ActionCard",
-      "line": 85,
-      "score": 115,
+      "line": 88,
+      "score": 113,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 155
+          "value": 146
         }
       ],
       "kind": "component",
@@ -2963,7 +3039,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListMessage",
-      "line": 261,
+      "line": 255,
       "score": 3,
       "risk": "low",
       "signals": [],
@@ -2998,8 +3074,8 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListFooter",
-      "line": 289,
-      "score": 34,
+      "line": 283,
+      "score": 35,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -3033,7 +3109,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "StandardActionList",
-      "line": 355,
+      "line": 351,
       "score": 50,
       "risk": "medium",
       "signals": [],
@@ -3215,7 +3291,7 @@
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "StarDisplay",
       "line": 328,
-      "score": 35,
+      "score": 36,
       "risk": "medium",
       "signals": [],
       "kind": "component",
@@ -3334,7 +3410,7 @@
       "module_id": "src/components/ui/StepperButton",
       "file": "src/components/ui/StepperButton.tsx",
       "name": "StepperButton",
-      "line": 20,
+      "line": 21,
       "score": 12,
       "risk": "low",
       "signals": [],
@@ -3369,8 +3445,8 @@
       "module_id": "src/components/ui/TopIconButton",
       "file": "src/components/ui/TopIconButton.tsx",
       "name": "TopIconButton",
-      "line": 16,
-      "score": 10,
+      "line": 17,
+      "score": 7,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -3615,11 +3691,11 @@
       ]
     },
     {
-      "id": "component:src/contexts/ActiveChildContext:ActiveChildProvider",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
+      "id": "component:src/contexts/ActiveChildProvider:ActiveChildProvider",
+      "module_id": "src/contexts/ActiveChildProvider",
+      "file": "src/contexts/ActiveChildProvider.tsx",
       "name": "ActiveChildProvider",
-      "line": 54,
+      "line": 45,
       "score": 11,
       "risk": "low",
       "signals": [],
@@ -3641,20 +3717,20 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "component:src/contexts/ActiveChildContext:ActiveChildProvider",
+            "id": "component:src/contexts/ActiveChildProvider:ActiveChildProvider",
             "kind": "component",
-            "file": "src/contexts/ActiveChildContext.tsx",
+            "file": "src/contexts/ActiveChildProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "component:src/contexts/ActiveChildContext:ActiveChildStateProvider",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
+      "id": "component:src/contexts/ActiveChildProvider:ActiveChildStateProvider",
+      "module_id": "src/contexts/ActiveChildProvider",
+      "file": "src/contexts/ActiveChildProvider.tsx",
       "name": "ActiveChildStateProvider",
-      "line": 71,
+      "line": 62,
       "score": 83,
       "risk": "high",
       "signals": [
@@ -3687,20 +3763,20 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "component:src/contexts/ActiveChildContext:ActiveChildStateProvider",
+            "id": "component:src/contexts/ActiveChildProvider:ActiveChildStateProvider",
             "kind": "component",
-            "file": "src/contexts/ActiveChildContext.tsx",
+            "file": "src/contexts/ActiveChildProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "component:src/contexts/SelectedDateContext:SelectedDateProvider",
-      "module_id": "src/contexts/SelectedDateContext",
-      "file": "src/contexts/SelectedDateContext.tsx",
+      "id": "component:src/contexts/SelectedDateProvider:SelectedDateProvider",
+      "module_id": "src/contexts/SelectedDateProvider",
+      "file": "src/contexts/SelectedDateProvider.tsx",
       "name": "SelectedDateProvider",
-      "line": 25,
+      "line": 10,
       "score": 49,
       "risk": "medium",
       "signals": [],
@@ -3722,20 +3798,20 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "component:src/contexts/SelectedDateContext:SelectedDateProvider",
+            "id": "component:src/contexts/SelectedDateProvider:SelectedDateProvider",
             "kind": "component",
-            "file": "src/contexts/SelectedDateContext.tsx",
+            "file": "src/contexts/SelectedDateProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "component:src/contexts/ThemeContext:ThemeProvider",
-      "module_id": "src/contexts/ThemeContext",
-      "file": "src/contexts/ThemeContext.tsx",
+      "id": "component:src/contexts/ThemeProvider:ThemeProvider",
+      "module_id": "src/contexts/ThemeProvider",
+      "file": "src/contexts/ThemeProvider.tsx",
       "name": "ThemeProvider",
-      "line": 192,
+      "line": 6,
       "score": 44,
       "risk": "medium",
       "signals": [],
@@ -3757,9 +3833,9 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "component:src/contexts/ThemeContext:ThemeProvider",
+            "id": "component:src/contexts/ThemeProvider:ThemeProvider",
             "kind": "component",
-            "file": "src/contexts/ThemeContext.tsx",
+            "file": "src/contexts/ThemeProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3871,14 +3947,9 @@
       "file": "src/pages/LoginPage.tsx",
       "name": "LoginPage",
       "line": 18,
-      "score": 105,
+      "score": 76,
       "risk": "high",
-      "signals": [
-        {
-          "kind": "many_hooks",
-          "value": 7
-        }
-      ],
+      "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
       "evidence_kind": "heuristic",
@@ -4316,9 +4387,9 @@
       "scope": "file",
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
-      "line": 531,
+      "line": 532,
       "column": 17,
-      "end_line": 542,
+      "end_line": 543,
       "end_column": 19,
       "score": 60,
       "severity": "medium",
@@ -4363,9 +4434,9 @@
       "scope": "file",
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
-      "line": 531,
+      "line": 532,
       "column": 17,
-      "end_line": 542,
+      "end_line": 543,
       "end_column": 19,
       "score": 60,
       "severity": "medium",

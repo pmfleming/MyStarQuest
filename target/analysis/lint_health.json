@@ -3,7 +3,7 @@
   "task_id": "quality.lint",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure quality.lint --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T19:09:58.090Z",
+    "measured_at": "2026-09-13T19:30:05.267Z",
     "source_type": "static",
-    "source_set_hash": "sha256:af9b34722e7854034a39b8da51b51f3e2d2506b7f21fbad44fd957de76197236",
-    "input_set_hash": "sha256:1c018989dea9633d4ae202995e749431c4454f8f91628af2f024022254123a29"
+    "source_set_hash": "sha256:d8764fd624cb1ca4018c2a494de0ef4b5d0b8a24d9ed441230f37e745dfa6dcb",
+    "input_set_hash": "sha256:1ba52f349afc9262631bf940bcfb4cb410ab3a005f47e269a27f022b76ea79e1"
   },
   "analysis_identity": {
-    "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
+    "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:3b0f360d5b74b92560fd4b9739831b0c854a33be6b34130701a6943087442b11",
+    "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -100,8 +100,8 @@
     "stale_input": []
   },
   "summary": {
-    "records": 33,
-    "blocking_findings": 12,
+    "records": 21,
+    "blocking_findings": 0,
     "warning_findings": 21
   },
   "tool_status": {
@@ -111,64 +111,11 @@
       "complete": true,
       "reason": null,
       "version": "8.67.0",
-      "duration_ms": 8762,
+      "duration_ms": 8716,
       "ruleset": "tsrqlens-typescript-recommended-v1"
     }
   },
   "records": [
-    {
-      "id": "typescript-eslint:8c7e77d2:1",
-      "rule_id": "react-refresh/only-export-components",
-      "kind": "react_refresh/only_export_components",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/auth/AuthContext",
-      "file": "src/auth/AuthContext.tsx",
-      "line": 87,
-      "column": 1,
-      "end_line": 87,
-      "end_column": 65,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Definition for rule 'react-refresh/only-export-components' was not found.",
-      "signals": [
-        {
-          "kind": "react-refresh/only-export-components",
-          "message": "Definition for rule 'react-refresh/only-export-components' was not found."
-        }
-      ],
-      "fingerprint": "8c7e77d2",
-      "occurrence": 1,
-      "reason_code": "react-refresh/only-export-components",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this react_refresh/only_export_components finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:8c7e77d2:1",
-            "kind": "react_refresh/only_export_components",
-            "file": "src/auth/AuthContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
     {
       "id": "typescript-eslint:ecdf80a0:1",
       "rule_id": "@typescript-eslint/no-unnecessary-type-assertion",
@@ -311,100 +258,6 @@
       ]
     },
     {
-      "id": "typescript-eslint:6df36e45:1",
-      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
-      "kind": "typed_no_unsafe_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/dayNightExplorer/earthTexture.worker",
-      "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
-      "line": 15,
-      "column": 21,
-      "end_line": 15,
-      "end_column": 63,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type 'EarthTextureWorkerScope' is more narrow than the original type.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type 'EarthTextureWorkerScope' is more narrow than the original type."
-        }
-      ],
-      "fingerprint": "6df36e45",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:6df36e45:1",
-            "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:7600f2e0:1",
-      "rule_id": "@typescript-eslint/no-unnecessary-type-assertion",
-      "kind": "typed_no_unnecessary_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/dayNightExplorer/earthTexture.worker",
-      "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
-      "line": 38,
-      "column": 20,
-      "end_line": 43,
-      "end_column": 33,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "This assertion is unnecessary since it does not change the type of the expression.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unnecessary-type-assertion",
-          "message": "This assertion is unnecessary since it does not change the type of the expression."
-        }
-      ],
-      "fingerprint": "7600f2e0",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unnecessary-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unnecessary_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:7600f2e0:1",
-            "kind": "typed_no_unnecessary_type_assertion",
-            "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "typescript-eslint:66e1b9fa:1",
       "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
       "kind": "typed_no_unsafe_type_assertion",
@@ -493,165 +346,6 @@
             "id": "typescript-eslint:e1314575:1",
             "kind": "typed_no_unsafe_type_assertion",
             "file": "src/components/weather/WeatherScene.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:3e62d8e0:1",
-      "rule_id": "react-refresh/only-export-components",
-      "kind": "react_refresh/only_export_components",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "line": 2,
-      "column": 1,
-      "end_line": 2,
-      "end_column": 58,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Definition for rule 'react-refresh/only-export-components' was not found.",
-      "signals": [
-        {
-          "kind": "react-refresh/only-export-components",
-          "message": "Definition for rule 'react-refresh/only-export-components' was not found."
-        }
-      ],
-      "fingerprint": "3e62d8e0",
-      "occurrence": 1,
-      "reason_code": "react-refresh/only-export-components",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this react_refresh/only_export_components finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:3e62d8e0:1",
-            "kind": "react_refresh/only_export_components",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:84ae4809:1",
-      "rule_id": "react-refresh/only-export-components",
-      "kind": "react_refresh/only_export_components",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/contexts/SelectedDateContext",
-      "file": "src/contexts/SelectedDateContext.tsx",
-      "line": 2,
-      "column": 1,
-      "end_line": 2,
-      "end_column": 58,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Definition for rule 'react-refresh/only-export-components' was not found.",
-      "signals": [
-        {
-          "kind": "react-refresh/only-export-components",
-          "message": "Definition for rule 'react-refresh/only-export-components' was not found."
-        }
-      ],
-      "fingerprint": "84ae4809",
-      "occurrence": 1,
-      "reason_code": "react-refresh/only-export-components",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this react_refresh/only_export_components finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:84ae4809:1",
-            "kind": "react_refresh/only_export_components",
-            "file": "src/contexts/SelectedDateContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:f2357a67:1",
-      "rule_id": "react-refresh/only-export-components",
-      "kind": "react_refresh/only_export_components",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/contexts/ThemeContext",
-      "file": "src/contexts/ThemeContext.tsx",
-      "line": 33,
-      "column": 1,
-      "end_line": 33,
-      "end_column": 58,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Definition for rule 'react-refresh/only-export-components' was not found.",
-      "signals": [
-        {
-          "kind": "react-refresh/only-export-components",
-          "message": "Definition for rule 'react-refresh/only-export-components' was not found."
-        }
-      ],
-      "fingerprint": "f2357a67",
-      "occurrence": 1,
-      "reason_code": "react-refresh/only-export-components",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this react_refresh/only_export_components finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:f2357a67:1",
-            "kind": "react_refresh/only_export_components",
-            "file": "src/contexts/ThemeContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1034,318 +728,94 @@
       ]
     },
     {
-      "id": "typescript-eslint:558abb8a:1",
-      "rule_id": "@typescript-eslint/no-unsafe-assignment",
-      "kind": "typed_no_unsafe_assignment",
+      "id": "typescript-eslint:e68986a6:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
       "evidence_kind": "tool-rule",
-      "disposition": "block",
+      "disposition": "warn",
       "finding_confidence": "high",
       "scope": "file",
-      "module_id": "src/firebase",
-      "file": "src/firebase.ts",
-      "line": 5,
-      "column": 3,
-      "end_line": 5,
-      "end_column": 48,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
+      "module_id": "src/features/dayNightExplorer/earthTexture.worker",
+      "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+      "line": 15,
+      "column": 21,
+      "end_line": 15,
+      "end_column": 63,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
       "source": "typescript-eslint",
-      "message": "Unsafe assignment of an `any` value.",
+      "message": "Unsafe type assertion: type 'EarthTextureWorkerScope' is more narrow than the original type.",
       "signals": [
         {
-          "kind": "@typescript-eslint/no-unsafe-assignment",
-          "message": "Unsafe assignment of an `any` value."
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'EarthTextureWorkerScope' is more narrow than the original type."
         }
       ],
-      "fingerprint": "558abb8a",
+      "fingerprint": "e68986a6",
       "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
-      "estimated_effort": 60,
+      "estimated_effort": 30,
       "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:558abb8a:1",
-            "kind": "typed_no_unsafe_assignment",
-            "file": "src/firebase.ts",
+            "id": "typescript-eslint:e68986a6:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "typescript-eslint:558abb8a:2",
-      "rule_id": "@typescript-eslint/no-unsafe-assignment",
-      "kind": "typed_no_unsafe_assignment",
+      "id": "typescript-eslint:27ee46d3:1",
+      "rule_id": "@typescript-eslint/no-unnecessary-type-assertion",
+      "kind": "typed_no_unnecessary_type_assertion",
       "evidence_kind": "tool-rule",
-      "disposition": "block",
+      "disposition": "warn",
       "finding_confidence": "high",
       "scope": "file",
-      "module_id": "src/firebase",
-      "file": "src/firebase.ts",
-      "line": 6,
-      "column": 3,
-      "end_line": 6,
-      "end_column": 56,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
+      "module_id": "src/features/dayNightExplorer/earthTexture.worker",
+      "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+      "line": 38,
+      "column": 20,
+      "end_line": 43,
+      "end_column": 33,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
       "source": "typescript-eslint",
-      "message": "Unsafe assignment of an `any` value.",
+      "message": "This assertion is unnecessary since it does not change the type of the expression.",
       "signals": [
         {
-          "kind": "@typescript-eslint/no-unsafe-assignment",
-          "message": "Unsafe assignment of an `any` value."
+          "kind": "@typescript-eslint/no-unnecessary-type-assertion",
+          "message": "This assertion is unnecessary since it does not change the type of the expression."
         }
       ],
-      "fingerprint": "558abb8a",
-      "occurrence": 2,
-      "reason_code": "@typescript-eslint/no-unsafe-assignment",
+      "fingerprint": "27ee46d3",
+      "occurrence": 1,
+      "reason_code": "@typescript-eslint/no-unnecessary-type-assertion",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
-      "estimated_effort": 60,
+      "estimated_effort": 30,
       "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this typed_no_unnecessary_type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:558abb8a:2",
-            "kind": "typed_no_unsafe_assignment",
-            "file": "src/firebase.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:558abb8a:3",
-      "rule_id": "@typescript-eslint/no-unsafe-assignment",
-      "kind": "typed_no_unsafe_assignment",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/firebase",
-      "file": "src/firebase.ts",
-      "line": 7,
-      "column": 3,
-      "end_line": 7,
-      "end_column": 54,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe assignment of an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-assignment",
-          "message": "Unsafe assignment of an `any` value."
-        }
-      ],
-      "fingerprint": "558abb8a",
-      "occurrence": 3,
-      "reason_code": "@typescript-eslint/no-unsafe-assignment",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:558abb8a:3",
-            "kind": "typed_no_unsafe_assignment",
-            "file": "src/firebase.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:558abb8a:4",
-      "rule_id": "@typescript-eslint/no-unsafe-assignment",
-      "kind": "typed_no_unsafe_assignment",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/firebase",
-      "file": "src/firebase.ts",
-      "line": 8,
-      "column": 3,
-      "end_line": 8,
-      "end_column": 62,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe assignment of an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-assignment",
-          "message": "Unsafe assignment of an `any` value."
-        }
-      ],
-      "fingerprint": "558abb8a",
-      "occurrence": 4,
-      "reason_code": "@typescript-eslint/no-unsafe-assignment",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:558abb8a:4",
-            "kind": "typed_no_unsafe_assignment",
-            "file": "src/firebase.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:558abb8a:5",
-      "rule_id": "@typescript-eslint/no-unsafe-assignment",
-      "kind": "typed_no_unsafe_assignment",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/firebase",
-      "file": "src/firebase.ts",
-      "line": 9,
-      "column": 3,
-      "end_line": 9,
-      "end_column": 71,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe assignment of an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-assignment",
-          "message": "Unsafe assignment of an `any` value."
-        }
-      ],
-      "fingerprint": "558abb8a",
-      "occurrence": 5,
-      "reason_code": "@typescript-eslint/no-unsafe-assignment",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:558abb8a:5",
-            "kind": "typed_no_unsafe_assignment",
-            "file": "src/firebase.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:558abb8a:6",
-      "rule_id": "@typescript-eslint/no-unsafe-assignment",
-      "kind": "typed_no_unsafe_assignment",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/firebase",
-      "file": "src/firebase.ts",
-      "line": 10,
-      "column": 3,
-      "end_line": 10,
-      "end_column": 46,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe assignment of an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-assignment",
-          "message": "Unsafe assignment of an `any` value."
-        }
-      ],
-      "fingerprint": "558abb8a",
-      "occurrence": 6,
-      "reason_code": "@typescript-eslint/no-unsafe-assignment",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:558abb8a:6",
-            "kind": "typed_no_unsafe_assignment",
-            "file": "src/firebase.ts",
+            "id": "typescript-eslint:27ee46d3:1",
+            "kind": "typed_no_unnecessary_type_assertion",
+            "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1393,112 +863,6 @@
             "id": "typescript-eslint:39a442fe:1",
             "kind": "typed_no_unsafe_type_assertion",
             "file": "src/lib/choreParser.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:c0a1693a:1",
-      "rule_id": "@typescript-eslint/no-unsafe-argument",
-      "kind": "typed_no_unsafe_argument",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/lib/dayNightExplorer/disposeSceneObject",
-      "file": "src/lib/dayNightExplorer/disposeSceneObject.ts",
-      "line": 19,
-      "column": 22,
-      "end_line": 19,
-      "end_column": 35,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe argument of type `any` assigned to a parameter of type `BufferGeometry<NormalBufferAttributes, BufferGeometryEventMap>`.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-argument",
-          "message": "Unsafe argument of type `any` assigned to a parameter of type `BufferGeometry<NormalBufferAttributes, BufferGeometryEventMap>`."
-        }
-      ],
-      "fingerprint": "c0a1693a",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-argument",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_argument finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:c0a1693a:1",
-            "kind": "typed_no_unsafe_argument",
-            "file": "src/lib/dayNightExplorer/disposeSceneObject.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:841e3693:1",
-      "rule_id": "@typescript-eslint/no-unsafe-argument",
-      "kind": "typed_no_unsafe_argument",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/lib/dayNightExplorer/disposeSceneObject",
-      "file": "src/lib/dayNightExplorer/disposeSceneObject.ts",
-      "line": 29,
-      "column": 49,
-      "end_line": 29,
-      "end_column": 57,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe argument of type `any` assigned to a parameter of type `Material<MaterialEventMap>`.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-argument",
-          "message": "Unsafe argument of type `any` assigned to a parameter of type `Material<MaterialEventMap>`."
-        }
-      ],
-      "fingerprint": "841e3693",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-argument",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_argument finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:841e3693:1",
-            "kind": "typed_no_unsafe_argument",
-            "file": "src/lib/dayNightExplorer/disposeSceneObject.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1646,7 +1010,7 @@
       ]
     },
     {
-      "id": "typescript-eslint:12f72402:1",
+      "id": "typescript-eslint:b28b3148:1",
       "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
       "kind": "typed_no_unsafe_type_assertion",
       "evidence_kind": "tool-rule",
@@ -1663,14 +1027,14 @@
       "severity": "medium",
       "risk": "medium",
       "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type 'Record<\"night\" | \"sunrise\" | \"sunset\" | \"daytime\", Record<Season, string>>' is more narrow than the original type.",
+      "message": "Unsafe type assertion: type 'Record<\"sunrise\" | \"daytime\" | \"sunset\" | \"night\", Record<Season, string>>' is more narrow than the original type.",
       "signals": [
         {
           "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type 'Record<\"night\" | \"sunrise\" | \"sunset\" | \"daytime\", Record<Season, string>>' is more narrow than the original type."
+          "message": "Unsafe type assertion: type 'Record<\"sunrise\" | \"daytime\" | \"sunset\" | \"night\", Record<Season, string>>' is more narrow than the original type."
         }
       ],
-      "fingerprint": "12f72402",
+      "fingerprint": "b28b3148",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
       "workspace_id": "mystarquest",
@@ -1684,7 +1048,7 @@
           "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:12f72402:1",
+            "id": "typescript-eslint:b28b3148:1",
             "kind": "typed_no_unsafe_type_assertion",
             "file": "src/ui/themeAssets.ts",
             "reason": "Intentional finding; document the project-specific reason."

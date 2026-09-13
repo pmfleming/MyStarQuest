@@ -7,8 +7,7 @@ export const disposeSceneObject = (
   object: Object3D,
   disposeSpriteGeometry = false
 ) => {
-  const geometries = new Set<BufferGeometry>()
-  const materials = new Set<Material>()
+  const resources = new Set<{ dispose(): void }>()
 
   object.traverse((node) => {
     if (!(
@@ -19,16 +18,15 @@ export const disposeSceneObject = (
     ))
       return
     if (!(node instanceof Sprite) || disposeSpriteGeometry) {
-      if (node.geometry instanceof BufferGeometry) geometries.add(node.geometry)
+      if (node.geometry instanceof BufferGeometry) resources.add(node.geometry)
     }
     const entries: unknown = node.material
     const addMaterial = (material: unknown) => {
-      if (material instanceof Material) materials.add(material)
+      if (material instanceof Material) resources.add(material)
     }
     if (Array.isArray(entries)) entries.forEach(addMaterial)
     else addMaterial(entries)
   })
 
-  geometries.forEach((geometry) => geometry.dispose())
-  materials.forEach((material) => material.dispose())
+  resources.forEach((resource) => resource.dispose())
 }

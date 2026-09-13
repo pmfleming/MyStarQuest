@@ -1,4 +1,4 @@
-import { useAsyncAction } from './useAsyncAction'
+import { useAsyncAction } from '../../hooks/useAsyncAction'
 import { ActionFeedback } from './ActionFeedback'
 import type { CSSProperties, ReactNode } from 'react'
 import { useMemo, useState } from 'react'

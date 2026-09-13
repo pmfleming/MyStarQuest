@@ -1,12 +1,12 @@
 import { useCallback, useMemo, useSyncExternalStore } from 'react'
-import type { ExplorerCityOption } from '../features/dayNightExplorer/dayNightExplorerOptions'
+import type { WeatherCity } from '../lib/weather/weatherData'
 import {
   getWeatherSnapshot,
   retryWeather,
   subscribeWeather,
 } from '../lib/weather/weatherStore'
 
-export function useCurrentWeather(city: ExplorerCityOption) {
+export function useCurrentWeather(city: WeatherCity) {
   const subscribe = useCallback(
     (listener: () => void) => subscribeWeather(city, listener),
     [city]

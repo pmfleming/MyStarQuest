@@ -1,4 +1,4 @@
-import { useAsyncAction } from './useAsyncAction'
+import { useAsyncAction } from '../../hooks/useAsyncAction'
 import { ActionFeedback } from './ActionFeedback'
 import type { ChangeEvent, KeyboardEvent } from 'react'
 import type { CSSProperties } from 'react'

@@ -1,5 +1,7 @@
 import { z } from 'zod'
-import type { ExplorerCityOption } from '../../features/dayNightExplorer/dayNightExplorerOptions'
+import type { SolarLocation } from '../solar'
+
+export type WeatherCity = { id: string; label: string; location: SolarLocation }
 import { weatherDateKey, type WeatherConditions } from './weatherConditions'
 
 const nullableNumber = z.number().finite().nullable().catch(null)
@@ -90,7 +92,7 @@ export function isWeatherUsable(
   )
 }
 
-export function buildWeatherUrl(city: ExplorerCityOption) {
+export function buildWeatherUrl(city: WeatherCity) {
   const params = new URLSearchParams({
     latitude: String(city.location.latitude),
     longitude: String(city.location.longitude),
@@ -107,7 +109,7 @@ export function buildWeatherUrl(city: ExplorerCityOption) {
 }
 
 export async function fetchCurrentWeather(
-  city: ExplorerCityOption,
+  city: WeatherCity,
   signal: AbortSignal
 ) {
   const response = await fetch(buildWeatherUrl(city), { signal })

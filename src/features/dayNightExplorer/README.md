@@ -1,6 +1,6 @@
 # Day/night explorer
 
-The clock, scene manager, texture worker, and their calculations live together here. Pages consume `useDayNightExplorerModel`, `Clock`, and `SpinningPlanet`; weather also shares the city options. General solar and season calculations remain in `src/lib`.
+The clock, scene manager, texture worker, and their calculations live together here. Pages consume `useDayNightExplorerModel`, `Clock`, and `SpinningPlanet`. Weather accepts the selected city through its own `WeatherCity` contract, without importing this feature. General solar and season calculations remain in `src/lib`.
 
 - `useExplorerClock` owns the timer, pointer listeners, and pending drag frame. `commitExplorerTime` normalizes and commits adjustments, synchronization, and dragging. Pointer release flushes the final queued position before committing.
 - `useSolarSystem3D` owns one `SolarSystem3DManager` per mounted canvas. The manager owns its animation frame, visibility listener, intersection observer, renderer, geometries, materials, and GPU textures. Disposal is idempotent and subsequent updates are ignored.

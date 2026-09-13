@@ -55,6 +55,8 @@ jobs:
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
+    env:
+      VITEST_MAX_WORKERS: '2'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -65,6 +67,45 @@ jobs:
         run: npm ci
       - name: Run Vitest
         run: npm run test
+
+  quality:
+    name: TypeScript quality gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    env:
+      VITEST_MAX_WORKERS: '2'
+      QUALITY_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+      QUALITY_LENS_CLI: tmp/quality-lens-latest/dist/bin/ts-react-quality-lens.js
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Check out pinned TypeScript Lens
+        uses: actions/checkout@v4
+        with:
+          repository: pmfleming/ts-react-quality-lens
+          ref: 986c6fd9cc82627866156ba0cf22cb1504ab8587
+          path: tmp/quality-lens-latest
+          persist-credentials: false
+      - name: Build Lens
+        run: npm ci --prefix tmp/quality-lens-latest && npm run build --prefix tmp/quality-lens-latest
+      - name: Test quality report checks
+        run: node --test scripts/quality-summary.test.mjs scripts/quality-gate.integration.test.mjs
+      - name: Audit changed code and report metrics
+        run: node scripts/quality-gate.mjs "$QUALITY_BASE"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: typescript-quality
+          path: target/analysis/*.*
+          retention-days: 30
 
   e2e-tests:
     name: E2E Tests (Playwright)

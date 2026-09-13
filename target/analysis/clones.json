@@ -3,7 +3,7 @@
   "task_id": "quality.clones",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T18:48:00.891Z",
+    "measured_at": "2026-09-13T19:29:56.055Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f0394afeb3e3ac7c680c52d95e9a1e36513f80ed510229637b2d92d9b4d885c3",
-    "input_set_hash": "sha256:021d9f214a79a5d13071ee33a3f97bf12c4f30f6e61a5305b7d0dd1c16427e4e"
+    "source_set_hash": "sha256:d8764fd624cb1ca4018c2a494de0ef4b5d0b8a24d9ed441230f37e745dfa6dcb",
+    "input_set_hash": "sha256:b9d875dcb5362206258a0243fe483d0b193cf2e30a3ceee54647a66bd4e3dc34"
   },
   "analysis_identity": {
-    "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
+    "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:3b0f360d5b74b92560fd4b9739831b0c854a33be6b34130701a6943087442b11",
+    "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -114,7 +114,7 @@
       "ran": true,
       "reason": null,
       "statistics": {
-        "detectionDate": "2026-09-13T18:47:59.033Z",
+        "detectionDate": "2026-09-13T19:29:54.274Z",
         "formats": {
           "typescript": {
             "sources": {
@@ -131,8 +131,8 @@
                 "newClones": 0
               },
               "src/lib/weather/weatherVisuals.ts": {
-                "lines": 104,
-                "tokens": 1132,
+                "lines": 93,
+                "tokens": 796,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -143,8 +143,8 @@
                 "newClones": 0
               },
               "src/lib/weather/weatherStore.ts": {
-                "lines": 163,
-                "tokens": 1546,
+                "lines": 158,
+                "tokens": 1540,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -155,8 +155,8 @@
                 "newClones": 0
               },
               "src/lib/weather/weatherData.ts": {
-                "lines": 119,
-                "tokens": 1134,
+                "lines": 121,
+                "tokens": 1164,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -167,8 +167,8 @@
                 "newClones": 0
               },
               "src/lib/weather/weatherConditions.ts": {
-                "lines": 132,
-                "tokens": 1281,
+                "lines": 99,
+                "tokens": 1046,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -178,7 +178,19 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/lib/dayNightExplorer/worldTopology.ts": {
+              "src/lib/weather/weatherCodes.ts": {
+                "lines": 68,
+                "tokens": 911,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/features/dayNightExplorer/worldTopology.ts": {
                 "lines": 212,
                 "tokens": 1805,
                 "sources": 1,
@@ -190,7 +202,7 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/lib/dayNightExplorer/worldMapCanvas.ts": {
+              "src/features/dayNightExplorer/worldMapCanvas.ts": {
                 "lines": 32,
                 "tokens": 330,
                 "sources": 1,
@@ -202,7 +214,43 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/lib/dayNightExplorer/solarSystemGeometry.ts": {
+              "src/features/dayNightExplorer/useSolarSystem3D.ts": {
+                "lines": 49,
+                "tokens": 336,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/features/dayNightExplorer/useExplorerClock.ts": {
+                "lines": 325,
+                "tokens": 2619,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/features/dayNightExplorer/useDayNightExplorerModel.ts": {
+                "lines": 256,
+                "tokens": 1912,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/features/dayNightExplorer/solarSystemGeometry.ts": {
                 "lines": 57,
                 "tokens": 614,
                 "sources": 1,
@@ -214,7 +262,19 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/lib/dayNightExplorer/earthTextureRenderer.ts": {
+              "src/features/dayNightExplorer/SolarSystem3DManager.ts": {
+                "lines": 713,
+                "tokens": 6428,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/features/dayNightExplorer/earthTextureRenderer.ts": {
                 "lines": 39,
                 "tokens": 357,
                 "sources": 1,
@@ -226,9 +286,9 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/lib/dayNightExplorer/earthTextureCache.ts": {
-                "lines": 117,
-                "tokens": 980,
+              "src/features/dayNightExplorer/earthTextureCache.ts": {
+                "lines": 114,
+                "tokens": 975,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -238,8 +298,20 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/lib/dayNightExplorer/disposeSceneObject.ts": {
-                "lines": 34,
+              "src/features/dayNightExplorer/earthTexture.worker.ts": {
+                "lines": 53,
+                "tokens": 359,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/features/dayNightExplorer/disposeSceneObject.ts": {
+                "lines": 32,
                 "tokens": 311,
                 "sources": 1,
                 "clones": 0,
@@ -250,7 +322,7 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/lib/dayNightExplorer/dayNightExplorerOptions.ts": {
+              "src/features/dayNightExplorer/dayNightExplorerOptions.ts": {
                 "lines": 94,
                 "tokens": 631,
                 "sources": 1,
@@ -262,7 +334,7 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/lib/dayNightExplorer/dayNightExplorerMath.ts": {
+              "src/features/dayNightExplorer/dayNightExplorerMath.ts": {
                 "lines": 130,
                 "tokens": 1346,
                 "sources": 1,
@@ -274,7 +346,7 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/lib/dayNightExplorer/dayNightExplorerCalendar.ts": {
+              "src/features/dayNightExplorer/dayNightExplorerCalendar.ts": {
                 "lines": 28,
                 "tokens": 180,
                 "sources": 1,
@@ -286,7 +358,7 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/lib/dayNightExplorer/dayNightExplorerBackdrop.ts": {
+              "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts": {
                 "lines": 214,
                 "tokens": 1995,
                 "sources": 1,
@@ -298,9 +370,21 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/lib/dayNightExplorer/dayNightExplorer.constants.ts": {
+              "src/features/dayNightExplorer/dayNightExplorer.constants.ts": {
                 "lines": 76,
                 "tokens": 718,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/features/dayNightExplorer/clockImageLayers.ts": {
+                "lines": 52,
+                "tokens": 376,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -373,18 +457,6 @@
               "src/data/creatureCollections/animals.ts": {
                 "lines": 73,
                 "tokens": 713,
-                "sources": 1,
-                "clones": 0,
-                "duplicatedLines": 0,
-                "duplicatedTokens": 0,
-                "percentage": 0,
-                "percentageTokens": 0,
-                "newDuplicatedLines": 0,
-                "newClones": 0
-              },
-              "src/components/ui/useAsyncAction.ts": {
-                "lines": 35,
-                "tokens": 308,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -490,69 +562,9 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/components/dayNightExplorer/useSolarSystem3D.ts": {
-                "lines": 49,
-                "tokens": 336,
-                "sources": 1,
-                "clones": 0,
-                "duplicatedLines": 0,
-                "duplicatedTokens": 0,
-                "percentage": 0,
-                "percentageTokens": 0,
-                "newDuplicatedLines": 0,
-                "newClones": 0
-              },
-              "src/components/dayNightExplorer/useExplorerClock.ts": {
-                "lines": 327,
-                "tokens": 2669,
-                "sources": 1,
-                "clones": 0,
-                "duplicatedLines": 0,
-                "duplicatedTokens": 0,
-                "percentage": 0,
-                "percentageTokens": 0,
-                "newDuplicatedLines": 0,
-                "newClones": 0
-              },
-              "src/components/dayNightExplorer/useDayNightExplorerModel.ts": {
-                "lines": 256,
-                "tokens": 1912,
-                "sources": 1,
-                "clones": 0,
-                "duplicatedLines": 0,
-                "duplicatedTokens": 0,
-                "percentage": 0,
-                "percentageTokens": 0,
-                "newDuplicatedLines": 0,
-                "newClones": 0
-              },
-              "src/components/dayNightExplorer/SolarSystem3DManager.ts": {
-                "lines": 712,
-                "tokens": 6417,
-                "sources": 1,
-                "clones": 0,
-                "duplicatedLines": 0,
-                "duplicatedTokens": 0,
-                "percentage": 0,
-                "percentageTokens": 0,
-                "newDuplicatedLines": 0,
-                "newClones": 0
-              },
-              "src/components/dayNightExplorer/earthTexture.worker.ts": {
-                "lines": 53,
-                "tokens": 359,
-                "sources": 1,
-                "clones": 0,
-                "duplicatedLines": 0,
-                "duplicatedTokens": 0,
-                "percentage": 0,
-                "percentageTokens": 0,
-                "newDuplicatedLines": 0,
-                "newClones": 0
-              },
-              "src/components/dayNightExplorer/clockImageLayers.ts": {
-                "lines": 52,
-                "tokens": 376,
+              "src/components/ui/actionButtonState.ts": {
+                "lines": 38,
+                "tokens": 278,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -575,8 +587,8 @@
                 "newClones": 0
               },
               "src/components/animalTester/useAnimalSession.ts": {
-                "lines": 258,
-                "tokens": 2217,
+                "lines": 265,
+                "tokens": 2268,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1031,8 +1043,8 @@
                 "newClones": 0
               },
               "src/hooks/useDinnerCountdownState.ts": {
-                "lines": 117,
-                "tokens": 1082,
+                "lines": 125,
+                "tokens": 1196,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1078,9 +1090,33 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/hooks/useAsyncAction.ts": {
+                "lines": 49,
+                "tokens": 478,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/hooks/useActivityPersistence.ts": {
+                "lines": 19,
+                "tokens": 223,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/hooks/useActivityChallenge.ts": {
-                "lines": 221,
-                "tokens": 1761,
+                "lines": 228,
+                "tokens": 1826,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1377,12 +1413,24 @@
                 "percentageTokens": 0,
                 "newDuplicatedLines": 0,
                 "newClones": 0
+              },
+              "src/env.d.ts": {
+                "lines": 8,
+                "tokens": 78,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
               }
             },
             "total": {
-              "lines": 9962,
-              "tokens": 84687,
-              "sources": 105,
+              "lines": 10078,
+              "tokens": 85986,
+              "sources": 109,
               "clones": 1,
               "duplicatedLines": 9,
               "duplicatedTokens": 82,
@@ -1394,6 +1442,30 @@
           },
           "javascript": {
             "sources": {
+              "src/features/dayNightExplorer/SpinningPlanet.tsx": {
+                "lines": 53,
+                "tokens": 351,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/features/dayNightExplorer/Clock.tsx": {
+                "lines": 370,
+                "tokens": 2356,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/components/weather/WeatherScene.tsx": {
                 "lines": 247,
                 "tokens": 2168,
@@ -1443,8 +1515,8 @@
                 "newClones": 0
               },
               "src/components/ui/TopIconButton.tsx": {
-                "lines": 1,
-                "tokens": 3,
+                "lines": 11,
+                "tokens": 53,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1479,8 +1551,8 @@
                 "newClones": 0
               },
               "src/components/ui/StarDisplay.tsx": {
-                "lines": 297,
-                "tokens": 2012,
+                "lines": 298,
+                "tokens": 2024,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1491,8 +1563,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 401,
-                "tokens": 3128,
+                "lines": 396,
+                "tokens": 3095,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1503,8 +1575,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionButtons.tsx": {
-                "lines": 262,
-                "tokens": 1850,
+                "lines": 296,
+                "tokens": 2020,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1635,8 +1707,8 @@
                 "newClones": 0
               },
               "src/components/ui/ImageOptionCarousel.tsx": {
-                "lines": 39,
-                "tokens": 258,
+                "lines": 40,
+                "tokens": 260,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1683,8 +1755,8 @@
                 "newClones": 0
               },
               "src/components/ui/Carousel.tsx": {
-                "lines": 35,
-                "tokens": 324,
+                "lines": 38,
+                "tokens": 344,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1697,6 +1769,18 @@
               "src/components/ui/CardShell.tsx": {
                 "lines": 6,
                 "tokens": 35,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/AsyncButton.tsx": {
+                "lines": 7,
+                "tokens": 68,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1719,8 +1803,8 @@
                 "newClones": 0
               },
               "src/components/ui/ActivityControls.tsx": {
-                "lines": 322,
-                "tokens": 1948,
+                "lines": 323,
+                "tokens": 1993,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1731,8 +1815,20 @@
                 "newClones": 0
               },
               "src/components/ui/ActionTextInput.tsx": {
-                "lines": 12,
-                "tokens": 87,
+                "lines": 14,
+                "tokens": 109,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/ActionFeedback.tsx": {
+                "lines": 1,
+                "tokens": 3,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1745,30 +1841,6 @@
               "src/components/ui/ActionButton.tsx": {
                 "lines": 26,
                 "tokens": 164,
-                "sources": 1,
-                "clones": 0,
-                "duplicatedLines": 0,
-                "duplicatedTokens": 0,
-                "percentage": 0,
-                "percentageTokens": 0,
-                "newDuplicatedLines": 0,
-                "newClones": 0
-              },
-              "src/components/dayNightExplorer/SpinningPlanet.tsx": {
-                "lines": 53,
-                "tokens": 351,
-                "sources": 1,
-                "clones": 0,
-                "duplicatedLines": 0,
-                "duplicatedTokens": 0,
-                "percentage": 0,
-                "percentageTokens": 0,
-                "newDuplicatedLines": 0,
-                "newClones": 0
-              },
-              "src/components/dayNightExplorer/Clock.tsx": {
-                "lines": 370,
-                "tokens": 2356,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1792,7 +1864,7 @@
               },
               "src/ui/unifiedChoreItemRenderer.tsx": {
                 "lines": 172,
-                "tokens": 1346,
+                "tokens": 1348,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1816,7 +1888,7 @@
               },
               "src/ui/presetChoreRenderers.tsx": {
                 "lines": 63,
-                "tokens": 458,
+                "tokens": 472,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1828,7 +1900,7 @@
               },
               "src/ui/definitionRowDescriptors.tsx": {
                 "lines": 167,
-                "tokens": 1253,
+                "tokens": 1255,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1935,8 +2007,8 @@
                 "newClones": 0
               },
               "src/pages/LoginPage.tsx": {
-                "lines": 54,
-                "tokens": 368,
+                "lines": 60,
+                "tokens": 411,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1982,7 +2054,7 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/contexts/ThemeContext.tsx": {
+              "src/contexts/ThemeProvider.tsx": {
                 "lines": 1,
                 "tokens": 3,
                 "sources": 1,
@@ -1994,7 +2066,7 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/contexts/SelectedDateContext.tsx": {
+              "src/contexts/SelectedDateProvider.tsx": {
                 "lines": 1,
                 "tokens": 3,
                 "sources": 1,
@@ -2006,7 +2078,7 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/contexts/ActiveChildContext.tsx": {
+              "src/contexts/ActiveChildProvider.tsx": {
                 "lines": 69,
                 "tokens": 540,
                 "sources": 1,
@@ -2067,8 +2139,8 @@
                 "newClones": 0
               },
               "src/components/PositionalNotation.tsx": {
-                "lines": 26,
-                "tokens": 146,
+                "lines": 28,
+                "tokens": 157,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2079,8 +2151,8 @@
                 "newClones": 0
               },
               "src/components/PageShell.tsx": {
-                "lines": 67,
-                "tokens": 520,
+                "lines": 69,
+                "tokens": 541,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2115,8 +2187,8 @@
                 "newClones": 0
               },
               "src/components/LargeNumbersTester.tsx": {
-                "lines": 277,
-                "tokens": 1791,
+                "lines": 278,
+                "tokens": 1797,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2127,8 +2199,8 @@
                 "newClones": 0
               },
               "src/components/DinnerCountdown.tsx": {
-                "lines": 623,
-                "tokens": 4440,
+                "lines": 625,
+                "tokens": 4483,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2139,8 +2211,8 @@
                 "newClones": 0
               },
               "src/components/ArithmeticTester.tsx": {
-                "lines": 259,
-                "tokens": 1575,
+                "lines": 261,
+                "tokens": 1586,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2163,8 +2235,8 @@
                 "newClones": 0
               },
               "src/components/AnimalTester.tsx": {
-                "lines": 680,
-                "tokens": 4345,
+                "lines": 682,
+                "tokens": 4355,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2175,8 +2247,8 @@
                 "newClones": 0
               },
               "src/components/AlphabetTester.tsx": {
-                "lines": 63,
-                "tokens": 372,
+                "lines": 64,
+                "tokens": 378,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2186,7 +2258,7 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/auth/AuthContext.tsx": {
+              "src/auth/AuthProvider.tsx": {
                 "lines": 1,
                 "tokens": 3,
                 "sources": 1,
@@ -2212,9 +2284,9 @@
               }
             },
             "total": {
-              "lines": 6978,
-              "tokens": 48621,
-              "sources": 68,
+              "lines": 7051,
+              "tokens": 49149,
+              "sources": 70,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -2226,6 +2298,30 @@
           },
           "tsx": {
             "sources": {
+              "src/features/dayNightExplorer/SpinningPlanet.tsx": {
+                "lines": 116,
+                "tokens": 784,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/features/dayNightExplorer/Clock.tsx": {
+                "lines": 500,
+                "tokens": 3356,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/components/weather/WeatherScene.tsx": {
                 "lines": 286,
                 "tokens": 2439,
@@ -2239,8 +2335,8 @@
                 "newClones": 0
               },
               "src/components/weather/WeatherPanel.tsx": {
-                "lines": 99,
-                "tokens": 692,
+                "lines": 100,
+                "tokens": 711,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2275,8 +2371,8 @@
                 "newClones": 0
               },
               "src/components/ui/TopIconButton.tsx": {
-                "lines": 63,
-                "tokens": 425,
+                "lines": 53,
+                "tokens": 339,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2287,8 +2383,8 @@
                 "newClones": 0
               },
               "src/components/ui/StepperButton.tsx": {
-                "lines": 78,
-                "tokens": 536,
+                "lines": 79,
+                "tokens": 557,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2311,8 +2407,8 @@
                 "newClones": 0
               },
               "src/components/ui/StarDisplay.tsx": {
-                "lines": 401,
-                "tokens": 2703,
+                "lines": 402,
+                "tokens": 2722,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2323,8 +2419,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 451,
-                "tokens": 3487,
+                "lines": 447,
+                "tokens": 3462,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2335,8 +2431,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionButtons.tsx": {
-                "lines": 308,
-                "tokens": 2141,
+                "lines": 342,
+                "tokens": 2321,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2347,8 +2443,8 @@
                 "newClones": 0
               },
               "src/components/ui/SegmentedChoiceControl.tsx": {
-                "lines": 148,
-                "tokens": 1024,
+                "lines": 149,
+                "tokens": 1043,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2383,8 +2479,8 @@
                 "newClones": 0
               },
               "src/components/ui/RepeatControl.tsx": {
-                "lines": 136,
-                "tokens": 818,
+                "lines": 137,
+                "tokens": 839,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2407,8 +2503,8 @@
                 "newClones": 0
               },
               "src/components/ui/MathActivityShell.tsx": {
-                "lines": 48,
-                "tokens": 281,
+                "lines": 50,
+                "tokens": 302,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2479,8 +2575,8 @@
                 "newClones": 0
               },
               "src/components/ui/ImageOptionCarousel.tsx": {
-                "lines": 76,
-                "tokens": 495,
+                "lines": 77,
+                "tokens": 504,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2491,8 +2587,8 @@
                 "newClones": 0
               },
               "src/components/ui/IconActionControls.tsx": {
-                "lines": 216,
-                "tokens": 1450,
+                "lines": 217,
+                "tokens": 1462,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2515,8 +2611,8 @@
                 "newClones": 0
               },
               "src/components/ui/CrownDifficultyControl.tsx": {
-                "lines": 93,
-                "tokens": 648,
+                "lines": 94,
+                "tokens": 667,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2527,8 +2623,8 @@
                 "newClones": 0
               },
               "src/components/ui/Carousel.tsx": {
-                "lines": 201,
-                "tokens": 1645,
+                "lines": 204,
+                "tokens": 1704,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2551,8 +2647,20 @@
                 "newClones": 0
               },
               "src/components/ui/BottomNav.tsx": {
-                "lines": 82,
-                "tokens": 607,
+                "lines": 83,
+                "tokens": 619,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/AsyncButton.tsx": {
+                "lines": 30,
+                "tokens": 261,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2575,8 +2683,8 @@
                 "newClones": 0
               },
               "src/components/ui/ActivityControls.tsx": {
-                "lines": 389,
-                "tokens": 2396,
+                "lines": 393,
+                "tokens": 2497,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2587,8 +2695,20 @@
                 "newClones": 0
               },
               "src/components/ui/ActionTextInput.tsx": {
-                "lines": 109,
-                "tokens": 763,
+                "lines": 114,
+                "tokens": 852,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/ActionFeedback.tsx": {
+                "lines": 17,
+                "tokens": 122,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2599,8 +2719,8 @@
                 "newClones": 0
               },
               "src/components/ui/ActionButton.tsx": {
-                "lines": 108,
-                "tokens": 713,
+                "lines": 109,
+                "tokens": 732,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2622,21 +2742,9 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
-              "src/components/dayNightExplorer/SpinningPlanet.tsx": {
-                "lines": 116,
-                "tokens": 784,
-                "sources": 1,
-                "clones": 0,
-                "duplicatedLines": 0,
-                "duplicatedTokens": 0,
-                "percentage": 0,
-                "percentageTokens": 0,
-                "newDuplicatedLines": 0,
-                "newClones": 0
-              },
-              "src/components/dayNightExplorer/Clock.tsx": {
-                "lines": 506,
-                "tokens": 3362,
+              "src/components/activities/LazyActivities.tsx": {
+                "lines": 11,
+                "tokens": 181,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2671,8 +2779,8 @@
                 "newClones": 0
               },
               "src/ui/unifiedEatingRenderer.tsx": {
-                "lines": 133,
-                "tokens": 1209,
+                "lines": 137,
+                "tokens": 1243,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2684,7 +2792,7 @@
               },
               "src/ui/unifiedChoreItemRenderer.tsx": {
                 "lines": 248,
-                "tokens": 1950,
+                "tokens": 1952,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2707,8 +2815,8 @@
                 "newClones": 0
               },
               "src/ui/presetChoreRenderers.tsx": {
-                "lines": 93,
-                "tokens": 804,
+                "lines": 88,
+                "tokens": 694,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2732,7 +2840,7 @@
               },
               "src/ui/definitionRowDescriptors.tsx": {
                 "lines": 245,
-                "tokens": 1958,
+                "tokens": 1960,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2851,8 +2959,8 @@
                 "newClones": 0
               },
               "src/pages/LoginPage.tsx": {
-                "lines": 119,
-                "tokens": 928,
+                "lines": 115,
+                "tokens": 883,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2876,7 +2984,7 @@
               },
               "src/pages/dashboardChoreUi.tsx": {
                 "lines": 97,
-                "tokens": 562,
+                "tokens": 576,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2898,9 +3006,33 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/contexts/ThemeProvider.tsx": {
+                "lines": 37,
+                "tokens": 361,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/contexts/ThemeContext.tsx": {
-                "lines": 234,
-                "tokens": 1667,
+                "lines": 197,
+                "tokens": 1344,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/contexts/SelectedDateProvider.tsx": {
+                "lines": 47,
+                "tokens": 338,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2911,8 +3043,20 @@
                 "newClones": 0
               },
               "src/contexts/SelectedDateContext.tsx": {
-                "lines": 79,
-                "tokens": 557,
+                "lines": 36,
+                "tokens": 251,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/contexts/ActiveChildProvider.tsx": {
+                "lines": 126,
+                "tokens": 1032,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2923,8 +3067,8 @@
                 "newClones": 0
               },
               "src/contexts/ActiveChildContext.tsx": {
-                "lines": 143,
-                "tokens": 1157,
+                "lines": 21,
+                "tokens": 154,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2935,8 +3079,8 @@
                 "newClones": 0
               },
               "src/components/WaterToiletMonitor.tsx": {
-                "lines": 141,
-                "tokens": 887,
+                "lines": 142,
+                "tokens": 913,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2959,8 +3103,8 @@
                 "newClones": 0
               },
               "src/components/SpellingTester.tsx": {
-                "lines": 562,
-                "tokens": 4663,
+                "lines": 569,
+                "tokens": 4717,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2983,8 +3127,8 @@
                 "newClones": 0
               },
               "src/components/PositionalNotation.tsx": {
-                "lines": 131,
-                "tokens": 1024,
+                "lines": 133,
+                "tokens": 1034,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2995,8 +3139,8 @@
                 "newClones": 0
               },
               "src/components/PageShell.tsx": {
-                "lines": 129,
-                "tokens": 941,
+                "lines": 135,
+                "tokens": 1011,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3031,8 +3175,8 @@
                 "newClones": 0
               },
               "src/components/LargeNumbersTester.tsx": {
-                "lines": 537,
-                "tokens": 4328,
+                "lines": 539,
+                "tokens": 4338,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3043,8 +3187,8 @@
                 "newClones": 0
               },
               "src/components/DinnerCountdown.tsx": {
-                "lines": 762,
-                "tokens": 5758,
+                "lines": 765,
+                "tokens": 5820,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3067,8 +3211,8 @@
                 "newClones": 0
               },
               "src/components/ArithmeticTester.tsx": {
-                "lines": 398,
-                "tokens": 2953,
+                "lines": 400,
+                "tokens": 2970,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3103,8 +3247,8 @@
                 "newClones": 0
               },
               "src/components/AnimalTester.tsx": {
-                "lines": 869,
-                "tokens": 5852,
+                "lines": 871,
+                "tokens": 5862,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3115,8 +3259,20 @@
                 "newClones": 0
               },
               "src/components/AlphabetTester.tsx": {
-                "lines": 294,
-                "tokens": 2240,
+                "lines": 296,
+                "tokens": 2250,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/auth/AuthProvider.tsx": {
+                "lines": 77,
+                "tokens": 652,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3127,8 +3283,8 @@
                 "newClones": 0
               },
               "src/auth/AuthContext.tsx": {
-                "lines": 90,
-                "tokens": 762,
+                "lines": 18,
+                "tokens": 147,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3164,9 +3320,9 @@
               }
             },
             "total": {
-              "lines": 14043,
-              "tokens": 104538,
-              "sources": 78,
+              "lines": 14174,
+              "tokens": 105907,
+              "sources": 85,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -3266,9 +3422,9 @@
           }
         },
         "total": {
-          "lines": 31081,
-          "tokens": 238453,
-          "sources": 257,
+          "lines": 31401,
+          "tokens": 241649,
+          "sources": 270,
           "clones": 1,
           "duplicatedLines": 9,
           "duplicatedTokens": 82,
@@ -3526,7 +3682,9 @@
       "score": 33,
       "risk": "low",
       "duplicated_lines": 5,
-      "clone_group_ids": ["ast-clone:2a3ed575"],
+      "clone_group_ids": [
+        "ast-clone:2a3ed575"
+      ],
       "entrypoint_roles": [],
       "signals": [
         {
@@ -3590,7 +3748,9 @@
       "score": 33,
       "risk": "low",
       "duplicated_lines": 5,
-      "clone_group_ids": ["ast-clone:2a3ed575"],
+      "clone_group_ids": [
+        "ast-clone:2a3ed575"
+      ],
       "entrypoint_roles": [],
       "signals": [
         {
@@ -3654,7 +3814,9 @@
       "score": 29,
       "risk": "low",
       "duplicated_lines": 10,
-      "clone_group_ids": ["jscpd:typescript:1"],
+      "clone_group_ids": [
+        "jscpd:typescript:1"
+      ],
       "entrypoint_roles": [],
       "signals": [
         {
@@ -3718,7 +3880,9 @@
       "score": 29,
       "risk": "low",
       "duplicated_lines": 10,
-      "clone_group_ids": ["jscpd:typescript:1"],
+      "clone_group_ids": [
+        "jscpd:typescript:1"
+      ],
       "entrypoint_roles": [],
       "signals": [
         {
@@ -3782,7 +3946,9 @@
       "score": 25,
       "risk": "low",
       "duplicated_lines": 11,
-      "clone_group_ids": ["ast-clone:1afb1e52"],
+      "clone_group_ids": [
+        "ast-clone:1afb1e52"
+      ],
       "entrypoint_roles": [],
       "signals": [
         {

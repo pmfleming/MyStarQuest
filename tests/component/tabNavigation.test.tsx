@@ -5,7 +5,7 @@ import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom'
 import AnimatedTabLayout from '../../src/routes/AnimatedTabLayout'
 import AppErrorBoundary from '../../src/components/AppErrorBoundary'
 import DashboardPage from '../../src/pages/DashboardPage'
-import { ThemeProvider } from '../../src/contexts/ThemeContext'
+import { ThemeProvider } from '../../src/contexts/ThemeProvider'
 
 const actions = vi.hoisted(() => ({
   native: false,

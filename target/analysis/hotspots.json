@@ -3,7 +3,7 @@
   "task_id": "quality.hotspots",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure quality.hotspots --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T19:12:56.204Z",
+    "measured_at": "2026-09-13T19:29:53.540Z",
     "source_type": "static",
-    "source_set_hash": "sha256:4559831f162ee6414d9434ee27a80803af35c68ccc0bdc29beddb95b07bd7c17",
-    "input_set_hash": "sha256:7a7e611e4ddab6aee2fa704e51ca6e6928bc1fc939ea5a40904c12f0410c1f70"
+    "source_set_hash": "sha256:d8764fd624cb1ca4018c2a494de0ef4b5d0b8a24d9ed441230f37e745dfa6dcb",
+    "input_set_hash": "sha256:50b328f3ea0687b5a8ef23a95d9e64b141460c5d96e87156e3410f6412aad6d1"
   },
   "analysis_identity": {
-    "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
+    "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:3b0f360d5b74b92560fd4b9739831b0c854a33be6b34130701a6943087442b11",
+    "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -93,9 +93,9 @@
     "stale_input": []
   },
   "summary": {
-    "source_files": 190,
-    "records": 827,
-    "high_risk_records": 134
+    "source_files": 195,
+    "records": 832,
+    "high_risk_records": 133
   },
   "records": [
     {
@@ -1382,59 +1382,6 @@
       ]
     },
     {
-      "id": "file:src/features/dayNightExplorer/Clock",
-      "kind": "file",
-      "module_id": "src/features/dayNightExplorer/Clock",
-      "file": "src/features/dayNightExplorer/Clock.tsx",
-      "line": 1,
-      "score": 174,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 507
-        },
-        {
-          "kind": "branch_count",
-          "value": 0
-        },
-        {
-          "kind": "import_count",
-          "value": 11
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
-      "reason_code": "ts-react-quality-lens/file",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/features/dayNightExplorer/Clock",
-            "kind": "file",
-            "file": "src/features/dayNightExplorer/Clock.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/DinnerCountdown.tsx:DinnerCountdown:593",
       "kind": "component",
       "module_id": "src/components/DinnerCountdown",
@@ -1499,6 +1446,59 @@
             "id": "src/components/DinnerCountdown.tsx:DinnerCountdown:593",
             "kind": "component",
             "file": "src/components/DinnerCountdown.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/features/dayNightExplorer/Clock",
+      "kind": "file",
+      "module_id": "src/features/dayNightExplorer/Clock",
+      "file": "src/features/dayNightExplorer/Clock.tsx",
+      "line": 1,
+      "score": 172,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 501
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 11
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/features/dayNightExplorer/Clock",
+            "kind": "file",
+            "file": "src/features/dayNightExplorer/Clock.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2428,33 +2428,42 @@
       ]
     },
     {
-      "id": "file:src/contexts/ThemeContext",
-      "kind": "file",
-      "module_id": "src/contexts/ThemeContext",
-      "file": "src/contexts/ThemeContext.tsx",
-      "line": 1,
-      "score": 137,
+      "id": "src/features/dayNightExplorer/useExplorerClock.ts:useExplorerClock:32",
+      "kind": "hook",
+      "module_id": "src/features/dayNightExplorer/useExplorerClock",
+      "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+      "name": "useExplorerClock",
+      "line": 32,
+      "score": 130,
       "risk": "high",
       "signals": [
         {
-          "kind": "line_count",
-          "value": 235
+          "kind": "cyclomatic_complexity",
+          "value": 2
         },
         {
-          "kind": "branch_count",
+          "kind": "cognitive_complexity",
           "value": 1
         },
         {
-          "kind": "import_count",
-          "value": 32
+          "kind": "halstead_effort",
+          "value": 32839.51
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 288
         }
       ],
-      "rule_id": "ts-react-quality-lens/file",
+      "rule_id": "ts-react-quality-lens/hook",
       "evidence_kind": "heuristic",
       "disposition": "review",
       "finding_confidence": "medium",
-      "message": "file",
-      "reason_code": "ts-react-quality-lens/file",
+      "message": "hook",
+      "reason_code": "ts-react-quality-lens/hook",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
@@ -2469,12 +2478,12 @@
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "file:src/contexts/ThemeContext",
-            "kind": "file",
-            "file": "src/contexts/ThemeContext.tsx",
+            "id": "src/features/dayNightExplorer/useExplorerClock.ts:useExplorerClock:32",
+            "kind": "hook",
+            "file": "src/features/dayNightExplorer/useExplorerClock.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2598,6 +2607,59 @@
             "id": "file:src/data/dailyTaskState",
             "kind": "file",
             "file": "src/data/dailyTaskState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/features/dayNightExplorer/useExplorerClock",
+      "kind": "file",
+      "module_id": "src/features/dayNightExplorer/useExplorerClock",
+      "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+      "line": 1,
+      "score": 128,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 326
+        },
+        {
+          "kind": "branch_count",
+          "value": 12
+        },
+        {
+          "kind": "import_count",
+          "value": 3
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/features/dayNightExplorer/useExplorerClock",
+            "kind": "file",
+            "file": "src/features/dayNightExplorer/useExplorerClock.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2850,87 +2912,25 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/useExplorerClock.ts:useExplorerClock:32",
-      "kind": "hook",
-      "module_id": "src/features/dayNightExplorer/useExplorerClock",
-      "file": "src/features/dayNightExplorer/useExplorerClock.ts",
-      "name": "useExplorerClock",
-      "line": 32,
-      "score": 126,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 2
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 1
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 32839.51
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 278
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/hook",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "hook",
-      "reason_code": "ts-react-quality-lens/hook",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/features/dayNightExplorer/useExplorerClock.ts:useExplorerClock:32",
-            "kind": "hook",
-            "file": "src/features/dayNightExplorer/useExplorerClock.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "file:src/features/dayNightExplorer/useExplorerClock",
+      "id": "file:src/contexts/ThemeContext",
       "kind": "file",
-      "module_id": "src/features/dayNightExplorer/useExplorerClock",
-      "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+      "module_id": "src/contexts/ThemeContext",
+      "file": "src/contexts/ThemeContext.tsx",
       "line": 1,
       "score": 125,
       "risk": "high",
       "signals": [
         {
           "kind": "line_count",
-          "value": 316
+          "value": 198
         },
         {
           "kind": "branch_count",
-          "value": 12
+          "value": 1
         },
         {
           "kind": "import_count",
-          "value": 3
+          "value": 32
         }
       ],
       "rule_id": "ts-react-quality-lens/file",
@@ -2956,9 +2956,9 @@
           "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "file:src/features/dayNightExplorer/useExplorerClock",
+            "id": "file:src/contexts/ThemeContext",
             "kind": "file",
-            "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+            "file": "src/contexts/ThemeContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -4477,12 +4477,12 @@
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "line": 1,
-      "score": 101,
+      "score": 100,
       "risk": "high",
       "signals": [
         {
           "kind": "line_count",
-          "value": 164
+          "value": 159
         },
         {
           "kind": "branch_count",
@@ -5372,12 +5372,12 @@
       ]
     },
     {
-      "id": "src/contexts/ActiveChildContext.tsx:readStoredState:27",
+      "id": "src/contexts/ActiveChildProvider.tsx:readStoredState:18",
       "kind": "function",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
+      "module_id": "src/contexts/ActiveChildProvider",
+      "file": "src/contexts/ActiveChildProvider.tsx",
       "name": "readStoredState",
-      "line": 27,
+      "line": 18,
       "score": 91,
       "risk": "high",
       "signals": [
@@ -5425,9 +5425,9 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/ActiveChildContext.tsx:readStoredState:27",
+            "id": "src/contexts/ActiveChildProvider.tsx:readStoredState:18",
             "kind": "function",
-            "file": "src/contexts/ActiveChildContext.tsx",
+            "file": "src/contexts/ActiveChildProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -6712,12 +6712,12 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/useExplorerClock.ts:processUpdate:210",
+      "id": "src/features/dayNightExplorer/useExplorerClock.ts:processUpdate:220",
       "kind": "function",
       "module_id": "src/features/dayNightExplorer/useExplorerClock",
       "file": "src/features/dayNightExplorer/useExplorerClock.ts",
       "name": "processUpdate",
-      "line": 210,
+      "line": 220,
       "score": 80,
       "risk": "high",
       "signals": [
@@ -6765,7 +6765,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/features/dayNightExplorer/useExplorerClock.ts:processUpdate:210",
+            "id": "src/features/dayNightExplorer/useExplorerClock.ts:processUpdate:220",
             "kind": "function",
             "file": "src/features/dayNightExplorer/useExplorerClock.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7585,59 +7585,6 @@
       ]
     },
     {
-      "id": "file:src/contexts/ActiveChildContext",
-      "kind": "file",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "line": 1,
-      "score": 73,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 144
-        },
-        {
-          "kind": "branch_count",
-          "value": 11
-        },
-        {
-          "kind": "import_count",
-          "value": 4
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
-      "reason_code": "ts-react-quality-lens/file",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/contexts/ActiveChildContext",
-            "kind": "file",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/features/dayNightExplorer/dayNightExplorerMath.ts:roundedRectPerimeterPoint:48",
       "kind": "function",
       "module_id": "src/features/dayNightExplorer/dayNightExplorerMath",
@@ -8361,6 +8308,53 @@
       ]
     },
     {
+      "id": "file:src/contexts/ActiveChildProvider",
+      "kind": "file",
+      "module_id": "src/contexts/ActiveChildProvider",
+      "file": "src/contexts/ActiveChildProvider.tsx",
+      "line": 1,
+      "score": 68,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 127
+        },
+        {
+          "kind": "branch_count",
+          "value": 11
+        },
+        {
+          "kind": "import_count",
+          "value": 4
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/contexts/ActiveChildProvider",
+            "kind": "file",
+            "file": "src/contexts/ActiveChildProvider.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/hooks/useWeatherExploration.ts:useWeatherExploration:21",
       "kind": "hook",
       "module_id": "src/hooks/useWeatherExploration",
@@ -8464,12 +8458,12 @@
       ]
     },
     {
-      "id": "src/auth/AuthContext.tsx:getNativeGoogleIdToken:25",
+      "id": "src/auth/AuthProvider.tsx:getNativeGoogleIdToken:17",
       "kind": "function",
-      "module_id": "src/auth/AuthContext",
-      "file": "src/auth/AuthContext.tsx",
+      "module_id": "src/auth/AuthProvider",
+      "file": "src/auth/AuthProvider.tsx",
       "name": "getNativeGoogleIdToken",
-      "line": 25,
+      "line": 17,
       "score": 67,
       "risk": "medium",
       "signals": [
@@ -8511,9 +8505,9 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/auth/AuthContext.tsx:getNativeGoogleIdToken:25",
+            "id": "src/auth/AuthProvider.tsx:getNativeGoogleIdToken:17",
             "kind": "function",
-            "file": "src/auth/AuthContext.tsx",
+            "file": "src/auth/AuthProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -9103,53 +9097,6 @@
       ]
     },
     {
-      "id": "file:src/ui/presetChoreRenderers",
-      "kind": "file",
-      "module_id": "src/ui/presetChoreRenderers",
-      "file": "src/ui/presetChoreRenderers.tsx",
-      "line": 1,
-      "score": 64,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 94
-        },
-        {
-          "kind": "branch_count",
-          "value": 0
-        },
-        {
-          "kind": "import_count",
-          "value": 18
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
-      "reason_code": "ts-react-quality-lens/file",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/ui/presetChoreRenderers",
-            "kind": "file",
-            "file": "src/ui/presetChoreRenderers.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/ui/ActivityControls.tsx:ProblemCountControl:303",
       "kind": "component",
       "module_id": "src/components/ui/ActivityControls",
@@ -9377,6 +9324,53 @@
       ]
     },
     {
+      "id": "file:src/lib/weather/weatherData",
+      "kind": "file",
+      "module_id": "src/lib/weather/weatherData",
+      "file": "src/lib/weather/weatherData.ts",
+      "line": 1,
+      "score": 63,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 122
+        },
+        {
+          "kind": "branch_count",
+          "value": 10
+        },
+        {
+          "kind": "import_count",
+          "value": 3
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/lib/weather/weatherData",
+            "kind": "file",
+            "file": "src/lib/weather/weatherData.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "file:src/components/PositionalNotation",
       "kind": "file",
       "module_id": "src/components/PositionalNotation",
@@ -9418,53 +9412,6 @@
             "id": "file:src/components/PositionalNotation",
             "kind": "file",
             "file": "src/components/PositionalNotation.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "file:src/lib/weather/weatherData",
-      "kind": "file",
-      "module_id": "src/lib/weather/weatherData",
-      "file": "src/lib/weather/weatherData.ts",
-      "line": 1,
-      "score": 62,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 120
-        },
-        {
-          "kind": "branch_count",
-          "value": 10
-        },
-        {
-          "kind": "import_count",
-          "value": 3
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
-      "reason_code": "ts-react-quality-lens/file",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/lib/weather/weatherData",
-            "kind": "file",
-            "file": "src/lib/weather/weatherData.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -9902,53 +9849,6 @@
             "id": "src/lib/imageLoading.ts:preloadImage:4",
             "kind": "function",
             "file": "src/lib/imageLoading.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "file:src/auth/AuthContext",
-      "kind": "file",
-      "module_id": "src/auth/AuthContext",
-      "file": "src/auth/AuthContext.tsx",
-      "line": 1,
-      "score": 59,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 91
-        },
-        {
-          "kind": "branch_count",
-          "value": 8
-        },
-        {
-          "kind": "import_count",
-          "value": 8
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
-      "reason_code": "ts-react-quality-lens/file",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/auth/AuthContext",
-            "kind": "file",
-            "file": "src/auth/AuthContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -11071,6 +10971,53 @@
       ]
     },
     {
+      "id": "file:src/auth/AuthProvider",
+      "kind": "file",
+      "module_id": "src/auth/AuthProvider",
+      "file": "src/auth/AuthProvider.tsx",
+      "line": 1,
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 78
+        },
+        {
+          "kind": "branch_count",
+          "value": 8
+        },
+        {
+          "kind": "import_count",
+          "value": 8
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/auth/AuthProvider",
+            "kind": "file",
+            "file": "src/auth/AuthProvider.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "file:src/components/ui/ActionTextInput",
       "kind": "file",
       "module_id": "src/components/ui/ActionTextInput",
@@ -11230,12 +11177,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherData.ts:parseWeatherResponse:44",
+      "id": "src/lib/weather/weatherData.ts:parseWeatherResponse:46",
       "kind": "function",
       "module_id": "src/lib/weather/weatherData",
       "file": "src/lib/weather/weatherData.ts",
       "name": "parseWeatherResponse",
-      "line": 44,
+      "line": 46,
       "score": 54,
       "risk": "medium",
       "signals": [
@@ -11277,7 +11224,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherData.ts:parseWeatherResponse:44",
+            "id": "src/lib/weather/weatherData.ts:parseWeatherResponse:46",
             "kind": "function",
             "file": "src/lib/weather/weatherData.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -12279,7 +12226,7 @@
       "signals": [
         {
           "kind": "line_count",
-          "value": 118
+          "value": 115
         },
         {
           "kind": "branch_count",
@@ -12451,6 +12398,53 @@
             "id": "file:src/routes/AnimatedTabLayout",
             "kind": "file",
             "file": "src/routes/AnimatedTabLayout.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/ui/presetChoreRenderers",
+      "kind": "file",
+      "module_id": "src/ui/presetChoreRenderers",
+      "file": "src/ui/presetChoreRenderers.tsx",
+      "line": 1,
+      "score": 49,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 89
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 11
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/ui/presetChoreRenderers",
+            "kind": "file",
+            "file": "src/ui/presetChoreRenderers.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -14176,12 +14170,12 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/earthTextureCache.ts:buildOnMainThread:85",
+      "id": "src/features/dayNightExplorer/earthTextureCache.ts:buildOnMainThread:82",
       "kind": "function",
       "module_id": "src/features/dayNightExplorer/earthTextureCache",
       "file": "src/features/dayNightExplorer/earthTextureCache.ts",
       "name": "buildOnMainThread",
-      "line": 85,
+      "line": 82,
       "score": 43,
       "risk": "medium",
       "signals": [
@@ -14223,7 +14217,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/features/dayNightExplorer/earthTextureCache.ts:buildOnMainThread:85",
+            "id": "src/features/dayNightExplorer/earthTextureCache.ts:buildOnMainThread:82",
             "kind": "function",
             "file": "src/features/dayNightExplorer/earthTextureCache.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15879,12 +15873,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherStore.ts:subscribeWeather:127",
+      "id": "src/lib/weather/weatherStore.ts:subscribeWeather:125",
       "kind": "function",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "name": "subscribeWeather",
-      "line": 127,
+      "line": 125,
       "score": 39,
       "risk": "medium",
       "signals": [
@@ -15926,7 +15920,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherStore.ts:subscribeWeather:127",
+            "id": "src/lib/weather/weatherStore.ts:subscribeWeather:125",
             "kind": "function",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17032,12 +17026,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherData.ts:isWeatherUsable:76",
+      "id": "src/lib/weather/weatherData.ts:isWeatherUsable:78",
       "kind": "function",
       "module_id": "src/lib/weather/weatherData",
       "file": "src/lib/weather/weatherData.ts",
       "name": "isWeatherUsable",
-      "line": 76,
+      "line": 78,
       "score": 36,
       "risk": "medium",
       "signals": [
@@ -17079,7 +17073,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherData.ts:isWeatherUsable:76",
+            "id": "src/lib/weather/weatherData.ts:isWeatherUsable:78",
             "kind": "function",
             "file": "src/lib/weather/weatherData.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17396,12 +17390,12 @@
       ]
     },
     {
-      "id": "src/contexts/ActiveChildContext.tsx:ActiveChildStateProvider:71",
+      "id": "src/contexts/ActiveChildProvider.tsx:ActiveChildStateProvider:62",
       "kind": "component",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
+      "module_id": "src/contexts/ActiveChildProvider",
+      "file": "src/contexts/ActiveChildProvider.tsx",
       "name": "ActiveChildStateProvider",
-      "line": 71,
+      "line": 62,
       "score": 34,
       "risk": "low",
       "signals": [
@@ -17447,9 +17441,9 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/ActiveChildContext.tsx:ActiveChildStateProvider:71",
+            "id": "src/contexts/ActiveChildProvider.tsx:ActiveChildStateProvider:62",
             "kind": "component",
-            "file": "src/contexts/ActiveChildContext.tsx",
+            "file": "src/contexts/ActiveChildProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -18386,53 +18380,6 @@
             "id": "file:src/components/MealPlateReveal",
             "kind": "file",
             "file": "src/components/MealPlateReveal.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "file:src/contexts/SelectedDateContext",
-      "kind": "file",
-      "module_id": "src/contexts/SelectedDateContext",
-      "file": "src/contexts/SelectedDateContext.tsx",
-      "line": 1,
-      "score": 32,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 80
-        },
-        {
-          "kind": "branch_count",
-          "value": 0
-        },
-        {
-          "kind": "import_count",
-          "value": 4
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
-      "reason_code": "ts-react-quality-lens/file",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/contexts/SelectedDateContext",
-            "kind": "file",
-            "file": "src/contexts/SelectedDateContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -19814,12 +19761,12 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/useExplorerClock.ts:handlePointerUp:262",
+      "id": "src/features/dayNightExplorer/useExplorerClock.ts:handlePointerUp:272",
       "kind": "function",
       "module_id": "src/features/dayNightExplorer/useExplorerClock",
       "file": "src/features/dayNightExplorer/useExplorerClock.ts",
       "name": "handlePointerUp",
-      "line": 262,
+      "line": 272,
       "score": 30,
       "risk": "low",
       "signals": [
@@ -19861,7 +19808,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/features/dayNightExplorer/useExplorerClock.ts:handlePointerUp:262",
+            "id": "src/features/dayNightExplorer/useExplorerClock.ts:handlePointerUp:272",
             "kind": "function",
             "file": "src/features/dayNightExplorer/useExplorerClock.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -20687,12 +20634,12 @@
       ]
     },
     {
-      "id": "src/auth/AuthContext.tsx:AuthProvider:42",
+      "id": "src/auth/AuthProvider.tsx:AuthProvider:34",
       "kind": "component",
-      "module_id": "src/auth/AuthContext",
-      "file": "src/auth/AuthContext.tsx",
+      "module_id": "src/auth/AuthProvider",
+      "file": "src/auth/AuthProvider.tsx",
       "name": "AuthProvider",
-      "line": 42,
+      "line": 34,
       "score": 28,
       "risk": "low",
       "signals": [
@@ -20738,9 +20685,9 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/auth/AuthContext.tsx:AuthProvider:42",
+            "id": "src/auth/AuthProvider.tsx:AuthProvider:34",
             "kind": "component",
-            "file": "src/auth/AuthContext.tsx",
+            "file": "src/auth/AuthProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -20983,12 +20930,12 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/useExplorerClock.ts:handlePointerMove:251",
+      "id": "src/features/dayNightExplorer/useExplorerClock.ts:handlePointerMove:261",
       "kind": "function",
       "module_id": "src/features/dayNightExplorer/useExplorerClock",
       "file": "src/features/dayNightExplorer/useExplorerClock.ts",
       "name": "handlePointerMove",
-      "line": 251,
+      "line": 261,
       "score": 28,
       "risk": "low",
       "signals": [
@@ -21030,7 +20977,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/features/dayNightExplorer/useExplorerClock.ts:handlePointerMove:251",
+            "id": "src/features/dayNightExplorer/useExplorerClock.ts:handlePointerMove:261",
             "kind": "function",
             "file": "src/features/dayNightExplorer/useExplorerClock.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -21481,62 +21428,6 @@
       ]
     },
     {
-      "id": "src/components/ui/useAsyncAction.ts:useAsyncAction:3",
-      "kind": "hook",
-      "module_id": "src/components/ui/useAsyncAction",
-      "file": "src/components/ui/useAsyncAction.ts",
-      "name": "useAsyncAction",
-      "line": 3,
-      "score": 27,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 1
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 0
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 24110.1
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 47
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/hook",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "hook",
-      "reason_code": "ts-react-quality-lens/hook",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/ui/useAsyncAction.ts:useAsyncAction:3",
-            "kind": "hook",
-            "file": "src/components/ui/useAsyncAction.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/data/useChildren.ts:deleteChild:149",
       "kind": "function",
       "module_id": "src/data/useChildren",
@@ -21755,6 +21646,62 @@
             "id": "src/features/dayNightExplorer/worldTopology.ts:getDecodedArc:161",
             "kind": "function",
             "file": "src/features/dayNightExplorer/worldTopology.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/hooks/useAsyncAction.ts:useAsyncAction:3",
+      "kind": "hook",
+      "module_id": "src/hooks/useAsyncAction",
+      "file": "src/hooks/useAsyncAction.ts",
+      "name": "useAsyncAction",
+      "line": 3,
+      "score": 27,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 24110.1
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 47
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/hook",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "hook",
+      "reason_code": "ts-react-quality-lens/hook",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/hooks/useAsyncAction.ts:useAsyncAction:3",
+            "kind": "hook",
+            "file": "src/hooks/useAsyncAction.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -24173,12 +24120,12 @@
       ]
     },
     {
-      "id": "src/contexts/SelectedDateContext.tsx:SelectedDateProvider:25",
+      "id": "src/contexts/SelectedDateProvider.tsx:SelectedDateProvider:10",
       "kind": "component",
-      "module_id": "src/contexts/SelectedDateContext",
-      "file": "src/contexts/SelectedDateContext.tsx",
+      "module_id": "src/contexts/SelectedDateProvider",
+      "file": "src/contexts/SelectedDateProvider.tsx",
       "name": "SelectedDateProvider",
-      "line": 25,
+      "line": 10,
       "score": 24,
       "risk": "low",
       "signals": [
@@ -24224,9 +24171,9 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/SelectedDateContext.tsx:SelectedDateProvider:25",
+            "id": "src/contexts/SelectedDateProvider.tsx:SelectedDateProvider:10",
             "kind": "component",
-            "file": "src/contexts/SelectedDateContext.tsx",
+            "file": "src/contexts/SelectedDateProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -24589,12 +24536,12 @@
       ]
     },
     {
-      "id": "src/contexts/ThemeContext.tsx:ThemeProvider:192",
+      "id": "src/contexts/ThemeProvider.tsx:ThemeProvider:6",
       "kind": "component",
-      "module_id": "src/contexts/ThemeContext",
-      "file": "src/contexts/ThemeContext.tsx",
+      "module_id": "src/contexts/ThemeProvider",
+      "file": "src/contexts/ThemeProvider.tsx",
       "name": "ThemeProvider",
-      "line": 192,
+      "line": 6,
       "score": 23,
       "risk": "low",
       "signals": [
@@ -24640,9 +24587,9 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/ThemeContext.tsx:ThemeProvider:192",
+            "id": "src/contexts/ThemeProvider.tsx:ThemeProvider:6",
             "kind": "component",
-            "file": "src/contexts/ThemeContext.tsx",
+            "file": "src/contexts/ThemeProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -24970,6 +24917,53 @@
             "id": "file:src/assets/rewards/assets",
             "kind": "file",
             "file": "src/assets/rewards/assets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/components/activities/LazyActivities",
+      "kind": "file",
+      "module_id": "src/components/activities/LazyActivities",
+      "file": "src/components/activities/LazyActivities.tsx",
+      "line": 1,
+      "score": 22,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 12
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 9
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/components/activities/LazyActivities",
+            "kind": "file",
+            "file": "src/components/activities/LazyActivities.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -25960,12 +25954,12 @@
       ]
     },
     {
-      "id": "src/contexts/ThemeContext.tsx:useTheme:228",
+      "id": "src/contexts/ThemeContext.tsx:useTheme:191",
       "kind": "hook",
       "module_id": "src/contexts/ThemeContext",
       "file": "src/contexts/ThemeContext.tsx",
       "name": "useTheme",
-      "line": 228,
+      "line": 191,
       "score": 21,
       "risk": "low",
       "signals": [
@@ -26007,7 +26001,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/ThemeContext.tsx:useTheme:228",
+            "id": "src/contexts/ThemeContext.tsx:useTheme:191",
             "kind": "hook",
             "file": "src/contexts/ThemeContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -26184,62 +26178,6 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/earthTextureCache.ts:buildInWorker:42",
-      "kind": "function",
-      "module_id": "src/features/dayNightExplorer/earthTextureCache",
-      "file": "src/features/dayNightExplorer/earthTextureCache.ts",
-      "name": "buildInWorker",
-      "line": 42,
-      "score": 21,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 1
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 0
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 15887.87
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 32
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
-      "reason_code": "ts-react-quality-lens/function",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/features/dayNightExplorer/earthTextureCache.ts:buildInWorker:42",
-            "kind": "function",
-            "file": "src/features/dayNightExplorer/earthTextureCache.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/hooks/useRequiredContext.ts:useRequiredContext:3",
       "kind": "hook",
       "module_id": "src/hooks/useRequiredContext",
@@ -26352,12 +26290,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherData.ts:fetchCurrentWeather:109",
+      "id": "src/lib/weather/weatherData.ts:fetchCurrentWeather:111",
       "kind": "function",
       "module_id": "src/lib/weather/weatherData",
       "file": "src/lib/weather/weatherData.ts",
       "name": "fetchCurrentWeather",
-      "line": 109,
+      "line": 111,
       "score": 21,
       "risk": "low",
       "signals": [
@@ -26399,7 +26337,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherData.ts:fetchCurrentWeather:109",
+            "id": "src/lib/weather/weatherData.ts:fetchCurrentWeather:111",
             "kind": "function",
             "file": "src/lib/weather/weatherData.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -26570,6 +26508,53 @@
             "id": "src/pages/RewardsPage.tsx:handleDelete:42",
             "kind": "function",
             "file": "src/pages/RewardsPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/contexts/SelectedDateProvider",
+      "kind": "file",
+      "module_id": "src/contexts/SelectedDateProvider",
+      "file": "src/contexts/SelectedDateProvider.tsx",
+      "line": 1,
+      "score": 20,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 48
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 3
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/contexts/SelectedDateProvider",
+            "kind": "file",
+            "file": "src/contexts/SelectedDateProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -27225,12 +27210,12 @@
       ]
     },
     {
-      "id": "src/contexts/ActiveChildContext.tsx:ActiveChildProvider:54",
+      "id": "src/contexts/ActiveChildProvider.tsx:ActiveChildProvider:45",
       "kind": "component",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
+      "module_id": "src/contexts/ActiveChildProvider",
+      "file": "src/contexts/ActiveChildProvider.tsx",
       "name": "ActiveChildProvider",
-      "line": 54,
+      "line": 45,
       "score": 20,
       "risk": "low",
       "signals": [
@@ -27276,9 +27261,9 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/ActiveChildContext.tsx:ActiveChildProvider:54",
+            "id": "src/contexts/ActiveChildProvider.tsx:ActiveChildProvider:45",
             "kind": "component",
-            "file": "src/contexts/ActiveChildContext.tsx",
+            "file": "src/contexts/ActiveChildProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -27391,6 +27376,62 @@
             "id": "src/data/useRewards.ts:deleteReward:160",
             "kind": "function",
             "file": "src/data/useRewards.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/features/dayNightExplorer/earthTextureCache.ts:buildInWorker:42",
+      "kind": "function",
+      "module_id": "src/features/dayNightExplorer/earthTextureCache",
+      "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+      "name": "buildInWorker",
+      "line": 42,
+      "score": 20,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 15887.87
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 29
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/features/dayNightExplorer/earthTextureCache.ts:buildInWorker:42",
+            "kind": "function",
+            "file": "src/features/dayNightExplorer/earthTextureCache.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -28880,12 +28921,12 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/disposeSceneObject.ts:addMaterial:19",
+      "id": "src/features/dayNightExplorer/disposeSceneObject.ts:addMaterial:24",
       "kind": "function",
       "module_id": "src/features/dayNightExplorer/disposeSceneObject",
       "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
       "name": "addMaterial",
-      "line": 19,
+      "line": 24,
       "score": 19,
       "risk": "low",
       "signals": [
@@ -28927,7 +28968,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/features/dayNightExplorer/disposeSceneObject.ts:addMaterial:19",
+            "id": "src/features/dayNightExplorer/disposeSceneObject.ts:addMaterial:24",
             "kind": "function",
             "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -29048,12 +29089,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherStore.ts:onVisible:133",
+      "id": "src/lib/weather/weatherStore.ts:onVisible:128",
       "kind": "function",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "name": "onVisible",
-      "line": 133,
+      "line": 128,
       "score": 19,
       "risk": "low",
       "signals": [
@@ -29095,7 +29136,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherStore.ts:onVisible:133",
+            "id": "src/lib/weather/weatherStore.ts:onVisible:128",
             "kind": "function",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -29664,6 +29705,62 @@
       ]
     },
     {
+      "id": "src/features/dayNightExplorer/disposeSceneObject.ts:disposeSceneObject:6",
+      "kind": "function",
+      "module_id": "src/features/dayNightExplorer/disposeSceneObject",
+      "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+      "name": "disposeSceneObject",
+      "line": 6,
+      "score": 18,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 17983.38
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 24
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/features/dayNightExplorer/disposeSceneObject.ts:disposeSceneObject:6",
+            "kind": "function",
+            "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/features/dayNightExplorer/worldTopology.ts:topologyObjectToFeatureCollection:173",
       "kind": "function",
       "module_id": "src/features/dayNightExplorer/worldTopology",
@@ -29720,17 +29817,17 @@
       ]
     },
     {
-      "id": "file:src/components/ui/useAsyncAction",
+      "id": "file:src/contexts/SelectedDateContext",
       "kind": "file",
-      "module_id": "src/components/ui/useAsyncAction",
-      "file": "src/components/ui/useAsyncAction.ts",
+      "module_id": "src/contexts/SelectedDateContext",
+      "file": "src/contexts/SelectedDateContext.tsx",
       "line": 1,
       "score": 17,
       "risk": "low",
       "signals": [
         {
           "kind": "line_count",
-          "value": 50
+          "value": 37
         },
         {
           "kind": "branch_count",
@@ -29738,7 +29835,7 @@
         },
         {
           "kind": "import_count",
-          "value": 1
+          "value": 3
         }
       ],
       "rule_id": "ts-react-quality-lens/file",
@@ -29758,9 +29855,56 @@
           "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "file:src/components/ui/useAsyncAction",
+            "id": "file:src/contexts/SelectedDateContext",
             "kind": "file",
-            "file": "src/components/ui/useAsyncAction.ts",
+            "file": "src/contexts/SelectedDateContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/contexts/ThemeProvider",
+      "kind": "file",
+      "module_id": "src/contexts/ThemeProvider",
+      "file": "src/contexts/ThemeProvider.tsx",
+      "line": 1,
+      "score": 17,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 38
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 3
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/contexts/ThemeProvider",
+            "kind": "file",
+            "file": "src/contexts/ThemeProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -29808,6 +29952,53 @@
             "id": "file:src/data/creatureCollections/types",
             "kind": "file",
             "file": "src/data/creatureCollections/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/hooks/useAsyncAction",
+      "kind": "file",
+      "module_id": "src/hooks/useAsyncAction",
+      "file": "src/hooks/useAsyncAction.ts",
+      "line": 1,
+      "score": 17,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 50
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/hooks/useAsyncAction",
+            "kind": "file",
+            "file": "src/hooks/useAsyncAction.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -30156,6 +30347,53 @@
             "id": "src/ui/presetChoreActions.tsx:createPresetDinnerPrimaryAction:126",
             "kind": "function",
             "file": "src/ui/presetChoreActions.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/features/dayNightExplorer/disposeSceneObject",
+      "kind": "file",
+      "module_id": "src/features/dayNightExplorer/disposeSceneObject",
+      "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
+      "line": 1,
+      "score": 16,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 33
+        },
+        {
+          "kind": "branch_count",
+          "value": 1
+        },
+        {
+          "kind": "import_count",
+          "value": 2
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/features/dayNightExplorer/disposeSceneObject",
+            "kind": "file",
+            "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -30527,62 +30765,6 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/disposeSceneObject.ts:disposeSceneObject:6",
-      "kind": "function",
-      "module_id": "src/features/dayNightExplorer/disposeSceneObject",
-      "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
-      "name": "disposeSceneObject",
-      "line": 6,
-      "score": 16,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 1
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 0
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 22455.8
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 20
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
-      "reason_code": "ts-react-quality-lens/function",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/features/dayNightExplorer/disposeSceneObject.ts:disposeSceneObject:6",
-            "kind": "function",
-            "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/features/dayNightExplorer/earthTextureRenderer.ts:renderEarthTexture:14",
       "kind": "function",
       "module_id": "src/features/dayNightExplorer/earthTextureRenderer",
@@ -30745,53 +30927,6 @@
             "id": "src/ui/testActivityBindings.ts:createTestActivityBindings:17",
             "kind": "function",
             "file": "src/ui/testActivityBindings.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "file:src/features/dayNightExplorer/disposeSceneObject",
-      "kind": "file",
-      "module_id": "src/features/dayNightExplorer/disposeSceneObject",
-      "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
-      "line": 1,
-      "score": 15,
-      "risk": "low",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 29
-        },
-        {
-          "kind": "branch_count",
-          "value": 1
-        },
-        {
-          "kind": "import_count",
-          "value": 2
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
-      "reason_code": "ts-react-quality-lens/file",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/features/dayNightExplorer/disposeSceneObject",
-            "kind": "file",
-            "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -32685,12 +32820,12 @@
       ]
     },
     {
-      "id": "src/ui/presetChoreRenderers.tsx:renderWaterToiletChore:72",
+      "id": "src/ui/presetChoreRenderers.tsx:renderWaterToiletChore:67",
       "kind": "function",
       "module_id": "src/ui/presetChoreRenderers",
       "file": "src/ui/presetChoreRenderers.tsx",
       "name": "renderWaterToiletChore",
-      "line": 72,
+      "line": 67,
       "score": 14,
       "risk": "low",
       "signals": [
@@ -32736,7 +32871,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/ui/presetChoreRenderers.tsx:renderWaterToiletChore:72",
+            "id": "src/ui/presetChoreRenderers.tsx:renderWaterToiletChore:67",
             "kind": "function",
             "file": "src/ui/presetChoreRenderers.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -33906,12 +34041,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherData.ts:buildWeatherUrl:93",
+      "id": "src/lib/weather/weatherData.ts:buildWeatherUrl:95",
       "kind": "function",
       "module_id": "src/lib/weather/weatherData",
       "file": "src/lib/weather/weatherData.ts",
       "name": "buildWeatherUrl",
-      "line": 93,
+      "line": 95,
       "score": 13,
       "risk": "low",
       "signals": [
@@ -33953,7 +34088,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherData.ts:buildWeatherUrl:93",
+            "id": "src/lib/weather/weatherData.ts:buildWeatherUrl:95",
             "kind": "function",
             "file": "src/lib/weather/weatherData.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -34292,6 +34427,53 @@
             "id": "src/ui/unifiedChoreState.ts:getChoreType:31",
             "kind": "function",
             "file": "src/ui/unifiedChoreState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/auth/AuthContext",
+      "kind": "file",
+      "module_id": "src/auth/AuthContext",
+      "file": "src/auth/AuthContext.tsx",
+      "line": 1,
+      "score": 12,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 19
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 3
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/auth/AuthContext",
+            "kind": "file",
+            "file": "src/auth/AuthContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -35838,6 +36020,53 @@
       ]
     },
     {
+      "id": "file:src/contexts/ActiveChildContext",
+      "kind": "file",
+      "module_id": "src/contexts/ActiveChildContext",
+      "file": "src/contexts/ActiveChildContext.tsx",
+      "line": 1,
+      "score": 11,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 22
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 2
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/contexts/ActiveChildContext",
+            "kind": "file",
+            "file": "src/contexts/ActiveChildContext.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "file:src/features/dayNightExplorer/dayNightExplorerCalendar",
       "kind": "file",
       "module_id": "src/features/dayNightExplorer/dayNightExplorerCalendar",
@@ -37054,12 +37283,12 @@
       ]
     },
     {
-      "id": "src/contexts/SelectedDateContext.tsx:useSolarTimes:72",
+      "id": "src/contexts/SelectedDateContext.tsx:useSolarTimes:29",
       "kind": "hook",
       "module_id": "src/contexts/SelectedDateContext",
       "file": "src/contexts/SelectedDateContext.tsx",
       "name": "useSolarTimes",
-      "line": 72,
+      "line": 29,
       "score": 10,
       "risk": "low",
       "signals": [
@@ -37101,7 +37330,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/SelectedDateContext.tsx:useSolarTimes:72",
+            "id": "src/contexts/SelectedDateContext.tsx:useSolarTimes:29",
             "kind": "hook",
             "file": "src/contexts/SelectedDateContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -37390,12 +37619,12 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/earthTextureCache.ts:waitForIdle:76",
+      "id": "src/features/dayNightExplorer/earthTextureCache.ts:waitForIdle:73",
       "kind": "function",
       "module_id": "src/features/dayNightExplorer/earthTextureCache",
       "file": "src/features/dayNightExplorer/earthTextureCache.ts",
       "name": "waitForIdle",
-      "line": 76,
+      "line": 73,
       "score": 10,
       "risk": "low",
       "signals": [
@@ -37437,7 +37666,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/features/dayNightExplorer/earthTextureCache.ts:waitForIdle:76",
+            "id": "src/features/dayNightExplorer/earthTextureCache.ts:waitForIdle:73",
             "kind": "function",
             "file": "src/features/dayNightExplorer/earthTextureCache.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -37782,12 +38011,12 @@
       ]
     },
     {
-      "id": "src/ui/presetChoreRenderers.tsx:withSuspense:28",
+      "id": "src/ui/presetChoreRenderers.tsx:withSuspense:23",
       "kind": "function",
       "module_id": "src/ui/presetChoreRenderers",
       "file": "src/ui/presetChoreRenderers.tsx",
       "name": "withSuspense",
-      "line": 28,
+      "line": 23,
       "score": 10,
       "risk": "low",
       "signals": [
@@ -37833,7 +38062,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/ui/presetChoreRenderers.tsx:withSuspense:28",
+            "id": "src/ui/presetChoreRenderers.tsx:withSuspense:23",
             "kind": "function",
             "file": "src/ui/presetChoreRenderers.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -38169,12 +38398,12 @@
       ]
     },
     {
-      "id": "src/contexts/ActiveChildContext.tsx:useActiveChild:137",
+      "id": "src/contexts/ActiveChildContext.tsx:useActiveChild:15",
       "kind": "hook",
       "module_id": "src/contexts/ActiveChildContext",
       "file": "src/contexts/ActiveChildContext.tsx",
       "name": "useActiveChild",
-      "line": 137,
+      "line": 15,
       "score": 9,
       "risk": "low",
       "signals": [
@@ -38216,7 +38445,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/ActiveChildContext.tsx:useActiveChild:137",
+            "id": "src/contexts/ActiveChildContext.tsx:useActiveChild:15",
             "kind": "hook",
             "file": "src/contexts/ActiveChildContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -38225,12 +38454,12 @@
       ]
     },
     {
-      "id": "src/contexts/SelectedDateContext.tsx:useSelectedDate:64",
+      "id": "src/contexts/SelectedDateContext.tsx:useSelectedDate:21",
       "kind": "hook",
       "module_id": "src/contexts/SelectedDateContext",
       "file": "src/contexts/SelectedDateContext.tsx",
       "name": "useSelectedDate",
-      "line": 64,
+      "line": 21,
       "score": 9,
       "risk": "low",
       "signals": [
@@ -38272,7 +38501,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/SelectedDateContext.tsx:useSelectedDate:64",
+            "id": "src/contexts/SelectedDateContext.tsx:useSelectedDate:21",
             "kind": "hook",
             "file": "src/contexts/SelectedDateContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -38505,12 +38734,12 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/earthTextureCache.ts:finish:51",
+      "id": "src/features/dayNightExplorer/earthTextureCache.ts:finish:48",
       "kind": "function",
       "module_id": "src/features/dayNightExplorer/earthTextureCache",
       "file": "src/features/dayNightExplorer/earthTextureCache.ts",
       "name": "finish",
-      "line": 51,
+      "line": 48,
       "score": 9,
       "risk": "low",
       "signals": [
@@ -38552,7 +38781,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/features/dayNightExplorer/earthTextureCache.ts:finish:51",
+            "id": "src/features/dayNightExplorer/earthTextureCache.ts:finish:48",
             "kind": "function",
             "file": "src/features/dayNightExplorer/earthTextureCache.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -38897,12 +39126,12 @@
       ]
     },
     {
-      "id": "src/ui/presetChoreRenderers.tsx:renderLazy:43",
+      "id": "src/ui/presetChoreRenderers.tsx:renderLazy:38",
       "kind": "function",
       "module_id": "src/ui/presetChoreRenderers",
       "file": "src/ui/presetChoreRenderers.tsx",
       "name": "renderLazy",
-      "line": 43,
+      "line": 38,
       "score": 9,
       "risk": "low",
       "signals": [
@@ -38948,7 +39177,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/ui/presetChoreRenderers.tsx:renderLazy:43",
+            "id": "src/ui/presetChoreRenderers.tsx:renderLazy:38",
             "kind": "function",
             "file": "src/ui/presetChoreRenderers.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -40471,12 +40700,12 @@
       ]
     },
     {
-      "id": "src/auth/AuthContext.tsx:useAuth:88",
+      "id": "src/auth/AuthContext.tsx:useAuth:16",
       "kind": "hook",
       "module_id": "src/auth/AuthContext",
       "file": "src/auth/AuthContext.tsx",
       "name": "useAuth",
-      "line": 88,
+      "line": 16,
       "score": 7,
       "risk": "low",
       "signals": [
@@ -40518,7 +40747,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/auth/AuthContext.tsx:useAuth:88",
+            "id": "src/auth/AuthContext.tsx:useAuth:16",
             "kind": "hook",
             "file": "src/auth/AuthContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -42823,12 +43052,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherStore.ts:onOnline:136",
+      "id": "src/lib/weather/weatherStore.ts:onOnline:131",
       "kind": "function",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "name": "onOnline",
-      "line": 136,
+      "line": 131,
       "score": 7,
       "risk": "low",
       "signals": [
@@ -42870,7 +43099,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherStore.ts:onOnline:136",
+            "id": "src/lib/weather/weatherStore.ts:onOnline:131",
             "kind": "function",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -43309,12 +43538,12 @@
       ]
     },
     {
-      "id": "src/contexts/SelectedDateContext.tsx:getInitialSelectedDateKey:23",
+      "id": "src/contexts/SelectedDateProvider.tsx:getInitialSelectedDateKey:8",
       "kind": "function",
-      "module_id": "src/contexts/SelectedDateContext",
-      "file": "src/contexts/SelectedDateContext.tsx",
+      "module_id": "src/contexts/SelectedDateProvider",
+      "file": "src/contexts/SelectedDateProvider.tsx",
       "name": "getInitialSelectedDateKey",
-      "line": 23,
+      "line": 8,
       "score": 6,
       "risk": "low",
       "signals": [
@@ -43356,9 +43585,9 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/contexts/SelectedDateContext.tsx:getInitialSelectedDateKey:23",
+            "id": "src/contexts/SelectedDateProvider.tsx:getInitialSelectedDateKey:8",
             "kind": "function",
-            "file": "src/contexts/SelectedDateContext.tsx",
+            "file": "src/contexts/SelectedDateProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -44765,12 +44994,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherStore.ts:retryWeather:124",
+      "id": "src/lib/weather/weatherStore.ts:retryWeather:123",
       "kind": "function",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "name": "retryWeather",
-      "line": 124,
+      "line": 123,
       "score": 6,
       "risk": "low",
       "signals": [
@@ -44812,7 +45041,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherStore.ts:retryWeather:124",
+            "id": "src/lib/weather/weatherStore.ts:retryWeather:123",
             "kind": "function",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -44821,12 +45050,12 @@
       ]
     },
     {
-      "id": "src/ui/presetChoreRenderers.tsx:renderAlphabetChore:63",
+      "id": "src/ui/presetChoreRenderers.tsx:renderAlphabetChore:58",
       "kind": "function",
       "module_id": "src/ui/presetChoreRenderers",
       "file": "src/ui/presetChoreRenderers.tsx",
       "name": "renderAlphabetChore",
-      "line": 63,
+      "line": 58,
       "score": 6,
       "risk": "low",
       "signals": [
@@ -44868,7 +45097,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/ui/presetChoreRenderers.tsx:renderAlphabetChore:63",
+            "id": "src/ui/presetChoreRenderers.tsx:renderAlphabetChore:58",
             "kind": "function",
             "file": "src/ui/presetChoreRenderers.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -44877,12 +45106,12 @@
       ]
     },
     {
-      "id": "src/ui/presetChoreRenderers.tsx:renderAnimalsChore:69",
+      "id": "src/ui/presetChoreRenderers.tsx:renderAnimalsChore:64",
       "kind": "function",
       "module_id": "src/ui/presetChoreRenderers",
       "file": "src/ui/presetChoreRenderers.tsx",
       "name": "renderAnimalsChore",
-      "line": 69,
+      "line": 64,
       "score": 6,
       "risk": "low",
       "signals": [
@@ -44924,7 +45153,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/ui/presetChoreRenderers.tsx:renderAnimalsChore:69",
+            "id": "src/ui/presetChoreRenderers.tsx:renderAnimalsChore:64",
             "kind": "function",
             "file": "src/ui/presetChoreRenderers.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -44933,12 +45162,12 @@
       ]
     },
     {
-      "id": "src/ui/presetChoreRenderers.tsx:renderArithmeticChore:51",
+      "id": "src/ui/presetChoreRenderers.tsx:renderArithmeticChore:46",
       "kind": "function",
       "module_id": "src/ui/presetChoreRenderers",
       "file": "src/ui/presetChoreRenderers.tsx",
       "name": "renderArithmeticChore",
-      "line": 51,
+      "line": 46,
       "score": 6,
       "risk": "low",
       "signals": [
@@ -44980,7 +45209,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/ui/presetChoreRenderers.tsx:renderArithmeticChore:51",
+            "id": "src/ui/presetChoreRenderers.tsx:renderArithmeticChore:46",
             "kind": "function",
             "file": "src/ui/presetChoreRenderers.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -44989,12 +45218,12 @@
       ]
     },
     {
-      "id": "src/ui/presetChoreRenderers.tsx:renderDinnerChore:48",
+      "id": "src/ui/presetChoreRenderers.tsx:renderDinnerChore:43",
       "kind": "function",
       "module_id": "src/ui/presetChoreRenderers",
       "file": "src/ui/presetChoreRenderers.tsx",
       "name": "renderDinnerChore",
-      "line": 48,
+      "line": 43,
       "score": 6,
       "risk": "low",
       "signals": [
@@ -45036,7 +45265,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/ui/presetChoreRenderers.tsx:renderDinnerChore:48",
+            "id": "src/ui/presetChoreRenderers.tsx:renderDinnerChore:43",
             "kind": "function",
             "file": "src/ui/presetChoreRenderers.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -45045,12 +45274,12 @@
       ]
     },
     {
-      "id": "src/ui/presetChoreRenderers.tsx:renderLargeNumbersChore:55",
+      "id": "src/ui/presetChoreRenderers.tsx:renderLargeNumbersChore:50",
       "kind": "function",
       "module_id": "src/ui/presetChoreRenderers",
       "file": "src/ui/presetChoreRenderers.tsx",
       "name": "renderLargeNumbersChore",
-      "line": 55,
+      "line": 50,
       "score": 6,
       "risk": "low",
       "signals": [
@@ -45092,7 +45321,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/ui/presetChoreRenderers.tsx:renderLargeNumbersChore:55",
+            "id": "src/ui/presetChoreRenderers.tsx:renderLargeNumbersChore:50",
             "kind": "function",
             "file": "src/ui/presetChoreRenderers.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -45101,12 +45330,12 @@
       ]
     },
     {
-      "id": "src/ui/presetChoreRenderers.tsx:renderPositionalNotationChore:59",
+      "id": "src/ui/presetChoreRenderers.tsx:renderPositionalNotationChore:54",
       "kind": "function",
       "module_id": "src/ui/presetChoreRenderers",
       "file": "src/ui/presetChoreRenderers.tsx",
       "name": "renderPositionalNotationChore",
-      "line": 59,
+      "line": 54,
       "score": 6,
       "risk": "low",
       "signals": [
@@ -45148,7 +45377,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/ui/presetChoreRenderers.tsx:renderPositionalNotationChore:59",
+            "id": "src/ui/presetChoreRenderers.tsx:renderPositionalNotationChore:54",
             "kind": "function",
             "file": "src/ui/presetChoreRenderers.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -45157,12 +45386,12 @@
       ]
     },
     {
-      "id": "src/ui/presetChoreRenderers.tsx:renderSpellingChore:66",
+      "id": "src/ui/presetChoreRenderers.tsx:renderSpellingChore:61",
       "kind": "function",
       "module_id": "src/ui/presetChoreRenderers",
       "file": "src/ui/presetChoreRenderers.tsx",
       "name": "renderSpellingChore",
-      "line": 66,
+      "line": 61,
       "score": 6,
       "risk": "low",
       "signals": [
@@ -45204,7 +45433,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/ui/presetChoreRenderers.tsx:renderSpellingChore:66",
+            "id": "src/ui/presetChoreRenderers.tsx:renderSpellingChore:61",
             "kind": "function",
             "file": "src/ui/presetChoreRenderers.tsx",
             "reason": "Intentional finding; document the project-specific reason."

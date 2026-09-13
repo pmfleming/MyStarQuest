@@ -1,7 +1,8 @@
 import { act, cleanup, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest'
-import { ThemeProvider, useTheme } from '../../src/contexts/ThemeContext'
-import { ActiveChildProvider } from '../../src/contexts/ActiveChildContext'
+import { ThemeProvider } from '../../src/contexts/ThemeProvider'
+import { useTheme } from '../../src/contexts/ThemeContext'
+import { ActiveChildProvider } from '../../src/contexts/ActiveChildProvider'
 import { ChildrenProvider, useChildren } from '../../src/data/useChildren'
 
 const firestore = vi.hoisted(() => ({

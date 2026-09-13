@@ -1,4 +1,4 @@
-import { type ComponentType, type ReactNode, lazy, Suspense } from 'react'
+import { type ComponentType, type ReactNode, Suspense } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import type { ToiletStatus, WaterLevel } from '../data/types'
 import type { AlphabetTesterProps } from '../components/AlphabetTester'
@@ -9,21 +9,16 @@ import type { LargeNumbersTesterProps } from '../components/LargeNumbersTester'
 import type { PositionalNotationProps } from '../components/PositionalNotation'
 import type { SpellingTesterProps } from '../components/SpellingTester'
 
-// Lazy load heavy activity components
-const ArithmeticTester = lazy(() => import('../components/ArithmeticTester'))
-const LargeNumbersTester = lazy(
-  () => import('../components/LargeNumbersTester')
-)
-const AlphabetTester = lazy(() => import('../components/AlphabetTester'))
-const AnimalTester = lazy(() => import('../components/AnimalTester'))
-const DinnerCountdown = lazy(() => import('../components/DinnerCountdown'))
-const PositionalNotation = lazy(
-  () => import('../components/PositionalNotation')
-)
-const WaterToiletMonitor = lazy(
-  () => import('../components/WaterToiletMonitor')
-)
-const SpellingTester = lazy(() => import('../components/SpellingTester'))
+import {
+  ArithmeticTester,
+  LargeNumbersTester,
+  AlphabetTester,
+  AnimalTester,
+  DinnerCountdown,
+  PositionalNotation,
+  WaterToiletMonitor,
+  SpellingTester,
+} from '../components/activities/LazyActivities'
 
 const withSuspense = (component: ReactNode) => (
   <Suspense fallback={null}>{component}</Suspense>

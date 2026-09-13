@@ -1,10 +1,9 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
-import { ThemeProvider, useTheme } from '../../src/contexts/ThemeContext'
-import {
-  ActiveChildProvider,
-  useActiveChild,
-} from '../../src/contexts/ActiveChildContext'
+import { ThemeProvider } from '../../src/contexts/ThemeProvider'
+import { useTheme } from '../../src/contexts/ThemeContext'
+import { ActiveChildProvider } from '../../src/contexts/ActiveChildProvider'
+import { useActiveChild } from '../../src/contexts/ActiveChildContext'
 import { getChoreImage } from '../../src/assets/chores/assets'
 import { getTabIcon } from '../../src/lib/tabNavigation'
 import ChoreCreationFlow from '../../src/pages/ChoreCreationFlow'

@@ -2,7 +2,7 @@ import { AsyncButton } from './AsyncButton'
 import type { CSSProperties } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
-import { useAsyncAction } from './useAsyncAction'
+import { useAsyncAction } from '../../hooks/useAsyncAction'
 import { ActionArtwork } from './ActionArtwork'
 import {
   getStandardPrimaryActionStyle,

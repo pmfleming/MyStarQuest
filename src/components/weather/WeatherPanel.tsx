@@ -1,7 +1,7 @@
 import { AsyncButton } from '../ui/AsyncButton'
 import { memo } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
-import type { ExplorerCityOption } from '../../features/dayNightExplorer/dayNightExplorerOptions'
+import type { WeatherCity } from '../../lib/weather/weatherData'
 import type { WeatherSnapshot } from '../../lib/weather/weatherStore'
 import { getWeatherDescription } from '../../lib/weather/weatherConditions'
 import {
@@ -14,7 +14,7 @@ import { getThemeAsset } from '../../ui/themeAssets'
 
 type Props = {
   theme: Theme
-  city: ExplorerCityOption
+  city: WeatherCity
   weather: WeatherSnapshot
   exploration: WeatherExploration
   onRetry: () => void | Promise<void>

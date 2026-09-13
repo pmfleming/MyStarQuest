@@ -3,7 +3,7 @@
   "task_id": "quality.escape_hatches",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T18:48:01.055Z",
+    "measured_at": "2026-09-13T19:29:56.252Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f0394afeb3e3ac7c680c52d95e9a1e36513f80ed510229637b2d92d9b4d885c3",
-    "input_set_hash": "sha256:45377c6e878688cb2579e9722027fd82d01e5a2fc36cdd625a39b5dd2f717708"
+    "source_set_hash": "sha256:d8764fd624cb1ca4018c2a494de0ef4b5d0b8a24d9ed441230f37e745dfa6dcb",
+    "input_set_hash": "sha256:51ac0ca714449b78b0e67a3a08efc317fdebb4071eaa491892ea11d4793c8374"
   },
   "analysis_identity": {
-    "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
+    "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:3b0f360d5b74b92560fd4b9739831b0c854a33be6b34130701a6943087442b11",
+    "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -93,15 +93,14 @@
     "stale_input": []
   },
   "summary": {
-    "records": 116,
-    "files_with_escape_hatches": 48,
+    "records": 114,
+    "files_with_escape_hatches": 46,
     "by_kind": {
-      "type_assertion": 41,
-      "eslint_suppression": 4,
+      "type_assertion": 44,
       "browser_global": 53,
-      "non_null_assertion": 10,
-      "double_assertion": 1,
+      "non_null_assertion": 9,
       "direct_dom_mutation": 3,
+      "double_assertion": 1,
       "module_level_mutable_state": 4
     }
   },
@@ -134,39 +133,6 @@
             "id": "escape:src/assets/chores/assets:type_assertion:45:1475",
             "kind": "type_assertion",
             "file": "src/assets/chores/assets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/auth/AuthContext:eslint_suppression:86:2437",
-      "module_id": "src/auth/AuthContext",
-      "file": "src/auth/AuthContext.tsx",
-      "kind": "eslint_suppression",
-      "severity": "medium",
-      "line": 86,
-      "evidence": " // eslint-disable-next-line",
-      "rule_id": "ts-react-quality-lens/eslint_suppression",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": " // eslint-disable-next-line",
-      "reason_code": "ts-react-quality-lens/eslint_suppression",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this eslint_suppression finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/auth/AuthContext:eslint_suppression:86:2437",
-            "kind": "eslint_suppression",
-            "file": "src/auth/AuthContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -437,12 +403,12 @@
       ]
     },
     {
-      "id": "escape:src/components/PageShell:non_null_assertion:74:2000",
+      "id": "escape:src/components/PageShell:non_null_assertion:77:2160",
       "module_id": "src/components/PageShell",
       "file": "src/components/PageShell.tsx",
       "kind": "non_null_assertion",
       "severity": "medium",
-      "line": 74,
+      "line": 77,
       "evidence": "activeTabId!",
       "rule_id": "ts-react-quality-lens/non_null_assertion",
       "evidence_kind": "heuristic",
@@ -461,7 +427,7 @@
           "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/PageShell:non_null_assertion:74:2000",
+            "id": "escape:src/components/PageShell:non_null_assertion:77:2160",
             "kind": "non_null_assertion",
             "file": "src/components/PageShell.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -470,12 +436,12 @@
       ]
     },
     {
-      "id": "escape:src/components/SpellingTester:type_assertion:50:1612",
+      "id": "escape:src/components/SpellingTester:type_assertion:51:1685",
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 50,
+      "line": 51,
       "evidence": "import.meta.glob( '../assets/teenie/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, s",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -494,7 +460,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/SpellingTester:type_assertion:50:1612",
+            "id": "escape:src/components/SpellingTester:type_assertion:51:1685",
             "kind": "type_assertion",
             "file": "src/components/SpellingTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -503,12 +469,12 @@
       ]
     },
     {
-      "id": "escape:src/components/SpellingTester:type_assertion:55:1774",
+      "id": "escape:src/components/SpellingTester:type_assertion:56:1847",
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 55,
+      "line": 56,
       "evidence": "import.meta.glob( '../assets/pokemon/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, ",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -527,477 +493,9 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/SpellingTester:type_assertion:55:1774",
+            "id": "escape:src/components/SpellingTester:type_assertion:56:1847",
             "kind": "type_assertion",
             "file": "src/components/SpellingTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:146:4976",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 146,
-      "evidence": "window.devicePixelRatio",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.devicePixelRatio",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:146:4976",
-            "kind": "browser_global",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:276:8779",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 276,
-      "evidence": "window.requestAnimationFrame",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.requestAnimationFrame",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:276:8779",
-            "kind": "browser_global",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:298:9393",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 298,
-      "evidence": "window.requestAnimationFrame",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.requestAnimationFrame",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:298:9393",
-            "kind": "browser_global",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:529:16873",
-      "module_id": "src/components/dayNightExplorer/SolarSystem3DManager",
-      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 529,
-      "evidence": "window.devicePixelRatio",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.devicePixelRatio",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/SolarSystem3DManager:browser_global:529:16873",
-            "kind": "browser_global",
-            "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/earthTexture.worker:double_assertion:15:327",
-      "module_id": "src/components/dayNightExplorer/earthTexture.worker",
-      "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
-      "kind": "double_assertion",
-      "severity": "high",
-      "line": 15,
-      "evidence": "self as unknown as EarthTextureWorkerScope",
-      "rule_id": "ts-react-quality-lens/double_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "self as unknown as EarthTextureWorkerScope",
-      "reason_code": "ts-react-quality-lens/double_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this double_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/earthTexture.worker:double_assertion:15:327",
-            "kind": "double_assertion",
-            "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/earthTexture.worker:type_assertion:15:327",
-      "module_id": "src/components/dayNightExplorer/earthTexture.worker",
-      "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 15,
-      "evidence": "self as unknown",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "self as unknown",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/earthTexture.worker:type_assertion:15:327",
-            "kind": "type_assertion",
-            "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/earthTexture.worker:type_assertion:38:940",
-      "module_id": "src/components/dayNightExplorer/earthTexture.worker",
-      "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 38,
-      "evidence": "context.getImageData( 0, 0, EARTH_TEXTURE_WIDTH, EARTH_TEXTURE_HEIGHT ).data.buffer as ArrayBuffer",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "context.getImageData( 0, 0, EARTH_TEXTURE_WIDTH, EARTH_TEXTURE_HEIGHT ).data.buffer as ArrayBuffer",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/earthTexture.worker:type_assertion:38:940",
-            "kind": "type_assertion",
-            "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/useDayNightExplorerModel:non_null_assertion:82:2774",
-      "module_id": "src/components/dayNightExplorer/useDayNightExplorerModel",
-      "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
-      "kind": "non_null_assertion",
-      "severity": "medium",
-      "line": 82,
-      "evidence": "null!",
-      "rule_id": "ts-react-quality-lens/non_null_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "null!",
-      "reason_code": "ts-react-quality-lens/non_null_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/useDayNightExplorerModel:non_null_assertion:82:2774",
-            "kind": "non_null_assertion",
-            "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:292:8678",
-      "module_id": "src/components/dayNightExplorer/useExplorerClock",
-      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 292,
-      "evidence": "window.addEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.addEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:292:8678",
-            "kind": "browser_global",
-            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:293:8742",
-      "module_id": "src/components/dayNightExplorer/useExplorerClock",
-      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 293,
-      "evidence": "window.addEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.addEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:293:8742",
-            "kind": "browser_global",
-            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:294:8802",
-      "module_id": "src/components/dayNightExplorer/useExplorerClock",
-      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 294,
-      "evidence": "window.addEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.addEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:294:8802",
-            "kind": "browser_global",
-            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:298:8892",
-      "module_id": "src/components/dayNightExplorer/useExplorerClock",
-      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 298,
-      "evidence": "window.removeEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.removeEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:298:8892",
-            "kind": "browser_global",
-            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:299:8959",
-      "module_id": "src/components/dayNightExplorer/useExplorerClock",
-      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 299,
-      "evidence": "window.removeEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.removeEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:299:8959",
-            "kind": "browser_global",
-            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:300:9022",
-      "module_id": "src/components/dayNightExplorer/useExplorerClock",
-      "file": "src/components/dayNightExplorer/useExplorerClock.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 300,
-      "evidence": "window.removeEventListener",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.removeEventListener",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/dayNightExplorer/useExplorerClock:browser_global:300:9022",
-            "kind": "browser_global",
-            "file": "src/components/dayNightExplorer/useExplorerClock.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1037,12 +535,12 @@
       ]
     },
     {
-      "id": "escape:src/components/ui/ActionButton:type_assertion:39:831",
+      "id": "escape:src/components/ui/ActionButton:type_assertion:40:891",
       "module_id": "src/components/ui/ActionButton",
       "file": "src/components/ui/ActionButton.tsx",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 39,
+      "line": 40,
       "evidence": "'relative' as const",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -1061,7 +559,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/ui/ActionButton:type_assertion:39:831",
+            "id": "escape:src/components/ui/ActionButton:type_assertion:40:891",
             "kind": "type_assertion",
             "file": "src/components/ui/ActionButton.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1565,6 +1063,72 @@
       ]
     },
     {
+      "id": "escape:src/components/ui/StandardActionButtons:type_assertion:236:5544",
+      "module_id": "src/components/ui/StandardActionButtons",
+      "file": "src/components/ui/StandardActionButtons.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 236,
+      "evidence": "'neutral' as const",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "'neutral' as const",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/StandardActionButtons:type_assertion:236:5544",
+            "kind": "type_assertion",
+            "file": "src/components/ui/StandardActionButtons.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/ui/StandardActionButtons:type_assertion:250:5955",
+      "module_id": "src/components/ui/StandardActionButtons",
+      "file": "src/components/ui/StandardActionButtons.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 250,
+      "evidence": "'neutral' as const",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "'neutral' as const",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/ui/StandardActionButtons:type_assertion:250:5955",
+            "kind": "type_assertion",
+            "file": "src/components/ui/StandardActionButtons.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "escape:src/components/ui/StarDisplay:direct_dom_mutation:11:492",
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
@@ -2060,45 +1624,12 @@
       ]
     },
     {
-      "id": "escape:src/contexts/ActiveChildContext:eslint_suppression:2:81",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "kind": "eslint_suppression",
-      "severity": "medium",
-      "line": 2,
-      "evidence": "/* eslint-disable",
-      "rule_id": "ts-react-quality-lens/eslint_suppression",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "/* eslint-disable",
-      "reason_code": "ts-react-quality-lens/eslint_suppression",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this eslint_suppression finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/contexts/ActiveChildContext:eslint_suppression:2:81",
-            "kind": "eslint_suppression",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/contexts/ActiveChildContext:browser_global:35:945",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
+      "id": "escape:src/contexts/ActiveChildProvider:browser_global:26:608",
+      "module_id": "src/contexts/ActiveChildProvider",
+      "file": "src/contexts/ActiveChildProvider.tsx",
       "kind": "browser_global",
       "severity": "low",
-      "line": 35,
+      "line": 26,
       "evidence": "window.localStorage",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -2117,21 +1648,21 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/contexts/ActiveChildContext:browser_global:35:945",
+            "id": "escape:src/contexts/ActiveChildProvider:browser_global:26:608",
             "kind": "browser_global",
-            "file": "src/contexts/ActiveChildContext.tsx",
+            "file": "src/contexts/ActiveChildProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "escape:src/contexts/ActiveChildContext:browser_global:95:2360",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
+      "id": "escape:src/contexts/ActiveChildProvider:browser_global:86:2023",
+      "module_id": "src/contexts/ActiveChildProvider",
+      "file": "src/contexts/ActiveChildProvider.tsx",
       "kind": "browser_global",
       "severity": "low",
-      "line": 95,
+      "line": 86,
       "evidence": "window.localStorage",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -2150,21 +1681,21 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/contexts/ActiveChildContext:browser_global:95:2360",
+            "id": "escape:src/contexts/ActiveChildProvider:browser_global:86:2023",
             "kind": "browser_global",
-            "file": "src/contexts/ActiveChildContext.tsx",
+            "file": "src/contexts/ActiveChildProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "escape:src/contexts/ActiveChildContext:browser_global:100:2504",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
+      "id": "escape:src/contexts/ActiveChildProvider:browser_global:91:2167",
+      "module_id": "src/contexts/ActiveChildProvider",
+      "file": "src/contexts/ActiveChildProvider.tsx",
       "kind": "browser_global",
       "severity": "low",
-      "line": 100,
+      "line": 91,
       "evidence": "window.localStorage",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -2183,75 +1714,9 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/contexts/ActiveChildContext:browser_global:100:2504",
+            "id": "escape:src/contexts/ActiveChildProvider:browser_global:91:2167",
             "kind": "browser_global",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/contexts/SelectedDateContext:eslint_suppression:2:70",
-      "module_id": "src/contexts/SelectedDateContext",
-      "file": "src/contexts/SelectedDateContext.tsx",
-      "kind": "eslint_suppression",
-      "severity": "medium",
-      "line": 2,
-      "evidence": "/* eslint-disable",
-      "rule_id": "ts-react-quality-lens/eslint_suppression",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "/* eslint-disable",
-      "reason_code": "ts-react-quality-lens/eslint_suppression",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this eslint_suppression finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/contexts/SelectedDateContext:eslint_suppression:2:70",
-            "kind": "eslint_suppression",
-            "file": "src/contexts/SelectedDateContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/contexts/ThemeContext:eslint_suppression:33:2454",
-      "module_id": "src/contexts/ThemeContext",
-      "file": "src/contexts/ThemeContext.tsx",
-      "kind": "eslint_suppression",
-      "severity": "medium",
-      "line": 33,
-      "evidence": "/* eslint-disable",
-      "rule_id": "ts-react-quality-lens/eslint_suppression",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "/* eslint-disable",
-      "reason_code": "ts-react-quality-lens/eslint_suppression",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this eslint_suppression finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/contexts/ThemeContext:eslint_suppression:33:2454",
-            "kind": "eslint_suppression",
-            "file": "src/contexts/ThemeContext.tsx",
+            "file": "src/contexts/ActiveChildProvider.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2720,6 +2185,573 @@
       ]
     },
     {
+      "id": "escape:src/features/dayNightExplorer/SolarSystem3DManager:browser_global:146:4851",
+      "module_id": "src/features/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 146,
+      "evidence": "window.devicePixelRatio",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.devicePixelRatio",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/SolarSystem3DManager:browser_global:146:4851",
+            "kind": "browser_global",
+            "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/SolarSystem3DManager:browser_global:277:8684",
+      "module_id": "src/features/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 277,
+      "evidence": "window.requestAnimationFrame",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.requestAnimationFrame",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/SolarSystem3DManager:browser_global:277:8684",
+            "kind": "browser_global",
+            "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/SolarSystem3DManager:browser_global:299:9298",
+      "module_id": "src/features/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 299,
+      "evidence": "window.requestAnimationFrame",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.requestAnimationFrame",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/SolarSystem3DManager:browser_global:299:9298",
+            "kind": "browser_global",
+            "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/SolarSystem3DManager:browser_global:530:16778",
+      "module_id": "src/features/dayNightExplorer/SolarSystem3DManager",
+      "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 530,
+      "evidence": "window.devicePixelRatio",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.devicePixelRatio",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/SolarSystem3DManager:browser_global:530:16778",
+            "kind": "browser_global",
+            "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/earthTexture.worker:double_assertion:15:302",
+      "module_id": "src/features/dayNightExplorer/earthTexture.worker",
+      "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+      "kind": "double_assertion",
+      "severity": "high",
+      "line": 15,
+      "evidence": "self as unknown as EarthTextureWorkerScope",
+      "rule_id": "ts-react-quality-lens/double_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "self as unknown as EarthTextureWorkerScope",
+      "reason_code": "ts-react-quality-lens/double_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this double_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/earthTexture.worker:double_assertion:15:302",
+            "kind": "double_assertion",
+            "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/earthTexture.worker:type_assertion:15:302",
+      "module_id": "src/features/dayNightExplorer/earthTexture.worker",
+      "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 15,
+      "evidence": "self as unknown",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "self as unknown",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/earthTexture.worker:type_assertion:15:302",
+            "kind": "type_assertion",
+            "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/earthTexture.worker:type_assertion:38:915",
+      "module_id": "src/features/dayNightExplorer/earthTexture.worker",
+      "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 38,
+      "evidence": "context.getImageData( 0, 0, EARTH_TEXTURE_WIDTH, EARTH_TEXTURE_HEIGHT ).data.buffer as ArrayBuffer",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "context.getImageData( 0, 0, EARTH_TEXTURE_WIDTH, EARTH_TEXTURE_HEIGHT ).data.buffer as ArrayBuffer",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/earthTexture.worker:type_assertion:38:915",
+            "kind": "type_assertion",
+            "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/earthTextureCache:module_level_mutable_state:18:510",
+      "module_id": "src/features/dayNightExplorer/earthTextureCache",
+      "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+      "kind": "module_level_mutable_state",
+      "severity": "medium",
+      "line": 18,
+      "evidence": "let pixelsPromise: Promise<CachedEarthTexture> | undefined",
+      "rule_id": "ts-react-quality-lens/module_level_mutable_state",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "let pixelsPromise: Promise<CachedEarthTexture> | undefined",
+      "reason_code": "ts-react-quality-lens/module_level_mutable_state",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this module_level_mutable_state finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/earthTextureCache:module_level_mutable_state:18:510",
+            "kind": "module_level_mutable_state",
+            "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/earthTextureCache:browser_global:75:2222",
+      "module_id": "src/features/dayNightExplorer/earthTextureCache",
+      "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 75,
+      "evidence": "window.requestIdleCallback",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.requestIdleCallback",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/earthTextureCache:browser_global:75:2222",
+            "kind": "browser_global",
+            "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/earthTextureCache:browser_global:76:2273",
+      "module_id": "src/features/dayNightExplorer/earthTextureCache",
+      "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 76,
+      "evidence": "window.requestIdleCallback",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.requestIdleCallback",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/earthTextureCache:browser_global:76:2273",
+            "kind": "browser_global",
+            "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/useDayNightExplorerModel:non_null_assertion:82:2674",
+      "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
+      "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 82,
+      "evidence": "null!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "null!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/useDayNightExplorerModel:non_null_assertion:82:2674",
+            "kind": "non_null_assertion",
+            "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/useExplorerClock:browser_global:288:8284",
+      "module_id": "src/features/dayNightExplorer/useExplorerClock",
+      "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 288,
+      "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/useExplorerClock:browser_global:288:8284",
+            "kind": "browser_global",
+            "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/useExplorerClock:browser_global:289:8348",
+      "module_id": "src/features/dayNightExplorer/useExplorerClock",
+      "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 289,
+      "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/useExplorerClock:browser_global:289:8348",
+            "kind": "browser_global",
+            "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/useExplorerClock:browser_global:290:8408",
+      "module_id": "src/features/dayNightExplorer/useExplorerClock",
+      "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 290,
+      "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/useExplorerClock:browser_global:290:8408",
+            "kind": "browser_global",
+            "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/useExplorerClock:browser_global:294:8498",
+      "module_id": "src/features/dayNightExplorer/useExplorerClock",
+      "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 294,
+      "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/useExplorerClock:browser_global:294:8498",
+            "kind": "browser_global",
+            "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/useExplorerClock:browser_global:295:8565",
+      "module_id": "src/features/dayNightExplorer/useExplorerClock",
+      "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 295,
+      "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/useExplorerClock:browser_global:295:8565",
+            "kind": "browser_global",
+            "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/features/dayNightExplorer/useExplorerClock:browser_global:296:8628",
+      "module_id": "src/features/dayNightExplorer/useExplorerClock",
+      "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 296,
+      "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/features/dayNightExplorer/useExplorerClock:browser_global:296:8628",
+            "kind": "browser_global",
+            "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "escape:src/hooks/useCoalescedDocumentUpdates:type_assertion:115:3440",
       "module_id": "src/hooks/useCoalescedDocumentUpdates",
       "file": "src/hooks/useCoalescedDocumentUpdates.ts",
@@ -3017,12 +3049,12 @@
       ]
     },
     {
-      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:56:1897",
+      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:59:2074",
       "module_id": "src/hooks/useDinnerCountdownState",
       "file": "src/hooks/useDinnerCountdownState.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 56,
+      "line": 59,
       "evidence": "window.clearInterval",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -3041,7 +3073,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:56:1897",
+            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:59:2074",
             "kind": "browser_global",
             "file": "src/hooks/useDinnerCountdownState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3050,12 +3082,12 @@
       ]
     },
     {
-      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:60:2031",
+      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:63:2208",
       "module_id": "src/hooks/useDinnerCountdownState",
       "file": "src/hooks/useDinnerCountdownState.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 60,
+      "line": 63,
       "evidence": "window.setInterval",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -3074,7 +3106,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:60:2031",
+            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:63:2208",
             "kind": "browser_global",
             "file": "src/hooks/useDinnerCountdownState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3083,12 +3115,12 @@
       ]
     },
     {
-      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:67:2230",
+      "id": "escape:src/hooks/useDinnerCountdownState:browser_global:70:2407",
       "module_id": "src/hooks/useDinnerCountdownState",
       "file": "src/hooks/useDinnerCountdownState.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 67,
+      "line": 70,
       "evidence": "window.clearInterval",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -3107,7 +3139,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:67:2230",
+            "id": "escape:src/hooks/useDinnerCountdownState:browser_global:70:2407",
             "kind": "browser_global",
             "file": "src/hooks/useDinnerCountdownState.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3176,105 +3208,6 @@
             "id": "escape:src/lib/choreParser:type_assertion:187:5151",
             "kind": "type_assertion",
             "file": "src/lib/choreParser.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/dayNightExplorer/earthTextureCache:module_level_mutable_state:18:510",
-      "module_id": "src/lib/dayNightExplorer/earthTextureCache",
-      "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
-      "kind": "module_level_mutable_state",
-      "severity": "medium",
-      "line": 18,
-      "evidence": "let pixelsPromise: Promise<CachedEarthTexture> | undefined",
-      "rule_id": "ts-react-quality-lens/module_level_mutable_state",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "let pixelsPromise: Promise<CachedEarthTexture> | undefined",
-      "reason_code": "ts-react-quality-lens/module_level_mutable_state",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this module_level_mutable_state finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/dayNightExplorer/earthTextureCache:module_level_mutable_state:18:510",
-            "kind": "module_level_mutable_state",
-            "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/dayNightExplorer/earthTextureCache:browser_global:78:2278",
-      "module_id": "src/lib/dayNightExplorer/earthTextureCache",
-      "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 78,
-      "evidence": "window.requestIdleCallback",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.requestIdleCallback",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/dayNightExplorer/earthTextureCache:browser_global:78:2278",
-            "kind": "browser_global",
-            "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/dayNightExplorer/earthTextureCache:browser_global:79:2329",
-      "module_id": "src/lib/dayNightExplorer/earthTextureCache",
-      "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
-      "kind": "browser_global",
-      "severity": "low",
-      "line": 79,
-      "evidence": "window.requestIdleCallback",
-      "rule_id": "ts-react-quality-lens/browser_global",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "window.requestIdleCallback",
-      "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/dayNightExplorer/earthTextureCache:browser_global:79:2329",
-            "kind": "browser_global",
-            "file": "src/lib/dayNightExplorer/earthTextureCache.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3446,12 +3379,45 @@
       ]
     },
     {
-      "id": "escape:src/lib/weather/weatherConditions:type_assertion:1:30",
+      "id": "escape:src/lib/weather/weatherCodes:type_assertion:6:232",
+      "module_id": "src/lib/weather/weatherCodes",
+      "file": "src/lib/weather/weatherCodes.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 6,
+      "evidence": "{ 0: ['sunny', 'none', 0], 1: ['sunny', 'none', 0], 2: ['partly-cloudy', 'none', 0], 3: ['overcast', 'none', 0], 45: ['f",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "{ 0: ['sunny', 'none', 0], 1: ['sunny', 'none', 0], 2: ['partly-cloudy', 'none', 0], 3: ['overcast', 'none', 0], 45: ['f",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/weather/weatherCodes:type_assertion:6:232",
+            "kind": "type_assertion",
+            "file": "src/lib/weather/weatherCodes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/weather/weatherConditions:type_assertion:2:100",
       "module_id": "src/lib/weather/weatherConditions",
       "file": "src/lib/weather/weatherConditions.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 1,
+      "line": 2,
       "evidence": "{ sunny: 'Sunny', 'partly-cloudy': 'Partly cloudy', overcast: 'Cloudy', drizzle: 'Drizzle', rain: 'Rain', 'heavy-rain': ",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -3470,7 +3436,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/weather/weatherConditions:type_assertion:1:30",
+            "id": "escape:src/lib/weather/weatherConditions:type_assertion:2:100",
             "kind": "type_assertion",
             "file": "src/lib/weather/weatherConditions.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3479,7 +3445,7 @@
       ]
     },
     {
-      "id": "escape:src/lib/weather/weatherStore:type_assertion:59:1460",
+      "id": "escape:src/lib/weather/weatherStore:type_assertion:59:1402",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "kind": "type_assertion",
@@ -3503,7 +3469,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/weather/weatherStore:type_assertion:59:1460",
+            "id": "escape:src/lib/weather/weatherStore:type_assertion:59:1402",
             "kind": "type_assertion",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3512,7 +3478,7 @@
       ]
     },
     {
-      "id": "escape:src/lib/weather/weatherStore:type_assertion:60:1514",
+      "id": "escape:src/lib/weather/weatherStore:type_assertion:60:1456",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "kind": "type_assertion",
@@ -3536,7 +3502,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/weather/weatherStore:type_assertion:60:1514",
+            "id": "escape:src/lib/weather/weatherStore:type_assertion:60:1456",
             "kind": "type_assertion",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3545,12 +3511,12 @@
       ]
     },
     {
-      "id": "escape:src/lib/weather/weatherStore:browser_global:144:3999",
+      "id": "escape:src/lib/weather/weatherStore:browser_global:139:3910",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 144,
+      "line": 139,
       "evidence": "window.addEventListener",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -3569,7 +3535,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/weather/weatherStore:browser_global:144:3999",
+            "id": "escape:src/lib/weather/weatherStore:browser_global:139:3910",
             "kind": "browser_global",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3578,12 +3544,12 @@
       ]
     },
     {
-      "id": "escape:src/lib/weather/weatherStore:browser_global:148:4165",
+      "id": "escape:src/lib/weather/weatherStore:browser_global:143:4076",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 148,
+      "line": 143,
       "evidence": "window.removeEventListener",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -3602,42 +3568,9 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/weather/weatherStore:browser_global:148:4165",
+            "id": "escape:src/lib/weather/weatherStore:browser_global:143:4076",
             "kind": "browser_global",
             "file": "src/lib/weather/weatherStore.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/weather/weatherVisuals:non_null_assertion:61:1850",
-      "module_id": "src/lib/weather/weatherVisuals",
-      "file": "src/lib/weather/weatherVisuals.ts",
-      "kind": "non_null_assertion",
-      "severity": "medium",
-      "line": 61,
-      "evidence": "conditions.weatherCode!",
-      "rule_id": "ts-react-quality-lens/non_null_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "conditions.weatherCode!",
-      "reason_code": "ts-react-quality-lens/non_null_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/weather/weatherVisuals:non_null_assertion:61:1850",
-            "kind": "non_null_assertion",
-            "file": "src/lib/weather/weatherVisuals.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

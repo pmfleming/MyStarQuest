@@ -1,9 +1,9 @@
 {
   "schema_version": "0.3.0",
-  "task_id": "correctness.catalog",
+  "task_id": "correctness.all",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure quality.locality_dynamic --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T19:13:24.189Z",
+    "measured_at": "2026-09-13T19:31:26.128Z",
     "source_type": "static",
-    "source_set_hash": "sha256:a86f2d821b8432d16c4ca2d9f528c9f68d30a2d3c48017792e1debbc35157d71",
-    "input_set_hash": "sha256:b41824d3932088436f6ce2d79ba6415a8bbf44519df609013ece178d8aeb5a2f"
+    "source_set_hash": "sha256:d8764fd624cb1ca4018c2a494de0ef4b5d0b8a24d9ed441230f37e745dfa6dcb",
+    "input_set_hash": "sha256:23c150143dbf8c8a4963ca6e9ec3b8213592ce49f7e6e0aa29e9f38db3278386"
   },
   "analysis_identity": {
-    "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
+    "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:3b0f360d5b74b92560fd4b9739831b0c854a33be6b34130701a6943087442b11",
+    "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -98,13 +98,13 @@
     "tests": 60,
     "colocated_tests": 0,
     "external_tests": 60,
-    "execution_status": "not_run",
+    "execution_status": "passed",
     "execution_scope": "suite",
     "coverage_status": "not_collected",
     "blocking_findings": 0
   },
   "execution": {
-    "status": "not_run",
+    "status": "passed",
     "command": "npm run test"
   },
   "records": [],
@@ -553,7 +553,9 @@
       "path": "tests/component/ResourceLoadingIcon.test.tsx",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/components/ui/ResourceLoadingIcon.tsx"],
+      "source_mapping": [
+        "src/components/ui/ResourceLoadingIcon.tsx"
+      ],
       "source_associations": [
         {
           "file": "src/components/ui/ResourceLoadingIcon.tsx",
@@ -817,7 +819,9 @@
       "framework": "vitest",
       "locality": "external",
       "source_mapping": [
+        "src/contexts/ThemeProvider.tsx",
         "src/contexts/ThemeContext.tsx",
+        "src/contexts/ActiveChildProvider.tsx",
         "src/contexts/ActiveChildContext.tsx",
         "src/assets/chores/assets.ts",
         "src/lib/tabNavigation.ts",
@@ -825,7 +829,17 @@
       ],
       "source_associations": [
         {
+          "file": "src/contexts/ThemeProvider.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
           "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ActiveChildProvider.tsx",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -932,7 +946,9 @@
       "path": "tests/component/WaterToiletMonitor.test.tsx",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/components/WaterToiletMonitor.tsx"],
+      "source_mapping": [
+        "src/components/WaterToiletMonitor.tsx"
+      ],
       "source_associations": [
         {
           "file": "src/components/WaterToiletMonitor.tsx",
@@ -1017,7 +1033,9 @@
       "path": "tests/component/choreStarAwards.test.tsx",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/data/useChoreActivityActions.ts"],
+      "source_mapping": [
+        "src/data/useChoreActivityActions.ts"
+      ],
       "source_associations": [
         {
           "file": "src/data/types.ts",
@@ -1075,18 +1093,24 @@
       "framework": "vitest",
       "locality": "external",
       "source_mapping": [
+        "src/contexts/ThemeProvider.tsx",
         "src/contexts/ThemeContext.tsx",
-        "src/contexts/ActiveChildContext.tsx",
+        "src/contexts/ActiveChildProvider.tsx",
         "src/data/useChildren.ts"
       ],
       "source_associations": [
+        {
+          "file": "src/contexts/ThemeProvider.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
         {
           "file": "src/contexts/ThemeContext.tsx",
           "kind": "direct-import",
           "confidence": "high"
         },
         {
-          "file": "src/contexts/ActiveChildContext.tsx",
+          "file": "src/contexts/ActiveChildProvider.tsx",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -1111,7 +1135,7 @@
         "src/routes/AnimatedTabLayout.tsx",
         "src/components/AppErrorBoundary.tsx",
         "src/pages/DashboardPage.tsx",
-        "src/contexts/ThemeContext.tsx"
+        "src/contexts/ThemeProvider.tsx"
       ],
       "source_associations": [
         {
@@ -1130,7 +1154,7 @@
           "confidence": "high"
         },
         {
-          "file": "src/contexts/ThemeContext.tsx",
+          "file": "src/contexts/ThemeProvider.tsx",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -1555,7 +1579,10 @@
       "path": "tests/unit/lib/choreParser.test.ts",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/data/types.ts", "src/lib/choreParser.ts"],
+      "source_mapping": [
+        "src/data/types.ts",
+        "src/lib/choreParser.ts"
+      ],
       "source_associations": [
         {
           "file": "src/data/types.ts",
@@ -1579,7 +1606,9 @@
       "path": "tests/unit/lib/disposeSceneObject.test.ts",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/features/dayNightExplorer/disposeSceneObject.ts"],
+      "source_mapping": [
+        "src/features/dayNightExplorer/disposeSceneObject.ts"
+      ],
       "source_associations": [
         {
           "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
@@ -1598,7 +1627,9 @@
       "path": "tests/unit/lib/earthTextureCache.test.ts",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/features/dayNightExplorer/earthTextureCache.ts"],
+      "source_mapping": [
+        "src/features/dayNightExplorer/earthTextureCache.ts"
+      ],
       "source_associations": [
         {
           "file": "src/features/dayNightExplorer/earthTextureCache.ts",
@@ -1617,7 +1648,9 @@
       "path": "tests/unit/lib/imageLoading.test.ts",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/lib/imageLoading.ts"],
+      "source_mapping": [
+        "src/lib/imageLoading.ts"
+      ],
       "source_associations": [
         {
           "file": "src/lib/imageLoading.ts",
@@ -1663,7 +1696,9 @@
       "path": "tests/unit/lib/today.test.ts",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/lib/today.ts"],
+      "source_mapping": [
+        "src/lib/today.ts"
+      ],
       "source_associations": [
         {
           "file": "src/lib/today.ts",
@@ -1682,7 +1717,9 @@
       "path": "tests/unit/loadCreatureCollection.test.ts",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/data/creatureCollections/loadCollection.ts"],
+      "source_mapping": [
+        "src/data/creatureCollections/loadCollection.ts"
+      ],
       "source_associations": [
         {
           "file": "src/data/creatureCollections/loadCollection.ts",
@@ -1701,7 +1738,9 @@
       "path": "tests/unit/optimisticState.test.ts",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/lib/optimisticState.ts"],
+      "source_mapping": [
+        "src/lib/optimisticState.ts"
+      ],
       "source_associations": [
         {
           "file": "src/lib/optimisticState.ts",
@@ -1720,7 +1759,9 @@
       "path": "tests/unit/positionalNotationProblems.test.ts",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/lib/positionalNotationProblems.ts"],
+      "source_mapping": [
+        "src/lib/positionalNotationProblems.ts"
+      ],
       "source_associations": [
         {
           "file": "src/lib/positionalNotationProblems.ts",
@@ -1779,7 +1820,10 @@
       "path": "tests/unit/starActions.test.ts",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/lib/starActions.ts", "src/data/types.ts"],
+      "source_mapping": [
+        "src/lib/starActions.ts",
+        "src/data/types.ts"
+      ],
       "source_associations": [
         {
           "file": "src/lib/starActions.ts",
@@ -1803,7 +1847,10 @@
       "path": "tests/unit/taskLimits.test.ts",
       "framework": "vitest",
       "locality": "external",
-      "source_mapping": ["src/data/taskLimits.ts", "src/data/types.ts"],
+      "source_mapping": [
+        "src/data/taskLimits.ts",
+        "src/data/types.ts"
+      ],
       "source_associations": [
         {
           "file": "src/data/taskLimits.ts",
