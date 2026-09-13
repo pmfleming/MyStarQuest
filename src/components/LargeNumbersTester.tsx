@@ -28,6 +28,12 @@ const MAX_FIRST_ADDEND = MAX_SUM - MIN_ADDEND
 const MAX_ONES_TENS = 1
 const MAX_TENS_RODS = 10
 const PLACE_GRID_COLUMNS = '44px 40px minmax(82px, 1fr) 42px minmax(82px, 1fr)'
+const placeGridStyle: CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: PLACE_GRID_COLUMNS,
+  gap: 4,
+  alignItems: 'stretch',
+}
 const TENS_COUNTER_COLUMNS = '2 / 4'
 const DIGIT_STEPPER_WIDTH = 30
 const DIGIT_STEPPER_HEIGHT = 40
@@ -107,24 +113,16 @@ const getAdjustedOnesState = (
   delta: number,
   currentAnswer: number
 ): OnesAnswerState | null => {
-  if (delta > 0) {
-    if (
-      currentAnswer >= MAX_SUM ||
-      (onesTens === MAX_ONES_TENS && ones === 9)
-    ) {
-      return null
-    }
+  const step = delta > 0 ? 1 : -1
+  const regroupedOnes = onesTens * 10 + ones + step
+  if (
+    regroupedOnes < 0 ||
+    regroupedOnes > MAX_ONES_TENS * 10 + 9 ||
+    (step > 0 && currentAnswer >= MAX_SUM)
+  )
+    return null
 
-    return ones < 9
-      ? { ones: ones + 1, onesTens }
-      : { ones: 0, onesTens: clamp(onesTens + 1, 0, MAX_ONES_TENS) }
-  }
-
-  if (ones === 0 && onesTens === 0) return null
-
-  return ones > 0
-    ? { ones: ones - 1, onesTens }
-    : { ones: onesTens > 0 ? 9 : 0, onesTens: Math.max(0, onesTens - 1) }
+  return { ones: regroupedOnes % 10, onesTens: Math.floor(regroupedOnes / 10) }
 }
 
 export type LargeNumbersTesterProps = ActivityChoreProps
@@ -428,14 +426,7 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
               boxShadow: `0 8px 18px ${theme.colors.primary}12`,
             }}
           >
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: PLACE_GRID_COLUMNS,
-                gap: 4,
-                alignItems: 'stretch',
-              }}
-            >
+            <div style={placeGridStyle}>
               <div />
               <div />
               <div style={digitCellStyle(`${theme.colors.secondary}24`)}>
@@ -488,14 +479,7 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
               }}
             />
 
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: PLACE_GRID_COLUMNS,
-                gap: 4,
-                alignItems: 'stretch',
-              }}
-            >
+            <div style={placeGridStyle}>
               <div />
               <div style={digitCellStyle(`${theme.colors.accent}18`, true)}>
                 {answerDigits.hundreds === 0 ? '' : answerDigits.hundreds}

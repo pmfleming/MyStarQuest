@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-09T15:24:39.177Z",
+    "measured_at": "2026-09-13T18:48:09.317Z",
     "source_type": "static",
-    "source_set_hash": "sha256:2a4679a7f675c9bb3f4a2e876cd008a2dfe8a70f8a4d972d3186a3d278294e52",
-    "input_set_hash": "sha256:f10cbcbfb3569526b93e0ad4f560ac71f72dbe0fb4d541e74c3fb9ccbf2f7ebb"
+    "source_set_hash": "sha256:f0394afeb3e3ac7c680c52d95e9a1e36513f80ed510229637b2d92d9b4d885c3",
+    "input_set_hash": "sha256:d792695f968fc4f5b3755c09151b308cc15d352d76464f3fc9b1439612d8538b"
   },
   "analysis_identity": {
     "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
@@ -62,7 +62,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "hit",
+    "analysis_cache_status": "miss",
     "unsupported_pattern": [],
     "typed_eslint_available": true,
     "typed_eslint_ran": true,
@@ -100,9 +100,9 @@
     "stale_input": []
   },
   "summary": {
-    "records": 86,
-    "blocking_findings": 62,
-    "warning_findings": 24
+    "records": 69,
+    "blocking_findings": 48,
+    "warning_findings": 21
   },
   "tool_status": {
     "typed_eslint": {
@@ -111,7 +111,7 @@
       "complete": true,
       "reason": null,
       "version": "8.67.0",
-      "duration_ms": 7770,
+      "duration_ms": 7977,
       "ruleset": "tsrqlens-typescript-recommended-v1"
     }
   },
@@ -264,165 +264,6 @@
             "id": "typescript-eslint:afddc843:1",
             "kind": "typed_no_floating_promises",
             "file": "src/components/PageShell.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:3a4d9f85:1",
-      "rule_id": "@typescript-eslint/no-unsafe-assignment",
-      "kind": "typed_no_unsafe_assignment",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/SchoolCalendar",
-      "file": "src/components/SchoolCalendar.tsx",
-      "line": 85,
-      "column": 15,
-      "end_line": 85,
-      "end_column": 42,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe assignment of an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-assignment",
-          "message": "Unsafe assignment of an `any` value."
-        }
-      ],
-      "fingerprint": "3a4d9f85",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-assignment",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:3a4d9f85:1",
-            "kind": "typed_no_unsafe_assignment",
-            "file": "src/components/SchoolCalendar.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:c10fa890:1",
-      "rule_id": "@typescript-eslint/no-unsafe-argument",
-      "kind": "typed_no_unsafe_argument",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/SchoolCalendar",
-      "file": "src/components/SchoolCalendar.tsx",
-      "line": 87,
-      "column": 21,
-      "end_line": 87,
-      "end_column": 27,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<Record<string, CalendarDayData>>`.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-argument",
-          "message": "Unsafe argument of type `any` assigned to a parameter of type `SetStateAction<Record<string, CalendarDayData>>`."
-        }
-      ],
-      "fingerprint": "c10fa890",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-argument",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_argument finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:c10fa890:1",
-            "kind": "typed_no_unsafe_argument",
-            "file": "src/components/SchoolCalendar.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:a9380d8b:1",
-      "rule_id": "@typescript-eslint/no-unsafe-member-access",
-      "kind": "typed_no_unsafe_member_access",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/SchoolCalendar",
-      "file": "src/components/SchoolCalendar.tsx",
-      "line": 110,
-      "column": 17,
-      "end_line": 110,
-      "end_column": 21,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe member access .name on an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-member-access",
-          "message": "Unsafe member access .name on an `any` value."
-        }
-      ],
-      "fingerprint": "a9380d8b",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-member-access",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:a9380d8b:1",
-            "kind": "typed_no_unsafe_member_access",
-            "file": "src/components/SchoolCalendar.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -617,6 +458,53 @@
       ]
     },
     {
+      "id": "typescript-eslint:66e1b9fa:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ui/ActionArtwork",
+      "file": "src/components/ui/ActionArtwork.tsx",
+      "line": 10,
+      "column": 7,
+      "end_line": 12,
+      "end_column": 25,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'CSSProperties' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'CSSProperties' is more narrow than the original type."
+        }
+      ],
+      "fingerprint": "66e1b9fa",
+      "occurrence": 1,
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typescript-eslint:66e1b9fa:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/components/ui/ActionArtwork.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "typescript-eslint:f8c24689:1",
       "rule_id": "@typescript-eslint/no-misused-promises",
       "kind": "typed_no_misused_promises",
@@ -670,7 +558,7 @@
       ]
     },
     {
-      "id": "typescript-eslint:a03a6570:1",
+      "id": "typescript-eslint:c5e0bb19:1",
       "rule_id": "@typescript-eslint/no-misused-promises",
       "kind": "typed_no_misused_promises",
       "evidence_kind": "tool-rule",
@@ -679,10 +567,10 @@
       "scope": "file",
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
-      "line": 85,
-      "column": 13,
-      "end_line": 85,
-      "end_column": 22,
+      "line": 97,
+      "column": 15,
+      "end_line": 97,
+      "end_column": 24,
       "score": 90,
       "severity": "high",
       "risk": "high",
@@ -694,7 +582,7 @@
           "message": "Promise-returning function provided to attribute where a void return was expected."
         }
       ],
-      "fingerprint": "a03a6570",
+      "fingerprint": "c5e0bb19",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-misused-promises",
       "workspace_id": "mystarquest",
@@ -714,7 +602,7 @@
           "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:a03a6570:1",
+            "id": "typescript-eslint:c5e0bb19:1",
             "kind": "typed_no_misused_promises",
             "file": "src/components/ui/IconActionControls.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -723,7 +611,7 @@
       ]
     },
     {
-      "id": "typescript-eslint:4b4dcd61:1",
+      "id": "typescript-eslint:22e1ad99:1",
       "rule_id": "@typescript-eslint/no-misused-promises",
       "kind": "typed_no_misused_promises",
       "evidence_kind": "tool-rule",
@@ -732,9 +620,9 @@
       "scope": "file",
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
-      "line": 182,
+      "line": 201,
       "column": 13,
-      "end_line": 182,
+      "end_line": 201,
       "end_column": 22,
       "score": 90,
       "severity": "high",
@@ -747,7 +635,7 @@
           "message": "Promise-returning function provided to attribute where a void return was expected."
         }
       ],
-      "fingerprint": "4b4dcd61",
+      "fingerprint": "22e1ad99",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-misused-promises",
       "workspace_id": "mystarquest",
@@ -767,7 +655,7 @@
           "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:4b4dcd61:1",
+            "id": "typescript-eslint:22e1ad99:1",
             "kind": "typed_no_misused_promises",
             "file": "src/components/ui/IconActionControls.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -776,7 +664,7 @@
       ]
     },
     {
-      "id": "typescript-eslint:38c4be9d:1",
+      "id": "typescript-eslint:c787cfab:1",
       "rule_id": "@typescript-eslint/no-misused-promises",
       "kind": "typed_no_misused_promises",
       "evidence_kind": "tool-rule",
@@ -785,9 +673,9 @@
       "scope": "file",
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
-      "line": 86,
+      "line": 97,
       "column": 13,
-      "end_line": 86,
+      "end_line": 97,
       "end_column": 22,
       "score": 90,
       "severity": "high",
@@ -800,7 +688,7 @@
           "message": "Promise-returning function provided to attribute where a void return was expected."
         }
       ],
-      "fingerprint": "38c4be9d",
+      "fingerprint": "c787cfab",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-misused-promises",
       "workspace_id": "mystarquest",
@@ -820,7 +708,7 @@
           "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:38c4be9d:1",
+            "id": "typescript-eslint:c787cfab:1",
             "kind": "typed_no_misused_promises",
             "file": "src/components/ui/StandardActionButtons.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -829,7 +717,7 @@
       ]
     },
     {
-      "id": "typescript-eslint:a07b372e:1",
+      "id": "typescript-eslint:272f6:1",
       "rule_id": "@typescript-eslint/no-misused-promises",
       "kind": "typed_no_misused_promises",
       "evidence_kind": "tool-rule",
@@ -838,9 +726,9 @@
       "scope": "file",
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
-      "line": 187,
+      "line": 220,
       "column": 19,
-      "end_line": 187,
+      "end_line": 220,
       "end_column": 30,
       "score": 90,
       "severity": "high",
@@ -853,7 +741,7 @@
           "message": "Promise-returning function provided to attribute where a void return was expected."
         }
       ],
-      "fingerprint": "a07b372e",
+      "fingerprint": "272f6",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-misused-promises",
       "workspace_id": "mystarquest",
@@ -873,7 +761,7 @@
           "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:a07b372e:1",
+            "id": "typescript-eslint:272f6:1",
             "kind": "typed_no_misused_promises",
             "file": "src/components/ui/StandardActionButtons.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -891,9 +779,9 @@
       "scope": "file",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
-      "line": 319,
+      "line": 335,
       "column": 19,
-      "end_line": 319,
+      "end_line": 335,
       "end_column": 30,
       "score": 90,
       "severity": "high",
@@ -929,6 +817,53 @@
             "id": "typescript-eslint:84c2ba81:1",
             "kind": "typed_no_misused_promises",
             "file": "src/components/ui/StandardActionList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typescript-eslint:e1314575:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/weather/WeatherScene",
+      "file": "src/components/weather/WeatherScene.tsx",
+      "line": 78,
+      "column": 11,
+      "end_line": 81,
+      "end_column": 29,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'CSSProperties' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'CSSProperties' is more narrow than the original type."
+        }
+      ],
+      "fingerprint": "e1314575",
+      "occurrence": 1,
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typescript-eslint:e1314575:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/components/weather/WeatherScene.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -981,483 +916,6 @@
           "value": {
             "id": "typescript-eslint:3e62d8e0:1",
             "kind": "react_refresh/only_export_components",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:abd216c4:1",
-      "rule_id": "@typescript-eslint/no-unsafe-assignment",
-      "kind": "typed_no_unsafe_assignment",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "line": 37,
-      "column": 11,
-      "end_line": 37,
-      "end_column": 35,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe assignment of an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-assignment",
-          "message": "Unsafe assignment of an `any` value."
-        }
-      ],
-      "fingerprint": "abd216c4",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-assignment",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:abd216c4:1",
-            "kind": "typed_no_unsafe_assignment",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:83ee11b5:1",
-      "rule_id": "@typescript-eslint/no-unsafe-assignment",
-      "kind": "typed_no_unsafe_assignment",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "line": 39,
-      "column": 13,
-      "end_line": 39,
-      "end_column": 66,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe assignment of an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-assignment",
-          "message": "Unsafe assignment of an `any` value."
-        }
-      ],
-      "fingerprint": "83ee11b5",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-assignment",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:83ee11b5:1",
-            "kind": "typed_no_unsafe_assignment",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:43a5a8bb:1",
-      "rule_id": "@typescript-eslint/no-unsafe-member-access",
-      "kind": "typed_no_unsafe_member_access",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "line": 39,
-      "column": 32,
-      "end_line": 39,
-      "end_column": 34,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe member access .id on an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-member-access",
-          "message": "Unsafe member access .id on an `any` value."
-        }
-      ],
-      "fingerprint": "43a5a8bb",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-member-access",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:43a5a8bb:1",
-            "kind": "typed_no_unsafe_member_access",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:43a5a8bb:2",
-      "rule_id": "@typescript-eslint/no-unsafe-member-access",
-      "kind": "typed_no_unsafe_member_access",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "line": 39,
-      "column": 57,
-      "end_line": 39,
-      "end_column": 59,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe member access .id on an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-member-access",
-          "message": "Unsafe member access .id on an `any` value."
-        }
-      ],
-      "fingerprint": "43a5a8bb",
-      "occurrence": 2,
-      "reason_code": "@typescript-eslint/no-unsafe-member-access",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:43a5a8bb:2",
-            "kind": "typed_no_unsafe_member_access",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:6ce21a13:1",
-      "rule_id": "@typescript-eslint/no-unsafe-assignment",
-      "kind": "typed_no_unsafe_assignment",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "line": 40,
-      "column": 13,
-      "end_line": 40,
-      "end_column": 81,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe assignment of an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-assignment",
-          "message": "Unsafe assignment of an `any` value."
-        }
-      ],
-      "fingerprint": "6ce21a13",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-assignment",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:6ce21a13:1",
-            "kind": "typed_no_unsafe_assignment",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:269c5f52:1",
-      "rule_id": "@typescript-eslint/no-unsafe-member-access",
-      "kind": "typed_no_unsafe_member_access",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "line": 40,
-      "column": 37,
-      "end_line": 40,
-      "end_column": 44,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe member access .themeId on an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-member-access",
-          "message": "Unsafe member access .themeId on an `any` value."
-        }
-      ],
-      "fingerprint": "269c5f52",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-member-access",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:269c5f52:1",
-            "kind": "typed_no_unsafe_member_access",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:269c5f52:2",
-      "rule_id": "@typescript-eslint/no-unsafe-member-access",
-      "kind": "typed_no_unsafe_member_access",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "line": 40,
-      "column": 67,
-      "end_line": 40,
-      "end_column": 74,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe member access .themeId on an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-member-access",
-          "message": "Unsafe member access .themeId on an `any` value."
-        }
-      ],
-      "fingerprint": "269c5f52",
-      "occurrence": 2,
-      "reason_code": "@typescript-eslint/no-unsafe-member-access",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_member_access finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:269c5f52:2",
-            "kind": "typed_no_unsafe_member_access",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:1b98339b:1",
-      "rule_id": "@typescript-eslint/no-unsafe-assignment",
-      "kind": "typed_no_unsafe_assignment",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "line": 41,
-      "column": 16,
-      "end_line": 41,
-      "end_column": 18,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe assignment of an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-assignment",
-          "message": "Unsafe assignment of an `any` value."
-        }
-      ],
-      "fingerprint": "1b98339b",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-assignment",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:1b98339b:1",
-            "kind": "typed_no_unsafe_assignment",
-            "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:1b98339b:2",
-      "rule_id": "@typescript-eslint/no-unsafe-assignment",
-      "kind": "typed_no_unsafe_assignment",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/contexts/ActiveChildContext",
-      "file": "src/contexts/ActiveChildContext.tsx",
-      "line": 41,
-      "column": 20,
-      "end_line": 41,
-      "end_column": 27,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Unsafe assignment of an `any` value.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-assignment",
-          "message": "Unsafe assignment of an `any` value."
-        }
-      ],
-      "fingerprint": "1b98339b",
-      "occurrence": 2,
-      "reason_code": "@typescript-eslint/no-unsafe-assignment",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_assignment finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:1b98339b:2",
-            "kind": "typed_no_unsafe_assignment",
             "file": "src/contexts/ActiveChildContext.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -1712,7 +1170,7 @@
       ]
     },
     {
-      "id": "typescript-eslint:115bd3a1:1",
+      "id": "typescript-eslint:a95aa087:1",
       "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
       "kind": "typed_no_unsafe_type_assertion",
       "evidence_kind": "tool-rule",
@@ -1721,22 +1179,22 @@
       "scope": "file",
       "module_id": "src/data/animalLocationAssets",
       "file": "src/data/animalLocationAssets.ts",
-      "line": 83,
+      "line": 60,
       "column": 46,
-      "end_line": 85,
+      "end_line": 62,
       "end_column": 40,
       "score": 50,
       "severity": "medium",
       "risk": "medium",
       "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type 'Record<\"Africa\" | \"Andes\" | \"Africa & Iran\" | \"Asia\" | \"Australia\" | \"Arctic\" | \"Worldwide\" | \"Warm regions\" | \"Afro-Eurasia\" | \"Five continents\" | \"Global coasts\" | \"Mild regions\" | ... 16 more ... | \"Southern Hemisphere\", string>' is more narrow than the original type.",
+      "message": "Unsafe type assertion: type 'Record<\"Africa\" | \"South America\" | \"Asia\" | \"Australia\" | \"North America\" | \"Americas\" | \"Africa & Asia\" | \"Afro-Eurasia\" | \"Five continents\" | \"New Zealand\" | \"Arctic\" | \"Worldwide\" | ... 7 more ... | \"Southern Hemisphere\", string>' is more narrow than the original type.",
       "signals": [
         {
           "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type 'Record<\"Africa\" | \"Andes\" | \"Africa & Iran\" | \"Asia\" | \"Australia\" | \"Arctic\" | \"Worldwide\" | \"Warm regions\" | \"Afro-Eurasia\" | \"Five continents\" | \"Global coasts\" | \"Mild regions\" | ... 16 more ... | \"Southern Hemisphere\", string>' is more narrow than the original type."
+          "message": "Unsafe type assertion: type 'Record<\"Africa\" | \"South America\" | \"Asia\" | \"Australia\" | \"North America\" | \"Americas\" | \"Africa & Asia\" | \"Afro-Eurasia\" | \"Five continents\" | \"New Zealand\" | \"Arctic\" | \"Worldwide\" | ... 7 more ... | \"Southern Hemisphere\", string>' is more narrow than the original type."
         }
       ],
-      "fingerprint": "115bd3a1",
+      "fingerprint": "a95aa087",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
       "workspace_id": "mystarquest",
@@ -1750,7 +1208,7 @@
           "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:115bd3a1:1",
+            "id": "typescript-eslint:a95aa087:1",
             "kind": "typed_no_unsafe_type_assertion",
             "file": "src/data/animalLocationAssets.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1941,100 +1399,6 @@
             "id": "typescript-eslint:4d66c091:1",
             "kind": "typed_no_unsafe_type_assertion",
             "file": "src/data/taskLimits.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:f66098e3:1",
-      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
-      "kind": "typed_no_unsafe_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/data/useChores",
-      "file": "src/data/useChores.ts",
-      "line": 127,
-      "column": 27,
-      "end_line": 129,
-      "end_column": 10,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type '(keyof TaskEphemeralState)[]' is more narrow than the original type.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type '(keyof TaskEphemeralState)[]' is more narrow than the original type."
-        }
-      ],
-      "fingerprint": "f66098e3",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:f66098e3:1",
-            "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/data/useChores.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:4ee8a3b:1",
-      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
-      "kind": "typed_no_unsafe_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/data/useTests",
-      "file": "src/data/useTests.ts",
-      "line": 199,
-      "column": 27,
-      "end_line": 201,
-      "end_column": 10,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type '(keyof TaskEphemeralState)[]' is more narrow than the original type.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type '(keyof TaskEphemeralState)[]' is more narrow than the original type."
-        }
-      ],
-      "fingerprint": "4ee8a3b",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:4ee8a3b:1",
-            "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/data/useTests.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2359,294 +1723,6 @@
       ]
     },
     {
-      "id": "typescript-eslint:46440b84:1",
-      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
-      "kind": "typed_no_unsafe_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/hooks/useCoalescedDocumentUpdates",
-      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-      "line": 25,
-      "column": 16,
-      "end_line": 25,
-      "end_column": 57,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type 'Record<string, unknown>' is more narrow than the original type.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type 'Record<string, unknown>' is more narrow than the original type."
-        }
-      ],
-      "fingerprint": "46440b84",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:46440b84:1",
-            "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:7643dc96:1",
-      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
-      "kind": "typed_no_unsafe_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/hooks/useCoalescedDocumentUpdates",
-      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-      "line": 30,
-      "column": 42,
-      "end_line": 30,
-      "end_column": 55,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "Unsafe type assertion: the original type is assignable to the constraint of type 'Patch', but 'Patch' could be instantiated with a different subtype of its constraint.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: the original type is assignable to the constraint of type 'Patch', but 'Patch' could be instantiated with a different subtype of its constraint."
-        }
-      ],
-      "fingerprint": "7643dc96",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:7643dc96:1",
-            "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:26f05a93:1",
-      "rule_id": "@typescript-eslint/no-unnecessary-type-assertion",
-      "kind": "typed_no_unnecessary_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/hooks/useCoalescedDocumentUpdates",
-      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-      "line": 42,
-      "column": 27,
-      "end_line": 42,
-      "end_column": 69,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "This assertion is unnecessary since the receiver accepts the original type of the expression.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unnecessary-type-assertion",
-          "message": "This assertion is unnecessary since the receiver accepts the original type of the expression."
-        }
-      ],
-      "fingerprint": "26f05a93",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unnecessary-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unnecessary_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:26f05a93:1",
-            "kind": "typed_no_unnecessary_type_assertion",
-            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:f2f7c2d7:1",
-      "rule_id": "@typescript-eslint/no-unnecessary-type-assertion",
-      "kind": "typed_no_unnecessary_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/hooks/useCoalescedDocumentUpdates",
-      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-      "line": 113,
-      "column": 15,
-      "end_line": 113,
-      "end_column": 53,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "This assertion is unnecessary since it does not change the type of the expression.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unnecessary-type-assertion",
-          "message": "This assertion is unnecessary since it does not change the type of the expression."
-        }
-      ],
-      "fingerprint": "f2f7c2d7",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unnecessary-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unnecessary_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:f2f7c2d7:1",
-            "kind": "typed_no_unnecessary_type_assertion",
-            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:1f9b4ab7:1",
-      "rule_id": "@typescript-eslint/no-unnecessary-type-assertion",
-      "kind": "typed_no_unnecessary_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/hooks/useCoalescedDocumentUpdates",
-      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-      "line": 119,
-      "column": 29,
-      "end_line": 119,
-      "end_column": 70,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "This assertion is unnecessary since it does not change the type of the expression.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unnecessary-type-assertion",
-          "message": "This assertion is unnecessary since it does not change the type of the expression."
-        }
-      ],
-      "fingerprint": "1f9b4ab7",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unnecessary-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unnecessary_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:1f9b4ab7:1",
-            "kind": "typed_no_unnecessary_type_assertion",
-            "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:7d5a959d:1",
-      "rule_id": "@typescript-eslint/no-floating-promises",
-      "kind": "typed_no_floating_promises",
-      "evidence_kind": "tool-rule",
-      "disposition": "block",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/lib/celebrate",
-      "file": "src/lib/celebrate.ts",
-      "line": 4,
-      "column": 7,
-      "end_line": 9,
-      "end_column": 9,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
-      "source": "typescript-eslint",
-      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-floating-promises",
-          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
-        }
-      ],
-      "fingerprint": "7d5a959d",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-floating-promises",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 60,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:7d5a959d:1",
-            "kind": "typed_no_floating_promises",
-            "file": "src/lib/celebrate.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "typescript-eslint:39a442fe:1",
       "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
       "kind": "typed_no_unsafe_type_assertion",
@@ -2800,53 +1876,94 @@
       ]
     },
     {
-      "id": "typescript-eslint:e09964d1:1",
-      "rule_id": "@typescript-eslint/no-floating-promises",
-      "kind": "typed_no_floating_promises",
+      "id": "typescript-eslint:66f8d6f0:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
       "evidence_kind": "tool-rule",
-      "disposition": "block",
+      "disposition": "warn",
       "finding_confidence": "high",
       "scope": "file",
-      "module_id": "src/pages/ChoreCreationFlow",
-      "file": "src/pages/ChoreCreationFlow.tsx",
-      "line": 174,
-      "column": 5,
-      "end_line": 174,
-      "end_column": 35,
-      "score": 90,
-      "severity": "high",
-      "risk": "high",
+      "module_id": "src/lib/weather/weatherStore",
+      "file": "src/lib/weather/weatherStore.ts",
+      "line": 59,
+      "column": 14,
+      "end_line": 59,
+      "end_column": 42,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
       "source": "typescript-eslint",
-      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "message": "Unsafe type assertion: type 'keyof WeatherSnapshot' is more narrow than the original type.",
       "signals": [
         {
-          "kind": "@typescript-eslint/no-floating-promises",
-          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'keyof WeatherSnapshot' is more narrow than the original type."
         }
       ],
-      "fingerprint": "e09964d1",
+      "fingerprint": "66f8d6f0",
       "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-floating-promises",
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
-      "estimated_effort": 60,
+      "estimated_effort": 30,
       "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:e09964d1:1",
-            "kind": "typed_no_floating_promises",
-            "file": "src/pages/ChoreCreationFlow.tsx",
+            "id": "typescript-eslint:66f8d6f0:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/lib/weather/weatherStore.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typescript-eslint:66f8d6f0:2",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/lib/weather/weatherStore",
+      "file": "src/lib/weather/weatherStore.ts",
+      "line": 60,
+      "column": 24,
+      "end_line": 60,
+      "end_column": 52,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'keyof WeatherSnapshot' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'keyof WeatherSnapshot' is more narrow than the original type."
+        }
+      ],
+      "fingerprint": "66f8d6f0",
+      "occurrence": 2,
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typescript-eslint:66f8d6f0:2",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3065,33 +2182,33 @@
       ]
     },
     {
-      "id": "typescript-eslint:601c0b9c:1",
-      "rule_id": "@typescript-eslint/no-floating-promises",
-      "kind": "typed_no_floating_promises",
+      "id": "typescript-eslint:6b8d4b87:1",
+      "rule_id": "@typescript-eslint/no-misused-promises",
+      "kind": "typed_no_misused_promises",
       "evidence_kind": "tool-rule",
       "disposition": "block",
       "finding_confidence": "high",
       "scope": "file",
-      "module_id": "src/pages/RewardCreationFlow",
-      "file": "src/pages/RewardCreationFlow.tsx",
-      "line": 52,
-      "column": 5,
-      "end_line": 57,
-      "end_column": 7,
+      "module_id": "src/pages/TimeExplorerPage",
+      "file": "src/pages/TimeExplorerPage.tsx",
+      "line": 148,
+      "column": 25,
+      "end_line": 148,
+      "end_column": 40,
       "score": 90,
       "severity": "high",
       "risk": "high",
       "source": "typescript-eslint",
-      "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+      "message": "Promise-returning function provided to attribute where a void return was expected.",
       "signals": [
         {
-          "kind": "@typescript-eslint/no-floating-promises",
-          "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator."
+          "kind": "@typescript-eslint/no-misused-promises",
+          "message": "Promise-returning function provided to attribute where a void return was expected."
         }
       ],
-      "fingerprint": "601c0b9c",
+      "fingerprint": "6b8d4b87",
       "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-floating-promises",
+      "reason_code": "@typescript-eslint/no-misused-promises",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
@@ -3106,19 +2223,19 @@
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this typed_no_floating_promises finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:601c0b9c:1",
-            "kind": "typed_no_floating_promises",
-            "file": "src/pages/RewardCreationFlow.tsx",
+            "id": "typescript-eslint:6b8d4b87:1",
+            "kind": "typed_no_misused_promises",
+            "file": "src/pages/TimeExplorerPage.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "typescript-eslint:b7793c97:1",
+      "id": "typescript-eslint:c64ec670:1",
       "rule_id": "@typescript-eslint/no-misused-promises",
       "kind": "typed_no_misused_promises",
       "evidence_kind": "tool-rule",
@@ -3142,7 +2259,7 @@
           "message": "Promise-returning function provided to attribute where a void return was expected."
         }
       ],
-      "fingerprint": "b7793c97",
+      "fingerprint": "c64ec670",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-misused-promises",
       "workspace_id": "mystarquest",
@@ -3162,7 +2279,7 @@
           "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:b7793c97:1",
+            "id": "typescript-eslint:c64ec670:1",
             "kind": "typed_no_misused_promises",
             "file": "src/ui/definitionRowDescriptors.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3330,7 +2447,7 @@
       ]
     },
     {
-      "id": "typescript-eslint:19601325:1",
+      "id": "typescript-eslint:c91b12f:1",
       "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
       "kind": "typed_no_unsafe_type_assertion",
       "evidence_kind": "tool-rule",
@@ -3339,22 +2456,22 @@
       "scope": "file",
       "module_id": "src/ui/themeAssets",
       "file": "src/ui/themeAssets.ts",
-      "line": 138,
+      "line": 153,
       "column": 20,
-      "end_line": 143,
+      "end_line": 158,
       "end_column": 21,
       "score": 50,
       "severity": "medium",
       "risk": "medium",
       "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type '{ background: string; choresIcon: string; rewardsIcon: string; calendarIcon: string; clockIcon: string; thermometerIcon: string; childrenIcon: string; exitIcon: string; editIcon: string; deleteIcon: string; ... 37 more ...; placeValueCounter: string; }' is more narrow than the original type.",
+      "message": "Unsafe type assertion: type '{ background: string; choresIcon: string; rewardsIcon: string; calendarIcon: string; clockIcon: string; thermometerIcon: string; childrenIcon: string; exitIcon: string; editIcon: string; deleteIcon: string; ... 40 more ...; placeValueCounter: string; }' is more narrow than the original type.",
       "signals": [
         {
           "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type '{ background: string; choresIcon: string; rewardsIcon: string; calendarIcon: string; clockIcon: string; thermometerIcon: string; childrenIcon: string; exitIcon: string; editIcon: string; deleteIcon: string; ... 37 more ...; placeValueCounter: string; }' is more narrow than the original type."
+          "message": "Unsafe type assertion: type '{ background: string; choresIcon: string; rewardsIcon: string; calendarIcon: string; clockIcon: string; thermometerIcon: string; childrenIcon: string; exitIcon: string; editIcon: string; deleteIcon: string; ... 40 more ...; placeValueCounter: string; }' is more narrow than the original type."
         }
       ],
-      "fingerprint": "19601325",
+      "fingerprint": "c91b12f",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
       "workspace_id": "mystarquest",
@@ -3368,7 +2485,7 @@
           "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:19601325:1",
+            "id": "typescript-eslint:c91b12f:1",
             "kind": "typed_no_unsafe_type_assertion",
             "file": "src/ui/themeAssets.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3386,9 +2503,9 @@
       "scope": "file",
       "module_id": "src/ui/themeAssets",
       "file": "src/ui/themeAssets.ts",
-      "line": 165,
+      "line": 180,
       "column": 3,
-      "end_line": 178,
+      "end_line": 193,
       "end_column": 4,
       "score": 50,
       "severity": "medium",
@@ -3433,9 +2550,9 @@
       "scope": "file",
       "module_id": "src/ui/themeAssets",
       "file": "src/ui/themeAssets.ts",
-      "line": 168,
+      "line": 183,
       "column": 7,
-      "end_line": 173,
+      "end_line": 188,
       "end_column": 34,
       "score": 50,
       "severity": "medium",
@@ -3895,7 +3012,7 @@
       ]
     },
     {
-      "id": "typescript-eslint:a2fc4f61:1",
+      "id": "typescript-eslint:6a2bf3ad:1",
       "rule_id": "@typescript-eslint/no-misused-promises",
       "kind": "typed_no_misused_promises",
       "evidence_kind": "tool-rule",
@@ -3919,7 +3036,7 @@
           "message": "Promise-returning function provided to property where a void return was expected."
         }
       ],
-      "fingerprint": "a2fc4f61",
+      "fingerprint": "6a2bf3ad",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-misused-promises",
       "workspace_id": "mystarquest",
@@ -3939,7 +3056,7 @@
           "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:a2fc4f61:1",
+            "id": "typescript-eslint:6a2bf3ad:1",
             "kind": "typed_no_misused_promises",
             "file": "src/ui/unifiedEatingRenderer.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3948,7 +3065,7 @@
       ]
     },
     {
-      "id": "typescript-eslint:a2fc4f61:2",
+      "id": "typescript-eslint:6a2bf3ad:2",
       "rule_id": "@typescript-eslint/no-misused-promises",
       "kind": "typed_no_misused_promises",
       "evidence_kind": "tool-rule",
@@ -3972,7 +3089,7 @@
           "message": "Promise-returning function provided to property where a void return was expected."
         }
       ],
-      "fingerprint": "a2fc4f61",
+      "fingerprint": "6a2bf3ad",
       "occurrence": 2,
       "reason_code": "@typescript-eslint/no-misused-promises",
       "workspace_id": "mystarquest",
@@ -3992,7 +3109,7 @@
           "description": "Keep this typed_no_misused_promises finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:a2fc4f61:2",
+            "id": "typescript-eslint:6a2bf3ad:2",
             "kind": "typed_no_misused_promises",
             "file": "src/ui/unifiedEatingRenderer.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4010,9 +3127,9 @@
       "scope": "file",
       "module_id": "src/ui/unifiedEatingRenderer",
       "file": "src/ui/unifiedEatingRenderer.tsx",
-      "line": 126,
+      "line": 129,
       "column": 5,
-      "end_line": 126,
+      "end_line": 129,
       "end_column": 15,
       "score": 90,
       "severity": "high",

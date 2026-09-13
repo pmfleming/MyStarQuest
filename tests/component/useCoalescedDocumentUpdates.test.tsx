@@ -1,8 +1,8 @@
+import { mergeOptimisticItems } from '../../src/lib/optimisticState'
 import { act, renderHook } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   DEFAULT_UPDATE_COALESCE_MS,
-  mergeOptimisticItems,
   useCoalescedDocumentUpdates,
 } from '../../src/hooks/useCoalescedDocumentUpdates'
 

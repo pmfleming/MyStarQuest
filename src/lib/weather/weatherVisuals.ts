@@ -32,6 +32,9 @@ export const EMPTY_WEATHER_VISUALS: WeatherVisuals = {
   thunder: false,
 }
 
+export const getWeatherWindLevel = (speed: number): WeatherLevel =>
+  speed >= 40 ? 3 : speed >= 20 ? 2 : speed >= 5 ? 1 : 0
+
 export const getWeatherCharacterPose = (
   visuals: WeatherVisuals
 ): WeatherCharacterPose => {
@@ -86,8 +89,7 @@ export function getWeatherVisuals(
   const precipitationLevel: WeatherLevel =
     precipitation === 'none' ? 0 : heavy ? 3 : moderate ? 2 : 1
   const speed = conditions.windSpeed ?? 0
-  const windLevel: WeatherLevel =
-    speed >= 40 ? 3 : speed >= 20 ? 2 : speed >= 5 ? 1 : 0
+  const windLevel = getWeatherWindLevel(speed)
   return {
     available: true,
     temperature: conditions.temperature,

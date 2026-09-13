@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-09T15:25:11.651Z",
+    "measured_at": "2026-09-13T18:48:20.481Z",
     "source_type": "static",
-    "source_set_hash": "sha256:2a4679a7f675c9bb3f4a2e876cd008a2dfe8a70f8a4d972d3186a3d278294e52",
-    "input_set_hash": "sha256:ead1fd3795958a2fe7d97d6bebbe3fc6824757501f99cc414c92f743936aefc5"
+    "source_set_hash": "sha256:f0394afeb3e3ac7c680c52d95e9a1e36513f80ed510229637b2d92d9b4d885c3",
+    "input_set_hash": "sha256:67099792cf67f187171c233a89df68c4c960491ea936a196ee4f6127ce503ef1"
   },
   "analysis_identity": {
     "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
@@ -62,7 +62,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "hit",
+    "analysis_cache_status": "miss",
     "unsupported_pattern": [],
     "eslint_react_hooks_available": true,
     "eslint_react_hooks_ran": true,
@@ -105,13 +105,13 @@
     "stale_input": []
   },
   "summary": {
-    "components": 98,
-    "records": 104,
+    "components": 107,
+    "records": 114,
     "hook_lint_findings": 0,
-    "a11y_findings": 5,
-    "a11y_tool_findings": 5,
+    "a11y_findings": 6,
+    "a11y_tool_findings": 6,
     "a11y_heuristic_findings": 0,
-    "high_risk_components": 20
+    "high_risk_components": 23
   },
   "framework": {
     "framework": "vite",
@@ -334,10 +334,15 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "FactCard",
-      "line": 104,
-      "score": 37,
-      "risk": "medium",
-      "signals": [],
+      "line": 71,
+      "score": 77,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 148
+        }
+      ],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
       "evidence_kind": "heuristic",
@@ -350,6 +355,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -369,8 +380,8 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "FactGrid",
-      "line": 213,
-      "score": 11,
+      "line": 234,
+      "score": 25,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -404,7 +415,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalPortrait",
-      "line": 244,
+      "line": 287,
       "score": 16,
       "risk": "low",
       "signals": [],
@@ -439,7 +450,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "HideableAnimalPortrait",
-      "line": 296,
+      "line": 339,
       "score": 17,
       "risk": "low",
       "signals": [],
@@ -474,7 +485,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "NavigationArrow",
-      "line": 352,
+      "line": 397,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -509,7 +520,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "LearningNavigation",
-      "line": 371,
+      "line": 416,
       "score": 12,
       "risk": "low",
       "signals": [],
@@ -544,8 +555,8 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "TwoPlayerProgressButton",
-      "line": 432,
-      "score": 8,
+      "line": 477,
+      "score": 7,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -579,13 +590,13 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalPlayContent",
-      "line": 498,
-      "score": 36,
+      "line": 540,
+      "score": 38,
       "risk": "medium",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 121
+          "value": 129
         }
       ],
       "kind": "component",
@@ -619,21 +630,13 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalTester",
-      "line": 642,
-      "score": 379,
+      "line": 693,
+      "score": 84,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 379
-        },
-        {
-          "kind": "many_hooks",
-          "value": 25
-        },
-        {
-          "kind": "many_effects",
-          "value": 5
+          "value": 175
         }
       ],
       "kind": "component",
@@ -797,7 +800,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "CountdownVisualRow",
-      "line": 92,
+      "line": 94,
       "score": 4,
       "risk": "low",
       "signals": [],
@@ -832,7 +835,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "CountdownStepperControl",
-      "line": 119,
+      "line": 121,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -863,17 +866,57 @@
       ]
     },
     {
+      "id": "component:src/components/DinnerCountdown:CountdownClockDisplay",
+      "module_id": "src/components/DinnerCountdown",
+      "file": "src/components/DinnerCountdown.tsx",
+      "name": "CountdownClockDisplay",
+      "line": 162,
+      "score": 63,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 147
+        }
+      ],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/DinnerCountdown:CountdownClockDisplay",
+            "kind": "component",
+            "file": "src/components/DinnerCountdown.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/DinnerCountdown:DinnerCountdown",
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "DinnerCountdown",
-      "line": 528,
-      "score": 70,
+      "line": 592,
+      "score": 71,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 145
+          "value": 146
         }
       ],
       "kind": "component",
@@ -913,17 +956,17 @@
       "module_id": "src/components/LargeNumbersTester",
       "file": "src/components/LargeNumbersTester.tsx",
       "name": "LargeNumbersTester",
-      "line": 93,
-      "score": 161,
+      "line": 130,
+      "score": 180,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 395
+          "value": 406
         },
         {
           "kind": "many_hooks",
-          "value": 7
+          "value": 9
         }
       ],
       "kind": "component",
@@ -953,6 +996,41 @@
             "id": "component:src/components/LargeNumbersTester:LargeNumbersTester",
             "kind": "component",
             "file": "src/components/LargeNumbersTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/MealPlateReveal:MealPlateReveal",
+      "module_id": "src/components/MealPlateReveal",
+      "file": "src/components/MealPlateReveal.tsx",
+      "name": "MealPlateReveal",
+      "line": 18,
+      "score": 31,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/MealPlateReveal:MealPlateReveal",
+            "kind": "component",
+            "file": "src/components/MealPlateReveal.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1079,17 +1157,17 @@
       "module_id": "src/components/SchoolCalendar",
       "file": "src/components/SchoolCalendar.tsx",
       "name": "SchoolCalendar",
-      "line": 58,
-      "score": 174,
+      "line": 51,
+      "score": 159,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 280
+          "value": 235
         },
         {
           "kind": "many_hooks",
-          "value": 7
+          "value": 8
         }
       ],
       "kind": "component",
@@ -1354,13 +1432,48 @@
       ]
     },
     {
+      "id": "component:src/components/ui/ActionArtwork:ActionArtwork",
+      "module_id": "src/components/ui/ActionArtwork",
+      "file": "src/components/ui/ActionArtwork.tsx",
+      "name": "ActionArtwork",
+      "line": 5,
+      "score": 3,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActionArtwork:ActionArtwork",
+            "kind": "component",
+            "file": "src/components/ui/ActionArtwork.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/ui/ActionButton:ActionButton",
       "module_id": "src/components/ui/ActionButton",
       "file": "src/components/ui/ActionButton.tsx",
       "name": "ActionButton",
-      "line": 21,
-      "score": 23,
-      "risk": "low",
+      "line": 22,
+      "score": 36,
+      "risk": "medium",
       "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
@@ -1979,7 +2092,7 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "StandardIconImage",
-      "line": 22,
+      "line": 24,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -2014,8 +2127,8 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconActionButton",
-      "line": 67,
-      "score": 6,
+      "line": 69,
+      "score": 13,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -2049,8 +2162,8 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconActionRow",
-      "line": 119,
-      "score": 8,
+      "line": 126,
+      "score": 25,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -2084,8 +2197,8 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconChoiceButton",
-      "line": 171,
-      "score": 8,
+      "line": 190,
+      "score": 5,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -2609,10 +2722,15 @@
       "module_id": "src/components/ui/SegmentedChoiceControl",
       "file": "src/components/ui/SegmentedChoiceControl.tsx",
       "name": "SegmentedChoiceControl",
-      "line": 26,
-      "score": 51,
+      "line": 27,
+      "score": 58,
       "risk": "medium",
-      "signals": [],
+      "signals": [
+        {
+          "kind": "render_branch_complexity",
+          "value": 5
+        }
+      ],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
       "evidence_kind": "heuristic",
@@ -2644,7 +2762,7 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "DefaultActionIcon",
-      "line": 19,
+      "line": 27,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -2679,7 +2797,7 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "ActionSpinner",
-      "line": 47,
+      "line": 55,
       "score": 4,
       "risk": "low",
       "signals": [],
@@ -2714,7 +2832,7 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "UtilityButton",
-      "line": 74,
+      "line": 83,
       "score": 14,
       "risk": "low",
       "signals": [],
@@ -2749,10 +2867,19 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "StandardActionButtons",
-      "line": 137,
-      "score": 48,
-      "risk": "medium",
-      "signals": [],
+      "line": 151,
+      "score": 108,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 135
+        },
+        {
+          "kind": "render_branch_complexity",
+          "value": 5
+        }
+      ],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
       "evidence_kind": "heuristic",
@@ -2765,6 +2892,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -2785,12 +2918,12 @@
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ActionCard",
       "line": 85,
-      "score": 103,
+      "score": 115,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 139
+          "value": 155
         }
       ],
       "kind": "component",
@@ -2830,7 +2963,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListMessage",
-      "line": 245,
+      "line": 261,
       "score": 3,
       "risk": "low",
       "signals": [],
@@ -2865,7 +2998,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListFooter",
-      "line": 273,
+      "line": 289,
       "score": 34,
       "risk": "low",
       "signals": [],
@@ -2900,7 +3033,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "StandardActionList",
-      "line": 339,
+      "line": 355,
       "score": 50,
       "risk": "medium",
       "signals": [],
@@ -3267,11 +3400,226 @@
       ]
     },
     {
+      "id": "component:src/components/weather/WeatherControls:StepControl",
+      "module_id": "src/components/weather/WeatherControls",
+      "file": "src/components/weather/WeatherControls.tsx",
+      "name": "StepControl",
+      "line": 44,
+      "score": 16,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/weather/WeatherControls:StepControl",
+            "kind": "component",
+            "file": "src/components/weather/WeatherControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/weather/WeatherControls:WeatherControls",
+      "module_id": "src/components/weather/WeatherControls",
+      "file": "src/components/weather/WeatherControls.tsx",
+      "name": "WeatherControls",
+      "line": 96,
+      "score": 35,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/weather/WeatherControls:WeatherControls",
+            "kind": "component",
+            "file": "src/components/weather/WeatherControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/weather/WeatherOptionImage:WeatherOptionImage",
+      "module_id": "src/components/weather/WeatherOptionImage",
+      "file": "src/components/weather/WeatherOptionImage.tsx",
+      "name": "WeatherOptionImage",
+      "line": 12,
+      "score": 68,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "render_branch_complexity",
+          "value": 7
+        }
+      ],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/weather/WeatherOptionImage:WeatherOptionImage",
+            "kind": "component",
+            "file": "src/components/weather/WeatherOptionImage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/weather/WeatherScene:Character",
+      "module_id": "src/components/weather/WeatherScene",
+      "file": "src/components/weather/WeatherScene.tsx",
+      "name": "Character",
+      "line": 13,
+      "score": 5,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/weather/WeatherScene:Character",
+            "kind": "component",
+            "file": "src/components/weather/WeatherScene.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/weather/WeatherScene:Cloud",
+      "module_id": "src/components/weather/WeatherScene",
+      "file": "src/components/weather/WeatherScene.tsx",
+      "name": "Cloud",
+      "line": 32,
+      "score": 3,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/weather/WeatherScene:Cloud",
+            "kind": "component",
+            "file": "src/components/weather/WeatherScene.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/weather/WeatherScene:Precipitation",
+      "module_id": "src/components/weather/WeatherScene",
+      "file": "src/components/weather/WeatherScene.tsx",
+      "name": "Precipitation",
+      "line": 53,
+      "score": 28,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/weather/WeatherScene:Precipitation",
+            "kind": "component",
+            "file": "src/components/weather/WeatherScene.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/contexts/ActiveChildContext:ActiveChildProvider",
       "module_id": "src/contexts/ActiveChildContext",
       "file": "src/contexts/ActiveChildContext.tsx",
       "name": "ActiveChildProvider",
-      "line": 50,
+      "line": 54,
       "score": 11,
       "risk": "low",
       "signals": [],
@@ -3306,7 +3654,7 @@
       "module_id": "src/contexts/ActiveChildContext",
       "file": "src/contexts/ActiveChildContext.tsx",
       "name": "ActiveChildStateProvider",
-      "line": 67,
+      "line": 71,
       "score": 83,
       "risk": "high",
       "signals": [
@@ -3730,10 +4078,15 @@
       "module_id": "src/pages/TimeExplorerPage",
       "file": "src/pages/TimeExplorerPage.tsx",
       "name": "TimeExplorerPage",
-      "line": 22,
-      "score": 53,
-      "risk": "medium",
-      "signals": [],
+      "line": 33,
+      "score": 83,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 124
+        }
+      ],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
       "evidence_kind": "heuristic",
@@ -3746,6 +4099,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -3901,7 +4260,54 @@
       ]
     },
     {
-      "id": "eslint-plugin-jsx-a11y:e62f675f:1",
+      "id": "eslint-plugin-jsx-a11y:50b39aeb:1",
+      "rule_id": "jsx-a11y/role-supports-aria-props",
+      "kind": "a11y_role_supports_aria_props",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/AnimalTester",
+      "file": "src/components/AnimalTester.tsx",
+      "line": 99,
+      "column": 5,
+      "end_line": 154,
+      "end_column": 6,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button.",
+      "signals": [
+        {
+          "kind": "a11y_role_supports_aria_props",
+          "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button."
+        }
+      ],
+      "fingerprint": "50b39aeb",
+      "occurrence": 1,
+      "reason_code": "jsx-a11y/role-supports-aria-props",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_role_supports_aria_props finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "eslint-plugin-jsx-a11y:50b39aeb:1",
+            "kind": "a11y_role_supports_aria_props",
+            "file": "src/components/AnimalTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "eslint-plugin-jsx-a11y:91f2858:1",
       "rule_id": "jsx-a11y/click-events-have-key-events",
       "kind": "a11y_click_events_have_key_events",
       "evidence_kind": "tool-rule",
@@ -3910,9 +4316,9 @@
       "scope": "file",
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
-      "line": 467,
+      "line": 531,
       "column": 17,
-      "end_line": 478,
+      "end_line": 542,
       "end_column": 19,
       "score": 60,
       "severity": "medium",
@@ -3925,7 +4331,7 @@
           "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener."
         }
       ],
-      "fingerprint": "e62f675f",
+      "fingerprint": "91f2858",
       "occurrence": 1,
       "reason_code": "jsx-a11y/click-events-have-key-events",
       "workspace_id": "mystarquest",
@@ -3939,7 +4345,7 @@
           "description": "Keep this a11y_click_events_have_key_events finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "eslint-plugin-jsx-a11y:e62f675f:1",
+            "id": "eslint-plugin-jsx-a11y:91f2858:1",
             "kind": "a11y_click_events_have_key_events",
             "file": "src/components/DinnerCountdown.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3948,7 +4354,7 @@
       ]
     },
     {
-      "id": "eslint-plugin-jsx-a11y:812397f8:1",
+      "id": "eslint-plugin-jsx-a11y:3b0098fb:1",
       "rule_id": "jsx-a11y/no-noninteractive-element-interactions",
       "kind": "a11y_no_noninteractive_element_interactions",
       "evidence_kind": "tool-rule",
@@ -3957,9 +4363,9 @@
       "scope": "file",
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
-      "line": 467,
+      "line": 531,
       "column": 17,
-      "end_line": 478,
+      "end_line": 542,
       "end_column": 19,
       "score": 60,
       "severity": "medium",
@@ -3972,7 +4378,7 @@
           "message": "Non-interactive elements should not be assigned mouse or keyboard event listeners."
         }
       ],
-      "fingerprint": "812397f8",
+      "fingerprint": "3b0098fb",
       "occurrence": 1,
       "reason_code": "jsx-a11y/no-noninteractive-element-interactions",
       "workspace_id": "mystarquest",
@@ -3986,7 +4392,7 @@
           "description": "Keep this a11y_no_noninteractive_element_interactions finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "eslint-plugin-jsx-a11y:812397f8:1",
+            "id": "eslint-plugin-jsx-a11y:3b0098fb:1",
             "kind": "a11y_no_noninteractive_element_interactions",
             "file": "src/components/DinnerCountdown.tsx",
             "reason": "Intentional finding; document the project-specific reason."

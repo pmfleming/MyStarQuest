@@ -90,23 +90,12 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
 
   const firstDayOffset = getMondayFirstOffset(new Date(year, month, 1))
   const weekCount = Math.ceil((firstDayOffset + daysInMonth) / 7)
-  const trailingDayOffset = weekCount * 7 - firstDayOffset - daysInMonth
 
   const monthLabel = viewDate.toLocaleString('default', { month: 'long' })
 
   const season = useMemo(() => getSeasonForDate(viewDate), [viewDate])
   const schoolIcon = getThemeAsset(theme.id, 'schoolDayImage')
   const nonSchoolIcon = getNonSchoolDayImages(theme.id)[season]
-
-  const isDaySchool = (day: number) => {
-    const date = new Date(year, month, day)
-
-    if (isWeekend(date)) return false
-
-    if (events[buildDateKey(date)]?.isNonSchoolDay) return false
-
-    return true
-  }
 
   const navMonth = (delta: number) => {
     const selectedDate = parseDateKey(selectedDateKey)
@@ -214,29 +203,32 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           </div>
         ))}
 
-        {/* Empty leading cells */}
-        {Array.from({ length: firstDayOffset }).map((_, i) => (
-          <div
-            key={`pad-${i}`}
-            style={{
-              aspectRatio: '1',
-              width: '100%',
-            }}
-          />
-        ))}
-
-        {/* Day cells */}
-        {Array.from({ length: daysInMonth }).map((_, i) => {
-          const day = i + 1
-          const isSchool = isDaySchool(day)
-          const dateKey = buildDateKey(new Date(year, month, day))
+        {/* One cell per slot keeps leading and trailing padding consistent. */}
+        {Array.from({ length: weekCount * 7 }, (_, index) => {
+          const day = index - firstDayOffset + 1
+          if (day < 1 || day > daysInMonth) {
+            return (
+              <div key={index} style={{ aspectRatio: '1', width: '100%' }} />
+            )
+          }
+          const date = new Date(year, month, day)
+          const dateKey = buildDateKey(date)
+          const isSchool = !isWeekend(date) && !events[dateKey]?.isNonSchoolDay
           const isToday = dateKey === todayDateKey
           const isSelected = dateKey === selectedDateKey
           const icon = isSchool ? schoolIcon : nonSchoolIcon
+          const highlight = isSelected
+            ? { color: theme.colors.accent, glow: `${theme.colors.accent}44` }
+            : isToday
+              ? {
+                  color: theme.colors.secondary,
+                  glow: `${theme.colors.secondary}88`,
+                }
+              : { color: 'transparent', glow: undefined }
 
           return (
             <button
-              key={day}
+              key={index}
               type="button"
               onClick={() => setSelectedDateKey(dateKey)}
               aria-pressed={isSelected}
@@ -247,16 +239,8 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                 position: 'relative',
                 overflow: 'hidden',
                 background: isSchool ? `${theme.colors.primary}18` : '#ffffff',
-                border: isSelected
-                  ? `3px solid ${theme.colors.accent}`
-                  : isToday
-                    ? `3px solid ${theme.colors.secondary}`
-                    : '3px solid transparent',
-                boxShadow: isSelected
-                  ? `0 0 0 2px ${theme.colors.accent}44`
-                  : isToday
-                    ? `0 0 0 2px ${theme.colors.secondary}88`
-                    : undefined,
+                border: `3px solid ${highlight.color}`,
+                boxShadow: highlight.glow && `0 0 0 2px ${highlight.glow}`,
                 cursor: 'pointer',
                 padding: 0,
               }}
@@ -286,11 +270,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                   fontSize: '1.2rem',
                   fontWeight: 900,
                   lineHeight: 1,
-                  color: isSelected
-                    ? theme.colors.accent
-                    : isToday
-                      ? theme.colors.secondary
-                      : theme.colors.text,
+                  color: highlight.glow ? highlight.color : theme.colors.text,
                   textShadow: '0 0 3px #fff, 0 0 3px #fff',
                 }}
               >
@@ -299,17 +279,6 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
             </button>
           )
         })}
-
-        {/* Empty trailing cells */}
-        {Array.from({ length: trailingDayOffset }).map((_, i) => (
-          <div
-            key={`trail-${i}`}
-            style={{
-              aspectRatio: '1',
-              width: '100%',
-            }}
-          />
-        ))}
       </div>
     </section>
   )

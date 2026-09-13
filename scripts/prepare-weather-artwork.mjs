@@ -5,7 +5,10 @@ import { dirname, resolve, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const manifestPath = resolve(root, 'docs/assets/weather-layer-prompts.json')
+const manifestPath = resolve(
+  root,
+  process.argv[2] ?? 'docs/assets/weather-layer-prompts.json'
+)
 const manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
 const masters = resolve(root, 'output/weather/masters')
 await mkdir(masters, { recursive: true })

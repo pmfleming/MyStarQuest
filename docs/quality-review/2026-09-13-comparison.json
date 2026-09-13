@@ -1,0 +1,501 @@
+{
+  "date": "2026-09-13",
+  "lens": {
+    "name": "ts-react-quality-lens",
+    "version": "0.3.0",
+    "revision": "986c6fd9cc82627866156ba0cf22cb1504ab8587"
+  },
+  "baseline_head": "751536cb30514dcc3af8f7064ec58b1ec2ea249e",
+  "scope": "Existing root config; frontend src only. Baseline includes pre-existing weather work, preserved during this refactor. No configuration, exclusions, thresholds or suppressions changed.",
+  "methodology": "Source lines sum file signals; complexity and effort sum non-file callable signals. Locality and leverage risk sum module scores. These are comparison aggregates, not new official Lens scores. Physical line counts count newline characters; all edited tracked source/test files were clean at baseline, so HEAD is their exact before state. Generated artifacts and documentation are excluded from code counts.",
+  "before": {
+    "provenance": {
+      "lens": "ts-react-quality-lens",
+      "schema_version": "0.3.0",
+      "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+      "host": "Ghost_S1",
+      "measured_at": "2026-09-13T18:31:04.339Z",
+      "source_type": "static",
+      "source_set_hash": "sha256:e21e1a8458df95cb998344cb5bf6442f197c5881b71a30aed89f616f9a884a07",
+      "input_set_hash": "sha256:081037d25844bb10724decb9794a54d53c20f308f469e840a8d81625dfe82e33"
+    },
+    "metrics": {
+      "source_modules": 184,
+      "source_lines": 26159,
+      "summed_callable_cognitive_complexity": 1322,
+      "summed_callable_cyclomatic_complexity": 1864,
+      "summed_callable_halstead_effort": 9339334.54,
+      "high_risk_hotspot_records": 133,
+      "clone_groups": 6,
+      "duplication_pressure_records": 8,
+      "summed_module_locality_risk": 8141,
+      "summed_module_leverage_risk": 936,
+      "type_assertions": 48
+    },
+    "summaries": {
+      "type_health": {
+        "records": 474,
+        "high_risk_records": 29,
+        "wide_types": 21,
+        "compiler_diagnostics": 0,
+        "type_coverage_percent": 99.48,
+        "typed_symbols": 18518,
+        "untyped_symbols": 96
+      },
+      "lint_health": {
+        "records": 76,
+        "blocking_findings": 48,
+        "warning_findings": 28
+      },
+      "dependency_health": {
+        "internal_edges": 851,
+        "external_edges": 138,
+        "cycles": 0,
+        "heuristic_cycles": 0,
+        "dependency_cruiser_cycles": 0,
+        "deep_relative_imports": 138,
+        "barrel_modules": 1,
+        "layer_violations": 30,
+        "unsupported_patterns": 0,
+        "workspaces": 1,
+        "cross_workspace_edges": 0,
+        "incomplete_workspace_projects": 0
+      },
+      "correctness_review": {
+        "tests": 58,
+        "colocated_tests": 0,
+        "external_tests": 58,
+        "execution_status": "passed",
+        "execution_scope": "suite",
+        "coverage_status": "not_collected",
+        "blocking_findings": 0
+      }
+    },
+    "modules": [
+      {
+        "file": "src/components/LargeNumbersTester.tsx",
+        "metrics": {
+          "cognitive_complexity": 33,
+          "cyclomatic_complexity": 44,
+          "halstead_effort": 279589.06
+        },
+        "locality": 38,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 24,
+          "inbound_reach": 2,
+          "public_surface": 2
+        }
+      },
+      {
+        "file": "src/components/SchoolCalendar.tsx",
+        "metrics": {
+          "cognitive_complexity": 5,
+          "cyclomatic_complexity": 11,
+          "halstead_effort": 141171.55
+        },
+        "locality": 54,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 12,
+          "inbound_reach": 1,
+          "public_surface": 1
+        }
+      },
+      {
+        "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+        "metrics": {
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        },
+        "locality": 100,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 16,
+          "inbound_reach": 1,
+          "public_surface": 3
+        }
+      },
+      {
+        "file": "src/data/useChores.ts",
+        "metrics": {
+          "cognitive_complexity": 11,
+          "cyclomatic_complexity": 23,
+          "halstead_effort": 415347.07
+        },
+        "locality": 62,
+        "leverage": {
+          "score": 12,
+          "leverage_score": 12,
+          "inbound_reach": 1,
+          "public_surface": 1
+        }
+      },
+      {
+        "file": "src/data/useTests.ts",
+        "metrics": {
+          "cognitive_complexity": 8,
+          "cyclomatic_complexity": 16,
+          "halstead_effort": 663058.17
+        },
+        "locality": 46,
+        "leverage": {
+          "score": 12,
+          "leverage_score": 22,
+          "inbound_reach": 2,
+          "public_surface": 1
+        }
+      },
+      {
+        "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+        "metrics": {
+          "cognitive_complexity": 6,
+          "cyclomatic_complexity": 9,
+          "halstead_effort": 439595
+        },
+        "locality": 15,
+        "leverage": {
+          "score": 92,
+          "leverage_score": 58,
+          "inbound_reach": 5,
+          "public_surface": 4
+        }
+      },
+      {
+        "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+        "metrics": {
+          "cognitive_complexity": 3,
+          "cyclomatic_complexity": 9,
+          "halstead_effort": 20230.62
+        },
+        "locality": 23,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 22,
+          "inbound_reach": 1,
+          "public_surface": 6
+        }
+      },
+      {
+        "file": "src/lib/solar.ts",
+        "metrics": {
+          "cognitive_complexity": 10,
+          "cyclomatic_complexity": 30,
+          "halstead_effort": 87352.66
+        },
+        "locality": 14,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 94,
+          "inbound_reach": 7,
+          "public_surface": 12
+        }
+      },
+      {
+        "file": "src/lib/optimisticState.ts",
+        "metrics": {
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        },
+        "locality": null,
+        "leverage": null
+      }
+    ]
+  },
+  "after": {
+    "provenance": {
+      "lens": "ts-react-quality-lens",
+      "schema_version": "0.3.0",
+      "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+      "host": "Ghost_S1",
+      "measured_at": "2026-09-13T18:47:58.307Z",
+      "source_type": "static",
+      "source_set_hash": "sha256:f0394afeb3e3ac7c680c52d95e9a1e36513f80ed510229637b2d92d9b4d885c3",
+      "input_set_hash": "sha256:757e41723f73c5dc45bd54ff8648fe1e55607dbe982b89fee0df1d0816186ca8"
+    },
+    "metrics": {
+      "source_modules": 185,
+      "source_lines": 26005,
+      "summed_callable_cognitive_complexity": 1314,
+      "summed_callable_cyclomatic_complexity": 1849,
+      "summed_callable_halstead_effort": 8752789.98,
+      "high_risk_hotspot_records": 132,
+      "clone_groups": 3,
+      "duplication_pressure_records": 5,
+      "summed_module_locality_risk": 8123,
+      "summed_module_leverage_risk": 832,
+      "type_assertions": 41
+    },
+    "summaries": {
+      "type_health": {
+        "records": 475,
+        "high_risk_records": 29,
+        "wide_types": 21,
+        "compiler_diagnostics": 0,
+        "type_coverage_percent": 99.54,
+        "typed_symbols": 18366,
+        "untyped_symbols": 85
+      },
+      "lint_health": {
+        "records": 69,
+        "blocking_findings": 48,
+        "warning_findings": 21
+      },
+      "dependency_health": {
+        "internal_edges": 854,
+        "external_edges": 138,
+        "cycles": 0,
+        "heuristic_cycles": 0,
+        "dependency_cruiser_cycles": 0,
+        "deep_relative_imports": 139,
+        "barrel_modules": 1,
+        "layer_violations": 30,
+        "unsupported_patterns": 0,
+        "workspaces": 1,
+        "cross_workspace_edges": 0,
+        "incomplete_workspace_projects": 0
+      },
+      "correctness_review": {
+        "tests": 59,
+        "colocated_tests": 0,
+        "external_tests": 59,
+        "execution_status": "passed",
+        "execution_scope": "suite",
+        "coverage_status": "not_collected",
+        "blocking_findings": 0
+      }
+    },
+    "modules": [
+      {
+        "file": "src/components/LargeNumbersTester.tsx",
+        "metrics": {
+          "cognitive_complexity": 26,
+          "cyclomatic_complexity": 40,
+          "halstead_effort": 268042.36
+        },
+        "locality": 38,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 24,
+          "inbound_reach": 2,
+          "public_surface": 2
+        }
+      },
+      {
+        "file": "src/components/SchoolCalendar.tsx",
+        "metrics": {
+          "cognitive_complexity": 3,
+          "cyclomatic_complexity": 8,
+          "halstead_effort": 96325.16
+        },
+        "locality": 54,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 12,
+          "inbound_reach": 1,
+          "public_surface": 1
+        }
+      },
+      {
+        "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+        "metrics": {
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        },
+        "locality": 100,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 16,
+          "inbound_reach": 1,
+          "public_surface": 3
+        }
+      },
+      {
+        "file": "src/data/useChores.ts",
+        "metrics": {
+          "cognitive_complexity": 8,
+          "cyclomatic_complexity": 14,
+          "halstead_effort": 179668.25
+        },
+        "locality": 62,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 12,
+          "inbound_reach": 1,
+          "public_surface": 1
+        }
+      },
+      {
+        "file": "src/data/useTests.ts",
+        "metrics": {
+          "cognitive_complexity": 8,
+          "cyclomatic_complexity": 16,
+          "halstead_effort": 407740.54
+        },
+        "locality": 46,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 22,
+          "inbound_reach": 2,
+          "public_surface": 1
+        }
+      },
+      {
+        "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+        "metrics": {
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 2,
+          "halstead_effort": 382474.46
+        },
+        "locality": 15,
+        "leverage": {
+          "score": 12,
+          "leverage_score": 46,
+          "inbound_reach": 4,
+          "public_surface": 3
+        }
+      },
+      {
+        "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+        "metrics": {
+          "cognitive_complexity": 3,
+          "cyclomatic_complexity": 8,
+          "halstead_effort": 19945.62
+        },
+        "locality": 5,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 20,
+          "inbound_reach": 1,
+          "public_surface": 5
+        }
+      },
+      {
+        "file": "src/lib/solar.ts",
+        "metrics": {
+          "cognitive_complexity": 10,
+          "cyclomatic_complexity": 29,
+          "halstead_effort": 81081.92
+        },
+        "locality": 14,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 100,
+          "inbound_reach": 9,
+          "public_surface": 13
+        }
+      },
+      {
+        "file": "src/lib/optimisticState.ts",
+        "metrics": {
+          "cognitive_complexity": 10,
+          "cyclomatic_complexity": 10,
+          "halstead_effort": 24521.26
+        },
+        "locality": 0,
+        "leverage": {
+          "score": 0,
+          "leverage_score": 34,
+          "inbound_reach": 3,
+          "public_surface": 2
+        }
+      }
+    ]
+  },
+  "deltas": {
+    "source_modules": 1,
+    "source_lines": -154,
+    "summed_callable_cognitive_complexity": -8,
+    "summed_callable_cyclomatic_complexity": -15,
+    "summed_callable_halstead_effort": -586544.56,
+    "high_risk_hotspot_records": -1,
+    "clone_groups": -3,
+    "duplication_pressure_records": -3,
+    "summed_module_locality_risk": -18,
+    "summed_module_leverage_risk": -104,
+    "type_assertions": -7
+  },
+  "physical_line_counts": [
+    {
+      "file": "src/components/LargeNumbersTester.tsx",
+      "before": 553,
+      "after": 537
+    },
+    {
+      "file": "src/components/SchoolCalendar.tsx",
+      "before": 316,
+      "after": 285
+    },
+    {
+      "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
+      "before": 712,
+      "after": 712
+    },
+    {
+      "file": "src/data/useChores.ts",
+      "before": 252,
+      "after": 164
+    },
+    {
+      "file": "src/data/useTests.ts",
+      "before": 285,
+      "after": 263
+    },
+    {
+      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+      "before": 176,
+      "after": 147
+    },
+    {
+      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
+      "before": 59,
+      "after": 57
+    },
+    {
+      "file": "src/lib/solar.ts",
+      "before": 321,
+      "after": 320
+    },
+    {
+      "file": "src/lib/optimisticState.ts",
+      "before": 0,
+      "after": 34
+    },
+    {
+      "file": "tests/component/LargeNumbersTester.test.tsx",
+      "before": 137,
+      "after": 174
+    },
+    {
+      "file": "tests/component/SchoolCalendar.test.tsx",
+      "before": 47,
+      "after": 89
+    },
+    {
+      "file": "tests/component/useCoalescedDocumentUpdates.test.tsx",
+      "before": 64,
+      "after": 64
+    },
+    {
+      "file": "tests/unit/lib/solar.test.ts",
+      "before": 143,
+      "after": 161
+    },
+    {
+      "file": "tests/unit/optimisticState.test.ts",
+      "before": 0,
+      "after": 47
+    }
+  ],
+  "physical_line_delta": -11,
+  "validation": {
+    "unit_component_tests": "229 passed across 57 files; npm run test -- --maxWorkers=2; final Lens correctness run passed with VITEST_MAX_WORKERS=2",
+    "build": "npm run build passed",
+    "lint": "npm run lint passed, 8 existing React Refresh warnings",
+    "test_types": "Semantic type check of new optimisticState unit test passed",
+    "timeouts": "An earlier unrestricted full-suite run timed out in SchoolCalendar and the existing weather test; bounded-worker full-suite and final Lens run passed. No timeout thresholds were changed."
+  }
+}

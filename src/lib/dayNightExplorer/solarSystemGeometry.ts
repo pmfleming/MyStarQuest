@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { normalizeLongitude } from '../solar'
 import type {
   ExplorerCityOption,
   ExplorerFocusId,
@@ -33,9 +34,6 @@ export const buildOrbitLine = (orbitX: number, orbitY: number) => {
 
   return new THREE.BufferGeometry().setFromPoints(points)
 }
-
-export const normalizeLongitude = (longitude: number) =>
-  ((((longitude + 180) % 360) + 360) % 360) - 180
 
 export const getCenteredLongitude = (
   activeFocusId: ExplorerFocusId,

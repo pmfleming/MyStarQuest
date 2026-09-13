@@ -5,15 +5,16 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { db } from '../firebaseDb'
-import {
-  mergeOptimisticItems,
-  useCoalescedDocumentUpdates,
-} from '../hooks/useCoalescedDocumentUpdates'
+import { useCoalescedDocumentUpdates } from '../hooks/useCoalescedDocumentUpdates'
 import { celebrateSuccess } from '../lib/celebrate'
 import { calculateAwardTaskPatch } from '../lib/choreLogic'
 import { parseTestSnapshot } from '../lib/choreParser'
 import { completeTaskAndAwardStars } from '../lib/starActions'
 import { getTodayDescriptor } from '../lib/today'
+import {
+  mergeOptimisticItems,
+  settleOptimisticPatch,
+} from '../lib/optimisticState'
 import {
   filterActiveChildItems,
   getTestLastActive,
@@ -30,7 +31,6 @@ import {
   type TaskOutcome,
   type TaskUpdatableFields,
   type TestRecord,
-  type TestType,
   type TestWithEphemeral,
 } from './types'
 import { useChildTaskCollection } from './useChildTaskCollection'
@@ -130,16 +130,12 @@ export function useTests() {
   }, [rawTests, reconcileTestFields])
 
   const configuredTests = useMemo(() => {
-    const savedDefaultsByType = new Map<TestType, TestRecord>()
-    for (const test of rawTests) {
-      if (test.childId !== activeChildId) continue
-      if (!savedDefaultsByType.has(test.taskType)) {
-        savedDefaultsByType.set(test.taskType, test)
-      }
-    }
-
     const defaultSlotTests = defaultTests.map(
-      (test) => savedDefaultsByType.get(test.taskType) ?? test
+      (test) =>
+        rawTests.find(
+          (saved) =>
+            saved.childId === activeChildId && saved.taskType === test.taskType
+        ) ?? test
     )
     const defaultSlotIds = new Set(defaultSlotTests.map((test) => test.id))
     return mergeOptimisticItems(
@@ -192,24 +188,9 @@ export function useTests() {
     try {
       return await persist()
     } catch (error) {
-      setEphemeral((previous) => {
-        const current = previous[testId]
-        if (!current) return previous
-        const remaining = { ...current }
-        for (const key of Object.keys(patch) as Array<
-          keyof TaskEphemeralState
-        >) {
-          if (!Object.is(current[key], patch[key])) continue
-          delete remaining[key]
-          if (previousPatch && key in previousPatch) {
-            Object.assign(remaining, { [key]: previousPatch[key] })
-          }
-        }
-        const next = { ...previous }
-        if (Object.keys(remaining).length === 0) delete next[testId]
-        else next[testId] = remaining
-        return next
-      })
+      setEphemeral((previous) =>
+        settleOptimisticPatch(previous, testId, patch, previousPatch)
+      )
       throw error
     }
   }
@@ -261,14 +242,11 @@ export function useTests() {
     }
   }
 
-  const failTest = async (item: TestWithEphemeral) => {
-    const now = Date.now()
-    await persistTestAttempt(item, now, 'failure')
-  }
+  const failTest = (item: TestWithEphemeral) =>
+    persistTestAttempt(item, Date.now(), 'failure')
 
-  const resetTest = async (item: TestWithEphemeral) => {
-    await persistTestAttempt(item, null, null)
-  }
+  const resetTest = (item: TestWithEphemeral) =>
+    persistTestAttempt(item, null, null)
 
   useEphemeralExpiry(Boolean(user), rawTests, setEphemeral, getTestLastActive)
 

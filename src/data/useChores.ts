@@ -14,24 +14,21 @@ import { useActiveChild } from '../contexts/ActiveChildContext'
 import { parseChoreSnapshot } from '../lib/choreParser'
 import { buildChoreDocument, type ChoreDocumentSettings } from './taskDocuments'
 import { isScheduledForDay } from '../lib/today'
+import { settleOptimisticPatch } from '../lib/optimisticState'
 import {
   filterActiveChildItems,
   mergeTaskEphemeral,
   reconcileTaskEphemeral,
-  useCollectionTitleDrafts,
   useTodayInfo,
 } from './dailyTaskState'
 import { useChoreActivityActions } from './useChoreActivityActions'
 import {
-  getManageTaskCompletedAt,
   type ChoreRecord,
   type ChoreType,
   type TaskEphemeralState,
   type TaskUpdatableFields,
 } from './types'
 import { validateTaskFields } from './taskLimits'
-import { useOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
-import { useUserDocumentUpdates } from './useUserDocumentUpdates'
 import { useChildTaskCollection } from './useChildTaskCollection'
 
 export function useChores() {
@@ -42,18 +39,6 @@ export function useChores() {
     Record<string, TaskEphemeralState>
   >({})
   const todayInfo = useTodayInfo()
-
-  const {
-    overrides: optimisticFields,
-    queueUpdate: queueTaskField,
-    cancelUpdate: cancelTaskFieldUpdate,
-    reconcile: reconcileTaskFields,
-    persistUpdate: persistTaskField,
-  } = useUserDocumentUpdates<TaskUpdatableFields>({
-    userId: user?.uid,
-    collectionName: 'chores',
-    errorMessage: 'Failed to update chore',
-  })
 
   const reconcileActivityState = useCallback((items: ChoreRecord[]) => {
     // Keep optimistic activity changes until the subscription reflects them.
@@ -71,18 +56,10 @@ export function useChores() {
     onItems: reconcileActivityState,
   })
 
-  const rawChoreTemplates = useOptimisticItems(
-    rawChores,
-    optimisticFields,
-    reconcileTaskFields
-  )
-
   const chores = useMemo(
     () =>
-      rawChoreTemplates.map((chore) =>
-        mergeTaskEphemeral(chore, ephemeral[chore.id])
-      ),
-    [ephemeral, rawChoreTemplates]
+      rawChores.map((chore) => mergeTaskEphemeral(chore, ephemeral[chore.id])),
+    [ephemeral, rawChores]
   )
 
   const activeChildChores = useMemo(
@@ -98,17 +75,6 @@ export function useChores() {
     [activeChildChores, todayInfo.dayType]
   )
 
-  const availableChores = todayChores
-  const completedTodoCount = todayChores.filter((chore) =>
-    Boolean(getManageTaskCompletedAt(chore))
-  ).length
-
-  const addChoreDocument = async (data: Record<string, unknown>) => {
-    if (!user) return
-    return await addDoc(collection(db, 'users', user.uid, 'chores'), data)
-  }
-
-  // ── Ephemeral State Helpers ──
   const updateEphemeral = (
     taskId: string,
     patch: Partial<TaskEphemeralState>
@@ -119,22 +85,7 @@ export function useChores() {
     }))
 
     const clearResolvedPatch = () => {
-      setEphemeral((prev) => {
-        const current = prev[taskId]
-        if (!current) return prev
-
-        const remaining = { ...current }
-        for (const key of Object.keys(patch) as Array<
-          keyof TaskEphemeralState
-        >) {
-          if (remaining[key] === patch[key]) delete remaining[key]
-        }
-
-        const next = { ...prev }
-        if (Object.keys(remaining).length === 0) delete next[taskId]
-        else next[taskId] = remaining
-        return next
-      })
+      setEphemeral((prev) => settleOptimisticPatch(prev, taskId, patch))
     }
 
     if (!user) {
@@ -152,11 +103,6 @@ export function useChores() {
   }
 
   // ── Generic Mutations ──
-  const updateTaskField = (taskId: string, field: TaskUpdatableFields) => {
-    validateTaskFields(field)
-    queueTaskField(taskId, field)
-  }
-
   const updateChoreAndTodayTodoField = async (
     taskId: string,
     field: TaskUpdatableFields
@@ -170,52 +116,27 @@ export function useChores() {
     }
 
     validateTaskFields(patch)
-    await persistTaskField(taskId, patch)
+    if (!user) return
+    await updateDoc(doc(db, 'users', user.uid, 'chores', taskId), patch)
   }
-
-  const {
-    drafts: taskTitleDrafts,
-    setDraft: setTaskTitleDraft,
-    removeDraft: removeTaskTitleDraft,
-    commitDraft: commitTaskTitle,
-  } = useCollectionTitleDrafts(rawChoreTemplates, (taskId, title) =>
-    updateTaskField(taskId, { title })
-  )
-
-  // ── Creation Handlers ──
-  const createChoreTask = async (
-    choreType: ChoreType,
-    settings: ChoreDocumentSettings = {}
-  ): Promise<ChoreRecord | undefined> => {
-    if (!user || !activeChildId) return
-    const document = buildChoreDocument(activeChildId, choreType, settings)
-    const docRef = await addChoreDocument(document)
-    if (!docRef) return
-    return parseChoreSnapshot(docRef.id, document) ?? undefined
-  }
-
-  const createStandardTask = (settings?: ChoreDocumentSettings) =>
-    createChoreTask('standard', settings)
-  const createEatingTask = (settings?: ChoreDocumentSettings) =>
-    createChoreTask('eating', settings)
-  const createWaterToiletTask = (settings?: ChoreDocumentSettings) =>
-    createChoreTask('watertoiletcheck', settings)
 
   const createChoreForToday = async (
     choreType: ChoreType,
     settings: ChoreDocumentSettings
-  ) => {
+  ): Promise<ChoreRecord | undefined> => {
     if (!user || !activeChildId) return
-    const task = await createChoreTask(choreType, settings)
-    return task
+    const document = buildChoreDocument(activeChildId, choreType, settings)
+    const docRef = await addDoc(
+      collection(db, 'users', user.uid, 'chores'),
+      document
+    )
+    return parseChoreSnapshot(docRef.id, document) ?? undefined
   }
 
   const deleteTask = async (taskId: string) => {
     if (!user) return
-    cancelTaskFieldUpdate(taskId)
     await deleteDoc(doc(db, 'users', user.uid, 'chores', taskId))
 
-    removeTaskTitleDraft(taskId)
     setEphemeral((prev) => {
       const next = { ...prev }
       delete next[taskId]
@@ -234,17 +155,8 @@ export function useChores() {
     chores,
     todos: todayChores,
     todayInfo,
-    availableChores,
-    completedTodoCount,
-    taskTitleDrafts,
-    setTaskTitleDraft,
-    commitTaskTitle,
-    updateTaskField,
     updateChoreAndTodayTodoField,
     updateEphemeral,
-    createStandardTask,
-    createEatingTask,
-    createWaterToiletTask,
     createChoreForToday,
     deleteTask,
     ...activityActions,

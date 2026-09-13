@@ -1,3 +1,4 @@
+import { normalizeLongitude } from '../../lib/solar'
 import * as THREE from 'three'
 import { disposeSceneObject } from '../../lib/dayNightExplorer/disposeSceneObject'
 import type {
@@ -18,7 +19,6 @@ import {
   getEarthViewRotationY,
   latLonToVector,
   lerpAngle,
-  normalizeLongitude,
 } from '../../lib/dayNightExplorer/solarSystemGeometry'
 
 const EARTH_RADIUS = 0.26

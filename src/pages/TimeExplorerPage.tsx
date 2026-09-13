@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import TopIconButton from '../components/ui/TopIconButton'
@@ -10,7 +10,10 @@ import Clock from '../components/dayNightExplorer/Clock'
 import useDayNightExplorerModel from '../components/dayNightExplorer/useDayNightExplorerModel'
 import '../components/dayNightExplorer/dayNightExplorer.css'
 import { useCurrentWeather } from '../hooks/useCurrentWeather'
-import { getWeatherVisuals } from '../lib/weather/weatherVisuals'
+import {
+  useWeatherExploration,
+  getExplorationDescription,
+} from '../hooks/useWeatherExploration'
 import {
   getWeatherDescription,
   formatTemperature,
@@ -32,11 +35,11 @@ const TimeExplorerPage = () => {
   const [activePanel, setActivePanel] = useState<ExplorerPanel>('clock')
   const explorer = useDayNightExplorerModel(theme)
   const weather = useCurrentWeather(explorer.weatherCity)
-  const weatherVisuals = useMemo(
-    () => getWeatherVisuals(weather.data),
-    [weather.data]
+  const exploration = useWeatherExploration(
+    explorer.weatherCity.id,
+    weather.data
   )
-  const weatherLabel = `Show weather: ${explorer.weatherCity.label}${weather.data ? `, ${getWeatherDescription(weather.data)}, ${formatTemperature(weather.data.temperature)}` : ''}`
+  const weatherLabel = `Show weather: ${explorer.weatherCity.label}${exploration.isExploring ? `, Your weather, ${getExplorationDescription(exploration)}` : weather.data ? `, ${getWeatherDescription(weather.data)}, ${formatTemperature(weather.data.temperature)}` : ''}`
 
   const renderIcon = (kind: HeaderIconKind) => {
     if (hasIllustratedTheme(theme.id)) {
@@ -105,7 +108,7 @@ const TimeExplorerPage = () => {
               >
                 <WeatherScene
                   themeId={theme.id}
-                  visuals={weatherVisuals}
+                  visuals={exploration.visuals}
                   label=""
                   decorative
                   compact
@@ -141,6 +144,7 @@ const TimeExplorerPage = () => {
                 theme={theme}
                 city={explorer.weatherCity}
                 weather={weather}
+                exploration={exploration}
                 onRetry={weather.retry}
               />
             )}

@@ -63,7 +63,13 @@ vi.mock('../../src/components/weather/WeatherScene', () => ({
     decorative,
   }: {
     themeId: string
-    visuals: { precipitation: string }
+    visuals: {
+      precipitation: string
+      temperature: number | null
+      windLevel: number
+      precipitationLevel: number
+      thunder: boolean
+    }
     label: string
     decorative: boolean
   }) => (
@@ -72,6 +78,10 @@ vi.mock('../../src/components/weather/WeatherScene', () => ({
       aria-label={label || undefined}
       data-weather-theme={themeId}
       data-precipitation={visuals.precipitation}
+      data-temperature={visuals.temperature}
+      data-wind={visuals.windLevel}
+      data-precipitation-level={visuals.precipitationLevel}
+      data-thunder={visuals.thunder}
     />
   ),
 }))
@@ -105,49 +115,170 @@ beforeEach(() => {
   }
 })
 
+const clickOption = (name: string, count = 1) => {
+  for (let i = 0; i < count; i++)
+    fireEvent.click(screen.getByRole('button', { name }))
+}
+const openWeather = () =>
+  fireEvent.click(screen.getByRole('button', { name: /Show weather:/ }))
+
 describe('Time Explorer weather panel', () => {
-  it('opens weather from its image button and retains clock and calendar navigation', () => {
+  it('starts with current weather in three button controls and retains navigation', () => {
     render(<TimeExplorerPage />)
     expect(screen.getByText('Learning clock')).toBeInTheDocument()
-    const button = screen.getByRole('button', {
-      name: /Show weather: Amsterdam, Rain, 16°C/,
-    })
-    fireEvent.click(button)
-    expect(button).toHaveAttribute('aria-pressed', 'true')
+    openWeather()
     expect(
-      screen.getByRole('region', { name: 'Weather in Amsterdam' })
+      screen.getByRole('button', {
+        name: /Show weather: Amsterdam, Rain, 16°C/,
+      })
+    ).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('16°C')
+    expect(screen.getByLabelText('Wind value')).toHaveTextContent('25 km/h')
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Moderate rain'
+    )
+    expect(screen.getByRole('img', { name: 'Moderate wind' })).toHaveAttribute(
+      'data-option-theme',
+      'princess'
+    )
+    expect(
+      screen.getByRole('img', { name: 'Moderate rain' })
     ).toBeInTheDocument()
-    expect(screen.queryByText('16°C')).not.toBeInTheDocument()
-    expect(screen.queryByText('25 km/h')).not.toBeInTheDocument()
+    expect(screen.queryByRole('slider')).not.toBeInTheDocument()
+    expect(screen.queryByRole('combobox')).not.toBeInTheDocument()
     expect(screen.queryByText(/Weather now/)).not.toBeInTheDocument()
     expect(screen.queryByRole('link')).not.toBeInTheDocument()
-    expect(
-      screen.getByRole('img', { name: 'Princess outdoors: Rain' })
-    ).toHaveAttribute('data-precipitation', 'rain')
-    fireEvent.click(screen.getByRole('button', { name: 'Show calendar' }))
+    clickOption('Show calendar')
     expect(screen.getByText('Learning calendar')).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Show clock' }))
+    clickOption('Show clock')
     expect(screen.getByText('Learning clock')).toBeInTheDocument()
   })
 
-  it('changes city and theme consistently in the header and panel', () => {
+  it('changes all three independent scene layers and resets to the latest live response', () => {
     const { rerender } = render(<TimeExplorerPage />)
-    fireEvent.click(screen.getByRole('button', { name: /Show weather:/ }))
-    state.cityIndex = 2
+    openWeather()
+    clickOption('Decrease temperature', 21)
+    clickOption('Increase wind')
+    clickOption('Next precipitation option', 4)
+    for (const scene of document.querySelectorAll('[data-weather-theme]')) {
+      expect(scene).toHaveAttribute('data-temperature', '-5')
+      expect(scene).toHaveAttribute('data-wind', '3')
+      expect(scene).toHaveAttribute('data-precipitation', 'snow')
+      expect(scene).toHaveAttribute('data-precipitation-level', '3')
+    }
+    expect(screen.getByRole('img', { name: 'Strong wind' })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Heavy snow' })).toBeInTheDocument()
+    expect(state.weather!.data!.temperature).toBe(16)
+    state.weather = {
+      ...state.weather!,
+      data: { ...state.weather!.data!, temperature: 22 },
+    }
     state.themeId = 'teenie'
     rerender(<TimeExplorerPage />)
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('-5°C')
     expect(
-      screen.getByRole('button', { name: /Show weather: Taipei/ })
+      screen.getByRole('img', { name: /Heartsping outdoors: Your weather/ })
+    ).toHaveAttribute('data-precipitation', 'snow')
+    expect(screen.getByRole('img', { name: 'Strong wind' })).toHaveAttribute(
+      'data-option-theme',
+      'teenie'
+    )
+    expect(screen.getByRole('img', { name: 'Heavy snow' })).toHaveAttribute(
+      'data-option-theme',
+      'teenie'
+    )
+    clickOption('Show calendar')
+    openWeather()
+    expect(screen.getByLabelText('Wind value')).toHaveTextContent('45 km/h')
+    clickOption('Reset to current')
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('22°C')
+    expect(screen.getByLabelText('Wind value')).toHaveTextContent('25 km/h')
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Moderate rain'
+    )
+  })
+
+  it('initializes on arrival of live data and clears exploration on city changes', () => {
+    const response = state.weather!.data
+    state.weather = { ...state.weather!, data: null, loading: true }
+    const { rerender } = render(<TimeExplorerPage />)
+    openWeather()
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('—')
+    state.weather = { ...state.weather!, data: response, loading: false }
+    rerender(<TimeExplorerPage />)
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('16°C')
+    clickOption('Increase temperature')
+    state.cityIndex = 1
+    rerender(<TimeExplorerPage />)
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('16°C')
+    expect(
+      screen.getByRole('region', { name: 'Weather in Dublin' })
     ).toBeInTheDocument()
+    state.cityIndex = 0
+    rerender(<TimeExplorerPage />)
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('16°C')
     expect(
-      screen.getByRole('region', { name: 'Weather in Taipei' })
-    ).toBeInTheDocument()
+      screen.queryByRole('button', { name: 'Reset to current' })
+    ).not.toBeInTheDocument()
+  })
+
+  it('allows exploration before live weather is available without later overwriting it', () => {
+    const response = state.weather!.data
+    state.weather = { ...state.weather!, data: null, loading: true }
+    const { rerender } = render(<TimeExplorerPage />)
+    openWeather()
+    clickOption('Next precipitation option', 3)
+    state.weather = { ...state.weather!, data: response, loading: false }
+    rerender(<TimeExplorerPage />)
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Heavy rain'
+    )
+    clickOption('Previous precipitation option', 3)
+    expect(screen.getByRole('img', { name: /Your weather/ })).toHaveAttribute(
+      'data-precipitation-level',
+      '0'
+    )
+  })
+
+  it('stops at the first and last weather options and bounds temperature', () => {
+    state.weather!.data!.temperature = 44.8
+    const { rerender } = render(<TimeExplorerPage />)
+    openWeather()
+    clickOption('Increase temperature')
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('45°C')
     expect(
-      screen.getByRole('img', { name: 'Heartsping outdoors: Rain' })
-    ).toHaveAttribute('data-weather-theme', 'teenie')
+      screen.getByRole('button', { name: 'Increase temperature' })
+    ).toBeDisabled()
+    clickOption('Decrease wind', 2)
+    expect(screen.getByLabelText('Wind value')).toHaveTextContent('0 km/h')
+    expect(screen.getByRole('button', { name: 'Decrease wind' })).toBeDisabled()
+    clickOption('Previous precipitation option', 2)
     expect(
-      document.querySelectorAll('[data-weather-theme="teenie"]')
-    ).toHaveLength(2)
+      screen.getByRole('button', { name: 'Previous precipitation option' })
+    ).toBeDisabled()
+    clickOption('Next precipitation option', 15)
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'Heavy freezing rain'
+    )
+    expect(
+      screen.getByRole('img', { name: /Princess outdoors: Your weather/ })
+    ).toHaveAttribute('data-thunder', 'false')
+    expect(
+      screen.getByRole('button', { name: 'Next precipitation option' })
+    ).toBeDisabled()
+    state.weather = {
+      ...state.weather!,
+      data: { ...state.weather!.data!, temperature: -19.8 },
+    }
+    rerender(<TimeExplorerPage />)
+    clickOption('Reset to current')
+    clickOption('Decrease temperature')
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent(
+      '-20°C'
+    )
+    expect(
+      screen.getByRole('button', { name: 'Decrease temperature' })
+    ).toBeDisabled()
   })
 
   it('shows missing weather honestly and allows retry', () => {
@@ -157,10 +288,10 @@ describe('Time Explorer weather panel', () => {
       error: 'Could not update the weather.',
     }
     render(<TimeExplorerPage />)
-    fireEvent.click(screen.getByRole('button', { name: /Show weather:/ }))
-    expect(screen.queryByText('0°C')).not.toBeInTheDocument()
+    openWeather()
     expect(screen.getByText('Weather unavailable')).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Try again' }))
+    expect(screen.queryByText('0°C')).not.toBeInTheDocument()
+    clickOption('Try again')
     expect(state.retry).toHaveBeenCalledOnce()
   })
 })

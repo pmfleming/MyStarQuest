@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-09T15:24:30.976Z",
+    "measured_at": "2026-09-13T18:48:00.891Z",
     "source_type": "static",
-    "source_set_hash": "sha256:2a4679a7f675c9bb3f4a2e876cd008a2dfe8a70f8a4d972d3186a3d278294e52",
-    "input_set_hash": "sha256:d934219fd1de2fb1fd3069cda711837ec5e5a72010b3d3bcff8fbe1ade56c813"
+    "source_set_hash": "sha256:f0394afeb3e3ac7c680c52d95e9a1e36513f80ed510229637b2d92d9b4d885c3",
+    "input_set_hash": "sha256:021d9f214a79a5d13071ee33a3f97bf12c4f30f6e61a5305b7d0dd1c16427e4e"
   },
   "analysis_identity": {
     "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
@@ -62,7 +62,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "hit",
+    "analysis_cache_status": "miss",
     "unsupported_pattern": [],
     "jscpd_available": true,
     "jscpd_ran": true,
@@ -97,15 +97,15 @@
     "stale_input": []
   },
   "summary": {
-    "clone_groups": 7,
+    "clone_groups": 3,
     "jscpd_clone_groups": 1,
     "heuristic_clone_groups": 0,
-    "ast_clone_groups": 6,
-    "source_clone_groups": 7,
+    "ast_clone_groups": 2,
+    "source_clone_groups": 3,
     "test_clone_groups": 0,
-    "duplication_records": 10,
+    "duplication_records": 5,
     "high_duplication_records": 0,
-    "clone_pressure_records": 10,
+    "clone_pressure_records": 5,
     "same_purpose_records": 0
   },
   "tool_status": {
@@ -114,13 +114,61 @@
       "ran": true,
       "reason": null,
       "statistics": {
-        "detectionDate": "2026-09-09T15:24:29.291Z",
+        "detectionDate": "2026-09-13T18:47:59.033Z",
         "formats": {
           "typescript": {
             "sources": {
               "src/assets/themes/princess/assets.ts": {
                 "lines": 40,
                 "tokens": 624,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/weather/weatherVisuals.ts": {
+                "lines": 104,
+                "tokens": 1132,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/weather/weatherStore.ts": {
+                "lines": 163,
+                "tokens": 1546,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/weather/weatherData.ts": {
+                "lines": 119,
+                "tokens": 1134,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/weather/weatherConditions.ts": {
+                "lines": 132,
+                "tokens": 1281,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -155,8 +203,8 @@
                 "newClones": 0
               },
               "src/lib/dayNightExplorer/solarSystemGeometry.ts": {
-                "lines": 59,
-                "tokens": 651,
+                "lines": 57,
+                "tokens": 614,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -359,8 +407,8 @@
                 "newClones": 0
               },
               "src/components/ui/standardActionStyles.ts": {
-                "lines": 103,
-                "tokens": 842,
+                "lines": 104,
+                "tokens": 849,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -395,8 +443,8 @@
                 "newClones": 0
               },
               "src/components/ui/standardActionCardAnimations.ts": {
-                "lines": 140,
-                "tokens": 614,
+                "lines": 135,
+                "tokens": 612,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -467,8 +515,8 @@
                 "newClones": 0
               },
               "src/components/dayNightExplorer/useDayNightExplorerModel.ts": {
-                "lines": 254,
-                "tokens": 1894,
+                "lines": 256,
+                "tokens": 1912,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -480,7 +528,7 @@
               },
               "src/components/dayNightExplorer/SolarSystem3DManager.ts": {
                 "lines": 712,
-                "tokens": 6409,
+                "tokens": 6417,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -514,6 +562,42 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/components/animalTester/useCreatureCollection.ts": {
+                "lines": 64,
+                "tokens": 531,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/animalTester/useAnimalSession.ts": {
+                "lines": 258,
+                "tokens": 2217,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/animalTester/modeArtwork.ts": {
+                "lines": 24,
+                "tokens": 213,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/assets/rewards/assets.ts": {
                 "lines": 33,
                 "tokens": 321,
@@ -538,6 +622,18 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/ui/weatherAssets.ts": {
+                "lines": 26,
+                "tokens": 239,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/ui/waterToiletAssets.ts": {
                 "lines": 60,
                 "tokens": 528,
@@ -551,8 +647,8 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreState.ts": {
-                "lines": 177,
-                "tokens": 1433,
+                "lines": 178,
+                "tokens": 1440,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -599,8 +695,8 @@
                 "newClones": 0
               },
               "src/ui/themeAssets.ts": {
-                "lines": 185,
-                "tokens": 1599,
+                "lines": 200,
+                "tokens": 1696,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -743,8 +839,8 @@
                 "newClones": 0
               },
               "src/lib/starActions.ts": {
-                "lines": 171,
-                "tokens": 1394,
+                "lines": 181,
+                "tokens": 1504,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -755,8 +851,8 @@
                 "newClones": 0
               },
               "src/lib/solar.ts": {
-                "lines": 321,
-                "tokens": 2659,
+                "lines": 320,
+                "tokens": 2633,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -769,6 +865,18 @@
               "src/lib/seasons.ts": {
                 "lines": 13,
                 "tokens": 157,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/schoolCalendarData.ts": {
+                "lines": 45,
+                "tokens": 470,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -793,6 +901,18 @@
               "src/lib/positionalNotationProblems.ts": {
                 "lines": 50,
                 "tokens": 572,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/optimisticState.ts": {
+                "lines": 34,
+                "tokens": 378,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -840,7 +960,7 @@
               },
               "src/lib/celebrate.ts": {
                 "lines": 16,
-                "tokens": 147,
+                "tokens": 149,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -853,6 +973,18 @@
               "src/lib/activityOutcome.ts": {
                 "lines": 55,
                 "tokens": 368,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/hooks/useWeatherExploration.ts": {
+                "lines": 96,
+                "tokens": 947,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -899,8 +1031,8 @@
                 "newClones": 0
               },
               "src/hooks/useDinnerCountdownState.ts": {
-                "lines": 114,
-                "tokens": 1055,
+                "lines": 117,
+                "tokens": 1082,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -922,9 +1054,21 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/hooks/useCurrentWeather.ts": {
+                "lines": 18,
+                "tokens": 207,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/hooks/useCoalescedDocumentUpdates.ts": {
-                "lines": 176,
-                "tokens": 1779,
+                "lines": 147,
+                "tokens": 1428,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -971,14 +1115,14 @@
                 "newClones": 0
               },
               "src/data/useTests.ts": {
-                "lines": 285,
-                "tokens": 2428,
+                "lines": 263,
+                "tokens": 2156,
                 "sources": 1,
                 "clones": 1,
                 "duplicatedLines": 9,
                 "duplicatedTokens": 82,
-                "percentage": 3.16,
-                "percentageTokens": 3.38,
+                "percentage": 3.42,
+                "percentageTokens": 3.8,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
@@ -995,20 +1139,20 @@
                 "newClones": 0
               },
               "src/data/useChores.ts": {
-                "lines": 252,
-                "tokens": 1955,
+                "lines": 164,
+                "tokens": 1285,
                 "sources": 1,
                 "clones": 1,
                 "duplicatedLines": 9,
                 "duplicatedTokens": 82,
-                "percentage": 3.57,
-                "percentageTokens": 4.19,
+                "percentage": 5.49,
+                "percentageTokens": 6.38,
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
               "src/data/useChoreActivityActions.ts": {
-                "lines": 163,
-                "tokens": 1303,
+                "lines": 173,
+                "tokens": 1401,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1031,8 +1175,8 @@
                 "newClones": 0
               },
               "src/data/useChildren.ts": {
-                "lines": 209,
-                "tokens": 1698,
+                "lines": 202,
+                "tokens": 1670,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1056,7 +1200,7 @@
               },
               "src/data/teeniepingKnowledge.ts": {
                 "lines": 51,
-                "tokens": 413,
+                "tokens": 420,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1139,8 +1283,8 @@
                 "newClones": 0
               },
               "src/data/animalLocationAssets.ts": {
-                "lines": 85,
-                "tokens": 926,
+                "lines": 62,
+                "tokens": 668,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1236,20 +1380,68 @@
               }
             },
             "total": {
-              "lines": 9014,
-              "tokens": 75655,
-              "sources": 93,
+              "lines": 9962,
+              "tokens": 84687,
+              "sources": 105,
               "clones": 1,
               "duplicatedLines": 9,
               "duplicatedTokens": 82,
-              "percentage": 0.1,
-              "percentageTokens": 0.11,
+              "percentage": 0.09,
+              "percentageTokens": 0.1,
               "newDuplicatedLines": 0,
               "newClones": 0
             }
           },
           "javascript": {
             "sources": {
+              "src/components/weather/WeatherScene.tsx": {
+                "lines": 247,
+                "tokens": 2168,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/weather/WeatherPanel.tsx": {
+                "lines": 53,
+                "tokens": 371,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/weather/WeatherOptionImage.tsx": {
+                "lines": 65,
+                "tokens": 586,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/weather/WeatherControls.tsx": {
+                "lines": 134,
+                "tokens": 1025,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/components/ui/TopIconButton.tsx": {
                 "lines": 1,
                 "tokens": 3,
@@ -1299,8 +1491,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 385,
-                "tokens": 2981,
+                "lines": 401,
+                "tokens": 3128,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1311,8 +1503,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionButtons.tsx": {
-                "lines": 215,
-                "tokens": 1457,
+                "lines": 262,
+                "tokens": 1850,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1323,8 +1515,8 @@
                 "newClones": 0
               },
               "src/components/ui/SegmentedChoiceControl.tsx": {
-                "lines": 71,
-                "tokens": 479,
+                "lines": 72,
+                "tokens": 487,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1455,8 +1647,8 @@
                 "newClones": 0
               },
               "src/components/ui/IconActionControls.tsx": {
-                "lines": 174,
-                "tokens": 1121,
+                "lines": 180,
+                "tokens": 1189,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1552,7 +1744,7 @@
               },
               "src/components/ui/ActionButton.tsx": {
                 "lines": 26,
-                "tokens": 179,
+                "tokens": 164,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1611,8 +1803,8 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreDescriptors.tsx": {
-                "lines": 113,
-                "tokens": 937,
+                "lines": 103,
+                "tokens": 889,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1635,8 +1827,8 @@
                 "newClones": 0
               },
               "src/ui/definitionRowDescriptors.tsx": {
-                "lines": 172,
-                "tokens": 1281,
+                "lines": 167,
+                "tokens": 1253,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1683,8 +1875,8 @@
                 "newClones": 0
               },
               "src/pages/TimeExplorerPage.tsx": {
-                "lines": 76,
-                "tokens": 449,
+                "lines": 101,
+                "tokens": 581,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1863,8 +2055,8 @@
                 "newClones": 0
               },
               "src/components/SchoolCalendar.tsx": {
-                "lines": 164,
-                "tokens": 1018,
+                "lines": 151,
+                "tokens": 1035,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1910,9 +2102,21 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/components/MealPlateReveal.tsx": {
+                "lines": 54,
+                "tokens": 418,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/components/LargeNumbersTester.tsx": {
-                "lines": 270,
-                "tokens": 1697,
+                "lines": 277,
+                "tokens": 1791,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1923,8 +2127,8 @@
                 "newClones": 0
               },
               "src/components/DinnerCountdown.tsx": {
-                "lines": 560,
-                "tokens": 3725,
+                "lines": 623,
+                "tokens": 4440,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1949,6 +2153,18 @@
               "src/components/AppDeviceFrame.tsx": {
                 "lines": 10,
                 "tokens": 46,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/AnimalTester.tsx": {
+                "lines": 680,
+                "tokens": 4345,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1996,9 +2212,9 @@
               }
             },
             "total": {
-              "lines": 5608,
-              "tokens": 38225,
-              "sources": 62,
+              "lines": 6978,
+              "tokens": 48621,
+              "sources": 68,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -2010,6 +2226,54 @@
           },
           "tsx": {
             "sources": {
+              "src/components/weather/WeatherScene.tsx": {
+                "lines": 286,
+                "tokens": 2439,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/weather/WeatherPanel.tsx": {
+                "lines": 99,
+                "tokens": 692,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/weather/WeatherOptionImage.tsx": {
+                "lines": 125,
+                "tokens": 966,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/weather/WeatherControls.tsx": {
+                "lines": 206,
+                "tokens": 1684,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/components/ui/TopIconButton.tsx": {
                 "lines": 63,
                 "tokens": 425,
@@ -2059,8 +2323,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 435,
-                "tokens": 3340,
+                "lines": 451,
+                "tokens": 3487,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2071,8 +2335,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionButtons.tsx": {
-                "lines": 252,
-                "tokens": 1702,
+                "lines": 308,
+                "tokens": 2141,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2083,8 +2347,8 @@
                 "newClones": 0
               },
               "src/components/ui/SegmentedChoiceControl.tsx": {
-                "lines": 144,
-                "tokens": 997,
+                "lines": 148,
+                "tokens": 1024,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2227,8 +2491,8 @@
                 "newClones": 0
               },
               "src/components/ui/IconActionControls.tsx": {
-                "lines": 208,
-                "tokens": 1364,
+                "lines": 216,
+                "tokens": 1450,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2335,8 +2599,20 @@
                 "newClones": 0
               },
               "src/components/ui/ActionButton.tsx": {
-                "lines": 101,
-                "tokens": 659,
+                "lines": 108,
+                "tokens": 713,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/ActionArtwork.tsx": {
+                "lines": 17,
+                "tokens": 127,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2395,8 +2671,8 @@
                 "newClones": 0
               },
               "src/ui/unifiedEatingRenderer.tsx": {
-                "lines": 130,
-                "tokens": 1183,
+                "lines": 133,
+                "tokens": 1209,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2419,8 +2695,8 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreDescriptors.tsx": {
-                "lines": 210,
-                "tokens": 1819,
+                "lines": 200,
+                "tokens": 1771,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2455,8 +2731,8 @@
                 "newClones": 0
               },
               "src/ui/definitionRowDescriptors.tsx": {
-                "lines": 250,
-                "tokens": 1986,
+                "lines": 245,
+                "tokens": 1958,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2515,8 +2791,8 @@
                 "newClones": 0
               },
               "src/pages/TimeExplorerPage.tsx": {
-                "lines": 115,
-                "tokens": 764,
+                "lines": 158,
+                "tokens": 1069,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2539,8 +2815,8 @@
                 "newClones": 0
               },
               "src/pages/RewardsPage.tsx": {
-                "lines": 128,
-                "tokens": 902,
+                "lines": 126,
+                "tokens": 880,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2552,7 +2828,7 @@
               },
               "src/pages/RewardCreationFlow.tsx": {
                 "lines": 121,
-                "tokens": 867,
+                "tokens": 869,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2612,7 +2888,7 @@
               },
               "src/pages/ChoreCreationFlow.tsx": {
                 "lines": 321,
-                "tokens": 2396,
+                "tokens": 2398,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2647,8 +2923,8 @@
                 "newClones": 0
               },
               "src/contexts/ActiveChildContext.tsx": {
-                "lines": 139,
-                "tokens": 1134,
+                "lines": 143,
+                "tokens": 1157,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2695,8 +2971,8 @@
                 "newClones": 0
               },
               "src/components/SchoolCalendar.tsx": {
-                "lines": 337,
-                "tokens": 2607,
+                "lines": 285,
+                "tokens": 2292,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2742,9 +3018,21 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/components/MealPlateReveal.tsx": {
+                "lines": 93,
+                "tokens": 649,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/components/LargeNumbersTester.tsx": {
-                "lines": 489,
-                "tokens": 3709,
+                "lines": 537,
+                "tokens": 4328,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2755,8 +3043,8 @@
                 "newClones": 0
               },
               "src/components/DinnerCountdown.tsx": {
-                "lines": 697,
-                "tokens": 5014,
+                "lines": 762,
+                "tokens": 5758,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2768,7 +3056,7 @@
               },
               "src/components/ChoreOutcomeView.tsx": {
                 "lines": 66,
-                "tokens": 526,
+                "tokens": 516,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2805,6 +3093,18 @@
               "src/components/AppDeviceFrame.tsx": {
                 "lines": 54,
                 "tokens": 364,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/AnimalTester.tsx": {
+                "lines": 869,
+                "tokens": 5852,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2864,9 +3164,9 @@
               }
             },
             "total": {
-              "lines": 12163,
-              "tokens": 90078,
-              "sources": 71,
+              "lines": 14043,
+              "tokens": 104538,
+              "sources": 78,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -2926,6 +3226,18 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/components/AnimalTester.tsx": {
+                "lines": 1,
+                "tokens": 5,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/components/AlphabetTester.tsx": {
                 "lines": 12,
                 "tokens": 115,
@@ -2940,9 +3252,9 @@
               }
             },
             "total": {
-              "lines": 97,
-              "tokens": 602,
-              "sources": 5,
+              "lines": 98,
+              "tokens": 607,
+              "sources": 6,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -2954,14 +3266,14 @@
           }
         },
         "total": {
-          "lines": 26882,
-          "tokens": 204560,
-          "sources": 231,
+          "lines": 31081,
+          "tokens": 238453,
+          "sources": 257,
           "clones": 1,
           "duplicatedLines": 9,
           "duplicatedTokens": 82,
           "percentage": 0.03,
-          "percentageTokens": 0.04,
+          "percentageTokens": 0.03,
           "newDuplicatedLines": 0,
           "newClones": 0
         }
@@ -2994,8 +3306,8 @@
       "instances": [
         {
           "file": "src/data/useChores.ts",
-          "start_line": 37,
-          "end_line": 46
+          "start_line": 34,
+          "end_line": 43
         },
         {
           "file": "src/data/useTests.ts",
@@ -3015,8 +3327,8 @@
       "related_locations": [
         {
           "file": "src/data/useChores.ts",
-          "start_line": 37,
-          "end_line": 46,
+          "start_line": 34,
+          "end_line": 43,
           "role": "duplicate"
         },
         {
@@ -3042,84 +3354,6 @@
           "value": {
             "id": "jscpd:typescript:1",
             "kind": "jscpd",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "ast-clone:c91c9f0e",
-      "engine": "ast",
-      "hash": "c91c9f0e",
-      "classification": "source_clone",
-      "test_code": false,
-      "score": 72,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "instance_count",
-          "value": 2
-        },
-        {
-          "kind": "file_count",
-          "value": 2
-        },
-        {
-          "kind": "confidence_scope",
-          "value": "syntax_facts"
-        }
-      ],
-      "instances": [
-        {
-          "file": "src/components/AnimalTester.tsx",
-          "start_line": 792,
-          "end_line": 797
-        },
-        {
-          "file": "src/components/SpellingTester.tsx",
-          "start_line": 425,
-          "end_line": 430
-        }
-      ],
-      "kind": "ast-clone",
-      "rule_id": "ts-react-quality-lens/ast-clone",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "ast-clone",
-      "reason_code": "ts-react-quality-lens/ast-clone",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "related_locations": [
-        {
-          "file": "src/components/AnimalTester.tsx",
-          "start_line": 792,
-          "end_line": 797,
-          "role": "duplicate"
-        },
-        {
-          "file": "src/components/SpellingTester.tsx",
-          "start_line": 425,
-          "end_line": 430,
-          "role": "duplicate"
-        }
-      ],
-      "fix_group_id": "ast-clone:c91c9f0e",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this ast-clone finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "ast-clone:c91c9f0e",
-            "kind": "ast-clone",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3155,8 +3389,8 @@
         },
         {
           "file": "src/ui/themeAssets.ts",
-          "start_line": 73,
-          "end_line": 77
+          "start_line": 79,
+          "end_line": 83
         }
       ],
       "kind": "ast-clone",
@@ -3177,8 +3411,8 @@
         },
         {
           "file": "src/ui/themeAssets.ts",
-          "start_line": 73,
-          "end_line": 77,
+          "start_line": 79,
+          "end_line": 83,
           "role": "duplicate"
         }
       ],
@@ -3197,84 +3431,6 @@
           "config_key": "suppressions",
           "value": {
             "id": "ast-clone:2a3ed575",
-            "kind": "ast-clone",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "ast-clone:ab5ceb47",
-      "engine": "ast",
-      "hash": "ab5ceb47",
-      "classification": "source_clone",
-      "test_code": false,
-      "score": 72,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "instance_count",
-          "value": 2
-        },
-        {
-          "kind": "file_count",
-          "value": 2
-        },
-        {
-          "kind": "confidence_scope",
-          "value": "syntax_facts"
-        }
-      ],
-      "instances": [
-        {
-          "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
-          "start_line": 38,
-          "end_line": 38
-        },
-        {
-          "file": "src/lib/solar.ts",
-          "start_line": 159,
-          "end_line": 159
-        }
-      ],
-      "kind": "ast-clone",
-      "rule_id": "ts-react-quality-lens/ast-clone",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "ast-clone",
-      "reason_code": "ts-react-quality-lens/ast-clone",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "related_locations": [
-        {
-          "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
-          "start_line": 38,
-          "end_line": 38,
-          "role": "duplicate"
-        },
-        {
-          "file": "src/lib/solar.ts",
-          "start_line": 159,
-          "end_line": 159,
-          "role": "duplicate"
-        }
-      ],
-      "fix_group_id": "ast-clone:ab5ceb47",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this ast-clone finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "ast-clone:ab5ceb47",
             "kind": "ast-clone",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -3358,357 +3514,9 @@
           }
         }
       ]
-    },
-    {
-      "id": "ast-clone:228d0c36",
-      "engine": "ast",
-      "hash": "228d0c36",
-      "classification": "source_clone",
-      "test_code": false,
-      "score": 54,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "instance_count",
-          "value": 2
-        },
-        {
-          "kind": "file_count",
-          "value": 1
-        },
-        {
-          "kind": "confidence_scope",
-          "value": "syntax_facts"
-        }
-      ],
-      "instances": [
-        {
-          "file": "src/components/SchoolCalendar.tsx",
-          "start_line": 239,
-          "end_line": 247
-        },
-        {
-          "file": "src/components/SchoolCalendar.tsx",
-          "start_line": 325,
-          "end_line": 333
-        }
-      ],
-      "kind": "ast-clone",
-      "rule_id": "ts-react-quality-lens/ast-clone",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "ast-clone",
-      "reason_code": "ts-react-quality-lens/ast-clone",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "related_locations": [
-        {
-          "file": "src/components/SchoolCalendar.tsx",
-          "start_line": 239,
-          "end_line": 247,
-          "role": "duplicate"
-        },
-        {
-          "file": "src/components/SchoolCalendar.tsx",
-          "start_line": 325,
-          "end_line": 333,
-          "role": "duplicate"
-        }
-      ],
-      "fix_group_id": "ast-clone:228d0c36",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this ast-clone finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "ast-clone:228d0c36",
-            "kind": "ast-clone",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "ast-clone:1ed98ba6",
-      "engine": "ast",
-      "hash": "1ed98ba6",
-      "classification": "source_clone",
-      "test_code": false,
-      "score": 54,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "instance_count",
-          "value": 2
-        },
-        {
-          "kind": "file_count",
-          "value": 1
-        },
-        {
-          "kind": "confidence_scope",
-          "value": "syntax_facts"
-        }
-      ],
-      "instances": [
-        {
-          "file": "src/lib/solar.ts",
-          "start_line": 88,
-          "end_line": 88
-        },
-        {
-          "file": "src/lib/solar.ts",
-          "start_line": 109,
-          "end_line": 109
-        }
-      ],
-      "kind": "ast-clone",
-      "rule_id": "ts-react-quality-lens/ast-clone",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "ast-clone",
-      "reason_code": "ts-react-quality-lens/ast-clone",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "related_locations": [
-        {
-          "file": "src/lib/solar.ts",
-          "start_line": 88,
-          "end_line": 88,
-          "role": "duplicate"
-        },
-        {
-          "file": "src/lib/solar.ts",
-          "start_line": 109,
-          "end_line": 109,
-          "role": "duplicate"
-        }
-      ],
-      "fix_group_id": "ast-clone:1ed98ba6",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this ast-clone finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "ast-clone:1ed98ba6",
-            "kind": "ast-clone",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
     }
   ],
   "records": [
-    {
-      "id": "duplication-pressure:src/lib/solar",
-      "kind": "duplication_pressure",
-      "module_id": "src/lib/solar",
-      "file": "src/lib/solar.ts",
-      "line": 1,
-      "score": 48,
-      "risk": "medium",
-      "duplicated_lines": 3,
-      "clone_group_ids": ["ast-clone:ab5ceb47", "ast-clone:1ed98ba6"],
-      "entrypoint_roles": [],
-      "signals": [
-        {
-          "kind": "clone_group_count",
-          "value": 2
-        },
-        {
-          "kind": "cross_file_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "ast_clone_groups",
-          "value": 2
-        },
-        {
-          "kind": "duplicated_line_count",
-          "value": 3
-        },
-        {
-          "kind": "clone_engine_count",
-          "value": 1
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/duplication_pressure",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "duplication pressure",
-      "reason_code": "ts-react-quality-lens/duplication_pressure",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "duplication-pressure:src/lib/solar",
-            "kind": "duplication_pressure",
-            "file": "src/lib/solar.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "duplication-pressure:src/components/AnimalTester",
-      "kind": "duplication_pressure",
-      "module_id": "src/components/AnimalTester",
-      "file": "src/components/AnimalTester.tsx",
-      "line": 1,
-      "score": 34,
-      "risk": "low",
-      "duplicated_lines": 6,
-      "clone_group_ids": ["ast-clone:c91c9f0e"],
-      "entrypoint_roles": [],
-      "signals": [
-        {
-          "kind": "clone_group_count",
-          "value": 1
-        },
-        {
-          "kind": "cross_file_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "ast_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "duplicated_line_count",
-          "value": 6
-        },
-        {
-          "kind": "clone_engine_count",
-          "value": 1
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/duplication_pressure",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "duplication pressure",
-      "reason_code": "ts-react-quality-lens/duplication_pressure",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "duplication-pressure:src/components/AnimalTester",
-            "kind": "duplication_pressure",
-            "file": "src/components/AnimalTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "duplication-pressure:src/components/SpellingTester",
-      "kind": "duplication_pressure",
-      "module_id": "src/components/SpellingTester",
-      "file": "src/components/SpellingTester.tsx",
-      "line": 1,
-      "score": 34,
-      "risk": "low",
-      "duplicated_lines": 6,
-      "clone_group_ids": ["ast-clone:c91c9f0e"],
-      "entrypoint_roles": [],
-      "signals": [
-        {
-          "kind": "clone_group_count",
-          "value": 1
-        },
-        {
-          "kind": "cross_file_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "ast_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "duplicated_line_count",
-          "value": 6
-        },
-        {
-          "kind": "clone_engine_count",
-          "value": 1
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/duplication_pressure",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "duplication pressure",
-      "reason_code": "ts-react-quality-lens/duplication_pressure",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "duplication-pressure:src/components/SpellingTester",
-            "kind": "duplication_pressure",
-            "file": "src/components/SpellingTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
     {
       "id": "duplication-pressure:src/data/teeniepingKnowledge",
       "kind": "duplication_pressure",
@@ -3832,134 +3640,6 @@
             "id": "duplication-pressure:src/ui/themeAssets",
             "kind": "duplication_pressure",
             "file": "src/ui/themeAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "duplication-pressure:src/components/SchoolCalendar",
-      "kind": "duplication_pressure",
-      "module_id": "src/components/SchoolCalendar",
-      "file": "src/components/SchoolCalendar.tsx",
-      "line": 1,
-      "score": 31,
-      "risk": "low",
-      "duplicated_lines": 18,
-      "clone_group_ids": ["ast-clone:228d0c36"],
-      "entrypoint_roles": [],
-      "signals": [
-        {
-          "kind": "clone_group_count",
-          "value": 1
-        },
-        {
-          "kind": "cross_file_clone_groups",
-          "value": 0
-        },
-        {
-          "kind": "ast_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "duplicated_line_count",
-          "value": 18
-        },
-        {
-          "kind": "clone_engine_count",
-          "value": 1
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/duplication_pressure",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "duplication pressure",
-      "reason_code": "ts-react-quality-lens/duplication_pressure",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "duplication-pressure:src/components/SchoolCalendar",
-            "kind": "duplication_pressure",
-            "file": "src/components/SchoolCalendar.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "duplication-pressure:src/lib/dayNightExplorer/solarSystemGeometry",
-      "kind": "duplication_pressure",
-      "module_id": "src/lib/dayNightExplorer/solarSystemGeometry",
-      "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
-      "line": 1,
-      "score": 30,
-      "risk": "low",
-      "duplicated_lines": 1,
-      "clone_group_ids": ["ast-clone:ab5ceb47"],
-      "entrypoint_roles": [],
-      "signals": [
-        {
-          "kind": "clone_group_count",
-          "value": 1
-        },
-        {
-          "kind": "cross_file_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "ast_clone_groups",
-          "value": 1
-        },
-        {
-          "kind": "duplicated_line_count",
-          "value": 1
-        },
-        {
-          "kind": "clone_engine_count",
-          "value": 1
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/duplication_pressure",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "duplication pressure",
-      "reason_code": "ts-react-quality-lens/duplication_pressure",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Extract the duplicated logic or document why the clone should remain.",
-          "fix": "deduplicate-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "duplication-pressure:src/lib/dayNightExplorer/solarSystemGeometry",
-            "kind": "duplication_pressure",
-            "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

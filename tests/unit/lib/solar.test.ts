@@ -6,7 +6,9 @@ import {
   getSolarDeclinationDegrees,
   getSolarTimes,
   getSunPosition,
+  normalizeLongitude,
 } from '../../../src/lib/solar'
+import { getCenteredLongitude } from '../../../src/lib/dayNightExplorer/solarSystemGeometry'
 
 const DUBLIN_LOCATION = {
   latitude: 53.35,
@@ -21,6 +23,22 @@ const TAIPEI_LOCATION = {
 } as const
 
 describe('solar helpers', () => {
+  it.each([
+    [-540, -180, -90],
+    [-180, -180, -90],
+    [180, -180, -90],
+    [540, -180, -90],
+    [0, 0, 90],
+    [90, 90, -180],
+  ])(
+    'wraps longitude %s consistently for the sun and globe',
+    (input, wrapped, center) => {
+      expect(normalizeLongitude(input)).toBe(wrapped)
+      expect(getCenteredLongitude('earth', [], input)).toBe(center)
+      expect(getCenteredLongitude('taipei', [], input)).toBe(center)
+    }
+  )
+
   it('derives day number and seasonal solar declination', () => {
     expect(getDayOfYear(new Date(2026, 0, 1))).toBe(1)
     expect(getDayOfYear(new Date(2026, 11, 31))).toBe(365)

@@ -18,6 +18,8 @@ function asset(theme: ThemeId, path: string) {
 
 export const getWeatherEnvironment = (theme: ThemeId) =>
   asset(theme, 'environment')
+export const getWeatherWindPortrait = (theme: ThemeId) =>
+  asset(theme, 'options/wind')
 export const getWeatherCharacter = (
   theme: ThemeId,
   pose: WeatherCharacterPose

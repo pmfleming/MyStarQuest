@@ -1,4 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  mergeOptimisticItems,
+  settleOptimisticPatch,
+} from '../lib/optimisticState'
 
 export const DEFAULT_UPDATE_COALESCE_MS = 140
 
@@ -14,33 +18,6 @@ type UseCoalescedDocumentUpdatesOptions<Patch extends FieldPatch> = {
   persist: (id: string, patch: Patch) => Promise<void>
   delayMs?: number
   onError?: (id: string, patch: Patch, error: unknown) => void
-}
-
-const withoutMatchingFields = <Patch extends FieldPatch>(
-  current: Patch | undefined,
-  settled: Patch
-): Patch | undefined => {
-  if (!current) return undefined
-
-  const next = { ...current } as Record<string, unknown>
-  for (const [key, value] of Object.entries(settled)) {
-    if (Object.is(next[key], value)) delete next[key]
-  }
-
-  return Object.keys(next).length > 0 ? (next as Patch) : undefined
-}
-
-export const mergeOptimisticItems = <
-  Item extends Identifiable,
-  Patch extends FieldPatch,
->(
-  items: Item[],
-  overrides: Record<string, Patch>
-): Item[] => {
-  if (Object.keys(overrides).length === 0) return items
-  return items.map((item) =>
-    overrides[item.id] ? ({ ...item, ...overrides[item.id] } as Item) : item
-  )
 }
 
 export const useOptimisticItems = <
@@ -81,13 +58,7 @@ export const useCoalescedDocumentUpdates = <Patch extends FieldPatch>({
 
   const settleOverride = useCallback((id: string, patch: Patch) => {
     if (!mountedRef.current) return
-    setOverrides((previous) => {
-      const remaining = withoutMatchingFields(previous[id], patch)
-      const next = { ...previous }
-      if (remaining) next[id] = remaining
-      else delete next[id]
-      return next
-    })
+    setOverrides((previous) => settleOptimisticPatch(previous, id, patch))
   }, [])
 
   const flush = useCallback(
@@ -110,13 +81,13 @@ export const useCoalescedDocumentUpdates = <Patch extends FieldPatch>({
     (id: string, patch: Patch) => {
       setOverrides((previous) => ({
         ...previous,
-        [id]: { ...previous[id], ...patch } as Patch,
+        [id]: { ...previous[id], ...patch },
       }))
 
       const existing = pendingRef.current.get(id)
       if (existing) clearTimeout(existing.timer)
 
-      const combinedPatch = { ...existing?.patch, ...patch } as Patch
+      const combinedPatch: Patch = { ...existing?.patch, ...patch }
       const timer = setTimeout(() => void flush(id), delayMs)
       pendingRef.current.set(id, { patch: combinedPatch, timer })
     },

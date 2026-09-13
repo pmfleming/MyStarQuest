@@ -81,12 +81,14 @@ const getTimeZoneFormatter = (timeZone: string) => {
   return formatter
 }
 
-const getTimeZoneOffsetMinutes = (date: Date, timeZone: string) => {
-  const formatter = getTimeZoneFormatter(timeZone)
-  const parts = formatter.formatToParts(date)
-  const getPart = (type: Intl.DateTimeFormatPartTypes) =>
+const getTimeZonePartReader = (date: Date, timeZone: string) => {
+  const parts = getTimeZoneFormatter(timeZone).formatToParts(date)
+  return (type: Intl.DateTimeFormatPartTypes) =>
     Number(parts.find((part) => part.type === type)?.value)
+}
 
+const getTimeZoneOffsetMinutes = (date: Date, timeZone: string) => {
+  const getPart = getTimeZonePartReader(date, timeZone)
   const zonedUtcMs = Date.UTC(
     getPart('year'),
     getPart('month') - 1,
@@ -103,10 +105,7 @@ export const getLocationClockTime = (
   date: Date,
   location: SolarLocation = DEFAULT_LOCATION
 ): LocationClockTime => {
-  const formatter = getTimeZoneFormatter(location.timeZone)
-  const parts = formatter.formatToParts(date)
-  const getPart = (type: Intl.DateTimeFormatPartTypes) =>
-    Number(parts.find((part) => part.type === type)?.value)
+  const getPart = getTimeZonePartReader(date, location.timeZone)
 
   const hours = getPart('hour')
   const minutes = getPart('minute')
@@ -155,7 +154,7 @@ export const getSolarDeclinationDegrees = (date: Date) =>
 
 const normalizeMinutes = (minutes: number) => ((minutes % 1440) + 1440) % 1440
 
-const normalizeLongitudeDegrees = (degrees: number) =>
+export const normalizeLongitude = (degrees: number) =>
   ((((degrees + 180) % 360) + 360) % 360) - 180
 
 const normalizeClockTime = (totalMinutes: number, seconds: number) => {
@@ -314,7 +313,7 @@ export const getSunPosition = (date: Date): SunPosition => {
 
   return {
     latitude: getSolarDeclinationDegrees(date),
-    longitude: normalizeLongitudeDegrees(
+    longitude: normalizeLongitude(
       (720 - utcMinutes - equationOfTimeMinutes) / 4
     ),
   }

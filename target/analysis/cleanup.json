@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-09T15:25:13.925Z",
+    "measured_at": "2026-09-13T18:48:22.591Z",
     "source_type": "static",
-    "source_set_hash": "sha256:2a4679a7f675c9bb3f4a2e876cd008a2dfe8a70f8a4d972d3186a3d278294e52",
-    "input_set_hash": "sha256:9ffa6797048f40f2f0752a9df5f6444f11abe44ba4c4008360dcc995ca0f3ec6"
+    "source_set_hash": "sha256:f0394afeb3e3ac7c680c52d95e9a1e36513f80ed510229637b2d92d9b4d885c3",
+    "input_set_hash": "sha256:f5a7d73e9bd156b6a18059c4b488cdf83f6043c3a1e3e84b45f037de5b3fb706"
   },
   "analysis_identity": {
     "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
@@ -62,7 +62,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "hit",
+    "analysis_cache_status": "miss",
     "unsupported_pattern": [],
     "knip_available": true,
     "knip_ran": true,
@@ -99,9 +99,9 @@
     "stale_input": []
   },
   "summary": {
-    "records": 35,
-    "unused_files": 2,
-    "unused_exports": 3,
+    "records": 40,
+    "unused_files": 4,
+    "unused_exports": 6,
     "unused_dependencies": 0,
     "unused_dev_dependencies": 1,
     "unlisted_dependencies": 1,
@@ -109,8 +109,8 @@
     "test_only_production_dependencies": 0,
     "duplicate_exports": 0,
     "entrypoint_files": 1,
-    "knip_findings": 35,
-    "tool_confirmed": 2,
+    "knip_findings": 40,
+    "tool_confirmed": 4,
     "tool_disagreed": 3,
     "tool_not_comparable": 3,
     "tool_excluded": 0
@@ -459,6 +459,104 @@
       ]
     },
     {
+      "id": "cleanup:unused-export:src/lib/weather/weatherData:WEATHER_MAX_AGE_MS",
+      "kind": "unused_export",
+      "file": "src/lib/weather/weatherData.ts",
+      "line": 42,
+      "name": "WEATHER_MAX_AGE_MS",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "WEATHER_MAX_AGE_MS"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/lib/weather/weatherData.ts:WEATHER_MAX_AGE_MS:42",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/weather/weatherData:WEATHER_MAX_AGE_MS",
+            "kind": "unused_export",
+            "file": "src/lib/weather/weatherData.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/weather/weatherVisuals:EMPTY_WEATHER_VISUALS",
+      "kind": "unused_export",
+      "file": "src/lib/weather/weatherVisuals.ts",
+      "line": 23,
+      "name": "EMPTY_WEATHER_VISUALS",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "EMPTY_WEATHER_VISUALS"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/lib/weather/weatherVisuals.ts:EMPTY_WEATHER_VISUALS:23",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/weather/weatherVisuals:EMPTY_WEATHER_VISUALS",
+            "kind": "unused_export",
+            "file": "src/lib/weather/weatherVisuals.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "cleanup:unused-dev-dependency:lint-staged",
       "kind": "unused_dev_dependency",
       "name": "lint-staged",
@@ -498,6 +596,96 @@
           "value": {
             "id": "cleanup:unused-dev-dependency:lint-staged",
             "kind": "unused_dev_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/prepare-weather-artwork.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/prepare-weather-artwork.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/prepare-weather-artwork.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/prepare-weather-artwork.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/weatherCharacterComposite.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/weatherCharacterComposite.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/weatherCharacterComposite.ts:0:0",
+            "kind": "unused_file",
+            "file": "scripts/weatherCharacterComposite.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -735,6 +923,55 @@
             "id": "knip:exports:src/data/animalHabitatAssets.ts:ANIMAL_HABITAT_NAMES:18",
             "kind": "unused_export",
             "file": "src/data/animalHabitatAssets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:src/lib/weather/weatherConditions.ts:WEATHER_LABELS:1",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/lib/weather/weatherConditions.ts",
+      "name": "WEATHER_LABELS",
+      "line": 1,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: WEATHER_LABELS.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "WEATHER_LABELS"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:src/lib/weather/weatherConditions.ts:WEATHER_LABELS:1",
+            "kind": "unused_export",
+            "file": "src/lib/weather/weatherConditions.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
