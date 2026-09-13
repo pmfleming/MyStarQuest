@@ -10,6 +10,10 @@ import {
 } from '../../lib/weather/weatherVisuals'
 import WeatherOptionImage from './WeatherOptionImage'
 import { useTheme } from '../../contexts/ThemeContext'
+import StepperButton from '../ui/StepperButton'
+import { StandardIconImage } from '../ui/IconActionControls'
+import { getThemeAsset } from '../../ui/themeAssets'
+import { uiTokens } from '../../tokens'
 
 const levels: { level: WeatherLevel; label: string }[] = [
   { level: 1, label: 'Light' },
@@ -62,34 +66,27 @@ function StepControl({
   downLabel: string
 }) {
   const id = useId()
+  const { theme } = useTheme()
   return (
     <div className="weather-step-control" role="group" aria-labelledby={id}>
       <span id={id} className="sr-only">
         {label}
       </span>
-      <button
-        type="button"
-        className="weather-step-arrow"
-        aria-label={upLabel}
-        disabled={upDisabled}
-        onClick={onUp}
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m6 15 6-6 6 6" />
-        </svg>
-      </button>
-      <div className="weather-step-value">{children}</div>
-      <button
-        type="button"
-        className="weather-step-arrow"
-        aria-label={downLabel}
+      <StepperButton
+        theme={theme}
+        direction="prev"
+        ariaLabel={downLabel}
         disabled={downDisabled}
         onClick={onDown}
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m6 9 6 6 6-6" />
-        </svg>
-      </button>
+      />
+      <div className="weather-step-value">{children}</div>
+      <StepperButton
+        theme={theme}
+        direction="next"
+        ariaLabel={upLabel}
+        disabled={upDisabled}
+        onClick={onUp}
+      />
     </div>
   )
 }
@@ -124,7 +121,15 @@ export default function WeatherControls({
     })
   }
   return (
-    <div className="weather-controls">
+    <div
+      className="weather-controls"
+      style={{
+        width: uiTokens.controlRowWidth,
+        gap: uiTokens.panelStackGap,
+        color: theme.colors.primary,
+        fontFamily: theme.fonts.heading,
+      }}
+    >
       <StepControl
         label="Temperature"
         upLabel="Increase temperature"
@@ -134,6 +139,11 @@ export default function WeatherControls({
         upDisabled={temperature >= 45}
         downDisabled={temperature <= -20}
       >
+        <StandardIconImage
+          src={getThemeAsset(theme.id, 'thermometerIcon')}
+          width={64}
+          height={64}
+        />
         <output
           className="weather-temperature-value"
           aria-label="Temperature value"

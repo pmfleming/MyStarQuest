@@ -11,6 +11,7 @@ import {
 import WeatherControls from './WeatherControls'
 import { WeatherScene } from './WeatherScene'
 import { getThemeAsset } from '../../ui/themeAssets'
+import { IconActionButton } from '../ui/IconActionControls'
 
 type Props = {
   theme: Theme
@@ -66,20 +67,12 @@ export default memo(function WeatherPanel({
                 : 'Current weather'}
         </span>
         {exploration.isExploring && (
-          <AsyncButton
-            type="button"
-            aria-label="Reset to current"
-            title="Reset to current"
+          <IconActionButton
+            theme={theme}
+            icon={getThemeAsset(theme.id, 'resetIcon')}
+            ariaLabel="Reset to current"
             onClick={exploration.reset}
-          >
-            <img
-              src={getThemeAsset(theme.id, 'resetIcon')}
-              alt=""
-              aria-hidden="true"
-              width={32}
-              height={32}
-            />
-          </AsyncButton>
+          />
         )}
       </div>
       {(error || (!loading && !data)) && (

@@ -113,8 +113,8 @@ beforeEach(() => {
 })
 
 const clickOption = (name: string, count = 1) => {
-  for (let i = 0; i < count; i++)
-    fireEvent.click(screen.getByRole('button', { name }))
+  const button = screen.getByRole('button', { name })
+  for (let i = 0; i < count; i++) fireEvent.click(button)
 }
 const openWeather = () =>
   fireEvent.click(screen.getByRole('button', { name: /Show weather:/ }))
