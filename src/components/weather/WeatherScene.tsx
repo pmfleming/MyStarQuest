@@ -1,4 +1,4 @@
-import { memo, type CSSProperties } from 'react'
+import { memo, useId, type CSSProperties } from 'react'
 import type { ThemeId } from '../../ui/themeOptions'
 import {
   getWeatherWardrobe,
@@ -11,20 +11,40 @@ import {
 import './weather.css'
 import { RainDrop, WindRibbon } from './WeatherMagic'
 
-function Character({ source, cell }: { source: string; cell: number }) {
+function Character({
+  source,
+  cell,
+  themeId,
+}: {
+  source: string
+  cell: number
+  themeId: ThemeId
+}) {
+  const clipId = useId()
+  // This atlas outfit is offset left of its nominal cell; exclude its neighbour.
+  const [x, y, width, height] =
+    themeId === 'teenie' && cell === 2
+      ? [192, 0, 98, 101]
+      : [(cell % 4) * 100, Math.floor(cell / 4) * 100, 100, 100]
   return (
     <svg
-      viewBox={`${(cell % 4) * 100} ${Math.floor(cell / 4) * 100} 100 100`}
+      viewBox={`${x} ${y} ${width} ${height}`}
       preserveAspectRatio="xMidYMax meet"
       className="weather-character"
       data-weather-character
       aria-hidden="true"
     >
+      <defs>
+        <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
+          <rect x={x} y={y} width={width} height={height} />
+        </clipPath>
+      </defs>
       <image
         href={source}
         width="400"
         height="500"
         preserveAspectRatio="none"
+        clipPath={`url(#${clipId})`}
       />
     </svg>
   )
@@ -262,6 +282,7 @@ export const WeatherScene = memo(function WeatherScene({
         <Character
           source={character}
           cell={outfit.band * 2 + Number(outfit.waterproof)}
+          themeId={themeId}
         />
       </div>
       <Precipitation visuals={visuals} front themeId={themeId} />

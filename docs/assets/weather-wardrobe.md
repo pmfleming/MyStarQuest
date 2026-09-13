@@ -15,6 +15,8 @@ Moderate wind (20–39 km/h) selects one warmer clothing tier; strong wind (40 k
 
 Each 1122 × 1402 RGBA atlas has four columns and five rows. Cells run left to right, then top to bottom. Each tier occupies two consecutive cells: dry, then waterproof. The renderer crops the selected cell with an SVG viewBox; changing outfits reuses the same image URL. The asset registry imports only these atlases and the existing environment images.
 
+The Teenie dry down-coat outfit (cell 2) sits slightly left of its nominal grid position. Its crop is `192 0 98 101` in the renderer's 400 × 500 atlas coordinates. Every outfit also has an explicit clip rectangle so neighbouring sprites cannot appear in the SVG viewport's spare margins. Recheck this crop if the atlas is replaced.
+
 The built-in image generation tool produced the artwork using each theme's existing `weather/characters/mild.webp` as the identity/style reference. Original generated masters remain in the local Codex generated-image directory. The final alpha-bearing exports are copies of `exec-16c0304a-65a4-4b52-be37-e81be5adf7ec.png` (Princess) and `exec-ba683e82-e980-4ec7-ba7c-adcb02182a6a.png` (Heartsping).
 
 ## Prompt set
