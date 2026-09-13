@@ -1,31 +1,31 @@
 import { memo, type CSSProperties } from 'react'
 import type { ThemeId } from '../../ui/themeOptions'
 import {
-  getWeatherCharacter,
+  getWeatherWardrobe,
   getWeatherEnvironment,
 } from '../../ui/weatherAssets'
 import {
-  getWeatherCharacterPose,
+  getWeatherOutfit,
   type WeatherVisuals,
 } from '../../lib/weather/weatherVisuals'
 import './weather.css'
 
-function Character({ source }: { source: string }) {
+function Character({ source, cell }: { source: string; cell: number }) {
   return (
-    <img
-      src={source}
-      alt=""
-      decoding="async"
-      onLoad={(event) => {
-        event.currentTarget.dataset.ready = 'true'
-      }}
-      onError={(event) => {
-        event.currentTarget.dataset.ready = 'error'
-      }}
+    <svg
+      viewBox={`${(cell % 4) * 100} ${Math.floor(cell / 4) * 100} 100 100`}
+      preserveAspectRatio="xMidYMax meet"
       className="weather-character"
       data-weather-character
       aria-hidden="true"
-    />
+    >
+      <image
+        href={source}
+        width="400"
+        height="500"
+        preserveAspectRatio="none"
+      />
+    </svg>
   )
 }
 
@@ -135,8 +135,8 @@ export const WeatherScene = memo(function WeatherScene({
   decorative = false,
   compact = false,
 }: WeatherSceneProps) {
-  const pose = getWeatherCharacterPose(visuals)
-  const character = getWeatherCharacter(themeId, pose)
+  const outfit = getWeatherOutfit(visuals)
+  const character = getWeatherWardrobe(themeId)
   const snow =
     visuals.precipitationLevel > 0 &&
     (visuals.precipitation === 'snow' || visuals.precipitation === 'sleet')
@@ -152,9 +152,14 @@ export const WeatherScene = memo(function WeatherScene({
       className="weather-scene"
       data-compact={compact}
       data-available={visuals.available}
-      data-pose={pose}
+      data-outfit-band={outfit.band}
+      data-outfit-waterproof={outfit.waterproof}
       role={decorative ? undefined : 'img'}
-      aria-label={decorative ? undefined : label}
+      aria-label={
+        decorative
+          ? undefined
+          : `${label}${visuals.available ? `. Wearing ${outfit.description}.` : ''}`
+      }
       aria-hidden={decorative || undefined}
     >
       <img
@@ -246,7 +251,10 @@ export const WeatherScene = memo(function WeatherScene({
         className="weather-character-space"
         style={{ filter: visuals.isDay ? undefined : 'brightness(.78)' }}
       >
-        <Character key={character} source={character} />
+        <Character
+          source={character}
+          cell={outfit.band * 2 + Number(outfit.waterproof)}
+        />
       </div>
       <Precipitation visuals={visuals} front />
       {visuals.windLevel > 0 && (

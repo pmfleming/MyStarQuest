@@ -9,9 +9,6 @@ import {
 } from './weatherCodes'
 export type { WeatherLevel, PrecipitationKind } from './weatherCodes'
 
-export type WeatherCharacterPose =
-  'hot' | 'mild' | 'cool' | 'cold' | 'rain-warm' | 'rain-cold'
-
 // This is the independent input to the compositor. Future exploration controls
 // can change any one field while retaining the others and the live response.
 export type WeatherVisuals = {
@@ -41,22 +38,55 @@ export const EMPTY_WEATHER_VISUALS: WeatherVisuals = {
 export const getWeatherWindLevel = (speed: number): WeatherLevel =>
   speed >= 40 ? 3 : speed >= 20 ? 2 : speed >= 5 ? 1 : 0
 
-export const getWeatherCharacterPose = (
-  visuals: WeatherVisuals
-): WeatherCharacterPose => {
-  const temperature = visuals.temperature ?? 18
-  if (
-    visuals.precipitationLevel > 0 &&
-    (visuals.precipitation === 'rain' ||
-      visuals.precipitation === 'sleet' ||
-      visuals.precipitation === 'freezing-rain' ||
-      visuals.precipitation === 'hail')
-  ) {
-    return temperature <= 10 ? 'rain-cold' : 'rain-warm'
-  }
-  if (temperature <= 5) return 'cold'
-  if (temperature < 16) return 'cool'
-  return temperature >= 28 ? 'hot' : 'mild'
+// Ordered pairs correspond to the dry/waterproof cells in each wardrobe atlas.
+const outfits = [
+  [
+    'an expedition parka, mittens and snow boots',
+    'a waterproof expedition parka, mittens and snow boots',
+  ],
+  [
+    'a down coat, hat, scarf and gloves',
+    'a hooded waterproof down coat and insulated boots',
+  ],
+  [
+    'a padded jacket, beanie and gloves',
+    'a hooded insulated rain jacket and boots',
+  ],
+  ['a wool coat and scarf', 'a lined waterproof coat with its hood up'],
+  ['a fleece jacket and trousers', 'a warm hooded raincoat and rain boots'],
+  [
+    'a light cardigan and leggings',
+    'a light hooded rain jacket and waterproof shoes',
+  ],
+  [
+    'a long-sleeve cotton dress',
+    'a breathable hooded rain cape over a cotton dress',
+  ],
+  [
+    'a short-sleeve summer dress and sun hat',
+    'a light hooded rain cape over a summer dress',
+  ],
+  [
+    'an airy summer dress, sun hat and sandals',
+    'a thin hooded poncho over a summer dress',
+  ],
+  [
+    'a loose cotton top, shorts, sun hat and sandals',
+    'a thin hooded poncho over a cotton top and shorts',
+  ],
+] as const
+
+export function getWeatherOutfit(visuals: WeatherVisuals) {
+  // An educational layering rule, not a meteorological wind-chill calculation.
+  const windLayers = Math.max(0, visuals.windLevel - 1)
+  const temperature = (visuals.temperature ?? 18) - windLayers * 5
+  const band = Math.max(
+    0,
+    Math.min(outfits.length - 1, Math.floor((temperature + 10) / 5))
+  )
+  const waterproof =
+    visuals.precipitationLevel > 0 && visuals.precipitation !== 'none'
+  return { band, waterproof, description: outfits[band]![waterproof ? 1 : 0] }
 }
 
 const severeThunderScenes = new Set(['thunderstorm', 'hail'])

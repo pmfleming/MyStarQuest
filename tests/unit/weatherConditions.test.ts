@@ -5,7 +5,7 @@ import {
   type WeatherConditions,
 } from '../../src/lib/weather/weatherConditions'
 import {
-  getWeatherCharacterPose,
+  getWeatherOutfit,
   getWeatherVisuals,
 } from '../../src/lib/weather/weatherVisuals'
 
@@ -68,14 +68,32 @@ describe('weather conditions and independent visual layers', () => {
       precipitationLevel: 3,
       windLevel: 3,
     })
-    expect(getWeatherCharacterPose(visuals)).toBe('rain-cold')
-    // The next exploration controls can change temperature alone.
-    expect(getWeatherCharacterPose({ ...visuals, temperature: 24 })).toBe(
-      'rain-warm'
-    )
-    expect(getWeatherCharacterPose({ ...visuals, precipitationLevel: 0 })).toBe(
-      'cold'
-    )
+    expect(getWeatherOutfit(visuals)).toMatchObject({
+      band: 0,
+      waterproof: true,
+    })
+    expect(getWeatherOutfit({ ...visuals, temperature: 24 })).toMatchObject({
+      band: 4,
+      waterproof: true,
+    })
+    expect(
+      getWeatherOutfit({ ...visuals, precipitationLevel: 0 })
+    ).toMatchObject({ band: 0, waterproof: false })
+    const calm = getWeatherVisuals({ ...base, temperature: 14.9 })
+    expect(getWeatherOutfit(calm).band).toBe(4)
+    const warmer = { ...calm, temperature: 15 }
+    expect(getWeatherOutfit(warmer).band).toBe(5)
+    expect(getWeatherOutfit({ ...warmer, windLevel: 2 }).band).toBe(4)
+    expect(getWeatherOutfit({ ...warmer, windLevel: 3 }).band).toBe(3)
+    expect(
+      getWeatherOutfit({
+        ...warmer,
+        precipitation: 'snow',
+        precipitationLevel: 1,
+      })
+    ).toMatchObject({ band: 5, waterproof: true })
+    expect(getWeatherOutfit({ ...calm, temperature: -20 }).band).toBe(0)
+    expect(getWeatherOutfit({ ...calm, temperature: 45 }).band).toBe(9)
   })
 
   it('handles mixed and freezing precipitation without losing thunder', () => {

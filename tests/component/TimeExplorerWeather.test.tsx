@@ -52,36 +52,6 @@ vi.mock('../../src/features/dayNightExplorer/useDayNightExplorerModel', () => ({
 vi.mock('../../src/hooks/useCurrentWeather', () => ({
   useCurrentWeather: () => ({ ...state.weather, retry: state.retry }),
 }))
-vi.mock('../../src/components/weather/WeatherScene', () => ({
-  WeatherScene: ({
-    themeId,
-    visuals,
-    label,
-    decorative,
-  }: {
-    themeId: string
-    visuals: {
-      precipitation: string
-      temperature: number | null
-      windLevel: number
-      precipitationLevel: number
-      thunder: boolean
-    }
-    label: string
-    decorative: boolean
-  }) => (
-    <div
-      role={decorative ? undefined : 'img'}
-      aria-label={label || undefined}
-      data-weather-theme={themeId}
-      data-precipitation={visuals.precipitation}
-      data-temperature={visuals.temperature}
-      data-wind={visuals.windLevel}
-      data-precipitation-level={visuals.precipitationLevel}
-      data-thunder={visuals.thunder}
-    />
-  ),
-}))
 
 import TimeExplorerPage from '../../src/pages/TimeExplorerPage'
 
@@ -147,12 +117,20 @@ describe('Time Explorer weather panel', () => {
     clickOption('Decrease temperature', 8)
     clickOption('Increase wind')
     clickOption('Next precipitation option')
-    for (const scene of document.querySelectorAll('[data-weather-theme]')) {
-      expect(scene).toHaveAttribute('data-temperature', '-5')
-      expect(scene).toHaveAttribute('data-wind', '3')
-      expect(scene).toHaveAttribute('data-precipitation', 'snow')
-      expect(scene).toHaveAttribute('data-precipitation-level', '3')
-    }
+    const princess = screen.getByRole('img', {
+      name: /Princess outdoors: Your weather/,
+    })
+    expect(princess).toHaveAccessibleName(/waterproof expedition parka/)
+    expect(princess.querySelector('image')).toHaveAttribute(
+      'href',
+      expect.stringContaining('/princess/weather/wardrobe.png')
+    )
+    expect(
+      princess.querySelector('[data-weather-precipitation="snow"]')
+    ).toHaveAttribute('data-level', '3')
+    expect(
+      princess.querySelector('[data-weather-wind="3"]')
+    ).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'Strong wind' })).toBeInTheDocument()
     expect(screen.getByRole('img', { name: 'Heavy snow' })).toBeInTheDocument()
     expect(state.weather!.data!.temperature).toBe(16)
@@ -163,9 +141,14 @@ describe('Time Explorer weather panel', () => {
     state.themeId = 'teenie'
     rerender(<TimeExplorerPage />)
     expect(screen.getByLabelText('Temperature value')).toHaveTextContent('-5°C')
-    expect(
-      screen.getByRole('img', { name: /Heartsping outdoors: Your weather/ })
-    ).toHaveAttribute('data-precipitation', 'snow')
+    const heartsping = screen.getByRole('img', {
+      name: /Heartsping outdoors: Your weather/,
+    })
+    expect(heartsping).toHaveAccessibleName(/waterproof expedition parka/)
+    expect(heartsping.querySelector('image')).toHaveAttribute(
+      'href',
+      expect.stringContaining('/teenie/weather/wardrobe.png')
+    )
     expect(screen.getByRole('img', { name: 'Strong wind' })).toHaveAttribute(
       'data-option-theme',
       'teenie'
@@ -183,6 +166,9 @@ describe('Time Explorer weather panel', () => {
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
       'Moderate rain'
     )
+    expect(
+      screen.getByRole('img', { name: /Heartsping outdoors:/ })
+    ).toHaveAccessibleName(/light hooded rain jacket/)
   })
 
   it('initializes on arrival of live data and clears exploration on city changes', () => {
@@ -219,10 +205,14 @@ describe('Time Explorer weather panel', () => {
       'Heavy rain'
     )
     clickOption('Previous precipitation option', 3)
-    expect(screen.getByRole('img', { name: /Your weather/ })).toHaveAttribute(
-      'data-precipitation-level',
-      '0'
-    )
+    expect(
+      screen
+        .getByRole('img', { name: /Your weather/ })
+        .querySelector('[data-weather-precipitation]')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('img', { name: /Your weather/ })
+    ).toHaveAccessibleName(/light cardigan and leggings/)
   })
 
   it('stops at the first and last weather options and bounds temperature', () => {
@@ -251,7 +241,7 @@ describe('Time Explorer weather panel', () => {
     )
     expect(
       screen.getByRole('img', { name: /Princess outdoors: Your weather/ })
-    ).toHaveAttribute('data-thunder', 'true')
+    ).toHaveAccessibleName(/thin hooded poncho/)
     expect(
       screen.getByRole('button', { name: 'Next precipitation option' })
     ).toBeDisabled()
