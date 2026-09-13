@@ -89,18 +89,18 @@ function StepControl({
       <div className="weather-step-buttons">
         <StepperButton
           theme={theme}
-          direction="prev"
-          ariaLabel={downLabel}
-          disabled={downDisabled}
-          onClick={onDown}
-          style={compactButtonStyle}
-        />
-        <StepperButton
-          theme={theme}
           direction="next"
           ariaLabel={upLabel}
           disabled={upDisabled}
           onClick={onUp}
+          style={compactButtonStyle}
+        />
+        <StepperButton
+          theme={theme}
+          direction="prev"
+          ariaLabel={downLabel}
+          disabled={downDisabled}
+          onClick={onDown}
           style={compactButtonStyle}
         />
       </div>

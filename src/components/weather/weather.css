@@ -106,7 +106,7 @@
 
 .weather-controls {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(112px, 1.15fr) repeat(2, minmax(0, 1fr));
   gap: 6px;
   max-width: 100%;
   margin: 0 auto;
@@ -115,13 +115,17 @@
 }
 .weather-step-control {
   display: grid;
-  grid-template-rows: 1fr auto;
-  gap: 6px;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: start;
   min-width: 0;
 }
 .weather-step-buttons {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  z-index: 1;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
   gap: 4px;
 }
@@ -145,6 +149,9 @@
   transform: scale(0.97);
 }
 .weather-step-value {
+  grid-column: 2;
+  grid-row: 1;
+  margin-left: -12px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -152,6 +159,11 @@
   gap: 4px;
   min-width: 0;
   pointer-events: none;
+}
+.weather-thermometer {
+  width: 100%;
+  max-width: 112px;
+  height: auto;
 }
 .weather-option-image {
   position: relative;
