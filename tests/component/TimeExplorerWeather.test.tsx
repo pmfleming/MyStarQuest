@@ -120,8 +120,8 @@ describe('Time Explorer weather panel', () => {
       'Moderate rain'
     )
     clickOption('Decrease temperature', 8)
-    clickOption('Increase wind')
-    clickOption('Next precipitation option')
+    clickOption('Cycle wind')
+    clickOption('Cycle precipitation')
     const princess = screen.getByRole('img', {
       name: /Princess outdoors: Your weather/,
     })
@@ -218,13 +218,13 @@ describe('Time Explorer weather panel', () => {
     state.cityIndex = 1
     state.weather = { ...state.weather!, data: null, loading: true }
     rerender(<TimeExplorerPage />)
-    clickOption('Next precipitation option', 3)
+    clickOption('Cycle precipitation', 3)
     state.weather = { ...state.weather!, data: response, loading: false }
     rerender(<TimeExplorerPage />)
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
       'Heavy rain'
     )
-    clickOption('Previous precipitation option', 3)
+    clickOption('Cycle precipitation')
     expect(
       screen
         .getByRole('img', { name: /Your weather/ })
@@ -235,7 +235,7 @@ describe('Time Explorer weather panel', () => {
     ).toHaveAccessibleName(/light cardigan and leggings/)
   })
 
-  it('stops at the first and last weather options and bounds temperature', () => {
+  it('cycles weather images through every option and bounds temperature', () => {
     state.weather!.data!.temperature = 44.8
     const { rerender } = render(<TimeExplorerPage />)
     openWeather()
@@ -244,27 +244,35 @@ describe('Time Explorer weather panel', () => {
     expect(
       screen.getByRole('button', { name: 'Increase temperature' })
     ).toBeDisabled()
-    clickOption('Decrease wind', 2)
+    clickOption('Cycle wind', 2)
     expect(screen.getByLabelText('Wind value')).toHaveTextContent('0 km/h')
-    expect(screen.getByRole('button', { name: 'Decrease wind' })).toBeDisabled()
-    clickOption('Previous precipitation option', 2)
-    expect(
-      screen.getByRole('button', { name: 'Previous precipitation option' })
-    ).toBeDisabled()
+    for (const speed of [10, 25, 45, 0]) {
+      clickOption('Cycle wind')
+      expect(screen.getByLabelText('Wind value')).toHaveTextContent(
+        `${speed} km/h`
+      )
+    }
+    clickOption('Cycle precipitation', 2)
     clickOption('Decrease temperature')
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
       'None'
     )
-    clickOption('Next precipitation option', 6)
+    for (const intensity of ['Light', 'Moderate', 'Heavy']) {
+      clickOption('Cycle precipitation')
+      expect(
+        screen.getByRole('img', { name: `${intensity} rain` })
+      ).toBeInTheDocument()
+    }
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
       'Heavy rain'
     )
     expect(
       screen.getByRole('img', { name: /Princess outdoors: Your weather/ })
     ).toHaveAccessibleName(/thin hooded poncho/)
-    expect(
-      screen.getByRole('button', { name: 'Next precipitation option' })
-    ).toBeDisabled()
+    clickOption('Cycle precipitation')
+    expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
+      'None'
+    )
     state.weather = {
       ...state.weather!,
       data: { ...state.weather!.data!, temperature: -19.8 },
@@ -281,13 +289,10 @@ describe('Time Explorer weather panel', () => {
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
       'Moderate snow'
     )
-    clickOption('Next precipitation option', 7)
+    clickOption('Cycle precipitation')
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
       'Heavy snow'
     )
-    expect(
-      screen.getByRole('button', { name: 'Next precipitation option' })
-    ).toBeDisabled()
     clickOption('Increase temperature', 23)
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
       'Heavy rain'
@@ -312,9 +317,6 @@ describe('Time Explorer weather panel', () => {
       'data-weather-precipitation',
       'sleet'
     )
-    expect(
-      screen.getByRole('button', { name: 'Next precipitation option' })
-    ).toBeDisabled()
     clickOption('Decrease temperature', 2)
     expect(screen.getByRole('img', { name: 'Heavy snow' })).toBeInTheDocument()
     clickOption('Increase temperature', 3)

@@ -24,6 +24,41 @@ const windOptions = [
 ]
 const compactButtonStyle = { width: 44, height: 44, fontSize: '1.5rem' }
 
+function CycleControl({
+  label,
+  value,
+  onClick,
+  children,
+}: {
+  label: string
+  value: string
+  onClick: () => void
+  children: ReactNode
+}) {
+  const id = useId()
+  return (
+    <div className="weather-cycle-control">
+      <button
+        type="button"
+        className="weather-cycle-button"
+        aria-label={`Cycle ${label.toLowerCase()}`}
+        aria-describedby={id}
+        onClick={onClick}
+      >
+        {children}
+      </button>
+      <output
+        id={id}
+        className="sr-only"
+        aria-label={`${label} value`}
+        aria-live="polite"
+      >
+        {value}
+      </output>
+    </div>
+  )
+}
+
 function StepControl({
   label,
   children,
@@ -120,18 +155,14 @@ export default function WeatherControls({
           {visuals.temperature === null ? '—' : `${visuals.temperature}°C`}
         </output>
       </StepControl>
-      <StepControl
+      <CycleControl
         label="Wind"
-        upLabel="Increase wind"
-        downLabel="Decrease wind"
-        onUp={() =>
-          adjust({ windSpeed: windOptions[Math.min(3, windIndex + 1)]!.speed })
+        value={windSpeed === null ? '—' : `${windSpeed} km/h`}
+        onClick={() =>
+          adjust({
+            windSpeed: windOptions[(windIndex + 1) % windOptions.length]!.speed,
+          })
         }
-        onDown={() =>
-          adjust({ windSpeed: windOptions[Math.max(0, windIndex - 1)]!.speed })
-        }
-        upDisabled={windIndex === 3}
-        downDisabled={windSpeed !== null && windIndex === 0}
       >
         <WeatherOptionImage
           themeId={theme.id}
@@ -142,28 +173,18 @@ export default function WeatherControls({
           }
           unavailable={windSpeed === null}
         />
-        <output aria-label="Wind value">
-          {windSpeed === null ? '—' : `${windSpeed} km/h`}
-        </output>
-      </StepControl>
-      <StepControl
+      </CycleControl>
+      <CycleControl
         label="Precipitation"
-        upLabel="Next precipitation option"
-        downLabel="Previous precipitation option"
-        onUp={() =>
+        value={visuals.available ? precipitationLabel : '—'}
+        onClick={() =>
           adjust({
             precipitationLevel:
-              precipitationLevels[Math.min(3, precipitationIndex + 1)]!,
+              precipitationLevels[
+                (precipitationIndex + 1) % precipitationLevels.length
+              ]!,
           })
         }
-        onDown={() =>
-          adjust({
-            precipitationLevel:
-              precipitationLevels[Math.max(0, precipitationIndex - 1)]!,
-          })
-        }
-        upDisabled={precipitationIndex === 3}
-        downDisabled={visuals.available && precipitationIndex === 0}
       >
         <WeatherOptionImage
           themeId={theme.id}
@@ -174,10 +195,7 @@ export default function WeatherControls({
           }
           unavailable={!visuals.available}
         />
-        <output aria-label="Precipitation value">
-          {visuals.available ? precipitationLabel : '—'}
-        </output>
-      </StepControl>
+      </CycleControl>
     </div>
   )
 }
