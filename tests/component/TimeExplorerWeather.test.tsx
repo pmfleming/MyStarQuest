@@ -257,7 +257,7 @@ describe('Time Explorer weather panel', () => {
     )
     clickOption('Next precipitation option', 6)
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
-      'Heavy hail'
+      'Heavy rain'
     )
     expect(
       screen.getByRole('img', { name: /Princess outdoors: Your weather/ })
@@ -283,7 +283,7 @@ describe('Time Explorer weather panel', () => {
     )
     clickOption('Next precipitation option', 7)
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
-      'Heavy freezing rain'
+      'Heavy snow'
     )
     expect(
       screen.getByRole('button', { name: 'Next precipitation option' })
@@ -292,6 +292,33 @@ describe('Time Explorer weather panel', () => {
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
       'Heavy rain'
     )
+
+    // Hail from live weather must not bypass the set temperature's only type.
+    state.weather = {
+      ...state.weather!,
+      data: { ...state.weather!.data!, temperature: 2.9, weatherCode: 99 },
+    }
+    rerender(<TimeExplorerPage />)
+    clickOption('Reset to current')
+    clickOption('Decrease temperature')
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent(
+      '1.9°C'
+    )
+    expect(screen.getByRole('img', { name: 'Heavy sleet' })).toBeInTheDocument()
+    const scene = screen.getByRole('img', {
+      name: /Princess outdoors: Your weather/,
+    })
+    expect(scene.querySelector('[data-weather-precipitation]')).toHaveAttribute(
+      'data-weather-precipitation',
+      'sleet'
+    )
+    expect(
+      screen.getByRole('button', { name: 'Next precipitation option' })
+    ).toBeDisabled()
+    clickOption('Decrease temperature', 2)
+    expect(screen.getByRole('img', { name: 'Heavy snow' })).toBeInTheDocument()
+    clickOption('Increase temperature', 3)
+    expect(screen.getByRole('img', { name: 'Heavy rain' })).toBeInTheDocument()
   })
 
   it('shows missing weather honestly and allows retry', () => {

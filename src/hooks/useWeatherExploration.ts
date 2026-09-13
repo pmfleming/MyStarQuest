@@ -6,7 +6,6 @@ import {
 import {
   getWeatherVisuals,
   getWeatherWindLevel,
-  type PrecipitationKind,
   type WeatherLevel,
   type WeatherVisuals,
 } from '../lib/weather/weatherVisuals'
@@ -15,11 +14,11 @@ type Draft = { visuals: WeatherVisuals; windSpeed: number | null }
 type Change = {
   temperature?: number
   windSpeed?: number
-  precipitation?: { kind: PrecipitationKind; level: WeatherLevel }
+  precipitationLevel?: WeatherLevel
 }
 
 // A simple temperature model for the explorer's rain/snow mix.
-export function getExplorationPrecipitation(temperature: number) {
+function getExplorationPrecipitation(temperature: number) {
   if (temperature <= 0) return 'snow'
   return temperature <= 2 ? 'sleet' : 'rain'
 }
@@ -58,28 +57,15 @@ export function useWeatherExploration(
         const nextWind =
           change.windSpeed ?? current?.windSpeed ?? data?.windSpeed ?? 0
         nextVisuals.windLevel = getWeatherWindLevel(nextWind)
-        if (change.precipitation) {
-          const { kind, level } = change.precipitation
-          nextVisuals.precipitation = kind
-          nextVisuals.precipitationLevel = level
-          if (level > 0) nextVisuals.cloudLevel = 3
-          nextVisuals.thunder =
-            level > 0 &&
-            (kind === 'hail' ||
-              (liveVisuals.thunder && kind === liveVisuals.precipitation))
-        }
-        if (change.temperature !== undefined || change.precipitation) {
-          const kind = nextVisuals.precipitation
-          if (
-            kind !== 'none' &&
-            kind !== 'hail' &&
-            !(kind === 'freezing-rain' && nextVisuals.temperature <= 0)
-          ) {
-            nextVisuals.precipitation = getExplorationPrecipitation(
-              nextVisuals.temperature
-            )
-          }
-        }
+        nextVisuals.precipitationLevel =
+          change.precipitationLevel ?? nextVisuals.precipitationLevel
+        nextVisuals.precipitation =
+          nextVisuals.precipitationLevel > 0
+            ? getExplorationPrecipitation(nextVisuals.temperature)
+            : 'none'
+        if (nextVisuals.precipitationLevel > 0) nextVisuals.cloudLevel = 3
+        nextVisuals.thunder =
+          liveVisuals.thunder && nextVisuals.precipitation === 'rain'
         return { cityId, draft: { visuals: nextVisuals, windSpeed: nextWind } }
       })
     },

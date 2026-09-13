@@ -1,11 +1,7 @@
 import { useId, type ReactNode } from 'react'
-import {
-  getExplorationPrecipitation,
-  type WeatherExploration,
-} from '../../hooks/useWeatherExploration'
+import type { WeatherExploration } from '../../hooks/useWeatherExploration'
 import {
   getWeatherWindLevel,
-  type PrecipitationKind,
   type WeatherLevel,
 } from '../../lib/weather/weatherVisuals'
 import WeatherOptionImage from './WeatherOptionImage'
@@ -19,25 +15,7 @@ const levels: { level: WeatherLevel; label: string }[] = [
   { level: 2, label: 'Moderate' },
   { level: 3, label: 'Heavy' },
 ]
-const getPrecipitationOptions = (temperature: number) => {
-  const kinds: PrecipitationKind[] = [
-    getExplorationPrecipitation(temperature),
-    'hail',
-  ]
-  if (temperature <= 0) kinds.push('freezing-rain')
-  return [
-    {
-      kind: 'none' as PrecipitationKind,
-      level: 0 as WeatherLevel,
-    },
-    ...kinds.flatMap((kind) =>
-      levels.map(({ level }) => ({
-        kind,
-        level,
-      }))
-    ),
-  ]
-}
+const precipitationLevels: WeatherLevel[] = [0, 1, 2, 3]
 const windOptions = [
   { speed: 0, label: 'Calm' },
   { speed: 10, label: 'Light' },
@@ -103,17 +81,9 @@ export default function WeatherControls({
   const { visuals, windSpeed, adjust } = exploration
   const { theme } = useTheme()
   const temperature = visuals.temperature ?? 18
-  const precipitationOptions = getPrecipitationOptions(temperature)
   const windIndex = getWeatherWindLevel(windSpeed ?? 0)
   const windOption = windOptions[windIndex]!
-  const matchingIndex = precipitationOptions.findIndex(
-    (option) =>
-      option.kind === visuals.precipitation &&
-      option.level === visuals.precipitationLevel
-  )
-  // Report observed weather as received, even outside the explorer's simple model.
-  const precipitationIndex =
-    matchingIndex < 0 ? visuals.precipitationLevel : matchingIndex
+  const precipitationIndex = visuals.precipitationLevel
   const precipitationLabel =
     visuals.precipitationLevel === 0
       ? 'None'
@@ -182,22 +152,17 @@ export default function WeatherControls({
         downLabel="Previous precipitation option"
         onUp={() =>
           adjust({
-            precipitation:
-              precipitationOptions[
-                Math.min(
-                  precipitationOptions.length - 1,
-                  precipitationIndex + 1
-                )
-              ]!,
+            precipitationLevel:
+              precipitationLevels[Math.min(3, precipitationIndex + 1)]!,
           })
         }
         onDown={() =>
           adjust({
-            precipitation:
-              precipitationOptions[Math.max(0, precipitationIndex - 1)]!,
+            precipitationLevel:
+              precipitationLevels[Math.max(0, precipitationIndex - 1)]!,
           })
         }
-        upDisabled={precipitationIndex === precipitationOptions.length - 1}
+        upDisabled={precipitationIndex === 3}
         downDisabled={visuals.available && precipitationIndex === 0}
       >
         <WeatherOptionImage
