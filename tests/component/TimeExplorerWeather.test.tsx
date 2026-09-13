@@ -117,8 +117,10 @@ describe('Time Explorer weather panel', () => {
     expect(
       screen.getByRole('region', { name: 'Weather in Amsterdam' })
     ).toBeInTheDocument()
-    expect(screen.getByText('16°C')).toBeInTheDocument()
-    expect(screen.getByText('25 km/h')).toBeInTheDocument()
+    expect(screen.queryByText('16°C')).not.toBeInTheDocument()
+    expect(screen.queryByText('25 km/h')).not.toBeInTheDocument()
+    expect(screen.queryByText(/Weather now/)).not.toBeInTheDocument()
+    expect(screen.queryByRole('link')).not.toBeInTheDocument()
     expect(
       screen.getByRole('img', { name: 'Princess outdoors: Rain' })
     ).toHaveAttribute('data-precipitation', 'rain')
@@ -156,7 +158,6 @@ describe('Time Explorer weather panel', () => {
     }
     render(<TimeExplorerPage />)
     fireEvent.click(screen.getByRole('button', { name: /Show weather:/ }))
-    expect(screen.getByText('—')).toBeInTheDocument()
     expect(screen.queryByText('0°C')).not.toBeInTheDocument()
     expect(screen.getByText('Weather unavailable')).toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Try again' }))

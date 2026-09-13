@@ -85,49 +85,16 @@
 }
 
 .weather-panel {
+  position: relative;
   overflow: hidden;
   border: 3px solid;
   border-radius: 26px;
 }
-.weather-panel-copy {
-  display: grid;
-  gap: 12px;
-  padding: 18px;
-  text-align: center;
-}
-.weather-panel h2,
-.weather-panel p {
-  margin: 0;
-}
-.weather-panel-temperature {
-  font-size: clamp(3rem, 16vw, 4.5rem);
-  font-weight: 800;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-.weather-panel-details {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin: 0;
-}
-.weather-panel-details div {
-  display: grid;
-  gap: 2px;
-}
-.weather-panel-details dt {
-  font-size: 0.85rem;
-}
-.weather-panel-details dd {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-.weather-panel-status {
-  font-size: 0.85rem;
-}
 .weather-panel-retry {
-  justify-self: center;
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
   min-height: 44px;
   border: 2px solid currentColor;
   border-radius: 22px;

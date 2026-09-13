@@ -4,7 +4,7 @@ Updated 13 September 2026. The live-weather panel and layered scene renderer are
 
 ## Current experience
 
-The temperature button opens **Weather now**. Both its thumbnail and the large panel show the same outdoor princess or Heartsping scene for the selected city and theme. The panel includes Celsius temperature, condition, city-local date, feels-like temperature, wind speed, today's high/low, observation time and provider attribution.
+The temperature button opens the weather illustration. Both its thumbnail and the large panel show the same outdoor princess or Heartsping scene for the selected city and theme. At the user's request, the information section below the image has been removed. The button's accessible name retains the city, condition and Celsius temperature; an overlaid retry button appears only when weather cannot be loaded.
 
 The existing city controls select Amsterdam, Dublin or Taipei. Earth/Sun focus retains the selected weather city. Changing the teaching clock or calendar does not change live weather. The selected city's timezone determines today's date.
 
@@ -26,7 +26,7 @@ Files live under `src/assets/themes/{princess,teenie}/weather/`. Re-export with 
 
 ## Data and composition
 
-Open-Meteo supplies current temperature, apparent temperature, weather code, rain, showers, snowfall, wind speed and day/night, plus daily high/low. These are model estimates, identified as such in the panel. The current endpoint is appropriate to the personal prototype; a commercial deployment would need the provider's corresponding access tier. [API documentation](https://open-meteo.com/en/docs), [access tiers](https://open-meteo.com/en/pricing).
+Open-Meteo supplies current temperature, apparent temperature, weather code, rain, showers, snowfall, wind speed and day/night, plus daily high/low. These are model estimates. The current endpoint is appropriate to the personal prototype; a commercial deployment would need the provider's corresponding access tier. [API documentation](https://open-meteo.com/en/docs), [access tiers](https://open-meteo.com/en/pricing).
 
 `src/lib/weather/weatherData.ts` validates responses, uses Unix timestamps and normalizes optional missing values. `weatherStore.ts` caches independently per city/coordinates/timezone, deduplicates requests, cancels inactive requests and protects against city-response races. Responses are reused for 15 minutes and checked on visibility, connection restoration and each active minute. Requests time out after 15 seconds. A stale result is labelled explicitly and retained only within two hours and the same city-local date. Older or previous-date data is removed while refreshing.
 
