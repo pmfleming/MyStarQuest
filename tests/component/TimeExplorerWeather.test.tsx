@@ -306,9 +306,7 @@ describe('Time Explorer weather panel', () => {
     rerender(<TimeExplorerPage />)
     clickOption('Reset to current')
     clickOption('Decrease temperature')
-    expect(screen.getByLabelText('Temperature value')).toHaveTextContent(
-      '1.9°C'
-    )
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('2°C')
     expect(screen.getByRole('img', { name: 'Heavy sleet' })).toBeInTheDocument()
     const scene = screen.getByRole('img', {
       name: /Princess outdoors: Your weather/,

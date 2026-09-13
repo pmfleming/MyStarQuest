@@ -1,5 +1,6 @@
 import { useId, type ReactNode } from 'react'
 import type { WeatherExploration } from '../../hooks/useWeatherExploration'
+import { formatTemperature } from '../../lib/weather/weatherConditions'
 import {
   getWeatherWindLevel,
   type WeatherLevel,
@@ -152,7 +153,7 @@ export default function WeatherControls({
           className="weather-temperature-value"
           aria-label="Temperature value"
         >
-          {visuals.temperature === null ? '—' : `${visuals.temperature}°C`}
+          {formatTemperature(visuals.temperature)}
         </output>
       </StepControl>
       <CycleControl
