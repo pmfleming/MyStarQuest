@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import TopIconButton from '../components/ui/TopIconButton'
@@ -9,9 +9,17 @@ import SpinningPlanet from '../components/dayNightExplorer/SpinningPlanet'
 import Clock from '../components/dayNightExplorer/Clock'
 import useDayNightExplorerModel from '../components/dayNightExplorer/useDayNightExplorerModel'
 import '../components/dayNightExplorer/dayNightExplorer.css'
+import { useCurrentWeather } from '../hooks/useCurrentWeather'
+import { getWeatherVisuals } from '../lib/weather/weatherVisuals'
+import {
+  getWeatherDescription,
+  formatTemperature,
+} from '../lib/weather/weatherConditions'
+import WeatherPanel from '../components/weather/WeatherPanel'
+import { WeatherScene } from '../components/weather/WeatherScene'
 
-type ExplorerPanel = 'clock' | 'calendar'
-type HeaderIconKind = ExplorerPanel | 'thermometer'
+type ExplorerPanel = 'clock' | 'calendar' | 'weather'
+type HeaderIconKind = 'clock' | 'calendar' | 'thermometer'
 
 const DEFAULT_HEADER_ICONS = {
   clock: '🕒',
@@ -23,6 +31,12 @@ const TimeExplorerPage = () => {
   const { theme } = useTheme()
   const [activePanel, setActivePanel] = useState<ExplorerPanel>('clock')
   const explorer = useDayNightExplorerModel(theme)
+  const weather = useCurrentWeather(explorer.weatherCity)
+  const weatherVisuals = useMemo(
+    () => getWeatherVisuals(weather.data),
+    [weather.data]
+  )
+  const weatherLabel = `Show weather: ${explorer.weatherCity.label}${weather.data ? `, ${getWeatherDescription(weather.data)}, ${formatTemperature(weather.data.temperature)}` : ''}`
 
   const renderIcon = (kind: HeaderIconKind) => {
     if (hasIllustratedTheme(theme.id)) {
@@ -77,9 +91,27 @@ const TimeExplorerPage = () => {
 
           <TopIconButton
             theme={theme}
-            ariaLabel="Temperature view coming later"
-            onClick={() => undefined}
-            icon={renderIcon('thermometer')}
+            ariaLabel={weatherLabel}
+            onClick={() => setActivePanel('weather')}
+            selected={activePanel === 'weather'}
+            icon={
+              <div
+                style={{
+                  width: 34,
+                  height: 34,
+                  borderRadius: 8,
+                  overflow: 'hidden',
+                }}
+              >
+                <WeatherScene
+                  themeId={theme.id}
+                  visuals={weatherVisuals}
+                  label=""
+                  decorative
+                  compact
+                />
+              </div>
+            }
           />
         </div>
       }
@@ -102,8 +134,15 @@ const TimeExplorerPage = () => {
           <div style={{ minWidth: 0, width: '100%' }}>
             {activePanel === 'clock' ? (
               <Clock theme={theme} clock={explorer.clock} />
-            ) : (
+            ) : activePanel === 'calendar' ? (
               <SchoolCalendar theme={theme} />
+            ) : (
+              <WeatherPanel
+                theme={theme}
+                city={explorer.weatherCity}
+                weather={weather}
+                onRetry={weather.retry}
+              />
             )}
           </div>
         </div>

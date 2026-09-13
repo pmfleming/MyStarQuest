@@ -1,0 +1,137 @@
+.weather-scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: inherit;
+  background: #cadfea;
+}
+
+.weather-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.weather-environment {
+  object-fit: cover;
+}
+.weather-character-space {
+  position: absolute;
+  inset: 22% 14% 7%;
+}
+.weather-character {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+.weather-fog {
+  background: linear-gradient(transparent 15%, #e6ecf0bb 75%, #e6ecf0e6);
+}
+.weather-unknown {
+  position: absolute;
+  top: 6%;
+  right: 12%;
+  font-size: clamp(2rem, 12vw, 4rem);
+  font-weight: 800;
+  color: #35435f;
+}
+.weather-scene[data-available='false'] .weather-environment {
+  filter: saturate(0.35);
+}
+.weather-particle {
+  animation: weather-fall 2.5s linear infinite;
+  animation-delay: var(--fall-delay);
+}
+.weather-particle--snow {
+  animation-duration: 6s;
+}
+.weather-wind {
+  animation: weather-breeze 3s ease-in-out infinite alternate;
+}
+.weather-scene[data-compact='true'] * {
+  animation: none;
+}
+.weather-scene[data-compact='true'] .weather-unknown {
+  font-size: 18px;
+}
+
+@keyframes weather-fall {
+  from {
+    transform: translate(0, -40px);
+  }
+  to {
+    transform: translate(var(--wind-drift), 80px);
+  }
+}
+@keyframes weather-breeze {
+  from {
+    transform: translateX(-7px);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateX(10px);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .weather-particle,
+  .weather-wind {
+    animation: none;
+  }
+}
+
+.weather-panel {
+  overflow: hidden;
+  border: 3px solid;
+  border-radius: 26px;
+}
+.weather-panel-copy {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  text-align: center;
+}
+.weather-panel h2,
+.weather-panel p {
+  margin: 0;
+}
+.weather-panel-temperature {
+  font-size: clamp(3rem, 16vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.weather-panel-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+.weather-panel-details div {
+  display: grid;
+  gap: 2px;
+}
+.weather-panel-details dt {
+  font-size: 0.85rem;
+}
+.weather-panel-details dd {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.weather-panel-status {
+  font-size: 0.85rem;
+}
+.weather-panel-retry {
+  justify-self: center;
+  min-height: 44px;
+  border: 2px solid currentColor;
+  border-radius: 22px;
+  padding: 6px 18px;
+  font-weight: 700;
+  cursor: pointer;
+}

@@ -31,6 +31,7 @@ import useExplorerClock from './useExplorerClock'
 import useSolarSystem3D from './useSolarSystem3D'
 
 type UseDayNightExplorerModelResult = {
+  weatherCity: ReturnType<typeof getExplorerCityOption>
   planet: {
     globeReady: boolean
     canvasRef: ReturnType<typeof useSolarSystem3D>['canvasRef']
@@ -217,6 +218,7 @@ export default function useDayNightExplorerModel(
   )
 
   return {
+    weatherCity: calculationCity,
     planet: {
       globeReady,
       canvasRef,
