@@ -101,41 +101,45 @@
 }
 
 .weather-controls {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
   max-width: 100%;
   margin: 0 auto;
-  padding: 24px 16px 8px;
+  padding: 12px 8px 8px;
   box-sizing: border-box;
 }
 .weather-step-control {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 6px;
   min-width: 0;
 }
-.weather-step-control > button {
+.weather-step-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+}
+.weather-step-buttons > button {
   flex-shrink: 0;
 }
 .weather-step-value {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 4px;
-  flex: 1;
   min-width: 0;
-  min-height: 120px;
   pointer-events: none;
 }
 .weather-option-image {
   position: relative;
   overflow: hidden;
   border-radius: 12px;
-  width: 88px;
+  width: 64px;
   max-width: 100%;
-  height: 82px;
+  height: 64px;
   flex-shrink: 0;
 }
 .weather-option-environment,
@@ -157,15 +161,18 @@
   color: #35435f;
 }
 .weather-step-value output {
-  min-height: 30px;
-  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  font-size: 0.875rem;
   line-height: 1.2;
   text-align: center;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 .weather-step-value .weather-temperature-value {
-  font-size: 2rem;
+  font-size: 1.375rem;
 }
 .weather-controls-footer {
   display: flex;
@@ -176,7 +183,7 @@
   padding: 8px 18px 14px;
   font-size: 0.85rem;
 }
-.weather-step-control > button:focus-visible,
+.weather-step-buttons > button:focus-visible,
 .weather-controls-footer button:focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 3px;

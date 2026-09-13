@@ -44,6 +44,7 @@ const windOptions = [
   { speed: 25, label: 'Moderate' },
   { speed: 45, label: 'Strong' },
 ]
+const compactButtonStyle = { width: 44, height: 44, fontSize: '1.5rem' }
 
 function StepControl({
   label,
@@ -71,21 +72,25 @@ function StepControl({
       <span id={id} className="sr-only">
         {label}
       </span>
-      <StepperButton
-        theme={theme}
-        direction="prev"
-        ariaLabel={downLabel}
-        disabled={downDisabled}
-        onClick={onDown}
-      />
       <div className="weather-step-value">{children}</div>
-      <StepperButton
-        theme={theme}
-        direction="next"
-        ariaLabel={upLabel}
-        disabled={upDisabled}
-        onClick={onUp}
-      />
+      <div className="weather-step-buttons">
+        <StepperButton
+          theme={theme}
+          direction="prev"
+          ariaLabel={downLabel}
+          disabled={downDisabled}
+          onClick={onDown}
+          style={compactButtonStyle}
+        />
+        <StepperButton
+          theme={theme}
+          direction="next"
+          ariaLabel={upLabel}
+          disabled={upDisabled}
+          onClick={onUp}
+          style={compactButtonStyle}
+        />
+      </div>
     </div>
   )
 }
@@ -124,7 +129,6 @@ export default function WeatherControls({
       className="weather-controls"
       style={{
         width: uiTokens.controlRowWidth,
-        gap: uiTokens.panelStackGap,
         color: theme.colors.primary,
         fontFamily: theme.fonts.heading,
       }}
