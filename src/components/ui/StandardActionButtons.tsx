@@ -1,3 +1,4 @@
+import { getActionButtonState } from './actionButtonState'
 import {
   useEffect,
   useRef,
@@ -199,26 +200,85 @@ export const StandardActionButtons = <T,>({
     item,
     'primary'
   )
-  const anyPending = pendingAction !== null
+  const state = getActionButtonState({
+    hidePrimary,
+    hideEdit,
+    hasEdit: Boolean(onEdit),
+    hideUtility,
+    confirmingReset,
+    pendingAction,
+    primaryDisabled,
+    utilityDisabled,
+  })
+  const columns = [
+    state.showPrimary && 'minmax(0, 1fr)',
+    state.utilityColumns > 0 &&
+      `repeat(${state.utilityColumns}, ${uiTokens.listUtilityActionWidth}px)`,
+  ]
+    .filter(Boolean)
+    .join(' ')
+  const utilityButtons = state.confirm
+    ? [
+        {
+          key: 'confirm',
+          ariaLabel: 'Yes, reset',
+          icon: (
+            <img
+              src={getThemeAsset(theme.id, 'confirmExitImage')}
+              alt=""
+              className="h-full w-full object-contain"
+            />
+          ),
+          onClick: onConfirmReset,
+          disabled: state.utilityDisabled,
+          variant: 'neutral' as const,
+        },
+        {
+          key: 'cancel',
+          ariaLabel: 'No, keep progress',
+          icon: (
+            <img
+              src={getThemeAsset(theme.id, 'continueActivityImage')}
+              alt=""
+              className="h-full w-full object-contain"
+            />
+          ),
+          onClick: onCancelReset,
+          disabled: state.cancelDisabled,
+          variant: 'neutral' as const,
+        },
+      ]
+    : [
+        {
+          key: 'utility',
+          ariaLabel: utilityAriaLabel,
+          icon: utilityIcon,
+          onClick: onUtility,
+          disabled: state.utilityDisabled,
+          variant: utilityVariant,
+          isDanger: utilityVariant === 'danger',
+          isPending: pendingAction === 'utility',
+          describedBy: errorId,
+        },
+      ]
 
   return (
     <div
       data-action-theme={theme.id}
       style={{
         display: 'grid',
-        gridTemplateColumns:
-          `${hidePrimary ? '' : 'minmax(0, 1fr) '}${!hideEdit && onEdit ? `${uiTokens.listUtilityActionWidth}px ` : ''}${!hideUtility ? `repeat(${confirmingReset ? 2 : 1}, ${uiTokens.listUtilityActionWidth}px)` : ''}`.trim(),
+        gridTemplateColumns: columns,
         alignItems: 'stretch',
         gap: `${uiTokens.actionRowGap}px`,
         justifyContent: hidePrimary ? 'flex-end' : undefined,
         minHeight: `${uiTokens.listActionHeight}px`,
       }}
     >
-      {!hidePrimary && (
+      {state.showPrimary && (
         <button
           type="button"
           onClick={onPrimary}
-          disabled={primaryDisabled || anyPending || confirmingReset}
+          disabled={state.primaryDisabled}
           className="whimsical-btn disabled:opacity-60"
           aria-label={resolveActionText(
             primaryAction.ariaLabel ?? primaryAction.label,
@@ -247,62 +307,32 @@ export const StandardActionButtons = <T,>({
           )}
         </button>
       )}
-      {!hideEdit && onEdit && (
+      {state.showEdit && onEdit && (
         <UtilityButton
           ariaLabel={editAriaLabel}
           icon={<DefaultActionIcon theme={theme} type="edit" />}
           onClick={onEdit}
           style={{ ...utilityStyle, ...getActionStyle('neutral') }}
-          disabled={anyPending || confirmingReset}
+          disabled={state.editDisabled}
           isPending={pendingAction === 'edit'}
           describedBy={errorId}
         />
       )}
-      {!hideUtility && confirmingReset ? (
-        <>
+      {state.showUtility &&
+        utilityButtons.map(({ key, variant, ...button }) => (
           <UtilityButton
-            ariaLabel="Yes, reset"
-            icon={
-              <img
-                src={getThemeAsset(theme.id, 'confirmExitImage')}
-                alt=""
-                className="h-full w-full object-contain"
-              />
+            key={key}
+            buttonRef={
+              key === 'cancel'
+                ? cancelButton
+                : key === 'utility'
+                  ? resetButton
+                  : undefined
             }
-            onClick={onConfirmReset}
-            disabled={utilityDisabled || anyPending}
-            style={{ ...utilityStyle, ...getActionStyle('neutral') }}
+            {...button}
+            style={{ ...utilityStyle, ...getActionStyle(variant) }}
           />
-          <UtilityButton
-            buttonRef={cancelButton}
-            ariaLabel="No, keep progress"
-            icon={
-              <img
-                src={getThemeAsset(theme.id, 'continueActivityImage')}
-                alt=""
-                className="h-full w-full object-contain"
-              />
-            }
-            onClick={onCancelReset}
-            disabled={anyPending}
-            style={{ ...utilityStyle, ...getActionStyle('neutral') }}
-          />
-        </>
-      ) : (
-        !hideUtility && (
-          <UtilityButton
-            buttonRef={resetButton}
-            ariaLabel={utilityAriaLabel}
-            icon={utilityIcon}
-            onClick={onUtility}
-            disabled={utilityDisabled || anyPending}
-            isDanger={utilityVariant === 'danger'}
-            isPending={pendingAction === 'utility'}
-            describedBy={errorId}
-            style={{ ...utilityStyle, ...getActionStyle(utilityVariant) }}
-          />
-        )
-      )}
+        ))}
     </div>
   )
 }

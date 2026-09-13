@@ -13,10 +13,10 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure quality.hotspots --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T18:56:26.637Z",
+    "measured_at": "2026-09-13T18:59:40.106Z",
     "source_type": "static",
-    "source_set_hash": "sha256:bf44047e1d9bb4fa428c53d4e557ecf74ad4ac00530ad8d28b282d01ded9cff9",
-    "input_set_hash": "sha256:1f79ccfdc49b5f28ed62c702bf9966029f598cb9cd3bd9eb947c6b599678923c"
+    "source_set_hash": "sha256:2c5fc86648333ac6d37a55b2cdfe115d2716ad571f272aab1c1ca0955763f43a",
+    "input_set_hash": "sha256:05d59059c79ece28e438316d282fb392bafe16f728d668fc3ad6fa33bfa9d4dd"
   },
   "analysis_identity": {
     "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
@@ -93,8 +93,8 @@
     "stale_input": []
   },
   "summary": {
-    "source_files": 186,
-    "records": 818,
+    "source_files": 187,
+    "records": 820,
     "high_risk_records": 132
   },
   "records": [
@@ -473,16 +473,16 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "line": 1,
-      "score": 254,
+      "score": 250,
       "risk": "high",
       "signals": [
         {
           "kind": "line_count",
-          "value": 452
+          "value": 446
         },
         {
           "kind": "branch_count",
-          "value": 46
+          "value": 45
         },
         {
           "kind": "import_count",
@@ -515,76 +515,6 @@
             "id": "file:src/components/ui/StandardActionList",
             "kind": "file",
             "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/ui/StandardActionButtons.tsx:StandardActionButtons:151",
-      "kind": "component",
-      "module_id": "src/components/ui/StandardActionButtons",
-      "file": "src/components/ui/StandardActionButtons.tsx",
-      "name": "StandardActionButtons",
-      "line": 151,
-      "score": 250,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 23
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 23
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 30732.14
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 135
-        },
-        {
-          "kind": "jsx_density",
-          "value": 12
-        },
-        {
-          "kind": "render_branch_complexity",
-          "value": 5
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/component",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "component",
-      "reason_code": "ts-react-quality-lens/component",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/ui/StandardActionButtons.tsx:StandardActionButtons:151",
-            "kind": "component",
-            "file": "src/components/ui/StandardActionButtons.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -638,76 +568,6 @@
             "id": "file:src/components/SpellingTester",
             "kind": "file",
             "file": "src/components/SpellingTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/ui/StandardActionList.tsx:ActionCard:85",
-      "kind": "component",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "name": "ActionCard",
-      "line": 85,
-      "score": 247,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 22
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 21
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 18847.91
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 1
-        },
-        {
-          "kind": "line_count",
-          "value": 155
-        },
-        {
-          "kind": "jsx_density",
-          "value": 11
-        },
-        {
-          "kind": "render_branch_complexity",
-          "value": 4
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/component",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "component",
-      "reason_code": "ts-react-quality-lens/component",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/ui/StandardActionList.tsx:ActionCard:85",
-            "kind": "component",
-            "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -831,6 +691,76 @@
             "id": "src/pages/DashboardPage.tsx:DashboardPage:59",
             "kind": "component",
             "file": "src/pages/DashboardPage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/components/ui/StandardActionList.tsx:ActionCard:88",
+      "kind": "component",
+      "module_id": "src/components/ui/StandardActionList",
+      "file": "src/components/ui/StandardActionList.tsx",
+      "name": "ActionCard",
+      "line": 88,
+      "score": 232,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 20
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 19
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 18544.71
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 146
+        },
+        {
+          "kind": "jsx_density",
+          "value": 11
+        },
+        {
+          "kind": "render_branch_complexity",
+          "value": 4
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/components/ui/StandardActionList.tsx:ActionCard:88",
+            "kind": "component",
+            "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1077,6 +1007,76 @@
             "id": "src/components/weather/WeatherOptionImage.tsx:WeatherOptionImage:12",
             "kind": "component",
             "file": "src/components/weather/WeatherOptionImage.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/components/ui/StandardActionButtons.tsx:StandardActionButtons:152",
+      "kind": "component",
+      "module_id": "src/components/ui/StandardActionButtons",
+      "file": "src/components/ui/StandardActionButtons.tsx",
+      "name": "StandardActionButtons",
+      "line": 152,
+      "score": 206,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 14
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 13
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 23144.75
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 164
+        },
+        {
+          "kind": "jsx_density",
+          "value": 9
+        },
+        {
+          "kind": "render_branch_complexity",
+          "value": 6
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/components/ui/StandardActionButtons.tsx:StandardActionButtons:152",
+            "kind": "component",
+            "file": "src/components/ui/StandardActionButtons.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1698,59 +1698,6 @@
       ]
     },
     {
-      "id": "file:src/components/ui/StandardActionButtons",
-      "kind": "file",
-      "module_id": "src/components/ui/StandardActionButtons",
-      "file": "src/components/ui/StandardActionButtons.tsx",
-      "line": 1,
-      "score": 165,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 309
-        },
-        {
-          "kind": "branch_count",
-          "value": 28
-        },
-        {
-          "kind": "import_count",
-          "value": 8
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
-      "reason_code": "ts-react-quality-lens/file",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/components/ui/StandardActionButtons",
-            "kind": "file",
-            "file": "src/components/ui/StandardActionButtons.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/ui/unifiedChoreItemRenderer.tsx:renderStandardContent:127",
       "kind": "function",
       "module_id": "src/ui/unifiedChoreItemRenderer",
@@ -1991,6 +1938,59 @@
             "id": "src/components/SpellingTester.tsx:SpellingTester:287",
             "kind": "component",
             "file": "src/components/SpellingTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/components/ui/StandardActionButtons",
+      "kind": "file",
+      "module_id": "src/components/ui/StandardActionButtons",
+      "file": "src/components/ui/StandardActionButtons.tsx",
+      "line": 1,
+      "score": 158,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 339
+        },
+        {
+          "kind": "branch_count",
+          "value": 19
+        },
+        {
+          "kind": "import_count",
+          "value": 9
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/components/ui/StandardActionButtons",
+            "kind": "file",
+            "file": "src/components/ui/StandardActionButtons.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2895,12 +2895,12 @@
       ]
     },
     {
-      "id": "src/components/ui/StandardActionList.tsx:ListFooter:289",
+      "id": "src/components/ui/StandardActionList.tsx:ListFooter:283",
       "kind": "component",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListFooter",
-      "line": 289,
+      "line": 283,
       "score": 126,
       "risk": "high",
       "signals": [
@@ -2956,7 +2956,7 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StandardActionList.tsx:ListFooter:289",
+            "id": "src/components/ui/StandardActionList.tsx:ListFooter:283",
             "kind": "component",
             "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5795,12 +5795,12 @@
       ]
     },
     {
-      "id": "src/components/ui/StandardActionList.tsx:StandardActionList:355",
+      "id": "src/components/ui/StandardActionList.tsx:StandardActionList:349",
       "kind": "component",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "StandardActionList",
-      "line": 355,
+      "line": 349,
       "score": 86,
       "risk": "high",
       "signals": [
@@ -5856,7 +5856,7 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StandardActionList.tsx:StandardActionList:355",
+            "id": "src/components/ui/StandardActionList.tsx:StandardActionList:349",
             "kind": "component",
             "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6349,6 +6349,72 @@
             "id": "src/components/ui/PositionalNotationPlayArea.tsx:PositionalNotationPlayArea:304",
             "kind": "component",
             "file": "src/components/ui/PositionalNotationPlayArea.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/components/ui/StandardActionList.tsx:resolveUtilityState:35",
+      "kind": "function",
+      "module_id": "src/components/ui/StandardActionList",
+      "file": "src/components/ui/StandardActionList.tsx",
+      "name": "resolveUtilityState",
+      "line": 35,
+      "score": 82,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 11
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 11
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 10643.86
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 24
+        },
+        {
+          "kind": "jsx_density",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/components/ui/StandardActionList.tsx:resolveUtilityState:35",
+            "kind": "function",
+            "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -7566,72 +7632,6 @@
             "id": "file:src/contexts/ActiveChildContext",
             "kind": "file",
             "file": "src/contexts/ActiveChildContext.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/ui/StandardActionList.tsx:resolveUtilityState:35",
-      "kind": "function",
-      "module_id": "src/components/ui/StandardActionList",
-      "file": "src/components/ui/StandardActionList.tsx",
-      "name": "resolveUtilityState",
-      "line": 35,
-      "score": 73,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 10
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 9
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 17641.77
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 22
-        },
-        {
-          "kind": "jsx_density",
-          "value": 1
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
-      "reason_code": "ts-react-quality-lens/function",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/ui/StandardActionList.tsx:resolveUtilityState:35",
-            "kind": "function",
-            "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -10432,6 +10432,62 @@
       ]
     },
     {
+      "id": "src/components/ui/actionButtonState.ts:getActionButtonState:3",
+      "kind": "function",
+      "module_id": "src/components/ui/actionButtonState",
+      "file": "src/components/ui/actionButtonState.ts",
+      "name": "getActionButtonState",
+      "line": 3,
+      "score": 57,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 8
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 7
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 6686.43
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 18
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/components/ui/actionButtonState.ts:getActionButtonState:3",
+            "kind": "function",
+            "file": "src/components/ui/actionButtonState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/components/ui/ResourceLoadingIcon.tsx:ResourceLoadingIcon:12",
       "kind": "component",
       "module_id": "src/components/ui/ResourceLoadingIcon",
@@ -10716,12 +10772,12 @@
       ]
     },
     {
-      "id": "src/components/ui/StandardActionButtons.tsx:UtilityButton:83",
+      "id": "src/components/ui/StandardActionButtons.tsx:UtilityButton:84",
       "kind": "component",
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "UtilityButton",
-      "line": 83,
+      "line": 84,
       "score": 56,
       "risk": "medium",
       "signals": [
@@ -10771,7 +10827,7 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StandardActionButtons.tsx:UtilityButton:83",
+            "id": "src/components/ui/StandardActionButtons.tsx:UtilityButton:84",
             "kind": "component",
             "file": "src/components/ui/StandardActionButtons.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16454,12 +16510,12 @@
       ]
     },
     {
-      "id": "src/components/ui/StandardActionButtons.tsx:DefaultActionIcon:27",
+      "id": "src/components/ui/StandardActionButtons.tsx:DefaultActionIcon:28",
       "kind": "component",
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "DefaultActionIcon",
-      "line": 27,
+      "line": 28,
       "score": 37,
       "risk": "medium",
       "signals": [
@@ -16505,7 +16561,7 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StandardActionButtons.tsx:DefaultActionIcon:27",
+            "id": "src/components/ui/StandardActionButtons.tsx:DefaultActionIcon:28",
             "kind": "component",
             "file": "src/components/ui/StandardActionButtons.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -22049,6 +22105,53 @@
             "id": "file:src/components/dayNightExplorer/earthTexture.worker",
             "kind": "file",
             "file": "src/components/dayNightExplorer/earthTexture.worker.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/components/ui/actionButtonState",
+      "kind": "file",
+      "module_id": "src/components/ui/actionButtonState",
+      "file": "src/components/ui/actionButtonState.ts",
+      "line": 1,
+      "score": 26,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 39
+        },
+        {
+          "kind": "branch_count",
+          "value": 7
+        },
+        {
+          "kind": "import_count",
+          "value": 0
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/components/ui/actionButtonState",
+            "kind": "file",
+            "file": "src/components/ui/actionButtonState.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -28246,12 +28349,12 @@
       ]
     },
     {
-      "id": "src/components/ui/StandardActionList.tsx:handleAdd:305",
+      "id": "src/components/ui/StandardActionList.tsx:handleAdd:299",
       "kind": "function",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "handleAdd",
-      "line": 305,
+      "line": 299,
       "score": 19,
       "risk": "low",
       "signals": [
@@ -28293,7 +28396,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StandardActionList.tsx:handleAdd:305",
+            "id": "src/components/ui/StandardActionList.tsx:handleAdd:299",
             "kind": "function",
             "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -30731,12 +30834,12 @@
       ]
     },
     {
-      "id": "src/components/ui/StandardActionButtons.tsx:ActionSpinner:55",
+      "id": "src/components/ui/StandardActionButtons.tsx:ActionSpinner:56",
       "kind": "component",
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "ActionSpinner",
-      "line": 55,
+      "line": 56,
       "score": 15,
       "risk": "low",
       "signals": [
@@ -30782,7 +30885,7 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StandardActionButtons.tsx:ActionSpinner:55",
+            "id": "src/components/ui/StandardActionButtons.tsx:ActionSpinner:56",
             "kind": "component",
             "file": "src/components/ui/StandardActionButtons.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -31616,12 +31719,12 @@
       ]
     },
     {
-      "id": "src/components/ui/StandardActionList.tsx:getActionStyle:387",
+      "id": "src/components/ui/StandardActionList.tsx:getActionStyle:381",
       "kind": "function",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "getActionStyle",
-      "line": 387,
+      "line": 381,
       "score": 14,
       "risk": "low",
       "signals": [
@@ -31663,7 +31766,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StandardActionList.tsx:getActionStyle:387",
+            "id": "src/components/ui/StandardActionList.tsx:getActionStyle:381",
             "kind": "function",
             "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -32988,12 +33091,12 @@
       ]
     },
     {
-      "id": "src/components/ui/StandardActionList.tsx:ListMessage:261",
+      "id": "src/components/ui/StandardActionList.tsx:ListMessage:255",
       "kind": "component",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListMessage",
-      "line": 261,
+      "line": 255,
       "score": 13,
       "risk": "low",
       "signals": [
@@ -33039,7 +33142,7 @@
           "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StandardActionList.tsx:ListMessage:261",
+            "id": "src/components/ui/StandardActionList.tsx:ListMessage:255",
             "kind": "component",
             "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -36433,12 +36536,12 @@
       ]
     },
     {
-      "id": "src/components/ui/StandardActionList.tsx:handleUtilityAction:139",
+      "id": "src/components/ui/StandardActionList.tsx:handleUtilityAction:135",
       "kind": "function",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "handleUtilityAction",
-      "line": 139,
+      "line": 135,
       "score": 10,
       "risk": "low",
       "signals": [
@@ -36452,7 +36555,7 @@
         },
         {
           "kind": "halstead_effort",
-          "value": 1561.27
+          "value": 1416.29
         },
         {
           "kind": "nesting_depth",
@@ -36480,7 +36583,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StandardActionList.tsx:handleUtilityAction:139",
+            "id": "src/components/ui/StandardActionList.tsx:handleUtilityAction:135",
             "kind": "function",
             "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -39028,12 +39131,12 @@
       ]
     },
     {
-      "id": "src/components/ui/StandardActionList.tsx:handlePrimaryAction:129",
+      "id": "src/components/ui/StandardActionList.tsx:handlePrimaryAction:125",
       "kind": "function",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "handlePrimaryAction",
-      "line": 129,
+      "line": 125,
       "score": 8,
       "risk": "low",
       "signals": [
@@ -39075,7 +39178,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/ui/StandardActionList.tsx:handlePrimaryAction:129",
+            "id": "src/components/ui/StandardActionList.tsx:handlePrimaryAction:125",
             "kind": "function",
             "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."

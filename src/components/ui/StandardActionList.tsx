@@ -35,7 +35,8 @@ import type {
 const resolveUtilityState = <T,>(
   item: T,
   utilityAction: UtilityActionConfig<T> | undefined,
-  theme: Theme
+  theme: Theme,
+  itemLabel?: string
 ) => {
   const hidden = resolveActionBoolean(utilityAction?.hideButton, item)
   const action = hidden ? undefined : utilityAction
@@ -50,7 +51,9 @@ const resolveUtilityState = <T,>(
     variant: resolveActionVariant(action?.variant, item, 'danger'),
     ariaLabel: action
       ? resolveActionText(action.ariaLabel ?? action.label, item)
-      : 'Delete',
+      : itemLabel
+        ? `Delete ${itemLabel}`
+        : 'Delete',
     disabled: action?.disabled?.(item) ?? false,
     exits,
     icon: action
@@ -111,15 +114,8 @@ const ActionCard = <T,>({
     'primary' | 'edit' | 'utility'
   >()
   const { cardRef, isExiting, runWithExit } = useCardExitAnimation()
-  const resolvedUtility = resolveUtilityState(item, utilityAction, theme)
   const itemLabel = getItemLabel?.(item)
-  const utility = {
-    ...resolvedUtility,
-    ariaLabel:
-      !resolvedUtility.action && itemLabel
-        ? `Delete ${itemLabel}`
-        : resolvedUtility.ariaLabel,
-  }
+  const utility = resolveUtilityState(item, utilityAction, theme, itemLabel)
   const confirmingReset = resetRequested && !utility.exits && !utility.hidden
 
   const itemKey = getKey ? getKey(item) : `${index}`
@@ -139,7 +135,7 @@ const ActionCard = <T,>({
   const handleUtilityAction = async () => {
     await runWithExit(utility.exits, () =>
       runAction(utility.exits ? 'Delete' : 'Reset', 'utility', () =>
-        utility.action ? utility.action.onClick(item) : onDelete(item)
+        (utility.action?.onClick ?? onDelete)(item)
       )
     )
   }
@@ -192,9 +188,7 @@ const ActionCard = <T,>({
       hideUtility={utility.hidden}
       onPrimary={handlePrimaryAction}
       onEdit={handleEditAction}
-      editAriaLabel={
-        getItemLabel?.(item) ? `Edit ${getItemLabel(item)}` : 'Edit item'
-      }
+      editAriaLabel={itemLabel ? `Edit ${itemLabel}` : 'Edit item'}
       onUtility={() => {
         if (utility.exits) void handleUtilityAction()
         else setResetRequested(true)
