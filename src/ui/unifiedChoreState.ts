@@ -120,7 +120,8 @@ const hasExpiredDinnerTimer = ({
   startedAt,
   bitesLeft,
 }: NonNullable<ReturnType<typeof getDinnerState>>) => {
-  const elapsed = startedAt ? (Date.now() - startedAt) / 1000 : 0
+  if (startedAt == null) return false
+  const elapsed = (Date.now() - startedAt) / 1000
   return remaining - elapsed <= 0 && bitesLeft > 0
 }
 

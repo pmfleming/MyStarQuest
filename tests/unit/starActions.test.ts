@@ -1,9 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const firestore = vi.hoisted(() => ({
+  nextId: 0,
   runTransaction: vi.fn(),
   doc: vi.fn((...segments: unknown[]) => {
-    if (segments.length === 1) return `${String(segments[0])}/generated-id`
+    if (segments.length === 1)
+      return `${String(segments[0])}/generated-id-${++firestore.nextId}`
     return segments.slice(1).map(String).join('/')
   }),
   collection: vi.fn((...segments: unknown[]) =>
@@ -23,7 +25,11 @@ vi.mock('firebase/firestore', () => ({
   serverTimestamp: firestore.serverTimestamp,
 }))
 
-import { redeemReward } from '../../src/lib/starActions'
+import {
+  completeTaskAndAwardStars,
+  redeemReward,
+} from '../../src/lib/starActions'
+import { TEST_TYPES } from '../../src/data/types'
 
 const snapshot = (data?: Record<string, unknown>) => ({
   exists: () => data !== undefined,
@@ -33,6 +39,7 @@ const snapshot = (data?: Record<string, unknown>) => ({
 describe('star transactions', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    firestore.nextId = 0
   })
 
   it('uses the stored reward price and deletes one-time rewards in the transaction', async () => {
@@ -66,7 +73,7 @@ describe('star transactions', () => {
       { totalStars: { increment: -6 } }
     )
     expect(transaction.set).toHaveBeenCalledWith(
-      'users/user-1/redemptions/generated-id',
+      'users/user-1/redemptions/generated-id-1',
       expect.objectContaining({
         rewardTitle: 'Stored reward',
         costStars: 6,
@@ -75,5 +82,133 @@ describe('star transactions', () => {
     expect(transaction.delete).toHaveBeenCalledWith(
       'users/user-1/rewards/reward-1'
     )
+  })
+})
+
+describe('test completion star awards', () => {
+  const childPath = 'users/parent/children/child'
+  const taskPath = 'users/parent/tests/test'
+  const dateKey = '2026-09-13'
+  const options = {
+    userId: 'parent',
+    childId: 'child',
+    taskId: 'test',
+    taskCollection: 'tests' as const,
+    dateKey,
+    delta: 3,
+    updates: {
+      lastAttemptedAt: 1000,
+      lastAttemptDateKey: dateKey,
+      lastAttemptOutcome: 'success',
+    },
+  }
+  let documents: Map<string, Record<string, unknown>>
+  const events = () =>
+    [...documents.entries()].filter(([path]) => path.includes('/starEvents/'))
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    firestore.nextId = 0
+    documents = new Map([[childPath, { totalStars: 10 }]])
+    // Serialize commits as Firestore does when transactions contend on a task.
+    let pending = Promise.resolve<unknown>(undefined)
+    firestore.runTransaction.mockImplementation((_db, callback) => {
+      const transaction = pending.then(async () => {
+        const writes: (() => void)[] = []
+        const result = await callback({
+          get: async (path: string) => snapshot(documents.get(path)),
+          set: (path: string, data: Record<string, unknown>) =>
+            writes.push(() => documents.set(path, { ...data })),
+          delete: (path: string) => writes.push(() => documents.delete(path)),
+          update: (path: string, patch: Record<string, unknown>) =>
+            writes.push(() => {
+              const data = { ...documents.get(path) }
+              for (const [key, value] of Object.entries(patch)) {
+                data[key] =
+                  typeof value === 'object' &&
+                  value !== null &&
+                  'increment' in value
+                    ? Number(data[key] ?? 0) + Number(value.increment)
+                    : value
+              }
+              documents.set(path, data)
+            }),
+        })
+        writes.forEach((commit) => commit())
+        return result
+      })
+      pending = transaction.catch(() => {})
+      return transaction
+    })
+  })
+
+  it.each(TEST_TYPES)(
+    'awards %s again after a same-day reset and deduplicates completion callbacks',
+    async (taskType) => {
+      documents.set(taskPath, { childId: 'child', taskType })
+      const complete = () => completeTaskAndAwardStars(options)
+      const [first, duplicate] = await Promise.all([complete(), complete()])
+      expect(first.appliedDelta).toBe(3)
+      expect(duplicate).toEqual({ appliedDelta: 0, wasAlreadyAwarded: true })
+      expect(documents.get(childPath)?.totalStars).toBe(13)
+      const firstEvent = events()[0]
+
+      // These are the persisted fields cleared by resetTest.
+      documents.set(taskPath, {
+        ...documents.get(taskPath),
+        lastAttemptedAt: null,
+        lastAttemptDateKey: '',
+        lastAttemptOutcome: null,
+      })
+      const [replay, replayDuplicate] = await Promise.all([
+        complete(),
+        complete(),
+      ])
+      expect(replay.appliedDelta).toBe(3)
+      expect(replayDuplicate.appliedDelta).toBe(0)
+      expect(documents.get(childPath)?.totalStars).toBe(16)
+      expect(events()).toHaveLength(2)
+      expect(events()[0]).toEqual(firstEvent)
+    }
+  )
+
+  it('allows a reset test to earn stars when an old daily award exists', async () => {
+    documents.set(taskPath, {
+      childId: 'child',
+      taskType: 'math',
+      lastAttemptedAt: null,
+    })
+    const oldEventPath = `users/parent/starEvents/tests-test-${dateKey}`
+    const oldEvent = { childId: 'child', taskId: 'test', dateKey, delta: 3 }
+    documents.set(oldEventPath, oldEvent)
+    expect((await completeTaskAndAwardStars(options)).appliedDelta).toBe(3)
+    expect(documents.get(oldEventPath)).toEqual(oldEvent)
+    expect(events()).toHaveLength(2)
+  })
+
+  it('allows the next day’s test attempt without an explicit reset', async () => {
+    documents.set(taskPath, {
+      childId: 'child',
+      taskType: 'math',
+      lastAttemptedAt: 1000,
+      lastAttemptDateKey: '2026-09-12',
+      lastAttemptOutcome: 'success',
+    })
+    expect((await completeTaskAndAwardStars(options)).appliedDelta).toBe(3)
+    expect(documents.get(childPath)?.totalStars).toBe(13)
+  })
+
+  it('creates a built-in test and awards its first completion only once', async () => {
+    const request = {
+      ...options,
+      initialTaskData: { childId: 'child', taskType: 'math' },
+    }
+    const results = await Promise.all([
+      completeTaskAndAwardStars(request),
+      completeTaskAndAwardStars(request),
+    ])
+    expect(results.map((result) => result.appliedDelta)).toEqual([3, 0])
+    expect(events()).toHaveLength(1)
+    expect(documents.get(taskPath)).toMatchObject(options.updates)
   })
 })

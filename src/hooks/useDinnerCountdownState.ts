@@ -28,7 +28,7 @@ export const useDinnerCountdownState = ({
   const [biteVis, setBiteVis] = useState(false)
   const prevBites = useRef(bitesLeft)
   const liveRemainingFloat =
-    isTimerRunning && timerStartedAt
+    isTimerRunning && timerStartedAt != null
       ? Math.max(0, remaining - (now - timerStartedAt) / 1000)
       : remaining
   const liveRemaining = Math.floor(liveRemainingFloat)
@@ -38,7 +38,10 @@ export const useDinnerCountdownState = ({
   const totalCooldownSeconds = biteCooldownSeconds || BITE_COOLDOWN_SECONDS
   const isCoolingDown = liveCooldown > 0
   const isSuccess = isCompleted && bitesLeft <= 0 && !isCoolingDown
-  const isTimeout = liveRemaining <= 0 && bitesLeft > 0
+  const isTimeout =
+    (isCompleted || (isTimerRunning && timerStartedAt != null)) &&
+    liveRemainingFloat <= 0 &&
+    bitesLeft > 0
   const isFinished = isSuccess || isTimeout
   const isSetup = !isTimerRunning && !isFinished && !isCoolingDown
   const secRot = getSecondHandRotation(isTimerRunning, liveRemaining)

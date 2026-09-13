@@ -109,7 +109,17 @@ export const useChoreActivityActions = ({
   }
 
   const expireDinnerTimer = async (item: TaskWithEphemeral) => {
+    if (
+      !isEatingTask(item) ||
+      item.manageDinnerTimerStartedAt == null ||
+      item.manageDinnerCompletedAt != null ||
+      getManageDinnerBitesLeft(item) <= 0
+    ) {
+      return
+    }
     const now = Date.now()
+    const elapsed = (now - item.manageDinnerTimerStartedAt) / 1000
+    if (getManageDinnerRemaining(item) - elapsed > 0) return
     await updateEphemeral(item.id, {
       manageDinnerTimerStartedAt: null,
       manageDinnerRemainingSeconds: 0,

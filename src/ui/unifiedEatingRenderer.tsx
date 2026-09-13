@@ -83,6 +83,9 @@ const renderEatingTask = (
     onExpire: () => deps.onExpireDinner?.(item),
     isCompleted,
     ...state.testOutcomeImages(),
+    completionImage: state.themedAsset(
+      getThemeAsset(deps.theme.id, 'eatingFullImage')
+    ),
     biteCooldownSeconds: deps.biteCooldownSeconds,
     biteCooldownEndsAt: deps.biteCooldownEndsAt,
     biteIcon: state.themedAsset(deps.activeMealIcon),

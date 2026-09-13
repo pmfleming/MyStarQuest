@@ -9,11 +9,23 @@ import { db } from '../firebaseDb'
 
 type TaskCollection = 'chores' | 'tests'
 
-const buildTaskCompletionEventId = (
+const hasCompletedAttempt = (
+  task: Record<string, unknown>,
   taskCollection: TaskCollection,
-  taskId: string,
   dateKey: string
-) => `${taskCollection}-${taskId}-${dateKey}`
+) => {
+  if (taskCollection === 'tests') {
+    return task.lastAttemptedAt != null && task.lastAttemptDateKey === dateKey
+  }
+  const taskType = task.taskType ?? task.choreType ?? task.category
+  const completedAt =
+    taskType === 'eating'
+      ? task.manageDinnerCompletedAt
+      : taskType === 'watertoiletcheck'
+        ? task.manageWaterToiletCompletedAt
+        : task.manageCompletedAt
+  return completedAt != null
+}
 
 export const completeTaskAndAwardStars = async (options: {
   userId: string
@@ -43,19 +55,12 @@ export const completeTaskAndAwardStars = async (options: {
 
   const childRef = doc(db, 'users', userId, 'children', childId)
   const taskRef = doc(db, 'users', userId, taskCollection, taskId)
-  const eventRef = doc(
-    db,
-    'users',
-    userId,
-    'starEvents',
-    buildTaskCompletionEventId(taskCollection, taskId, dateKey)
-  )
+  const eventRef = doc(collection(db, 'users', userId, 'starEvents'))
 
   return runTransaction(db, async (transaction) => {
-    const [childSnapshot, taskSnapshot, eventSnapshot] = await Promise.all([
+    const [childSnapshot, taskSnapshot] = await Promise.all([
       transaction.get(childRef),
       transaction.get(taskRef),
-      transaction.get(eventRef),
     ])
     if (!childSnapshot.exists()) {
       throw new Error('Child not found')
@@ -69,16 +74,21 @@ export const completeTaskAndAwardStars = async (options: {
       throw new Error('Task does not belong to the selected child')
     }
 
+    // Completion and stars commit together. A reset clears this guard, so
+    // another attempt can earn stars even on the same day.
+    if (
+      taskSnapshot.exists() &&
+      hasCompletedAttempt(taskSnapshot.data(), taskCollection, dateKey)
+    ) {
+      return { appliedDelta: 0, wasAlreadyAwarded: true }
+    }
+
     if (deleteOnComplete) {
       if (taskSnapshot.exists()) transaction.delete(taskRef)
     } else if (taskSnapshot.exists()) {
       transaction.update(taskRef, updates)
     } else {
       transaction.set(taskRef, { ...initialTaskData, ...updates })
-    }
-
-    if (eventSnapshot.exists()) {
-      return { appliedDelta: 0, wasAlreadyAwarded: true }
     }
 
     const currentStars = Number(childSnapshot.data()?.totalStars ?? 0)

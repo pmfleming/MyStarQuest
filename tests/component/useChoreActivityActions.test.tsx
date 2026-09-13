@@ -45,6 +45,36 @@ describe('chore completion persistence', () => {
     vi.resetAllMocks()
   })
 
+  it.each([
+    { manageDinnerTimerStartedAt: undefined, manageDinnerRemainingSeconds: 0 },
+    { manageDinnerTimerStartedAt: null, manageDinnerRemainingSeconds: 0 },
+    { manageDinnerTimerStartedAt: null, manageDinnerRemainingSeconds: 600 },
+    { manageDinnerTimerStartedAt: 10_000, manageDinnerRemainingSeconds: 300 },
+    { manageDinnerCompletedAt: 15_000, manageDinnerRemainingSeconds: 0 },
+    { manageDinnerBitesLeft: 0, manageDinnerRemainingSeconds: 0 },
+  ])(
+    'ignores expiry for an unstarted, reset, running or finished dinner: %j',
+    async (patch) => {
+      vi.useFakeTimers().setSystemTime(20_000)
+      const actions = setup()
+      await actions.expireDinnerTimer({ ...dinner, ...patch })
+      expect(actions.updateEphemeral).not.toHaveBeenCalled()
+      expect(completeTaskAndAwardStars).not.toHaveBeenCalled()
+    }
+  )
+
+  it('persists failure after a started dinner runs out of time', async () => {
+    vi.useFakeTimers().setSystemTime(310_000)
+    const actions = setup()
+    await actions.expireDinnerTimer(dinner)
+    expect(actions.updateEphemeral).toHaveBeenCalledWith(dinner.id, {
+      manageDinnerTimerStartedAt: null,
+      manageDinnerRemainingSeconds: 0,
+      manageDinnerCompletedAt: 310_000,
+    })
+    expect(completeTaskAndAwardStars).not.toHaveBeenCalled()
+  })
+
   it('does not complete dinner after a reset during the final bite animation', async () => {
     vi.useFakeTimers().setSystemTime(20_000)
     vi.mocked(completeTaskAndAwardStars).mockResolvedValue({

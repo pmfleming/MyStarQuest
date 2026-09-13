@@ -4,7 +4,9 @@ import type { Season } from '../lib/seasons'
 import heart from '../assets/teenie/heart.webp'
 import okeydokey from '../assets/teenie/OkeyDokey.webp'
 import nono from '../assets/teenie/NoNo.webp'
-import gift from '../assets/teenie/prop/gift.webp'
+import yumyum from '../assets/teenie/yumyum.webp'
+import gift from '../assets/teenie/gift.webp'
+import lucky from '../assets/teenie/lucky.webp'
 import tidyingUp from '../assets/themes/princess/tidying-up.webp'
 import writing from '../assets/themes/princess/writing.svg'
 import brave from '../assets/themes/princess/brave-princess.png'
@@ -35,6 +37,7 @@ const princessAssets = {
   lockedRewardIcon: princess.princessLockedRewardIcon,
   giveStarIcon: princess.princessGiveStarIcon,
   eatingFullImage: princess.princessEatingFullImage,
+  eatingHungryImage: princess.princessEatingDinnerIcon,
   eatingFailImage: princess.princessEatingFailImage,
   eatingBreakfastIcon: princess.princessEatingBreakfastIcon,
   eatingLunchIcon: princess.princessEatingLunchIcon,
@@ -99,9 +102,10 @@ const teenieRoles = {
   activeIcon: 'active.webp',
   selectIcon: 'select.svg',
   buyRewardIcon: '@gift',
-  lockedRewardIcon: 'locked-reward.webp',
+  lockedRewardIcon: '@lucky',
   giveStarIcon: 'quiz-correct.webp',
   eatingFullImage: 'eating-full.webp',
+  eatingHungryImage: '@yumyum',
   eatingFailImage: 'eating-fail.webp',
   eatingBreakfastIcon: 'eating-breakfast.webp',
   eatingLunchIcon: 'eating-lunch.webp',
@@ -143,8 +147,10 @@ export const getThemeAssets = (id: ThemeId | string): ThemeAssets => {
     const reused: Record<string, string> = {
       '@heart': heart,
       '@gift': gift,
+      '@lucky': lucky,
       '@okeydokey': okeydokey,
       '@nono': nono,
+      '@yumyum': yumyum,
     }
     teenieAssets = Object.fromEntries(
       Object.entries(teenieRoles).map(([role, file]) => [

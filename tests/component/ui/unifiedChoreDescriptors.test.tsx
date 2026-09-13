@@ -14,6 +14,38 @@ const createBaseDeps = () => ({
 })
 
 describe('createUnifiedChoreDescriptor', () => {
+  it.each([null, undefined])(
+    'keeps an unstarted dinner available when remaining time is zero (start: %s)',
+    (manageDinnerTimerStartedAt) => {
+      const task: TaskWithEphemeral = {
+        id: 'dinner-1',
+        title: 'Dinner',
+        childId: 'child-1',
+        category: 'eating',
+        taskType: 'eating',
+        starValue: 3,
+        schoolDayEnabled: true,
+        nonSchoolDayEnabled: true,
+        isRepeating: true,
+        dinnerDurationSeconds: 600,
+        dinnerTotalBites: 2,
+        manageDinnerBitesLeft: 2,
+        manageDinnerRemainingSeconds: 0,
+        manageDinnerCompletedAt: null,
+        manageDinnerTimerStartedAt,
+      }
+      const onStartDinner = vi.fn()
+      const deps = { ...createBaseDeps(), onStartDinner }
+      const descriptor = createUnifiedChoreDescriptor(deps)
+      expect(createUnifiedChoreState(deps).getStage(task)).toBe('setup')
+      expect(descriptor.isHighlighted?.(task)).toBe(false)
+      const action = descriptor.getPrimaryAction(task)
+      expect(action.hideButton).toBe(false)
+      action.onClick(task)
+      expect(onStartDinner).toHaveBeenCalledWith(task)
+    }
+  )
+
   it('keeps dinner in activity stage until the final bite cooldown ends', () => {
     const task: TaskWithEphemeral = {
       id: 'dinner-1',

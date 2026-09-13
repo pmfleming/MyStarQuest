@@ -7,11 +7,12 @@ import type {
   ToiletStatus,
 } from '../../src/data/types'
 
-const firestore = vi.hoisted(() => ({ runTransaction: vi.fn() }))
+const firestore = vi.hoisted(() => ({ runTransaction: vi.fn(), nextId: 0 }))
 vi.mock('../../src/firebaseDb', () => ({ db: {} }))
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 vi.mock('firebase/firestore', () => ({
-  doc: (_db: unknown, ...parts: string[]) => parts.join('/'),
+  doc: (source: unknown, ...parts: string[]) =>
+    parts.length ? parts.join('/') : `${source}/event-${++firestore.nextId}`,
   collection: (_db: unknown, ...parts: string[]) => parts.join('/'),
   increment: (amount: number) => ({ increment: amount }),
   serverTimestamp: () => 'server-time',
@@ -182,7 +183,7 @@ describe('chore completion star balances', () => {
     }
   )
 
-  it('does not award reset/replayed chores twice on one day, but awards them again the next day', async () => {
+  it('awards every completed chore again after reset, including on the same day', async () => {
     const completeDay = async (dateKey: string) => {
       const actions = setup(dateKey)
       for (const chore of chores) {
@@ -208,12 +209,25 @@ describe('chore completion star balances', () => {
     await completeDay('2026-09-06')
     expect(balance()).toBe(22)
     await completeDay('2026-09-06')
-    expect(balance()).toBe(22)
-    expect(events()).toHaveLength(4)
-    await completeDay('2026-09-07')
     expect(balance()).toBe(34)
     expect(events()).toHaveLength(8)
+    await completeDay('2026-09-07')
+    expect(balance()).toBe(46)
+    expect(events()).toHaveLength(12)
   })
+
+  it.each(chores)(
+    'does not award $title twice without a reset',
+    async (chore) => {
+      const actions = setup()
+      await actions.completeChore(chore)
+      const stars = balance()
+      // Use the original item to simulate a duplicate callback with stale UI state.
+      await actions.completeChore(chore)
+      expect(balance()).toBe(stars)
+      expect(events()).toHaveLength(1)
+    }
+  )
 
   it.each<[WaterLevel, ToiletStatus, number]>([
     ['full', 'notpeepee', -6],
@@ -255,6 +269,7 @@ describe('chore completion star balances', () => {
   it('awards no stars when dinner times out before completion', async () => {
     const actions = setup()
     await actions.startDinnerTimer(storedChore('dinner'))
+    await vi.advanceTimersByTimeAsync(600_000)
     await actions.expireDinnerTimer(storedChore('dinner'))
     await expect(actions.applyBite(storedChore('dinner'))).resolves.toBe(false)
     expect(balance()).toBe(10)
