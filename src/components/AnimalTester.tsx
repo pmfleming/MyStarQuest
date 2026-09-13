@@ -5,6 +5,7 @@ import {
   type AnimalDifficulty,
 } from './animalTester/useAnimalSession'
 import { CREATURE_MODE_IMAGES } from './animalTester/modeArtwork'
+import TrainingPhotoPortrait from './animalTester/TrainingPhotoPortrait'
 import insectCollectionImage from '../assets/animals/butterfly.webp'
 import animalCollectionImage from '../assets/animals/lion.webp'
 import teeniepingCollectionImage from '../assets/teenie/heart.webp'
@@ -289,11 +290,13 @@ const AnimalPortrait = ({
   theme,
   showName = true,
   compact = false,
+  photo,
 }: {
   animal: CatalogAnimal
   theme: ActivityChoreProps['theme']
   showName?: boolean
   compact?: boolean
+  photo?: { src: string; alt: string; onError: () => void }
 }) => (
   <div
     style={{
@@ -312,9 +315,13 @@ const AnimalPortrait = ({
     }}
   >
     <img
-      src={animal.image}
+      src={photo?.src ?? animal.image}
       decoding="async"
-      alt={showName ? formatAnimalName(animal.name) : `Mystery ${animal.kind}`}
+      alt={
+        photo?.alt ??
+        (showName ? formatAnimalName(animal.name) : `Mystery ${animal.kind}`)
+      }
+      onError={photo?.onError}
       style={{
         width: '100%',
         height: compact ? 132 : 172,
@@ -574,7 +581,32 @@ const AnimalPlayContent = ({
   if (mode === 'learn') {
     return (
       <>
-        <AnimalPortrait animal={animal} theme={theme} compact />
+        {animal.kind === 'teenieping' ? (
+          <AnimalPortrait animal={animal} theme={theme} compact />
+        ) : (
+          <TrainingPhotoPortrait
+            key={`${animal.kind}-${animal.name}`}
+            name={animal.name}
+            theme={theme}
+          >
+            {(photo, onPhotoError) => (
+              <AnimalPortrait
+                animal={animal}
+                theme={theme}
+                compact
+                photo={
+                  photo
+                    ? {
+                        src: photo.src,
+                        alt: `Real ${photo.name.toLowerCase()}`,
+                        onError: onPhotoError,
+                      }
+                    : undefined
+                }
+              />
+            )}
+          </TrainingPhotoPortrait>
+        )}
         <FactGrid
           key={`${animal.kind}-${animal.name}-${mode}`}
           facts={getTeachingFacts(animal, theme.id, isGenericLearnAbilityShown)}

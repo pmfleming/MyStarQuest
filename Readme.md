@@ -9,6 +9,10 @@ There are 4 areas:
 - **Rewards**: a star shop where stars can be redeemed for configured rewards.
 - **Time Explorer**: an interactive clock, school calendar, and day/night planet view for learning about time.
 
+## Photo Credits
+
+Photo attribution for the Who Am I animal and insect photographs is recorded in [Who Am I photo credits](docs/assets/who-am-i-photo-credits.md), including photographers, original sources, licences, and modifications.
+
 ## Tech Stack
 
 - React, TypeScript, Vite, and Tailwind CSS for the web app.
