@@ -141,6 +141,7 @@ export const WeatherScene = memo(function WeatherScene({
   decorative = false,
   compact = false,
 }: WeatherSceneProps) {
+  const windDuration = 8 - visuals.windLevel * 1.5
   const outfit = getWeatherOutfit(visuals)
   const character = getWeatherWardrobe(themeId)
   const snow =
@@ -271,11 +272,19 @@ export const WeatherScene = memo(function WeatherScene({
           aria-hidden="true"
         >
           {Array.from({ length: visuals.windLevel * 2 }, (_, i) => (
-            <g
-              key={i}
-              transform={`translate(${(i % 2) * 245 - 20} ${120 + i * 37}) scale(1.2)`}
-            >
-              <WindRibbon themeId={themeId} />
+            <g key={i} transform={`translate(0 ${120 + i * 37})`}>
+              <g
+                className="weather-wind-gust"
+                style={{
+                  animationDuration: `${windDuration}s`,
+                  animationDelay: `${(-i * windDuration) / (visuals.windLevel * 2)}s`,
+                  transform: `translateX(${(i % 2) * 245 - 20}px)`,
+                }}
+              >
+                <g transform="scale(1.2)">
+                  <WindRibbon themeId={themeId} />
+                </g>
+              </g>
             </g>
           ))}
         </svg>

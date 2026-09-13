@@ -48,8 +48,8 @@
 .weather-particle--snow {
   animation-duration: 6s;
 }
-.weather-wind {
-  animation: weather-breeze 3s ease-in-out infinite alternate;
+.weather-wind-gust {
+  animation: weather-breeze 6.5s linear infinite;
 }
 .weather-scene[data-compact='true'] * {
   animation: none;
@@ -68,17 +68,21 @@
 }
 @keyframes weather-breeze {
   from {
-    transform: translateX(-7px);
-    opacity: 0.6;
+    transform: translateX(-120px);
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 0.9;
   }
   to {
-    transform: translateX(10px);
-    opacity: 1;
+    transform: translateX(410px);
+    opacity: 0;
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .weather-particle,
-  .weather-wind {
+  .weather-wind-gust {
     animation: none;
   }
 }
