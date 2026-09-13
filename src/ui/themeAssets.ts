@@ -4,7 +4,6 @@ import type { Season } from '../lib/seasons'
 import heart from '../assets/teenie/heart.webp'
 import okeydokey from '../assets/teenie/OkeyDokey.webp'
 import nono from '../assets/teenie/NoNo.webp'
-import yumyum from '../assets/teenie/yumyum.webp'
 import gift from '../assets/teenie/gift.webp'
 import lucky from '../assets/teenie/lucky.webp'
 import tidyingUp from '../assets/themes/princess/tidying-up.webp'
@@ -73,7 +72,7 @@ export type ThemeAssets = typeof princessAssets
 export type ThemeAssetRole = keyof ThemeAssets
 
 const teenieFiles = import.meta.glob<string>(
-  '../assets/themes/teenie/**/*.{webp,svg}',
+  '../assets/themes/teenie/**/*.{webp,svg,png}',
   { eager: true, query: '?url', import: 'default' }
 )
 
@@ -104,8 +103,8 @@ const teenieRoles = {
   buyRewardIcon: '@gift',
   lockedRewardIcon: '@lucky',
   giveStarIcon: 'quiz-correct.webp',
-  eatingFullImage: 'eating-full.webp',
-  eatingHungryImage: '@yumyum',
+  eatingFullImage: 'eating-full-v2.png',
+  eatingHungryImage: 'eating-hungry.png',
   eatingFailImage: 'eating-fail.webp',
   eatingBreakfastIcon: 'eating-breakfast.webp',
   eatingLunchIcon: 'eating-lunch.webp',
@@ -150,7 +149,6 @@ export const getThemeAssets = (id: ThemeId | string): ThemeAssets => {
       '@lucky': lucky,
       '@okeydokey': okeydokey,
       '@nono': nono,
-      '@yumyum': yumyum,
     }
     teenieAssets = Object.fromEntries(
       Object.entries(teenieRoles).map(([role, file]) => [
