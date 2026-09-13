@@ -22,6 +22,33 @@ const base: WeatherConditions = {
 
 describe('weather conditions and independent visual layers', () => {
   it.each([
+    [0, 0, 'none', 0],
+    [0.01, 0, 'rain', 1],
+    [2.49, 0, 'rain', 1],
+    [2.5, 0, 'rain', 2],
+    [7.49, 0, 'rain', 2],
+    [7.5, 0, 'rain', 3],
+    [0, 0.29, 'snow', 1],
+    [0, 0.3, 'snow', 2],
+    [0, 0.99, 'snow', 2],
+    [0, 1, 'snow', 3],
+    [1, 0.3, 'sleet', 2],
+  ])(
+    'resolves rain %s and snow %s at intensity boundaries',
+    (rain, snowfall, precipitation, precipitationLevel) => {
+      const conditions = {
+        ...base,
+        rain: Number(rain),
+        snowfall: Number(snowfall),
+      }
+      expect(getWeatherVisuals(conditions)).toMatchObject({
+        precipitation,
+        precipitationLevel,
+      })
+    }
+  )
+
+  it.each([
     [[0, 1], 'sunny'],
     [[2], 'partly-cloudy'],
     [[3], 'overcast'],

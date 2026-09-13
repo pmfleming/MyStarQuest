@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure quality.hotspots --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T18:47:58.307Z",
+    "measured_at": "2026-09-13T18:56:26.637Z",
     "source_type": "static",
-    "source_set_hash": "sha256:f0394afeb3e3ac7c680c52d95e9a1e36513f80ed510229637b2d92d9b4d885c3",
-    "input_set_hash": "sha256:757e41723f73c5dc45bd54ff8648fe1e55607dbe982b89fee0df1d0816186ca8"
+    "source_set_hash": "sha256:bf44047e1d9bb4fa428c53d4e557ecf74ad4ac00530ad8d28b282d01ded9cff9",
+    "input_set_hash": "sha256:1f79ccfdc49b5f28ed62c702bf9966029f598cb9cd3bd9eb947c6b599678923c"
   },
   "analysis_identity": {
     "id": "sha256:16a94fc8b680b2604c10da5ade45e0a88f9456314fe38c92ca5c443cfc62b430",
@@ -93,8 +93,8 @@
     "stale_input": []
   },
   "summary": {
-    "source_files": 185,
-    "records": 814,
+    "source_files": 186,
+    "records": 818,
     "high_risk_records": 132
   },
   "records": [
@@ -708,68 +708,6 @@
             "id": "src/components/ui/StandardActionList.tsx:ActionCard:85",
             "kind": "component",
             "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/lib/weather/weatherVisuals.ts:getWeatherVisuals:56",
-      "kind": "function",
-      "module_id": "src/lib/weather/weatherVisuals",
-      "file": "src/lib/weather/weatherVisuals.ts",
-      "name": "getWeatherVisuals",
-      "line": 56,
-      "score": 245,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 31
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 46
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 54247.47
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 1
-        },
-        {
-          "kind": "line_count",
-          "value": 47
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
-      "reason_code": "ts-react-quality-lens/function",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/lib/weather/weatherVisuals.ts:getWeatherVisuals:56",
-            "kind": "function",
-            "file": "src/lib/weather/weatherVisuals.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1684,68 +1622,6 @@
             "id": "src/components/ui/StarInfoBox.tsx:StarInfoBox:107",
             "kind": "component",
             "file": "src/components/ui/StarInfoBox.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/lib/weather/weatherConditions.ts:getWeatherScene:79",
-      "kind": "function",
-      "module_id": "src/lib/weather/weatherConditions",
-      "file": "src/lib/weather/weatherConditions.ts",
-      "name": "getWeatherScene",
-      "line": 79,
-      "score": 168,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 25
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 24
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 26355.58
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 1
-        },
-        {
-          "kind": "line_count",
-          "value": 26
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
-      "reason_code": "ts-react-quality-lens/function",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/lib/weather/weatherConditions.ts:getWeatherScene:79",
-            "kind": "function",
-            "file": "src/lib/weather/weatherConditions.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3472,59 +3348,6 @@
       ]
     },
     {
-      "id": "file:src/lib/weather/weatherVisuals",
-      "kind": "file",
-      "module_id": "src/lib/weather/weatherVisuals",
-      "file": "src/lib/weather/weatherVisuals.ts",
-      "line": 1,
-      "score": 120,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 105
-        },
-        {
-          "kind": "branch_count",
-          "value": 43
-        },
-        {
-          "kind": "import_count",
-          "value": 1
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
-      "reason_code": "ts-react-quality-lens/file",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/lib/weather/weatherVisuals",
-            "kind": "file",
-            "file": "src/lib/weather/weatherVisuals.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/PageShell.tsx:PageShell:32",
       "kind": "component",
       "module_id": "src/components/PageShell",
@@ -3929,59 +3752,6 @@
             "id": "src/hooks/useActivityChallenge.ts:useActivityChallenge:29",
             "kind": "hook",
             "file": "src/hooks/useActivityChallenge.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "file:src/lib/weather/weatherConditions",
-      "kind": "file",
-      "module_id": "src/lib/weather/weatherConditions",
-      "file": "src/lib/weather/weatherConditions.ts",
-      "line": 1,
-      "score": 112,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 133
-        },
-        {
-          "kind": "branch_count",
-          "value": 36
-        },
-        {
-          "kind": "import_count",
-          "value": 0
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
-      "reason_code": "ts-react-quality-lens/file",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/lib/weather/weatherConditions",
-            "kind": "file",
-            "file": "src/lib/weather/weatherConditions.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -4422,6 +4192,68 @@
             "id": "src/components/ui/ActionButton.tsx:ActionButton:22",
             "kind": "component",
             "file": "src/components/ui/ActionButton.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/weather/weatherConditions.ts:getWeatherScene:56",
+      "kind": "function",
+      "module_id": "src/lib/weather/weatherConditions",
+      "file": "src/lib/weather/weatherConditions.ts",
+      "name": "getWeatherScene",
+      "line": 56,
+      "score": 105,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 15
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 14
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 15637.2
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 19
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/weather/weatherConditions.ts:getWeatherScene:56",
+            "kind": "function",
+            "file": "src/lib/weather/weatherConditions.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -6338,6 +6170,59 @@
       ]
     },
     {
+      "id": "file:src/lib/weather/weatherConditions",
+      "kind": "file",
+      "module_id": "src/lib/weather/weatherConditions",
+      "file": "src/lib/weather/weatherConditions.ts",
+      "line": 1,
+      "score": 82,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 100
+        },
+        {
+          "kind": "branch_count",
+          "value": 25
+        },
+        {
+          "kind": "import_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/lib/weather/weatherConditions",
+            "kind": "file",
+            "file": "src/lib/weather/weatherConditions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/components/dayNightExplorer/useExplorerClock.ts:processUpdate:223",
       "kind": "function",
       "module_id": "src/components/dayNightExplorer/useExplorerClock",
@@ -6602,12 +6487,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherVisuals.ts:getWeatherCharacterPose:38",
+      "id": "src/lib/weather/weatherVisuals.ts:getWeatherCharacterPose:44",
       "kind": "function",
       "module_id": "src/lib/weather/weatherVisuals",
       "file": "src/lib/weather/weatherVisuals.ts",
       "name": "getWeatherCharacterPose",
-      "line": 38,
+      "line": 44,
       "score": 81,
       "risk": "high",
       "signals": [
@@ -6655,7 +6540,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherVisuals.ts:getWeatherCharacterPose:38",
+            "id": "src/lib/weather/weatherVisuals.ts:getWeatherCharacterPose:44",
             "kind": "function",
             "file": "src/lib/weather/weatherVisuals.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7213,6 +7098,59 @@
             "id": "src/ui/definitionRowDescriptors.tsx:createChildDefinitionListRowDescriptor:88",
             "kind": "function",
             "file": "src/ui/definitionRowDescriptors.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/lib/weather/weatherVisuals",
+      "kind": "file",
+      "module_id": "src/lib/weather/weatherVisuals",
+      "file": "src/lib/weather/weatherVisuals.ts",
+      "line": 1,
+      "score": 76,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 94
+        },
+        {
+          "kind": "branch_count",
+          "value": 21
+        },
+        {
+          "kind": "import_count",
+          "value": 3
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/lib/weather/weatherVisuals",
+            "kind": "file",
+            "file": "src/lib/weather/weatherVisuals.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -7826,6 +7764,68 @@
             "id": "src/components/PositionalNotation.tsx:PositionalNotation:33",
             "kind": "component",
             "file": "src/components/PositionalNotation.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/weather/weatherVisuals.ts:getWeatherVisuals:64",
+      "kind": "function",
+      "module_id": "src/lib/weather/weatherVisuals",
+      "file": "src/lib/weather/weatherVisuals.ts",
+      "name": "getWeatherVisuals",
+      "line": 64,
+      "score": 72,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 9
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 8
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 14995.08
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 28
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/weather/weatherVisuals.ts:getWeatherVisuals:64",
+            "kind": "function",
+            "file": "src/lib/weather/weatherVisuals.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -10329,6 +10329,53 @@
       ]
     },
     {
+      "id": "file:src/lib/weather/weatherCodes",
+      "kind": "file",
+      "module_id": "src/lib/weather/weatherCodes",
+      "file": "src/lib/weather/weatherCodes.ts",
+      "line": 1,
+      "score": 57,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 69
+        },
+        {
+          "kind": "branch_count",
+          "value": 18
+        },
+        {
+          "kind": "import_count",
+          "value": 0
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/lib/weather/weatherCodes",
+            "kind": "file",
+            "file": "src/lib/weather/weatherCodes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/components/dayNightExplorer/earthTexture.worker.ts:buildEarthTexture:17",
       "kind": "function",
       "module_id": "src/components/dayNightExplorer/earthTexture.worker",
@@ -10495,6 +10542,118 @@
             "id": "src/data/useChoreActivityActions.ts:applyBite:71",
             "kind": "function",
             "file": "src/data/useChoreActivityActions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/weather/weatherCodes.ts:getPrecipitationKind:47",
+      "kind": "function",
+      "module_id": "src/lib/weather/weatherCodes",
+      "file": "src/lib/weather/weatherCodes.ts",
+      "name": "getPrecipitationKind",
+      "line": 47,
+      "score": 57,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 8
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 7
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 2559.26
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 6
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/weather/weatherCodes.ts:getPrecipitationKind:47",
+            "kind": "function",
+            "file": "src/lib/weather/weatherCodes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/weather/weatherCodes.ts:getPrecipitationLevel:58",
+      "kind": "function",
+      "module_id": "src/lib/weather/weatherCodes",
+      "file": "src/lib/weather/weatherCodes.ts",
+      "name": "getPrecipitationLevel",
+      "line": 58,
+      "score": 57,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 8
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 7
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 1605.4
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 6
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/weather/weatherCodes.ts:getPrecipitationLevel:58",
+            "kind": "function",
+            "file": "src/lib/weather/weatherCodes.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -10886,62 +11045,6 @@
             "id": "src/components/ArithmeticTester.tsx:generateHardProblem:51",
             "kind": "function",
             "file": "src/components/ArithmeticTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/lib/weather/weatherConditions.ts:getWeatherDescription:106",
-      "kind": "function",
-      "module_id": "src/lib/weather/weatherConditions",
-      "file": "src/lib/weather/weatherConditions.ts",
-      "name": "getWeatherDescription",
-      "line": 106,
-      "score": 55,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 7
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 6
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 9280.29
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 1
-        },
-        {
-          "kind": "line_count",
-          "value": 15
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
-      "reason_code": "ts-react-quality-lens/function",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/lib/weather/weatherConditions.ts:getWeatherDescription:106",
-            "kind": "function",
-            "file": "src/lib/weather/weatherConditions.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -12432,6 +12535,62 @@
       ]
     },
     {
+      "id": "src/lib/weather/weatherConditions.ts:getWeatherDescription:76",
+      "kind": "function",
+      "module_id": "src/lib/weather/weatherConditions",
+      "file": "src/lib/weather/weatherConditions.ts",
+      "name": "getWeatherDescription",
+      "line": 76,
+      "score": 48,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 6
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 5
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 7930.2
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 12
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/weather/weatherConditions.ts:getWeatherDescription:76",
+            "kind": "function",
+            "file": "src/lib/weather/weatherConditions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "file:src/components/ui/ImageStarFrame",
       "kind": "file",
       "module_id": "src/components/ui/ImageStarFrame",
@@ -13448,12 +13607,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherConditions.ts:getSkyScene:67",
+      "id": "src/lib/weather/weatherConditions.ts:getSkyScene:44",
       "kind": "function",
       "module_id": "src/lib/weather/weatherConditions",
       "file": "src/lib/weather/weatherConditions.ts",
       "name": "getSkyScene",
-      "line": 67,
+      "line": 44,
       "score": 45,
       "risk": "medium",
       "signals": [
@@ -13495,7 +13654,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherConditions.ts:getSkyScene:67",
+            "id": "src/lib/weather/weatherConditions.ts:getSkyScene:44",
             "kind": "function",
             "file": "src/lib/weather/weatherConditions.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15522,6 +15681,62 @@
             "id": "src/lib/tabNavigation.ts:getTabIcon:37",
             "kind": "function",
             "file": "src/lib/tabNavigation.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/weather/weatherCodes.ts:getWeatherCode:40",
+      "kind": "function",
+      "module_id": "src/lib/weather/weatherCodes",
+      "file": "src/lib/weather/weatherCodes.ts",
+      "name": "getWeatherCode",
+      "line": 40,
+      "score": 39,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 5
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 4
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 4572.06
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 6
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/weather/weatherCodes.ts:getWeatherCode:40",
+            "kind": "function",
+            "file": "src/lib/weather/weatherCodes.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -19081,12 +19296,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherVisuals.ts:getWeatherWindLevel:35",
+      "id": "src/lib/weather/weatherVisuals.ts:getWeatherWindLevel:41",
       "kind": "function",
       "module_id": "src/lib/weather/weatherVisuals",
       "file": "src/lib/weather/weatherVisuals.ts",
       "name": "getWeatherWindLevel",
-      "line": 35,
+      "line": 41,
       "score": 31,
       "risk": "low",
       "signals": [
@@ -19128,7 +19343,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherVisuals.ts:getWeatherWindLevel:35",
+            "id": "src/lib/weather/weatherVisuals.ts:getWeatherWindLevel:41",
             "kind": "function",
             "file": "src/lib/weather/weatherVisuals.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -33285,12 +33500,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherConditions.ts:formatTemperature:24",
+      "id": "src/lib/weather/weatherConditions.ts:formatTemperature:25",
       "kind": "function",
       "module_id": "src/lib/weather/weatherConditions",
       "file": "src/lib/weather/weatherConditions.ts",
       "name": "formatTemperature",
-      "line": 24,
+      "line": 25,
       "score": 13,
       "risk": "low",
       "signals": [
@@ -33332,7 +33547,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherConditions.ts:formatTemperature:24",
+            "id": "src/lib/weather/weatherConditions.ts:formatTemperature:25",
             "kind": "function",
             "file": "src/lib/weather/weatherConditions.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -34770,12 +34985,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherConditions.ts:weatherDateKey:122",
+      "id": "src/lib/weather/weatherConditions.ts:weatherDateKey:89",
       "kind": "function",
       "module_id": "src/lib/weather/weatherConditions",
       "file": "src/lib/weather/weatherConditions.ts",
       "name": "weatherDateKey",
-      "line": 122,
+      "line": 89,
       "score": 12,
       "risk": "low",
       "signals": [
@@ -34817,7 +35032,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherConditions.ts:weatherDateKey:122",
+            "id": "src/lib/weather/weatherConditions.ts:weatherDateKey:89",
             "kind": "function",
             "file": "src/lib/weather/weatherConditions.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -41996,12 +42211,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherConditions.ts:part:129",
+      "id": "src/lib/weather/weatherConditions.ts:part:96",
       "kind": "function",
       "module_id": "src/lib/weather/weatherConditions",
       "file": "src/lib/weather/weatherConditions.ts",
       "name": "part",
-      "line": 129,
+      "line": 96,
       "score": 7,
       "risk": "low",
       "signals": [
@@ -42043,7 +42258,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherConditions.ts:part:129",
+            "id": "src/lib/weather/weatherConditions.ts:part:96",
             "kind": "function",
             "file": "src/lib/weather/weatherConditions.ts",
             "reason": "Intentional finding; document the project-specific reason."

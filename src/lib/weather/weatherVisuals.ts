@@ -1,8 +1,14 @@
 import { getWeatherScene, type WeatherConditions } from './weatherConditions'
 
-export type WeatherLevel = 0 | 1 | 2 | 3
-export type PrecipitationKind =
-  'none' | 'rain' | 'snow' | 'sleet' | 'hail' | 'freezing-rain'
+import {
+  getWeatherCode,
+  getPrecipitationKind,
+  getPrecipitationLevel,
+  type WeatherLevel,
+  type PrecipitationKind,
+} from './weatherCodes'
+export type { WeatherLevel, PrecipitationKind } from './weatherCodes'
+
 export type WeatherCharacterPose =
   'hot' | 'mild' | 'cool' | 'cold' | 'rain-warm' | 'rain-cold'
 
@@ -53,41 +59,24 @@ export const getWeatherCharacterPose = (
   return temperature >= 28 ? 'hot' : 'mild'
 }
 
+const severeThunderScenes = new Set(['thunderstorm', 'hail'])
+
 export function getWeatherVisuals(
   conditions: WeatherConditions | null
 ): WeatherVisuals {
-  if (!conditions || getWeatherScene(conditions) === 'unavailable')
+  if (!conditions) return EMPTY_WEATHER_VISUALS
+  const code = getWeatherCode(conditions.weatherCode)
+  if (!code || getWeatherScene(conditions) === 'unavailable')
     return EMPTY_WEATHER_VISUALS
-  const code = conditions.weatherCode!
-  const rainAmount = (conditions.rain ?? 0) + (conditions.showers ?? 0)
-  const snowAmount = conditions.snowfall ?? 0
-  const hail = code === 96 || code === 99
-  const freezingRain = [56, 57, 66, 67].includes(code)
-  const snow = [71, 73, 75, 77, 85, 86].includes(code) || snowAmount > 0
-  const mixed = !hail && !freezingRain && rainAmount > 0 && snowAmount > 0
-  const rain =
-    [51, 53, 55, 61, 63, 65, 80, 81, 82, 95].includes(code) || rainAmount > 0
-  const precipitation: PrecipitationKind = hail
-    ? 'hail'
-    : freezingRain
-      ? 'freezing-rain'
-      : mixed
-        ? 'sleet'
-        : snow
-          ? 'snow'
-          : rain
-            ? 'rain'
-            : 'none'
-  const heavy =
-    [55, 57, 65, 67, 75, 82, 86, 99].includes(code) ||
-    rainAmount >= 7.5 ||
-    snowAmount >= 1
-  const moderate =
-    [53, 63, 73, 81, 95, 96].includes(code) ||
-    rainAmount >= 2.5 ||
-    snowAmount >= 0.3
-  const precipitationLevel: WeatherLevel =
-    precipitation === 'none' ? 0 : heavy ? 3 : moderate ? 2 : 1
+  const rain = (conditions.rain ?? 0) + (conditions.showers ?? 0)
+  const snow = conditions.snowfall ?? 0
+  const precipitation = getPrecipitationKind(code.precipitation, rain, snow)
+  const precipitationLevel = getPrecipitationLevel(
+    precipitation,
+    code.level,
+    rain,
+    snow
+  )
   const speed = conditions.windSpeed ?? 0
   const windLevel = getWeatherWindLevel(speed)
   return {
@@ -96,9 +85,9 @@ export function getWeatherVisuals(
     precipitation,
     precipitationLevel,
     windLevel,
-    cloudLevel: code === 0 ? 0 : code === 1 ? 1 : code === 2 ? 2 : 3,
+    cloudLevel: code.cloudLevel,
     isDay: conditions.isDay ?? true,
-    fog: code === 45 || code === 48,
-    thunder: code === 95 || hail,
+    fog: code.scene === 'fog',
+    thunder: severeThunderScenes.has(code.scene),
   }
 }
