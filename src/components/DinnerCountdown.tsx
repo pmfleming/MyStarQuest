@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type ReactNode } from 'react'
+import { useId, useState, type CSSProperties, type ReactNode } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import ChoreOutcomeView from './ChoreOutcomeView'
 import StepperButton from './ui/StepperButton'
@@ -54,19 +54,19 @@ function polar(cx: number, cy: number, r: number, deg: number) {
 }
 
 /** Half-circle wedge representing remaining time proportion against the fixed 30-min max. */
-function wedgePath(remaining: number): string {
+function wedgePath(remaining: number, radius = CLOCK_RADIUS): string {
   const pct = Math.max(0, Math.min(1, remaining / MAX_DURATION))
-  const leftX = CLOCK_CENTER_X - CLOCK_RADIUS
+  const leftX = CLOCK_CENTER_X - radius
   const baseY = CLOCK_CENTER_Y
 
   if (pct <= 0) return `M ${CLOCK_CENTER_X} ${baseY} L ${leftX} ${baseY} Z`
   if (pct >= 1) {
-    const rightX = CLOCK_CENTER_X + CLOCK_RADIUS
-    return `M ${CLOCK_CENTER_X} ${baseY} L ${leftX} ${baseY} A ${CLOCK_RADIUS} ${CLOCK_RADIUS} 0 0 1 ${rightX} ${baseY} Z`
+    const rightX = CLOCK_CENTER_X + radius
+    return `M ${CLOCK_CENTER_X} ${baseY} L ${leftX} ${baseY} A ${radius} ${radius} 0 0 1 ${rightX} ${baseY} Z`
   }
 
   const a = pct * Math.PI
-  return `M ${CLOCK_CENTER_X} ${baseY} L ${leftX} ${baseY} A ${CLOCK_RADIUS} ${CLOCK_RADIUS} 0 0 1 ${CLOCK_CENTER_X - CLOCK_RADIUS * Math.cos(a)} ${CLOCK_CENTER_Y - CLOCK_RADIUS * Math.sin(a)} Z`
+  return `M ${CLOCK_CENTER_X} ${baseY} L ${leftX} ${baseY} A ${radius} ${radius} 0 0 1 ${CLOCK_CENTER_X - radius * Math.cos(a)} ${CLOCK_CENTER_Y - radius * Math.sin(a)} Z`
 }
 
 /** Pie-slice path for one bite on the plate. */
@@ -159,7 +159,7 @@ type CountdownClockDisplayOptions = {
   onToggleDisplayMode: () => void
 }
 
-const renderCountdownClockDisplay = ({
+const CountdownClockDisplay = ({
   theme,
   duration,
   liveRemaining,
@@ -169,15 +169,21 @@ const renderCountdownClockDisplay = ({
   clockDisplayMode,
   onToggleDisplayMode,
 }: CountdownClockDisplayOptions) => {
+  const id = useId().replace(/:/g, '')
+  const illustrated = hasIllustratedTheme(theme.id)
+  const radius = illustrated ? 66 : CLOCK_RADIUS
+  const markerInnerRadius = illustrated ? 58 : CLOCK_MARKER_INNER_RADIUS
+  const markerOuterRadius = illustrated ? 64 : CLOCK_RADIUS
+  const gold = theme.id === 'teenie' ? '#D8B777' : '#D6A555'
   const maxMins = MAX_DURATION / 60
   const markers = CLOCK_MARKER_VALUES.map((val) => {
     const fraction = val / maxMins
     const angle = fraction * Math.PI
     return {
-      x1: CLOCK_CENTER_X - CLOCK_MARKER_INNER_RADIUS * Math.cos(angle),
-      y1: CLOCK_CENTER_Y - CLOCK_MARKER_INNER_RADIUS * Math.sin(angle),
-      x2: CLOCK_CENTER_X - CLOCK_RADIUS * Math.cos(angle),
-      y2: CLOCK_CENTER_Y - CLOCK_RADIUS * Math.sin(angle),
+      x1: CLOCK_CENTER_X - markerInnerRadius * Math.cos(angle),
+      y1: CLOCK_CENTER_Y - markerInnerRadius * Math.sin(angle),
+      x2: CLOCK_CENTER_X - markerOuterRadius * Math.cos(angle),
+      y2: CLOCK_CENTER_Y - markerOuterRadius * Math.sin(angle),
     }
   })
   const displaySeconds = isTimerRunning ? liveRemaining : duration
@@ -187,8 +193,8 @@ const renderCountdownClockDisplay = ({
     clockDisplayMode === 'minsec'
       ? `${mins}:${secs.toString().padStart(2, '0')}`
       : `${displaySeconds}`
-  const boxW = 120
-  const boxH = 54
+  const boxW = illustrated ? 98 : 120
+  const boxH = illustrated ? 36 : 54
   const boxX = CLOCK_CENTER_X - boxW / 2
   const boxY = CLOCK_CENTER_Y - 4 - boxH
 
@@ -205,17 +211,43 @@ const renderCountdownClockDisplay = ({
         overflow: 'visible',
       }}
     >
+      <defs>
+        <clipPath id={`${id}-rim`}>
+          <rect x="0" y="0" width="220" height={CLOCK_CENTER_Y} />
+        </clipPath>
+        <linearGradient id={`${id}-time`} x1="0" y1="0" x2="0.8" y2="1">
+          <stop offset="0%" stopColor={theme.colors.accent} />
+          <stop offset="100%" stopColor={theme.colors.primary} />
+        </linearGradient>
+        <linearGradient id={`${id}-face`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#FFFFFF" />
+          <stop offset="100%" stopColor={theme.colors.bg} />
+        </linearGradient>
+      </defs>
+      {illustrated && (
+        <image
+          href={getThemeAsset(theme.id, 'plateImage')}
+          x={PLATE_IMAGE_OFFSET}
+          y={PLATE_IMAGE_OFFSET}
+          width={PLATE_IMAGE_SIZE}
+          height={PLATE_IMAGE_SIZE}
+          clipPath={`url(#${id}-rim)`}
+        />
+      )}
       <path
-        d={`M ${CLOCK_CENTER_X} ${CLOCK_CENTER_Y} L ${CLOCK_CENTER_X - CLOCK_RADIUS} ${CLOCK_CENTER_Y} A ${CLOCK_RADIUS} ${CLOCK_RADIUS} 0 0 1 ${CLOCK_CENTER_X + CLOCK_RADIUS} ${CLOCK_CENTER_Y} Z`}
-        fill="#ffffff"
+        d={wedgePath(MAX_DURATION, radius)}
+        fill={illustrated ? `url(#${id}-face)` : '#ffffff'}
       />
       <path
-        d={`M ${CLOCK_CENTER_X - CLOCK_RADIUS} ${CLOCK_CENTER_Y} A ${CLOCK_RADIUS} ${CLOCK_RADIUS} 0 0 1 ${CLOCK_CENTER_X + CLOCK_RADIUS} ${CLOCK_CENTER_Y}`}
+        d={`M ${CLOCK_CENTER_X - radius} ${CLOCK_CENTER_Y} A ${radius} ${radius} 0 0 1 ${CLOCK_CENTER_X + radius} ${CLOCK_CENTER_Y}`}
         fill="none"
-        stroke="#e0e0e0"
-        strokeWidth="4"
+        stroke={illustrated ? gold : '#e0e0e0'}
+        strokeWidth={illustrated ? 1 : 4}
       />
-      <path d={wedgePath(liveRemainingFloat)} fill={theme.colors.primary} />
+      <path
+        d={wedgePath(liveRemainingFloat, radius)}
+        fill={illustrated ? `url(#${id}-time)` : theme.colors.primary}
+      />
 
       {markers.map((marker, index) => (
         <line
@@ -224,8 +256,8 @@ const renderCountdownClockDisplay = ({
           y1={marker.y1}
           x2={marker.x2}
           y2={marker.y2}
-          stroke="#bbb"
-          strokeWidth="3"
+          stroke={illustrated ? gold : '#bbb'}
+          strokeWidth={illustrated ? 2 : 3}
           strokeLinecap="round"
         />
       ))}
@@ -235,10 +267,10 @@ const renderCountdownClockDisplay = ({
           <line
             x1={CLOCK_CENTER_X}
             y1={CLOCK_CENTER_Y}
-            x2={CLOCK_CENTER_X - CLOCK_SECOND_HAND_LENGTH}
+            x2={CLOCK_CENTER_X - (illustrated ? 62 : CLOCK_SECOND_HAND_LENGTH)}
             y2={CLOCK_CENTER_Y}
             stroke={theme.colors.secondary}
-            strokeWidth="4"
+            strokeWidth={illustrated ? 2.5 : 4}
             strokeLinecap="round"
             style={{
               transformOrigin: `${CLOCK_CENTER_X}px ${CLOCK_CENTER_Y}px`,
@@ -249,8 +281,9 @@ const renderCountdownClockDisplay = ({
           <circle
             cx={CLOCK_CENTER_X}
             cy={CLOCK_CENTER_Y}
-            r="6"
+            r={illustrated ? 4 : 6}
             fill={theme.colors.secondary}
+            stroke={illustrated ? gold : 'none'}
           />
         </>
       )}
@@ -263,18 +296,18 @@ const renderCountdownClockDisplay = ({
           height={boxH}
           rx={10}
           ry={10}
-          fill="rgba(255,255,255,0.85)"
-          stroke={theme.colors.primary}
-          strokeWidth="2"
+          fill="rgba(255,255,255,0.5)"
+          stroke={illustrated ? gold : theme.colors.primary}
+          strokeWidth={illustrated ? 1.25 : 2}
         />
         <text
           x={CLOCK_CENTER_X}
-          y={CLOCK_CENTER_Y - 17}
+          y={CLOCK_CENTER_Y - (illustrated ? 12 : 17)}
           textAnchor="middle"
           fill={theme.colors.primary}
           fontFamily={theme.fonts.heading}
           fontWeight="bold"
-          fontSize="36"
+          fontSize={illustrated ? 28 : 36}
         >
           {label}
         </text>
@@ -645,19 +678,20 @@ const DinnerCountdown = ({
               isSetup={isSetup}
             />
 
-            {renderCountdownClockDisplay({
-              theme,
-              duration,
-              liveRemaining,
-              liveRemainingFloat,
-              isTimerRunning,
-              secRot,
-              clockDisplayMode,
-              onToggleDisplayMode: () =>
+            <CountdownClockDisplay
+              theme={theme}
+              duration={duration}
+              liveRemaining={liveRemaining}
+              liveRemainingFloat={liveRemainingFloat}
+              isTimerRunning={isTimerRunning}
+              secRot={secRot}
+              clockDisplayMode={clockDisplayMode}
+              onToggleDisplayMode={() =>
                 setClockDisplayMode((mode) =>
                   mode === 'minsec' ? 'seconds' : 'minsec'
-                ),
-            })}
+                )
+              }
+            />
 
             <CountdownStepperControl
               theme={theme}
