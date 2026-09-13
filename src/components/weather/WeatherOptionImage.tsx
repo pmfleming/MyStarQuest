@@ -9,6 +9,9 @@ import { getSeason } from '../../lib/seasons'
 import { resolveBackgroundImage } from '../../features/dayNightExplorer/dayNightExplorerBackdrop'
 import { RainDrop, WindRibbon } from './WeatherMagic'
 
+// Fill the corners first, then the edges and centre as intensity increases.
+const precipitationCells = [0, 3, 8, 11, 1, 7, 10, 4, 2, 5, 6, 9]
+
 export default function WeatherOptionImage({
   themeId,
   kind,
@@ -59,9 +62,9 @@ export default function WeatherOptionImage({
                 </g>
               ))
             : kind !== 'none' &&
-              Array.from({ length: level * 3 }, (_, i) => {
-                const x = 12 + ((i * 31) % 72),
-                  y = 15 + ((i * 23) % 62)
+              precipitationCells.slice(0, level * 4).map((cell, i) => {
+                const x = 12 + (cell % 4) * 24,
+                  y = 14 + Math.floor(cell / 4) * 30
                 const snow =
                   kind === 'snow' || (kind === 'sleet' && i % 2 === 0)
                 return snow ? (
@@ -87,7 +90,7 @@ export default function WeatherOptionImage({
                     <RainDrop
                       themeId={themeId}
                       frozen={kind === 'freezing-rain'}
-                      sparkle={i % 3 === 0}
+                      sparkle={i % 3 !== 2}
                     />
                   </g>
                 )
