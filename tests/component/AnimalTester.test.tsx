@@ -77,7 +77,7 @@ describe('AnimalTester', () => {
     )
     expect(teachingCards).toHaveLength(4)
     expect(teachingCards.every((card) => card.querySelector('img'))).toBe(true)
-    expect(teachingCards[0]).toHaveTextContent(/^Andes$/)
+    expect(teachingCards[0]).toHaveTextContent(/^South America$/)
     expect(teachingCards[0]).toHaveAttribute(
       'aria-label',
       'LOCATION: The Andes of South America'

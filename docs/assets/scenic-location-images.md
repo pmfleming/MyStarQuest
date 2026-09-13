@@ -1,5 +1,7 @@
 # Scenic location artwork
 
+Historical set: superseded on 13 September 2026 by the [consolidated expanded-region set](region-review-2026-09.md). The current registry has 20 categories and uses `animal-locations/expanded/`.
+
 This set supersedes the earlier cutout continent maps. All 29 active location categories now use the same scenic treatment requested in the user's Africa/Australia examples:
 
 - A large foreground geographic shape with vivid landscape scenes inside it.

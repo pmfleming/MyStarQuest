@@ -1651,9 +1651,9 @@ const KNOWLEDGE_SEEDS = {
 } satisfies Record<string, AnimalKnowledgeSeed>
 
 const DISPLAY_CATEGORY_SEEDS = {
-  alpaca: { location: 'Andes', habitat: 'Mountain', food: 'Grass' },
+  alpaca: { location: 'South America', habitat: 'Mountain', food: 'Grass' },
   ant: { location: 'Worldwide', habitat: 'Burrow', food: 'Insects' },
-  armadillo: { location: 'America', habitat: 'Grassland', food: 'Insects' },
+  armadillo: { location: 'Americas', habitat: 'Grassland', food: 'Insects' },
   bat: { location: 'Worldwide', habitat: 'Cave', food: 'Insects' },
   bear: {
     location: 'North America, Europe, and Asia',
@@ -1680,13 +1680,13 @@ const DISPLAY_CATEGORY_SEEDS = {
   camel: { location: 'Africa & Asia', habitat: 'Desert', food: 'Grass' },
   cat: { location: 'Worldwide', habitat: 'Town', food: 'Fish' },
   cheetah: {
-    location: 'Africa & Iran',
+    location: 'Africa & Asia',
     habitat: 'Grassland',
     food: 'Antelopes',
   },
   chicken: { location: 'Worldwide', habitat: 'Farm', food: 'Seeds & Nuts' },
   chimpanzee: {
-    location: 'Central & West Africa',
+    location: 'Africa',
     habitat: 'Forest',
     food: 'Fruit',
   },
@@ -1705,9 +1705,9 @@ const DISPLAY_CATEGORY_SEEDS = {
   gecko: { location: 'Worldwide', habitat: 'Trees', food: 'Insects' },
   giraffe: { location: 'Africa', habitat: 'Grassland', food: 'Leaves' },
   goat: { location: 'Worldwide', habitat: 'Mountain', food: 'Leaves' },
-  gorilla: { location: 'Central Africa', habitat: 'Forest', food: 'Leaves' },
+  gorilla: { location: 'Africa', habitat: 'Forest', food: 'Leaves' },
   'green-tree-python': {
-    location: 'New Guinea & N. Australia',
+    location: 'New Guinea & Australia',
     habitat: 'Forest',
     food: 'Rodents',
   },
@@ -1717,16 +1717,16 @@ const DISPLAY_CATEGORY_SEEDS = {
   ibis: { location: 'Worldwide', habitat: 'Wetland', food: 'Insects' },
   jackal: { location: 'Afro-Eurasia', habitat: 'Grassland', food: 'Rodents' },
   jaguar: {
-    location: 'Central & South America',
+    location: 'Americas',
     habitat: 'Forest',
     food: 'Reptiles',
   },
   kangaroo: { location: 'Australia', habitat: 'Grassland', food: 'Grass' },
   kiwi: { location: 'New Zealand', habitat: 'Forest', food: 'Worms' },
-  koala: { location: 'Eastern Australia', habitat: 'Forest', food: 'Leaves' },
-  lion: { location: 'Africa & India', habitat: 'Grassland', food: 'Antelopes' },
-  llama: { location: 'Andes', habitat: 'Mountain', food: 'Grass' },
-  meerkat: { location: 'Southern Africa', habitat: 'Desert', food: 'Insects' },
+  koala: { location: 'Australia', habitat: 'Forest', food: 'Leaves' },
+  lion: { location: 'Africa & Asia', habitat: 'Grassland', food: 'Antelopes' },
+  llama: { location: 'South America', habitat: 'Mountain', food: 'Grass' },
+  meerkat: { location: 'Africa', habitat: 'Desert', food: 'Insects' },
   mole: {
     location: 'North America, Europe, and Asia',
     habitat: 'Burrow',
@@ -1746,7 +1746,7 @@ const DISPLAY_CATEGORY_SEEDS = {
   octopus: { location: 'Ocean', habitat: 'Ocean', food: 'Shellfish' },
   otter: { location: 'Five continents', habitat: 'River', food: 'Fish' },
   owl: { location: 'Worldwide', habitat: 'Forest', food: 'Rodents' },
-  panda: { location: 'Central China', habitat: 'Forest', food: 'Bamboo' },
+  panda: { location: 'Asia', habitat: 'Forest', food: 'Bamboo' },
   parrot: { location: 'Worldwide', habitat: 'Forest', food: 'Fruit' },
   penguin: { location: 'Southern Hemisphere', habitat: 'Ocean', food: 'Fish' },
   pig: { location: 'Worldwide', habitat: 'Farm', food: 'Roots' },
@@ -1758,9 +1758,9 @@ const DISPLAY_CATEGORY_SEEDS = {
   seal: { location: 'Global coasts', habitat: 'Ocean', food: 'Fish' },
   shark: { location: 'Ocean', habitat: 'Ocean', food: 'Fish' },
   sheep: { location: 'Worldwide', habitat: 'Grassland', food: 'Grass' },
-  skunk: { location: 'America', habitat: 'Forest', food: 'Insects' },
+  skunk: { location: 'Americas', habitat: 'Forest', food: 'Insects' },
   sloth: {
-    location: 'Central & South America',
+    location: 'Americas',
     habitat: 'Forest',
     food: 'Leaves',
   },
@@ -1788,7 +1788,7 @@ const DISPLAY_CATEGORY_SEEDS = {
     habitat: 'Forest',
     food: 'Deer',
   },
-  yak: { location: 'Central Asia', habitat: 'Mountain', food: 'Grass' },
+  yak: { location: 'Asia', habitat: 'Mountain', food: 'Grass' },
   zebra: { location: 'Africa', habitat: 'Grassland', food: 'Grass' },
 } satisfies Record<keyof typeof KNOWLEDGE_SEEDS, AnimalDisplayCategories>
 
