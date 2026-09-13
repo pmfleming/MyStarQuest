@@ -66,14 +66,12 @@ export default memo(function WeatherPanel({
                   : 'Weather unavailable'
                 : 'Current weather'}
         </span>
-        {exploration.isExploring && (
-          <IconActionButton
-            theme={theme}
-            icon={getThemeAsset(theme.id, 'resetIcon')}
-            ariaLabel="Reset to current"
-            onClick={exploration.reset}
-          />
-        )}
+        <IconActionButton
+          theme={theme}
+          icon={getThemeAsset(theme.id, 'resetIcon')}
+          ariaLabel="Reset to current"
+          onClick={exploration.reset}
+        />
       </div>
       {(error || (!loading && !data)) && (
         <AsyncButton

@@ -211,8 +211,8 @@ describe('Time Explorer weather panel', () => {
     rerender(<TimeExplorerPage />)
     expect(screen.getByLabelText('Temperature value')).toHaveTextContent('16°C')
     expect(
-      screen.queryByRole('button', { name: 'Reset to current' })
-    ).not.toBeInTheDocument()
+      screen.getByRole('button', { name: 'Reset to current' })
+    ).toBeVisible()
 
     // Exploration started while the next city's data is loading wins over its response.
     state.cityIndex = 1
