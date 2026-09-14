@@ -149,7 +149,7 @@ export function useRewards() {
       throw new Error('Please select a child from the chores tab first.')
     }
 
-    await redeemReward({
+    return redeemReward({
       userId: user.uid,
       childId: activeChildId,
       reward,

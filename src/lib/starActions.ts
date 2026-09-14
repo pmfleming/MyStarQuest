@@ -136,7 +136,7 @@ export const redeemReward = async ({
   const rewardRef = doc(db, 'users', userId, 'rewards', reward.id)
   const redemptionRef = doc(collection(db, 'users', userId, 'redemptions'))
 
-  await runTransaction(db, async (transaction) => {
+  return runTransaction(db, async (transaction) => {
     const [childSnapshot, rewardSnapshot] = await Promise.all([
       transaction.get(childRef),
       transaction.get(rewardRef),
@@ -176,6 +176,11 @@ export const redeemReward = async ({
 
     if (rewardData.isRepeating !== true) {
       transaction.delete(rewardRef)
+    }
+    return {
+      title: storedTitle,
+      starsBefore: currentStars,
+      starsAfter: currentStars - storedCost,
     }
   })
 }

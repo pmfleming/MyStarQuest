@@ -61,10 +61,15 @@ describe('star transactions', () => {
       callback(transaction)
     )
 
-    await redeemReward({
+    const receipt = await redeemReward({
       userId: 'user-1',
       childId: 'child-1',
       reward: { id: 'reward-1', title: 'Stale title', costStars: 1 },
+    })
+    expect(receipt).toEqual({
+      title: 'Stored reward',
+      starsBefore: 10,
+      starsAfter: 4,
     })
 
     expect(transaction.update).toHaveBeenCalledWith(
