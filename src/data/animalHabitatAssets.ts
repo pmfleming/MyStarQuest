@@ -15,28 +15,7 @@ import treesImage from '../assets/animal-habitats/trees.webp'
 import tundraImage from '../assets/animal-habitats/tundra.webp'
 import wetlandImage from '../assets/animal-habitats/wetland.webp'
 
-export const ANIMAL_HABITAT_NAMES = [
-  'Ocean',
-  'Coastline',
-  'Forest',
-  'Grassland',
-  'Desert',
-  'Wetland',
-  'Mountain',
-  'River',
-  'Pond',
-  'Tundra',
-  'Farm',
-  'Town',
-  'Trees',
-  'Cave',
-  'Burrow',
-  'Nature',
-] as const
-
-export type AnimalHabitatName = (typeof ANIMAL_HABITAT_NAMES)[number]
-
-export const ANIMAL_HABITAT_IMAGE_BY_NAME: Record<AnimalHabitatName, string> = {
+export const ANIMAL_HABITAT_IMAGE_BY_NAME = {
   Ocean: oceanImage,
   Coastline: coastlineImage,
   Forest: forestImage,
@@ -54,3 +33,5 @@ export const ANIMAL_HABITAT_IMAGE_BY_NAME: Record<AnimalHabitatName, string> = {
   Burrow: burrowImage,
   Nature: natureImage,
 }
+
+export type AnimalHabitatName = keyof typeof ANIMAL_HABITAT_IMAGE_BY_NAME

@@ -1,4 +1,5 @@
 import * as princess from '../assets/themes/princess/assets'
+import { createAssetResolver } from '../data/assetCatalog'
 import type { ThemeId } from './themeOptions'
 import type { Season } from '../lib/seasons'
 import heart from '../assets/teenie/heart.webp'
@@ -76,11 +77,11 @@ const teenieFiles = import.meta.glob<string>(
   { eager: true, query: '?url', import: 'default' }
 )
 
-const teenieImage = (file: string): string => {
-  const image = teenieFiles[`../assets/themes/teenie/${file}`]
-  if (!image) throw new Error(`Missing Teenie theme asset: ${file}`)
-  return image
-}
+const teenieImage = createAssetResolver(
+  teenieFiles,
+  '../assets/themes/teenie/',
+  'Missing Teenie theme asset'
+)
 
 const teenieRoles = {
   background: 'seasons/spring-daytime.webp',
@@ -176,21 +177,18 @@ const createTeenieActivities = () => ({
   washingTeeth: teenieImage('washing-teeth.webp'),
 })
 
-const createTeenieBackgrounds = () =>
-  Object.fromEntries(
-    ['sunrise', 'daytime', 'sunset', 'night'].map((phase) => [
-      phase,
-      Object.fromEntries(
-        ['spring', 'summer', 'autumn', 'winter'].map((season) => [
-          season,
-          teenieImage(`seasons/${season}-${phase}.webp`),
-        ])
-      ) as Record<Season, string>,
-    ])
-  ) as Record<
-    'sunrise' | 'daytime' | 'sunset' | 'night',
-    Record<Season, string>
-  >
+const seasonImages = (phase: string): Record<Season, string> => ({
+  spring: teenieImage(`seasons/spring-${phase}.webp`),
+  summer: teenieImage(`seasons/summer-${phase}.webp`),
+  autumn: teenieImage(`seasons/autumn-${phase}.webp`),
+  winter: teenieImage(`seasons/winter-${phase}.webp`),
+})
+const createTeenieBackgrounds = () => ({
+  sunrise: seasonImages('sunrise'),
+  daytime: seasonImages('daytime'),
+  sunset: seasonImages('sunset'),
+  night: seasonImages('night'),
+})
 
 let activities: ReturnType<typeof createTeenieActivities> | undefined
 let backgrounds: ReturnType<typeof createTeenieBackgrounds> | undefined

@@ -1,51 +1,65 @@
-import { useCallback, type Dispatch, type SetStateAction } from 'react'
+import { useCallback, useState } from 'react'
 import type { DocumentData } from 'firebase/firestore'
-import { sortByCreatedAtThenTitle } from './types'
+import { useAuth } from '../auth/AuthContext'
+import { useActiveChild } from '../contexts/ActiveChildContext'
+import { getTodayDescriptor } from '../lib/today'
+import { reconcileTaskEphemeral, useTodayInfo } from './dailyTaskState'
+import {
+  sortByCreatedAtThenTitle,
+  type TaskEphemeralState,
+  type TaskRecord,
+} from './types'
 import { useUserCollection } from './useUserCollection'
 
-type ChildTaskCollectionItem = {
-  createdAt?: Date
-  title: string
-}
+type ChildTaskCollectionItem = Pick<TaskRecord, 'id' | 'createdAt' | 'title'>
 
-type UseChildTaskCollectionArgs<T extends ChildTaskCollectionItem, E> = {
-  userId: string | undefined
-  activeChildId: string | null
+type UseChildTaskCollectionArgs<T extends ChildTaskCollectionItem> = {
   collectionName: 'chores' | 'tests'
-  errorMessage: string
   parseDocument: (id: string, data: DocumentData) => T | null
-  clearEphemeral: Dispatch<SetStateAction<Record<string, E>>>
-  onItems?: (items: T[]) => void
+  getPersistedState?: (item: T, dateKey: string) => TaskEphemeralState
 }
 
-export const useChildTaskCollection = <T extends ChildTaskCollectionItem, E>({
-  userId,
-  activeChildId,
+export const useChildTaskCollection = <T extends ChildTaskCollectionItem>({
   collectionName,
-  errorMessage,
   parseDocument,
-  clearEphemeral,
-  onItems,
-}: UseChildTaskCollectionArgs<T, E>) => {
-  const mapDocument = useCallback(
-    (id: string, data: DocumentData) => parseDocument(id, data),
-    [parseDocument]
-  )
+  getPersistedState,
+}: UseChildTaskCollectionArgs<T>) => {
+  const { user } = useAuth()
+  const { activeChildId } = useActiveChild()
+  const todayInfo = useTodayInfo()
+  const [ephemeral, setEphemeral] = useState<
+    Record<string, TaskEphemeralState>
+  >({})
   const normalizeItems = useCallback(
     (items: T[]) => [...items].sort(sortByCreatedAtThenTitle),
     []
   )
-  const onClear = useCallback(() => clearEphemeral({}), [clearEphemeral])
+  const onClear = useCallback(() => setEphemeral({}), [])
+  const onItems = useCallback(
+    (items: T[]) => {
+      // Keep optimistic changes until their fields arrive in a subscription snapshot.
+      const dateKey = getTodayDescriptor().dateKey
+      const persisted = getPersistedState
+        ? items.map((item) => ({
+            id: item.id,
+            ...getPersistedState(item, dateKey),
+          }))
+        : items
+      setEphemeral((previous) => reconcileTaskEphemeral(previous, persisted))
+    },
+    [getPersistedState]
+  )
 
-  return useUserCollection({
-    userId: activeChildId ? userId : undefined,
+  const items = useUserCollection({
+    userId: activeChildId ? user?.uid : undefined,
     collectionName,
     whereEqualToField: 'childId',
     whereEqualToValue: activeChildId ?? undefined,
-    errorMessage,
-    mapDocument,
+    errorMessage: `Failed to subscribe to ${collectionName}`,
+    mapDocument: parseDocument,
     normalizeItems,
     onClear,
     onItems,
   })
+  return { items, user, activeChildId, todayInfo, ephemeral, setEphemeral }
 }

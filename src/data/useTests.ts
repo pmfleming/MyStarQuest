@@ -1,16 +1,13 @@
 // Tests subscription + mutations.
 
 import { doc, runTransaction, updateDoc } from 'firebase/firestore'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useAuth } from '../auth/AuthContext'
-import { useActiveChild } from '../contexts/ActiveChildContext'
+import { useCallback, useEffect, useMemo } from 'react'
 import { db } from '../firebaseDb'
 import { useCoalescedDocumentUpdates } from '../hooks/useCoalescedDocumentUpdates'
 import { celebrateSuccess } from '../lib/celebrate'
 import { calculateAwardTaskPatch } from '../lib/choreLogic'
 import { parseTestSnapshot } from '../lib/choreParser'
 import { completeTaskAndAwardStars } from '../lib/starActions'
-import { getTodayDescriptor } from '../lib/today'
 import {
   mergeOptimisticItems,
   settleOptimisticPatch,
@@ -20,9 +17,7 @@ import {
   getTestLastActive,
   manageTestOutcomePatch,
   mergeTestEphemeral,
-  reconcileTaskEphemeral,
   useEphemeralExpiry,
-  useTodayInfo,
 } from './dailyTaskState'
 import { buildDefaultTests, buildTestDocument } from './taskDocuments'
 import { validateTaskFields } from './taskLimits'
@@ -54,13 +49,18 @@ const getPersistedAttemptState = (
 }
 
 export function useTests() {
-  const { user } = useAuth()
-  const { activeChildId } = useActiveChild()
-
-  const [ephemeral, setEphemeral] = useState<
-    Record<string, TaskEphemeralState>
-  >({})
-  const todayInfo = useTodayInfo()
+  const {
+    items: rawTests,
+    user,
+    activeChildId,
+    todayInfo,
+    ephemeral,
+    setEphemeral,
+  } = useChildTaskCollection({
+    collectionName: 'tests',
+    parseDocument: parseTestSnapshot,
+    getPersistedState: getPersistedAttemptState,
+  })
 
   const defaultTests = useMemo<TestRecord[]>(() => {
     if (!activeChildId) return []
@@ -100,29 +100,6 @@ export function useTests() {
     onError: (_testId, _field, error) => {
       console.error('Failed to update test', error)
     },
-  })
-
-  const reconcileAttemptState = useCallback((items: TestRecord[]) => {
-    const dateKey = getTodayDescriptor().dateKey
-    setEphemeral((previous) =>
-      reconcileTaskEphemeral(
-        previous,
-        items.map((test) => ({
-          id: test.id,
-          ...getPersistedAttemptState(test, dateKey),
-        }))
-      )
-    )
-  }, [])
-
-  const rawTests = useChildTaskCollection({
-    userId: user?.uid,
-    activeChildId,
-    collectionName: 'tests',
-    errorMessage: 'Failed to subscribe to tests',
-    parseDocument: parseTestSnapshot,
-    clearEphemeral: setEphemeral,
-    onItems: reconcileAttemptState,
   })
 
   useEffect(() => {

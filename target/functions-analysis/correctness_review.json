@@ -13,10 +13,10 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-09T15:21:09.165Z",
+    "measured_at": "2026-09-13T22:17:57.861Z",
     "source_type": "static",
-    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
-    "input_set_hash": "sha256:e7e7eed409860ea5ed194cb92d1e542950b03d2031e5491bb2b6341c877a4064"
+    "source_set_hash": "sha256:e9179904e4468fd570e919e7d1ff74d38da76208f8cdef1b7739bf5dbbcb52f3",
+    "input_set_hash": "sha256:16ee882f60068dc2a2c1b96087e47c04e49607705c14b9c74db354a4e58e4eb4"
   },
   "analysis_identity": {
     "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
@@ -90,9 +90,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 7,
+    "tests": 14,
     "colocated_tests": 0,
-    "external_tests": 7,
+    "external_tests": 14,
     "execution_status": "unknown",
     "execution_scope": "suite",
     "coverage_status": "not_collected",
@@ -104,6 +104,38 @@
   },
   "records": [],
   "tests": [
+    {
+      "id": "test:../tests/unit/assetCatalog.test.ts",
+      "name": "assetCatalog.test.ts",
+      "path": "../tests/unit/assetCatalog.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 4,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/dailyChoreFunctions.test.ts",
+      "name": "dailyChoreFunctions.test.ts",
+      "path": "../tests/unit/dailyChoreFunctions.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": ["src/index.ts"],
+      "source_associations": [
+        {
+          "file": "src/index.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 10,
+      "skipped": 0,
+      "todo": 0
+    },
     {
       "id": "test:../tests/unit/dailyTaskState.test.ts",
       "name": "dailyTaskState.test.ts",
@@ -118,6 +150,19 @@
       "todo": 0
     },
     {
+      "id": "test:../tests/unit/explorerBackdrop.test.ts",
+      "name": "explorerBackdrop.test.ts",
+      "path": "../tests/unit/explorerBackdrop.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 3,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
       "id": "test:../tests/unit/loadCreatureCollection.test.ts",
       "name": "loadCreatureCollection.test.ts",
       "path": "../tests/unit/loadCreatureCollection.test.ts",
@@ -127,6 +172,19 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "assertions": 9,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/optimisticState.test.ts",
+      "name": "optimisticState.test.ts",
+      "path": "../tests/unit/optimisticState.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 4,
       "skipped": 0,
       "todo": 0
     },
@@ -163,6 +221,19 @@
       "todo": 0
     },
     {
+      "id": "test:../tests/unit/schoolCalendarData.test.ts",
+      "name": "schoolCalendarData.test.ts",
+      "path": "../tests/unit/schoolCalendarData.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 10,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
       "id": "test:../tests/unit/starActions.test.ts",
       "name": "starActions.test.ts",
       "path": "../tests/unit/starActions.test.ts",
@@ -171,7 +242,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 4,
+      "assertions": 17,
       "skipped": 0,
       "todo": 0
     },
@@ -189,15 +260,41 @@
       "todo": 0
     },
     {
-      "id": "test:../tests/unit/themeAssets.test.ts",
-      "name": "themeAssets.test.ts",
-      "path": "../tests/unit/themeAssets.test.ts",
+      "id": "test:../tests/unit/weatherConditions.test.ts",
+      "name": "weatherConditions.test.ts",
+      "path": "../tests/unit/weatherConditions.test.ts",
       "framework": "unknown",
       "locality": "external",
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 25,
+      "assertions": 31,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/weatherData.test.ts",
+      "name": "weatherData.test.ts",
+      "path": "../tests/unit/weatherData.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 12,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/weatherStore.test.ts",
+      "name": "weatherStore.test.ts",
+      "path": "../tests/unit/weatherStore.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 12,
       "skipped": 0,
       "todo": 0
     }

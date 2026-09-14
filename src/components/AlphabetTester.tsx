@@ -20,10 +20,10 @@ import { createAssetCatalog } from '../data/assetCatalog'
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 9
 
-const ALPHABET_ASSET_MODULES = import.meta.glob(
+const ALPHABET_ASSET_MODULES = import.meta.glob<string>(
   '../assets/alphabet/*.{png,jpg,jpeg,webp,svg}',
   { eager: true, import: 'default' }
-) as Record<string, string>
+)
 
 const alphabetAssetsByLetter = new Map<string, string[]>()
 for (const { name, image } of createAssetCatalog(ALPHABET_ASSET_MODULES)

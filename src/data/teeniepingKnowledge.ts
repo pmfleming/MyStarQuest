@@ -1,4 +1,5 @@
 import profiles from './teeniepingProfiles.json'
+import { createAssetResolver } from './assetCatalog'
 
 export const TEENIEPING_CLUE_CATEGORIES = [
   'looks',
@@ -20,11 +21,12 @@ export const TEENIEPING_ART_COMPLETE = profiles.every((profile) =>
   )
 )
 
-const requiredImage = (path: string) => {
-  const image = images[`../assets/teenie/${path}.webp`]
-  if (!image) throw new Error(`Missing Teenieping image: ${path}`)
-  return image
-}
+const requiredImage = createAssetResolver(
+  images,
+  '../assets/teenie/',
+  'Missing Teenieping image',
+  '.webp'
+)
 
 export type TeeniepingKnowledge = (typeof profiles)[number] & {
   kind: 'teenieping'

@@ -1,6 +1,6 @@
 // ── Chores subscription + mutations ──
 
-import { useCallback, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import {
   addDoc,
   collection,
@@ -9,18 +9,11 @@ import {
   updateDoc,
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
-import { useAuth } from '../auth/AuthContext'
-import { useActiveChild } from '../contexts/ActiveChildContext'
 import { parseChoreSnapshot } from '../lib/choreParser'
 import { buildChoreDocument, type ChoreDocumentSettings } from './taskDocuments'
 import { isScheduledForDay } from '../lib/today'
 import { settleOptimisticPatch } from '../lib/optimisticState'
-import {
-  filterActiveChildItems,
-  mergeTaskEphemeral,
-  reconcileTaskEphemeral,
-  useTodayInfo,
-} from './dailyTaskState'
+import { filterActiveChildItems, mergeTaskEphemeral } from './dailyTaskState'
 import { useChoreActivityActions } from './useChoreActivityActions'
 import {
   type ChoreRecord,
@@ -32,28 +25,16 @@ import { validateTaskFields } from './taskLimits'
 import { useChildTaskCollection } from './useChildTaskCollection'
 
 export function useChores() {
-  const { user } = useAuth()
-  const { activeChildId } = useActiveChild()
-
-  const [ephemeral, setEphemeral] = useState<
-    Record<string, TaskEphemeralState>
-  >({})
-  const todayInfo = useTodayInfo()
-
-  const reconcileActivityState = useCallback((items: ChoreRecord[]) => {
-    // Keep optimistic activity changes until the subscription reflects them.
-    // A successful write can settle before React receives the new snapshot.
-    setEphemeral((previous) => reconcileTaskEphemeral(previous, items))
-  }, [])
-
-  const rawChores = useChildTaskCollection({
-    userId: user?.uid,
+  const {
+    items: rawChores,
+    user,
     activeChildId,
+    todayInfo,
+    ephemeral,
+    setEphemeral,
+  } = useChildTaskCollection({
     collectionName: 'chores',
-    errorMessage: 'Failed to subscribe to chores',
     parseDocument: parseChoreSnapshot,
-    clearEphemeral: setEphemeral,
-    onItems: reconcileActivityState,
   })
 
   const chores = useMemo(

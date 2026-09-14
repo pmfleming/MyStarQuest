@@ -1,4 +1,5 @@
 import type { ThemeId } from './themeOptions'
+import { createAssetResolver } from '../data/assetCatalog'
 
 const artwork = import.meta.glob<string>(
   '../assets/themes/*/weather/{environment.webp,wardrobe.png}',
@@ -9,14 +10,14 @@ const artwork = import.meta.glob<string>(
   }
 )
 
-function asset(theme: ThemeId, path: string) {
-  const source = artwork[`../assets/themes/${theme}/weather/${path}`]
-  if (!source) throw new Error(`Missing weather artwork: ${theme}/${path}`)
-  return source
-}
+const asset = createAssetResolver(
+  artwork,
+  '../assets/themes/',
+  'Missing weather artwork'
+)
 
 export const getWeatherEnvironment = (theme: ThemeId) =>
-  asset(theme, 'environment.webp')
+  asset(`${theme}/weather/environment.webp`)
 
 export const getWeatherWardrobe = (theme: ThemeId) =>
-  asset(theme, 'wardrobe.png')
+  asset(`${theme}/weather/wardrobe.png`)

@@ -13,10 +13,10 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-09T15:21:09.263Z",
+    "measured_at": "2026-09-13T22:17:57.950Z",
     "source_type": "static",
-    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
-    "input_set_hash": "sha256:e42e84a2314f5ea65a7a24996c58327cbf1d4fafb47c9931109edec673f741bb"
+    "source_set_hash": "sha256:e9179904e4468fd570e919e7d1ff74d38da76208f8cdef1b7739bf5dbbcb52f3",
+    "input_set_hash": "sha256:48ca021d882faab7dc410aa89d44b846aec540a4120898d4f719de781e6d2a3a"
   },
   "analysis_identity": {
     "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
@@ -89,14 +89,44 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 7,
+    "tests": 14,
     "colocated_tests": 0,
-    "external_tests": 7,
+    "external_tests": 14,
     "execution_status": "unknown",
     "execution_scope": "suite",
     "coverage_status": "not_collected"
   },
   "tests": [
+    {
+      "id": "test:../tests/unit/assetCatalog.test.ts",
+      "name": "assetCatalog.test.ts",
+      "path": "../tests/unit/assetCatalog.test.ts",
+      "framework": "unknown",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "unknown",
+      "command_hint": null
+    },
+    {
+      "id": "test:../tests/unit/dailyChoreFunctions.test.ts",
+      "name": "dailyChoreFunctions.test.ts",
+      "path": "../tests/unit/dailyChoreFunctions.test.ts",
+      "framework": "vitest",
+      "source_mapping": ["src/index.ts"],
+      "source_associations": [
+        {
+          "file": "src/index.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "unknown",
+      "command_hint": null
+    },
     {
       "id": "test:../tests/unit/dailyTaskState.test.ts",
       "name": "dailyTaskState.test.ts",
@@ -110,9 +140,33 @@
       "command_hint": null
     },
     {
+      "id": "test:../tests/unit/explorerBackdrop.test.ts",
+      "name": "explorerBackdrop.test.ts",
+      "path": "../tests/unit/explorerBackdrop.test.ts",
+      "framework": "unknown",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "unknown",
+      "command_hint": null
+    },
+    {
       "id": "test:../tests/unit/loadCreatureCollection.test.ts",
       "name": "loadCreatureCollection.test.ts",
       "path": "../tests/unit/loadCreatureCollection.test.ts",
+      "framework": "unknown",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "unknown",
+      "command_hint": null
+    },
+    {
+      "id": "test:../tests/unit/optimisticState.test.ts",
+      "name": "optimisticState.test.ts",
+      "path": "../tests/unit/optimisticState.test.ts",
       "framework": "unknown",
       "source_mapping": [],
       "source_associations": [],
@@ -152,6 +206,18 @@
       "command_hint": null
     },
     {
+      "id": "test:../tests/unit/schoolCalendarData.test.ts",
+      "name": "schoolCalendarData.test.ts",
+      "path": "../tests/unit/schoolCalendarData.test.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "unknown",
+      "command_hint": null
+    },
+    {
       "id": "test:../tests/unit/starActions.test.ts",
       "name": "starActions.test.ts",
       "path": "../tests/unit/starActions.test.ts",
@@ -176,10 +242,34 @@
       "command_hint": null
     },
     {
-      "id": "test:../tests/unit/themeAssets.test.ts",
-      "name": "themeAssets.test.ts",
-      "path": "../tests/unit/themeAssets.test.ts",
+      "id": "test:../tests/unit/weatherConditions.test.ts",
+      "name": "weatherConditions.test.ts",
+      "path": "../tests/unit/weatherConditions.test.ts",
       "framework": "unknown",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "unknown",
+      "command_hint": null
+    },
+    {
+      "id": "test:../tests/unit/weatherData.test.ts",
+      "name": "weatherData.test.ts",
+      "path": "../tests/unit/weatherData.test.ts",
+      "framework": "unknown",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "unknown",
+      "command_hint": null
+    },
+    {
+      "id": "test:../tests/unit/weatherStore.test.ts",
+      "name": "weatherStore.test.ts",
+      "path": "../tests/unit/weatherStore.test.ts",
+      "framework": "vitest",
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",

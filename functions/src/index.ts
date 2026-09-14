@@ -108,8 +108,8 @@ const ACTIVITY_TYPE_PRIORITY: ActivityType[] = [
 ]
 
 const getActivityType = (data: DocumentData): ActivityType => {
-  const explicitType = data.taskType ?? data.choreType ?? data.testType
-  const category = data.category
+  const explicitType: unknown = data.taskType ?? data.choreType ?? data.testType
+  const category: unknown = data.category
 
   return (
     ACTIVITY_TYPE_PRIORITY.find(
@@ -139,20 +139,20 @@ const getTemplateDocs = async (uid: string, childId: string) => {
   })
 }
 
-const createDailyActivities = async (
+const resetChildChores = async (
   uid: string,
   childId: string,
-  dayType: CurrentDayType
+  dayType: CurrentDayType,
+  requireTitle = false
 ) => {
   const templates = await getTemplateDocs(uid, childId)
 
   const choresToReset = templates.filter((taskDoc) => {
     const data = taskDoc.data()
-    const title = (data.title ?? '').trim()
-    const taskType = getActivityType(data)
-    if (!title) return false
-    if (!isChoreType(taskType)) return false
-    return isScheduledForDay(data as ScheduledTaskData, dayType)
+    const title: unknown = data.title
+    if (requireTitle && (typeof title !== 'string' || !title.trim()))
+      return false
+    return isScheduledForDay(data, dayType)
   })
 
   if (choresToReset.length === 0) return 0
@@ -189,7 +189,7 @@ export const generateDailyTodos = onSchedule(
       for (const childDoc of childrenSnapshot.docs) {
         const childId = childDoc.id
 
-        const created = await createDailyActivities(uid, childId, dayType)
+        const created = await resetChildChores(uid, childId, dayType, true)
         console.log(
           `Reset ${created} chores for user=${uid} child=${childId} date=${dateKey}`
         )
@@ -201,24 +201,7 @@ export const generateDailyTodos = onSchedule(
 const resetTodayActivities = async (uid: string, childId: string) => {
   const { dateKey, dayType } = getLocalizedDateInfo('Europe/London')
 
-  const chores = await getTemplateDocs(uid, childId)
-
-  const resetBatch = db.batch()
-  let updated = 0
-
-  for (const choreDoc of chores) {
-    const data = choreDoc.data()
-    const taskType = getActivityType(data)
-    if (!isChoreType(taskType)) continue
-    if (!isScheduledForDay(data as ScheduledTaskData, dayType)) continue
-
-    resetBatch.update(choreDoc.ref, getDailyActivityResetPatch(data))
-    updated += 1
-  }
-
-  if (updated > 0) {
-    await resetBatch.commit()
-  }
+  const updated = await resetChildChores(uid, childId, dayType)
 
   console.log(
     `Reset: refreshed ${updated} chores for user=${uid} child=${childId} date=${dateKey}`
@@ -230,9 +213,9 @@ const getDailyActivityResetPatch = (data: DocumentData) => {
   const taskType = getActivityType(data)
 
   if (taskType === 'eating') {
-    const duration =
+    const duration: unknown =
       data.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS
-    const bites = data.dinnerTotalBites ?? DEFAULT_DINNER_BITES
+    const bites: unknown = data.dinnerTotalBites ?? DEFAULT_DINNER_BITES
     return {
       manageDinnerCompletedAt: null,
       manageDinnerRemainingSeconds: duration,
@@ -252,14 +235,15 @@ const getDailyActivityResetPatch = (data: DocumentData) => {
   return { manageCompletedAt: null }
 }
 
-const assertCallableChild = async (
-  uid: string | undefined,
-  childId: unknown
-) => {
+const assertCallableChild = async (uid: string | undefined, data: unknown) => {
   if (!uid) {
     throw new HttpsError('unauthenticated', 'Must be signed in.')
   }
 
+  const childId =
+    data && typeof data === 'object' && 'childId' in data
+      ? data.childId
+      : undefined
   if (!childId || typeof childId !== 'string') {
     throw new HttpsError('invalid-argument', 'childId is required.')
   }
@@ -269,23 +253,19 @@ const assertCallableChild = async (
     throw new HttpsError('not-found', 'Child not found.')
   }
 
-  return childId
+  return { uid, childId }
 }
 
 // ── Callable functions: reset today's activities for a specific child ──
 
 export const resetTodayChores = onCall(async (request) => {
-  const uid = request.auth?.uid
-  const { childId } = request.data as { childId?: string }
-  const verifiedChildId = await assertCallableChild(uid, childId)
-  return resetTodayActivities(uid!, verifiedChildId)
+  const child = await assertCallableChild(request.auth?.uid, request.data)
+  return resetTodayActivities(child.uid, child.childId)
 })
 
 export const resetTodayTodos = onCall(async (request) => {
-  const uid = request.auth?.uid
-  const { childId } = request.data as { childId?: string }
-  const verifiedChildId = await assertCallableChild(uid, childId)
-  const chores = await resetTodayActivities(uid!, verifiedChildId)
+  const child = await assertCallableChild(request.auth?.uid, request.data)
+  const chores = await resetTodayActivities(child.uid, child.childId)
   return { created: chores.created, chores }
 })
 

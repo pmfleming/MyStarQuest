@@ -96,6 +96,10 @@ describe('DinnerCountdown', () => {
     expect(screen.getByLabelText('Dinner timer')).toBeInTheDocument()
     expect(screen.getByLabelText('Dinner plate portions')).toBeInTheDocument()
     expect(screen.getByText('10:00')).toBeInTheDocument()
+    fireEvent.click(screen.getByText('10:00'))
+    expect(screen.getByText('600')).toBeInTheDocument()
+    fireEvent.click(screen.getByText('600'))
+    expect(screen.getByText('10:00')).toBeInTheDocument()
     expect(screen.queryByLabelText('Minutes')).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByLabelText('Increase timer by 5 minutes'))

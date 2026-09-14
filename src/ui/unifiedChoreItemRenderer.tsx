@@ -62,15 +62,7 @@ export const renderUnifiedChoreHeader = (
   if (shouldHidePresetChoreTitle(stage)) return null
   const type = getChoreType(item)
   const titleLabel = isTestType(type) ? 'Test Name' : 'Chore Name'
-  return renderTitle(deps, item, titleLabel)
-}
-
-const renderTitle = (
-  deps: UnifiedChoreDeps,
-  item: UnifiedChoreItem,
-  titleLabel: string
-) =>
-  deps.mode === 'manage' ? (
+  return deps.mode === 'manage' ? (
     <ActionTextInput
       theme={deps.theme}
       label={titleLabel}
@@ -92,6 +84,7 @@ const renderTitle = (
       {item.title}
     </h2>
   )
+}
 
 const renderChoreContent = (
   deps: UnifiedChoreDeps,
@@ -143,15 +136,15 @@ const renderStandardContent = (
   }
 
   const standardImage = getChoreImage(item.imageKey, deps.theme.id)
-  const showImageCarousel = deps.mode === 'manage' && isTaskItem(item)
-  const showImageRewardFrame = Boolean(standardImage && !showImageCarousel)
+  const editable = deps.mode === 'manage' && isTaskItem(item)
+  const imageOptions = getChoreImageOptions(deps.theme.id)
 
   return (
     <>
-      {showImageCarousel ? (
+      {editable ? (
         <Carousel
           key={`${item.id}-${item.imageKey ?? ''}`}
-          items={getChoreImageOptions(deps.theme.id).map((option) => ({
+          items={imageOptions.map((option) => ({
             id: option.id,
             label: option.label,
             icon: option.image ? (
@@ -180,27 +173,26 @@ const renderStandardContent = (
           title="Chore image"
           initialIndex={Math.max(
             0,
-            getChoreImageOptions(deps.theme.id).findIndex(
-              (option) => option.id === item.imageKey
-            )
+            imageOptions.findIndex((option) => option.id === item.imageKey)
           )}
           onChange={(index) => {
-            const selected = getChoreImageOptions(deps.theme.id)[index]
+            const selected = imageOptions[index]
             if (!selected || selected.id === item.imageKey) return
             return deps.onUpdateTaskField?.(item.id, { imageKey: selected.id })
           }}
         />
       ) : (
-        standardImage &&
-        renderStandardChoreImageRewardFrame(
-          standardImage,
-          item.title,
-          item.starValue,
-          deps.theme
+        standardImage && (
+          <ImageStarFrame
+            theme={deps.theme}
+            image={standardImage}
+            imageAlt={`${item.title} chore`}
+            starCount={item.starValue}
+          />
         )
       )}
 
-      {deps.mode === 'manage' && isTaskItem(item) && (
+      {editable && (
         <>
           <div className="flex flex-col items-center" style={{ gap: '0px' }}>
             <RepeatControl
@@ -213,36 +205,20 @@ const renderStandardContent = (
               showFeedback={false}
             />
           </div>
-          {!showImageRewardFrame && (
-            <div className="flex flex-col items-center" style={{ gap: '0px' }}>
-              <StarDisplay
-                theme={deps.theme}
-                count={item.starValue}
-                editable
-                onChange={(value) =>
-                  deps.onUpdateTaskField?.(item.id, { starValue: value || 1 })
-                }
-                min={1}
-                max={9}
-              />
-            </div>
-          )}
+          <div className="flex flex-col items-center" style={{ gap: '0px' }}>
+            <StarDisplay
+              theme={deps.theme}
+              count={item.starValue}
+              editable
+              onChange={(value) =>
+                deps.onUpdateTaskField?.(item.id, { starValue: value || 1 })
+              }
+              min={1}
+              max={9}
+            />
+          </div>
         </>
       )}
     </>
   )
 }
-
-const renderStandardChoreImageRewardFrame = (
-  image: string,
-  title: string,
-  starValue: number,
-  theme: UnifiedChoreDeps['theme']
-) => (
-  <ImageStarFrame
-    theme={theme}
-    image={image}
-    imageAlt={`${title} chore`}
-    starCount={starValue}
-  />
-)

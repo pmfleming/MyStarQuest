@@ -3,6 +3,19 @@ export type NamedAsset = {
   image: string
 }
 
+export const createAssetResolver =
+  (
+    modules: Record<string, string>,
+    prefix: string,
+    errorLabel: string,
+    suffix = ''
+  ) =>
+  (path: string): string => {
+    const image = modules[`${prefix}${path}${suffix}`]
+    if (!image) throw new Error(`${errorLabel}: ${path}`)
+    return image
+  }
+
 export const createAssetCatalog = (
   modules: Record<string, string>,
   normalizeName: (name: string) => string = (name) => name

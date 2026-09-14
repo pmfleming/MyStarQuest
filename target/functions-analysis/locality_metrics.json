@@ -13,10 +13,10 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-09T15:21:04.352Z",
+    "measured_at": "2026-09-13T22:17:53.549Z",
     "source_type": "static",
-    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
-    "input_set_hash": "sha256:8b72bcc193806372ec765bef6afe6b5dcb252cb698d283265a4eaba358194eac"
+    "source_set_hash": "sha256:e9179904e4468fd570e919e7d1ff74d38da76208f8cdef1b7739bf5dbbcb52f3",
+    "input_set_hash": "sha256:1ba0d1686dbf19deeabad915e624561e04baec5017157ae83a61b0f1f16a7d43"
   },
   "analysis_identity": {
     "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
@@ -97,11 +97,11 @@
       "id": "locality:src/index",
       "module_id": "src/index",
       "file": "src/index.ts",
-      "score": 49,
-      "risk": "medium",
+      "score": 31,
+      "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "no_direct_import_association",
+      "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 12,
@@ -115,9 +115,6 @@
         }
       ],
       "signals": [
-        {
-          "kind": "missing_direct_test_evidence"
-        },
         {
           "kind": "defect_keyword_commits",
           "value": 1

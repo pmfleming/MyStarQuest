@@ -34,13 +34,10 @@ const activityImageSchedule: Array<{
   { endMinute: 1260, imageKey: 'washingTeeth' },
 ]
 
-const EXPLORER_SKY_COLORS: Record<
-  'night' | 'sunrise' | 'day' | 'sunset',
-  RgbColor
-> = {
+const EXPLORER_SKY_COLORS: Record<ExplorerBackgroundKey, RgbColor> = {
   night: { r: 56, g: 78, b: 140 },
   sunrise: { r: 255, g: 196, b: 143 },
-  day: { r: 135, g: 206, b: 250 },
+  daytime: { r: 135, g: 206, b: 250 },
   sunset: { r: 255, g: 166, b: 120 },
 }
 
@@ -56,10 +53,6 @@ const interpolateColor = (from: RgbColor, to: RgbColor, amount: number) => {
     g: Math.round(from.g + (to.g - from.g) * amount),
     b: Math.round(from.b + (to.b - from.b) * amount),
   }
-}
-
-const toRgba = (color: RgbColor, alpha: number) => {
-  return `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`
 }
 
 const getNightMidpointMinutes = (
@@ -96,55 +89,16 @@ export const getExplorerBackdropColor = (
   minutes: number,
   solarTimes: SolarTimes
 ) => {
-  const normalizedMinutes = normalizeMinutes(minutes)
-  const solarNoonMinutes =
-    (solarTimes.daylightStartMinutes + solarTimes.daylightEndMinutes) / 2
-  const nightMidpointMinutes = getNightMidpointMinutes(
-    solarTimes.sunriseMinutes,
-    solarTimes.sunsetMinutes
+  const { base, overlay, overlayOpacity } = getExplorerBackgroundBlend(
+    minutes,
+    solarTimes
   )
-
-  const colorStops = [
-    {
-      minute: nightMidpointMinutes - explorerUi.totalMinutes,
-      color: EXPLORER_SKY_COLORS.night,
-    },
-    { minute: solarTimes.sunriseMinutes, color: EXPLORER_SKY_COLORS.sunrise },
-    { minute: solarTimes.daylightStartMinutes, color: EXPLORER_SKY_COLORS.day },
-    { minute: solarNoonMinutes, color: EXPLORER_SKY_COLORS.day },
-    { minute: solarTimes.daylightEndMinutes, color: EXPLORER_SKY_COLORS.day },
-    { minute: solarTimes.sunsetMinutes, color: EXPLORER_SKY_COLORS.sunset },
-    {
-      minute: nightMidpointMinutes + explorerUi.totalMinutes,
-      color: EXPLORER_SKY_COLORS.night,
-    },
-  ]
-
-  const adjustedMinutes =
-    normalizedMinutes < solarTimes.sunriseMinutes
-      ? normalizedMinutes + explorerUi.totalMinutes
-      : normalizedMinutes
-
-  for (let i = 0; i < colorStops.length - 1; i++) {
-    const currentStop = colorStops[i]
-    const nextStop = colorStops[i + 1]
-    if (!currentStop || !nextStop) continue
-
-    if (
-      adjustedMinutes >= currentStop.minute &&
-      adjustedMinutes <= nextStop.minute
-    ) {
-      const segmentDuration = nextStop.minute - currentStop.minute || 1
-      const amount = (adjustedMinutes - currentStop.minute) / segmentDuration
-
-      return toRgba(
-        interpolateColor(currentStop.color, nextStop.color, amount),
-        0.5
-      )
-    }
-  }
-
-  return toRgba(EXPLORER_SKY_COLORS.night, 0.5)
+  const color = interpolateColor(
+    EXPLORER_SKY_COLORS[base],
+    EXPLORER_SKY_COLORS[overlay],
+    overlayOpacity
+  )
+  return `rgba(${color.r}, ${color.g}, ${color.b}, 0.5)`
 }
 
 export const getExplorerBackgroundBlend = (

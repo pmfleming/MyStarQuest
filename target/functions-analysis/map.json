@@ -13,10 +13,10 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-09T15:21:09.438Z",
+    "measured_at": "2026-09-13T22:17:58.095Z",
     "source_type": "static",
-    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
-    "input_set_hash": "sha256:6d5288c44cc50db80dc63da698cefde95500419b8ae18b511ee66b551d0bad2f"
+    "source_set_hash": "sha256:e9179904e4468fd570e919e7d1ff74d38da76208f8cdef1b7739bf5dbbcb52f3",
+    "input_set_hash": "sha256:7224530ab5c3908fa7c7e25c93297f707c176ee43777fea5ade662beca26fe0a"
   },
   "analysis_identity": {
     "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
@@ -148,7 +148,7 @@
       "id": "src",
       "label": "src",
       "node_count": 2,
-      "risk_score": 183,
+      "risk_score": 175,
       "kind": "src",
       "rule_id": "ts-react-quality-lens/src",
       "evidence_kind": "heuristic",
@@ -210,25 +210,25 @@
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
       "entrypoint_roles": ["configured_public_api"],
-      "risk_score": 183,
+      "risk_score": 175,
       "risk": "high",
       "classification": "unknown",
       "category_scores": {
-        "maintainability": 183,
+        "maintainability": 175,
         "correctness": null,
-        "architecture": 76,
-        "change": 49,
+        "architecture": 3,
+        "change": 31,
         "render_performance": 0,
         "performance": 0,
-        "quality": 90,
+        "quality": 50,
         "total": null
       },
-      "maintainability_risk": 183,
-      "change_risk": 49,
+      "maintainability_risk": 175,
+      "change_risk": 31,
       "performance_risk": 0,
       "correctness_risk": null,
-      "architectural_risk": 76,
-      "quality_risk": 90,
+      "architectural_risk": 3,
+      "quality_risk": 50,
       "total_score": null,
       "unknown_metrics": ["correctness:no_measured_evidence"],
       "risk_model_id": "tsrqlens.architecture_risk",
@@ -243,7 +243,7 @@
         "entrypoint_roles": 1
       },
       "test_evidence": {
-        "direct_import_association": false,
+        "direct_import_association": true,
         "suite_status": "unknown",
         "coverage_status": "not_collected"
       }

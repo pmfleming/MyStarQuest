@@ -31,14 +31,14 @@ const CardRegion = ({
       ...(name === 'body'
         ? {}
         : {
-            position: 'relative' as const,
+            position: 'relative',
             zIndex: 1,
           }),
       ...(name === 'header'
         ? {
             minHeight: `${uiTokens.listActionHeight}px`,
             display: 'flex',
-            flexDirection: 'column' as const,
+            flexDirection: 'column',
             justifyContent: 'center',
           }
         : {}),

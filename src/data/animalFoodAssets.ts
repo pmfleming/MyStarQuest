@@ -19,32 +19,7 @@ import shellfishImage from '../assets/animal-foods/shellfish.webp'
 import shrimpImage from '../assets/animal-foods/shrimp.webp'
 import wormsImage from '../assets/animal-foods/worms.webp'
 
-export const ANIMAL_FOOD_NAMES = [
-  'Fish',
-  'Insects',
-  'Seeds & Nuts',
-  'Fruit',
-  'Grass',
-  'Leaves',
-  'Roots',
-  'Rodents',
-  'Birds',
-  'Antelopes',
-  'Reptiles',
-  'Flowers & Nectar',
-  'Worms',
-  'Shellfish',
-  'Bamboo',
-  'Deer',
-  'Krill',
-  'Seals',
-  'Shrimp',
-  'Food',
-] as const
-
-export type AnimalFoodName = (typeof ANIMAL_FOOD_NAMES)[number]
-
-export const ANIMAL_FOOD_IMAGE_BY_NAME: Record<AnimalFoodName, string> = {
+export const ANIMAL_FOOD_IMAGE_BY_NAME = {
   Fish: fishImage,
   Insects: insectsImage,
   'Seeds & Nuts': seedsAndNutsImage,
@@ -66,3 +41,5 @@ export const ANIMAL_FOOD_IMAGE_BY_NAME: Record<AnimalFoodName, string> = {
   Shrimp: shrimpImage,
   Food: foodImage,
 }
+
+export type AnimalFoodName = keyof typeof ANIMAL_FOOD_IMAGE_BY_NAME

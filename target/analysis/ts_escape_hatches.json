@@ -3,7 +3,7 @@
   "task_id": "quality.escape_hatches",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T19:29:56.252Z",
+    "measured_at": "2026-09-13T22:14:38.488Z",
     "source_type": "static",
-    "source_set_hash": "sha256:d8764fd624cb1ca4018c2a494de0ef4b5d0b8a24d9ed441230f37e745dfa6dcb",
-    "input_set_hash": "sha256:51ac0ca714449b78b0e67a3a08efc317fdebb4071eaa491892ea11d4793c8374"
+    "source_set_hash": "sha256:5e4567c47759bae79c0f190ad4744f6bb5e877cc7622756d59280e4896e634c9",
+    "input_set_hash": "sha256:5babd469f50c6eb848c8d808903e5a595f2bc5717a0773a30322aca0c471b210"
   },
   "analysis_identity": {
     "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
@@ -93,12 +93,12 @@
     "stale_input": []
   },
   "summary": {
-    "records": 114,
-    "files_with_escape_hatches": 46,
+    "records": 106,
+    "files_with_escape_hatches": 42,
     "by_kind": {
-      "type_assertion": 44,
+      "type_assertion": 37,
       "browser_global": 53,
-      "non_null_assertion": 9,
+      "non_null_assertion": 8,
       "direct_dom_mutation": 3,
       "double_assertion": 1,
       "module_level_mutable_state": 4
@@ -139,45 +139,12 @@
       ]
     },
     {
-      "id": "escape:src/components/AlphabetTester:type_assertion:23:875",
-      "module_id": "src/components/AlphabetTester",
-      "file": "src/components/AlphabetTester.tsx",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 23,
-      "evidence": "import.meta.glob( '../assets/alphabet/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string,",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "import.meta.glob( '../assets/alphabet/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string,",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/AlphabetTester:type_assertion:23:875",
-            "kind": "type_assertion",
-            "file": "src/components/AlphabetTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/AnimalTester:type_assertion:47:1625",
+      "id": "escape:src/components/AnimalTester:type_assertion:49:1765",
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 47,
+      "line": 49,
       "evidence": "'learn' as const",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -196,7 +163,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/AnimalTester:type_assertion:47:1625",
+            "id": "escape:src/components/AnimalTester:type_assertion:49:1765",
             "kind": "type_assertion",
             "file": "src/components/AnimalTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -205,12 +172,12 @@
       ]
     },
     {
-      "id": "escape:src/components/AnimalTester:type_assertion:51:1683",
+      "id": "escape:src/components/AnimalTester:type_assertion:53:1823",
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 51,
+      "line": 53,
       "evidence": "'solo' as const",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -229,7 +196,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/AnimalTester:type_assertion:51:1683",
+            "id": "escape:src/components/AnimalTester:type_assertion:53:1823",
             "kind": "type_assertion",
             "file": "src/components/AnimalTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -238,12 +205,12 @@
       ]
     },
     {
-      "id": "escape:src/components/AnimalTester:type_assertion:55:1743",
+      "id": "escape:src/components/AnimalTester:type_assertion:57:1883",
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 55,
+      "line": 57,
       "evidence": "'together' as const",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -262,7 +229,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/AnimalTester:type_assertion:55:1743",
+            "id": "escape:src/components/AnimalTester:type_assertion:57:1883",
             "kind": "type_assertion",
             "file": "src/components/AnimalTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -436,18 +403,18 @@
       ]
     },
     {
-      "id": "escape:src/components/SpellingTester:type_assertion:51:1685",
-      "module_id": "src/components/SpellingTester",
-      "file": "src/components/SpellingTester.tsx",
+      "id": "escape:src/components/animalTester/LearningNavigation:type_assertion:80:2126",
+      "module_id": "src/components/animalTester/LearningNavigation",
+      "file": "src/components/animalTester/LearningNavigation.tsx",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 51,
-      "evidence": "import.meta.glob( '../assets/teenie/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, s",
+      "line": 80,
+      "evidence": "event.target as Node",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
       "disposition": "review",
       "finding_confidence": "medium",
-      "message": "import.meta.glob( '../assets/teenie/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, s",
+      "message": "event.target as Node",
       "reason_code": "ts-react-quality-lens/type_assertion",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -460,27 +427,27 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/SpellingTester:type_assertion:51:1685",
+            "id": "escape:src/components/animalTester/LearningNavigation:type_assertion:80:2126",
             "kind": "type_assertion",
-            "file": "src/components/SpellingTester.tsx",
+            "file": "src/components/animalTester/LearningNavigation.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
       ]
     },
     {
-      "id": "escape:src/components/SpellingTester:type_assertion:56:1847",
-      "module_id": "src/components/SpellingTester",
-      "file": "src/components/SpellingTester.tsx",
+      "id": "escape:src/components/animalTester/LearningNavigation:type_assertion:121:3554",
+      "module_id": "src/components/animalTester/LearningNavigation",
+      "file": "src/components/animalTester/LearningNavigation.tsx",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 56,
-      "evidence": "import.meta.glob( '../assets/pokemon/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, ",
+      "line": 121,
+      "evidence": "event.target as HTMLButtonElement",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
       "disposition": "review",
       "finding_confidence": "medium",
-      "message": "import.meta.glob( '../assets/pokemon/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, ",
+      "message": "event.target as HTMLButtonElement",
       "reason_code": "ts-react-quality-lens/type_assertion",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -493,9 +460,75 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/SpellingTester:type_assertion:56:1847",
+            "id": "escape:src/components/animalTester/LearningNavigation:type_assertion:121:3554",
             "kind": "type_assertion",
-            "file": "src/components/SpellingTester.tsx",
+            "file": "src/components/animalTester/LearningNavigation.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/animalTester/LearningNavigation:type_assertion:151:4452",
+      "module_id": "src/components/animalTester/LearningNavigation",
+      "file": "src/components/animalTester/LearningNavigation.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 151,
+      "evidence": "{ '--animal-nav-primary': theme.colors.primary, '--animal-nav-accent': theme.colors.accent, '--animal-nav-surface': them",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "{ '--animal-nav-primary': theme.colors.primary, '--animal-nav-accent': theme.colors.accent, '--animal-nav-surface': them",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/animalTester/LearningNavigation:type_assertion:151:4452",
+            "kind": "type_assertion",
+            "file": "src/components/animalTester/LearningNavigation.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/animalTester/LearningNavigation:type_assertion:171:5113",
+      "module_id": "src/components/animalTester/LearningNavigation",
+      "file": "src/components/animalTester/LearningNavigation.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 171,
+      "evidence": "['previous', 'next'] as const",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "['previous', 'next'] as const",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/animalTester/LearningNavigation:type_assertion:171:5113",
+            "kind": "type_assertion",
+            "file": "src/components/animalTester/LearningNavigation.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -562,72 +595,6 @@
             "id": "escape:src/components/ui/ActionButton:type_assertion:40:891",
             "kind": "type_assertion",
             "file": "src/components/ui/ActionButton.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/ui/CardShell:type_assertion:34:791",
-      "module_id": "src/components/ui/CardShell",
-      "file": "src/components/ui/CardShell.tsx",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 34,
-      "evidence": "'relative' as const",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "'relative' as const",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/ui/CardShell:type_assertion:34:791",
-            "kind": "type_assertion",
-            "file": "src/components/ui/CardShell.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/ui/CardShell:type_assertion:41:1002",
-      "module_id": "src/components/ui/CardShell",
-      "file": "src/components/ui/CardShell.tsx",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 41,
-      "evidence": "'column' as const",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "'column' as const",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/ui/CardShell:type_assertion:41:1002",
-            "kind": "type_assertion",
-            "file": "src/components/ui/CardShell.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1327,78 +1294,12 @@
       ]
     },
     {
-      "id": "escape:src/components/weather/WeatherControls:type_assertion:25:830",
-      "module_id": "src/components/weather/WeatherControls",
-      "file": "src/components/weather/WeatherControls.tsx",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 25,
-      "evidence": "'none' as PrecipitationKind",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "'none' as PrecipitationKind",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/weather/WeatherControls:type_assertion:25:830",
-            "kind": "type_assertion",
-            "file": "src/components/weather/WeatherControls.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/weather/WeatherControls:type_assertion:26:870",
-      "module_id": "src/components/weather/WeatherControls",
-      "file": "src/components/weather/WeatherControls.tsx",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 26,
-      "evidence": "0 as WeatherLevel",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "0 as WeatherLevel",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/weather/WeatherControls:type_assertion:26:870",
-            "kind": "type_assertion",
-            "file": "src/components/weather/WeatherControls.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/weather/WeatherControls:non_null_assertion:105:2686",
+      "id": "escape:src/components/weather/WeatherControls:non_null_assertion:123:3107",
       "module_id": "src/components/weather/WeatherControls",
       "file": "src/components/weather/WeatherControls.tsx",
       "kind": "non_null_assertion",
       "severity": "medium",
-      "line": 105,
+      "line": 123,
       "evidence": "windOptions[windIndex]!",
       "rule_id": "ts-react-quality-lens/non_null_assertion",
       "evidence_kind": "heuristic",
@@ -1417,7 +1318,7 @@
           "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/weather/WeatherControls:non_null_assertion:105:2686",
+            "id": "escape:src/components/weather/WeatherControls:non_null_assertion:123:3107",
             "kind": "non_null_assertion",
             "file": "src/components/weather/WeatherControls.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1426,18 +1327,18 @@
       ]
     },
     {
-      "id": "escape:src/components/weather/WeatherControls:non_null_assertion:114:2945",
+      "id": "escape:src/components/weather/WeatherControls:non_null_assertion:128:3279",
       "module_id": "src/components/weather/WeatherControls",
       "file": "src/components/weather/WeatherControls.tsx",
       "kind": "non_null_assertion",
       "severity": "medium",
-      "line": 114,
-      "evidence": "precipitationOptions[precipitationIndex]!",
+      "line": 128,
+      "evidence": "levels[visuals.precipitationLevel - 1]!",
       "rule_id": "ts-react-quality-lens/non_null_assertion",
       "evidence_kind": "heuristic",
       "disposition": "review",
       "finding_confidence": "medium",
-      "message": "precipitationOptions[precipitationIndex]!",
+      "message": "levels[visuals.precipitationLevel - 1]!",
       "reason_code": "ts-react-quality-lens/non_null_assertion",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -1450,7 +1351,7 @@
           "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/weather/WeatherControls:non_null_assertion:114:2945",
+            "id": "escape:src/components/weather/WeatherControls:non_null_assertion:128:3279",
             "kind": "non_null_assertion",
             "file": "src/components/weather/WeatherControls.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1459,18 +1360,18 @@
       ]
     },
     {
-      "id": "escape:src/components/weather/WeatherControls:non_null_assertion:144:3936",
+      "id": "escape:src/components/weather/WeatherControls:non_null_assertion:166:4540",
       "module_id": "src/components/weather/WeatherControls",
       "file": "src/components/weather/WeatherControls.tsx",
       "kind": "non_null_assertion",
       "severity": "medium",
-      "line": 144,
-      "evidence": "windOptions[Math.min(3, windIndex + 1)]!",
+      "line": 166,
+      "evidence": "windOptions[(windIndex + 1) % windOptions.length]!",
       "rule_id": "ts-react-quality-lens/non_null_assertion",
       "evidence_kind": "heuristic",
       "disposition": "review",
       "finding_confidence": "medium",
-      "message": "windOptions[Math.min(3, windIndex + 1)]!",
+      "message": "windOptions[(windIndex + 1) % windOptions.length]!",
       "reason_code": "ts-react-quality-lens/non_null_assertion",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -1483,7 +1384,7 @@
           "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/weather/WeatherControls:non_null_assertion:144:3936",
+            "id": "escape:src/components/weather/WeatherControls:non_null_assertion:166:4540",
             "kind": "non_null_assertion",
             "file": "src/components/weather/WeatherControls.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1492,18 +1393,18 @@
       ]
     },
     {
-      "id": "escape:src/components/weather/WeatherControls:non_null_assertion:147:4048",
+      "id": "escape:src/components/weather/WeatherControls:non_null_assertion:186:5122",
       "module_id": "src/components/weather/WeatherControls",
       "file": "src/components/weather/WeatherControls.tsx",
       "kind": "non_null_assertion",
       "severity": "medium",
-      "line": 147,
-      "evidence": "windOptions[Math.max(0, windIndex - 1)]!",
+      "line": 186,
+      "evidence": "precipitationLevels[ (precipitationIndex + 1) % precipitationLevels.length ]!",
       "rule_id": "ts-react-quality-lens/non_null_assertion",
       "evidence_kind": "heuristic",
       "disposition": "review",
       "finding_confidence": "medium",
-      "message": "windOptions[Math.max(0, windIndex - 1)]!",
+      "message": "precipitationLevels[ (precipitationIndex + 1) % precipitationLevels.length ]!",
       "reason_code": "ts-react-quality-lens/non_null_assertion",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -1516,7 +1417,7 @@
           "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/weather/WeatherControls:non_null_assertion:147:4048",
+            "id": "escape:src/components/weather/WeatherControls:non_null_assertion:186:5122",
             "kind": "non_null_assertion",
             "file": "src/components/weather/WeatherControls.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1525,78 +1426,12 @@
       ]
     },
     {
-      "id": "escape:src/components/weather/WeatherControls:non_null_assertion:172:4848",
-      "module_id": "src/components/weather/WeatherControls",
-      "file": "src/components/weather/WeatherControls.tsx",
-      "kind": "non_null_assertion",
-      "severity": "medium",
-      "line": 172,
-      "evidence": "precipitationOptions[ Math.min( precipitationOptions.length - 1, precipitationIndex + 1 ) ]!",
-      "rule_id": "ts-react-quality-lens/non_null_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "precipitationOptions[ Math.min( precipitationOptions.length - 1, precipitationIndex + 1 ) ]!",
-      "reason_code": "ts-react-quality-lens/non_null_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/weather/WeatherControls:non_null_assertion:172:4848",
-            "kind": "non_null_assertion",
-            "file": "src/components/weather/WeatherControls.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/weather/WeatherControls:non_null_assertion:183:5129",
-      "module_id": "src/components/weather/WeatherControls",
-      "file": "src/components/weather/WeatherControls.tsx",
-      "kind": "non_null_assertion",
-      "severity": "medium",
-      "line": 183,
-      "evidence": "precipitationOptions[Math.max(0, precipitationIndex - 1)]!",
-      "rule_id": "ts-react-quality-lens/non_null_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "precipitationOptions[Math.max(0, precipitationIndex - 1)]!",
-      "reason_code": "ts-react-quality-lens/non_null_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/components/weather/WeatherControls:non_null_assertion:183:5129",
-            "kind": "non_null_assertion",
-            "file": "src/components/weather/WeatherControls.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/components/weather/WeatherScene:type_assertion:78:1851",
+      "id": "escape:src/components/weather/WeatherScene:type_assertion:101:2456",
       "module_id": "src/components/weather/WeatherScene",
       "file": "src/components/weather/WeatherScene.tsx",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 78,
+      "line": 101,
       "evidence": "{ '--fall-delay': `${-(index % 11) / 5}s`, '--wind-drift': `${drift}px`, } as CSSProperties",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -1615,7 +1450,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/weather/WeatherScene:type_assertion:78:1851",
+            "id": "escape:src/components/weather/WeatherScene:type_assertion:101:2456",
             "kind": "type_assertion",
             "file": "src/components/weather/WeatherScene.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1717,138 +1552,6 @@
             "id": "escape:src/contexts/ActiveChildProvider:browser_global:91:2167",
             "kind": "browser_global",
             "file": "src/contexts/ActiveChildProvider.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/data/animalAbilityAssets:type_assertion:3:84",
-      "module_id": "src/data/animalAbilityAssets",
-      "file": "src/data/animalAbilityAssets.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 3,
-      "evidence": "import.meta.glob( '../assets/animal-abilities/*.webp', { eager: true, import: 'default' } ) as Record<string, string>",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "import.meta.glob( '../assets/animal-abilities/*.webp', { eager: true, import: 'default' } ) as Record<string, string>",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/data/animalAbilityAssets:type_assertion:3:84",
-            "kind": "type_assertion",
-            "file": "src/data/animalAbilityAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/data/animalAssets:type_assertion:5:137",
-      "module_id": "src/data/animalAssets",
-      "file": "src/data/animalAssets.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 5,
-      "evidence": "import.meta.glob( '../assets/animals/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, ",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "import.meta.glob( '../assets/animals/*.{png,jpg,jpeg,webp,svg}', { eager: true, import: 'default' } ) as Record<string, ",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/data/animalAssets:type_assertion:5:137",
-            "kind": "type_assertion",
-            "file": "src/data/animalAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/data/animalFoodAssets:type_assertion:22:1374",
-      "module_id": "src/data/animalFoodAssets",
-      "file": "src/data/animalFoodAssets.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 22,
-      "evidence": "[ 'Fish', 'Insects', 'Seeds & Nuts', 'Fruit', 'Grass', 'Leaves', 'Roots', 'Rodents', 'Birds', 'Antelopes', 'Reptiles', '",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "[ 'Fish', 'Insects', 'Seeds & Nuts', 'Fruit', 'Grass', 'Leaves', 'Roots', 'Rodents', 'Birds', 'Antelopes', 'Reptiles', '",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/data/animalFoodAssets:type_assertion:22:1374",
-            "kind": "type_assertion",
-            "file": "src/data/animalFoodAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/data/animalHabitatAssets:type_assertion:18:1066",
-      "module_id": "src/data/animalHabitatAssets",
-      "file": "src/data/animalHabitatAssets.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 18,
-      "evidence": "[ 'Ocean', 'Coastline', 'Forest', 'Grassland', 'Desert', 'Wetland', 'Mountain', 'River', 'Pond', 'Tundra', 'Farm', 'Town",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "[ 'Ocean', 'Coastline', 'Forest', 'Grassland', 'Desert', 'Wetland', 'Mountain', 'River', 'Pond', 'Tundra', 'Farm', 'Town",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/data/animalHabitatAssets:type_assertion:18:1066",
-            "kind": "type_assertion",
-            "file": "src/data/animalHabitatAssets.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2020,6 +1723,39 @@
       ]
     },
     {
+      "id": "escape:src/data/creaturePhotos:type_assertion:3:66",
+      "module_id": "src/data/creaturePhotos",
+      "file": "src/data/creaturePhotos.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 3,
+      "evidence": "import.meta.glob('../assets/creaturePhotos/*.webp', { eager: true, import: 'default', }) as Record<string, string>",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import.meta.glob('../assets/creaturePhotos/*.webp', { eager: true, import: 'default', }) as Record<string, string>",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/data/creaturePhotos:type_assertion:3:66",
+            "kind": "type_assertion",
+            "file": "src/data/creaturePhotos.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "escape:src/data/dailyTaskState:type_assertion:186:4801",
       "module_id": "src/data/dailyTaskState",
       "file": "src/data/dailyTaskState.ts",
@@ -2152,12 +1888,12 @@
       ]
     },
     {
-      "id": "escape:src/data/teeniepingKnowledge:type_assertion:3:92",
+      "id": "escape:src/data/teeniepingKnowledge:type_assertion:4:145",
       "module_id": "src/data/teeniepingKnowledge",
       "file": "src/data/teeniepingKnowledge.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 3,
+      "line": 4,
       "evidence": "[ 'looks', 'prop', 'theme', 'magic', ] as const",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -2176,7 +1912,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/data/teeniepingKnowledge:type_assertion:3:92",
+            "id": "escape:src/data/teeniepingKnowledge:type_assertion:4:145",
             "kind": "type_assertion",
             "file": "src/data/teeniepingKnowledge.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3577,6 +3313,72 @@
       ]
     },
     {
+      "id": "escape:src/lib/weather/weatherVisuals:type_assertion:42:1164",
+      "module_id": "src/lib/weather/weatherVisuals",
+      "file": "src/lib/weather/weatherVisuals.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 42,
+      "evidence": "[ [ 'an expedition parka, mittens and snow boots', 'a waterproof expedition parka, mittens and snow boots', ], [ 'a down",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "[ [ 'an expedition parka, mittens and snow boots', 'a waterproof expedition parka, mittens and snow boots', ], [ 'a down",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/weather/weatherVisuals:type_assertion:42:1164",
+            "kind": "type_assertion",
+            "file": "src/lib/weather/weatherVisuals.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/weather/weatherVisuals:non_null_assertion:89:2694",
+      "module_id": "src/lib/weather/weatherVisuals",
+      "file": "src/lib/weather/weatherVisuals.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 89,
+      "evidence": "outfits[band]!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "outfits[band]!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/weather/weatherVisuals:non_null_assertion:89:2694",
+            "kind": "non_null_assertion",
+            "file": "src/lib/weather/weatherVisuals.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "escape:src/main:non_null_assertion:6:142",
       "module_id": "src/main",
       "file": "src/main.tsx",
@@ -3676,12 +3478,12 @@
       ]
     },
     {
-      "id": "escape:src/ui/themeAssets:module_level_mutable_state:139:5630",
+      "id": "escape:src/ui/themeAssets:module_level_mutable_state:140:5611",
       "module_id": "src/ui/themeAssets",
       "file": "src/ui/themeAssets.ts",
       "kind": "module_level_mutable_state",
       "severity": "medium",
-      "line": 139,
+      "line": 140,
       "evidence": "let teenieAssets: ThemeAssets | undefined",
       "rule_id": "ts-react-quality-lens/module_level_mutable_state",
       "evidence_kind": "heuristic",
@@ -3700,7 +3502,7 @@
           "description": "Keep this module_level_mutable_state finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/ui/themeAssets:module_level_mutable_state:139:5630",
+            "id": "escape:src/ui/themeAssets:module_level_mutable_state:140:5611",
             "kind": "module_level_mutable_state",
             "file": "src/ui/themeAssets.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3709,12 +3511,12 @@
       ]
     },
     {
-      "id": "escape:src/ui/themeAssets:type_assertion:153:6091",
+      "id": "escape:src/ui/themeAssets:type_assertion:154:6072",
       "module_id": "src/ui/themeAssets",
       "file": "src/ui/themeAssets.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 153,
+      "line": 154,
       "evidence": "Object.fromEntries( Object.entries(teenieRoles).map(([role, file]) => [ role, reused[file] ?? teenieImage(file), ]) ) as",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -3733,7 +3535,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/ui/themeAssets:type_assertion:153:6091",
+            "id": "escape:src/ui/themeAssets:type_assertion:154:6072",
             "kind": "type_assertion",
             "file": "src/ui/themeAssets.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3742,78 +3544,12 @@
       ]
     },
     {
-      "id": "escape:src/ui/themeAssets:type_assertion:180:6935",
-      "module_id": "src/ui/themeAssets",
-      "file": "src/ui/themeAssets.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 180,
-      "evidence": "Object.fromEntries( ['sunrise', 'daytime', 'sunset', 'night'].map((phase) => [ phase, Object.fromEntries( ['spring', 'su",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "Object.fromEntries( ['sunrise', 'daytime', 'sunset', 'night'].map((phase) => [ phase, Object.fromEntries( ['spring', 'su",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/ui/themeAssets:type_assertion:180:6935",
-            "kind": "type_assertion",
-            "file": "src/ui/themeAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/ui/themeAssets:type_assertion:183:7037",
-      "module_id": "src/ui/themeAssets",
-      "file": "src/ui/themeAssets.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 183,
-      "evidence": "Object.fromEntries( ['spring', 'summer', 'autumn', 'winter'].map((season) => [ season, teenieImage(`seasons/${season}-${",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "Object.fromEntries( ['spring', 'summer', 'autumn', 'winter'].map((season) => [ season, teenieImage(`seasons/${season}-${",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/ui/themeAssets:type_assertion:183:7037",
-            "kind": "type_assertion",
-            "file": "src/ui/themeAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/ui/themeAssets:module_level_mutable_state:195:7348",
+      "id": "escape:src/ui/themeAssets:module_level_mutable_state:193:7349",
       "module_id": "src/ui/themeAssets",
       "file": "src/ui/themeAssets.ts",
       "kind": "module_level_mutable_state",
       "severity": "medium",
-      "line": 195,
+      "line": 193,
       "evidence": "let activities: ReturnType<typeof createTeenieActivities> | undefined",
       "rule_id": "ts-react-quality-lens/module_level_mutable_state",
       "evidence_kind": "heuristic",
@@ -3832,7 +3568,7 @@
           "description": "Keep this module_level_mutable_state finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/ui/themeAssets:module_level_mutable_state:195:7348",
+            "id": "escape:src/ui/themeAssets:module_level_mutable_state:193:7349",
             "kind": "module_level_mutable_state",
             "file": "src/ui/themeAssets.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3841,12 +3577,12 @@
       ]
     },
     {
-      "id": "escape:src/ui/themeAssets:module_level_mutable_state:196:7418",
+      "id": "escape:src/ui/themeAssets:module_level_mutable_state:194:7419",
       "module_id": "src/ui/themeAssets",
       "file": "src/ui/themeAssets.ts",
       "kind": "module_level_mutable_state",
       "severity": "medium",
-      "line": 196,
+      "line": 194,
       "evidence": "let backgrounds: ReturnType<typeof createTeenieBackgrounds> | undefined",
       "rule_id": "ts-react-quality-lens/module_level_mutable_state",
       "evidence_kind": "heuristic",
@@ -3865,7 +3601,7 @@
           "description": "Keep this module_level_mutable_state finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/ui/themeAssets:module_level_mutable_state:196:7418",
+            "id": "escape:src/ui/themeAssets:module_level_mutable_state:194:7419",
             "kind": "module_level_mutable_state",
             "file": "src/ui/themeAssets.ts",
             "reason": "Intentional finding; document the project-specific reason."

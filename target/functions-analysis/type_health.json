@@ -13,10 +13,10 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-09T15:20:59.613Z",
+    "measured_at": "2026-09-13T22:17:49.273Z",
     "source_type": "static",
-    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
-    "input_set_hash": "sha256:1c5481fa14532f5e1a993a5940f83ecde7e25b94e749d10a44310e570f61c5e7"
+    "source_set_hash": "sha256:e9179904e4468fd570e919e7d1ff74d38da76208f8cdef1b7739bf5dbbcb52f3",
+    "input_set_hash": "sha256:a4967143f76e7f6cb981940cd21f0c9984e27e011c6a1639289e46de7185bf63"
   },
   "analysis_identity": {
     "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
@@ -89,13 +89,13 @@
     "stale_input": []
   },
   "summary": {
-    "records": 10,
+    "records": 5,
     "high_risk_records": 0,
     "wide_types": 0,
     "compiler_diagnostics": 0,
-    "type_coverage_percent": 97.17,
-    "typed_symbols": 412,
-    "untyped_symbols": 12
+    "type_coverage_percent": 99.5,
+    "typed_symbols": 396,
+    "untyped_symbols": 2
   },
   "compiler_options": {
     "strict": true,
@@ -120,13 +120,13 @@
   "type_coverage": {
     "summary": {
       "files": 2,
-      "analyzed_symbols": 424,
-      "typed_symbols": 412,
+      "analyzed_symbols": 398,
+      "typed_symbols": 396,
       "explicit_any": 0,
-      "inferred_any": 12,
+      "inferred_any": 2,
       "error_types": 0,
-      "unknown": 8,
-      "type_coverage_percent": 97.17
+      "unknown": 20,
+      "type_coverage_percent": 99.5
     },
     "files": [
       {
@@ -141,13 +141,13 @@
       },
       {
         "file": "src/index.ts",
-        "analyzed_symbols": 320,
-        "typed_symbols": 308,
+        "analyzed_symbols": 294,
+        "typed_symbols": 292,
         "explicit_any": 0,
-        "inferred_any": 12,
+        "inferred_any": 2,
         "error_types": 0,
-        "unknown": 8,
-        "type_coverage_percent": 96.25
+        "unknown": 20,
+        "type_coverage_percent": 99.32
       }
     ]
   },
@@ -308,238 +308,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/index:explicitType:111",
-      "module_id": "src/index",
-      "file": "src/index.ts",
-      "name": "explicitType",
-      "kind": "VariableDeclaration",
-      "exported": false,
-      "line": 111,
-      "score": 45,
-      "risk": "medium",
-      "source": "typescript-compiler-api",
-      "signals": [
-        {
-          "kind": "weak_inferred_type",
-          "value": "any"
-        }
-      ],
-      "metrics": {
-        "inferred_type": "any"
-      },
-      "rule_id": "typescript-compiler-api/VariableDeclaration",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "VariableDeclaration",
-      "reason_code": "typescript-compiler-api/VariableDeclaration",
-      "workspace_id": "mystarquest-functions",
-      "workspace_name": "mystarquest-functions",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typed-symbol:src/index:explicitType:111",
-            "kind": "VariableDeclaration",
-            "file": "src/index.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typed-symbol:src/index:category:112",
-      "module_id": "src/index",
-      "file": "src/index.ts",
-      "name": "category",
-      "kind": "VariableDeclaration",
-      "exported": false,
-      "line": 112,
-      "score": 45,
-      "risk": "medium",
-      "source": "typescript-compiler-api",
-      "signals": [
-        {
-          "kind": "weak_inferred_type",
-          "value": "any"
-        }
-      ],
-      "metrics": {
-        "inferred_type": "any"
-      },
-      "rule_id": "typescript-compiler-api/VariableDeclaration",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "VariableDeclaration",
-      "reason_code": "typescript-compiler-api/VariableDeclaration",
-      "workspace_id": "mystarquest-functions",
-      "workspace_name": "mystarquest-functions",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typed-symbol:src/index:category:112",
-            "kind": "VariableDeclaration",
-            "file": "src/index.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typed-symbol:src/index:title:151",
-      "module_id": "src/index",
-      "file": "src/index.ts",
-      "name": "title",
-      "kind": "VariableDeclaration",
-      "exported": false,
-      "line": 151,
-      "score": 45,
-      "risk": "medium",
-      "source": "typescript-compiler-api",
-      "signals": [
-        {
-          "kind": "weak_inferred_type",
-          "value": "any"
-        }
-      ],
-      "metrics": {
-        "inferred_type": "any"
-      },
-      "rule_id": "typescript-compiler-api/VariableDeclaration",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "VariableDeclaration",
-      "reason_code": "typescript-compiler-api/VariableDeclaration",
-      "workspace_id": "mystarquest-functions",
-      "workspace_name": "mystarquest-functions",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typed-symbol:src/index:title:151",
-            "kind": "VariableDeclaration",
-            "file": "src/index.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typed-symbol:src/index:duration:233",
-      "module_id": "src/index",
-      "file": "src/index.ts",
-      "name": "duration",
-      "kind": "VariableDeclaration",
-      "exported": false,
-      "line": 233,
-      "score": 45,
-      "risk": "medium",
-      "source": "typescript-compiler-api",
-      "signals": [
-        {
-          "kind": "weak_inferred_type",
-          "value": "any"
-        }
-      ],
-      "metrics": {
-        "inferred_type": "any"
-      },
-      "rule_id": "typescript-compiler-api/VariableDeclaration",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "VariableDeclaration",
-      "reason_code": "typescript-compiler-api/VariableDeclaration",
-      "workspace_id": "mystarquest-functions",
-      "workspace_name": "mystarquest-functions",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typed-symbol:src/index:duration:233",
-            "kind": "VariableDeclaration",
-            "file": "src/index.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typed-symbol:src/index:bites:235",
-      "module_id": "src/index",
-      "file": "src/index.ts",
-      "name": "bites",
-      "kind": "VariableDeclaration",
-      "exported": false,
-      "line": 235,
-      "score": 45,
-      "risk": "medium",
-      "source": "typescript-compiler-api",
-      "signals": [
-        {
-          "kind": "weak_inferred_type",
-          "value": "any"
-        }
-      ],
-      "metrics": {
-        "inferred_type": "any"
-      },
-      "rule_id": "typescript-compiler-api/VariableDeclaration",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "VariableDeclaration",
-      "reason_code": "typescript-compiler-api/VariableDeclaration",
-      "workspace_id": "mystarquest-functions",
-      "workspace_name": "mystarquest-functions",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typed-symbol:src/index:bites:235",
-            "kind": "VariableDeclaration",
-            "file": "src/index.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typed-symbol:src/index:events:322",
+      "id": "typed-symbol:src/index:events:302",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "events",
       "kind": "VariableDeclaration",
       "exported": false,
-      "line": 322,
+      "line": 302,
       "score": 45,
       "risk": "medium",
       "source": "typescript-compiler-api",
@@ -569,7 +344,7 @@
           "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/index:events:322",
+            "id": "typed-symbol:src/index:events:302",
             "kind": "VariableDeclaration",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."

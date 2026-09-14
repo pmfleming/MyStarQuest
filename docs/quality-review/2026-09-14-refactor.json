@@ -1,0 +1,655 @@
+{
+  "base": "00a721d7f0b592acfab44e31f5b9176ae6470d46",
+  "lens": {
+    "version": "0.3.0",
+    "revision": "986c6fd9cc82627866156ba0cf22cb1504ab8587"
+  },
+  "methodology": "Fresh before/after measurements in the same checkout with unchanged configurations and Git history. Source lines sum files; complexity and effort sum callables; locality/leverage sum module risk scores (lower is better). These are comparison aggregates, not official project scores. Physical lines cover production and test TS/JS, exclude reports/configuration/assets. No files moved in the final refactor.",
+  "frontend": {
+    "before": {
+      "source_lines": 26915,
+      "cognitive_complexity": 1308,
+      "cyclomatic_complexity": 1881,
+      "halstead_effort": 9176125,
+      "clone_groups": 3,
+      "locality_risk": 9136,
+      "leverage_risk": 764,
+      "lint_blockers": 0
+    },
+    "after": {
+      "source_lines": 26708,
+      "cognitive_complexity": 1278,
+      "cyclomatic_complexity": 1840,
+      "halstead_effort": 9017280,
+      "clone_groups": 1,
+      "locality_risk": 9100,
+      "leverage_risk": 632,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": -207,
+      "cognitive_complexity": -30,
+      "cyclomatic_complexity": -41,
+      "halstead_effort": -158845,
+      "clone_groups": -2,
+      "locality_risk": -36,
+      "leverage_risk": -132,
+      "lint_blockers": 0
+    },
+    "before_provenance": {
+      "lens": "ts-react-quality-lens",
+      "schema_version": "0.3.0",
+      "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+      "host": "Ghost_S1",
+      "measured_at": "2026-09-13T21:47:22.142Z",
+      "source_type": "static",
+      "source_set_hash": "sha256:905cdba8eef54d2e21e5b92c1a54bfba9bb27a7f9917acbbe4f7c0a9693adcb8",
+      "input_set_hash": "sha256:c25531f199e08c42e06b449315079512a30eda61ea5ca1eb60bfcdf2a3b70ba4"
+    },
+    "after_provenance": {
+      "lens": "ts-react-quality-lens",
+      "schema_version": "0.3.0",
+      "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+      "host": "Ghost_S1",
+      "measured_at": "2026-09-13T22:14:35.638Z",
+      "source_type": "static",
+      "source_set_hash": "sha256:5e4567c47759bae79c0f190ad4744f6bb5e877cc7622756d59280e4896e634c9",
+      "input_set_hash": "sha256:6b5faa25007698d996e6ea1b6390cf65ba343047674244ccc3474e907c60ee89"
+    },
+    "graph": {
+      "before": {
+        "internal_edges": 909,
+        "external_edges": 149,
+        "cycles": 0,
+        "heuristic_cycles": 0,
+        "dependency_cruiser_cycles": 0,
+        "deep_relative_imports": 145,
+        "barrel_modules": 1,
+        "layer_violations": 29,
+        "unsupported_patterns": 0,
+        "workspaces": 1,
+        "cross_workspace_edges": 0,
+        "incomplete_workspace_projects": 0
+      },
+      "after": {
+        "internal_edges": 902,
+        "external_edges": 149,
+        "cycles": 0,
+        "heuristic_cycles": 0,
+        "dependency_cruiser_cycles": 0,
+        "deep_relative_imports": 145,
+        "barrel_modules": 1,
+        "layer_violations": 27,
+        "unsupported_patterns": 0,
+        "workspaces": 1,
+        "cross_workspace_edges": 0,
+        "incomplete_workspace_projects": 0
+      }
+    },
+    "changed_modules": [
+      {
+        "file": "src/components/DinnerCountdown.tsx",
+        "before": {
+          "line_count": 766,
+          "cognitive_complexity": 46,
+          "cyclomatic_complexity": 52,
+          "halstead_effort": 107584
+        },
+        "after": {
+          "line_count": 799,
+          "cognitive_complexity": 30,
+          "cyclomatic_complexity": 36,
+          "halstead_effort": 84723
+        }
+      },
+      {
+        "file": "src/data/types.ts",
+        "before": {
+          "line_count": 646,
+          "cognitive_complexity": 12,
+          "cyclomatic_complexity": 31,
+          "halstead_effort": 4441
+        },
+        "after": {
+          "line_count": 592,
+          "cognitive_complexity": 12,
+          "cyclomatic_complexity": 31,
+          "halstead_effort": 4441
+        }
+      },
+      {
+        "file": "src/ui/unifiedChoreItemRenderer.tsx",
+        "before": {
+          "line_count": 249,
+          "cognitive_complexity": 26,
+          "cyclomatic_complexity": 31,
+          "halstead_effort": 33854
+        },
+        "after": {
+          "line_count": 225,
+          "cognitive_complexity": 23,
+          "cyclomatic_complexity": 26,
+          "halstead_effort": 40524
+        }
+      },
+      {
+        "file": "src/data/useTests.ts",
+        "before": {
+          "line_count": 264,
+          "cognitive_complexity": 8,
+          "cyclomatic_complexity": 16,
+          "halstead_effort": 407741
+        },
+        "after": {
+          "line_count": 241,
+          "cognitive_complexity": 8,
+          "cyclomatic_complexity": 16,
+          "halstead_effort": 349986
+        }
+      },
+      {
+        "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+        "before": {
+          "line_count": 215,
+          "cognitive_complexity": 23,
+          "cyclomatic_complexity": 26,
+          "halstead_effort": 154190
+        },
+        "after": {
+          "line_count": 169,
+          "cognitive_complexity": 14,
+          "cyclomatic_complexity": 18,
+          "halstead_effort": 81408
+        }
+      },
+      {
+        "file": "src/ui/themeAssets.ts",
+        "before": {
+          "line_count": 201,
+          "cognitive_complexity": 4,
+          "cyclomatic_complexity": 12,
+          "halstead_effort": 10965
+        },
+        "after": {
+          "line_count": 199,
+          "cognitive_complexity": 3,
+          "cyclomatic_complexity": 11,
+          "halstead_effort": 10346
+        }
+      },
+      {
+        "file": "src/data/useChores.ts",
+        "before": {
+          "line_count": 165,
+          "cognitive_complexity": 8,
+          "cyclomatic_complexity": 14,
+          "halstead_effort": 179668
+        },
+        "after": {
+          "line_count": 146,
+          "cognitive_complexity": 8,
+          "cyclomatic_complexity": 14,
+          "halstead_effort": 158068
+        }
+      },
+      {
+        "file": "src/data/animalFoodAssets.ts",
+        "before": {
+          "line_count": 69,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        },
+        "after": {
+          "line_count": 46,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        }
+      },
+      {
+        "file": "src/components/ui/CardShell.tsx",
+        "before": {
+          "line_count": 116,
+          "cognitive_complexity": 4,
+          "cyclomatic_complexity": 6,
+          "halstead_effort": 2889
+        },
+        "after": {
+          "line_count": 116,
+          "cognitive_complexity": 4,
+          "cyclomatic_complexity": 6,
+          "halstead_effort": 2438
+        }
+      },
+      {
+        "file": "src/data/animalHabitatAssets.ts",
+        "before": {
+          "line_count": 57,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        },
+        "after": {
+          "line_count": 38,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        }
+      },
+      {
+        "file": "src/ui/presetChoreRenderers.tsx",
+        "before": {
+          "line_count": 89,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 10,
+          "halstead_effort": 2092
+        },
+        "after": {
+          "line_count": 29,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 1,
+          "halstead_effort": 961
+        }
+      },
+      {
+        "file": "src/data/useChildTaskCollection.ts",
+        "before": {
+          "line_count": 52,
+          "cognitive_complexity": 2,
+          "cyclomatic_complexity": 3,
+          "halstead_effort": 7995
+        },
+        "after": {
+          "line_count": 66,
+          "cognitive_complexity": 2,
+          "cyclomatic_complexity": 3,
+          "halstead_effort": 19450
+        }
+      },
+      {
+        "file": "src/data/teeniepingKnowledge.ts",
+        "before": {
+          "line_count": 52,
+          "cognitive_complexity": 1,
+          "cyclomatic_complexity": 2,
+          "halstead_effort": 420
+        },
+        "after": {
+          "line_count": 54,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        }
+      },
+      {
+        "file": "src/ui/weatherAssets.ts",
+        "before": {
+          "line_count": 23,
+          "cognitive_complexity": 1,
+          "cyclomatic_complexity": 4,
+          "halstead_effort": 891
+        },
+        "after": {
+          "line_count": 24,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 2,
+          "halstead_effort": 208
+        }
+      },
+      {
+        "file": "src/data/assetCatalog.ts",
+        "before": {
+          "line_count": 27,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 1,
+          "halstead_effort": 10090
+        },
+        "after": {
+          "line_count": 40,
+          "cognitive_complexity": 1,
+          "cyclomatic_complexity": 3,
+          "halstead_effort": 11421
+        }
+      }
+    ],
+    "architecture_changes": {
+      "locality_metrics": [
+        {
+          "file": "src/data/assetCatalog.ts",
+          "before": 28,
+          "after": 10,
+          "signals": [
+            {
+              "kind": "cochange_ripple",
+              "value": 2
+            }
+          ]
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "before": 59,
+          "after": 41,
+          "signals": [
+            {
+              "kind": "far_import",
+              "line": 1,
+              "specifier": "../../contexts/ThemeContext"
+            },
+            {
+              "kind": "far_import",
+              "line": 5,
+              "specifier": "../../lib/solar"
+            },
+            {
+              "kind": "far_import",
+              "line": 6,
+              "specifier": "../../lib/seasons"
+            },
+            {
+              "kind": "cochange_ripple",
+              "value": 1
+            }
+          ]
+        }
+      ],
+      "leverage_metrics": [
+        {
+          "file": "src/components/AlphabetTester.tsx",
+          "before": 12,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/components/SpellingTester.tsx",
+          "before": 24,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/components/ui/CardShell.tsx",
+          "before": 24,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/data/animalAbilityAssets.ts",
+          "before": 12,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/data/animalAssets.ts",
+          "before": 12,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/data/animalFoodAssets.ts",
+          "before": 12,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/data/animalHabitatAssets.ts",
+          "before": 12,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/ui/themeAssets.ts",
+          "before": 56,
+          "after": 32,
+          "signals": [
+            {
+              "kind": "broad_inbound_reach",
+              "value": 33
+            },
+            {
+              "kind": "weak_public_surface",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    "validation": {
+      "lint": {
+        "records": 17,
+        "blocking_findings": 0,
+        "warning_findings": 17
+      },
+      "types": {
+        "records": 489,
+        "high_risk_records": 31,
+        "wide_types": 20,
+        "compiler_diagnostics": 0,
+        "type_coverage_percent": 99.56,
+        "typed_symbols": 18908,
+        "untyped_symbols": 83
+      },
+      "react": {
+        "components": 115,
+        "records": 125,
+        "hook_lint_findings": 0,
+        "a11y_findings": 9,
+        "a11y_tool_findings": 9,
+        "a11y_heuristic_findings": 0,
+        "high_risk_components": 27
+      },
+      "correctness": {
+        "tests": 59,
+        "colocated_tests": 0,
+        "external_tests": 59,
+        "execution_status": "passed",
+        "execution_scope": "suite",
+        "coverage_status": "not_collected",
+        "blocking_findings": 0
+      }
+    }
+  },
+  "backend": {
+    "before": {
+      "source_lines": 441,
+      "cognitive_complexity": 50,
+      "cyclomatic_complexity": 58,
+      "halstead_effort": 97731,
+      "clone_groups": 0,
+      "locality_risk": 54,
+      "leverage_risk": 72,
+      "lint_blockers": 9
+    },
+    "after": {
+      "source_lines": 421,
+      "cognitive_complexity": 47,
+      "cyclomatic_complexity": 57,
+      "halstead_effort": 94525,
+      "clone_groups": 0,
+      "locality_risk": 36,
+      "leverage_risk": 0,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": -20,
+      "cognitive_complexity": -3,
+      "cyclomatic_complexity": -1,
+      "halstead_effort": -3206,
+      "clone_groups": 0,
+      "locality_risk": -18,
+      "leverage_risk": -72,
+      "lint_blockers": -9
+    },
+    "before_provenance": {
+      "lens": "ts-react-quality-lens",
+      "schema_version": "0.3.0",
+      "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+      "host": "Ghost_S1",
+      "measured_at": "2026-09-13T21:49:56.496Z",
+      "source_type": "static",
+      "source_set_hash": "sha256:646d959f62242e5025dda7e3af54b950839401035d9a3d062bf66b5a400e6cbc",
+      "input_set_hash": "sha256:87fcb6a3f92829a157ee6a65d1fb261f33a1fce983efa474c8fcc417ff30608a"
+    },
+    "after_provenance": {
+      "lens": "ts-react-quality-lens",
+      "schema_version": "0.3.0",
+      "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+      "host": "Ghost_S1",
+      "measured_at": "2026-09-13T22:17:48.388Z",
+      "source_type": "static",
+      "source_set_hash": "sha256:e9179904e4468fd570e919e7d1ff74d38da76208f8cdef1b7739bf5dbbcb52f3",
+      "input_set_hash": "sha256:5acb648da8febc2832292f535445ed12aad070b017f192051d1b0db6439fbadb"
+    },
+    "graph": {
+      "before": {
+        "internal_edges": 1,
+        "external_edges": 6,
+        "cycles": 0,
+        "heuristic_cycles": 0,
+        "dependency_cruiser_cycles": 0,
+        "deep_relative_imports": 0,
+        "barrel_modules": 0,
+        "layer_violations": 0,
+        "unsupported_patterns": 0,
+        "workspaces": 1,
+        "cross_workspace_edges": 0,
+        "incomplete_workspace_projects": 0
+      },
+      "after": {
+        "internal_edges": 1,
+        "external_edges": 6,
+        "cycles": 0,
+        "heuristic_cycles": 0,
+        "dependency_cruiser_cycles": 0,
+        "deep_relative_imports": 0,
+        "barrel_modules": 0,
+        "layer_violations": 0,
+        "unsupported_patterns": 0,
+        "workspaces": 1,
+        "cross_workspace_edges": 0,
+        "incomplete_workspace_projects": 0
+      }
+    },
+    "changed_modules": [
+      {
+        "file": "src/index.ts",
+        "before": {
+          "line_count": 355,
+          "cognitive_complexity": 35,
+          "cyclomatic_complexity": 42,
+          "halstead_effort": 55342
+        },
+        "after": {
+          "line_count": 335,
+          "cognitive_complexity": 32,
+          "cyclomatic_complexity": 41,
+          "halstead_effort": 52136
+        }
+      }
+    ],
+    "architecture_changes": {
+      "locality_metrics": [
+        {
+          "file": "src/index.ts",
+          "before": 49,
+          "after": 31,
+          "signals": [
+            {
+              "kind": "defect_keyword_commits",
+              "value": 1
+            },
+            {
+              "kind": "cochange_ripple",
+              "value": 1
+            }
+          ]
+        }
+      ],
+      "leverage_metrics": [
+        {
+          "file": "src/index.ts",
+          "before": 72,
+          "after": 0,
+          "signals": []
+        }
+      ]
+    },
+    "validation": {
+      "lint": {
+        "records": 0,
+        "blocking_findings": 0,
+        "warning_findings": 0
+      },
+      "types": {
+        "records": 5,
+        "high_risk_records": 0,
+        "wide_types": 0,
+        "compiler_diagnostics": 0,
+        "type_coverage_percent": 99.5,
+        "typed_symbols": 396,
+        "untyped_symbols": 2
+      },
+      "react": {
+        "components": 0,
+        "records": 0,
+        "hook_lint_findings": 0,
+        "a11y_findings": 0,
+        "a11y_tool_findings": 0,
+        "a11y_heuristic_findings": 0,
+        "high_risk_components": 0
+      },
+      "correctness": {
+        "tests": 14,
+        "colocated_tests": 0,
+        "external_tests": 14,
+        "execution_status": "unknown",
+        "execution_scope": "suite",
+        "coverage_status": "not_collected",
+        "blocking_findings": 0
+      }
+    }
+  },
+  "physical_lines": {
+    "production": {
+      "before": 27162,
+      "after": 26935,
+      "delta": -227
+    },
+    "tests": {
+      "before": 6020,
+      "after": 6247,
+      "delta": 227
+    }
+  },
+  "audit": {
+    "verdict": "warn",
+    "complete": true,
+    "incomplete_reasons": [],
+    "gate": "new-only",
+    "base": "00a721d7f0b592acfab44e31f5b9176ae6470d46",
+    "changed_files": 60,
+    "changed_hunks": 6227,
+    "base_snapshot_available": true,
+    "base_snapshot_compatible": true,
+    "findings": 306,
+    "active_findings": 10,
+    "introduced_findings": 174,
+    "inherited_findings": 132,
+    "high_risk_findings": 18,
+    "blocking_findings": 0,
+    "warning_findings": 10,
+    "baseline_suppressed": 0,
+    "config_suppressed": 0,
+    "stale_suppressions": 0
+  },
+  "verification": {
+    "unit_component_tests": 194,
+    "vitest_files": 57,
+    "browser_smoke_tests": 3,
+    "backdrop_equivalence_cases": 156816,
+    "build": "passed",
+    "functions_build": "passed",
+    "eslint": "passed",
+    "new_tests_typecheck": "passed",
+    "format": "passed"
+  }
+}

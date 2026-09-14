@@ -13,10 +13,10 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-09T15:20:58.645Z",
+    "measured_at": "2026-09-13T22:17:48.388Z",
     "source_type": "static",
-    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
-    "input_set_hash": "sha256:4ff17594a1764b840377b4813076cf5cefbb5cbd1f73c0af710a758d454bc23f"
+    "source_set_hash": "sha256:e9179904e4468fd570e919e7d1ff74d38da76208f8cdef1b7739bf5dbbcb52f3",
+    "input_set_hash": "sha256:5acb648da8febc2832292f535445ed12aad070b017f192051d1b0db6439fbadb"
   },
   "analysis_identity": {
     "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
@@ -100,16 +100,16 @@
       "module_id": "src/index",
       "file": "src/index.ts",
       "line": 1,
-      "score": 183,
+      "score": 175,
       "risk": "high",
       "signals": [
         {
           "kind": "line_count",
-          "value": 355
+          "value": 335
         },
         {
           "kind": "branch_count",
-          "value": 32
+          "value": 31
         },
         {
           "kind": "import_count",
@@ -272,34 +272,34 @@
       ]
     },
     {
-      "id": "src/index.ts:resetTodayActivities:201",
+      "id": "src/index.ts:assertCallableChild:238",
       "kind": "function",
       "module_id": "src/index",
       "file": "src/index.ts",
-      "name": "resetTodayActivities",
-      "line": 201,
-      "score": 57,
+      "name": "assertCallableChild",
+      "line": 238,
+      "score": 63,
       "risk": "medium",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
-          "value": 5
+          "value": 8
         },
         {
           "kind": "cognitive_complexity",
-          "value": 6
+          "value": 7
         },
         {
           "kind": "halstead_effort",
-          "value": 12316.79
+          "value": 7276.19
         },
         {
           "kind": "nesting_depth",
-          "value": 2
+          "value": 1
         },
         {
           "kind": "line_count",
-          "value": 27
+          "value": 20
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
@@ -319,7 +319,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:resetTodayActivities:201",
+            "id": "src/index.ts:assertCallableChild:238",
             "kind": "function",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -375,12 +375,12 @@
       ]
     },
     {
-      "id": "src/index.ts:getDailyActivityResetPatch:229",
+      "id": "src/index.ts:getDailyActivityResetPatch:212",
       "kind": "function",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "getDailyActivityResetPatch",
-      "line": 229,
+      "line": 212,
       "score": 47,
       "risk": "medium",
       "signals": [
@@ -394,7 +394,7 @@
         },
         {
           "kind": "halstead_effort",
-          "value": 3739.25
+          "value": 4237.49
         },
         {
           "kind": "nesting_depth",
@@ -422,7 +422,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:getDailyActivityResetPatch:229",
+            "id": "src/index.ts:getDailyActivityResetPatch:212",
             "kind": "function",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -487,67 +487,11 @@
       ]
     },
     {
-      "id": "src/index.ts:assertCallableChild:255",
+      "id": "src/index.ts:resetChildChores:142",
       "kind": "function",
       "module_id": "src/index",
       "file": "src/index.ts",
-      "name": "assertCallableChild",
-      "line": 255,
-      "score": 43,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 5
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 4
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 3182.14
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 1
-        },
-        {
-          "kind": "line_count",
-          "value": 16
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
-      "reason_code": "ts-react-quality-lens/function",
-      "workspace_id": "mystarquest-functions",
-      "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/index.ts:assertCallableChild:255",
-            "kind": "function",
-            "file": "src/index.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/index.ts:createDailyActivities:142",
-      "kind": "function",
-      "module_id": "src/index",
-      "file": "src/index.ts",
-      "name": "createDailyActivities",
+      "name": "resetChildChores",
       "line": 142,
       "score": 34,
       "risk": "low",
@@ -562,7 +506,7 @@
         },
         {
           "kind": "halstead_effort",
-          "value": 12883.17
+          "value": 14830.25
         },
         {
           "kind": "nesting_depth",
@@ -570,7 +514,7 @@
         },
         {
           "kind": "line_count",
-          "value": 23
+          "value": 22
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
@@ -590,7 +534,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:createDailyActivities:142",
+            "id": "src/index.ts:resetChildChores:142",
             "kind": "function",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -618,7 +562,7 @@
         },
         {
           "kind": "halstead_effort",
-          "value": 2077.35
+          "value": 2693.67
         },
         {
           "kind": "nesting_depth",
@@ -927,6 +871,62 @@
           "config_key": "suppressions",
           "value": {
             "id": "src/index.ts:getTemplateDocs:130",
+            "kind": "function",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/index.ts:resetTodayActivities:201",
+      "kind": "function",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "resetTodayActivities",
+      "line": 201,
+      "score": 11,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 1954.85
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 10
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/index.ts:resetTodayActivities:201",
             "kind": "function",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."

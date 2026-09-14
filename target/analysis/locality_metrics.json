@@ -3,7 +3,7 @@
   "task_id": "quality.locality_dynamic",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-boCy1G\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T19:31:26.735Z",
+    "measured_at": "2026-09-13T22:16:03.776Z",
     "source_type": "static",
-    "source_set_hash": "sha256:d8764fd624cb1ca4018c2a494de0ef4b5d0b8a24d9ed441230f37e745dfa6dcb",
-    "input_set_hash": "sha256:4fd02691438f4b8ffd397b5a02bac67eb24285450349f1b9611ea099ff3b4cce"
+    "source_set_hash": "sha256:5e4567c47759bae79c0f190ad4744f6bb5e877cc7622756d59280e4896e634c9",
+    "input_set_hash": "sha256:4a1204524858ac6b1829b3249af47d092756ad163d086c801468a15516976e3b"
   },
   "analysis_identity": {
     "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
@@ -93,8 +93,8 @@
     "stale_input": []
   },
   "summary": {
-    "records": 195,
-    "high_risk_records": 34
+    "records": 200,
+    "high_risk_records": 40
   },
   "records": [
     {
@@ -108,7 +108,7 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 16,
+        "commits": 17,
         "contributors": 2
       },
       "defect_commits": 0,
@@ -138,6 +138,10 @@
           "commits": 4
         },
         {
+          "file": "src/contexts/ThemeContext.tsx",
+          "commits": 4
+        },
+        {
           "file": "src/data/types.ts",
           "commits": 4
         },
@@ -147,10 +151,6 @@
         },
         {
           "file": "src/data/useTests.ts",
-          "commits": 4
-        },
-        {
-          "file": "src/pages/ManageChildrenPage.tsx",
           "commits": 4
         }
       ],
@@ -476,7 +476,7 @@
       "id": "locality:src/auth/AuthContext",
       "module_id": "src/auth/AuthContext",
       "file": "src/auth/AuthContext.tsx",
-      "score": 63,
+      "score": 65,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
@@ -488,7 +488,7 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 5,
+        "commits": 6,
         "contributors": 1
       },
       "defect_commits": 1,
@@ -502,6 +502,26 @@
           "commits": 3
         },
         {
+          "file": "src/App.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/PageShell.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/contexts/ActiveChildContext.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/contexts/SelectedDateContext.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "commits": 2
+        },
+        {
           "file": "src/data/useChores.ts",
           "commits": 2
         },
@@ -511,26 +531,6 @@
         },
         {
           "file": "src/App.test.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/App.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/PageShell.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/ui/ActivityControls.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/ui/StarDisplay.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/ui/StepperButton.tsx",
           "commits": 1
         }
       ],
@@ -581,21 +581,66 @@
       "id": "locality:src/auth/AuthProvider",
       "module_id": "src/auth/AuthProvider",
       "file": "src/auth/AuthProvider.tsx",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/App.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/activities/LazyActivities.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/PageShell.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/ActionTextInput.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/AsyncButton.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/Carousel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/IconActionControls.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -728,7 +773,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 26,
+        "commits": 28,
         "contributors": 1
       },
       "defect_commits": 2,
@@ -1605,7 +1650,7 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 14,
+        "commits": 15,
         "contributors": 1
       },
       "defect_commits": 4,
@@ -1700,11 +1745,11 @@
       "id": "locality:src/components/PositionalNotation",
       "module_id": "src/components/PositionalNotation",
       "file": "src/components/PositionalNotation.tsx",
-      "score": 62,
-      "risk": "medium",
+      "score": 80,
+      "risk": "high",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 16,
@@ -1755,6 +1800,9 @@
       ],
       "signals": [
         {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
           "kind": "defect_keyword_commits",
           "value": 3
         },
@@ -1775,6 +1823,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1886,11 +1940,11 @@
       "id": "locality:src/components/SpellingTester",
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
-      "score": 46,
+      "score": 64,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 21,
@@ -1940,6 +1994,9 @@
         }
       ],
       "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
         {
           "kind": "defect_keyword_commits",
           "value": 1
@@ -2164,21 +2221,66 @@
       "id": "locality:src/components/activities/LazyActivities",
       "module_id": "src/components/activities/LazyActivities",
       "file": "src/components/activities/LazyActivities.tsx",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/App.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthProvider.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/PageShell.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/ActionTextInput.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/AsyncButton.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/Carousel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/IconActionControls.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -2202,6 +2304,145 @@
             "id": "locality:src/components/activities/LazyActivities",
             "kind": "locality",
             "file": "src/components/activities/LazyActivities.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/components/animalTester/LearningNavigation",
+      "module_id": "src/components/animalTester/LearningNavigation",
+      "file": "src/components/animalTester/LearningNavigation.tsx",
+      "score": 17,
+      "risk": "low",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/components/AnimalTester.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/animalTester/TrainingPhotoPortrait.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/animalTester/useAnimalSession.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 10,
+          "specifier": "../../tokens"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/animalTester/LearningNavigation",
+            "kind": "locality",
+            "file": "src/components/animalTester/LearningNavigation.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/components/animalTester/TrainingPhotoPortrait",
+      "module_id": "src/components/animalTester/TrainingPhotoPortrait",
+      "file": "src/components/animalTester/TrainingPhotoPortrait.tsx",
+      "score": 40,
+      "risk": "medium",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 2,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/components/AnimalTester.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/animalTester/LearningNavigation.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/animalTester/useAnimalSession.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/creaturePhotos.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 2,
+          "specifier": "../../data/creaturePhotos"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 2
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/animalTester/TrainingPhotoPortrait",
+            "kind": "locality",
+            "file": "src/components/animalTester/TrainingPhotoPortrait.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2323,21 +2564,21 @@
       "id": "locality:src/components/animalTester/useAnimalSession",
       "module_id": "src/components/animalTester/useAnimalSession",
       "file": "src/components/animalTester/useAnimalSession.ts",
-      "score": 90,
+      "score": 95,
       "risk": "high",
       "dependency_distance": 6,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
         {
           "file": "src/components/AnimalTester.tsx",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/components/LargeNumbersTester.tsx",
@@ -2372,7 +2613,7 @@
           "commits": 1
         },
         {
-          "file": "src/components/animalTester/useCreatureCollection.ts",
+          "file": "src/components/animalTester/LearningNavigation.tsx",
           "commits": 1
         }
       ],
@@ -2413,7 +2654,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -2864,18 +3105,26 @@
       "id": "locality:src/components/ui/ActionTextInput",
       "module_id": "src/components/ui/ActionTextInput",
       "file": "src/components/ui/ActionTextInput.tsx",
-      "score": 77,
+      "score": 82,
       "risk": "high",
       "dependency_distance": 3,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 3,
+        "commits": 4,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
+        {
+          "file": "src/components/PageShell.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "commits": 4
+        },
         {
           "file": "src/components/AlphabetTester.tsx",
           "commits": 3
@@ -2886,10 +3135,6 @@
         },
         {
           "file": "src/components/DinnerCountdown.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/PageShell.tsx",
           "commits": 3
         },
         {
@@ -2905,15 +3150,11 @@
           "commits": 3
         },
         {
-          "file": "src/components/ui/StandardActionList.tsx",
+          "file": "src/components/ui/Carousel.tsx",
           "commits": 3
         },
         {
-          "file": "src/components/ui/StarDisplay.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/ui/StepperButton.tsx",
+          "file": "src/components/ui/IconActionControls.tsx",
           "commits": 3
         }
       ],
@@ -2942,7 +3183,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 3
+          "value": 4
         }
       ],
       "kind": "locality",
@@ -2981,11 +3222,11 @@
       "id": "locality:src/components/ui/ActivityControls",
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
-      "score": 82,
+      "score": 100,
       "risk": "high",
       "dependency_distance": 3,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 10,
@@ -3049,6 +3290,9 @@
           "kind": "far_import",
           "line": 9,
           "specifier": "../../lib/activityOutcome"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
         },
         {
           "kind": "defect_keyword_commits",
@@ -3187,56 +3431,56 @@
       "id": "locality:src/components/ui/AsyncButton",
       "module_id": "src/components/ui/AsyncButton",
       "file": "src/components/ui/AsyncButton.tsx",
-      "score": 25,
+      "score": 30,
       "risk": "low",
       "dependency_distance": 1,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
         {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AnimalTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/animalTester/useAnimalSession.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/components/ArithmeticTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/DinnerCountdown.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/LargeNumbersTester.tsx",
-          "commits": 1
-        },
-        {
           "file": "src/components/PageShell.tsx",
-          "commits": 1
+          "commits": 2
         },
         {
-          "file": "src/components/PositionalNotation.tsx",
-          "commits": 1
+          "file": "src/components/ui/ActionTextInput.tsx",
+          "commits": 2
         },
         {
-          "file": "src/components/SpellingTester.tsx",
-          "commits": 1
+          "file": "src/components/ui/Carousel.tsx",
+          "commits": 2
         },
         {
-          "file": "src/components/ui/ActionButton.tsx",
+          "file": "src/components/ui/IconActionControls.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/hooks/useActivityPersistence.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/hooks/useDinnerCountdownState.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/ui/presetChoreRenderers.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/App.tsx",
           "commits": 1
         }
       ],
@@ -3252,7 +3496,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -3504,14 +3748,14 @@
       "id": "locality:src/components/ui/Carousel",
       "module_id": "src/components/ui/Carousel",
       "file": "src/components/ui/Carousel.tsx",
-      "score": 64,
-      "risk": "medium",
+      "score": 84,
+      "risk": "high",
       "dependency_distance": 2,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 7,
+        "commits": 8,
         "contributors": 1
       },
       "defect_commits": 1,
@@ -3529,15 +3773,15 @@
           "commits": 5
         },
         {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "commits": 5
+        },
+        {
           "file": "src/components/ArithmeticTester.tsx",
           "commits": 4
         },
         {
           "file": "src/components/DinnerCountdown.tsx",
-          "commits": 4
-        },
-        {
-          "file": "src/components/ui/StandardActionList.tsx",
           "commits": 4
         },
         {
@@ -3569,6 +3813,9 @@
           "specifier": "../../contexts/ThemeContext"
         },
         {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
           "kind": "defect_keyword_commits",
           "value": 1
         },
@@ -3589,6 +3836,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -3922,28 +4175,40 @@
       "id": "locality:src/components/ui/IconActionControls",
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
-      "score": 82,
+      "score": 87,
       "risk": "high",
       "dependency_distance": 3,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 4,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
         {
           "file": "src/components/ui/StandardActionList.tsx",
-          "commits": 4
+          "commits": 5
         },
         {
           "file": "src/components/AlphabetTester.tsx",
           "commits": 3
         },
         {
+          "file": "src/components/PageShell.tsx",
+          "commits": 3
+        },
+        {
           "file": "src/components/ui/ActionButton.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/components/ui/ActionTextInput.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/hooks/useDinnerCountdownState.ts",
           "commits": 3
         },
         {
@@ -3955,23 +4220,11 @@
           "commits": 3
         },
         {
-          "file": "src/components/AnimalTester.tsx",
-          "commits": 2
+          "file": "src/ui/presetChoreRenderers.tsx",
+          "commits": 3
         },
         {
-          "file": "src/components/animalTester/useAnimalSession.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/components/ArithmeticTester.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/ChoreOutcomeView.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/DinnerCountdown.tsx",
+          "file": "src/App.tsx",
           "commits": 2
         }
       ],
@@ -4000,7 +4253,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 4
+          "value": 5
         }
       ],
       "kind": "locality",
@@ -5393,11 +5646,11 @@
       "id": "locality:src/components/ui/SegmentedChoiceControl",
       "module_id": "src/components/ui/SegmentedChoiceControl",
       "file": "src/components/ui/SegmentedChoiceControl.tsx",
-      "score": 59,
-      "risk": "medium",
+      "score": 77,
+      "risk": "high",
       "dependency_distance": 2,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 6,
@@ -5458,6 +5711,9 @@
           "specifier": "../../tokens"
         },
         {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
           "kind": "defect_keyword_commits",
           "value": 1
         },
@@ -5478,6 +5734,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -5625,7 +5887,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 16,
+        "commits": 17,
         "contributors": 1
       },
       "defect_commits": 1,
@@ -5854,11 +6116,11 @@
       "id": "locality:src/components/ui/StarInfoBox",
       "module_id": "src/components/ui/StarInfoBox",
       "file": "src/components/ui/StarInfoBox.tsx",
-      "score": 75,
+      "score": 93,
       "risk": "high",
       "dependency_distance": 3,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 8,
@@ -5922,6 +6184,9 @@
           "kind": "far_import",
           "line": 4,
           "specifier": "../../assets/global/star.svg"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
         },
         {
           "kind": "defect_keyword_commits",
@@ -6823,18 +7088,30 @@
       "id": "locality:src/components/weather/WeatherControls",
       "module_id": "src/components/weather/WeatherControls",
       "file": "src/components/weather/WeatherControls.tsx",
-      "score": 59,
-      "risk": "medium",
-      "dependency_distance": 3,
+      "score": 100,
+      "risk": "high",
+      "dependency_distance": 6,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 10,
         "contributors": 1
       },
-      "defect_commits": 0,
+      "defect_commits": 1,
       "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/hooks/useWeatherExploration.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/components/weather/WeatherThermometer.tsx",
+          "commits": 2
+        },
         {
           "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
           "commits": 1
@@ -6852,10 +7129,6 @@
           "commits": 1
         },
         {
-          "file": "src/components/weather/WeatherPanel.tsx",
-          "commits": 1
-        },
-        {
           "file": "src/data/useChores.ts",
           "commits": 1
         },
@@ -6865,14 +7138,6 @@
         },
         {
           "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/hooks/useWeatherExploration.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
           "commits": 1
         }
       ],
@@ -6885,12 +7150,102 @@
         {
           "kind": "far_import",
           "line": 3,
+          "specifier": "../../lib/weather/weatherConditions"
+        },
+        {
+          "kind": "far_import",
+          "line": 4,
           "specifier": "../../lib/weather/weatherVisuals"
         },
         {
           "kind": "far_import",
           "line": 9,
           "specifier": "../../contexts/ThemeContext"
+        },
+        {
+          "kind": "far_import",
+          "line": 12,
+          "specifier": "../../tokens"
+        },
+        {
+          "kind": "far_import",
+          "line": 13,
+          "specifier": "../../ui/themeAssets"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "defect_keyword_commits",
+          "value": 1
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 3
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/weather/WeatherControls",
+            "kind": "locality",
+            "file": "src/components/weather/WeatherControls.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/components/weather/WeatherMagic",
+      "module_id": "src/components/weather/WeatherMagic",
+      "file": "src/components/weather/WeatherMagic.tsx",
+      "score": 35,
+      "risk": "medium",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherOptionImage.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/weather/WeatherScene.tsx",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 1,
+          "specifier": "../../ui/themeOptions"
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -6918,9 +7273,9 @@
           "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "locality:src/components/weather/WeatherControls",
+            "id": "locality:src/components/weather/WeatherMagic",
             "kind": "locality",
-            "file": "src/components/weather/WeatherControls.tsx",
+            "file": "src/components/weather/WeatherMagic.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -6930,18 +7285,22 @@
       "id": "locality:src/components/weather/WeatherOptionImage",
       "module_id": "src/components/weather/WeatherOptionImage",
       "file": "src/components/weather/WeatherOptionImage.tsx",
-      "score": 59,
-      "risk": "medium",
-      "dependency_distance": 3,
+      "score": 100,
+      "risk": "high",
+      "dependency_distance": 6,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 5,
         "contributors": 1
       },
-      "defect_commits": 0,
+      "defect_commits": 1,
       "cochange_partners": [
+        {
+          "file": "src/ui/weatherAssets.ts",
+          "commits": 2
+        },
         {
           "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
           "commits": 1
@@ -6959,7 +7318,15 @@
           "commits": 1
         },
         {
+          "file": "src/components/weather/WeatherMagic.tsx",
+          "commits": 1
+        },
+        {
           "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/weather/WeatherScene.tsx",
           "commits": 1
         },
         {
@@ -6968,18 +7335,6 @@
         },
         {
           "file": "src/data/useTests.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/hooks/useWeatherExploration.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/lib/dayNightExplorer/solarSystemGeometry.ts",
           "commits": 1
         }
       ],
@@ -6997,14 +7352,33 @@
         {
           "kind": "far_import",
           "line": 6,
-          "specifier": "../../ui/weatherAssets"
+          "specifier": "../../contexts/ThemeContext"
+        },
+        {
+          "kind": "far_import",
+          "line": 7,
+          "specifier": "../../contexts/SelectedDateContext"
+        },
+        {
+          "kind": "far_import",
+          "line": 8,
+          "specifier": "../../lib/seasons"
+        },
+        {
+          "kind": "far_import",
+          "line": 9,
+          "specifier": "../../features/dayNightExplorer/dayNightExplorerBackdrop"
         },
         {
           "kind": "missing_direct_test_evidence"
         },
         {
-          "kind": "cochange_ripple",
+          "kind": "defect_keyword_commits",
           "value": 1
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -7019,6 +7393,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -7039,16 +7419,32 @@
       "file": "src/components/weather/WeatherPanel.tsx",
       "score": 100,
       "risk": "high",
-      "dependency_distance": 6,
+      "dependency_distance": 5,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 5,
+        "commits": 9,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherControls.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/hooks/useCurrentWeather.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/lib/weather/weatherData.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/lib/weather/weatherStore.ts",
+          "commits": 3
+        },
         {
           "file": "src/pages/TimeExplorerPage.tsx",
           "commits": 3
@@ -7058,36 +7454,20 @@
           "commits": 2
         },
         {
-          "file": "src/hooks/useCurrentWeather.ts",
+          "file": "src/components/PageShell.tsx",
           "commits": 2
         },
         {
-          "file": "src/lib/weather/weatherData.ts",
+          "file": "src/components/ui/ActionTextInput.tsx",
           "commits": 2
         },
         {
-          "file": "src/lib/weather/weatherStore.ts",
+          "file": "src/components/ui/AsyncButton.tsx",
           "commits": 2
         },
         {
-          "file": "src/lib/weather/weatherVisuals.ts",
+          "file": "src/components/ui/Carousel.tsx",
           "commits": 2
-        },
-        {
-          "file": "src/ui/weatherAssets.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AnimalTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/animalTester/useAnimalSession.ts",
-          "commits": 1
         }
       ],
       "signals": [
@@ -7115,11 +7495,6 @@
           "kind": "far_import",
           "line": 7,
           "specifier": "../../hooks/useWeatherExploration"
-        },
-        {
-          "kind": "far_import",
-          "line": 13,
-          "specifier": "../../ui/themeAssets"
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -7169,20 +7544,36 @@
       "id": "locality:src/components/weather/WeatherScene",
       "module_id": "src/components/weather/WeatherScene",
       "file": "src/components/weather/WeatherScene.tsx",
-      "score": 59,
-      "risk": "medium",
+      "score": 72,
+      "risk": "high",
       "dependency_distance": 3,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 6,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
+          "file": "src/lib/weather/weatherVisuals.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/ui/weatherAssets.ts",
+          "commits": 2
+        },
+        {
           "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/components/weather/WeatherMagic.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/weather/WeatherOptionImage.tsx",
           "commits": 1
         },
         {
@@ -7203,18 +7594,6 @@
         },
         {
           "file": "src/lib/weather/weatherStore.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/lib/weather/weatherVisuals.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/pages/TimeExplorerPage.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/ui/weatherAssets.ts",
           "commits": 1
         }
       ],
@@ -7239,7 +7618,74 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/weather/WeatherScene",
+            "kind": "locality",
+            "file": "src/components/weather/WeatherScene.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/components/weather/WeatherThermometer",
+      "module_id": "src/components/weather/WeatherThermometer",
+      "file": "src/components/weather/WeatherThermometer.tsx",
+      "score": 40,
+      "risk": "medium",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 2,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherControls.tsx",
+          "commits": 2
+        }
+      ],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 2,
+          "specifier": "../../contexts/ThemeContext"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -7260,9 +7706,9 @@
           "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "locality:src/components/weather/WeatherScene",
+            "id": "locality:src/components/weather/WeatherThermometer",
             "kind": "locality",
-            "file": "src/components/weather/WeatherScene.tsx",
+            "file": "src/components/weather/WeatherThermometer.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -7272,7 +7718,7 @@
       "id": "locality:src/contexts/ActiveChildContext",
       "module_id": "src/contexts/ActiveChildContext",
       "file": "src/contexts/ActiveChildContext.tsx",
-      "score": 40,
+      "score": 45,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
@@ -7284,11 +7730,19 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 4,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 2
+        },
         {
           "file": "src/components/AnimalTester.tsx",
           "commits": 2
@@ -7298,36 +7752,28 @@
           "commits": 2
         },
         {
+          "file": "src/components/ui/Carousel.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/ui/IconActionControls.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "commits": 2
+        },
+        {
           "file": "src/components/ui/StarDisplay.tsx",
           "commits": 2
         },
         {
-          "file": "src/contexts/ThemeContext.tsx",
+          "file": "src/contexts/SelectedDateContext.tsx",
           "commits": 2
         },
         {
           "file": "src/data/useChildren.ts",
           "commits": 2
-        },
-        {
-          "file": "src/auth/AuthContext.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/animalTester/useAnimalSession.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/components/animalTester/useCreatureCollection.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/components/ChoreOutcomeView.tsx",
-          "commits": 1
         }
       ],
       "signals": [
@@ -7341,7 +7787,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -7374,7 +7820,7 @@
       "id": "locality:src/contexts/ActiveChildProvider",
       "module_id": "src/contexts/ActiveChildProvider",
       "file": "src/contexts/ActiveChildProvider.tsx",
-      "score": 54,
+      "score": 59,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
@@ -7394,11 +7840,52 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/App.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthProvider.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/activities/LazyActivities.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/PageShell.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/ActionTextInput.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/AsyncButton.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/Carousel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/IconActionControls.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "window_global",
@@ -7411,6 +7898,10 @@
         {
           "kind": "window_global",
           "line": 91
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -7443,7 +7934,7 @@
       "id": "locality:src/contexts/SelectedDateContext",
       "module_id": "src/contexts/SelectedDateContext",
       "file": "src/contexts/SelectedDateContext.tsx",
-      "score": 53,
+      "score": 55,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
@@ -7455,21 +7946,29 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 4,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
+          "file": "src/App.tsx",
+          "commits": 3
+        },
+        {
           "file": "src/components/DayNightExplorer.tsx",
           "commits": 3
         },
         {
-          "file": "src/App.tsx",
+          "file": "src/contexts/ThemeContext.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
           "commits": 2
         },
         {
-          "file": "src/contexts/ThemeContext.tsx",
+          "file": "src/contexts/ActiveChildContext.tsx",
           "commits": 2
         },
         {
@@ -7485,19 +7984,11 @@
           "commits": 2
         },
         {
-          "file": "src/auth/AuthContext.tsx",
+          "file": "src/auth/AuthProvider.tsx",
           "commits": 1
         },
         {
-          "file": "src/components/dayNightExplorer/AnalogClockFace.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/dayNightExplorer/DigitalClockDisplay.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/dayNightExplorer/ExplorerClockPanel.tsx",
+          "file": "src/components/activities/LazyActivities.tsx",
           "commits": 1
         }
       ],
@@ -7544,21 +8035,66 @@
       "id": "locality:src/contexts/SelectedDateProvider",
       "module_id": "src/contexts/SelectedDateProvider",
       "file": "src/contexts/SelectedDateProvider.tsx",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/App.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthProvider.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/activities/LazyActivities.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/PageShell.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/ActionTextInput.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/AsyncButton.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/Carousel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/IconActionControls.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -7607,11 +8143,15 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 16,
+        "commits": 17,
         "contributors": 2
       },
       "defect_commits": 4,
       "cochange_partners": [
+        {
+          "file": "src/App.tsx",
+          "commits": 4
+        },
         {
           "file": "src/components/DayNightExplorer.tsx",
           "commits": 4
@@ -7635,10 +8175,6 @@
         {
           "file": "src/ui/themeOptions.ts",
           "commits": 4
-        },
-        {
-          "file": "src/App.tsx",
-          "commits": 3
         },
         {
           "file": "src/assets/themes/princess/assets.ts",
@@ -7707,19 +8243,65 @@
       "id": "locality:src/contexts/ThemeProvider",
       "module_id": "src/contexts/ThemeProvider",
       "file": "src/contexts/ThemeProvider.tsx",
-      "score": 0,
+      "score": 5,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
-      "signals": [],
+      "cochange_partners": [
+        {
+          "file": "src/App.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthProvider.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/activities/LazyActivities.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/PageShell.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/ActionTextInput.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/AsyncButton.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/Carousel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/IconActionControls.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
       "kind": "locality",
       "rule_id": "ts-react-quality-lens/locality",
       "evidence_kind": "heuristic",
@@ -8360,11 +8942,11 @@
       "id": "locality:src/data/assetCatalog",
       "module_id": "src/data/assetCatalog",
       "file": "src/data/assetCatalog.ts",
-      "score": 28,
+      "score": 10,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "no_direct_import_association",
+      "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 2,
@@ -8414,9 +8996,6 @@
         }
       ],
       "signals": [
-        {
-          "kind": "missing_direct_test_evidence"
-        },
         {
           "kind": "cochange_ripple",
           "value": 2
@@ -8619,11 +9198,11 @@
       "id": "locality:src/data/creatureCollections/insectCollectionNames",
       "module_id": "src/data/creatureCollections/insectCollectionNames",
       "file": "src/data/creatureCollections/insectCollectionNames.ts",
-      "score": 23,
+      "score": 5,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "no_direct_import_association",
+      "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 1,
@@ -8665,9 +9244,6 @@
         }
       ],
       "signals": [
-        {
-          "kind": "missing_direct_test_evidence"
-        },
         {
           "kind": "cochange_ripple",
           "value": 1
@@ -9026,6 +9602,63 @@
             "id": "locality:src/data/creatureCollections/types",
             "kind": "locality",
             "file": "src/data/creatureCollections/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/data/creaturePhotos",
+      "module_id": "src/data/creaturePhotos",
+      "file": "src/data/creaturePhotos.ts",
+      "score": 5,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/components/AnimalTester.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/animalTester/TrainingPhotoPortrait.tsx",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/data/creaturePhotos",
+            "kind": "locality",
+            "file": "src/data/creaturePhotos.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -10953,11 +11586,11 @@
       "id": "locality:src/features/dayNightExplorer/dayNightExplorerBackdrop",
       "module_id": "src/features/dayNightExplorer/dayNightExplorerBackdrop",
       "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
-      "score": 59,
+      "score": 41,
       "risk": "medium",
       "dependency_distance": 3,
       "hidden_coupling": [],
-      "test_locality": "no_direct_import_association",
+      "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 1,
@@ -11021,9 +11654,6 @@
           "kind": "far_import",
           "line": 6,
           "specifier": "../../lib/seasons"
-        },
-        {
-          "kind": "missing_direct_test_evidence"
         },
         {
           "kind": "cochange_ripple",
@@ -11379,63 +12009,63 @@
       "id": "locality:src/features/dayNightExplorer/disposeSceneObject",
       "module_id": "src/features/dayNightExplorer/disposeSceneObject",
       "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
-      "score": 5,
+      "score": 10,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/hooks/useCurrentWeather.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/weather/weatherData.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/weather/weatherStore.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/App.tsx",
           "commits": 1
         },
         {
-          "file": "src/features/dayNightExplorer/Clock.tsx",
+          "file": "src/auth/AuthContext.tsx",
           "commits": 1
         },
         {
-          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
+          "file": "src/auth/AuthProvider.tsx",
           "commits": 1
         },
         {
-          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
+          "file": "src/components/activities/LazyActivities.tsx",
           "commits": 1
         },
         {
-          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "file": "src/components/PageShell.tsx",
           "commits": 1
         },
         {
-          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/dayNightExplorerMath.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/dayNightExplorerOptions.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+          "file": "src/components/ui/ActionTextInput.tsx",
           "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -12667,56 +13297,56 @@
       "id": "locality:src/hooks/useActivityPersistence",
       "module_id": "src/hooks/useActivityPersistence",
       "file": "src/hooks/useActivityPersistence.ts",
-      "score": 31,
-      "risk": "low",
+      "score": 36,
+      "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
         {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AnimalTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/animalTester/useAnimalSession.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/components/ArithmeticTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/DinnerCountdown.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/LargeNumbersTester.tsx",
-          "commits": 1
-        },
-        {
           "file": "src/components/PageShell.tsx",
-          "commits": 1
+          "commits": 2
         },
         {
-          "file": "src/components/PositionalNotation.tsx",
-          "commits": 1
+          "file": "src/components/ui/ActionTextInput.tsx",
+          "commits": 2
         },
         {
-          "file": "src/components/SpellingTester.tsx",
-          "commits": 1
+          "file": "src/components/ui/AsyncButton.tsx",
+          "commits": 2
         },
         {
-          "file": "src/components/ui/ActionButton.tsx",
+          "file": "src/components/ui/Carousel.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/ui/IconActionControls.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/hooks/useDinnerCountdownState.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/ui/presetChoreRenderers.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/App.tsx",
           "commits": 1
         }
       ],
@@ -12730,7 +13360,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -12763,21 +13393,66 @@
       "id": "locality:src/hooks/useAsyncAction",
       "module_id": "src/hooks/useAsyncAction",
       "file": "src/hooks/useAsyncAction.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/App.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthProvider.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/activities/LazyActivities.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/PageShell.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/ActionTextInput.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/AsyncButton.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/Carousel.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/IconActionControls.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -12899,28 +13574,32 @@
       "id": "locality:src/hooks/useCurrentWeather",
       "module_id": "src/hooks/useCurrentWeather",
       "file": "src/hooks/useCurrentWeather.ts",
-      "score": 28,
+      "score": 33,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/components/weather/WeatherPanel.tsx",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/lib/weather/weatherData.ts",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/lib/weather/weatherStore.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
           "commits": 2
         },
         {
@@ -12928,27 +13607,23 @@
           "commits": 2
         },
         {
+          "file": "src/App.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthProvider.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/activities/LazyActivities.tsx",
+          "commits": 1
+        },
+        {
           "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/components/weather/WeatherScene.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/Clock.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
           "commits": 1
         }
       ],
@@ -12958,7 +13633,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -13174,7 +13849,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 6,
+        "commits": 7,
         "contributors": 1
       },
       "defect_commits": 3,
@@ -13185,6 +13860,10 @@
         },
         {
           "file": "src/components/DinnerCountdown.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
           "commits": 4
         },
         {
@@ -13208,15 +13887,11 @@
           "commits": 3
         },
         {
+          "file": "src/components/PageShell.tsx",
+          "commits": 3
+        },
+        {
           "file": "src/components/SpellingTester.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/ui/ActivityControls.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/ui/BottomNav.tsx",
           "commits": 3
         }
       ],
@@ -13553,18 +14228,22 @@
       "id": "locality:src/hooks/useWeatherExploration",
       "module_id": "src/hooks/useWeatherExploration",
       "file": "src/hooks/useWeatherExploration.ts",
-      "score": 23,
-      "risk": "low",
+      "score": 41,
+      "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 3,
         "contributors": 1
       },
-      "defect_commits": 0,
+      "defect_commits": 1,
       "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherControls.tsx",
+          "commits": 3
+        },
         {
           "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
           "commits": 1
@@ -13575,10 +14254,6 @@
         },
         {
           "file": "src/components/SchoolCalendar.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/weather/WeatherControls.tsx",
           "commits": 1
         },
         {
@@ -13611,8 +14286,12 @@
           "kind": "missing_direct_test_evidence"
         },
         {
-          "kind": "cochange_ripple",
+          "kind": "defect_keyword_commits",
           "value": 1
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -15200,28 +15879,32 @@
       "id": "locality:src/lib/weather/weatherData",
       "module_id": "src/lib/weather/weatherData",
       "file": "src/lib/weather/weatherData.ts",
-      "score": 10,
+      "score": 15,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/components/weather/WeatherPanel.tsx",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/hooks/useCurrentWeather.ts",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/lib/weather/weatherStore.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
           "commits": 2
         },
         {
@@ -15229,34 +15912,30 @@
           "commits": 2
         },
         {
+          "file": "src/App.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthProvider.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/activities/LazyActivities.tsx",
+          "commits": 1
+        },
+        {
           "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/components/weather/WeatherScene.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/Clock.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
           "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -15329,21 +16008,25 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/components/weather/WeatherPanel.tsx",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/hooks/useCurrentWeather.ts",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/lib/weather/weatherData.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/features/dayNightExplorer/disposeSceneObject.ts",
           "commits": 2
         },
         {
@@ -15351,27 +16034,23 @@
           "commits": 2
         },
         {
+          "file": "src/App.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/auth/AuthProvider.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/activities/LazyActivities.tsx",
+          "commits": 1
+        },
+        {
           "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/components/weather/WeatherScene.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/Clock.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/clockImageLayers.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/dayNightExplorer.constants.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
           "commits": 1
         }
       ],
@@ -15410,7 +16089,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -15449,20 +16128,28 @@
       "id": "locality:src/lib/weather/weatherVisuals",
       "module_id": "src/lib/weather/weatherVisuals",
       "file": "src/lib/weather/weatherVisuals.ts",
-      "score": 12,
+      "score": 17,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 3,
+        "commits": 4,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
+          "file": "src/ui/weatherAssets.ts",
+          "commits": 3
+        },
+        {
           "file": "src/components/weather/WeatherPanel.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/weather/WeatherScene.tsx",
           "commits": 2
         },
         {
@@ -15471,10 +16158,6 @@
         },
         {
           "file": "src/pages/TimeExplorerPage.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/ui/weatherAssets.ts",
           "commits": 2
         },
         {
@@ -15496,16 +16179,12 @@
         {
           "file": "src/components/weather/WeatherControls.tsx",
           "commits": 1
-        },
-        {
-          "file": "src/components/weather/WeatherOptionImage.tsx",
-          "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -17346,7 +18025,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 10,
+        "commits": 11,
         "contributors": 1
       },
       "defect_commits": 3,
@@ -17524,11 +18203,11 @@
       "id": "locality:src/ui/taskTypeIcons",
       "module_id": "src/ui/taskTypeIcons",
       "file": "src/ui/taskTypeIcons.ts",
-      "score": 25,
-      "risk": "low",
+      "score": 43,
+      "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 5,
@@ -17578,6 +18257,9 @@
         }
       ],
       "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
         {
           "kind": "cochange_ripple",
           "value": 5
@@ -17891,11 +18573,11 @@
       "id": "locality:src/ui/themeOptions",
       "module_id": "src/ui/themeOptions",
       "file": "src/ui/themeOptions.ts",
-      "score": 20,
-      "risk": "low",
+      "score": 38,
+      "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 4,
@@ -17945,6 +18627,9 @@
         }
       ],
       "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
         {
           "kind": "cochange_ripple",
           "value": 4
@@ -18723,11 +19408,11 @@
       "id": "locality:src/ui/waterToiletAssets",
       "module_id": "src/ui/waterToiletAssets",
       "file": "src/ui/waterToiletAssets.ts",
-      "score": 12,
+      "score": 30,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 3,
@@ -18778,6 +19463,9 @@
       ],
       "signals": [
         {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
           "kind": "cochange_ripple",
           "value": 2
         }
@@ -18812,24 +19500,32 @@
       "id": "locality:src/ui/weatherAssets",
       "module_id": "src/ui/weatherAssets",
       "file": "src/ui/weatherAssets.ts",
-      "score": 28,
-      "risk": "low",
+      "score": 43,
+      "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 4,
         "contributors": 1
       },
-      "defect_commits": 0,
+      "defect_commits": 1,
       "cochange_partners": [
+        {
+          "file": "src/lib/weather/weatherVisuals.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/components/weather/WeatherOptionImage.tsx",
+          "commits": 2
+        },
         {
           "file": "src/components/weather/WeatherPanel.tsx",
           "commits": 2
         },
         {
-          "file": "src/lib/weather/weatherVisuals.ts",
+          "file": "src/components/weather/WeatherScene.tsx",
           "commits": 2
         },
         {
@@ -18855,14 +19551,6 @@
         {
           "file": "src/components/weather/WeatherControls.tsx",
           "commits": 1
-        },
-        {
-          "file": "src/components/weather/WeatherOptionImage.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/weather/WeatherScene.tsx",
-          "commits": 1
         }
       ],
       "signals": [
@@ -18870,8 +19558,12 @@
           "kind": "missing_direct_test_evidence"
         },
         {
+          "kind": "defect_keyword_commits",
+          "value": 1
+        },
+        {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",

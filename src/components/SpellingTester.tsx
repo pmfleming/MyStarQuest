@@ -48,15 +48,15 @@ type LetterChoice = {
   state: 'idle' | 'correct' | 'leaving'
 }
 
-const TEENIE_ASSET_MODULES = import.meta.glob(
+const TEENIE_ASSET_MODULES = import.meta.glob<string>(
   '../assets/teenie/*.{png,jpg,jpeg,webp,svg}',
   { eager: true, import: 'default' }
-) as Record<string, string>
+)
 
-const POKEMON_ASSET_MODULES = import.meta.glob(
+const POKEMON_ASSET_MODULES = import.meta.glob<string>(
   '../assets/pokemon/*.{png,jpg,jpeg,webp,svg}',
   { eager: true, import: 'default' }
-) as Record<string, string>
+)
 
 const SPELLING_TEENIE = createAssetCatalog(TEENIE_ASSET_MODULES).assets
 const SPELLING_ANIMALS = ANIMAL_ASSETS

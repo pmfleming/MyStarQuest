@@ -13,10 +13,10 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-09T15:21:04.489Z",
+    "measured_at": "2026-09-13T22:17:53.686Z",
     "source_type": "static",
-    "source_set_hash": "sha256:20e43af7eeca8ae3c6d2242a56e2e178f91789d75cc1d8862bac02349f6e87aa",
-    "input_set_hash": "sha256:d612d5c47859320079b6ef7ad5b1ed65a8e416f8b13eb2cbe6668f64d1a3dd2a"
+    "source_set_hash": "sha256:e9179904e4468fd570e919e7d1ff74d38da76208f8cdef1b7739bf5dbbcb52f3",
+    "input_set_hash": "sha256:718b0599d40411ec80b7af27ef22e6f2c943a50c26ab15bf617b7a03ae0129b6"
   },
   "analysis_identity": {
     "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
@@ -97,20 +97,15 @@
       "id": "leverage:src/index",
       "module_id": "src/index",
       "file": "src/index.ts",
-      "score": 72,
-      "risk": "high",
+      "score": 0,
+      "risk": "low",
       "leverage_score": 8,
       "inbound_reach": 0,
       "public_surface": 4,
-      "weak_surface": 6,
+      "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "leaf",
-      "signals": [
-        {
-          "kind": "weak_public_surface",
-          "value": 6
-        }
-      ],
+      "signals": [],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "evidence_kind": "heuristic",
@@ -123,12 +118,6 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,

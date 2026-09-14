@@ -25,31 +25,9 @@ const taskSnapshotValue = (fallback: number) => taskValueSchema.catch(fallback)
 const dinnerSliceSnapshotValue = (fallback: number) =>
   dinnerSliceCountSchema.catch(fallback)
 
-export type TaskType =
-  | 'standard'
-  | 'eating'
-  | 'math'
-  | 'large-numbers'
-  | 'positional-notation'
-  | 'alphabet'
-  | 'spelling'
-  | 'animals'
-  | 'watertoiletcheck'
-
-export type ChoreType = Extract<
-  TaskType,
-  'standard' | 'eating' | 'watertoiletcheck'
->
-
-export type TestType = Extract<
-  TaskType,
-  | 'math'
-  | 'large-numbers'
-  | 'positional-notation'
-  | 'alphabet'
-  | 'spelling'
-  | 'animals'
->
+export type TaskType = z.infer<typeof taskTypeSchema>
+export type TestType = z.infer<typeof testTypeSchema>
+export type ChoreType = Exclude<TaskType, TestType>
 
 export type WaterLevel = 'full' | 'twothirds' | 'onethird' | 'empty'
 
@@ -240,53 +218,32 @@ export type TaskRecord =
   | AnimalsTask
   | WaterToiletTask
 
-export type ChoreRecord = Extract<
-  TaskRecord,
-  { taskType: 'standard' | 'eating' | 'watertoiletcheck' }
->
+export type ChoreRecord = Extract<TaskRecord, { taskType: ChoreType }>
 
-export type TestRecord = Extract<
-  TaskRecord,
-  {
-    taskType:
-      | 'math'
-      | 'large-numbers'
-      | 'positional-notation'
-      | 'alphabet'
-      | 'spelling'
-      | 'animals'
-  }
->
+export type TestRecord = Extract<TaskRecord, { taskType: TestType }>
 
 // ── TaskEphemeralState: flat bag for in-memory storage ──
 
-export type TaskEphemeralState = {
-  manageCompletedAt?: number | null
-  manageDinnerRemainingSeconds?: number
-  manageDinnerBitesLeft?: number
-  manageDinnerTimerStartedAt?: number | null
-  manageDinnerCompletedAt?: number | null
-  manageMathCompletedAt?: number | null
-  manageMathLastOutcome?: 'success' | 'failure' | null
-  manageLargeNumbersCompletedAt?: number | null
-  manageLargeNumbersLastOutcome?: 'success' | 'failure' | null
-  managePVCompletedAt?: number | null
-  managePVLastOutcome?: 'success' | 'failure' | null
-  manageAlphabetCompletedAt?: number | null
-  manageAlphabetLastOutcome?: 'success' | 'failure' | null
-  manageSpellingCompletedAt?: number | null
-  manageSpellingLastOutcome?: 'success' | 'failure' | null
-  manageAnimalsCompletedAt?: number | null
-  manageAnimalsLastOutcome?: 'success' | 'failure' | null
-  manageWaterLevel?: WaterLevel
-  manageToiletStatus?: ToiletStatus
-  manageWaterToiletCompletedAt?: number | null
-}
+export type TaskEphemeralState = StandardTaskState &
+  EatingTaskState &
+  WaterToiletTaskState & {
+    manageMathCompletedAt?: number | null
+    manageMathLastOutcome?: 'success' | 'failure' | null
+    manageLargeNumbersCompletedAt?: number | null
+    manageLargeNumbersLastOutcome?: 'success' | 'failure' | null
+    managePVCompletedAt?: number | null
+    managePVLastOutcome?: 'success' | 'failure' | null
+    manageAlphabetCompletedAt?: number | null
+    manageAlphabetLastOutcome?: 'success' | 'failure' | null
+    manageSpellingCompletedAt?: number | null
+    manageSpellingLastOutcome?: 'success' | 'failure' | null
+    manageAnimalsCompletedAt?: number | null
+    manageAnimalsLastOutcome?: 'success' | 'failure' | null
+  }
 
 // ── TaskWithEphemeral: discriminated union pairing each variant with its ephemeral fields ──
 
-export type StandardTaskWithEphemeral = StandardTask & StandardTaskState
-export type EatingTaskWithEphemeral = EatingTask & EatingTaskState
+export type EatingTaskWithEphemeral = EatingTask
 export type MathTaskWithEphemeral = MathTask & {
   manageMathCompletedAt?: number | null
   manageMathLastOutcome?: TaskOutcome | null
@@ -311,11 +268,8 @@ export type AnimalsTaskWithEphemeral = AnimalsTask & {
   manageAnimalsCompletedAt?: number | null
   manageAnimalsLastOutcome?: TaskOutcome | null
 }
-export type WaterToiletTaskWithEphemeral = WaterToiletTask &
-  WaterToiletTaskState
-
 export type TaskWithEphemeral =
-  | StandardTaskWithEphemeral
+  | StandardTask
   | EatingTaskWithEphemeral
   | MathTaskWithEphemeral
   | LargeNumbersTaskWithEphemeral
@@ -323,24 +277,16 @@ export type TaskWithEphemeral =
   | AlphabetTaskWithEphemeral
   | SpellingTaskWithEphemeral
   | AnimalsTaskWithEphemeral
-  | WaterToiletTaskWithEphemeral
+  | WaterToiletTask
 
 export type ChoreWithEphemeral = Extract<
   TaskWithEphemeral,
-  { taskType: 'standard' | 'eating' | 'watertoiletcheck' }
+  { taskType: ChoreType }
 >
 
 export type TestWithEphemeral = Extract<
   TaskWithEphemeral,
-  {
-    taskType:
-      | 'math'
-      | 'large-numbers'
-      | 'positional-notation'
-      | 'alphabet'
-      | 'spelling'
-      | 'animals'
-  }
+  { taskType: TestType }
 >
 
 const isChoreType = (type: TaskType): type is ChoreType =>
@@ -552,10 +498,10 @@ export const getManageDinnerRemaining = (task: EatingTaskWithEphemeral) =>
 export const getManageDinnerBitesLeft = (task: EatingTaskWithEphemeral) =>
   task.manageDinnerBitesLeft ?? task.dinnerTotalBites
 
-export const getManageWaterLevel = (task: WaterToiletTaskWithEphemeral) =>
+export const getManageWaterLevel = (task: WaterToiletTask) =>
   task.manageWaterLevel ?? DEFAULT_WATER_LEVEL
 
-export const getManageToiletStatus = (task: WaterToiletTaskWithEphemeral) =>
+export const getManageToiletStatus = (task: WaterToiletTask) =>
   task.manageToiletStatus ?? DEFAULT_TOILET_STATUS
 
 export const manageCompletedAtFieldByType = {

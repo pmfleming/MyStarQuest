@@ -172,19 +172,60 @@ const CountdownClockDisplay = ({
 }: CountdownClockDisplayOptions) => {
   const id = useId().replace(/:/g, '')
   const illustrated = hasIllustratedTheme(theme.id)
-  const radius = illustrated ? 66 : CLOCK_RADIUS
-  const markerInnerRadius = illustrated ? 58 : CLOCK_MARKER_INNER_RADIUS
-  const markerOuterRadius = illustrated ? 64 : CLOCK_RADIUS
   const gold = theme.id === 'teenie' ? '#D8B777' : '#D6A555'
+  const face = illustrated
+    ? {
+        radius: 66,
+        markerInner: 58,
+        markerOuter: 64,
+        boxW: 98,
+        boxH: 36,
+        background: `url(#${id}-face)`,
+        fill: `url(#${id}-time)`,
+        rim: gold,
+        rimWidth: 1,
+        marker: gold,
+        markerWidth: 2,
+        handLength: 62,
+        handWidth: 2.5,
+        pivotRadius: 4,
+        pivotStroke: gold,
+        boxStroke: gold,
+        boxStrokeWidth: 1.25,
+        textOffset: 12,
+        fontSize: 28,
+      }
+    : {
+        radius: CLOCK_RADIUS,
+        markerInner: CLOCK_MARKER_INNER_RADIUS,
+        markerOuter: CLOCK_RADIUS,
+        boxW: 120,
+        boxH: 54,
+        background: '#ffffff',
+        fill: theme.colors.primary,
+        rim: '#e0e0e0',
+        rimWidth: 4,
+        marker: '#bbb',
+        markerWidth: 3,
+        handLength: CLOCK_SECOND_HAND_LENGTH,
+        handWidth: 4,
+        pivotRadius: 6,
+        pivotStroke: 'none',
+        boxStroke: theme.colors.primary,
+        boxStrokeWidth: 2,
+        textOffset: 17,
+        fontSize: 36,
+      }
+  const { radius, boxW, boxH } = face
   const maxMins = MAX_DURATION / 60
   const markers = CLOCK_MARKER_VALUES.map((val) => {
     const fraction = val / maxMins
     const angle = fraction * Math.PI
     return {
-      x1: CLOCK_CENTER_X - markerInnerRadius * Math.cos(angle),
-      y1: CLOCK_CENTER_Y - markerInnerRadius * Math.sin(angle),
-      x2: CLOCK_CENTER_X - markerOuterRadius * Math.cos(angle),
-      y2: CLOCK_CENTER_Y - markerOuterRadius * Math.sin(angle),
+      x1: CLOCK_CENTER_X - face.markerInner * Math.cos(angle),
+      y1: CLOCK_CENTER_Y - face.markerInner * Math.sin(angle),
+      x2: CLOCK_CENTER_X - face.markerOuter * Math.cos(angle),
+      y2: CLOCK_CENTER_Y - face.markerOuter * Math.sin(angle),
     }
   })
   const displaySeconds = isTimerRunning ? liveRemaining : duration
@@ -194,8 +235,6 @@ const CountdownClockDisplay = ({
     clockDisplayMode === 'minsec'
       ? `${mins}:${secs.toString().padStart(2, '0')}`
       : `${displaySeconds}`
-  const boxW = illustrated ? 98 : 120
-  const boxH = illustrated ? 36 : 54
   const boxX = CLOCK_CENTER_X - boxW / 2
   const boxY = CLOCK_CENTER_Y - 4 - boxH
 
@@ -235,20 +274,14 @@ const CountdownClockDisplay = ({
           clipPath={`url(#${id}-rim)`}
         />
       )}
-      <path
-        d={wedgePath(MAX_DURATION, radius)}
-        fill={illustrated ? `url(#${id}-face)` : '#ffffff'}
-      />
+      <path d={wedgePath(MAX_DURATION, radius)} fill={face.background} />
       <path
         d={`M ${CLOCK_CENTER_X - radius} ${CLOCK_CENTER_Y} A ${radius} ${radius} 0 0 1 ${CLOCK_CENTER_X + radius} ${CLOCK_CENTER_Y}`}
         fill="none"
-        stroke={illustrated ? gold : '#e0e0e0'}
-        strokeWidth={illustrated ? 1 : 4}
+        stroke={face.rim}
+        strokeWidth={face.rimWidth}
       />
-      <path
-        d={wedgePath(liveRemainingFloat, radius)}
-        fill={illustrated ? `url(#${id}-time)` : theme.colors.primary}
-      />
+      <path d={wedgePath(liveRemainingFloat, radius)} fill={face.fill} />
 
       {markers.map((marker, index) => (
         <line
@@ -257,8 +290,8 @@ const CountdownClockDisplay = ({
           y1={marker.y1}
           x2={marker.x2}
           y2={marker.y2}
-          stroke={illustrated ? gold : '#bbb'}
-          strokeWidth={illustrated ? 2 : 3}
+          stroke={face.marker}
+          strokeWidth={face.markerWidth}
           strokeLinecap="round"
         />
       ))}
@@ -268,10 +301,10 @@ const CountdownClockDisplay = ({
           <line
             x1={CLOCK_CENTER_X}
             y1={CLOCK_CENTER_Y}
-            x2={CLOCK_CENTER_X - (illustrated ? 62 : CLOCK_SECOND_HAND_LENGTH)}
+            x2={CLOCK_CENTER_X - face.handLength}
             y2={CLOCK_CENTER_Y}
             stroke={theme.colors.secondary}
-            strokeWidth={illustrated ? 2.5 : 4}
+            strokeWidth={face.handWidth}
             strokeLinecap="round"
             style={{
               transformOrigin: `${CLOCK_CENTER_X}px ${CLOCK_CENTER_Y}px`,
@@ -282,9 +315,9 @@ const CountdownClockDisplay = ({
           <circle
             cx={CLOCK_CENTER_X}
             cy={CLOCK_CENTER_Y}
-            r={illustrated ? 4 : 6}
+            r={face.pivotRadius}
             fill={theme.colors.secondary}
-            stroke={illustrated ? gold : 'none'}
+            stroke={face.pivotStroke}
           />
         </>
       )}
@@ -298,17 +331,17 @@ const CountdownClockDisplay = ({
           rx={10}
           ry={10}
           fill="rgba(255,255,255,0.5)"
-          stroke={illustrated ? gold : theme.colors.primary}
-          strokeWidth={illustrated ? 1.25 : 2}
+          stroke={face.boxStroke}
+          strokeWidth={face.boxStrokeWidth}
         />
         <text
           x={CLOCK_CENTER_X}
-          y={CLOCK_CENTER_Y - (illustrated ? 12 : 17)}
+          y={CLOCK_CENTER_Y - face.textOffset}
           textAnchor="middle"
           fill={theme.colors.primary}
           fontFamily={theme.fonts.heading}
           fontWeight="bold"
-          fontSize={illustrated ? 28 : 36}
+          fontSize={face.fontSize}
         >
           {label}
         </text>
