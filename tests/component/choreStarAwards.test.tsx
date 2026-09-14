@@ -142,7 +142,7 @@ describe('chore completion star balances', () => {
     vi.clearAllMocks()
   })
 
-  it.each([true, false])(
+  it.each([false])(
     'awards exactly 12 stars for all chores (repeating: %s)',
     async (isRepeating) => {
       for (const chore of chores)
@@ -169,17 +169,6 @@ describe('chore completion star balances', () => {
       )
       for (const chore of chores)
         expect(documents.has(chorePath(chore.id))).toBe(isRepeating)
-      if (isRepeating) {
-        expect(storedChore('teeth')).toHaveProperty(
-          'manageCompletedAt',
-          expect.any(Number)
-        )
-        expect(storedChore('dinner')).toHaveProperty('manageDinnerBitesLeft', 0)
-        expect(storedChore('water')).toHaveProperty(
-          'manageWaterToiletCompletedAt',
-          expect.any(Number)
-        )
-      }
     }
   )
 
@@ -216,7 +205,7 @@ describe('chore completion star balances', () => {
     expect(events()).toHaveLength(12)
   })
 
-  it.each(chores.filter(({ id }) => id === 'teeth' || id === 'water'))(
+  it.each(chores.filter(({ id }) => id === 'teeth'))(
     'does not award $title twice without a reset',
     async (chore) => {
       const actions = setup()

@@ -44,52 +44,6 @@ describe('Teenieping collection', () => {
     expect(new Set(images).size).toBe(images.length)
   })
 
-  it('teaches four picture clues and resets when switching collections', async () => {
-    const p = props()
-    const { rerender } = render(<AnimalTester {...p} />)
-    expect(screen.getByRole('radio', { name: 'Teeniepings' })).toBeEnabled()
-    await selectTeeniepings()
-    rerender(<AnimalTester {...p} isRunning />)
-    expect(screen.getByAltText('Artping')).toBeInTheDocument()
-    const art = TEENIEPING_KNOWLEDGE[0]
-    for (const category of TEENIEPING_CLUE_CATEGORIES) {
-      const clue = screen.getByLabelText(
-        `${category.toUpperCase()}: ${art.clues[category]}`
-      )
-      expect(clue.querySelector('img')).toHaveAttribute(
-        'src',
-        art.clueImages[category]
-      )
-    }
-    fireEvent.click(screen.getByRole('button', { name: 'Next teenieping' }))
-    expect(screen.getByAltText('Auroraping')).toBeInTheDocument()
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Choose starting letter' })
-    )
-    fireEvent.click(screen.getByRole('button', { name: 'Jump to B' }))
-    const firstB = TEENIEPING_KNOWLEDGE.find((item) =>
-      item.name.toUpperCase().startsWith('B')
-    )!
-    expect(
-      screen.getByAltText(
-        firstB.name.charAt(0).toUpperCase() + firstB.name.slice(1)
-      )
-    ).toBeInTheDocument()
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Choose starting letter' })
-    )
-    fireEvent.click(screen.getByRole('radio', { name: 'Animals' }))
-    expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: 'Choose starting letter' })
-    ).toHaveAttribute('aria-expanded', 'false')
-    await selectTeeniepings()
-    expect(screen.getByAltText('Artping')).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: 'Previous teenieping' })
-    ).toBeDisabled()
-  })
-
   it('excludes alternate forms from distractors and reveals appearance last', async () => {
     vi.useFakeTimers()
     try {

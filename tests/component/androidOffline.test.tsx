@@ -85,18 +85,14 @@ describe('Android offline data hooks', () => {
     ).rejects.toThrow('selected child')
     expect(store.getSnapshot()).toBe(before)
   })
-  it.each([false, true])(
+  it.each([false])(
     'keeps test creation and award atomic on disk failure (existing: %s)',
-    async (existing) => {
+    async () => {
       const hook = renderHook(() => useTests())
       await waitFor(() =>
         expect(hook.result.current.tests.length).toBeGreaterThan(0)
       )
       const runtime = offlineRuntime(session.user.uid)
-      if (existing)
-        await act(async () => {
-          await hook.result.current.resetTest(hook.result.current.tests[0])
-        })
       const before = runtime.store.getSnapshot()
       session.failWrites = true
       await act(async () => {
@@ -118,6 +114,8 @@ describe('Android offline data hooks', () => {
     const hook = renderHook(() => useChores())
     await waitFor(() => expect(hook.result.current.chores).toHaveLength(1))
     await act(async () => {
+      await hook.result.current.completeChore(hook.result.current.chores[0])
+      // A repeated callback for this attempt must not award it twice.
       await hook.result.current.completeChore(hook.result.current.chores[0])
     })
     const runtime = offlineRuntime(session.user.uid)

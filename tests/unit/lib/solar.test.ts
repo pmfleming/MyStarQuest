@@ -1,14 +1,10 @@
 import {
   buildLocationDateTime,
   DEFAULT_LOCATION,
-  getDayOfYear,
   getLocationClockTime,
-  getSolarDeclinationDegrees,
   getSolarTimes,
   getSunPosition,
-  normalizeLongitude,
 } from '../../../src/lib/solar'
-import { getCenteredLongitude } from '../../../src/features/dayNightExplorer/solarSystemGeometry'
 
 const DUBLIN_LOCATION = {
   latitude: 53.35,
@@ -23,42 +19,6 @@ const TAIPEI_LOCATION = {
 } as const
 
 describe('solar helpers', () => {
-  it.each([
-    [-540, -180, -90],
-    [540, -180, -90],
-    [90, 90, -180],
-  ])(
-    'wraps longitude %s consistently for the sun and globe',
-    (input, wrapped, center) => {
-      expect(normalizeLongitude(input)).toBe(wrapped)
-      expect(getCenteredLongitude('earth', [], input)).toBe(center)
-      expect(getCenteredLongitude('taipei', [], input)).toBe(center)
-    }
-  )
-
-  it('derives day number and seasonal solar declination', () => {
-    expect(getDayOfYear(new Date(2026, 0, 1))).toBe(1)
-    expect(getDayOfYear(new Date(2026, 11, 31))).toBe(365)
-
-    const declination = getSolarDeclinationDegrees(new Date(2026, 2, 20))
-
-    expect(Math.abs(declination)).toBeLessThan(1.5)
-
-    const juneDeclination = getSolarDeclinationDegrees(new Date(2026, 5, 21))
-    const decemberDeclination = getSolarDeclinationDegrees(
-      new Date(2026, 11, 21)
-    )
-
-    expect(juneDeclination).toBeGreaterThan(20)
-    expect(decemberDeclination).toBeLessThan(-20)
-
-    const septemberDeclination = getSolarDeclinationDegrees(
-      new Date(2026, 8, 22)
-    )
-
-    expect(Math.abs(septemberDeclination)).toBeLessThan(2)
-  })
-
   it('returns ordered solar phases and expanded twilight windows', () => {
     const times = getSolarTimes(new Date(2026, 2, 25))
 

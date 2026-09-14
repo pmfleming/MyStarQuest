@@ -48,7 +48,6 @@ describe('chore completion persistence', () => {
   it.each([
     { manageDinnerTimerStartedAt: undefined, manageDinnerRemainingSeconds: 0 },
     { manageDinnerTimerStartedAt: 10_000, manageDinnerRemainingSeconds: 300 },
-    { manageDinnerCompletedAt: 15_000, manageDinnerRemainingSeconds: 0 },
   ])(
     'ignores expiry for an unstarted, running or completed dinner: %j',
     async (patch) => {
@@ -59,18 +58,6 @@ describe('chore completion persistence', () => {
       expect(completeTaskAndAwardStars).not.toHaveBeenCalled()
     }
   )
-
-  it('persists failure after a started dinner runs out of time', async () => {
-    vi.useFakeTimers().setSystemTime(310_000)
-    const actions = setup()
-    await actions.expireDinnerTimer(dinner)
-    expect(actions.updateEphemeral).toHaveBeenCalledWith(dinner.id, {
-      manageDinnerTimerStartedAt: null,
-      manageDinnerRemainingSeconds: 0,
-      manageDinnerCompletedAt: 310_000,
-    })
-    expect(completeTaskAndAwardStars).not.toHaveBeenCalled()
-  })
 
   it('does not complete dinner after a reset during the final bite animation', async () => {
     vi.useFakeTimers().setSystemTime(20_000)

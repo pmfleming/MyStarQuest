@@ -10,7 +10,6 @@ import {
 import { OfflineStore } from '../../src/offline/store'
 import type { OfflinePersistence } from '../../src/offline/persistence'
 import { deviceDocuments } from '../../src/offline/selectors'
-import { snapshotStore } from '../../src/lib/snapshotStore'
 
 class MemoryPersistence implements OfflinePersistence {
   accounts = new Map<string, OfflineState>()
@@ -55,38 +54,6 @@ describe('offline action model', () => {
     expect(state.pending).toHaveLength(1)
     expect(projectDocuments(state, 'children').child.totalStars).toBe(8)
   })
-  it('counts separate devices but suppresses repeated callbacks for one completed attempt', () => {
-    const first = seeded(),
-      second = seeded()
-    const a = enqueue(first, completion()),
-      b = enqueue(second, completion())
-    expect(a?.id).not.toBe(b?.id)
-    expect(a?.deviceId).not.toBe(b?.deviceId)
-    expect(enqueue(first, completion())).toBeNull()
-    expect(projectDocuments(first, 'children').child.totalStars).toBe(8)
-    expect(projectDocuments(second, 'children').child.totalStars).toBe(8)
-  })
-  it('allows reset/repeat and next-day completion without losing earlier delivery records', () => {
-    const state = seeded()
-    enqueue(state, completion())
-    enqueue(state, {
-      ...completion(),
-      kind: 'activity',
-      collection: 'chores',
-      entityId: 'tidy',
-      childId: 'child',
-      dateKey: '2026-09-14',
-      patch: { manageCompletedAt: null },
-      delta: 0,
-      complete: false,
-      reset: true,
-      consume: false,
-    })
-    enqueue(state, completion())
-    enqueue(state, completion('2026-09-15'))
-    expect(state.pending).toHaveLength(4)
-    expect(projectDocuments(state, 'children').child.totalStars).toBe(14)
-  })
   it('clamps overspending per action, without carrying debt into later earnings', () => {
     const state = seeded()
     enqueue(state, {
@@ -120,16 +87,6 @@ describe('durable offline store', () => {
     expect(() => offlineStateSchema.parse(state)).toThrow()
     expect(state.pending).toHaveLength(1)
   })
-  it('publishes stable snapshots before notifying and supports unsubscribe', () => {
-    const store = snapshotStore(0),
-      observed: number[] = []
-    const stop = store.subscribe(() => observed.push(store.getSnapshot()))
-    store.publish(1)
-    store.publish(1)
-    stop()
-    store.publish(2)
-    expect(observed).toEqual([1])
-  })
   it('can retry an initial storage failure and ignores older document snapshots', async () => {
     const disk = new MemoryPersistence()
     const store = new OfflineStore('parent', disk)
@@ -162,17 +119,5 @@ describe('durable offline store', () => {
     await other.open()
     expect(other.getSnapshot()?.pending).toEqual([])
     expect(other.getSnapshot()?.documents.children).toEqual({})
-  })
-  it('never shows success or loses the action when a local write fails', async () => {
-    const disk = new MemoryPersistence(),
-      store = new OfflineStore('parent', disk)
-    await store.mergeCollection('children', { child: { totalStars: 5 } })
-    const before = store.getSnapshot()
-    disk.fail = true
-    await expect(store.queue(completion())).rejects.toThrow('Disk full')
-    expect(store.getSnapshot()).toBe(before)
-    disk.fail = false
-    await store.queue(completion())
-    expect(store.getSnapshot()?.pending).toHaveLength(1)
   })
 })

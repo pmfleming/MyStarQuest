@@ -23,63 +23,6 @@ const princessTheme = {
 }
 
 describe('WaterToiletMonitor', () => {
-  it('renders every interactive water and toilet state accessibly', () => {
-    const { rerender } = render(
-      <WaterToiletMonitor
-        theme={princessTheme}
-        waterLevel="full"
-        toiletStatus="notpeepee"
-        starDelta={-6}
-        isInteractive
-      />
-    )
-
-    const waterStates = [
-      ['full', 'Full flask', 'flask-full'],
-      ['twothirds', 'Two-thirds full flask', 'flask-twothirds'],
-      ['onethird', 'One-third full flask', 'flask-onethird'],
-      ['empty', 'Empty flask', 'drink-success'],
-    ] as const
-
-    for (const [waterLevel, label, assetName] of waterStates) {
-      rerender(
-        <WaterToiletMonitor
-          theme={princessTheme}
-          waterLevel={waterLevel}
-          toiletStatus="notpeepee"
-          starDelta={0}
-          isInteractive
-        />
-      )
-
-      expect(screen.getByAltText(label)).toHaveAttribute(
-        'src',
-        expect.stringContaining(assetName)
-      )
-    }
-
-    expect(screen.getByAltText('Has not gone to the toilet')).toHaveAttribute(
-      'src',
-      expect.stringContaining('notpeepee')
-    )
-
-    rerender(
-      <WaterToiletMonitor
-        theme={princessTheme}
-        waterLevel="full"
-        toiletStatus="didpeepee"
-        starDelta={0}
-        isInteractive
-      />
-    )
-
-    const completedToiletImage = screen.getByAltText('Has gone to the toilet')
-    expect(completedToiletImage).toHaveAttribute(
-      'src',
-      expect.stringContaining('didpeepee')
-    )
-  })
-
   it('shows successful and unsuccessful completed tile states', () => {
     const { rerender } = render(
       <WaterToiletMonitor

@@ -19,13 +19,6 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-it('uses a valid fresh cache without fetching', async () => {
-  localStorage.setItem(CACHE_KEY, JSON.stringify(events))
-  localStorage.setItem(CACHE_TS_KEY, String(Date.now()))
-  expect(await request()).toEqual(events)
-  expect(fetch).not.toHaveBeenCalled()
-})
-
 it('keeps an expired calendar available during an outage without renewing its age', async () => {
   const timestamp = String(Date.now() - CACHE_TTL_MS - 1000)
   localStorage.setItem(CACHE_KEY, JSON.stringify(events))

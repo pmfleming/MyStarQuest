@@ -22,18 +22,7 @@ it('restores prior values only for fields belonging to the failed write', () => 
       previous,
       'task',
       { completed: null, outcome: 'success' },
-      { completed: 123, outcome: null }
+      { completed: undefined, outcome: null }
     )
-  ).toEqual({ task: { completed: 123, outcome: 'failure', count: 0 } })
-})
-
-it('preserves explicit undefined when restoring a previous patch', () => {
-  expect(
-    settleOptimisticPatch(
-      { task: { count: 1 } },
-      'task',
-      { count: 1 },
-      { count: undefined }
-    )
-  ).toEqual({ task: { count: undefined } })
+  ).toEqual({ task: { completed: undefined, outcome: 'failure', count: 0 } })
 })

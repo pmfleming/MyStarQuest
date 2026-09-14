@@ -1,0 +1,667 @@
+{
+  "baseline_commit": "647716f",
+  "counting": "Runner-expanded cases. Parameterized rows and Playwright browser projects count separately; assertions, describe blocks, fixtures, and helpers do not. Runners and discovery configuration are unchanged.",
+  "target": {
+    "baseline": 233,
+    "fraction": 0.67,
+    "unrounded": 156.11,
+    "rounded": 156
+  },
+  "counts": {
+    "vitest": {
+      "before": 224,
+      "after": 147
+    },
+    "node": {
+      "before": 3,
+      "after": 3
+    },
+    "playwright": {
+      "before": 6,
+      "after": 6
+    },
+    "total": {
+      "before": 233,
+      "after": 156,
+      "removed": 77,
+      "reduction_percent": 33.047210300429185,
+      "retained_percent": 66.95278969957081
+    }
+  },
+  "test_code_line_delta": -1115,
+  "validation": {
+    "baseline_vitest": {
+      "passed": 224,
+      "failed": 0
+    },
+    "final_vitest": {
+      "passed": 147,
+      "failed": 0,
+      "pending": 0
+    },
+    "node": {
+      "passed": 3,
+      "failed": 0
+    },
+    "playwright": {
+      "passed": 6,
+      "failed": 0
+    },
+    "eslint": "passed",
+    "typescript_project_check": "passed",
+    "coverage": "not measured"
+  },
+  "changes": [
+    {
+      "file": "tests/component/AnimalTester.test.tsx",
+      "before": 6,
+      "after": 4,
+      "removed": [
+        "AnimalTester > jumps to the first animal for an initial and retains clue state without scoring",
+        "AnimalTester > keeps the two-player hide control independent of clue zoom"
+      ],
+      "retained": [
+        "AnimalTester > zooms each clue without changing the ability picture in the teenie theme",
+        "AnimalTester > connects every animal to complete facts and visual assets",
+        "AnimalTester > removes wrong choices and advances after the correct solo choice",
+        "AnimalTester > shows one read-aloud screen and advances the two-player game directly"
+      ],
+      "rationale": "Remove repeated letter/preference navigation and a second hide/zoom combination. Retain complete solo/two-player flows, zoom behavior, and catalog integrity; LearningDisplayState covers preference retention."
+    },
+    {
+      "file": "tests/component/AsyncActions.test.tsx",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "blocks duplicate submissions, shows rejection, and allows retry"
+      ],
+      "retained": [
+        "retries a failed automatic outcome save without replaying the final puzzle"
+      ],
+      "rationale": "Remove the isolated async-button retry sequence; creation and purchase workflows retain duplicate-submit, rejection, and retry checks. Keep automatic outcome-save recovery."
+    },
+    {
+      "file": "tests/component/ChildFailureModeControl.test.tsx",
+      "before": 1,
+      "after": 0,
+      "removed": [
+        "child failure mode control > uses segmented choices to toggle test failure mode"
+      ],
+      "retained": [],
+      "rationale": "Remove the thin segmented-control callback-wiring test. Keep actual failure-enabled and failure-disabled gameplay in AlphabetTester; exact settings-widget wiring is no longer tested separately."
+    },
+    {
+      "file": "tests/component/ChoreCreationFlow.test.tsx",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "ChoreCreationFlow > edits an existing standard chore through the creation controls"
+      ],
+      "retained": [
+        "ChoreCreationFlow > shows a rejected chore save and keeps its draft available for retry"
+      ],
+      "rationale": "Remove repeated standard-editor input forwarding. Keep create/save failure, preserved draft, selected artwork payload, and retry."
+    },
+    {
+      "file": "tests/component/CreatureCollectionLoading.test.tsx",
+      "before": 4,
+      "after": 3,
+      "removed": ["returning to Animals cancels an outstanding selection"],
+      "retained": [
+        "loads on selection and ignores a late response for an older selection",
+        "lets a failed collection retry without awarding or finishing a game",
+        "can start a solo game while the selected collection is still loading"
+      ],
+      "rationale": "Remove a second stale-selection response scenario. Keep switching between pending collections, ignored old results, loading-to-game transition, and retry."
+    },
+    {
+      "file": "tests/component/DinnerCountdown.test.tsx",
+      "before": 3,
+      "after": 2,
+      "removed": [
+        "DinnerCountdown > uses visual dinner controls and enforces the twenty-slice maximum"
+      ],
+      "retained": [
+        "DinnerCountdown > does not fail an unstarted dinner with zero remaining time (start: null)",
+        "DinnerCountdown > records expiry once and accepts a reset without writing expiry again"
+      ],
+      "rationale": "Remove presentation/control forwarding and duplicate slice-boundary checks. Keep unstarted/expired/reset timer regressions; taskLimits retains runtime bounds."
+    },
+    {
+      "file": "tests/component/InsectTester.test.tsx",
+      "before": 3,
+      "after": 2,
+      "removed": [
+        "Insect collection > jumps by the current insect collection rather than the animal catalog"
+      ],
+      "retained": [
+        "Insect collection > has complete, individually illustrated creatures and matching bear abilities",
+        "Insect collection > plays Hard solo rounds in teenie using only insect choices"
+      ],
+      "rationale": "Remove repeated letter-jump navigation. The retained Insects/Teenie LearningDisplayState case covers that flow; keep insect catalog integrity and a complete Hard round."
+    },
+    {
+      "file": "tests/component/LearningDisplayState.test.tsx",
+      "before": 4,
+      "after": 1,
+      "removed": [
+        "Learn display preferences > retains all three choices for princess / Animals through arrows and letter jumps",
+        "Learn display preferences > retains all three choices for teenie / Animals through arrows and letter jumps",
+        "Learn display preferences > retains all three choices for princess / Insects through arrows and letter jumps"
+      ],
+      "retained": [
+        "Learn display preferences > retains all three choices for teenie / Insects through arrows and letter jumps"
+      ],
+      "rationale": "Keep Insects/Teenie as the representative shared photo/clue preference workflow; remove three equivalent theme/catalog executions."
+    },
+    {
+      "file": "tests/component/LearningNavigation.test.tsx",
+      "before": 5,
+      "after": 2,
+      "removed": [
+        "LearningNavigation > shows eight letters around A with alphabet boundaries",
+        "LearningNavigation > shows eight letters around M with alphabet boundaries",
+        "LearningNavigation > shows eight letters around Z with alphabet boundaries"
+      ],
+      "retained": [
+        "LearningNavigation > browses with the keyboard, ignores unavailable letters, and restores focus after selection",
+        "LearningNavigation > dismisses without selecting and recenters after browsing"
+      ],
+      "rationale": "Remove exact eight-letter window snapshots. Keep keyboard navigation, disabled letters, selection focus, dismissal, and reopening."
+    },
+    {
+      "file": "tests/component/RewardCreationFlow.test.tsx",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "RewardCreationFlow > selects image artwork and discards a separate staged draft"
+      ],
+      "retained": [
+        "RewardCreationFlow > keeps the draft after a rejected save and blocks duplicate actions until retry"
+      ],
+      "rationale": "Remove exact artwork selection and thin discard callback checks. Keep rejected-save draft retention, duplicate-submit guard, payload, and retry. Chore creation still exercises the shared artwork selector."
+    },
+    {
+      "file": "tests/component/SchoolCalendar.test.tsx",
+      "before": 4,
+      "after": 2,
+      "removed": [
+        "selects 2028-02-29 and clamps month navigation",
+        "selects 2026-12-31 and clamps month navigation"
+      ],
+      "retained": [
+        "shows a retryable failure and recovers from an unavailable calendar",
+        "selects 2026-01-31 and clamps month navigation"
+      ],
+      "rationale": "Keep January-to-February clamping and retry recovery; remove additional leap-month/year-rollover examples of the shared calendar navigation."
+    },
+    {
+      "file": "tests/component/SolarSystem3DManager.test.ts",
+      "before": 3,
+      "after": 2,
+      "removed": [
+        "cleans up replaced labels and makes scene disposal idempotent"
+      ],
+      "retained": [
+        "does not upload shared pixels when a tab closes before generation finishes",
+        "disconnects visibility observers and never restarts a disposed scene"
+      ],
+      "rationale": "Remove scene-layout-dependent exact material/geometry/texture disposal counts. Keep late texture completion after close and observer/frame shutdown; owned-resource disposal remains tested directly."
+    },
+    {
+      "file": "tests/component/TeeniepingTester.test.tsx",
+      "before": 3,
+      "after": 2,
+      "removed": [
+        "Teenieping collection > teaches four picture clues and resets when switching collections"
+      ],
+      "retained": [
+        "Teenieping collection > accounts for every portrait with four distinct illustrated clues",
+        "Teenieping collection > excludes alternate forms from distractors and reveals appearance last"
+      ],
+      "rationale": "Remove repeated teaching navigation and collection switching. Keep illustrated catalog integrity and a complete solo round that excludes ambiguous alternate-form distractors."
+    },
+    {
+      "file": "tests/component/TrainingPhotos.test.tsx",
+      "before": 7,
+      "after": 2,
+      "removed": [
+        "Who am I training photos > swaps the existing image in place and back in Strict Mode without scoring",
+        "Who am I training photos > retains the photo preference when navigating",
+        "Who am I training photos > swaps insect photos and excludes Teeniepings",
+        "Who am I training photos > does not expose photos in 1 Player mode",
+        "Who am I training photos > does not expose photos in 2 Players mode"
+      ],
+      "retained": [
+        "Who am I training photos > covers both catalogs with local photos and credits",
+        "Who am I training photos > supports keyboard toggling and falls back to the drawing on loading errors"
+      ],
+      "rationale": "Remove DOM identity/style constraints, repeated preference/navigation/collection cases, and game-mode absence checks. Keep photo/credit integrity and keyboard error/fallback/retry; LearningDisplayState retains double-click and navigation preferences."
+    },
+    {
+      "file": "tests/component/WaterToiletMonitor.test.tsx",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "WaterToiletMonitor > renders every interactive water and toilet state accessibly"
+      ],
+      "retained": [
+        "WaterToiletMonitor > shows successful and unsuccessful completed tile states"
+      ],
+      "rationale": "Remove exhaustive image-filename mappings. Keep completed controls disabled and outcome states; descriptor tests still click interactive water/toilet tiles."
+    },
+    {
+      "file": "tests/component/androidOffline.test.tsx",
+      "before": 7,
+      "after": 6,
+      "removed": [
+        "Android offline data hooks > keeps test creation and award atomic on disk failure (existing: true)"
+      ],
+      "retained": [
+        "Android offline data hooks > rejects a stale completion for another child without saving anything",
+        "Android offline data hooks > keeps test creation and award atomic on disk failure (existing: false)",
+        "Android offline data hooks > completes, reloads, resets and repeats a chore without Firebase",
+        "Android offline data hooks > buys a reward and updates the balance immediately while Firebase is unavailable",
+        "Android offline data hooks > persists default-test completion and reset locally",
+        "Android offline data hooks > keeps one-time consumption local when the shared definition refreshes"
+      ],
+      "rationale": "Keep the stronger atomic default-definition creation/award disk-failure case; remove the existing-definition repetition of the same durable mutation. Existing native chore flow now also repeats its callback before reset to protect local replay suppression."
+    },
+    {
+      "file": "tests/component/choreStarAwards.test.tsx",
+      "before": 10,
+      "after": 8,
+      "removed": [
+        "chore completion star balances > awards exactly 12 stars for all chores (repeating: true)",
+        "chore completion star balances > does not award 'Water & toilet' twice without a reset"
+      ],
+      "retained": [
+        "chore completion star balances > awards exactly 12 stars for all chores (repeating: false)",
+        "chore completion star balances > awards every completed chore again after reset, including on the same day",
+        "chore completion star balances > does not award 'Brush teeth' twice without a reset",
+        "chore completion star balances > persists the water/toilet score for full / notpeepee: -6",
+        "chore completion star balances > persists the water/toilet score for full / didpeepee: 0",
+        "chore completion star balances > clamps a water/toilet deduction to the available stars",
+        "chore completion star balances > awards no stars when dinner times out before completion",
+        "chore completion star balances > rejects another child’s chore without changing either balance"
+      ],
+      "rationale": "Keep one-time all-chore awards and a representative stale duplicate callback. Repeating chores are already completed after same-day and next-day resets; retain exact signed awards, zero floor, dinner timeout, and ownership."
+    },
+    {
+      "file": "tests/component/taskActivityState.test.tsx",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "switches every activity exclusively and keeps dinner cancellation scoped"
+      ],
+      "retained": [
+        "keeps checks isolated by type and id, including checks in the same React batch"
+      ],
+      "rationale": "Remove the full internal active-ID shape matrix; reset/navigation flows exercise activity exit. Keep batched check-trigger isolation by type and task."
+    },
+    {
+      "file": "tests/component/ui/unifiedTestRenderer.test.tsx",
+      "before": 1,
+      "after": 0,
+      "removed": [
+        "math activity wiring > preserves template defaults and routes checks, settings, and outcomes to the selected test"
+      ],
+      "retained": [],
+      "rationale": "Remove mocked renderer-prop forwarding and template-default object snapshots. Keep concrete gameplay, runtime limits, representative persisted field mappings, and reset bindings."
+    },
+    {
+      "file": "tests/component/useChoreActivityActions.test.tsx",
+      "before": 6,
+      "after": 4,
+      "removed": [
+        "chore completion persistence > ignores expiry for an unstarted, running or completed dinner: {\"manageDinnerCompletedAt\":15000,\"manageDinnerRemainingSeconds\":0}",
+        "chore completion persistence > persists failure after a started dinner runs out of time"
+      ],
+      "retained": [
+        "chore completion persistence > ignores expiry for an unstarted, running or completed dinner: {\"manageDinnerRemainingSeconds\":0}",
+        "chore completion persistence > ignores expiry for an unstarted, running or completed dinner: {\"manageDinnerTimerStartedAt\":10000,\"manageDinnerRemainingSeconds\":300}",
+        "chore completion persistence > does not complete dinner after a reset during the final bite animation",
+        "chore completion persistence > freezes time before the final bite delay (signed in: true)"
+      ],
+      "rationale": "Remove a duplicate expiry write-shape test and completed-guard row. Full chore transaction flow retains timeout/no-award behavior; keep unstarted/running guards, final-bite timing, and reset cancellation."
+    },
+    {
+      "file": "tests/component/useChoresReset.test.tsx",
+      "before": 3,
+      "after": 2,
+      "removed": [
+        "'Get dressed' reset > resets saved progress and accepts a later completion"
+      ],
+      "retained": [
+        "'Dinner' reset > resets saved progress and accepts a later completion",
+        "'Water and toilet' reset > resets saved progress and accepts a later completion"
+      ],
+      "rationale": "Remove the standard-chore repetition. Dinner retains snapshot-first reset, water/toilet retains write-first rollback/retry, and choreStarAwards plus Android hooks still reset standard chores."
+    },
+    {
+      "file": "tests/component/useTestsReset.test.tsx",
+      "before": 4,
+      "after": 3,
+      "removed": [
+        "test reset persistence > accepts a new saved attempt after reset arrives write-first"
+      ],
+      "retained": [
+        "test reset persistence > resets a built-in test through its transaction and stays reset after remount",
+        "test reset persistence > accepts a new saved attempt after reset arrives snapshot-first",
+        "test reset persistence > restores a failure result when reset fails and permits retry"
+      ],
+      "rationale": "Remove repeated write-first ordering through shared task reconciliation. Keep snapshot-first test attempts, built-in reset/remount, and rejection/retry; water/toilet reset covers write-first ordering."
+    },
+    {
+      "file": "tests/unit/assetCatalog.test.ts",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "normalizes and sorts catalog names while keeping the original image URLs"
+      ],
+      "retained": [
+        "resolves nested assets and rejects missing or empty URLs with useful context"
+      ],
+      "rationale": "Remove naming/sorting implementation checks. Keep missing/empty asset errors and nested resolution; collection tests retain full asset/data integrity."
+    },
+    {
+      "file": "tests/unit/dailyChoreFunctions.test.ts",
+      "before": 4,
+      "after": 3,
+      "removed": [
+        "keeps the legacy response shape and avoids committing empty batches"
+      ],
+      "retained": [
+        "manual reset includes untitled chores, skips tests/unscheduled/legacy records and preserves dinner settings",
+        "scheduled reset skips untitled and malformed-title chores",
+        "rejects unauthenticated, malformed and foreign-child requests before writes"
+      ],
+      "rationale": "Remove legacy wrapper response compatibility and empty-batch bookkeeping. Keep current manual/scheduled resets, malformed titles, auth/input rejection, and child ownership."
+    },
+    {
+      "file": "tests/unit/dailyTaskState.test.ts",
+      "before": 8,
+      "after": 3,
+      "removed": [
+        "mergeTaskEphemeral > scopes large-numbers state to its outcome fields",
+        "mergeTaskEphemeral > scopes alphabet state to its outcome fields",
+        "mergeTaskEphemeral > scopes spelling state to its outcome fields",
+        "mergeTaskEphemeral > scopes animals state to its outcome fields",
+        "mergeTaskEphemeral > uses explicit null state to reset every chore type"
+      ],
+      "retained": [
+        "mergeTaskEphemeral > preserves stored values for undefined overrides and ignores unrelated fields",
+        "mergeTaskEphemeral > scopes math state to its outcome fields",
+        "mergeTaskEphemeral > scopes positional-notation state to its outcome fields"
+      ],
+      "rationale": "Keep ordinary math and abbreviated positional-notation mappings plus undefined/unrelated-field isolation. Remove four equivalent mappings and a chore null-reset matrix already exercised by parsers and reset workflows."
+    },
+    {
+      "file": "tests/unit/explorerBackdrop.test.ts",
+      "before": 8,
+      "after": 0,
+      "removed": [
+        "keeps sky colors at minute 360 and across wrapped days",
+        "keeps sky colors at minute 390 and across wrapped days",
+        "keeps sky colors at minute 420 and across wrapped days",
+        "keeps sky colors at minute 720 and across wrapped days",
+        "keeps sky colors at minute 1050 and across wrapped days",
+        "keeps sky colors at minute 1080 and across wrapped days",
+        "keeps sky colors at minute 0 and across wrapped days",
+        "blends sunrise artwork halfway through dawn and preserves the daytime blend"
+      ],
+      "retained": [],
+      "rationale": "Remove exact RGBA/interpolation and artwork-layer snapshots that freeze visual design. Solar phase/time and explorer weather/clock behavior remain; backdrop palette values are deliberately no longer regression-locked."
+    },
+    {
+      "file": "tests/unit/lib/disposeSceneObject.test.ts",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "releases the shared sprite quad once when the entire scene is destroyed"
+      ],
+      "retained": [
+        "releases owned resources for meshes, starfields, ticks and labels exactly once"
+      ],
+      "rationale": "Remove the special shared-sprite-quad ownership policy case. Keep owned geometry/material disposal and shared-resource deduplication."
+    },
+    {
+      "file": "tests/unit/lib/imageLoading.test.ts",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "deduplicates and decodes recent images without retaining the whole catalog"
+      ],
+      "retained": ["allows failed images to be retried"],
+      "rationale": "Remove exact preload cache capacity/priority and allocation counts. Keep retry after failed image loading; rendered photo fallback/retry also remains."
+    },
+    {
+      "file": "tests/unit/lib/solar.test.ts",
+      "before": 7,
+      "after": 3,
+      "removed": [
+        "solar helpers > wraps longitude -540 consistently for the sun and globe",
+        "solar helpers > wraps longitude 540 consistently for the sun and globe",
+        "solar helpers > wraps longitude 90 consistently for the sun and globe",
+        "solar helpers > derives day number and seasonal solar declination"
+      ],
+      "retained": [
+        "solar helpers > returns ordered solar phases and expanded twilight windows",
+        "solar helpers > converts location dates and clocks correctly across DST and cities",
+        "solar helpers > tracks subsolar latitude and longitude over place and time"
+      ],
+      "rationale": "Remove low-level longitude-to-globe fallback and day-number/declination examples. Keep ordered seasonal phases, DST/city conversions, and observed subsolar position over place/time."
+    },
+    {
+      "file": "tests/unit/lib/today.test.ts",
+      "before": 5,
+      "after": 4,
+      "removed": ["today utilities > classifies the start of 'spring'"],
+      "retained": [
+        "today utilities > classifies the start of 'winter'",
+        "today utilities > builds and parses local dates without shifting the day",
+        "today utilities > normalizes, classifies, and labels chore schedules",
+        "today utilities > describes today using the app timezone and its day boundary"
+      ],
+      "rationale": "Remove the repeated spring season row; the timezone descriptor already verifies spring. Keep winter boundary, date round-trip, schedules, and app-timezone day rollover."
+    },
+    {
+      "file": "tests/unit/loadCreatureCollection.test.ts",
+      "before": 1,
+      "after": 0,
+      "removed": [
+        "loads optional collections once, shares concurrent requests, and retains successful results"
+      ],
+      "retained": [],
+      "rationale": "Remove memoization/reference-identity constraints. Keep real collection loads/gameplay and mocked stale-response, cancellation, and retry workflows."
+    },
+    {
+      "file": "tests/unit/offlineStore.test.ts",
+      "before": 10,
+      "after": 6,
+      "removed": [
+        "offline action model > counts separate devices but suppresses repeated callbacks for one completed attempt",
+        "offline action model > allows reset/repeat and next-day completion without losing earlier delivery records",
+        "durable offline store > publishes stable snapshots before notifying and supports unsubscribe",
+        "durable offline store > never shows success or loses the action when a local write fails"
+      ],
+      "retained": [
+        "offline action model > starts a new device day without erasing yesterday’s queued completion",
+        "offline action model > clamps overspending per action, without carrying debt into later earnings",
+        "offline action model > does not double-project a server snapshot that already includes a pending action",
+        "durable offline store > validates durable queues without dropping damaged operations",
+        "durable offline store > can retry an initial storage failure and ignores older document snapshots",
+        "durable offline store > survives reopening, preserves ordered IDs and isolates accounts"
+      ],
+      "rationale": "Remove subscription identity mechanics, duplicated device/replay/reset examples, and repeated mutation disk failure. Keep date rollover, per-action no-debt floor, snapshot watermarks, damaged queue validation, storage-open retry/revisions, durable ordering/account isolation. Native hooks and sync protocol retain the removed business scenarios."
+    },
+    {
+      "file": "tests/unit/optimisticState.test.ts",
+      "before": 3,
+      "after": 2,
+      "removed": [
+        "preserves explicit undefined when restoring a previous patch"
+      ],
+      "retained": [
+        "settles matching fields without losing newer edits or another task",
+        "restores prior values only for fields belonging to the failed write"
+      ],
+      "rationale": "Remove the standalone undefined rollback example. Use undefined as the prior value in the retained failed-write ownership scenario, preserving absent-value restoration and concurrent-field isolation together."
+    },
+    {
+      "file": "tests/unit/schoolCalendarData.test.ts",
+      "before": 5,
+      "after": 4,
+      "removed": ["uses a valid fresh cache without fetching"],
+      "retained": [
+        "keeps an expired calendar available during an outage without renewing its age",
+        "replaces invalid cached data and still returns valid events when cache writes fail",
+        "rejects an invalid response without caching it and allows a later retry",
+        "does not cache a response that completes after cancellation"
+      ],
+      "rationale": "Remove the fresh-cache no-fetch policy check. Keep offline stale-cache fallback without age renewal, invalid cache/response handling, write failures, retry, and cancellation."
+    },
+    {
+      "file": "tests/unit/taskLimits.test.ts",
+      "before": 2,
+      "after": 1,
+      "removed": ["task value limits > exposes a strict persistence schema"],
+      "retained": [
+        "task value limits > enforces task and dinner limits at runtime boundaries"
+      ],
+      "rationale": "Remove schema-vs-predicate boundary repetition. Runtime field limits and parser normalization/rejection remain."
+    },
+    {
+      "file": "tests/unit/weatherConditions.test.ts",
+      "before": 15,
+      "after": 2,
+      "removed": [
+        "weather conditions and independent visual layers > resolves rain 2.49 and snow 0 at intensity boundaries",
+        "weather conditions and independent visual layers > resolves rain 2.5 and snow 0 at intensity boundaries",
+        "weather conditions and independent visual layers > resolves rain 7.49 and snow 0 at intensity boundaries",
+        "weather conditions and independent visual layers > resolves rain 7.5 and snow 0 at intensity boundaries",
+        "weather conditions and independent visual layers > resolves rain 0 and snow 0.29 at intensity boundaries",
+        "weather conditions and independent visual layers > resolves rain 0 and snow 0.3 at intensity boundaries",
+        "weather conditions and independent visual layers > resolves rain 0 and snow 0.99 at intensity boundaries",
+        "weather conditions and independent visual layers > resolves rain 0 and snow 1 at intensity boundaries",
+        "weather conditions and independent visual layers > maps codes 45,48 to fog",
+        "weather conditions and independent visual layers > maps codes 95 to thunderstorm",
+        "weather conditions and independent visual layers > retains simultaneous cold, rain and strong wind",
+        "weather conditions and independent visual layers > supports three precipitation and wind levels plus calm/dry",
+        "weather conditions and independent visual layers > chooses nighttime sky while preserving independent temperature"
+      ],
+      "retained": [
+        "weather conditions and independent visual layers > handles mixed and freezing precipitation without losing thunder",
+        "weather conditions and independent visual layers > does not invent a sunny picture when code or daylight is unknown"
+      ],
+      "rationale": "Remove 13 visual threshold, classification lookup, outfit, and night-presentation cases. Keep mixed/freezing/hail precedence and unknown-data honesty. TimeExplorerWeather retains integrated temperature/precipitation/wind interaction and bounds; weather data/store tests retain validation, freshness, retries, isolation, and midnight behavior."
+    }
+  ],
+  "unchanged_files": [
+    {
+      "file": "tests/component/AlphabetTester.test.tsx",
+      "cases": 5
+    },
+    {
+      "file": "tests/component/DragScrollRegion.test.tsx",
+      "cases": 2
+    },
+    {
+      "file": "tests/component/LargeNumbersTester.test.tsx",
+      "cases": 3
+    },
+    {
+      "file": "tests/component/ResourceLoadingIcon.test.tsx",
+      "cases": 1
+    },
+    {
+      "file": "tests/component/RewardAvailableSummary.test.tsx",
+      "cases": 1
+    },
+    {
+      "file": "tests/component/RewardsPage.test.tsx",
+      "cases": 4
+    },
+    {
+      "file": "tests/component/StandardActionList.test.tsx",
+      "cases": 2
+    },
+    {
+      "file": "tests/component/TeenieThemeSwitching.test.tsx",
+      "cases": 1
+    },
+    {
+      "file": "tests/component/TimeExplorerWeather.test.tsx",
+      "cases": 4
+    },
+    {
+      "file": "tests/component/animalSession.test.tsx",
+      "cases": 1
+    },
+    {
+      "file": "tests/component/dayNightPerformance.test.tsx",
+      "cases": 2
+    },
+    {
+      "file": "tests/component/profileSync.test.tsx",
+      "cases": 1
+    },
+    {
+      "file": "tests/component/tabNavigation.test.tsx",
+      "cases": 3
+    },
+    {
+      "file": "tests/component/testActivityReset.test.tsx",
+      "cases": 1
+    },
+    {
+      "file": "tests/component/ui/unifiedChoreDescriptors.test.tsx",
+      "cases": 1
+    },
+    {
+      "file": "tests/component/useCoalescedDocumentUpdates.test.tsx",
+      "cases": 2
+    },
+    {
+      "file": "tests/unit/lib/choreParser.test.ts",
+      "cases": 4
+    },
+    {
+      "file": "tests/unit/lib/earthTextureCache.test.ts",
+      "cases": 4
+    },
+    {
+      "file": "tests/unit/offlineFirebaseTransport.test.ts",
+      "cases": 2
+    },
+    {
+      "file": "tests/unit/offlineRuntime.test.ts",
+      "cases": 1
+    },
+    {
+      "file": "tests/unit/offlineSync.test.ts",
+      "cases": 5
+    },
+    {
+      "file": "tests/unit/positionalNotationProblems.test.ts",
+      "cases": 1
+    },
+    {
+      "file": "tests/unit/schoolCalendar.test.ts",
+      "cases": 3
+    },
+    {
+      "file": "tests/unit/starActions.test.ts",
+      "cases": 4
+    },
+    {
+      "file": "tests/unit/weatherData.test.ts",
+      "cases": 3
+    },
+    {
+      "file": "tests/unit/weatherStore.test.ts",
+      "cases": 5
+    }
+  ],
+  "limits": "Pruning preserves selected essential behavior and regression checks, not identical line/branch coverage. Exact palettes, visual thresholds, additional calendar/theme/catalog combinations, cache policies, legacy wrappers, and internal object/prop/resource layouts are intentionally less constrained."
+}

@@ -2,18 +2,12 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import AnimalTester from '../../src/components/AnimalTester'
 import { themes } from '../../src/contexts/ThemeContext'
-import animals from '../../src/data/creatureCollections/animals'
 import insects from '../../src/data/creatureCollections/insects'
 
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 
 describe('Learn display preferences', () => {
-  it.each([
-    ['princess', 'Animals', 'animal', animals],
-    ['teenie', 'Animals', 'animal', animals],
-    ['princess', 'Insects', 'insect', insects],
-    ['teenie', 'Insects', 'insect', insects],
-  ] as const)(
+  it.each([['teenie', 'Insects', 'insect', insects]] as const)(
     'retains all three choices for %s / %s through arrows and letter jumps',
     async (themeId, collection, kind, data) => {
       render(
