@@ -15,11 +15,7 @@ import {
   shouldHidePresetChoreTitle,
   type ChoreStage,
 } from './choreModeDefinitions'
-import {
-  getChoreType,
-  isTaskItem,
-  type UnifiedChoreState,
-} from './unifiedChoreState'
+import type { UnifiedChoreState } from './unifiedChoreState'
 import { renderEatingContent } from './unifiedEatingRenderer'
 import { renderTestContent } from './unifiedTestRenderer'
 import { renderWaterToiletContent } from './unifiedWaterToiletRenderer'
@@ -45,10 +41,7 @@ export const renderUnifiedChoreItem = (
       }}
     >
       {content}
-      {isManage &&
-        stage === 'setup' &&
-        isTaskItem(item) &&
-        deps.renderDayTypeControl?.(item)}
+      {isManage && stage === 'setup' && deps.renderDayTypeControl?.(item)}
     </div>
   )
 }
@@ -60,7 +53,7 @@ export const renderUnifiedChoreHeader = (
 ): ReactNode => {
   const stage = state.getStage(item)
   if (shouldHidePresetChoreTitle(stage)) return null
-  const type = getChoreType(item)
+  const type = item.taskType
   const titleLabel = isTestType(type) ? 'Test Name' : 'Chore Name'
   return deps.mode === 'manage' ? (
     <ActionTextInput
@@ -92,7 +85,7 @@ const renderChoreContent = (
   item: UnifiedChoreItem,
   stage: ChoreStage
 ) => {
-  const type = getChoreType(item)
+  const type = item.taskType
   const overviewImage = getPresetChoreOverviewImage(type, deps.theme.id)
   if (deps.mode === 'today' && stage === 'setup' && overviewImage) {
     return (
@@ -114,7 +107,7 @@ const renderChoreContent = (
   if (type === 'watertoiletcheck') {
     return renderWaterToiletContent(deps, state, item, stage)
   }
-  return renderTestContent(deps, state, item, stage)
+  return renderTestContent(deps, state, item)
 }
 
 const renderStandardContent = (
@@ -136,7 +129,7 @@ const renderStandardContent = (
   }
 
   const standardImage = getChoreImage(item.imageKey, deps.theme.id)
-  const editable = deps.mode === 'manage' && isTaskItem(item)
+  const editable = deps.mode === 'manage'
   const imageOptions = getChoreImageOptions(deps.theme.id)
 
   return (

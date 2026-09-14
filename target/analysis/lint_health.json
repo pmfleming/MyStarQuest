@@ -13,10 +13,10 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T22:14:47.216Z",
+    "measured_at": "2026-09-14T16:19:37.256Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5e4567c47759bae79c0f190ad4744f6bb5e877cc7622756d59280e4896e634c9",
-    "input_set_hash": "sha256:e295abfe3925b27e8c62622a101971db3930152f8fa32a4f88170fb7e1d07906"
+    "source_set_hash": "sha256:87bc369e934fd911632c8d792f2b9eb5ada60380fea8bdb440fd60a00f611ec6",
+    "input_set_hash": "sha256:76a92135a9168cc2a8e1089f8ec2366d70814305770c6fd66a56e1ebbe053fe4"
   },
   "analysis_identity": {
     "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
@@ -100,9 +100,9 @@
     "stale_input": []
   },
   "summary": {
-    "records": 17,
+    "records": 12,
     "blocking_findings": 0,
-    "warning_findings": 17
+    "warning_findings": 12
   },
   "tool_status": {
     "typed_eslint": {
@@ -111,7 +111,7 @@
       "complete": true,
       "reason": null,
       "version": "8.67.0",
-      "duration_ms": 8436,
+      "duration_ms": 10882,
       "ruleset": "tsrqlens-typescript-recommended-v1"
     }
   },
@@ -446,53 +446,6 @@
       ]
     },
     {
-      "id": "typescript-eslint:c7a62041:1",
-      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
-      "kind": "typed_no_unsafe_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/data/dailyTaskState",
-      "file": "src/data/dailyTaskState.ts",
-      "line": 186,
-      "column": 23,
-      "end_line": 186,
-      "end_column": 76,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type '(\"manageCompletedAt\" | keyof EatingTaskState | keyof WaterToiletTaskState | \"manageMathCompletedAt\" | \"manageMathLastOutcome\" | ... 9 more ... | \"manageAnimalsLastOutcome\")[]' is more narrow than the original type.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type '(\"manageCompletedAt\" | keyof EatingTaskState | keyof WaterToiletTaskState | \"manageMathCompletedAt\" | \"manageMathLastOutcome\" | ... 9 more ... | \"manageAnimalsLastOutcome\")[]' is more narrow than the original type."
-        }
-      ],
-      "fingerprint": "c7a62041",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:c7a62041:1",
-            "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/data/dailyTaskState.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "typescript-eslint:d22af8e9:1",
       "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
       "kind": "typed_no_unsafe_type_assertion",
@@ -587,53 +540,6 @@
       ]
     },
     {
-      "id": "typescript-eslint:4d66c091:1",
-      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
-      "kind": "typed_no_unsafe_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/data/taskLimits",
-      "file": "src/data/taskLimits.ts",
-      "line": 23,
-      "column": 10,
-      "end_line": 23,
-      "end_column": 25,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type 'number' is more narrow than the original type.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type 'number' is more narrow than the original type."
-        }
-      ],
-      "fingerprint": "4d66c091",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:4d66c091:1",
-            "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/data/taskLimits.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "typescript-eslint:e68986a6:1",
       "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
       "kind": "typed_no_unsafe_type_assertion",
@@ -722,147 +628,6 @@
             "id": "typescript-eslint:27ee46d3:1",
             "kind": "typed_no_unnecessary_type_assertion",
             "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:39a442fe:1",
-      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
-      "kind": "typed_no_unsafe_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/lib/choreParser",
-      "file": "src/lib/choreParser.ts",
-      "line": 187,
-      "column": 10,
-      "end_line": 193,
-      "end_column": 18,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type 'TaskRecord' is more narrow than the original type.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type 'TaskRecord' is more narrow than the original type."
-        }
-      ],
-      "fingerprint": "39a442fe",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:39a442fe:1",
-            "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/lib/choreParser.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:66f8d6f0:1",
-      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
-      "kind": "typed_no_unsafe_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/lib/weather/weatherStore",
-      "file": "src/lib/weather/weatherStore.ts",
-      "line": 59,
-      "column": 14,
-      "end_line": 59,
-      "end_column": 42,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type 'keyof WeatherSnapshot' is more narrow than the original type.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type 'keyof WeatherSnapshot' is more narrow than the original type."
-        }
-      ],
-      "fingerprint": "66f8d6f0",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:66f8d6f0:1",
-            "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/lib/weather/weatherStore.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:66f8d6f0:2",
-      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
-      "kind": "typed_no_unsafe_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/lib/weather/weatherStore",
-      "file": "src/lib/weather/weatherStore.ts",
-      "line": 60,
-      "column": 24,
-      "end_line": 60,
-      "end_column": 52,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type 'keyof WeatherSnapshot' is more narrow than the original type.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type 'keyof WeatherSnapshot' is more narrow than the original type."
-        }
-      ],
-      "fingerprint": "66f8d6f0",
-      "occurrence": 2,
-      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:66f8d6f0:2",
-            "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

@@ -1,4 +1,4 @@
-import type { OfflineState } from './model'
+import { offlineStateSchema, type OfflineState } from './model'
 
 export interface OfflinePersistence {
   read: (userId: string) => Promise<OfflineState | undefined>
@@ -33,28 +33,31 @@ export class IndexedDbPersistence implements OfflinePersistence {
     return this.database
   }
 
-  async read(userId: string): Promise<OfflineState | undefined> {
+  private async transaction<T>(
+    mode: IDBTransactionMode,
+    action: (store: IDBObjectStore) => IDBRequest<T>
+  ): Promise<T> {
     const database = await this.open()
     return new Promise((resolve, reject) => {
-      const transaction = database.transaction('accounts', 'readonly')
-      const request = transaction.objectStore('accounts').get(userId)
+      // View and delivery record commit together, before publishing success.
+      const transaction = database.transaction('accounts', mode, {
+        durability: 'strict',
+      })
+      const request = action(transaction.objectStore('accounts'))
       transaction.oncomplete = () => resolve(request.result)
       transaction.onabort = () => reject(transaction.error)
       transaction.onerror = () => reject(transaction.error)
     })
   }
 
-  async write(userId: string, state: OfflineState): Promise<void> {
-    const database = await this.open()
-    return new Promise((resolve, reject) => {
-      // One commit contains both the visible change and its delivery record.
-      const transaction = database.transaction('accounts', 'readwrite', {
-        durability: 'strict',
-      })
-      transaction.objectStore('accounts').put(state, userId)
-      transaction.oncomplete = () => resolve()
-      transaction.onabort = () => reject(transaction.error)
-      transaction.onerror = () => reject(transaction.error)
-    })
+  async read(userId: string) {
+    const saved: unknown = await this.transaction('readonly', (store) =>
+      store.get(userId)
+    )
+    return offlineStateSchema.optional().parse(saved)
+  }
+
+  async write(userId: string, state: OfflineState) {
+    await this.transaction('readwrite', (store) => store.put(state, userId))
   }
 }

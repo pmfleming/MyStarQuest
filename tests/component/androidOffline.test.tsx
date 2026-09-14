@@ -43,6 +43,7 @@ import { useTests } from '../../src/data/useTests'
 import { useRewards } from '../../src/data/useRewards'
 import { projectDocuments } from '../../src/offline/model'
 import { getTodayDescriptor } from '../../src/lib/today'
+import { offlineCompletion } from '../../src/offline/actions'
 
 beforeEach(async () => {
   session.failWrites = false
@@ -68,31 +69,50 @@ beforeEach(async () => {
 })
 
 describe('Android offline data hooks', () => {
-  it('does not save a completed test without its stars when storage fails', async () => {
-    const hook = renderHook(() => useTests())
-    await waitFor(() =>
-      expect(hook.result.current.tests.length).toBeGreaterThan(0)
-    )
-    const runtime = offlineRuntime(session.user.uid)
-    // Materialize the default definition first so the failed write is the award.
-    await act(async () => {
-      await hook.result.current.resetTest(hook.result.current.tests[0])
-    })
-    const before = runtime.store.getSnapshot()
-    session.failWrites = true
-    await act(async () => {
-      await expect(
-        hook.result.current.completeTest(hook.result.current.tests[0])
-      ).rejects.toThrow('Disk full')
-    })
-    expect(runtime.store.getSnapshot()).toBe(before)
-    expect(hook.result.current.tests[0].lastAttemptedAt ?? null).toBeNull()
-    expect(
-      projectDocuments(runtime.store.getSnapshot()!, 'children').child
-        .totalStars
-    ).toBe(5)
-    session.failWrites = false
+  it('rejects a stale completion for another child without saving anything', async () => {
+    const store = offlineRuntime(session.user.uid).store,
+      before = store.getSnapshot()
+    await expect(
+      offlineCompletion({
+        userId: session.user.uid,
+        childId: 'other',
+        taskId: 'tidy',
+        taskCollection: 'chores',
+        dateKey: getTodayDescriptor().dateKey,
+        delta: 3,
+        updates: {},
+      })
+    ).rejects.toThrow('selected child')
+    expect(store.getSnapshot()).toBe(before)
   })
+  it.each([false, true])(
+    'keeps test creation and award atomic on disk failure (existing: %s)',
+    async (existing) => {
+      const hook = renderHook(() => useTests())
+      await waitFor(() =>
+        expect(hook.result.current.tests.length).toBeGreaterThan(0)
+      )
+      const runtime = offlineRuntime(session.user.uid)
+      if (existing)
+        await act(async () => {
+          await hook.result.current.resetTest(hook.result.current.tests[0])
+        })
+      const before = runtime.store.getSnapshot()
+      session.failWrites = true
+      await act(async () => {
+        await expect(
+          hook.result.current.completeTest(hook.result.current.tests[0])
+        ).rejects.toThrow('Disk full')
+      })
+      expect(runtime.store.getSnapshot()).toBe(before)
+      expect(hook.result.current.tests[0].lastAttemptedAt ?? null).toBeNull()
+      expect(
+        projectDocuments(runtime.store.getSnapshot()!, 'children').child
+          .totalStars
+      ).toBe(5)
+      session.failWrites = false
+    }
+  )
 
   it('completes, reloads, resets and repeats a chore without Firebase', async () => {
     const hook = renderHook(() => useChores())

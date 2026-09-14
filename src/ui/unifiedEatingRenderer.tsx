@@ -5,9 +5,7 @@ import {
   getManageDinnerBitesLeft,
   getManageDinnerRemaining,
   isEatingTask,
-  isEatingTodo,
   type EatingTaskWithEphemeral,
-  type EatingTodo,
 } from '../data/types'
 import type { ChoreStage } from './choreModeDefinitions'
 import { renderDinnerChore } from './presetChoreRenderers'
@@ -15,8 +13,8 @@ import type {
   UnifiedChoreDeps,
   UnifiedChoreItem,
 } from './unifiedChoreDescriptorTypes'
-import { isTaskItem, type UnifiedChoreState } from './unifiedChoreState'
-import { clamp, noop } from './unifiedChoreRenderUtils'
+import type { UnifiedChoreState } from './unifiedChoreState'
+import { clamp } from './unifiedChoreRenderUtils'
 import { clampDinnerSliceCount } from '../data/taskLimits'
 
 export const renderEatingContent = (
@@ -26,14 +24,8 @@ export const renderEatingContent = (
   stage: ChoreStage
 ) => {
   const isActive = deps.activeIds.eating === item.id
-  if (isTaskItem(item)) {
-    return isEatingTask(item)
-      ? renderEatingTask(deps, state, item, isActive, stage)
-      : null
-  }
-
-  return isEatingTodo(item)
-    ? renderEatingTodo(deps, state, item, isActive)
+  return isEatingTask(item)
+    ? renderEatingTask(deps, state, item, isActive, stage)
     : null
 }
 
@@ -95,43 +87,5 @@ const renderEatingTask = (
     biteIcon: state.themedAsset(deps.activeMealIcon),
     showSetupControls: isManage && !isActive && !isCompleted,
     showStarReward: isManage && !isActive && !isCompleted,
-  })
-}
-
-const renderEatingTodo = (
-  deps: UnifiedChoreDeps,
-  state: UnifiedChoreState,
-  item: EatingTodo,
-  isActive: boolean
-) => {
-  const isCompleted = Boolean(item.completedAt)
-  if (!isActive && !isCompleted) return null
-
-  return renderDinnerChore({
-    theme: deps.theme,
-    duration: item.dinnerDurationSeconds ?? DEFAULT_DINNER_DURATION_SECONDS,
-    remaining: item.dinnerRemainingSeconds,
-    totalBites: item.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
-    bitesLeft: item.dinnerBitesLeft,
-    starReward: item.starValue,
-    isTimerRunning: isActive,
-    timerStartedAt: item.dinnerTimerStartedAt,
-    plateImage: state.themedAsset(getThemeAsset(deps.theme.id, 'plateImage')),
-    isCompleted,
-    completionImage: state.themedAsset(
-      getThemeAsset(deps.theme.id, 'eatingFullImage')
-    ),
-    failureImage: state.themedAsset(
-      getThemeAsset(deps.theme.id, 'eatingFailImage')
-    ),
-    biteCooldownSeconds: deps.biteCooldownSeconds,
-    biteCooldownEndsAt: deps.biteCooldownEndsAt,
-    biteIcon: state.themedAsset(deps.activeMealIcon),
-    onAdjustTime: noop,
-    onAdjustBites: noop,
-    onStarsChange: noop,
-    onExpire: () => deps.onExpireDinner?.(item),
-    showSetupControls: false,
-    showStarReward: false,
   })
 }

@@ -1,9 +1,14 @@
-import { doc, runTransaction, type DocumentData } from 'firebase/firestore'
+import {
+  doc,
+  runTransaction,
+  Timestamp,
+  type DocumentData,
+} from 'firebase/firestore'
 import { db } from '../firebaseDb'
 import { auth } from '../firebase'
 import { applyOperation } from './transport'
 import type { SendOperation } from './sync'
-import type { LocalDocument } from './model'
+import { recordData, type LocalDocument } from './model'
 
 // Convert SDK timestamp instances to cloneable Dates before saving IndexedDB.
 export function localDocument(data: DocumentData): LocalDocument {
@@ -15,10 +20,9 @@ export function localDocument(data: DocumentData): LocalDocument {
 }
 function localValue(value: unknown): unknown {
   if (!value || typeof value !== 'object' || value instanceof Date) return value
-  if ('toDate' in value && typeof value.toDate === 'function')
-    return value.toDate()
+  if (value instanceof Timestamp) return value.toDate()
   if (Array.isArray(value)) return value.map(localValue)
-  return localDocument(value as DocumentData)
+  return localDocument(recordData(value))
 }
 export function snapshotDocument(data: LocalDocument): DocumentData {
   return {

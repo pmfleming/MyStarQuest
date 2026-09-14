@@ -10,11 +10,7 @@ import {
   createPresetTestPrimaryAction,
   createPresetUtilityAction,
 } from './presetChoreActions'
-import {
-  createUnifiedChoreState,
-  getChoreType,
-  isTaskItem,
-} from './unifiedChoreState'
+import { createUnifiedChoreState } from './unifiedChoreState'
 import {
   renderUnifiedChoreHeader,
   renderUnifiedChoreItem,
@@ -39,7 +35,7 @@ export function createUnifiedChoreDescriptor(
       if (isManage) return undefined
       const stage = state.getStage(item)
       if (isInChoreStage(stage)) return undefined
-      const type = getChoreType(item)
+      const type = item.taskType
       if (
         (type === 'standard' && getChoreImage(item.imageKey, deps.theme.id)) ||
         getPresetChoreOverviewImage(type, deps.theme.id)
@@ -53,7 +49,7 @@ export function createUnifiedChoreDescriptor(
     isHighlighted: (item) => state.getStage(item) === 'completed',
     getPrimaryAction: (item) => {
       const stage = state.getStage(item)
-      const type = getChoreType(item)
+      const type = item.taskType
 
       if (type === 'standard') {
         const isItemCompleted = state.isCompleted(item)
@@ -139,10 +135,7 @@ export function createUnifiedChoreDescriptor(
         resetAriaLabel: `Reset ${item.title}`,
         deleteAriaLabel: `Delete ${item.title}`,
         onReset: (selected) => deps.onReset?.(selected),
-        onDelete: (selected) =>
-          isManage || isTaskItem(selected)
-            ? deps.onDeleteTask?.(selected.id)
-            : deps.onDeleteTodo?.(selected.id),
+        onDelete: (selected) => deps.onDeleteTask?.(selected.id),
       })
     },
   }

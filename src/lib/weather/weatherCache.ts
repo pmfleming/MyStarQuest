@@ -17,12 +17,12 @@ const schema = z.object({
   high: numberOrNull,
   low: numberOrNull,
 })
-const key = (city: WeatherCity) =>
+export const weatherCityKey = (city: WeatherCity) =>
   `msq-weather:${city.id}:${city.location.latitude}:${city.location.longitude}:${city.location.timeZone}`
 export function readWeatherCache(city: WeatherCity): CurrentWeather | null {
   try {
     const parsed = schema.safeParse(
-      JSON.parse(localStorage.getItem(key(city)) ?? 'null')
+      JSON.parse(localStorage.getItem(weatherCityKey(city)) ?? 'null')
     )
     return parsed.success &&
       isWeatherUsable(parsed.data, city.location.timeZone)
@@ -34,7 +34,7 @@ export function readWeatherCache(city: WeatherCity): CurrentWeather | null {
 }
 export function writeWeatherCache(city: WeatherCity, data: CurrentWeather) {
   try {
-    localStorage.setItem(key(city), JSON.stringify(data))
+    localStorage.setItem(weatherCityKey(city), JSON.stringify(data))
   } catch {
     /* Live weather remains usable when optional caching is unavailable. */
   }

@@ -13,10 +13,10 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T22:14:38.488Z",
+    "measured_at": "2026-09-14T16:19:25.971Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5e4567c47759bae79c0f190ad4744f6bb5e877cc7622756d59280e4896e634c9",
-    "input_set_hash": "sha256:5babd469f50c6eb848c8d808903e5a595f2bc5717a0773a30322aca0c471b210"
+    "source_set_hash": "sha256:87bc369e934fd911632c8d792f2b9eb5ada60380fea8bdb440fd60a00f611ec6",
+    "input_set_hash": "sha256:dcacd744689c1fd21df03fa96d89ba8bd3a8db5e6d63f40d630ac77aece3bcd9"
   },
   "analysis_identity": {
     "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
@@ -93,12 +93,12 @@
     "stale_input": []
   },
   "summary": {
-    "records": 106,
-    "files_with_escape_hatches": 42,
+    "records": 111,
+    "files_with_escape_hatches": 45,
     "by_kind": {
-      "type_assertion": 37,
-      "browser_global": 53,
-      "non_null_assertion": 8,
+      "type_assertion": 35,
+      "browser_global": 59,
+      "non_null_assertion": 9,
       "direct_dom_mutation": 3,
       "double_assertion": 1,
       "module_level_mutable_state": 4
@@ -397,6 +397,138 @@
             "id": "escape:src/components/PageShell:non_null_assertion:77:2160",
             "kind": "non_null_assertion",
             "file": "src/components/PageShell.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/RewardCelebration:browser_global:29:655",
+      "module_id": "src/components/RewardCelebration",
+      "file": "src/components/RewardCelebration.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 29,
+      "evidence": "window.matchMedia",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.matchMedia",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/RewardCelebration:browser_global:29:655",
+            "kind": "browser_global",
+            "file": "src/components/RewardCelebration.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/RewardCelebration:type_assertion:71:1858",
+      "module_id": "src/components/RewardCelebration",
+      "file": "src/components/RewardCelebration.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 71,
+      "evidence": "{ '--reward-primary': theme.colors.primary, '--reward-pace': CELEBRATION_PACE, '--reward-accent': theme.colors.accent, c",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "{ '--reward-primary': theme.colors.primary, '--reward-pace': CELEBRATION_PACE, '--reward-accent': theme.colors.accent, c",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/RewardCelebration:type_assertion:71:1858",
+            "kind": "type_assertion",
+            "file": "src/components/RewardCelebration.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/RewardCelebration:type_assertion:104:3060",
+      "module_id": "src/components/RewardCelebration",
+      "file": "src/components/RewardCelebration.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 104,
+      "evidence": "{ '--star-curve': `${(index % 2 === 0 ? 1 : -1) * (15 + index * 3)}px`, animationDelay: `${(150 + index * 80) * CELEBRAT",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "{ '--star-curve': `${(index % 2 === 0 ? 1 : -1) * (15 + index * 3)}px`, animationDelay: `${(150 + index * 80) * CELEBRAT",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/RewardCelebration:type_assertion:104:3060",
+            "kind": "type_assertion",
+            "file": "src/components/RewardCelebration.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/components/RewardCelebration:type_assertion:116:3475",
+      "module_id": "src/components/RewardCelebration",
+      "file": "src/components/RewardCelebration.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 116,
+      "evidence": "{ '--sparkle-x': `${Math.cos((index * Math.PI) / 4) * 48}px`, '--sparkle-y': `${Math.sin((index * Math.PI) / 4) * 40}px`",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "{ '--sparkle-x': `${Math.cos((index * Math.PI) / 4) * 48}px`, '--sparkle-y': `${Math.sin((index * Math.PI) / 4) * 40}px`",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/components/RewardCelebration:type_assertion:116:3475",
+            "kind": "type_assertion",
+            "file": "src/components/RewardCelebration.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1756,39 +1888,6 @@
       ]
     },
     {
-      "id": "escape:src/data/dailyTaskState:type_assertion:186:4801",
-      "module_id": "src/data/dailyTaskState",
-      "file": "src/data/dailyTaskState.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 186,
-      "evidence": "Object.keys(patch) as Array<keyof TaskEphemeralState>",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "Object.keys(patch) as Array<keyof TaskEphemeralState>",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/data/dailyTaskState:type_assertion:186:4801",
-            "kind": "type_assertion",
-            "file": "src/data/dailyTaskState.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "escape:src/data/insectKnowledge:type_assertion:48:1593",
       "module_id": "src/data/insectKnowledge",
       "file": "src/data/insectKnowledge.ts",
@@ -1849,39 +1948,6 @@
             "id": "escape:src/data/insectKnowledge:type_assertion:57:1901",
             "kind": "type_assertion",
             "file": "src/data/insectKnowledge.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/data/taskLimits:type_assertion:23:559",
-      "module_id": "src/data/taskLimits",
-      "file": "src/data/taskLimits.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 23,
-      "evidence": "value as number",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "value as number",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/data/taskLimits:type_assertion:23:559",
-            "kind": "type_assertion",
-            "file": "src/data/taskLimits.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2884,12 +2950,12 @@
       ]
     },
     {
-      "id": "escape:src/lib/choreParser:type_assertion:132:3535",
+      "id": "escape:src/lib/choreParser:type_assertion:60:1854",
       "module_id": "src/lib/choreParser",
       "file": "src/lib/choreParser.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 132,
+      "line": 60,
       "evidence": "[ 'manageCompletedAt', 'manageDinnerRemainingSeconds', 'manageDinnerBitesLeft', 'manageDinnerTimerStartedAt', 'manageDin",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -2908,7 +2974,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/choreParser:type_assertion:132:3535",
+            "id": "escape:src/lib/choreParser:type_assertion:60:1854",
             "kind": "type_assertion",
             "file": "src/lib/choreParser.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2917,40 +2983,7 @@
       ]
     },
     {
-      "id": "escape:src/lib/choreParser:type_assertion:187:5151",
-      "module_id": "src/lib/choreParser",
-      "file": "src/lib/choreParser.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 187,
-      "evidence": "withVariantFields( base, 'taskType', taskType, taskData, taskVariantFields[taskType] ) as TaskRecord",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "withVariantFields( base, 'taskType', taskType, taskData, taskVariantFields[taskType] ) as TaskRecord",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/choreParser:type_assertion:187:5151",
-            "kind": "type_assertion",
-            "file": "src/lib/choreParser.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/schoolCalendarData:browser_global:13:431",
+      "id": "escape:src/lib/schoolCalendarData:browser_global:13:449",
       "module_id": "src/lib/schoolCalendarData",
       "file": "src/lib/schoolCalendarData.ts",
       "kind": "browser_global",
@@ -2974,7 +3007,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/schoolCalendarData:browser_global:13:431",
+            "id": "escape:src/lib/schoolCalendarData:browser_global:13:449",
             "kind": "browser_global",
             "file": "src/lib/schoolCalendarData.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2983,12 +3016,12 @@
       ]
     },
     {
-      "id": "escape:src/lib/schoolCalendarData:browser_global:17:614",
+      "id": "escape:src/lib/schoolCalendarData:browser_global:22:679",
       "module_id": "src/lib/schoolCalendarData",
       "file": "src/lib/schoolCalendarData.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 17,
+      "line": 22,
       "evidence": "localStorage.getItem",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -3007,7 +3040,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/schoolCalendarData:browser_global:17:614",
+            "id": "escape:src/lib/schoolCalendarData:browser_global:22:679",
             "kind": "browser_global",
             "file": "src/lib/schoolCalendarData.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3016,12 +3049,12 @@
       ]
     },
     {
-      "id": "escape:src/lib/schoolCalendarData:type_assertion:19:711",
+      "id": "escape:src/lib/schoolCalendarData:type_assertion:24:776",
       "module_id": "src/lib/schoolCalendarData",
       "file": "src/lib/schoolCalendarData.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 19,
+      "line": 24,
       "evidence": "JSON.parse(raw) as unknown",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -3040,7 +3073,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/schoolCalendarData:type_assertion:19:711",
+            "id": "escape:src/lib/schoolCalendarData:type_assertion:24:776",
             "kind": "type_assertion",
             "file": "src/lib/schoolCalendarData.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3049,12 +3082,12 @@
       ]
     },
     {
-      "id": "escape:src/lib/schoolCalendarData:browser_global:39:1343",
+      "id": "escape:src/lib/schoolCalendarData:browser_global:51:1571",
       "module_id": "src/lib/schoolCalendarData",
       "file": "src/lib/schoolCalendarData.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 39,
+      "line": 51,
       "evidence": "localStorage.setItem",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -3073,7 +3106,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/schoolCalendarData:browser_global:39:1343",
+            "id": "escape:src/lib/schoolCalendarData:browser_global:51:1571",
             "kind": "browser_global",
             "file": "src/lib/schoolCalendarData.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3082,12 +3115,12 @@
       ]
     },
     {
-      "id": "escape:src/lib/schoolCalendarData:browser_global:40:1403",
+      "id": "escape:src/lib/schoolCalendarData:browser_global:52:1631",
       "module_id": "src/lib/schoolCalendarData",
       "file": "src/lib/schoolCalendarData.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 40,
+      "line": 52,
       "evidence": "localStorage.setItem",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -3106,9 +3139,75 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/schoolCalendarData:browser_global:40:1403",
+            "id": "escape:src/lib/schoolCalendarData:browser_global:52:1631",
             "kind": "browser_global",
             "file": "src/lib/schoolCalendarData.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/weather/weatherCache:browser_global:25:847",
+      "module_id": "src/lib/weather/weatherCache",
+      "file": "src/lib/weather/weatherCache.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 25,
+      "evidence": "localStorage.getItem",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "localStorage.getItem",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/weather/weatherCache:browser_global:25:847",
+            "kind": "browser_global",
+            "file": "src/lib/weather/weatherCache.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/lib/weather/weatherCache:browser_global:37:1151",
+      "module_id": "src/lib/weather/weatherCache",
+      "file": "src/lib/weather/weatherCache.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 37,
+      "evidence": "localStorage.setItem",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "localStorage.setItem",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/lib/weather/weatherCache:browser_global:37:1151",
+            "kind": "browser_global",
+            "file": "src/lib/weather/weatherCache.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3181,78 +3280,12 @@
       ]
     },
     {
-      "id": "escape:src/lib/weather/weatherStore:type_assertion:59:1402",
-      "module_id": "src/lib/weather/weatherStore",
-      "file": "src/lib/weather/weatherStore.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 59,
-      "evidence": "key as keyof WeatherSnapshot",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "key as keyof WeatherSnapshot",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/weather/weatherStore:type_assertion:59:1402",
-            "kind": "type_assertion",
-            "file": "src/lib/weather/weatherStore.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/weather/weatherStore:type_assertion:60:1456",
-      "module_id": "src/lib/weather/weatherStore",
-      "file": "src/lib/weather/weatherStore.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 60,
-      "evidence": "key as keyof WeatherSnapshot",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "key as keyof WeatherSnapshot",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/weather/weatherStore:type_assertion:60:1456",
-            "kind": "type_assertion",
-            "file": "src/lib/weather/weatherStore.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/weather/weatherStore:browser_global:139:3910",
+      "id": "escape:src/lib/weather/weatherStore:browser_global:143:3889",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 139,
+      "line": 143,
       "evidence": "window.addEventListener",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -3271,7 +3304,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/weather/weatherStore:browser_global:139:3910",
+            "id": "escape:src/lib/weather/weatherStore:browser_global:143:3889",
             "kind": "browser_global",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3280,12 +3313,12 @@
       ]
     },
     {
-      "id": "escape:src/lib/weather/weatherStore:browser_global:143:4076",
+      "id": "escape:src/lib/weather/weatherStore:browser_global:147:4055",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 143,
+      "line": 147,
       "evidence": "window.removeEventListener",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -3304,7 +3337,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/lib/weather/weatherStore:browser_global:143:4076",
+            "id": "escape:src/lib/weather/weatherStore:browser_global:147:4055",
             "kind": "browser_global",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3439,6 +3472,138 @@
             "id": "escape:src/main:direct_dom_mutation:6:142",
             "kind": "direct_dom_mutation",
             "file": "src/main.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/offline/OfflineBoundary:browser_global:32:923",
+      "module_id": "src/offline/OfflineBoundary",
+      "file": "src/offline/OfflineBoundary.tsx",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 32,
+      "evidence": "window.location",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.location",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/offline/OfflineBoundary:browser_global:32:923",
+            "kind": "browser_global",
+            "file": "src/offline/OfflineBoundary.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/offline/runtime:browser_global:82:3021",
+      "module_id": "src/offline/runtime",
+      "file": "src/offline/runtime.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 82,
+      "evidence": "window.addEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.addEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/offline/runtime:browser_global:82:3021",
+            "kind": "browser_global",
+            "file": "src/offline/runtime.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/offline/runtime:browser_global:85:3166",
+      "module_id": "src/offline/runtime",
+      "file": "src/offline/runtime.ts",
+      "kind": "browser_global",
+      "severity": "low",
+      "line": 85,
+      "evidence": "window.removeEventListener",
+      "rule_id": "ts-react-quality-lens/browser_global",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "window.removeEventListener",
+      "reason_code": "ts-react-quality-lens/browser_global",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/offline/runtime:browser_global:85:3166",
+            "kind": "browser_global",
+            "file": "src/offline/runtime.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/offline/store:non_null_assertion:45:1427",
+      "module_id": "src/offline/store",
+      "file": "src/offline/store.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 45,
+      "evidence": "this.getSnapshot()!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "this.getSnapshot()!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/offline/store:non_null_assertion:45:1427",
+            "kind": "non_null_assertion",
+            "file": "src/offline/store.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

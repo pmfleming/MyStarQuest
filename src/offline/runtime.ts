@@ -11,6 +11,7 @@ import {
   snapshotDocument,
 } from './firebaseTransport'
 import { deviceDocuments } from './selectors'
+import { snapshotStore } from '../lib/snapshotStore'
 
 const persistence = new IndexedDbPersistence()
 const runtimes = new Map<string, ReturnType<typeof createRuntime>>()
@@ -18,24 +19,18 @@ const runtimes = new Map<string, ReturnType<typeof createRuntime>>()
 function createRuntime(userId: string) {
   const store = new OfflineStore(userId, persistence)
   const sync = new OfflineSync(store, sendToFirebase)
-  let localError: string | null = null
-  const errors = new Set<() => void>()
+  const errors = snapshotStore<string | null>(null)
   const report = (error: unknown) => {
-    localError =
+    errors.publish(
       error instanceof Error ? error.message : 'Could not save on this phone.'
-    errors.forEach((listener) => listener())
+    )
   }
   return {
     store,
     sync,
     report,
-    getError: () => localError,
-    subscribeErrors: (listener: () => void) => {
-      errors.add(listener)
-      return () => {
-        errors.delete(listener)
-      }
-    },
+    getError: errors.getSnapshot,
+    subscribeErrors: errors.subscribe,
     documents: (name: CollectionName) => {
       const state = store.getSnapshot()
       return state

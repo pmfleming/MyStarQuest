@@ -1,6 +1,7 @@
 import type { PendingAction } from './model'
 import { OfflineStore } from './store'
 import { SyncConflict, type SyncReceipt } from './transport'
+import { snapshotStore } from '../lib/snapshotStore'
 
 export type SyncStatus = {
   state: 'ready' | 'syncing' | 'waiting' | 'attention'
@@ -17,8 +18,7 @@ export class OfflineSync {
   private timer?: ReturnType<typeof setTimeout>
   private unsubscribe?: () => void
   private retryMs = 1000
-  private status: SyncStatus = { state: 'ready', message: null }
-  private listeners = new Set<() => void>()
+  private status = snapshotStore<SyncStatus>({ state: 'ready', message: null })
   private store: OfflineStore
   private send: SendOperation
 
@@ -26,21 +26,14 @@ export class OfflineSync {
     this.store = store
     this.send = send
   }
-  getSnapshot = () => this.status
-  subscribe = (listener: () => void) => {
-    this.listeners.add(listener)
-    return () => {
-      this.listeners.delete(listener)
-    }
-  }
-  private publish(status: SyncStatus) {
-    this.status = status
-    this.listeners.forEach((listener) => listener())
-  }
+  getSnapshot = this.status.getSnapshot
+  subscribe = this.status.subscribe
+  private publish = this.status.publish
   start() {
     this.stopped = false
     this.unsubscribe = this.store.subscribe(() => {
-      if (!this.timer && this.status.state !== 'attention') void this.flush()
+      if (!this.timer && this.getSnapshot().state !== 'attention')
+        void this.flush()
     })
     void this.flush()
     return () => {
@@ -71,25 +64,7 @@ export class OfflineSync {
         this.publish({ state: 'syncing', message: null })
         const receipt = await this.send(this.store.userId, operation)
         // A lost local acknowledgement is safe: the queue keeps the same ID.
-        await this.store.mutate((state) => {
-          const existing = state.documents[receipt.collection][receipt.entityId]
-          const revision =
-            receipt.collection === 'children'
-              ? 'offlineBalanceRevision'
-              : 'offlineRevision'
-          if (!receipt.document)
-            delete state.documents[receipt.collection][receipt.entityId]
-          else if (
-            Number(existing?.[revision] ?? 0) <=
-            Number(receipt.document[revision] ?? 0)
-          ) {
-            state.documents[receipt.collection][receipt.entityId] =
-              receipt.document
-          }
-          state.pending = state.pending.filter(
-            (pending) => pending.id !== operation.id
-          )
-        })
+        await this.store.acknowledge(operation.id, receipt)
         this.retryMs = 1000
       }
     } catch (error) {

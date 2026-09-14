@@ -1,16 +1,18 @@
 import {
   emptyState,
   enqueue,
+  latestDocument,
   type Action,
   type CollectionName,
   type LocalDocument,
   type OfflineState,
 } from './model'
 import type { OfflinePersistence } from './persistence'
+import { snapshotStore } from '../lib/snapshotStore'
+import type { SyncReceipt } from './transport'
 
 export class OfflineStore {
-  private state: OfflineState | undefined
-  private listeners = new Set<() => void>()
+  private snapshot = snapshotStore<OfflineState | undefined>(undefined)
   private work: Promise<unknown> = Promise.resolve()
   private opening?: Promise<void>
 
@@ -21,17 +23,8 @@ export class OfflineStore {
     this.persistence = persistence
   }
 
-  getSnapshot = () => this.state
-  subscribe = (listener: () => void) => {
-    this.listeners.add(listener)
-    return () => {
-      this.listeners.delete(listener)
-    }
-  }
-  private publish(state: OfflineState) {
-    this.state = state
-    this.listeners.forEach((listener) => listener())
-  }
+  getSnapshot = this.snapshot.getSnapshot
+  subscribe = this.snapshot.subscribe
   open() {
     this.opening ??= (async () => {
       const saved = await this.persistence.read(this.userId)
@@ -39,7 +32,7 @@ export class OfflineStore {
         throw new Error('Unsupported offline data version. Update the app.')
       const state = saved ?? emptyState()
       if (!saved) await this.persistence.write(this.userId, state)
-      this.publish(state)
+      this.snapshot.publish(state)
     })().catch((error) => {
       this.opening = undefined
       throw error
@@ -49,10 +42,10 @@ export class OfflineStore {
   mutate<T>(change: (draft: OfflineState) => T): Promise<T> {
     const operation = this.work.then(async () => {
       await this.open()
-      const draft = structuredClone(this.state!)
+      const draft = structuredClone(this.getSnapshot()!)
       const result = change(draft)
       await this.persistence.write(this.userId, draft)
-      this.publish(draft)
+      this.snapshot.publish(draft)
       return result
     })
     this.work = operation.catch(() => {})
@@ -62,23 +55,31 @@ export class OfflineStore {
     return this.mutate((state) => enqueue(state, action))
   }
 
+  acknowledge(id: string, { collection, entityId, document }: SyncReceipt) {
+    return this.mutate((state) => {
+      const documents = state.documents[collection]
+      if (document)
+        documents[entityId] = latestDocument(
+          collection,
+          documents[entityId],
+          document
+        )
+      else delete documents[entityId]
+      state.pending = state.pending.filter((operation) => operation.id !== id)
+    })
+  }
+
   mergeCollection(
     collection: CollectionName,
     documents: Record<string, LocalDocument>
   ) {
     return this.mutate((state) => {
-      const next = { ...documents }
-      const revision =
-        collection === 'children' ? 'offlineBalanceRevision' : 'offlineRevision'
-      for (const [id, document] of Object.entries(next)) {
-        const previous = state.documents[collection][id]
-        if (
-          previous &&
-          Number(previous[revision] ?? 0) > Number(document[revision] ?? 0)
-        )
-          next[id] = previous
-      }
-      state.documents[collection] = next
+      state.documents[collection] = Object.fromEntries(
+        Object.entries(documents).map(([id, document]) => [
+          id,
+          latestDocument(collection, state.documents[collection][id], document),
+        ])
+      )
     })
   }
 }

@@ -5,10 +5,12 @@ import {
   projectDocuments,
   type Action,
   type OfflineState,
+  offlineStateSchema,
 } from '../../src/offline/model'
 import { OfflineStore } from '../../src/offline/store'
 import type { OfflinePersistence } from '../../src/offline/persistence'
 import { deviceDocuments } from '../../src/offline/selectors'
+import { snapshotStore } from '../../src/lib/snapshotStore'
 
 class MemoryPersistence implements OfflinePersistence {
   accounts = new Map<string, OfflineState>()
@@ -110,6 +112,24 @@ describe('offline action model', () => {
 })
 
 describe('durable offline store', () => {
+  it('validates durable queues without dropping damaged operations', () => {
+    const state = seeded()
+    enqueue(state, completion())
+    expect(offlineStateSchema.parse(state)).toEqual(state)
+    state.pending[0].sequence = NaN
+    expect(() => offlineStateSchema.parse(state)).toThrow()
+    expect(state.pending).toHaveLength(1)
+  })
+  it('publishes stable snapshots before notifying and supports unsubscribe', () => {
+    const store = snapshotStore(0),
+      observed: number[] = []
+    const stop = store.subscribe(() => observed.push(store.getSnapshot()))
+    store.publish(1)
+    store.publish(1)
+    stop()
+    store.publish(2)
+    expect(observed).toEqual([1])
+  })
   it('can retry an initial storage failure and ignores older document snapshots', async () => {
     const disk = new MemoryPersistence()
     const store = new OfflineStore('parent', disk)

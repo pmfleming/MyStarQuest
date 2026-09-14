@@ -9,7 +9,7 @@ import { useCoalescedDocumentUpdates } from '../hooks/useCoalescedDocumentUpdate
 
 type UserDocumentUpdateOptions = {
   userId?: string
-  collectionName: string
+  collectionName: CollectionName
   errorMessage: string
 }
 
@@ -24,7 +24,7 @@ export const useUserDocumentUpdates = <Patch extends object>({
       if (isAndroidOffline())
         return saveDocument(
           userId,
-          collectionName as CollectionName,
+          collectionName,
           id,
           'patch',
           Object.fromEntries(Object.entries(patch))

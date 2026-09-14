@@ -11,11 +11,11 @@ import {
 import { db } from '../firebaseDb'
 import { isAndroidOffline } from '../offline/platform'
 import { offlineRuntime } from '../offline/runtime'
-import { collections, type CollectionName } from '../offline/model'
+import type { CollectionName } from '../offline/model'
 
 type UseUserCollectionArgs<T> = {
   userId: string | undefined
-  collectionName: string
+  collectionName: CollectionName
   orderByField?: string
   orderDirection?: OrderByDirection
   whereEqualToField?: string
@@ -48,14 +48,11 @@ export const useUserCollection = <T>({
       return
     }
 
-    if (
-      isAndroidOffline() &&
-      collections.includes(collectionName as CollectionName)
-    ) {
+    if (isAndroidOffline()) {
       const runtime = offlineRuntime(userId)
       const publish = () => {
         const mapped = runtime
-          .documents(collectionName as CollectionName)
+          .documents(collectionName)
           .flatMap(({ id, data }) => {
             if (
               whereEqualToField &&

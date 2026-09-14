@@ -6,7 +6,11 @@ import {
   type CurrentWeather,
 } from './weatherData'
 import { weatherDateKey } from './weatherConditions'
-import { readWeatherCache, writeWeatherCache } from './weatherCache'
+import {
+  readWeatherCache,
+  writeWeatherCache,
+  weatherCityKey,
+} from './weatherCache'
 
 export type WeatherSnapshot = {
   now: number
@@ -27,11 +31,9 @@ type Entry = {
 }
 
 const entries = new Map<string, Entry>()
-const cityKey = (city: WeatherCity) =>
-  `${city.id}:${city.location.latitude}:${city.location.longitude}:${city.location.timeZone}`
 
 function entryFor(city: WeatherCity): Entry {
-  const key = cityKey(city)
+  const key = weatherCityKey(city)
   let entry = entries.get(key)
   if (!entry) {
     entry = {
@@ -55,16 +57,20 @@ function entryFor(city: WeatherCity): Entry {
 function publish(entry: Entry, patch: Partial<WeatherSnapshot>) {
   const next = { ...entry.snapshot, ...patch }
   if (
-    Object.keys(patch).every((key) =>
-      Object.is(
-        next[key as keyof WeatherSnapshot],
-        entry.snapshot[key as keyof WeatherSnapshot]
-      )
+    Object.entries(patch).every(([key, value]) =>
+      Object.is(Reflect.get(entry.snapshot, key), value)
     )
   )
     return
   entry.snapshot = next
   entry.listeners.forEach((listener) => listener())
+}
+
+function usableWeather(entry: Entry, now = Date.now()) {
+  const data = entry.snapshot.data
+  return data && isWeatherUsable(data, entry.city.location.timeZone, now)
+    ? data
+    : null
 }
 
 async function refresh(entry: Entry, force = false) {
@@ -73,8 +79,7 @@ async function refresh(entry: Entry, force = false) {
   const date = weatherDateKey(now, zone)
   const dateChanged = date !== entry.lastDate
   entry.lastDate = date
-  const data = entry.snapshot.data
-  const usable = data && isWeatherUsable(data, zone, now) ? data : null
+  const usable = usableWeather(entry, now)
   const stale = Boolean(usable && now - usable.fetchedAt >= WEATHER_FRESH_MS)
   publish(entry, { now, data: usable, stale })
   if (entry.controller) return
@@ -98,21 +103,17 @@ async function refresh(entry: Entry, force = false) {
   )
   try {
     const next = await fetchCurrentWeather(entry.city, controller.signal)
-    if (entry.controller === controller) {
-      writeWeatherCache(entry.city, next)
-      publish(entry, { data: next, stale: false, error: null })
-    }
+    if (entry.controller !== controller) return
+    writeWeatherCache(entry.city, next)
+    publish(entry, { data: next, stale: false, error: null })
   } catch {
-    if (entry.controller === controller) {
-      const cached = entry.snapshot.data
-      const stillUsable =
-        cached && isWeatherUsable(cached, zone) ? cached : null
-      publish(entry, {
-        data: stillUsable,
-        stale: Boolean(stillUsable),
-        error: 'Could not update the weather.',
-      })
-    }
+    if (entry.controller !== controller) return
+    const data = usableWeather(entry)
+    publish(entry, {
+      data,
+      stale: Boolean(data),
+      error: 'Could not update the weather.',
+    })
   } finally {
     clearTimeout(timeout)
     if (entry.controller === controller) {
