@@ -50,6 +50,15 @@ service cloud.firestore {
       match /redemptions/{redemptionId} {
         allow read, write: if isOwner(userId);
       }
+
+      // Android delivery receipts and per-device/day activity progress.
+      // Receipts must survive retries and cannot be overwritten or deleted.
+      match /syncReceipts/{operationId} {
+        allow read, create: if isOwner(userId);
+      }
+      match /deviceActivities/{activityId} {
+        allow read, write: if isOwner(userId);
+      }
     }
   }
 }
