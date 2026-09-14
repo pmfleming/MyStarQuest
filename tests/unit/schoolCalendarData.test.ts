@@ -1,6 +1,10 @@
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { loadSchoolCalendar } from '../../src/lib/schoolCalendarData'
-import { CACHE_KEY, CACHE_TS_KEY } from '../../src/lib/schoolCalendarCache'
+import {
+  CACHE_KEY,
+  CACHE_TS_KEY,
+  CACHE_TTL_MS,
+} from '../../src/lib/schoolCalendarCache'
 
 const events = { '2026-09-09': { isNonSchoolDay: true } }
 const request = () => loadSchoolCalendar(new AbortController().signal)
@@ -20,6 +24,18 @@ it('uses a valid fresh cache without fetching', async () => {
   localStorage.setItem(CACHE_TS_KEY, String(Date.now()))
   expect(await request()).toEqual(events)
   expect(fetch).not.toHaveBeenCalled()
+})
+
+it('keeps an expired calendar available during an outage without renewing its age', async () => {
+  const timestamp = String(Date.now() - CACHE_TTL_MS - 1000)
+  localStorage.setItem(CACHE_KEY, JSON.stringify(events))
+  localStorage.setItem(CACHE_TS_KEY, timestamp)
+  vi.mocked(fetch).mockRejectedValue(new Error('offline'))
+  expect(await request()).toEqual(events)
+  expect(localStorage.getItem(CACHE_TS_KEY)).toBe(timestamp)
+  const controller = new AbortController()
+  controller.abort()
+  await expect(loadSchoolCalendar(controller.signal)).rejects.toThrow()
 })
 
 it('replaces invalid cached data and still returns valid events when cache writes fail', async () => {

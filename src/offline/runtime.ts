@@ -53,17 +53,13 @@ function createRuntime(userId: string) {
           if (disposed) return
           cleanup.push(sync.start())
           for (const name of collections) {
-            let receivedServer = false
             const unsubscribe = onSnapshot(
               collection(db, 'users', userId, name),
               { includeMetadataChanges: true },
               (snapshot) => {
-                if (
-                  snapshot.metadata.fromCache &&
-                  (receivedServer || snapshot.empty)
-                )
-                  return
-                if (!snapshot.metadata.fromCache) receivedServer = true
+                // Firestore's query cache can be incomplete. Our own durable
+                // snapshot remains authoritative until a full server result.
+                if (snapshot.metadata.fromCache) return
                 const documents = Object.fromEntries(
                   snapshot.docs.map((document) => [
                     document.id,

@@ -5,6 +5,7 @@ import type { OfflineState } from '../../src/offline/model'
 const session = vi.hoisted(() => ({
   user: { uid: 'offline-parent' },
   childId: 'child',
+  failWrites: false,
 }))
 vi.mock('../../src/firebaseDb', () => ({ db: {} }))
 vi.mock('../../src/offline/platform', () => ({ isAndroidOffline: () => true }))
@@ -30,6 +31,7 @@ vi.mock('../../src/offline/persistence', () => ({
       return structuredClone(this.values.get(id))
     }
     async write(id: string, state: OfflineState) {
+      if (session.failWrites) throw new Error('Disk full')
       this.values.set(id, structuredClone(state))
     }
   },
@@ -43,6 +45,7 @@ import { projectDocuments } from '../../src/offline/model'
 import { getTodayDescriptor } from '../../src/lib/today'
 
 beforeEach(async () => {
+  session.failWrites = false
   session.user = { uid: crypto.randomUUID() }
   const store = offlineRuntime(session.user.uid).store
   await store.mergeCollection('children', {
@@ -65,6 +68,32 @@ beforeEach(async () => {
 })
 
 describe('Android offline data hooks', () => {
+  it('does not save a completed test without its stars when storage fails', async () => {
+    const hook = renderHook(() => useTests())
+    await waitFor(() =>
+      expect(hook.result.current.tests.length).toBeGreaterThan(0)
+    )
+    const runtime = offlineRuntime(session.user.uid)
+    // Materialize the default definition first so the failed write is the award.
+    await act(async () => {
+      await hook.result.current.resetTest(hook.result.current.tests[0])
+    })
+    const before = runtime.store.getSnapshot()
+    session.failWrites = true
+    await act(async () => {
+      await expect(
+        hook.result.current.completeTest(hook.result.current.tests[0])
+      ).rejects.toThrow('Disk full')
+    })
+    expect(runtime.store.getSnapshot()).toBe(before)
+    expect(hook.result.current.tests[0].lastAttemptedAt ?? null).toBeNull()
+    expect(
+      projectDocuments(runtime.store.getSnapshot()!, 'children').child
+        .totalStars
+    ).toBe(5)
+    session.failWrites = false
+  })
+
   it('completes, reloads, resets and repeats a chore without Firebase', async () => {
     const hook = renderHook(() => useChores())
     await waitFor(() => expect(hook.result.current.chores).toHaveLength(1))

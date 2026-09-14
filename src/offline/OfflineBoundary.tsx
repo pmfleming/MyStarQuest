@@ -25,6 +25,15 @@ function AccountOfflineBoundary({
     return (
       <div role="status" className="p-6">
         {error ?? 'Opening saved data…'}
+        {error && (
+          <button
+            type="button"
+            className="ml-3 underline"
+            onClick={() => window.location.reload()}
+          >
+            Retry
+          </button>
+        )}
       </div>
     )
   const pending = state.pending.length

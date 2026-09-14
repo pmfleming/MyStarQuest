@@ -25,8 +25,10 @@ export class IndexedDbPersistence implements OfflinePersistence {
         this.database = undefined
         reject(request.error)
       }
-      request.onblocked = () =>
+      request.onblocked = () => {
+        this.database = undefined
         reject(new Error('Close other app windows to upgrade offline storage.'))
+      }
     })
     return this.database
   }

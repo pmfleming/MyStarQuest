@@ -66,14 +66,6 @@ export const activityKey = (collection: string, id: string, dateKey: string) =>
 export const clampStars = (value: number) =>
   Math.max(0, Number.isFinite(value) ? value : 0)
 
-export function actionChildId(action: Action) {
-  return action.kind === 'document'
-    ? action.collection === 'children'
-      ? action.entityId
-      : undefined
-    : action.childId
-}
-
 // A child snapshot can arrive before the transaction response. Its per-device
 // watermark prevents projecting that same pending credit/debit a second time.
 export function reflectedByChild(

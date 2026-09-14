@@ -95,7 +95,7 @@ export async function offlineCompletion(options: {
     collection: options.taskCollection,
     entityId: options.taskId,
     childId: options.childId,
-    dateKey: options.dateKey,
+    dateKey: getTodayDescriptor().dateKey,
     patch: options.updates,
     delta: options.delta,
     complete: true,

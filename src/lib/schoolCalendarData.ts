@@ -8,11 +8,16 @@ const calendarSchema = z.record(
 )
 export type SchoolCalendarData = z.infer<typeof calendarSchema>
 
-const readCache = (): SchoolCalendarData | undefined => {
+const readCache = (allowStale = false): SchoolCalendarData | undefined => {
   try {
     const timestamp = Number(localStorage.getItem(CACHE_TS_KEY))
     const age = Date.now() - timestamp
-    if (!timestamp || !Number.isFinite(age) || age < 0 || age >= CACHE_TTL_MS)
+    if (
+      !timestamp ||
+      !Number.isFinite(age) ||
+      age < 0 ||
+      (!allowStale && age >= CACHE_TTL_MS)
+    )
       return
     const raw = localStorage.getItem(CACHE_KEY)
     if (!raw) return
@@ -29,9 +34,16 @@ export async function loadSchoolCalendar(
 ): Promise<SchoolCalendarData> {
   const cached = readCache()
   if (cached) return cached
-  const response = await fetch(CALENDAR_URL, { signal })
-  if (!response.ok)
-    throw new Error(`Calendar request failed (${response.status})`)
+  let response: Response
+  try {
+    response = await fetch(CALENDAR_URL, { signal })
+    if (!response.ok)
+      throw new Error(`Calendar request failed (${response.status})`)
+  } catch (error) {
+    const fallback = readCache(true)
+    if (!signal.aborted && fallback) return fallback
+    throw error
+  }
   const payload: unknown = await response.json()
   const events = calendarSchema.parse(payload)
   signal.throwIfAborted()

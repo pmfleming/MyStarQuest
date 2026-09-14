@@ -207,6 +207,9 @@ export function useTests() {
     patch: TaskEphemeralState,
     persist: () => Promise<T>
   ) => {
+    // Native completion/reset publishes only after the activity and star change
+    // are committed together; never save an intermediate 'done' state.
+    if (isAndroidOffline()) return persist()
     const previousPatch = ephemeral[testId]
     updateEphemeral(testId, patch)
     try {
@@ -229,6 +232,9 @@ export function useTests() {
       manageTestOutcomePatch(item.taskType, attemptedAt, outcome),
       () =>
         persistTestField(item.id, {
+          ...(isAndroidOffline()
+            ? manageTestOutcomePatch(item.taskType, attemptedAt, outcome)
+            : {}),
           lastAttemptedAt: attemptedAt,
           lastAttemptDateKey: attemptedAt ? todayInfo.dateKey : '',
           lastAttemptOutcome: outcome,
@@ -250,6 +256,7 @@ export function useTests() {
           dateKey: todayInfo.dateKey,
           delta: item.starValue,
           updates: {
+            ...(isAndroidOffline() ? patch : {}),
             lastAttemptedAt: now,
             lastAttemptDateKey: todayInfo.dateKey,
             lastAttemptOutcome: 'success',

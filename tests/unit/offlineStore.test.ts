@@ -8,6 +8,7 @@ import {
 } from '../../src/offline/model'
 import { OfflineStore } from '../../src/offline/store'
 import type { OfflinePersistence } from '../../src/offline/persistence'
+import { deviceDocuments } from '../../src/offline/selectors'
 
 class MemoryPersistence implements OfflinePersistence {
   accounts = new Map<string, OfflineState>()
@@ -39,6 +40,19 @@ const seeded = () => {
 }
 
 describe('offline action model', () => {
+  it('starts a new device day without erasing yesterday’s queued completion', () => {
+    const state = seeded()
+    state.documents.chores.tidy = { title: 'Tidy', manageCompletedAt: 999 }
+    enqueue(state, completion())
+    expect(
+      deviceDocuments(state, 'chores', '2026-09-14').tidy.manageCompletedAt
+    ).toBe(1)
+    expect(
+      deviceDocuments(state, 'chores', '2026-09-15').tidy.manageCompletedAt
+    ).toBeNull()
+    expect(state.pending).toHaveLength(1)
+    expect(projectDocuments(state, 'children').child.totalStars).toBe(8)
+  })
   it('counts separate devices but suppresses repeated callbacks for one completed attempt', () => {
     const first = seeded(),
       second = seeded()
@@ -96,6 +110,20 @@ describe('offline action model', () => {
 })
 
 describe('durable offline store', () => {
+  it('can retry an initial storage failure and ignores older document snapshots', async () => {
+    const disk = new MemoryPersistence()
+    const store = new OfflineStore('parent', disk)
+    disk.fail = true
+    await expect(store.open()).rejects.toThrow('Disk full')
+    disk.fail = false
+    await store.mergeCollection('rewards', {
+      toy: { title: 'New', offlineRevision: 2 },
+    })
+    await store.mergeCollection('rewards', {
+      toy: { title: 'Old', offlineRevision: 1 },
+    })
+    expect(store.getSnapshot()?.documents.rewards.toy.title).toBe('New')
+  })
   it('survives reopening, preserves ordered IDs and isolates accounts', async () => {
     const disk = new MemoryPersistence()
     const store = new OfflineStore('parent', disk)

@@ -40,7 +40,10 @@ export class OfflineStore {
       const state = saved ?? emptyState()
       if (!saved) await this.persistence.write(this.userId, state)
       this.publish(state)
-    })()
+    })().catch((error) => {
+      this.opening = undefined
+      throw error
+    })
     return this.opening
   }
   mutate<T>(change: (draft: OfflineState) => T): Promise<T> {
@@ -65,16 +68,15 @@ export class OfflineStore {
   ) {
     return this.mutate((state) => {
       const next = { ...documents }
-      if (collection === 'children') {
-        for (const [id, document] of Object.entries(next)) {
-          const previous = state.documents.children[id]
-          if (
-            previous &&
-            Number(previous?.offlineBalanceRevision ?? 0) >
-              Number(document.offlineBalanceRevision ?? 0)
-          )
-            next[id] = previous
-        }
+      const revision =
+        collection === 'children' ? 'offlineBalanceRevision' : 'offlineRevision'
+      for (const [id, document] of Object.entries(next)) {
+        const previous = state.documents[collection][id]
+        if (
+          previous &&
+          Number(previous[revision] ?? 0) > Number(document[revision] ?? 0)
+        )
+          next[id] = previous
       }
       state.documents[collection] = next
     })

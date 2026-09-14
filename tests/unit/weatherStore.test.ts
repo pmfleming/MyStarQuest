@@ -18,6 +18,7 @@ const response = (temperature = 18) => ({
 })
 
 beforeEach(async () => {
+  localStorage.clear()
   vi.useFakeTimers().setSystemTime(new Date('2026-09-13T12:00:00Z'))
   vi.spyOn(document, 'hidden', 'get').mockReturnValue(false)
   vi.resetModules()
@@ -32,6 +33,24 @@ afterEach(async () => {
 })
 
 describe('weather cache and subscriptions', () => {
+  it('restores recent weather after restart but discards expired weather', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(response(19)))
+    await store.retryWeather(amsterdam)
+    vi.resetModules()
+    store = await import('../../src/lib/weather/weatherStore')
+    expect(store.getWeatherSnapshot(amsterdam).data?.temperature).toBe(19)
+    vi.mocked(fetch).mockRejectedValue(new Error('offline'))
+    await store.retryWeather(amsterdam)
+    expect(store.getWeatherSnapshot(amsterdam)).toMatchObject({
+      stale: true,
+      data: { temperature: 19 },
+    })
+    vi.setSystemTime(new Date('2026-09-13T15:00:00Z'))
+    vi.resetModules()
+    store = await import('../../src/lib/weather/weatherStore')
+    expect(store.getWeatherSnapshot(amsterdam).data).toBeNull()
+  })
+
   it('deduplicates subscriptions, strict remounts and refreshes at 15 minutes', async () => {
     const fetch = vi.fn().mockResolvedValue(response())
     vi.stubGlobal('fetch', fetch)

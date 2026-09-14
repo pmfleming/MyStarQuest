@@ -6,6 +6,7 @@ import {
   type CurrentWeather,
 } from './weatherData'
 import { weatherDateKey } from './weatherConditions'
+import { readWeatherCache, writeWeatherCache } from './weatherCache'
 
 export type WeatherSnapshot = {
   now: number
@@ -37,7 +38,7 @@ function entryFor(city: WeatherCity): Entry {
       city,
       snapshot: {
         now: Date.now(),
-        data: null,
+        data: readWeatherCache(city),
         loading: false,
         error: null,
         stale: false,
@@ -97,8 +98,10 @@ async function refresh(entry: Entry, force = false) {
   )
   try {
     const next = await fetchCurrentWeather(entry.city, controller.signal)
-    if (entry.controller === controller)
+    if (entry.controller === controller) {
+      writeWeatherCache(entry.city, next)
       publish(entry, { data: next, stale: false, error: null })
+    }
   } catch {
     if (entry.controller === controller) {
       const cached = entry.snapshot.data
