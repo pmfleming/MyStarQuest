@@ -10,6 +10,9 @@ import {
   type TaskRecord,
 } from './types'
 import { useUserCollection } from './useUserCollection'
+import { isAndroidOffline } from '../offline/platform'
+import { offlineRuntime } from '../offline/runtime'
+import { activityKey } from '../offline/model'
 
 type ChildTaskCollectionItem = Pick<TaskRecord, 'id' | 'createdAt' | 'title'>
 
@@ -25,6 +28,7 @@ export const useChildTaskCollection = <T extends ChildTaskCollectionItem>({
   getPersistedState,
 }: UseChildTaskCollectionArgs<T>) => {
   const { user } = useAuth()
+  const userId = user?.uid
   const { activeChildId } = useActiveChild()
   const todayInfo = useTodayInfo()
   const [ephemeral, setEphemeral] = useState<
@@ -39,6 +43,24 @@ export const useChildTaskCollection = <T extends ChildTaskCollectionItem>({
     (items: T[]) => {
       // Keep optimistic changes until their fields arrive in a subscription snapshot.
       const dateKey = getTodayDescriptor().dateKey
+      if (isAndroidOffline() && userId) {
+        const state = offlineRuntime(userId).store.getSnapshot()
+        const next = Object.fromEntries(
+          items.map((item) => [
+            item.id,
+            {
+              ...(getPersistedState ? getPersistedState(item, dateKey) : {}),
+              ...state?.activities[
+                activityKey(collectionName, item.id, dateKey)
+              ]?.patch,
+            },
+          ])
+        )
+        setEphemeral((previous) =>
+          JSON.stringify(previous) === JSON.stringify(next) ? previous : next
+        )
+        return
+      }
       const persisted = getPersistedState
         ? items.map((item) => ({
             id: item.id,
@@ -47,7 +69,7 @@ export const useChildTaskCollection = <T extends ChildTaskCollectionItem>({
         : items
       setEphemeral((previous) => reconcileTaskEphemeral(previous, persisted))
     },
-    [getPersistedState]
+    [collectionName, getPersistedState, userId]
   )
 
   const items = useUserCollection({

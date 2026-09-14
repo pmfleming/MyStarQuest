@@ -10,6 +10,9 @@ import {
   serverTimestamp,
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
+import { isAndroidOffline } from '../offline/platform'
+import { saveDocument } from '../offline/actions'
+import { offlineRuntime } from '../offline/runtime'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { redeemReward } from '../lib/starActions'
@@ -98,6 +101,17 @@ export function useRewards() {
     if (!user || !activeChildId) {
       return
     }
+    if (isAndroidOffline()) {
+      const runtime = offlineRuntime(user.uid)
+      const publish = () => {
+        const child = runtime
+          .documents('children')
+          .find((item) => item.id === activeChildId)
+        setActiveChildStars(Number(child?.data.totalStars ?? 0))
+      }
+      publish()
+      return runtime.store.subscribe(publish)
+    }
 
     const childRef = doc(db, 'users', user.uid, 'children', activeChildId)
     const unsubscribe = onSnapshot(
@@ -134,6 +148,13 @@ export function useRewards() {
     }
   ) => {
     if (!user) return
+    if (isAndroidOffline())
+      return saveDocument(user.uid, 'rewards', crypto.randomUUID(), 'put', {
+        title: settings.title,
+        costStars: Math.max(0, settings.costStars),
+        isRepeating: settings.isRepeating,
+        imageKey: settings.imageKey ?? '',
+      })
     await addDoc(collection(db, 'users', user.uid, 'rewards'), {
       title: settings.title,
       costStars: Math.max(0, settings.costStars),
@@ -160,7 +181,9 @@ export function useRewards() {
   const deleteReward = async (id: string) => {
     if (!user) return
     cancelRewardFieldUpdate(id)
-    await deleteDoc(doc(collection(db, 'users', user.uid, 'rewards'), id))
+    if (isAndroidOffline())
+      await saveDocument(user.uid, 'rewards', id, 'delete')
+    else await deleteDoc(doc(collection(db, 'users', user.uid, 'rewards'), id))
     removeTitleDraft(id)
   }
 
