@@ -1,0 +1,305 @@
+import type { AnimalKnowledge } from './animalKnowledge'
+
+type AnimalProfile = {
+  name: string
+  location: AnimalKnowledge['locationCategory']
+  habitat: AnimalKnowledge['habitatCategory']
+  food: AnimalKnowledge['foodCategory']
+  place: string
+  home: string
+  diet: string
+  ability: [label: string, visual: string, text: string]
+}
+
+// Species, source photographs and illustration prompts are recorded in
+// docs/assets/2026-09-14-animal-expansion.json.
+const profiles: AnimalProfile[] = [
+  {
+    name: 'red-panda',
+    location: 'Asia',
+    habitat: 'Forest',
+    food: 'Bamboo',
+    place: 'The eastern Himalayas and southwestern China',
+    home: 'Cool mountain forests with bamboo',
+    diet: 'Mostly bamboo leaves and shoots',
+    ability: ['CLIMB', '🌳', 'Uses curved claws to climb trees'],
+  },
+  {
+    name: 'axolotl',
+    location: 'North America',
+    habitat: 'Wetland',
+    food: 'Worms',
+    place: 'Freshwater canals around Xochimilco in Mexico',
+    home: 'Cool freshwater with muddy bottoms and water plants',
+    diet: 'Worms, insect larvae and small water animals',
+    ability: [
+      'SWIM',
+      '🌊',
+      'Swims with its finned tail and breathes through feathery gills',
+    ],
+  },
+  {
+    name: 'seahorse',
+    location: 'Ocean',
+    habitat: 'Ocean',
+    food: 'Shrimp',
+    place: 'The Mediterranean Sea and eastern Atlantic Ocean',
+    home: 'Shallow coastal water with seagrass and seaweed',
+    diet: 'Tiny shrimp and other small crustaceans',
+    ability: ['GRIP', '🌀', 'Wraps its curly tail around plants to hold on'],
+  },
+  {
+    name: 'chameleon',
+    location: 'Asia',
+    habitat: 'Trees',
+    food: 'Insects',
+    place: 'Yemen and Saudi Arabia on the Arabian Peninsula',
+    home: 'Trees and bushes in warm places',
+    diet: 'Mostly insects, with some leaves and flowers',
+    ability: [
+      'REACH',
+      '👅',
+      'Shoots out a long sticky tongue to catch insects',
+    ],
+  },
+  {
+    name: 'toucan',
+    location: 'South America',
+    habitat: 'Trees',
+    food: 'Fruit',
+    place: 'Central and eastern South America',
+    home: 'Open woodland, savannas and forest edges',
+    diet: 'Mostly fruit, with some insects and small animals',
+    ability: ['REACH', '🥭', 'Uses its long bill to reach fruit on branches'],
+  },
+  {
+    name: 'peacock',
+    location: 'Asia',
+    habitat: 'Forest',
+    food: 'Seeds & Nuts',
+    place: 'The Indian subcontinent, including Sri Lanka',
+    home: 'Open forests and scrub near water',
+    diet: 'Seeds, fruit, insects and small animals',
+    ability: ['FLY', '🪽', 'Flies up into trees to roost at night'],
+  },
+  {
+    name: 'platypus',
+    location: 'Australia',
+    habitat: 'River',
+    food: 'Insects',
+    place: 'Eastern Australia, including Tasmania',
+    home: 'Freshwater rivers and streams with burrows in the banks',
+    diet: 'Water insect larvae, worms and small crustaceans',
+    ability: ['SWIM', '🌊', 'Paddles underwater with its webbed front feet'],
+  },
+  {
+    name: 'walrus',
+    location: 'Arctic',
+    habitat: 'Coastline',
+    food: 'Shellfish',
+    place: 'Arctic seas around the North Pole',
+    home: 'Shallow icy seas, sea ice and rocky shores',
+    diet: 'Mostly clams and other animals from the sea floor',
+    ability: [
+      'FEEL',
+      '〰️',
+      'Uses sensitive whiskers to find shellfish on the sea floor',
+    ],
+  },
+  {
+    name: 'ring-tailed-lemur',
+    location: 'Africa',
+    habitat: 'Forest',
+    food: 'Fruit',
+    place: 'Southern and southwestern Madagascar',
+    home: 'Dry forests, scrub and woodland near rivers',
+    diet: 'Fruit, leaves, flowers and sometimes insects',
+    ability: [
+      'BALANCE',
+      '🌳',
+      'Uses its long striped tail to help balance while moving',
+    ],
+  },
+  {
+    name: 'porcupine',
+    location: 'Africa',
+    habitat: 'Burrow',
+    food: 'Roots',
+    place: 'Central and southern Africa',
+    home: 'Rocky hills, grassland and scrub with sheltered dens',
+    diet: 'Roots, bulbs, bark and fallen fruit',
+    ability: [
+      'ARMOUR',
+      '🛡️',
+      'Raises sharp quills for defence; it cannot shoot them',
+    ],
+  },
+  {
+    name: 'sea-turtle',
+    location: 'Ocean',
+    habitat: 'Ocean',
+    food: 'Grass',
+    place: 'Warm oceans around the world',
+    home: 'Coastal seagrass beds and reefs; nests on sandy beaches',
+    diet: 'Adult green sea turtles mostly eat seagrass and algae',
+    ability: ['SWIM', '🌊', 'Uses long front flippers to swim through the sea'],
+  },
+  {
+    name: 'squirrel',
+    location: 'Europe & Asia',
+    habitat: 'Trees',
+    food: 'Seeds & Nuts',
+    place: 'Europe and northern Asia',
+    home: 'Woodlands with nests high in trees',
+    diet: 'Seeds, nuts, fungi and some fruit',
+    ability: [
+      'CLIMB',
+      '🌳',
+      'Uses sharp claws to climb and a bushy tail to balance',
+    ],
+  },
+  {
+    name: 'puffin',
+    location: 'Ocean',
+    habitat: 'Coastline',
+    food: 'Fish',
+    place: 'The North Atlantic Ocean and its coasts',
+    home: 'Open sea; nests in burrows on coastal cliffs and islands',
+    diet: 'Small fish such as sand eels and herring',
+    ability: ['SWIM', '🌊', 'Uses its wings to swim underwater after fish'],
+  },
+  {
+    name: 'ostrich',
+    location: 'Africa',
+    habitat: 'Grassland',
+    food: 'Grass',
+    place: 'Open regions of sub-Saharan Africa',
+    home: 'Dry savannas, grassland and semi-desert',
+    diet: 'Mostly grasses, seeds and leaves, plus some insects',
+    ability: ['RUN', '💨', 'Runs fast on powerful legs instead of flying'],
+  },
+  {
+    name: 'pelican',
+    location: 'Afro-Eurasia',
+    habitat: 'Wetland',
+    food: 'Fish',
+    place: 'Parts of southeastern Europe, Asia and Africa',
+    home: 'Shallow lakes, marshes and lagoons',
+    diet: 'Mostly fish caught near the water surface',
+    ability: [
+      'CARRY',
+      '🐟',
+      'Catches fish in its stretchy throat pouch and drains out the water',
+    ],
+  },
+  {
+    name: 'capybara',
+    location: 'South America',
+    habitat: 'Wetland',
+    food: 'Grass',
+    place: 'Much of South America east of the Andes',
+    home: 'Grassy riverbanks, marshes and lakesides',
+    diet: 'Grasses and water plants',
+    ability: ['SWIM', '🌊', 'Swims well with partly webbed feet'],
+  },
+  {
+    name: 'wombat',
+    location: 'Australia',
+    habitat: 'Burrow',
+    food: 'Grass',
+    place: 'Southeastern Australia, including Tasmania',
+    home: 'Underground burrows in forests, heathland and grassland',
+    diet: 'Grasses, sedges, roots and bark',
+    ability: ['DIG', '🕳️', 'Digs long burrows with strong front claws'],
+  },
+  {
+    name: 'pangolin',
+    location: 'Africa',
+    habitat: 'Grassland',
+    food: 'Insects',
+    place: 'Parts of eastern and southern Africa',
+    home: 'Savannas and woodlands with burrows for shelter',
+    diet: 'Ants and termites caught with a sticky tongue',
+    ability: [
+      'ROLL',
+      '🌀',
+      'Curls into a ball protected by overlapping scales',
+    ],
+  },
+  {
+    name: 'anteater',
+    location: 'Americas',
+    habitat: 'Grassland',
+    food: 'Insects',
+    place: 'Parts of Central and South America',
+    home: 'Grasslands, savannas and forests',
+    diet: 'Ants and termites',
+    ability: [
+      'REACH',
+      '👅',
+      'Reaches into insect nests with a very long sticky tongue',
+    ],
+  },
+  {
+    name: 'jellyfish',
+    location: 'Ocean',
+    habitat: 'Ocean',
+    food: 'Shrimp',
+    place: 'Coastal seas, including the North Atlantic',
+    home: 'Coastal water, bays and sheltered harbours',
+    diet: 'Tiny drifting animals, including small crustaceans',
+    ability: [
+      'SWIM',
+      '🌊',
+      'Pulses its soft bell to swim and also drifts with currents',
+    ],
+  },
+  {
+    name: 'lobster',
+    location: 'Ocean',
+    habitat: 'Ocean',
+    food: 'Shellfish',
+    place: 'The eastern Atlantic and parts of the Mediterranean',
+    home: 'Rocky sea floors with cracks and holes for shelter',
+    diet: 'Mussels, crabs, worms and other small sea animals',
+    ability: [
+      'GRIP',
+      '🦞',
+      'Uses two large claws to grip and break apart food',
+    ],
+  },
+  {
+    name: 'clownfish',
+    location: 'Ocean',
+    habitat: 'Ocean',
+    food: 'Shrimp',
+    place: 'The eastern Indian Ocean and western Pacific Ocean',
+    home: 'Warm coral reefs, among sea-anemone tentacles',
+    diet: 'Tiny crustaceans, other plankton and some algae',
+    ability: [
+      'ARMOUR',
+      '🛡️',
+      'A protective mucus coat helps it live among anemone tentacles',
+    ],
+  },
+]
+
+export const ADDITIONAL_ANIMAL_NAMES = new Set(profiles.map(({ name }) => name))
+
+export const ADDITIONAL_ANIMAL_KNOWLEDGE: AnimalKnowledge[] = profiles.map(
+  ({ name, location, habitat, food, place, home, diet, ability }) => ({
+    name,
+    locationCategory: location,
+    habitatCategory: habitat,
+    foodCategory: food,
+    habitat: [
+      { label: 'PLACE', visual: '🌍', text: place },
+      { label: 'HOME', visual: '🏡', text: home },
+    ],
+    food: [
+      { label: 'DIET', visual: '🍽️', text: diet },
+      { label: 'FOOD', visual: '🍽️', text: diet },
+    ],
+    abilities: [{ label: ability[0], visual: ability[1], text: ability[2] }],
+  })
+)

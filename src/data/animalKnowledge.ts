@@ -1,6 +1,7 @@
 import type { AnimalFoodName } from './animalFoodAssets'
 import type { AnimalHabitatName } from './animalHabitatAssets'
 import type { AnimalLocationName } from './animalLocationAssets'
+import { ADDITIONAL_ANIMAL_KNOWLEDGE } from './additionalAnimalKnowledge'
 
 export type AnimalFact = {
   label: string
@@ -1797,7 +1798,7 @@ export const ANIMAL_KNOWLEDGE: AnimalKnowledge[] = (
     [keyof typeof KNOWLEDGE_SEEDS, AnimalKnowledgeSeed]
   >
 )
-  .map(([name, seed]) => {
+  .map<AnimalKnowledge>(([name, seed]) => {
     const categories = DISPLAY_CATEGORY_SEEDS[name]
     return {
       name,
@@ -1809,4 +1810,5 @@ export const ANIMAL_KNOWLEDGE: AnimalKnowledge[] = (
       abilities: makeFacts(seed.abilities),
     }
   })
+  .concat(ADDITIONAL_ANIMAL_KNOWLEDGE)
   .sort((a, b) => a.name.localeCompare(b.name))
