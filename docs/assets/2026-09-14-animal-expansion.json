@@ -1,6 +1,6 @@
 {
   "date": "2026-09-14",
-  "mode": "Built-in imagegen; one illustration per animal. Each illustration demonstrates the ability and is reused on the ability card. Photographs are licensed originals, resized and encoded without generative editing.",
+  "mode": "Built-in imagegen; one illustration per animal. Each illustration demonstrates the ability and is reused on the ability card. Photographs are licensed originals with backgrounds removed locally using BiRefNet-general segmentation through rembg, then resized and encoded as transparent WebP. No generated animal pixels.",
   "animals": [
     {
       "id": "anteater",
@@ -159,7 +159,7 @@
       "factsSource": "https://en.wikipedia.org/wiki/Ring-tailed_lemur",
       "illustration": "src/assets/animals/ring-tailed-lemur.webp",
       "photo": "src/assets/creaturePhotos/ring-tailed-lemur.webp",
-      "photoSource": "https://commons.wikimedia.org/wiki/File:Ring-tailed_lemur_(Lemur_catta).jpg",
+      "photoSource": "https://commons.wikimedia.org/wiki/File:Ring.tailed.lemur.situp.arp.jpg",
       "prompt": "Use case: illustration-story. Asset: educational Who Am I animal card, also demonstrating its ability. Create one polished friendly children's 3D storybook animal illustration with soft detailed textures, gentle expressive eyes where biologically appropriate, rounded appealing forms, natural species-accurate colours and anatomy. Lemur catta, a ring-tailed lemur with grey fur, white face, dark eye patches, yellow eyes and long black-and-white ringed tail, balancing on a small horizontal branch with its long striped tail raised. Full body entirely visible, centered and large in a square canvas with 8% clear padding. Genuinely transparent background with alpha. Only the animal and the tiny prop needed for its action. No text, labels, frame, badge, scenery, clothing or watermark. No invented extra limbs. Match a high-quality cute animal sticker collection, readable at small card size."
     },
     {
@@ -179,7 +179,7 @@
       "factsSource": "https://en.wikipedia.org/wiki/Short-snouted_seahorse",
       "illustration": "src/assets/animals/seahorse.webp",
       "photo": "src/assets/creaturePhotos/seahorse.webp",
-      "photoSource": "https://commons.wikimedia.org/wiki/File:Hippocampus_hippocampus_(on_Ascophyllum_nodosum).jpg",
+      "photoSource": "https://commons.wikimedia.org/wiki/File:Aquarium_de_Dunkerque_Hippocampus_08102017_1.jpg",
       "prompt": "Use case: illustration-story. Asset: educational Who Am I animal card, also demonstrating its ability. Create one polished friendly children's 3D storybook animal illustration with soft detailed textures, gentle expressive eyes where biologically appropriate, rounded appealing forms, natural species-accurate colours and anatomy. Hippocampus hippocampus, a golden brown short-snouted seahorse with a short tubular snout, upright body and curled tail, gripping a small piece of seagrass with its curled tail. Full body entirely visible, centered and large in a square canvas with 8% clear padding. Genuinely transparent background with alpha. Only the animal and the tiny prop needed for its action. No text, labels, frame, badge, scenery, clothing or watermark. No invented extra limbs. Match a high-quality cute animal sticker collection, readable at small card size."
     },
     {
@@ -199,7 +199,7 @@
       "factsSource": "https://en.wikipedia.org/wiki/Toco_toucan",
       "illustration": "src/assets/animals/toucan.webp",
       "photo": "src/assets/creaturePhotos/toucan.webp",
-      "photoSource": "https://commons.wikimedia.org/wiki/File:006_Toco_toucan_in_Encontro_das_%C3%81guas_State_Park_Photo_by_Giles_Laurent.jpg",
+      "photoSource": "https://commons.wikimedia.org/wiki/File:TocoToucan.jpg",
       "prompt": "Use case: illustration-story. Asset: educational Who Am I animal card, also demonstrating its ability. Create one polished friendly children's 3D storybook animal illustration with soft detailed textures, gentle expressive eyes where biologically appropriate, rounded appealing forms, natural species-accurate colours and anatomy. Ramphastos toco, a toco toucan with a large orange bill with a black tip, black body, white throat and blue eye skin, perched on a little branch reaching with its huge bill toward one small fruit. Full body entirely visible, centered and large in a square canvas with 8% clear padding. Genuinely transparent background with alpha. Only the animal and the tiny prop needed for its action. No text, labels, frame, badge, scenery, clothing or watermark. No invented extra limbs. Match a high-quality cute animal sticker collection, readable at small card size."
     },
     {
@@ -222,5 +222,15 @@
       "photoSource": "https://commons.wikimedia.org/wiki/File:Vombatus_ursinus_-Maria_Island_National_Park.jpg",
       "prompt": "Use case: illustration-story. Asset: educational Who Am I animal card, also demonstrating its ability. Create one polished friendly children's 3D storybook animal illustration with soft detailed textures, gentle expressive eyes where biologically appropriate, rounded appealing forms, natural species-accurate colours and anatomy. Vombatus ursinus, a common wombat with stocky grey-brown body, short legs, rounded ears and broad bare nose, digging a small mound of soil with its strong front claws. Full body entirely visible, centered and large in a square canvas with 8% clear padding. Genuinely transparent background with alpha. Only the animal and the tiny prop needed for its action. No text, labels, frame, badge, scenery, clothing or watermark. No invented extra limbs. Match a high-quality cute animal sticker collection, readable at small card size."
     }
-  ]
+  ],
+  "photoProcessing": {
+    "tool": "rembg",
+    "model": "birefnet-general",
+    "method": "Alpha masks applied to the original photographs, with subject selection and mask cleanup where needed. The swimming platypus uses a manually traced silhouette because automatic segmentation omitted its submerged body. Cropped and centred on a 1024px transparent canvas.",
+    "reference": "https://github.com/danielgatis/rembg",
+    "validation": "All 22 replacements have actual alpha transparency and were visually checked on light and dark backgrounds.",
+    "replacedSources": ["ring-tailed-lemur", "seahorse", "toucan"],
+    "sourceSelection": "Replaced three photographs whose foreground plants or branches obscured the animal, avoiding gaps after segmentation.",
+    "translucency": "The jellyfish black photographic matte was removed to preserve translucent tissue."
+  }
 }
