@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import RewardCelebration, {
-  type RewardCelebrationDetails,
-} from '../components/RewardCelebration'
+import { useState } from 'react'
+import RewardCelebration from '../components/RewardCelebration'
+import { useRewardCelebration } from '../hooks/useRewardCelebration'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
@@ -18,29 +17,6 @@ import type { RewardDocumentSettings } from '../data/useRewards'
 const RewardsPage = () => {
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
-  const [isRedeeming, setIsRedeeming] = useState(false)
-  const [celebration, setCelebration] = useState<
-    | (RewardCelebrationDetails & { childId: string | null; rewardId: string })
-    | null
-  >(null)
-  const [retainedReward, setRetainedReward] = useState<{
-    reward: RewardRecord
-    index: number
-    childId: string | null
-  } | null>(null)
-  const finishCelebration = useCallback(() => {
-    setCelebration(null)
-    setRetainedReward(null)
-  }, [])
-  const purchasePending = useRef(false)
-  const purchaseSession = useRef(0)
-
-  useEffect(
-    () => () => {
-      purchaseSession.current += 1
-    },
-    [activeChildId]
-  )
   const [showAddReward, setShowAddReward] = useState(false)
   const [isCreatingReward, setIsCreatingReward] = useState(false)
   const [createRewardError, setCreateRewardError] = useState<string | null>(
@@ -55,37 +31,13 @@ const RewardsPage = () => {
     deleteReward,
   } = useRewards()
 
-  const handleGiveReward = async (reward: RewardRecord) => {
-    if (purchasePending.current || celebration?.childId === activeChildId)
-      return
-    purchasePending.current = true
-    const session = purchaseSession.current
-    // Keep one-time rewards in their original card until the reveal finishes,
-    // including when the live collection removes them before the promise resolves.
-    setRetainedReward({
-      reward,
-      index: rewards.findIndex((item) => item.id === reward.id),
-      childId: activeChildId,
-    })
-    setIsRedeeming(true)
-    try {
-      const result = await giveReward(reward)
-      if (session === purchaseSession.current) {
-        setCelebration({
-          ...result,
-          imageKey: reward.imageKey,
-          childId: activeChildId,
-          rewardId: reward.id,
-        })
-      }
-    } catch (error) {
-      setRetainedReward(null)
-      throw error
-    } finally {
-      purchasePending.current = false
-      setIsRedeeming(false)
-    }
-  }
+  const {
+    isRedeeming,
+    celebration,
+    retainedReward,
+    finishCelebration,
+    handleGiveReward,
+  } = useRewardCelebration({ activeChildId, rewards, giveReward })
 
   const handleDelete = async (id: string) => {
     try {
@@ -113,8 +65,6 @@ const RewardsPage = () => {
   }
 
   const rewardListDescriptor = toStandardActionListDescriptor(
-    // The descriptor stores this click handler; it never calls it during render.
-    // eslint-disable-next-line react-hooks/refs
     createRewardDefinitionListRowDescriptor({
       theme,
       activeChildId,
