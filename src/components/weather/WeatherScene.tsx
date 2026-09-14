@@ -3,6 +3,7 @@ import type { ThemeId } from '../../ui/themeOptions'
 import {
   getWeatherWardrobe,
   getWeatherEnvironment,
+  weatherCharacterAnchors,
 } from '../../ui/weatherAssets'
 import {
   getWeatherOutfit,
@@ -21,6 +22,7 @@ function Character({
   themeId: ThemeId
 }) {
   const clipId = useId()
+  const [footX, footY] = weatherCharacterAnchors[themeId][cell]!
   // This atlas outfit is offset left of its nominal cell; exclude its neighbour.
   const [x, y, width, height] =
     themeId === 'teenie' && cell === 2
@@ -28,24 +30,31 @@ function Character({
       : [(cell % 4) * 100, Math.floor(cell / 4) * 100, 100, 100]
   return (
     <svg
-      viewBox={`${x} ${y} ${width} ${height}`}
+      viewBox="0 -2 100 104"
       preserveAspectRatio="xMidYMax meet"
       className="weather-character"
       data-weather-character
       aria-hidden="true"
     >
-      <defs>
-        <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
-          <rect x={x} y={y} width={width} height={height} />
-        </clipPath>
-      </defs>
-      <image
-        href={source}
-        width="400"
-        height="500"
-        preserveAspectRatio="none"
-        clipPath={`url(#${clipId})`}
-      />
+      <g transform={`translate(${50 - footX} ${100 - footY})`}>
+        <defs>
+          <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
+            <rect
+              x={x}
+              y={y}
+              width={width}
+              height={Math.min(height, footY - y + 0.5)}
+            />
+          </clipPath>
+        </defs>
+        <image
+          href={source}
+          width="400"
+          height="500"
+          preserveAspectRatio="none"
+          clipPath={`url(#${clipId})`}
+        />
+      </g>
     </svg>
   )
 }
