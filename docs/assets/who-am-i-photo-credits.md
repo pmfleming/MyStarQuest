@@ -271,10 +271,12 @@ The structured attribution record is [`src/data/creaturePhotoCredits.json`](../.
 ## Ibis
 
 - Asset: `ibis.webp`
-- Photographer: Rafa Esteve
-- Source: [File:Oceanografic Scarlet Ibis 02.jpg](https://commons.wikimedia.org/wiki/File:Oceanografic_Scarlet_Ibis_02.jpg)
+- Photographer: Ymblanter
+- Source: [File:Sydney Royal Botanic Gardens Australian white ibis.jpg](https://commons.wikimedia.org/wiki/File:Sydney_Royal_Botanic_Gardens_Australian_white_ibis.jpg)
 - Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
-- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+- Modifications: AI-assisted background removal and subject isolation using OpenAI imagegen; resized and centred on a transparent canvas. Animal detail may differ from the original photograph.
+- Editing mode: built-in imagegen, background extraction; exported as 1024 × 1024 WebP with alpha.
+- Prompt: "Use case: background-extraction. Edit target: the supplied photograph of an Australian white ibis. Remove only the surroundings (grass, pool, stone ledge) and isolate the existing bird on a genuinely transparent background. Preserve the photographed bird's pose, proportions, feather details, white body, black head, long curved black bill, black legs and feet. Do not redraw, stylize, recolor or invent animal features. Centre the complete bird in a square 1024x1024 canvas, fitting its entire silhouette with about 6% transparent padding above and below. No text, shadows, border or additional objects. Preserve photographic realism and use real alpha transparency."
 
 ## Jackal
 
