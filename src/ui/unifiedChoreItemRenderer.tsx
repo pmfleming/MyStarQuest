@@ -1,4 +1,4 @@
-import { getThemeAsset } from './themeAssets'
+import { getTaskSuccessImage } from './taskSuccessImage'
 import type { ReactNode } from 'react'
 import ActionTextInput from '../components/ui/ActionTextInput'
 import ChoreOutcomeView from '../components/ChoreOutcomeView'
@@ -101,8 +101,7 @@ const renderChoreContent = (
       />
     )
   }
-  if (type === 'standard')
-    return renderStandardContent(deps, state, item, stage)
+  if (type === 'standard') return renderStandardContent(deps, item, stage)
   if (type === 'eating') return renderEatingContent(deps, state, item, stage)
   if (type === 'watertoiletcheck') {
     return renderWaterToiletContent(deps, state, item, stage)
@@ -112,17 +111,13 @@ const renderChoreContent = (
 
 const renderStandardContent = (
   deps: UnifiedChoreDeps,
-  state: UnifiedChoreState,
   item: UnifiedChoreItem,
   stage: ChoreStage
 ) => {
   if (stage === 'completed') {
     return (
       <ChoreOutcomeView
-        imageSrc={
-          getChoreImage(item.imageKey, deps.theme.id) ??
-          state.themedAsset(getThemeAsset(deps.theme.id, 'quizCorrectImage'))
-        }
+        imageSrc={getTaskSuccessImage(item, deps.theme)}
         outcome="success"
       />
     )

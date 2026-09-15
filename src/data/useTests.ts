@@ -242,7 +242,10 @@ export function useTests() {
     )
   }
 
-  const completeTest = async (item: TestWithEphemeral) => {
+  const completeTest = async (
+    item: TestWithEphemeral,
+    onAward?: (delta: number, starsBefore?: number) => void
+  ) => {
     const now = Date.now()
     const patch = calculateAwardTaskPatch(item, now)
     if (user && activeChildId) {
@@ -267,7 +270,10 @@ export function useTests() {
           deleteOnComplete: !item.isRepeating,
         })
       )
-      if (result.appliedDelta > 0) celebrateSuccess()
+      if (result.appliedDelta > 0) {
+        if (onAward) onAward(result.appliedDelta, result.starsBefore)
+        else celebrateSuccess()
+      }
     } else {
       updateEphemeral(item.id, patch)
     }

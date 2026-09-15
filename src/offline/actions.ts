@@ -69,6 +69,9 @@ export function offlineCompletion(options: {
   deleteOnComplete?: boolean
 }) {
   return offlineRuntime(options.userId).store.mutate((state) => {
+    const starsBefore = starBalance(
+      projectDocuments(state, 'children')[options.childId] ?? {}
+    )
     const saved = projectDocuments(state, options.taskCollection)[
       options.taskId
     ]
@@ -99,6 +102,7 @@ export function offlineCompletion(options: {
     return {
       appliedDelta: operation ? options.delta : 0,
       wasAlreadyAwarded: !operation,
+      starsBefore,
     }
   })
 }

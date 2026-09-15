@@ -114,7 +114,11 @@ export const completeTaskAndAwardStars = async (options: {
       })
     }
 
-    return { appliedDelta: clampedDelta, wasAlreadyAwarded: false }
+    return {
+      appliedDelta: clampedDelta,
+      wasAlreadyAwarded: false,
+      starsBefore: currentStars,
+    }
   })
 }
 

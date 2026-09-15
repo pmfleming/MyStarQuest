@@ -8,6 +8,7 @@ import type {
 } from './unifiedChoreDescriptorTypes'
 import type { UnifiedChoreState } from './unifiedChoreState'
 import { getWaterToiletOutcomeImage } from './waterToiletAssets'
+import { getTaskSuccessImage } from './taskSuccessImage'
 
 export const renderWaterToiletContent = (
   deps: UnifiedChoreDeps,
@@ -25,7 +26,11 @@ export const renderWaterToiletContent = (
     )
     return (
       <ChoreOutcomeView
-        imageSrc={getWaterToiletOutcomeImage(deps.theme, outcome)}
+        imageSrc={
+          outcome === 'success'
+            ? getTaskSuccessImage(item, deps.theme)
+            : getWaterToiletOutcomeImage(deps.theme, outcome)
+        }
         outcome={outcome}
       />
     )

@@ -53,7 +53,7 @@ export const useChoreActivityActions = ({
   ) => {
     if (!user || !activeChildId) {
       await updateEphemeral(item.id, updates)
-      return 0
+      return { appliedDelta: 0, starsBefore: undefined }
     }
     const result = await completeTaskAndAwardStars({
       userId: user.uid,
@@ -65,10 +65,13 @@ export const useChoreActivityActions = ({
       updates,
       deleteOnComplete: !item.isRepeating,
     })
-    return result.appliedDelta
+    return result
   }
 
-  const applyBite = async (item: TaskWithEphemeral) => {
+  const applyBite = async (
+    item: TaskWithEphemeral,
+    onAward?: (delta: number, starsBefore?: number) => void
+  ) => {
     if (!isEatingTask(item)) return false
     const result = calculateNextDinnerBiteState(
       getManageDinnerBitesLeft(item),
@@ -99,7 +102,8 @@ export const useChoreActivityActions = ({
       manageDinnerTimerStartedAt: null,
       manageDinnerRemainingSeconds: frozenRemaining,
     }
-    await persistCompletion(item, completionPatch, item.starValue)
+    const award = await persistCompletion(item, completionPatch, item.starValue)
+    if (award.appliedDelta > 0) onAward?.(award.appliedDelta, award.starsBefore)
     return true
   }
 
@@ -141,13 +145,19 @@ export const useChoreActivityActions = ({
     })
   }
 
-  const completeChore = async (task: TaskWithEphemeral) => {
-    const appliedDelta = await persistCompletion(
+  const completeChore = async (
+    task: TaskWithEphemeral,
+    onAward?: (delta: number, starsBefore?: number) => void
+  ) => {
+    const result = await persistCompletion(
       task,
       calculateAwardTaskPatch(task, Date.now()),
       getCompletionDelta(task)
     )
-    if (appliedDelta > 0) celebrateSuccess()
+    if (result.appliedDelta > 0) {
+      if (onAward) onAward(result.appliedDelta, result.starsBefore)
+      else celebrateSuccess()
+    }
   }
 
   const failChore = async (item: TaskWithEphemeral) => {

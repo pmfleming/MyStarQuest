@@ -84,18 +84,22 @@ describe('chore completion persistence', () => {
     vi.mocked(completeTaskAndAwardStars).mockResolvedValue({
       appliedDelta: 3,
       wasAlreadyAwarded: false,
+      starsBefore: 12,
     })
     const actions = setup()
+    const onAward = vi.fn()
     await expect(
-      actions.applyBite({ ...dinner, manageDinnerBitesLeft: 2 })
+      actions.applyBite({ ...dinner, manageDinnerBitesLeft: 2 }, onAward)
     ).resolves.toBe(false)
+    expect(onAward).not.toHaveBeenCalled()
     expect(actions.updateEphemeral).toHaveBeenCalledWith('dinner', {
       manageDinnerBitesLeft: 1,
     })
-    const pending = actions.applyBite(dinner)
+    const pending = actions.applyBite(dinner, onAward)
     expect(completeTaskAndAwardStars).not.toHaveBeenCalled()
     await vi.advanceTimersByTimeAsync(850)
     await expect(pending).resolves.toBe(true)
+    expect(onAward).toHaveBeenCalledExactlyOnceWith(3, 12)
     const patch = {
       manageDinnerBitesLeft: 0,
       manageDinnerCompletedAt: 20_850,

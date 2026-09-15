@@ -16,6 +16,7 @@ import type {
 import type { UnifiedChoreState } from './unifiedChoreState'
 import { clamp } from './unifiedChoreRenderUtils'
 import { clampDinnerSliceCount } from '../data/taskLimits'
+import { getTaskSuccessImage } from './taskSuccessImage'
 
 export const renderEatingContent = (
   deps: UnifiedChoreDeps,
@@ -79,9 +80,7 @@ const renderEatingTask = (
     onExpire: () => deps.onExpireDinner?.(item),
     isCompleted,
     ...state.testOutcomeImages(),
-    completionImage: state.themedAsset(
-      getThemeAsset(deps.theme.id, 'eatingFullImage')
-    ),
+    completionImage: getTaskSuccessImage(item, deps.theme),
     biteCooldownSeconds: deps.biteCooldownSeconds,
     biteCooldownEndsAt: deps.biteCooldownEndsAt,
     biteIcon: state.themedAsset(deps.activeMealIcon),

@@ -17,12 +17,18 @@ interface Props {
   reward: RewardCelebrationDetails
   theme: Theme
   onComplete: () => void
+  mode?: 'purchase' | 'earned'
+  imageSrc?: string
+  finished?: boolean
 }
 
 export default function RewardCelebration({
   reward,
   theme,
   onComplete,
+  mode = 'purchase',
+  imageSrc,
+  finished = false,
 }: Props) {
   const [reducedMotion] = useState(
     () =>
@@ -31,13 +37,15 @@ export default function RewardCelebration({
   const [balance, setBalance] = useState(
     reducedMotion ? reward.starsAfter : reward.starsBefore
   )
-  const image = getRewardImage(reward.imageKey)
+  const image = imageSrc ?? getRewardImage(reward.imageKey)
+  const earned = mode === 'earned'
   const starCount = Math.min(
     7,
-    Math.ceil(reward.starsBefore - reward.starsAfter)
+    Math.ceil(Math.abs(reward.starsBefore - reward.starsAfter))
   )
 
   useEffect(() => {
+    if (finished) return
     let frame = 0
     let start: number | undefined
     const tick = (now: number) => {
@@ -60,26 +68,35 @@ export default function RewardCelebration({
       cancelAnimationFrame(frame)
       clearTimeout(finishTimer)
     }
-  }, [reward, reducedMotion, onComplete])
+  }, [reward, reducedMotion, onComplete, finished])
 
   return (
     <div
-      className="reward-celebration"
+      className={
+        earned
+          ? 'reward-celebration reward-celebration--earned'
+          : 'reward-celebration'
+      }
       role="status"
-      aria-label={`${reward.title} purchased`}
+      aria-label={
+        finished
+          ? 'All done!'
+          : `${reward.title} ${earned ? 'completed' : 'purchased'}`
+      }
       style={
         {
           '--reward-primary': theme.colors.primary,
           '--reward-pace': CELEBRATION_PACE,
           '--reward-accent': theme.colors.accent,
           color: theme.colors.text,
-          background: theme.colors.surface,
+          background: earned ? 'transparent' : theme.colors.surface,
         } as CSSProperties
       }
     >
       <span className="sr-only">
-        {reward.starsBefore - reward.starsAfter} stars spent.{' '}
-        {reward.starsAfter} stars remaining.
+        {Math.abs(reward.starsBefore - reward.starsAfter)} stars{' '}
+        {earned ? 'earned' : 'spent'}. {reward.starsAfter} stars{' '}
+        {earned ? 'total' : 'remaining'}.
       </span>
       <div className="reward-celebration__balance" aria-hidden="true">
         <img src={starSvgUrl} alt="" />
@@ -116,7 +133,7 @@ export default function RewardCelebration({
               {
                 '--sparkle-x': `${Math.cos((index * Math.PI) / 4) * 48}px`,
                 '--sparkle-y': `${Math.sin((index * Math.PI) / 4) * 40}px`,
-                animationDelay: `${(1150 + index * 35) * CELEBRATION_PACE}ms`,
+                animationDelay: `${((earned ? 1850 : 1150) + index * 35) * CELEBRATION_PACE}ms`,
               } as CSSProperties
             }
           >

@@ -14,6 +14,7 @@ import { useTaskActivityState } from '../hooks/useTaskActivityState'
 import { useTestCheckTriggers } from '../hooks/useTestCheckTriggers'
 import { createTestActivityBindings } from '../ui/testActivityBindings'
 import { filterActiveChildItems } from '../data/dailyTaskState'
+import { useTaskCelebration } from '../hooks/useTaskCelebration'
 
 const TestsPage = () => {
   const { activeChildId } = useActiveChild()
@@ -32,6 +33,12 @@ const TestsPage = () => {
 
   const activity = useTaskActivityState()
   const activeChild = children.find((child) => child.id === activeChildId)
+  const celebration = useTaskCelebration({
+    items: tests,
+    activeChildId,
+    dateKey: todayInfo.dateKey,
+    totalStars: activeChild?.totalStars ?? 0,
+  })
   const testFailureModeEnabled = activeChild?.testFailureModeEnabled ?? true
   const clearActivityIds = activity.clearActiveActivities
   const triggers = useTestCheckTriggers()
@@ -42,21 +49,27 @@ const TestsPage = () => {
     clearCheckTriggers()
   }, [activeChildId, clearActivityIds, clearCheckTriggers, todayInfo.dateKey])
 
-  const descriptor = createUnifiedChoreDescriptor({
-    theme,
-    mode: 'today',
-    onUpdateTaskField: updateTestField,
-    onUpdateEphemeral: updateEphemeral,
-    ...createTestActivityBindings({
-      activity,
-      triggers,
-      completeTest,
-      failTest,
-      resetTest,
+  const descriptor = celebration.decorate(
+    createUnifiedChoreDescriptor({
+      theme,
+      mode: 'today',
+      onUpdateTaskField: updateTestField,
+      onUpdateEphemeral: updateEphemeral,
+      ...createTestActivityBindings({
+        activity,
+        triggers,
+        completeTest: (test) =>
+          celebration.run(test, tests, (onAward) =>
+            completeTest(test, onAward)
+          ),
+        failTest,
+        resetTest,
+      }),
+      hideDeleteUtility: true,
+      testFailureModeEnabled,
     }),
-    hideDeleteUtility: true,
-    testFailureModeEnabled,
-  })
+    theme
+  )
 
   const visibleTests = useMemo(
     () => filterActiveChildItems(tests, activeChildId),
@@ -85,7 +98,7 @@ const TestsPage = () => {
         ) : (
           <StandardActionList
             theme={theme}
-            items={visibleTests}
+            items={celebration.retainItems(visibleTests)}
             getKey={(test) => test.id}
             getItemLabel={(test) => test.title}
             {...toStandardActionListDescriptor(descriptor)}
