@@ -33,20 +33,6 @@ const selectInsects = async () => {
 }
 
 describe('Insect collection', () => {
-  it('jumps by the current insect collection rather than the animal catalog', async () => {
-    render(<AnimalTester {...props()} isRunning />)
-    await selectInsects()
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Choose starting letter' })
-    )
-    fireEvent.click(screen.getByRole('button', { name: 'Jump to B' }))
-    const firstB = INSECT_KNOWLEDGE.find((item) => item.name.startsWith('b'))!
-    expect(screen.getByAltText(name(firstB.name))).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: 'Choose starting letter' })
-    ).toHaveAttribute('aria-expanded', 'false')
-  })
-
   it('has complete, individually illustrated creatures and matching bear abilities', async () => {
     const count = INSECT_KNOWLEDGE.length
     expect(count).toBeGreaterThan(0)

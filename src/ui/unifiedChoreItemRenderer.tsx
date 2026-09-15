@@ -1,4 +1,4 @@
-import { getThemeAsset } from './themeAssets'
+import { getTaskSuccessImage } from './taskSuccessImage'
 import type { ReactNode } from 'react'
 import ActionTextInput from '../components/ui/ActionTextInput'
 import ChoreOutcomeView from '../components/ChoreOutcomeView'
@@ -15,11 +15,7 @@ import {
   shouldHidePresetChoreTitle,
   type ChoreStage,
 } from './choreModeDefinitions'
-import {
-  getChoreType,
-  isTaskItem,
-  type UnifiedChoreState,
-} from './unifiedChoreState'
+import type { UnifiedChoreState } from './unifiedChoreState'
 import { renderEatingContent } from './unifiedEatingRenderer'
 import { renderTestContent } from './unifiedTestRenderer'
 import { renderWaterToiletContent } from './unifiedWaterToiletRenderer'
@@ -45,10 +41,7 @@ export const renderUnifiedChoreItem = (
       }}
     >
       {content}
-      {isManage &&
-        stage === 'setup' &&
-        isTaskItem(item) &&
-        deps.renderDayTypeControl?.(item)}
+      {isManage && stage === 'setup' && deps.renderDayTypeControl?.(item)}
     </div>
   )
 }
@@ -60,7 +53,7 @@ export const renderUnifiedChoreHeader = (
 ): ReactNode => {
   const stage = state.getStage(item)
   if (shouldHidePresetChoreTitle(stage)) return null
-  const type = getChoreType(item)
+  const type = item.taskType
   const titleLabel = isTestType(type) ? 'Test Name' : 'Chore Name'
   return deps.mode === 'manage' ? (
     <ActionTextInput
@@ -92,7 +85,7 @@ const renderChoreContent = (
   item: UnifiedChoreItem,
   stage: ChoreStage
 ) => {
-  const type = getChoreType(item)
+  const type = item.taskType
   const overviewImage = getPresetChoreOverviewImage(type, deps.theme.id)
   if (deps.mode === 'today' && stage === 'setup' && overviewImage) {
     return (
@@ -108,35 +101,30 @@ const renderChoreContent = (
       />
     )
   }
-  if (type === 'standard')
-    return renderStandardContent(deps, state, item, stage)
+  if (type === 'standard') return renderStandardContent(deps, item, stage)
   if (type === 'eating') return renderEatingContent(deps, state, item, stage)
   if (type === 'watertoiletcheck') {
     return renderWaterToiletContent(deps, state, item, stage)
   }
-  return renderTestContent(deps, state, item, stage)
+  return renderTestContent(deps, state, item)
 }
 
 const renderStandardContent = (
   deps: UnifiedChoreDeps,
-  state: UnifiedChoreState,
   item: UnifiedChoreItem,
   stage: ChoreStage
 ) => {
   if (stage === 'completed') {
     return (
       <ChoreOutcomeView
-        imageSrc={
-          getChoreImage(item.imageKey, deps.theme.id) ??
-          state.themedAsset(getThemeAsset(deps.theme.id, 'quizCorrectImage'))
-        }
+        imageSrc={getTaskSuccessImage(item, deps.theme)}
         outcome="success"
       />
     )
   }
 
   const standardImage = getChoreImage(item.imageKey, deps.theme.id)
-  const editable = deps.mode === 'manage' && isTaskItem(item)
+  const editable = deps.mode === 'manage'
   const imageOptions = getChoreImageOptions(deps.theme.id)
 
   return (

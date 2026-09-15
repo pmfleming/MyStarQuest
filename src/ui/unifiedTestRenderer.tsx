@@ -13,10 +13,7 @@ import {
   type TaskUpdatableFields,
   type TaskWithEphemeral,
   type TestType,
-  type TodoRecord,
-  type TodoUpdatableFields,
 } from '../data/types'
-import type { ChoreStage } from './choreModeDefinitions'
 import {
   renderAlphabetChore,
   renderAnimalsChore,
@@ -25,65 +22,44 @@ import {
   renderPositionalNotationChore,
   renderSpellingChore,
 } from './presetChoreRenderers'
-import type {
-  UnifiedChoreDeps,
-  UnifiedChoreItem,
-} from './unifiedChoreDescriptorTypes'
-import { isTaskItem, type UnifiedChoreState } from './unifiedChoreState'
-import { clamp, noop } from './unifiedChoreRenderUtils'
+import type { UnifiedChoreDeps } from './unifiedChoreDescriptorTypes'
+import type { UnifiedChoreState } from './unifiedChoreState'
+import { clamp } from './unifiedChoreRenderUtils'
 
 type TestTaskItem = Extract<TaskWithEphemeral, { taskType: TestType }>
-type TestTodoItem = Extract<TodoRecord, { sourceTaskType: TestType }>
 type ProblemField = Extract<keyof TaskUpdatableFields, `${string}TotalProblems`>
 type ActivityRenderer = (props: ActivityChoreProps) => ReactNode
-
-export const renderTestContent = (
-  deps: UnifiedChoreDeps,
-  state: UnifiedChoreState,
-  item: UnifiedChoreItem,
-  stage: ChoreStage
-) => {
-  if (isTaskItem(item)) return renderTaskTest(deps, state, item)
-  if (stage !== 'activity' && stage !== 'completed') return null
-  return renderTodoTest(deps, state, item)
-}
 
 // Each activity keeps its field names, defaults, and renderer together.
 const testActivities = {
   math: {
     problemField: 'mathTotalProblems',
     defaultProblems: DEFAULT_MATH_PROBLEMS,
-    outcomeField: 'mathLastOutcome',
     render: renderArithmeticChore,
   },
   'large-numbers': {
     problemField: 'largeNumbersTotalProblems',
     defaultProblems: DEFAULT_LARGE_NUMBERS_PROBLEMS,
-    outcomeField: 'largeNumbersLastOutcome',
     render: renderLargeNumbersChore,
   },
   'positional-notation': {
     problemField: 'pvTotalProblems',
     defaultProblems: DEFAULT_PV_PROBLEMS,
-    outcomeField: 'pvLastOutcome',
     render: renderPositionalNotationChore,
   },
   alphabet: {
     problemField: 'alphabetTotalProblems',
     defaultProblems: DEFAULT_ALPHABET_PROBLEMS,
-    outcomeField: 'alphabetLastOutcome',
     render: renderAlphabetChore,
   },
   spelling: {
     problemField: 'spellingTotalProblems',
     defaultProblems: DEFAULT_SPELLING_PROBLEMS,
-    outcomeField: 'spellingLastOutcome',
     render: renderSpellingChore,
   },
   animals: {
     problemField: 'animalsTotalProblems',
     defaultProblems: DEFAULT_ANIMALS_PROBLEMS,
-    outcomeField: 'animalsLastOutcome',
     render: renderAnimalsChore,
   },
 } satisfies {
@@ -93,15 +69,11 @@ const testActivities = {
       ProblemField
     >
     defaultProblems: number
-    outcomeField: Extract<
-      keyof Extract<TestTodoItem, { sourceTaskType: Type }>,
-      `${string}LastOutcome`
-    >
     render: ActivityRenderer
   }
 }
 
-const renderTaskTest = (
+export const renderTestContent = (
   deps: UnifiedChoreDeps,
   state: UnifiedChoreState,
   item: TaskWithEphemeral
@@ -149,33 +121,5 @@ const renderTaskTest = (
     checkTrigger: deps.checkTriggers[type]?.[item.id] ?? 0,
     completionImage: outcomeImages.completionImage,
     failureImage: failureModeEnabled ? outcomeImages.failureImage : undefined,
-  })
-}
-
-const renderTodoTest = (
-  deps: UnifiedChoreDeps,
-  state: UnifiedChoreState,
-  item: TodoRecord
-): ReactNode | null => {
-  if (!isTestType(item.sourceTaskType)) return null
-  const type = item.sourceTaskType
-  const activity = testActivities[type]
-  const fields: TaskUpdatableFields = item
-  const outcomes: TodoUpdatableFields = item
-  return activity.render({
-    theme: deps.theme,
-    totalProblems: fields[activity.problemField] ?? activity.defaultProblems,
-    starReward: item.starValue,
-    isEditable: false,
-    isRunning: deps.activeIds[type] === item.id,
-    isCompleted: state.isCompleted(item),
-    isFailed: outcomes[activity.outcomeField] === 'failure',
-    onAdjustProblems: noop,
-    onStarsChange: noop,
-    onExit: deps.onExitActivity,
-    onComplete: () => deps.onComplete?.(item),
-    onFail: () => deps.onFail?.(item),
-    checkTrigger: deps.checkTriggers[type]?.[item.id] ?? 0,
-    ...state.testOutcomeImages(),
   })
 }

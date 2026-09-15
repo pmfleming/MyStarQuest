@@ -9,10 +9,13 @@ import {
   type OrderByDirection,
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
+import { isAndroidOffline } from '../offline/platform'
+import { offlineRuntime } from '../offline/runtime'
+import type { CollectionName } from '../offline/model'
 
 type UseUserCollectionArgs<T> = {
   userId: string | undefined
-  collectionName: string
+  collectionName: CollectionName
   orderByField?: string
   orderDirection?: OrderByDirection
   whereEqualToField?: string
@@ -43,6 +46,36 @@ export const useUserCollection = <T>({
     if (!userId) {
       onClear?.()
       return
+    }
+
+    if (isAndroidOffline()) {
+      const runtime = offlineRuntime(userId)
+      const publish = () => {
+        const mapped = runtime
+          .documents(collectionName)
+          .flatMap(({ id, data }) => {
+            if (
+              whereEqualToField &&
+              data[whereEqualToField] !== whereEqualToValue
+            )
+              return []
+            const item = mapDocument(id, data)
+            return item ? [item] : []
+          })
+        const nextItems = normalizeItems ? normalizeItems(mapped) : mapped
+        setItems(nextItems)
+        onItems?.(nextItems)
+      }
+      const unsubscribe = runtime.store.subscribe(publish)
+      void runtime.store.open().then(publish).catch(runtime.report)
+      // Refresh day-scoped progress while open, and immediately after resuming.
+      const interval = setInterval(publish, 30_000)
+      document.addEventListener('visibilitychange', publish)
+      return () => {
+        unsubscribe()
+        clearInterval(interval)
+        document.removeEventListener('visibilitychange', publish)
+      }
     }
 
     const baseCollection = collection(db, 'users', userId, collectionName)

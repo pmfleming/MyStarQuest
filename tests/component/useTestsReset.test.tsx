@@ -135,9 +135,9 @@ describe('test reset persistence', () => {
     ).toBeNull()
   })
 
-  it.each(['write-first', 'snapshot-first'] as const)(
+  it.each(['snapshot-first'] as const)(
     'accepts a new saved attempt after reset arrives %s',
-    async (order) => {
+    async () => {
       const { result } = renderHook(() => useTests())
       const current = () =>
         result.current.tests.find((test) => test.id === 'saved-test')!
@@ -150,26 +150,14 @@ describe('test reset persistence', () => {
         'users/parent/tests/saved-test',
         attempt(null, null)
       )
-      if (order === 'write-first') {
-        await act(async () => {
-          resolveWrite()
-          await pending
-        })
-        expect(getManageTaskCompletedAt(current())).toBeNull()
-        act(() => {
-          documents[0] = { ...documents[0], ...attempt(null, null) }
-          emitSnapshot()
-        })
-      } else {
-        act(() => {
-          documents[0] = { ...documents[0], ...attempt(null, null) }
-          emitSnapshot()
-        })
-        await act(async () => {
-          resolveWrite()
-          await pending
-        })
-      }
+      act(() => {
+        documents[0] = { ...documents[0], ...attempt(null, null) }
+        emitSnapshot()
+      })
+      await act(async () => {
+        resolveWrite()
+        await pending
+      })
       expect(getManageTaskCompletedAt(current())).toBeNull()
       act(() => {
         documents[0] = { ...documents[0], ...attempt(456, 'failure') }

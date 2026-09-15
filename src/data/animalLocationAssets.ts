@@ -1,6 +1,7 @@
 import africaImage from '../assets/animal-locations/expanded/africa.webp'
 import southAmericaImage from '../assets/animal-locations/expanded/south-america.webp'
 import asiaImage from '../assets/animal-locations/expanded/asia.webp'
+import europeAsiaImage from '../assets/animal-locations/expanded/europe-asia.svg'
 import australiaImage from '../assets/animal-locations/expanded/australia.webp'
 import northAmericaImage from '../assets/animal-locations/expanded/north-america.webp'
 import americasImage from '../assets/animal-locations/expanded/americas.webp'
@@ -25,6 +26,7 @@ export const ANIMAL_LOCATIONS = {
   Africa: { label: 'Africa', image: africaImage },
   'South America': { label: 'South America', image: southAmericaImage },
   Asia: { label: 'Asia', image: asiaImage },
+  'Europe & Asia': { label: 'Europe & Asia', image: europeAsiaImage },
   Australia: { label: 'Australia', image: australiaImage },
   'North America': { label: 'North America', image: northAmericaImage },
   Americas: { label: 'Americas', image: americasImage },

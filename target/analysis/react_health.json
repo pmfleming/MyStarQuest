@@ -13,10 +13,10 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T22:16:12.173Z",
+    "measured_at": "2026-09-14T16:21:39.332Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5e4567c47759bae79c0f190ad4744f6bb5e877cc7622756d59280e4896e634c9",
-    "input_set_hash": "sha256:9a69b8c720c6869456d136bb95901286ad408420f741365e599936c643a03e72"
+    "source_set_hash": "sha256:87bc369e934fd911632c8d792f2b9eb5ada60380fea8bdb440fd60a00f611ec6",
+    "input_set_hash": "sha256:cf49e645865805c3bb360ea9cf4482ecb2ecab80733bdfa7dae31da2a07938b1"
   },
   "analysis_identity": {
     "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
@@ -105,13 +105,13 @@
     "stale_input": []
   },
   "summary": {
-    "components": 115,
-    "records": 125,
+    "components": 118,
+    "records": 128,
     "hook_lint_findings": 0,
     "a11y_findings": 9,
     "a11y_tool_findings": 9,
     "a11y_heuristic_findings": 0,
-    "high_risk_components": 27
+    "high_risk_components": 28
   },
   "framework": {
     "framework": "vite",
@@ -1089,6 +1089,41 @@
             "id": "component:src/components/PositionalNotation:PositionalNotation",
             "kind": "component",
             "file": "src/components/PositionalNotation.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/RewardCelebration:RewardCelebration",
+      "module_id": "src/components/RewardCelebration",
+      "file": "src/components/RewardCelebration.tsx",
+      "name": "RewardCelebration",
+      "line": 22,
+      "score": 68,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/RewardCelebration:RewardCelebration",
+            "kind": "component",
+            "file": "src/components/RewardCelebration.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -4084,6 +4119,82 @@
       ]
     },
     {
+      "id": "component:src/offline/OfflineBoundary:AccountOfflineBoundary",
+      "module_id": "src/offline/OfflineBoundary",
+      "file": "src/offline/OfflineBoundary.tsx",
+      "name": "AccountOfflineBoundary",
+      "line": 6,
+      "score": 77,
+      "risk": "high",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/offline/OfflineBoundary:AccountOfflineBoundary",
+            "kind": "component",
+            "file": "src/offline/OfflineBoundary.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/offline/OfflineBoundary:OfflineBoundary",
+      "module_id": "src/offline/OfflineBoundary",
+      "file": "src/offline/OfflineBoundary.tsx",
+      "name": "OfflineBoundary",
+      "line": 71,
+      "score": 17,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/offline/OfflineBoundary:OfflineBoundary",
+            "kind": "component",
+            "file": "src/offline/OfflineBoundary.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/pages/ChoreCreationFlow:ChoreCreationFlow",
       "module_id": "src/pages/ChoreCreationFlow",
       "file": "src/pages/ChoreCreationFlow.tsx",
@@ -4299,10 +4410,14 @@
       "module_id": "src/pages/RewardsPage",
       "file": "src/pages/RewardsPage.tsx",
       "name": "RewardsPage",
-      "line": 15,
-      "score": 96,
+      "line": 17,
+      "score": 114,
       "risk": "high",
       "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 158
+        },
         {
           "kind": "many_hooks",
           "value": 7
@@ -4507,8 +4622,8 @@
       "module_id": "src/routes/ProtectedDataRoute",
       "file": "src/routes/ProtectedDataRoute.tsx",
       "name": "ProtectedDataRoute",
-      "line": 4,
-      "score": 1,
+      "line": 5,
+      "score": 2,
       "risk": "low",
       "signals": [],
       "kind": "component",

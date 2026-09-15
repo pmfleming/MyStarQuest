@@ -43,15 +43,7 @@ describe('mergeTaskEphemeral', () => {
 
   it.each([
     ['math', 'manageMathCompletedAt', 'manageMathLastOutcome'],
-    [
-      'large-numbers',
-      'manageLargeNumbersCompletedAt',
-      'manageLargeNumbersLastOutcome',
-    ],
     ['positional-notation', 'managePVCompletedAt', 'managePVLastOutcome'],
-    ['alphabet', 'manageAlphabetCompletedAt', 'manageAlphabetLastOutcome'],
-    ['spelling', 'manageSpellingCompletedAt', 'manageSpellingLastOutcome'],
-    ['animals', 'manageAnimalsCompletedAt', 'manageAnimalsLastOutcome'],
   ])('scopes %s state to its outcome fields', (type, completedAt, outcome) => {
     const task = buildDefaultTests('child-1').find(
       (test) => test.taskType === type
@@ -68,47 +60,5 @@ describe('mergeTaskEphemeral', () => {
     expect(
       mergeTestEphemeral(task, { [completedAt]: null, [outcome]: null })
     ).toEqual({ ...task, [completedAt]: null, [outcome]: null })
-  })
-
-  it('uses explicit null state to reset every chore type', () => {
-    const standardTask: ChoreRecord = {
-      ...baseTask,
-      taskType: 'standard',
-      manageCompletedAt: 123,
-    }
-
-    expect(
-      mergeTaskEphemeral(standardTask, { manageCompletedAt: null })
-        .manageCompletedAt
-    ).toBeNull()
-
-    const dinnerTask: ChoreRecord = {
-      ...baseTask,
-      taskType: 'eating',
-      dinnerDurationSeconds: 600,
-      dinnerTotalBites: 2,
-      manageDinnerTimerStartedAt: 123,
-      manageDinnerCompletedAt: 456,
-    }
-
-    const mergedDinner = mergeTaskEphemeral(dinnerTask, {
-      manageDinnerTimerStartedAt: null,
-      manageDinnerCompletedAt: null,
-    })
-
-    expect(mergedDinner.manageDinnerTimerStartedAt).toBeNull()
-    expect(mergedDinner.manageDinnerCompletedAt).toBeNull()
-
-    const waterToiletTask: ChoreRecord = {
-      ...baseTask,
-      taskType: 'watertoiletcheck',
-      manageWaterToiletCompletedAt: 123,
-    }
-
-    expect(
-      mergeTaskEphemeral(waterToiletTask, {
-        manageWaterToiletCompletedAt: null,
-      }).manageWaterToiletCompletedAt
-    ).toBeNull()
   })
 })

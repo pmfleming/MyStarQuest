@@ -1,0 +1,966 @@
+{
+  "baseline_commit": "28c90c7fddd77275e534d276514e17f00b7ca184",
+  "lens": {
+    "version": "0.3.0",
+    "revision": "986c6fd9cc82627866156ba0cf22cb1504ab8587",
+    "remote_main_verified": "2026-09-14"
+  },
+  "methodology": "Fresh baseline and final measurements use the same Lens, configs, exclusions and Git history. Lines sum file metrics; complexity/effort sum callable metrics; locality/leverage sum module risks (lower is better). These are comparison aggregates, not official project-wide Lens scores. Physical code counts include authored src, functions/src and tests TS/JS files; reports and generated files are excluded. No suppression or analysis configuration changes.",
+  "frontend": {
+    "before": {
+      "source_lines": 28253,
+      "cognitive_complexity": 1466,
+      "cyclomatic_complexity": 2016,
+      "halstead_effort": 9802750,
+      "clone_groups": 4,
+      "locality_risk": 9652,
+      "leverage_risk": 784,
+      "lint_blockers": 2
+    },
+    "after": {
+      "source_lines": 27946,
+      "cognitive_complexity": 1390,
+      "cyclomatic_complexity": 1971,
+      "halstead_effort": 9661435,
+      "clone_groups": 1,
+      "locality_risk": 9634,
+      "leverage_risk": 580,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": -307,
+      "cognitive_complexity": -76,
+      "cyclomatic_complexity": -45,
+      "halstead_effort": -141315,
+      "clone_groups": -3,
+      "locality_risk": -18,
+      "leverage_risk": -204,
+      "lint_blockers": -2
+    },
+    "provenance": {
+      "before": {
+        "lens": "ts-react-quality-lens",
+        "schema_version": "0.3.0",
+        "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+        "host": "Ghost_S1",
+        "measured_at": "2026-09-14T15:54:41.707Z",
+        "source_type": "static",
+        "source_set_hash": "sha256:7c3a0167740d261e81b4ec7567605b1f798d7fa60c01d093cc2549fa8e709fff",
+        "input_set_hash": "sha256:884be547496b56788b2f8a9c8971a0e83e3827f6d457b986603ff2a3e7d87e5d"
+      },
+      "after": {
+        "lens": "ts-react-quality-lens",
+        "schema_version": "0.3.0",
+        "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+        "host": "Ghost_S1",
+        "measured_at": "2026-09-14T16:19:22.024Z",
+        "source_type": "static",
+        "source_set_hash": "sha256:87bc369e934fd911632c8d792f2b9eb5ada60380fea8bdb440fd60a00f611ec6",
+        "input_set_hash": "sha256:3e08506cca684a676d120f654ec7cf90a1b07ad3b0ec04c9adeb0a448347bd67"
+      }
+    },
+    "analysis_identity": {
+      "before": {
+        "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
+        "schema_version": "0.3.0",
+        "compiler_api_version": "6.0.2",
+        "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
+        "rulesets": {
+          "builtin": "tsrqlens-analysis-v2",
+          "finding_identity": "semantic-occurrence-v1",
+          "test_mapping": "compiler-imports-v1",
+          "architecture": "risk-model-v3",
+          "typed_lint": "tsrqlens-typescript-recommended-v1",
+          "react": "recommended-v2",
+          "accessibility": "jsx-a11y-recommended-v1",
+          "cleanup": "knip-normalized-v1"
+        },
+        "integration_versions": {
+          "typescript_eslint": "8.67.0",
+          "react_hooks": "7.1.1",
+          "jsx_a11y": "6.10.2",
+          "knip": "6.32.2",
+          "publint": "0.3.24",
+          "are_the_types_wrong": "0.18.5",
+          "dependency_cruiser": null,
+          "jscpd": null
+        }
+      },
+      "after": {
+        "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
+        "schema_version": "0.3.0",
+        "compiler_api_version": "6.0.2",
+        "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
+        "rulesets": {
+          "builtin": "tsrqlens-analysis-v2",
+          "finding_identity": "semantic-occurrence-v1",
+          "test_mapping": "compiler-imports-v1",
+          "architecture": "risk-model-v3",
+          "typed_lint": "tsrqlens-typescript-recommended-v1",
+          "react": "recommended-v2",
+          "accessibility": "jsx-a11y-recommended-v1",
+          "cleanup": "knip-normalized-v1"
+        },
+        "integration_versions": {
+          "typescript_eslint": "8.67.0",
+          "react_hooks": "7.1.1",
+          "jsx_a11y": "6.10.2",
+          "knip": "6.32.2",
+          "publint": "0.3.24",
+          "are_the_types_wrong": "0.18.5",
+          "dependency_cruiser": null,
+          "jscpd": null
+        }
+      }
+    },
+    "architecture": {
+      "dependency_health": {
+        "before": {
+          "internal_edges": 965,
+          "external_edges": 156,
+          "cycles": 0,
+          "heuristic_cycles": 0,
+          "dependency_cruiser_cycles": 0,
+          "deep_relative_imports": 145,
+          "barrel_modules": 1,
+          "layer_violations": 30,
+          "unsupported_patterns": 0,
+          "workspaces": 1,
+          "cross_workspace_edges": 0,
+          "incomplete_workspace_projects": 0
+        },
+        "after": {
+          "internal_edges": 968,
+          "external_edges": 158,
+          "cycles": 0,
+          "heuristic_cycles": 0,
+          "dependency_cruiser_cycles": 0,
+          "deep_relative_imports": 145,
+          "barrel_modules": 1,
+          "layer_violations": 33,
+          "unsupported_patterns": 0,
+          "workspaces": 1,
+          "cross_workspace_edges": 0,
+          "incomplete_workspace_projects": 0
+        }
+      },
+      "react_health": {
+        "before": {
+          "components": 118,
+          "records": 128,
+          "hook_lint_findings": 0,
+          "a11y_findings": 9,
+          "a11y_tool_findings": 9,
+          "a11y_heuristic_findings": 0,
+          "high_risk_components": 28
+        },
+        "after": {
+          "components": 118,
+          "records": 128,
+          "hook_lint_findings": 0,
+          "a11y_findings": 9,
+          "a11y_tool_findings": 9,
+          "a11y_heuristic_findings": 0,
+          "high_risk_components": 28
+        }
+      }
+    },
+    "changed_modules": {
+      "src/data/types.ts": {
+        "before": {
+          "source_lines": 592,
+          "cognitive_complexity": 12,
+          "cyclomatic_complexity": 31,
+          "halstead_effort": 4440.880000000003
+        },
+        "after": {
+          "source_lines": 489,
+          "cognitive_complexity": 10,
+          "cyclomatic_complexity": 26,
+          "halstead_effort": 4083.800000000001
+        }
+      },
+      "src/ui/unifiedChoreItemRenderer.tsx": {
+        "before": {
+          "source_lines": 225,
+          "cognitive_complexity": 23,
+          "cyclomatic_complexity": 26,
+          "halstead_effort": 40523.59
+        },
+        "after": {
+          "source_lines": 218,
+          "cognitive_complexity": 21,
+          "cyclomatic_complexity": 24,
+          "halstead_effort": 39074.2
+        }
+      },
+      "src/offline/model.ts": {
+        "before": {
+          "source_lines": 156,
+          "cognitive_complexity": 58,
+          "cyclomatic_complexity": 41,
+          "halstead_effort": 91298.77
+        },
+        "after": {
+          "source_lines": 200,
+          "cognitive_complexity": 42,
+          "cyclomatic_complexity": 47,
+          "halstead_effort": 51755.04999999999
+        }
+      },
+      "src/lib/weather/weatherStore.ts": {
+        "before": {
+          "source_lines": 162,
+          "cognitive_complexity": 26,
+          "cyclomatic_complexity": 32,
+          "halstead_effort": 142204.63000000003
+        },
+        "after": {
+          "source_lines": 163,
+          "cognitive_complexity": 22,
+          "cyclomatic_complexity": 30,
+          "halstead_effort": 123807.22
+        }
+      },
+      "src/data/dailyTaskState.ts": {
+        "before": {
+          "source_lines": 260,
+          "cognitive_complexity": 31,
+          "cyclomatic_complexity": 39,
+          "halstead_effort": 108971.37
+        },
+        "after": {
+          "source_lines": 258,
+          "cognitive_complexity": 28,
+          "cyclomatic_complexity": 37,
+          "halstead_effort": 94770.48
+        }
+      },
+      "src/lib/choreParser.ts": {
+        "before": {
+          "source_lines": 217,
+          "cognitive_complexity": 24,
+          "cyclomatic_complexity": 33,
+          "halstead_effort": 57110.100000000006
+        },
+        "after": {
+          "source_lines": 143,
+          "cognitive_complexity": 23,
+          "cyclomatic_complexity": 32,
+          "halstead_effort": 68080.45999999999
+        }
+      },
+      "src/ui/unifiedChoreDescriptors.tsx": {
+        "before": {
+          "source_lines": 201,
+          "cognitive_complexity": 8,
+          "cyclomatic_complexity": 12,
+          "halstead_effort": 51519.46
+        },
+        "after": {
+          "source_lines": 194,
+          "cognitive_complexity": 8,
+          "cyclomatic_complexity": 12,
+          "halstead_effort": 51266.89
+        }
+      },
+      "src/ui/unifiedEatingRenderer.tsx": {
+        "before": {
+          "source_lines": 138,
+          "cognitive_complexity": 18,
+          "cyclomatic_complexity": 20,
+          "halstead_effort": 91210.53
+        },
+        "after": {
+          "source_lines": 92,
+          "cognitive_complexity": 11,
+          "cyclomatic_complexity": 13,
+          "halstead_effort": 70942.7
+        }
+      },
+      "src/ui/unifiedChoreState.ts": {
+        "before": {
+          "source_lines": 179,
+          "cognitive_complexity": 28,
+          "cyclomatic_complexity": 40,
+          "halstead_effort": 80994.96
+        },
+        "after": {
+          "source_lines": 130,
+          "cognitive_complexity": 18,
+          "cyclomatic_complexity": 29,
+          "halstead_effort": 56220.939999999995
+        }
+      },
+      "src/offline/transport.ts": {
+        "before": {
+          "source_lines": 143,
+          "cognitive_complexity": 37,
+          "cyclomatic_complexity": 26,
+          "halstead_effort": 7025.96
+        },
+        "after": {
+          "source_lines": 149,
+          "cognitive_complexity": 17,
+          "cyclomatic_complexity": 18,
+          "halstead_effort": 5967.5199999999995
+        }
+      },
+      "src/ui/unifiedTestRenderer.tsx": {
+        "before": {
+          "source_lines": 182,
+          "cognitive_complexity": 13,
+          "cyclomatic_complexity": 16,
+          "halstead_effort": 79821.22
+        },
+        "after": {
+          "source_lines": 126,
+          "cognitive_complexity": 7,
+          "cyclomatic_complexity": 8,
+          "halstead_effort": 58866.37
+        }
+      },
+      "src/offline/runtime.ts": {
+        "before": {
+          "source_lines": 111,
+          "cognitive_complexity": 3,
+          "cyclomatic_complexity": 7,
+          "halstead_effort": 104611.34000000001
+        },
+        "after": {
+          "source_lines": 106,
+          "cognitive_complexity": 3,
+          "cyclomatic_complexity": 7,
+          "halstead_effort": 87943.3
+        }
+      },
+      "src/data/taskLimits.ts": {
+        "before": {
+          "source_lines": 68,
+          "cognitive_complexity": 11,
+          "cyclomatic_complexity": 19,
+          "halstead_effort": 6614.249999999998
+        },
+        "after": {
+          "source_lines": 72,
+          "cognitive_complexity": 11,
+          "cyclomatic_complexity": 19,
+          "halstead_effort": 6614.249999999998
+        }
+      },
+      "src/data/useUserCollection.ts": {
+        "before": {
+          "source_lines": 133,
+          "cognitive_complexity": 2,
+          "cyclomatic_complexity": 4,
+          "halstead_effort": 86438.38
+        },
+        "after": {
+          "source_lines": 130,
+          "cognitive_complexity": 2,
+          "cyclomatic_complexity": 4,
+          "halstead_effort": 81107.04000000001
+        }
+      },
+      "src/offline/actions.ts": {
+        "before": {
+          "source_lines": 138,
+          "cognitive_complexity": 7,
+          "cyclomatic_complexity": 11,
+          "halstead_effort": 43586.35
+        },
+        "after": {
+          "source_lines": 131,
+          "cognitive_complexity": 3,
+          "cyclomatic_complexity": 7,
+          "halstead_effort": 47949.43
+        }
+      },
+      "src/offline/firebaseTransport.ts": {
+        "before": {
+          "source_lines": 54,
+          "cognitive_complexity": 8,
+          "cyclomatic_complexity": 12,
+          "halstead_effort": 22523.809999999998
+        },
+        "after": {
+          "source_lines": 58,
+          "cognitive_complexity": 7,
+          "cyclomatic_complexity": 11,
+          "halstead_effort": 20824.89
+        }
+      },
+      "src/offline/sync.ts": {
+        "before": {
+          "source_lines": 123,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        },
+        "after": {
+          "source_lines": 98,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        }
+      },
+      "src/offline/store.ts": {
+        "before": {
+          "source_lines": 85,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        },
+        "after": {
+          "source_lines": 86,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        }
+      },
+      "src/data/useUserDocumentUpdates.ts": {
+        "before": {
+          "source_lines": 51,
+          "cognitive_complexity": 1,
+          "cyclomatic_complexity": 2,
+          "halstead_effort": 13553.91
+        },
+        "after": {
+          "source_lines": 51,
+          "cognitive_complexity": 1,
+          "cyclomatic_complexity": 2,
+          "halstead_effort": 12817.14
+        }
+      },
+      "src/offline/persistence.ts": {
+        "before": {
+          "source_lines": 61,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        },
+        "after": {
+          "source_lines": 64,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        }
+      },
+      "src/ui/unifiedChoreDescriptorTypes.ts": {
+        "before": {
+          "source_lines": 49,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        },
+        "after": {
+          "source_lines": 45,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 0,
+          "halstead_effort": 0
+        }
+      },
+      "src/lib/snapshotStore.ts": {
+        "before": null,
+        "after": {
+          "source_lines": 20,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 1,
+          "halstead_effort": 9043.27
+        }
+      },
+      "src/ui/unifiedChoreRenderUtils.ts": {
+        "before": {
+          "source_lines": 5,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 2,
+          "halstead_effort": 157.5
+        },
+        "after": {
+          "source_lines": 3,
+          "cognitive_complexity": 0,
+          "cyclomatic_complexity": 1,
+          "halstead_effort": 157.5
+        }
+      }
+    },
+    "top_cognitive": [
+      {
+        "file": "src/components/AnimalTester.tsx",
+        "id": "src/components/AnimalTester.tsx:FactCard:73",
+        "line": 73,
+        "cognitive": 22
+      },
+      {
+        "file": "src/components/ui/StandardActionList.tsx",
+        "id": "src/components/ui/StandardActionList.tsx:ActionCard:88",
+        "line": 88,
+        "cognitive": 19
+      },
+      {
+        "file": "src/lib/weather/weatherStore.ts",
+        "id": "src/lib/weather/weatherStore.ts:refresh:76",
+        "line": 76,
+        "cognitive": 15
+      },
+      {
+        "file": "src/components/AnimalTester.tsx",
+        "id": "src/components/AnimalTester.tsx:AnimalTester:659",
+        "line": 659,
+        "cognitive": 14
+      },
+      {
+        "file": "src/features/dayNightExplorer/worldTopology.ts",
+        "id": "src/features/dayNightExplorer/worldTopology.ts:parseTopoJsonWorldData:115",
+        "line": 115,
+        "cognitive": 14
+      },
+      {
+        "file": "src/lib/weather/weatherConditions.ts",
+        "id": "src/lib/weather/weatherConditions.ts:getWeatherScene:56",
+        "line": 56,
+        "cognitive": 14
+      },
+      {
+        "file": "src/offline/model.ts",
+        "id": "src/offline/model.ts:enqueue:165",
+        "line": 165,
+        "cognitive": 14
+      },
+      {
+        "file": "src/offline/model.ts",
+        "id": "src/offline/model.ts:projectOperation:124",
+        "line": 124,
+        "cognitive": 14
+      },
+      {
+        "file": "src/components/ui/StandardActionButtons.tsx",
+        "id": "src/components/ui/StandardActionButtons.tsx:StandardActionButtons:154",
+        "line": 154,
+        "cognitive": 13
+      },
+      {
+        "file": "src/offline/OfflineBoundary.tsx",
+        "id": "src/offline/OfflineBoundary.tsx:AccountOfflineBoundary:6",
+        "line": 6,
+        "cognitive": 13
+      }
+    ],
+    "risk_changes": {
+      "locality_metrics": [
+        {
+          "file": "src/lib/snapshotStore.ts",
+          "before": 0,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/offline/actions.ts",
+          "before": 28,
+          "after": 10,
+          "signals": [
+            {
+              "kind": "cochange_ripple",
+              "value": 2
+            }
+          ]
+        },
+        {
+          "file": "src/offline/firebaseTransport.ts",
+          "before": 23,
+          "after": 5,
+          "signals": [
+            {
+              "kind": "cochange_ripple",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "before": 46,
+          "after": 64,
+          "signals": [
+            {
+              "kind": "event_bus",
+              "line": 24
+            },
+            {
+              "kind": "window_global",
+              "line": 82
+            },
+            {
+              "kind": "window_global",
+              "line": 85
+            },
+            {
+              "kind": "cochange_ripple",
+              "value": 2
+            }
+          ]
+        }
+      ],
+      "leverage_metrics": [
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "before": 32,
+          "after": 0,
+          "signals": [
+            {
+              "kind": "broad_inbound_reach",
+              "value": 7
+            }
+          ]
+        },
+        {
+          "file": "src/data/taskLimits.ts",
+          "before": 32,
+          "after": 0,
+          "signals": [
+            {
+              "kind": "broad_inbound_reach",
+              "value": 7
+            }
+          ]
+        },
+        {
+          "file": "src/data/useUserCollection.ts",
+          "before": 24,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/data/useUserDocumentUpdates.ts",
+          "before": 12,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/lib/choreParser.ts",
+          "before": 24,
+          "after": 12,
+          "signals": [
+            {
+              "kind": "weak_public_surface",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "file": "src/lib/snapshotStore.ts",
+          "before": 0,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/lib/weather/weatherStore.ts",
+          "before": 24,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/offline/actions.ts",
+          "before": 32,
+          "after": 0,
+          "signals": [
+            {
+              "kind": "broad_inbound_reach",
+              "value": 7
+            }
+          ]
+        },
+        {
+          "file": "src/offline/firebaseTransport.ts",
+          "before": 12,
+          "after": 0,
+          "signals": []
+        },
+        {
+          "file": "src/offline/transport.ts",
+          "before": 24,
+          "after": 0,
+          "signals": []
+        }
+      ]
+    }
+  },
+  "functions": {
+    "before": {
+      "source_lines": 421,
+      "cognitive_complexity": 47,
+      "cyclomatic_complexity": 57,
+      "halstead_effort": 94525,
+      "clone_groups": 0,
+      "locality_risk": 36,
+      "leverage_risk": 0,
+      "lint_blockers": 0
+    },
+    "after": {
+      "source_lines": 421,
+      "cognitive_complexity": 47,
+      "cyclomatic_complexity": 57,
+      "halstead_effort": 94525,
+      "clone_groups": 0,
+      "locality_risk": 36,
+      "leverage_risk": 0,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": 0,
+      "cognitive_complexity": 0,
+      "cyclomatic_complexity": 0,
+      "halstead_effort": 0,
+      "clone_groups": 0,
+      "locality_risk": 0,
+      "leverage_risk": 0,
+      "lint_blockers": 0
+    },
+    "provenance": {
+      "before": {
+        "lens": "ts-react-quality-lens",
+        "schema_version": "0.3.0",
+        "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+        "host": "Ghost_S1",
+        "measured_at": "2026-09-14T15:54:46.109Z",
+        "source_type": "static",
+        "source_set_hash": "sha256:5122afcc6bf171ba57f4db56dcaa44a74c12c746a8b775157004860b5f1b7887",
+        "input_set_hash": "sha256:a32e4d951c03057183886e6a940c078f23d695ac5de6350ef8242d1fe5a55861"
+      },
+      "after": {
+        "lens": "ts-react-quality-lens",
+        "schema_version": "0.3.0",
+        "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+        "host": "Ghost_S1",
+        "measured_at": "2026-09-14T15:54:46.109Z",
+        "source_type": "static",
+        "source_set_hash": "sha256:5122afcc6bf171ba57f4db56dcaa44a74c12c746a8b775157004860b5f1b7887",
+        "input_set_hash": "sha256:a32e4d951c03057183886e6a940c078f23d695ac5de6350ef8242d1fe5a55861"
+      }
+    },
+    "analysis_identity": {
+      "before": {
+        "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+        "schema_version": "0.3.0",
+        "compiler_api_version": "6.0.2",
+        "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
+        "rulesets": {
+          "builtin": "tsrqlens-analysis-v2",
+          "finding_identity": "semantic-occurrence-v1",
+          "test_mapping": "compiler-imports-v1",
+          "architecture": "risk-model-v3",
+          "typed_lint": "tsrqlens-typescript-recommended-v1",
+          "react": "recommended-v2",
+          "accessibility": "jsx-a11y-recommended-v1",
+          "cleanup": "knip-normalized-v1"
+        },
+        "integration_versions": {
+          "typescript_eslint": "8.67.0",
+          "react_hooks": "7.1.1",
+          "jsx_a11y": "6.10.2",
+          "knip": "6.32.2",
+          "publint": "0.3.24",
+          "are_the_types_wrong": "0.18.5",
+          "dependency_cruiser": null,
+          "jscpd": null
+        }
+      },
+      "after": {
+        "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+        "schema_version": "0.3.0",
+        "compiler_api_version": "6.0.2",
+        "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
+        "rulesets": {
+          "builtin": "tsrqlens-analysis-v2",
+          "finding_identity": "semantic-occurrence-v1",
+          "test_mapping": "compiler-imports-v1",
+          "architecture": "risk-model-v3",
+          "typed_lint": "tsrqlens-typescript-recommended-v1",
+          "react": "recommended-v2",
+          "accessibility": "jsx-a11y-recommended-v1",
+          "cleanup": "knip-normalized-v1"
+        },
+        "integration_versions": {
+          "typescript_eslint": "8.67.0",
+          "react_hooks": "7.1.1",
+          "jsx_a11y": "6.10.2",
+          "knip": "6.32.2",
+          "publint": "0.3.24",
+          "are_the_types_wrong": "0.18.5",
+          "dependency_cruiser": null,
+          "jscpd": null
+        }
+      }
+    },
+    "architecture": {
+      "dependency_health": {
+        "before": {
+          "internal_edges": 1,
+          "external_edges": 6,
+          "cycles": 0,
+          "heuristic_cycles": 0,
+          "dependency_cruiser_cycles": 0,
+          "deep_relative_imports": 0,
+          "barrel_modules": 0,
+          "layer_violations": 0,
+          "unsupported_patterns": 0,
+          "workspaces": 1,
+          "cross_workspace_edges": 0,
+          "incomplete_workspace_projects": 0
+        },
+        "after": {
+          "internal_edges": 1,
+          "external_edges": 6,
+          "cycles": 0,
+          "heuristic_cycles": 0,
+          "dependency_cruiser_cycles": 0,
+          "deep_relative_imports": 0,
+          "barrel_modules": 0,
+          "layer_violations": 0,
+          "unsupported_patterns": 0,
+          "workspaces": 1,
+          "cross_workspace_edges": 0,
+          "incomplete_workspace_projects": 0
+        }
+      },
+      "react_health": {
+        "before": {
+          "components": 0,
+          "records": 0,
+          "hook_lint_findings": 0,
+          "a11y_findings": 0,
+          "a11y_tool_findings": 0,
+          "a11y_heuristic_findings": 0,
+          "high_risk_components": 0
+        },
+        "after": {
+          "components": 0,
+          "records": 0,
+          "hook_lint_findings": 0,
+          "a11y_findings": 0,
+          "a11y_tool_findings": 0,
+          "a11y_heuristic_findings": 0,
+          "high_risk_components": 0
+        }
+      }
+    },
+    "changed_modules": {},
+    "top_cognitive": [
+      {
+        "file": "src/schoolCalendar.ts",
+        "id": "src/schoolCalendar.ts:buildSchoolCalendar:58",
+        "line": 58,
+        "cognitive": 9
+      },
+      {
+        "file": "src/index.ts",
+        "id": "src/index.ts:isScheduledForDay:57",
+        "line": 57,
+        "cognitive": 9
+      },
+      {
+        "file": "src/index.ts",
+        "id": "src/index.ts:assertCallableChild:238",
+        "line": 238,
+        "cognitive": 7
+      },
+      {
+        "file": "src/index.ts",
+        "id": "src/index.ts:getDailyActivityResetPatch:212",
+        "line": 212,
+        "cognitive": 4
+      },
+      {
+        "file": "src/schoolCalendar.ts",
+        "id": "src/schoolCalendar.ts:appendOccurrence:34",
+        "line": 34,
+        "cognitive": 4
+      },
+      {
+        "file": "src/index.ts",
+        "id": "src/index.ts:getActivityType:110",
+        "line": 110,
+        "cognitive": 3
+      },
+      {
+        "file": "src/index.ts",
+        "id": "src/index.ts:isLegacyDayNight:124",
+        "line": 124,
+        "cognitive": 3
+      },
+      {
+        "file": "src/index.ts",
+        "id": "src/index.ts:resetChildChores:142",
+        "line": 142,
+        "cognitive": 2
+      },
+      {
+        "file": "src/index.ts",
+        "id": "src/index.ts:getLocalizedDateInfo:33",
+        "line": 33,
+        "cognitive": 2
+      },
+      {
+        "file": "src/schoolCalendar.ts",
+        "id": "src/schoolCalendar.ts:appendDay:16",
+        "line": 16,
+        "cognitive": 2
+      }
+    ],
+    "risk_changes": {
+      "locality_metrics": [],
+      "leverage_metrics": []
+    }
+  },
+  "physical_lines": {
+    "before": {
+      "production": 28466,
+      "tests": 7112,
+      "total": 35578
+    },
+    "after": {
+      "production": 28158,
+      "tests": 7194,
+      "total": 35352
+    }
+  },
+  "validation": {
+    "audit": {
+      "verdict": "warn",
+      "complete": true,
+      "incomplete_reasons": [],
+      "gate": "new-only",
+      "base": "28c90c7fddd77275e534d276514e17f00b7ca184",
+      "changed_files": 60,
+      "changed_hunks": 8843,
+      "base_snapshot_available": true,
+      "base_snapshot_compatible": true,
+      "findings": 320,
+      "active_findings": 5,
+      "introduced_findings": 223,
+      "inherited_findings": 97,
+      "high_risk_findings": 16,
+      "blocking_findings": 0,
+      "warning_findings": 5,
+      "baseline_suppressed": 0,
+      "config_suppressed": 0,
+      "stale_suppressions": 0
+    },
+    "vitest": {
+      "status": "passed",
+      "command": "npm run test"
+    },
+    "eslint": "passed",
+    "frontend_build": "passed",
+    "functions_build": "passed",
+    "android_debug_build": "passed",
+    "playwright": {
+      "status": "passed",
+      "tests": 6,
+      "browsers": ["Chromium", "Firefox", "WebKit"],
+      "scope": "Login smoke and IndexedDB offline persistence/recovery"
+    },
+    "coverage": "not collected",
+    "device_integration": "not run",
+    "functions_execution": "No standalone command configured; mocked handler tests run in root suite"
+  }
+}

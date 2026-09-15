@@ -16,6 +16,8 @@ import {
   serverTimestamp,
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
+import { isAndroidOffline } from '../offline/platform'
+import { saveDocument } from '../offline/actions'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { THEME_ID_LOOKUP, isThemeId, type ThemeId } from '../ui/themeOptions'
@@ -135,6 +137,14 @@ const useChildrenState = () => {
   // ── Create ──
   const createChild = async () => {
     if (!user) return
+    if (isAndroidOffline())
+      return saveDocument(user.uid, 'children', crypto.randomUUID(), 'put', {
+        displayName: '',
+        avatarToken: THEME_ID_LOOKUP.get('princess')?.emoji || '👤',
+        themeId: 'princess',
+        totalStars: 0,
+        testFailureModeEnabled: true,
+      })
     await addDoc(collection(db, 'users', user.uid, 'children'), {
       displayName: '',
       avatarToken: THEME_ID_LOOKUP.get('princess')?.emoji || '👤',
@@ -149,7 +159,9 @@ const useChildrenState = () => {
   const deleteChild = async (id: string) => {
     if (!user) return
     cancelChildFieldUpdate(id)
-    await deleteDoc(doc(collection(db, 'users', user.uid, 'children'), id))
+    if (isAndroidOffline())
+      await saveDocument(user.uid, 'children', id, 'delete')
+    else await deleteDoc(doc(collection(db, 'users', user.uid, 'children'), id))
     if (id === activeChildId) clearActiveChild()
   }
 

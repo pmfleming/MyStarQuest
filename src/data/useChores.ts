@@ -9,6 +9,9 @@ import {
   updateDoc,
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
+import { isAndroidOffline } from '../offline/platform'
+import { saveActivityPatch, saveDocument } from '../offline/actions'
+import { snapshotDocument } from '../offline/firebaseTransport'
 import { parseChoreSnapshot } from '../lib/choreParser'
 import { buildChoreDocument, type ChoreDocumentSettings } from './taskDocuments'
 import { isScheduledForDay } from '../lib/today'
@@ -60,6 +63,19 @@ export function useChores() {
     taskId: string,
     patch: Partial<TaskEphemeralState>
   ): Promise<void> => {
+    if (isAndroidOffline() && user && activeChildId) {
+      const reset = Object.entries(patch).some(
+        ([key, value]) => key.endsWith('CompletedAt') && value === null
+      )
+      return saveActivityPatch(
+        user.uid,
+        'chores',
+        taskId,
+        activeChildId,
+        patch,
+        reset
+      ).then(() => {})
+    }
     setEphemeral((prev) => ({
       ...prev,
       [taskId]: { ...prev[taskId], ...patch },
@@ -97,6 +113,26 @@ export function useChores() {
     }
 
     validateTaskFields(patch)
+    if (isAndroidOffline() && user) {
+      const settings = Object.fromEntries(
+        Object.entries(patch).filter(([key]) => !key.startsWith('manage'))
+      )
+      await saveDocument(user.uid, 'chores', taskId, 'patch', settings)
+      if (activeChildId) {
+        const progress = Object.fromEntries(
+          Object.entries(patch).filter(([key]) => key.startsWith('manage'))
+        )
+        if (Object.keys(progress).length)
+          await saveActivityPatch(
+            user.uid,
+            'chores',
+            taskId,
+            activeChildId,
+            progress
+          )
+      }
+      return
+    }
     if (!user) return
     await updateDoc(doc(db, 'users', user.uid, 'chores', taskId), patch)
   }
@@ -107,6 +143,12 @@ export function useChores() {
   ): Promise<ChoreRecord | undefined> => {
     if (!user || !activeChildId) return
     const document = buildChoreDocument(activeChildId, choreType, settings)
+    if (isAndroidOffline()) {
+      const id = crypto.randomUUID()
+      const data = { ...document, createdAt: new Date() }
+      await saveDocument(user.uid, 'chores', id, 'put', data)
+      return parseChoreSnapshot(id, snapshotDocument(data)) ?? undefined
+    }
     const docRef = await addDoc(
       collection(db, 'users', user.uid, 'chores'),
       document
@@ -116,7 +158,9 @@ export function useChores() {
 
   const deleteTask = async (taskId: string) => {
     if (!user) return
-    await deleteDoc(doc(db, 'users', user.uid, 'chores', taskId))
+    if (isAndroidOffline())
+      await saveDocument(user.uid, 'chores', taskId, 'delete')
+    else await deleteDoc(doc(db, 'users', user.uid, 'chores', taskId))
 
     setEphemeral((prev) => {
       const next = { ...prev }

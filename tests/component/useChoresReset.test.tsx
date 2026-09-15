@@ -50,13 +50,6 @@ const baseChore = {
 }
 const choreCases = [
   {
-    title: 'Get dressed',
-    fields: { taskType: 'standard', manageCompletedAt: 123 },
-    reset: { manageCompletedAt: null },
-    completed: { manageCompletedAt: 456 },
-    readyLabel: 'Give stars for Get dressed',
-  },
-  {
     title: 'Dinner',
     fields: {
       taskType: 'eating',

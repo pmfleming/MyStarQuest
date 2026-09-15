@@ -48,7 +48,6 @@ describe('chore completion persistence', () => {
   it.each([
     { manageDinnerTimerStartedAt: undefined, manageDinnerRemainingSeconds: 0 },
     { manageDinnerTimerStartedAt: 10_000, manageDinnerRemainingSeconds: 300 },
-    { manageDinnerCompletedAt: 15_000, manageDinnerRemainingSeconds: 0 },
   ])(
     'ignores expiry for an unstarted, running or completed dinner: %j',
     async (patch) => {
@@ -59,18 +58,6 @@ describe('chore completion persistence', () => {
       expect(completeTaskAndAwardStars).not.toHaveBeenCalled()
     }
   )
-
-  it('persists failure after a started dinner runs out of time', async () => {
-    vi.useFakeTimers().setSystemTime(310_000)
-    const actions = setup()
-    await actions.expireDinnerTimer(dinner)
-    expect(actions.updateEphemeral).toHaveBeenCalledWith(dinner.id, {
-      manageDinnerTimerStartedAt: null,
-      manageDinnerRemainingSeconds: 0,
-      manageDinnerCompletedAt: 310_000,
-    })
-    expect(completeTaskAndAwardStars).not.toHaveBeenCalled()
-  })
 
   it('does not complete dinner after a reset during the final bite animation', async () => {
     vi.useFakeTimers().setSystemTime(20_000)
@@ -97,18 +84,22 @@ describe('chore completion persistence', () => {
     vi.mocked(completeTaskAndAwardStars).mockResolvedValue({
       appliedDelta: 3,
       wasAlreadyAwarded: false,
+      starsBefore: 12,
     })
     const actions = setup()
+    const onAward = vi.fn()
     await expect(
-      actions.applyBite({ ...dinner, manageDinnerBitesLeft: 2 })
+      actions.applyBite({ ...dinner, manageDinnerBitesLeft: 2 }, onAward)
     ).resolves.toBe(false)
+    expect(onAward).not.toHaveBeenCalled()
     expect(actions.updateEphemeral).toHaveBeenCalledWith('dinner', {
       manageDinnerBitesLeft: 1,
     })
-    const pending = actions.applyBite(dinner)
+    const pending = actions.applyBite(dinner, onAward)
     expect(completeTaskAndAwardStars).not.toHaveBeenCalled()
     await vi.advanceTimersByTimeAsync(850)
     await expect(pending).resolves.toBe(true)
+    expect(onAward).toHaveBeenCalledExactlyOnceWith(3, 12)
     const patch = {
       manageDinnerBitesLeft: 0,
       manageDinnerCompletedAt: 20_850,

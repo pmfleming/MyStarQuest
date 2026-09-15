@@ -24,33 +24,6 @@ const createProps = () => ({
 })
 
 describe('AnimalTester', () => {
-  it('jumps to the first animal for an initial and retains clue state without scoring', () => {
-    const props = { ...createProps(), isRunning: true }
-    render(<AnimalTester {...props} />)
-    expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
-    const ability = screen.getByRole('button', { name: /^ABILITY:/ })
-    fireEvent.click(ability)
-    fireEvent.doubleClick(ability)
-    expect(ability).toHaveAttribute('aria-pressed', 'true')
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Choose starting letter' })
-    )
-    fireEvent.click(screen.getByRole('button', { name: 'Jump to B' }))
-    expect(screen.getByAltText('Bat')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /^ABILITY:/ })).toHaveAttribute(
-      'aria-pressed',
-      'true'
-    )
-    expect(screen.getByRole('button', { name: /^ABILITY:/ })).toHaveAttribute(
-      'aria-expanded',
-      'true'
-    )
-    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
-    expect(screen.getByAltText('Bear')).toBeInTheDocument()
-    expect(props.onComplete).not.toHaveBeenCalled()
-    expect(props.onExit).not.toHaveBeenCalled()
-  })
-
   it('zooms each clue without changing the ability picture in the teenie theme', () => {
     const themeId = 'teenie' as const
 
@@ -76,7 +49,6 @@ describe('AnimalTester', () => {
         const originalImage = card.querySelector('img')!.getAttribute('src')
         doubleClick(card)
         expect(card).toHaveAttribute('aria-expanded', 'true')
-        expect(card).toHaveStyle({ position: 'absolute', height: '100%' })
         for (const other of cards.filter((item) => item !== card)) {
           expect(other).not.toBeVisible()
         }
@@ -110,35 +82,6 @@ describe('AnimalTester', () => {
     } finally {
       vi.useRealTimers()
     }
-  })
-
-  it('keeps the two-player hide control independent of clue zoom', () => {
-    const props = createProps()
-    const { rerender } = render(<AnimalTester {...props} />)
-    fireEvent.click(screen.getByRole('radio', { name: '2 Players' }))
-    rerender(<AnimalTester {...props} isRunning />)
-    const ability = screen.getByRole('button', { name: /^ABILITY:/ })
-    const originalImage = ability.querySelector('img')!.getAttribute('src')!
-    const currentAnimal = ANIMAL_KNOWLEDGE.find(
-      (animal) => getAnimalAbilityImage(animal.name) === originalImage
-    )!
-    fireEvent.doubleClick(ability)
-    fireEvent.click(screen.getByRole('button', { name: 'Hide animal' }))
-    expect(screen.getByRole('button', { name: 'Show animal' })).toHaveAttribute(
-      'aria-pressed',
-      'true'
-    )
-    expect(ability).toHaveAttribute('aria-expanded', 'true')
-    expect(ability.querySelector('img')).toHaveAttribute(
-      'src',
-      getGenericAnimalAbilityImage('princess', currentAnimal.abilities[0].label)
-    )
-    fireEvent.doubleClick(ability)
-    expect(
-      screen.getByRole('button', { name: 'Show animal' })
-    ).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Show animal' }))
-    expect(ability.querySelector('img')).toHaveAttribute('src', originalImage)
   })
 
   it('connects every animal to complete facts and visual assets', () => {

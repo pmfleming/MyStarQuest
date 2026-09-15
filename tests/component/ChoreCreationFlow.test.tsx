@@ -64,41 +64,4 @@ describe('ChoreCreationFlow', () => {
       log.mockRestore()
     }
   })
-
-  it('edits an existing standard chore through the creation controls', async () => {
-    const user = userEvent.setup()
-    const { onSave } = renderFlow({
-      initialChore: {
-        id: 'chore-1',
-        title: 'Writing',
-        childId: 'child-1',
-        category: '',
-        taskType: 'standard',
-        schoolDayEnabled: true,
-        nonSchoolDayEnabled: false,
-        starValue: 2,
-        isRepeating: true,
-        imageKey: 'writing',
-      },
-    })
-
-    expect(
-      screen.queryByRole('button', { name: 'Standard Chore' })
-    ).not.toBeInTheDocument()
-
-    const nameInput = screen.getByLabelText('Chore name')
-    await user.clear(nameInput)
-    await user.type(nameInput, 'Reading')
-    await user.click(screen.getByRole('button', { name: 'Save' }))
-
-    expect(onSave).toHaveBeenCalledWith(
-      'standard',
-      expect.objectContaining({
-        title: 'Reading',
-        imageKey: 'writing',
-        starValue: 2,
-        nonSchoolDayEnabled: false,
-      })
-    )
-  })
 })

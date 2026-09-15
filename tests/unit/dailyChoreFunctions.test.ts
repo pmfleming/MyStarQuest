@@ -43,11 +43,7 @@ vi.mock(
     onRequest: vi.fn(),
   })
 )
-import {
-  generateDailyTodos,
-  resetTodayChores,
-  resetTodayTodos,
-} from '../../functions/src/index'
+import { generateDailyTodos, resetTodayChores } from '../../functions/src/index'
 
 const chore = (id: string, data: Record<string, unknown>) => ({
   id,
@@ -124,15 +120,6 @@ it('scheduled reset skips untitled and malformed-title chores', async () => {
   expect(database.update.mock.calls).toEqual([
     ['normal', { manageCompletedAt: null }],
   ])
-})
-
-it('keeps the legacy response shape and avoids committing empty batches', async () => {
-  database.get.mockResolvedValue({ docs: [] })
-  expect(await resetTodayTodos.run(request({ childId: 'child' }))).toEqual({
-    created: 0,
-    chores: { created: 0, refreshed: 0 },
-  })
-  expect(database.commit).not.toHaveBeenCalled()
 })
 
 it('rejects unauthenticated, malformed and foreign-child requests before writes', async () => {

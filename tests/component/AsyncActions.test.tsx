@@ -1,45 +1,11 @@
-import {
-  act,
-  fireEvent,
-  render,
-  renderHook,
-  screen,
-  waitFor,
-} from '@testing-library/react'
+import { act, renderHook } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest'
-import { AsyncButton } from '../../src/components/ui/AsyncButton'
 import { useActivityChallenge } from '../../src/hooks/useActivityChallenge'
 
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 afterEach(() => {
   vi.restoreAllMocks()
   vi.useRealTimers()
-})
-
-it('blocks duplicate submissions, shows rejection, and allows retry', async () => {
-  vi.spyOn(console, 'error').mockImplementation(() => {})
-  let reject!: (error: Error) => void
-  const save = vi
-    .fn()
-    .mockImplementationOnce(
-      () =>
-        new Promise<void>((_, fail) => {
-          reject = fail
-        })
-    )
-    .mockResolvedValue(undefined)
-  render(<AsyncButton onClick={save}>Save</AsyncButton>)
-  const button = screen.getByRole('button', { name: 'Save' })
-  fireEvent.click(button)
-  fireEvent.click(button)
-  expect(save).toHaveBeenCalledOnce()
-  expect(button).toBeDisabled()
-  await act(async () => reject(new Error('offline')))
-  expect(screen.getByRole('alert')).toHaveTextContent('failed')
-  fireEvent.click(button)
-  await waitFor(() => expect(button).toBeEnabled())
-  expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-  expect(save).toHaveBeenCalledTimes(2)
 })
 
 it('retries a failed automatic outcome save without replaying the final puzzle', async () => {

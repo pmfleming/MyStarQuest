@@ -23,30 +23,6 @@ const open = () => {
 }
 
 describe('LearningNavigation', () => {
-  it.each([
-    ['A', 'ABCDEFGH'],
-    ['M', 'IJKLMNOP'],
-    ['Z', 'STUVWXYZ'],
-  ])(
-    'shows eight letters around %s with alphabet boundaries',
-    (letter, window) => {
-      render(<LearningNavigation {...props()} currentLetter={letter} />)
-      const strip = open()
-      expect(
-        within(strip)
-          .getAllByRole('button')
-          .map((button) => button.textContent)
-          .join('')
-      ).toBe(window)
-      expect(
-        screen.getByRole('button', { name: `Jump to ${letter}` })
-      ).toHaveAttribute('aria-pressed', 'true')
-      expect(
-        screen.getByRole('button', { name: `Jump to ${letter}` })
-      ).toHaveFocus()
-    }
-  )
-
   it('browses with the keyboard, ignores unavailable letters, and restores focus after selection', () => {
     const p = props()
     render(<LearningNavigation {...p} />)

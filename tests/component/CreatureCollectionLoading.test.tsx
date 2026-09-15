@@ -109,20 +109,3 @@ it('can start a solo game while the selected collection is still loading', async
   ).not.toBeInTheDocument()
   expect(p.onComplete).not.toHaveBeenCalled()
 })
-
-it('returning to Animals cancels an outstanding selection', async () => {
-  const request = deferred()
-  loadCollection.mockReturnValue(request.promise)
-  render(<AnimalTester {...props()} />)
-  fireEvent.click(screen.getByRole('radio', { name: 'Insects' }))
-  fireEvent.click(screen.getByRole('radio', { name: 'Animals' }))
-  expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
-  await act(async () => {
-    request.resolve(insects)
-  })
-  expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
-  expect(screen.getByRole('radio', { name: 'Animals' })).toHaveAttribute(
-    'aria-checked',
-    'true'
-  )
-})

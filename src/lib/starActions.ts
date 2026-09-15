@@ -6,6 +6,7 @@ import {
   serverTimestamp,
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
+import { isAndroidOffline } from '../offline/platform'
 
 type TaskCollection = 'chores' | 'tests'
 
@@ -38,6 +39,10 @@ export const completeTaskAndAwardStars = async (options: {
   initialTaskData?: Record<string, unknown>
   deleteOnComplete?: boolean
 }) => {
+  if (isAndroidOffline()) {
+    const { offlineCompletion } = await import('../offline/actions')
+    return offlineCompletion(options)
+  }
   const {
     userId,
     childId,
@@ -109,7 +114,11 @@ export const completeTaskAndAwardStars = async (options: {
       })
     }
 
-    return { appliedDelta: clampedDelta, wasAlreadyAwarded: false }
+    return {
+      appliedDelta: clampedDelta,
+      wasAlreadyAwarded: false,
+      starsBefore: currentStars,
+    }
   })
 }
 
@@ -128,6 +137,10 @@ export const redeemReward = async ({
   childId,
   reward,
 }: RedeemOptions) => {
+  if (isAndroidOffline()) {
+    const { offlineRedemption } = await import('../offline/actions')
+    return offlineRedemption(userId, childId, reward)
+  }
   if (!userId || !childId) {
     throw new Error('Invalid redemption request')
   }

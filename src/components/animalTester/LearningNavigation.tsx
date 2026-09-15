@@ -215,7 +215,7 @@ export default function LearningNavigation({
           }}
           inert={isOpen}
         >
-          A–Z
+          {currentLetter}
         </button>
         <div
           id={stripId}

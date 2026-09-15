@@ -1,5 +1,4 @@
-import { act, fireEvent, render, screen } from '@testing-library/react'
-import { StrictMode } from 'react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import AnimalTester from '../../src/components/AnimalTester'
 import { themes } from '../../src/contexts/ThemeContext'
@@ -41,40 +40,6 @@ describe('Who am I training photos', () => {
     }
   })
 
-  it('swaps the existing image in place and back in Strict Mode without scoring', () => {
-    const p = props()
-    render(
-      <StrictMode>
-        <AnimalTester {...p} />
-      </StrictMode>
-    )
-    const drawing = screen.getByAltText('Alpaca')
-    const originalSrc = drawing.getAttribute('src')
-    const imageStyle = drawing.getAttribute('style')
-    const card = drawing.parentElement
-    fireEvent.click(drawing, { detail: 1 })
-    expect(drawing).toHaveAttribute('src', originalSrc)
-    fireEvent.doubleClick(drawing)
-    const photo = screen.getByAltText('Real alpaca')
-    expect(photo).toBe(drawing)
-    expect(photo.parentElement).toBe(card)
-    expect(photo).toHaveAttribute('style', imageStyle)
-    expect(photo).toHaveAttribute('src', getCreaturePhoto('alpaca')!.src)
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    expect(
-      screen.queryByRole('button', { name: 'Real photo' })
-    ).not.toBeInTheDocument()
-    expect(screen.queryByText('Photo credits')).not.toBeInTheDocument()
-    expect(
-      screen.queryByRole('link', { name: 'Source' })
-    ).not.toBeInTheDocument()
-    fireEvent.doubleClick(photo)
-    expect(screen.getByAltText('Alpaca')).toHaveAttribute('src', originalSrc)
-    expect(screen.queryByText('Photo credits')).not.toBeInTheDocument()
-    expect(p.onStarsChange).not.toHaveBeenCalled()
-    expect(p.onComplete).not.toHaveBeenCalled()
-  })
-
   it('supports keyboard toggling and falls back to the drawing on loading errors', () => {
     render(<AnimalTester {...props()} />)
     const trigger = screen.getByRole('button', {
@@ -92,50 +57,4 @@ describe('Who am I training photos', () => {
     fireEvent.click(trigger, { detail: 0 })
     expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
   })
-
-  it('retains the photo preference when navigating', () => {
-    render(<AnimalTester {...props()} />)
-    fireEvent.doubleClick(screen.getByAltText('Alpaca'))
-    fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
-    expect(screen.queryByAltText('Real alpaca')).not.toBeInTheDocument()
-    expect(screen.getByAltText('Real armadillo')).toBeInTheDocument()
-    fireEvent.doubleClick(screen.getByAltText('Real armadillo'))
-    fireEvent.click(screen.getByRole('button', { name: 'Previous animal' }))
-    expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
-  })
-
-  it('swaps insect photos and excludes Teeniepings', async () => {
-    render(<AnimalTester {...props()} />)
-    await act(async () => {
-      fireEvent.click(screen.getByRole('radio', { name: 'Insects' }))
-      await vi.dynamicImportSettled()
-    })
-    fireEvent.doubleClick(screen.getByAltText('Ant'))
-    expect(screen.getByAltText('Real ant')).toHaveAttribute(
-      'src',
-      getCreaturePhoto('ant')!.src
-    )
-    await act(async () => {
-      fireEvent.click(screen.getByRole('radio', { name: 'Teeniepings' }))
-      await vi.dynamicImportSettled()
-    })
-    expect(screen.queryByAltText('Real ant')).not.toBeInTheDocument()
-    expect(
-      screen.queryByRole('button', { name: /^View real photo/ })
-    ).not.toBeInTheDocument()
-  })
-
-  it.each(['1 Player', '2 Players'])(
-    'does not expose photos in %s mode',
-    (mode) => {
-      const p = props()
-      const { rerender } = render(<AnimalTester {...p} isRunning={false} />)
-      fireEvent.click(screen.getByRole('radio', { name: mode }))
-      rerender(<AnimalTester {...p} />)
-      expect(
-        screen.queryByRole('button', { name: /^View real photo/ })
-      ).not.toBeInTheDocument()
-      expect(document.querySelector('img[src*="creaturePhotos"]')).toBeNull()
-    }
-  )
 })

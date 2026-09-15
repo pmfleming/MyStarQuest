@@ -71,6 +71,18 @@ describe('stored document contracts', () => {
     try {
       expect(parseChoreSnapshot('bad', null as never)).toBeNull()
       expect(parseTestSnapshot('bad', null as never)).toBeNull()
+      expect(
+        parseChoreSnapshot('bad-date', { createdAt: { toDate: 123 } })
+      ).toBeNull()
+      const timestamp = {
+        value: new Date(123),
+        toDate() {
+          return this.value
+        },
+      }
+      expect(
+        parseChoreSnapshot('date', { createdAt: timestamp })?.createdAt
+      ).toEqual(timestamp.value)
     } finally {
       warning.mockRestore()
     }

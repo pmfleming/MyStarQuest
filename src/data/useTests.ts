@@ -3,6 +3,9 @@
 import { doc, runTransaction, updateDoc } from 'firebase/firestore'
 import { useCallback, useEffect, useMemo } from 'react'
 import { db } from '../firebaseDb'
+import { isAndroidOffline } from '../offline/platform'
+import { saveActivityPatch, saveDocument } from '../offline/actions'
+import { offlineRuntime } from '../offline/runtime'
 import { useCoalescedDocumentUpdates } from '../hooks/useCoalescedDocumentUpdates'
 import { celebrateSuccess } from '../lib/celebrate'
 import { calculateAwardTaskPatch } from '../lib/choreLogic'
@@ -71,6 +74,32 @@ export function useTests() {
     async (testId: string, field: TaskUpdatableFields) => {
       if (!user) return
       const defaultTest = defaultTests.find((test) => test.id === testId)
+      if (isAndroidOffline()) {
+        const runtime = offlineRuntime(user.uid)
+        if (
+          defaultTest &&
+          !runtime.documents('tests').some((test) => test.id === testId)
+        ) {
+          await saveDocument(
+            user.uid,
+            'tests',
+            testId,
+            'put',
+            buildTestDocument(defaultTest.childId, defaultTest.taskType)
+          )
+        }
+        if ('lastAttemptedAt' in field && activeChildId) {
+          await saveActivityPatch(
+            user.uid,
+            'tests',
+            testId,
+            activeChildId,
+            field,
+            field.lastAttemptedAt === null
+          )
+        } else await saveDocument(user.uid, 'tests', testId, 'patch', field)
+        return
+      }
       const testRef = doc(db, 'users', user.uid, 'tests', testId)
       if (defaultTest) {
         await runTransaction(db, async (transaction) => {
@@ -89,7 +118,7 @@ export function useTests() {
 
       await updateDoc(testRef, field)
     },
-    [defaultTests, user]
+    [activeChildId, defaultTests, user]
   )
   const {
     overrides: optimisticFields,
@@ -97,8 +126,10 @@ export function useTests() {
     reconcile: reconcileTestFields,
   } = useCoalescedDocumentUpdates<TaskUpdatableFields>({
     persist: persistTestField,
+    delayMs: isAndroidOffline() ? 0 : undefined,
     onError: (_testId, _field, error) => {
       console.error('Failed to update test', error)
+      if (isAndroidOffline() && user) offlineRuntime(user.uid).report(error)
     },
   })
 
@@ -115,14 +146,21 @@ export function useTests() {
         ) ?? test
     )
     const defaultSlotIds = new Set(defaultSlotTests.map((test) => test.id))
-    return mergeOptimisticItems(
+    const merged = mergeOptimisticItems(
       [
         ...defaultSlotTests,
         ...rawTests.filter((test) => !defaultSlotIds.has(test.id)),
       ],
       optimisticFields
     )
-  }, [activeChildId, defaultTests, optimisticFields, rawTests])
+    const consumed =
+      isAndroidOffline() && user
+        ? offlineRuntime(user.uid).store.getSnapshot()?.consumed
+        : undefined
+    return consumed
+      ? merged.filter((test) => !consumed[`tests/${test.id}`])
+      : merged
+  }, [activeChildId, defaultTests, optimisticFields, rawTests, user])
 
   const tests = useMemo(
     () =>
@@ -144,6 +182,15 @@ export function useTests() {
     testId: string,
     patch: Partial<TaskEphemeralState>
   ) => {
+    if (isAndroidOffline() && user && activeChildId) {
+      void saveActivityPatch(
+        user.uid,
+        'tests',
+        testId,
+        activeChildId,
+        patch
+      ).catch(offlineRuntime(user.uid).report)
+    }
     setEphemeral((prev) => ({
       ...prev,
       [testId]: { ...prev[testId], ...patch },
@@ -160,6 +207,9 @@ export function useTests() {
     patch: TaskEphemeralState,
     persist: () => Promise<T>
   ) => {
+    // Native completion/reset publishes only after the activity and star change
+    // are committed together; never save an intermediate 'done' state.
+    if (isAndroidOffline()) return persist()
     const previousPatch = ephemeral[testId]
     updateEphemeral(testId, patch)
     try {
@@ -182,6 +232,9 @@ export function useTests() {
       manageTestOutcomePatch(item.taskType, attemptedAt, outcome),
       () =>
         persistTestField(item.id, {
+          ...(isAndroidOffline()
+            ? manageTestOutcomePatch(item.taskType, attemptedAt, outcome)
+            : {}),
           lastAttemptedAt: attemptedAt,
           lastAttemptDateKey: attemptedAt ? todayInfo.dateKey : '',
           lastAttemptOutcome: outcome,
@@ -189,7 +242,10 @@ export function useTests() {
     )
   }
 
-  const completeTest = async (item: TestWithEphemeral) => {
+  const completeTest = async (
+    item: TestWithEphemeral,
+    onAward?: (delta: number, starsBefore?: number) => void
+  ) => {
     const now = Date.now()
     const patch = calculateAwardTaskPatch(item, now)
     if (user && activeChildId) {
@@ -203,6 +259,7 @@ export function useTests() {
           dateKey: todayInfo.dateKey,
           delta: item.starValue,
           updates: {
+            ...(isAndroidOffline() ? patch : {}),
             lastAttemptedAt: now,
             lastAttemptDateKey: todayInfo.dateKey,
             lastAttemptOutcome: 'success',
@@ -213,7 +270,10 @@ export function useTests() {
           deleteOnComplete: !item.isRepeating,
         })
       )
-      if (result.appliedDelta > 0) celebrateSuccess()
+      if (result.appliedDelta > 0) {
+        if (onAward) onAward(result.appliedDelta, result.starsBefore)
+        else celebrateSuccess()
+      }
     } else {
       updateEphemeral(item.id, patch)
     }

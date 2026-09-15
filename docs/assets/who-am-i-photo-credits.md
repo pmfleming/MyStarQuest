@@ -1,6 +1,6 @@
 # Who Am I photo credits
 
-Attribution for the 105 animal and insect photographs used in Who Am I Learn mode. The app displays these photographs inside the original drawing card.
+Attribution for the 127 animal and insect photographs used in Who Am I Learn mode. The app displays these photographs inside the original drawing card.
 
 Each photograph and adapted cutout retains its stated source licence. Keep these credits with distributions of the photographs. Share-alike adaptations retain their stated share-alike licence.
 
@@ -271,10 +271,12 @@ The structured attribution record is [`src/data/creaturePhotoCredits.json`](../.
 ## Ibis
 
 - Asset: `ibis.webp`
-- Photographer: Rafa Esteve
-- Source: [File:Oceanografic Scarlet Ibis 02.jpg](https://commons.wikimedia.org/wiki/File:Oceanografic_Scarlet_Ibis_02.jpg)
+- Photographer: Ymblanter
+- Source: [File:Sydney Royal Botanic Gardens Australian white ibis.jpg](https://commons.wikimedia.org/wiki/File:Sydney_Royal_Botanic_Gardens_Australian_white_ibis.jpg)
 - Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
-- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+- Modifications: AI-assisted background removal and subject isolation using OpenAI imagegen; resized and centred on a transparent canvas. Animal detail may differ from the original photograph.
+- Editing mode: built-in imagegen, background extraction; exported as 1024 × 1024 WebP with alpha.
+- Prompt: "Use case: background-extraction. Edit target: the supplied photograph of an Australian white ibis. Remove only the surroundings (grass, pool, stone ledge) and isolate the existing bird on a genuinely transparent background. Preserve the photographed bird's pose, proportions, feather details, white body, black head, long curved black bill, black legs and feet. Do not redraw, stylize, recolor or invent animal features. Centre the complete bird in a square 1024x1024 canvas, fitting its entire silhouette with about 6% transparent padding above and below. No text, shadows, border or additional objects. Preserve photographic realism and use real alpha transparency."
 
 ## Jackal
 
@@ -857,4 +859,202 @@ The structured attribution record is [`src/data/creaturePhotoCredits.json`](../.
 - Photographer: AfroBrazilian
 - Source: [File:Pardosa amentata 03.JPG](https://commons.wikimedia.org/wiki/File:Pardosa_amentata_03.JPG)
 - Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Anteater
+
+- Asset: `anteater.webp`
+- Photographer: Malene Thyssen
+- Attribution: Own work
+- Source: [File:Myresluger2.jpg](https://commons.wikimedia.org/wiki/File:Myresluger2.jpg)
+- Licence: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Axolotl
+
+- Asset: `axolotl.webp`
+- Photographer: LaDameBucolique
+- Attribution: https://pixabay.com/photos/axolotl-leucistique-male-ambystoma-2193331/
+- Source: [File:Axolotl-2193331 1280.webp](https://commons.wikimedia.org/wiki/File:Axolotl-2193331_1280.webp)
+- Licence: [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Capybara
+
+- Asset: `capybara.webp`
+- Photographer: Giles Laurent
+- Attribution: Wikimedia Commons
+- Source: [File:Capybaracropped.jpg](https://commons.wikimedia.org/wiki/File:Capybaracropped.jpg)
+- Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Chameleon
+
+- Asset: `chameleon.webp`
+- Photographer: Kupos
+- Attribution: Own work
+- Source: [File:Yemen_Chameleon.jpg](https://commons.wikimedia.org/wiki/File:Yemen_Chameleon.jpg)
+- Licence: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Clownfish
+
+- Asset: `clownfish.webp`
+- Photographer: Ritiks
+- Attribution: Own work
+- Source: [File:Clown_fish_in_the_Andaman_Coral_Reef.jpg](https://commons.wikimedia.org/wiki/File:Clown_fish_in_the_Andaman_Coral_Reef.jpg)
+- Licence: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Jellyfish
+
+- Asset: `jellyfish.webp`
+- Photographer: Luc Viatour
+- Attribution: I, Luc Viatour
+- Source: [File:Aurelia_aurita_(Cnidaria)_Luc_Viatour.jpg](<https://commons.wikimedia.org/wiki/File:Aurelia_aurita_(Cnidaria)_Luc_Viatour.jpg>)
+- Licence: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels. Black photographic matte removed from translucent tissue.
+
+## Lobster
+
+- Asset: `lobster.webp`
+- Photographer: Bart Braun
+- Attribution: Own work
+- Source: [File:KreeftbijDenOsse.jpg](https://commons.wikimedia.org/wiki/File:KreeftbijDenOsse.jpg)
+- Licence: [Public domain](https://creativecommons.org/publicdomain/mark/1.0/)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Ostrich
+
+- Asset: `ostrich.webp`
+- Photographer: Yathin S Krishnappa
+- Attribution: Own work
+- Source: [File:Struthio_camelus_-_Etosha_2014_(3).jpg](<https://commons.wikimedia.org/wiki/File:Struthio_camelus_-_Etosha_2014_(3).jpg>)
+- Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Pangolin
+
+- Asset: `pangolin.webp`
+- Photographer: U.S. Fish and Wildlife Service Headquarters
+- Attribution: Manis temminckii
+- Source: [File:Manis_temminckii_(29645803646).jpg](<https://commons.wikimedia.org/wiki/File:Manis_temminckii_(29645803646).jpg>)
+- Licence: [CC BY 2.0](https://creativecommons.org/licenses/by/2.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Peacock
+
+- Asset: `peacock.webp`
+- Photographer: Kandukuru Nagarjun from Bangalore, India
+- Attribution: Peacock on tree
+- Source: [File:Peacock_on_tree_(52077240794).jpg](<https://commons.wikimedia.org/wiki/File:Peacock_on_tree_(52077240794).jpg>)
+- Licence: [CC BY 2.0](https://creativecommons.org/licenses/by/2.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Pelican
+
+- Asset: `pelican.webp`
+- Photographer: Charles J. Sharp
+- Attribution: Own work, from Sharp Photography, sharpphotography.co.uk
+- Source: [File:Great_white_pelican_(Pelecanus_onocrotalus).jpg](<https://commons.wikimedia.org/wiki/File:Great_white_pelican_(Pelecanus_onocrotalus).jpg>)
+- Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Platypus
+
+- Asset: `platypus.webp`
+- Photographer: Charles J. Sharp
+- Attribution: Own work, from Sharp Photography, sharpphotography.co.uk
+- Source: [File:Duck-billed_platypus_(Ornithorhynchus_anatinus)_Scottsdale.jpg](<https://commons.wikimedia.org/wiki/File:Duck-billed_platypus_(Ornithorhynchus_anatinus)_Scottsdale.jpg>)
+- Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Porcupine
+
+- Asset: `porcupine.webp`
+- Photographer: Steven Lek
+- Attribution: Own work
+- Source: [File:Hystrix_africaeaustralis_Blijdorp_Rotterdam.JPG](https://commons.wikimedia.org/wiki/File:Hystrix_africaeaustralis_Blijdorp_Rotterdam.JPG)
+- Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Puffin
+
+- Asset: `puffin.webp`
+- Photographer: Charles J. Sharp
+- Attribution: Own work, from Sharp Photography, sharpphotography.co.uk
+- Source: [File:Puffin_(Fratercula_arctica).jpg](<https://commons.wikimedia.org/wiki/File:Puffin_(Fratercula_arctica).jpg>)
+- Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Red Panda
+
+- Asset: `red-panda.webp`
+- Photographer: Sunuwargr
+- Attribution: Own work
+- Source: [File:Red_Panda,_Gentle_Tree-Dweller_of_the_Himalayas.jpg](https://commons.wikimedia.org/wiki/File:Red_Panda,_Gentle_Tree-Dweller_of_the_Himalayas.jpg)
+- Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Ring Tailed Lemur
+
+- Asset: `ring-tailed-lemur.webp`
+- Photographer: Adrian Pingstone
+- Attribution: Adrian Pingstone
+- Source: [File:Ring.tailed.lemur.situp.arp.jpg](https://commons.wikimedia.org/wiki/File:Ring.tailed.lemur.situp.arp.jpg)
+- Licence: [Public domain](https://commons.wikimedia.org/wiki/File:Ring.tailed.lemur.situp.arp.jpg)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Sea Turtle
+
+- Asset: `sea-turtle.webp`
+- Photographer: Charles J. Sharp
+- Attribution: Own work, from Sharp Photography, sharpphotography.co.uk
+- Source: [File:Green_sea_turtle_(Chelonia_mydas)_Moorea.jpg](<https://commons.wikimedia.org/wiki/File:Green_sea_turtle_(Chelonia_mydas)_Moorea.jpg>)
+- Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Seahorse
+
+- Asset: `seahorse.webp`
+- Photographer: Vassil
+- Attribution: Vassil; colour adjustment by Togabi
+- Source: [File:Aquarium de Dunkerque Hippocampus 08102017 1.jpg](https://commons.wikimedia.org/wiki/File:Aquarium_de_Dunkerque_Hippocampus_08102017_1.jpg)
+- Licence: [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Squirrel
+
+- Asset: `squirrel.webp`
+- Photographer: Peter Trimming
+- Attribution: https://www.flickr.com/photos/peter-trimming/6583159839/
+- Source: [File:Squirrel_posing.jpg](https://commons.wikimedia.org/wiki/File:Squirrel_posing.jpg)
+- Licence: [CC BY 2.0](https://creativecommons.org/licenses/by/2.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Toucan
+
+- Asset: `toucan.webp`
+- Photographer: Justin Otto
+- Attribution: Justin Otto
+- Source: [File:TocoToucan.jpg](https://commons.wikimedia.org/wiki/File:TocoToucan.jpg)
+- Licence: [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Walrus
+
+- Asset: `walrus.webp`
+- Photographer: Nixette
+- Attribution: Own work
+- Source: [File:Walrus_in_the_Russian_Arctic_National_Park,_Novaya_Zemlya_2015-2.jpg](https://commons.wikimedia.org/wiki/File:Walrus_in_the_Russian_Arctic_National_Park,_Novaya_Zemlya_2015-2.jpg)
+- Licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)
+- Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.
+
+## Wombat
+
+- Asset: `wombat.webp`
+- Photographer: JJ Harrison (jjharrison89@facebook.com)
+- Attribution: Own work
+- Source: [File:Vombatus_ursinus_-Maria_Island_National_Park.jpg](https://commons.wikimedia.org/wiki/File:Vombatus_ursinus_-Maria_Island_National_Park.jpg)
+- Licence: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0)
 - Modifications: Background removed locally; subject isolated; trimmed, resized and centred. No generated animal pixels.

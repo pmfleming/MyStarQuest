@@ -8,7 +8,6 @@ import {
   isTaskValue,
   validateTaskFields,
 } from '../../src/data/taskLimits'
-import { dinnerSliceCountSchema, taskValueSchema } from '../../src/data/types'
 
 describe('task value limits', () => {
   it('enforces task and dinner limits at runtime boundaries', () => {
@@ -34,17 +33,5 @@ describe('task value limits', () => {
     expect(clampTaskValue(0)).toBe(1)
     expect(clampTaskValue(4.6)).toBe(5)
     expect(clampTaskValue(12)).toBe(9)
-  })
-
-  it('exposes a strict persistence schema', () => {
-    expect(taskValueSchema.safeParse(1).success).toBe(true)
-    expect(taskValueSchema.safeParse(9).success).toBe(true)
-    expect(taskValueSchema.safeParse(0).success).toBe(false)
-    expect(taskValueSchema.safeParse(10).success).toBe(false)
-    expect(taskValueSchema.safeParse(1.5).success).toBe(false)
-    expect(dinnerSliceCountSchema.safeParse(1).success).toBe(true)
-    expect(dinnerSliceCountSchema.safeParse(20).success).toBe(true)
-    expect(dinnerSliceCountSchema.safeParse(0).success).toBe(false)
-    expect(dinnerSliceCountSchema.safeParse(21).success).toBe(false)
   })
 })

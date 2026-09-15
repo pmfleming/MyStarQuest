@@ -65,9 +65,16 @@ const toiletStatusSchema = z.enum(['notpeepee', 'didpeepee'])
 const mathDifficultySchema = z.enum(['easy', 'hard'])
 const taskOutcomeSchema = z.enum(['success', 'failure'])
 
-export const firestoreTimestampLikeSchema = z.custom<{ toDate?: () => Date }>(
-  (value) => value == null || typeof value === 'object'
-)
+export const firestoreTimestampLikeSchema = z
+  .custom<{ toDate?: () => Date }>(
+    (value) =>
+      value !== null &&
+      typeof value === 'object' &&
+      (!('toDate' in value) ||
+        value.toDate === undefined ||
+        typeof value.toDate === 'function')
+  )
+  .nullish()
 
 export const childSnapshotDataSchema = z
   .object({
@@ -300,97 +307,17 @@ export function isTestRecord(task: TaskRecord): task is TestRecord {
   return isTestType(task.taskType)
 }
 
-function isTaskWithEphemeral(
-  item: TaskWithEphemeral | TodoRecord
-): item is TaskWithEphemeral {
-  return 'taskType' in item
-}
-
 export function isChoreWithEphemeral(
-  item: TaskWithEphemeral | TodoRecord
+  item: TaskWithEphemeral
 ): item is ChoreWithEphemeral {
-  return isTaskWithEphemeral(item) && isChoreRecord(item)
+  return isChoreRecord(item)
 }
 
 export function isTestWithEphemeral(
-  item: TaskWithEphemeral | TodoRecord
+  item: TaskWithEphemeral
 ): item is TestWithEphemeral {
-  return isTaskWithEphemeral(item) && isTestRecord(item)
+  return isTestRecord(item)
 }
-
-// ── TodoRecord: discriminated union on `sourceTaskType` ──
-
-type TodoBase = {
-  id: string
-  title: string
-  childId: string
-  sourceTaskId: string
-  starValue: number
-  schoolDayEnabled: boolean
-  nonSchoolDayEnabled: boolean
-  autoAdded: boolean
-  imageKey?: string
-  completedAt: number | null
-  dateKey: string
-  createdAt?: Date
-}
-
-export type StandardTodo = TodoBase & { sourceTaskType: 'standard' }
-export type EatingTodo = TodoBase & {
-  sourceTaskType: 'eating'
-  dinnerDurationSeconds: number
-  dinnerRemainingSeconds: number
-  dinnerTotalBites: number
-  dinnerBitesLeft: number
-  dinnerTimerStartedAt: number | null
-}
-export type MathTodo = TodoBase & {
-  sourceTaskType: 'math'
-  mathTotalProblems: number
-  mathDifficulty?: MathDifficulty
-  mathLastOutcome: TaskOutcome | null
-}
-export type LargeNumbersTodo = TodoBase & {
-  sourceTaskType: 'large-numbers'
-  largeNumbersTotalProblems: number
-  largeNumbersLastOutcome: TaskOutcome | null
-}
-export type PositionalNotationTodo = TodoBase & {
-  sourceTaskType: 'positional-notation'
-  pvTotalProblems: number
-  pvLastOutcome: TaskOutcome | null
-}
-export type AlphabetTodo = TodoBase & {
-  sourceTaskType: 'alphabet'
-  alphabetTotalProblems: number
-  alphabetLastOutcome: TaskOutcome | null
-}
-export type SpellingTodo = TodoBase & {
-  sourceTaskType: 'spelling'
-  spellingTotalProblems: number
-  spellingLastOutcome: TaskOutcome | null
-}
-export type AnimalsTodo = TodoBase & {
-  sourceTaskType: 'animals'
-  animalsTotalProblems: number
-  animalsLastOutcome: TaskOutcome | null
-}
-export type WaterToiletTodo = TodoBase & {
-  sourceTaskType: 'watertoiletcheck'
-  waterLevel: WaterLevel
-  toiletStatus: ToiletStatus
-}
-
-export type TodoRecord =
-  | StandardTodo
-  | EatingTodo
-  | MathTodo
-  | LargeNumbersTodo
-  | PositionalNotationTodo
-  | AlphabetTodo
-  | SpellingTodo
-  | AnimalsTodo
-  | WaterToiletTodo
 
 // ── Updatable field subsets ──
 
@@ -421,28 +348,6 @@ export type TaskUpdatableFields = Partial<{
   manageWaterLevel: WaterLevel
   manageToiletStatus: ToiletStatus
   manageWaterToiletCompletedAt: number | null
-}>
-
-export type TodoUpdatableFields = Partial<{
-  title: string
-  starValue: number
-  schoolDayEnabled: boolean
-  nonSchoolDayEnabled: boolean
-  imageKey: string
-  completedAt: number | null
-  dinnerDurationSeconds: number
-  dinnerRemainingSeconds: number
-  dinnerTotalBites: number
-  dinnerBitesLeft: number
-  dinnerTimerStartedAt: number | null
-  mathLastOutcome: TaskOutcome | null
-  largeNumbersLastOutcome: TaskOutcome | null
-  pvLastOutcome: TaskOutcome | null
-  alphabetLastOutcome: TaskOutcome | null
-  spellingLastOutcome: TaskOutcome | null
-  animalsLastOutcome: TaskOutcome | null
-  waterLevel: WaterLevel
-  toiletStatus: ToiletStatus
 }>
 
 // ── Constants ──
@@ -480,14 +385,6 @@ export function isWaterToiletTask<T extends { taskType: TaskType }>(
   t: T
 ): t is Extract<T, { taskType: 'watertoiletcheck' }> {
   return t.taskType === 'watertoiletcheck'
-}
-
-export function isEatingTodo(t: TodoRecord): t is EatingTodo {
-  return t.sourceTaskType === 'eating'
-}
-
-export function isWaterToiletTodo(t: TodoRecord): t is WaterToiletTodo {
-  return t.sourceTaskType === 'watertoiletcheck'
 }
 
 // ── TaskWithEphemeral helpers ──

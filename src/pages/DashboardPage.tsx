@@ -29,6 +29,7 @@ import { useTestCheckTriggers } from '../hooks/useTestCheckTriggers'
 import { DashboardHeaderActions } from './dashboardChoreUi'
 import ChoreCreationFlow from './ChoreCreationFlow'
 import InlineNotice from '../components/ui/InlineNotice'
+import { useTaskCelebration } from '../hooks/useTaskCelebration'
 
 type ChorePanelMode = 'create' | null
 
@@ -77,6 +78,14 @@ const DashboardPage = () => {
     resetChore,
     deleteTask,
   } = useChores()
+
+  const celebration = useTaskCelebration({
+    items: todayChores,
+    activeChildId,
+    dateKey: todayInfo.dateKey,
+    totalStars:
+      children.find((child) => child.id === activeChildId)?.totalStars ?? 0,
+  })
 
   const [chorePanelMode, setChorePanelMode] = useState<ChorePanelMode>(null)
   const [editingChoreId, setEditingChoreId] = useState<string | null>(null)
@@ -150,6 +159,7 @@ const DashboardPage = () => {
     await runDashboardAction(
       async () => {
         clearActiveActivities()
+        celebration.clear()
         await Promise.all(
           todayChores.map((chore) =>
             isEatingTask(chore) ? resetDinner(chore) : resetChore(chore)
@@ -215,7 +225,12 @@ const DashboardPage = () => {
         activity.enterActivity(task.taskType, task.id)
       ),
     onExitActivity: activity.clearActiveActivities,
-    onComplete: (item) => withTaskItem(item, completeChore),
+    onComplete: (item) =>
+      withTaskItem(item, (task) =>
+        celebration.run(task, todayChores, (onAward) =>
+          completeChore(task, onAward)
+        )
+      ),
     onFail: (item) => withTaskItem(item, failChore),
     onReset: (item) =>
       withTaskItem(item, async (task) => {
@@ -240,7 +255,9 @@ const DashboardPage = () => {
       withTaskItem(item, async (task) => {
         if (biteCooldownEndsAt && Date.now() < biteCooldownEndsAt) return
         setBiteCooldownEndsAt(Date.now() + biteCooldownSeconds * 1000)
-        await applyBite(task)
+        await celebration.run(task, todayChores, (onAward) =>
+          applyBite(task, onAward)
+        )
       }),
     onExpireDinner: (item) => withTaskItem(item, expireDinnerTimer),
     activeIds: activity.activeIds,
@@ -251,10 +268,15 @@ const DashboardPage = () => {
   }
 
   const choreState = createUnifiedChoreState(unifiedChoreDeps)
-  const descriptor = createUnifiedChoreDescriptor(unifiedChoreDeps)
+  const descriptor = celebration.decorate(
+    createUnifiedChoreDescriptor(unifiedChoreDeps),
+    theme
+  )
 
   const shouldHideEditChore = (chore: (typeof todayChores)[number]) =>
-    !isChoreWithEphemeral(chore) || choreState.getStage(chore) === 'activity'
+    !isChoreWithEphemeral(chore) ||
+    celebration.isBusy(chore) ||
+    choreState.getStage(chore) === 'activity'
 
   const renderTodayChoreEdit = (chore: (typeof todayChores)[number]) => {
     if (!isChoreWithEphemeral(chore)) {
@@ -322,7 +344,7 @@ const DashboardPage = () => {
         ) : (
           <StandardActionList
             theme={theme}
-            items={todayChores}
+            items={celebration.retainItems(todayChores)}
             getKey={(chore) => chore.id}
             getItemLabel={(chore) => chore.title}
             {...toStandardActionListDescriptor(descriptor)}

@@ -13,10 +13,10 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-13T22:16:03.400Z",
+    "measured_at": "2026-09-14T16:21:26.207Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5e4567c47759bae79c0f190ad4744f6bb5e877cc7622756d59280e4896e634c9",
-    "input_set_hash": "sha256:0b2ad19b0d0ca0822f04d35662e9c984c3a719b83cd02ce37f06945cc7607ba1"
+    "source_set_hash": "sha256:87bc369e934fd911632c8d792f2b9eb5ada60380fea8bdb440fd60a00f611ec6",
+    "input_set_hash": "sha256:8c6dc4a2b5d3f11c0d396f2c10fdfbc9df47e7c75040aa14e217464df1578544"
   },
   "analysis_identity": {
     "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
@@ -93,9 +93,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 59,
+    "tests": 66,
     "colocated_tests": 0,
-    "external_tests": 59,
+    "external_tests": 66,
     "execution_status": "passed",
     "execution_scope": "suite",
     "coverage_status": "not_collected"
@@ -906,6 +906,67 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/component/androidOffline.test.tsx",
+      "name": "androidOffline.test.tsx",
+      "path": "tests/component/androidOffline.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/offline/runtime.ts",
+        "src/data/useChores.ts",
+        "src/data/useTests.ts",
+        "src/data/useRewards.ts",
+        "src/offline/model.ts",
+        "src/lib/today.ts",
+        "src/offline/actions.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/offline/model.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/useChores.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/useTests.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/useRewards.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/model.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/today.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/actions.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/component/animalSession.test.tsx",
       "name": "animalSession.test.tsx",
       "path": "tests/component/animalSession.test.tsx",
@@ -1402,6 +1463,69 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/e2e/offline.spec.ts",
+      "name": "offline.spec.ts",
+      "path": "tests/e2e/offline.spec.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/offline/transport.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/offline/transport.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/model.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/fixtures/offline.ts",
+      "name": "offline.ts",
+      "path": "tests/fixtures/offline.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/offline/store.ts",
+        "src/offline/persistence.ts",
+        "src/offline/sync.ts",
+        "src/offline/model.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/offline/store.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/persistence.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/sync.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/model.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/setup/vitest.setup.ts",
       "name": "vitest.setup.ts",
       "path": "tests/setup/vitest.setup.ts",
@@ -1645,6 +1769,137 @@
       "source_associations": [
         {
           "file": "src/data/creatureCollections/loadCollection.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/offlineFirebaseTransport.test.ts",
+      "name": "offlineFirebaseTransport.test.ts",
+      "path": "tests/unit/offlineFirebaseTransport.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/offline/firebaseTransport.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/offline/firebaseTransport.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/offlineRuntime.test.ts",
+      "name": "offlineRuntime.test.ts",
+      "path": "tests/unit/offlineRuntime.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/offline/runtime.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/offline/model.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/offlineStore.test.ts",
+      "name": "offlineStore.test.ts",
+      "path": "tests/unit/offlineStore.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/offline/model.ts",
+        "src/offline/store.ts",
+        "src/offline/selectors.ts",
+        "src/lib/snapshotStore.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/offline/model.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/store.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/persistence.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/selectors.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/snapshotStore.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/offlineSync.test.ts",
+      "name": "offlineSync.test.ts",
+      "path": "tests/unit/offlineSync.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/offline/sync.ts",
+        "src/offline/store.ts",
+        "src/offline/transport.ts",
+        "src/offline/model.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/offline/sync.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/store.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/model.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/transport.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/model.ts",
           "kind": "direct-import",
           "confidence": "high"
         }

@@ -143,6 +143,79 @@
       rotate(90deg);
   }
 }
+.reward-celebration--earned .reward-celebration__star {
+  animation-name: earned-star-flight;
+}
+.reward-celebration--earned .reward-celebration__art {
+  display: block;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: earned-image-expand calc(2200ms * var(--reward-pace))
+    cubic-bezier(0.22, 0.68, 0.25, 1) both;
+}
+.reward-celebration--earned .reward-celebration__art img {
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+.reward-celebration--earned .reward-celebration__balance {
+  color: #fff;
+  animation: earned-balance-fade calc(450ms * var(--reward-pace))
+    calc(1350ms * var(--reward-pace)) ease-out both;
+}
+.reward-celebration--earned .reward-celebration__halo {
+  display: none;
+}
+.reward-celebration--earned .reward-celebration__balance strong {
+  text-shadow: 0 2px 4px #0004;
+}
+.reward-celebration--earned .reward-celebration__sparkle {
+  left: calc(50% - 16px);
+}
+@keyframes earned-image-expand {
+  0% {
+    opacity: 0.4;
+    transform: translateX(-21%) scale(0.3);
+  }
+  12%,
+  61% {
+    opacity: 1;
+    transform: translateX(-21%) scale(0.46);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+@keyframes earned-balance-fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes earned-star-flight {
+  0% {
+    opacity: 0;
+    left: 22%;
+    transform: scale(0.45);
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+    left: 44%;
+    transform: translateY(var(--star-curve)) scale(1) rotate(60deg);
+  }
+  100% {
+    opacity: 0;
+    left: 65%;
+    transform: scale(0.65) rotate(120deg);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .reward-celebration__star,
   .reward-celebration__sparkle {
@@ -155,5 +228,14 @@
   }
   .reward-celebration__halo {
     opacity: 0.75;
+  }
+  .reward-celebration--earned .reward-celebration__art,
+  .reward-celebration--earned .reward-celebration__halo {
+    animation: none;
+    transform: none;
+  }
+  .reward-celebration--earned .reward-celebration__balance {
+    animation: none;
+    opacity: 0;
   }
 }

@@ -3,7 +3,11 @@ export const MAX_TASK_VALUE = 9
 export const MIN_DINNER_SLICES = 1
 export const MAX_DINNER_SLICES = 20
 
-const isBoundedInteger = (value: unknown, min: number, max: number) =>
+const isBoundedInteger = (
+  value: unknown,
+  min: number,
+  max: number
+): value is number =>
   typeof value === 'number' &&
   Number.isInteger(value) &&
   value >= min &&
@@ -20,7 +24,7 @@ const assertBoundedInteger = (
       `${fieldName} must be an integer from ${min} to ${max}.`
     )
   }
-  return value as number
+  return value
 }
 
 const clampInteger = (value: number, min: number, max: number) =>

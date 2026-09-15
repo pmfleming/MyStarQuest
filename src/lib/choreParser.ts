@@ -1,13 +1,4 @@
 import {
-  DEFAULT_ALPHABET_PROBLEMS,
-  DEFAULT_ANIMALS_PROBLEMS,
-  DEFAULT_DINNER_BITES,
-  DEFAULT_DINNER_DURATION_SECONDS,
-  DEFAULT_LARGE_NUMBERS_PROBLEMS,
-  DEFAULT_MATH_PROBLEMS,
-  DEFAULT_PV_PROBLEMS,
-  DEFAULT_SPELLING_PROBLEMS,
-  firestoreTimestampLikeSchema,
   isChoreRecord,
   isTestRecord,
   taskSnapshotDataSchema,
@@ -20,115 +11,52 @@ import {
 import { normalizeChoreSchedule } from './today'
 
 type SnapshotData = Record<string, unknown>
-type VariantField = {
-  key: string
-  fallbackKeys?: string[]
-  defaultValue?: unknown
-}
-
-const getCreatedAt = (data: SnapshotData) => {
-  const createdAt = firestoreTimestampLikeSchema.parse(data.createdAt)
-  return createdAt?.toDate?.()
-}
-
-const parseTaskTypeCandidate = (
-  candidate: string
-): TaskType | null | undefined => {
-  if (candidate === 'daynight') return null
-  const parsed = taskTypeSchema.safeParse(candidate)
-  return parsed.success ? parsed.data : undefined
-}
+type TaskData = ReturnType<typeof taskSnapshotDataSchema.parse>
 
 const resolveTaskType = (...candidates: string[]): TaskType | null => {
   for (const candidate of candidates) {
-    const taskType = parseTaskTypeCandidate(candidate)
-    if (taskType !== undefined) return taskType
+    if (candidate === 'daynight') return null
+    const parsed = taskTypeSchema.safeParse(candidate)
+    if (parsed.success) return parsed.data
   }
   return 'standard'
 }
 
-const readVariantField = (
-  data: SnapshotData,
-  { key, fallbackKeys = [], defaultValue }: VariantField
-) => {
-  for (const sourceKey of [key, ...fallbackKeys]) {
-    const value = data[sourceKey]
-    if (value !== undefined) return value
-  }
-  return defaultValue
-}
-
-const withVariantFields = <T extends Record<string, unknown>>(
-  base: T,
-  typeKey: 'taskType' | 'sourceTaskType',
-  taskType: TaskType,
-  data: SnapshotData,
-  fields: readonly VariantField[]
-) => ({
-  ...base,
-  [typeKey]: taskType,
-  ...Object.fromEntries(
-    fields.map((field) => [field.key, readVariantField(data, field)])
-  ),
-})
-
-const withLegacyAliases = (
-  data: SnapshotData,
-  aliases: Record<string, string>
-): SnapshotData => {
-  if (!data || typeof data !== 'object') return data
-  return {
-    ...data,
-    ...Object.fromEntries(
-      Object.entries(aliases).map(([key, legacyKey]) => [
-        key,
-        data[key] ?? data[legacyKey],
-      ])
-    ),
+// Validation already supplies each variant's defaults; keep the discriminator
+// and its fields together instead of reconstructing them through string keys.
+function taskVariant(taskType: TaskType, data: TaskData) {
+  switch (taskType) {
+    case 'eating':
+      return {
+        taskType,
+        dinnerDurationSeconds: data.dinnerDurationSeconds,
+        dinnerTotalBites: data.dinnerTotalBites,
+      }
+    case 'math':
+      return {
+        taskType,
+        mathTotalProblems: data.mathTotalProblems,
+        mathDifficulty: data.mathDifficulty,
+      }
+    case 'large-numbers':
+      return {
+        taskType,
+        largeNumbersTotalProblems: data.largeNumbersTotalProblems,
+      }
+    case 'alphabet':
+      return { taskType, alphabetTotalProblems: data.alphabetTotalProblems }
+    case 'spelling':
+      return { taskType, spellingTotalProblems: data.spellingTotalProblems }
+    case 'animals':
+      return { taskType, animalsTotalProblems: data.animalsTotalProblems }
+    case 'positional-notation':
+      return { taskType, pvTotalProblems: data.pvTotalProblems }
+    default:
+      return { taskType }
   }
 }
 
-const normalizeChoreSnapshotData = (data: SnapshotData) =>
-  withLegacyAliases(data, { taskType: 'choreType', category: 'choreType' })
-
-const normalizeTestSnapshotData = (data: SnapshotData) =>
-  withLegacyAliases(data, { taskType: 'testType', category: 'testType' })
-
-const taskVariantFields = {
-  standard: [],
-  eating: [
-    {
-      key: 'dinnerDurationSeconds',
-      defaultValue: DEFAULT_DINNER_DURATION_SECONDS,
-    },
-    { key: 'dinnerTotalBites', defaultValue: DEFAULT_DINNER_BITES },
-  ],
-  math: [
-    { key: 'mathTotalProblems', defaultValue: DEFAULT_MATH_PROBLEMS },
-    { key: 'mathDifficulty' },
-  ],
-  'large-numbers': [
-    {
-      key: 'largeNumbersTotalProblems',
-      defaultValue: DEFAULT_LARGE_NUMBERS_PROBLEMS,
-    },
-  ],
-  alphabet: [
-    { key: 'alphabetTotalProblems', defaultValue: DEFAULT_ALPHABET_PROBLEMS },
-  ],
-  spelling: [
-    { key: 'spellingTotalProblems', defaultValue: DEFAULT_SPELLING_PROBLEMS },
-  ],
-  animals: [
-    { key: 'animalsTotalProblems', defaultValue: DEFAULT_ANIMALS_PROBLEMS },
-  ],
-  'positional-notation': [
-    { key: 'pvTotalProblems', defaultValue: DEFAULT_PV_PROBLEMS },
-  ],
-  watertoiletcheck: [],
-} satisfies Record<TaskType, readonly VariantField[]>
-
-// Copy only persisted activity fields; null and zero are meaningful reset values.
+// Null and zero are meaningful reset values. Missing fields remain absent.
 const MANAGED_FIELDS = [
   'manageCompletedAt',
   'manageDinnerRemainingSeconds',
@@ -140,8 +68,17 @@ const MANAGED_FIELDS = [
   'manageWaterToiletCompletedAt',
 ] as const
 
-function parseTaskSnapshot(id: string, data: SnapshotData): TaskRecord | null {
-  const parsed = taskSnapshotDataSchema.safeParse(data)
+function parseTaskSnapshot(
+  id: string,
+  data: SnapshotData,
+  legacyKey: string
+): TaskRecord | null {
+  const normalized = data && {
+    ...data,
+    taskType: data.taskType ?? data[legacyKey],
+    category: data.category ?? data[legacyKey],
+  }
+  const parsed = taskSnapshotDataSchema.safeParse(normalized)
   if (!parsed.success) {
     console.warn('Skipping invalid template snapshot', {
       id,
@@ -149,15 +86,13 @@ function parseTaskSnapshot(id: string, data: SnapshotData): TaskRecord | null {
     })
     return null
   }
-
   const taskData = parsed.data
   const taskType = resolveTaskType(taskData.taskType, taskData.category)
   if (!taskType) return null
-
-  const base = {
+  return {
     id,
     title:
-      taskType === 'standard' && taskData.title.trim().length === 0
+      taskType === 'standard' && !taskData.title.trim()
         ? 'New Chore'
         : taskData.title,
     childId: taskData.childId,
@@ -166,7 +101,7 @@ function parseTaskSnapshot(id: string, data: SnapshotData): TaskRecord | null {
     starValue: taskData.starValue,
     isRepeating: taskData.isRepeating,
     ...(taskData.imageKey !== undefined ? { imageKey: taskData.imageKey } : {}),
-    createdAt: getCreatedAt(taskData),
+    createdAt: taskData.createdAt?.toDate?.(),
     ...(taskData.lastAttemptedAt !== null
       ? { lastAttemptedAt: taskData.lastAttemptedAt }
       : {}),
@@ -182,35 +117,26 @@ function parseTaskSnapshot(id: string, data: SnapshotData): TaskRecord | null {
         taskData[key],
       ])
     ),
+    ...taskVariant(taskType, taskData),
   }
-
-  return withVariantFields(
-    base,
-    'taskType',
-    taskType,
-    taskData,
-    taskVariantFields[taskType]
-  ) as TaskRecord
 }
 
 export function parseChoreSnapshot(
   id: string,
   data: SnapshotData
 ): ChoreRecord | null {
-  const task = parseTaskSnapshot(id, normalizeChoreSnapshotData(data))
-  if (!task || !isChoreRecord(task)) return null
-  return task
+  const task = parseTaskSnapshot(id, data, 'choreType')
+  return task && isChoreRecord(task) ? task : null
 }
 
 export function parseTestSnapshot(
   id: string,
   data: SnapshotData
 ): TestRecord | null {
-  const task = parseTaskSnapshot(id, normalizeTestSnapshotData(data))
+  const task = parseTaskSnapshot(id, data, 'testType')
   if (!task || !isTestRecord(task)) return null
-  // Apply the renamed default to saved games while preserving custom titles.
-  if (task.taskType === 'animals' && task.title === 'Animals') {
-    return { ...task, title: 'Who am I?' }
-  }
-  return task
+  // Preserve custom titles when renaming the saved Animals game.
+  return task.taskType === 'animals' && task.title === 'Animals'
+    ? { ...task, title: 'Who am I?' }
+    : task
 }

@@ -47,15 +47,14 @@ export const mergeMissingTitleDrafts = <T extends DraftableItem>(
   previousDrafts: Record<string, string>,
   items: T[]
 ) => {
-  let changed = false
-  const next = { ...previousDrafts }
+  let next = previousDrafts
   for (const item of items) {
     if (!(item.id in next)) {
+      if (next === previousDrafts) next = { ...previousDrafts }
       next[item.id] = item.title
-      changed = true
     }
   }
-  return changed ? next : previousDrafts
+  return next
 }
 
 const useTitleDraftBackfill = <T extends DraftableItem>(
@@ -182,14 +181,13 @@ export const reconcileTaskEphemeral = (
   for (const item of items) {
     const patch = previous[item.id]
     if (!patch) continue
-    const remaining = { ...patch }
-    for (const key of Object.keys(patch) as Array<keyof TaskEphemeralState>) {
-      if (Object.is(item[key], patch[key])) delete remaining[key]
-    }
-    if (Object.keys(remaining).length === Object.keys(patch).length) continue
+    const remaining = Object.entries(patch).filter(
+      ([key, value]) => !Object.is(Reflect.get(item, key), value)
+    )
+    if (remaining.length === Object.keys(patch).length) continue
     if (next === previous) next = { ...previous }
-    if (Object.keys(remaining).length === 0) delete next[item.id]
-    else next[item.id] = remaining
+    if (remaining.length === 0) delete next[item.id]
+    else next[item.id] = Object.fromEntries(remaining)
   }
   return next
 }

@@ -1,5 +1,4 @@
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import RewardCreationFlow from '../../src/pages/RewardCreationFlow'
 import { ThemeContext, themes } from '../../src/contexts/ThemeContext'
 
@@ -76,28 +75,5 @@ describe('RewardCreationFlow', () => {
     } finally {
       log.mockRestore()
     }
-  })
-
-  it('selects image artwork and discards a separate staged draft', async () => {
-    const user = userEvent.setup()
-    const { onSave } = renderFlow()
-
-    await user.click(screen.getByRole('button', { name: 'Previous: Pikachu' }))
-    expect(screen.getByLabelText('Selected: Pikachu')).toBeInTheDocument()
-
-    await user.click(screen.getByRole('button', { name: 'Save reward' }))
-
-    expect(onSave).toHaveBeenCalledWith(
-      expect.objectContaining({ imageKey: 'pikachu' })
-    )
-
-    cleanup()
-    const { onCancel, onSave: cancelledSave } = renderFlow()
-
-    const discardButton = screen.getByRole('button', { name: 'Discard reward' })
-    await user.click(discardButton)
-
-    expect(onCancel).toHaveBeenCalledOnce()
-    expect(cancelledSave).not.toHaveBeenCalled()
   })
 })

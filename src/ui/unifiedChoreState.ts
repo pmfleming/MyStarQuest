@@ -5,12 +5,8 @@ import {
   getManageToiletStatus,
   getManageWaterLevel,
   isEatingTask,
-  isEatingTodo,
   isWaterToiletTask,
-  isWaterToiletTodo,
-  type TaskType,
   type TaskWithEphemeral,
-  type TodoRecord,
 } from '../data/types'
 import {
   calculateWaterToiletStars,
@@ -25,27 +21,12 @@ import type {
   UnifiedChoreItem,
 } from './unifiedChoreDescriptorTypes'
 
-export const isTaskItem = (item: UnifiedChoreItem): item is TaskWithEphemeral =>
-  'taskType' in item
-
-export const getChoreType = (item: UnifiedChoreItem): TaskType =>
-  isTaskItem(item) ? item.taskType : item.sourceTaskType
-
 const getDinnerState = (item: UnifiedChoreItem) => {
-  if (isTaskItem(item)) {
-    return isEatingTask(item)
-      ? {
-          remaining: getManageDinnerRemaining(item),
-          startedAt: item.manageDinnerTimerStartedAt,
-          bitesLeft: getManageDinnerBitesLeft(item),
-        }
-      : null
-  }
-  return isEatingTodo(item)
+  return isEatingTask(item)
     ? {
-        remaining: item.dinnerRemainingSeconds,
-        startedAt: item.dinnerTimerStartedAt,
-        bitesLeft: item.dinnerBitesLeft,
+        remaining: getManageDinnerRemaining(item),
+        startedAt: item.manageDinnerTimerStartedAt,
+        bitesLeft: getManageDinnerBitesLeft(item),
       }
     : null
 }
@@ -70,9 +51,7 @@ export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
     deps.biteCooldownEndsAt > Date.now()
 
   const isCompleted = (item: UnifiedChoreItem) =>
-    isTaskItem(item)
-      ? Boolean(getManageTaskCompletedAt(item))
-      : Boolean(item.completedAt)
+    Boolean(getManageTaskCompletedAt(item))
 
   const getStage = (item: UnifiedChoreItem): ChoreStage => {
     const dinner = getDinnerState(item)
@@ -88,21 +67,15 @@ export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
   }
 
   const getWaterToiletDelta = (item: UnifiedChoreItem) => {
-    if (isTaskItem(item)) {
-      if (!isWaterToiletTask(item)) return item.starValue
-      return calculateWaterToiletStars(
-        getManageWaterLevel(item),
-        getManageToiletStatus(item)
-      )
-    }
-
-    if (!isWaterToiletTodo(item)) return item.starValue
-    return calculateWaterToiletStars(item.waterLevel, item.toiletStatus)
+    if (!isWaterToiletTask(item)) return item.starValue
+    return calculateWaterToiletStars(
+      getManageWaterLevel(item),
+      getManageToiletStatus(item)
+    )
   }
 
   const getWaterToiletRenderState = (item: UnifiedChoreItem) => {
-    if (isTaskItem(item)) return getTaskWaterToiletRenderState(deps, item)
-    return getTodoWaterToiletRenderState(deps, item)
+    return getTaskWaterToiletRenderState(deps, item)
   }
 
   return {
@@ -149,28 +122,6 @@ const getTaskWaterToiletRenderState = (
     onCycleToilet: () =>
       deps.onUpdateEphemeral?.(item.id, {
         manageToiletStatus: getNextToiletStatus(toiletStatus),
-      }),
-  }
-}
-
-const getTodoWaterToiletRenderState = (
-  deps: UnifiedChoreDeps,
-  item: TodoRecord
-) => {
-  if (!isWaterToiletTodo(item)) return null
-
-  return {
-    isCompleted: Boolean(item.completedAt),
-    waterLevel: item.waterLevel,
-    toiletStatus: item.toiletStatus,
-    starDelta: calculateWaterToiletStars(item.waterLevel, item.toiletStatus),
-    onCycleWater: () =>
-      deps.onUpdateTodoField?.(item.id, {
-        waterLevel: getNextWaterLevel(item.waterLevel),
-      }),
-    onCycleToilet: () =>
-      deps.onUpdateTodoField?.(item.id, {
-        toiletStatus: getNextToiletStatus(item.toiletStatus),
       }),
   }
 }
