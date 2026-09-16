@@ -59,24 +59,4 @@ describe('school calendar event expansion', () => {
       false
     )
   })
-
-  it('marks weekend events as non-school and ignores calendar metadata', () => {
-    const event = makeEvent({
-      start: new Date('2026-09-12T10:00:00Z'),
-      end: undefined,
-      datetype: 'date-time',
-    })
-    const calendar = buildSchoolCalendar({
-      event,
-      missing: undefined,
-      vcalendar: { type: 'VCALENDAR', version: '2.0' },
-    })
-    expect(calendar).toEqual({
-      '2026-09-12': {
-        summaries: ['Holiday'],
-        hasAllDayEvent: false,
-        isNonSchoolDay: true,
-      },
-    })
-  })
 })

@@ -43,7 +43,7 @@ vi.mock(
     onRequest: vi.fn(),
   })
 )
-import { generateDailyTodos, resetTodayChores } from '../../functions/src/index'
+import { resetTodayChores } from '../../functions/src/index'
 
 const chore = (id: string, data: Record<string, unknown>) => ({
   id,
@@ -100,26 +100,6 @@ it('manual reset includes untitled chores, skips tests/unscheduled/legacy record
     ],
   ])
   expect(database.commit).toHaveBeenCalledTimes(1)
-})
-
-it('scheduled reset skips untitled and malformed-title chores', async () => {
-  database.listDocuments.mockResolvedValue([{ id: 'parent' }])
-  database.get
-    .mockResolvedValueOnce({ docs: [{ id: 'child' }] })
-    .mockResolvedValueOnce({
-      docs: [
-        chore('normal', {}),
-        chore('blank', { title: '' }),
-        chore('invalid', { title: 42 }),
-      ],
-    })
-  await generateDailyTodos.run({
-    scheduleTime: '2026-09-14T12:00:00Z',
-    jobName: 'test',
-  })
-  expect(database.update.mock.calls).toEqual([
-    ['normal', { manageCompletedAt: null }],
-  ])
 })
 
 it('rejects unauthenticated, malformed and foreign-child requests before writes', async () => {

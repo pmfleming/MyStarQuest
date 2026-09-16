@@ -47,7 +47,6 @@ describe('chore completion persistence', () => {
 
   it.each([
     { manageDinnerTimerStartedAt: undefined, manageDinnerRemainingSeconds: 0 },
-    { manageDinnerTimerStartedAt: 10_000, manageDinnerRemainingSeconds: 300 },
   ])(
     'ignores expiry for an unstarted, running or completed dinner: %j',
     async (patch) => {

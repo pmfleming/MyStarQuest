@@ -91,15 +91,15 @@ const teenieRoles = {
   clockIcon: 'clock.svg',
   thermometerIcon: 'thermometer.svg',
   childrenIcon: '@heart',
-  exitIcon: 'exit.svg',
+  exitIcon: 'exit-character.png',
   editIcon: 'edit.webp',
   deleteIcon: 'delete.webp',
   resetIcon: 'reset.svg',
   confirmExitImage: '@nono',
   continueActivityImage: '@okeydokey',
-  saveIcon: 'save.svg',
+  saveIcon: 'save-character.png',
   themeIcon: '@heart',
-  activeIcon: 'active.webp',
+  activeIcon: 'active-character.png',
   selectIcon: 'select.svg',
   buyRewardIcon: '@gift',
   lockedRewardIcon: '@lucky',
@@ -151,12 +151,15 @@ export const getThemeAssets = (id: ThemeId | string): ThemeAssets => {
       '@okeydokey': okeydokey,
       '@nono': nono,
     }
-    teenieAssets = Object.fromEntries(
-      Object.entries(teenieRoles).map(([role, file]) => [
-        role,
-        reused[file] ?? teenieImage(file),
-      ])
-    ) as ThemeAssets
+    teenieAssets = {
+      ...princessAssets,
+      ...Object.fromEntries(
+        Object.entries(teenieRoles).map(([role, file]) => [
+          role,
+          reused[file] ?? teenieImage(file),
+        ])
+      ),
+    }
   }
   return teenieAssets
 }

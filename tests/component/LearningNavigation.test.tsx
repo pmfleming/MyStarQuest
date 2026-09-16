@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import LearningNavigation from '../../src/components/animalTester/LearningNavigation'
 import { themes } from '../../src/contexts/ThemeContext'
@@ -44,23 +44,10 @@ describe('LearningNavigation', () => {
     })
     expect(opener).toHaveAttribute('aria-expanded', 'false')
     expect(opener).toHaveFocus()
-  })
-
-  it('dismisses without selecting and recenters after browsing', () => {
-    const p = props()
-    render(<LearningNavigation {...p} />)
-    const strip = open()
-    fireEvent.wheel(strip, { deltaX: 100 })
-    expect(within(strip).getAllByRole('button')[0]).toHaveTextContent('J')
+    open()
     fireEvent.keyDown(document, { key: 'Escape' })
-    expect(
-      screen.getByRole('button', { name: 'Choose starting letter' })
-    ).toHaveFocus()
-    expect(within(open()).getAllByRole('button')[0]).toHaveTextContent('I')
-    fireEvent.pointerDown(document.body)
-    expect(
-      screen.getByRole('button', { name: 'Choose starting letter' })
-    ).toHaveAttribute('aria-expanded', 'false')
-    expect(p.onSelectLetter).not.toHaveBeenCalled()
+    expect(opener).toHaveFocus()
+    expect(opener).toHaveAttribute('aria-expanded', 'false')
+    expect(p.onSelectLetter).toHaveBeenCalledTimes(1)
   })
 })

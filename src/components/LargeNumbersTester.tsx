@@ -14,7 +14,7 @@ import { type ActivityChoreProps } from './ui/ActivityControls'
 import { CounterGroup, MathCounter, TenRod } from './ui/ActivityMathCounters'
 import MathActivityPlayArea from './ui/MathActivityPlayArea'
 import MathActivityShell from './ui/MathActivityShell'
-import StepperButton from './ui/StepperButton'
+import { NumberStepper } from './ui/StepperButton'
 import CrownDifficultyControl, {
   type CrownDifficultyOption,
 } from './ui/CrownDifficultyControl'
@@ -336,44 +336,30 @@ const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
       >
         {label}
       </span>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 4,
+      <NumberStepper
+        theme={theme}
+        value={value}
+        disabled={isCorrect}
+        decrease={{
+          onClick: onPrev,
+          disabled: disablePrev,
+          ariaLabel: `Remove one ${label.toLowerCase()}`,
         }}
-      >
-        <StepperButton
-          theme={theme}
-          direction="prev"
-          onClick={onPrev}
-          disabled={disablePrev || isCorrect}
-          ariaLabel={`Remove one ${label.toLowerCase()}`}
-          style={stepperStyle}
-        />
-        <span
-          style={{
-            width: 24,
-            textAlign: 'center',
-            fontFamily: theme.fonts.heading,
-            fontSize: 26,
-            fontWeight: 900,
-            color,
-            lineHeight: 1,
-          }}
-        >
-          {value}
-        </span>
-        <StepperButton
-          theme={theme}
-          direction="next"
-          onClick={onNext}
-          disabled={disableNext || isCorrect}
-          ariaLabel={`Add one ${label.toLowerCase()}`}
-          style={stepperStyle}
-        />
-      </div>
+        increase={{
+          onClick: onNext,
+          disabled: disableNext,
+          ariaLabel: `Add one ${label.toLowerCase()}`,
+        }}
+        style={{ justifyContent: 'center', gap: 4 }}
+        buttonStyle={stepperStyle}
+        valueStyle={{
+          width: 24,
+          fontSize: 26,
+          fontWeight: 900,
+          color,
+          lineHeight: 1,
+        }}
+      />
       {counters}
     </div>
   )

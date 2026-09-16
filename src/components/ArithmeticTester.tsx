@@ -1,7 +1,7 @@
 import MathActivityPlayArea from './ui/MathActivityPlayArea'
 import { getThemeAsset } from '../ui/themeAssets'
 import { useState, useCallback } from 'react'
-import StepperButton from './ui/StepperButton'
+import { NumberStepper } from './ui/StepperButton'
 import { uiTokens } from '../tokens'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import { useCheckedActivityChallenge } from '../hooks/useActivityChallenge'
@@ -236,49 +236,20 @@ const ArithmeticTester = (props: ArithmeticTesterProps) => {
                     overflowY: 'hidden',
                   }}
                 >
-                  {Array.from({ length: term.val }).map((_, dotIndex) =>
-                    term.op === '-' ? (
-                      <div
-                        key={`dot-${index}-${dotIndex}`}
-                        style={{
-                          position: 'relative',
-                          width: DOT_SIZE,
-                          height: DOT_SIZE,
-                        }}
-                      >
-                        <MathCounter
-                          src={getThemeAsset(theme.id, 'mathsCounter')}
-                          size={DOT_SIZE}
-                          delay={0.4 + dotIndex * 0.05}
-                          animationName="dotmath-pop-in"
-                          style={{
-                            opacity: 0.4,
-                            position: 'relative',
-                          }}
-                        />
-                        <span
-                          style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            fontSize: 12,
-                            lineHeight: 1,
-                          }}
-                        >
-                          ❌
-                        </span>
-                      </div>
-                    ) : (
-                      <MathCounter
-                        key={`dot-${index}-${dotIndex}`}
-                        src={getThemeAsset(theme.id, 'mathsCounter')}
-                        size={DOT_SIZE}
-                        delay={dotIndex * 0.03}
-                        animationName="dotmath-pop-in"
-                      />
-                    )
-                  )}
+                  {Array.from({ length: term.val }, (_, dotIndex) => (
+                    <MathCounter
+                      key={`dot-${index}-${dotIndex}`}
+                      src={getThemeAsset(theme.id, 'mathsCounter')}
+                      size={DOT_SIZE}
+                      crossedOut={term.op === '-'}
+                      delay={
+                        term.op === '-'
+                          ? 0.4 + dotIndex * 0.05
+                          : dotIndex * 0.03
+                      }
+                      animationName="dotmath-pop-in"
+                    />
+                  ))}
                 </div>
               </div>
             </div>
@@ -342,54 +313,31 @@ const ArithmeticTester = (props: ArithmeticTesterProps) => {
               )}
             </div>
 
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                width: '100%',
-                gap: 8,
+            <NumberStepper
+              theme={theme}
+              value={userAnswer}
+              disabled={isCorrect}
+              decrease={{
+                onClick: () => setUserAnswer(Math.max(0, userAnswer - 1)),
+                disabled: userAnswer === 0,
+                ariaLabel: 'Remove one dot',
               }}
-            >
-              <StepperButton
-                theme={theme}
-                direction="prev"
-                onClick={() => setUserAnswer(Math.max(0, userAnswer - 1))}
-                disabled={userAnswer === 0 || isCorrect}
-                ariaLabel="Remove one dot"
-                style={{
-                  width: STEPPER_WIDTH,
-                  height: STEPPER_HEIGHT,
-                }}
-              />
-
-              <span
-                style={{
-                  flex: 1,
-                  fontSize: 44,
-                  fontWeight: 'bold',
-                  fontFamily: theme.fonts.heading,
-                  color: theme.colors.accent,
-                  minWidth: 0,
-                  textAlign: 'center',
-                  lineHeight: 1,
-                }}
-              >
-                {userAnswer}
-              </span>
-
-              <StepperButton
-                theme={theme}
-                direction="next"
-                onClick={() => setUserAnswer(userAnswer + 1)}
-                disabled={userAnswer >= MAX_ANSWER || isCorrect}
-                ariaLabel="Add one dot"
-                style={{
-                  width: STEPPER_WIDTH,
-                  height: STEPPER_HEIGHT,
-                }}
-              />
-            </div>
+              increase={{
+                onClick: () => setUserAnswer(userAnswer + 1),
+                disabled: userAnswer >= MAX_ANSWER,
+                ariaLabel: 'Add one dot',
+              }}
+              style={{ width: '100%', gap: 8 }}
+              buttonStyle={{ width: STEPPER_WIDTH, height: STEPPER_HEIGHT }}
+              valueStyle={{
+                flex: 1,
+                fontSize: 44,
+                fontWeight: 'bold',
+                color: theme.colors.accent,
+                minWidth: 0,
+                lineHeight: 1,
+              }}
+            />
           </div>
         </MathActivityPlayArea>
       )}

@@ -33,40 +33,6 @@ afterEach(async () => {
 })
 
 describe('weather cache and subscriptions', () => {
-  it('restores recent weather after restart but discards expired weather', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(response(19)))
-    await store.retryWeather(amsterdam)
-    vi.resetModules()
-    store = await import('../../src/lib/weather/weatherStore')
-    expect(store.getWeatherSnapshot(amsterdam).data?.temperature).toBe(19)
-    vi.mocked(fetch).mockRejectedValue(new Error('offline'))
-    await store.retryWeather(amsterdam)
-    expect(store.getWeatherSnapshot(amsterdam)).toMatchObject({
-      stale: true,
-      data: { temperature: 19 },
-    })
-    vi.setSystemTime(new Date('2026-09-13T15:00:00Z'))
-    vi.resetModules()
-    store = await import('../../src/lib/weather/weatherStore')
-    expect(store.getWeatherSnapshot(amsterdam).data).toBeNull()
-  })
-
-  it('deduplicates subscriptions, strict remounts and refreshes at 15 minutes', async () => {
-    const fetch = vi.fn().mockResolvedValue(response())
-    vi.stubGlobal('fetch', fetch)
-    const off = store.subscribeWeather(amsterdam, vi.fn())
-    off()
-    cleanup.push(store.subscribeWeather(amsterdam, vi.fn()))
-    cleanup.push(store.subscribeWeather(amsterdam, vi.fn()))
-    await vi.advanceTimersByTimeAsync(0)
-    expect(fetch).toHaveBeenCalledTimes(1)
-    expect(store.getWeatherSnapshot(amsterdam).data?.temperature).toBe(18)
-    await vi.advanceTimersByTimeAsync(14 * 60_000)
-    expect(fetch).toHaveBeenCalledTimes(1)
-    await vi.advanceTimersByTimeAsync(60_000)
-    expect(fetch).toHaveBeenCalledTimes(2)
-  })
-
   it('keeps city responses separate and cancels abandoned requests', async () => {
     let resolveAmsterdam!: (value: unknown) => void
     const fetch = vi

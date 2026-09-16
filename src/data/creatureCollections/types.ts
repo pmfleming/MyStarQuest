@@ -1,14 +1,17 @@
 import type { AnimalFact, AnimalKnowledge } from '../animalKnowledge'
 import type { InsectKnowledge } from '../insectKnowledge'
 import type { TeeniepingKnowledge } from '../teeniepingKnowledge'
+import type { DinosaurKnowledge } from '../dinosaurKnowledge'
 import type { ThemeId } from '../../ui/themeOptions'
 
-export type CreatureCollection = 'animals' | 'insects' | 'teeniepings'
+export type CreatureCollection =
+  'animals' | 'insects' | 'teeniepings' | 'dinosaurs'
 
 export type CatalogAnimal =
   | (AnimalKnowledge & { kind: 'animal'; image: string })
   | (InsectKnowledge & { kind: 'insect' })
   | TeeniepingKnowledge
+  | DinosaurKnowledge
 
 export type VisualFact = AnimalFact & {
   illustration?: string

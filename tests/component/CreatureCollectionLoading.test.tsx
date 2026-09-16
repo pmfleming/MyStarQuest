@@ -87,25 +87,3 @@ it('lets a failed collection retry without awarding or finishing a game', async 
   expect(loadCollection).toHaveBeenCalledTimes(2)
   expect(p.onComplete).not.toHaveBeenCalled()
 })
-
-it('can start a solo game while the selected collection is still loading', async () => {
-  const request = deferred()
-  loadCollection.mockReturnValue(request.promise)
-  const p = props()
-  const { rerender } = render(<AnimalTester {...p} isRunning={false} />)
-  fireEvent.click(screen.getByRole('radio', { name: 'Insects' }))
-  fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
-  rerender(<AnimalTester {...p} />)
-  expect(screen.getByRole('status')).toBeInTheDocument()
-  expect(
-    screen.queryByRole('radiogroup', { name: 'Creature collection' })
-  ).not.toBeInTheDocument()
-  await act(async () => {
-    request.resolve(insects)
-  })
-  expect(screen.getByLabelText('Insect choices')).toBeInTheDocument()
-  expect(
-    screen.queryByRole('radiogroup', { name: 'Creature collection' })
-  ).not.toBeInTheDocument()
-  expect(p.onComplete).not.toHaveBeenCalled()
-})

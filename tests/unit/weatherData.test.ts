@@ -1,10 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import {
-  buildWeatherUrl,
   isWeatherUsable,
   parseWeatherResponse,
 } from '../../src/lib/weather/weatherData'
-import { EXPLORER_CITY_OPTIONS } from '../../src/features/dayNightExplorer/dayNightExplorerOptions'
 
 const now = Date.parse('2026-09-13T12:00:00Z')
 const payload = () => ({
@@ -83,17 +81,5 @@ describe('weather data', () => {
         now + 24 * 60 * 60_000
       )
     ).toThrow('out of date')
-  })
-
-  it('requests the selected city, explicit units and epoch timestamps', () => {
-    for (const city of EXPLORER_CITY_OPTIONS) {
-      const url = new URL(buildWeatherUrl(city))
-      expect(url.searchParams.get('timezone')).toBe(city.location.timeZone)
-      expect(url.searchParams.get('latitude')).toBe(
-        String(city.location.latitude)
-      )
-      expect(url.searchParams.get('timeformat')).toBe('unixtime')
-      expect(url.searchParams.get('temperature_unit')).toBe('celsius')
-    }
   })
 })

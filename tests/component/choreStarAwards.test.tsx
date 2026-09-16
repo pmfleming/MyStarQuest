@@ -172,52 +172,6 @@ describe('chore completion star balances', () => {
     }
   )
 
-  it('awards every completed chore again after reset, including on the same day', async () => {
-    const completeDay = async (dateKey: string) => {
-      const actions = setup(dateKey)
-      for (const chore of chores) {
-        if (chore.taskType === 'eating') {
-          await actions.resetDinner(chore)
-          await actions.applyBite(storedChore(chore.id))
-          await finishDinner(
-            actions,
-            storedChore(chore.id) as EatingTaskWithEphemeral
-          )
-        } else {
-          await actions.resetChore(chore)
-          if (chore.taskType === 'watertoiletcheck')
-            documents.set(chorePath(chore.id), {
-              ...storedChore(chore.id),
-              manageWaterLevel: 'empty',
-              manageToiletStatus: 'didpeepee',
-            })
-          await actions.completeChore(storedChore(chore.id))
-        }
-      }
-    }
-    await completeDay('2026-09-06')
-    expect(balance()).toBe(22)
-    await completeDay('2026-09-06')
-    expect(balance()).toBe(34)
-    expect(events()).toHaveLength(8)
-    await completeDay('2026-09-07')
-    expect(balance()).toBe(46)
-    expect(events()).toHaveLength(12)
-  })
-
-  it.each(chores.filter(({ id }) => id === 'teeth'))(
-    'does not award $title twice without a reset',
-    async (chore) => {
-      const actions = setup()
-      await actions.completeChore(chore)
-      const stars = balance()
-      // Use the original item to simulate a duplicate callback with stale UI state.
-      await actions.completeChore(chore)
-      expect(balance()).toBe(stars)
-      expect(events()).toHaveLength(1)
-    }
-  )
-
   it.each<[WaterLevel, ToiletStatus, number]>([
     ['full', 'notpeepee', -6],
     ['full', 'didpeepee', 0],

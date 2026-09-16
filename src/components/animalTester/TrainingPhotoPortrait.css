@@ -11,6 +11,11 @@
   background: transparent;
   cursor: pointer;
   touch-action: manipulation;
+  color: inherit;
+}
+
+.training-photo-trigger[aria-expanded='true'] img {
+  height: clamp(220px, 45vh, 420px) !important;
 }
 
 .training-photo-error {

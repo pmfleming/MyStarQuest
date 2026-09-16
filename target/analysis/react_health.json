@@ -13,20 +13,23 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-14T16:21:39.332Z",
+    "measured_at": "2026-09-16T16:07:19.806Z",
     "source_type": "static",
-    "source_set_hash": "sha256:87bc369e934fd911632c8d792f2b9eb5ada60380fea8bdb440fd60a00f611ec6",
-    "input_set_hash": "sha256:cf49e645865805c3bb360ea9cf4482ecb2ecab80733bdfa7dae31da2a07938b1"
+    "source_set_hash": "sha256:fd3d4bb48dd7f797a6025a47f5ed3b8b600097c7647e4a40fae37e6c9e62593a",
+    "input_set_hash": "sha256:96f892e5e360150fe2c4b870077ad483dc1ec4cffd16cbe01c0a1a29657297d0"
   },
   "analysis_identity": {
-    "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
+    "id": "sha256:5251dfdeaa7c10031e5ed4829bf1816e0937cfce7f9c3c3d7256bb2977fa8c0f",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
     "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
       "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
       "react": "recommended-v2",
@@ -105,11 +108,11 @@
     "stale_input": []
   },
   "summary": {
-    "components": 118,
-    "records": 128,
+    "components": 120,
+    "records": 129,
     "hook_lint_findings": 0,
-    "a11y_findings": 9,
-    "a11y_tool_findings": 9,
+    "a11y_findings": 8,
+    "a11y_tool_findings": 8,
     "a11y_heuristic_findings": 0,
     "high_risk_components": 28
   },
@@ -334,15 +337,10 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "FactCard",
-      "line": 73,
-      "score": 77,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "oversized_component",
-          "value": 148
-        }
-      ],
+      "line": 67,
+      "score": 31,
+      "risk": "low",
+      "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
       "evidence_kind": "heuristic",
@@ -355,12 +353,6 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -380,8 +372,8 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "FactGrid",
-      "line": 236,
-      "score": 25,
+      "line": 124,
+      "score": 22,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -415,8 +407,8 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalPortrait",
-      "line": 293,
-      "score": 17,
+      "line": 167,
+      "score": 9,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -450,8 +442,8 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "HideableAnimalPortrait",
-      "line": 351,
-      "score": 17,
+      "line": 187,
+      "score": 3,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -485,7 +477,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "TwoPlayerProgressButton",
-      "line": 409,
+      "line": 211,
       "score": 7,
       "risk": "low",
       "signals": [],
@@ -520,13 +512,13 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalPlayContent",
-      "line": 474,
-      "score": 52,
+      "line": 259,
+      "score": 41,
       "risk": "medium",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 159
+          "value": 141
         }
       ],
       "kind": "component",
@@ -560,13 +552,13 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalTester",
-      "line": 659,
-      "score": 84,
+      "line": 426,
+      "score": 83,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 177
+          "value": 171
         }
       ],
       "kind": "component",
@@ -642,12 +634,12 @@
       "file": "src/components/ArithmeticTester.tsx",
       "name": "ArithmeticTester",
       "line": 79,
-      "score": 170,
+      "score": 145,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 320
+          "value": 268
         },
         {
           "kind": "many_hooks",
@@ -655,7 +647,7 @@
         },
         {
           "kind": "render_branch_complexity",
-          "value": 7
+          "value": 5
         }
       ],
       "kind": "component",
@@ -893,12 +885,12 @@
       "file": "src/components/LargeNumbersTester.tsx",
       "name": "LargeNumbersTester",
       "line": 130,
-      "score": 180,
+      "score": 177,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 408
+          "value": 394
         },
         {
           "kind": "many_hooks",
@@ -1099,9 +1091,9 @@
       "module_id": "src/components/RewardCelebration",
       "file": "src/components/RewardCelebration.tsx",
       "name": "RewardCelebration",
-      "line": 22,
-      "score": 68,
-      "risk": "medium",
+      "line": 25,
+      "score": 71,
+      "risk": "high",
       "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
@@ -1115,6 +1107,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1449,12 +1447,12 @@
       "file": "src/components/animalTester/LearningNavigation.tsx",
       "name": "LearningNavigation",
       "line": 44,
-      "score": 201,
+      "score": 203,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 244
+          "value": 251
         },
         {
           "kind": "many_hooks",
@@ -1494,12 +1492,47 @@
       ]
     },
     {
+      "id": "component:src/components/animalTester/PicturePortrait:PicturePortrait",
+      "module_id": "src/components/animalTester/PicturePortrait",
+      "file": "src/components/animalTester/PicturePortrait.tsx",
+      "name": "PicturePortrait",
+      "line": 5,
+      "score": 22,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/animalTester/PicturePortrait:PicturePortrait",
+            "kind": "component",
+            "file": "src/components/animalTester/PicturePortrait.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/animalTester/TrainingPhotoPortrait:TrainingPhotoPortrait",
       "module_id": "src/components/animalTester/TrainingPhotoPortrait",
       "file": "src/components/animalTester/TrainingPhotoPortrait.tsx",
       "name": "TrainingPhotoPortrait",
-      "line": 6,
-      "score": 33,
+      "line": 40,
+      "score": 32,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -1883,8 +1916,8 @@
       "module_id": "src/components/ui/ActivityMathCounters",
       "file": "src/components/ui/ActivityMathCounters.tsx",
       "name": "MathCounter",
-      "line": 15,
-      "score": 4,
+      "line": 16,
+      "score": 9,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -1918,7 +1951,7 @@
       "module_id": "src/components/ui/ActivityMathCounters",
       "file": "src/components/ui/ActivityMathCounters.tsx",
       "name": "EmptyCounterHint",
-      "line": 43,
+      "line": 64,
       "score": 4,
       "risk": "low",
       "signals": [],
@@ -1953,7 +1986,7 @@
       "module_id": "src/components/ui/ActivityMathCounters",
       "file": "src/components/ui/ActivityMathCounters.tsx",
       "name": "CounterGroup",
-      "line": 67,
+      "line": 88,
       "score": 9,
       "risk": "low",
       "signals": [],
@@ -1988,7 +2021,7 @@
       "module_id": "src/components/ui/ActivityMathCounters",
       "file": "src/components/ui/ActivityMathCounters.tsx",
       "name": "TenRod",
-      "line": 95,
+      "line": 116,
       "score": 14,
       "risk": "low",
       "signals": [],
@@ -2259,7 +2292,7 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "StandardIconImage",
-      "line": 25,
+      "line": 26,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -2294,8 +2327,8 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconActionButton",
-      "line": 70,
-      "score": 13,
+      "line": 71,
+      "score": 16,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -2329,7 +2362,7 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconActionRow",
-      "line": 127,
+      "line": 139,
       "score": 25,
       "risk": "low",
       "signals": [],
@@ -2364,7 +2397,7 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconChoiceButton",
-      "line": 191,
+      "line": 203,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -2680,7 +2713,7 @@
       "file": "src/components/ui/PositionalNotationPlayArea.tsx",
       "name": "PlaceValueColumn",
       "line": 163,
-      "score": 22,
+      "score": 19,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -2714,7 +2747,7 @@
       "module_id": "src/components/ui/PositionalNotationPlayArea",
       "file": "src/components/ui/PositionalNotationPlayArea.tsx",
       "name": "TargetNumber",
-      "line": 268,
+      "line": 256,
       "score": 7,
       "risk": "low",
       "signals": [],
@@ -2749,7 +2782,7 @@
       "module_id": "src/components/ui/PositionalNotationPlayArea",
       "file": "src/components/ui/PositionalNotationPlayArea.tsx",
       "name": "PositionalNotationPlayArea",
-      "line": 304,
+      "line": 292,
       "score": 32,
       "risk": "low",
       "signals": [],
@@ -2785,8 +2818,8 @@
       "file": "src/components/ui/RepeatControl.tsx",
       "name": "RepeatControl",
       "line": 19,
-      "score": 39,
-      "risk": "medium",
+      "score": 31,
+      "risk": "low",
       "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
@@ -3532,6 +3565,41 @@
       ]
     },
     {
+      "id": "component:src/components/ui/StepperButton:NumberStepper",
+      "module_id": "src/components/ui/StepperButton",
+      "file": "src/components/ui/StepperButton.tsx",
+      "name": "NumberStepper",
+      "line": 93,
+      "score": 9,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/StepperButton:NumberStepper",
+            "kind": "component",
+            "file": "src/components/ui/StepperButton.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/ui/TopIconButton:TopIconButton",
       "module_id": "src/components/ui/TopIconButton",
       "file": "src/components/ui/TopIconButton.tsx",
@@ -3827,8 +3895,8 @@
       "module_id": "src/components/weather/WeatherScene",
       "file": "src/components/weather/WeatherScene.tsx",
       "name": "Character",
-      "line": 14,
-      "score": 16,
+      "line": 15,
+      "score": 18,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -3862,7 +3930,7 @@
       "module_id": "src/components/weather/WeatherScene",
       "file": "src/components/weather/WeatherScene.tsx",
       "name": "Cloud",
-      "line": 53,
+      "line": 62,
       "score": 3,
       "risk": "low",
       "signals": [],
@@ -3897,7 +3965,7 @@
       "module_id": "src/components/weather/WeatherScene",
       "file": "src/components/weather/WeatherScene.tsx",
       "name": "Precipitation",
-      "line": 74,
+      "line": 83,
       "score": 29,
       "risk": "low",
       "signals": [],
@@ -4205,7 +4273,7 @@
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 190
+          "value": 193
         }
       ],
       "kind": "component",
@@ -4245,17 +4313,17 @@
       "module_id": "src/pages/DashboardPage",
       "file": "src/pages/DashboardPage.tsx",
       "name": "DashboardPage",
-      "line": 59,
-      "score": 274,
+      "line": 60,
+      "score": 288,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 305
+          "value": 326
         },
         {
           "kind": "many_hooks",
-          "value": 18
+          "value": 19
         },
         {
           "kind": "render_branch_complexity",
@@ -4460,13 +4528,13 @@
       "module_id": "src/pages/TestsPage",
       "file": "src/pages/TestsPage.tsx",
       "name": "TestsPage",
-      "line": 18,
-      "score": 106,
+      "line": 19,
+      "score": 117,
       "risk": "high",
       "signals": [
         {
           "kind": "many_hooks",
-          "value": 8
+          "value": 9
         }
       ],
       "kind": "component",
@@ -4688,53 +4756,6 @@
       ]
     },
     {
-      "id": "eslint-plugin-jsx-a11y:50b39aeb:1",
-      "rule_id": "jsx-a11y/role-supports-aria-props",
-      "kind": "a11y_role_supports_aria_props",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/AnimalTester",
-      "file": "src/components/AnimalTester.tsx",
-      "line": 101,
-      "column": 5,
-      "end_line": 156,
-      "end_column": 6,
-      "score": 60,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "eslint-plugin-jsx-a11y",
-      "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button.",
-      "signals": [
-        {
-          "kind": "a11y_role_supports_aria_props",
-          "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button."
-        }
-      ],
-      "fingerprint": "50b39aeb",
-      "occurrence": 1,
-      "reason_code": "jsx-a11y/role-supports-aria-props",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this a11y_role_supports_aria_props finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "eslint-plugin-jsx-a11y:50b39aeb:1",
-            "kind": "a11y_role_supports_aria_props",
-            "file": "src/components/AnimalTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "eslint-plugin-jsx-a11y:91f2858:1",
       "rule_id": "jsx-a11y/click-events-have-key-events",
       "kind": "a11y_click_events_have_key_events",
@@ -4829,7 +4850,7 @@
       ]
     },
     {
-      "id": "eslint-plugin-jsx-a11y:972fbba5:1",
+      "id": "eslint-plugin-jsx-a11y:b589bdaa:1",
       "rule_id": "jsx-a11y/no-noninteractive-element-interactions",
       "kind": "a11y_no_noninteractive_element_interactions",
       "evidence_kind": "tool-rule",
@@ -4838,9 +4859,9 @@
       "scope": "file",
       "module_id": "src/components/animalTester/LearningNavigation",
       "file": "src/components/animalTester/LearningNavigation.tsx",
-      "line": 220,
+      "line": 227,
       "column": 9,
-      "end_line": 266,
+      "end_line": 273,
       "end_column": 10,
       "score": 60,
       "severity": "medium",
@@ -4853,7 +4874,7 @@
           "message": "Non-interactive elements should not be assigned mouse or keyboard event listeners."
         }
       ],
-      "fingerprint": "972fbba5",
+      "fingerprint": "b589bdaa",
       "occurrence": 1,
       "reason_code": "jsx-a11y/no-noninteractive-element-interactions",
       "workspace_id": "mystarquest",
@@ -4867,7 +4888,7 @@
           "description": "Keep this a11y_no_noninteractive_element_interactions finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "eslint-plugin-jsx-a11y:972fbba5:1",
+            "id": "eslint-plugin-jsx-a11y:b589bdaa:1",
             "kind": "a11y_no_noninteractive_element_interactions",
             "file": "src/components/animalTester/LearningNavigation.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4876,7 +4897,7 @@
       ]
     },
     {
-      "id": "eslint-plugin-jsx-a11y:972930e2:1",
+      "id": "eslint-plugin-jsx-a11y:238c5bad:1",
       "rule_id": "jsx-a11y/role-supports-aria-props",
       "kind": "a11y_role_supports_aria_props",
       "evidence_kind": "tool-rule",
@@ -4885,9 +4906,9 @@
       "scope": "file",
       "module_id": "src/components/animalTester/LearningNavigation",
       "file": "src/components/animalTester/LearningNavigation.tsx",
-      "line": 220,
+      "line": 227,
       "column": 9,
-      "end_line": 266,
+      "end_line": 273,
       "end_column": 10,
       "score": 60,
       "severity": "medium",
@@ -4900,7 +4921,7 @@
           "message": "The attribute aria-description is not supported by the role group."
         }
       ],
-      "fingerprint": "972930e2",
+      "fingerprint": "238c5bad",
       "occurrence": 1,
       "reason_code": "jsx-a11y/role-supports-aria-props",
       "workspace_id": "mystarquest",
@@ -4914,7 +4935,7 @@
           "description": "Keep this a11y_role_supports_aria_props finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "eslint-plugin-jsx-a11y:972930e2:1",
+            "id": "eslint-plugin-jsx-a11y:238c5bad:1",
             "kind": "a11y_role_supports_aria_props",
             "file": "src/components/animalTester/LearningNavigation.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4923,19 +4944,19 @@
       ]
     },
     {
-      "id": "eslint-plugin-jsx-a11y:df151711:1",
+      "id": "eslint-plugin-jsx-a11y:232c9c14:1",
       "rule_id": "jsx-a11y/role-supports-aria-props",
       "kind": "a11y_role_supports_aria_props",
       "evidence_kind": "tool-rule",
       "disposition": "warn",
       "finding_confidence": "high",
       "scope": "file",
-      "module_id": "src/components/animalTester/TrainingPhotoPortrait",
-      "file": "src/components/animalTester/TrainingPhotoPortrait.tsx",
-      "line": 37,
-      "column": 7,
-      "end_line": 48,
-      "end_column": 8,
+      "module_id": "src/components/animalTester/PicturePortrait",
+      "file": "src/components/animalTester/PicturePortrait.tsx",
+      "line": 28,
+      "column": 5,
+      "end_line": 37,
+      "end_column": 6,
       "score": 60,
       "severity": "medium",
       "risk": "medium",
@@ -4947,7 +4968,7 @@
           "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button."
         }
       ],
-      "fingerprint": "df151711",
+      "fingerprint": "232c9c14",
       "occurrence": 1,
       "reason_code": "jsx-a11y/role-supports-aria-props",
       "workspace_id": "mystarquest",
@@ -4961,9 +4982,9 @@
           "description": "Keep this a11y_role_supports_aria_props finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "eslint-plugin-jsx-a11y:df151711:1",
+            "id": "eslint-plugin-jsx-a11y:232c9c14:1",
             "kind": "a11y_role_supports_aria_props",
-            "file": "src/components/animalTester/TrainingPhotoPortrait.tsx",
+            "file": "src/components/animalTester/PicturePortrait.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

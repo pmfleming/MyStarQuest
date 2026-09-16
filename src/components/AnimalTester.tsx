@@ -1,20 +1,24 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState, type CSSProperties } from 'react'
+import PicturePortrait from './animalTester/PicturePortrait'
+import { usePictureGestures } from './animalTester/usePictureGestures'
 import {
   useAnimalSession,
   type AnimalMode,
   type AnimalDifficulty,
 } from './animalTester/useAnimalSession'
-import { CREATURE_MODE_IMAGES } from './animalTester/modeArtwork'
+import {
+  CREATURE_MODE_IMAGES,
+  CREATURE_COLLECTIONS,
+  creatureLabel,
+  creatureDisplayName,
+  formatAnimalName,
+} from './animalTester/modeArtwork'
 import LearningNavigation from './animalTester/LearningNavigation'
 import TrainingPhotoPortrait from './animalTester/TrainingPhotoPortrait'
-import insectCollectionImage from '../assets/animals/butterfly.webp'
-import animalCollectionImage from '../assets/animals/lion.webp'
-import teeniepingCollectionImage from '../assets/teenie/heart.webp'
 import { getAnimalCardLabel } from '../data/animalCardLabels'
 import { TEENIEPING_COLLECTION_AVAILABLE } from '../data/creatureCollections/availability'
 import type {
   CatalogAnimal,
-  CreatureCollectionData,
   VisualFact,
 } from '../data/creatureCollections/types'
 import { getVisibleActivityResults } from '../lib/activityOutcome'
@@ -33,28 +37,24 @@ import CrownDifficultyControl, {
 } from './ui/CrownDifficultyControl'
 import { usePrimaryActionImage } from './ui/PrimaryActionImageContext'
 import ResourceLoadingIcon from './ui/ResourceLoadingIcon'
-import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
+import SegmentedChoiceControl, {
+  type SegmentedChoiceOption,
+} from './ui/SegmentedChoiceControl'
 import { getChoiceFeedbackAnimationStyles } from './ui/activityAnimationStyles'
 
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 9
-const COLLECTION_LABELS = {
-  animals: 'Animal',
-  insects: 'Insect',
-  teeniepings: 'Teenieping',
-}
-
-const MODE_OPTIONS = [
+const MODE_OPTIONS: SegmentedChoiceOption<AnimalMode>[] = [
   {
-    value: 'learn' as const,
+    value: 'learn',
     label: 'Learn',
   },
   {
-    value: 'solo' as const,
+    value: 'solo',
     label: '1 Player',
   },
   {
-    value: 'together' as const,
+    value: 'together',
     label: '2 Players',
   },
 ]
@@ -64,95 +64,31 @@ const ANIMAL_DIFFICULTIES: CrownDifficultyOption<AnimalDifficulty>[] = [
   { value: 'hard', label: 'Hard', crowns: 2 },
 ]
 
-const formatAnimalName = (name: string) =>
-  name
-    .split('-')
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ')
-
 const FactCard = ({
   fact,
-  theme,
   onClick,
   isPressed = false,
   expanded,
   onToggleZoom,
 }: {
   fact: VisualFact
-  theme: ActivityChoreProps['theme']
   onClick?: () => void
   isPressed?: boolean
   expanded: boolean
   onToggleZoom: () => void
 }) => {
-  const pendingClick = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const cancelClick = () => {
-    if (pendingClick.current !== null) clearTimeout(pendingClick.current)
-    pendingClick.current = null
-  }
-  useEffect(
-    () => () => {
-      if (pendingClick.current !== null) clearTimeout(pendingClick.current)
-    },
-    []
-  )
-
+  const gestures = usePictureGestures({
+    onActivate: onClick,
+    onToggleZoom,
+    expanded,
+  })
   return (
     <button
       type="button"
-      onClick={(event) => {
-        cancelClick()
-        // Keyboard activation has no competing double-click gesture.
-        if (event.detail === 0) {
-          if (onClick) onClick()
-          else onToggleZoom()
-        } else if (event.detail === 1 && onClick) {
-          pendingClick.current = setTimeout(() => {
-            pendingClick.current = null
-            onClick()
-          }, 500)
-        }
-      }}
-      onDoubleClick={(event) => {
-        event.preventDefault()
-        cancelClick()
-        onToggleZoom()
-      }}
-      onKeyDown={(event) => {
-        if (event.key === 'Escape' && expanded) {
-          cancelClick()
-          onToggleZoom()
-        } else if (event.key.toLowerCase() === 'z') {
-          event.preventDefault()
-          cancelClick()
-          onToggleZoom()
-        }
-      }}
+      {...gestures}
+      className="animal-fact-card"
       aria-pressed={onClick ? isPressed : undefined}
-      aria-expanded={expanded}
-      aria-description="Double-click or press Z to enlarge or restore this picture. Press Escape to restore."
       aria-label={`${fact.label}: ${fact.text}`}
-      style={{
-        width: '100%',
-        aspectRatio: expanded ? undefined : '1 / 1',
-        height: expanded ? '100%' : undefined,
-        padding: 0,
-        borderRadius: 22,
-        border: `3px solid ${theme.colors.accent}`,
-        background: theme.colors.surface,
-        color: theme.colors.text,
-        boxShadow: `0 5px 0 ${theme.colors.accent}66`,
-        fontFamily: theme.fonts.body,
-        position: expanded ? 'absolute' : 'relative',
-        inset: expanded ? 0 : undefined,
-        zIndex: expanded ? 2 : undefined,
-        isolation: 'isolate',
-        overflow: 'hidden',
-        textAlign: 'center',
-        cursor: expanded ? 'zoom-out' : 'zoom-in',
-        touchAction: 'manipulation',
-        userSelect: 'none',
-      }}
     >
       {fact.illustration ? (
         <img
@@ -161,71 +97,23 @@ const FactCard = ({
           decoding="async"
           alt=""
           style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
             objectFit: fact.wrapCaption
               ? 'cover'
               : (fact.illustrationFit ?? 'cover'),
-            ...(fact.detailPosition
-              ? {
-                  objectPosition: fact.detailPosition,
-                  transform: `scale(${fact.detailScale ?? 2.1})`,
-                  transformOrigin: fact.detailPosition,
-                }
-              : {}),
+            ...(fact.detailPosition && {
+              objectPosition: fact.detailPosition,
+              transform: `scale(${fact.detailScale ?? 2.1})`,
+              transformOrigin: fact.detailPosition,
+            }),
           }}
         />
       ) : (
-        <span
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'grid',
-            placeItems: 'center',
-            fontSize: expanded
-              ? 'clamp(10rem, 60vw, 18rem)'
-              : 'clamp(5rem, 30vw, 9rem)',
-            lineHeight: 1,
-          }}
-        >
+        <span className="animal-fact-symbol" aria-hidden="true">
           {fact.visual}
         </span>
       )}
       {fact.word && (
-        <strong
-          data-animal-fact-word
-          style={{
-            position: 'absolute',
-            zIndex: 1,
-            left: 0,
-            bottom: 0,
-            width: '100%',
-            boxSizing: 'border-box',
-            padding: '5px 8px',
-            border: `2px solid ${theme.colors.surface}`,
-            borderRadius: 999,
-            background: `${theme.colors.surface}80`,
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.28)',
-            fontFamily: theme.fonts.heading,
-            fontSize: expanded
-              ? 'clamp(1.44rem, 5.2vw, 2rem)'
-              : 'clamp(0.72rem, 2.6vw, 1rem)',
-            color: theme.colors.text,
-            lineHeight: 1.1,
-            overflow: 'hidden',
-            whiteSpace: fact.wrapCaption ? 'normal' : 'nowrap',
-            ...(fact.wrapCaption
-              ? {
-                  fontSize: expanded
-                    ? 'clamp(1.32rem, 4.8vw, 1.8rem)'
-                    : 'clamp(0.66rem, 2.4vw, 0.9rem)',
-                }
-              : {}),
-          }}
-        >
+        <strong data-animal-fact-word data-wrap={fact.wrapCaption}>
           {getAnimalCardLabel(fact.word)}
         </strong>
       )}
@@ -235,35 +123,22 @@ const FactCard = ({
 
 const FactGrid = ({
   facts,
-  theme,
   onAbilityClick,
   isGenericAbilityShown = false,
   creatureKey,
 }: {
   facts: VisualFact[]
-  theme: ActivityChoreProps['theme']
   onAbilityClick?: () => void
   isGenericAbilityShown?: boolean
   creatureKey?: string
 }) => {
   const [expandedLabel, setExpandedLabel] = useState<string | null>(null)
   return (
-    <div
-      data-animal-fact-grid
-      style={{
-        position: 'relative',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-        gap: 10,
-        width: '100%',
-      }}
-    >
+    <div data-animal-fact-grid className="animal-fact-grid">
       {facts.map((fact) => (
         <div
           key={fact.label}
           style={{
-            aspectRatio: '1 / 1',
-            minWidth: 0,
             visibility:
               expandedLabel !== null && expandedLabel !== fact.label
                 ? 'hidden'
@@ -274,7 +149,6 @@ const FactGrid = ({
             // Cancel pending clicks on navigation without resetting the grid's zoom.
             key={creatureKey}
             fact={fact}
-            theme={theme}
             expanded={expandedLabel === fact.label}
             onToggleZoom={() =>
               setExpandedLabel((previous) =>
@@ -292,119 +166,47 @@ const FactGrid = ({
 
 const AnimalPortrait = ({
   animal,
-  theme,
-  showName = true,
-  compact = false,
   photo,
+  hiddenImage,
 }: {
   animal: CatalogAnimal
-  theme: ActivityChoreProps['theme']
-  showName?: boolean
-  compact?: boolean
   photo?: { src: string; alt: string; onError: () => void }
+  hiddenImage?: string
 }) => (
-  <div
-    style={{
-      width: '100%',
-      minHeight: compact ? 170 : 215,
-      borderRadius: 26,
-      background: `${theme.colors.surface}dd`,
-      border: `3px solid ${theme.colors.secondary}`,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      overflow: 'hidden',
-      padding: 8,
-      boxSizing: 'border-box',
-    }}
-  >
+  <div className="animal-portrait">
     <img
-      src={photo?.src ?? animal.image}
+      src={hiddenImage ?? photo?.src ?? animal.image}
       decoding="async"
-      alt={
-        photo?.alt ??
-        (showName ? formatAnimalName(animal.name) : `Mystery ${animal.kind}`)
-      }
+      alt={hiddenImage ? '' : (photo?.alt ?? creatureDisplayName(animal))}
       onError={photo?.onError}
-      style={{
-        width: '100%',
-        height: compact ? 132 : 172,
-        objectFit: 'contain',
-      }}
     />
-    {showName && (
-      <strong
-        style={{
-          color: theme.colors.primary,
-          fontFamily: theme.fonts.heading,
-          fontSize: '1.45rem',
-          lineHeight: 1.1,
-        }}
-      >
-        {formatAnimalName(animal.name)}
-      </strong>
-    )}
+    {!hiddenImage && <strong>{creatureDisplayName(animal)}</strong>}
   </div>
 )
 
 const HideableAnimalPortrait = ({
   animal,
-  theme,
   hiddenImage,
   hidden,
   onToggle,
 }: {
   animal: CatalogAnimal
-  theme: ActivityChoreProps['theme']
   hiddenImage: string
   hidden: boolean
   onToggle: () => void
-}) => {
-  return (
-    <button
-      type="button"
-      aria-label={`${hidden ? 'Show' : 'Hide'} ${animal.kind}`}
-      aria-pressed={hidden}
-      onClick={onToggle}
-      style={{
-        width: '100%',
-        padding: 0,
-        border: 0,
-        borderRadius: 26,
-        background: 'transparent',
-        cursor: 'pointer',
-      }}
-    >
-      {hidden ? (
-        <div
-          style={{
-            width: '100%',
-            minHeight: 170,
-            borderRadius: 26,
-            background: `${theme.colors.surface}dd`,
-            border: `3px solid ${theme.colors.secondary}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden',
-            padding: 8,
-            boxSizing: 'border-box',
-          }}
-        >
-          <img
-            src={hiddenImage}
-            alt=""
-            aria-hidden="true"
-            style={{ width: '100%', height: 132, objectFit: 'contain' }}
-          />
-        </div>
-      ) : (
-        <AnimalPortrait animal={animal} theme={theme} compact />
-      )}
-    </button>
-  )
-}
+}) => (
+  <PicturePortrait
+    label={`${hidden ? 'Show' : 'Hide'} ${creatureLabel(animal)}`}
+    pressed={hidden}
+    onActivate={onToggle}
+    creatureKey={animal.name}
+  >
+    <AnimalPortrait
+      animal={animal}
+      hiddenImage={hidden ? hiddenImage : undefined}
+    />
+  </PicturePortrait>
+)
 
 const TwoPlayerProgressButton = ({
   creatureName,
@@ -446,29 +248,12 @@ const TwoPlayerProgressButton = ({
   />
 )
 
-type AnimalPlayContentProps = {
+type AnimalPlayContentProps = ReturnType<
+  typeof useAnimalSession
+>['playProps'] & {
   twoPlayersImage: string
-  getTeachingFacts: CreatureCollectionData['getTeachingFacts']
-  mode: AnimalMode
-  difficulty: AnimalDifficulty
-  isGenericLearnAbilityShown: boolean
   animal: CatalogAnimal
-  animalIndex: number
-  isLastAnimal: boolean
-  visibleSoloClues: number
-  answerChoices: CatalogAnimal[]
-  dismissedChoices: string[]
-  leavingChoice: string | null
-  answeredCorrectly: boolean
-  isTogetherAnimalHidden: boolean
   theme: ActivityChoreProps['theme']
-  onPrevious: () => void
-  onNext: () => void
-  availableLetters: string[]
-  onSelectLetter: (letter: string) => void
-  onSoloChoice: (choice: CatalogAnimal) => void
-  onToggleAnimal: () => void
-  onToggleLearnAbility: () => void
 }
 
 const AnimalPlayContent = ({
@@ -506,47 +291,27 @@ const AnimalPlayContent = ({
       ? ['THEME', 'PROP', 'MAGIC', 'LOOKS'].flatMap((label) =>
           teachingFacts.filter((fact) => fact.label === label)
         )
-      : teachingFacts
+      : animal.kind === 'prehistoric'
+        ? ['FOOD', 'HABITAT', 'GEOLOGICAL PERIOD', 'ABILITY'].flatMap((label) =>
+            teachingFacts.filter((fact) => fact.label === label)
+          )
+        : teachingFacts
   if (mode === 'learn') {
     return (
       <>
-        {animal.kind === 'teenieping' ? (
-          <AnimalPortrait animal={animal} theme={theme} compact />
-        ) : (
-          <TrainingPhotoPortrait
-            key={`photo-${animal.kind}`}
-            name={animal.name}
-            theme={theme}
-          >
-            {(photo, onPhotoError) => (
-              <AnimalPortrait
-                animal={animal}
-                theme={theme}
-                compact
-                photo={
-                  photo
-                    ? {
-                        src: photo.src,
-                        alt: `Real ${photo.name.toLowerCase()}`,
-                        onError: onPhotoError,
-                      }
-                    : undefined
-                }
-              />
-            )}
-          </TrainingPhotoPortrait>
-        )}
+        <TrainingPhotoPortrait key={animal.kind} animal={animal}>
+          {(photo) => <AnimalPortrait animal={animal} photo={photo} />}
+        </TrainingPhotoPortrait>
         <FactGrid
           key={`${animal.kind}-${mode}`}
           creatureKey={animal.name}
           facts={getTeachingFacts(animal, theme.id, isGenericLearnAbilityShown)}
-          theme={theme}
           onAbilityClick={onToggleLearnAbility}
           isGenericAbilityShown={isGenericLearnAbilityShown}
         />
         <LearningNavigation
           key={animal.kind}
-          creatureName={animal.kind}
+          creatureName={creatureLabel(animal)}
           currentLetter={animal.name.charAt(0).toUpperCase()}
           availableLetters={availableLetters}
           onSelectLetter={onSelectLetter}
@@ -565,7 +330,6 @@ const AnimalPlayContent = ({
       <>
         <HideableAnimalPortrait
           animal={animal}
-          theme={theme}
           hiddenImage={twoPlayersImage}
           hidden={isTogetherAnimalHidden}
           onToggle={onToggleAnimal}
@@ -573,10 +337,9 @@ const AnimalPlayContent = ({
         <FactGrid
           key={`${animal.kind}-${animal.name}-${mode}`}
           facts={getTeachingFacts(animal, theme.id, isTogetherAnimalHidden)}
-          theme={theme}
         />
         <TwoPlayerProgressButton
-          creatureName={animal.kind}
+          creatureName={creatureLabel(animal)}
           image={twoPlayersImage}
           theme={theme}
           isLastAnimal={isLastAnimal}
@@ -591,10 +354,9 @@ const AnimalPlayContent = ({
       <FactGrid
         key={`${animal.kind}-${animal.name}-${mode}`}
         facts={soloFacts.slice(0, visibleSoloClues)}
-        theme={theme}
       />
       <div
-        aria-label={`${formatAnimalName(animal.kind)} choices`}
+        aria-label={`${formatAnimalName(creatureLabel(animal))} choices`}
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
@@ -624,7 +386,7 @@ const AnimalPlayContent = ({
                 type="button"
                 onClick={() => onSoloChoice(choice)}
                 disabled={Boolean(leavingChoice) || answeredCorrectly}
-                aria-label={formatAnimalName(choice.name)}
+                aria-label={creatureDisplayName(choice)}
                 style={{
                   minHeight: 126,
                   padding: 5,
@@ -635,16 +397,21 @@ const AnimalPlayContent = ({
                   fontFamily: theme.fonts.heading,
                   fontSize: '0.76rem',
                   fontWeight: 800,
+                  overflowWrap: 'anywhere',
                   animation,
                 }}
               >
                 <img
-                  src={choice.image}
+                  src={
+                    choice.kind === 'prehistoric' && difficulty === 'hard'
+                      ? choice.realisticImage
+                      : choice.image
+                  }
                   decoding="async"
                   alt=""
                   style={{ width: '100%', height: 84, objectFit: 'contain' }}
                 />
-                {formatAnimalName(choice.name)}
+                {creatureDisplayName(choice)}
                 {isCorrect ? ' âœ“' : isWrong ? ' âœ•' : ''}
               </button>
             )
@@ -687,15 +454,22 @@ const AnimalTester = (props: AnimalTesterProps) => {
     playProps,
     persistence,
   } = useAnimalSession(props)
-  const collectionLabel = COLLECTION_LABELS[collection]
+  const presentation = CREATURE_COLLECTIONS[collection]
+  const collectionLabel = presentation.singular
   const modeImages = CREATURE_MODE_IMAGES[collection]
-  usePrimaryActionImage(
-    collection === 'teeniepings'
-      ? teeniepingCollectionImage
-      : collection === 'insects'
-        ? insectCollectionImage
-        : null
-  )
+  usePrimaryActionImage(presentation.actionImage)
+  const themeStyle: CSSProperties & Record<`--animal-${string}`, string> = {
+    '--animal-primary': theme.colors.primary,
+    '--animal-accent': theme.colors.accent,
+    '--animal-secondary': theme.colors.secondary,
+    '--animal-surface': theme.colors.surface,
+    '--animal-text': theme.colors.text,
+    '--animal-heading': theme.fonts.heading,
+    '--animal-body': theme.fonts.body,
+    '--animal-fact-shadow': `${theme.colors.accent}66`,
+    '--animal-caption': `${theme.colors.surface}80`,
+    '--animal-portrait-surface': `${theme.colors.surface}dd`,
+  }
   const gameModeControls = (
     <div style={{ width: uiTokens.controlRowWidth, maxWidth: '100%' }}>
       <SegmentedChoiceControl
@@ -738,7 +512,8 @@ const AnimalTester = (props: AnimalTesterProps) => {
       failureImage={failureImage}
       successAlt={`Amazing ${collectionLabel.toLowerCase()} explorer!`}
       failureAlt={`Let's learn some more ${collection}!`}
-      className="flex w-full flex-col items-center"
+      className="animal-tester flex w-full flex-col items-center"
+      style={themeStyle}
     >
       {!collectionLocked && (
         <SegmentedChoiceControl
@@ -750,35 +525,21 @@ const AnimalTester = (props: AnimalTesterProps) => {
             width: uiTokens.controlRowWidth,
             maxWidth: '100%',
           }}
-          options={[
-            {
-              value: 'animals',
-              label: 'Animals',
-              icon: animalCollectionImage,
-            },
-            {
-              value: 'insects',
-              label: 'Insects',
-              icon: insectCollectionImage,
-              loading: collection === 'insects' && isCollectionLoading,
-            },
-            {
-              value: 'teeniepings',
-              label: 'Teeniepings',
-              icon: teeniepingCollectionImage,
-              loading: collection === 'teeniepings' && isCollectionLoading,
-              disabled: !TEENIEPING_COLLECTION_AVAILABLE,
-            },
-          ]}
+          options={Object.values(CREATURE_COLLECTIONS).map(
+            ({ value, label, icon }) => ({
+              value,
+              label,
+              icon,
+              loading: collection === value && isCollectionLoading,
+              disabled:
+                value === 'teeniepings' && !TEENIEPING_COLLECTION_AVAILABLE,
+            })
+          )}
         />
       )}
       {collectionLocked && isCollectionLoading && (
         <ResourceLoadingIcon
-          src={
-            collection === 'teeniepings'
-              ? teeniepingCollectionImage
-              : insectCollectionImage
-          }
+          src={presentation.icon}
           loading
           label={`Loading ${collectionLabel} pictures`}
         />

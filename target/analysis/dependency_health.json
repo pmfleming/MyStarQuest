@@ -13,20 +13,23 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-14T16:19:41.747Z",
+    "measured_at": "2026-09-16T16:06:08.853Z",
     "source_type": "static",
-    "source_set_hash": "sha256:87bc369e934fd911632c8d792f2b9eb5ada60380fea8bdb440fd60a00f611ec6",
-    "input_set_hash": "sha256:d89f528c1395d2660da13029dc0661639d6faf6c06f55b3da514c13bd2ef91dc"
+    "source_set_hash": "sha256:fd3d4bb48dd7f797a6025a47f5ed3b8b600097c7647e4a40fae37e6c9e62593a",
+    "input_set_hash": "sha256:170f1fe2d2a97ccff4985be2e750b2f4c695c3d270b4f205bb78ee1632696485"
   },
   "analysis_identity": {
-    "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
+    "id": "sha256:5251dfdeaa7c10031e5ed4829bf1816e0937cfce7f9c3c3d7256bb2977fa8c0f",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
     "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
       "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
       "react": "recommended-v2",
@@ -96,14 +99,14 @@
     "stale_input": []
   },
   "summary": {
-    "internal_edges": 968,
-    "external_edges": 158,
-    "cycles": 0,
-    "heuristic_cycles": 0,
+    "internal_edges": 1007,
+    "external_edges": 162,
+    "cycles": 1,
+    "heuristic_cycles": 1,
     "dependency_cruiser_cycles": 0,
-    "deep_relative_imports": 145,
+    "deep_relative_imports": 152,
     "barrel_modules": 1,
-    "layer_violations": 33,
+    "layer_violations": 34,
     "unsupported_patterns": 0,
     "workspaces": 1,
     "cross_workspace_edges": 0,
@@ -118,6 +121,63 @@
     }
   },
   "records": [
+    {
+      "id": "cycle:1",
+      "kind": "import_cycle",
+      "severity": "medium",
+      "score": 54,
+      "files": [
+        "src/data/additionalAnimalKnowledge",
+        "src/data/animalKnowledge",
+        "src/data/additionalAnimalKnowledge"
+      ],
+      "evidence": "src/data/additionalAnimalKnowledge -> src/data/animalKnowledge -> src/data/additionalAnimalKnowledge",
+      "rule_id": "ts-react-quality-lens/import_cycle",
+      "evidence_kind": "heuristic",
+      "disposition": "warn",
+      "finding_confidence": "medium",
+      "message": "src/data/additionalAnimalKnowledge -> src/data/animalKnowledge -> src/data/additionalAnimalKnowledge",
+      "reason_code": "ts-react-quality-lens/import_cycle",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 30,
+      "related_locations": [
+        {
+          "file": "src/data/additionalAnimalKnowledge",
+          "start_line": 1,
+          "role": "related"
+        },
+        {
+          "file": "src/data/animalKnowledge",
+          "start_line": 1,
+          "role": "related"
+        },
+        {
+          "file": "src/data/additionalAnimalKnowledge",
+          "start_line": 1,
+          "role": "related"
+        }
+      ],
+      "fix_group_id": "cycle:1",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this import_cycle finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cycle:1",
+            "kind": "import_cycle",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
     {
       "id": "deep-import:src/assets/chores/assets:1",
       "kind": "deep_relative_import",
@@ -246,12 +306,12 @@
       "file": "src/components/animalTester/TrainingPhotoPortrait",
       "line": 2,
       "specifier": "../../data/creaturePhotos",
-      "evidence": "import { getCreaturePhoto, type CreaturePhoto } from '../../data/creaturePhotos'",
+      "evidence": "import { getCreaturePhoto } from '../../data/creaturePhotos'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
       "evidence_kind": "heuristic",
       "disposition": "review",
       "finding_confidence": "medium",
-      "message": "import { getCreaturePhoto, type CreaturePhoto } from '../../data/creaturePhotos'",
+      "message": "import { getCreaturePhoto } from '../../data/creaturePhotos'",
       "reason_code": "ts-react-quality-lens/deep_relative_import",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -271,6 +331,46 @@
           "config_key": "suppressions",
           "value": {
             "id": "deep-import:src/components/animalTester/TrainingPhotoPortrait:2",
+            "kind": "deep_relative_import",
+            "file": "src/components/animalTester/TrainingPhotoPortrait",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/animalTester/TrainingPhotoPortrait:3",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/animalTester/TrainingPhotoPortrait",
+      "line": 3,
+      "specifier": "../../data/creatureCollections/types",
+      "evidence": "import type { CatalogAnimal } from '../../data/creatureCollections/types'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import type { CatalogAnimal } from '../../data/creatureCollections/types'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/animalTester/TrainingPhotoPortrait:3",
             "kind": "deep_relative_import",
             "file": "src/components/animalTester/TrainingPhotoPortrait",
             "reason": "Intentional finding; document the project-specific reason."
@@ -646,12 +746,12 @@
       "file": "src/components/animalTester/modeArtwork",
       "line": 10,
       "specifier": "../../data/creatureCollections/types",
-      "evidence": "import type { CreatureCollection } from '../../data/creatureCollections/types'",
+      "evidence": "import type { CatalogAnimal, CreatureCollection, } from '../../data/creatureCollections/types'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
       "evidence_kind": "heuristic",
       "disposition": "review",
       "finding_confidence": "medium",
-      "message": "import type { CreatureCollection } from '../../data/creatureCollections/types'",
+      "message": "import type { CatalogAnimal, CreatureCollection, } from '../../data/creatureCollections/types'",
       "reason_code": "ts-react-quality-lens/deep_relative_import",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -671,6 +771,166 @@
           "config_key": "suppressions",
           "value": {
             "id": "deep-import:src/components/animalTester/modeArtwork:10",
+            "kind": "deep_relative_import",
+            "file": "src/components/animalTester/modeArtwork",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/animalTester/modeArtwork:14",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/animalTester/modeArtwork",
+      "line": 14,
+      "specifier": "../../assets/dinosaurs/cartoon/tyrannosaurus.png",
+      "evidence": "import dinosaurImage from '../../assets/dinosaurs/cartoon/tyrannosaurus.png'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import dinosaurImage from '../../assets/dinosaurs/cartoon/tyrannosaurus.png'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/animalTester/modeArtwork:14",
+            "kind": "deep_relative_import",
+            "file": "src/components/animalTester/modeArtwork",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/animalTester/modeArtwork:15",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/animalTester/modeArtwork",
+      "line": 15,
+      "specifier": "../../assets/animals/butterfly.webp",
+      "evidence": "import insectImage from '../../assets/animals/butterfly.webp'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import insectImage from '../../assets/animals/butterfly.webp'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/animalTester/modeArtwork:15",
+            "kind": "deep_relative_import",
+            "file": "src/components/animalTester/modeArtwork",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/animalTester/modeArtwork:16",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/animalTester/modeArtwork",
+      "line": 16,
+      "specifier": "../../assets/animals/lion.webp",
+      "evidence": "import animalImage from '../../assets/animals/lion.webp'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import animalImage from '../../assets/animals/lion.webp'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/animalTester/modeArtwork:16",
+            "kind": "deep_relative_import",
+            "file": "src/components/animalTester/modeArtwork",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/animalTester/modeArtwork:17",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/animalTester/modeArtwork",
+      "line": 17,
+      "specifier": "../../assets/teenie/heart.webp",
+      "evidence": "import teenieImage from '../../assets/teenie/heart.webp'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import teenieImage from '../../assets/teenie/heart.webp'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/animalTester/modeArtwork:17",
             "kind": "deep_relative_import",
             "file": "src/components/animalTester/modeArtwork",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2039,6 +2299,46 @@
       ]
     },
     {
+      "id": "deep-import:src/components/ui/IconActionControls:7",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/ui/IconActionControls",
+      "line": 7,
+      "specifier": "../../ui/themeAssets",
+      "evidence": "import { getThemeAsset } from '../../ui/themeAssets'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { getThemeAsset } from '../../ui/themeAssets'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/ui/IconActionControls:7",
+            "kind": "deep_relative_import",
+            "file": "src/components/ui/IconActionControls",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "deep-import:src/components/ui/ImageOptionCarousel:2",
       "kind": "deep_relative_import",
       "severity": "medium",
@@ -2559,12 +2859,12 @@
       ]
     },
     {
-      "id": "deep-import:src/components/ui/RepeatControl:2",
+      "id": "deep-import:src/components/ui/RepeatControl:4",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/ui/RepeatControl",
-      "line": 2,
+      "line": 4,
       "specifier": "../../contexts/ThemeContext",
       "evidence": "import type { Theme } from '../../contexts/ThemeContext'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -2590,7 +2890,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/ui/RepeatControl:2",
+            "id": "deep-import:src/components/ui/RepeatControl:4",
             "kind": "deep_relative_import",
             "file": "src/components/ui/RepeatControl",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2599,12 +2899,12 @@
       ]
     },
     {
-      "id": "deep-import:src/components/ui/RepeatControl:3",
+      "id": "deep-import:src/components/ui/RepeatControl:5",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/ui/RepeatControl",
-      "line": 3,
+      "line": 5,
       "specifier": "../../tokens",
       "evidence": "import { uiTokens } from '../../tokens'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -2630,7 +2930,47 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/ui/RepeatControl:3",
+            "id": "deep-import:src/components/ui/RepeatControl:5",
+            "kind": "deep_relative_import",
+            "file": "src/components/ui/RepeatControl",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/ui/RepeatControl:6",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/ui/RepeatControl",
+      "line": 6,
+      "specifier": "../../assets/themes/teenie/repeat-character.png",
+      "evidence": "import repeatCharacter from '../../assets/themes/teenie/repeat-character.png'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import repeatCharacter from '../../assets/themes/teenie/repeat-character.png'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/ui/RepeatControl:6",
             "kind": "deep_relative_import",
             "file": "src/components/ui/RepeatControl",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4606,12 +4946,12 @@
       "file": "src/components/weather/WeatherScene",
       "line": 3,
       "specifier": "../../ui/weatherAssets",
-      "evidence": "import { getWeatherWardrobe, getWeatherEnvironment, } from '../../ui/weatherAssets'",
+      "evidence": "import { getWeatherWardrobe, getWeatherEnvironment, weatherCharacterAnchors, } from '../../ui/weatherAssets'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
       "evidence_kind": "heuristic",
       "disposition": "review",
       "finding_confidence": "medium",
-      "message": "import { getWeatherWardrobe, getWeatherEnvironment, } from '../../ui/weatherAssets'",
+      "message": "import { getWeatherWardrobe, getWeatherEnvironment, weatherCharacterAnchors, } from '../../ui/weatherAssets'",
       "reason_code": "ts-react-quality-lens/deep_relative_import",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -4639,12 +4979,12 @@
       ]
     },
     {
-      "id": "deep-import:src/components/weather/WeatherScene:7",
+      "id": "deep-import:src/components/weather/WeatherScene:8",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/weather/WeatherScene",
-      "line": 7,
+      "line": 8,
       "specifier": "../../lib/weather/weatherVisuals",
       "evidence": "import { getWeatherOutfit, type WeatherVisuals, } from '../../lib/weather/weatherVisuals'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -4670,7 +5010,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/weather/WeatherScene:7",
+            "id": "deep-import:src/components/weather/WeatherScene:8",
             "kind": "deep_relative_import",
             "file": "src/components/weather/WeatherScene",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4759,12 +5099,12 @@
       ]
     },
     {
-      "id": "deep-import:src/data/creatureCollections/types:4",
+      "id": "deep-import:src/data/creatureCollections/types:5",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/data/creatureCollections/types",
-      "line": 4,
+      "line": 5,
       "specifier": "../../ui/themeOptions",
       "evidence": "import type { ThemeId } from '../../ui/themeOptions'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -4790,7 +5130,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/data/creatureCollections/types:4",
+            "id": "deep-import:src/data/creatureCollections/types:5",
             "kind": "deep_relative_import",
             "file": "src/data/creatureCollections/types",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7070,6 +7410,49 @@
       ]
     },
     {
+      "id": "layer:src/ui/taskSuccessImage:3:src/contexts/ThemeContext",
+      "kind": "layer_violation",
+      "severity": "high",
+      "score": 75,
+      "file": "src/ui/taskSuccessImage",
+      "line": 3,
+      "target": "src/contexts/ThemeContext",
+      "from_layer": "core",
+      "to_layer": "ui",
+      "specifier": "../contexts/ThemeContext",
+      "evidence": "core imports upward into ui: ../contexts/ThemeContext",
+      "rule_id": "ts-react-quality-lens/layer_violation",
+      "evidence_kind": "heuristic",
+      "disposition": "warn",
+      "finding_confidence": "medium",
+      "message": "core imports upward into ui: ../contexts/ThemeContext",
+      "reason_code": "ts-react-quality-lens/layer_violation",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "layer:src/ui/taskSuccessImage:3:src/contexts/ThemeContext",
+            "kind": "layer_violation",
+            "file": "src/ui/taskSuccessImage",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "layer:src/ui/testActivityBindings:1:src/data/useTests",
       "kind": "layer_violation",
       "severity": "high",
@@ -7524,6 +7907,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/components/animalTester/PicturePortrait",
+        "file": "src/components/animalTester/PicturePortrait.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/components/animalTester/TrainingPhotoPortrait",
         "file": "src/components/animalTester/TrainingPhotoPortrait.tsx",
         "layer": "ui",
@@ -7544,6 +7933,12 @@
       {
         "id": "src/components/animalTester/useCreatureCollection",
         "file": "src/components/animalTester/useCreatureCollection.ts",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/components/animalTester/usePictureGestures",
+        "file": "src/components/animalTester/usePictureGestures.ts",
         "layer": "ui",
         "workspace_id": "mystarquest"
       },
@@ -7860,6 +8255,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/data/additionalAnimalKnowledge",
+        "file": "src/data/additionalAnimalKnowledge.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/data/animalAbilityAssets",
         "file": "src/data/animalAbilityAssets.ts",
         "layer": "core",
@@ -7920,6 +8321,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/data/creatureCollections/dinosaurs",
+        "file": "src/data/creatureCollections/dinosaurs.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/data/creatureCollections/insectCollectionNames",
         "file": "src/data/creatureCollections/insectCollectionNames.ts",
         "layer": "core",
@@ -7958,6 +8365,24 @@
       {
         "id": "src/data/dailyTaskState",
         "file": "src/data/dailyTaskState.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/data/dinosaurAbilityAssets",
+        "file": "src/data/dinosaurAbilityAssets.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/data/dinosaurClues",
+        "file": "src/data/dinosaurClues.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/data/dinosaurKnowledge",
+        "file": "src/data/dinosaurKnowledge.ts",
         "layer": "core",
         "workspace_id": "mystarquest"
       },
@@ -8229,6 +8654,12 @@
         "id": "src/hooks/useTaskActivityState",
         "file": "src/hooks/useTaskActivityState.ts",
         "layer": "hook",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/hooks/useTaskCelebration",
+        "file": "src/hooks/useTaskCelebration.tsx",
+        "layer": "ui",
         "workspace_id": "mystarquest"
       },
       {
@@ -8574,6 +9005,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/ui/taskSuccessImage",
+        "file": "src/ui/taskSuccessImage.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/ui/taskTypeIcons",
         "file": "src/ui/taskTypeIcons.ts",
         "layer": "core",
@@ -8675,7 +9112,7 @@
         "tsconfigs": [
           "tsconfig.app.json"
         ],
-        "source_files": 215,
+        "source_files": 224,
         "project_loaded": true,
         "project_reason": null
       }
@@ -9534,7 +9971,7 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/components/animalTester/useAnimalSession",
+        "to": "src/components/animalTester/PicturePortrait",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -9544,27 +9981,27 @@
       },
       {
         "from": "src/components/AnimalTester",
+        "to": "src/components/animalTester/usePictureGestures",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/components/AnimalTester",
+        "to": "src/components/animalTester/useAnimalSession",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/components/AnimalTester",
         "to": "src/components/animalTester/modeArtwork",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 7
-      },
-      {
-        "from": "src/components/AnimalTester",
-        "to": "src/components/animalTester/LearningNavigation",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 8
-      },
-      {
-        "from": "src/components/AnimalTester",
-        "to": "src/components/animalTester/TrainingPhotoPortrait",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -9574,33 +10011,23 @@
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/assets/animals/butterfly.webp",
+        "to": "src/components/animalTester/LearningNavigation",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
-        "to_workspace": null,
+        "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 10
+        "line": 16
       },
       {
         "from": "src/components/AnimalTester",
-        "to": "src/assets/animals/lion.webp",
+        "to": "src/components/animalTester/TrainingPhotoPortrait",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
-        "to_workspace": null,
+        "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 11
-      },
-      {
-        "from": "src/components/AnimalTester",
-        "to": "src/assets/teenie/heart.webp",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": null,
-        "workspace_dependency": false,
-        "line": 12
+        "line": 17
       },
       {
         "from": "src/components/AnimalTester",
@@ -9610,7 +10037,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 18
       },
       {
         "from": "src/components/AnimalTester",
@@ -9620,7 +10047,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 19
       },
       {
         "from": "src/components/AnimalTester",
@@ -9630,7 +10057,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 20
       },
       {
         "from": "src/components/AnimalTester",
@@ -9640,7 +10067,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 20
+        "line": 24
       },
       {
         "from": "src/components/AnimalTester",
@@ -9650,7 +10077,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 21
+        "line": 25
       },
       {
         "from": "src/components/AnimalTester",
@@ -9660,7 +10087,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 22
+        "line": 26
       },
       {
         "from": "src/components/AnimalTester",
@@ -9670,7 +10097,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 23
+        "line": 27
       },
       {
         "from": "src/components/AnimalTester",
@@ -9680,7 +10107,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 24
+        "line": 28
       },
       {
         "from": "src/components/AnimalTester",
@@ -9690,7 +10117,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 25
+        "line": 29
       },
       {
         "from": "src/components/AnimalTester",
@@ -9700,7 +10127,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 31
+        "line": 35
       },
       {
         "from": "src/components/AnimalTester",
@@ -9710,7 +10137,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 34
+        "line": 38
       },
       {
         "from": "src/components/AnimalTester",
@@ -9720,7 +10147,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 35
+        "line": 39
       },
       {
         "from": "src/components/AnimalTester",
@@ -9730,7 +10157,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 36
+        "line": 40
       },
       {
         "from": "src/components/AnimalTester",
@@ -9740,7 +10167,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 37
+        "line": 43
       },
       {
         "from": "src/components/AppDeviceFrame",
@@ -11003,6 +11430,36 @@
         "line": 12
       },
       {
+        "from": "src/components/animalTester/PicturePortrait",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/animalTester/PicturePortrait",
+        "to": "src/components/animalTester/usePictureGestures",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/components/animalTester/PicturePortrait",
+        "to": "src/components/animalTester/TrainingPhotoPortrait.css",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
         "from": "src/components/animalTester/TrainingPhotoPortrait",
         "to": "react",
         "kind": "external",
@@ -11024,7 +11481,7 @@
       },
       {
         "from": "src/components/animalTester/TrainingPhotoPortrait",
-        "to": "src/components/ui/ActivityControls",
+        "to": "src/data/creatureCollections/types",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
@@ -11034,13 +11491,23 @@
       },
       {
         "from": "src/components/animalTester/TrainingPhotoPortrait",
-        "to": "src/components/animalTester/TrainingPhotoPortrait.css",
+        "to": "src/components/animalTester/PicturePortrait",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
-        "to_workspace": null,
+        "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 4
+      },
+      {
+        "from": "src/components/animalTester/TrainingPhotoPortrait",
+        "to": "src/components/animalTester/modeArtwork",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
       },
       {
         "from": "src/components/animalTester/modeArtwork",
@@ -11144,13 +11611,53 @@
       },
       {
         "from": "src/components/animalTester/modeArtwork",
+        "to": "src/assets/dinosaurs/cartoon/tyrannosaurus.png",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 14
+      },
+      {
+        "from": "src/components/animalTester/modeArtwork",
+        "to": "src/assets/animals/butterfly.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 15
+      },
+      {
+        "from": "src/components/animalTester/modeArtwork",
+        "to": "src/assets/animals/lion.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 16
+      },
+      {
+        "from": "src/components/animalTester/modeArtwork",
+        "to": "src/assets/teenie/heart.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 17
+      },
+      {
+        "from": "src/components/animalTester/modeArtwork",
         "to": "src/components/animalTester/useAnimalSession",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 11
+        "line": 18
       },
       {
         "from": "src/components/animalTester/useAnimalSession",
@@ -11281,6 +11788,16 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 7
+      },
+      {
+        "from": "src/components/animalTester/usePictureGestures",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
       },
       {
         "from": "src/components/ui/ActionArtwork",
@@ -11804,13 +12321,23 @@
       },
       {
         "from": "src/components/ui/IconActionControls",
-        "to": "src/components/ui/standardActionStyles",
+        "to": "src/ui/themeAssets",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 7
+      },
+      {
+        "from": "src/components/ui/IconActionControls",
+        "to": "src/components/ui/standardActionStyles",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 8
       },
       {
         "from": "src/components/ui/ImageLoadingContext",
@@ -12164,13 +12691,33 @@
       },
       {
         "from": "src/components/ui/RepeatControl",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/ui/RepeatControl",
+        "to": "src/components/ui/RepeatControl.css",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/components/ui/RepeatControl",
         "to": "src/components/ui/AsyncButton",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 1
+        "line": 3
       },
       {
         "from": "src/components/ui/RepeatControl",
@@ -12180,7 +12727,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 2
+        "line": 4
       },
       {
         "from": "src/components/ui/RepeatControl",
@@ -12190,7 +12737,17 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 3
+        "line": 5
+      },
+      {
+        "from": "src/components/ui/RepeatControl",
+        "to": "src/assets/themes/teenie/repeat-character.png",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 6
       },
       {
         "from": "src/components/ui/ResourceLoadingIcon",
@@ -13180,7 +13737,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 7
+        "line": 8
       },
       {
         "from": "src/components/weather/WeatherScene",
@@ -13190,7 +13747,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 11
+        "line": 12
       },
       {
         "from": "src/components/weather/WeatherScene",
@@ -13200,7 +13757,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 13
       },
       {
         "from": "src/components/weather/WeatherThermometer",
@@ -13693,6 +14250,16 @@
         "line": 3
       },
       {
+        "from": "src/data/additionalAnimalKnowledge",
+        "to": "src/data/animalKnowledge",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
         "from": "src/data/animalAbilityAssets",
         "to": "src/data/assetCatalog",
         "kind": "relative",
@@ -13701,6 +14268,26 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 1
+      },
+      {
+        "from": "src/data/animalAbilityAssets",
+        "to": "src/data/additionalAnimalKnowledge",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/data/animalAbilityAssets",
+        "to": "src/data/animalAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
       },
       {
         "from": "src/data/animalAssets",
@@ -14103,6 +14690,16 @@
         "line": 3
       },
       {
+        "from": "src/data/animalKnowledge",
+        "to": "src/data/additionalAnimalKnowledge",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
         "from": "src/data/animalLocationAssets",
         "to": "src/assets/animal-locations/expanded/africa.webp",
         "kind": "relative",
@@ -14134,7 +14731,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/australia.webp",
+        "to": "src/assets/animal-locations/expanded/europe-asia.svg",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14144,7 +14741,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/north-america.webp",
+        "to": "src/assets/animal-locations/expanded/australia.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14154,7 +14751,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/americas.webp",
+        "to": "src/assets/animal-locations/expanded/north-america.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14164,7 +14761,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/africa-asia.webp",
+        "to": "src/assets/animal-locations/expanded/americas.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14174,7 +14771,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/afro-eurasia.webp",
+        "to": "src/assets/animal-locations/expanded/africa-asia.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14184,7 +14781,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/northern-continents.webp",
+        "to": "src/assets/animal-locations/expanded/afro-eurasia.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14194,7 +14791,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/five-continents.webp",
+        "to": "src/assets/animal-locations/expanded/northern-continents.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14204,7 +14801,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/africa-asia-americas.webp",
+        "to": "src/assets/animal-locations/expanded/five-continents.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14214,7 +14811,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/new-guinea-australia.webp",
+        "to": "src/assets/animal-locations/expanded/africa-asia-americas.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14224,7 +14821,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/new-zealand.webp",
+        "to": "src/assets/animal-locations/expanded/new-guinea-australia.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14234,7 +14831,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/arctic.webp",
+        "to": "src/assets/animal-locations/expanded/new-zealand.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14244,7 +14841,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/oceans.webp",
+        "to": "src/assets/animal-locations/expanded/arctic.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14254,7 +14851,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/worldwide.webp",
+        "to": "src/assets/animal-locations/expanded/oceans.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14264,7 +14861,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/warm-regions.webp",
+        "to": "src/assets/animal-locations/expanded/worldwide.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14274,7 +14871,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/mild-regions.webp",
+        "to": "src/assets/animal-locations/expanded/warm-regions.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14284,7 +14881,7 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/coasts.webp",
+        "to": "src/assets/animal-locations/expanded/mild-regions.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14294,13 +14891,23 @@
       },
       {
         "from": "src/data/animalLocationAssets",
-        "to": "src/assets/animal-locations/expanded/southern-hemisphere.webp",
+        "to": "src/assets/animal-locations/expanded/coasts.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
         "line": 20
+      },
+      {
+        "from": "src/data/animalLocationAssets",
+        "to": "src/assets/animal-locations/expanded/southern-hemisphere.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 21
       },
       {
         "from": "src/data/creatureCollections/animals",
@@ -14403,6 +15010,36 @@
         "line": 10
       },
       {
+        "from": "src/data/creatureCollections/dinosaurs",
+        "to": "src/data/dinosaurKnowledge",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/data/creatureCollections/dinosaurs",
+        "to": "src/data/dinosaurAbilityAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/data/creatureCollections/dinosaurs",
+        "to": "src/data/creatureCollections/types",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
         "from": "src/data/creatureCollections/insects",
         "to": "src/data/insectKnowledge",
         "kind": "relative",
@@ -14444,13 +15081,23 @@
       },
       {
         "from": "src/data/creatureCollections/loadCollection",
+        "to": "src/data/creatureCollections/dinosaurs",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 23
+      },
+      {
+        "from": "src/data/creatureCollections/loadCollection",
         "to": "src/data/creatureCollections/insects",
         "kind": "relative",
         "import_kind": "dynamic",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 22
+        "line": 25
       },
       {
         "from": "src/data/creatureCollections/loadCollection",
@@ -14460,7 +15107,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 22
+        "line": 26
       },
       {
         "from": "src/data/creatureCollections/teeniepings",
@@ -14514,13 +15161,23 @@
       },
       {
         "from": "src/data/creatureCollections/types",
-        "to": "src/ui/themeOptions",
+        "to": "src/data/dinosaurKnowledge",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 4
+      },
+      {
+        "from": "src/data/creatureCollections/types",
+        "to": "src/ui/themeOptions",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
       },
       {
         "from": "src/data/creaturePhotos",
@@ -14561,6 +15218,56 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 3
+      },
+      {
+        "from": "src/data/dinosaurAbilityAssets",
+        "to": "src/ui/themeOptions",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/data/dinosaurAbilityAssets",
+        "to": "src/data/assetCatalog",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/data/dinosaurAbilityAssets",
+        "to": "src/data/genericAnimalAbilityAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/data/dinosaurKnowledge",
+        "to": "src/data/assetCatalog",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/data/dinosaurKnowledge",
+        "to": "src/data/dinosaurClues",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
       },
       {
         "from": "src/data/genericAnimalAbilityAssets",
@@ -16613,6 +17320,76 @@
         "line": 2
       },
       {
+        "from": "src/hooks/useTaskCelebration",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/hooks/useTaskCelebration",
+        "to": "src/components/RewardCelebration",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/hooks/useTaskCelebration",
+        "to": "src/contexts/ThemeContext",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/hooks/useTaskCelebration",
+        "to": "src/data/types",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
+        "from": "src/hooks/useTaskCelebration",
+        "to": "src/ui/listDescriptorTypes",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 7
+      },
+      {
+        "from": "src/hooks/useTaskCelebration",
+        "to": "src/ui/taskSuccessImage",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 8
+      },
+      {
+        "from": "src/hooks/useTaskCelebration",
+        "to": "src/tokens/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 9
+      },
+      {
         "from": "src/hooks/useTestCheckTriggers",
         "to": "react",
         "kind": "external",
@@ -16770,7 +17547,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 137
+        "line": 141
       },
       {
         "from": "src/lib/tabNavigation",
@@ -17753,6 +18530,16 @@
         "line": 31
       },
       {
+        "from": "src/pages/DashboardPage",
+        "to": "src/hooks/useTaskCelebration",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 32
+      },
+      {
         "from": "src/pages/LoginPage",
         "to": "react",
         "kind": "external",
@@ -18341,6 +19128,16 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 16
+      },
+      {
+        "from": "src/pages/TestsPage",
+        "to": "src/hooks/useTaskCelebration",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 17
       },
       {
         "from": "src/pages/TimeExplorerPage",
@@ -18993,6 +19790,56 @@
         "line": 3
       },
       {
+        "from": "src/ui/taskSuccessImage",
+        "to": "src/assets/chores/assets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/ui/taskSuccessImage",
+        "to": "src/data/types",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/ui/taskSuccessImage",
+        "to": "src/contexts/ThemeContext",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/ui/taskSuccessImage",
+        "to": "src/ui/themeAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/ui/taskSuccessImage",
+        "to": "src/ui/waterToiletAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
         "from": "src/ui/taskTypeIcons",
         "to": "src/ui/themeAssets",
         "kind": "relative",
@@ -19424,7 +20271,7 @@
       },
       {
         "from": "src/ui/unifiedChoreItemRenderer",
-        "to": "src/ui/themeAssets",
+        "to": "src/ui/taskSuccessImage",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19743,6 +20590,16 @@
         "line": 18
       },
       {
+        "from": "src/ui/unifiedEatingRenderer",
+        "to": "src/ui/taskSuccessImage",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 19
+      },
+      {
         "from": "src/ui/unifiedTestRenderer",
         "to": "react",
         "kind": "external",
@@ -19881,6 +20738,16 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 10
+      },
+      {
+        "from": "src/ui/unifiedWaterToiletRenderer",
+        "to": "src/ui/taskSuccessImage",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 11
       },
       {
         "from": "src/ui/waterToiletAssets",

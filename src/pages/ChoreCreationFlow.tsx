@@ -298,7 +298,10 @@ const ChoreCreationFlow = ({
 
       <IconActionRow
         theme={theme}
-        primaryIcon={getThemeAsset(theme.id, 'giveStarIcon')}
+        primaryIcon={getThemeAsset(
+          theme.id,
+          theme.id === 'teenie' ? 'saveIcon' : 'giveStarIcon'
+        )}
         primaryAriaLabel="Save"
         onPrimaryClick={save}
         primaryDisabled={isSaving || draft.title.trim().length === 0}

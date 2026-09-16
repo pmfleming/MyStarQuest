@@ -88,11 +88,7 @@ export function createUnifiedChoreDescriptor(
           stage,
           icon: (
             <img
-              src={
-                stage === 'setup'
-                  ? getThemeAsset(deps.theme.id, 'giveStarIcon')
-                  : getThemeAsset(deps.theme.id, 'activeIcon')
-              }
+              src={getPresetChoreOverviewImage(type, deps.theme.id)}
               alt=""
               aria-hidden="true"
               decoding="async"
@@ -184,7 +180,7 @@ const eatingActionIcon = (
   ) {
     return deps.activeMealIcon ?? getThemeAsset(deps.theme.id, 'biteIcon')
   }
-  return getThemeAsset(deps.theme.id, 'biteIcon')
+  return getPresetChoreOverviewImage('eating', deps.theme.id)
 }
 
 const enterOrComplete = (deps: UnifiedChoreDeps, item: UnifiedChoreItem) => {

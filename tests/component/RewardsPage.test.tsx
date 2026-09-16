@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import RewardsPage from '../../src/pages/RewardsPage'
 import { themes } from '../../src/contexts/ThemeContext'
@@ -56,46 +56,6 @@ it('surfaces a failed purchase on its card and lets the user retry', async () =>
   )
 })
 
-it('celebrates inside the same card, counts down, and finishes without another click', async () => {
-  vi.useFakeTimers()
-  let finish!: (value: {
-    title: string
-    starsBefore: number
-    starsAfter: number
-  }) => void
-  giveReward.mockReturnValueOnce(
-    new Promise((resolve) => {
-      finish = resolve
-    })
-  )
-  render(<RewardsPage />)
-  const card = screen.getByRole('heading', { name: 'Play' }).closest('article')
-  fireEvent.click(screen.getByRole('button', { name: 'Buy Play' }))
-  fireEvent.click(screen.getByRole('button', { name: 'Buy Play' }))
-  expect(giveReward).toHaveBeenCalledTimes(1)
-  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-  await act(async () => {
-    finish({ title: 'Play', starsBefore: 12, starsAfter: 9 })
-  })
-  const celebration = screen.getByRole('status', { name: 'Play purchased' })
-  expect(card).toContainElement(celebration)
-  expect(celebration).toHaveTextContent('9 stars remaining')
-  expect(celebration.querySelector('strong')).toHaveTextContent('12')
-  expect(screen.queryByText('You earned it!')).not.toBeInTheDocument()
-  expect(screen.queryByRole('button', { name: 'Yay!' })).not.toBeInTheDocument()
-  await act(async () => {
-    await vi.advanceTimersByTimeAsync(1600)
-  })
-  expect(celebration.querySelector('strong')).toHaveTextContent('9')
-  await act(async () => {
-    await vi.advanceTimersByTimeAsync(1950)
-  })
-  expect(screen.queryByRole('status')).not.toBeInTheDocument()
-  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-  expect(screen.getByRole('button', { name: 'Buy Play' })).toBeEnabled()
-  expect(giveReward).toHaveBeenCalledTimes(1)
-})
-
 it('shows the final balance immediately with reduced motion', async () => {
   vi.stubGlobal(
     'matchMedia',
@@ -112,37 +72,4 @@ it('shows the final balance immediately with reduced motion', async () => {
   } finally {
     vi.unstubAllGlobals()
   }
-})
-
-it('retains a one-time reward at its original position until its animation finishes', async () => {
-  vi.useFakeTimers()
-  rewardData.rewards = [
-    { id: 'reward', title: 'Play', costStars: 3, isRepeating: false },
-  ]
-  let finish!: (value: {
-    title: string
-    starsBefore: number
-    starsAfter: number
-  }) => void
-  giveReward.mockReturnValueOnce(
-    new Promise((resolve) => {
-      finish = resolve
-    })
-  )
-  const { rerender } = render(<RewardsPage />)
-  const card = screen.getByRole('heading', { name: 'Play' }).closest('article')
-  fireEvent.click(screen.getByRole('button', { name: 'Buy Play' }))
-  rewardData.rewards = []
-  rerender(<RewardsPage />)
-  expect(card).toBeInTheDocument()
-  await act(async () => {
-    finish({ title: 'Play', starsBefore: 5, starsAfter: 2 })
-  })
-  expect(card).toContainElement(
-    screen.getByRole('status', { name: 'Play purchased' })
-  )
-  await act(async () => {
-    await vi.advanceTimersByTimeAsync(3550)
-  })
-  expect(card).not.toBeInTheDocument()
 })

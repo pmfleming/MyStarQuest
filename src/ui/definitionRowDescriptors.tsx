@@ -1,5 +1,5 @@
 import { getThemeAsset } from './themeAssets'
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import Carousel from '../components/ui/Carousel'
 import ActionTextInput from '../components/ui/ActionTextInput'
 import StarDisplay from '../components/ui/StarDisplay'
@@ -171,6 +171,11 @@ export const createChildDefinitionListRowDescriptor = (
             deps.activeChildId === child.id
               ? getThemeAsset(deps.theme.id, 'activeIcon')
               : getThemeAsset(deps.theme.id, 'selectIcon')
+          }
+          style={
+            deps.theme.id === 'teenie' && deps.activeChildId === child.id
+              ? ({ '--action-artwork-size': '95%' } as CSSProperties)
+              : undefined
           }
           alt=""
           aria-hidden="true"

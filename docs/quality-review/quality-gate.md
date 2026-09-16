@@ -1,6 +1,6 @@
 # TypeScript quality gate
 
-MyStarQuest uses **ts-react-quality-lens 0.3.0**, pinned to commit `986c6fd9cc82627866156ba0cf22cb1504ab8587` from [pmfleming/ts-react-quality-lens](https://github.com/pmfleming/ts-react-quality-lens). The CI workflow checks out and builds this revision separately from the application dependencies.
+MyStarQuest uses **ts-react-quality-lens 0.3.0**, pinned to commit `c9e853ffe256cd04c5e6b0e2383615882d3056ae` (latest `main` verified 16 September 2026) from [pmfleming/ts-react-quality-lens](https://github.com/pmfleming/ts-react-quality-lens). The CI workflow checks out and builds this revision separately from the application dependencies.
 
 With the pinned checkout built in `tmp/quality-lens-latest`, run:
 

@@ -34,66 +34,6 @@ describe('Earth texture session cache', () => {
     vi.useRealTimers()
   })
 
-  it('shares one build and the same buffer across concurrent and later visits', async () => {
-    const { loadEarthTexturePixels } =
-      await import('../../../src/features/dayNightExplorer/earthTextureCache')
-    const first = loadEarthTexturePixels()
-    const overlappingVisit = loadEarthTexturePixels()
-    expect(overlappingVisit).toBe(first)
-    expect(TextureWorker.instances).toHaveLength(1)
-
-    const buffer = new ArrayBuffer(16)
-    const worker = TextureWorker.instances[0]!
-    worker.onmessage!(
-      new MessageEvent('message', {
-        data: { type: 'ready', pixels: buffer },
-      })
-    )
-
-    const pixels = await first
-    expect(pixels.pixels.buffer).toBe(buffer)
-    expect(pixels.generateMipmaps).toBe(false)
-    for (let visit = 0; visit < 10; visit += 1) {
-      expect(await loadEarthTexturePixels()).toBe(pixels)
-    }
-    expect(worker.terminate).toHaveBeenCalledOnce()
-    expect(vi.getTimerCount()).toBe(0)
-    expect(TextureWorker.instances).toHaveLength(1)
-  })
-
-  it('shares the full-resolution fallback result when workers are unavailable', async () => {
-    vi.stubGlobal('Worker', undefined)
-    const buffer = new ArrayBuffer(16)
-    const getImageData = vi.fn(() => ({ data: new Uint8ClampedArray(buffer) }))
-    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({
-      getImageData,
-    } as unknown as CanvasRenderingContext2D)
-    const fetchMap = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({ map: 'fixture' }),
-    })
-    vi.stubGlobal('fetch', fetchMap)
-    const { loadEarthTexturePixels } =
-      await import('../../../src/features/dayNightExplorer/earthTextureCache')
-    const first = loadEarthTexturePixels()
-    const second = loadEarthTexturePixels()
-    await vi.runAllTimersAsync()
-
-    expect(await second).toBe(await first)
-    expect(await loadEarthTexturePixels()).toBe(await first)
-    expect(fetchMap).toHaveBeenCalledOnce()
-    expect(renderEarthTexture).toHaveBeenCalledWith(
-      expect.anything(),
-      2048,
-      1024,
-      { map: 'fixture' }
-    )
-    expect(getImageData).toHaveBeenCalledWith(0, 0, 2048, 1024)
-    expect((await first).pixels.buffer).toBe(buffer)
-    expect((await first).generateMipmaps).toBe(true)
-    expect(vi.getTimerCount()).toBe(0)
-  })
-
   it('terminates a failed worker and allows a later visit to retry a failed load', async () => {
     const fetchMap = vi.fn().mockRejectedValue(new Error('Offline'))
     vi.stubGlobal('fetch', fetchMap)

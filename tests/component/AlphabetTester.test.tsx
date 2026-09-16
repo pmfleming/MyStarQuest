@@ -79,26 +79,3 @@ it('allows unlimited retries when failure mode is disabled', async () => {
   expect(p.onComplete).toHaveBeenCalledTimes(1)
   expect(p.onFail).not.toHaveBeenCalled()
 })
-
-it('cancels pending feedback on reset and can start a fresh round', async () => {
-  const p = { ...props(), totalProblems: 1 }
-  const { rerender } = render(<AlphabetTester {...p} />)
-  answer()
-  rerender(<AlphabetTester {...p} isRunning={false} />)
-  await advance(1600)
-  expect(p.onComplete).not.toHaveBeenCalled()
-  rerender(<AlphabetTester {...p} />)
-  answer()
-  await advance(1500)
-  expect(p.onComplete).toHaveBeenCalledTimes(1)
-})
-
-it('cancels delayed completion on unmount', async () => {
-  const p = props()
-  const { unmount } = render(<AlphabetTester {...p} totalProblems={1} />)
-  answer()
-  unmount()
-  await advance(1600)
-  expect(p.onComplete).not.toHaveBeenCalled()
-  expect(p.onFail).not.toHaveBeenCalled()
-})

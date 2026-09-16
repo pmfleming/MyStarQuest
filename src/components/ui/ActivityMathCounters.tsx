@@ -10,6 +10,7 @@ type MathCounterProps = {
   animationName: string
   alt?: string
   style?: CSSProperties
+  crossedOut?: boolean
 }
 
 export function MathCounter({
@@ -19,8 +20,9 @@ export function MathCounter({
   animationName,
   alt = '',
   style,
+  crossedOut = false,
 }: MathCounterProps) {
-  return (
+  const counter = (
     <img
       src={src}
       alt={alt}
@@ -29,9 +31,28 @@ export function MathCounter({
         height: size,
         objectFit: 'contain',
         animation: popInAnimation(animationName, delay),
+        ...(crossedOut && { opacity: 0.4, position: 'relative' }),
         ...style,
       }}
     />
+  )
+  if (!crossedOut) return counter
+  return (
+    <div style={{ position: 'relative', width: size, height: size }}>
+      {counter}
+      <span
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          fontSize: 12,
+          lineHeight: 1,
+        }}
+      >
+        ❌
+      </span>
+    </div>
   )
 }
 

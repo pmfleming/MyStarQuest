@@ -19,7 +19,11 @@ export const loadCollection = (
   if (inFlight) return inFlight
 
   const request =
-    id === 'insects' ? import('./insects') : import('./teeniepings')
+    id === 'dinosaurs'
+      ? import('./dinosaurs')
+      : id === 'insects'
+        ? import('./insects')
+        : import('./teeniepings')
   const result = request
     .then(({ default: data }) => {
       loaded[id] = data

@@ -77,7 +77,11 @@ export default function LearningNavigation({
   useEffect(() => {
     if (!isOpen) return
     const dismiss = (event: PointerEvent) => {
-      if (!navigation.current?.contains(event.target as Node)) close(false)
+      if (
+        event.target instanceof Node &&
+        !navigation.current?.contains(event.target)
+      )
+        close(false)
     }
     const escape = (event: globalThis.KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -118,7 +122,10 @@ export default function LearningNavigation({
   const browseWithKeyboard = (event: KeyboardEvent<HTMLDivElement>) => {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
     event.preventDefault()
-    const focused = (event.target as HTMLButtonElement).dataset.letter
+    const focused =
+      event.target instanceof HTMLElement
+        ? event.target.dataset.letter
+        : undefined
     const index = ALPHABET.indexOf(focused ?? currentLetter)
     const target =
       event.key === 'Home'

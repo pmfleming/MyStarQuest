@@ -13,20 +13,23 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-14T16:21:26.739Z",
+    "measured_at": "2026-09-16T16:07:09.996Z",
     "source_type": "static",
-    "source_set_hash": "sha256:87bc369e934fd911632c8d792f2b9eb5ada60380fea8bdb440fd60a00f611ec6",
-    "input_set_hash": "sha256:42557bb76e8546d1ba949ad0b1a8d7e3c39f44c64e520f3b6df7c8348872e42f"
+    "source_set_hash": "sha256:fd3d4bb48dd7f797a6025a47f5ed3b8b600097c7647e4a40fae37e6c9e62593a",
+    "input_set_hash": "sha256:2e5e89c70574f703e93dc37842eec01672ee5b90c2c00e3a71ac4fc4bd9609c4"
   },
   "analysis_identity": {
-    "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
+    "id": "sha256:5251dfdeaa7c10031e5ed4829bf1816e0937cfce7f9c3c3d7256bb2977fa8c0f",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
     "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
       "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
       "react": "recommended-v2",
@@ -93,8 +96,8 @@
     "stale_input": []
   },
   "summary": {
-    "records": 215,
-    "high_risk_records": 42
+    "records": 224,
+    "high_risk_records": 46
   },
   "records": [
     {
@@ -193,11 +196,11 @@
       "id": "locality:src/assets/chores/assets",
       "module_id": "src/assets/chores/assets",
       "file": "src/assets/chores/assets.ts",
-      "score": 46,
+      "score": 64,
       "risk": "medium",
       "dependency_distance": 2,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 5,
@@ -256,6 +259,9 @@
           "kind": "far_import",
           "line": 2,
           "specifier": "../../ui/themeOptions"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
         },
         {
           "kind": "cochange_ripple",
@@ -1281,11 +1287,11 @@
       "id": "locality:src/components/DinnerCountdown",
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
-      "score": 62,
-      "risk": "medium",
+      "score": 80,
+      "risk": "high",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 23,
@@ -1336,6 +1342,9 @@
       ],
       "signals": [
         {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
           "kind": "defect_keyword_commits",
           "value": 5
         },
@@ -1356,6 +1365,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1847,47 +1862,75 @@
       "id": "locality:src/components/RewardCelebration",
       "module_id": "src/components/RewardCelebration",
       "file": "src/components/RewardCelebration.tsx",
-      "score": 41,
+      "score": 46,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
         {
           "kind": "window_global",
-          "line": 29
+          "line": 35
         }
       ],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
+          "file": "src/lib/starActions.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/useChoreActivityActions.ts",
+          "commits": 1
+        },
+        {
           "file": "src/data/useRewards.ts",
           "commits": 1
         },
         {
-          "file": "src/lib/starActions.ts",
+          "file": "src/data/useTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/hooks/useTaskCelebration.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/offline/actions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
           "commits": 1
         },
         {
           "file": "src/pages/RewardsPage.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/ui/taskSuccessImage.ts",
           "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "window_global",
-          "line": 29
+          "line": 35
         },
         {
           "kind": "missing_direct_test_evidence"
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -2201,11 +2244,11 @@
       "id": "locality:src/components/WaterToiletMonitor",
       "module_id": "src/components/WaterToiletMonitor",
       "file": "src/components/WaterToiletMonitor.tsx",
-      "score": 28,
-      "risk": "low",
+      "score": 46,
+      "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 4,
@@ -2255,6 +2298,9 @@
         }
       ],
       "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
         {
           "kind": "defect_keyword_commits",
           "value": 1
@@ -2386,14 +2432,14 @@
       "id": "locality:src/components/animalTester/LearningNavigation",
       "module_id": "src/components/animalTester/LearningNavigation",
       "file": "src/components/animalTester/LearningNavigation.tsx",
-      "score": 17,
+      "score": 19,
       "risk": "low",
       "dependency_distance": 1,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
@@ -2449,12 +2495,59 @@
       ]
     },
     {
+      "id": "locality:src/components/animalTester/PicturePortrait",
+      "module_id": "src/components/animalTester/PicturePortrait",
+      "file": "src/components/animalTester/PicturePortrait.tsx",
+      "score": 18,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/animalTester/PicturePortrait",
+            "kind": "locality",
+            "file": "src/components/animalTester/PicturePortrait.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "locality:src/components/animalTester/TrainingPhotoPortrait",
       "module_id": "src/components/animalTester/TrainingPhotoPortrait",
       "file": "src/components/animalTester/TrainingPhotoPortrait.tsx",
-      "score": 40,
+      "score": 52,
       "risk": "medium",
-      "dependency_distance": 1,
+      "dependency_distance": 2,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
@@ -2486,6 +2579,11 @@
           "kind": "far_import",
           "line": 2,
           "specifier": "../../data/creaturePhotos"
+        },
+        {
+          "kind": "far_import",
+          "line": 3,
+          "specifier": "../../data/creatureCollections/types"
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -2527,7 +2625,7 @@
       "file": "src/components/animalTester/modeArtwork.ts",
       "score": 100,
       "risk": "high",
-      "dependency_distance": 10,
+      "dependency_distance": 14,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
@@ -2592,6 +2690,26 @@
           "kind": "far_import",
           "line": 10,
           "specifier": "../../data/creatureCollections/types"
+        },
+        {
+          "kind": "far_import",
+          "line": 14,
+          "specifier": "../../assets/dinosaurs/cartoon/tyrannosaurus.png"
+        },
+        {
+          "kind": "far_import",
+          "line": 15,
+          "specifier": "../../assets/animals/butterfly.webp"
+        },
+        {
+          "kind": "far_import",
+          "line": 16,
+          "specifier": "../../assets/animals/lion.webp"
+        },
+        {
+          "kind": "far_import",
+          "line": 17,
+          "specifier": "../../assets/teenie/heart.webp"
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -2864,6 +2982,53 @@
             "id": "locality:src/components/animalTester/useCreatureCollection",
             "kind": "locality",
             "file": "src/components/animalTester/useCreatureCollection.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/components/animalTester/usePictureGestures",
+      "module_id": "src/components/animalTester/usePictureGestures",
+      "file": "src/components/animalTester/usePictureGestures.ts",
+      "score": 18,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/animalTester/usePictureGestures",
+            "kind": "locality",
+            "file": "src/components/animalTester/usePictureGestures.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3504,11 +3669,11 @@
       "id": "locality:src/components/ui/AsyncButton",
       "module_id": "src/components/ui/AsyncButton",
       "file": "src/components/ui/AsyncButton.tsx",
-      "score": 30,
-      "risk": "low",
+      "score": 48,
+      "risk": "medium",
       "dependency_distance": 1,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 2,
@@ -3562,6 +3727,9 @@
           "kind": "far_import",
           "line": 2,
           "specifier": "../../hooks/useAsyncAction"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
         },
         {
           "kind": "defect_keyword_commits",
@@ -4248,9 +4416,9 @@
       "id": "locality:src/components/ui/IconActionControls",
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
-      "score": 87,
+      "score": 99,
       "risk": "high",
-      "dependency_distance": 3,
+      "dependency_distance": 4,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
@@ -4316,6 +4484,11 @@
           "kind": "far_import",
           "line": 5,
           "specifier": "../../hooks/useAsyncAction"
+        },
+        {
+          "kind": "far_import",
+          "line": 7,
+          "specifier": "../../ui/themeAssets"
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -5387,9 +5560,9 @@
       "id": "locality:src/components/ui/RepeatControl",
       "module_id": "src/components/ui/RepeatControl",
       "file": "src/components/ui/RepeatControl.tsx",
-      "score": 65,
-      "risk": "medium",
-      "dependency_distance": 2,
+      "score": 77,
+      "risk": "high",
+      "dependency_distance": 3,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
@@ -5443,13 +5616,18 @@
       "signals": [
         {
           "kind": "far_import",
-          "line": 2,
+          "line": 4,
           "specifier": "../../contexts/ThemeContext"
         },
         {
           "kind": "far_import",
-          "line": 3,
+          "line": 5,
           "specifier": "../../tokens"
+        },
+        {
+          "kind": "far_import",
+          "line": 6,
+          "specifier": "../../assets/themes/teenie/repeat-character.png"
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -5476,6 +5654,12 @@
       "estimated_effort": 15,
       "actions": [
         {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
           "type": "add-to-config",
           "auto_fixable": true,
           "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
@@ -5493,8 +5677,8 @@
       "id": "locality:src/components/ui/ResourceLoadingIcon",
       "module_id": "src/components/ui/ResourceLoadingIcon",
       "file": "src/components/ui/ResourceLoadingIcon.tsx",
-      "score": 23,
-      "risk": "low",
+      "score": 41,
+      "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
         {
@@ -5502,7 +5686,7 @@
           "line": 24
         }
       ],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 1,
@@ -5555,6 +5739,9 @@
         {
           "kind": "window_global",
           "line": 24
+        },
+        {
+          "kind": "missing_direct_test_evidence"
         },
         {
           "kind": "cochange_ripple",
@@ -7617,24 +7804,24 @@
       "id": "locality:src/components/weather/WeatherScene",
       "module_id": "src/components/weather/WeatherScene",
       "file": "src/components/weather/WeatherScene.tsx",
-      "score": 72,
+      "score": 77,
       "risk": "high",
       "dependency_distance": 3,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 6,
+        "commits": 7,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/lib/weather/weatherVisuals.ts",
-          "commits": 2
+          "file": "src/ui/weatherAssets.ts",
+          "commits": 3
         },
         {
-          "file": "src/ui/weatherAssets.ts",
+          "file": "src/lib/weather/weatherVisuals.ts",
           "commits": 2
         },
         {
@@ -7683,7 +7870,7 @@
         },
         {
           "kind": "far_import",
-          "line": 7,
+          "line": 8,
           "specifier": "../../lib/weather/weatherVisuals"
         },
         {
@@ -7691,7 +7878,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -7791,7 +7978,7 @@
       "id": "locality:src/contexts/ActiveChildContext",
       "module_id": "src/contexts/ActiveChildContext",
       "file": "src/contexts/ActiveChildContext.tsx",
-      "score": 45,
+      "score": 63,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
@@ -7800,7 +7987,7 @@
           "line": 11
         }
       ],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 5,
@@ -7853,6 +8040,9 @@
         {
           "kind": "react_context",
           "line": 11
+        },
+        {
+          "kind": "missing_direct_test_evidence"
         },
         {
           "kind": "defect_keyword_commits",
@@ -8402,17 +8592,81 @@
       ]
     },
     {
+      "id": "locality:src/data/additionalAnimalKnowledge",
+      "module_id": "src/data/additionalAnimalKnowledge",
+      "file": "src/data/additionalAnimalKnowledge.ts",
+      "score": 23,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/data/animalAbilityAssets.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/animalKnowledge.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/animalLocationAssets.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/data/additionalAnimalKnowledge",
+            "kind": "locality",
+            "file": "src/data/additionalAnimalKnowledge.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "locality:src/data/animalAbilityAssets",
       "module_id": "src/data/animalAbilityAssets",
       "file": "src/data/animalAbilityAssets.ts",
-      "score": 20,
+      "score": 22,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 4,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 0,
@@ -8438,6 +8692,14 @@
           "commits": 3
         },
         {
+          "file": "src/data/animalKnowledge.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/data/animalLocationAssets.ts",
+          "commits": 3
+        },
+        {
           "file": "src/data/useTests.ts",
           "commits": 3
         },
@@ -8447,14 +8709,6 @@
         },
         {
           "file": "src/components/ArithmeticTester.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/LargeNumbersTester.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/data/animalFoodAssets.ts",
           "commits": 2
         }
       ],
@@ -8837,21 +9091,21 @@
       "id": "locality:src/data/animalKnowledge",
       "module_id": "src/data/animalKnowledge",
       "file": "src/data/animalKnowledge.ts",
-      "score": 32,
+      "score": 34,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 7,
+        "commits": 8,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/data/animalLocationAssets.ts",
-          "commits": 7
+          "commits": 8
         },
         {
           "file": "src/components/AnimalTester.tsx",
@@ -8859,6 +9113,10 @@
         },
         {
           "file": "src/components/SpellingTester.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/data/animalAbilityAssets.ts",
           "commits": 3
         },
         {
@@ -8878,10 +9136,6 @@
           "commits": 2
         },
         {
-          "file": "src/data/animalAbilityAssets.ts",
-          "commits": 2
-        },
-        {
           "file": "src/data/types.ts",
           "commits": 2
         },
@@ -8893,7 +9147,7 @@
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 7
+          "value": 8
         }
       ],
       "kind": "locality",
@@ -8926,21 +9180,21 @@
       "id": "locality:src/data/animalLocationAssets",
       "module_id": "src/data/animalLocationAssets",
       "file": "src/data/animalLocationAssets.ts",
-      "score": 34,
-      "risk": "low",
+      "score": 36,
+      "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 8,
+        "commits": 9,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/data/animalKnowledge.ts",
-          "commits": 7
+          "commits": 8
         },
         {
           "file": "src/components/AnimalTester.tsx",
@@ -8959,6 +9213,10 @@
           "commits": 3
         },
         {
+          "file": "src/data/animalAbilityAssets.ts",
+          "commits": 3
+        },
+        {
           "file": "src/data/animalFoodAssets.ts",
           "commits": 3
         },
@@ -8973,16 +9231,12 @@
         {
           "file": "src/data/useTests.ts",
           "commits": 3
-        },
-        {
-          "file": "src/pages/ManageTestsPage.tsx",
-          "commits": 3
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 7
+          "value": 8
         }
       ],
       "kind": "locality",
@@ -9015,11 +9269,11 @@
       "id": "locality:src/data/assetCatalog",
       "module_id": "src/data/assetCatalog",
       "file": "src/data/assetCatalog.ts",
-      "score": 15,
+      "score": 33,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 3,
@@ -9069,6 +9323,9 @@
         }
       ],
       "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
         {
           "kind": "cochange_ripple",
           "value": 3
@@ -9268,6 +9525,53 @@
       ]
     },
     {
+      "id": "locality:src/data/creatureCollections/dinosaurs",
+      "module_id": "src/data/creatureCollections/dinosaurs",
+      "file": "src/data/creatureCollections/dinosaurs.ts",
+      "score": 18,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/data/creatureCollections/dinosaurs",
+            "kind": "locality",
+            "file": "src/data/creatureCollections/dinosaurs.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "locality:src/data/creatureCollections/insectCollectionNames",
       "module_id": "src/data/creatureCollections/insectCollectionNames",
       "file": "src/data/creatureCollections/insectCollectionNames.ts",
@@ -9433,11 +9737,11 @@
       "id": "locality:src/data/creatureCollections/loadCollection",
       "module_id": "src/data/creatureCollections/loadCollection",
       "file": "src/data/creatureCollections/loadCollection.ts",
-      "score": 5,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 1,
@@ -9479,6 +9783,9 @@
         }
       ],
       "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
         {
           "kind": "cochange_ripple",
           "value": 1
@@ -9643,7 +9950,7 @@
       "signals": [
         {
           "kind": "far_import",
-          "line": 4,
+          "line": 5,
           "specifier": "../../ui/themeOptions"
         },
         {
@@ -9748,11 +10055,15 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 11,
+        "commits": 12,
         "contributors": 2
       },
       "defect_commits": 1,
       "cochange_partners": [
+        {
+          "file": "src/data/types.ts",
+          "commits": 8
+        },
         {
           "file": "src/data/useTests.ts",
           "commits": 8
@@ -9762,8 +10073,8 @@
           "commits": 8
         },
         {
-          "file": "src/data/types.ts",
-          "commits": 7
+          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "commits": 8
         },
         {
           "file": "src/data/useChores.ts",
@@ -9774,23 +10085,19 @@
           "commits": 7
         },
         {
-          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "file": "src/ui/unifiedChoreDescriptorTypes.ts",
+          "commits": 7
+        },
+        {
+          "file": "src/ui/unifiedChoreState.ts",
+          "commits": 7
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
           "commits": 7
         },
         {
           "file": "src/components/SpellingTester.tsx",
-          "commits": 6
-        },
-        {
-          "file": "src/data/taskDocuments.ts",
-          "commits": 6
-        },
-        {
-          "file": "src/pages/ManageTestsPage.tsx",
-          "commits": 6
-        },
-        {
-          "file": "src/pages/TestsPage.tsx",
           "commits": 6
         }
       ],
@@ -9825,6 +10132,139 @@
             "id": "locality:src/data/dailyTaskState",
             "kind": "locality",
             "file": "src/data/dailyTaskState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/data/dinosaurAbilityAssets",
+      "module_id": "src/data/dinosaurAbilityAssets",
+      "file": "src/data/dinosaurAbilityAssets.ts",
+      "score": 0,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/data/dinosaurAbilityAssets",
+            "kind": "locality",
+            "file": "src/data/dinosaurAbilityAssets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/data/dinosaurClues",
+      "module_id": "src/data/dinosaurClues",
+      "file": "src/data/dinosaurClues.ts",
+      "score": 18,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/data/dinosaurClues",
+            "kind": "locality",
+            "file": "src/data/dinosaurClues.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/data/dinosaurKnowledge",
+      "module_id": "src/data/dinosaurKnowledge",
+      "file": "src/data/dinosaurKnowledge.ts",
+      "score": 0,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/data/dinosaurKnowledge",
+            "kind": "locality",
+            "file": "src/data/dinosaurKnowledge.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -10101,28 +10541,32 @@
       "id": "locality:src/data/taskLimits",
       "module_id": "src/data/taskLimits",
       "file": "src/data/taskLimits.ts",
-      "score": 15,
+      "score": 20,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 3,
+        "commits": 4,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
+          "file": "src/data/types.ts",
+          "commits": 4
+        },
+        {
           "file": "src/components/AnimalTester.tsx",
           "commits": 3
         },
         {
-          "file": "src/data/types.ts",
+          "file": "src/tokens/index.ts",
           "commits": 3
         },
         {
-          "file": "src/tokens/index.ts",
+          "file": "src/ui/unifiedEatingRenderer.tsx",
           "commits": 3
         },
         {
@@ -10148,16 +10592,12 @@
         {
           "file": "src/components/ui/StandardActionList.tsx",
           "commits": 2
-        },
-        {
-          "file": "src/pages/ChoreCreationFlow.tsx",
-          "commits": 2
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 3
+          "value": 4
         }
       ],
       "kind": "locality",
@@ -10286,7 +10726,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 23,
+        "commits": 24,
         "contributors": 1
       },
       "defect_commits": 0,
@@ -10308,11 +10748,19 @@
           "commits": 10
         },
         {
+          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "commits": 10
+        },
+        {
           "file": "src/components/PositionalNotation.tsx",
           "commits": 9
         },
         {
-          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "file": "src/lib/choreParser.ts",
+          "commits": 9
+        },
+        {
+          "file": "src/ui/unifiedChoreState.ts",
           "commits": 9
         },
         {
@@ -10320,15 +10768,7 @@
           "commits": 8
         },
         {
-          "file": "src/data/useRewards.ts",
-          "commits": 8
-        },
-        {
-          "file": "src/lib/choreParser.ts",
-          "commits": 8
-        },
-        {
-          "file": "src/ui/unifiedChoreState.ts",
+          "file": "src/data/dailyTaskState.ts",
           "commits": 8
         }
       ],
@@ -10562,20 +11002,28 @@
       "id": "locality:src/data/useChoreActivityActions",
       "module_id": "src/data/useChoreActivityActions",
       "file": "src/data/useChoreActivityActions.ts",
-      "score": 43,
+      "score": 45,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 6,
+        "commits": 7,
         "contributors": 2
       },
       "defect_commits": 2,
       "cochange_partners": [
         {
           "file": "src/data/dailyTaskState.ts",
+          "commits": 5
+        },
+        {
+          "file": "src/data/useTests.ts",
+          "commits": 5
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
           "commits": 5
         },
         {
@@ -10587,32 +11035,24 @@
           "commits": 4
         },
         {
-          "file": "src/data/useTests.ts",
-          "commits": 4
-        },
-        {
           "file": "src/hooks/useActivityChallenge.ts",
           "commits": 4
         },
         {
-          "file": "src/pages/DashboardPage.tsx",
+          "file": "src/lib/starActions.ts",
+          "commits": 4
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/ui/unifiedChoreItemRenderer.tsx",
           "commits": 4
         },
         {
           "file": "src/ui/unifiedChoreState.ts",
           "commits": 4
-        },
-        {
-          "file": "src/App.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/assets/chores/assets.ts",
-          "commits": 3
-        },
-        {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 3
         }
       ],
       "signals": [
@@ -10867,7 +11307,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 15,
+        "commits": 16,
         "contributors": 2
       },
       "defect_commits": 1,
@@ -10885,6 +11325,10 @@
           "commits": 8
         },
         {
+          "file": "src/pages/DashboardPage.tsx",
+          "commits": 8
+        },
+        {
           "file": "src/components/SpellingTester.tsx",
           "commits": 7
         },
@@ -10893,11 +11337,11 @@
           "commits": 7
         },
         {
-          "file": "src/pages/DashboardPage.tsx",
+          "file": "src/pages/ManageTestsPage.tsx",
           "commits": 7
         },
         {
-          "file": "src/pages/ManageTestsPage.tsx",
+          "file": "src/pages/TestsPage.tsx",
           "commits": 7
         },
         {
@@ -10906,10 +11350,6 @@
         },
         {
           "file": "src/data/useChildren.ts",
-          "commits": 6
-        },
-        {
-          "file": "src/pages/TestsPage.tsx",
           "commits": 6
         }
       ],
@@ -10953,7 +11393,7 @@
       "id": "locality:src/data/useUserCollection",
       "module_id": "src/data/useUserCollection",
       "file": "src/data/useUserCollection.ts",
-      "score": 58,
+      "score": 60,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
@@ -10965,7 +11405,7 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 5,
+        "commits": 6,
         "contributors": 1
       },
       "defect_commits": 0,
@@ -11007,7 +11447,7 @@
           "commits": 2
         },
         {
-          "file": "src/firebaseDb.ts",
+          "file": "src/data/dailyTaskState.ts",
           "commits": 2
         }
       ],
@@ -11054,18 +11494,30 @@
       "id": "locality:src/data/useUserDocumentUpdates",
       "module_id": "src/data/useUserDocumentUpdates",
       "file": "src/data/useUserDocumentUpdates.ts",
-      "score": 28,
+      "score": 30,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/taskLimits.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 2
+        },
         {
           "file": "src/data/useChildren.ts",
           "commits": 2
@@ -11083,28 +11535,16 @@
           "commits": 2
         },
         {
-          "file": "src/assets/rewards/assets.ts",
-          "commits": 1
+          "file": "src/data/useUserCollection.ts",
+          "commits": 2
         },
         {
-          "file": "src/assets/themes/princess/assets.ts",
-          "commits": 1
+          "file": "src/offline/actions.ts",
+          "commits": 2
         },
         {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AnimalTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/ChoreOutcomeView.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/DinnerCountdown.tsx",
-          "commits": 1
+          "file": "src/offline/runtime.ts",
+          "commits": 2
         }
       ],
       "signals": [
@@ -11708,11 +12148,11 @@
       "id": "locality:src/features/dayNightExplorer/dayNightExplorerBackdrop",
       "module_id": "src/features/dayNightExplorer/dayNightExplorerBackdrop",
       "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
-      "score": 43,
+      "score": 61,
       "risk": "medium",
       "dependency_distance": 3,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 2,
@@ -11776,6 +12216,9 @@
           "kind": "far_import",
           "line": 6,
           "specifier": "../../lib/seasons"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
         },
         {
           "kind": "cochange_ripple",
@@ -12510,11 +12953,11 @@
       "id": "locality:src/features/dayNightExplorer/solarSystemGeometry",
       "module_id": "src/features/dayNightExplorer/solarSystemGeometry",
       "file": "src/features/dayNightExplorer/solarSystemGeometry.ts",
-      "score": 17,
-      "risk": "low",
+      "score": 35,
+      "risk": "medium",
       "dependency_distance": 1,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 1,
@@ -12568,6 +13011,9 @@
           "kind": "far_import",
           "line": 2,
           "specifier": "../../lib/solar"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
         },
         {
           "kind": "cochange_ripple",
@@ -13607,11 +14053,11 @@
       "id": "locality:src/hooks/useCoalescedDocumentUpdates",
       "module_id": "src/hooks/useCoalescedDocumentUpdates",
       "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-      "score": 17,
-      "risk": "low",
+      "score": 35,
+      "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 4,
@@ -13661,6 +14107,9 @@
         }
       ],
       "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
         {
           "kind": "cochange_ripple",
           "value": 3
@@ -14314,6 +14763,98 @@
       ]
     },
     {
+      "id": "locality:src/hooks/useTaskCelebration",
+      "module_id": "src/hooks/useTaskCelebration",
+      "file": "src/hooks/useTaskCelebration.tsx",
+      "score": 23,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/components/RewardCelebration.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useChoreActivityActions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/starActions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/offline/actions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/ui/taskSuccessImage.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/ui/unifiedChoreItemRenderer.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/ui/unifiedEatingRenderer.tsx",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/hooks/useTaskCelebration",
+            "kind": "locality",
+            "file": "src/hooks/useTaskCelebration.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "locality:src/hooks/useTestCheckTriggers",
       "module_id": "src/hooks/useTestCheckTriggers",
       "file": "src/hooks/useTestCheckTriggers.ts",
@@ -14782,14 +15323,14 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 11,
+        "commits": 12,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
         {
           "file": "src/data/types.ts",
-          "commits": 8
+          "commits": 9
         },
         {
           "file": "src/pages/DashboardPage.tsx",
@@ -14797,7 +15338,7 @@
         },
         {
           "file": "src/ui/unifiedChoreDescriptors.tsx",
-          "commits": 7
+          "commits": 8
         },
         {
           "file": "src/components/AlphabetTester.tsx",
@@ -14816,15 +15357,15 @@
           "commits": 6
         },
         {
+          "file": "src/ui/unifiedChoreState.ts",
+          "commits": 6
+        },
+        {
           "file": "src/components/SpellingTester.tsx",
           "commits": 5
         },
         {
-          "file": "src/data/taskDocuments.ts",
-          "commits": 5
-        },
-        {
-          "file": "src/data/useChores.ts",
+          "file": "src/data/dailyTaskState.ts",
           "commits": 5
         }
       ],
@@ -14835,7 +15376,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 8
+          "value": 9
         }
       ],
       "kind": "locality",
@@ -15046,11 +15587,11 @@
       "id": "locality:src/lib/positionalNotationProblems",
       "module_id": "src/lib/positionalNotationProblems",
       "file": "src/lib/positionalNotationProblems.ts",
-      "score": 10,
+      "score": 28,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 2,
@@ -15100,6 +15641,9 @@
         }
       ],
       "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
         {
           "kind": "cochange_ripple",
           "value": 2
@@ -15452,19 +15996,68 @@
       "id": "locality:src/lib/snapshotStore",
       "module_id": "src/lib/snapshotStore",
       "file": "src/lib/snapshotStore.ts",
-      "score": 0,
+      "score": 23,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
-      "signals": [],
+      "cochange_partners": [
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/taskLimits.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useUserCollection.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useUserDocumentUpdates.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/choreParser.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/weather/weatherCache.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/weather/weatherStore.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/offline/actions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/offline/firebaseTransport.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
       "kind": "locality",
       "rule_id": "ts-react-quality-lens/locality",
       "evidence_kind": "heuristic",
@@ -15584,14 +16177,14 @@
       "id": "locality:src/lib/starActions",
       "module_id": "src/lib/starActions",
       "file": "src/lib/starActions.ts",
-      "score": 44,
+      "score": 46,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 9,
+        "commits": 10,
         "contributors": 2
       },
       "defect_commits": 1,
@@ -15605,6 +16198,10 @@
           "commits": 5
         },
         {
+          "file": "src/data/useTests.ts",
+          "commits": 5
+        },
+        {
           "file": "src/data/types.ts",
           "commits": 4
         },
@@ -15613,7 +16210,15 @@
           "commits": 4
         },
         {
-          "file": "src/data/useTests.ts",
+          "file": "src/data/useChoreActivityActions.ts",
+          "commits": 4
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "commits": 4
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
           "commits": 4
         },
         {
@@ -15622,18 +16227,6 @@
         },
         {
           "file": "src/components/ArithmeticTester.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/components/PositionalNotation.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/contexts/ThemeContext.tsx",
-          "commits": 3
-        },
-        {
-          "file": "src/data/useChoreActivityActions.ts",
           "commits": 3
         }
       ],
@@ -15677,11 +16270,11 @@
       "id": "locality:src/lib/tabNavigation",
       "module_id": "src/lib/tabNavigation",
       "file": "src/lib/tabNavigation.ts",
-      "score": 24,
-      "risk": "low",
+      "score": 42,
+      "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 6,
@@ -15731,6 +16324,9 @@
         }
       ],
       "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
         {
           "kind": "cochange_ripple",
           "value": 4
@@ -15951,7 +16547,7 @@
       "id": "locality:src/lib/weather/weatherCache",
       "module_id": "src/lib/weather/weatherCache",
       "file": "src/lib/weather/weatherCache.ts",
-      "score": 59,
+      "score": 64,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
@@ -15967,45 +16563,49 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/data/useTests.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/lib/schoolCalendarData.ts",
-          "commits": 1
-        },
-        {
           "file": "src/lib/weather/weatherStore.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/actions.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/model.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/offline/OfflineBoundary.tsx",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/persistence.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/runtime.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/store.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/taskLimits.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useTests.ts",
           "commits": 1
         }
       ],
@@ -16023,7 +16623,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -16334,7 +16934,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 4,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 0,
@@ -16356,28 +16956,28 @@
           "commits": 2
         },
         {
-          "file": "src/pages/TimeExplorerPage.tsx",
+          "file": "src/lib/weather/weatherCache.ts",
           "commits": 2
         },
         {
-          "file": "src/App.tsx",
-          "commits": 1
+          "file": "src/offline/actions.ts",
+          "commits": 2
         },
         {
-          "file": "src/auth/AuthContext.tsx",
-          "commits": 1
+          "file": "src/offline/model.ts",
+          "commits": 2
         },
         {
-          "file": "src/auth/AuthProvider.tsx",
-          "commits": 1
+          "file": "src/offline/persistence.ts",
+          "commits": 2
         },
         {
-          "file": "src/components/activities/LazyActivities.tsx",
-          "commits": 1
+          "file": "src/offline/runtime.ts",
+          "commits": 2
         },
         {
-          "file": "src/components/dayNightExplorer/useDayNightExplorerModel.ts",
-          "commits": 1
+          "file": "src/offline/store.ts",
+          "commits": 2
         }
       ],
       "signals": [
@@ -16712,20 +17312,48 @@
       "id": "locality:src/offline/actions",
       "module_id": "src/offline/actions",
       "file": "src/offline/actions.ts",
-      "score": 10,
+      "score": 17,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 4,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/data/useTests.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/data/useUserCollection.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/useUserDocumentUpdates.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/starActions.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/weather/weatherCache.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/weather/weatherStore.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/model.ts",
           "commits": 2
         },
         {
@@ -16733,42 +17361,14 @@
           "commits": 2
         },
         {
-          "file": "src/offline/runtime.ts",
+          "file": "src/offline/persistence.ts",
           "commits": 2
-        },
-        {
-          "file": "src/data/useChildren.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/useChildTaskCollection.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/useChores.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/useRewards.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/useUserCollection.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/useUserDocumentUpdates.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/lib/schoolCalendarData.ts",
-          "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -16801,31 +17401,63 @@
       "id": "locality:src/offline/firebaseTransport",
       "module_id": "src/offline/firebaseTransport",
       "file": "src/offline/firebaseTransport.ts",
-      "score": 5,
+      "score": 10,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/offline/sync.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/transport.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/taskLimits.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useUserCollection.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useUserDocumentUpdates.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/choreParser.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/snapshotStore.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/weather/weatherCache.ts",
           "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -16858,59 +17490,63 @@
       "id": "locality:src/offline/model",
       "module_id": "src/offline/model",
       "file": "src/offline/model.ts",
-      "score": 10,
+      "score": 15,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/offline/persistence.ts",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/offline/store.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/data/useTests.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/lib/schoolCalendarData.ts",
-          "commits": 1
+          "commits": 3
         },
         {
           "file": "src/lib/weather/weatherCache.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/lib/weather/weatherStore.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/actions.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/offline/OfflineBoundary.tsx",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/runtime.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/taskLimits.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useTests.ts",
           "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -16943,59 +17579,63 @@
       "id": "locality:src/offline/persistence",
       "module_id": "src/offline/persistence",
       "file": "src/offline/persistence.ts",
-      "score": 10,
+      "score": 15,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/offline/model.ts",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/offline/store.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/data/useTests.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/lib/schoolCalendarData.ts",
-          "commits": 1
+          "commits": 3
         },
         {
           "file": "src/lib/weather/weatherCache.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/lib/weather/weatherStore.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/actions.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/offline/OfflineBoundary.tsx",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/runtime.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/taskLimits.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useTests.ts",
           "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -17120,7 +17760,7 @@
       "id": "locality:src/offline/runtime",
       "module_id": "src/offline/runtime",
       "file": "src/offline/runtime.ts",
-      "score": 64,
+      "score": 69,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
@@ -17140,17 +17780,37 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
+          "file": "src/offline/actions.ts",
+          "commits": 3
+        },
+        {
           "file": "src/data/useTests.ts",
           "commits": 2
         },
         {
-          "file": "src/offline/actions.ts",
+          "file": "src/data/useUserCollection.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/useUserDocumentUpdates.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/weather/weatherCache.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/weather/weatherStore.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/model.ts",
           "commits": 2
         },
         {
@@ -17158,32 +17818,12 @@
           "commits": 2
         },
         {
-          "file": "src/data/useChildren.ts",
-          "commits": 1
+          "file": "src/offline/persistence.ts",
+          "commits": 2
         },
         {
-          "file": "src/data/useChildTaskCollection.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/useChores.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/useRewards.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/useUserCollection.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/useUserDocumentUpdates.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/lib/schoolCalendarData.ts",
-          "commits": 1
+          "file": "src/offline/store.ts",
+          "commits": 2
         }
       ],
       "signals": [
@@ -17201,7 +17841,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -17323,7 +17963,7 @@
       "id": "locality:src/offline/store",
       "module_id": "src/offline/store",
       "file": "src/offline/store.ts",
-      "score": 46,
+      "score": 51,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [
@@ -17339,45 +17979,49 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/offline/model.ts",
-          "commits": 2
+          "commits": 3
         },
         {
           "file": "src/offline/persistence.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/data/useTests.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/lib/schoolCalendarData.ts",
-          "commits": 1
+          "commits": 3
         },
         {
           "file": "src/lib/weather/weatherCache.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/lib/weather/weatherStore.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/actions.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/offline/OfflineBoundary.tsx",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/runtime.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/taskLimits.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useTests.ts",
           "commits": 1
         }
       ],
@@ -17392,7 +18036,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -17425,7 +18069,7 @@
       "id": "locality:src/offline/sync",
       "module_id": "src/offline/sync",
       "file": "src/offline/sync.ts",
-      "score": 77,
+      "score": 82,
       "risk": "high",
       "dependency_distance": 0,
       "hidden_coupling": [
@@ -17449,17 +18093,49 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/offline/firebaseTransport.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/transport.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/taskLimits.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useUserCollection.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useUserDocumentUpdates.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/choreParser.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/snapshotStore.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/weather/weatherCache.ts",
           "commits": 1
         }
       ],
@@ -17482,7 +18158,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -17521,31 +18197,63 @@
       "id": "locality:src/offline/transport",
       "module_id": "src/offline/transport",
       "file": "src/offline/transport.ts",
-      "score": 5,
+      "score": 10,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/offline/firebaseTransport.ts",
-          "commits": 1
+          "commits": 2
         },
         {
           "file": "src/offline/sync.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/taskLimits.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useUserCollection.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useUserDocumentUpdates.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/choreParser.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/snapshotStore.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/weather/weatherCache.ts",
           "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -17578,11 +18286,11 @@
       "id": "locality:src/pages/ChoreCreationFlow",
       "module_id": "src/pages/ChoreCreationFlow",
       "file": "src/pages/ChoreCreationFlow.tsx",
-      "score": 38,
+      "score": 56,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 10,
@@ -17633,6 +18341,9 @@
       ],
       "signals": [
         {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
           "kind": "cochange_ripple",
           "value": 7
         }
@@ -17674,7 +18385,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 41,
+        "commits": 42,
         "contributors": 2
       },
       "defect_commits": 5,
@@ -18126,14 +18837,14 @@
       "id": "locality:src/pages/TestsPage",
       "module_id": "src/pages/TestsPage",
       "file": "src/pages/TestsPage.tsx",
-      "score": 54,
+      "score": 38,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "no_direct_import_association",
+      "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 9,
+        "commits": 10,
         "contributors": 2
       },
       "defect_commits": 0,
@@ -18141,6 +18852,14 @@
         {
           "file": "src/pages/ManageTestsPage.tsx",
           "commits": 8
+        },
+        {
+          "file": "src/data/useTests.ts",
+          "commits": 7
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "commits": 7
         },
         {
           "file": "src/components/AlphabetTester.tsx",
@@ -18159,15 +18878,7 @@
           "commits": 6
         },
         {
-          "file": "src/data/useTests.ts",
-          "commits": 6
-        },
-        {
           "file": "src/pages/ChoreCreationFlow.tsx",
-          "commits": 6
-        },
-        {
-          "file": "src/pages/DashboardPage.tsx",
           "commits": 6
         },
         {
@@ -18180,9 +18891,6 @@
         }
       ],
       "signals": [
-        {
-          "kind": "missing_direct_test_evidence"
-        },
         {
           "kind": "cochange_ripple",
           "value": 8
@@ -19327,11 +20035,11 @@
       "id": "locality:src/ui/presetChoreRenderers",
       "module_id": "src/ui/presetChoreRenderers",
       "file": "src/ui/presetChoreRenderers.tsx",
-      "score": 62,
-      "risk": "medium",
+      "score": 80,
+      "risk": "high",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 12,
@@ -19382,6 +20090,9 @@
       ],
       "signals": [
         {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
           "kind": "defect_keyword_commits",
           "value": 3
         },
@@ -19402,6 +20113,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -19503,6 +20220,98 @@
             "id": "locality:src/ui/seasonAssets",
             "kind": "locality",
             "file": "src/ui/seasonAssets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/ui/taskSuccessImage",
+      "module_id": "src/ui/taskSuccessImage",
+      "file": "src/ui/taskSuccessImage.ts",
+      "score": 23,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/components/RewardCelebration.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useChoreActivityActions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/hooks/useTaskCelebration.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/starActions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/offline/actions.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/ui/unifiedChoreItemRenderer.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/ui/unifiedEatingRenderer.tsx",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/ui/taskSuccessImage",
+            "kind": "locality",
+            "file": "src/ui/taskSuccessImage.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -19974,14 +20783,14 @@
       "id": "locality:src/ui/unifiedChoreDescriptorTypes",
       "module_id": "src/ui/unifiedChoreDescriptorTypes",
       "file": "src/ui/unifiedChoreDescriptorTypes.ts",
-      "score": 52,
+      "score": 54,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 8,
+        "commits": 9,
         "contributors": 2
       },
       "defect_commits": 0,
@@ -19991,27 +20800,31 @@
           "commits": 8
         },
         {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 7
+        },
+        {
+          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "commits": 7
+        },
+        {
+          "file": "src/ui/unifiedChoreState.ts",
+          "commits": 7
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "commits": 7
+        },
+        {
           "file": "src/components/SpellingTester.tsx",
           "commits": 6
         },
         {
-          "file": "src/data/dailyTaskState.ts",
+          "file": "src/data/types.ts",
           "commits": 6
         },
         {
           "file": "src/pages/ManageTestsPage.tsx",
-          "commits": 6
-        },
-        {
-          "file": "src/ui/unifiedChoreDescriptors.tsx",
-          "commits": 6
-        },
-        {
-          "file": "src/ui/unifiedChoreState.ts",
-          "commits": 6
-        },
-        {
-          "file": "src/ui/unifiedTestRenderer.tsx",
           "commits": 6
         },
         {
@@ -20020,10 +20833,6 @@
         },
         {
           "file": "src/data/taskDocuments.ts",
-          "commits": 5
-        },
-        {
-          "file": "src/data/types.ts",
           "commits": 5
         }
       ],
@@ -20073,7 +20882,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 18,
+        "commits": 19,
         "contributors": 1
       },
       "defect_commits": 2,
@@ -20091,6 +20900,10 @@
           "commits": 10
         },
         {
+          "file": "src/data/types.ts",
+          "commits": 10
+        },
+        {
           "file": "src/ui/definitionRowDescriptors.tsx",
           "commits": 10
         },
@@ -20099,7 +20912,7 @@
           "commits": 9
         },
         {
-          "file": "src/data/types.ts",
+          "file": "src/ui/unifiedChoreState.ts",
           "commits": 9
         },
         {
@@ -20107,16 +20920,12 @@
           "commits": 8
         },
         {
-          "file": "src/ui/unifiedChoreState.ts",
+          "file": "src/data/dailyTaskState.ts",
           "commits": 8
         },
         {
-          "file": "src/components/LargeNumbersTester.tsx",
-          "commits": 7
-        },
-        {
-          "file": "src/components/PositionalNotation.tsx",
-          "commits": 7
+          "file": "src/lib/choreParser.ts",
+          "commits": 8
         }
       ],
       "signals": [
@@ -20159,14 +20968,14 @@
       "id": "locality:src/ui/unifiedChoreItemRenderer",
       "module_id": "src/ui/unifiedChoreItemRenderer",
       "file": "src/ui/unifiedChoreItemRenderer.tsx",
-      "score": 62,
+      "score": 64,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 9,
+        "commits": 11,
         "contributors": 1
       },
       "defect_commits": 1,
@@ -20176,7 +20985,15 @@
           "commits": 8
         },
         {
+          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "commits": 8
+        },
+        {
           "file": "src/components/SpellingTester.tsx",
+          "commits": 7
+        },
+        {
+          "file": "src/data/types.ts",
           "commits": 7
         },
         {
@@ -20184,7 +21001,7 @@
           "commits": 7
         },
         {
-          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "file": "src/ui/unifiedEatingRenderer.tsx",
           "commits": 7
         },
         {
@@ -20200,16 +21017,8 @@
           "commits": 6
         },
         {
-          "file": "src/data/types.ts",
-          "commits": 6
-        },
-        {
           "file": "src/pages/dashboardChoreUi.tsx",
           "commits": 6
-        },
-        {
-          "file": "src/components/PositionalNotation.tsx",
-          "commits": 5
         }
       ],
       "signals": [
@@ -20255,56 +21064,56 @@
       "id": "locality:src/ui/unifiedChoreRenderUtils",
       "module_id": "src/ui/unifiedChoreRenderUtils",
       "file": "src/ui/unifiedChoreRenderUtils.ts",
-      "score": 23,
+      "score": 28,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/lib/choreParser.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/ui/unifiedChoreDescriptorTypes.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/ui/unifiedChoreItemRenderer.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/ui/unifiedChoreState.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/ui/unifiedEatingRenderer.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
+          "commits": 2
+        },
+        {
           "file": "src/App.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/assets/rewards/assets.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AppDeviceFrame.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AppErrorBoundary.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/ArithmeticTester.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/dayNightExplorer/Clock.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/dayNightExplorer/SolarSystem3DManager.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/components/DinnerCountdown.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/PageShell.tsx",
           "commits": 1
         }
       ],
@@ -20314,7 +21123,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -20347,28 +21156,28 @@
       "id": "locality:src/ui/unifiedChoreState",
       "module_id": "src/ui/unifiedChoreState",
       "file": "src/ui/unifiedChoreState.ts",
-      "score": 46,
+      "score": 64,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 10,
+        "commits": 11,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
         {
-          "file": "src/components/ArithmeticTester.tsx",
-          "commits": 8
-        },
-        {
           "file": "src/data/types.ts",
-          "commits": 8
+          "commits": 9
         },
         {
           "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "commits": 9
+        },
+        {
+          "file": "src/components/ArithmeticTester.tsx",
           "commits": 8
         },
         {
@@ -20376,7 +21185,19 @@
           "commits": 7
         },
         {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 7
+        },
+        {
           "file": "src/pages/DashboardPage.tsx",
+          "commits": 7
+        },
+        {
+          "file": "src/ui/unifiedChoreDescriptorTypes.ts",
+          "commits": 7
+        },
+        {
+          "file": "src/ui/unifiedTestRenderer.tsx",
           "commits": 7
         },
         {
@@ -20384,30 +21205,21 @@
           "commits": 6
         },
         {
-          "file": "src/data/dailyTaskState.ts",
-          "commits": 6
-        },
-        {
           "file": "src/data/taskDocuments.ts",
-          "commits": 6
-        },
-        {
-          "file": "src/pages/ManageTestsPage.tsx",
-          "commits": 6
-        },
-        {
-          "file": "src/ui/unifiedChoreDescriptorTypes.ts",
           "commits": 6
         }
       ],
       "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
         {
           "kind": "defect_keyword_commits",
           "value": 1
         },
         {
           "kind": "cochange_ripple",
-          "value": 8
+          "value": 9
         }
       ],
       "kind": "locality",
@@ -20440,20 +21252,40 @@
       "id": "locality:src/ui/unifiedEatingRenderer",
       "module_id": "src/ui/unifiedEatingRenderer",
       "file": "src/ui/unifiedEatingRenderer.tsx",
-      "score": 68,
-      "risk": "medium",
+      "score": 72,
+      "risk": "high",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 8,
+        "commits": 10,
         "contributors": 1
       },
       "defect_commits": 2,
       "cochange_partners": [
         {
+          "file": "src/ui/unifiedChoreItemRenderer.tsx",
+          "commits": 7
+        },
+        {
           "file": "src/components/DinnerCountdown.tsx",
+          "commits": 6
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 6
+        },
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "commits": 6
+        },
+        {
+          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "commits": 6
+        },
+        {
+          "file": "src/ui/unifiedChoreState.ts",
           "commits": 6
         },
         {
@@ -20471,26 +21303,6 @@
         {
           "file": "src/components/SpellingTester.tsx",
           "commits": 5
-        },
-        {
-          "file": "src/components/ui/StandardActionList.tsx",
-          "commits": 5
-        },
-        {
-          "file": "src/data/types.ts",
-          "commits": 5
-        },
-        {
-          "file": "src/pages/ChoreCreationFlow.tsx",
-          "commits": 5
-        },
-        {
-          "file": "src/pages/dashboardChoreUi.tsx",
-          "commits": 5
-        },
-        {
-          "file": "src/pages/DashboardPage.tsx",
-          "commits": 5
         }
       ],
       "signals": [
@@ -20503,7 +21315,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 6
+          "value": 7
         }
       ],
       "kind": "locality",
@@ -20518,6 +21330,12 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -20536,32 +21354,44 @@
       "id": "locality:src/ui/unifiedTestRenderer",
       "module_id": "src/ui/unifiedTestRenderer",
       "file": "src/ui/unifiedTestRenderer.tsx",
-      "score": 36,
+      "score": 56,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "direct_import_association",
+      "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 9,
+        "commits": 10,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
+          "file": "src/data/types.ts",
+          "commits": 8
+        },
+        {
           "file": "src/pages/DashboardPage.tsx",
           "commits": 8
+        },
+        {
+          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "commits": 8
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 7
         },
         {
           "file": "src/data/taskDocuments.ts",
           "commits": 7
         },
         {
-          "file": "src/data/types.ts",
+          "file": "src/ui/unifiedChoreDescriptorTypes.ts",
           "commits": 7
         },
         {
-          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "file": "src/ui/unifiedChoreState.ts",
           "commits": 7
         },
         {
@@ -20569,19 +21399,7 @@
           "commits": 6
         },
         {
-          "file": "src/data/dailyTaskState.ts",
-          "commits": 6
-        },
-        {
           "file": "src/pages/ManageTestsPage.tsx",
-          "commits": 6
-        },
-        {
-          "file": "src/ui/unifiedChoreDescriptorTypes.ts",
-          "commits": 6
-        },
-        {
-          "file": "src/ui/unifiedChoreState.ts",
           "commits": 6
         },
         {
@@ -20590,6 +21408,9 @@
         }
       ],
       "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
         {
           "kind": "cochange_ripple",
           "value": 8
@@ -20625,18 +21446,26 @@
       "id": "locality:src/ui/unifiedWaterToiletRenderer",
       "module_id": "src/ui/unifiedWaterToiletRenderer",
       "file": "src/ui/unifiedWaterToiletRenderer.tsx",
-      "score": 28,
+      "score": 33,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
+        {
+          "file": "src/pages/DashboardPage.tsx",
+          "commits": 3
+        },
+        {
+          "file": "src/ui/unifiedEatingRenderer.tsx",
+          "commits": 3
+        },
         {
           "file": "src/components/ArithmeticTester.tsx",
           "commits": 2
@@ -20666,15 +21495,7 @@
           "commits": 2
         },
         {
-          "file": "src/data/useChores.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/data/useRewards.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/hooks/useTaskActivityState.ts",
+          "file": "src/data/useChoreActivityActions.ts",
           "commits": 2
         }
       ],
@@ -20684,7 +21505,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -20809,18 +21630,22 @@
       "id": "locality:src/ui/weatherAssets",
       "module_id": "src/ui/weatherAssets",
       "file": "src/ui/weatherAssets.ts",
-      "score": 45,
+      "score": 47,
       "risk": "medium",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 5,
+        "commits": 6,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
+        {
+          "file": "src/components/weather/WeatherScene.tsx",
+          "commits": 3
+        },
         {
           "file": "src/lib/weather/weatherVisuals.ts",
           "commits": 3
@@ -20831,10 +21656,6 @@
         },
         {
           "file": "src/components/weather/WeatherPanel.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/components/weather/WeatherScene.tsx",
           "commits": 2
         },
         {

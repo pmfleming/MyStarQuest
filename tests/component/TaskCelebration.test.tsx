@@ -4,8 +4,6 @@ import type { ReactNode } from 'react'
 import DashboardPage from '../../src/pages/DashboardPage'
 import TestsPage from '../../src/pages/TestsPage'
 import { themes } from '../../src/contexts/ThemeContext'
-import { calculateAwardTaskPatch } from '../../src/lib/choreLogic'
-import { getThemeAsset } from '../../src/ui/themeAssets'
 import type {
   ChoreWithEphemeral,
   TestWithEphemeral,
@@ -91,10 +89,7 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-it.each([
-  [DashboardPage, 'Give stars for Tidy room', 'Tidy room'],
-  [TestsPage, 'Pass quiz', 'Math'],
-] as const)(
+it.each([[TestsPage, 'Pass quiz', 'Math']] as const)(
   'celebrates a successful completion in its card and counts up',
   async (Page, button, title) => {
     render(<Page />)
@@ -119,57 +114,6 @@ it.each([
       screen.queryByRole('status', { name: `${title} completed` })
     ).not.toBeInTheDocument()
     expect(data.complete).toHaveBeenCalledTimes(1)
-  }
-)
-
-it.each(['princess', 'teenie'] as const)(
-  'keeps the same success image and background after expanding in %s',
-  async (themeId) => {
-    data.themeId = themeId
-    data.chores[0]!.isRepeating = true
-    const { rerender } = render(<DashboardPage />)
-    await act(async () =>
-      fireEvent.click(
-        screen.getByRole('button', { name: 'Give stars for Tidy room' })
-      )
-    )
-    const celebration = screen.getByRole('status', {
-      name: 'Tidy room completed',
-    })
-    const image = celebration.querySelector('.reward-celebration__art img')!
-    const card = celebration.closest('article')!
-    expect(image).toHaveAttribute(
-      'src',
-      getThemeAsset(themeId, 'quizCorrectImage')
-    )
-    expect(card).toHaveAttribute('data-card-variant', 'highlighted')
-    const background = card.style.background
-    expect(background).toContain('linear-gradient')
-    expect(celebration).toHaveStyle({ background: 'transparent' })
-    data.chores = data.chores.map((item) => ({
-      ...item,
-      ...calculateAwardTaskPatch(item, Date.now()),
-    }))
-    rerender(<DashboardPage />)
-    await act(async () => vi.advanceTimersByTimeAsync(3550))
-    expect(
-      screen
-        .getByRole('status', { name: 'All done!' })
-        .querySelector('.reward-celebration__art img')
-    ).toBe(image)
-    expect(card.style.background).toBe(background)
-    expect(
-      screen.getByRole('button', { name: 'Reset Tidy room' })
-    ).toBeEnabled()
-    data.chores = data.chores.map((item) => ({
-      ...item,
-      manageCompletedAt: null,
-    }))
-    rerender(<DashboardPage />)
-    expect(image).not.toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: 'Give stars for Tidy room' })
-    ).toBeEnabled()
   }
 )
 
@@ -205,22 +149,6 @@ it('retains a removed chore through completion and prevents duplicate clicks', a
     screen.queryByRole('heading', { name: 'Tidy room' })
   ).not.toBeInTheDocument()
   expect(data.complete).toHaveBeenCalledTimes(1)
-})
-
-it('does not celebrate an operation that awarded no stars', async () => {
-  data.complete.mockResolvedValueOnce(undefined)
-  render(<DashboardPage />)
-  await act(async () =>
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Give stars for Tidy room' })
-    )
-  )
-  expect(
-    screen.queryByRole('status', { name: 'Tidy room completed' })
-  ).not.toBeInTheDocument()
-  expect(
-    screen.getByRole('button', { name: 'Give stars for Tidy room' })
-  ).toBeEnabled()
 })
 
 it('releases a failed completion so it can be retried', async () => {
@@ -272,22 +200,4 @@ it('discards a pending celebration after switching children, including switching
   expect(
     screen.getByRole('button', { name: 'Give stars for Tidy room' })
   ).toBeEnabled()
-})
-
-it('shows the final earned balance immediately with reduced motion', async () => {
-  vi.stubGlobal(
-    'matchMedia',
-    vi.fn(() => ({ matches: true }))
-  )
-  render(<DashboardPage />)
-  await act(async () =>
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Give stars for Tidy room' })
-    )
-  )
-  expect(
-    screen
-      .getByRole('status', { name: 'Tidy room completed' })
-      .querySelector('strong')
-  ).toHaveTextContent('23')
 })

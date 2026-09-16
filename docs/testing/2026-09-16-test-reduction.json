@@ -1,0 +1,993 @@
+{
+  "date": "2026-09-16",
+  "baseline": "Working tree at the start of the request, after the Lens-guided refactor and earlier feature changes. Baseline Vitest run: 168 passed.",
+  "counting": "Runnable cases: expanded Vitest parameter rows; Node test cases; each Playwright scenario in each of the three configured browser projects. No describes, assertions or helpers counted.",
+  "rounding": "round(177 * 0.67) = 119; exact 67% is 118.59 and cannot be represented by a whole number of tests.",
+  "runners": {
+    "vitest": {
+      "before": 168,
+      "after": 110
+    },
+    "node": {
+      "before": 3,
+      "after": 3
+    },
+    "playwright": {
+      "before": 6,
+      "after": 6
+    }
+  },
+  "total": {
+    "before": 177,
+    "target": 119,
+    "after": 119,
+    "removed": 58,
+    "reduction_percent": 32.76836158192091,
+    "retained_percent": 67.2316384180791
+  },
+  "vitest_files": {
+    "before": 61,
+    "after": 51
+  },
+  "production_and_runner_configuration_unchanged": true,
+  "added_skips_or_todos": false,
+  "combined_tests_to_manipulate_count": false,
+  "retained_test_adjustment": "LearningNavigation retains Escape cancellation/focus assertions in its existing keyboard interaction. No unrelated scenario bundles were introduced. Removed dead imports, helpers and branches.",
+  "verification": {
+    "vitest": "110 passed, no failed/pending/todo cases",
+    "node": "3 passed using pinned Lens",
+    "playwright": "6 passed: Chromium, Firefox, WebKit",
+    "eslint": "passed",
+    "typescript": "passed",
+    "coverage": "Behavioral review only; no line/branch coverage or mutation run."
+  },
+  "changed": [
+    {
+      "file": "tests/component/AlphabetTester.test.tsx",
+      "before": 5,
+      "after": 3,
+      "removed": [
+        "cancels pending feedback on reset and can start a fresh round",
+        "cancels delayed completion on unmount"
+      ],
+      "retained": [
+        "advances after feedback and completes only after the last correct answer",
+        "ignores clicks during feedback and fails after three mistakes",
+        "allows unlimited retries when failure mode is disabled"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/AlphabetTester.test.tsx",
+          "titles": [
+            "cancels pending feedback on reset and can start a fresh round",
+            "cancels delayed completion on unmount"
+          ],
+          "reason": "Shared challenge reset cancellation remains in testActivityReset; animalSession retains reset/unmount timer cancellation. Alphabet progression, failure and unlimited retry remain."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/androidOffline.test.tsx",
+      "before": 6,
+      "after": 5,
+      "removed": [
+        "Android offline data hooks buys a reward and updates the balance immediately while Firebase is unavailable"
+      ],
+      "retained": [
+        "Android offline data hooks rejects a stale completion for another child without saving anything",
+        "Android offline data hooks keeps test creation and award atomic on disk failure (existing: false)",
+        "Android offline data hooks completes, reloads, resets and repeats a chore without Firebase",
+        "Android offline data hooks persists default-test completion and reset locally",
+        "Android offline data hooks keeps one-time consumption local when the shared definition refreshes"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/androidOffline.test.tsx",
+          "titles": [
+            "buys a reward and updates the balance immediately while Firebase is unavailable"
+          ],
+          "reason": "Offline browser flow retains purchase/reload balance behavior; the one-time reward hook flow remains, as do sync pricing and zero-floor contracts."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/ChoreCreationFlow.test.tsx",
+      "before": 1,
+      "after": 0,
+      "removed": [
+        "ChoreCreationFlow shows a rejected chore save and keeps its draft available for retry"
+      ],
+      "retained": [],
+      "decisions": [
+        {
+          "file": "tests/component/ChoreCreationFlow.test.tsx",
+          "reason": "Shared asynchronous save/retry behavior remains exercised by RewardCreationFlow, including draft retention and duplicate-click blocking. Chore field assembly is no longer frozen by its mock argument snapshot."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/choreStarAwards.test.tsx",
+      "before": 8,
+      "after": 6,
+      "removed": [
+        "chore completion star balances awards every completed chore again after reset, including on the same day",
+        "chore completion star balances does not award 'Brush teeth' twice without a reset"
+      ],
+      "retained": [
+        "chore completion star balances awards exactly 12 stars for all chores (repeating: false)",
+        "chore completion star balances persists the water/toilet score for full / notpeepee: -6",
+        "chore completion star balances persists the water/toilet score for full / didpeepee: 0",
+        "chore completion star balances clamps a water/toilet deduction to the available stars",
+        "chore completion star balances awards no stars when dinner times out before completion",
+        "chore completion star balances rejects another child’s chore without changing either balance"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/choreStarAwards.test.tsx",
+          "titles": [
+            "awards every completed chore again after reset, including on the same day",
+            "does not award $title twice without a reset"
+          ],
+          "reason": "Retain exact all-chore awards and signed scoring. Android chore reset/recompletion and web starActions same-day/concurrent deduplication cover the repeated transaction behavior."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/CreatureCollectionLoading.test.tsx",
+      "before": 3,
+      "after": 2,
+      "removed": [
+        "can start a solo game while the selected collection is still loading"
+      ],
+      "retained": [
+        "loads on selection and ignores a late response for an older selection",
+        "lets a failed collection retry without awarding or finishing a game"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/CreatureCollectionLoading.test.tsx",
+          "titles": [
+            "can start a solo game while the selected collection is still loading"
+          ],
+          "reason": "Selection/loading/stale-response and failed-download retry remain, alongside real lazy-loaded solo gameplay. Removes an additional mode/loading combination."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/DinnerCountdown.test.tsx",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "DinnerCountdown does not fail an unstarted dinner with zero remaining time (start: null)"
+      ],
+      "retained": [
+        "DinnerCountdown records expiry once and accepts a reset without writing expiry again"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/DinnerCountdown.test.tsx",
+          "titles": [
+            "does not fail an unstarted dinner with zero remaining time (start: null)"
+          ],
+          "reason": "Unstarted expiry rejection remains in useChoreActivityActions; actual timer expiry/reset remains here."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/DinosaurTester.test.tsx",
+      "before": 6,
+      "after": 3,
+      "removed": [
+        "Who am I dinosaur collection falls back to the cartoon after an image error and allows retry",
+        "Who am I dinosaur collection uses the princess generic ability when a two-player answer is hidden",
+        "Who am I dinosaur collection has themed generic pictures for every ability and shared art for matching categories"
+      ],
+      "retained": [
+        "Who am I dinosaur collection teaches all ten creatures, switches pictures and finishes learning without scoring",
+        "Who am I dinosaur collection uses realistic choices in hard mode and still advances a correct answer",
+        "Who am I dinosaur collection uses the teenie generic ability when a two-player answer is hidden"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/DinosaurTester.test.tsx",
+          "titles": [
+            "falls back to the cartoon after an image error and allows retry",
+            "has themed generic pictures for every ability and shared art for matching categories"
+          ],
+          "reason": "TrainingPhotos covers the shared portrait error/retry branch. Dinosaur learning, hard choices and hidden themed ability remain. Removes exact asset-set cardinalities that constrain adding creatures."
+        },
+        {
+          "file": "tests/component/DinosaurTester.test.tsx",
+          "variant": {
+            "from": "['princess', 'teenie'] as const",
+            "to": "['teenie'] as const"
+          },
+          "reason": "Keep Teenie dinosaur hidden-ability behavior; AnimalTester already retains Princess hidden-ability behavior via the same render path."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/DragScrollRegion.test.tsx",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "chore page drag cleanup removes active drag listeners when navigating away mid-drag"
+      ],
+      "retained": [
+        "chore page drag cleanup releases a cancelled drag when the window loses focus"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/DragScrollRegion.test.tsx",
+          "titles": [
+            "removes active drag listeners when navigating away mid-drag"
+          ],
+          "reason": "Retained focus-loss cancellation checks the shared drag cleanup path. Removes duplicate listener-registration/removal assertions."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/InsectTester.test.tsx",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "Insect collection plays Hard solo rounds in teenie using only insect choices"
+      ],
+      "retained": [
+        "Insect collection has complete, individually illustrated creatures and matching bear abilities"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/InsectTester.test.tsx",
+          "titles": [
+            "plays Hard solo rounds in teenie using only insect choices"
+          ],
+          "reason": "Animal solo gameplay and dinosaur hard gameplay retain the shared session behavior. Insect catalog completeness remains; removes repeated collection variant."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/LargeNumbersTester.test.tsx",
+      "before": 3,
+      "after": 2,
+      "removed": [
+        "uses the visual Addition and subtraction choice through a complete round"
+      ],
+      "retained": [
+        "restricts easy mixed rounds to ones or whole tens, including both range boundaries",
+        "regroups and borrows ones while enforcing the 19-counter and 99-total limits"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/LargeNumbersTester.test.tsx",
+          "titles": [
+            "uses the visual Addition and subtraction choice through a complete round"
+          ],
+          "reason": "Retained easy mixed-operation round completes both operations and boundary operands; retained regrouping covers bounds. Drops a second complete-round variant."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/LearningDisplayState.test.tsx",
+      "before": 1,
+      "after": 0,
+      "removed": [
+        "Learn display preferences retains all three choices for teenie / Insects through arrows and letter jumps"
+      ],
+      "retained": [],
+      "decisions": [
+        {
+          "file": "tests/component/LearningDisplayState.test.tsx",
+          "reason": "AnimalTester retains clue preferences across navigation; PictureGestures retains picture preference and pending-click cancellation; LearningNavigation retains letter selection. Removes their repeated combined traversal."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/LearningNavigation.test.tsx",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "LearningNavigation dismisses without selecting and recenters after browsing"
+      ],
+      "retained": [
+        "LearningNavigation browses with the keyboard, ignores unavailable letters, and restores focus after selection"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/LearningNavigation.test.tsx",
+          "titles": [
+            "dismisses without selecting and recenters after browsing"
+          ],
+          "reason": "Keyboard navigation remains. Cancellation assertions are kept in that interaction test; wheel-strip recenter positions are dropped as layout policy."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/PictureGestures.test.tsx",
+      "before": 5,
+      "after": 3,
+      "removed": [
+        "Who am I picture gestures Animals: a double-click zooms without switching, a single-click switches when available",
+        "Who am I picture gestures Insects: a double-click zooms without switching, a single-click switches when available"
+      ],
+      "retained": [
+        "Who am I picture gestures Dinosaurs: a double-click zooms without switching, a single-click switches when available",
+        "Who am I picture gestures Teeniepings: a double-click zooms without switching, a single-click switches when available",
+        "Who am I picture gestures double-clicking a hidden two-player portrait never reveals the answer"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/PictureGestures.test.tsx",
+          "variant": {
+            "from": "['Animals', 'Insects', 'Dinosaurs', 'Teeniepings']",
+            "to": "['Dinosaurs', 'Teeniepings']"
+          },
+          "reason": "Keep image-switching and no-alternate-image branches; remove Animals/Insects repetitions of the same portrait gesture implementation."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/ResourceLoadingIcon.test.tsx",
+      "before": 1,
+      "after": 0,
+      "removed": ["honors reduced motion while reporting loading until ready"],
+      "retained": [],
+      "decisions": [
+        {
+          "file": "tests/component/ResourceLoadingIcon.test.tsx",
+          "reason": "Collection and tab loading workflows retain accessible loading/ready states. Drops a low-level zero-timer implementation assertion; reduced-motion behavior remains directly checked for celebrations."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/RewardsPage.test.tsx",
+      "before": 4,
+      "after": 2,
+      "removed": [
+        "celebrates inside the same card, counts down, and finishes without another click",
+        "retains a one-time reward at its original position until its animation finishes"
+      ],
+      "retained": [
+        "surfaces a failed purchase on its card and lets the user retry",
+        "shows the final balance immediately with reduced motion"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/RewardsPage.test.tsx",
+          "titles": [
+            "celebrates inside the same card, counts down, and finishes without another click",
+            "retains a one-time reward at its original position until its animation finishes"
+          ],
+          "reason": "TaskCelebration retains the shared count animation and pending-removal/duplicate-click lifecycle. Reward purchase failure/retry and reduced-motion final balance remain; exact card position is no longer constrained."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/SchoolCalendar.test.tsx",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "shows a retryable failure and recovers from an unavailable calendar"
+      ],
+      "retained": ["selects 2026-01-31 and clamps month navigation"],
+      "decisions": [
+        {
+          "file": "tests/component/SchoolCalendar.test.tsx",
+          "titles": [
+            "shows a retryable failure and recovers from an unavailable calendar"
+          ],
+          "reason": "Calendar service outage/invalid-response retry remains in schoolCalendarData. Keeps date navigation; removes mocked service-to-button retry wiring."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/taskActivityState.test.tsx",
+      "before": 1,
+      "after": 0,
+      "removed": [
+        "keeps checks isolated by type and id, including checks in the same React batch"
+      ],
+      "retained": [],
+      "decisions": [
+        {
+          "file": "tests/component/taskActivityState.test.tsx",
+          "reason": "Internal activity-map bookkeeping is exercised through testActivityReset and tabNavigation. Removes direct object-layout assertions."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/TaskCelebration.test.tsx",
+      "before": 9,
+      "after": 4,
+      "removed": [
+        "celebrates a successful completion in its card and counts up",
+        "keeps the same success image and background after expanding in princess",
+        "keeps the same success image and background after expanding in teenie",
+        "does not celebrate an operation that awarded no stars",
+        "shows the final earned balance immediately with reduced motion"
+      ],
+      "retained": [
+        "celebrates a successful completion in its card and counts up",
+        "retains a removed chore through completion and prevents duplicate clicks",
+        "releases a failed completion so it can be retried",
+        "discards a pending celebration after switching children, including switching back"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/TaskCelebration.test.tsx",
+          "titles": [
+            "keeps the same success image and background after expanding in %s",
+            "shows the final earned balance immediately with reduced motion",
+            "does not celebrate an operation that awarded no stars"
+          ],
+          "reason": "Drops exact DOM identity/background across two themes and repeated reduced-motion rendering (retained in RewardsPage). Duplicate awards remain rejected by transaction tests, and pending-click/failure/child-switch behavior remains here."
+        },
+        {
+          "file": "tests/component/TaskCelebration.test.tsx",
+          "variant": {
+            "from": "  [DashboardPage, 'Give stars for Tidy room', 'Tidy room'],\n",
+            "to": ""
+          },
+          "reason": "Keep TestsPage success counting; DashboardPage success remains in pending-removal and failure/retry flows."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/TeenieThemeSwitching.test.tsx",
+      "before": 1,
+      "after": 0,
+      "removed": [
+        "switches child artwork immediately and restores Teenie selection after remount"
+      ],
+      "retained": [],
+      "decisions": [
+        {
+          "file": "tests/component/TeenieThemeSwitching.test.tsx",
+          "reason": "profileSync retains cache/remote theme reconciliation and rejected-edit rollback. Removes the repeated exact-image/provider remount scenario."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/TimeExplorerWeather.test.tsx",
+      "before": 4,
+      "after": 2,
+      "removed": [
+        "Time Explorer weather panel cycles weather images through every option and bounds temperature",
+        "Time Explorer weather panel shows missing weather honestly and allows retry"
+      ],
+      "retained": [
+        "Time Explorer weather panel adapts precipitation to temperature, preserves intensity and wind, and resets to live weather",
+        "Time Explorer weather panel initializes on arrival of live data and clears exploration on city changes"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/TimeExplorerWeather.test.tsx",
+          "titles": [
+            "cycles weather images through every option and bounds temperature",
+            "shows missing weather honestly and allows retry"
+          ],
+          "reason": "Retained precipitation exploration/reset and late-data/city-switch tests cover core interaction. weatherConditions/Data retain unknown data and weatherStore retains failure/retry. Drops repeated option/style traversal and mocked retry wiring; exact UI temperature limits have less direct coverage."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/useChoreActivityActions.test.tsx",
+      "before": 4,
+      "after": 3,
+      "removed": [
+        "chore completion persistence ignores expiry for an unstarted, running or completed dinner: {\"manageDinnerTimerStartedAt\":10000,\"manageDinnerRemainingSeconds\":300}"
+      ],
+      "retained": [
+        "chore completion persistence ignores expiry for an unstarted, running or completed dinner: {\"manageDinnerRemainingSeconds\":0}",
+        "chore completion persistence does not complete dinner after a reset during the final bite animation",
+        "chore completion persistence freezes time before the final bite delay (signed in: true)"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/useChoreActivityActions.test.tsx",
+          "variant": {
+            "from": "    { manageDinnerTimerStartedAt: 10_000, manageDinnerRemainingSeconds: 300 },\n",
+            "to": ""
+          },
+          "reason": "Keep unstarted-expiry guard and real started dinner timeout/final-bite tests; remove another no-op expiry input."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/useChoresReset.test.tsx",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "'Dinner' reset resets saved progress and accepts a later completion"
+      ],
+      "retained": [
+        "'Water and toilet' reset resets saved progress and accepts a later completion"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/useChoresReset.test.tsx",
+          "reason": "Keep water/toilet reset rollback, retry, write-first acknowledgement and later completion. Drop repeated Dinner reset scenario: final-bite reset remains in useChoreActivityActions, and snapshot-first reset acknowledgement remains in useTestsReset failure/retry."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/useCoalescedDocumentUpdates.test.tsx",
+      "before": 2,
+      "after": 0,
+      "removed": [
+        "useCoalescedDocumentUpdates updates locally immediately and combines rapid changes into one write",
+        "useCoalescedDocumentUpdates keeps the optimistic value until the subscribed document catches up"
+      ],
+      "retained": [],
+      "decisions": [
+        {
+          "file": "tests/component/useCoalescedDocumentUpdates.test.tsx",
+          "reason": "Profile synchronization and retained chore/test reset workflows exercise optimistic updates and acknowledgement; optimisticState retains failed-write ownership. Removes debounce batching/write-count policy and repeated subscribed-value wiring."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/useTestsReset.test.tsx",
+      "before": 3,
+      "after": 1,
+      "removed": [
+        "test reset persistence resets a built-in test through its transaction and stays reset after remount",
+        "test reset persistence accepts a new saved attempt after reset arrives snapshot-first"
+      ],
+      "retained": [
+        "test reset persistence restores a failure result when reset fails and permits retry"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/useTestsReset.test.tsx",
+          "titles": [
+            "resets a built-in test through its transaction and stays reset after remount",
+            "accepts a new saved attempt after reset arrives %s"
+          ],
+          "reason": "Keeps failed reset rollback/retry with snapshot acknowledgement. Built-in creation/award remains in starActions and offline completion/reset/remount remains in androidOffline; chore reset retains subsequent server completion handling."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/WaterToiletMonitor.test.tsx",
+      "before": 1,
+      "after": 0,
+      "removed": [
+        "WaterToiletMonitor shows successful and unsuccessful completed tile states"
+      ],
+      "retained": [],
+      "decisions": [
+        {
+          "file": "tests/component/WaterToiletMonitor.test.tsx",
+          "reason": "Unified chore descriptor retains actual water/toilet interaction and completion; choreStarAwards retains positive, zero and negative scoring. Drops completed-image filename snapshots."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/assetCatalog.test.ts",
+      "before": 1,
+      "after": 0,
+      "removed": [
+        "resolves nested assets and rejects missing or empty URLs with useful context"
+      ],
+      "retained": [],
+      "decisions": [
+        {
+          "file": "tests/unit/assetCatalog.test.ts",
+          "reason": "Catalog integrity checks and the production build retain missing-asset protection. Drops helper-specific lookup/error-message examples."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/dailyChoreFunctions.test.ts",
+      "before": 3,
+      "after": 2,
+      "removed": ["scheduled reset skips untitled and malformed-title chores"],
+      "retained": [
+        "manual reset includes untitled chores, skips tests/unscheduled/legacy records and preserves dinner settings",
+        "rejects unauthenticated, malformed and foreign-child requests before writes"
+      ],
+      "decisions": [
+        {
+          "file": "tests/unit/dailyChoreFunctions.test.ts",
+          "titles": [
+            "scheduled reset skips untitled and malformed-title chores"
+          ],
+          "reason": "Keeps current manual reset behavior and authentication/input/ownership rejection. Drops scheduled malformed/untitled legacy-record policy."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/dailyTaskState.test.ts",
+      "before": 3,
+      "after": 0,
+      "removed": [
+        "mergeTaskEphemeral preserves stored values for undefined overrides and ignores unrelated fields",
+        "mergeTaskEphemeral scopes math state to its outcome fields",
+        "mergeTaskEphemeral scopes positional-notation state to its outcome fields"
+      ],
+      "retained": [],
+      "decisions": [
+        {
+          "file": "tests/unit/dailyTaskState.test.ts",
+          "reason": "Current web/offline reset, completion and failure-retry workflows exercise state merging. Removes direct helper field-layout/compatibility assertions and duplicated activity-type rows."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/optimisticState.test.ts",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "settles matching fields without losing newer edits or another task"
+      ],
+      "retained": [
+        "restores prior values only for fields belonging to the failed write"
+      ],
+      "decisions": [
+        {
+          "file": "tests/unit/optimisticState.test.ts",
+          "titles": [
+            "settles matching fields without losing newer edits or another task"
+          ],
+          "reason": "profileSync and chore reset retain acknowledgement reconciliation. Failed-write field ownership and preservation of newer edits remain directly tested."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/positionalNotationProblems.test.ts",
+      "before": 1,
+      "after": 0,
+      "removed": [
+        "generateProgressivePositionalNotationProblem caps both crown levels at their documented maximum"
+      ],
+      "retained": [],
+      "decisions": [
+        {
+          "file": "tests/unit/positionalNotationProblems.test.ts",
+          "reason": "Drops a fixed random-seed maximum/difficulty policy snapshot that constrains future problem progression. Runtime limits remain in taskLimits; interactive number bounds remain in LargeNumbersTester."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/schoolCalendar.test.ts",
+      "before": 3,
+      "after": 2,
+      "removed": [
+        "school calendar event expansion marks weekend events as non-school and ignores calendar metadata"
+      ],
+      "retained": [
+        "school calendar event expansion uses the same exclusive date range for initial and recurring events",
+        "school calendar event expansion merges overlapping summaries and all-day flags, including zero-duration events"
+      ],
+      "decisions": [
+        {
+          "file": "tests/unit/schoolCalendar.test.ts",
+          "titles": [
+            "marks weekend events as non-school and ignores calendar metadata"
+          ],
+          "reason": "Retains recurrence/date ranges and overlap/all-day semantics. Weekend day classification remains in today; drops another metadata/example fixture."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/schoolCalendarData.test.ts",
+      "before": 4,
+      "after": 3,
+      "removed": [
+        "does not cache a response that completes after cancellation"
+      ],
+      "retained": [
+        "keeps an expired calendar available during an outage without renewing its age",
+        "replaces invalid cached data and still returns valid events when cache writes fail",
+        "rejects an invalid response without caching it and allows a later retry"
+      ],
+      "decisions": [
+        {
+          "file": "tests/unit/schoolCalendarData.test.ts",
+          "titles": [
+            "does not cache a response that completes after cancellation"
+          ],
+          "reason": "Keeps aborted-request rejection in the outage scenario, invalid cache/quota failure, invalid-response retry. Drops the additional cancellation-after-body timing variant."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/weatherConditions.test.ts",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "weather conditions and independent visual layers handles mixed and freezing precipitation without losing thunder"
+      ],
+      "retained": [
+        "weather conditions and independent visual layers does not invent a sunny picture when code or daylight is unknown"
+      ],
+      "decisions": [
+        {
+          "file": "tests/unit/weatherConditions.test.ts",
+          "titles": [
+            "handles mixed and freezing precipitation without losing thunder"
+          ],
+          "reason": "Interactive precipitation/temperature/intensity behavior remains in TimeExplorerWeather. Drops the low-level weather-code visual lookup matrix. Unknown-data behavior remains."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/weatherData.test.ts",
+      "before": 3,
+      "after": 2,
+      "removed": [
+        "weather data requests the selected city, explicit units and epoch timestamps"
+      ],
+      "retained": [
+        "weather data normalizes provider fields and treats missing temperatures as unknown",
+        "weather data rejects yesterday, overly old and future observations"
+      ],
+      "decisions": [
+        {
+          "file": "tests/unit/weatherData.test.ts",
+          "titles": [
+            "requests the selected city, explicit units and epoch timestamps"
+          ],
+          "reason": "Keeps provider response parsing, invalid/missing values and stale/future timestamp rejection. Drops exhaustive URL option snapshots tied to one provider implementation."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/weatherStore.test.ts",
+      "before": 5,
+      "after": 3,
+      "removed": [
+        "weather cache and subscriptions restores recent weather after restart but discards expired weather",
+        "weather cache and subscriptions deduplicates subscriptions, strict remounts and refreshes at 15 minutes"
+      ],
+      "retained": [
+        "weather cache and subscriptions keeps city responses separate and cancels abandoned requests",
+        "weather cache and subscriptions retains a labeled stale result on failure, supports retry and expires it",
+        "weather cache and subscriptions refreshes at local midnight even when the cache is less than 15 minutes old"
+      ],
+      "decisions": [
+        {
+          "file": "tests/unit/weatherStore.test.ts",
+          "titles": [
+            "restores recent weather after restart but discards expired weather",
+            "deduplicates subscriptions, strict remounts and refreshes at 15 minutes"
+          ],
+          "reason": "Keeps stale-on-failure/retry/expiry, local-midnight refresh and city isolation/cancellation. Drops duplicate expiry examples and exact cache/deduplication cadence policy; warm-cache reload has less direct coverage."
+        }
+      ]
+    },
+    {
+      "file": "tests/component/ui/unifiedChoreDescriptors.test.tsx",
+      "before": 2,
+      "after": 1,
+      "removed": [
+        "createUnifiedChoreDescriptor uses the chore picture to start and finish Water/Toilet in 'princess'"
+      ],
+      "retained": [
+        "createUnifiedChoreDescriptor uses the chore picture to start and finish Water/Toilet in 'teenie'"
+      ],
+      "decisions": [
+        {
+          "file": "tests/component/ui/unifiedChoreDescriptors.test.tsx",
+          "variant": {
+            "from": "[themes.princess, themes.teenie]",
+            "to": "[themes.teenie]"
+          },
+          "reason": "Keep the recently changed Teenie chore artwork and completion flow; remove the same descriptor interaction repeated in Princess."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/lib/choreParser.test.ts",
+      "before": 4,
+      "after": 3,
+      "removed": [
+        "stored document contracts preserves explicit activity resets without manufacturing absent fields"
+      ],
+      "retained": [
+        "stored document contracts normalizes malformed chore settings and preserves a recorded test result",
+        "stored document contracts rejects invalid documents",
+        "stored document contracts keeps stored star balances and reward costs finite"
+      ],
+      "decisions": [
+        {
+          "file": "tests/unit/lib/choreParser.test.ts",
+          "titles": [
+            "preserves explicit activity resets without manufacturing absent fields"
+          ],
+          "reason": "Real reset/remount workflows retain reset persistence; parser malformed-input and finite-money contracts remain. Drops direct legacy choreType/absent-field shape assertions."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/lib/earthTextureCache.test.ts",
+      "before": 4,
+      "after": 2,
+      "removed": [
+        "Earth texture session cache shares one build and the same buffer across concurrent and later visits",
+        "Earth texture session cache shares the full-resolution fallback result when workers are unavailable"
+      ],
+      "retained": [
+        "Earth texture session cache terminates a failed worker and allows a later visit to retry a failed load",
+        "Earth texture session cache terminates a stalled worker before trying the fallback"
+      ],
+      "decisions": [
+        {
+          "file": "tests/unit/lib/earthTextureCache.test.ts",
+          "titles": [
+            "shares one build and the same buffer across concurrent and later visits",
+            "shares the full-resolution fallback result when workers are unavailable"
+          ],
+          "reason": "Keeps failed-worker retry and stalled-worker fallback/cleanup. Removes promise/buffer identity and exact rendering-resolution/mipmap policy. Worker-unavailable success has less direct coverage."
+        }
+      ]
+    },
+    {
+      "file": "tests/unit/lib/today.test.ts",
+      "before": 4,
+      "after": 1,
+      "removed": [
+        "today utilities classifies the start of 'winter'",
+        "today utilities builds and parses local dates without shifting the day",
+        "today utilities normalizes, classifies, and labels chore schedules"
+      ],
+      "retained": [
+        "today utilities describes today using the app timezone and its day boundary"
+      ],
+      "decisions": [
+        {
+          "file": "tests/unit/lib/today.test.ts",
+          "titles": [
+            "classifies the start of $season",
+            "normalizes, classifies, and labels chore schedules",
+            "builds and parses local dates without shifting the day"
+          ],
+          "reason": "Keeps app-timezone day boundaries; solar retains DST/city conversion and SchoolCalendar retains shorter-month navigation. Drops additional season/schedule-label and local helper round-trip examples."
+        }
+      ]
+    }
+  ],
+  "unchanged": [
+    "tests/component/animalSession.test.tsx",
+    "tests/component/AnimalTester.test.tsx",
+    "tests/component/AsyncActions.test.tsx",
+    "tests/component/dayNightPerformance.test.tsx",
+    "tests/component/profileSync.test.tsx",
+    "tests/component/RewardAvailableSummary.test.tsx",
+    "tests/component/RewardCreationFlow.test.tsx",
+    "tests/component/SolarSystem3DManager.test.ts",
+    "tests/component/StandardActionList.test.tsx",
+    "tests/component/tabNavigation.test.tsx",
+    "tests/component/TeeniepingTester.test.tsx",
+    "tests/component/testActivityReset.test.tsx",
+    "tests/component/TrainingPhotos.test.tsx",
+    "tests/unit/offlineFirebaseTransport.test.ts",
+    "tests/unit/offlineRuntime.test.ts",
+    "tests/unit/offlineStore.test.ts",
+    "tests/unit/offlineSync.test.ts",
+    "tests/unit/starActions.test.ts",
+    "tests/unit/taskLimits.test.ts",
+    "tests/unit/lib/disposeSceneObject.test.ts",
+    "tests/unit/lib/imageLoading.test.ts",
+    "tests/unit/lib/solar.test.ts"
+  ],
+  "source_hashes": {
+    "before": {
+      "tests/component/AlphabetTester.test.tsx": "65e20fde37e73fa65300496e0d258d10034b289b7dfc3aea53a58324e469b464",
+      "tests/component/AnimalTester.test.tsx": "d19dbf2d64530b17ec5422e29bdad698c29508040416361b2501e1930d3c84d8",
+      "tests/component/AsyncActions.test.tsx": "df1c378ecdf79590d98044b855b24ff9dd79a72dbccf45b46eb953a96482d060",
+      "tests/component/ChoreCreationFlow.test.tsx": "54dc87f8a1eec32282cb0e5b9b5f9384f68faad2e0683b1a565675914cd935e3",
+      "tests/component/CreatureCollectionLoading.test.tsx": "40ac6f19dbd808e42c780f34366b0a3e6c9289e8031535874f3e8e8aa16b67e9",
+      "tests/component/DinnerCountdown.test.tsx": "221fef9c8613a72ec8b1fca31c3674c62fb9db67ba1bbc3437e3535ca72c671b",
+      "tests/component/DinosaurTester.test.tsx": "b53d8a474bd9eac0572a6c56f9b31a87cd14aeafbf79d64e9891a68a3dc6c6d8",
+      "tests/component/DragScrollRegion.test.tsx": "9cd3f3975aefa0ca473123319e02c1dd994e9516211c9efcc8718c0144aee2ea",
+      "tests/component/InsectTester.test.tsx": "3a4ccc29f2679ce87773838c7c18c2817395e3da895514914f9fd129c785024f",
+      "tests/component/LargeNumbersTester.test.tsx": "ae506ba889655ea92cc98d7bdbdb714995ab5942826f7470c8b53a3709f0cd16",
+      "tests/component/LearningDisplayState.test.tsx": "5f20c2076643f6d33493cbeadbd01ef210805aae84a416a5305d17d3916529e2",
+      "tests/component/LearningNavigation.test.tsx": "d494f192597105e2864c09d33af284a1a644b79fffd6f980723845aa626b5241",
+      "tests/component/PictureGestures.test.tsx": "2e7cd4bd3caf52007a621aedcc06a5d0e22e94f41200c42dd3758eeb40141c4f",
+      "tests/component/ResourceLoadingIcon.test.tsx": "d6b9a2567a5222e2f4bf27688a432d4b9ec7e86db40400b2dc9d41702ea8c8a0",
+      "tests/component/RewardAvailableSummary.test.tsx": "213a64187296a35d8aa2db785c8fdbefe017917282494e31c7652f771807154b",
+      "tests/component/RewardCreationFlow.test.tsx": "8cb0853490b29311d9727e77c49ccfc98fd445d3d0ff7bdfafd33745fd523896",
+      "tests/component/RewardsPage.test.tsx": "58015194b77b80f74ffefbefb731f03435448f497382edd434e6c7c8acc41d39",
+      "tests/component/SchoolCalendar.test.tsx": "4a802a74f79bff3d453bdeed561ab7dbcc3081b09385d878b1bd60330b3b94b7",
+      "tests/component/SolarSystem3DManager.test.ts": "5759305859e95e1cb401c3064ad10bca490b8211377da9532c37b65042f1e79d",
+      "tests/component/StandardActionList.test.tsx": "9f6abebe6788c66adf4161d7993a62c222c97f14d9523708ac9371682fa1095e",
+      "tests/component/TaskCelebration.test.tsx": "851ad880a0318bb6bae22e8dc6dccff3e9b5096a2ed41a3c19436692b4c0eba8",
+      "tests/component/TeenieThemeSwitching.test.tsx": "0b41d605055b7883af2414615ddb768e4c3ad25ca015556490d1b62d9927564e",
+      "tests/component/TeeniepingTester.test.tsx": "3741c74503644b18aa29a4ac5243de0c39ec48bf290c74773aa02cdf122a8637",
+      "tests/component/TimeExplorerWeather.test.tsx": "dfa8d7378cb8dabcaf8a0d7a5814e2c7f4821c7e3e8b1e70cb7bb4ed97ad1dee",
+      "tests/component/TrainingPhotos.test.tsx": "399d776fca9470440140fa2ea3ae518887a9098939fac49006af55a5c783ca23",
+      "tests/component/WaterToiletMonitor.test.tsx": "31912842144e6df3d52aa975a69d6d086e57956a5d78741825cc89ab2118c31f",
+      "tests/component/androidOffline.test.tsx": "827aac2cb2d1962a559bad43b46ba3b11eb9eee4029bfdba20b27f2c3de8e860",
+      "tests/component/animalSession.test.tsx": "f0c409259477e11fb0cf229ac7da2c335684fa05297a5953674218d0156b7e73",
+      "tests/component/choreStarAwards.test.tsx": "2c71b222f185f7958e76684c1e9ef831f8153b063eefbd040f2310b770066b57",
+      "tests/component/dayNightPerformance.test.tsx": "97b9acee2d8b977a2b506cbec9623351ac4da328d87362068026da95a8c7030c",
+      "tests/component/profileSync.test.tsx": "59c3a774606a706ba3a5111262fdea3759e772cb5829de35a51ad8c0958d1958",
+      "tests/component/tabNavigation.test.tsx": "2b56fc94d5791fd6626769cac704e1b94d1daaf06141cf4c62e27a9f0ce8f277",
+      "tests/component/taskActivityState.test.tsx": "d938f6724a2169c5ef41b2f9f5eaab4a56e7c54267168c9b53d7aba37b8f6955",
+      "tests/component/testActivityReset.test.tsx": "a506aac1ed5ad43839d7118be4671c7f0b8b89a1e43ca78c1513023fd982ea29",
+      "tests/component/ui/unifiedChoreDescriptors.test.tsx": "853ddfea71a3d3425f77a9e2fc8548137d50740080666d682bbdd7da9e8be92f",
+      "tests/component/useChoreActivityActions.test.tsx": "ce082c4282be2f0ef94a2459ce97320871faa57435f5d8248b61684a238ff6c0",
+      "tests/component/useChoresReset.test.tsx": "e0542596c37bf20e3bd29453720f656ce1cb3948928758be771780a524c6220a",
+      "tests/component/useCoalescedDocumentUpdates.test.tsx": "95b873defbed0bc9776710a8d40c8e68952e1a9877406c21eb606356c1cab675",
+      "tests/component/useTestsReset.test.tsx": "33ae96261de281107d64357e951a8177a2f5cc71a758ec75f3755ce4b1699d9b",
+      "tests/unit/assetCatalog.test.ts": "392f65daf90491658243d3b79005fd7bd1d7ec739a58596458fa342ce9064df4",
+      "tests/unit/dailyChoreFunctions.test.ts": "c740a0ee0307258ac7bea852455649ac08530cb34c4a9d768e76f58e86d8fff2",
+      "tests/unit/dailyTaskState.test.ts": "0af1e28fe2c32926824103fe7832e7b357c00ee8468893bbc8657a4c20529085",
+      "tests/unit/lib/choreParser.test.ts": "b4f13f124e86cd0e42f6e7215f0af2d9c0bcc7e72853c0bd4ab8755dc3aa768f",
+      "tests/unit/lib/disposeSceneObject.test.ts": "6cb3adb5f99bc3f17f0331268b4fee1cd0b63b3bd1f30c9da4a10f6aaaddc597",
+      "tests/unit/lib/earthTextureCache.test.ts": "5773cc1917c7692b541383a96c2ec954f7161d056f656f75058726e084e02eab",
+      "tests/unit/lib/imageLoading.test.ts": "0aeb6809e41bd6c284eeceb91e320b238b8a204c06865920cc9dadc33a682336",
+      "tests/unit/lib/solar.test.ts": "7786a2eff37e6882b076686c5c4f48e0ddf0eaaba6b3f7a89b479e22803ce1e8",
+      "tests/unit/lib/today.test.ts": "be4d29e1c62fcf184c3a99a02132c02f61e2ceca8dd06dbc5a974e9b7af08a42",
+      "tests/unit/offlineFirebaseTransport.test.ts": "fa6c96804b37e5e3ddd6638439aec4aba81ff2574e2e35461211724bd96536c3",
+      "tests/unit/offlineRuntime.test.ts": "5f87132d6cc501651d4d178a693575856ea3f0000af02bbe0b01a64bc393d699",
+      "tests/unit/offlineStore.test.ts": "dafee2668d3821531dfc2f3f204834673026ad9c4b207bd1f6713ccbc1c5ece5",
+      "tests/unit/offlineSync.test.ts": "9f16a6ebbd11840c26c290b609650157449343ebb975f2b979723d45cb1fb841",
+      "tests/unit/optimisticState.test.ts": "1fb07b5b659783e6eead96ef443226da3751536d07a278c0c0eec8f8e1b13185",
+      "tests/unit/positionalNotationProblems.test.ts": "9b9f78887c845d8165320faee8a97d4c27401f23e4e4d72bf57855d85f78ae9a",
+      "tests/unit/schoolCalendar.test.ts": "91c47d3c42cacc2e218d8f5a2e31046824ce2091c4da58789df7f4ddfdaa2615",
+      "tests/unit/schoolCalendarData.test.ts": "bb05b9f36122d7a9a912427345c1dc1e70be281f0b2049526c312186f5b1a74f",
+      "tests/unit/starActions.test.ts": "1fac4f9a0dc37269a7ff351593a707ee6bb4b4bad7b0a63ab63c636fee6f88b4",
+      "tests/unit/taskLimits.test.ts": "b9069ea5bbf35f44ee1281d5ff8ce558154b0fd096b352b0d71e5ef082c038bd",
+      "tests/unit/weatherConditions.test.ts": "de648406cefdd1d40932da5976198cc9c0581de6203b4e5f4d23634631f0a733",
+      "tests/unit/weatherData.test.ts": "e586d66db40945ceac078b23a095c057def40c1417878f60cf5408c260f32a55",
+      "tests/unit/weatherStore.test.ts": "e2f6cf3b435951f5891984e8cfc33e597e42668f55003b04689a42b29c1f3725"
+    },
+    "after": {
+      "tests/component/AlphabetTester.test.tsx": "afc431a1cc25a96bb89c5cc9953d6f9340e43329873aff138ad5ae8b28731f6b",
+      "tests/component/AnimalTester.test.tsx": "d19dbf2d64530b17ec5422e29bdad698c29508040416361b2501e1930d3c84d8",
+      "tests/component/AsyncActions.test.tsx": "df1c378ecdf79590d98044b855b24ff9dd79a72dbccf45b46eb953a96482d060",
+      "tests/component/CreatureCollectionLoading.test.tsx": "425047556d615788eb9cec18fa152c172a8f6d292604a636761cc00e60bc27e5",
+      "tests/component/DinnerCountdown.test.tsx": "6057a035b21a1c6274aa3608a2a58312179b9baba14eda6a2ad55a6dbeb2908b",
+      "tests/component/DinosaurTester.test.tsx": "0b6ac265511aa259de56f5b6c784d94574b2c0c577b0ddae88eff813d23e83d4",
+      "tests/component/DragScrollRegion.test.tsx": "2d3b7c6276d44b07d0c742a3abdf08457a20217b3e731e098a2d86566c60ad43",
+      "tests/component/InsectTester.test.tsx": "fb0e02fdd0a6ef9a035909f7067165821ce05c2d63d5c062e9468eb4b0b7d159",
+      "tests/component/LargeNumbersTester.test.tsx": "9a06d66238fa73e086cbb59e10a888bd05544db7ca5eb0d4ad138a0183a5a9c6",
+      "tests/component/LearningNavigation.test.tsx": "e052ec87060dd424d274a0fb8dff8955c4ebb6cba30f0bf1b738a4af11ac2f85",
+      "tests/component/PictureGestures.test.tsx": "b304a264e424380befff2f1b6052cc8bbb0bb86683f478c6c27e36afaa6f2f37",
+      "tests/component/RewardAvailableSummary.test.tsx": "213a64187296a35d8aa2db785c8fdbefe017917282494e31c7652f771807154b",
+      "tests/component/RewardCreationFlow.test.tsx": "8cb0853490b29311d9727e77c49ccfc98fd445d3d0ff7bdfafd33745fd523896",
+      "tests/component/RewardsPage.test.tsx": "a6213b8c68a8df4fe7cf72af21a57c5d95ad5a55536fc4639a9a994947378d39",
+      "tests/component/SchoolCalendar.test.tsx": "90ae63fc6d7c039c88ff451e0129389519496af0ed60689c3ab2fc216a40f897",
+      "tests/component/SolarSystem3DManager.test.ts": "5759305859e95e1cb401c3064ad10bca490b8211377da9532c37b65042f1e79d",
+      "tests/component/StandardActionList.test.tsx": "9f6abebe6788c66adf4161d7993a62c222c97f14d9523708ac9371682fa1095e",
+      "tests/component/TaskCelebration.test.tsx": "30bf0db0a22d004ec26220db7f35bedcfd1f3e0d1d6f945971f5b5458169ae51",
+      "tests/component/TeeniepingTester.test.tsx": "3741c74503644b18aa29a4ac5243de0c39ec48bf290c74773aa02cdf122a8637",
+      "tests/component/TimeExplorerWeather.test.tsx": "f8819f8ef8ffd06b951fda1cb6502cda92c5a836e2ace8e737be2106add585d3",
+      "tests/component/TrainingPhotos.test.tsx": "399d776fca9470440140fa2ea3ae518887a9098939fac49006af55a5c783ca23",
+      "tests/component/androidOffline.test.tsx": "d220f278a64b9f811c3ff9610e29d1c3322fc5be06174d52bea106b11b616cc7",
+      "tests/component/animalSession.test.tsx": "f0c409259477e11fb0cf229ac7da2c335684fa05297a5953674218d0156b7e73",
+      "tests/component/choreStarAwards.test.tsx": "8fb20f02613da9747d03378d06e7ebd14a95abda4c103d1ba0fce5dadbb3a38a",
+      "tests/component/dayNightPerformance.test.tsx": "97b9acee2d8b977a2b506cbec9623351ac4da328d87362068026da95a8c7030c",
+      "tests/component/profileSync.test.tsx": "59c3a774606a706ba3a5111262fdea3759e772cb5829de35a51ad8c0958d1958",
+      "tests/component/tabNavigation.test.tsx": "2b56fc94d5791fd6626769cac704e1b94d1daaf06141cf4c62e27a9f0ce8f277",
+      "tests/component/testActivityReset.test.tsx": "a506aac1ed5ad43839d7118be4671c7f0b8b89a1e43ca78c1513023fd982ea29",
+      "tests/component/ui/unifiedChoreDescriptors.test.tsx": "20e3c001d342632de857e47e88c68d6cebe02a7aa1f0e9426f2ad4a847486403",
+      "tests/component/useChoreActivityActions.test.tsx": "2434c96d829f7e8df47af6385e826c5d2ef264b9a32465df0d2e67c005900f49",
+      "tests/component/useChoresReset.test.tsx": "077214ab90e1e109724a86a4df42635bf7710589308f9fa152d9ae5af86e6c7b",
+      "tests/component/useTestsReset.test.tsx": "101c708844fa3ccf2881c58c9e5a75688a4da9fae475c8101f77f6fcbdb59b4f",
+      "tests/unit/dailyChoreFunctions.test.ts": "ceabda369c88ce7cb5bbd1acc52b48b70fb9ecad9f969649331fa68f935c88c9",
+      "tests/unit/lib/choreParser.test.ts": "2e7bd672208faae4a30c329d2596659029ef91d7b07c625c5a7439972b9cf9f9",
+      "tests/unit/lib/disposeSceneObject.test.ts": "6cb3adb5f99bc3f17f0331268b4fee1cd0b63b3bd1f30c9da4a10f6aaaddc597",
+      "tests/unit/lib/earthTextureCache.test.ts": "70a45dc74e4cc24f215fd43efc81affb0896db0f1193bdda5d06a1a91a6df914",
+      "tests/unit/lib/imageLoading.test.ts": "0aeb6809e41bd6c284eeceb91e320b238b8a204c06865920cc9dadc33a682336",
+      "tests/unit/lib/solar.test.ts": "7786a2eff37e6882b076686c5c4f48e0ddf0eaaba6b3f7a89b479e22803ce1e8",
+      "tests/unit/lib/today.test.ts": "65cf82f6525d4ac04fab34737d7dbb704383a7a6961c13af8fa767891ecea4a2",
+      "tests/unit/offlineFirebaseTransport.test.ts": "fa6c96804b37e5e3ddd6638439aec4aba81ff2574e2e35461211724bd96536c3",
+      "tests/unit/offlineRuntime.test.ts": "5f87132d6cc501651d4d178a693575856ea3f0000af02bbe0b01a64bc393d699",
+      "tests/unit/offlineStore.test.ts": "dafee2668d3821531dfc2f3f204834673026ad9c4b207bd1f6713ccbc1c5ece5",
+      "tests/unit/offlineSync.test.ts": "9f16a6ebbd11840c26c290b609650157449343ebb975f2b979723d45cb1fb841",
+      "tests/unit/optimisticState.test.ts": "a2faad5a09a31e37eacb853fc6ae462fc9fbacfd372c5f6b3486b3c5d68316d1",
+      "tests/unit/schoolCalendar.test.ts": "040560987bd258a89b3ed779a3c6a8fc6cad84d6ee6c965d3bb845409d843496",
+      "tests/unit/schoolCalendarData.test.ts": "5780cb0474e6e48f33b37c695b565acdc2c5e1349e8d5fca53e8f93494a80906",
+      "tests/unit/starActions.test.ts": "1fac4f9a0dc37269a7ff351593a707ee6bb4b4bad7b0a63ab63c636fee6f88b4",
+      "tests/unit/taskLimits.test.ts": "b9069ea5bbf35f44ee1281d5ff8ce558154b0fd096b352b0d71e5ef082c038bd",
+      "tests/unit/weatherConditions.test.ts": "5b166ba5865a45f0d1efbe5a840e06efbb82dab613924a027c366d02e4eb10a9",
+      "tests/unit/weatherData.test.ts": "1ec9aebde963b8d4b8744cba6a4e5211dd9ef7c3f80ad8d15c5d6e4b1cd274c0",
+      "tests/unit/weatherStore.test.ts": "21c0b21a649b5bea3558629aebb49642d6571eb90b4de9c77f11c490a6663bf9"
+    }
+  }
+}

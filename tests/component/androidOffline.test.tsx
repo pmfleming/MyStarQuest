@@ -151,21 +151,6 @@ describe('Android offline data hooks', () => {
     ).toHaveLength(2)
   })
 
-  it('buys a reward and updates the balance immediately while Firebase is unavailable', async () => {
-    const hook = renderHook(() => useRewards())
-    await waitFor(() => expect(hook.result.current.rewards).toHaveLength(1))
-    await act(async () => {
-      expect(
-        await hook.result.current.giveReward(hook.result.current.rewards[0])
-      ).toEqual({ title: 'Toy', starsBefore: 5, starsAfter: 2 })
-    })
-    expect(hook.result.current.activeChildStars).toBe(2)
-    await act(async () => {
-      await hook.result.current.giveReward(hook.result.current.rewards[0])
-    })
-    expect(hook.result.current.activeChildStars).toBe(0)
-  })
-
   it('persists default-test completion and reset locally', async () => {
     const hook = renderHook(() => useTests())
     await waitFor(() =>

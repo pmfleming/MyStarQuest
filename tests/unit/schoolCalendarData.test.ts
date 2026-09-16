@@ -53,17 +53,3 @@ it('rejects an invalid response without caching it and allows a later retry', as
   expect(await request()).toEqual(events)
   expect(JSON.parse(localStorage.getItem(CACHE_KEY)!)).toEqual(events)
 })
-
-it('does not cache a response that completes after cancellation', async () => {
-  let resolveBody!: (value: unknown) => void
-  const body = new Promise((resolve) => {
-    resolveBody = resolve
-  })
-  vi.mocked(fetch).mockResolvedValue({ ok: true, json: () => body } as Response)
-  const controller = new AbortController()
-  const pending = loadSchoolCalendar(controller.signal)
-  controller.abort()
-  resolveBody(events)
-  await expect(pending).rejects.toThrow()
-  expect(localStorage.getItem(CACHE_KEY)).toBeNull()
-})

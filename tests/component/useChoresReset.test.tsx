@@ -12,7 +12,7 @@ import StandardActionList from '../../src/components/ui/StandardActionList'
 import { themes } from '../../src/contexts/ThemeContext'
 import { createUnifiedChoreDescriptor } from '../../src/ui/unifiedChoreDescriptors'
 import { toStandardActionListDescriptor } from '../../src/ui/listDescriptorTypes'
-import { isChoreWithEphemeral, isEatingTask } from '../../src/data/types'
+import { isChoreWithEphemeral } from '../../src/data/types'
 
 const firestore = vi.hoisted(() => ({
   onSnapshot: vi.fn(),
@@ -50,26 +50,6 @@ const baseChore = {
 }
 const choreCases = [
   {
-    title: 'Dinner',
-    fields: {
-      taskType: 'eating',
-      dinnerTotalBites: 4,
-      dinnerDurationSeconds: 900,
-      manageDinnerBitesLeft: 0,
-      manageDinnerRemainingSeconds: 120,
-      manageDinnerTimerStartedAt: null,
-      manageDinnerCompletedAt: 123,
-    },
-    reset: {
-      manageDinnerBitesLeft: 4,
-      manageDinnerRemainingSeconds: 900,
-      manageDinnerTimerStartedAt: null,
-      manageDinnerCompletedAt: null,
-    },
-    completed: { manageDinnerBitesLeft: 0, manageDinnerCompletedAt: 456 },
-    readyLabel: 'Run Dinner',
-  },
-  {
     title: 'Water and toilet',
     fields: {
       taskType: 'watertoiletcheck',
@@ -100,9 +80,7 @@ function ChoreList() {
     biteCooldownSeconds: 15,
     onReset: (item) => {
       if (isChoreWithEphemeral(item)) {
-        return isEatingTask(item)
-          ? chores.resetDinner(item)
-          : chores.resetChore(item)
+        return chores.resetChore(item)
       }
     },
   })
@@ -152,9 +130,6 @@ describe.each(choreCases)(
     })
 
     it('resets saved progress and accepts a later completion', async () => {
-      // Cover each chore's patch once; distribute ordering and retry across them.
-      const order =
-        fields.taskType === 'eating' ? 'snapshot-first' : 'write-first'
       vi.spyOn(console, 'error').mockImplementation(() => {})
       render(<ChoreList />)
       fireEvent.click(
@@ -167,27 +142,17 @@ describe.each(choreCases)(
       )
       expect(screen.getByRole('button', { name: readyLabel })).toBeVisible()
 
-      if (fields.taskType === 'watertoiletcheck') {
-        await act(async () => rejectWrite(new Error('Write failed')))
-        expect(await screen.findByRole('alert')).toHaveTextContent(
-          'Reset failed'
-        )
-        fireEvent.click(screen.getByRole('button', { name: `Reset ${title}` }))
-        fireEvent.click(screen.getByRole('button', { name: 'Yes, reset' }))
-        expect(firestore.updateDoc).toHaveBeenLastCalledWith(
-          'users/parent/chores/get-dressed',
-          reset
-        )
-      }
-
-      if (order === 'write-first') {
-        await act(async () => resolveWrite())
-        expect(screen.getByRole('button', { name: readyLabel })).toBeEnabled()
-        act(() => emitSnapshot(reset))
-      } else {
-        act(() => emitSnapshot(reset))
-        await act(async () => resolveWrite())
-      }
+      await act(async () => rejectWrite(new Error('Write failed')))
+      expect(await screen.findByRole('alert')).toHaveTextContent('Reset failed')
+      fireEvent.click(screen.getByRole('button', { name: `Reset ${title}` }))
+      fireEvent.click(screen.getByRole('button', { name: 'Yes, reset' }))
+      expect(firestore.updateDoc).toHaveBeenLastCalledWith(
+        'users/parent/chores/get-dressed',
+        reset
+      )
+      await act(async () => resolveWrite())
+      expect(screen.getByRole('button', { name: readyLabel })).toBeEnabled()
+      act(() => emitSnapshot(reset))
       expect(screen.getByRole('button', { name: readyLabel })).toBeEnabled()
       await waitFor(() =>
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()

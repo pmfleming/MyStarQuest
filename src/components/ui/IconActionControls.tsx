@@ -4,6 +4,7 @@ import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
 import { useAsyncAction } from '../../hooks/useAsyncAction'
 import { ActionArtwork } from './ActionArtwork'
+import { getThemeAsset } from '../../ui/themeAssets'
 import {
   getStandardPrimaryActionStyle,
   getStandardUtilityActionStyle,
@@ -82,12 +83,16 @@ export const IconActionButton = ({
   className,
   style,
 }: IconActionButtonProps) => {
+  const isCharacterSave =
+    theme.id === 'teenie' && icon === getThemeAsset(theme.id, 'saveIcon')
+  const isCharacterExit =
+    theme.id === 'teenie' && icon === getThemeAsset(theme.id, 'exitIcon')
   const image = (
     <StandardIconImage
       src={icon}
       fit={fit}
-      width={iconWidth}
-      height={iconHeight}
+      width={isCharacterExit ? '100%' : iconWidth}
+      height={isCharacterExit ? '100%' : iconHeight}
       opacity={iconOpacity}
     />
   )
@@ -102,10 +107,17 @@ export const IconActionButton = ({
         ...(shape === 'primary'
           ? getStandardPrimaryActionStyle(theme, variant ?? 'primary')
           : getStandardUtilityActionStyle(theme, variant ?? 'neutral')),
+        ...(isCharacterExit ? { padding: 4 } : {}),
         ...style,
       }}
     >
-      {shape === 'primary' ? <ActionArtwork>{image}</ActionArtwork> : image}
+      {shape === 'primary' ? (
+        <ActionArtwork scale={isCharacterSave ? 0.92 : undefined}>
+          {image}
+        </ActionArtwork>
+      ) : (
+        image
+      )}
     </AsyncButton>
   )
 }

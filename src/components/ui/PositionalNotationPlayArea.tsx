@@ -5,7 +5,7 @@ import { uiTokens } from '../../tokens'
 import { getThemeAsset } from '../../ui/themeAssets'
 import { EmptyCounterHint, MathCounter, TenRod } from './ActivityMathCounters'
 import MathActivityPlayArea from './MathActivityPlayArea'
-import StepperButton from './StepperButton'
+import { NumberStepper } from './StepperButton'
 
 export type PlaceValueKind = 'hundreds' | 'tens' | 'ones'
 export type PlaceValues = Record<PlaceValueKind, number>
@@ -209,49 +209,37 @@ const PlaceValueColumn = ({
       >
         {details.label}
       </span>
-      <div
+      <NumberStepper
+        theme={theme}
+        value={value * details.factor}
+        disabled={isCorrect}
+        decrease={{
+          onClick: () => onChange(Math.max(0, value - 1)),
+          disabled: value === 0,
+          ariaLabel: `Remove ${unitLabel}`,
+        }}
+        increase={{
+          onClick: () => onChange(Math.min(max, value + 1)),
+          disabled: value === max,
+          ariaLabel: `Add ${unitLabel}`,
+        }}
+        buttonStyle={stepperStyle}
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
           gap: kind === 'tens' ? 4 : 2,
           marginBottom: 8,
           width: '100%',
           paddingInline: kind === 'ones' ? 4 : undefined,
           boxSizing: 'border-box',
         }}
-      >
-        <StepperButton
-          theme={theme}
-          direction="prev"
-          onClick={() => onChange(Math.max(0, value - 1))}
-          disabled={value === 0 || isCorrect}
-          ariaLabel={`Remove ${unitLabel}`}
-          style={stepperStyle}
-        />
-        <span
-          style={{
-            fontSize: compact ? 19 : 24,
-            fontWeight: 'bold',
-            fontFamily: theme.fonts.heading,
-            color,
-            minWidth: kind === 'hundreds' ? 34 : undefined,
-            width: getDisplayedValueWidth(kind),
-            textAlign: 'center',
-            flexShrink: 0,
-          }}
-        >
-          {value * details.factor}
-        </span>
-        <StepperButton
-          theme={theme}
-          direction="next"
-          onClick={() => onChange(Math.min(max, value + 1))}
-          disabled={value === max || isCorrect}
-          ariaLabel={`Add ${unitLabel}`}
-          style={stepperStyle}
-        />
-      </div>
+        valueStyle={{
+          fontSize: compact ? 19 : 24,
+          fontWeight: 'bold',
+          color,
+          minWidth: kind === 'hundreds' ? 34 : undefined,
+          width: getDisplayedValueWidth(kind),
+          flexShrink: 0,
+        }}
+      />
       <div style={getCounterLayout(kind, compact)}>
         <CounterCollection
           kind={kind}

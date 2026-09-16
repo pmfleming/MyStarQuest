@@ -13,20 +13,23 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-14T16:19:37.256Z",
+    "measured_at": "2026-09-16T16:06:05.573Z",
     "source_type": "static",
-    "source_set_hash": "sha256:87bc369e934fd911632c8d792f2b9eb5ada60380fea8bdb440fd60a00f611ec6",
-    "input_set_hash": "sha256:76a92135a9168cc2a8e1089f8ec2366d70814305770c6fd66a56e1ebbe053fe4"
+    "source_set_hash": "sha256:fd3d4bb48dd7f797a6025a47f5ed3b8b600097c7647e4a40fae37e6c9e62593a",
+    "input_set_hash": "sha256:634de8b0092c60580cf89cc4e63f4e0d9139967cd8870980db14c00d291168ae"
   },
   "analysis_identity": {
-    "id": "sha256:c0d10d322cffa6d9aefdb8b39c1c0394627059b1ec545b0b64803baa71d8b8b8",
+    "id": "sha256:5251dfdeaa7c10031e5ed4829bf1816e0937cfce7f9c3c3d7256bb2977fa8c0f",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
     "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
       "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
       "react": "recommended-v2",
@@ -100,9 +103,9 @@
     "stale_input": []
   },
   "summary": {
-    "records": 12,
+    "records": 10,
     "blocking_findings": 0,
-    "warning_findings": 12
+    "warning_findings": 10
   },
   "tool_status": {
     "typed_eslint": {
@@ -111,107 +114,13 @@
       "complete": true,
       "reason": null,
       "version": "8.67.0",
-      "duration_ms": 10882,
+      "duration_ms": 8112,
       "ruleset": "tsrqlens-typescript-recommended-v1"
     }
   },
   "records": [
     {
-      "id": "typescript-eslint:1622b75c:1",
-      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
-      "kind": "typed_no_unsafe_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/animalTester/LearningNavigation",
-      "file": "src/components/animalTester/LearningNavigation.tsx",
-      "line": 80,
-      "column": 41,
-      "end_line": 80,
-      "end_column": 61,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type 'Node' is more narrow than the original type.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type 'Node' is more narrow than the original type."
-        }
-      ],
-      "fingerprint": "1622b75c",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:1622b75c:1",
-            "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/components/animalTester/LearningNavigation.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:5b75ebc1:1",
-      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
-      "kind": "typed_no_unsafe_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/animalTester/LearningNavigation",
-      "file": "src/components/animalTester/LearningNavigation.tsx",
-      "line": 121,
-      "column": 22,
-      "end_line": 121,
-      "end_column": 55,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type 'HTMLButtonElement' is more narrow than the original type.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type 'HTMLButtonElement' is more narrow than the original type."
-        }
-      ],
-      "fingerprint": "5b75ebc1",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:5b75ebc1:1",
-            "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/components/animalTester/LearningNavigation.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:66e1b9fa:1",
+      "id": "typescript-eslint:d1ad4375:1",
       "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
       "kind": "typed_no_unsafe_type_assertion",
       "evidence_kind": "tool-rule",
@@ -220,9 +129,9 @@
       "scope": "file",
       "module_id": "src/components/ui/ActionArtwork",
       "file": "src/components/ui/ActionArtwork.tsx",
-      "line": 10,
+      "line": 16,
       "column": 7,
-      "end_line": 12,
+      "end_line": 18,
       "end_column": 25,
       "score": 50,
       "severity": "medium",
@@ -235,7 +144,7 @@
           "message": "Unsafe type assertion: type 'CSSProperties' is more narrow than the original type."
         }
       ],
-      "fingerprint": "66e1b9fa",
+      "fingerprint": "d1ad4375",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
       "workspace_id": "mystarquest",
@@ -249,7 +158,7 @@
           "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:66e1b9fa:1",
+            "id": "typescript-eslint:d1ad4375:1",
             "kind": "typed_no_unsafe_type_assertion",
             "file": "src/components/ui/ActionArtwork.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -267,9 +176,9 @@
       "scope": "file",
       "module_id": "src/components/weather/WeatherScene",
       "file": "src/components/weather/WeatherScene.tsx",
-      "line": 101,
+      "line": 110,
       "column": 11,
-      "end_line": 104,
+      "end_line": 113,
       "end_column": 29,
       "score": 50,
       "severity": "medium",
@@ -305,7 +214,7 @@
       ]
     },
     {
-      "id": "typescript-eslint:9cabe924:1",
+      "id": "typescript-eslint:f79ecd0f:1",
       "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
       "kind": "typed_no_unsafe_type_assertion",
       "evidence_kind": "tool-rule",
@@ -314,22 +223,22 @@
       "scope": "file",
       "module_id": "src/data/animalKnowledge",
       "file": "src/data/animalKnowledge.ts",
-      "line": 1796,
+      "line": 1797,
       "column": 3,
-      "end_line": 1798,
+      "end_line": 1799,
       "end_column": 4,
       "score": 50,
       "severity": "medium",
       "risk": "medium",
       "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type '[\"alpaca\" | \"armadillo\" | \"bat\" | \"bear\" | \"beaver\" | \"blue-whale\" | \"bluebird\" | \"camel\" | \"cat\" | \"cheetah\" | \"chicken\" | \"chimpanzee\" | \"cow\" | \"crab\" | \"crocodile\" | \"deer\" | ... 58 more ... | \"bee\", AnimalKnowledgeSeed][]' is more narrow than the original type.",
+      "message": "Unsafe type assertion: type '[\"ant\" | \"bee\" | \"butterfly\" | \"tarantula\" | \"frog\" | \"alpaca\" | \"armadillo\" | \"bat\" | \"bear\" | \"beaver\" | \"blue-whale\" | \"bluebird\" | \"camel\" | \"cat\" | \"cheetah\" | \"chicken\" | ... 58 more ... | \"zebra\", AnimalKnowledgeSeed][]' is more narrow than the original type.",
       "signals": [
         {
           "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type '[\"alpaca\" | \"armadillo\" | \"bat\" | \"bear\" | \"beaver\" | \"blue-whale\" | \"bluebird\" | \"camel\" | \"cat\" | \"cheetah\" | \"chicken\" | \"chimpanzee\" | \"cow\" | \"crab\" | \"crocodile\" | \"deer\" | ... 58 more ... | \"bee\", AnimalKnowledgeSeed][]' is more narrow than the original type."
+          "message": "Unsafe type assertion: type '[\"ant\" | \"bee\" | \"butterfly\" | \"tarantula\" | \"frog\" | \"alpaca\" | \"armadillo\" | \"bat\" | \"bear\" | \"beaver\" | \"blue-whale\" | \"bluebird\" | \"camel\" | \"cat\" | \"cheetah\" | \"chicken\" | ... 58 more ... | \"zebra\", AnimalKnowledgeSeed][]' is more narrow than the original type."
         }
       ],
-      "fingerprint": "9cabe924",
+      "fingerprint": "f79ecd0f",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
       "workspace_id": "mystarquest",
@@ -343,7 +252,7 @@
           "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:9cabe924:1",
+            "id": "typescript-eslint:f79ecd0f:1",
             "kind": "typed_no_unsafe_type_assertion",
             "file": "src/data/animalKnowledge.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -352,7 +261,7 @@
       ]
     },
     {
-      "id": "typescript-eslint:a95aa087:1",
+      "id": "typescript-eslint:86c1e0a6:1",
       "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
       "kind": "typed_no_unsafe_type_assertion",
       "evidence_kind": "tool-rule",
@@ -361,22 +270,22 @@
       "scope": "file",
       "module_id": "src/data/animalLocationAssets",
       "file": "src/data/animalLocationAssets.ts",
-      "line": 60,
+      "line": 62,
       "column": 46,
-      "end_line": 62,
+      "end_line": 64,
       "end_column": 40,
       "score": 50,
       "severity": "medium",
       "risk": "medium",
       "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type 'Record<\"Africa\" | \"South America\" | \"Asia\" | \"Australia\" | \"North America\" | \"Americas\" | \"Africa & Asia\" | \"Afro-Eurasia\" | \"Five continents\" | \"New Zealand\" | \"Arctic\" | \"Worldwide\" | ... 7 more ... | \"Southern Hemisphere\", string>' is more narrow than the original type.",
+      "message": "Unsafe type assertion: type 'Record<\"Africa\" | \"South America\" | \"Asia\" | \"Europe & Asia\" | \"Australia\" | \"North America\" | \"Americas\" | \"Africa & Asia\" | \"Afro-Eurasia\" | \"Five continents\" | \"New Zealand\" | ... 9 more ... | \"Southern Hemisphere\", string>' is more narrow than the original type.",
       "signals": [
         {
           "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type 'Record<\"Africa\" | \"South America\" | \"Asia\" | \"Australia\" | \"North America\" | \"Americas\" | \"Africa & Asia\" | \"Afro-Eurasia\" | \"Five continents\" | \"New Zealand\" | \"Arctic\" | \"Worldwide\" | ... 7 more ... | \"Southern Hemisphere\", string>' is more narrow than the original type."
+          "message": "Unsafe type assertion: type 'Record<\"Africa\" | \"South America\" | \"Asia\" | \"Europe & Asia\" | \"Australia\" | \"North America\" | \"Americas\" | \"Africa & Asia\" | \"Afro-Eurasia\" | \"Five continents\" | \"New Zealand\" | ... 9 more ... | \"Southern Hemisphere\", string>' is more narrow than the original type."
         }
       ],
-      "fingerprint": "a95aa087",
+      "fingerprint": "86c1e0a6",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
       "workspace_id": "mystarquest",
@@ -390,56 +299,9 @@
           "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:a95aa087:1",
+            "id": "typescript-eslint:86c1e0a6:1",
             "kind": "typed_no_unsafe_type_assertion",
             "file": "src/data/animalLocationAssets.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "typescript-eslint:ebaef56d:1",
-      "rule_id": "@typescript-eslint/no-unnecessary-type-assertion",
-      "kind": "typed_no_unnecessary_type_assertion",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/data/creaturePhotos",
-      "file": "src/data/creaturePhotos.ts",
-      "line": 3,
-      "column": 16,
-      "end_line": 6,
-      "end_column": 29,
-      "score": 50,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "typescript-eslint",
-      "message": "This assertion is unnecessary since it does not change the type of the expression.",
-      "signals": [
-        {
-          "kind": "@typescript-eslint/no-unnecessary-type-assertion",
-          "message": "This assertion is unnecessary since it does not change the type of the expression."
-        }
-      ],
-      "fingerprint": "ebaef56d",
-      "occurrence": 1,
-      "reason_code": "@typescript-eslint/no-unnecessary-type-assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this typed_no_unnecessary_type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typescript-eslint:ebaef56d:1",
-            "kind": "typed_no_unnecessary_type_assertion",
-            "file": "src/data/creaturePhotos.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -493,7 +355,7 @@
       ]
     },
     {
-      "id": "typescript-eslint:b7b3507a:1",
+      "id": "typescript-eslint:bdbdb306:1",
       "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
       "kind": "typed_no_unsafe_type_assertion",
       "evidence_kind": "tool-rule",
@@ -510,14 +372,14 @@
       "severity": "medium",
       "risk": "medium",
       "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type '\"Deer\" | \"Seeds & Nuts\" | \"Flowers & Nectar\" | \"Grass\" | \"Insects\" | \"Leaves\" | \"Food\" | \"Fruit\" | \"Fish\" | \"Roots\" | \"Rodents\" | \"Birds\" | \"Antelopes\" | \"Reptiles\" | \"Worms\" | ... 4 more ... | \"Shrimp\"' is more narrow than the original type.",
+      "message": "Unsafe type assertion: type '\"Insects\" | \"Seeds & Nuts\" | \"Flowers & Nectar\" | \"Grass\" | \"Leaves\" | \"Food\" | \"Fruit\" | \"Deer\" | \"Fish\" | \"Roots\" | \"Rodents\" | \"Birds\" | \"Antelopes\" | \"Reptiles\" | \"Worms\" | ... 4 more ... | \"Shrimp\"' is more narrow than the original type.",
       "signals": [
         {
           "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type '\"Deer\" | \"Seeds & Nuts\" | \"Flowers & Nectar\" | \"Grass\" | \"Insects\" | \"Leaves\" | \"Food\" | \"Fruit\" | \"Fish\" | \"Roots\" | \"Rodents\" | \"Birds\" | \"Antelopes\" | \"Reptiles\" | \"Worms\" | ... 4 more ... | \"Shrimp\"' is more narrow than the original type."
+          "message": "Unsafe type assertion: type '\"Insects\" | \"Seeds & Nuts\" | \"Flowers & Nectar\" | \"Grass\" | \"Leaves\" | \"Food\" | \"Fruit\" | \"Deer\" | \"Fish\" | \"Roots\" | \"Rodents\" | \"Birds\" | \"Antelopes\" | \"Reptiles\" | \"Worms\" | ... 4 more ... | \"Shrimp\"' is more narrow than the original type."
         }
       ],
-      "fingerprint": "b7b3507a",
+      "fingerprint": "bdbdb306",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
       "workspace_id": "mystarquest",
@@ -531,7 +393,7 @@
           "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:b7b3507a:1",
+            "id": "typescript-eslint:bdbdb306:1",
             "kind": "typed_no_unsafe_type_assertion",
             "file": "src/data/insectKnowledge.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -634,31 +496,31 @@
       ]
     },
     {
-      "id": "typescript-eslint:c91b12f:1",
+      "id": "typescript-eslint:912151b5:1",
       "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
       "kind": "typed_no_unsafe_type_assertion",
       "evidence_kind": "tool-rule",
       "disposition": "warn",
       "finding_confidence": "high",
       "scope": "file",
-      "module_id": "src/ui/themeAssets",
-      "file": "src/ui/themeAssets.ts",
-      "line": 154,
-      "column": 20,
-      "end_line": 159,
-      "end_column": 21,
+      "module_id": "src/hooks/useTaskCelebration",
+      "file": "src/hooks/useTaskCelebration.tsx",
+      "line": 148,
+      "column": 53,
+      "end_line": 148,
+      "end_column": 68,
       "score": 50,
       "severity": "medium",
       "risk": "medium",
       "source": "typescript-eslint",
-      "message": "Unsafe type assertion: type '{ background: string; choresIcon: string; rewardsIcon: string; calendarIcon: string; clockIcon: string; thermometerIcon: string; childrenIcon: string; exitIcon: string; editIcon: string; deleteIcon: string; ... 40 more ...; placeValueCounter: string; }' is more narrow than the original type.",
+      "message": "Unsafe type assertion: the original type is assignable to the constraint of type 'T', but 'T' could be instantiated with a different subtype of its constraint.",
       "signals": [
         {
           "kind": "@typescript-eslint/no-unsafe-type-assertion",
-          "message": "Unsafe type assertion: type '{ background: string; choresIcon: string; rewardsIcon: string; calendarIcon: string; clockIcon: string; thermometerIcon: string; childrenIcon: string; exitIcon: string; editIcon: string; deleteIcon: string; ... 40 more ...; placeValueCounter: string; }' is more narrow than the original type."
+          "message": "Unsafe type assertion: the original type is assignable to the constraint of type 'T', but 'T' could be instantiated with a different subtype of its constraint."
         }
       ],
-      "fingerprint": "c91b12f",
+      "fingerprint": "912151b5",
       "occurrence": 1,
       "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
       "workspace_id": "mystarquest",
@@ -672,9 +534,56 @@
           "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typescript-eslint:c91b12f:1",
+            "id": "typescript-eslint:912151b5:1",
             "kind": "typed_no_unsafe_type_assertion",
-            "file": "src/ui/themeAssets.ts",
+            "file": "src/hooks/useTaskCelebration.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typescript-eslint:1d155047:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/ui/definitionRowDescriptors",
+      "file": "src/ui/definitionRowDescriptors.tsx",
+      "line": 177,
+      "column": 18,
+      "end_line": 177,
+      "end_column": 69,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'CSSProperties' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'CSSProperties' is more narrow than the original type."
+        }
+      ],
+      "fingerprint": "1d155047",
+      "occurrence": 1,
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typescript-eslint:1d155047:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/ui/definitionRowDescriptors.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

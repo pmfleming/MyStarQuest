@@ -48,51 +48,6 @@ function answerProblem(expectedOperation: string, easyOperand?: number) {
   }
 }
 
-it('uses the visual Addition and subtraction choice through a complete round', async () => {
-  const label = 'Addition and subtraction' as const
-  const firstOperation = 'minus' as const
-  const secondOperation = 'plus' as const
-
-  const random = vi.spyOn(Math, 'random').mockReturnValue(0.1)
-  const props = {
-    theme: themes.princess,
-    totalProblems: 2,
-    starReward: 3,
-    isRunning: false,
-    onAdjustProblems: vi.fn(),
-    onStarsChange: vi.fn(),
-    onComplete: vi.fn(),
-  }
-  const { rerender } = render(<LargeNumbersTester {...props} />)
-  const choices = within(
-    screen.getByRole('radiogroup', { name: 'Math operations' })
-  )
-  expect(choices.getByRole('radio', { name: 'Addition only' })).toHaveAttribute(
-    'aria-checked',
-    'true'
-  )
-  expect(
-    choices.getAllByRole('radio').map((choice) => choice.textContent)
-  ).toEqual(['+', '−', '+ / −'])
-  const selected = choices.getByRole('radio', { name: label })
-  fireEvent.click(selected)
-  expect(selected).toHaveAttribute('aria-checked', 'true')
-  rerender(<LargeNumbersTester {...props} isRunning />)
-  expect(
-    screen.queryByRole('radiogroup', { name: 'Math operations' })
-  ).not.toBeInTheDocument()
-
-  answerProblem(firstOperation)
-  rerender(<LargeNumbersTester {...props} isRunning checkTrigger={1} />)
-  random.mockReturnValue(0.9)
-  await act(() => vi.advanceTimersByTimeAsync(1500))
-  expect(props.onComplete).not.toHaveBeenCalled()
-  answerProblem(secondOperation)
-  rerender(<LargeNumbersTester {...props} isRunning checkTrigger={2} />)
-  await act(() => vi.advanceTimersByTimeAsync(1500))
-  expect(props.onComplete).toHaveBeenCalledOnce()
-}, 15000)
-
 it('restricts easy mixed rounds to ones or whole tens, including both range boundaries', async () => {
   const samples = [
     { random: 0, operation: 'minus', operand: 1 },

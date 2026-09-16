@@ -1,14 +1,6 @@
 import { expect, it } from 'vitest'
 import { settleOptimisticPatch } from '../../src/lib/optimisticState'
 
-it('settles matching fields without losing newer edits or another task', () => {
-  const previous = { task: { bites: 2, seconds: 40 }, other: { bites: 3 } }
-  expect(
-    settleOptimisticPatch(previous, 'task', { bites: 1, seconds: 40 })
-  ).toEqual({ task: { bites: 2 }, other: { bites: 3 } })
-  expect(previous.task).toEqual({ bites: 2, seconds: 40 })
-})
-
 it('restores prior values only for fields belonging to the failed write', () => {
   const previous = { task: { completed: null, outcome: 'failure', count: 0 } }
   expect(

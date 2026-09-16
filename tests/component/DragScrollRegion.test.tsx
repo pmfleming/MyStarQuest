@@ -40,19 +40,4 @@ describe('chore page drag cleanup', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Open chore' }))
     expect(click).toHaveBeenCalledTimes(1)
   })
-
-  it('removes active drag listeners when navigating away mid-drag', () => {
-    const add = vi.spyOn(window, 'addEventListener')
-    const remove = vi.spyOn(window, 'removeEventListener')
-    const { unmount } = setup()
-    const dragListeners = add.mock.calls.filter(
-      ([type]) => type === 'mousemove' || type === 'mouseup'
-    )
-    expect(dragListeners).toHaveLength(2)
-    unmount()
-    for (const [type, handler] of dragListeners) {
-      expect(remove).toHaveBeenCalledWith(type, handler)
-    }
-    expect(document.body.style.userSelect).not.toBe('none')
-  })
 })

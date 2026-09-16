@@ -1,11 +1,11 @@
 import credits from './creaturePhotoCredits.json'
 
-const images = import.meta.glob('../assets/creaturePhotos/*.webp', {
+const images = import.meta.glob<string>('../assets/creaturePhotos/*.webp', {
   eager: true,
   import: 'default',
-}) as Record<string, string>
+})
 
-export type CreaturePhoto = (typeof credits)[number] & { src: string }
+type CreaturePhoto = (typeof credits)[number] & { src: string }
 
 const photos = new Map<string, CreaturePhoto>(
   credits.flatMap<[string, CreaturePhoto]>((credit) => {

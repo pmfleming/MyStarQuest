@@ -77,3 +77,61 @@ const StepperButton = ({
 }
 
 export default StepperButton
+
+type NumberStepperProps = {
+  theme: Theme
+  value: number
+  decrease: Pick<StepperButtonProps, 'onClick' | 'disabled' | 'ariaLabel'>
+  increase: Pick<StepperButtonProps, 'onClick' | 'disabled' | 'ariaLabel'>
+  disabled?: boolean
+  style?: CSSProperties
+  valueStyle?: CSSProperties
+  buttonStyle?: CSSProperties
+}
+
+/** Keep paired math controls consistent while each activity owns its bounds. */
+export function NumberStepper({
+  theme,
+  value,
+  decrease,
+  increase,
+  disabled,
+  style,
+  valueStyle,
+  buttonStyle,
+}: NumberStepperProps) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        ...style,
+      }}
+    >
+      <StepperButton
+        theme={theme}
+        direction="prev"
+        {...decrease}
+        disabled={disabled || decrease.disabled}
+        style={buttonStyle}
+      />
+      <span
+        style={{
+          fontFamily: theme.fonts.heading,
+          textAlign: 'center',
+          ...valueStyle,
+        }}
+      >
+        {value}
+      </span>
+      <StepperButton
+        theme={theme}
+        direction="next"
+        {...increase}
+        disabled={disabled || increase.disabled}
+        style={buttonStyle}
+      />
+    </div>
+  )
+}
