@@ -299,7 +299,7 @@ const AnimalPlayContent = ({
   if (mode === 'learn') {
     return (
       <>
-        <TrainingPhotoPortrait key={animal.kind} animal={animal}>
+        <TrainingPhotoPortrait key={`portrait-${animal.kind}`} animal={animal}>
           {(photo) => <AnimalPortrait animal={animal} photo={photo} />}
         </TrainingPhotoPortrait>
         <FactGrid
@@ -310,7 +310,7 @@ const AnimalPlayContent = ({
           isGenericAbilityShown={isGenericLearnAbilityShown}
         />
         <LearningNavigation
-          key={animal.kind}
+          key={`navigation-${animal.kind}`}
           creatureName={creatureLabel(animal)}
           currentLetter={animal.name.charAt(0).toUpperCase()}
           availableLetters={availableLetters}

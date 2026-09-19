@@ -7,6 +7,7 @@ import { INSECT_KNOWLEDGE } from '../../src/data/insectKnowledge'
 import { INSECT_COLLECTION_NAMES } from '../../src/data/creatureCollections/insectCollectionNames'
 import credits from '../../src/data/creaturePhotoCredits.json'
 import { getCreaturePhoto } from '../../src/data/creaturePhotos'
+import { loadCollection } from '../../src/data/creatureCollections/loadCollection'
 
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 const props = () => ({
@@ -21,6 +22,32 @@ const props = () => ({
 })
 
 describe('Who am I training photos', () => {
+  it('shows only the selected portrait when switching between loaded collections', async () => {
+    await Promise.all(
+      (['insects', 'dinosaurs', 'teeniepings'] as const).map(loadCollection)
+    )
+    render(<AnimalTester {...props()} />)
+
+    for (const [collection, name] of [
+      ['Teeniepings', 'Artping'],
+      ['Dinosaurs', 'Ankylosaurus'],
+      ['Insects', 'Ant'],
+      ['Animals', 'Alpaca'],
+      ['Teeniepings', 'Artping'],
+      ['Insects', 'Ant'],
+    ]) {
+      fireEvent.click(screen.getByRole('radio', { name: collection }))
+      const portraits = screen.getAllByRole('button', {
+        name: /^(View |Enlarge .* picture)/,
+      })
+      expect(portraits).toHaveLength(1)
+      expect(portraits[0].querySelector('img')).toHaveAttribute('alt', name)
+      expect(
+        screen.getAllByRole('button', { name: 'Choose starting letter' })
+      ).toHaveLength(1)
+    }
+  })
+
   it('covers both catalogs with local photos and credits', () => {
     const names = [
       ...ANIMAL_KNOWLEDGE.filter(
