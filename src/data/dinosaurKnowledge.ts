@@ -74,6 +74,21 @@ const profiles: DinosaurProfile[] = [
     source: 'https://www.amnh.org/explore/news-blogs/ammonites-plankton-diet',
   },
   {
+    name: 'brachiosaurus',
+    assetId: 'brachiosaurus',
+    displayName: 'Brachiosaurus',
+    pronunciation: 'BRAK-ee-oh-SORE-us',
+    character: 'Nellie and the PAW Patrol movie brachiosaurs',
+    group: 'Dinosaur',
+    feature: 'A long raised neck and front legs longer than my back legs.',
+    food: 'Plants. I reached leaves high up in trees.',
+    period: 'Late Jurassic',
+    family: 'A sauropod: a large dinosaur with a long neck and tail.',
+    compare:
+      'Look for the high shoulders and longer front legs. Brontosaurus had a more level back.',
+    source: `${directory}brachiosaurus.html`,
+  },
+  {
     name: 'brontosaurus',
     assetId: 'brontosaurus',
     displayName: 'Brontosaurus',
@@ -105,6 +120,21 @@ const profiles: DinosaurProfile[] = [
     compare:
       'Find the sail in both pictures. Scientists still debate what it was used for.',
     source: 'https://whatsinaname.hmnh.harvard.edu/dimetrodon',
+  },
+  {
+    name: 'mahakala',
+    assetId: 'mahakala',
+    displayName: 'Mahakala',
+    pronunciation: 'mah-hah-KAH-lah',
+    character: 'The small orange dinosaur in PAW Patrol: The Dino Movie',
+    group: 'Dinosaur',
+    feature: 'A tiny body, short arms, a long tail and curved foot claws.',
+    food: 'Small animals were likely food, but my exact diet is uncertain.',
+    period: 'Late Cretaceous',
+    family: 'A tiny dromaeosaurid: a relative of Velociraptor.',
+    compare:
+      'The cartoon has smooth skin. The reconstruction has feathers inferred from close relatives.',
+    source: 'https://doi.org/10.1206/3722.2',
   },
   {
     name: 'otodus-megalodon',
@@ -187,6 +217,21 @@ const profiles: DinosaurProfile[] = [
       'Compare its long neck with Pteranodon’s. It could also walk on the ground.',
     source:
       'https://news.utexas.edu/2021/12/08/worlds-largest-pterosaur-leaped-aloft-to-fly/',
+  },
+  {
+    name: 'spinosaurus',
+    assetId: 'spinosaurus',
+    displayName: 'Spinosaurus',
+    pronunciation: 'SPINE-oh-SORE-us',
+    character: 'Janice, the PAW Patrol movie Spinosaurus',
+    group: 'Dinosaur',
+    feature: 'A tall back sail, long narrow jaws and a deep paddle-like tail.',
+    food: 'Fish and possibly other animals. My cone-shaped teeth helped hold slippery food.',
+    period: 'Late Cretaceous',
+    family: 'A spinosaurid: a large meat-eating theropod dinosaur.',
+    compare:
+      'Find the long snout and sail. The reconstruction has shorter back legs and a deeper tail.',
+    source: `${directory}spinosaurus.html`,
   },
   {
     name: 'stegosaurus',

@@ -13,6 +13,41 @@ export type DinosaurClues = {
 // Broad habitat reconstructions, not claims that an animal lived only here.
 // "Ability" includes distinctive anatomy where behavior remains uncertain.
 export const DINOSAUR_CLUES = {
+  brachiosaurus: {
+    foodCategory: 'plants',
+    foodWord: 'Plants',
+    habitatCategory: 'floodplain',
+    habitatWord: 'River plains',
+    habitatText:
+      'I lived on ancient North American river plains with tall trees.',
+    ability: 'High browsing',
+    abilityText:
+      'My long neck and high shoulders helped me reach leaves in tall trees.',
+    genericAbility: 'reach',
+  },
+  mahakala: {
+    foodCategory: 'meat',
+    foodWord: 'Small animals?',
+    habitatCategory: 'desert',
+    habitatWord: 'Dry dunes',
+    habitatText: 'My fossils come from an ancient sandy landscape in Mongolia.',
+    ability: 'Curved foot claws',
+    abilityText:
+      'I had a long curved claw on the second toe of each foot. It may have helped me grip prey.',
+    genericAbility: 'grip',
+  },
+  spinosaurus: {
+    foodCategory: 'fish',
+    foodWord: 'Fish',
+    habitatCategory: 'wetland',
+    habitatWord: 'Wetlands',
+    habitatText:
+      'I lived around rivers and coastal wetlands in ancient North Africa.',
+    ability: 'Fish-catching jaws',
+    abilityText:
+      'My narrow snout and cone-shaped teeth helped me catch and hold fish.',
+    genericAbility: 'bite',
+  },
   allosaurus: {
     foodCategory: 'meat',
     foodWord: 'Meat',

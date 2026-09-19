@@ -2,24 +2,27 @@
 
 The Who am I dinosaur collection uses the same square illustrated cards and short captions as animals and insects. Its four categories are **Food, Habitat, Ability, Geological period**. The ability clue includes distinctive anatomy when its exact behavior is uncertain.
 
-| Creature           | Food    | Habitat      | Ability        | Geological period |
-| ------------------ | ------- | ------------ | -------------- | ----------------- |
-| Ankylosaurus       | Plants  | Woodlands    | Body armor     | Late Cretaceous   |
-| Brontosaurus       | Plants  | River plains | Long reach     | Late Jurassic     |
-| Pachycephalosaurus | Plants? | Woodlands    | Thick skull    | Late Cretaceous   |
-| Parasaurolophus    | Plants  | River plains | Crest calls    | Late Cretaceous   |
-| Pteranodon         | Fish    | Seacoasts    | Soaring        | Late Cretaceous   |
-| Quetzalcoatlus     | Animals | Wetlands     | Giant wings    | Late Cretaceous   |
-| Stegosaurus        | Plants  | River plains | Tail spikes    | Late Jurassic     |
-| Triceratops        | Plants  | Woodlands    | Three horns    | Late Cretaceous   |
-| Tyrannosaurus rex  | Meat    | Woodlands    | Powerful bite  | Late Cretaceous   |
-| Velociraptor       | Meat    | Dry dunes    | Gripping claws | Late Cretaceous   |
+| Creature           | Food            | Habitat        | Ability            | Geological period |
+| ------------------ | --------------- | -------------- | ------------------ | ----------------- |
+| Ankylosaurus       | Plants          | Woodlands      | Body armor         | Late Cretaceous   |
+| Brontosaurus       | Plants          | River plains   | Long reach         | Late Jurassic     |
+| Pachycephalosaurus | Plants?         | Woodlands      | Thick skull        | Late Cretaceous   |
+| Parasaurolophus    | Plants          | River plains   | Crest calls        | Late Cretaceous   |
+| Pteranodon         | Fish            | Seacoasts      | Soaring            | Late Cretaceous   |
+| Quetzalcoatlus     | Animals         | Wetlands       | Giant wings        | Late Cretaceous   |
+| Stegosaurus        | Plants          | River plains   | Tail spikes        | Late Jurassic     |
+| Triceratops        | Plants          | Woodlands      | Three horns        | Late Cretaceous   |
+| Tyrannosaurus rex  | Meat            | Woodlands      | Powerful bite      | Late Cretaceous   |
+| Velociraptor       | Meat            | Dry dunes      | Gripping claws     | Late Cretaceous   |
+| Allosaurus         | Meat            | River plains   | Gripping hands     | Late Jurassic     |
+| Baculites          | Animal plankton | Seas           | Protective shell   | Late Cretaceous   |
+| Dimetrodon         | Meat            | Wetlands       | Two tooth sizes    | Early Permian     |
+| Otodus megalodon   | Meat            | Seas           | Serrated teeth     | Neogene           |
+| Tetrapodophis      | Small animals?  | Coastal water? | Flexible body      | Early Cretaceous  |
+| Brachiosaurus      | Plants          | River plains   | High browsing      | Late Jurassic     |
+| Mahakala           | Small animals?  | Dry dunes      | Curved foot claws  | Late Cretaceous   |
+| Spinosaurus        | Fish            | Wetlands       | Fish-catching jaws | Late Cretaceous   |
 
-| Allosaurus | Meat | River plains | Gripping hands | Late Jurassic |
-| Baculites | Animal plankton | Seas | Protective shell | Late Cretaceous |
-| Dimetrodon | Meat | Wetlands | Two tooth sizes | Early Permian |
-| Otodus megalodon | Meat | Seas | Serrated teeth | Neogene |
-| Tetrapodophis | Small animals? | Coastal water? | Flexible body | Early Cretaceous |
 Habitats are broad reconstructions, not exclusive ranges. The Pachycephalosaurus food caption includes a question mark because its diet is uncertain. Its skull is shown without claiming proven head-butting. Parasaurolophus calls and Velociraptor gripping behavior are qualified as probable. Quetzalcoatlus's exact diet remains uncertain. Pteranodon and Quetzalcoatlus are pterosaurs, not dinosaurs; their habitat descriptions and portrait accessibility descriptions retain this distinction.
 
 ## Art and interaction
@@ -49,3 +52,5 @@ Existing princess-bear and Teenieping assets provide armor, reach, calls, flight
 The [five additions](2026-09-16-dinosaur-additions.md) add five individual abilities, shared animal-plankton food and ocean habitat, and three period stones. Existing matching food, habitat and period images remain shared. Generic abilities reuse both themes' existing grip, shell, bite and squeeze artwork. The flexible-body mascot is a conceptual analogy, not evidence of constriction behavior.
 
 New period colors: rose-red Early Permian with a Dimetrodon skeleton and fern; violet Early Cretaceous with Iguanodon and Microraptor; emerald Neogene with a megalodon tooth and whale vertebra. The Permian and Neogene stones deliberately contain appropriate non-dinosaur fossils. The Neogene includes the Miocene and Pliocene epochs; it is not a dinosaur period. These are illustrative symbols, not actual fossil specimens or fixed geological rock colors.
+
+The [PAW Patrol additions](2026-09-19-paw-patrol-dinosaurs.md) reuse matching food, habitat and period artwork. Each has a new individual ability image; both themes reuse the existing reach, grip and bite mascot images. Mahakala diet and claw function are qualified as inferred. Spinosaurus clues do not assert a settled swimming style or sail function.

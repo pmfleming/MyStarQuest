@@ -41,9 +41,12 @@ describe('Who am I dinosaur collection', () => {
     const p = props()
     render(<AnimalTester {...p} />)
     await selectDinosaurs()
-    expect(DINOSAUR_KNOWLEDGE).toHaveLength(15)
+    expect(DINOSAUR_KNOWLEDGE).toHaveLength(18)
     expect(DINOSAUR_KNOWLEDGE.map((creature) => creature.name)).toEqual(
       expect.arrayContaining([
+        'brachiosaurus',
+        'mahakala',
+        'spinosaurus',
         'allosaurus',
         'baculites',
         'dimetrodon',
@@ -56,7 +59,7 @@ describe('Who am I dinosaur collection', () => {
     ).toBe(false)
     expect(
       DINOSAUR_KNOWLEDGE.filter((d) => d.group === 'Dinosaur')
-    ).toHaveLength(9)
+    ).toHaveLength(12)
     expect(screen.getByAltText('Ankylosaurus')).toBeVisible()
     expect(
       screen.queryByRole('button', { name: 'Cartoon', exact: true })
