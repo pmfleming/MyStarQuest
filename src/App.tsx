@@ -9,13 +9,15 @@ import AnimatedTabLayout from './routes/AnimatedTabLayout'
 import { defaultTabPath } from './lib/tabNavigation'
 import AppErrorBoundary from './components/AppErrorBoundary'
 import LoginPage from './pages/LoginPage'
+import { routeModules } from './routes/routeModules'
+import RoutePreloader from './routes/RoutePreloader'
 
-const DashboardPage = lazy(() => import('./pages/DashboardPage'))
-const TestsPage = lazy(() => import('./pages/TestsPage'))
-const RewardsPage = lazy(() => import('./pages/RewardsPage'))
-const TimeExplorerPage = lazy(() => import('./pages/TimeExplorerPage'))
-const ManageChildrenPage = lazy(() => import('./pages/ManageChildrenPage'))
-const ProtectedDataRoute = lazy(() => import('./routes/ProtectedDataRoute'))
+const DashboardPage = lazy(routeModules.chores)
+const TestsPage = lazy(routeModules.tests)
+const RewardsPage = lazy(routeModules.rewards)
+const TimeExplorerPage = lazy(routeModules.timeExplorer)
+const ManageChildrenPage = lazy(routeModules.manageChildren)
+const ProtectedDataRoute = lazy(routeModules.protectedData)
 
 const App = () => {
   return (
@@ -25,8 +27,16 @@ const App = () => {
           <SelectedDateProvider>
             <ActiveChildProvider>
               <BrowserRouter>
+                <RoutePreloader />
                 <Suspense
-                  fallback={<div className="h-screen w-full bg-pink-50" />}
+                  fallback={
+                    <div
+                      role="status"
+                      className="flex h-screen w-full items-center justify-center bg-pink-50 text-purple-950"
+                    >
+                      Opening MyStarQuest…
+                    </div>
+                  }
                 >
                   <Routes>
                     <Route path="/login" element={<LoginPage />} />

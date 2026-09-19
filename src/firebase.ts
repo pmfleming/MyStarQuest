@@ -1,5 +1,10 @@
 import { initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
+import {
+  initializeAuth,
+  indexedDBLocalPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence,
+} from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -29,4 +34,12 @@ export const app = initializeApp(firebaseConfig)
 
 // Authentication is required before protected routes load, so keep it in the
 // entry module. Firestore is initialized separately by lazy-loaded data routes.
-export const auth = getAuth(app)
+// Preserve existing sessions, but load the browser popup helper only when
+// web sign-in is requested. Native sign-in uses a credential from Capacitor.
+export const auth = initializeAuth(app, {
+  persistence: [
+    indexedDBLocalPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence,
+  ],
+})

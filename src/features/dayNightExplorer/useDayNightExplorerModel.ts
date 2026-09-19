@@ -37,6 +37,8 @@ type UseDayNightExplorerModelResult = {
   weatherCity: ReturnType<typeof getExplorerCityOption>
   planet: {
     globeReady: boolean
+    globeFailed: boolean
+    retryGlobe: () => void
     canvasRef: ReturnType<typeof useSolarSystem3D>['canvasRef']
     options: typeof EXPLORER_FOCUS_OPTIONS
     activeFocusId: ExplorerFocusId
@@ -135,7 +137,7 @@ export default function useDayNightExplorerModel(
     ]
   )
 
-  const { canvasRef, globeReady, updateSceneState } =
+  const { canvasRef, globeReady, globeFailed, retryGlobe, updateSceneState } =
     useSolarSystem3D(planetSceneState)
 
   // Direct visual updates during dragging (bypassing React re-renders)
@@ -234,6 +236,8 @@ export default function useDayNightExplorerModel(
     weatherCity: calculationCity,
     planet: {
       globeReady,
+      globeFailed,
+      retryGlobe,
       canvasRef,
       options: filteredOptions,
       activeFocusId,

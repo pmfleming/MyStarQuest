@@ -91,13 +91,34 @@ const clickOption = (name: string, count = 1) => {
   const button = screen.getByRole('button', { name })
   for (let i = 0; i < count; i++) fireEvent.click(button)
 }
-const openWeather = () =>
+const openWeather = async () => {
   fireEvent.click(screen.getByRole('button', { name: /Show weather:/ }))
+  await screen.findByRole('region', { name: /Weather in/ })
+}
 
 describe('Time Explorer weather panel', () => {
-  it('adapts precipitation to temperature, preserves intensity and wind, and resets to live weather', () => {
+  it('keeps the wardrobe out of clock and calendar entry in both themes', async () => {
+    const { container, rerender } = render(<TimeExplorerPage />)
+    for (const theme of ['princess', 'teenie']) {
+      state.themeId = theme
+      rerender(<TimeExplorerPage />)
+      clickOption('Show clock')
+      expect(container.querySelector('image[href*="wardrobe"]')).toBeNull()
+      clickOption('Show calendar')
+      expect(container.querySelector('image[href*="wardrobe"]')).toBeNull()
+      await openWeather()
+      expect(
+        container.querySelector('image[href*="wardrobe"]')
+      ).toHaveAttribute(
+        'href',
+        expect.stringContaining(`/${theme}/weather/wardrobe.png`)
+      )
+    }
+  })
+
+  it('adapts precipitation to temperature, preserves intensity and wind, and resets to live weather', async () => {
     const { rerender } = render(<TimeExplorerPage />)
-    openWeather()
+    await openWeather()
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
       'Moderate rain'
     )
@@ -178,7 +199,7 @@ describe('Time Explorer weather panel', () => {
       )
     }
     clickOption('Show calendar')
-    openWeather()
+    await openWeather()
     expect(screen.getByLabelText('Wind value')).toHaveTextContent('45 km/h')
     clickOption('Reset to current')
     expect(screen.getByLabelText('Temperature value')).toHaveTextContent('22°C')
@@ -191,11 +212,11 @@ describe('Time Explorer weather panel', () => {
     ).toHaveAccessibleName(/light hooded rain jacket/)
   })
 
-  it('initializes on arrival of live data and clears exploration on city changes', () => {
+  it('initializes on arrival of live data and clears exploration on city changes', async () => {
     const response = state.weather!.data
     state.weather = { ...state.weather!, data: null, loading: true }
     const { rerender } = render(<TimeExplorerPage />)
-    openWeather()
+    await openWeather()
     expect(screen.getByLabelText('Temperature value')).toHaveTextContent('—')
     state.weather = { ...state.weather!, data: response, loading: false }
     rerender(<TimeExplorerPage />)

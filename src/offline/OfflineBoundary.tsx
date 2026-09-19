@@ -2,6 +2,7 @@ import { useEffect, useSyncExternalStore, type ReactNode } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { offlineRuntime } from './runtime'
 import { isAndroidOffline } from './platform'
+import { markStartup } from '../lib/startupPerformance'
 
 function AccountOfflineBoundary({
   userId,
@@ -21,6 +22,9 @@ function AccountOfflineBoundary({
   )
   const error = useSyncExternalStore(runtime.subscribeErrors, runtime.getError)
   useEffect(() => runtime.connect(), [runtime])
+  useEffect(() => {
+    if (state) markStartup('saved-data-ready')
+  }, [state])
   if (!state)
     return (
       <div role="status" className="p-6">

@@ -1,47 +1,78 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import SolarSystem3DManager, {
-  type SolarSystemSceneState,
-} from './SolarSystem3DManager'
+import type SolarSystem3DManager from './SolarSystem3DManager'
+import type { SolarSystemSceneState } from './SolarSystem3DManager'
+import { markStartup } from '../../lib/startupPerformance'
 
 const useSolarSystem3D = (sceneState: SolarSystemSceneState) => {
   const [globeReady, setGlobeReady] = useState(false)
+  const [globeFailed, setGlobeFailed] = useState(false)
+  const [attempt, setAttempt] = useState(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const managerRef = useRef<SolarSystem3DManager>(null)
-  const initialSceneStateRef = useRef(sceneState)
+  const latestSceneStateRef = useRef(sceneState)
+
+  useEffect(() => {
+    latestSceneStateRef.current = sceneState
+    managerRef.current?.setSceneState(sceneState)
+  }, [sceneState])
 
   useEffect(() => {
     if (!canvasRef.current) {
       return
     }
 
-    const manager = new SolarSystem3DManager(
-      canvasRef.current,
-      initialSceneStateRef.current
-    )
-    managerRef.current = manager
-    setGlobeReady(true)
+    let cancelled = false
+    let manager: SolarSystem3DManager | null = null
+    // Give the clock/agenda a paint before loading and constructing WebGL.
+    // The canvas keeps its dimensions while its independent module loads.
+    let frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(() => {
+        void import('./SolarSystem3DManager')
+          .then(({ default: Manager }) => {
+            if (cancelled || !canvasRef.current) return
+            manager = new Manager(
+              canvasRef.current,
+              latestSceneStateRef.current
+            )
+            managerRef.current = manager
+            markStartup('globe-scene-ready')
+            setGlobeReady(true)
+          })
+          .catch((error: unknown) => {
+            if (cancelled) return
+            console.error('Could not initialize globe', error)
+            setGlobeFailed(true)
+          })
+      })
+    })
 
     return () => {
-      manager.dispose()
-      managerRef.current = null
-      setGlobeReady(false)
+      cancelled = true
+      cancelAnimationFrame(frame)
+      manager?.dispose()
+      if (managerRef.current === manager) managerRef.current = null
     }
-  }, [])
+  }, [attempt])
 
   const updateSceneState = useCallback(
     (nextSceneState: SolarSystemSceneState) => {
+      latestSceneStateRef.current = nextSceneState
       managerRef.current?.setSceneState(nextSceneState)
     },
     []
   )
 
-  useEffect(() => {
-    managerRef.current?.setSceneState(sceneState)
-  }, [sceneState])
+  const retryGlobe = useCallback(() => {
+    setGlobeFailed(false)
+    setGlobeReady(false)
+    setAttempt((value) => value + 1)
+  }, [])
 
   return {
     canvasRef,
     globeReady,
+    globeFailed,
+    retryGlobe,
     updateSceneState,
   }
 }

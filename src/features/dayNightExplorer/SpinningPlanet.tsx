@@ -10,6 +10,8 @@ import type {
 type SpinningPlanetProps = {
   theme: Theme
   globeReady: boolean
+  globeFailed: boolean
+  retryGlobe: () => void
   canvasRef: RefObject<HTMLCanvasElement | null>
   options: ExplorerFocusOption[]
   activeFocusId: ExplorerFocusId
@@ -20,6 +22,8 @@ const SpinningPlanet = memo(
   ({
     theme,
     globeReady,
+    globeFailed,
+    retryGlobe,
     canvasRef,
     options,
     activeFocusId,
@@ -106,6 +110,27 @@ const SpinningPlanet = memo(
                 pointerEvents: 'auto',
               }}
             />
+            {!globeReady && (
+              <div
+                role="status"
+                className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-white"
+              >
+                {globeFailed ? (
+                  <>
+                    <span>The globe couldn’t load.</span>
+                    <button
+                      type="button"
+                      onClick={retryGlobe}
+                      className="rounded-lg border border-white px-4 py-2"
+                    >
+                      Try again
+                    </button>
+                  </>
+                ) : (
+                  'Opening the globe…'
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

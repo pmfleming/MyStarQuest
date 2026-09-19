@@ -3,6 +3,7 @@ import { Capacitor } from '@capacitor/core'
 import type { User } from 'firebase/auth'
 import {
   GoogleAuthProvider,
+  browserPopupRedirectResolver,
   onAuthStateChanged,
   signInWithCredential,
   signInWithPopup,
@@ -13,6 +14,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { auth } from '../firebase'
 
 import { AuthContext } from './AuthContext'
+import { rememberSessionForPreload } from './sessionPreloadHint'
+import { markStartup } from '../lib/startupPerformance'
 
 const getNativeGoogleIdToken = (result: unknown) => {
   if (
@@ -37,6 +40,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      rememberSessionForPreload(Boolean(currentUser))
+      markStartup('auth-ready')
       setUser(currentUser)
       setLoading(false)
     })
@@ -55,7 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } else {
       // Standard web popup flow
       const provider = new GoogleAuthProvider()
-      await signInWithPopup(auth, provider)
+      await signInWithPopup(auth, provider, browserPopupRedirectResolver)
     }
   }, [])
 

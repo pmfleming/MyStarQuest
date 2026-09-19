@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import TopIconButton from '../components/ui/TopIconButton'
@@ -18,8 +18,7 @@ import {
   getWeatherDescription,
   formatTemperature,
 } from '../lib/weather/weatherConditions'
-import WeatherPanel from '../components/weather/WeatherPanel'
-import { WeatherScene } from '../components/weather/WeatherScene'
+const WeatherPanel = lazy(() => import('../components/weather/WeatherPanel'))
 
 type ExplorerPanel = 'clock' | 'calendar' | 'weather'
 type HeaderIconKind = 'clock' | 'calendar' | 'thermometer'
@@ -97,24 +96,7 @@ const TimeExplorerPage = () => {
             ariaLabel={weatherLabel}
             onClick={() => setActivePanel('weather')}
             selected={activePanel === 'weather'}
-            icon={
-              <div
-                style={{
-                  width: 34,
-                  height: 34,
-                  borderRadius: 8,
-                  overflow: 'hidden',
-                }}
-              >
-                <WeatherScene
-                  themeId={theme.id}
-                  visuals={exploration.visuals}
-                  label=""
-                  decorative
-                  compact
-                />
-              </div>
-            }
+            icon={renderIcon('thermometer')}
           />
         </div>
       }
@@ -140,13 +122,15 @@ const TimeExplorerPage = () => {
             ) : activePanel === 'calendar' ? (
               <SchoolCalendar theme={theme} />
             ) : (
-              <WeatherPanel
-                theme={theme}
-                city={explorer.weatherCity}
-                weather={weather}
-                exploration={exploration}
-                onRetry={weather.retry}
-              />
+              <Suspense fallback={<div role="status">Opening weather…</div>}>
+                <WeatherPanel
+                  theme={theme}
+                  city={explorer.weatherCity}
+                  weather={weather}
+                  exploration={exploration}
+                  onRetry={weather.retry}
+                />
+              </Suspense>
             )}
           </div>
         </div>

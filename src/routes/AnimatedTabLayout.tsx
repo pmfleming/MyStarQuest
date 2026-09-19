@@ -7,6 +7,7 @@ import BottomNav from '../components/ui/BottomNav'
 import { AppDeviceFrame } from '../components/AppDeviceFrame'
 import { useDeviceFrame } from '../hooks/useDeviceFrame'
 import TabPageBoundary from './TabPageBoundary'
+import RouteReady from './RouteReady'
 
 const TAB_TRANSITION_MS = uiTokens.tabTransitionMs
 
@@ -43,7 +44,9 @@ const AnimatedTabLayout = () => {
           <TabPageBoundary
             loadingIcon={getTabIcon(activeTabId ?? 'chores', theme.id)}
           >
-            <Outlet />
+            <RouteReady>
+              <Outlet />
+            </RouteReady>
           </TabPageBoundary>
         </div>
       </div>
