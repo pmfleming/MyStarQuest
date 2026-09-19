@@ -11,6 +11,11 @@ import computergamesImg from '../assets/themes/princess/computergames.svg'
 import bathtimeImg from '../assets/themes/princess/bathtime.svg'
 import cookingImg from '../assets/themes/princess/cooking.svg'
 import washingTeethImg from '../assets/themes/princess/washing-teeth.svg'
+import balletImg from '../assets/themes/princess/agenda/ballet.webp'
+import swimmingImg from '../assets/themes/princess/agenda/swimming.webp'
+import judoImg from '../assets/themes/princess/agenda/judo.webp'
+import pianoImg from '../assets/themes/princess/agenda/piano.webp'
+import type { CalendarActivity } from '../lib/calendarSchedule'
 import springSunriseImg from '../assets/themes/princess/seasons/spring-sunrise.webp'
 import springDaytimeImg from '../assets/themes/princess/seasons/spring-daytime.webp'
 import springSunsetImg from '../assets/themes/princess/seasons/spring-sunset.webp'
@@ -41,18 +46,7 @@ interface ThemeColors {
   accent: string
 }
 
-export interface ThemeActivityImages {
-  bedtime: string
-  eatingBreakfast: string
-  commute: string
-  schooltime: string
-  playing: string
-  eatingDinner: string
-  computergames: string
-  bathtime: string
-  cooking: string
-  washingTeeth: string
-}
+export type ThemeActivityImages = Record<CalendarActivity, string>
 
 export interface ThemeExplorerBackgroundImages {
   sunrise: string | Record<Season, string>
@@ -143,6 +137,10 @@ export const themes: Record<ThemeId, Theme> = {
       bathtime: bathtimeImg,
       cooking: cookingImg,
       washingTeeth: washingTeethImg,
+      ballet: balletImg,
+      swimming: swimmingImg,
+      judo: judoImg,
+      piano: pianoImg,
     },
     explorerBackgroundImages: {
       sunrise: {

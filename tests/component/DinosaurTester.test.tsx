@@ -37,14 +37,26 @@ const selectDinosaurs = async () => {
 }
 
 describe('Who am I dinosaur collection', () => {
-  it('teaches all ten creatures, switches pictures and finishes learning without scoring', async () => {
+  it('teaches the complete requested collection, switches pictures and finishes learning without scoring', async () => {
     const p = props()
     render(<AnimalTester {...p} />)
     await selectDinosaurs()
-    expect(DINOSAUR_KNOWLEDGE).toHaveLength(10)
+    expect(DINOSAUR_KNOWLEDGE).toHaveLength(15)
+    expect(DINOSAUR_KNOWLEDGE.map((creature) => creature.name)).toEqual(
+      expect.arrayContaining([
+        'allosaurus',
+        'baculites',
+        'dimetrodon',
+        'otodus-megalodon',
+        'tetrapodophis',
+      ])
+    )
+    expect(
+      DINOSAUR_KNOWLEDGE.some((creature) => creature.name === 'donnie')
+    ).toBe(false)
     expect(
       DINOSAUR_KNOWLEDGE.filter((d) => d.group === 'Dinosaur')
-    ).toHaveLength(8)
+    ).toHaveLength(9)
     expect(screen.getByAltText('Ankylosaurus')).toBeVisible()
     expect(
       screen.queryByRole('button', { name: 'Cartoon', exact: true })
@@ -59,6 +71,14 @@ describe('Who am I dinosaur collection', () => {
       })
     )
     for (const creature of DINOSAUR_KNOWLEDGE) {
+      for (const themeId of ['princess', 'teenie'] as const) {
+        expect(
+          getGenericDinosaurAbilityImage(themeId, creature.genericAbility)
+        ).toBeTruthy()
+        expect(
+          getGenericDinosaurAbilityImage(themeId, creature.genericAbility)
+        ).not.toBe(creature.abilityImage)
+      }
       expect(
         screen.getByText(creature.displayName, { exact: true })
       ).toBeVisible()
@@ -92,7 +112,7 @@ describe('Who am I dinosaur collection', () => {
         expect(card.querySelector('img')).toHaveAttribute('src', image)
         expect(within(card).getByText(caption)).toBeVisible()
       }
-      if (creature.group === 'Pterosaur') {
+      if (creature.group !== 'Dinosaur') {
         expect(
           screen.getByRole('button', {
             name: `View cartoon of ${creature.displayName}`,

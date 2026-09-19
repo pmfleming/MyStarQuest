@@ -83,8 +83,6 @@ export const IconActionButton = ({
   className,
   style,
 }: IconActionButtonProps) => {
-  const isCharacterSave =
-    theme.id === 'teenie' && icon === getThemeAsset(theme.id, 'saveIcon')
   const isCharacterExit =
     theme.id === 'teenie' && icon === getThemeAsset(theme.id, 'exitIcon')
   const image = (
@@ -111,13 +109,7 @@ export const IconActionButton = ({
         ...style,
       }}
     >
-      {shape === 'primary' ? (
-        <ActionArtwork scale={isCharacterSave ? 0.92 : undefined}>
-          {image}
-        </ActionArtwork>
-      ) : (
-        image
-      )}
+      {shape === 'primary' ? <ActionArtwork>{image}</ActionArtwork> : image}
     </AsyncButton>
   )
 }

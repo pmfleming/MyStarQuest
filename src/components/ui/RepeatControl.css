@@ -77,8 +77,9 @@
   font-weight: 500;
 }
 .repeat-control[data-character='true'] > .repeat-toggle {
-  padding: 4px 16px;
-  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
   color: var(--repeat-primary);
   font-family: var(--repeat-heading);
   border-color: var(--repeat-accent);
@@ -86,23 +87,19 @@
 .repeat-control[data-character='true'] > .repeat-toggle[aria-pressed='true'] {
   border-color: var(--repeat-primary);
 }
-.repeat-control[data-character='true'] img {
-  height: 100%;
-  width: auto;
-  object-fit: contain;
+/* Match the shared button crop, centered on the repeat arrows in the hands. */
+.repeat-control[data-character='true'] .action-artwork img {
+  transform: translateY(-14%);
+  transition:
+    filter 0.3s ease,
+    opacity 0.3s ease;
 }
-.repeat-state {
-  min-width: 70px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: var(--repeat-accent);
-  color: var(--repeat-text);
-  font-size: 16px;
-  font-weight: 700;
-}
-.repeat-toggle[aria-pressed='true'] .repeat-state {
-  background: var(--repeat-primary);
-  color: var(--repeat-surface);
+.repeat-control[data-character='true']
+  > .repeat-toggle[aria-pressed='false']
+  .action-artwork
+  img {
+  filter: grayscale(0.8);
+  opacity: 0.6;
 }
 .repeat-control[data-character='true'] .repeat-control-title {
   color: var(--repeat-text);

@@ -10,8 +10,9 @@
 }
 
 .action-artwork img {
-  width: var(--action-artwork-size) !important;
-  height: var(--action-artwork-size) !important;
+  /* Keep one-third to two-thirds of the artwork visible in action buttons. */
+  width: clamp(150%, var(--action-artwork-size), 300%) !important;
+  height: clamp(150%, var(--action-artwork-size), 300%) !important;
   max-width: none !important;
   max-height: none !important;
   flex-shrink: 0;

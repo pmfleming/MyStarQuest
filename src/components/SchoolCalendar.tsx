@@ -9,10 +9,10 @@ import {
   getTodayDescriptor,
   parseDateKey,
 } from '../lib/today'
-import {
-  loadSchoolCalendar,
-  type SchoolCalendarData,
-} from '../lib/schoolCalendarData'
+import { useSchoolCalendar } from '../hooks/useSchoolCalendar'
+import { useCalendarSchedule } from '../hooks/useCalendarSchedule'
+import { getAgendaForDate, isSchoolDate } from '../lib/calendarSchedule'
+import DayAgenda from './DayAgenda'
 import { uiTokens } from '../tokens'
 
 const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -39,20 +39,22 @@ const getClampedMonthDate = (date: Date, monthDelta: number) => {
   )
 }
 
-const isWeekend = (date: Date) => {
-  const day = date.getDay()
-  return day === 0 || day === 6
-}
-
 type SchoolCalendarProps = {
   theme: Theme
 }
 
 export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   const { selectedDateKey, setSelectedDateKey } = useSelectedDate()
-  const [events, setEvents] = useState<SchoolCalendarData>({})
-  const [loadError, setLoadError] = useState(false)
-  const [request, setRequest] = useState(0)
+  const { events, loadError, retry } = useSchoolCalendar()
+  const schedule = useCalendarSchedule()
+  const selectedDate = useMemo(
+    () => parseDateKey(selectedDateKey),
+    [selectedDateKey]
+  )
+  const agenda = useMemo(
+    () => getAgendaForDate(schedule, selectedDate, events),
+    [schedule, selectedDate, events]
+  )
   const [viewDate, setViewDate] = useState(() => parseDateKey(selectedDateKey))
   const todayDateKey = getTodayDescriptor().dateKey
 
@@ -69,20 +71,6 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
     })
     return () => cancelAnimationFrame(frame)
   }, [selectedDateKey])
-
-  useEffect(() => {
-    const controller = new AbortController()
-    void loadSchoolCalendar(controller.signal)
-      .then((data) => {
-        if (controller.signal.aborted) return
-        setEvents(data)
-        setLoadError(false)
-      })
-      .catch(() => {
-        if (!controller.signal.aborted) setLoadError(true)
-      })
-    return () => controller.abort()
-  }, [request])
 
   const year = viewDate.getFullYear()
   const month = viewDate.getMonth()
@@ -120,13 +108,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
         <div role="alert">
           Holiday dates could not be loaded. Only weekends are marked as
           non-school days.
-          <button
-            type="button"
-            onClick={() => {
-              setLoadError(false)
-              setRequest((value) => value + 1)
-            }}
-          >
+          <button type="button" onClick={retry}>
             Try again
           </button>
         </div>
@@ -213,7 +195,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           }
           const date = new Date(year, month, day)
           const dateKey = buildDateKey(date)
-          const isSchool = !isWeekend(date) && !events[dateKey]?.isNonSchoolDay
+          const isSchool = isSchoolDate(date, events)
           const isToday = dateKey === todayDateKey
           const isSelected = dateKey === selectedDateKey
           const icon = isSchool ? schoolIcon : nonSchoolIcon
@@ -280,6 +262,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           )
         })}
       </div>
+      <DayAgenda theme={theme} date={selectedDate} agenda={agenda} />
     </section>
   )
 }

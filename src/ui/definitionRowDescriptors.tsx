@@ -1,5 +1,5 @@
 import { getThemeAsset } from './themeAssets'
-import type { CSSProperties, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import Carousel from '../components/ui/Carousel'
 import ActionTextInput from '../components/ui/ActionTextInput'
 import StarDisplay from '../components/ui/StarDisplay'
@@ -104,11 +104,6 @@ export const createChildDefinitionListRowDescriptor = (
         inputAriaLabel="Child name"
         transparent
       />
-      {deps.activeChildId === child.id && (
-        <span style={{ fontFamily: deps.theme.fonts.body, fontWeight: 700 }}>
-          Active
-        </span>
-      )}
     </div>
   ),
   renderItem: (child) => {
@@ -171,11 +166,6 @@ export const createChildDefinitionListRowDescriptor = (
             deps.activeChildId === child.id
               ? getThemeAsset(deps.theme.id, 'activeIcon')
               : getThemeAsset(deps.theme.id, 'selectIcon')
-          }
-          style={
-            deps.theme.id === 'teenie' && deps.activeChildId === child.id
-              ? ({ '--action-artwork-size': '95%' } as CSSProperties)
-              : undefined
           }
           alt=""
           aria-hidden="true"

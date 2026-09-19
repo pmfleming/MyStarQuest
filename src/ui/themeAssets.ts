@@ -7,6 +7,7 @@ import okeydokey from '../assets/teenie/OkeyDokey.webp'
 import nono from '../assets/teenie/NoNo.webp'
 import gift from '../assets/teenie/gift.webp'
 import lucky from '../assets/teenie/lucky.webp'
+import ballet from '../assets/teenie/ballet.webp'
 import tidyingUp from '../assets/themes/princess/tidying-up.webp'
 import writing from '../assets/themes/princess/writing.svg'
 import brave from '../assets/themes/princess/brave-princess.png'
@@ -100,7 +101,7 @@ const teenieRoles = {
   saveIcon: 'save-character.png',
   themeIcon: '@heart',
   activeIcon: 'active-character.png',
-  selectIcon: 'select.svg',
+  selectIcon: '@heart',
   buyRewardIcon: '@gift',
   lockedRewardIcon: '@lucky',
   giveStarIcon: 'quiz-correct.webp',
@@ -178,6 +179,10 @@ const createTeenieActivities = () => ({
   bathtime: teenieImage('bathtime.webp'),
   cooking: teenieImage('cooking.webp'),
   washingTeeth: teenieImage('washing-teeth.webp'),
+  ballet,
+  swimming: teenieImage('agenda/swimming.webp'),
+  judo: teenieImage('agenda/judo.webp'),
+  piano: teenieImage('agenda/piano.webp'),
 })
 
 const seasonImages = (phase: string): Record<Season, string> => ({

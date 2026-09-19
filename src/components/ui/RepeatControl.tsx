@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import './RepeatControl.css'
 import { AsyncButton } from './AsyncButton'
+import { ActionArtwork } from './ActionArtwork'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
 import repeatCharacter from '../../assets/themes/teenie/repeat-character.png'
@@ -53,12 +54,9 @@ const RepeatControl = ({
         aria-pressed={value}
       >
         {character ? (
-          <>
+          <ActionArtwork scale={2}>
             <img src={repeatCharacter} alt="" aria-hidden="true" />
-            <span className="repeat-state" aria-hidden="true">
-              {value ? 'Repeat' : 'Once'}
-            </span>
-          </>
+          </ActionArtwork>
         ) : (
           <svg viewBox="0 0 24 24" className="repeat-icon" aria-hidden="true">
             <polyline points="17 1 21 5 17 9" />

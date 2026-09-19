@@ -1,0 +1,57 @@
+.day-agenda {
+  margin-top: 20px;
+}
+
+.day-agenda__heading {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.day-agenda__date {
+  font-size: 0.85rem;
+  margin: 4px 0 12px;
+}
+
+.day-agenda__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.day-agenda__item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 88px;
+  padding: 8px 12px;
+  border: 1px solid;
+  border-radius: 18px;
+}
+
+.day-agenda__image {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.day-agenda__details {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+
+.day-agenda__title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.day-agenda__time {
+  font-family: var(--app-fallback-font), sans-serif;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}

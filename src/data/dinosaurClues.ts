@@ -1,7 +1,8 @@
 export type DinosaurClues = {
-  foodCategory: 'plants' | 'meat' | 'fish'
+  foodCategory: 'plants' | 'meat' | 'fish' | 'plankton'
   foodWord: string
-  habitatCategory: 'woodland' | 'floodplain' | 'coast' | 'wetland' | 'desert'
+  habitatCategory:
+    'woodland' | 'floodplain' | 'coast' | 'wetland' | 'desert' | 'ocean'
   habitatWord: string
   habitatText: string
   ability: string
@@ -12,6 +13,65 @@ export type DinosaurClues = {
 // Broad habitat reconstructions, not claims that an animal lived only here.
 // "Ability" includes distinctive anatomy where behavior remains uncertain.
 export const DINOSAUR_CLUES = {
+  allosaurus: {
+    foodCategory: 'meat',
+    foodWord: 'Meat',
+    habitatCategory: 'floodplain',
+    habitatWord: 'River plains',
+    habitatText:
+      'I lived on ancient river plains with forests and seasonal dry spells.',
+    ability: 'Gripping hands',
+    abilityText:
+      'Each hand had three curved claws that could help me hold prey.',
+    genericAbility: 'grip',
+  },
+  baculites: {
+    foodCategory: 'plankton',
+    foodWord: 'Animal plankton',
+    habitatCategory: 'ocean',
+    habitatWord: 'Seas',
+    habitatText: 'I lived in ancient seas. I was an ammonite, not a dinosaur.',
+    ability: 'Protective shell',
+    abilityText:
+      'My hard shell sheltered my soft body. It was long and nearly straight.',
+    genericAbility: 'shell',
+  },
+  dimetrodon: {
+    foodCategory: 'meat',
+    foodWord: 'Meat',
+    habitatCategory: 'wetland',
+    habitatWord: 'Wetlands',
+    habitatText:
+      'I lived in seasonally wet landscapes with rivers and swamps, before the dinosaurs.',
+    ability: 'Two tooth sizes',
+    abilityText:
+      'Large and small teeth helped me grip and tear food. My name refers to these two tooth sizes.',
+    genericAbility: 'bite',
+  },
+  megalodon: {
+    foodCategory: 'meat',
+    foodWord: 'Meat',
+    habitatCategory: 'ocean',
+    habitatWord: 'Seas',
+    habitatText:
+      'I swam in warm seas around the world. I was a shark, not a dinosaur.',
+    ability: 'Serrated teeth',
+    abilityText:
+      'My huge triangular teeth had saw-like edges that could slice food.',
+    genericAbility: 'bite',
+  },
+  tetrapodophis: {
+    foodCategory: 'meat',
+    foodWord: 'Small animals?',
+    habitatCategory: 'coast',
+    habitatWord: 'Coastal water?',
+    habitatText:
+      'Some researchers think I lived in shallow coastal water. My lifestyle is still debated.',
+    ability: 'Flexible body',
+    abilityText:
+      'My long backbone could bend into curves. I also had four tiny limbs.',
+    genericAbility: 'squeeze',
+  },
   ankylosaurus: {
     foodCategory: 'plants',
     foodWord: 'Plants',

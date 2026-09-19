@@ -5,7 +5,7 @@ import { uiTokens } from '../../tokens'
 export type StandardActionVariant = 'primary' | 'neutral' | 'danger'
 
 export const getStandardActionHeadingStyle = (theme: Theme): CSSProperties => ({
-  color: theme.colors.text,
+  color: 'inherit',
   fontFamily: theme.fonts.heading,
   fontSize: `${uiTokens.actionButtonFontSize}px`,
   fontWeight: 700,

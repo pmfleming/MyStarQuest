@@ -17,7 +17,7 @@ type ActionTextInputProps = {
   baseColor: string
   inputAriaLabel?: string
   /** When true, the container uses a transparent background that
-   *  inherits the card surface color instead of the themed baseColor. */
+   *  inherits the card text color instead of the themed baseColor styles. */
   transparent?: boolean
 }
 
@@ -42,7 +42,7 @@ const ActionTextInput = ({
         background: 'transparent',
         border: 'none',
         boxShadow: 'none',
-        color: theme.colors.text,
+        color: 'inherit',
         gap: `${uiTokens.actionRowGap}px`,
         height: 'auto',
         justifyContent: 'flex-start',

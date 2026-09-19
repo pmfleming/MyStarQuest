@@ -29,6 +29,9 @@ import {
 import type { ClockViewModel } from './Clock'
 import useExplorerClock from './useExplorerClock'
 import useSolarSystem3D from './useSolarSystem3D'
+import { useCalendarSchedule } from '../../hooks/useCalendarSchedule'
+import { useSchoolCalendar } from '../../hooks/useSchoolCalendar'
+import { getAgendaForDate } from '../../lib/calendarSchedule'
 
 type UseDayNightExplorerModelResult = {
   weatherCity: ReturnType<typeof getExplorerCityOption>
@@ -63,6 +66,12 @@ export default function useDayNightExplorerModel(
   theme: Theme
 ): UseDayNightExplorerModelResult {
   const { selectedDate } = useSelectedDate()
+  const schedule = useCalendarSchedule()
+  const { events: holidays } = useSchoolCalendar()
+  const agenda = useMemo(
+    () => getAgendaForDate(schedule, selectedDate, holidays),
+    [schedule, selectedDate, holidays]
+  )
   const season = getSeason(selectedDate)
   const [displayMode, setDisplayMode] =
     useState<ExplorerDisplayMode>('earth-focus')
@@ -197,7 +206,11 @@ export default function useDayNightExplorerModel(
   }, [displayMode])
 
   const formattedTime = formatTime(clock.minutes)
-  const activityImage = getImageForTime(clock.minutes, theme.activityImages)
+  const activityImage = getImageForTime(
+    clock.minutes,
+    theme.activityImages,
+    agenda
+  )
   const explorerBackdropColor = getExplorerBackdropColor(
     clock.minutes,
     solarTimes

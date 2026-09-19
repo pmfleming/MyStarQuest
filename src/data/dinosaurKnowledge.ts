@@ -8,10 +8,16 @@ type DinosaurProfile = {
   pronunciation: string
   character: string
   tentativeMatch?: boolean
-  group: 'Dinosaur' | 'Pterosaur'
+  group:
+    'Dinosaur' | 'Pterosaur' | 'Synapsid' | 'Ammonite' | 'Shark' | 'Squamate'
   feature: string
   food: string
-  period: 'Late Jurassic' | 'Late Cretaceous'
+  period:
+    | 'Early Permian'
+    | 'Late Jurassic'
+    | 'Early Cretaceous'
+    | 'Late Cretaceous'
+    | 'Neogene'
   family: string
   compare: string
   source: string
@@ -36,6 +42,38 @@ const profiles: DinosaurProfile[] = [
     source: `${directory}ankylosaurus.html`,
   },
   {
+    name: 'allosaurus',
+    assetId: 'allosaurus',
+    displayName: 'Allosaurus',
+    pronunciation: 'AL-oh-SORE-us',
+    character: 'Pilot creature-list entry',
+    tentativeMatch: true,
+    group: 'Dinosaur',
+    feature:
+      'Small crests above my eyes and three clawed fingers on each hand.',
+    food: 'Meat. I ate other dinosaurs and animals.',
+    period: 'Late Jurassic',
+    family: 'A theropod: a dinosaur that walked on two legs.',
+    compare: 'Count three fingers on each hand. T. rex had only two.',
+    source: `${directory}allosaurus.html`,
+  },
+  {
+    name: 'baculites',
+    assetId: 'baculites',
+    displayName: 'Baculites',
+    pronunciation: 'BACK-yoo-LY-teez',
+    character: 'Annabel, the shelled creature',
+    tentativeMatch: true,
+    group: 'Ammonite',
+    feature: 'A long, nearly straight shell with chambers inside.',
+    food: 'Animal plankton: tiny drifting animals, including small crustaceans.',
+    period: 'Late Cretaceous',
+    family: 'An ammonite: a sea animal related to squid, not a dinosaur.',
+    compare:
+      'The cartoon shell is twisted. Real Baculites had a nearly straight shell.',
+    source: 'https://www.amnh.org/explore/news-blogs/ammonites-plankton-diet',
+  },
+  {
     name: 'brontosaurus',
     assetId: 'brontosaurus',
     displayName: 'Brontosaurus',
@@ -51,6 +89,39 @@ const profiles: DinosaurProfile[] = [
       'The cartoon has a banana-shaped body. Find the long neck in the reconstruction.',
     source:
       'https://www.nhm.ac.uk/discover/brontosaurus-reinstating-a-prehistoric-icon.html',
+  },
+  {
+    name: 'dimetrodon',
+    assetId: 'dimetrodon',
+    displayName: 'Dimetrodon',
+    pronunciation: 'dye-MET-roh-don',
+    character: 'Dimitri',
+    group: 'Synapsid',
+    feature: 'A tall back sail and large and small teeth in the same jaws.',
+    food: 'Meat. My prey included large amphibians.',
+    period: 'Early Permian',
+    family:
+      'A non-mammalian synapsid, related more closely to mammals than to dinosaurs.',
+    compare:
+      'Find the sail in both pictures. Scientists still debate what it was used for.',
+    source: 'https://whatsinaname.hmnh.harvard.edu/dimetrodon',
+  },
+  {
+    name: 'otodus-megalodon',
+    assetId: 'megalodon',
+    displayName: 'Otodus megalodon',
+    pronunciation: 'OH-toh-dus MEG-ah-loh-don',
+    character: 'Megan',
+    tentativeMatch: true,
+    group: 'Shark',
+    feature: 'Huge triangular teeth with saw-like edges.',
+    food: 'Meat. I ate marine animals, including whales and large fish.',
+    period: 'Neogene',
+    family: 'An extinct shark: a fish, not a dinosaur.',
+    compare:
+      'The cartoon has a round belly. The real shark may have been much more slender.',
+    source:
+      'https://www.nhm.ac.uk/discover/megalodon--the-truth-about-the-largest-shark-that-ever-lived.html',
   },
   {
     name: 'pachycephalosaurus',
@@ -131,6 +202,24 @@ const profiles: DinosaurProfile[] = [
     compare:
       'Find the back plates and tail spikes. Ankylosaurus has a tail club instead.',
     source: `${directory}stegosaurus.html`,
+  },
+  {
+    name: 'tetrapodophis',
+    assetId: 'tetrapodophis',
+    displayName: 'Tetrapodophis',
+    pronunciation: 'tet-ra-POD-oh-fiss',
+    character: 'The limbed snake (tentative match)',
+    tentativeMatch: true,
+    group: 'Squamate',
+    feature: 'A very long body with four tiny limbs.',
+    food: 'Probably small animals. My exact diet is uncertain.',
+    period: 'Early Cretaceous',
+    family:
+      'A snake-like squamate reptile, not a dinosaur. Its identification as a snake is disputed.',
+    compare:
+      'Look for four tiny limbs. The reconstruction follows a lizard-like interpretation.',
+    source:
+      'https://ssl.eas.ualberta.ca/cms/download/file/papers/paper_525.pdf',
   },
   {
     name: 'triceratops',

@@ -394,6 +394,7 @@ const renderCountdownPlateDisplay = ({
         <MealPlateReveal
           hungryImage={getThemeAsset(theme.id, 'eatingHungryImage')}
           fullImage={getThemeAsset(theme.id, 'eatingFullImage')}
+          successColors={[theme.colors.primary, theme.colors.secondary]}
           dividerColor={
             theme.id === 'teenie' ? '#C997DD' : theme.colors.primary
           }

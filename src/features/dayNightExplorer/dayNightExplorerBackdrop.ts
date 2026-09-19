@@ -6,6 +6,10 @@ import type { SolarTimes } from '../../lib/solar'
 import type { Season } from '../../lib/seasons'
 import { explorerUi } from './dayNightExplorer.constants.ts'
 import { normalizeMinutes } from './dayNightExplorerMath'
+import {
+  getActivityAtMinute,
+  type AgendaItem,
+} from '../../lib/calendarSchedule'
 
 type RgbColor = {
   r: number
@@ -14,25 +18,6 @@ type RgbColor = {
 }
 
 export type ExplorerBackgroundKey = keyof ThemeExplorerBackgroundImages
-type ActivityImageKey = keyof ThemeActivityImages
-
-const activityImageSchedule: Array<{
-  endMinute: number
-  imageKey: ActivityImageKey
-}> = [
-  { endMinute: 450, imageKey: 'bedtime' },
-  { endMinute: 480, imageKey: 'eatingBreakfast' },
-  { endMinute: 495, imageKey: 'washingTeeth' },
-  { endMinute: 525, imageKey: 'commute' },
-  { endMinute: 885, imageKey: 'schooltime' },
-  { endMinute: 915, imageKey: 'commute' },
-  { endMinute: 1080, imageKey: 'playing' },
-  { endMinute: 1140, imageKey: 'cooking' },
-  { endMinute: 1170, imageKey: 'eatingDinner' },
-  { endMinute: 1215, imageKey: 'computergames' },
-  { endMinute: 1244, imageKey: 'bathtime' },
-  { endMinute: 1260, imageKey: 'washingTeeth' },
-]
 
 const EXPLORER_SKY_COLORS: Record<ExplorerBackgroundKey, RgbColor> = {
   night: { r: 56, g: 78, b: 140 },
@@ -71,18 +56,15 @@ const getNightMidpointMinutes = (
 
 export const getImageForTime = (
   minutes: number,
-  activityImages: ThemeActivityImages | undefined
+  activityImages: ThemeActivityImages | undefined,
+  agenda: AgendaItem[]
 ) => {
   if (!activityImages) {
     return null
   }
 
-  const normalizedMinutes = Math.floor(normalizeMinutes(minutes))
-  const activity = activityImageSchedule.find(
-    ({ endMinute }) => normalizedMinutes <= endMinute
-  )
-
-  return activityImages[activity?.imageKey ?? 'bedtime']
+  const event = getActivityAtMinute(agenda, minutes)
+  return event ? activityImages[event.activity] : null
 }
 
 export const getExplorerBackdropColor = (

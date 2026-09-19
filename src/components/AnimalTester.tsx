@@ -97,9 +97,7 @@ const FactCard = ({
           decoding="async"
           alt=""
           style={{
-            objectFit: fact.wrapCaption
-              ? 'cover'
-              : (fact.illustrationFit ?? 'cover'),
+            objectFit: fact.illustrationFit ?? 'cover',
             ...(fact.detailPosition && {
               objectPosition: fact.detailPosition,
               transform: `scale(${fact.detailScale ?? 2.1})`,
