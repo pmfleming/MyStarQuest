@@ -4,11 +4,9 @@ import './DayAgenda.css'
 
 export default function DayAgenda({
   theme,
-  date,
   agenda,
 }: {
   theme: Theme
-  date: Date
   agenda: AgendaItem[]
 }) {
   return (
@@ -17,14 +15,6 @@ export default function DayAgenda({
       aria-label="Day agenda"
       style={{ color: theme.colors.text }}
     >
-      <h2 className="day-agenda__heading">Your day</h2>
-      <p className="day-agenda__date">
-        {date.toLocaleDateString('en-GB', {
-          weekday: 'long',
-          day: 'numeric',
-          month: 'long',
-        })}
-      </p>
       {agenda.length === 0 ? (
         <p>No events planned for this day.</p>
       ) : (

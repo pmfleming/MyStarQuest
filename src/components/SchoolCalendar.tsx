@@ -167,18 +167,22 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           display: 'grid',
           gridTemplateColumns: 'repeat(7, 1fr)',
           gap: 3,
+          isolation: 'isolate',
         }}
       >
         {/* Weekday headers */}
-        {WEEKDAY_LABELS.map((d) => (
+        {WEEKDAY_LABELS.map((d, index) => (
           <div
             key={d}
             style={{
-              fontSize: '0.58rem',
-              fontWeight: 700,
-              color: theme.colors.primary,
+              fontFamily: theme.fonts.heading,
+              fontSize: '0.9rem',
+              fontWeight: 900,
+              lineHeight: 1.4,
+              color: index >= 5 ? theme.colors.secondary : theme.colors.text,
+              textShadow: `0 1px 0 ${theme.colors.accent}66`,
               textAlign: 'center',
-              paddingBottom: 2,
+              paddingBlock: '4px 6px',
             }}
           >
             {d}
@@ -219,6 +223,8 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                 aspectRatio: '1',
                 borderRadius: '25%',
                 position: 'relative',
+                transform: isSelected ? 'scale(1.16)' : undefined,
+                zIndex: isSelected ? 1 : undefined,
                 overflow: 'hidden',
                 background: isSchool ? `${theme.colors.primary}18` : '#ffffff',
                 border: `3px solid ${highlight.color}`,
@@ -262,7 +268,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           )
         })}
       </div>
-      <DayAgenda theme={theme} date={selectedDate} agenda={agenda} />
+      <DayAgenda theme={theme} agenda={agenda} />
     </section>
   )
 }
