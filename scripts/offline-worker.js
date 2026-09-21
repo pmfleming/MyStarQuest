@@ -1,6 +1,6 @@
 /* global self, caches, fetch, URL, Request, Response, Headers, AbortController, setTimeout, clearTimeout */
 // Build replaces this marker with a version and the complete code/font list.
-const { version, core } = __OFFLINE_BUILD__  
+const { version, core } = __OFFLINE_BUILD__
 const shellName = `msq-shell-${version}`
 const mediaName = 'msq-media-v1'
 const staticPath = (url) =>
