@@ -1,8 +1,12 @@
-import { offlineStateSchema, type OfflineState } from './model'
+import { emptyState, offlineStateSchema, type OfflineState } from './model'
 
 export interface OfflinePersistence {
   read: (userId: string) => Promise<OfflineState | undefined>
   write: (userId: string, state: OfflineState) => Promise<void>
+  update?: <T>(
+    userId: string,
+    change: (state: OfflineState) => T
+  ) => Promise<{ state: OfflineState; result: T }>
 }
 
 export class IndexedDbPersistence implements OfflinePersistence {
@@ -59,5 +63,43 @@ export class IndexedDbPersistence implements OfflinePersistence {
 
   async write(userId: string, state: OfflineState) {
     await this.transaction('readwrite', (store) => store.put(state, userId))
+  }
+
+  async update<T>(userId: string, change: (state: OfflineState) => T) {
+    const database = await this.open()
+    return new Promise<{ state: OfflineState; result: T }>(
+      (resolve, reject) => {
+        // One read/write transaction serializes all tabs. A stale in-memory view
+        // must never overwrite another tab's queue or reuse its sequence number.
+        const transaction = database.transaction('accounts', 'readwrite', {
+          durability: 'strict',
+        })
+        const accounts = transaction.objectStore('accounts')
+        const request = accounts.get(userId)
+        let value: { state: OfflineState; result: T }
+        let failure: unknown
+        request.onsuccess = () => {
+          try {
+            const state =
+              offlineStateSchema.optional().parse(request.result) ??
+              emptyState()
+            const result = change(state)
+            value = { state, result }
+            accounts.put(state, userId)
+          } catch (error) {
+            failure = error
+            transaction.abort()
+          }
+        }
+        transaction.oncomplete = () => resolve(value)
+        transaction.onabort = () =>
+          reject(
+            failure ??
+              transaction.error ??
+              new Error('Could not save on this device.')
+          )
+        transaction.onerror = () => reject(failure ?? transaction.error)
+      }
+    )
   }
 }

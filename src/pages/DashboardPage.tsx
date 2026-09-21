@@ -79,12 +79,16 @@ const DashboardPage = () => {
     deleteTask,
   } = useChores()
 
+  const selectedChild = useMemo(
+    () => children.find((child) => child.id === activeChildId) ?? null,
+    [children, activeChildId]
+  )
+
   const celebration = useTaskCelebration({
     items: todayChores,
     activeChildId,
     dateKey: todayInfo.dateKey,
-    totalStars:
-      children.find((child) => child.id === activeChildId)?.totalStars ?? 0,
+    totalStars: selectedChild?.totalStars ?? 0,
   })
 
   const [chorePanelMode, setChorePanelMode] = useState<ChorePanelMode>(null)
@@ -151,6 +155,9 @@ const DashboardPage = () => {
     setIsCreatingChore(false)
   }
 
+  const resetTodayChore = (chore: ChoreWithEphemeral) =>
+    isEatingTask(chore) ? resetDinner(chore) : resetChore(chore)
+
   const handleResetToday = async () => {
     if (!activeChildId || isResettingToday) return
 
@@ -160,11 +167,7 @@ const DashboardPage = () => {
       async () => {
         clearActiveActivities()
         celebration.clear()
-        await Promise.all(
-          todayChores.map((chore) =>
-            isEatingTask(chore) ? resetDinner(chore) : resetChore(chore)
-          )
-        )
+        await Promise.all(todayChores.map(resetTodayChore))
       },
       'Failed to reset today chores',
       () => setResetTodayError('Reset failed.')
@@ -192,12 +195,6 @@ const DashboardPage = () => {
   }
 
   const handleEditChore = (chore: (typeof todayChores)[number]) => {
-    if (!isChoreWithEphemeral(chore)) {
-      console.error('Cannot edit unsupported chore type.')
-      setCreateChoreError('Could not edit chore.')
-      return
-    }
-
     if (shouldHideEditChore(chore)) {
       setCreateChoreError('Finish the activity before editing this chore.')
       return
@@ -235,8 +232,7 @@ const DashboardPage = () => {
     onReset: (item) =>
       withTaskItem(item, async (task) => {
         clearActiveActivities()
-        if (isEatingTask(task)) await resetDinner(task)
-        else await resetChore(task)
+        await resetTodayChore(task)
       }),
     onStartDinner: (item) => {
       if (!item) {
@@ -274,17 +270,9 @@ const DashboardPage = () => {
   )
 
   const shouldHideEditChore = (chore: (typeof todayChores)[number]) =>
-    !isChoreWithEphemeral(chore) ||
-    celebration.isBusy(chore) ||
-    choreState.getStage(chore) === 'activity'
+    celebration.isBusy(chore) || choreState.getStage(chore) === 'activity'
 
   const renderTodayChoreEdit = (chore: (typeof todayChores)[number]) => {
-    if (!isChoreWithEphemeral(chore)) {
-      return (
-        <InlineNotice theme={theme}>Could not open chore editor.</InlineNotice>
-      )
-    }
-
     return (
       <ChoreCreationFlow
         theme={theme}
@@ -295,11 +283,6 @@ const DashboardPage = () => {
       />
     )
   }
-
-  const selectedChild = useMemo(
-    () => children.find((child) => child.id === activeChildId) ?? null,
-    [children, activeChildId]
-  )
 
   return (
     <TabContent
@@ -342,7 +325,7 @@ const DashboardPage = () => {
             </p>
           </div>
         ) : (
-          <StandardActionList
+          <StandardActionList<ChoreWithEphemeral>
             theme={theme}
             items={celebration.retainItems(todayChores)}
             getKey={(chore) => chore.id}

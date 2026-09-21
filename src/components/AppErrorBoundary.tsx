@@ -26,17 +26,21 @@ class AppErrorBoundary extends Component<
     return { error }
   }
 
+  private listeners?: AbortController
+
   componentDidMount() {
-    window.addEventListener('error', this.handleWindowError)
-    window.addEventListener('unhandledrejection', this.handleUnhandledRejection)
+    this.listeners = new AbortController()
+    const { signal } = this.listeners
+    window.addEventListener('error', this.handleWindowError, { signal })
+    window.addEventListener(
+      'unhandledrejection',
+      this.handleUnhandledRejection,
+      { signal }
+    )
   }
 
   componentWillUnmount() {
-    window.removeEventListener('error', this.handleWindowError)
-    window.removeEventListener(
-      'unhandledrejection',
-      this.handleUnhandledRejection
-    )
+    this.listeners?.abort()
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
@@ -61,12 +65,16 @@ class AppErrorBoundary extends Component<
           <section className="max-w-md rounded-2xl border border-slate-700 bg-slate-900 p-5 shadow-xl">
             <h1 className="text-xl font-bold">Something went wrong.</h1>
             <p className="mt-2 text-sm text-slate-300">
-              Refresh the page. If it happens again, check the console for the
-              captured error.
+              Your saved progress is still on this device. Check your connection
+              and try again.
             </p>
-            <pre className="mt-4 max-h-40 overflow-auto rounded-lg bg-slate-950 p-3 text-xs text-slate-200">
-              {this.state.error.message}
-            </pre>
+            <button
+              type="button"
+              className="mt-4 rounded-xl border px-5 py-3 font-bold"
+              onClick={() => window.location.reload()}
+            >
+              Retry
+            </button>
           </section>
         </main>
       )

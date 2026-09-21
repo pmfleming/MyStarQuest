@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react'
+import SchoolCalendarSync from './components/SchoolCalendarSync'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './auth/AuthProvider'
 import { ThemeProvider } from './contexts/ThemeProvider'
@@ -23,6 +24,7 @@ const App = () => {
   return (
     <AppErrorBoundary>
       <AuthProvider>
+        <SchoolCalendarSync />
         <ThemeProvider>
           <SelectedDateProvider>
             <ActiveChildProvider>

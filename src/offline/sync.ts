@@ -3,6 +3,21 @@ import { OfflineStore } from './store'
 import { SyncConflict, type SyncReceipt } from './transport'
 import { snapshotStore } from '../lib/snapshotStore'
 
+export const SYNC_TIMEOUT_MS = 20_000
+
+function boundedSend(send: () => Promise<SyncReceipt>) {
+  let timer: ReturnType<typeof setTimeout>
+  return Promise.race([
+    Promise.resolve().then(send),
+    new Promise<never>((_resolve, reject) => {
+      timer = setTimeout(
+        () => reject(new Error('Sync timed out')),
+        SYNC_TIMEOUT_MS
+      )
+    }),
+  ]).finally(() => clearTimeout(timer))
+}
+
 export type SyncStatus = {
   state: 'ready' | 'syncing' | 'waiting' | 'attention'
   message: string | null
@@ -30,17 +45,20 @@ export class OfflineSync {
   subscribe = this.status.subscribe
   private publish = this.status.publish
   start() {
+    if (!this.stopped) return () => {}
     this.stopped = false
     this.unsubscribe = this.store.subscribe(() => {
       if (!this.timer && this.getSnapshot().state !== 'attention')
         void this.flush()
     })
     void this.flush()
+    window.addEventListener('online', this.retry)
     return () => {
       this.stopped = true
       this.unsubscribe?.()
       clearTimeout(this.timer)
       this.timer = undefined
+      window.removeEventListener('online', this.retry)
     }
   }
   retry = () => {
@@ -61,8 +79,16 @@ export class OfflineSync {
           this.publish({ state: 'ready', message: null })
           break
         }
+        if (navigator.onLine === false) {
+          this.publish({ state: 'waiting', message: null })
+          break
+        }
         this.publish({ state: 'syncing', message: null })
-        const receipt = await this.send(this.store.userId, operation)
+        // A timeout cannot cancel a Firestore commit. Retain the same durable
+        // operation ID on retry; its server receipt prevents duplicate effects.
+        const receipt = await boundedSend(() =>
+          this.send(this.store.userId, operation)
+        )
         // A lost local acknowledgement is safe: the queue keeps the same ID.
         await this.store.acknowledge(operation.id, receipt)
         this.retryMs = 1000
@@ -80,10 +106,10 @@ export class OfflineSync {
         message: needsAttention
           ? error instanceof SyncConflict
             ? error.message
-            : 'Sync needs attention. Sign in again or check account access. Your changes are saved on this phone.'
+            : 'Sync needs attention. Sign in again or check account access. Your changes are saved on this device.'
           : null,
       })
-      if (!this.stopped && !needsAttention) {
+      if (!this.stopped && !needsAttention && navigator.onLine !== false) {
         this.timer = setTimeout(() => {
           this.timer = undefined
           void this.flush()

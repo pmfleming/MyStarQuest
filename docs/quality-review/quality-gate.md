@@ -18,6 +18,6 @@ Both paths run tests with two workers. The separate CI unit-test job and default
 
 The job uploads the JSON artifacts and a Markdown metric comparison, and adds the comparison to the GitHub job summary. Baseline metrics come from committed artifacts at the merge base, so their measurement timestamps may precede that commit. Source lines sum file signals, complexity/effort sum callable signals, and locality/leverage sum module risk scores. These aggregates are comparison aids, not additional official Lens scores. Git history and file counts affect architecture scores; inspect module details as well as totals.
 
-`quality-gate.integration.test.mjs` checks the actual pinned Lens against a temporary Git fixture: inherited floating-promise debt passes, while a newly introduced occurrence fails. `quality-summary.test.mjs` checks metric aggregation and rejection of incomplete or blocking audit verdicts.
+`quality-summary.test.mjs` checks metric aggregation and rejection of incomplete or blocking audit verdicts. CI also runs the actual pinned Lens audit against this project. The separate upstream-policy fixture was removed in the [21 September test reduction](2026-09-21-test-reduction.md).
 
 React providers and lazy activity definitions now have separate component modules, so React Refresh no longer needs inline suppressions. Firebase environment values have explicit optional string types and retain runtime validation. Generated Lens caches are excluded from Git; source exclusions and finding suppressions were not expanded.

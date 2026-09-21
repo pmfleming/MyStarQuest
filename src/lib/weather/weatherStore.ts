@@ -82,6 +82,14 @@ async function refresh(entry: Entry, force = false) {
   const usable = usableWeather(entry, now)
   const stale = Boolean(usable && now - usable.fetchedAt >= WEATHER_FRESH_MS)
   publish(entry, { now, data: usable, stale })
+  if (navigator.onLine === false) {
+    publish(entry, {
+      loading: false,
+      error: 'Offline. Weather will update when connected.',
+    })
+    entry.controller?.abort()
+    return
+  }
   if (entry.controller) return
   if (
     !force &&
@@ -135,16 +143,21 @@ export function subscribeWeather(city: WeatherCity, listener: () => void) {
   const onOnline = () => {
     void refresh(entry, true)
   }
+  const onOffline = () => {
+    void refresh(entry)
+  }
   if (entry.listeners.size === 1 && entry.interval === undefined) {
     void refresh(entry)
     entry.interval = setInterval(onVisible, 60_000)
   }
   document.addEventListener('visibilitychange', onVisible)
   window.addEventListener('online', onOnline)
+  window.addEventListener('offline', onOffline)
   return () => {
     entry.listeners.delete(listener)
     document.removeEventListener('visibilitychange', onVisible)
     window.removeEventListener('online', onOnline)
+    window.removeEventListener('offline', onOffline)
     // StrictMode re-subscribes in the same turn; retain that in-flight request.
     queueMicrotask(() => {
       if (entry.listeners.size) return

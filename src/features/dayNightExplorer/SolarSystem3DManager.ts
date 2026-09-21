@@ -116,6 +116,8 @@ export default class SolarSystem3DManager {
   private readonly outwardNormal = new THREE.Vector3()
   private animationFrameId: number | null = null
   private intersectionObserver: IntersectionObserver | null = null
+  private resizeObserver: ResizeObserver | null = null
+  private layoutDirty = true
   private rendererCssWidth = 0
   private rendererCssHeight = 0
   private rendererPixelRatio = 0
@@ -217,6 +219,11 @@ export default class SolarSystem3DManager {
     this.initEarthTexture()
 
     document.addEventListener('visibilitychange', this.handleVisibilityChange)
+    window.addEventListener('resize', this.handleResize)
+    if ('ResizeObserver' in window) {
+      this.resizeObserver = new ResizeObserver(this.handleResize)
+      this.resizeObserver.observe(canvas)
+    }
     if ('IntersectionObserver' in window) {
       this.intersectionObserver = new IntersectionObserver(
         ([entry]) => {
@@ -250,6 +257,8 @@ export default class SolarSystem3DManager {
       this.handleVisibilityChange
     )
     this.intersectionObserver?.disconnect()
+    this.resizeObserver?.disconnect()
+    window.removeEventListener('resize', this.handleResize)
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId)
       this.animationFrameId = null
@@ -271,7 +280,15 @@ export default class SolarSystem3DManager {
     this.animationFrameId = null
     if (!this.shouldAnimate()) return
 
-    this.resizeRendererToDisplaySize()
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
+    if (
+      !this.resizeObserver ||
+      this.layoutDirty ||
+      pixelRatio !== this.rendererPixelRatio
+    ) {
+      this.layoutDirty = false
+      this.resizeRendererToDisplaySize()
+    }
     this.applySceneState(this.sceneState)
     this.renderer.render(this.scene, this.camera)
     this.animationFrameId = window.requestAnimationFrame(this.animate)
@@ -279,7 +296,12 @@ export default class SolarSystem3DManager {
 
   private readonly handleVisibilityChange = () => {
     this.isDocumentVisible = document.visibilityState !== 'hidden'
+    this.layoutDirty = true
     this.updateAnimationState()
+  }
+
+  private readonly handleResize = () => {
+    this.layoutDirty = true
   }
 
   private shouldAnimate() {
@@ -355,13 +377,13 @@ export default class SolarSystem3DManager {
       const relativeSunLongitude = normalizeLongitude(
         state.sunPosition.longitude - centeredLongitude
       )
-      const relativeSunVector = latLonToVector(
+      latLonToVector(
         state.sunPosition.latitude,
         relativeSunLongitude - 90,
-        EARTH_FOCUS_LIGHT_DISTANCE
+        EARTH_FOCUS_LIGHT_DISTANCE,
+        this.desiredSunLightPosition
       )
 
-      this.desiredSunLightPosition.copy(relativeSunVector)
       this.sunLight.position.lerp(this.desiredSunLightPosition, 0.12)
       this.sunMesh.visible = false
       this.ambientLight.intensity = 0.03

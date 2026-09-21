@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
 import starSvgUrl from '../../assets/global/star.svg'
@@ -18,49 +18,52 @@ type StarTransition = {
   property: string
   duration: string
   timingFunction: string
+  opacity: number
+  hero: HeroState
+  transform: string | null
 }
 
 const STAR_TRANSITIONS: Record<StarState, StarTransition> = {
   hidden: {
+    opacity: 0,
+    hero: 'hidden',
+    transform: 'translate(0px, 0px) scale(0.1)',
     property: 'none',
     duration: '0s',
     timingFunction: 'ease',
   },
   swarming: {
+    opacity: 1,
+    hero: 'hidden',
+    transform: null,
     property: 'transform',
     duration: `${PHASE_DURATION}ms`,
     timingFunction: 'cubic-bezier(0.55, 0, 1, 0.45)',
   },
   swarmed: {
+    opacity: 1,
+    hero: 'hidden',
+    transform: null,
     property: 'none',
     duration: '0s',
     timingFunction: 'ease',
   },
   gathering: {
+    opacity: 1,
+    hero: 'growing',
+    transform: 'translate(0px, 0px) rotate(0deg) scale(1)',
     property: 'transform',
     duration: `${PHASE_DURATION}ms`,
     timingFunction: 'cubic-bezier(0.55, 0, 1, 0.45)',
   },
   gathered: {
+    opacity: 0,
+    hero: 'pulsing',
+    transform: 'translate(0px, 0px) scale(0)',
     property: 'transform, opacity',
     duration: '0.05s, 0.05s',
     timingFunction: 'ease, ease',
   },
-}
-
-const getStarTransform = (
-  starState: StarState,
-  targetPos: { x: number; y: number; rot: number }
-) => {
-  if (starState === 'swarming' || starState === 'swarmed') {
-    return `translate(${targetPos.x}px, ${targetPos.y}px) rotate(${targetPos.rot}deg) scale(1)`
-  }
-
-  if (starState === 'gathering') {
-    return 'translate(0px, 0px) rotate(0deg) scale(1)'
-  }
-
-  return `translate(0px, 0px) scale(${starState === 'hidden' ? 0.1 : 0})`
 }
 
 const MiniStar = ({
@@ -73,7 +76,6 @@ const MiniStar = ({
   index: number
 }) => {
   const transition = STAR_TRANSITIONS[starState]
-  const opacity = starState === 'hidden' || starState === 'gathered' ? 0 : 1
 
   return (
     <div
@@ -85,11 +87,13 @@ const MiniStar = ({
         height: '14px',
         marginTop: '-7px',
         marginLeft: '-7px',
-        transform: getStarTransform(starState, targetPos),
+        transform:
+          transition.transform ??
+          `translate(${targetPos.x}px, ${targetPos.y}px) rotate(${targetPos.rot}deg) scale(1)`,
         transitionProperty: transition.property,
         transitionDuration: transition.duration,
         transitionTimingFunction: transition.timingFunction,
-        opacity,
+        opacity: transition.opacity,
         transitionDelay: starState === 'swarming' ? `${index * 12}ms` : '0ms',
         zIndex: 20,
       }}
@@ -104,161 +108,89 @@ const MiniStar = ({
   )
 }
 
-const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
-  const [starStates, setStarStates] = useState<StarState[]>([])
-  const [heroState, setHeroState] = useState<HeroState>('hidden')
-  const [showResult, setShowResult] = useState(false)
-  const [isRunning, setIsRunning] = useState(false)
-  const [displayedCount, setDisplayedCount] = useState(totalStars)
+type Animation = { phase: StarState; spawned: number; count: number }
 
-  const starsSpawnedRef = useRef(0)
-  const hasAnimatedRef = useRef(false)
-  const isRunningRef = useRef(false)
-  const prevTotalStarsRef = useRef(totalStars)
-  const spawnIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const phaseTimeoutsRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set())
+const starPositions = Array.from({ length: 50 }, (_, i) => {
+  const goldenAngle = 137.508
+  const angle = i * goldenAngle
+  // Smaller radius to fit within the component frame
+  const baseRadius = 30 + i * 1.2
+  const radiusVariation = Math.sin(i * 0.7) * 8 + Math.cos(i * 1.3) * 5
+  const radius = Math.min(baseRadius + radiusVariation, 70) // Cap the radius
+  const rot = (i * 47 + Math.sin(i * 2.1) * 180) % 360
 
-  const cancelAnimation = useCallback(() => {
-    if (spawnIntervalRef.current !== null) {
-      clearInterval(spawnIntervalRef.current)
-      spawnIntervalRef.current = null
-    }
-    phaseTimeoutsRef.current.forEach(clearTimeout)
-    phaseTimeoutsRef.current.clear()
-    isRunningRef.current = false
-  }, [])
-
-  const schedulePhase = useCallback((callback: () => void, delay: number) => {
-    const timeout = setTimeout(() => {
-      phaseTimeoutsRef.current.delete(timeout)
-      callback()
-    }, delay)
-    phaseTimeoutsRef.current.add(timeout)
-  }, [])
-
-  // Generate pseudo-random looking positions constrained to fit within the box
-  const starPositions = useMemo(() => {
-    return Array.from({ length: 50 }, (_, i) => {
-      const goldenAngle = 137.508
-      const angle = i * goldenAngle
-      // Smaller radius to fit within the component frame
-      const baseRadius = 30 + i * 1.2
-      const radiusVariation = Math.sin(i * 0.7) * 8 + Math.cos(i * 1.3) * 5
-      const radius = Math.min(baseRadius + radiusVariation, 70) // Cap the radius
-      const rot = (i * 47 + Math.sin(i * 2.1) * 180) % 360
-
-      return {
-        x: Math.cos((angle * Math.PI) / 180) * radius,
-        y: Math.sin((angle * Math.PI) / 180) * radius,
-        rot: rot,
-      }
-    })
-  }, [])
-
-  const runAnimation = useCallback(
-    (targetCount: number) => {
-      if (isRunningRef.current) return
-
-      isRunningRef.current = true
-      setIsRunning(true)
-      setShowResult(false)
-      setHeroState('hidden')
-      starsSpawnedRef.current = 0
-
-      const visualCount = Math.max(0, Math.min(targetCount, 50))
-
-      // Initialize all stars as hidden
-      setStarStates(Array(visualCount).fill('hidden'))
-
-      // Phase 1: Spawn stars one by one (they swarm outward)
-      spawnIntervalRef.current = setInterval(() => {
-        starsSpawnedRef.current += 1
-        const spawned = starsSpawnedRef.current
-
-        setStarStates((prev) => {
-          const next = [...prev]
-          if (spawned <= visualCount) {
-            next[spawned - 1] = 'swarming'
-          }
-          return next
-        })
-
-        if (spawned >= visualCount) {
-          if (spawnIntervalRef.current !== null) {
-            clearInterval(spawnIntervalRef.current)
-            spawnIntervalRef.current = null
-          }
-
-          // After swarm animation completes, mark as swarmed
-          schedulePhase(() => {
-            setStarStates(Array(visualCount).fill('swarmed'))
-
-            // Phase 2: After pause, start gathering
-            schedulePhase(() => {
-              setHeroState('growing')
-              setStarStates(Array(visualCount).fill('gathering'))
-
-              // Phase 3: After gather completes, stars have merged
-              schedulePhase(() => {
-                setStarStates(Array(visualCount).fill('gathered'))
-                setHeroState('pulsing')
-                setShowResult(true)
-                setDisplayedCount(targetCount)
-                isRunningRef.current = false
-                setIsRunning(false)
-              }, PHASE_DURATION + 100)
-            }, PAUSE_DURATION)
-          }, PHASE_DURATION)
-        }
-      }, 35)
-    },
-    [schedulePhase]
-  )
-
-  useEffect(
-    () => () => {
-      cancelAnimation()
-      hasAnimatedRef.current = false
-    },
-    [cancelAnimation]
-  )
-
-  // Trigger animation when totalStars changes OR on initial mount
-  useEffect(() => {
-    // Skip animation if totalStars is 0 (data not loaded yet)
-    if (totalStars === 0) {
-      cancelAnimation()
-      hasAnimatedRef.current = true
-      prevTotalStarsRef.current = 0
-      isRunningRef.current = false
-      const frame = requestAnimationFrame(() => {
-        setDisplayedCount(0)
-        setHeroState('pulsing')
-        setShowResult(true)
-        setStarStates([])
-        setIsRunning(false)
-      })
-      return () => cancelAnimationFrame(frame)
-    }
-
-    if (totalStars !== prevTotalStarsRef.current) {
-      cancelAnimation()
-      prevTotalStarsRef.current = totalStars
-      hasAnimatedRef.current = true
-      runAnimation(totalStars)
-    } else if (!hasAnimatedRef.current) {
-      // Initial page visit with data ready - run animation
-      hasAnimatedRef.current = true
-      prevTotalStarsRef.current = totalStars
-      runAnimation(totalStars)
-    }
-  }, [cancelAnimation, runAnimation, totalStars])
-
-  const handleClick = () => {
-    if (!isRunning) {
-      runAnimation(totalStars)
-    }
+  return {
+    x: Math.cos((angle * Math.PI) / 180) * radius,
+    y: Math.sin((angle * Math.PI) / 180) * radius,
+    rot: rot,
   }
+})
+
+function useStarAnimation(totalStars: number) {
+  const [animation, setAnimation] = useState<Animation>({
+    phase: 'hidden',
+    spawned: 0,
+    count: totalStars,
+  })
+  const running = useRef(false)
+  const spawnTimer = useRef<ReturnType<typeof setInterval>>(undefined)
+  const phaseTimers = useRef(new Set<ReturnType<typeof setTimeout>>())
+  const cancel = useCallback(() => {
+    clearInterval(spawnTimer.current)
+    phaseTimers.current.forEach(clearTimeout)
+    phaseTimers.current.clear()
+    running.current = false
+  }, [])
+
+  const replay = useCallback(() => {
+    if (running.current) return
+    running.current = true
+    const visualCount = Math.max(0, Math.min(totalStars, 50))
+    setAnimation({ phase: 'hidden', spawned: 0, count: totalStars })
+    let spawned = 0
+    spawnTimer.current = setInterval(() => {
+      spawned += 1
+      setAnimation({ phase: 'swarming', spawned, count: totalStars })
+      if (spawned < visualCount) return
+      clearInterval(spawnTimer.current)
+      // All deadlines share the end of spawning; no nested phase callbacks.
+      const phases: [StarState, number][] = [
+        ['swarmed', PHASE_DURATION],
+        ['gathering', PHASE_DURATION + PAUSE_DURATION],
+        ['gathered', 2 * PHASE_DURATION + PAUSE_DURATION + 100],
+      ]
+      for (const [phase, delay] of phases) {
+        const timer = setTimeout(() => {
+          phaseTimers.current.delete(timer)
+          running.current = phase !== 'gathered'
+          setAnimation({ phase, spawned, count: totalStars })
+        }, delay)
+        phaseTimers.current.add(timer)
+      }
+    }, 35)
+  }, [totalStars])
+
+  useEffect(() => {
+    if (totalStars !== 0) {
+      replay()
+      return cancel
+    }
+    const frame = requestAnimationFrame(() =>
+      setAnimation({ phase: 'gathered', spawned: 0, count: 0 })
+    )
+    return () => {
+      cancelAnimationFrame(frame)
+      cancel()
+    }
+  }, [totalStars, replay, cancel])
+
+  return { ...animation, replay }
+}
+
+const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
+  const { phase, spawned, count, replay } = useStarAnimation(totalStars)
+  const heroState = STAR_TRANSITIONS[phase].hero
+  const visualCount = Math.max(0, Math.min(count, 50))
 
   return (
     <section
@@ -272,7 +204,15 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
         overflow: 'hidden',
         cursor: 'pointer',
       }}
-      onClick={handleClick}
+      role="button"
+      tabIndex={0}
+      aria-label="Replay star animation"
+      onClick={replay}
+      onKeyDown={(event) => {
+        if (!['Enter', ' '].includes(event.key)) return
+        event.preventDefault()
+        replay()
+      }}
     >
       {/* Animation Container */}
       <div
@@ -287,12 +227,12 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
         }}
       >
         {/* Mini Stars */}
-        {starStates.map((state, i) => (
+        {starPositions.slice(0, visualCount).map((position, i) => (
           <MiniStar
             key={i}
             index={i}
-            targetPos={starPositions[i] ?? { x: 0, y: 0, rot: 0 }}
-            starState={state}
+            targetPos={position}
+            starState={i < spawned ? phase : 'hidden'}
           />
         ))}
 
@@ -325,7 +265,7 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
         </div>
 
         {/* Result Number - to the right of the star */}
-        {showResult && (
+        {phase === 'gathered' && (
           <div
             style={{
               position: 'relative',
@@ -339,7 +279,7 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
               fontFamily: theme.fonts.heading,
             }}
           >
-            {displayedCount}
+            {count}
           </div>
         )}
       </div>

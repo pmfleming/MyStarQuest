@@ -16,7 +16,7 @@ export default function DayAgenda({
       style={{ color: theme.colors.text }}
     >
       {agenda.length === 0 ? (
-        <p>No events planned for this day.</p>
+        <p>No plans.</p>
       ) : (
         <ol className="day-agenda__list">
           {agenda.map((event) => (
@@ -41,7 +41,11 @@ export default function DayAgenda({
                 />
               )}
               <div className="day-agenda__details">
-                <span className="day-agenda__title">{event.title}</span>
+                <span className="day-agenda__title">
+                  {event.title === 'Going to school'
+                    ? 'To School'
+                    : event.title}
+                </span>
                 <span className="day-agenda__time">
                   <time>{event.start}</time> – <time>{event.end}</time>
                 </span>

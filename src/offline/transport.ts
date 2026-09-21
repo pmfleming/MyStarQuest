@@ -79,7 +79,7 @@ async function applyActivity(
   const child = await transaction.get(path)
   if (!child)
     throw new SyncConflict(
-      'This child was deleted on another device. Pending activities are kept on this phone.'
+      'This child was deleted on another device. Pending activities are kept on this device.'
     )
   const before = starBalance(child)
   const after = clampStars(before + starDelta(action))

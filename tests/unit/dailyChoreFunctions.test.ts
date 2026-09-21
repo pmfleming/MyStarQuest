@@ -102,6 +102,36 @@ it('manual reset includes untitled chores, skips tests/unscheduled/legacy record
   expect(database.commit).toHaveBeenCalledTimes(1)
 })
 
+it('resets a large collection in bounded commits', async () => {
+  database.get.mockResolvedValue({
+    docs: Array.from({ length: 501 }, (_, id) => chore(String(id), {})),
+  })
+  database.commit.mockImplementation(async () => {
+    expect(database.update.mock.calls.length).toBeLessThanOrEqual(
+      database.commit.mock.calls.length * 500
+    )
+  })
+  expect(
+    await resetTodayChores.run(request({ childId: 'child' }))
+  ).toMatchObject({ refreshed: 501 })
+  expect(database.update).toHaveBeenCalledTimes(501)
+  expect(database.commit).toHaveBeenCalledTimes(2)
+})
+
+it('propagates a failed batch and does not start later chunks', async () => {
+  database.get.mockResolvedValue({
+    docs: Array.from({ length: 1001 }, (_, id) => chore(String(id), {})),
+  })
+  database.commit
+    .mockResolvedValueOnce(undefined)
+    .mockRejectedValueOnce(new Error('Connection lost'))
+  await expect(
+    resetTodayChores.run(request({ childId: 'child' }))
+  ).rejects.toThrow('Connection lost')
+  expect(database.commit).toHaveBeenCalledTimes(2)
+  expect(database.update).toHaveBeenCalledTimes(1000)
+})
+
 it('rejects unauthenticated, malformed and foreign-child requests before writes', async () => {
   await expect(
     resetTodayChores.run(request(null, false))
@@ -116,3 +146,35 @@ it('rejects unauthenticated, malformed and foreign-child requests before writes'
   ).rejects.toMatchObject({ code: 'not-found' })
   expect(database.update).not.toHaveBeenCalled()
 })
+
+it.each([
+  [
+    '2026-09-19T12:00:00Z',
+    ['weekend', 'nonschoolday', 'unknown', 'missing', 'explicit'],
+  ],
+])(
+  'preserves legacy schedule aliases and explicit toggle precedence on %s',
+  async (date, expected) => {
+    vi.setSystemTime(new Date(date))
+    database.get.mockResolvedValue({
+      docs: [
+        ...['weekday', 'schoolday', 'weekend', 'nonschoolday', 'unknown'].map(
+          (dayType) => chore(dayType, { dayType: dayType.toUpperCase() })
+        ),
+        chore('missing', {}),
+        chore('explicit', {
+          dayType: 'weekday',
+          schoolDayEnabled: false,
+          nonSchoolDayEnabled: true,
+        }),
+        chore('disabled', {
+          dayType: 'weekday',
+          schoolDayEnabled: false,
+          nonSchoolDayEnabled: false,
+        }),
+      ],
+    })
+    await resetTodayChores.run(request({ childId: 'child' }))
+    expect(database.update.mock.calls.map(([id]) => id)).toEqual(expected)
+  }
+)

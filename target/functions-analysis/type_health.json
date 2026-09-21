@@ -13,20 +13,23 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-14T15:54:47.580Z",
+    "measured_at": "2026-09-21T12:24:31.677Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5122afcc6bf171ba57f4db56dcaa44a74c12c746a8b775157004860b5f1b7887",
-    "input_set_hash": "sha256:c64d3d2074090dc60828b244d7cd09a0b26224409031a0db3e30cd9c4be88ccc"
+    "source_set_hash": "sha256:5d3a9e334ee05d729f06380b2eae985532db039464a4bcda1b0fa986362ee97a",
+    "input_set_hash": "sha256:0837da95c4e8ae3cf265fb13e14148a439f00c4db26e790cbe50a9e4757da765"
   },
   "analysis_identity": {
-    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "id": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
     "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
       "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
       "react": "recommended-v2",
@@ -89,12 +92,12 @@
     "stale_input": []
   },
   "summary": {
-    "records": 5,
+    "records": 9,
     "high_risk_records": 0,
     "wide_types": 0,
     "compiler_diagnostics": 0,
-    "type_coverage_percent": 99.5,
-    "typed_symbols": 396,
+    "type_coverage_percent": 99.6,
+    "typed_symbols": 492,
     "untyped_symbols": 2
   },
   "compiler_options": {
@@ -119,20 +122,30 @@
   "diagnostics": [],
   "type_coverage": {
     "summary": {
-      "files": 2,
-      "analyzed_symbols": 398,
-      "typed_symbols": 396,
+      "files": 3,
+      "analyzed_symbols": 494,
+      "typed_symbols": 492,
       "explicit_any": 0,
       "inferred_any": 2,
       "error_types": 0,
       "unknown": 20,
-      "type_coverage_percent": 99.5
+      "type_coverage_percent": 99.6
     },
     "files": [
       {
+        "file": "src/schoolEventCatalog.ts",
+        "analyzed_symbols": 60,
+        "typed_symbols": 60,
+        "explicit_any": 0,
+        "inferred_any": 0,
+        "error_types": 0,
+        "unknown": 0,
+        "type_coverage_percent": 100
+      },
+      {
         "file": "src/schoolCalendar.ts",
-        "analyzed_symbols": 104,
-        "typed_symbols": 104,
+        "analyzed_symbols": 147,
+        "typed_symbols": 147,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -141,13 +154,13 @@
       },
       {
         "file": "src/index.ts",
-        "analyzed_symbols": 294,
-        "typed_symbols": 292,
+        "analyzed_symbols": 287,
+        "typed_symbols": 285,
         "explicit_any": 0,
         "inferred_any": 2,
         "error_types": 0,
         "unknown": 20,
-        "type_coverage_percent": 99.32
+        "type_coverage_percent": 99.3
       }
     ]
   },
@@ -253,13 +266,13 @@
       ]
     },
     {
-      "id": "type:src/index:ActivityType:89",
+      "id": "type:src/index:ActivityType:91",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "ActivityType",
       "kind": "type",
       "exported": false,
-      "line": 89,
+      "line": 91,
       "score": 48,
       "risk": "medium",
       "signals": [
@@ -272,7 +285,7 @@
       "typed_info": {
         "name": "ActivityType",
         "kind": "TypeAliasDeclaration",
-        "line": 89,
+        "line": 91,
         "type": "any",
         "exported": false
       },
@@ -299,7 +312,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/index:ActivityType:89",
+            "id": "type:src/index:ActivityType:91",
             "kind": "type",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -308,13 +321,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/index:events:302",
+      "id": "typed-symbol:src/index:events:288",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "events",
       "kind": "VariableDeclaration",
       "exported": false,
-      "line": 302,
+      "line": 288,
       "score": 45,
       "risk": "medium",
       "source": "typescript-compiler-api",
@@ -344,7 +357,7 @@
           "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/index:events:302",
+            "id": "typed-symbol:src/index:events:288",
             "kind": "VariableDeclaration",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -353,26 +366,26 @@
       ]
     },
     {
-      "id": "type:src/schoolCalendar:CalendarDay:3",
+      "id": "type:src/schoolCalendar:CalendarDay:4",
       "module_id": "src/schoolCalendar",
       "file": "src/schoolCalendar.ts",
       "name": "CalendarDay",
       "kind": "type",
       "exported": false,
-      "line": 3,
-      "score": 12,
+      "line": 4,
+      "score": 16,
       "risk": "low",
       "signals": [],
       "source": "structural-type-scan",
       "typed_info": {
         "name": "CalendarDay",
         "kind": "TypeAliasDeclaration",
-        "line": 3,
+        "line": 4,
         "type": "any",
         "exported": false
       },
       "metrics": {
-        "field_count": 3,
+        "field_count": 4,
         "optional_count": 0,
         "union_members": 0,
         "generic_params": 0
@@ -394,9 +407,199 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/schoolCalendar:CalendarDay:3",
+            "id": "type:src/schoolCalendar:CalendarDay:4",
             "kind": "type",
             "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/schoolCalendar:fetchSchoolCalendarText:108",
+      "module_id": "src/schoolCalendar",
+      "file": "src/schoolCalendar.ts",
+      "name": "fetchSchoolCalendarText",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 108,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(url: string) => Promise<string>"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/schoolCalendar:fetchSchoolCalendarText:108",
+            "kind": "FunctionDeclaration",
+            "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/schoolEventCatalog:SchoolEventArtwork:26",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "name": "SchoolEventArtwork",
+      "kind": "type",
+      "exported": true,
+      "line": 26,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SchoolEventArtwork",
+        "kind": "TypeAliasDeclaration",
+        "line": 26,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/schoolEventCatalog:SchoolEventArtwork:26",
+            "kind": "type",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/schoolEventCatalog:SchoolEventKind:27",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "name": "SchoolEventKind",
+      "kind": "type",
+      "exported": true,
+      "line": 27,
+      "score": 15,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SchoolEventKind",
+        "kind": "TypeAliasDeclaration",
+        "line": 27,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 3,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/schoolEventCatalog:SchoolEventKind:27",
+            "kind": "type",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/schoolEventCatalog:SchoolEventDetails:28",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "name": "SchoolEventDetails",
+      "kind": "type",
+      "exported": true,
+      "line": 28,
+      "score": 26,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SchoolEventDetails",
+        "kind": "TypeAliasDeclaration",
+        "line": 28,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 5,
+        "optional_count": 2,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/schoolEventCatalog:SchoolEventDetails:28",
+            "kind": "type",
+            "file": "src/schoolEventCatalog.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

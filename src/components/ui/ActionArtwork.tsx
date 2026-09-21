@@ -8,16 +8,13 @@ export const ActionArtwork = ({
 }: {
   children: ReactNode
   scale?: number
-}) => (
-  <span
-    className="action-artwork"
-    aria-hidden="true"
-    style={
-      {
-        '--action-artwork-size': `${scale * 100}%`,
-      } as CSSProperties
-    }
-  >
-    {children}
-  </span>
-)
+}) => {
+  const style: CSSProperties & Record<'--action-artwork-size', string> = {
+    '--action-artwork-size': `${scale * 100}%`,
+  }
+  return (
+    <span className="action-artwork" aria-hidden="true" style={style}>
+      {children}
+    </span>
+  )
+}

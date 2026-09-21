@@ -27,6 +27,7 @@ import {
 } from './standardActionCardAnimations'
 import type {
   ActionConfig,
+  ActionCardContentProps,
   ActionStyleResolver,
   StandardActionListProps,
   UtilityActionConfig,
@@ -62,26 +63,13 @@ const resolveUtilityState = <T,>(
   }
 }
 
-type ActionCardProps<T> = {
+type ActionCardProps<T> = ActionCardContentProps<T> & {
   item: T
   index: number
-  theme: Theme
   isItemHighlighted: boolean
-  renderHeader?: (item: T) => ReactNode
-  renderItem: (item: T) => ReactNode
-  primaryAction: ActionConfig<T>
   primaryDisabled: boolean
-  onEdit?: (item: T) => void | Promise<void>
-  onDelete: (item: T) => void | Promise<void>
-  utilityAction?: UtilityActionConfig<T>
   getActionStyle: ActionStyleResolver<T>
   actionBaseStyle: CSSProperties
-  getKey?: (item: T) => string
-  getItemLabel?: (item: T) => string
-  getStarCount?: (item: T) => number | undefined
-  hideEdit?: boolean | ((item: T) => boolean)
-  editingId?: string
-  renderInlineEdit?: (item: T) => ReactNode
 }
 
 // Wrapper for individual action card with exit animation support
@@ -351,27 +339,17 @@ const ListFooter = ({
 const StandardActionList = <T,>({
   theme,
   items,
-  renderHeader,
-  renderItem,
   primaryAction,
-  onEdit,
-  onDelete,
-  utilityAction,
   addLabel,
   onAdd,
   addDisabled = false,
   isLoading = false,
   emptyState,
-  getKey,
-  getItemLabel,
   isHighlighted,
-  getStarCount,
-  hideEdit,
-  editingId,
-  renderInlineEdit,
   inlineNewRow,
   frameInlineNewRow = true,
   hideAdd = false,
+  ...cardProps
 }: StandardActionListProps<T>) => {
   // Inject CSS animations on mount
   useEffect(() => {
@@ -408,26 +386,16 @@ const StandardActionList = <T,>({
             ))
           : items.map((item, index) => (
               <ActionCard<T>
-                key={getKey ? getKey(item) : `${index}`}
+                {...cardProps}
+                key={cardProps.getKey?.(item) ?? `${index}`}
                 item={item}
                 index={index}
                 theme={theme}
                 isItemHighlighted={isHighlighted?.(item) ?? false}
-                renderHeader={renderHeader}
-                renderItem={renderItem}
                 primaryAction={primaryAction}
                 primaryDisabled={primaryAction.disabled?.(item) ?? false}
-                onEdit={onEdit}
-                onDelete={onDelete}
-                utilityAction={utilityAction}
                 getActionStyle={getActionStyle}
                 actionBaseStyle={actionBaseStyle}
-                getKey={getKey}
-                getItemLabel={getItemLabel}
-                getStarCount={getStarCount}
-                hideEdit={hideEdit}
-                editingId={editingId}
-                renderInlineEdit={renderInlineEdit}
               />
             ))}
         <ListFooter

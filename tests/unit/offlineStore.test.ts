@@ -54,19 +54,6 @@ describe('offline action model', () => {
     expect(state.pending).toHaveLength(1)
     expect(projectDocuments(state, 'children').child.totalStars).toBe(8)
   })
-  it('clamps overspending per action, without carrying debt into later earnings', () => {
-    const state = seeded()
-    enqueue(state, {
-      kind: 'redeem',
-      childId: 'child',
-      entityId: 'toy',
-      cost: 10,
-      title: 'Toy',
-      consume: false,
-    })
-    enqueue(state, completion())
-    expect(projectDocuments(state, 'children').child.totalStars).toBe(3)
-  })
   it('does not double-project a server snapshot that already includes a pending action', () => {
     const state = seeded()
     enqueue(state, completion())

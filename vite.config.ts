@@ -1,10 +1,11 @@
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { configDefaults, defineConfig } from 'vitest/config'
+import { offlinePlugin } from './scripts/offlinePlugin.ts'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), offlinePlugin()],
   build: {
     rolldownOptions: {
       output: {

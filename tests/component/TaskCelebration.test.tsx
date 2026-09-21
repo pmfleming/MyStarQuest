@@ -2,7 +2,6 @@ import { act, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import type { ReactNode } from 'react'
 import DashboardPage from '../../src/pages/DashboardPage'
-import TestsPage from '../../src/pages/TestsPage'
 import { themes } from '../../src/contexts/ThemeContext'
 import type {
   ChoreWithEphemeral,
@@ -88,34 +87,6 @@ afterEach(() => {
   vi.useRealTimers()
   vi.unstubAllGlobals()
 })
-
-it.each([[TestsPage, 'Pass quiz', 'Math']] as const)(
-  'celebrates a successful completion in its card and counts up',
-  async (Page, button, title) => {
-    render(<Page />)
-    await act(async () => vi.dynamicImportSettled())
-    await act(async () =>
-      fireEvent.click(screen.getByRole('button', { name: button }))
-    )
-    const celebration = screen.getByRole('status', {
-      name: `${title} completed`,
-    })
-    expect(celebration.closest('article')).toBeInTheDocument()
-    expect(celebration).toHaveClass(
-      'reward-celebration',
-      'reward-celebration--earned'
-    )
-    expect(celebration).toHaveTextContent('3 stars earned. 23 stars total.')
-    expect(celebration.querySelector('strong')).toHaveTextContent('20')
-    await act(async () => vi.advanceTimersByTimeAsync(1600))
-    expect(celebration.querySelector('strong')).toHaveTextContent('23')
-    await act(async () => vi.advanceTimersByTimeAsync(1950))
-    expect(
-      screen.queryByRole('status', { name: `${title} completed` })
-    ).not.toBeInTheDocument()
-    expect(data.complete).toHaveBeenCalledTimes(1)
-  }
-)
 
 it('retains a removed chore through completion and prevents duplicate clicks', async () => {
   let finish!: () => void

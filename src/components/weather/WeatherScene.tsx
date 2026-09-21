@@ -102,16 +102,16 @@ function Precipitation({
           : 'rain'
         : visuals.precipitation
     const drift = visuals.windLevel * 8
+    const style: CSSProperties &
+      Record<'--fall-delay' | '--wind-drift', string> = {
+      '--fall-delay': `${-(index % 11) / 5}s`,
+      '--wind-drift': `${drift}px`,
+    }
     return (
       <g
         key={index}
         className={`weather-particle weather-particle--${kind}`}
-        style={
-          {
-            '--fall-delay': `${-(index % 11) / 5}s`,
-            '--wind-drift': `${drift}px`,
-          } as CSSProperties
-        }
+        style={style}
       >
         {kind === 'snow' ? (
           <path

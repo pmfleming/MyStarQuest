@@ -10,7 +10,7 @@ import { getFirestore, type DocumentData } from 'firebase-admin/firestore'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, onRequest, HttpsError } from 'firebase-functions/v2/https'
 import * as ical from 'node-ical'
-import { buildSchoolCalendar } from './schoolCalendar'
+import { buildSchoolCalendar, fetchSchoolCalendarText } from './schoolCalendar'
 
 initializeApp()
 const db = getFirestore()
@@ -54,6 +54,13 @@ const getLocalizedDateInfo = (timeZone: string) => {
   return { dateKey, dayType }
 }
 
+const LEGACY_DAY_TYPES = new Map<string, CurrentDayType>([
+  ['weekday', 'schoolday'],
+  ['schoolday', 'schoolday'],
+  ['weekend', 'nonschoolday'],
+  ['nonschoolday', 'nonschoolday'],
+])
+
 const isScheduledForDay = (
   task: ScheduledTaskData,
   dayType: CurrentDayType
@@ -68,15 +75,10 @@ const isScheduledForDay = (
       : task.nonSchoolDayEnabled === true
   }
 
-  const storedDayType = String(task.dayType ?? '').toLowerCase()
-  if (storedDayType === 'weekday' || storedDayType === 'schoolday') {
-    return dayType === 'schoolday'
-  }
-  if (storedDayType === 'weekend' || storedDayType === 'nonschoolday') {
-    return dayType === 'nonschoolday'
-  }
-
-  return true
+  const storedDayType = LEGACY_DAY_TYPES.get(
+    String(task.dayType ?? '').toLowerCase()
+  )
+  return storedDayType === undefined || storedDayType === dayType
 }
 
 // ── Defaults (mirrors client-side types.ts) ──
@@ -155,15 +157,13 @@ const resetChildChores = async (
     return isScheduledForDay(data, dayType)
   })
 
-  if (choresToReset.length === 0) return 0
-
-  const batch = db.batch()
-
-  for (const taskDoc of choresToReset) {
-    batch.update(taskDoc.ref, getDailyActivityResetPatch(taskDoc.data()))
+  // Each chunk is atomic. Stop and report a failed commit before starting another.
+  for (let offset = 0; offset < choresToReset.length; offset += 500) {
+    const batch = db.batch()
+    for (const taskDoc of choresToReset.slice(offset, offset + 500))
+      batch.update(taskDoc.ref, getDailyActivityResetPatch(taskDoc.data()))
+    await batch.commit()
   }
-
-  await batch.commit()
   return choresToReset.length
 }
 
@@ -282,21 +282,7 @@ export const getSchoolCalendar = onRequest(
       // 1. Dynamic Cache Busting
       const targetUrl = `${SCHOOL_CALENDAR_BASE_URL}?noCache=${Date.now()}`
 
-      // 2. Enforce an 8-second timeout so the Cloud Function doesn't hang
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 8000)
-
-      const calResponse = await fetch(targetUrl, {
-        signal: controller.signal,
-      })
-
-      clearTimeout(timeoutId) // Clear timeout if fetch succeeds
-
-      if (!calResponse.ok) {
-        throw new Error(`Parro responded with HTTP ${calResponse.status}`)
-      }
-
-      const calText = await calResponse.text()
+      const calText = await fetchSchoolCalendarText(targetUrl)
 
       // 3. Defensive Parsing
       let events
@@ -320,7 +306,10 @@ export const getSchoolCalendar = onRequest(
       res.status(200).json(parsedCalendar)
       return
     } catch (error: unknown) {
-      if (error instanceof Error && error.name === 'AbortError') {
+      if (
+        error instanceof Error &&
+        ['AbortError', 'TimeoutError'].includes(error.name)
+      ) {
         console.error('Fetch request to Parro timed out.')
         res.status(504).json({ error: 'Upstream calendar service timed out.' })
         return

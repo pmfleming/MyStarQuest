@@ -1,3 +1,4 @@
+/// <reference lib="webworker" />
 import {
   EARTH_TEXTURE_HEIGHT,
   EARTH_TEXTURE_WIDTH,
@@ -5,14 +6,12 @@ import {
   type EarthTextureWorkerResponse,
 } from './earthTextureRenderer'
 
-type EarthTextureWorkerScope = {
-  postMessage: (
-    message: EarthTextureWorkerResponse,
-    transfer?: Transferable[]
-  ) => void
-}
-
-const workerScope = self as unknown as EarthTextureWorkerScope
+// This module is built as a dedicated worker, not a Window entry point.
+declare const self: DedicatedWorkerGlobalScope
+const respond = (
+  message: EarthTextureWorkerResponse,
+  transfer: Transferable[] = []
+) => self.postMessage(message, transfer)
 
 const buildEarthTexture = async () => {
   try {
@@ -40,10 +39,10 @@ const buildEarthTexture = async () => {
       0,
       EARTH_TEXTURE_WIDTH,
       EARTH_TEXTURE_HEIGHT
-    ).data.buffer as ArrayBuffer
-    workerScope.postMessage({ type: 'ready', pixels }, [pixels])
+    ).data.buffer
+    respond({ type: 'ready', pixels }, [pixels])
   } catch (error) {
-    workerScope.postMessage({
+    respond({
       type: 'error',
       message: error instanceof Error ? error.message : String(error),
     })

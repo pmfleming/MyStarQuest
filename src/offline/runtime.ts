@@ -1,4 +1,5 @@
 import { collection, onSnapshot } from 'firebase/firestore'
+import { Capacitor } from '@capacitor/core'
 import { db } from '../firebaseDb'
 import { getTodayDescriptor } from '../lib/today'
 import { collections, type CollectionName } from './model'
@@ -22,7 +23,7 @@ function createRuntime(userId: string) {
   const errors = snapshotStore<string | null>(null)
   const report = (error: unknown) => {
     errors.publish(
-      error instanceof Error ? error.message : 'Could not save on this phone.'
+      error instanceof Error ? error.message : 'Could not save on this device.'
     )
   }
   return {
@@ -46,6 +47,23 @@ function createRuntime(userId: string) {
         .open()
         .then(() => {
           if (disposed) return
+          const channel =
+            typeof BroadcastChannel === 'function'
+              ? new BroadcastChannel(`mystarquest-account:${userId}`)
+              : undefined
+          store.onCommit = () => {
+            errors.publish(null)
+            channel?.postMessage('changed')
+          }
+          cleanup.push(() => {
+            store.onCommit = undefined
+            channel?.close()
+          })
+          if (channel) {
+            channel.onmessage = () => {
+              void store.reload().catch(report)
+            }
+          }
           cleanup.push(sync.start())
           for (const name of collections) {
             const unsubscribe = onSnapshot(
@@ -61,7 +79,13 @@ function createRuntime(userId: string) {
                     localDocument(document.data()),
                   ])
                 )
-                void store.mergeCollection(name, documents).catch(report)
+                void store
+                  .mergeCollection(
+                    name,
+                    documents,
+                    Capacitor.getPlatform() === 'web'
+                  )
+                  .catch(report)
               },
               (error) => {
                 // Keep local data on backend failure. Permission errors need attention;
@@ -77,7 +101,9 @@ function createRuntime(userId: string) {
             cleanup.push(unsubscribe)
           }
           const wake = () => {
-            if (document.visibilityState !== 'hidden') sync.retry()
+            if (document.visibilityState !== 'hidden') {
+              void store.reload().then(sync.retry).catch(report)
+            }
           }
           window.addEventListener('online', wake)
           document.addEventListener('visibilitychange', wake)

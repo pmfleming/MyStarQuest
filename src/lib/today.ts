@@ -1,5 +1,4 @@
 import { getSeason, getSeasonForMonth } from './seasons'
-export type { Season } from './seasons'
 
 export type CurrentDayType = 'schoolday' | 'nonschoolday'
 
@@ -55,25 +54,6 @@ export const parseDateKey = (dateKey: string) => {
   return new Date(Number(year), Number(month) - 1, Number(day), 12, 0, 0, 0)
 }
 
-export const buildDateFromDateKeyAndMinutes = (
-  dateKey: string,
-  totalMinutes: number,
-  seconds = 0
-) => {
-  const date = parseDateKey(dateKey)
-  const normalizedMinutes = ((totalMinutes % 1440) + 1440) % 1440
-  const hours = Math.floor(normalizedMinutes / 60)
-  const minutes = normalizedMinutes % 60
-
-  date.setHours(hours, minutes, seconds, 0)
-  return date
-}
-
-export const getCurrentDayTypeForDate = (date: Date): CurrentDayType => {
-  const dayOfWeek = date.getDay()
-  return dayOfWeek === 0 || dayOfWeek === 6 ? 'nonschoolday' : 'schoolday'
-}
-
 export const getSeasonForDate = getSeason
 
 export const normalizeChoreSchedule = (value: {
@@ -102,10 +82,6 @@ export const normalizeChoreSchedule = (value: {
     return { schoolDayEnabled: false, nonSchoolDayEnabled: true }
   }
 
-  if (dayType === 'both' || dayType === 'any') {
-    return { schoolDayEnabled: true, nonSchoolDayEnabled: true }
-  }
-
   return { ...DEFAULT_CHORE_SCHEDULE }
 }
 
@@ -116,22 +92,6 @@ export const isScheduledForDay = (
   dayType === 'schoolday'
     ? schedule.schoolDayEnabled
     : schedule.nonSchoolDayEnabled
-
-export const getScheduleLabel = (schedule: ChoreSchedule) => {
-  if (schedule.schoolDayEnabled && schedule.nonSchoolDayEnabled) {
-    return 'Any day'
-  }
-
-  if (schedule.schoolDayEnabled) {
-    return 'Schoolday'
-  }
-
-  if (schedule.nonSchoolDayEnabled) {
-    return 'Non-school day'
-  }
-
-  return 'Inactive'
-}
 
 export const getTodayDescriptor = (
   date = new Date(),

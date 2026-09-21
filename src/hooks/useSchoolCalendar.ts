@@ -1,32 +1,17 @@
-import { useEffect, useState } from 'react'
-import {
-  loadSchoolCalendar,
-  type SchoolCalendarData,
-} from '../lib/schoolCalendarData'
+import { useEffect, useSyncExternalStore } from 'react'
+import { schoolCalendarStore } from '../lib/schoolCalendarStore'
 
 export const useSchoolCalendar = () => {
-  const [events, setEvents] = useState<SchoolCalendarData>({})
-  const [loadError, setLoadError] = useState(false)
-  const [request, setRequest] = useState(0)
-  useEffect(() => {
-    const controller = new AbortController()
-    void loadSchoolCalendar(controller.signal)
-      .then((data) => {
-        if (controller.signal.aborted) return
-        setEvents(data)
-        setLoadError(false)
-      })
-      .catch(() => {
-        if (!controller.signal.aborted) setLoadError(true)
-      })
-    return () => controller.abort()
-  }, [request])
+  const snapshot = useSyncExternalStore(
+    schoolCalendarStore.subscribe,
+    schoolCalendarStore.getSnapshot
+  )
+  useEffect(() => schoolCalendarStore.start(), [])
   return {
-    events,
-    loadError,
+    events: snapshot.data,
+    loadError: snapshot.loadError,
     retry: () => {
-      setLoadError(false)
-      setRequest((value) => value + 1)
+      void schoolCalendarStore.refresh(true)
     },
   }
 }

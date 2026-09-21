@@ -1,0 +1,316 @@
+{
+  "date": "2026-09-21",
+  "baseline": 254,
+  "targetFraction": 0.67,
+  "exactFractionalTarget": 170.18,
+  "roundedTarget": 170,
+  "final": 170,
+  "removed": 84,
+  "reductionPercent": 33.0709,
+  "method": "Count registered cases, expanding parameterized rows; count each Playwright scenario once, independent of browser repetitions. Include Node and Android unit/instrumentation cases. No skips, exclusions or unrelated-case bundling introduced. Round 170.18 to the nearest whole case.",
+  "suites": {
+    "vitest": {
+      "before": 239,
+      "after": 158
+    },
+    "node": {
+      "before": 3,
+      "after": 2
+    },
+    "playwright_unique_scenarios": {
+      "before": 5,
+      "after": 5
+    },
+    "android_unit": {
+      "before": 4,
+      "after": 3
+    },
+    "android_instrumentation": {
+      "before": 3,
+      "after": 2
+    }
+  },
+  "testSourceLines": {
+    "before": 7832,
+    "after": 6808,
+    "removed": 1024
+  },
+  "vitestFiles": {
+    "before": 68,
+    "after": 63
+  },
+  "vitestChangedFiles": {
+    "tests/component/AnimalTester.test.tsx": {
+      "before": 4,
+      "after": 3
+    },
+    "tests/component/AppErrorBoundary.test.tsx": {
+      "before": 1,
+      "after": 0
+    },
+    "tests/component/DinosaurTester.test.tsx": {
+      "before": 3,
+      "after": 2
+    },
+    "tests/component/PictureGestures.test.tsx": {
+      "before": 3,
+      "after": 2
+    },
+    "tests/component/RewardsPage.test.tsx": {
+      "before": 2,
+      "after": 1
+    },
+    "tests/component/RoutePreloader.test.tsx": {
+      "before": 4,
+      "after": 0
+    },
+    "tests/component/SchoolCalendar.test.tsx": {
+      "before": 9,
+      "after": 6
+    },
+    "tests/component/SchoolCalendarSync.test.tsx": {
+      "before": 2,
+      "after": 1
+    },
+    "tests/component/SolarSystem3DManager.test.ts": {
+      "before": 3,
+      "after": 1
+    },
+    "tests/component/StarInfoBox.test.tsx": {
+      "before": 3,
+      "after": 1
+    },
+    "tests/component/TaskCelebration.test.tsx": {
+      "before": 4,
+      "after": 3
+    },
+    "tests/component/TimeExplorerWeather.test.tsx": {
+      "before": 3,
+      "after": 2
+    },
+    "tests/component/TrainingPhotos.test.tsx": {
+      "before": 3,
+      "after": 2
+    },
+    "tests/component/dayNightPerformance.test.tsx": {
+      "before": 2,
+      "after": 1
+    },
+    "tests/unit/afterFirstPaint.test.ts": {
+      "before": 2,
+      "after": 0
+    },
+    "tests/unit/calendarSchedule.test.ts": {
+      "before": 27,
+      "after": 9
+    },
+    "tests/unit/dailyChoreFunctions.test.ts": {
+      "before": 6,
+      "after": 5
+    },
+    "tests/unit/earthTextureWorker.test.ts": {
+      "before": 2,
+      "after": 1
+    },
+    "tests/unit/firebaseInitialization.test.ts": {
+      "before": 1,
+      "after": 0
+    },
+    "tests/unit/importWebProgress.test.ts": {
+      "before": 3,
+      "after": 2
+    },
+    "tests/unit/offlineStore.test.ts": {
+      "before": 6,
+      "after": 5
+    },
+    "tests/unit/offlineSync.test.ts": {
+      "before": 5,
+      "after": 4
+    },
+    "tests/unit/optimisticState.test.ts": {
+      "before": 3,
+      "after": 2
+    },
+    "tests/unit/schoolCalendar.test.ts": {
+      "before": 10,
+      "after": 6
+    },
+    "tests/unit/schoolCalendarData.test.ts": {
+      "before": 4,
+      "after": 0
+    },
+    "tests/unit/schoolCalendarStore.test.ts": {
+      "before": 13,
+      "after": 10
+    },
+    "tests/unit/schoolEventCatalog.test.ts": {
+      "before": 26,
+      "after": 4
+    }
+  },
+  "removedCases": {
+    "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java": [
+      "useAppContext"
+    ],
+    "android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java": [
+      "addition_isCorrect"
+    ],
+    "scripts/quality-gate.integration.test.mjs": [
+      "the pinned Lens permits inherited debt and fails a newly introduced floating promise"
+    ],
+    "tests/component/AnimalTester.test.tsx": [
+      "AnimalTester > zooms each clue without changing the ability picture in the teenie theme"
+    ],
+    "tests/component/AppErrorBoundary.test.tsx": [
+      "keeps one listener after StrictMode remount and removes it on unmount"
+    ],
+    "tests/component/DinosaurTester.test.tsx": [
+      "Who am I dinosaur collection > uses the teenie generic ability when a two-player answer is hidden"
+    ],
+    "tests/component/PictureGestures.test.tsx": [
+      "Who am I picture gestures > Teeniepings: a double-click zooms without switching, a single-click switches when available"
+    ],
+    "tests/component/RewardsPage.test.tsx": [
+      "shows the final balance immediately with reduced motion"
+    ],
+    "tests/component/RoutePreloader.test.tsx": [
+      "requested route preloading > imports data and requested page during saved-session restoration without exposing content",
+      "requested route preloading > does not add protected downloads for a fresh signed-out visit",
+      "requested route preloading > starts both imports when a session first resolves without a saved hint",
+      "requested route preloading > ignores login and tolerates preload failures"
+    ],
+    "tests/component/SchoolCalendar.test.tsx": [
+      "removes school after holiday dates load but retains the weekly lesson",
+      "shows short English school activities with teenie artwork without removing school",
+      "illustrates training and breaks in princess while keeping them days off"
+    ],
+    "tests/component/SchoolCalendarSync.test.tsx": [
+      "leaves sign-in startup free of calendar work and starts syncing after the first signed-in paint"
+    ],
+    "tests/component/SolarSystem3DManager.test.ts": [
+      "does not upload shared pixels when a tab closes before generation finishes",
+      "avoids layout reads on stable frames and preserves resize and pixel-density updates"
+    ],
+    "tests/component/StarInfoBox.test.tsx": [
+      "preserves spawning, gathering and replay timing for 'princess'",
+      "preserves spawning, gathering and replay timing for 'teenie'"
+    ],
+    "tests/component/TaskCelebration.test.tsx": [
+      "celebrates a successful completion in its card and counts up"
+    ],
+    "tests/component/TimeExplorerWeather.test.tsx": [
+      "Time Explorer weather panel > keeps the wardrobe out of clock and calendar entry in both themes"
+    ],
+    "tests/component/TrainingPhotos.test.tsx": [
+      "Who am I training photos > shows only the selected portrait when switching between loaded collections"
+    ],
+    "tests/component/dayNightPerformance.test.tsx": [
+      "day/night clock and timer cleanup > keeps external synchronization, adjustments, and ticking on the same time"
+    ],
+    "tests/unit/afterFirstPaint.test.ts": [
+      "waits for a paint before idle work and cancels queued work on unmount",
+      "runs on WebViews without requestIdleCallback"
+    ],
+    "tests/unit/calendarSchedule.test.ts": [
+      "weekly calendar > uses the school hours for 2026-09-21",
+      "weekly calendar > uses the school hours for 2026-09-22",
+      "weekly calendar > uses the school hours for 2026-09-23",
+      "weekly calendar > uses the school hours for 2026-09-24",
+      "weekly calendar > uses the school hours for 2026-09-25",
+      "weekly calendar > shows the right lesson on 2026-09-24 and switches exactly at its boundaries",
+      "weekly calendar > shows the right lesson on 2026-09-25 and switches exactly at its boundaries",
+      "weekly calendar > shows the right lesson on 2026-09-26 and switches exactly at its boundaries",
+      "weekly calendar > removes school and journeys on weekends and holidays, retaining lessons",
+      "weekly calendar > leaves deliberate gaps and empty schedules empty",
+      "schedule storage contract > round-trips edited JSON through storage",
+      "schedule storage contract > preserves bad data and falls back safely: {\"version\":2,\"events\":[]}",
+      "schedule storage contract > preserves bad data and falls back safely: {\"version\":1,\"events\":[{}]}",
+      "schedule storage contract > rejects invalid editor input {\"end\":\"25:00\"} before saving",
+      "schedule storage contract > rejects invalid editor input {\"start\":\"24:00\"} before saving",
+      "schedule storage contract > rejects invalid editor input {\"weekdays\":[7]} before saving",
+      "schedule storage contract > rejects invalid editor input {\"weekdays\":[]} before saving",
+      "schedule storage contract > rejects invalid editor input {\"activity\":\"unknown\"} before saving"
+    ],
+    "tests/unit/dailyChoreFunctions.test.ts": [
+      "preserves legacy schedule aliases and explicit toggle precedence on 2026-09-14T12:00:00Z"
+    ],
+    "tests/unit/earthTextureWorker.test.ts": [
+      "posts the original pixel buffer as transferable worker output"
+    ],
+    "tests/unit/firebaseInitialization.test.ts": [
+      "preserves the existing persistence fallback order without a proactive popup resolver"
+    ],
+    "tests/unit/importWebProgress.test.ts": [
+      "does not import old completions or overwrite already saved local activity"
+    ],
+    "tests/unit/offlineStore.test.ts": [
+      "offline action model > clamps overspending per action, without carrying debt into later earnings"
+    ],
+    "tests/unit/offlineSync.test.ts": [
+      "retries after a lost response and retains the queue until a durable acknowledgement"
+    ],
+    "tests/unit/optimisticState.test.ts": [
+      "keeps object identity when an old acknowledgement no longer matches any edited field"
+    ],
+    "tests/unit/schoolCalendar.test.ts": [
+      "school calendar event expansion > keeps all-day Schoolfotograaf as a school activity",
+      "school calendar event expansion > keeps all-day Schoolreis groep 1- 2 as a school activity",
+      "school calendar event expansion > keeps all-day Eerste schooldag as a school activity",
+      "school calendar event expansion > keeps all-day Koningsspelen as a school activity"
+    ],
+    "tests/unit/schoolCalendarData.test.ts": [
+      "keeps an expired calendar available during an outage without renewing its age",
+      "replaces invalid cached data and still returns valid events when cache writes fail",
+      "rejects an invalid response without caching it and allows a later retry",
+      "repairs old service classification and retains all Dutch event names in the cache"
+    ],
+    "tests/unit/schoolCalendarStore.test.ts": [
+      "retains the saved snapshot and check time after a HTTP failure",
+      "retains the saved snapshot and check time after a JSON failure",
+      "does not duplicate listeners or requests on an immediate StrictMode restart"
+    ],
+    "tests/unit/schoolEventCatalog.test.ts": [
+      "classifies and translates the reviewed calendar title Zomervakantie",
+      "classifies and translates the reviewed calendar title Herfstvakantie",
+      "classifies and translates the reviewed calendar title Kerstvakantie",
+      "classifies and translates the reviewed calendar title Voorjaarsvakantie",
+      "classifies and translates the reviewed calendar title Meivakantie",
+      "classifies and translates the reviewed calendar title Tweede Paasdag",
+      "classifies and translates the reviewed calendar title Tweede Pinksterdag",
+      "classifies and translates the reviewed calendar title Studiedag (leerlingen vrij)",
+      "classifies and translates the reviewed calendar title Alle leerlingen om 12:00 uur vrij",
+      "classifies and translates the reviewed calendar title Eerste schooldag",
+      "classifies and translates the reviewed calendar title Informatie bijeenkomst groep 1-2",
+      "classifies and translates the reviewed calendar title 1-2a startgesprekken (met kind)",
+      "classifies and translates the reviewed calendar title Schoolreis groep 1- 2",
+      "classifies and translates the reviewed calendar title schoolreis 1/2A ",
+      "classifies and translates the reviewed calendar title Schoolfotograaf",
+      "classifies and translates the reviewed calendar title Informatiebijeenkomst voor internationale ouders",
+      "classifies and translates the reviewed calendar title Kerstviering groep 3",
+      "classifies and translates the reviewed calendar title Kerstviering groep 1/2, 4 t/m 8",
+      "classifies and translates the reviewed calendar title Rapporten mee naar huis",
+      "classifies and translates the reviewed calendar title Koningsspelen",
+      "classifies and translates the reviewed calendar title Eindfeest",
+      "classifies and translates the reviewed calendar title MR vergadering"
+    ]
+  },
+  "retainedCaseUpdate": {
+    "file": "tests/component/StarInfoBox.test.tsx",
+    "before": "cancels an old balance during StrictMode, handles zero and caps artwork at fifty stars",
+    "after": "shows the current balance after interruption, supports replay and caps artwork",
+    "reason": "Keep balance interruption, cleanup and accessible replay in one existing balance lifecycle case; drop the two exact phase-timing/theme copies."
+  },
+  "validation": {
+    "vitestPassed": 158,
+    "vitestFailed": 0,
+    "vitestSkipped": 0,
+    "nodePassed": 2,
+    "playwrightBrowserRunsPassed": 9,
+    "productionOfflineBrowserRunsPassed": 2,
+    "androidUnitPassed": 3,
+    "androidInstrumentation": "2 retained; compilation passed; device execution not performed",
+    "eslintTests": "passed"
+  },
+  "baselineInventorySha256": "2f80621060e0223924df0923caf85c72325725f1d075b42210ce7d87c24976ea"
+}

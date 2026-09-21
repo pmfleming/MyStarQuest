@@ -60,6 +60,7 @@ export const offlineStateSchema = z.object({
   ),
   activities: z.record(z.string(), activitySchema),
   consumed: z.record(z.string(), z.boolean()),
+  importedWebCollections: z.array(collectionSchema).optional(),
 })
 export type Action = z.infer<typeof actionSchema>
 export type OfflineState = z.infer<typeof offlineStateSchema>

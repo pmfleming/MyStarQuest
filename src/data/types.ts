@@ -135,12 +135,6 @@ export const taskSnapshotDataSchema = z
   })
   .passthrough()
 
-export const childStarsSnapshotDataSchema = z
-  .object({
-    totalStars: z.number().finite().catch(0),
-  })
-  .passthrough()
-
 // ── TaskRecord: discriminated union on `taskType` ──
 
 type TaskBase = {

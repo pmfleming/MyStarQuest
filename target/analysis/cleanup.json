@@ -3,7 +3,7 @@
   "task_id": "quality.cleanup",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-16T16:07:22.720Z",
+    "measured_at": "2026-09-21T12:45:43.493Z",
     "source_type": "static",
-    "source_set_hash": "sha256:fd3d4bb48dd7f797a6025a47f5ed3b8b600097c7647e4a40fae37e6c9e62593a",
-    "input_set_hash": "sha256:e45a9ebc5466eff7c2395f898a3cf8c25c528c84ac90e1bc3be9d23943ecc3da"
+    "source_set_hash": "sha256:e4f7e66696315484e3b1818ee04af7f8c946c8a491452a585090cb84f0ee4ec3",
+    "input_set_hash": "sha256:d48956fc8da477290bf1912bf8c07ee5f6f76d5f38f13149c11642ce70a902d3"
   },
   "analysis_identity": {
-    "id": "sha256:5251dfdeaa7c10031e5ed4829bf1816e0937cfce7f9c3c3d7256bb2977fa8c0f",
+    "id": "sha256:3d1036a4089f66ad7fa347ef68c245a45d1e0e9033afc29d848070d962edf831",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
+    "config_closure_hash": "sha256:d7c5a0373b849391748e11dc4ff25a7035017608dbc42c938d6f051e39d72c5a",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -102,20 +102,20 @@
     "stale_input": []
   },
   "summary": {
-    "records": 54,
-    "unused_files": 4,
-    "unused_exports": 18,
+    "records": 61,
+    "unused_files": 6,
+    "unused_exports": 21,
     "unused_dependencies": 0,
     "unused_dev_dependencies": 1,
     "unlisted_dependencies": 5,
     "type_only_production_dependencies": 0,
     "test_only_production_dependencies": 0,
     "duplicate_exports": 0,
-    "entrypoint_files": 1,
-    "knip_findings": 54,
-    "tool_confirmed": 14,
-    "tool_disagreed": 3,
-    "tool_not_comparable": 3,
+    "entrypoint_files": 2,
+    "knip_findings": 61,
+    "tool_confirmed": 13,
+    "tool_disagreed": 2,
+    "tool_not_comparable": 5,
     "tool_excluded": 0
   },
   "tool_status": {
@@ -131,55 +131,6 @@
     }
   },
   "disagreements": [
-    {
-      "id": "cleanup:unused-file:src/features/dayNightExplorer/earthTexture.worker",
-      "kind": "unused_file",
-      "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
-      "score": 60,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "no_internal_importers"
-        },
-        {
-          "kind": "exports",
-          "value": 0
-        }
-      ],
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "low",
-      "source": "ts-react-quality-lens-cleanup",
-      "tool_validation": "disagreed",
-      "validation_scope": "knip/unused_file",
-      "rule_id": "ts-react-quality-lens-cleanup/unused_file",
-      "message": "unused file",
-      "reason_code": "ts-react-quality-lens-cleanup/unused_file",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "disagreed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-file:src/features/dayNightExplorer/earthTexture.worker",
-            "kind": "unused_file",
-            "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
     {
       "id": "cleanup:unused-export:src/assets/chores/assets:ChoreImageKey",
       "kind": "unused_export",
@@ -232,7 +183,7 @@
       "id": "cleanup:unused-export:src/hooks/useActivityChallenge:ActivityFeedback",
       "kind": "unused_export",
       "file": "src/hooks/useActivityChallenge.ts",
-      "line": 10,
+      "line": 11,
       "name": "ActivityFeedback",
       "score": 45,
       "risk": "medium",
@@ -316,6 +267,94 @@
           "config_key": "suppressions",
           "value": {
             "id": "cleanup:unused-dev-dependency:@types/canvas-confetti",
+            "kind": "unused_dev_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dev-dependency:@types/node",
+      "kind": "unused_dev_dependency",
+      "name": "@types/node",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "dev_dependency_not_observed",
+          "value": "@types/node"
+        }
+      ],
+      "validation_scope_complete": false,
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "not_comparable",
+      "validation_scope": "knip/unused_dev_dependency",
+      "rule_id": "ts-react-quality-lens-cleanup/unused_dev_dependency",
+      "message": "unused dev dependency",
+      "reason_code": "ts-react-quality-lens-cleanup/unused_dev_dependency",
+      "semantic_decision": "not-comparable",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dev_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dev-dependency:@types/node",
+            "kind": "unused_dev_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dev-dependency:@types/react",
+      "kind": "unused_dev_dependency",
+      "name": "@types/react",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "dev_dependency_not_observed",
+          "value": "@types/react"
+        }
+      ],
+      "validation_scope_complete": false,
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "not_comparable",
+      "validation_scope": "knip/unused_dev_dependency",
+      "rule_id": "ts-react-quality-lens-cleanup/unused_dev_dependency",
+      "message": "unused dev dependency",
+      "reason_code": "ts-react-quality-lens-cleanup/unused_dev_dependency",
+      "semantic_decision": "not-comparable",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dev_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dev-dependency:@types/react",
             "kind": "unused_dev_dependency",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -563,7 +602,7 @@
       "id": "cleanup:unused-export:src/hooks/useCoalescedDocumentUpdates:DEFAULT_UPDATE_COALESCE_MS",
       "kind": "unused_export",
       "file": "src/hooks/useCoalescedDocumentUpdates.ts",
-      "line": 7,
+      "line": 8,
       "name": "DEFAULT_UPDATE_COALESCE_MS",
       "score": 45,
       "risk": "medium",
@@ -578,7 +617,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:exports:src/hooks/useCoalescedDocumentUpdates.ts:DEFAULT_UPDATE_COALESCE_MS:7",
+      "upstream_finding_id": "knip:exports:src/hooks/useCoalescedDocumentUpdates.ts:DEFAULT_UPDATE_COALESCE_MS:8",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_export",
       "message": "unused export",
@@ -603,6 +642,153 @@
             "id": "cleanup:unused-export:src/hooks/useCoalescedDocumentUpdates:DEFAULT_UPDATE_COALESCE_MS",
             "kind": "unused_export",
             "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/calendarSchedule:minutesToTime",
+      "kind": "unused_export",
+      "file": "src/lib/calendarSchedule.ts",
+      "line": 30,
+      "name": "minutesToTime",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "minutesToTime"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/lib/calendarSchedule.ts:minutesToTime:30",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/calendarSchedule:minutesToTime",
+            "kind": "unused_export",
+            "file": "src/lib/calendarSchedule.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/schoolCalendarData:normalizeCalendar",
+      "kind": "unused_export",
+      "file": "src/lib/schoolCalendarData.ts",
+      "line": 55,
+      "name": "normalizeCalendar",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "normalizeCalendar"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/lib/schoolCalendarData.ts:normalizeCalendar:55",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/schoolCalendarData:normalizeCalendar",
+            "kind": "unused_export",
+            "file": "src/lib/schoolCalendarData.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/schoolCalendarData:loadSchoolCalendar",
+      "kind": "unused_export",
+      "file": "src/lib/schoolCalendarData.ts",
+      "line": 139,
+      "name": "loadSchoolCalendar",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "loadSchoolCalendar"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/lib/schoolCalendarData.ts:loadSchoolCalendar:139",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/schoolCalendarData:loadSchoolCalendar",
+            "kind": "unused_export",
+            "file": "src/lib/schoolCalendarData.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -701,202 +887,6 @@
             "id": "cleanup:unused-export:src/lib/solar:getSolarDeclinationDegrees",
             "kind": "unused_export",
             "file": "src/lib/solar.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/lib/today:Season",
-      "kind": "unused_export",
-      "file": "src/lib/today.ts",
-      "line": 2,
-      "name": "Season",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "Season"
-        }
-      ],
-      "rule_id": "knip/types",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "source": "knip",
-      "upstream_finding_id": "knip:types:src/lib/today.ts:Season:2",
-      "tool_validation": "confirmed",
-      "validation_scope": "knip/unused_export",
-      "message": "unused export",
-      "reason_code": "knip/types",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/lib/today:Season",
-            "kind": "unused_export",
-            "file": "src/lib/today.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/lib/today:buildDateFromDateKeyAndMinutes",
-      "kind": "unused_export",
-      "file": "src/lib/today.ts",
-      "line": 58,
-      "name": "buildDateFromDateKeyAndMinutes",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "buildDateFromDateKeyAndMinutes"
-        }
-      ],
-      "rule_id": "knip/exports",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "source": "knip",
-      "upstream_finding_id": "knip:exports:src/lib/today.ts:buildDateFromDateKeyAndMinutes:58",
-      "tool_validation": "confirmed",
-      "validation_scope": "knip/unused_export",
-      "message": "unused export",
-      "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/lib/today:buildDateFromDateKeyAndMinutes",
-            "kind": "unused_export",
-            "file": "src/lib/today.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/lib/today:getCurrentDayTypeForDate",
-      "kind": "unused_export",
-      "file": "src/lib/today.ts",
-      "line": 72,
-      "name": "getCurrentDayTypeForDate",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "getCurrentDayTypeForDate"
-        }
-      ],
-      "rule_id": "knip/exports",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "source": "knip",
-      "upstream_finding_id": "knip:exports:src/lib/today.ts:getCurrentDayTypeForDate:72",
-      "tool_validation": "confirmed",
-      "validation_scope": "knip/unused_export",
-      "message": "unused export",
-      "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/lib/today:getCurrentDayTypeForDate",
-            "kind": "unused_export",
-            "file": "src/lib/today.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/lib/today:getScheduleLabel",
-      "kind": "unused_export",
-      "file": "src/lib/today.ts",
-      "line": 120,
-      "name": "getScheduleLabel",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "getScheduleLabel"
-        }
-      ],
-      "rule_id": "knip/exports",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "source": "knip",
-      "upstream_finding_id": "knip:exports:src/lib/today.ts:getScheduleLabel:120",
-      "tool_validation": "confirmed",
-      "validation_scope": "knip/unused_export",
-      "message": "unused export",
-      "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/lib/today:getScheduleLabel",
-            "kind": "unused_export",
-            "file": "src/lib/today.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1067,7 +1057,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:devDependencies:package.json:lint-staged:57",
+      "upstream_finding_id": "knip:devDependencies:package.json:lint-staged:58",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_dev_dependency",
       "message": "unused dev dependency",
@@ -1089,6 +1079,51 @@
           "value": {
             "id": "cleanup:unused-dev-dependency:lint-staged",
             "kind": "unused_dev_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:playwright.offline.config.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "playwright.offline.config.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:playwright.offline.config.ts:0:0",
+            "kind": "unused_file",
+            "file": "playwright.offline.config.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1134,6 +1169,51 @@
             "id": "knip:files:scripts/prepare-weather-artwork.mjs:0:0",
             "kind": "unused_file",
             "file": "scripts/prepare-weather-artwork.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/quality-gate.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/quality-gate.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/quality-gate.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/quality-gate.mjs",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1716,7 +1796,56 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:StandardTaskState:162",
+      "id": "knip:exports:scripts/quality-summary.mjs:writeComparison:42",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/quality-summary.mjs",
+      "name": "writeComparison",
+      "line": 42,
+      "column": 17,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: writeComparison.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "writeComparison"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:scripts/quality-summary.mjs:writeComparison:42",
+            "kind": "unused_export",
+            "file": "scripts/quality-summary.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:types:src/data/types.ts:StandardTaskState:156",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -1725,7 +1854,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "StandardTaskState",
-      "line": 162,
+      "line": 156,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -1756,7 +1885,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:StandardTaskState:162",
+            "id": "knip:types:src/data/types.ts:StandardTaskState:156",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1765,7 +1894,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:EatingTaskState:165",
+      "id": "knip:types:src/data/types.ts:EatingTaskState:159",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -1774,7 +1903,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "EatingTaskState",
-      "line": 165,
+      "line": 159,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -1805,7 +1934,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:EatingTaskState:165",
+            "id": "knip:types:src/data/types.ts:EatingTaskState:159",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1814,7 +1943,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:WaterToiletTaskState:171",
+      "id": "knip:types:src/data/types.ts:WaterToiletTaskState:165",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -1823,7 +1952,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "WaterToiletTaskState",
-      "line": 171,
+      "line": 165,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -1854,7 +1983,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:WaterToiletTaskState:171",
+            "id": "knip:types:src/data/types.ts:WaterToiletTaskState:165",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1863,7 +1992,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:StandardTask:177",
+      "id": "knip:types:src/data/types.ts:StandardTask:171",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -1872,7 +2001,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "StandardTask",
-      "line": 177,
+      "line": 171,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -1903,7 +2032,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:StandardTask:177",
+            "id": "knip:types:src/data/types.ts:StandardTask:171",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1912,7 +2041,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:EatingTask:179",
+      "id": "knip:types:src/data/types.ts:EatingTask:173",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -1921,7 +2050,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "EatingTask",
-      "line": 179,
+      "line": 173,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -1952,7 +2081,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:EatingTask:179",
+            "id": "knip:types:src/data/types.ts:EatingTask:173",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1961,7 +2090,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:MathTask:187",
+      "id": "knip:types:src/data/types.ts:MathTask:181",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -1970,7 +2099,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "MathTask",
-      "line": 187,
+      "line": 181,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2001,7 +2130,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:MathTask:187",
+            "id": "knip:types:src/data/types.ts:MathTask:181",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2010,7 +2139,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:LargeNumbersTask:192",
+      "id": "knip:types:src/data/types.ts:LargeNumbersTask:186",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2019,7 +2148,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "LargeNumbersTask",
-      "line": 192,
+      "line": 186,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2050,7 +2179,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:LargeNumbersTask:192",
+            "id": "knip:types:src/data/types.ts:LargeNumbersTask:186",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2059,7 +2188,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:PositionalNotationTask:196",
+      "id": "knip:types:src/data/types.ts:PositionalNotationTask:190",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2068,7 +2197,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "PositionalNotationTask",
-      "line": 196,
+      "line": 190,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2099,7 +2228,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:PositionalNotationTask:196",
+            "id": "knip:types:src/data/types.ts:PositionalNotationTask:190",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2108,7 +2237,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:AlphabetTask:200",
+      "id": "knip:types:src/data/types.ts:AlphabetTask:194",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2117,7 +2246,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "AlphabetTask",
-      "line": 200,
+      "line": 194,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2148,7 +2277,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:AlphabetTask:200",
+            "id": "knip:types:src/data/types.ts:AlphabetTask:194",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2157,7 +2286,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:SpellingTask:204",
+      "id": "knip:types:src/data/types.ts:SpellingTask:198",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2166,7 +2295,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "SpellingTask",
-      "line": 204,
+      "line": 198,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2197,7 +2326,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:SpellingTask:204",
+            "id": "knip:types:src/data/types.ts:SpellingTask:198",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2206,7 +2335,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:AnimalsTask:208",
+      "id": "knip:types:src/data/types.ts:AnimalsTask:202",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2215,7 +2344,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "AnimalsTask",
-      "line": 208,
+      "line": 202,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2246,7 +2375,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:AnimalsTask:208",
+            "id": "knip:types:src/data/types.ts:AnimalsTask:202",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2255,7 +2384,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:MathTaskWithEphemeral:254",
+      "id": "knip:types:src/data/types.ts:MathTaskWithEphemeral:248",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2264,7 +2393,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "MathTaskWithEphemeral",
-      "line": 254,
+      "line": 248,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2295,7 +2424,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:MathTaskWithEphemeral:254",
+            "id": "knip:types:src/data/types.ts:MathTaskWithEphemeral:248",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2304,7 +2433,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:LargeNumbersTaskWithEphemeral:258",
+      "id": "knip:types:src/data/types.ts:LargeNumbersTaskWithEphemeral:252",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2313,7 +2442,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "LargeNumbersTaskWithEphemeral",
-      "line": 258,
+      "line": 252,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2344,7 +2473,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:LargeNumbersTaskWithEphemeral:258",
+            "id": "knip:types:src/data/types.ts:LargeNumbersTaskWithEphemeral:252",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2353,7 +2482,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:PVTaskWithEphemeral:262",
+      "id": "knip:types:src/data/types.ts:PVTaskWithEphemeral:256",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2362,7 +2491,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "PVTaskWithEphemeral",
-      "line": 262,
+      "line": 256,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2393,7 +2522,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:PVTaskWithEphemeral:262",
+            "id": "knip:types:src/data/types.ts:PVTaskWithEphemeral:256",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2402,7 +2531,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:AlphabetTaskWithEphemeral:266",
+      "id": "knip:types:src/data/types.ts:AlphabetTaskWithEphemeral:260",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2411,7 +2540,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "AlphabetTaskWithEphemeral",
-      "line": 266,
+      "line": 260,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2442,7 +2571,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:AlphabetTaskWithEphemeral:266",
+            "id": "knip:types:src/data/types.ts:AlphabetTaskWithEphemeral:260",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2451,7 +2580,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:SpellingTaskWithEphemeral:270",
+      "id": "knip:types:src/data/types.ts:SpellingTaskWithEphemeral:264",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2460,7 +2589,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "SpellingTaskWithEphemeral",
-      "line": 270,
+      "line": 264,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2491,7 +2620,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:SpellingTaskWithEphemeral:270",
+            "id": "knip:types:src/data/types.ts:SpellingTaskWithEphemeral:264",
             "kind": "unused_type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2500,7 +2629,7 @@
       ]
     },
     {
-      "id": "knip:types:src/data/types.ts:AnimalsTaskWithEphemeral:274",
+      "id": "knip:types:src/data/types.ts:AnimalsTaskWithEphemeral:268",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2509,7 +2638,7 @@
       "scope": "file",
       "file": "src/data/types.ts",
       "name": "AnimalsTaskWithEphemeral",
-      "line": 274,
+      "line": 268,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2540,9 +2669,254 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/data/types.ts:AnimalsTaskWithEphemeral:274",
+            "id": "knip:types:src/data/types.ts:AnimalsTaskWithEphemeral:268",
             "kind": "unused_type",
             "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:src/lib/calendarSchedule.ts:calendarActivitySchema:7",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/lib/calendarSchedule.ts",
+      "name": "calendarActivitySchema",
+      "line": 7,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: calendarActivitySchema.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "calendarActivitySchema"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:src/lib/calendarSchedule.ts:calendarActivitySchema:7",
+            "kind": "unused_export",
+            "file": "src/lib/calendarSchedule.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:types:src/lib/calendarSchedule.ts:CalendarEvent:68",
+      "rule_id": "knip/types",
+      "kind": "unused_type",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/lib/calendarSchedule.ts",
+      "name": "CalendarEvent",
+      "line": 68,
+      "column": 13,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused type: CalendarEvent.",
+      "issue_type": "types",
+      "signals": [
+        {
+          "kind": "knip_types",
+          "value": "CalendarEvent"
+        }
+      ],
+      "reason_code": "knip/types",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:types:src/lib/calendarSchedule.ts:CalendarEvent:68",
+            "kind": "unused_type",
+            "file": "src/lib/calendarSchedule.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:src/lib/schoolCalendarData.ts:calendarSchema:11",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/lib/schoolCalendarData.ts",
+      "name": "calendarSchema",
+      "line": 11,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: calendarSchema.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "calendarSchema"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:src/lib/schoolCalendarData.ts:calendarSchema:11",
+            "kind": "unused_export",
+            "file": "src/lib/schoolCalendarData.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/schoolEventCatalog.ts:schoolEventArtworks:2",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/schoolEventCatalog.ts",
+      "name": "schoolEventArtworks",
+      "line": 2,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: schoolEventArtworks.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "schoolEventArtworks"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/schoolEventCatalog.ts:schoolEventArtworks:2",
+            "kind": "unused_export",
+            "file": "functions/src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:types:functions/src/schoolEventCatalog.ts:SchoolEventKind:27",
+      "rule_id": "knip/types",
+      "kind": "unused_type",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/schoolEventCatalog.ts",
+      "name": "SchoolEventKind",
+      "line": 27,
+      "column": 13,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused type: SchoolEventKind.",
+      "issue_type": "types",
+      "signals": [
+        {
+          "kind": "knip_types",
+          "value": "SchoolEventKind"
+        }
+      ],
+      "reason_code": "knip/types",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:types:functions/src/schoolEventCatalog.ts:SchoolEventKind:27",
+            "kind": "unused_type",
+            "file": "functions/src/schoolEventCatalog.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2696,7 +3070,7 @@
       ]
     },
     {
-      "id": "knip:types:src/components/AnimalTester.tsx:AnimalTesterProps:424",
+      "id": "knip:types:src/components/AnimalTester.tsx:AnimalTesterProps:422",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2705,7 +3079,7 @@
       "scope": "file",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalTesterProps",
-      "line": 424,
+      "line": 422,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -2736,7 +3110,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/components/AnimalTester.tsx:AnimalTesterProps:424",
+            "id": "knip:types:src/components/AnimalTester.tsx:AnimalTesterProps:422",
             "kind": "unused_type",
             "file": "src/components/AnimalTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2892,7 +3266,7 @@
       ]
     },
     {
-      "id": "knip:types:src/components/DinnerCountdown.tsx:DinnerCountdownProps:589",
+      "id": "knip:types:src/components/DinnerCountdown.tsx:DinnerCountdownProps:590",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -2901,7 +3275,7 @@
       "scope": "file",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "DinnerCountdownProps",
-      "line": 589,
+      "line": 590,
       "column": 18,
       "score": 50,
       "risk": "medium",
@@ -2932,7 +3306,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/components/DinnerCountdown.tsx:DinnerCountdownProps:589",
+            "id": "knip:types:src/components/DinnerCountdown.tsx:DinnerCountdownProps:590",
             "kind": "unused_type",
             "file": "src/components/DinnerCountdown.tsx",
             "reason": "Intentional finding; document the project-specific reason."

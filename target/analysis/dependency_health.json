@@ -3,7 +3,7 @@
   "task_id": "quality.dependency_health",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-16T16:06:08.853Z",
+    "measured_at": "2026-09-21T12:43:59.745Z",
     "source_type": "static",
-    "source_set_hash": "sha256:fd3d4bb48dd7f797a6025a47f5ed3b8b600097c7647e4a40fae37e6c9e62593a",
-    "input_set_hash": "sha256:170f1fe2d2a97ccff4985be2e750b2f4c695c3d270b4f205bb78ee1632696485"
+    "source_set_hash": "sha256:e4f7e66696315484e3b1818ee04af7f8c946c8a491452a585090cb84f0ee4ec3",
+    "input_set_hash": "sha256:85e96a4dbabc1ee4c9c514622dabd17782229478bf38019f8b7c8fd7d3931acf"
   },
   "analysis_identity": {
-    "id": "sha256:5251dfdeaa7c10031e5ed4829bf1816e0937cfce7f9c3c3d7256bb2977fa8c0f",
+    "id": "sha256:3d1036a4089f66ad7fa347ef68c245a45d1e0e9033afc29d848070d962edf831",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
+    "config_closure_hash": "sha256:d7c5a0373b849391748e11dc4ff25a7035017608dbc42c938d6f051e39d72c5a",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -99,14 +99,14 @@
     "stale_input": []
   },
   "summary": {
-    "internal_edges": 1007,
-    "external_edges": 162,
+    "internal_edges": 1070,
+    "external_edges": 173,
     "cycles": 1,
     "heuristic_cycles": 1,
     "dependency_cruiser_cycles": 0,
-    "deep_relative_imports": 152,
+    "deep_relative_imports": 159,
     "barrel_modules": 1,
-    "layer_violations": 34,
+    "layer_violations": 31,
     "unsupported_patterns": 0,
     "workspaces": 1,
     "cross_workspace_edges": 0,
@@ -116,7 +116,7 @@
     "dependency_cruiser": {
       "available": true,
       "ran": false,
-      "reason": "{\n  \"modules\": [\n    {\n      \"source\": \"src/App.tsx\",\n      \"dependencies\": [\n        {\n          \"module\": \"./auth/AuthProvider\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/auth/AuthProvider.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./components/AppErrorBoundary\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/components/AppErrorBoundary.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./contexts/ActiveChildProvider\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/contexts/ActiveChildProvider.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./contexts/SelectedDateProvider\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/contexts/SelectedDateProvider.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./contexts/ThemeProvider\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/contexts/ThemeProvider.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./lib/tabNavigation\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/lib/tabNavigation.ts\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./pages/DashboardPage\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": true,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"dynamic-import\"\n          ],\n          \"resolved\": \"src/pages/DashboardPage.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./pages/LoginPage\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/pages/LoginPage.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNot",
+      "reason": "{\n  \"modules\": [\n    {\n      \"source\": \"src/App.tsx\",\n      \"dependencies\": [\n        {\n          \"module\": \"./auth/AuthProvider\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/auth/AuthProvider.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./components/AppErrorBoundary\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/components/AppErrorBoundary.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./components/SchoolCalendarSync\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/components/SchoolCalendarSync.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./contexts/ActiveChildProvider\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/contexts/ActiveChildProvider.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./contexts/SelectedDateProvider\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/contexts/SelectedDateProvider.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./contexts/ThemeProvider\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/contexts/ThemeProvider.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./lib/tabNavigation\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/lib/tabNavigation.ts\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          \"matchesDoNotFollow\": false,\n          \"circular\": false,\n          \"valid\": true\n        },\n        {\n          \"module\": \"./pages/LoginPage\",\n          \"moduleSystem\": \"es6\",\n          \"dynamic\": false,\n          \"exoticallyRequired\": false,\n          \"dependencyTypes\": [\n            \"local\",\n            \"import\"\n          ],\n          \"resolved\": \"src/pages/LoginPage.tsx\",\n          \"coreModule\": false,\n          \"followable\": true,\n          \"couldNotResolve\": false,\n          ",
       "summary": {}
     }
   },
@@ -2859,12 +2859,12 @@
       ]
     },
     {
-      "id": "deep-import:src/components/ui/RepeatControl:4",
+      "id": "deep-import:src/components/ui/RepeatControl:5",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/ui/RepeatControl",
-      "line": 4,
+      "line": 5,
       "specifier": "../../contexts/ThemeContext",
       "evidence": "import type { Theme } from '../../contexts/ThemeContext'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -2872,46 +2872,6 @@
       "disposition": "review",
       "finding_confidence": "medium",
       "message": "import type { Theme } from '../../contexts/ThemeContext'",
-      "reason_code": "ts-react-quality-lens/deep_relative_import",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
-          "fix": "repair-dependency-edge"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "deep-import:src/components/ui/RepeatControl:4",
-            "kind": "deep_relative_import",
-            "file": "src/components/ui/RepeatControl",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "deep-import:src/components/ui/RepeatControl:5",
-      "kind": "deep_relative_import",
-      "severity": "medium",
-      "score": 35,
-      "file": "src/components/ui/RepeatControl",
-      "line": 5,
-      "specifier": "../../tokens",
-      "evidence": "import { uiTokens } from '../../tokens'",
-      "rule_id": "ts-react-quality-lens/deep_relative_import",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "import { uiTokens } from '../../tokens'",
       "reason_code": "ts-react-quality-lens/deep_relative_import",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -2945,6 +2905,46 @@
       "score": 35,
       "file": "src/components/ui/RepeatControl",
       "line": 6,
+      "specifier": "../../tokens",
+      "evidence": "import { uiTokens } from '../../tokens'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { uiTokens } from '../../tokens'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/ui/RepeatControl:6",
+            "kind": "deep_relative_import",
+            "file": "src/components/ui/RepeatControl",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/ui/RepeatControl:7",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/ui/RepeatControl",
+      "line": 7,
       "specifier": "../../assets/themes/teenie/repeat-character.png",
       "evidence": "import repeatCharacter from '../../assets/themes/teenie/repeat-character.png'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -2970,7 +2970,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/ui/RepeatControl:6",
+            "id": "deep-import:src/components/ui/RepeatControl:7",
             "kind": "deep_relative_import",
             "file": "src/components/ui/RepeatControl",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5739,6 +5739,46 @@
       ]
     },
     {
+      "id": "deep-import:src/features/dayNightExplorer/dayNightExplorerBackdrop:9",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop",
+      "line": 9,
+      "specifier": "../../lib/calendarSchedule",
+      "evidence": "import { getActivityAtMinute, type AgendaItem, } from '../../lib/calendarSchedule'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { getActivityAtMinute, type AgendaItem, } from '../../lib/calendarSchedule'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/features/dayNightExplorer/dayNightExplorerBackdrop:9",
+            "kind": "deep_relative_import",
+            "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "deep-import:src/features/dayNightExplorer/dayNightExplorerCalendar:1",
       "kind": "deep_relative_import",
       "severity": "medium",
@@ -6259,6 +6299,246 @@
       ]
     },
     {
+      "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:32",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
+      "line": 32,
+      "specifier": "../../hooks/useCalendarSchedule",
+      "evidence": "import { useCalendarSchedule } from '../../hooks/useCalendarSchedule'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { useCalendarSchedule } from '../../hooks/useCalendarSchedule'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:32",
+            "kind": "deep_relative_import",
+            "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:33",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
+      "line": 33,
+      "specifier": "../../hooks/useSchoolCalendar",
+      "evidence": "import { useSchoolCalendar } from '../../hooks/useSchoolCalendar'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { useSchoolCalendar } from '../../hooks/useSchoolCalendar'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:33",
+            "kind": "deep_relative_import",
+            "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:34",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
+      "line": 34,
+      "specifier": "../../lib/calendarSchedule",
+      "evidence": "import { getAgendaForDate } from '../../lib/calendarSchedule'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { getAgendaForDate } from '../../lib/calendarSchedule'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:34",
+            "kind": "deep_relative_import",
+            "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/features/dayNightExplorer/useSolarSystem3D:4",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/features/dayNightExplorer/useSolarSystem3D",
+      "line": 4,
+      "specifier": "../../lib/startupPerformance",
+      "evidence": "import { markStartup } from '../../lib/startupPerformance'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { markStartup } from '../../lib/startupPerformance'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/features/dayNightExplorer/useSolarSystem3D:4",
+            "kind": "deep_relative_import",
+            "file": "src/features/dayNightExplorer/useSolarSystem3D",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/lib/schoolCalendarData:8",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/lib/schoolCalendarData",
+      "line": 8,
+      "specifier": "../../functions/src/schoolEventCatalog",
+      "evidence": "import { classifySchoolEvent } from '../../functions/src/schoolEventCatalog'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { classifySchoolEvent } from '../../functions/src/schoolEventCatalog'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/lib/schoolCalendarData:8",
+            "kind": "deep_relative_import",
+            "file": "src/lib/schoolCalendarData",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/ui/schoolEventAssets:2",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/ui/schoolEventAssets",
+      "line": 2,
+      "specifier": "../../functions/src/schoolEventCatalog",
+      "evidence": "import type { SchoolEventArtwork } from '../../functions/src/schoolEventCatalog'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import type { SchoolEventArtwork } from '../../functions/src/schoolEventCatalog'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/ui/schoolEventAssets:2",
+            "kind": "deep_relative_import",
+            "file": "src/ui/schoolEventAssets",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "barrel:src/assets/themes/princess/assets",
       "kind": "barrel_fanout",
       "severity": "medium",
@@ -6292,12 +6572,12 @@
       ]
     },
     {
-      "id": "layer:src/App:7:src/routes/ProtectedRoute",
+      "id": "layer:src/App:8:src/routes/ProtectedRoute",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/App",
-      "line": 7,
+      "line": 8,
       "target": "src/routes/ProtectedRoute",
       "from_layer": "ui",
       "to_layer": "route",
@@ -6326,7 +6606,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/App:7:src/routes/ProtectedRoute",
+            "id": "layer:src/App:8:src/routes/ProtectedRoute",
             "kind": "layer_violation",
             "file": "src/App",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6335,12 +6615,12 @@
       ]
     },
     {
-      "id": "layer:src/App:8:src/routes/AnimatedTabLayout",
+      "id": "layer:src/App:9:src/routes/AnimatedTabLayout",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/App",
-      "line": 8,
+      "line": 9,
       "target": "src/routes/AnimatedTabLayout",
       "from_layer": "ui",
       "to_layer": "route",
@@ -6369,7 +6649,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/App:8:src/routes/AnimatedTabLayout",
+            "id": "layer:src/App:9:src/routes/AnimatedTabLayout",
             "kind": "layer_violation",
             "file": "src/App",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6378,12 +6658,12 @@
       ]
     },
     {
-      "id": "layer:src/App:11:src/pages/LoginPage",
+      "id": "layer:src/App:12:src/pages/LoginPage",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/App",
-      "line": 11,
+      "line": 12,
       "target": "src/pages/LoginPage",
       "from_layer": "ui",
       "to_layer": "route",
@@ -6412,7 +6692,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/App:11:src/pages/LoginPage",
+            "id": "layer:src/App:12:src/pages/LoginPage",
             "kind": "layer_violation",
             "file": "src/App",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6421,22 +6701,22 @@
       ]
     },
     {
-      "id": "layer:src/App:13:src/pages/DashboardPage",
+      "id": "layer:src/App:13:src/routes/routeModules",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/App",
       "line": 13,
-      "target": "src/pages/DashboardPage",
+      "target": "src/routes/routeModules",
       "from_layer": "ui",
       "to_layer": "route",
-      "specifier": "./pages/DashboardPage",
-      "evidence": "ui imports upward into route: ./pages/DashboardPage",
+      "specifier": "./routes/routeModules",
+      "evidence": "ui imports upward into route: ./routes/routeModules",
       "rule_id": "ts-react-quality-lens/layer_violation",
       "evidence_kind": "heuristic",
       "disposition": "warn",
       "finding_confidence": "medium",
-      "message": "ui imports upward into route: ./pages/DashboardPage",
+      "message": "ui imports upward into route: ./routes/routeModules",
       "reason_code": "ts-react-quality-lens/layer_violation",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -6455,7 +6735,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/App:13:src/pages/DashboardPage",
+            "id": "layer:src/App:13:src/routes/routeModules",
             "kind": "layer_violation",
             "file": "src/App",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6464,22 +6744,22 @@
       ]
     },
     {
-      "id": "layer:src/App:14:src/pages/TestsPage",
+      "id": "layer:src/App:14:src/routes/RoutePreloader",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/App",
       "line": 14,
-      "target": "src/pages/TestsPage",
+      "target": "src/routes/RoutePreloader",
       "from_layer": "ui",
       "to_layer": "route",
-      "specifier": "./pages/TestsPage",
-      "evidence": "ui imports upward into route: ./pages/TestsPage",
+      "specifier": "./routes/RoutePreloader",
+      "evidence": "ui imports upward into route: ./routes/RoutePreloader",
       "rule_id": "ts-react-quality-lens/layer_violation",
       "evidence_kind": "heuristic",
       "disposition": "warn",
       "finding_confidence": "medium",
-      "message": "ui imports upward into route: ./pages/TestsPage",
+      "message": "ui imports upward into route: ./routes/RoutePreloader",
       "reason_code": "ts-react-quality-lens/layer_violation",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -6498,179 +6778,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/App:14:src/pages/TestsPage",
-            "kind": "layer_violation",
-            "file": "src/App",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "layer:src/App:15:src/pages/RewardsPage",
-      "kind": "layer_violation",
-      "severity": "high",
-      "score": 75,
-      "file": "src/App",
-      "line": 15,
-      "target": "src/pages/RewardsPage",
-      "from_layer": "ui",
-      "to_layer": "route",
-      "specifier": "./pages/RewardsPage",
-      "evidence": "ui imports upward into route: ./pages/RewardsPage",
-      "rule_id": "ts-react-quality-lens/layer_violation",
-      "evidence_kind": "heuristic",
-      "disposition": "warn",
-      "finding_confidence": "medium",
-      "message": "ui imports upward into route: ./pages/RewardsPage",
-      "reason_code": "ts-react-quality-lens/layer_violation",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "layer:src/App:15:src/pages/RewardsPage",
-            "kind": "layer_violation",
-            "file": "src/App",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "layer:src/App:16:src/pages/TimeExplorerPage",
-      "kind": "layer_violation",
-      "severity": "high",
-      "score": 75,
-      "file": "src/App",
-      "line": 16,
-      "target": "src/pages/TimeExplorerPage",
-      "from_layer": "ui",
-      "to_layer": "route",
-      "specifier": "./pages/TimeExplorerPage",
-      "evidence": "ui imports upward into route: ./pages/TimeExplorerPage",
-      "rule_id": "ts-react-quality-lens/layer_violation",
-      "evidence_kind": "heuristic",
-      "disposition": "warn",
-      "finding_confidence": "medium",
-      "message": "ui imports upward into route: ./pages/TimeExplorerPage",
-      "reason_code": "ts-react-quality-lens/layer_violation",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "layer:src/App:16:src/pages/TimeExplorerPage",
-            "kind": "layer_violation",
-            "file": "src/App",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "layer:src/App:17:src/pages/ManageChildrenPage",
-      "kind": "layer_violation",
-      "severity": "high",
-      "score": 75,
-      "file": "src/App",
-      "line": 17,
-      "target": "src/pages/ManageChildrenPage",
-      "from_layer": "ui",
-      "to_layer": "route",
-      "specifier": "./pages/ManageChildrenPage",
-      "evidence": "ui imports upward into route: ./pages/ManageChildrenPage",
-      "rule_id": "ts-react-quality-lens/layer_violation",
-      "evidence_kind": "heuristic",
-      "disposition": "warn",
-      "finding_confidence": "medium",
-      "message": "ui imports upward into route: ./pages/ManageChildrenPage",
-      "reason_code": "ts-react-quality-lens/layer_violation",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "layer:src/App:17:src/pages/ManageChildrenPage",
-            "kind": "layer_violation",
-            "file": "src/App",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "layer:src/App:18:src/routes/ProtectedDataRoute",
-      "kind": "layer_violation",
-      "severity": "high",
-      "score": 75,
-      "file": "src/App",
-      "line": 18,
-      "target": "src/routes/ProtectedDataRoute",
-      "from_layer": "ui",
-      "to_layer": "route",
-      "specifier": "./routes/ProtectedDataRoute",
-      "evidence": "ui imports upward into route: ./routes/ProtectedDataRoute",
-      "rule_id": "ts-react-quality-lens/layer_violation",
-      "evidence_kind": "heuristic",
-      "disposition": "warn",
-      "finding_confidence": "medium",
-      "message": "ui imports upward into route: ./routes/ProtectedDataRoute",
-      "reason_code": "ts-react-quality-lens/layer_violation",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "layer:src/App:18:src/routes/ProtectedDataRoute",
+            "id": "layer:src/App:14:src/routes/RoutePreloader",
             "kind": "layer_violation",
             "file": "src/App",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6851,12 +6959,12 @@
       ]
     },
     {
-      "id": "layer:src/data/useChildren:21:src/auth/AuthContext",
+      "id": "layer:src/data/useChildren:15:src/auth/AuthContext",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/data/useChildren",
-      "line": 21,
+      "line": 15,
       "target": "src/auth/AuthContext",
       "from_layer": "hook",
       "to_layer": "ui",
@@ -6885,7 +6993,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/data/useChildren:21:src/auth/AuthContext",
+            "id": "layer:src/data/useChildren:15:src/auth/AuthContext",
             "kind": "layer_violation",
             "file": "src/data/useChildren",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6894,12 +7002,12 @@
       ]
     },
     {
-      "id": "layer:src/data/useChildren:22:src/contexts/ActiveChildContext",
+      "id": "layer:src/data/useChildren:16:src/contexts/ActiveChildContext",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/data/useChildren",
-      "line": 22,
+      "line": 16,
       "target": "src/contexts/ActiveChildContext",
       "from_layer": "hook",
       "to_layer": "ui",
@@ -6928,7 +7036,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/data/useChildren:22:src/contexts/ActiveChildContext",
+            "id": "layer:src/data/useChildren:16:src/contexts/ActiveChildContext",
             "kind": "layer_violation",
             "file": "src/data/useChildren",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6937,12 +7045,12 @@
       ]
     },
     {
-      "id": "layer:src/data/useRewards:16:src/auth/AuthContext",
+      "id": "layer:src/data/useRewards:9:src/auth/AuthContext",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/data/useRewards",
-      "line": 16,
+      "line": 9,
       "target": "src/auth/AuthContext",
       "from_layer": "hook",
       "to_layer": "ui",
@@ -6971,7 +7079,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/data/useRewards:16:src/auth/AuthContext",
+            "id": "layer:src/data/useRewards:9:src/auth/AuthContext",
             "kind": "layer_violation",
             "file": "src/data/useRewards",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6980,12 +7088,12 @@
       ]
     },
     {
-      "id": "layer:src/data/useRewards:17:src/contexts/ActiveChildContext",
+      "id": "layer:src/data/useRewards:10:src/contexts/ActiveChildContext",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/data/useRewards",
-      "line": 17,
+      "line": 10,
       "target": "src/contexts/ActiveChildContext",
       "from_layer": "hook",
       "to_layer": "ui",
@@ -7014,7 +7122,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/data/useRewards:17:src/contexts/ActiveChildContext",
+            "id": "layer:src/data/useRewards:10:src/contexts/ActiveChildContext",
             "kind": "layer_violation",
             "file": "src/data/useRewards",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7109,12 +7217,12 @@
       ]
     },
     {
-      "id": "layer:src/offline/runtime:3:src/lib/today",
+      "id": "layer:src/offline/importWebProgress:1:src/lib/today",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
-      "file": "src/offline/runtime",
-      "line": 3,
+      "file": "src/offline/importWebProgress",
+      "line": 1,
       "target": "src/lib/today",
       "from_layer": "core",
       "to_layer": "lib",
@@ -7143,7 +7251,50 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/offline/runtime:3:src/lib/today",
+            "id": "layer:src/offline/importWebProgress:1:src/lib/today",
+            "kind": "layer_violation",
+            "file": "src/offline/importWebProgress",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "layer:src/offline/runtime:4:src/lib/today",
+      "kind": "layer_violation",
+      "severity": "high",
+      "score": 75,
+      "file": "src/offline/runtime",
+      "line": 4,
+      "target": "src/lib/today",
+      "from_layer": "core",
+      "to_layer": "lib",
+      "specifier": "../lib/today",
+      "evidence": "core imports upward into lib: ../lib/today",
+      "rule_id": "ts-react-quality-lens/layer_violation",
+      "evidence_kind": "heuristic",
+      "disposition": "warn",
+      "finding_confidence": "medium",
+      "message": "core imports upward into lib: ../lib/today",
+      "reason_code": "ts-react-quality-lens/layer_violation",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "layer:src/offline/runtime:4:src/lib/today",
             "kind": "layer_violation",
             "file": "src/offline/runtime",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7152,12 +7303,12 @@
       ]
     },
     {
-      "id": "layer:src/offline/runtime:14:src/lib/snapshotStore",
+      "id": "layer:src/offline/runtime:15:src/lib/snapshotStore",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/offline/runtime",
-      "line": 14,
+      "line": 15,
       "target": "src/lib/snapshotStore",
       "from_layer": "core",
       "to_layer": "lib",
@@ -7186,7 +7337,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/offline/runtime:14:src/lib/snapshotStore",
+            "id": "layer:src/offline/runtime:15:src/lib/snapshotStore",
             "kind": "layer_violation",
             "file": "src/offline/runtime",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7793,6 +7944,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/auth/sessionPreloadHint",
+        "file": "src/auth/sessionPreloadHint.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/components/AlphabetTester",
         "file": "src/components/AlphabetTester.tsx",
         "layer": "ui",
@@ -7825,6 +7982,12 @@
       {
         "id": "src/components/ChoreOutcomeView",
         "file": "src/components/ChoreOutcomeView.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/components/DayAgenda",
+        "file": "src/components/DayAgenda.tsx",
         "layer": "ui",
         "workspace_id": "mystarquest"
       },
@@ -7873,6 +8036,18 @@
       {
         "id": "src/components/SchoolCalendar",
         "file": "src/components/SchoolCalendar.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/components/SchoolCalendarSync",
+        "file": "src/components/SchoolCalendarSync.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/components/SchoolEvents",
+        "file": "src/components/SchoolEvents.tsx",
         "layer": "ui",
         "workspace_id": "mystarquest"
       },
@@ -8615,8 +8790,20 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/hooks/useCalendarSchedule",
+        "file": "src/hooks/useCalendarSchedule.ts",
+        "layer": "hook",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/hooks/useCoalescedDocumentUpdates",
         "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+        "layer": "hook",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/hooks/useConnectivity",
+        "file": "src/hooks/useConnectivity.ts",
         "layer": "hook",
         "workspace_id": "mystarquest"
       },
@@ -8651,6 +8838,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/hooks/useSchoolCalendar",
+        "file": "src/hooks/useSchoolCalendar.ts",
+        "layer": "hook",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/hooks/useTaskActivityState",
         "file": "src/hooks/useTaskActivityState.ts",
         "layer": "hook",
@@ -8677,6 +8870,18 @@
       {
         "id": "src/lib/activityOutcome",
         "file": "src/lib/activityOutcome.ts",
+        "layer": "lib",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/lib/afterFirstPaint",
+        "file": "src/lib/afterFirstPaint.ts",
+        "layer": "lib",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/lib/calendarSchedule",
+        "file": "src/lib/calendarSchedule.ts",
         "layer": "lib",
         "workspace_id": "mystarquest"
       },
@@ -8717,6 +8922,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/lib/registerOfflineShell",
+        "file": "src/lib/registerOfflineShell.ts",
+        "layer": "lib",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/lib/schoolCalendarCache",
         "file": "src/lib/schoolCalendarCache.ts",
         "layer": "lib",
@@ -8725,6 +8936,18 @@
       {
         "id": "src/lib/schoolCalendarData",
         "file": "src/lib/schoolCalendarData.ts",
+        "layer": "lib",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/lib/schoolCalendarNative",
+        "file": "src/lib/schoolCalendarNative.ts",
+        "layer": "lib",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/lib/schoolCalendarStore",
+        "file": "src/lib/schoolCalendarStore.ts",
         "layer": "lib",
         "workspace_id": "mystarquest"
       },
@@ -8749,6 +8972,12 @@
       {
         "id": "src/lib/starActions",
         "file": "src/lib/starActions.ts",
+        "layer": "lib",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/lib/startupPerformance",
+        "file": "src/lib/startupPerformance.ts",
         "layer": "lib",
         "workspace_id": "mystarquest"
       },
@@ -8827,6 +9056,12 @@
       {
         "id": "src/offline/firebaseTransport",
         "file": "src/offline/firebaseTransport.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/offline/importWebProgress",
+        "file": "src/offline/importWebProgress.ts",
         "layer": "core",
         "workspace_id": "mystarquest"
       },
@@ -8951,8 +9186,26 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/routes/RoutePreloader",
+        "file": "src/routes/RoutePreloader.tsx",
+        "layer": "route",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/routes/RouteReady",
+        "file": "src/routes/RouteReady.tsx",
+        "layer": "route",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/routes/TabPageBoundary",
         "file": "src/routes/TabPageBoundary.tsx",
+        "layer": "route",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/routes/routeModules",
+        "file": "src/routes/routeModules.ts",
         "layer": "route",
         "workspace_id": "mystarquest"
       },
@@ -8996,6 +9249,12 @@
         "id": "src/ui/presetChoreRenderers",
         "file": "src/ui/presetChoreRenderers.tsx",
         "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/ui/schoolEventAssets",
+        "file": "src/ui/schoolEventAssets.ts",
+        "layer": "core",
         "workspace_id": "mystarquest"
       },
       {
@@ -9112,7 +9371,7 @@
         "tsconfigs": [
           "tsconfig.app.json"
         ],
-        "source_files": 224,
+        "source_files": 242,
         "project_loaded": true,
         "project_reason": null
       }
@@ -9131,13 +9390,23 @@
       },
       {
         "from": "src/App",
+        "to": "src/components/SchoolCalendarSync",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/App",
         "to": "react-router-dom",
         "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 2
+        "line": 3
       },
       {
         "from": "src/App",
@@ -9147,7 +9416,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 3
+        "line": 4
       },
       {
         "from": "src/App",
@@ -9157,7 +9426,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 5
       },
       {
         "from": "src/App",
@@ -9167,7 +9436,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 5
+        "line": 6
       },
       {
         "from": "src/App",
@@ -9177,7 +9446,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 6
+        "line": 7
       },
       {
         "from": "src/App",
@@ -9187,7 +9456,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 7
+        "line": 8
       },
       {
         "from": "src/App",
@@ -9197,7 +9466,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 8
+        "line": 9
       },
       {
         "from": "src/App",
@@ -9207,7 +9476,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 9
+        "line": 10
       },
       {
         "from": "src/App",
@@ -9217,7 +9486,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 10
+        "line": 11
       },
       {
         "from": "src/App",
@@ -9227,13 +9496,13 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 11
+        "line": 12
       },
       {
         "from": "src/App",
-        "to": "src/pages/DashboardPage",
+        "to": "src/routes/routeModules",
         "kind": "relative",
-        "import_kind": "dynamic",
+        "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
@@ -9241,53 +9510,13 @@
       },
       {
         "from": "src/App",
-        "to": "src/pages/TestsPage",
+        "to": "src/routes/RoutePreloader",
         "kind": "relative",
-        "import_kind": "dynamic",
+        "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 14
-      },
-      {
-        "from": "src/App",
-        "to": "src/pages/RewardsPage",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 15
-      },
-      {
-        "from": "src/App",
-        "to": "src/pages/TimeExplorerPage",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 16
-      },
-      {
-        "from": "src/App",
-        "to": "src/pages/ManageChildrenPage",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 17
-      },
-      {
-        "from": "src/App",
-        "to": "src/routes/ProtectedDataRoute",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 18
       },
       {
         "from": "src/assets/chores/assets",
@@ -9847,7 +10076,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 11
+        "line": 12
       },
       {
         "from": "src/auth/AuthProvider",
@@ -9857,7 +10086,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 12
+        "line": 13
       },
       {
         "from": "src/auth/AuthProvider",
@@ -9867,7 +10096,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 14
       },
       {
         "from": "src/auth/AuthProvider",
@@ -9877,7 +10106,27 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 16
+      },
+      {
+        "from": "src/auth/AuthProvider",
+        "to": "src/auth/sessionPreloadHint",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 17
+      },
+      {
+        "from": "src/auth/AuthProvider",
+        "to": "src/lib/startupPerformance",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 18
       },
       {
         "from": "src/components/AlphabetTester",
@@ -10366,6 +10615,36 @@
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/components/DayAgenda",
+        "to": "src/contexts/ThemeContext",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/DayAgenda",
+        "to": "src/lib/calendarSchedule",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/components/DayAgenda",
+        "to": "src/components/DayAgenda.css",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
         "workspace_dependency": false,
         "line": 3
       },
@@ -10991,7 +11270,7 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/lib/schoolCalendarData",
+        "to": "src/hooks/useSchoolCalendar",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -11001,13 +11280,153 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/tokens/index",
+        "to": "src/hooks/useCalendarSchedule",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 13
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/lib/calendarSchedule",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 14
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/components/DayAgenda",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 15
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/components/SchoolEvents",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 16
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/lib/schoolCalendarData",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 17
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/ui/schoolEventAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 18
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/tokens/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 19
+      },
+      {
+        "from": "src/components/SchoolCalendarSync",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/SchoolCalendarSync",
+        "to": "src/auth/AuthContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/components/SchoolCalendarSync",
+        "to": "src/lib/afterFirstPaint",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/components/SchoolCalendarSync",
+        "to": "src/lib/schoolCalendarStore",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 15
+      },
+      {
+        "from": "src/components/SchoolEvents",
+        "to": "src/contexts/ThemeContext",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/SchoolEvents",
+        "to": "src/lib/schoolCalendarData",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/components/SchoolEvents",
+        "to": "src/ui/schoolEventAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
+        "from": "src/components/SchoolEvents",
+        "to": "src/components/DayAgenda.css",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 7
       },
       {
         "from": "src/components/SpellingTester",
@@ -12721,13 +13140,23 @@
       },
       {
         "from": "src/components/ui/RepeatControl",
+        "to": "src/components/ui/ActionArtwork",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/components/ui/RepeatControl",
         "to": "src/contexts/ThemeContext",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 5
       },
       {
         "from": "src/components/ui/RepeatControl",
@@ -12737,7 +13166,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 5
+        "line": 6
       },
       {
         "from": "src/components/ui/RepeatControl",
@@ -12747,7 +13176,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 6
+        "line": 7
       },
       {
         "from": "src/components/ui/ResourceLoadingIcon",
@@ -14031,7 +14460,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/spring-sunrise.webp",
+        "to": "src/assets/themes/princess/agenda/ballet.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14041,7 +14470,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/spring-daytime.webp",
+        "to": "src/assets/themes/princess/agenda/swimming.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14051,7 +14480,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/spring-sunset.webp",
+        "to": "src/assets/themes/princess/agenda/judo.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14061,7 +14490,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/spring-night.webp",
+        "to": "src/assets/themes/princess/agenda/piano.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14071,17 +14500,17 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/summer-sunrise.webp",
+        "to": "src/lib/calendarSchedule",
         "kind": "relative",
-        "import_kind": "static",
+        "import_kind": "type",
         "from_workspace": "mystarquest",
-        "to_workspace": null,
+        "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 18
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/summer-daytime.webp",
+        "to": "src/assets/themes/princess/seasons/spring-sunrise.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14091,7 +14520,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/summer-sunset.webp",
+        "to": "src/assets/themes/princess/seasons/spring-daytime.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14101,7 +14530,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/summer-night.webp",
+        "to": "src/assets/themes/princess/seasons/spring-sunset.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14111,7 +14540,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/autumn-sunrise.webp",
+        "to": "src/assets/themes/princess/seasons/spring-night.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14121,7 +14550,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/autumn-daytime.webp",
+        "to": "src/assets/themes/princess/seasons/summer-sunrise.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14131,7 +14560,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/autumn-sunset.webp",
+        "to": "src/assets/themes/princess/seasons/summer-daytime.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14141,7 +14570,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/autumn-night.webp",
+        "to": "src/assets/themes/princess/seasons/summer-sunset.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14151,7 +14580,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/winter-sunrise.webp",
+        "to": "src/assets/themes/princess/seasons/summer-night.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14161,7 +14590,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/winter-daytime.webp",
+        "to": "src/assets/themes/princess/seasons/autumn-sunrise.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14171,7 +14600,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/winter-sunset.webp",
+        "to": "src/assets/themes/princess/seasons/autumn-daytime.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14181,7 +14610,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/winter-night.webp",
+        "to": "src/assets/themes/princess/seasons/autumn-sunset.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14191,7 +14620,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/fonts/Nunito/Nunito-VariableFont_wght.woff2",
+        "to": "src/assets/themes/princess/seasons/autumn-night.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14201,7 +14630,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/fonts/Merienda/Merienda-VariableFont_wght.woff2",
+        "to": "src/assets/themes/princess/seasons/winter-sunrise.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14211,13 +14640,63 @@
       },
       {
         "from": "src/contexts/ThemeContext",
+        "to": "src/assets/themes/princess/seasons/winter-daytime.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 32
+      },
+      {
+        "from": "src/contexts/ThemeContext",
+        "to": "src/assets/themes/princess/seasons/winter-sunset.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 33
+      },
+      {
+        "from": "src/contexts/ThemeContext",
+        "to": "src/assets/themes/princess/seasons/winter-night.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 34
+      },
+      {
+        "from": "src/contexts/ThemeContext",
+        "to": "src/assets/fonts/Nunito/Nunito-VariableFont_wght.woff2",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 35
+      },
+      {
+        "from": "src/contexts/ThemeContext",
+        "to": "src/assets/fonts/Merienda/Merienda-VariableFont_wght.woff2",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 36
+      },
+      {
+        "from": "src/contexts/ThemeContext",
         "to": "src/lib/seasons",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 32
+        "line": 37
       },
       {
         "from": "src/contexts/ThemeProvider",
@@ -15367,7 +15846,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 76
+        "line": 75
       },
       {
         "from": "src/data/taskDocuments",
@@ -15587,7 +16066,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 18
+        "line": 12
       },
       {
         "from": "src/data/useChildren",
@@ -15597,7 +16076,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 19
+        "line": 13
       },
       {
         "from": "src/data/useChildren",
@@ -15607,7 +16086,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 20
+        "line": 14
       },
       {
         "from": "src/data/useChildren",
@@ -15617,7 +16096,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 21
+        "line": 15
       },
       {
         "from": "src/data/useChildren",
@@ -15627,7 +16106,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 22
+        "line": 16
       },
       {
         "from": "src/data/useChildren",
@@ -15637,7 +16116,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 23
+        "line": 17
       },
       {
         "from": "src/data/useChildren",
@@ -15647,7 +16126,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 24
+        "line": 18
       },
       {
         "from": "src/data/useChildren",
@@ -15657,7 +16136,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 29
+        "line": 23
       },
       {
         "from": "src/data/useChildren",
@@ -15667,7 +16146,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 34
+        "line": 28
       },
       {
         "from": "src/data/useChildren",
@@ -15677,7 +16156,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 35
+        "line": 29
       },
       {
         "from": "src/data/useChildren",
@@ -15687,7 +16166,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 36
+        "line": 30
       },
       {
         "from": "src/data/useChildren",
@@ -15697,7 +16176,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 37
+        "line": 34
       },
       {
         "from": "src/data/useChoreActivityActions",
@@ -15937,7 +16416,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 5
       },
       {
         "from": "src/data/useRewards",
@@ -15947,7 +16426,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 6
       },
       {
         "from": "src/data/useRewards",
@@ -15957,17 +16436,17 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 7
       },
       {
         "from": "src/data/useRewards",
-        "to": "src/offline/runtime",
+        "to": "src/data/useChildren",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 8
       },
       {
         "from": "src/data/useRewards",
@@ -15977,7 +16456,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 16
+        "line": 9
       },
       {
         "from": "src/data/useRewards",
@@ -15987,7 +16466,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 17
+        "line": 10
       },
       {
         "from": "src/data/useRewards",
@@ -15997,7 +16476,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 18
+        "line": 11
       },
       {
         "from": "src/data/useRewards",
@@ -16007,7 +16486,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 19
+        "line": 12
       },
       {
         "from": "src/data/useRewards",
@@ -16017,7 +16496,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 25
+        "line": 17
       },
       {
         "from": "src/data/useRewards",
@@ -16027,7 +16506,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 26
+        "line": 18
       },
       {
         "from": "src/data/useRewards",
@@ -16037,7 +16516,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 27
+        "line": 19
       },
       {
         "from": "src/data/useRewards",
@@ -16047,7 +16526,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 28
+        "line": 20
       },
       {
         "from": "src/data/useTests",
@@ -16307,7 +16786,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 3
+        "line": 9
       },
       {
         "from": "src/data/useUserDocumentUpdates",
@@ -16317,7 +16796,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 10
       },
       {
         "from": "src/data/useUserDocumentUpdates",
@@ -16327,7 +16806,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 5
+        "line": 11
       },
       {
         "from": "src/data/useUserDocumentUpdates",
@@ -16337,7 +16816,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 6
+        "line": 12
       },
       {
         "from": "src/data/useUserDocumentUpdates",
@@ -16347,7 +16826,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 7
+        "line": 13
       },
       {
         "from": "src/data/useUserDocumentUpdates",
@@ -16357,7 +16836,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 8
+        "line": 14
       },
       {
         "from": "src/features/dayNightExplorer/Clock",
@@ -16660,6 +17139,16 @@
         "line": 8
       },
       {
+        "from": "src/features/dayNightExplorer/dayNightExplorerBackdrop",
+        "to": "src/lib/calendarSchedule",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 9
+      },
+      {
         "from": "src/features/dayNightExplorer/dayNightExplorerCalendar",
         "to": "src/lib/solar",
         "kind": "relative",
@@ -16787,7 +17276,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 1
+        "line": 2
       },
       {
         "from": "src/features/dayNightExplorer/earthTextureCache",
@@ -16970,6 +17459,36 @@
         "line": 31
       },
       {
+        "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
+        "to": "src/hooks/useCalendarSchedule",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 32
+      },
+      {
+        "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
+        "to": "src/hooks/useSchoolCalendar",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 33
+      },
+      {
+        "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
+        "to": "src/lib/calendarSchedule",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 34
+      },
+      {
         "from": "src/features/dayNightExplorer/useExplorerClock",
         "to": "react",
         "kind": "external",
@@ -17013,11 +17532,41 @@
         "from": "src/features/dayNightExplorer/useSolarSystem3D",
         "to": "src/features/dayNightExplorer/SolarSystem3DManager",
         "kind": "relative",
-        "import_kind": "static",
+        "import_kind": "type",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 2
+      },
+      {
+        "from": "src/features/dayNightExplorer/useSolarSystem3D",
+        "to": "src/features/dayNightExplorer/SolarSystem3DManager",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/features/dayNightExplorer/useSolarSystem3D",
+        "to": "src/lib/startupPerformance",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/features/dayNightExplorer/useSolarSystem3D",
+        "to": "src/features/dayNightExplorer/SolarSystem3DManager",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 30
       },
       {
         "from": "src/features/dayNightExplorer/worldMapCanvas",
@@ -17107,7 +17656,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 8
+        "line": 9
       },
       {
         "from": "src/hooks/useActivityPersistence",
@@ -17140,6 +17689,26 @@
         "line": 1
       },
       {
+        "from": "src/hooks/useCalendarSchedule",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/hooks/useCalendarSchedule",
+        "to": "src/lib/calendarSchedule",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
         "from": "src/hooks/useCoalescedDocumentUpdates",
         "to": "react",
         "kind": "external",
@@ -17158,6 +17727,16 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 2
+      },
+      {
+        "from": "src/hooks/useConnectivity",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
       },
       {
         "from": "src/hooks/useCurrentWeather",
@@ -17300,6 +17879,26 @@
         "line": 3
       },
       {
+        "from": "src/hooks/useSchoolCalendar",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/hooks/useSchoolCalendar",
+        "to": "src/lib/schoolCalendarStore",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
         "from": "src/hooks/useTaskActivityState",
         "to": "react",
         "kind": "external",
@@ -17440,6 +18039,56 @@
         "line": 6
       },
       {
+        "from": "src/lib/calendarSchedule",
+        "to": "zod",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/lib/calendarSchedule",
+        "to": "src/data/calendarSchedule.json",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/lib/calendarSchedule",
+        "to": "src/lib/today",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/lib/calendarSchedule",
+        "to": "src/lib/schoolCalendarData",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/lib/calendarSchedule",
+        "to": "src/lib/schoolCalendarData",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
         "from": "src/lib/celebrate",
         "to": "canvas-confetti",
         "kind": "external",
@@ -17480,6 +18129,26 @@
         "line": 11
       },
       {
+        "from": "src/lib/registerOfflineShell",
+        "to": "@capacitor/core",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/lib/registerOfflineShell",
+        "to": "src/lib/afterFirstPaint",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
         "from": "src/lib/schoolCalendarData",
         "to": "zod",
         "kind": "external",
@@ -17498,6 +18167,86 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 2
+      },
+      {
+        "from": "src/lib/schoolCalendarData",
+        "to": "functions/src/schoolEventCatalog",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 8
+      },
+      {
+        "from": "src/lib/schoolCalendarNative",
+        "to": "@capacitor/core",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/lib/schoolCalendarNative",
+        "to": "src/lib/schoolCalendarData",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
+        "from": "src/lib/schoolCalendarStore",
+        "to": "src/data/calendar/school-calendar.json",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/lib/schoolCalendarStore",
+        "to": "src/lib/snapshotStore",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/lib/schoolCalendarStore",
+        "to": "src/lib/schoolCalendarCache",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/lib/schoolCalendarStore",
+        "to": "src/lib/schoolCalendarData",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/lib/schoolCalendarStore",
+        "to": "src/lib/schoolCalendarNative",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 11
       },
       {
         "from": "src/lib/starActions",
@@ -17578,16 +18327,6 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 1
-      },
-      {
-        "from": "src/lib/today",
-        "to": "src/lib/seasons",
-        "kind": "relative",
-        "import_kind": "type",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 2
       },
       {
         "from": "src/lib/useProblemHistory",
@@ -17780,6 +18519,26 @@
         "line": 4
       },
       {
+        "from": "src/main",
+        "to": "src/lib/startupPerformance",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/main",
+        "to": "src/lib/registerOfflineShell",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
         "from": "src/offline/OfflineBoundary",
         "to": "react",
         "kind": "external",
@@ -17818,6 +18577,26 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 4
+      },
+      {
+        "from": "src/offline/OfflineBoundary",
+        "to": "src/lib/startupPerformance",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/offline/OfflineBoundary",
+        "to": "src/hooks/useConnectivity",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 6
       },
       {
         "from": "src/offline/actions",
@@ -17910,6 +18689,36 @@
         "line": 11
       },
       {
+        "from": "src/offline/importWebProgress",
+        "to": "src/lib/today",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/offline/importWebProgress",
+        "to": "src/data/types",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/offline/importWebProgress",
+        "to": "src/offline/model",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
         "from": "src/offline/model",
         "to": "zod",
         "kind": "external",
@@ -17951,17 +18760,17 @@
       },
       {
         "from": "src/offline/runtime",
-        "to": "src/firebaseDb",
-        "kind": "relative",
+        "to": "@capacitor/core",
+        "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
+        "to_workspace": null,
         "workspace_dependency": false,
         "line": 2
       },
       {
         "from": "src/offline/runtime",
-        "to": "src/lib/today",
+        "to": "src/firebaseDb",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -17971,7 +18780,7 @@
       },
       {
         "from": "src/offline/runtime",
-        "to": "src/offline/model",
+        "to": "src/lib/today",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -17981,7 +18790,7 @@
       },
       {
         "from": "src/offline/runtime",
-        "to": "src/offline/persistence",
+        "to": "src/offline/model",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -17991,7 +18800,7 @@
       },
       {
         "from": "src/offline/runtime",
-        "to": "src/offline/store",
+        "to": "src/offline/persistence",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -18001,7 +18810,7 @@
       },
       {
         "from": "src/offline/runtime",
-        "to": "src/offline/sync",
+        "to": "src/offline/store",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -18011,7 +18820,7 @@
       },
       {
         "from": "src/offline/runtime",
-        "to": "src/offline/firebaseTransport",
+        "to": "src/offline/sync",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -18021,13 +18830,23 @@
       },
       {
         "from": "src/offline/runtime",
+        "to": "src/offline/firebaseTransport",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 9
+      },
+      {
+        "from": "src/offline/runtime",
         "to": "src/offline/selectors",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 14
       },
       {
         "from": "src/offline/runtime",
@@ -18037,7 +18856,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 15
       },
       {
         "from": "src/offline/selectors",
@@ -18088,6 +18907,16 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 12
+      },
+      {
+        "from": "src/offline/store",
+        "to": "src/offline/importWebProgress",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 13
       },
       {
         "from": "src/offline/sync",
@@ -18618,6 +19447,16 @@
         "to_workspace": null,
         "workspace_dependency": false,
         "line": 8
+      },
+      {
+        "from": "src/pages/LoginPage",
+        "to": "src/hooks/useConnectivity",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 9
       },
       {
         "from": "src/pages/ManageChildrenPage",
@@ -19181,7 +20020,7 @@
       },
       {
         "from": "src/pages/TimeExplorerPage",
-        "to": "src/components/SchoolCalendar",
+        "to": "src/tokens/index",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19191,7 +20030,7 @@
       },
       {
         "from": "src/pages/TimeExplorerPage",
-        "to": "src/tokens/index",
+        "to": "src/ui/themeAssets",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19201,7 +20040,7 @@
       },
       {
         "from": "src/pages/TimeExplorerPage",
-        "to": "src/ui/themeAssets",
+        "to": "src/features/dayNightExplorer/SpinningPlanet",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19211,7 +20050,7 @@
       },
       {
         "from": "src/pages/TimeExplorerPage",
-        "to": "src/features/dayNightExplorer/SpinningPlanet",
+        "to": "src/features/dayNightExplorer/Clock",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19221,7 +20060,7 @@
       },
       {
         "from": "src/pages/TimeExplorerPage",
-        "to": "src/features/dayNightExplorer/Clock",
+        "to": "src/features/dayNightExplorer/useDayNightExplorerModel",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19231,23 +20070,13 @@
       },
       {
         "from": "src/pages/TimeExplorerPage",
-        "to": "src/features/dayNightExplorer/useDayNightExplorerModel",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 10
-      },
-      {
-        "from": "src/pages/TimeExplorerPage",
         "to": "src/features/dayNightExplorer/dayNightExplorer.css",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 11
+        "line": 10
       },
       {
         "from": "src/pages/TimeExplorerPage",
@@ -19257,7 +20086,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 11
       },
       {
         "from": "src/pages/TimeExplorerPage",
@@ -19267,7 +20096,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 12
       },
       {
         "from": "src/pages/TimeExplorerPage",
@@ -19277,27 +20106,27 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 17
+        "line": 16
       },
       {
         "from": "src/pages/TimeExplorerPage",
         "to": "src/components/weather/WeatherPanel",
         "kind": "relative",
-        "import_kind": "static",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 20
+      },
+      {
+        "from": "src/pages/TimeExplorerPage",
+        "to": "src/components/SchoolCalendar",
+        "kind": "relative",
+        "import_kind": "dynamic",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 21
-      },
-      {
-        "from": "src/pages/TimeExplorerPage",
-        "to": "src/components/weather/WeatherScene",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 22
       },
       {
         "from": "src/pages/dashboardChoreUi",
@@ -19430,6 +20259,16 @@
         "line": 9
       },
       {
+        "from": "src/routes/AnimatedTabLayout",
+        "to": "src/routes/RouteReady",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 10
+      },
+      {
         "from": "src/routes/ProtectedDataRoute",
         "to": "react-router-dom",
         "kind": "external",
@@ -19480,6 +20319,76 @@
         "line": 2
       },
       {
+        "from": "src/routes/RoutePreloader",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/routes/RoutePreloader",
+        "to": "react-router-dom",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/routes/RoutePreloader",
+        "to": "src/auth/AuthContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/routes/RoutePreloader",
+        "to": "src/auth/sessionPreloadHint",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/routes/RoutePreloader",
+        "to": "src/routes/routeModules",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/routes/RouteReady",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/routes/RouteReady",
+        "to": "src/lib/startupPerformance",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
         "from": "src/routes/TabPageBoundary",
         "to": "react",
         "kind": "external",
@@ -19498,6 +20407,66 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 2
+      },
+      {
+        "from": "src/routes/routeModules",
+        "to": "src/pages/DashboardPage",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/routes/routeModules",
+        "to": "src/pages/TestsPage",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/routes/routeModules",
+        "to": "src/pages/RewardsPage",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/routes/routeModules",
+        "to": "src/pages/TimeExplorerPage",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/routes/routeModules",
+        "to": "src/pages/ManageChildrenPage",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
+        "from": "src/routes/routeModules",
+        "to": "src/routes/ProtectedDataRoute",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 7
       },
       {
         "from": "src/tokens/index",
@@ -19756,6 +20725,26 @@
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/ui/schoolEventAssets",
+        "to": "src/data/assetCatalog",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/ui/schoolEventAssets",
+        "to": "functions/src/schoolEventCatalog",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
         "workspace_dependency": false,
         "line": 2
       },
@@ -20051,7 +21040,7 @@
       },
       {
         "from": "src/ui/themeAssets",
-        "to": "src/assets/themes/princess/tidying-up.webp",
+        "to": "src/assets/teenie/ballet.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20061,7 +21050,7 @@
       },
       {
         "from": "src/ui/themeAssets",
-        "to": "src/assets/themes/princess/writing.svg",
+        "to": "src/assets/themes/princess/tidying-up.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20071,7 +21060,7 @@
       },
       {
         "from": "src/ui/themeAssets",
-        "to": "src/assets/themes/princess/brave-princess.png",
+        "to": "src/assets/themes/princess/writing.svg",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20081,7 +21070,7 @@
       },
       {
         "from": "src/ui/themeAssets",
-        "to": "src/assets/themes/princess/getting-dressed-quickly.png",
+        "to": "src/assets/themes/princess/brave-princess.png",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20091,7 +21080,7 @@
       },
       {
         "from": "src/ui/themeAssets",
-        "to": "src/assets/themes/princess/dinner-overview.webp",
+        "to": "src/assets/themes/princess/getting-dressed-quickly.png",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20101,7 +21090,7 @@
       },
       {
         "from": "src/ui/themeAssets",
-        "to": "src/assets/themes/princess/water-toilet-check-overview.webp",
+        "to": "src/assets/themes/princess/dinner-overview.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20111,13 +21100,23 @@
       },
       {
         "from": "src/ui/themeAssets",
-        "to": "src/assets/themes/princess/maths-counter.svg",
+        "to": "src/assets/themes/princess/water-toilet-check-overview.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
         "line": 16
+      },
+      {
+        "from": "src/ui/themeAssets",
+        "to": "src/assets/themes/princess/maths-counter.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 17
       },
       {
         "from": "src/ui/themeOptions",

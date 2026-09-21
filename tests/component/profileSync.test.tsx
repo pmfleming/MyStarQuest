@@ -10,6 +10,7 @@ const firestore = vi.hoisted(() => ({
   updateDoc: vi.fn(),
 }))
 vi.mock('../../src/firebaseDb', () => ({ db: {} }))
+vi.mock('../../src/firebase', () => ({ auth: {} }))
 vi.mock('../../src/auth/AuthContext', () => ({
   useAuth: () => ({ user: { uid: 'sync-parent' } }),
 }))

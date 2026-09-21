@@ -3,7 +3,7 @@
 import { doc, runTransaction, updateDoc } from 'firebase/firestore'
 import { useCallback, useEffect, useMemo } from 'react'
 import { db } from '../firebaseDb'
-import { isAndroidOffline } from '../offline/platform'
+import { isOfflineEnabled } from '../offline/platform'
 import { saveActivityPatch, saveDocument } from '../offline/actions'
 import { offlineRuntime } from '../offline/runtime'
 import { useCoalescedDocumentUpdates } from '../hooks/useCoalescedDocumentUpdates'
@@ -74,7 +74,7 @@ export function useTests() {
     async (testId: string, field: TaskUpdatableFields) => {
       if (!user) return
       const defaultTest = defaultTests.find((test) => test.id === testId)
-      if (isAndroidOffline()) {
+      if (isOfflineEnabled()) {
         const runtime = offlineRuntime(user.uid)
         if (
           defaultTest &&
@@ -126,10 +126,10 @@ export function useTests() {
     reconcile: reconcileTestFields,
   } = useCoalescedDocumentUpdates<TaskUpdatableFields>({
     persist: persistTestField,
-    delayMs: isAndroidOffline() ? 0 : undefined,
+    delayMs: isOfflineEnabled() ? 0 : undefined,
     onError: (_testId, _field, error) => {
       console.error('Failed to update test', error)
-      if (isAndroidOffline() && user) offlineRuntime(user.uid).report(error)
+      if (isOfflineEnabled() && user) offlineRuntime(user.uid).report(error)
     },
   })
 
@@ -154,7 +154,7 @@ export function useTests() {
       optimisticFields
     )
     const consumed =
-      isAndroidOffline() && user
+      isOfflineEnabled() && user
         ? offlineRuntime(user.uid).store.getSnapshot()?.consumed
         : undefined
     return consumed
@@ -182,7 +182,7 @@ export function useTests() {
     testId: string,
     patch: Partial<TaskEphemeralState>
   ) => {
-    if (isAndroidOffline() && user && activeChildId) {
+    if (isOfflineEnabled() && user && activeChildId) {
       void saveActivityPatch(
         user.uid,
         'tests',
@@ -209,7 +209,7 @@ export function useTests() {
   ) => {
     // Native completion/reset publishes only after the activity and star change
     // are committed together; never save an intermediate 'done' state.
-    if (isAndroidOffline()) return persist()
+    if (isOfflineEnabled()) return persist()
     const previousPatch = ephemeral[testId]
     updateEphemeral(testId, patch)
     try {
@@ -232,7 +232,7 @@ export function useTests() {
       manageTestOutcomePatch(item.taskType, attemptedAt, outcome),
       () =>
         persistTestField(item.id, {
-          ...(isAndroidOffline()
+          ...(isOfflineEnabled()
             ? manageTestOutcomePatch(item.taskType, attemptedAt, outcome)
             : {}),
           lastAttemptedAt: attemptedAt,
@@ -259,7 +259,7 @@ export function useTests() {
           dateKey: todayInfo.dateKey,
           delta: item.starValue,
           updates: {
-            ...(isAndroidOffline() ? patch : {}),
+            ...(isOfflineEnabled() ? patch : {}),
             lastAttemptedAt: now,
             lastAttemptDateKey: todayInfo.dateKey,
             lastAttemptOutcome: 'success',

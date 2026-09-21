@@ -10,7 +10,7 @@ import {
   type TaskRecord,
 } from './types'
 import { useUserCollection } from './useUserCollection'
-import { isAndroidOffline } from '../offline/platform'
+import { isOfflineEnabled } from '../offline/platform'
 import { offlineRuntime } from '../offline/runtime'
 import { activityKey } from '../offline/model'
 
@@ -43,7 +43,7 @@ export const useChildTaskCollection = <T extends ChildTaskCollectionItem>({
     (items: T[]) => {
       // Keep optimistic changes until their fields arrive in a subscription snapshot.
       const dateKey = getTodayDescriptor().dateKey
-      if (isAndroidOffline() && userId) {
+      if (isOfflineEnabled() && userId) {
         const state = offlineRuntime(userId).store.getSnapshot()
         const next = Object.fromEntries(
           items.map((item) => [

@@ -13,18 +13,14 @@ import { uiTokens } from '../../tokens'
 import { getThemeAsset } from '../../ui/themeAssets'
 import { IconActionButton } from '../ui/IconActionControls'
 
-const levels: { level: WeatherLevel; label: string }[] = [
-  { level: 1, label: 'Light' },
-  { level: 2, label: 'Moderate' },
-  { level: 3, label: 'Heavy' },
-]
-const precipitationLevels: WeatherLevel[] = [0, 1, 2, 3]
-const windOptions = [
-  { speed: 0, label: 'Calm' },
-  { speed: 10, label: 'Light' },
-  { speed: 25, label: 'Moderate' },
-  { speed: 45, label: 'Strong' },
-]
+const nextLevel: Record<WeatherLevel, WeatherLevel> = { 0: 1, 1: 2, 2: 3, 3: 0 }
+const precipitationLabels = { 0: 'None', 1: 'Light', 2: 'Moderate', 3: 'Heavy' }
+const windOptions = {
+  0: { speed: 0, label: 'Calm' },
+  1: { speed: 10, label: 'Light' },
+  2: { speed: 25, label: 'Moderate' },
+  3: { speed: 45, label: 'Strong' },
+}
 const compactButtonStyle = { width: 44, height: 44, fontSize: '1.5rem' }
 
 function CycleControl({
@@ -120,12 +116,12 @@ export default function WeatherControls({
   const { theme } = useTheme()
   const temperature = visuals.temperature ?? 18
   const windIndex = getWeatherWindLevel(windSpeed ?? 0)
-  const windOption = windOptions[windIndex]!
+  const windOption = windOptions[windIndex]
   const precipitationIndex = visuals.precipitationLevel
   const precipitationLabel =
     visuals.precipitationLevel === 0
       ? 'None'
-      : `${levels[visuals.precipitationLevel - 1]!.label} ${visuals.precipitation.replace('-', ' ')}`
+      : `${precipitationLabels[precipitationIndex]} ${visuals.precipitation.replace('-', ' ')}`
   const changeTemperature = (amount: number) => {
     const next = Math.round((temperature + amount) * 10) / 10
     adjust({
@@ -163,7 +159,7 @@ export default function WeatherControls({
         value={windSpeed === null ? '—' : `${windSpeed} km/h`}
         onClick={() =>
           adjust({
-            windSpeed: windOptions[(windIndex + 1) % windOptions.length]!.speed,
+            windSpeed: windOptions[nextLevel[windIndex]].speed,
           })
         }
       >
@@ -182,10 +178,7 @@ export default function WeatherControls({
         value={visuals.available ? precipitationLabel : '—'}
         onClick={() =>
           adjust({
-            precipitationLevel:
-              precipitationLevels[
-                (precipitationIndex + 1) % precipitationLevels.length
-              ]!,
+            precipitationLevel: nextLevel[precipitationIndex],
           })
         }
       >

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   mergeOptimisticItems,
+  reconcileOptimisticPatches,
   settleOptimisticPatch,
 } from '../lib/optimisticState'
 
@@ -107,24 +108,7 @@ export const useCoalescedDocumentUpdates = <Patch extends FieldPatch>({
   }, [])
 
   const reconcile = useCallback((items: Identifiable[]) => {
-    setOverrides((previous) => {
-      const itemById = new Map(items.map((item) => [item.id, item]))
-      let next = previous
-
-      for (const [id, patch] of Object.entries(previous)) {
-        const item = itemById.get(id) as Record<string, unknown> | undefined
-        if (!item) continue
-        const isResolved = Object.entries(patch).every(([key, value]) =>
-          Object.is(item[key], value)
-        )
-        if (!isResolved) continue
-
-        if (next === previous) next = { ...previous }
-        delete next[id]
-      }
-
-      return next
-    })
+    setOverrides((previous) => reconcileOptimisticPatches(previous, items))
   }, [])
 
   useEffect(() => {

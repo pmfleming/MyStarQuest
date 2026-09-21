@@ -3,7 +3,7 @@
   "task_id": "quality.react_health",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-16T16:07:19.806Z",
+    "measured_at": "2026-09-21T12:45:40.443Z",
     "source_type": "static",
-    "source_set_hash": "sha256:fd3d4bb48dd7f797a6025a47f5ed3b8b600097c7647e4a40fae37e6c9e62593a",
-    "input_set_hash": "sha256:96f892e5e360150fe2c4b870077ad483dc1ec4cffd16cbe01c0a1a29657297d0"
+    "source_set_hash": "sha256:e4f7e66696315484e3b1818ee04af7f8c946c8a491452a585090cb84f0ee4ec3",
+    "input_set_hash": "sha256:0a92310d59289ba0a799a1a117cf93756a789311e3d4f90a8d26e2bfa31bf469"
   },
   "analysis_identity": {
-    "id": "sha256:5251dfdeaa7c10031e5ed4829bf1816e0937cfce7f9c3c3d7256bb2977fa8c0f",
+    "id": "sha256:3d1036a4089f66ad7fa347ef68c245a45d1e0e9033afc29d848070d962edf831",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
+    "config_closure_hash": "sha256:d7c5a0373b849391748e11dc4ff25a7035017608dbc42c938d6f051e39d72c5a",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -108,13 +108,13 @@
     "stale_input": []
   },
   "summary": {
-    "components": 120,
-    "records": 129,
+    "components": 122,
+    "records": 131,
     "hook_lint_findings": 0,
     "a11y_findings": 8,
     "a11y_tool_findings": 8,
     "a11y_heuristic_findings": 0,
-    "high_risk_components": 28
+    "high_risk_components": 27
   },
   "framework": {
     "framework": "vite",
@@ -169,7 +169,19 @@
       },
       {
         "kind": "remix_route",
+        "file": "src/routes/RoutePreloader.tsx"
+      },
+      {
+        "kind": "remix_route",
+        "file": "src/routes/RouteReady.tsx"
+      },
+      {
+        "kind": "remix_route",
         "file": "src/routes/TabPageBoundary.tsx"
+      },
+      {
+        "kind": "remix_route",
+        "file": "src/routes/routeModules.ts"
       }
     ],
     "stories": [],
@@ -206,8 +218,8 @@
       "module_id": "src/App",
       "file": "src/App.tsx",
       "name": "App",
-      "line": 20,
-      "score": 16,
+      "line": 23,
+      "score": 19,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -241,8 +253,8 @@
       "module_id": "src/auth/AuthProvider",
       "file": "src/auth/AuthProvider.tsx",
       "name": "AuthProvider",
-      "line": 34,
-      "score": 71,
+      "line": 37,
+      "score": 72,
       "risk": "high",
       "signals": [
         {
@@ -372,7 +384,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "FactGrid",
-      "line": 124,
+      "line": 122,
       "score": 22,
       "risk": "low",
       "signals": [],
@@ -407,7 +419,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalPortrait",
-      "line": 167,
+      "line": 165,
       "score": 9,
       "risk": "low",
       "signals": [],
@@ -442,7 +454,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "HideableAnimalPortrait",
-      "line": 187,
+      "line": 185,
       "score": 3,
       "risk": "low",
       "signals": [],
@@ -477,7 +489,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "TwoPlayerProgressButton",
-      "line": 211,
+      "line": 209,
       "score": 7,
       "risk": "low",
       "signals": [],
@@ -512,7 +524,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalPlayContent",
-      "line": 259,
+      "line": 257,
       "score": 41,
       "risk": "medium",
       "signals": [
@@ -552,7 +564,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalTester",
-      "line": 426,
+      "line": 424,
       "score": 83,
       "risk": "high",
       "signals": [
@@ -718,6 +730,41 @@
       ]
     },
     {
+      "id": "component:src/components/DayAgenda:DayAgenda",
+      "module_id": "src/components/DayAgenda",
+      "file": "src/components/DayAgenda.tsx",
+      "name": "DayAgenda",
+      "line": 5,
+      "score": 30,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/DayAgenda:DayAgenda",
+            "kind": "component",
+            "file": "src/components/DayAgenda.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/DinnerCountdown:CountdownVisualRow",
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
@@ -838,7 +885,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "DinnerCountdown",
-      "line": 626,
+      "line": 627,
       "score": 71,
       "risk": "high",
       "signals": [
@@ -934,8 +981,8 @@
       "module_id": "src/components/MealPlateReveal",
       "file": "src/components/MealPlateReveal.tsx",
       "name": "MealPlateReveal",
-      "line": 18,
-      "score": 31,
+      "line": 19,
+      "score": 35,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -1132,13 +1179,13 @@
       "module_id": "src/components/SchoolCalendar",
       "file": "src/components/SchoolCalendar.tsx",
       "name": "SchoolCalendar",
-      "line": 51,
-      "score": 159,
+      "line": 49,
+      "score": 164,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 235
+          "value": 279
         },
         {
           "kind": "many_hooks",
@@ -1172,6 +1219,41 @@
             "id": "component:src/components/SchoolCalendar:SchoolCalendar",
             "kind": "component",
             "file": "src/components/SchoolCalendar.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/SchoolEvents:SchoolEvents",
+      "module_id": "src/components/SchoolEvents",
+      "file": "src/components/SchoolEvents.tsx",
+      "name": "SchoolEvents",
+      "line": 37,
+      "score": 32,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/SchoolEvents:SchoolEvents",
+            "kind": "component",
+            "file": "src/components/SchoolEvents.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2328,7 +2410,7 @@
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconActionButton",
       "line": 71,
-      "score": 16,
+      "score": 14,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -2362,7 +2444,7 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconActionRow",
-      "line": 139,
+      "line": 131,
       "score": 25,
       "risk": "low",
       "signals": [],
@@ -2397,7 +2479,7 @@
       "module_id": "src/components/ui/IconActionControls",
       "file": "src/components/ui/IconActionControls.tsx",
       "name": "IconChoiceButton",
-      "line": 203,
+      "line": 195,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -2817,8 +2899,8 @@
       "module_id": "src/components/ui/RepeatControl",
       "file": "src/components/ui/RepeatControl.tsx",
       "name": "RepeatControl",
-      "line": 19,
-      "score": 31,
+      "line": 20,
+      "score": 30,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -3117,7 +3199,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ActionCard",
-      "line": 88,
+      "line": 76,
       "score": 113,
       "risk": "high",
       "signals": [
@@ -3163,7 +3245,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListMessage",
-      "line": 255,
+      "line": 243,
       "score": 3,
       "risk": "low",
       "signals": [],
@@ -3198,7 +3280,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListFooter",
-      "line": 283,
+      "line": 271,
       "score": 35,
       "risk": "low",
       "signals": [],
@@ -3233,8 +3315,8 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "StandardActionList",
-      "line": 351,
-      "score": 50,
+      "line": 339,
+      "score": 47,
       "risk": "medium",
       "signals": [],
       "kind": "component",
@@ -3449,7 +3531,7 @@
       "module_id": "src/components/ui/StarInfoBox",
       "file": "src/components/ui/StarInfoBox.tsx",
       "name": "MiniStar",
-      "line": 66,
+      "line": 69,
       "score": 8,
       "risk": "low",
       "signals": [],
@@ -3484,19 +3566,10 @@
       "module_id": "src/components/ui/StarInfoBox",
       "file": "src/components/ui/StarInfoBox.tsx",
       "name": "StarInfoBox",
-      "line": 107,
-      "score": 236,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "oversized_component",
-          "value": 255
-        },
-        {
-          "kind": "many_hooks",
-          "value": 17
-        }
-      ],
+      "line": 190,
+      "score": 48,
+      "risk": "medium",
+      "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
       "evidence_kind": "heuristic",
@@ -3509,12 +3582,6 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -3639,7 +3706,7 @@
       "module_id": "src/components/weather/WeatherControls",
       "file": "src/components/weather/WeatherControls.tsx",
       "name": "CycleControl",
-      "line": 30,
+      "line": 26,
       "score": 14,
       "risk": "low",
       "signals": [],
@@ -3674,7 +3741,7 @@
       "module_id": "src/components/weather/WeatherControls",
       "file": "src/components/weather/WeatherControls.tsx",
       "name": "StepControl",
-      "line": 65,
+      "line": 61,
       "score": 24,
       "risk": "low",
       "signals": [],
@@ -3709,8 +3776,8 @@
       "module_id": "src/components/weather/WeatherControls",
       "file": "src/components/weather/WeatherControls.tsx",
       "name": "WeatherControls",
-      "line": 114,
-      "score": 32,
+      "line": 110,
+      "score": 31,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -4191,10 +4258,15 @@
       "module_id": "src/offline/OfflineBoundary",
       "file": "src/offline/OfflineBoundary.tsx",
       "name": "AccountOfflineBoundary",
-      "line": 6,
-      "score": 77,
+      "line": 8,
+      "score": 106,
       "risk": "high",
-      "signals": [],
+      "signals": [
+        {
+          "kind": "many_hooks",
+          "value": 6
+        }
+      ],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
       "evidence_kind": "heuristic",
@@ -4232,7 +4304,7 @@
       "module_id": "src/offline/OfflineBoundary",
       "file": "src/offline/OfflineBoundary.tsx",
       "name": "OfflineBoundary",
-      "line": 71,
+      "line": 79,
       "score": 17,
       "risk": "low",
       "signals": [],
@@ -4314,12 +4386,12 @@
       "file": "src/pages/DashboardPage.tsx",
       "name": "DashboardPage",
       "line": 60,
-      "score": 288,
+      "score": 283,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 326
+          "value": 309
         },
         {
           "kind": "many_hooks",
@@ -4367,10 +4439,15 @@
       "module_id": "src/pages/LoginPage",
       "file": "src/pages/LoginPage.tsx",
       "name": "LoginPage",
-      "line": 18,
-      "score": 76,
+      "line": 19,
+      "score": 82,
       "risk": "high",
-      "signals": [],
+      "signals": [
+        {
+          "kind": "many_hooks",
+          "value": 6
+        }
+      ],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
       "evidence_kind": "heuristic",
@@ -4574,15 +4651,10 @@
       "module_id": "src/pages/TimeExplorerPage",
       "file": "src/pages/TimeExplorerPage.tsx",
       "name": "TimeExplorerPage",
-      "line": 33,
-      "score": 83,
+      "line": 32,
+      "score": 80,
       "risk": "high",
-      "signals": [
-        {
-          "kind": "oversized_component",
-          "value": 124
-        }
-      ],
+      "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
       "evidence_kind": "heuristic",
@@ -4655,7 +4727,7 @@
       "module_id": "src/routes/AnimatedTabLayout",
       "file": "src/routes/AnimatedTabLayout.tsx",
       "name": "AnimatedTabLayout",
-      "line": 17,
+      "line": 18,
       "score": 40,
       "risk": "medium",
       "signals": [],
@@ -4765,9 +4837,9 @@
       "scope": "file",
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
-      "line": 565,
+      "line": 566,
       "column": 17,
-      "end_line": 576,
+      "end_line": 577,
       "end_column": 19,
       "score": 60,
       "severity": "medium",
@@ -4812,9 +4884,9 @@
       "scope": "file",
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
-      "line": 565,
+      "line": 566,
       "column": 17,
-      "end_line": 576,
+      "end_line": 577,
       "end_column": 19,
       "score": 60,
       "severity": "medium",
@@ -4844,6 +4916,53 @@
             "id": "eslint-plugin-jsx-a11y:3b0098fb:1",
             "kind": "a11y_no_noninteractive_element_interactions",
             "file": "src/components/DinnerCountdown.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "eslint-plugin-jsx-a11y:dff40131:1",
+      "rule_id": "jsx-a11y/role-supports-aria-props",
+      "kind": "a11y_role_supports_aria_props",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/SchoolCalendar",
+      "file": "src/components/SchoolCalendar.tsx",
+      "line": 232,
+      "column": 13,
+      "end_line": 253,
+      "end_column": 14,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button.",
+      "signals": [
+        {
+          "kind": "a11y_role_supports_aria_props",
+          "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button."
+        }
+      ],
+      "fingerprint": "dff40131",
+      "occurrence": 1,
+      "reason_code": "jsx-a11y/role-supports-aria-props",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_role_supports_aria_props finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "eslint-plugin-jsx-a11y:dff40131:1",
+            "kind": "a11y_role_supports_aria_props",
+            "file": "src/components/SchoolCalendar.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -5038,33 +5157,33 @@
       ]
     },
     {
-      "id": "eslint-plugin-jsx-a11y:235a9da6:1",
-      "rule_id": "jsx-a11y/click-events-have-key-events",
-      "kind": "a11y_click_events_have_key_events",
+      "id": "eslint-plugin-jsx-a11y:fdd73e86:1",
+      "rule_id": "jsx-a11y/no-noninteractive-element-to-interactive-role",
+      "kind": "a11y_no_noninteractive_element_to_interactive_role",
       "evidence_kind": "tool-rule",
       "disposition": "warn",
       "finding_confidence": "high",
       "scope": "file",
       "module_id": "src/components/ui/StarInfoBox",
       "file": "src/components/ui/StarInfoBox.tsx",
-      "line": 264,
-      "column": 5,
-      "end_line": 276,
-      "end_column": 6,
+      "line": 207,
+      "column": 7,
+      "end_line": 207,
+      "end_column": 20,
       "score": 60,
       "severity": "medium",
       "risk": "medium",
       "source": "eslint-plugin-jsx-a11y",
-      "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener.",
+      "message": "Non-interactive elements should not be assigned interactive roles.",
       "signals": [
         {
-          "kind": "a11y_click_events_have_key_events",
-          "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener."
+          "kind": "a11y_no_noninteractive_element_to_interactive_role",
+          "message": "Non-interactive elements should not be assigned interactive roles."
         }
       ],
-      "fingerprint": "235a9da6",
+      "fingerprint": "fdd73e86",
       "occurrence": 1,
-      "reason_code": "jsx-a11y/click-events-have-key-events",
+      "reason_code": "jsx-a11y/no-noninteractive-element-to-interactive-role",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
@@ -5073,58 +5192,11 @@
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this a11y_click_events_have_key_events finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this a11y_no_noninteractive_element_to_interactive_role finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "eslint-plugin-jsx-a11y:235a9da6:1",
-            "kind": "a11y_click_events_have_key_events",
-            "file": "src/components/ui/StarInfoBox.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "eslint-plugin-jsx-a11y:f56035ff:1",
-      "rule_id": "jsx-a11y/no-static-element-interactions",
-      "kind": "a11y_no_static_element_interactions",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/ui/StarInfoBox",
-      "file": "src/components/ui/StarInfoBox.tsx",
-      "line": 264,
-      "column": 5,
-      "end_line": 276,
-      "end_column": 6,
-      "score": 60,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "eslint-plugin-jsx-a11y",
-      "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.",
-      "signals": [
-        {
-          "kind": "a11y_no_static_element_interactions",
-          "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element."
-        }
-      ],
-      "fingerprint": "f56035ff",
-      "occurrence": 1,
-      "reason_code": "jsx-a11y/no-static-element-interactions",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this a11y_no_static_element_interactions finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "eslint-plugin-jsx-a11y:f56035ff:1",
-            "kind": "a11y_no_static_element_interactions",
+            "id": "eslint-plugin-jsx-a11y:fdd73e86:1",
+            "kind": "a11y_no_noninteractive_element_to_interactive_role",
             "file": "src/components/ui/StarInfoBox.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }

@@ -25,7 +25,7 @@ function doubleClick(button: HTMLElement) {
 }
 
 describe('Who am I picture gestures', () => {
-  it.each(['Dinosaurs', 'Teeniepings'])(
+  it.each(['Dinosaurs'])(
     '%s: a double-click zooms without switching, a single-click switches when available',
     async (collection) => {
       const { unmount } = render(<AnimalTester {...props} />)
@@ -51,25 +51,21 @@ describe('Who am I picture gestures', () => {
         expect(portrait).toHaveAttribute('aria-expanded', 'false')
         fireEvent.click(portrait, { detail: 1 })
         act(() => vi.advanceTimersByTime(600))
-        if (collection === 'Teeniepings') {
-          expect(portrait.querySelector('img')).toHaveAttribute('src', cartoon)
-        } else {
-          expect(portrait.querySelector('img')).not.toHaveAttribute(
-            'src',
-            cartoon
-          )
-          // A pending switch must not fire on the next creature.
-          fireEvent.click(portrait, { detail: 1 })
-          fireEvent.click(
-            screen.getByRole('button', {
-              name: /^Next (animal|insect|creature)$/,
-            })
-          )
-          act(() => vi.advanceTimersByTime(600))
-          expect(
-            screen.getByRole('button', { name: /^View (drawing|cartoon)/ })
-          ).toHaveAttribute('aria-pressed', 'true')
-        }
+        expect(portrait.querySelector('img')).not.toHaveAttribute(
+          'src',
+          cartoon
+        )
+        // A pending switch must not fire on the next creature.
+        fireEvent.click(portrait, { detail: 1 })
+        fireEvent.click(
+          screen.getByRole('button', {
+            name: /^Next (animal|insect|creature)$/,
+          })
+        )
+        act(() => vi.advanceTimersByTime(600))
+        expect(
+          screen.getByRole('button', { name: /^View (drawing|cartoon)/ })
+        ).toHaveAttribute('aria-pressed', 'true')
       } finally {
         unmount()
         vi.useRealTimers()

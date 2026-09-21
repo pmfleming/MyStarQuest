@@ -9,7 +9,7 @@ import {
   updateDoc,
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
-import { isAndroidOffline } from '../offline/platform'
+import { isOfflineEnabled } from '../offline/platform'
 import { saveActivityPatch, saveDocument } from '../offline/actions'
 import { snapshotDocument } from '../offline/firebaseTransport'
 import { parseChoreSnapshot } from '../lib/choreParser'
@@ -63,7 +63,7 @@ export function useChores() {
     taskId: string,
     patch: Partial<TaskEphemeralState>
   ): Promise<void> => {
-    if (isAndroidOffline() && user && activeChildId) {
+    if (isOfflineEnabled() && user && activeChildId) {
       const reset = Object.entries(patch).some(
         ([key, value]) => key.endsWith('CompletedAt') && value === null
       )
@@ -113,7 +113,7 @@ export function useChores() {
     }
 
     validateTaskFields(patch)
-    if (isAndroidOffline() && user) {
+    if (isOfflineEnabled() && user) {
       const settings = Object.fromEntries(
         Object.entries(patch).filter(([key]) => !key.startsWith('manage'))
       )
@@ -143,7 +143,7 @@ export function useChores() {
   ): Promise<ChoreRecord | undefined> => {
     if (!user || !activeChildId) return
     const document = buildChoreDocument(activeChildId, choreType, settings)
-    if (isAndroidOffline()) {
+    if (isOfflineEnabled()) {
       const id = crypto.randomUUID()
       const data = { ...document, createdAt: new Date() }
       await saveDocument(user.uid, 'chores', id, 'put', data)
@@ -158,7 +158,7 @@ export function useChores() {
 
   const deleteTask = async (taskId: string) => {
     if (!user) return
-    if (isAndroidOffline())
+    if (isOfflineEnabled())
       await saveDocument(user.uid, 'chores', taskId, 'delete')
     else await deleteDoc(doc(db, 'users', user.uid, 'chores', taskId))
 

@@ -5,6 +5,7 @@ import { execFileSync, spawnSync } from 'node:child_process'
 import { auditPassed, writeComparison } from './quality-summary.mjs'
 
 const root = process.cwd()
+const dependencyRoots = ['node_modules', 'functions/node_modules']
 const lens = path.resolve(
   process.env.QUALITY_LENS_CLI ??
     'tmp/quality-lens-latest/dist/bin/ts-react-quality-lens.js'
@@ -74,11 +75,11 @@ try {
       fs.mkdirSync(path.dirname(destination), { recursive: true })
       fs.copyFileSync(source, destination)
     }
-    fs.symlinkSync(
-      path.join(root, 'node_modules'),
-      path.join(snapshot, 'node_modules'),
-      'junction'
-    )
+    for (const directory of dependencyRoots) {
+      const source = path.join(root, directory)
+      if (fs.existsSync(source))
+        fs.symlinkSync(source, path.join(snapshot, directory), 'junction')
+    }
     project = snapshot
     mode = 'all blockers (configuration changed)'
     flags = ['--gate', 'all']
@@ -123,8 +124,10 @@ try {
     path.basename(snapshot).startsWith('mystarquest-quality-')
   ) {
     // Remove the link first: dependency files belong to the live checkout.
-    if (fs.existsSync(path.join(snapshot, 'node_modules')))
-      fs.unlinkSync(path.join(snapshot, 'node_modules'))
+    for (const directory of dependencyRoots) {
+      const link = path.join(snapshot, directory)
+      if (fs.existsSync(link)) fs.unlinkSync(link)
+    }
     fs.rmSync(snapshot, { recursive: true, force: true })
   }
 }

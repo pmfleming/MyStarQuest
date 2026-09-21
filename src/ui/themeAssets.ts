@@ -21,6 +21,7 @@ const princessAssets = {
   choresIcon: princess.princessChoresIcon,
   rewardsIcon: princess.princessRewardsIcon,
   calendarIcon: princess.princessCalendarIcon,
+  calendarMoreIcon: mathsCounter,
   clockIcon: princess.princessClockIcon,
   thermometerIcon: princess.princessThermometerIcon,
   childrenIcon: princess.princessChildrenIcon,
@@ -74,7 +75,11 @@ export type ThemeAssets = typeof princessAssets
 export type ThemeAssetRole = keyof ThemeAssets
 
 const teenieFiles = import.meta.glob<string>(
-  '../assets/themes/teenie/**/*.{webp,svg,png}',
+  [
+    '../assets/themes/teenie/*.{webp,svg,png}',
+    '../assets/themes/teenie/agenda/*.{webp,svg,png}',
+    '../assets/themes/teenie/seasons/*.{webp,svg,png}',
+  ],
   { eager: true, query: '?url', import: 'default' }
 )
 
@@ -89,6 +94,7 @@ const teenieRoles = {
   choresIcon: 'tidying-up.webp',
   rewardsIcon: '@gift',
   calendarIcon: 'calendar.webp',
+  calendarMoreIcon: 'royal-symbol.webp',
   clockIcon: 'clock.svg',
   thermometerIcon: 'thermometer.svg',
   childrenIcon: '@heart',

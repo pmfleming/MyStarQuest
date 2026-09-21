@@ -13,20 +13,23 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-14T15:54:47.240Z",
+    "measured_at": "2026-09-21T12:24:31.414Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5122afcc6bf171ba57f4db56dcaa44a74c12c746a8b775157004860b5f1b7887",
-    "input_set_hash": "sha256:4387fb039aa3e93a06c12f3605f9dddcf8ea9e3232ea072111dba1720b437ad1"
+    "source_set_hash": "sha256:5d3a9e334ee05d729f06380b2eae985532db039464a4bcda1b0fa986362ee97a",
+    "input_set_hash": "sha256:16b1227fdcb98dcc6e9928f039205695f8f1b9124e3e0638d014ac476e336b44"
   },
   "analysis_identity": {
-    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "id": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
     "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
       "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
       "react": "recommended-v2",
@@ -110,13 +113,25 @@
       "ran": true,
       "reason": null,
       "statistics": {
-        "detectionDate": "2026-09-14T15:54:46.995Z",
+        "detectionDate": "2026-09-21T12:24:31.175Z",
         "formats": {
           "typescript": {
             "sources": {
+              "src/schoolEventCatalog.ts": {
+                "lines": 97,
+                "tokens": 883,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/schoolCalendar.ts": {
-                "lines": 85,
-                "tokens": 806,
+                "lines": 113,
+                "tokens": 1157,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -127,8 +142,8 @@
                 "newClones": 0
               },
               "src/index.ts": {
-                "lines": 334,
-                "tokens": 2708,
+                "lines": 323,
+                "tokens": 2645,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -140,9 +155,9 @@
               }
             },
             "total": {
-              "lines": 419,
-              "tokens": 3514,
-              "sources": 2,
+              "lines": 533,
+              "tokens": 4685,
+              "sources": 3,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -154,9 +169,9 @@
           }
         },
         "total": {
-          "lines": 419,
-          "tokens": 3514,
-          "sources": 2,
+          "lines": 533,
+          "tokens": 4685,
+          "sources": 3,
           "clones": 0,
           "duplicatedLines": 0,
           "duplicatedTokens": 0,

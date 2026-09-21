@@ -9,6 +9,7 @@ import {
   manageCompletedAtFieldByType,
   manageOutcomeFieldByType,
   type ChoreRecord,
+  type ChoreWithEphemeral,
   type TaskEphemeralState,
   type TaskOutcome,
   type TaskRecord,
@@ -145,10 +146,18 @@ const choreEphemeralFields = {
     keyof TaskEphemeralState)[]
 }
 
-export const mergeTaskEphemeral = (
+export function mergeTaskEphemeral(
+  task: ChoreRecord,
+  state?: TaskEphemeralState
+): ChoreWithEphemeral
+export function mergeTaskEphemeral(
+  task: TaskRecord,
+  state?: TaskEphemeralState
+): TaskWithEphemeral
+export function mergeTaskEphemeral(
   task: TaskRecord,
   state: TaskEphemeralState = {}
-): TaskWithEphemeral => {
+): TaskWithEphemeral {
   if (isTestRecord(task)) return mergeTestEphemeral(task, state)
   const saved: TaskEphemeralState = task
   const patch = Object.fromEntries(

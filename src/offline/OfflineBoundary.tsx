@@ -1,8 +1,9 @@
 import { useEffect, useSyncExternalStore, type ReactNode } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { offlineRuntime } from './runtime'
-import { isAndroidOffline } from './platform'
+import { isOfflineEnabled } from './platform'
 import { markStartup } from '../lib/startupPerformance'
+import { useConnectivity } from '../hooks/useConnectivity'
 
 function AccountOfflineBoundary({
   userId,
@@ -11,6 +12,7 @@ function AccountOfflineBoundary({
   userId: string
   children: ReactNode
 }) {
+  const online = useConnectivity()
   const runtime = offlineRuntime(userId)
   const state = useSyncExternalStore(
     runtime.store.subscribe,
@@ -45,8 +47,10 @@ function AccountOfflineBoundary({
     error ??
     status.message ??
     (pending
-      ? `${pending} ${pending === 1 ? 'change' : 'changes'} saved on this phone${status.state === 'syncing' ? ' · syncing' : ' · waiting to sync'}`
-      : null)
+      ? `${pending} ${pending === 1 ? 'change' : 'changes'} saved on this device${status.state === 'syncing' ? ' · syncing' : ' · waiting to sync'}`
+      : !online
+        ? 'Offline · Showing saved data'
+        : null)
   return (
     <>
       {children}
@@ -74,7 +78,7 @@ function AccountOfflineBoundary({
 
 export default function OfflineBoundary({ children }: { children: ReactNode }) {
   const { user } = useAuth()
-  return isAndroidOffline() && user ? (
+  return isOfflineEnabled() && user ? (
     <AccountOfflineBoundary key={user.uid} userId={user.uid}>
       {children}
     </AccountOfflineBoundary>

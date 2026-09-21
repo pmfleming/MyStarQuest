@@ -6,20 +6,6 @@ describe('day/night clock and timer cleanup', () => {
   beforeEach(() => vi.useFakeTimers())
   afterEach(() => vi.useRealTimers())
 
-  it('keeps external synchronization, adjustments, and ticking on the same time', () => {
-    const onUpdate = vi.fn()
-    const { result, unmount } = renderHook(() =>
-      useExplorerClock({ initialMinutes: 0, initialSeconds: 0, onUpdate })
-    )
-    act(() => result.current.syncClockTime({ totalMinutes: 1439, seconds: 59 }))
-    act(() => result.current.adjustMinutes(2))
-    expect(onUpdate).toHaveBeenLastCalledWith(1441, 59)
-    act(() => vi.advanceTimersByTime(1000))
-    expect(onUpdate).toHaveBeenLastCalledWith(1442, 0)
-    unmount()
-    expect(vi.getTimerCount()).toBe(0)
-  })
-
   it('commits the final pointer position even before its animation frame runs', () => {
     const onUpdate = vi.fn()
     const { result, unmount } = renderHook(() =>

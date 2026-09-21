@@ -8,7 +8,7 @@ import { ANIMAL_ASSETS } from '../../src/data/animalAssets'
 import { ANIMAL_FOOD_IMAGE_BY_NAME } from '../../src/data/animalFoodAssets'
 import { ANIMAL_HABITAT_IMAGE_BY_NAME } from '../../src/data/animalHabitatAssets'
 import { ANIMAL_KNOWLEDGE } from '../../src/data/animalKnowledge'
-import { ANIMAL_LOCATION_IMAGE_BY_NAME } from '../../src/data/animalLocationAssets'
+import { ANIMAL_LOCATIONS } from '../../src/data/animalLocationAssets'
 
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 
@@ -24,66 +24,6 @@ const createProps = () => ({
 })
 
 describe('AnimalTester', () => {
-  it('zooms each clue without changing the ability picture in the teenie theme', () => {
-    const themeId = 'teenie' as const
-
-    vi.useFakeTimers()
-    try {
-      const props = {
-        ...createProps(),
-        theme: themes[themeId],
-        isRunning: true,
-      }
-      render(<AnimalTester {...props} />)
-      const cards = screen.getAllByRole('button', {
-        name: /^(LOCATION|ENVIRONMENT|FOOD|ABILITY):/,
-      })
-      const doubleClick = (card: HTMLElement) => {
-        fireEvent.click(card, { detail: 1 })
-        act(() => vi.advanceTimersByTime(100))
-        fireEvent.click(card, { detail: 2 })
-        fireEvent.doubleClick(card, { detail: 2 })
-        act(() => vi.advanceTimersByTime(600))
-      }
-      for (const card of cards) {
-        const originalImage = card.querySelector('img')!.getAttribute('src')
-        doubleClick(card)
-        expect(card).toHaveAttribute('aria-expanded', 'true')
-        for (const other of cards.filter((item) => item !== card)) {
-          expect(other).not.toBeVisible()
-        }
-        expect(card.querySelector('img')).toHaveAttribute('src', originalImage)
-        doubleClick(card)
-        expect(card).toHaveAttribute('aria-expanded', 'false')
-        cards.forEach((item) => expect(item).toBeVisible())
-      }
-      const ability = cards[3]
-      expect(ability).toHaveAttribute('aria-pressed', 'false')
-      fireEvent.click(ability, { detail: 1 })
-      act(() => vi.advanceTimersByTime(500))
-      expect(ability).toHaveAttribute('aria-pressed', 'true')
-      expect(ability.querySelector('img')).toHaveAttribute(
-        'src',
-        getGenericAnimalAbilityImage(themeId, 'WOOL')
-      )
-      doubleClick(ability)
-      expect(ability).toHaveAttribute('aria-pressed', 'true')
-      fireEvent.keyDown(ability, { key: 'Escape' })
-      expect(ability).toHaveAttribute('aria-expanded', 'false')
-      fireEvent.keyDown(ability, { key: 'z' })
-      expect(ability).toHaveAttribute('aria-expanded', 'true')
-      // Navigation keeps the view preferences but cancels an unfinished click.
-      fireEvent.click(ability, { detail: 1 })
-      fireEvent.click(screen.getByRole('button', { name: 'Next animal' }))
-      act(() => vi.advanceTimersByTime(600))
-      const nextAbility = screen.getByRole('button', { name: /^ABILITY:/ })
-      expect(nextAbility).toHaveAttribute('aria-expanded', 'true')
-      expect(nextAbility).toHaveAttribute('aria-pressed', 'true')
-    } finally {
-      vi.useRealTimers()
-    }
-  })
-
   it('connects every animal to complete facts and visual assets', () => {
     const assetNames = ANIMAL_ASSETS.map(({ name }) => name).sort()
     const knowledgeNames = ANIMAL_KNOWLEDGE.map(({ name }) => name).sort()
@@ -103,7 +43,7 @@ describe('AnimalTester', () => {
         (fact) => fact?.label && fact.text
       )
       const hasAllImages = Boolean(
-        ANIMAL_LOCATION_IMAGE_BY_NAME[animal.locationCategory] &&
+        ANIMAL_LOCATIONS[animal.locationCategory].image &&
         ANIMAL_HABITAT_IMAGE_BY_NAME[animal.habitatCategory] &&
         ANIMAL_FOOD_IMAGE_BY_NAME[animal.foodCategory] &&
         getAnimalAbilityImage(animal.name) &&

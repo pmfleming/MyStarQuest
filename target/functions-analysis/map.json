@@ -13,20 +13,23 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-14T15:55:02.424Z",
+    "measured_at": "2026-09-21T12:24:42.930Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5122afcc6bf171ba57f4db56dcaa44a74c12c746a8b775157004860b5f1b7887",
-    "input_set_hash": "sha256:b0b20ed4f5edde11887cc73e3ad3187e04f5689ac607cce61ff4a10daf263559"
+    "source_set_hash": "sha256:5d3a9e334ee05d729f06380b2eae985532db039464a4bcda1b0fa986362ee97a",
+    "input_set_hash": "sha256:d22b2b7ba80b51113491fd39ce78494c8fd6836fec1148c9b5d8fd732609b443"
   },
   "analysis_identity": {
-    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "id": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
     "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
       "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
       "react": "recommended-v2",
@@ -97,13 +100,13 @@
     "partial": false
   },
   "summary": {
-    "nodes": 2,
-    "edges": 7,
+    "nodes": 3,
+    "edges": 8,
     "workspaces": 1,
     "cross_workspace_edges": 0,
     "entrypoint_nodes": 1,
-    "high_risk_nodes": 2,
-    "unknown_metric_nodes": 2,
+    "high_risk_nodes": 3,
+    "unknown_metric_nodes": 3,
     "missing_inputs": 0,
     "stale_inputs": 0,
     "artifact_status": {
@@ -147,8 +150,8 @@
     {
       "id": "src",
       "label": "src",
-      "node_count": 2,
-      "risk_score": 175,
+      "node_count": 3,
+      "risk_score": 165,
       "kind": "src",
       "rule_id": "ts-react-quality-lens/src",
       "evidence_kind": "heuristic",
@@ -194,8 +197,10 @@
       "private": true,
       "framework": "unknown",
       "policy_profile": "baseline",
-      "tsconfigs": ["tsconfig.json"],
-      "source_files": 2,
+      "tsconfigs": [
+        "tsconfig.json"
+      ],
+      "source_files": 3,
       "project_loaded": true,
       "project_reason": null
     }
@@ -209,28 +214,32 @@
       "group": "src",
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "entrypoint_roles": ["configured_public_api"],
-      "risk_score": 175,
+      "entrypoint_roles": [
+        "configured_public_api"
+      ],
+      "risk_score": 165,
       "risk": "high",
       "classification": "unknown",
       "category_scores": {
-        "maintainability": 175,
+        "maintainability": 165,
         "correctness": null,
-        "architecture": 3,
+        "architecture": 2,
         "change": 31,
         "render_performance": 0,
         "performance": 0,
         "quality": 50,
         "total": null
       },
-      "maintainability_risk": 175,
+      "maintainability_risk": 165,
       "change_risk": 31,
       "performance_risk": 0,
       "correctness_risk": null,
-      "architectural_risk": 3,
+      "architectural_risk": 2,
       "quality_risk": 50,
       "total_score": null,
-      "unknown_metrics": ["correctness:no_measured_evidence"],
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
@@ -277,16 +286,67 @@
       "architectural_risk": 0,
       "quality_risk": 50,
       "total_score": null,
-      "unknown_metrics": ["correctness:no_measured_evidence"],
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 1,
-        "exports": 1,
-        "functions": 3,
+        "imports": 2,
+        "exports": 2,
+        "functions": 4,
         "components": 0,
         "types": 1,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/schoolEventCatalog",
+      "label": "schoolEventCatalog.ts",
+      "file": "src/schoolEventCatalog.ts",
+      "type": "module",
+      "group": "src",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "entrypoint_roles": [],
+      "risk_score": 129,
+      "risk": "high",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 129,
+        "correctness": null,
+        "architecture": 12,
+        "change": 0,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 50,
+        "total": null
+      },
+      "maintainability_risk": 129,
+      "change_risk": 0,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 12,
+      "quality_risk": 50,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 0,
+        "exports": 5,
+        "functions": 3,
+        "components": 0,
+        "types": 3,
         "entrypoint_roles": 0
       },
       "test_evidence": {
@@ -357,7 +417,7 @@
       "from": "src/index",
       "to": "src/schoolCalendar",
       "type": "static_import",
-      "source": "import { buildSchoolCalendar } from './schoolCalendar'",
+      "source": "import { buildSchoolCalendar, fetchSchoolCalendarText } from './schoolCalendar'",
       "from_workspace": "mystarquest-functions",
       "to_workspace": "mystarquest-functions",
       "workspace_dependency": false,
@@ -373,6 +433,17 @@
       "to_workspace": null,
       "workspace_dependency": false,
       "line": 1
+    },
+    {
+      "id": "import:src/schoolCalendar:src/schoolEventCatalog:2",
+      "from": "src/schoolCalendar",
+      "to": "src/schoolEventCatalog",
+      "type": "static_import",
+      "source": "import { classifySchoolEvent } from './schoolEventCatalog'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": "mystarquest-functions",
+      "workspace_dependency": false,
+      "line": 2
     }
   ]
 }

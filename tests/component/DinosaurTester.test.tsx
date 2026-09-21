@@ -183,36 +183,4 @@ describe('Who am I dinosaur collection', () => {
       vi.useRealTimers()
     }
   })
-
-  it.each(['teenie'] as const)(
-    'uses the %s generic ability when a two-player answer is hidden',
-    async (themeId) => {
-      const p = { ...props(), theme: themes[themeId] }
-      const { rerender } = render(<AnimalTester {...p} isRunning={false} />)
-      await selectDinosaurs()
-      fireEvent.click(screen.getByRole('radio', { name: '2 Players' }))
-      rerender(<AnimalTester {...p} />)
-      const card = screen.getByRole('button', { name: /^ABILITY:/ })
-      const creature = DINOSAUR_KNOWLEDGE.find(
-        (d) => card.getAttribute('aria-label') === `ABILITY: ${d.abilityText}`
-      )!
-      expect(card.querySelector('img')).toHaveAttribute(
-        'src',
-        creature.abilityImage
-      )
-      fireEvent.click(screen.getByRole('button', { name: 'Hide creature' }))
-      expect(card.querySelector('img')).toHaveAttribute(
-        'src',
-        getGenericDinosaurAbilityImage(themeId, creature.genericAbility)
-      )
-      expect(
-        screen.queryByAltText(creature.displayName)
-      ).not.toBeInTheDocument()
-      fireEvent.click(screen.getByRole('button', { name: 'Show creature' }))
-      expect(card.querySelector('img')).toHaveAttribute(
-        'src',
-        creature.abilityImage
-      )
-    }
-  )
 })

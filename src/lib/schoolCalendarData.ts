@@ -1,57 +1,154 @@
 import { z } from 'zod'
-import { CACHE_KEY, CACHE_TS_KEY, CACHE_TTL_MS } from './schoolCalendarCache'
+import {
+  CACHE_KEY,
+  CACHE_TS_KEY,
+  CACHE_TTL_MS,
+  SNAPSHOT_KEY,
+} from './schoolCalendarCache'
+import { classifySchoolEvent } from '../../functions/src/schoolEventCatalog'
 
 const CALENDAR_URL = 'https://getschoolcalendar-6ujocyt4pq-uc.a.run.app'
-const calendarSchema = z.record(
+export const calendarSchema = z.record(
   z.iso.date(),
-  z.object({ isNonSchoolDay: z.boolean() })
+  z.object({
+    isNonSchoolDay: z.boolean(),
+    summaries: z.array(z.string()).optional(),
+    hasAllDayEvent: z.boolean().optional(),
+    events: z
+      .array(
+        z.object({
+          id: z.string(),
+          summary: z.string(),
+          allDay: z.boolean(),
+          start: z.iso.datetime(),
+          end: z.iso.datetime(),
+        })
+      )
+      .optional(),
+  })
 )
 export type SchoolCalendarData = z.infer<typeof calendarSchema>
+export type SchoolCalendarDay = SchoolCalendarData[string]
 
-const readCache = (allowStale = false): SchoolCalendarData | undefined => {
+export const getSchoolEvents = (day?: SchoolCalendarDay) => {
+  if (day?.events?.length)
+    return day.events.map((event) => ({
+      ...event,
+      ...classifySchoolEvent(event.summary),
+    }))
+  return (day?.summaries ?? []).map((summary, index) => ({
+    id: `summary-${index}`,
+    summary,
+    ...classifySchoolEvent(summary),
+    allDay: undefined,
+    start: undefined,
+    end: undefined,
+  }))
+}
+
+export const getSchoolReleaseTime = (day?: SchoolCalendarDay) =>
+  getSchoolEvents(day)
+    .map(({ releaseTime }) => releaseTime)
+    .filter((time) => time !== undefined)
+    .sort()[0]
+
+export const normalizeCalendar = (
+  data: SchoolCalendarData
+): SchoolCalendarData =>
+  Object.fromEntries(
+    Object.entries(data).map(([date, day]) => {
+      // Repair the old service's all-day = holiday rule while it is still deployed.
+      if (!day.summaries?.length && !day.events?.length) return [date, day]
+      const weekday = new Date(`${date}T12:00:00Z`).getUTCDay()
+      return [
+        date,
+        {
+          ...day,
+          isNonSchoolDay:
+            weekday === 0 ||
+            weekday === 6 ||
+            getSchoolEvents(day).some(({ kind }) => kind === 'day-off'),
+        },
+      ]
+    })
+  )
+
+export type SchoolCalendarSnapshot = {
+  data: SchoolCalendarData
+  checkedAt: number
+}
+
+export const parseCalendarSnapshot = (
+  value: unknown
+): SchoolCalendarSnapshot => {
+  const snapshot = z
+    .object({
+      data: calendarSchema,
+      checkedAt: z.number().finite().nonnegative(),
+    })
+    .parse(value)
+  return { ...snapshot, data: normalizeCalendar(snapshot.data) }
+}
+
+export const readSavedSchoolCalendar = ():
+  SchoolCalendarSnapshot | undefined => {
   try {
+    const saved = localStorage.getItem(SNAPSHOT_KEY)
+    if (saved) {
+      try {
+        return parseCalendarSnapshot(JSON.parse(saved))
+      } catch {
+        /* Try the legacy cache. */
+      }
+    }
     const timestamp = Number(localStorage.getItem(CACHE_TS_KEY))
-    const age = Date.now() - timestamp
-    if (
-      !timestamp ||
-      !Number.isFinite(age) ||
-      age < 0 ||
-      (!allowStale && age >= CACHE_TTL_MS)
-    )
-      return
     const raw = localStorage.getItem(CACHE_KEY)
     if (!raw) return
-    const parsed = calendarSchema.safeParse(JSON.parse(raw) as unknown)
-    return parsed.success ? parsed.data : undefined
+    const data: unknown = JSON.parse(raw)
+    return parseCalendarSnapshot({
+      data,
+      checkedAt: Number.isFinite(timestamp) && timestamp > 0 ? timestamp : 0,
+    })
   } catch {
     // Storage may be unavailable or contain incomplete data; use the network.
     return undefined
   }
 }
 
+export const saveSchoolCalendar = (snapshot: SchoolCalendarSnapshot) => {
+  try {
+    // One write keeps the calendar and its successful check time together.
+    localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(snapshot))
+  } catch {
+    /* The in-memory and bundled copies remain usable. */
+  }
+}
+
+export async function fetchSchoolCalendar(
+  signal: AbortSignal
+): Promise<SchoolCalendarSnapshot> {
+  signal.throwIfAborted()
+  const response = await fetch(CALENDAR_URL, { signal, cache: 'no-store' })
+  if (!response.ok)
+    throw new Error(`Calendar request failed (${response.status})`)
+  const data = normalizeCalendar(calendarSchema.parse(await response.json()))
+  signal.throwIfAborted()
+  return { data, checkedAt: Date.now() }
+}
+
 export async function loadSchoolCalendar(
   signal: AbortSignal
 ): Promise<SchoolCalendarData> {
-  const cached = readCache()
-  if (cached) return cached
-  let response: Response
+  signal.throwIfAborted()
+  const cached = readSavedSchoolCalendar()
+  const age = cached ? Date.now() - cached.checkedAt : Infinity
+  if (cached && age >= 0 && age < CACHE_TTL_MS) return cached.data
   try {
-    response = await fetch(CALENDAR_URL, { signal })
-    if (!response.ok)
-      throw new Error(`Calendar request failed (${response.status})`)
+    const next = await fetchSchoolCalendar(signal)
+    saveSchoolCalendar(next)
+    return next.data
   } catch (error) {
-    const fallback = readCache(true)
-    if (!signal.aborted && fallback) return fallback
+    if (!signal.aborted && cached) return cached.data
     throw error
   }
-  const payload: unknown = await response.json()
-  const events = calendarSchema.parse(payload)
-  signal.throwIfAborted()
-  try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify(events))
-    localStorage.setItem(CACHE_TS_KEY, String(Date.now()))
-  } catch {
-    // A valid response remains usable when storage is blocked or full.
-  }
-  return events
 }

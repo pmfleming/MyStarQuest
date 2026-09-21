@@ -13,20 +13,23 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-14T15:54:55.379Z",
+    "measured_at": "2026-09-21T12:24:37.385Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5122afcc6bf171ba57f4db56dcaa44a74c12c746a8b775157004860b5f1b7887",
-    "input_set_hash": "sha256:90fccf12dd8e13655419d1f98a5e19786f9c1bfd00902b0bc6a3da0f1c71cdda"
+    "source_set_hash": "sha256:5d3a9e334ee05d729f06380b2eae985532db039464a4bcda1b0fa986362ee97a",
+    "input_set_hash": "sha256:4b983b125482cbad1da56906badf54dd8a3dc4e5c7ee65e945138600e03d7341"
   },
   "analysis_identity": {
-    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "id": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
     "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
       "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
       "react": "recommended-v2",
@@ -89,7 +92,7 @@
     "stale_input": []
   },
   "summary": {
-    "records": 2,
+    "records": 3,
     "shared_hubs": 0
   },
   "records": [
@@ -138,9 +141,9 @@
       "file": "src/schoolCalendar.ts",
       "score": 0,
       "risk": "low",
-      "leverage_score": 12,
+      "leverage_score": 14,
       "inbound_reach": 1,
-      "public_surface": 1,
+      "public_surface": 2,
       "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "local_dependency",
@@ -166,6 +169,50 @@
             "id": "leverage:src/schoolCalendar",
             "kind": "leverage",
             "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/schoolEventCatalog",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "score": 12,
+      "risk": "low",
+      "leverage_score": 20,
+      "inbound_reach": 1,
+      "public_surface": 5,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/schoolEventCatalog",
+            "kind": "leverage",
+            "file": "src/schoolEventCatalog.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

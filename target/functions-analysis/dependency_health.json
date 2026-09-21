@@ -13,20 +13,23 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-14T15:54:54.586Z",
+    "measured_at": "2026-09-21T12:24:36.731Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5122afcc6bf171ba57f4db56dcaa44a74c12c746a8b775157004860b5f1b7887",
-    "input_set_hash": "sha256:08fe8016e4cd28be3c25a458a609f10fd309183ddbd9cec0457c6a3a314f4656"
+    "source_set_hash": "sha256:5d3a9e334ee05d729f06380b2eae985532db039464a4bcda1b0fa986362ee97a",
+    "input_set_hash": "sha256:4a3b7adee82ea95eec322222c65347a59eed63dad0c0ef90b74fa1071e883da9"
   },
   "analysis_identity": {
-    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "id": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
     "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
       "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
       "react": "recommended-v2",
@@ -93,7 +96,7 @@
     "stale_input": []
   },
   "summary": {
-    "internal_edges": 1,
+    "internal_edges": 2,
     "external_edges": 6,
     "cycles": 0,
     "heuristic_cycles": 0,
@@ -117,8 +120,8 @@
         "warn": 0,
         "info": 0,
         "ignore": 0,
-        "totalCruised": 12,
-        "totalDependenciesCruised": 11,
+        "totalCruised": 13,
+        "totalDependenciesCruised": 12,
         "optionsUsed": {
           "baseDir": "C:\\Code\\MyStarQuest\\functions",
           "combinedDependencies": false,
@@ -127,7 +130,12 @@
           "exoticRequireStrings": [],
           "externalModuleResolutionStrategy": "node_modules",
           "metrics": false,
-          "moduleSystems": ["es6", "cjs", "tsd", "amd"],
+          "moduleSystems": [
+            "es6",
+            "cjs",
+            "tsd",
+            "amd"
+          ],
           "outputTo": "-",
           "outputType": "json",
           "preserveSymlinks": false,
@@ -152,6 +160,12 @@
         "file": "src/schoolCalendar.ts",
         "layer": "core",
         "workspace_id": "mystarquest-functions"
+      },
+      {
+        "id": "src/schoolEventCatalog",
+        "file": "src/schoolEventCatalog.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest-functions"
       }
     ],
     "workspaces": [
@@ -162,8 +176,10 @@
         "private": true,
         "framework": "unknown",
         "policy_profile": "baseline",
-        "tsconfigs": ["tsconfig.json"],
-        "source_files": 2,
+        "tsconfigs": [
+          "tsconfig.json"
+        ],
+        "source_files": 3,
         "project_loaded": true,
         "project_reason": null
       }
@@ -216,6 +232,14 @@
         "kind": "relative",
         "import_kind": "static",
         "line": null,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/schoolCalendar",
+        "to": "src/schoolEventCatalog",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 2,
         "source": "dependency-cruiser"
       }
     ]

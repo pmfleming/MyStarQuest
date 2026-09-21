@@ -13,6 +13,9 @@ import { useSchoolCalendar } from '../hooks/useSchoolCalendar'
 import { useCalendarSchedule } from '../hooks/useCalendarSchedule'
 import { getAgendaForDate, isSchoolDate } from '../lib/calendarSchedule'
 import DayAgenda from './DayAgenda'
+import SchoolEvents from './SchoolEvents'
+import { getSchoolEvents } from '../lib/schoolCalendarData'
+import { getSchoolEventImage } from '../ui/schoolEventAssets'
 import { uiTokens } from '../tokens'
 
 const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -79,7 +82,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   const firstDayOffset = getMondayFirstOffset(new Date(year, month, 1))
   const weekCount = Math.ceil((firstDayOffset + daysInMonth) / 7)
 
-  const monthLabel = viewDate.toLocaleString('default', { month: 'long' })
+  const monthLabel = viewDate.toLocaleString('en-GB', { month: 'long' })
 
   const season = useMemo(() => getSeasonForDate(viewDate), [viewDate])
   const schoolIcon = getThemeAsset(theme.id, 'schoolDayImage')
@@ -106,8 +109,11 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
     >
       {loadError && (
         <div role="alert">
-          Holiday dates could not be loaded. Only weekends are marked as
-          non-school days.
+          <span>
+            {Object.keys(events).length
+              ? 'Saved calendar'
+              : 'Calendar unavailable.'}
+          </span>{' '}
           <button type="button" onClick={retry}>
             Try again
           </button>
@@ -202,7 +208,17 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           const isSchool = isSchoolDate(date, events)
           const isToday = dateKey === todayDateKey
           const isSelected = dateKey === selectedDateKey
-          const icon = isSchool ? schoolIcon : nonSchoolIcon
+          const schoolEvents = getSchoolEvents(events[dateKey])
+          const illustrated = schoolEvents.find(({ artwork }) => artwork)
+          const icon = illustrated?.artwork
+            ? getSchoolEventImage(theme.id, illustrated.artwork)
+            : isSchool
+              ? schoolIcon
+              : nonSchoolIcon
+          const description = [
+            isSchool ? 'School day' : 'Day off',
+            ...schoolEvents.map(({ titleEn }) => titleEn),
+          ].join(' · ')
           const highlight = isSelected
             ? { color: theme.colors.accent, glow: `${theme.colors.accent}44` }
             : isToday
@@ -219,6 +235,8 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
               onClick={() => setSelectedDateKey(dateKey)}
               aria-pressed={isSelected}
               aria-label={`Select ${dateKey}`}
+              aria-description={description}
+              title={description}
               style={{
                 aspectRatio: '1',
                 borderRadius: '25%',
@@ -235,7 +253,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
             >
               <img
                 src={icon}
-                alt={isSchool ? 'School' : 'Home'}
+                alt={illustrated?.titleEn ?? (isSchool ? 'School' : 'Home')}
                 loading="lazy"
                 decoding="async"
                 style={{
@@ -245,7 +263,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                   height: '100%',
                   objectFit: 'contain',
                   padding: '10%',
-                  opacity: 0.75,
+                  opacity: illustrated ? 1 : 0.75,
                 }}
               />
               <span
@@ -253,21 +271,56 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                   position: 'absolute',
                   inset: 0,
                   display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.2rem',
+                  alignItems: illustrated ? 'flex-start' : 'center',
+                  justifyContent: illustrated ? 'flex-start' : 'center',
+                  padding: illustrated ? '2px' : undefined,
+                  fontSize: illustrated ? '0.85rem' : '1.2rem',
                   fontWeight: 900,
                   lineHeight: 1,
-                  color: highlight.glow ? highlight.color : theme.colors.text,
+                  color: theme.colors.text,
                   textShadow: '0 0 3px #fff, 0 0 3px #fff',
                 }}
               >
                 {day}
               </span>
+              {schoolEvents.length > 1 && (
+                <span
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    right: 0,
+                    borderRadius: '6px 0 0 0',
+                    background: theme.colors.surface,
+                    width: '36%',
+                    height: '36%',
+                    maxWidth: 24,
+                    maxHeight: 24,
+                    padding: 1,
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  <img
+                    src={getThemeAsset(theme.id, 'calendarMoreIcon')}
+                    alt=""
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                    }}
+                  />
+                </span>
+              )}
             </button>
           )
         })}
       </div>
+      <SchoolEvents
+        day={events[selectedDateKey]}
+        dateKey={selectedDateKey}
+        theme={theme}
+        isSchool={isSchoolDate(selectedDate, events)}
+      />
       <DayAgenda theme={theme} agenda={agenda} />
     </section>
   )

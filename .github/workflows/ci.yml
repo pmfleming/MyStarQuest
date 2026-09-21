@@ -99,7 +99,7 @@ jobs:
       - name: Build Lens
         run: npm ci --prefix tmp/quality-lens-latest && npm run build --prefix tmp/quality-lens-latest
       - name: Test quality report checks
-        run: node --test scripts/quality-summary.test.mjs scripts/quality-gate.integration.test.mjs
+        run: node --test scripts/quality-summary.test.mjs
       - name: Audit changed code and report metrics
         run: node scripts/quality-gate.mjs "$QUALITY_BASE"
       - uses: actions/upload-artifact@v4

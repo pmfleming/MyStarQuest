@@ -59,6 +59,3 @@ export const ANIMAL_LOCATIONS = {
 } as const
 
 export type AnimalLocationName = keyof typeof ANIMAL_LOCATIONS
-export const ANIMAL_LOCATION_IMAGE_BY_NAME = Object.fromEntries(
-  Object.entries(ANIMAL_LOCATIONS).map(([name, { image }]) => [name, image])
-) as Record<AnimalLocationName, string>

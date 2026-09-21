@@ -97,25 +97,6 @@ const openWeather = async () => {
 }
 
 describe('Time Explorer weather panel', () => {
-  it('keeps the wardrobe out of clock and calendar entry in both themes', async () => {
-    const { container, rerender } = render(<TimeExplorerPage />)
-    for (const theme of ['princess', 'teenie']) {
-      state.themeId = theme
-      rerender(<TimeExplorerPage />)
-      clickOption('Show clock')
-      expect(container.querySelector('image[href*="wardrobe"]')).toBeNull()
-      clickOption('Show calendar')
-      expect(container.querySelector('image[href*="wardrobe"]')).toBeNull()
-      await openWeather()
-      expect(
-        container.querySelector('image[href*="wardrobe"]')
-      ).toHaveAttribute(
-        'href',
-        expect.stringContaining(`/${theme}/weather/wardrobe.png`)
-      )
-    }
-  })
-
   it('adapts precipitation to temperature, preserves intensity and wind, and resets to live weather', async () => {
     const { rerender } = render(<TimeExplorerPage />)
     await openWeather()

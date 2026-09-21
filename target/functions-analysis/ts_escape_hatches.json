@@ -13,20 +13,23 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-14T15:54:47.406Z",
+    "measured_at": "2026-09-21T12:24:31.542Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5122afcc6bf171ba57f4db56dcaa44a74c12c746a8b775157004860b5f1b7887",
-    "input_set_hash": "sha256:3d1cf5032b9dc313585b64d087c46bdbd82e2319756e05658feb53cceaeffa37"
+    "source_set_hash": "sha256:5d3a9e334ee05d729f06380b2eae985532db039464a4bcda1b0fa986362ee97a",
+    "input_set_hash": "sha256:5fdb9a2825b18f52239177e8c45ca6fc9e57ea7120f5a28262e409d4bcebf06b"
   },
   "analysis_identity": {
-    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "id": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
     "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
       "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
       "react": "recommended-v2",
@@ -89,9 +92,45 @@
     "stale_input": []
   },
   "summary": {
-    "records": 0,
-    "files_with_escape_hatches": 0,
-    "by_kind": {}
+    "records": 1,
+    "files_with_escape_hatches": 1,
+    "by_kind": {
+      "type_assertion": 1
+    }
   },
-  "records": []
+  "records": [
+    {
+      "id": "escape:src/schoolEventCatalog:type_assertion:2:125",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 2,
+      "evidence": "[ 'first-day', 'parent-meeting', 'start-meeting', 'school-trip', 'school-photo', 'sibling-photo', 'international-meeting",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "[ 'first-day', 'parent-meeting', 'start-meeting', 'school-trip', 'school-photo', 'sibling-photo', 'international-meeting",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/schoolEventCatalog:type_assertion:2:125",
+            "kind": "type_assertion",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ]
 }

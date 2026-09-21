@@ -9,7 +9,7 @@ import {
   type OrderByDirection,
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
-import { isAndroidOffline } from '../offline/platform'
+import { isOfflineEnabled } from '../offline/platform'
 import { offlineRuntime } from '../offline/runtime'
 import type { CollectionName } from '../offline/model'
 
@@ -48,7 +48,7 @@ export const useUserCollection = <T>({
       return
     }
 
-    if (isAndroidOffline()) {
+    if (isOfflineEnabled()) {
       const runtime = offlineRuntime(userId)
       const publish = () => {
         const mapped = runtime

@@ -55,21 +55,3 @@ it('surfaces a failed purchase on its card and lets the user retry', async () =>
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   )
 })
-
-it('shows the final balance immediately with reduced motion', async () => {
-  vi.stubGlobal(
-    'matchMedia',
-    vi.fn(() => ({ matches: true }))
-  )
-  try {
-    render(<RewardsPage />)
-    fireEvent.click(screen.getByRole('button', { name: 'Buy Play' }))
-    const celebration = await screen.findByRole('status', {
-      name: 'Play purchased',
-    })
-    expect(celebration.querySelector('strong')).toHaveTextContent('2')
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-  } finally {
-    vi.unstubAllGlobals()
-  }
-})

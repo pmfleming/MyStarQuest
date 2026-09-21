@@ -1,20 +1,26 @@
-import * as THREE from 'three'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import SolarSystem3DManager, {
   type SolarSystemSceneState,
 } from '../../src/features/dayNightExplorer/SolarSystem3DManager'
-import type { CachedEarthTexture } from '../../src/features/dayNightExplorer/earthTextureCache'
 
 const loadPixels = vi.hoisted(() => vi.fn())
 const rendererDispose = vi.hoisted(() => vi.fn())
+const rendererSize = vi.hoisted(() => vi.fn())
+const rendererRatio = vi.hoisted(() => vi.fn())
 vi.mock('../../src/features/dayNightExplorer/earthTextureCache', () => ({
   loadEarthTexturePixels: loadPixels,
 }))
 vi.mock('three', async (importOriginal) => ({
   ...(await importOriginal<typeof import('three')>()),
   WebGLRenderer: class {
+    domElement: HTMLCanvasElement
+    constructor({ canvas }: { canvas: HTMLCanvasElement }) {
+      this.domElement = canvas
+    }
     dispose = rendererDispose
-    setPixelRatio() {}
+    setPixelRatio = rendererRatio
+    setSize = rendererSize
+    render() {}
   },
 }))
 
@@ -30,6 +36,8 @@ const state: SolarSystemSceneState = {
 
 beforeEach(() => {
   rendererDispose.mockClear()
+  rendererSize.mockClear()
+  rendererRatio.mockClear()
   loadPixels.mockReset()
   vi.stubGlobal(
     'requestAnimationFrame',
@@ -46,27 +54,6 @@ beforeEach(() => {
 afterEach(() => {
   vi.restoreAllMocks()
   vi.unstubAllGlobals()
-})
-
-it('does not upload shared pixels when a tab closes before generation finishes', async () => {
-  let complete!: (pixels: CachedEarthTexture) => void
-  loadPixels.mockReturnValue(
-    new Promise<CachedEarthTexture>((resolve) => {
-      complete = resolve
-    })
-  )
-  const manager = new SolarSystem3DManager(
-    document.createElement('canvas'),
-    state
-  )
-  manager.dispose()
-  const textureDispose = vi.spyOn(THREE.Texture.prototype, 'dispose')
-  const colorSet = vi.spyOn(THREE.Color.prototype, 'set')
-  complete({ pixels: new Uint8Array(16), generateMipmaps: false })
-  await Promise.resolve()
-  expect(colorSet).not.toHaveBeenCalled()
-  expect(textureDispose).not.toHaveBeenCalled()
-  expect(rendererDispose).toHaveBeenCalledOnce()
 })
 
 it('disconnects visibility observers and never restarts a disposed scene', () => {

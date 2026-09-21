@@ -13,20 +13,23 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-14T15:54:54.953Z",
+    "measured_at": "2026-09-21T12:24:37.036Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5122afcc6bf171ba57f4db56dcaa44a74c12c746a8b775157004860b5f1b7887",
-    "input_set_hash": "sha256:ba0a6f4db445490cc2490cbc24d5c03a5a23406597cba96c86f2c1e2f3ef1ea5"
+    "source_set_hash": "sha256:5d3a9e334ee05d729f06380b2eae985532db039464a4bcda1b0fa986362ee97a",
+    "input_set_hash": "sha256:b29ea3d824d8191181a92ee6290a6a3eb159929dea60580498e0a3df0bb228de"
   },
   "analysis_identity": {
-    "id": "sha256:d21cb4b4b5dc31ef44a4dd7c12a36a2a902237602366de211af83eb26f3eb3e9",
+    "id": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
     "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
       "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
       "react": "recommended-v2",
@@ -89,19 +92,31 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 17,
+    "tests": 23,
     "colocated_tests": 0,
-    "external_tests": 17,
+    "external_tests": 23,
     "execution_status": "not_run",
     "execution_scope": "suite",
     "coverage_status": "not_collected"
   },
   "tests": [
     {
-      "id": "test:../tests/unit/assetCatalog.test.ts",
-      "name": "assetCatalog.test.ts",
-      "path": "../tests/unit/assetCatalog.test.ts",
-      "framework": "unknown",
+      "id": "test:../tests/unit/afterFirstPaint.test.ts",
+      "name": "afterFirstPaint.test.ts",
+      "path": "../tests/unit/afterFirstPaint.test.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "not_run",
+      "command_hint": null
+    },
+    {
+      "id": "test:../tests/unit/calendarSchedule.test.ts",
+      "name": "calendarSchedule.test.ts",
+      "path": "../tests/unit/calendarSchedule.test.ts",
+      "framework": "vitest",
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
@@ -114,7 +129,9 @@
       "name": "dailyChoreFunctions.test.ts",
       "path": "../tests/unit/dailyChoreFunctions.test.ts",
       "framework": "vitest",
-      "source_mapping": ["src/index.ts"],
+      "source_mapping": [
+        "src/index.ts"
+      ],
       "source_associations": [
         {
           "file": "src/index.ts",
@@ -128,9 +145,33 @@
       "command_hint": null
     },
     {
-      "id": "test:../tests/unit/dailyTaskState.test.ts",
-      "name": "dailyTaskState.test.ts",
-      "path": "../tests/unit/dailyTaskState.test.ts",
+      "id": "test:../tests/unit/earthTextureWorker.test.ts",
+      "name": "earthTextureWorker.test.ts",
+      "path": "../tests/unit/earthTextureWorker.test.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "not_run",
+      "command_hint": null
+    },
+    {
+      "id": "test:../tests/unit/firebaseInitialization.test.ts",
+      "name": "firebaseInitialization.test.ts",
+      "path": "../tests/unit/firebaseInitialization.test.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "not_run",
+      "command_hint": null
+    },
+    {
+      "id": "test:../tests/unit/importWebProgress.test.ts",
+      "name": "importWebProgress.test.ts",
+      "path": "../tests/unit/importWebProgress.test.ts",
       "framework": "unknown",
       "source_mapping": [],
       "source_associations": [],
@@ -140,10 +181,10 @@
       "command_hint": null
     },
     {
-      "id": "test:../tests/unit/explorerBackdrop.test.ts",
-      "name": "explorerBackdrop.test.ts",
-      "path": "../tests/unit/explorerBackdrop.test.ts",
-      "framework": "unknown",
+      "id": "test:../tests/unit/offlineFirebaseTransport.test.ts",
+      "name": "offlineFirebaseTransport.test.ts",
+      "path": "../tests/unit/offlineFirebaseTransport.test.ts",
+      "framework": "vitest",
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
@@ -152,10 +193,10 @@
       "command_hint": null
     },
     {
-      "id": "test:../tests/unit/loadCreatureCollection.test.ts",
-      "name": "loadCreatureCollection.test.ts",
-      "path": "../tests/unit/loadCreatureCollection.test.ts",
-      "framework": "unknown",
+      "id": "test:../tests/unit/offlineRecovery.test.ts",
+      "name": "offlineRecovery.test.ts",
+      "path": "../tests/unit/offlineRecovery.test.ts",
+      "framework": "vitest",
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
@@ -200,6 +241,18 @@
       "command_hint": null
     },
     {
+      "id": "test:../tests/unit/offlineWorker.test.ts",
+      "name": "offlineWorker.test.ts",
+      "path": "../tests/unit/offlineWorker.test.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "not_run",
+      "command_hint": null
+    },
+    {
       "id": "test:../tests/unit/optimisticState.test.ts",
       "name": "optimisticState.test.ts",
       "path": "../tests/unit/optimisticState.test.ts",
@@ -212,23 +265,13 @@
       "command_hint": null
     },
     {
-      "id": "test:../tests/unit/positionalNotationProblems.test.ts",
-      "name": "positionalNotationProblems.test.ts",
-      "path": "../tests/unit/positionalNotationProblems.test.ts",
-      "framework": "vitest",
-      "source_mapping": [],
-      "source_associations": [],
-      "coverage_status": "not_collected",
-      "status": "not_run",
-      "suite_status": "not_run",
-      "command_hint": null
-    },
-    {
       "id": "test:../tests/unit/schoolCalendar.test.ts",
       "name": "schoolCalendar.test.ts",
       "path": "../tests/unit/schoolCalendar.test.ts",
       "framework": "vitest",
-      "source_mapping": ["src/schoolCalendar.ts"],
+      "source_mapping": [
+        "src/schoolCalendar.ts"
+      ],
       "source_associations": [
         {
           "file": "src/schoolCalendar.ts",
@@ -248,6 +291,58 @@
       "framework": "vitest",
       "source_mapping": [],
       "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "not_run",
+      "command_hint": null
+    },
+    {
+      "id": "test:../tests/unit/schoolCalendarEndpoint.test.ts",
+      "name": "schoolCalendarEndpoint.test.ts",
+      "path": "../tests/unit/schoolCalendarEndpoint.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/schoolCalendar.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/schoolCalendar.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "not_run",
+      "command_hint": null
+    },
+    {
+      "id": "test:../tests/unit/schoolCalendarStore.test.ts",
+      "name": "schoolCalendarStore.test.ts",
+      "path": "../tests/unit/schoolCalendarStore.test.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "not_run",
+      "command_hint": null
+    },
+    {
+      "id": "test:../tests/unit/schoolEventCatalog.test.ts",
+      "name": "schoolEventCatalog.test.ts",
+      "path": "../tests/unit/schoolEventCatalog.test.ts",
+      "framework": "unknown",
+      "source_mapping": [
+        "src/schoolEventCatalog.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/schoolEventCatalog.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "not_run",

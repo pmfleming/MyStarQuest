@@ -2,6 +2,7 @@ import { useActivityPersistence } from './useActivityPersistence'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   MAX_ACTIVITY_MISTAKES,
+  getVisibleActivityResults,
   type ActivityResult,
 } from '../lib/activityOutcome'
 
@@ -50,18 +51,15 @@ export const useActivityChallenge = ({
   const [resultHistory, setResultHistory] = useState<ActivityResult[]>([])
   const [isFailurePending, setIsFailurePending] = useState(false)
   const [feedback, setFeedback] = useState<ActivityFeedback>('idle')
-  const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const historyTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const feedbackTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const historyTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const prevCheckTrigger = useRef(checkTrigger)
 
   const clearFeedbackTimer = useCallback(() => {
-    if (historyTimer.current !== null) {
-      clearTimeout(historyTimer.current)
-      historyTimer.current = null
-    }
-    if (!feedbackTimer.current) return
+    clearTimeout(historyTimer.current)
     clearTimeout(feedbackTimer.current)
-    feedbackTimer.current = null
+    historyTimer.current = undefined
+    feedbackTimer.current = undefined
   }, [])
 
   const isSetup = !isRunning && !isCompleted
@@ -72,17 +70,8 @@ export const useActivityChallenge = ({
     failureModeEnabled && incorrectCount >= MAX_ACTIVITY_MISTAKES
   const isFailedState = isCompleted && (isFailed || hasFailedByHistory)
   const isSuccessState = isCompleted && !isFailedState
-  const isFinished = isSuccessState || isFailedState
   const isCorrect = feedback === 'correct'
   const isWrong = feedback === 'wrong'
-
-  const startNextProblem = useCallback(
-    (nextIndex: number, onNextProblem: (index: number) => void) => {
-      setProblemIndex(nextIndex)
-      onNextProblem(nextIndex)
-    },
-    []
-  )
 
   const submitAnswer = useCallback(
     (isAnswerCorrect: boolean, onNextProblem: (index: number) => void) => {
@@ -93,7 +82,7 @@ export const useActivityChallenge = ({
         setFeedback('correct')
         celebrateSuccess()
         historyTimer.current = setTimeout(() => {
-          historyTimer.current = null
+          historyTimer.current = undefined
           setResultHistory((prev) => [...prev, 'correct'])
         }, 120)
 
@@ -102,7 +91,8 @@ export const useActivityChallenge = ({
           if (nextIndex >= totalProblems) {
             complete()
           } else {
-            startNextProblem(nextIndex, onNextProblem)
+            setProblemIndex(nextIndex)
+            onNextProblem(nextIndex)
           }
         }, CELEBRATION_DELAY_MS)
         return
@@ -137,7 +127,6 @@ export const useActivityChallenge = ({
       fail,
       problemIndex,
       retryCount,
-      startNextProblem,
       totalProblems,
     ]
   )
@@ -184,12 +173,10 @@ export const useActivityChallenge = ({
     persistence,
     problemIndex,
     retryCount,
-    resultHistory: failureModeEnabled
-      ? resultHistory
-      : resultHistory.filter((result) => result === 'correct'),
+    resultHistory: getVisibleActivityResults(resultHistory, failureModeEnabled),
     feedback,
     isSetup,
-    isFinished,
+    isFinished: isCompleted,
     isSuccessState,
     isCorrect,
     isWrong,

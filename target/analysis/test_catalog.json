@@ -3,7 +3,7 @@
   "task_id": "correctness.catalog",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-16T16:07:09.549Z",
+    "measured_at": "2026-09-21T12:45:26.756Z",
     "source_type": "static",
-    "source_set_hash": "sha256:fd3d4bb48dd7f797a6025a47f5ed3b8b600097c7647e4a40fae37e6c9e62593a",
-    "input_set_hash": "sha256:d8b981ecaf3b07387d859d02211d94c15b0538acafc5c8545834381bb9c5e5b2"
+    "source_set_hash": "sha256:e4f7e66696315484e3b1818ee04af7f8c946c8a491452a585090cb84f0ee4ec3",
+    "input_set_hash": "sha256:eb2c827f756523efa915153d3abbd2fb4b2bc0e117e08847709288e94a3c1d9e"
   },
   "analysis_identity": {
-    "id": "sha256:5251dfdeaa7c10031e5ed4829bf1816e0937cfce7f9c3c3d7256bb2977fa8c0f",
+    "id": "sha256:3d1036a4089f66ad7fa347ef68c245a45d1e0e9033afc29d848070d962edf831",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:29bcb961650491f7b087913f0b7462e0143d3954ef87b5d68e629e63c3e33a5f",
+    "config_closure_hash": "sha256:d7c5a0373b849391748e11dc4ff25a7035017608dbc42c938d6f051e39d72c5a",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -96,9 +96,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 55,
+    "tests": 68,
     "colocated_tests": 0,
-    "external_tests": 55,
+    "external_tests": 68,
     "execution_status": "passed",
     "execution_scope": "suite",
     "coverage_status": "not_collected"
@@ -209,6 +209,38 @@
       "source_associations": [
         {
           "file": "src/hooks/useActivityChallenge.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/AuthStartup.test.tsx",
+      "name": "AuthStartup.test.tsx",
+      "path": "tests/component/AuthStartup.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/auth/AuthProvider.tsx",
+        "src/auth/AuthContext.tsx",
+        "src/auth/sessionPreloadHint.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/auth/AuthProvider.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/auth/AuthContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/auth/sessionPreloadHint.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -551,7 +583,11 @@
       "framework": "vitest",
       "source_mapping": [
         "src/components/SchoolCalendar.tsx",
-        "src/contexts/ThemeContext.tsx"
+        "src/contexts/ThemeContext.tsx",
+        "src/lib/calendarSchedule.ts",
+        "src/ui/schoolEventAssets.ts",
+        "src/ui/themeAssets.ts",
+        "src/lib/schoolCalendarStore.ts"
       ],
       "source_associations": [
         {
@@ -561,6 +597,46 @@
         },
         {
           "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/calendarSchedule.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/schoolEventAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/themeAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/schoolCalendarStore.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/SchoolCalendarSync.test.tsx",
+      "name": "SchoolCalendarSync.test.tsx",
+      "path": "tests/component/SchoolCalendarSync.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/SchoolCalendarSync.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/SchoolCalendarSync.tsx",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -582,11 +658,6 @@
         {
           "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
           "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/features/dayNightExplorer/earthTextureCache.ts",
-          "kind": "type-only-import",
           "confidence": "high"
         }
       ],
@@ -628,23 +699,43 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/component/StarInfoBox.test.tsx",
+      "name": "StarInfoBox.test.tsx",
+      "path": "tests/component/StarInfoBox.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/ui/StarInfoBox.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/StarInfoBox.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/component/TaskCelebration.test.tsx",
       "name": "TaskCelebration.test.tsx",
       "path": "tests/component/TaskCelebration.test.tsx",
       "framework": "vitest",
       "source_mapping": [
         "src/pages/DashboardPage.tsx",
-        "src/pages/TestsPage.tsx",
         "src/contexts/ThemeContext.tsx"
       ],
       "source_associations": [
         {
           "file": "src/pages/DashboardPage.tsx",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/pages/TestsPage.tsx",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -792,6 +883,7 @@
         "src/offline/runtime.ts",
         "src/data/useChores.ts",
         "src/data/useTests.ts",
+        "src/data/useChildren.ts",
         "src/data/useRewards.ts",
         "src/offline/model.ts",
         "src/lib/today.ts",
@@ -815,6 +907,11 @@
         },
         {
           "file": "src/data/useTests.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/useChildren.ts",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -907,6 +1004,31 @@
         {
           "file": "src/features/dayNightExplorer/useExplorerClock.ts",
           "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/deferredGlobe.test.tsx",
+      "name": "deferredGlobe.test.tsx",
+      "path": "tests/component/deferredGlobe.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/features/dayNightExplorer/useSolarSystem3D.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/features/dayNightExplorer/useSolarSystem3D.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
+          "kind": "type-only-import",
           "confidence": "high"
         }
       ],
@@ -1154,6 +1276,26 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/component/useCoalescedDocumentUpdates.test.tsx",
+      "name": "useCoalescedDocumentUpdates.test.tsx",
+      "path": "tests/component/useCoalescedDocumentUpdates.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/hooks/useCoalescedDocumentUpdates.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/component/useTestsReset.test.tsx",
       "name": "useTestsReset.test.tsx",
       "path": "tests/component/useTestsReset.test.tsx",
@@ -1279,6 +1421,26 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/offline-browser/shell.spec.ts",
+      "name": "shell.spec.ts",
+      "path": "tests/offline-browser/shell.spec.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/offline/model.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/offline/model.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/setup/vitest.setup.ts",
       "name": "vitest.setup.ts",
       "path": "tests/setup/vitest.setup.ts",
@@ -1291,12 +1453,102 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/unit/calendarSchedule.test.ts",
+      "name": "calendarSchedule.test.ts",
+      "path": "tests/unit/calendarSchedule.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/lib/calendarSchedule.ts",
+        "src/lib/today.ts",
+        "src/contexts/ThemeContext.tsx",
+        "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/lib/calendarSchedule.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/today.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/unit/dailyChoreFunctions.test.ts",
       "name": "dailyChoreFunctions.test.ts",
       "path": "tests/unit/dailyChoreFunctions.test.ts",
       "framework": "vitest",
       "source_mapping": [],
       "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/earthTextureWorker.test.ts",
+      "name": "earthTextureWorker.test.ts",
+      "path": "tests/unit/earthTextureWorker.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/features/dayNightExplorer/earthTexture.worker.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/importWebProgress.test.ts",
+      "name": "importWebProgress.test.ts",
+      "path": "tests/unit/importWebProgress.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/offline/model.ts",
+        "src/offline/importWebProgress.ts",
+        "src/lib/today.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/offline/model.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/importWebProgress.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/today.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
@@ -1449,6 +1701,43 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/unit/offlineRecovery.test.ts",
+      "name": "offlineRecovery.test.ts",
+      "path": "tests/unit/offlineRecovery.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/offline/store.ts",
+        "src/offline/sync.ts",
+        "src/offline/model.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/offline/store.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/sync.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/model.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/offline/transport.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/unit/offlineRuntime.test.ts",
       "name": "offlineRuntime.test.ts",
       "path": "tests/unit/offlineRuntime.test.ts",
@@ -1516,27 +1805,10 @@
       "path": "tests/unit/offlineSync.test.ts",
       "framework": "vitest",
       "source_mapping": [
-        "src/offline/sync.ts",
-        "src/offline/store.ts",
         "src/offline/transport.ts",
         "src/offline/model.ts"
       ],
       "source_associations": [
-        {
-          "file": "src/offline/sync.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/offline/store.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/offline/model.ts",
-          "kind": "type-only-import",
-          "confidence": "high"
-        },
         {
           "file": "src/offline/transport.ts",
           "kind": "direct-import",
@@ -1548,6 +1820,18 @@
           "confidence": "high"
         }
       ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/offlineWorker.test.ts",
+      "name": "offlineWorker.test.ts",
+      "path": "tests/unit/offlineWorker.test.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
@@ -1586,17 +1870,30 @@
       "command_hint": "npm run test"
     },
     {
-      "id": "test:tests/unit/schoolCalendarData.test.ts",
-      "name": "schoolCalendarData.test.ts",
-      "path": "tests/unit/schoolCalendarData.test.ts",
+      "id": "test:tests/unit/schoolCalendarEndpoint.test.ts",
+      "name": "schoolCalendarEndpoint.test.ts",
+      "path": "tests/unit/schoolCalendarEndpoint.test.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/schoolCalendarStore.test.ts",
+      "name": "schoolCalendarStore.test.ts",
+      "path": "tests/unit/schoolCalendarStore.test.ts",
       "framework": "vitest",
       "source_mapping": [
-        "src/lib/schoolCalendarData.ts",
-        "src/lib/schoolCalendarCache.ts"
+        "src/lib/schoolCalendarStore.ts",
+        "src/lib/schoolCalendarCache.ts",
+        "src/lib/schoolCalendarData.ts"
       ],
       "source_associations": [
         {
-          "file": "src/lib/schoolCalendarData.ts",
+          "file": "src/lib/schoolCalendarStore.ts",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -1604,8 +1901,25 @@
           "file": "src/lib/schoolCalendarCache.ts",
           "kind": "direct-import",
           "confidence": "high"
+        },
+        {
+          "file": "src/lib/schoolCalendarData.ts",
+          "kind": "direct-import",
+          "confidence": "high"
         }
       ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/schoolEventCatalog.test.ts",
+      "name": "schoolEventCatalog.test.ts",
+      "path": "tests/unit/schoolEventCatalog.test.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",

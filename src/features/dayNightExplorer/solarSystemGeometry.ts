@@ -8,12 +8,13 @@ import type {
 export const latLonToVector = (
   latitude: number,
   longitude: number,
-  radius: number
+  radius: number,
+  target = new THREE.Vector3()
 ) => {
   const phi = THREE.MathUtils.degToRad(90 - latitude)
   const theta = THREE.MathUtils.degToRad(longitude + 180)
 
-  return new THREE.Vector3(
+  return target.set(
     -radius * Math.sin(phi) * Math.cos(theta),
     radius * Math.cos(phi),
     radius * Math.sin(phi) * Math.sin(theta)

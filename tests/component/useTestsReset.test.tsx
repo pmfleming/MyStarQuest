@@ -16,6 +16,7 @@ const firestore = vi.hoisted(() => ({
   runTransaction: vi.fn(),
 }))
 vi.mock('../../src/firebaseDb', () => ({ db: {} }))
+vi.mock('../../src/firebase', () => ({ auth: {} }))
 vi.mock('../../src/auth/AuthContext', () => ({
   useAuth: () => ({ user: { uid: 'parent' } }),
 }))

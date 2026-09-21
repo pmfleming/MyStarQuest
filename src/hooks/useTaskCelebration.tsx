@@ -8,8 +8,8 @@ import type { ListRowDescriptor } from '../ui/listDescriptorTypes'
 import { getTaskSuccessImage } from '../ui/taskSuccessImage'
 import { uiTokens } from '../tokens'
 
-type Entry = {
-  item: TaskWithEphemeral
+type Entry<T extends TaskWithEphemeral> = {
+  item: T
   index: number
   scope: string
   details?: RewardCelebrationDetails
@@ -17,7 +17,7 @@ type Entry = {
   finish: () => void
 }
 
-export function useTaskCelebration({
+export function useTaskCelebration<T extends TaskWithEphemeral>({
   activeChildId,
   dateKey,
   totalStars,
@@ -26,10 +26,10 @@ export function useTaskCelebration({
   activeChildId: string | null
   dateKey: string
   totalStars: number
-  items: TaskWithEphemeral[]
+  items: T[]
 }) {
   const scope = `${activeChildId}/${dateKey}`
-  const [entries, setEntries] = useState<Record<string, Entry>>({})
+  const [entries, setEntries] = useState<Record<string, Entry<T>>>({})
   const [entryScope, setEntryScope] = useState(scope)
   if (entryScope !== scope) {
     setEntryScope(scope)
@@ -65,8 +65,8 @@ export function useTaskCelebration({
   }, [scope])
 
   const run = async (
-    item: TaskWithEphemeral,
-    items: TaskWithEphemeral[],
+    item: T,
+    items: T[],
     action: (
       onAward: (delta: number, starsBefore?: number) => void
     ) => Promise<unknown>
@@ -87,7 +87,7 @@ export function useTaskCelebration({
     }
     // Keep one-time tasks in place even if the subscription removes them
     // before the completion request resolves.
-    const entry: Entry = {
+    const entry: Entry<T> = {
       item,
       index: items.findIndex((candidate) => candidate.id === item.id),
       scope,
@@ -123,19 +123,19 @@ export function useTaskCelebration({
     }
   }
 
-  const activeEntry = (item: TaskWithEphemeral) => {
+  const activeEntry = (item: T) => {
     const entry = entries[item.id]
     return entry?.scope === scope &&
       (!entry.finished || getManageTaskCompletedAt(item))
       ? entry
       : undefined
   }
-  const isBusy = (item: TaskWithEphemeral) => {
+  const isBusy = (item: T) => {
     const entry = activeEntry(item)
     return Boolean(entry && !entry.finished)
   }
 
-  const retainItems = <T extends TaskWithEphemeral>(items: T[]): T[] => {
+  const retainItems = (items: T[]): T[] => {
     const visible = [...items]
     for (const entry of Object.values(entries).sort(
       (a, b) => a.index - b.index
@@ -145,16 +145,16 @@ export function useTaskCelebration({
         !entry.finished &&
         !visible.some((item) => item.id === entry.item.id)
       ) {
-        visible.splice(Math.max(0, entry.index), 0, entry.item as T)
+        visible.splice(Math.max(0, entry.index), 0, entry.item)
       }
     }
     return visible
   }
 
   const decorate = (
-    descriptor: ListRowDescriptor<TaskWithEphemeral>,
+    descriptor: ListRowDescriptor<T>,
     theme: Theme
-  ): ListRowDescriptor<TaskWithEphemeral> => ({
+  ): ListRowDescriptor<T> => ({
     ...descriptor,
     isHighlighted: (item) =>
       Boolean(activeEntry(item)?.details) ||

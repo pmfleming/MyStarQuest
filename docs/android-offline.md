@@ -1,5 +1,7 @@
 # Android offline implementation
 
+The shared queue now also supports the website, with atomic concurrent-tab updates, bounded sync waits and offline page caching. See [network resilience](network-resilience.md) for the current behavior and verification.
+
 Starting checkpoint: `e4d5cac` (reward celebration). Work stays on the local
 `pm/android-offline` branch; remote deployment is a separate release action.
 

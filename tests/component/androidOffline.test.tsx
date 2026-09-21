@@ -8,12 +8,17 @@ const session = vi.hoisted(() => ({
   failWrites: false,
 }))
 vi.mock('../../src/firebaseDb', () => ({ db: {} }))
-vi.mock('../../src/offline/platform', () => ({ isAndroidOffline: () => true }))
+vi.mock('../../src/offline/platform', () => ({ isOfflineEnabled: () => true }))
 vi.mock('../../src/auth/AuthContext', () => ({
   useAuth: () => ({ user: session.user }),
 }))
 vi.mock('../../src/contexts/ActiveChildContext', () => ({
-  useActiveChild: () => ({ activeChildId: session.childId }),
+  useActiveChild: () => ({
+    activeChildId: session.childId,
+    activeThemeId: 'princess',
+    setActiveChild: vi.fn(),
+    clearActiveChild: vi.fn(),
+  }),
 }))
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 vi.mock('../../src/offline/firebaseTransport', () => ({
@@ -40,12 +45,14 @@ vi.mock('../../src/offline/persistence', () => ({
 import { offlineRuntime } from '../../src/offline/runtime'
 import { useChores } from '../../src/data/useChores'
 import { useTests } from '../../src/data/useTests'
+import { ChildrenProvider } from '../../src/data/useChildren'
 import { useRewards } from '../../src/data/useRewards'
 import { projectDocuments } from '../../src/offline/model'
 import { getTodayDescriptor } from '../../src/lib/today'
 import { offlineCompletion } from '../../src/offline/actions'
 
 beforeEach(async () => {
+  session.childId = 'child'
   session.failWrites = false
   session.user = { uid: crypto.randomUUID() }
   const store = offlineRuntime(session.user.uid).store
@@ -69,6 +76,26 @@ beforeEach(async () => {
 })
 
 describe('Android offline data hooks', () => {
+  it('shares the live family balance and switches children without retaining the previous balance', async () => {
+    const runtime = offlineRuntime(session.user.uid)
+    await runtime.store.mergeCollection('children', {
+      child: { displayName: 'Child', totalStars: 5 },
+      sibling: { displayName: 'Sibling', totalStars: 12 },
+    })
+    const hook = renderHook(() => useRewards(), { wrapper: ChildrenProvider })
+    await waitFor(() => expect(hook.result.current.activeChildStars).toBe(5))
+    await act(async () => {
+      await hook.result.current.giveReward(hook.result.current.rewards[0])
+    })
+    expect(hook.result.current.activeChildStars).toBe(2)
+    session.childId = 'sibling'
+    hook.rerender()
+    expect(hook.result.current.activeChildStars).toBe(12)
+    session.childId = 'missing'
+    hook.rerender()
+    expect(hook.result.current.activeChildStars).toBe(0)
+  })
+
   it('rejects a stale completion for another child without saving anything', async () => {
     const store = offlineRuntime(session.user.uid).store,
       before = store.getSnapshot()
@@ -196,7 +223,7 @@ describe('Android offline data hooks', () => {
     await runtime.store.mergeCollection('rewards', {
       toy: { title: 'Toy', costStars: 3, isRepeating: false },
     })
-    const hook = renderHook(() => useRewards())
+    const hook = renderHook(() => useRewards(), { wrapper: ChildrenProvider })
     await waitFor(() => expect(hook.result.current.rewards).toHaveLength(1))
     await act(async () => {
       await hook.result.current.giveReward(hook.result.current.rewards[0])

@@ -2,6 +2,7 @@ import { z } from 'zod'
 import defaultScheduleData from '../data/calendarSchedule.json'
 import { buildDateKey } from './today'
 import type { SchoolCalendarData } from './schoolCalendarData'
+import { getSchoolReleaseTime } from './schoolCalendarData'
 
 export const calendarActivitySchema = z.enum([
   'bedtime',
@@ -79,7 +80,7 @@ export const CALENDAR_SCHEDULE_CHANGED = 'msq:calendar-schedule-changed'
 export const loadCalendarSchedule = (): CalendarSchedule => {
   try {
     const raw = localStorage.getItem(CALENDAR_SCHEDULE_STORAGE_KEY)
-    if (raw) return calendarScheduleSchema.parse(JSON.parse(raw) as unknown)
+    if (raw) return calendarScheduleSchema.parse(JSON.parse(raw))
   } catch {
     // Invalid/unsupported data is preserved in storage; the default stays usable offline.
   }
@@ -107,24 +108,54 @@ export const getAgendaForDate = (
   date: Date,
   holidays: SchoolCalendarData = {}
 ): AgendaItem[] => {
+  const weekday = date.getDay()
+  const schoolDay = isSchoolDate(date, holidays)
+  const releaseTime = getSchoolReleaseTime(holidays[buildDateKey(date)])
+  const releaseMinute = releaseTime ? timeToMinutes(releaseTime) : undefined
+  const regularSchoolEnd = Math.max(
+    0,
+    ...schedule.events
+      .filter(
+        (event) =>
+          event.schoolDaysOnly &&
+          event.activity === 'schooltime' &&
+          event.weekdays.includes(weekday)
+      )
+      .map((event) => timeToMinutes(event.end))
+  )
   const events = schedule.events
     .filter(
       (event) =>
-        event.weekdays.includes(date.getDay()) &&
-        (!event.schoolDaysOnly || isSchoolDate(date, holidays))
+        event.weekdays.includes(weekday) && (!event.schoolDaysOnly || schoolDay)
     )
-    .map((event) => ({
-      ...event,
-      startMinute: timeToMinutes(event.start),
-      endMinute: timeToMinutes(event.end),
-    }))
+    .map((event) => {
+      let startMinute = timeToMinutes(event.start)
+      let endMinute = timeToMinutes(event.end)
+      if (
+        releaseMinute !== undefined &&
+        releaseMinute < regularSchoolEnd &&
+        event.schoolDaysOnly
+      ) {
+        if (event.activity === 'schooltime')
+          endMinute = Math.min(endMinute, releaseMinute)
+        if (event.activity === 'commute' && startMinute >= regularSchoolEnd) {
+          const shift = regularSchoolEnd - releaseMinute
+          startMinute -= shift
+          endMinute -= shift
+        }
+      }
+      return { ...event, startMinute, endMinute }
+    })
+    .filter((event) => event.endMinute > event.startMinute)
   const boundaries = [
     ...new Set(events.flatMap((event) => [event.startMinute, event.endMinute])),
   ].sort((a, b) => a - b)
   const agenda: AgendaItem[] = []
-  for (let index = 0; index < boundaries.length - 1; index++) {
-    const startMinute = boundaries[index]!
-    const endMinute = boundaries[index + 1]!
+  let previousBoundary: number | undefined
+  for (const endMinute of boundaries) {
+    const startMinute = previousBoundary
+    previousBoundary = endMinute
+    if (startMinute === undefined) continue
     const winner = events.reduce<AgendaItem | undefined>((current, event) => {
       if (event.startMinute > startMinute || event.endMinute < endMinute)
         return current

@@ -6,6 +6,9 @@ import { ANIMAL_HABITAT_IMAGE_BY_NAME } from './animalHabitatAssets'
 import { ANIMAL_FOOD_IMAGE_BY_NAME } from './animalFoodAssets'
 import type { ThemeId } from '../ui/themeOptions'
 
+const habitatImages = new Map(Object.entries(ANIMAL_HABITAT_IMAGE_BY_NAME))
+const foodImages = new Map(Object.entries(ANIMAL_FOOD_IMAGE_BY_NAME))
+
 const images = import.meta.glob<string>('../assets/insects/**/*.webp', {
   eager: true,
   import: 'default',
@@ -44,18 +47,14 @@ export const INSECT_KNOWLEDGE: InsectKnowledge[] = profiles
       `${profile.name} ability`
     ),
     homeImage: required(
-      ANIMAL_HABITAT_IMAGE_BY_NAME[
-        profile.habitat as keyof typeof ANIMAL_HABITAT_IMAGE_BY_NAME
-      ] ??
+      habitatImages.get(profile.habitat) ??
         (profile.habitat === 'fruit'
           ? ANIMAL_FOOD_IMAGE_BY_NAME.Fruit
           : asset('facts', profile.habitat)),
       `${profile.name} home`
     ),
     foodIllustration: required(
-      ANIMAL_FOOD_IMAGE_BY_NAME[
-        profile.foodImage as keyof typeof ANIMAL_FOOD_IMAGE_BY_NAME
-      ] ??
+      foodImages.get(profile.foodImage) ??
         (profile.foodImage === 'aphids'
           ? asset('portraits', 'aphid')
           : asset('facts', profile.foodImage)),

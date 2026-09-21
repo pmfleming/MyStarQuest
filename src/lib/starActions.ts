@@ -6,7 +6,7 @@ import {
   serverTimestamp,
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
-import { isAndroidOffline } from '../offline/platform'
+import { isOfflineEnabled } from '../offline/platform'
 
 type TaskCollection = 'chores' | 'tests'
 
@@ -39,7 +39,7 @@ export const completeTaskAndAwardStars = async (options: {
   initialTaskData?: Record<string, unknown>
   deleteOnComplete?: boolean
 }) => {
-  if (isAndroidOffline()) {
+  if (isOfflineEnabled()) {
     const { offlineCompletion } = await import('../offline/actions')
     return offlineCompletion(options)
   }
@@ -137,7 +137,7 @@ export const redeemReward = async ({
   childId,
   reward,
 }: RedeemOptions) => {
-  if (isAndroidOffline()) {
+  if (isOfflineEnabled()) {
     const { offlineRedemption } = await import('../offline/actions')
     return offlineRedemption(userId, childId, reward)
   }

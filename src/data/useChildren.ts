@@ -8,15 +8,9 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  serverTimestamp,
-} from 'firebase/firestore'
+import { deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../firebaseDb'
-import { isAndroidOffline } from '../offline/platform'
+import { isOfflineEnabled } from '../offline/platform'
 import { saveDocument } from '../offline/actions'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
@@ -33,7 +27,10 @@ import {
 } from './dailyTaskState'
 import { useUserCollection } from './useUserCollection'
 import { useOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
-import { useUserDocumentUpdates } from './useUserDocumentUpdates'
+import {
+  createUserDocument,
+  useUserDocumentUpdates,
+} from './useUserDocumentUpdates'
 import { useRequiredContext } from '../hooks/useRequiredContext'
 
 const useChildrenState = () => {
@@ -110,8 +107,7 @@ const useChildrenState = () => {
   )
 
   // ── Generic field update ──
-  const updateChildField = (id: string, field: ChildUpdatableFields) =>
-    queueChildField(id, field)
+  const updateChildField = queueChildField
 
   // ── Name draft helpers ──
   const setNameDraft = (childId: string, value: string) =>
@@ -137,21 +133,12 @@ const useChildrenState = () => {
   // ── Create ──
   const createChild = async () => {
     if (!user) return
-    if (isAndroidOffline())
-      return saveDocument(user.uid, 'children', crypto.randomUUID(), 'put', {
-        displayName: '',
-        avatarToken: THEME_ID_LOOKUP.get('princess')?.emoji || '👤',
-        themeId: 'princess',
-        totalStars: 0,
-        testFailureModeEnabled: true,
-      })
-    await addDoc(collection(db, 'users', user.uid, 'children'), {
+    return createUserDocument(user.uid, 'children', {
       displayName: '',
       avatarToken: THEME_ID_LOOKUP.get('princess')?.emoji || '👤',
       themeId: 'princess',
       totalStars: 0,
       testFailureModeEnabled: true,
-      createdAt: serverTimestamp(),
     })
   }
 
@@ -159,9 +146,9 @@ const useChildrenState = () => {
   const deleteChild = async (id: string) => {
     if (!user) return
     cancelChildFieldUpdate(id)
-    if (isAndroidOffline())
+    if (isOfflineEnabled())
       await saveDocument(user.uid, 'children', id, 'delete')
-    else await deleteDoc(doc(collection(db, 'users', user.uid, 'children'), id))
+    else await deleteDoc(doc(db, 'users', user.uid, 'children', id))
     if (id === activeChildId) clearActiveChild()
   }
 

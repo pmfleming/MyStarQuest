@@ -1,0 +1,129 @@
+{
+  "date": "2026-09-21",
+  "pass": 2,
+  "analyzer": {
+    "version": "0.3.0",
+    "commit": "c9e853ffe256cd04c5e6b0e2383615882d3056ae"
+  },
+  "methodology": "Fresh second-pass frontend baseline and unchanged first-pass backend baseline; identical analyzer/configuration/dependencies/Git history. Callable complexity/effort, file source lines, and module risk sums. Source totals exclude tests, documentation and generated files.",
+  "configs": {
+    "ts-react-quality-lens.config.json": "9920279e36ce0eea1a04d8702ea1a26d5308a165c7f78549996580dbe5b0e22f",
+    "functions/ts-react-quality-lens.config.json": "cf554ef17e81bee9d91bb9b6430a2da0f9e4372dd6edc0dc8c4379eda8e50952"
+  },
+  "scopes": {
+    "web": {
+      "before": {
+        "source_lines": 30407,
+        "cognitive_complexity": 1510,
+        "cyclomatic_complexity": 2140,
+        "halstead_effort": 10448552,
+        "clone_groups": 0,
+        "locality_risk": 11011,
+        "leverage_risk": 368,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 30333,
+        "cognitive_complexity": 1509,
+        "cyclomatic_complexity": 2138,
+        "halstead_effort": 9938634,
+        "clone_groups": 0,
+        "locality_risk": 10957,
+        "leverage_risk": 332,
+        "lint_blockers": 0
+      },
+      "identityBefore": "sha256:3d1036a4089f66ad7fa347ef68c245a45d1e0e9033afc29d848070d962edf831",
+      "identityAfter": "sha256:3d1036a4089f66ad7fa347ef68c245a45d1e0e9033afc29d848070d962edf831",
+      "sourceHashBefore": "sha256:e61a17de1f86218022d78197c534474b17a7b96ae188bcc1a4821625b3f223b0",
+      "sourceHashAfter": "sha256:d5233e42aae9199406338928c19b72a096712bfad16c674c1321a46ba52bd5c4"
+    },
+    "functions": {
+      "before": {
+        "source_lines": 536,
+        "cognitive_complexity": 67,
+        "cyclomatic_complexity": 81,
+        "halstead_effort": 156380,
+        "clone_groups": 0,
+        "locality_risk": 36,
+        "leverage_risk": 12,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 536,
+        "cognitive_complexity": 65,
+        "cyclomatic_complexity": 78,
+        "halstead_effort": 160536,
+        "clone_groups": 0,
+        "locality_risk": 36,
+        "leverage_risk": 12,
+        "lint_blockers": 0
+      },
+      "identityBefore": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
+      "identityAfter": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
+      "sourceHashBefore": "sha256:de7465bf7873a0e5b6cd1f5d03c794228dc93a406d39d8d6b49ffe285bd2b4c9",
+      "sourceHashAfter": "sha256:5d3a9e334ee05d729f06380b2eae985532db039464a4bcda1b0fa986362ee97a"
+    }
+  },
+  "combined": {
+    "before": {
+      "source_lines": 30943,
+      "cognitive_complexity": 1577,
+      "cyclomatic_complexity": 2221,
+      "halstead_effort": 10604932,
+      "clone_groups": 0,
+      "locality_risk": 11047,
+      "leverage_risk": 380,
+      "lint_blockers": 0
+    },
+    "after": {
+      "source_lines": 30869,
+      "cognitive_complexity": 1574,
+      "cyclomatic_complexity": 2216,
+      "halstead_effort": 10099170,
+      "clone_groups": 0,
+      "locality_risk": 10993,
+      "leverage_risk": 344,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": -74,
+      "cognitive_complexity": -3,
+      "cyclomatic_complexity": -5,
+      "halstead_effort": -505762,
+      "clone_groups": 0,
+      "locality_risk": -54,
+      "leverage_risk": -36,
+      "lint_blockers": 0
+    }
+  },
+  "validation": {
+    "audit": {
+      "verdict": "warn",
+      "complete": true,
+      "incomplete_reasons": [],
+      "gate": "all",
+      "base": null,
+      "changed_files": 0,
+      "changed_hunks": 0,
+      "base_snapshot_available": false,
+      "base_snapshot_compatible": null,
+      "findings": 2503,
+      "active_findings": 46,
+      "introduced_findings": 2503,
+      "inherited_findings": 0,
+      "high_risk_findings": 297,
+      "blocking_findings": 0,
+      "warning_findings": 46,
+      "baseline_suppressed": 0,
+      "config_suppressed": 0,
+      "stale_suppressions": 0
+    },
+    "productionBuild": "passed",
+    "capacitorSync": "passed",
+    "backendBuild": "passed",
+    "androidAssembleAndUnitTests": "passed",
+    "offlineBrowserTests": 2,
+    "eslint": "passed; two existing unused-disable warnings",
+    "formatting": "passed"
+  }
+}

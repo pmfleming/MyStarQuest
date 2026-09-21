@@ -1,23 +1,15 @@
 // ── Real-time rewards subscription + all reward mutations ──
 
-import { useCallback, useEffect, useState } from 'react'
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  serverTimestamp,
-} from 'firebase/firestore'
+import { useCallback } from 'react'
+import { deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../firebaseDb'
-import { isAndroidOffline } from '../offline/platform'
+import { isOfflineEnabled } from '../offline/platform'
 import { saveDocument } from '../offline/actions'
-import { offlineRuntime } from '../offline/runtime'
+import { useChildren } from './useChildren'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { redeemReward } from '../lib/starActions'
 import {
-  childStarsSnapshotDataSchema,
   rewardSnapshotDataSchema,
   type RewardRecord,
   type RewardUpdatableFields,
@@ -25,7 +17,10 @@ import {
 import { useCollectionTitleDrafts } from './dailyTaskState'
 import { useUserCollection } from './useUserCollection'
 import { useOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
-import { useUserDocumentUpdates } from './useUserDocumentUpdates'
+import {
+  createUserDocument,
+  useUserDocumentUpdates,
+} from './useUserDocumentUpdates'
 
 export type RewardDocumentSettings = {
   title: string
@@ -37,7 +32,9 @@ export type RewardDocumentSettings = {
 export function useRewards() {
   const { user } = useAuth()
   const { activeChildId } = useActiveChild()
-  const [activeChildStars, setActiveChildStars] = useState<number>(0)
+  const { children } = useChildren()
+  const activeChildStars =
+    children.find((child) => child.id === activeChildId)?.totalStars ?? 0
 
   const mapRewardDocument = useCallback((id: string, data: unknown) => {
     const parsed = rewardSnapshotDataSchema.safeParse(data)
@@ -85,8 +82,7 @@ export function useRewards() {
     reconcileRewardFields
   )
 
-  const updateRewardField = (rewardId: string, field: RewardUpdatableFields) =>
-    queueRewardField(rewardId, field)
+  const updateRewardField = queueRewardField
   const {
     drafts: titleDrafts,
     setDraft: setTitleDraft,
@@ -95,48 +91,6 @@ export function useRewards() {
   } = useCollectionTitleDrafts(rawRewards, (rewardId, title) =>
     updateRewardField(rewardId, { title })
   )
-
-  // ── Active child star balance subscription ──
-  useEffect(() => {
-    if (!user || !activeChildId) {
-      return
-    }
-    if (isAndroidOffline()) {
-      const runtime = offlineRuntime(user.uid)
-      const publish = () => {
-        const child = runtime
-          .documents('children')
-          .find((item) => item.id === activeChildId)
-        setActiveChildStars(Number(child?.data.totalStars ?? 0))
-      }
-      publish()
-      return runtime.store.subscribe(publish)
-    }
-
-    const childRef = doc(db, 'users', user.uid, 'children', activeChildId)
-    const unsubscribe = onSnapshot(
-      childRef,
-      (snapshot) => {
-        const parsed = childStarsSnapshotDataSchema.safeParse(snapshot.data())
-        if (!parsed.success) {
-          console.warn('Invalid child star balance snapshot', {
-            id: activeChildId,
-            issues: parsed.error.issues,
-          })
-          setActiveChildStars(0)
-          return
-        }
-
-        setActiveChildStars(parsed.data.totalStars)
-      },
-      (error) => {
-        console.error('Failed to subscribe to child star balance', error)
-        setActiveChildStars(0)
-      }
-    )
-
-    return unsubscribe
-  }, [user, activeChildId])
 
   // ── Create ──
   const createStandardReward = async (
@@ -148,19 +102,11 @@ export function useRewards() {
     }
   ) => {
     if (!user) return
-    if (isAndroidOffline())
-      return saveDocument(user.uid, 'rewards', crypto.randomUUID(), 'put', {
-        title: settings.title,
-        costStars: Math.max(0, settings.costStars),
-        isRepeating: settings.isRepeating,
-        imageKey: settings.imageKey ?? '',
-      })
-    await addDoc(collection(db, 'users', user.uid, 'rewards'), {
+    return createUserDocument(user.uid, 'rewards', {
       title: settings.title,
       costStars: Math.max(0, settings.costStars),
       isRepeating: settings.isRepeating,
       imageKey: settings.imageKey ?? '',
-      createdAt: serverTimestamp(),
     })
   }
 
@@ -181,9 +127,9 @@ export function useRewards() {
   const deleteReward = async (id: string) => {
     if (!user) return
     cancelRewardFieldUpdate(id)
-    if (isAndroidOffline())
+    if (isOfflineEnabled())
       await saveDocument(user.uid, 'rewards', id, 'delete')
-    else await deleteDoc(doc(collection(db, 'users', user.uid, 'rewards'), id))
+    else await deleteDoc(doc(db, 'users', user.uid, 'rewards', id))
     removeTitleDraft(id)
   }
 
