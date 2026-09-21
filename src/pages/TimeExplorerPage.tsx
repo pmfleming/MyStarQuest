@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import TopIconButton from '../components/ui/TopIconButton'
+import ResourceLoadingIcon from '../components/ui/ResourceLoadingIcon'
 import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 import { getThemeAsset, hasIllustratedTheme } from '../ui/themeAssets'
 import SpinningPlanet from '../features/dayNightExplorer/SpinningPlanet'
@@ -120,11 +121,31 @@ const TimeExplorerPage = () => {
             {activePanel === 'clock' ? (
               <Clock theme={theme} clock={explorer.clock} />
             ) : activePanel === 'calendar' ? (
-              <Suspense fallback={<div role="status">Opening calendar…</div>}>
+              <Suspense
+                fallback={
+                  <div className="flex justify-center py-8">
+                    <ResourceLoadingIcon
+                      src={getThemeAsset(theme.id, 'calendarIcon')}
+                      loading
+                      label="Loading calendar"
+                    />
+                  </div>
+                }
+              >
                 <SchoolCalendar theme={theme} />
               </Suspense>
             ) : (
-              <Suspense fallback={<div role="status">Opening weather…</div>}>
+              <Suspense
+                fallback={
+                  <div className="flex justify-center py-8">
+                    <ResourceLoadingIcon
+                      src={getThemeAsset(theme.id, 'thermometerIcon')}
+                      loading
+                      label="Loading weather"
+                    />
+                  </div>
+                }
+              >
                 <WeatherPanel
                   theme={theme}
                   city={explorer.weatherCity}
