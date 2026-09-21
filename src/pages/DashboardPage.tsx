@@ -1,6 +1,5 @@
 import { getThemeAsset } from '../ui/themeAssets'
 import { useEffect, useMemo, useState } from 'react'
-import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
@@ -26,7 +25,6 @@ import {
 import type { ChoreDocumentSettings } from '../data/taskDocuments'
 import { useTaskActivityState } from '../hooks/useTaskActivityState'
 import { useTestCheckTriggers } from '../hooks/useTestCheckTriggers'
-import { DashboardHeaderActions } from './dashboardChoreUi'
 import ChoreCreationFlow from './ChoreCreationFlow'
 import InlineNotice from '../components/ui/InlineNotice'
 import { useTaskCelebration } from '../hooks/useTaskCelebration'
@@ -58,7 +56,6 @@ const runDashboardAction = async (
 }
 
 const DashboardPage = () => {
-  const { logout } = useAuth()
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
   const { children } = useChildren()
@@ -98,8 +95,6 @@ const DashboardPage = () => {
   )
   const [isCreatingChore, setIsCreatingChore] = useState(false)
   const [createChoreError, setCreateChoreError] = useState<string | null>(null)
-  const [isResettingToday, setIsResettingToday] = useState(false)
-  const [resetTodayError, setResetTodayError] = useState<string | null>(null)
   const activity = useTaskActivityState()
   const clearActivityIds = activity.clearActiveActivities
   const [biteCooldownEndsAt, setBiteCooldownEndsAt] = useState<number | null>(
@@ -159,20 +154,12 @@ const DashboardPage = () => {
     isEatingTask(chore) ? resetDinner(chore) : resetChore(chore)
 
   const handleResetToday = async () => {
-    if (!activeChildId || isResettingToday) return
-
-    setIsResettingToday(true)
-    setResetTodayError(null)
-    await runDashboardAction(
-      async () => {
-        clearActiveActivities()
-        celebration.clear()
-        await Promise.all(todayChores.map(resetTodayChore))
-      },
-      'Failed to reset today chores',
-      () => setResetTodayError('Reset failed.')
-    )
-    setIsResettingToday(false)
+    if (!activeChildId) return
+    clearActiveActivities()
+    celebration.clear()
+    const results = await Promise.allSettled(todayChores.map(resetTodayChore))
+    const failure = results.find((result) => result.status === 'rejected')
+    if (failure) throw failure.reason
   }
 
   const handleUpdateChore = async (
@@ -288,15 +275,7 @@ const DashboardPage = () => {
     <TabContent
       theme={theme}
       title={selectedChild?.displayName || 'Explorer'}
-      headerRight={
-        <DashboardHeaderActions
-          theme={theme}
-          activeChildId={activeChildId}
-          isResettingToday={isResettingToday}
-          onResetToday={handleResetToday}
-          onLogout={logout}
-        />
-      }
+      onResetToday={handleResetToday}
     >
       <div
         className="mx-auto flex w-full flex-col"
@@ -308,9 +287,6 @@ const DashboardPage = () => {
       >
         {selectedChild && (
           <StarInfoBox theme={theme} totalStars={selectedChild.totalStars} />
-        )}
-        {resetTodayError && (
-          <InlineNotice theme={theme}>{resetTodayError}</InlineNotice>
         )}
         {createChoreError && (
           <InlineNotice theme={theme}>{createChoreError}</InlineNotice>

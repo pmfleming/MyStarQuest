@@ -23,7 +23,7 @@ const PageHeader = ({ theme, title, right, fontFamily }: PageHeaderProps) => {
         style={{
           fontFamily: fontFamily || 'inherit',
           textAlign: 'left',
-          fontSize: `${Math.round(uiTokens.topIconSize * 0.65)}px`,
+          fontSize: `clamp(18px, 5.5vw, ${Math.round(uiTokens.topIconSize * 0.65)}px)`,
           color: theme.colors.primary,
           lineHeight: '1',
           flex: 1,

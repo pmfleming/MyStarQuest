@@ -1,0 +1,28 @@
+.app-menu-sheet {
+  position: fixed;
+  inset: auto 0 max(20px, env(safe-area-inset-bottom));
+  width: min(380px, calc(100% - 32px));
+  max-height: calc(100dvh - 48px);
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid;
+  border-radius: 28px;
+  box-shadow: 0 16px 64px #0004;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.app-menu-sheet::backdrop {
+  background: #180d284d;
+  backdrop-filter: blur(3px);
+}
+
+.app-menu-sheet button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.app-menu-sheet img {
+  flex-shrink: 0;
+  object-fit: contain;
+}
