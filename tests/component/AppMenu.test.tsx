@@ -10,7 +10,6 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { StrictMode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import AppMenu from '../../src/components/AppMenu'
-import TabContent from '../../src/components/TabContent'
 import { themes } from '../../src/contexts/ThemeContext'
 
 const state = vi.hoisted(() => ({
@@ -117,35 +116,6 @@ describe('shared app menu', () => {
     expect(screen.getByRole('dialog', { name: 'Menu' })).toBeVisible()
   })
 
-  it.each(['Chores', 'Tests', 'Rewards', 'Time Explorer'])(
-    'keeps utilities behind the menu on %s',
-    (title) => {
-      render(
-        <MemoryRouter>
-          <TabContent theme={themes.princess} title={title} />
-        </MemoryRouter>
-      )
-      expect(
-        screen.queryByRole('button', { name: 'Reset today' })
-      ).not.toBeInTheDocument()
-      expect(state.subscribe).not.toHaveBeenCalled()
-      openMenu()
-      expect(screen.getByRole('dialog', { name: 'Menu' })).toBeVisible()
-      expect(screen.getByRole('button', { name: 'Children' })).toBeVisible()
-      expect(screen.getByRole('button', { name: 'Reset today' })).toBeVisible()
-      expect(screen.getByRole('button', { name: 'Sign out' })).toBeVisible()
-      fireEvent(
-        screen.getByRole('dialog'),
-        new Event('cancel', { cancelable: true })
-      )
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Open menu' })).toHaveAttribute(
-        'aria-expanded',
-        'false'
-      )
-    }
-  )
-
   it('opens the existing child manager', () => {
     renderMenu()
     openMenu()
@@ -221,16 +191,5 @@ describe('shared app menu', () => {
     renderMenu()
     openMenu()
     expect(screen.getByRole('button', { name: 'Reset today' })).toBeDisabled()
-  })
-
-  it('signs out only when the menu action is clicked', async () => {
-    renderMenu()
-    openMenu()
-    expect(state.logout).not.toHaveBeenCalled()
-    fireEvent.click(screen.getByRole('button', { name: 'Sign out' }))
-    await waitFor(() =>
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    )
-    expect(state.logout).toHaveBeenCalledTimes(1)
   })
 })

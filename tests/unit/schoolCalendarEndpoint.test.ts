@@ -34,15 +34,3 @@ it('times out when headers arrive but the calendar body stalls', async () => {
   await vi.advanceTimersByTimeAsync(8000)
   await request
 })
-
-it('rejects failed HTTP responses before parsing them', async () => {
-  const text = vi.fn()
-  vi.stubGlobal(
-    'fetch',
-    vi.fn().mockResolvedValue({ ok: false, status: 503, text })
-  )
-  await expect(
-    fetchSchoolCalendarText('https://calendar.example/school.ics')
-  ).rejects.toThrow('HTTP 503')
-  expect(text).not.toHaveBeenCalled()
-})

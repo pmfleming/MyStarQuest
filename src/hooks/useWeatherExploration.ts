@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   formatTemperature,
   type WeatherConditions,
@@ -7,10 +7,15 @@ import {
   getWeatherVisuals,
   getWeatherWindLevel,
   type WeatherLevel,
-  type WeatherVisuals,
 } from '../lib/weather/weatherVisuals'
+import {
+  readTimeExplorerState,
+  saveTimeExplorerState,
+  type ExplorerWeatherDraft,
+} from '../features/dayNightExplorer/timeExplorerStorage'
+import type { ExplorerCityId } from '../features/dayNightExplorer/dayNightExplorerOptions'
 
-type Draft = { visuals: WeatherVisuals; windSpeed: number | null }
+type Draft = ExplorerWeatherDraft
 type Change = {
   temperature?: number
   windSpeed?: number
@@ -24,7 +29,7 @@ function getExplorationPrecipitation(temperature: number) {
 }
 
 export function useWeatherExploration(
-  cityId: string,
+  cityId: ExplorerCityId,
   data: WeatherConditions | null
 ) {
   const liveVisuals = useMemo(
@@ -34,13 +39,18 @@ export function useWeatherExploration(
     }),
     [data]
   )
-  const [state, setState] = useState<{ cityId: string; draft: Draft | null }>({
-    cityId,
-    draft: null,
-  })
+  const [state, setState] = useState<{ cityId: string; draft: Draft | null }>(
+    () => {
+      const saved = readTimeExplorerState().weather
+      return { cityId, draft: saved?.cityId === cityId ? saved.draft : null }
+    }
+  )
   // Reset on city changes, including returning to a previously explored city.
   if (state.cityId !== cityId) setState({ cityId, draft: null })
   const draft = state.cityId === cityId ? state.draft : null
+  useEffect(() => {
+    saveTimeExplorerState({ weather: draft ? { cityId, draft } : null })
+  }, [cityId, draft])
   const visuals = draft?.visuals ?? liveVisuals
   const windSpeed = draft ? draft.windSpeed : (data?.windSpeed ?? null)
 

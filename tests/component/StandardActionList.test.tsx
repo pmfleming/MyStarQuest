@@ -120,6 +120,8 @@ describe('StandardActionList card contract', () => {
     expect(confirm).not.toHaveBeenCalled()
     const card = screen.getByRole('article')
     expect(onDelete).not.toHaveBeenCalled()
+    expect(card).not.toHaveClass('whimsical-card-exiting')
+    fireEvent.click(screen.getByRole('button', { name: 'Yes, delete' }))
 
     fireEvent.animationEnd(card)
 

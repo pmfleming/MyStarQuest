@@ -67,14 +67,11 @@ export const getImageForTime = (
   return event ? activityImages[event.activity] : null
 }
 
-export const getExplorerBackdropColor = (
-  minutes: number,
-  solarTimes: SolarTimes
-) => {
-  const { base, overlay, overlayOpacity } = getExplorerBackgroundBlend(
-    minutes,
-    solarTimes
-  )
+export const getExplorerBackdropColor = ({
+  base,
+  overlay,
+  overlayOpacity,
+}: ExplorerBackgroundBlend) => {
   const color = interpolateColor(
     EXPLORER_SKY_COLORS[base],
     EXPLORER_SKY_COLORS[overlay],

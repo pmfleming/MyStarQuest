@@ -1,23 +1,8 @@
+import type { AnimalFact, AnimalKnowledge } from './animalKnowledgeTypes'
 import type { AnimalFoodName } from './animalFoodAssets'
 import type { AnimalHabitatName } from './animalHabitatAssets'
 import type { AnimalLocationName } from './animalLocationAssets'
 import { ADDITIONAL_ANIMAL_KNOWLEDGE } from './additionalAnimalKnowledge'
-
-export type AnimalFact = {
-  label: string
-  visual: string
-  text: string
-}
-
-export type AnimalKnowledge = {
-  name: string
-  locationCategory: AnimalLocationName
-  habitatCategory: AnimalHabitatName
-  foodCategory: AnimalFoodName
-  habitat: AnimalFact[]
-  food: AnimalFact[]
-  abilities: AnimalFact[]
-}
 
 type FactSeed = readonly [label: string, visual: string, text: string]
 
@@ -1651,7 +1636,7 @@ const KNOWLEDGE_SEEDS = {
   },
 } satisfies Record<string, AnimalKnowledgeSeed>
 
-const DISPLAY_CATEGORY_SEEDS = {
+const DISPLAY_CATEGORY_SEEDS: Record<string, AnimalDisplayCategories> = {
   alpaca: { location: 'South America', habitat: 'Mountain', food: 'Grass' },
   ant: { location: 'Worldwide', habitat: 'Burrow', food: 'Insects' },
   armadillo: { location: 'Americas', habitat: 'Grassland', food: 'Insects' },
@@ -1793,13 +1778,10 @@ const DISPLAY_CATEGORY_SEEDS = {
   zebra: { location: 'Africa', habitat: 'Grassland', food: 'Grass' },
 } satisfies Record<keyof typeof KNOWLEDGE_SEEDS, AnimalDisplayCategories>
 
-export const ANIMAL_KNOWLEDGE: AnimalKnowledge[] = (
-  Object.entries(KNOWLEDGE_SEEDS) as Array<
-    [keyof typeof KNOWLEDGE_SEEDS, AnimalKnowledgeSeed]
-  >
-)
+export const ANIMAL_KNOWLEDGE = Object.entries(KNOWLEDGE_SEEDS)
   .map<AnimalKnowledge>(([name, seed]) => {
     const categories = DISPLAY_CATEGORY_SEEDS[name]
+    if (!categories) throw new Error(`Missing display categories for ${name}`)
     return {
       name,
       locationCategory: categories.location,

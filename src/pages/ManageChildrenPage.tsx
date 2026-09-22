@@ -24,14 +24,6 @@ const ManageChildrenPage = () => {
     selectChild,
   } = useChildren()
 
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteChild(id)
-    } catch (error) {
-      console.error('Failed to delete child profile', error)
-    }
-  }
-
   const carouselItems = themeOptions.map((option) => ({
     id: option.id,
     label: option.label,
@@ -77,7 +69,7 @@ const ManageChildrenPage = () => {
           getItemLabel={(child) => child.displayName}
           {...childListDescriptor}
           hideEdit
-          onDelete={(child) => handleDelete(child.id)}
+          onDelete={(child) => deleteChild(child.id)}
           addLabel="Add Child"
           onAdd={createChild}
           addDisabled={false}

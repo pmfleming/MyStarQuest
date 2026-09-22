@@ -1,4 +1,4 @@
-import type { AnimalKnowledge } from './animalKnowledge'
+import type { AnimalKnowledge } from './animalKnowledgeTypes'
 
 type AnimalProfile = {
   name: string

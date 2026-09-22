@@ -155,6 +155,15 @@ const useExplorerClock = ({
     [commitExplorerTime]
   )
 
+  // The hands tick between React snapshots; capture their exact time on exit.
+  const getClockTime = useCallback(
+    () => ({
+      minutes: exactMinutesRef.current,
+      seconds: exactSecondsRef.current,
+    }),
+    []
+  )
+
   useEffect(() => {
     applyHandTransforms(minutes, snapshotSeconds)
   }, [applyHandTransforms, minutes, snapshotSeconds])
@@ -319,6 +328,7 @@ const useExplorerClock = ({
     handlePointerDown,
     adjustMinutes,
     syncClockTime,
+    getClockTime,
   }
 }
 

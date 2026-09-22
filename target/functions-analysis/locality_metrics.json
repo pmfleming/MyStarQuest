@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-21T12:24:37.218Z",
+    "measured_at": "2026-09-22T12:52:53.166Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5d3a9e334ee05d729f06380b2eae985532db039464a4bcda1b0fa986362ee97a",
-    "input_set_hash": "sha256:a9c8e40dd43e042c6328956b5b6351eb192ec03304c86ae333e90314226fcb7d"
+    "source_set_hash": "sha256:57bbe008e7a167dcb9726b1aa58dbe41bda0c61dfcd2dc8936be5d4ac2f91b1f",
+    "input_set_hash": "sha256:448cbb6158409f435f2be803886c4a56a016eda744f8136f792040059671a771"
   },
   "analysis_identity": {
     "id": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
@@ -65,7 +65,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "complete": true,
     "partial": false,
@@ -100,20 +100,24 @@
       "id": "locality:src/index",
       "module_id": "src/index",
       "file": "src/index.ts",
-      "score": 31,
+      "score": 34,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 13,
+        "commits": 14,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
         {
           "file": "src/schoolCalendar.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/schoolEventCatalog.ts",
           "commits": 1
         }
       ],
@@ -124,7 +128,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -157,27 +161,31 @@
       "id": "locality:src/schoolCalendar",
       "module_id": "src/schoolCalendar",
       "file": "src/schoolCalendar.ts",
-      "score": 5,
+      "score": 10,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/index.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/schoolEventCatalog.ts",
           "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -210,19 +218,33 @@
       "id": "locality:src/schoolEventCatalog",
       "module_id": "src/schoolEventCatalog",
       "file": "src/schoolEventCatalog.ts",
-      "score": 0,
+      "score": 5,
       "risk": "low",
       "dependency_distance": 0,
       "hidden_coupling": [],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
-      "signals": [],
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/schoolCalendar.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
       "kind": "locality",
       "rule_id": "ts-react-quality-lens/locality",
       "evidence_kind": "heuristic",

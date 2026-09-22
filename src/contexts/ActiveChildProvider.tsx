@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { z } from 'zod'
 import { useAuth } from '../auth/AuthContext'
 import { useTheme } from './ThemeContext'
 import {
@@ -8,10 +9,12 @@ import {
 
 const STORAGE_PREFIX = 'mystarquest:active-child'
 
-type ActiveChildState = {
-  id: string | null
-  themeId: string | null
-}
+const activeChildSchema = z.object({
+  id: z.string().nullable().catch(null),
+  themeId: z.string().nullable().catch(null),
+})
+type ActiveChildState = z.infer<typeof activeChildSchema>
+const EMPTY_SELECTION: ActiveChildState = { id: null, themeId: null }
 
 const isBrowser = typeof window !== 'undefined'
 
@@ -19,27 +22,18 @@ const readStoredState = (
   userId: string | undefined | null
 ): ActiveChildState => {
   if (!userId || !isBrowser) {
-    return { id: null, themeId: null }
+    return EMPTY_SELECTION
   }
 
   try {
     const raw = window.localStorage.getItem(`${STORAGE_PREFIX}:${userId}`)
-    if (!raw) return { id: null, themeId: null }
-    const parsed: unknown = JSON.parse(raw)
-    if (parsed && typeof parsed === 'object') {
-      const id =
-        'id' in parsed && typeof parsed.id === 'string' ? parsed.id : null
-      const themeId =
-        'themeId' in parsed && typeof parsed.themeId === 'string'
-          ? parsed.themeId
-          : null
-      return { id, themeId }
-    }
+    const parsed = activeChildSchema.safeParse(JSON.parse(raw ?? '{}'))
+    return parsed.success ? parsed.data : EMPTY_SELECTION
   } catch (error) {
     console.warn('Failed to parse stored active child', error)
   }
 
-  return { id: null, themeId: null }
+  return EMPTY_SELECTION
 }
 
 export const ActiveChildProvider = ({
@@ -105,7 +99,7 @@ const ActiveChildStateProvider = ({
   )
 
   const clearActiveChild = useCallback(() => {
-    persist({ id: null, themeId: null })
+    persist(EMPTY_SELECTION)
   }, [persist])
 
   const value = useMemo<ActiveChildContextValue>(

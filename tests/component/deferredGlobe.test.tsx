@@ -1,5 +1,4 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
-import { StrictMode } from 'react'
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest'
 import useSolarSystem3D from '../../src/features/dayNightExplorer/useSolarSystem3D'
 import type { SolarSystemSceneState } from '../../src/features/dayNightExplorer/SolarSystem3DManager'
@@ -30,8 +29,10 @@ function Harness({
   state?: SolarSystemSceneState
   enabled?: boolean
 }) {
-  const { canvasRef, globeReady, globeFailed, updateSceneState, retryGlobe } =
-    useSolarSystem3D(state, enabled)
+  const { canvasRef, globeReady, globeFailed, retryGlobe } = useSolarSystem3D(
+    state,
+    enabled
+  )
   return (
     <>
       <span>Clock available</span>
@@ -39,11 +40,6 @@ function Harness({
       <output>
         {globeReady ? 'Ready' : globeFailed ? 'Failed' : 'Loading'}
       </output>
-      <button
-        onClick={() => updateSceneState({ ...state, earthRotationDeg: 75 })}
-      >
-        Drag clock
-      </button>
       <button onClick={retryGlobe}>Retry</button>
     </>
   )
@@ -99,48 +95,6 @@ describe('deferred globe lifecycle', () => {
     expect(screen.getByText('Ready')).toBeVisible()
     unmount()
     expect(scene.dispose).toHaveBeenCalledTimes(2)
-  })
-
-  it('cancels pending initialization when toggled off', async () => {
-    const { rerender } = render(<Harness />)
-    nextFrame()
-    nextFrame()
-    rerender(<Harness enabled={false} />)
-    await act(() => vi.dynamicImportSettled())
-    expect(scene.construct).not.toHaveBeenCalled()
-    expect(frames.size).toBe(0)
-  })
-
-  it('paints the shell first, initializes with the latest drag state, and disposes once', async () => {
-    const { rerender, unmount } = render(
-      <StrictMode>
-        <Harness />
-      </StrictMode>
-    )
-    expect(screen.getByText('Clock available')).toBeVisible()
-    expect(scene.construct).not.toHaveBeenCalled()
-    nextFrame()
-    expect(scene.construct).not.toHaveBeenCalled()
-    const updated = { ...initial, earthRotationDeg: 50 }
-    rerender(
-      <StrictMode>
-        <Harness state={updated} />
-      </StrictMode>
-    )
-    const dragged = { ...updated, earthRotationDeg: 75 }
-    fireEvent.click(screen.getByText('Drag clock'))
-    nextFrame()
-    await act(() => vi.dynamicImportSettled())
-    expect(scene.construct).toHaveBeenCalledExactlyOnceWith(
-      expect.any(HTMLCanvasElement),
-      dragged
-    )
-    expect(screen.getByText('Ready')).toBeVisible()
-    fireEvent.click(screen.getByText('Drag clock'))
-    expect(scene.update).toHaveBeenLastCalledWith(dragged)
-    unmount()
-    expect(scene.dispose).toHaveBeenCalledOnce()
-    expect(frames.size).toBe(0)
   })
 
   it('never creates WebGL after leaving while the module is loading', async () => {

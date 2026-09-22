@@ -92,25 +92,6 @@ export const getFloatingSurfaceStyle = (
   zIndex: 100,
 })
 
-export const getTopIconStyle = (
-  theme: Theme,
-  isSelected = false
-): CSSProperties => ({
-  backgroundColor: isSelected
-    ? theme.colors.primary
-    : `${theme.colors.primary}80`,
-  color: theme.colors.text,
-  height: `${uiTokens.topIconSize}px`,
-  width: `${uiTokens.topIconSize}px`,
-  borderRadius: '9999px',
-  border: `${uiTokens.topIconBorder}px solid ${theme.colors.primary}`,
-  boxShadow: `0 0 10px ${theme.colors.primary}`,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  boxSizing: 'border-box',
-})
-
 export const getActionButtonStyle = (
   theme: Theme,
   baseColor: string

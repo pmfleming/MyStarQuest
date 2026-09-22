@@ -193,7 +193,7 @@ const MenuSheet = ({
           style={actionStyle}
           onClick={() => {
             onDismiss()
-            navigate('/settings/manage-children')
+            return navigate('/settings/manage-children')
           }}
         >
           {getThemeAsset(theme.id, 'childrenIcon') ? (

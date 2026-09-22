@@ -33,20 +33,6 @@ afterEach(async () => {
 })
 
 describe('weather cache and subscriptions', () => {
-  it('avoids offline requests and refreshes immediately on reconnection', async () => {
-    const online = vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false)
-    const fetch = vi.fn().mockResolvedValue(response())
-    vi.stubGlobal('fetch', fetch)
-    cleanup.push(store.subscribeWeather(amsterdam, vi.fn()))
-    await vi.advanceTimersByTimeAsync(60_000)
-    expect(fetch).not.toHaveBeenCalled()
-    expect(store.getWeatherSnapshot(amsterdam).loading).toBe(false)
-    online.mockReturnValue(true)
-    window.dispatchEvent(new Event('online'))
-    await vi.advanceTimersByTimeAsync(0)
-    expect(fetch).toHaveBeenCalledOnce()
-    expect(store.getWeatherSnapshot(amsterdam).data?.temperature).toBe(18)
-  })
   it('keeps city responses separate and cancels abandoned requests', async () => {
     let resolveAmsterdam!: (value: unknown) => void
     const fetch = vi

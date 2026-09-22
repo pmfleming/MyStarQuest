@@ -1,10 +1,5 @@
 import { z } from 'zod'
-import {
-  CACHE_KEY,
-  CACHE_TS_KEY,
-  CACHE_TTL_MS,
-  SNAPSHOT_KEY,
-} from './schoolCalendarCache'
+import { CACHE_KEY, CACHE_TS_KEY, SNAPSHOT_KEY } from './schoolCalendarCache'
 import { classifySchoolEvent } from '../../functions/src/schoolEventCatalog'
 
 const CALENDAR_URL = 'https://getschoolcalendar-6ujocyt4pq-uc.a.run.app'
@@ -134,21 +129,4 @@ export async function fetchSchoolCalendar(
   const data = normalizeCalendar(calendarSchema.parse(await response.json()))
   signal.throwIfAborted()
   return { data, checkedAt: Date.now() }
-}
-
-export async function loadSchoolCalendar(
-  signal: AbortSignal
-): Promise<SchoolCalendarData> {
-  signal.throwIfAborted()
-  const cached = readSavedSchoolCalendar()
-  const age = cached ? Date.now() - cached.checkedAt : Infinity
-  if (cached && age >= 0 && age < CACHE_TTL_MS) return cached.data
-  try {
-    const next = await fetchSchoolCalendar(signal)
-    saveSchoolCalendar(next)
-    return next.data
-  } catch (error) {
-    if (!signal.aborted && cached) return cached.data
-    throw error
-  }
 }

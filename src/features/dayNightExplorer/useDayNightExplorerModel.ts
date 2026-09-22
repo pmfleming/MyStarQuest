@@ -5,7 +5,11 @@ import {
 } from '../../contexts/SelectedDateContext'
 import type { Theme } from '../../contexts/ThemeContext'
 import { getSunPosition } from '../../lib/solar'
-import { getTodayDescriptor } from '../../lib/today'
+import { buildDateKey, getTodayDescriptor } from '../../lib/today'
+import {
+  readTimeExplorerState,
+  saveTimeExplorerState,
+} from './timeExplorerStorage'
 import { getSeason } from '../../lib/seasons'
 import {
   buildExplorerInstant,
@@ -78,11 +82,16 @@ export default function useDayNightExplorerModel(
     [schedule, selectedDate, holidays]
   )
   const season = getSeason(selectedDate)
-  const [displayMode, setDisplayMode] =
-    useState<ExplorerDisplayMode>('earth-focus')
-  const [activeFocusId, setActiveFocusId] = useState<ExplorerFocusId>('earth')
+  const [savedState] = useState(readTimeExplorerState)
+  const pendingDateRestore = useRef(savedState.exploration?.dateKey)
+  const [displayMode, setDisplayMode] = useState<ExplorerDisplayMode>(
+    savedState.displayMode
+  )
+  const [activeFocusId, setActiveFocusId] = useState<ExplorerFocusId>(
+    savedState.activeFocusId
+  )
   const [activeCalculationCityId, setActiveCalculationCityId] =
-    useState<ExplorerCityId>('amsterdam')
+    useState<ExplorerCityId>(savedState.activeCalculationCityId)
 
   const calculationCity = getExplorerCityOption(activeCalculationCityId)
   const calculationLocation = calculationCity.location
@@ -93,16 +102,55 @@ export default function useDayNightExplorerModel(
     [calculationLocation]
   )
 
-  const onUpdateRef = useRef<(minutes: number, seconds: number) => void>(null!)
+  const onUpdateRef = useRef<
+    ((minutes: number, seconds: number) => void) | null
+  >(null)
 
   const clock = useExplorerClock({
-    initialMinutes: initialClockTime.totalMinutes,
-    initialSeconds: initialClockTime.seconds,
+    initialMinutes:
+      savedState.exploration?.minutes ?? initialClockTime.totalMinutes,
+    initialSeconds: savedState.exploration?.seconds ?? initialClockTime.seconds,
     onUpdate: useCallback(
       (m: number, s: number) => onUpdateRef.current?.(m, s),
       []
     ),
   })
+  const getClockTime = clock.getClockTime
+  const dateKey = buildDateKey(selectedDate)
+  useEffect(() => {
+    if (pendingDateRestore.current && pendingDateRestore.current !== dateKey) {
+      setSelectedDateKey(pendingDateRestore.current)
+      return
+    }
+    pendingDateRestore.current = undefined
+    const save = () =>
+      saveTimeExplorerState({
+        displayMode,
+        activeFocusId,
+        activeCalculationCityId,
+        exploration: { dateKey, ...getClockTime() },
+      })
+    save()
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') save()
+    }
+    window.addEventListener('pagehide', save)
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => {
+      save()
+      window.removeEventListener('pagehide', save)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
+  }, [
+    dateKey,
+    displayMode,
+    activeFocusId,
+    activeCalculationCityId,
+    clock.minutes,
+    clock.seconds,
+    getClockTime,
+    setSelectedDateKey,
+  ])
   const syncClockTime = clock.syncClockTime
   const resetToNow = useCallback(() => {
     const now = new Date()
@@ -112,77 +160,44 @@ export default function useDayNightExplorerModel(
     syncClockTime(getClockTimeForInstant(now, calculationLocation))
   }, [calculationLocation, setSelectedDateKey, syncClockTime])
 
-  const currentInstant = useMemo(
-    () =>
-      buildExplorerInstant(
-        selectedDate,
-        clock.minutes,
-        clock.seconds,
-        calculationLocation
-      ),
-    [calculationLocation, clock.minutes, clock.seconds, selectedDate]
-  )
-  const sunPosition = useMemo(
-    () => getSunPosition(currentInstant),
-    [currentInstant]
-  )
-  const planetSceneState = useMemo(
-    () => ({
+  // React snapshots and smooth hand dragging use the same scene projection.
+  const buildSceneState = useCallback(
+    (minutes: number, seconds: number) => ({
       displayMode,
-      earthRotationDeg: getEarthRotationDeg(clock.minutes, clock.seconds),
+      earthRotationDeg: getEarthRotationDeg(minutes, seconds),
       earthOrbitProgress: getYearProgress(selectedDate),
       activeFocusId,
       cityOptions: EXPLORER_CITY_OPTIONS,
-      sunPosition,
+      sunPosition: getSunPosition(
+        buildExplorerInstant(
+          selectedDate,
+          minutes,
+          seconds,
+          calculationLocation
+        )
+      ),
       monthLabelFontFamily: theme.fontFamily,
     }),
-    [
-      activeFocusId,
-      clock.minutes,
-      clock.seconds,
-      displayMode,
-      selectedDate,
-      sunPosition,
-      theme.fontFamily,
-    ]
-  )
-
-  const { canvasRef, globeReady, globeFailed, retryGlobe, updateSceneState } =
-    useSolarSystem3D(planetSceneState, globeVisible)
-
-  // Direct visual updates during dragging (bypassing React re-renders)
-  const updateEphemeralScene = useCallback(
-    (nextMinutes: number, nextSeconds: number) => {
-      const ephemeralInstant = buildExplorerInstant(
-        selectedDate,
-        nextMinutes,
-        nextSeconds,
-        calculationLocation
-      )
-      const ephemeralSunPosition = getSunPosition(ephemeralInstant)
-      updateSceneState({
-        displayMode,
-        earthRotationDeg: getEarthRotationDeg(nextMinutes, nextSeconds),
-        earthOrbitProgress: getYearProgress(selectedDate),
-        activeFocusId,
-        cityOptions: EXPLORER_CITY_OPTIONS,
-        sunPosition: ephemeralSunPosition,
-        monthLabelFontFamily: theme.fontFamily,
-      })
-    },
     [
       activeFocusId,
       calculationLocation,
       displayMode,
       selectedDate,
       theme.fontFamily,
-      updateSceneState,
     ]
   )
+  const planetSceneState = useMemo(
+    () => buildSceneState(clock.minutes, clock.seconds),
+    [buildSceneState, clock.minutes, clock.seconds]
+  )
+
+  const { canvasRef, globeReady, globeFailed, retryGlobe, updateSceneState } =
+    useSolarSystem3D(planetSceneState, globeVisible)
 
   useEffect(() => {
-    onUpdateRef.current = updateEphemeralScene
-  }, [updateEphemeralScene])
+    onUpdateRef.current = (minutes, seconds) =>
+      updateSceneState(buildSceneState(minutes, seconds))
+  }, [buildSceneState, updateSceneState])
 
   const handleFocusSelection = useCallback(
     (focusId: ExplorerFocusId) => {
@@ -198,23 +213,35 @@ export default function useDayNightExplorerModel(
       }
 
       const nextCity = getExplorerCityOption(focusId)
+      const { minutes, seconds } = getClockTime()
+      const currentInstant = buildExplorerInstant(
+        selectedDate,
+        minutes,
+        seconds,
+        calculationLocation
+      )
       syncClockTime(getClockTimeForInstant(currentInstant, nextCity.location))
+      setSelectedDateKey(
+        getTodayDescriptor(currentInstant, nextCity.location.timeZone).dateKey
+      )
       setActiveCalculationCityId(focusId)
       setActiveFocusId(focusId)
     },
-    [currentInstant, displayMode, syncClockTime]
+    [
+      calculationLocation,
+      displayMode,
+      getClockTime,
+      selectedDate,
+      setSelectedDateKey,
+      syncClockTime,
+    ]
   )
 
   const filteredOptions = useMemo(() => {
     // Show Sun icon when in Earth focus (to switch to Solar)
     // Show Earth icon when in Solar focus (to switch to Earth)
-    const topId = displayMode === 'earth-focus' ? 'sun' : 'earth'
-    return EXPLORER_FOCUS_OPTIONS.filter((option) => {
-      if (option.id === 'sun' || option.id === 'earth') {
-        return option.id === topId
-      }
-      return true
-    })
+    const hiddenId = displayMode === 'earth-focus' ? 'earth' : 'sun'
+    return EXPLORER_FOCUS_OPTIONS.filter((option) => option.id !== hiddenId)
   }, [displayMode])
 
   const formattedTime = formatTime(clock.minutes)
@@ -222,10 +249,6 @@ export default function useDayNightExplorerModel(
     clock.minutes,
     theme.activityImages,
     agenda
-  )
-  const explorerBackdropColor = getExplorerBackdropColor(
-    clock.minutes,
-    solarTimes
   )
   const explorerBackgroundBlend = getExplorerBackgroundBlend(
     clock.minutes,
@@ -256,7 +279,7 @@ export default function useDayNightExplorerModel(
     },
     clock: {
       activityImage,
-      explorerBackdropColor,
+      explorerBackdropColor: getExplorerBackdropColor(explorerBackgroundBlend),
       explorerBaseBackgroundImage,
       explorerOverlayBackgroundImage,
       overlayOpacity: explorerBackgroundBlend.overlayOpacity,

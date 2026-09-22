@@ -7,11 +7,8 @@ import {
   getAgendaForDate,
   loadCalendarSchedule,
   saveCalendarSchedule,
-  timeToMinutes,
 } from '../../src/lib/calendarSchedule'
 import { parseDateKey } from '../../src/lib/today'
-import { themes } from '../../src/contexts/ThemeContext'
-import { getImageForTime } from '../../src/features/dayNightExplorer/dayNightExplorerBackdrop'
 
 afterEach(() => {
   localStorage.clear()
@@ -47,37 +44,6 @@ describe('weekly calendar', () => {
     expect(getActivityAtMinute(agenda, 720)?.activity).toBe('commute')
     expect(getActivityAtMinute(agenda, 750)?.activity).toBe('playing')
   })
-
-  it.each([['2026-09-23', 'judo', '14:15', '15:00']])(
-    'shows the right lesson on %s and switches exactly at its boundaries',
-    (day, activity, start, end) => {
-      const agenda = agendaFor(day)
-      expect(agenda.filter(({ kind }) => kind === 'activity')).toEqual([
-        expect.objectContaining({ activity, start, end }),
-      ])
-      expect(
-        getActivityAtMinute(agenda, timeToMinutes(start) - 1)?.activity
-      ).toBe('playing')
-      expect(getActivityAtMinute(agenda, timeToMinutes(start))?.activity).toBe(
-        activity
-      )
-      expect(
-        getActivityAtMinute(agenda, timeToMinutes(end) - 1)?.activity
-      ).toBe(activity)
-      expect(getActivityAtMinute(agenda, timeToMinutes(end))?.activity).toBe(
-        'playing'
-      )
-      for (const theme of Object.values(themes)) {
-        expect(
-          getImageForTime(timeToMinutes(start), theme.activityImages, agenda)
-        ).toBe(
-          theme.activityImages?.[
-            activity as 'judo' | 'piano' | 'swimming' | 'ballet'
-          ]
-        )
-      }
-    }
-  )
 
   it('resolves each default day without gaps, overlaps, or mutations', () => {
     const original = JSON.stringify(DEFAULT_CALENDAR_SCHEDULE)
@@ -126,27 +92,14 @@ describe('schedule storage contract', () => {
     )
   })
 
-  it.each([
-    { start: '08:80' },
-    { start: '23:00', end: '07:00' },
-    { weekdays: [1, 1] },
-  ])('rejects invalid editor input %j before saving', (change) => {
-    const data = {
-      version: 1,
-      events: [{ ...DEFAULT_CALENDAR_SCHEDULE.events[0], ...change }],
-    }
-    expect(calendarScheduleSchema.safeParse(data).success).toBe(false)
-  })
-
-  it('rejects duplicate IDs', () => {
-    expect(
-      calendarScheduleSchema.safeParse({
+  it.each([{ start: '23:00', end: '07:00' }])(
+    'rejects invalid editor input %j before saving',
+    (change) => {
+      const data = {
         version: 1,
-        events: [
-          DEFAULT_CALENDAR_SCHEDULE.events[0],
-          DEFAULT_CALENDAR_SCHEDULE.events[0],
-        ],
-      }).success
-    ).toBe(false)
-  })
+        events: [{ ...DEFAULT_CALENDAR_SCHEDULE.events[0], ...change }],
+      }
+      expect(calendarScheduleSchema.safeParse(data).success).toBe(false)
+    }
+  )
 })

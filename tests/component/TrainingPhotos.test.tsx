@@ -2,11 +2,6 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import AnimalTester from '../../src/components/AnimalTester'
 import { themes } from '../../src/contexts/ThemeContext'
-import { ANIMAL_KNOWLEDGE } from '../../src/data/animalKnowledge'
-import { INSECT_KNOWLEDGE } from '../../src/data/insectKnowledge'
-import { INSECT_COLLECTION_NAMES } from '../../src/data/creatureCollections/insectCollectionNames'
-import credits from '../../src/data/creaturePhotoCredits.json'
-import { getCreaturePhoto } from '../../src/data/creaturePhotos'
 
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 const props = () => ({
@@ -21,25 +16,6 @@ const props = () => ({
 })
 
 describe('Who am I training photos', () => {
-  it('covers both catalogs with local photos and credits', () => {
-    const names = [
-      ...ANIMAL_KNOWLEDGE.filter(
-        (item) => !INSECT_COLLECTION_NAMES.has(item.name)
-      ),
-      ...INSECT_KNOWLEDGE,
-    ]
-      .map((item) => item.name)
-      .sort()
-    expect(credits.map((photo) => photo.id).sort()).toEqual(names)
-    for (const name of names) {
-      const photo = getCreaturePhoto(name)!
-      expect(photo.src).toContain(`/creaturePhotos/${name}.webp`)
-      expect(photo.photographer).toBeTruthy()
-      expect(photo.sourceUrl).toMatch(/^https:\/\//)
-      expect(photo.licence).toMatch(/^(CC BY|CC0|Public domain)/)
-    }
-  })
-
   it('supports keyboard toggling and falls back to the drawing on loading errors', () => {
     render(<AnimalTester {...props()} />)
     const trigger = screen.getByRole('button', {

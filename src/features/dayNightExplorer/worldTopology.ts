@@ -1,3 +1,5 @@
+import * as z from 'zod/mini'
+
 type GeoCoordinate = [number, number]
 export type GeoRing = GeoCoordinate[]
 type GeoPolygonCoordinates = GeoRing[]
@@ -23,123 +25,36 @@ export type GeoFeatureCollection = {
   features: GeoFeature[]
 }
 
-type TopoJsonArc = [number, number][]
-
-type TopoJsonTransform = {
-  scale: [number, number]
-  translate: [number, number]
-}
-
-type TopoJsonPolygonGeometry = {
-  type: 'Polygon'
-  arcs: number[][]
-}
-
-type TopoJsonMultiPolygonGeometry = {
-  type: 'MultiPolygon'
-  arcs: number[][][]
-}
-
-type TopoJsonGeometry = TopoJsonPolygonGeometry | TopoJsonMultiPolygonGeometry
-
-type TopoJsonGeometryCollection = {
-  type: 'GeometryCollection'
-  geometries: TopoJsonGeometry[]
-}
-
-type TopoJsonWorldData = {
-  transform: TopoJsonTransform
-  arcs: TopoJsonArc[]
-  objects: {
-    land: TopoJsonGeometryCollection
-    countries: TopoJsonGeometryCollection
-  }
-}
-
-const isNumberPair = (value: unknown): value is [number, number] =>
-  Array.isArray(value) &&
-  value.length === 2 &&
-  typeof value[0] === 'number' &&
-  typeof value[1] === 'number'
-
-const isTopoJsonTransform = (value: unknown): value is TopoJsonTransform =>
-  typeof value === 'object' &&
-  value !== null &&
-  'scale' in value &&
-  isNumberPair(value.scale) &&
-  'translate' in value &&
-  isNumberPair(value.translate)
-
-const isArc = (value: unknown): value is TopoJsonArc =>
-  Array.isArray(value) && value.every(isNumberPair)
-
-const isNumberArray = (value: unknown): value is number[] =>
-  Array.isArray(value) && value.every((entry) => typeof entry === 'number')
-
-const isPolygonGeometry = (value: unknown): value is TopoJsonPolygonGeometry =>
-  typeof value === 'object' &&
-  value !== null &&
-  'type' in value &&
-  value.type === 'Polygon' &&
-  'arcs' in value &&
-  Array.isArray(value.arcs) &&
-  value.arcs.every(isNumberArray)
-
-const isMultiPolygonGeometry = (
-  value: unknown
-): value is TopoJsonMultiPolygonGeometry =>
-  typeof value === 'object' &&
-  value !== null &&
-  'type' in value &&
-  value.type === 'MultiPolygon' &&
-  'arcs' in value &&
-  Array.isArray(value.arcs) &&
-  value.arcs.every(
-    (polygon) => Array.isArray(polygon) && polygon.every(isNumberArray)
-  )
-
-const isGeometryCollection = (
-  value: unknown
-): value is TopoJsonGeometryCollection =>
-  typeof value === 'object' &&
-  value !== null &&
-  'type' in value &&
-  value.type === 'GeometryCollection' &&
-  'geometries' in value &&
-  Array.isArray(value.geometries) &&
-  value.geometries.every(
-    (geometry) =>
-      isPolygonGeometry(geometry) || isMultiPolygonGeometry(geometry)
-  )
+// Keep the runtime validator and decoded types derived from one contract.
+const coordinateSchema = z.tuple([z.number(), z.number()])
+const polygonArcsSchema = z.array(z.array(z.int()))
+const geometryCollectionSchema = z.object({
+  type: z.literal('GeometryCollection'),
+  geometries: z.array(
+    z.discriminatedUnion('type', [
+      z.object({ type: z.literal('Polygon'), arcs: polygonArcsSchema }),
+      z.object({
+        type: z.literal('MultiPolygon'),
+        arcs: z.array(polygonArcsSchema),
+      }),
+    ])
+  ),
+})
+const worldSchema = z.object({
+  transform: z.object({ scale: coordinateSchema, translate: coordinateSchema }),
+  arcs: z.array(z.array(coordinateSchema)),
+  objects: z.object({
+    land: geometryCollectionSchema,
+    countries: geometryCollectionSchema,
+  }),
+})
+type TopoJsonWorldData = z.infer<typeof worldSchema>
+type TopoJsonGeometryCollection = z.infer<typeof geometryCollectionSchema>
 
 const parseTopoJsonWorldData = (value: unknown): TopoJsonWorldData => {
-  if (
-    typeof value === 'object' &&
-    value !== null &&
-    'transform' in value &&
-    isTopoJsonTransform(value.transform) &&
-    'arcs' in value &&
-    Array.isArray(value.arcs) &&
-    value.arcs.every(isArc) &&
-    'objects' in value &&
-    typeof value.objects === 'object' &&
-    value.objects !== null &&
-    'land' in value.objects &&
-    'countries' in value.objects &&
-    isGeometryCollection(value.objects.land) &&
-    isGeometryCollection(value.objects.countries)
-  ) {
-    return {
-      transform: value.transform,
-      arcs: value.arcs,
-      objects: {
-        land: value.objects.land,
-        countries: value.objects.countries,
-      },
-    }
-  }
-
-  throw new Error('Invalid TopoJSON world data')
+  const parsed = worldSchema.safeParse(value)
+  if (!parsed.success) throw new Error('Invalid TopoJSON world data')
+  return parsed.data
 }
 
 const decodeTopologyArcs = (world: TopoJsonWorldData) =>

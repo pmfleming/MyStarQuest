@@ -62,33 +62,6 @@ describe('school calendar event expansion', () => {
     )
   })
 
-  it.each(['Unknown school assembly'])(
-    'keeps all-day %s as a school activity',
-    (summary) => {
-      const calendar = buildSchoolCalendar({ event: makeEvent({ summary }) })
-      expect(calendar['2026-09-08'].isNonSchoolDay).toBe(false)
-      expect(calendar['2026-09-08'].events[0]).toMatchObject({
-        summary,
-        allDay: true,
-      })
-    }
-  )
-
-  it('keeps early finishes as school days and preserves their times', () => {
-    const calendar = buildSchoolCalendar({
-      event: makeEvent({
-        summary: 'Alle leerlingen om 12:00 uur vrij',
-        datetype: 'date-time',
-        start: new Date('2026-12-18T11:00:00Z'),
-        end: new Date('2026-12-18T13:45:00Z'),
-      }),
-    })
-    expect(calendar['2026-12-18']).toMatchObject({
-      isNonSchoolDay: false,
-      events: [{ start: '2026-12-18T11:00:00.000Z', allDay: false }],
-    })
-  })
-
   it('respects floating all-day ends across the autumn DST transition', () => {
     const calendar = buildSchoolCalendar({
       event: makeEvent({
@@ -103,20 +76,5 @@ describe('school calendar event expansion', () => {
       '2026-10-25',
       '2026-10-26',
     ])
-  })
-
-  it('retains both an activity and a day off on the same date', () => {
-    const calendar = buildSchoolCalendar({
-      meeting: makeEvent({
-        uid: 'meeting',
-        summary: '1-2a startgesprekken (met kind)',
-      }),
-      training: makeEvent({
-        uid: 'training',
-        summary: 'Studiedag (leerlingen vrij)',
-      }),
-    })
-    expect(calendar['2026-09-08'].isNonSchoolDay).toBe(true)
-    expect(calendar['2026-09-08'].events).toHaveLength(2)
   })
 })

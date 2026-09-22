@@ -149,6 +149,7 @@ test('production app reopens offline, retains code/fonts, and restores sign-in w
   await expect(login).toBeDisabled()
   await expect(page.getByText('Connect to sign in.')).toBeVisible()
   await page.goto('/tabs/time-explorer')
+  await expect(page).toHaveURL(/\/login$/)
   await expect(login).toBeDisabled()
   await context.setOffline(false)
   await page.evaluate(() => {

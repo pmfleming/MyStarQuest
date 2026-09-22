@@ -3,7 +3,7 @@
   "task_id": "correctness.all",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-21T12:45:26.478Z",
+    "measured_at": "2026-09-22T13:21:36.666Z",
     "source_type": "static",
-    "source_set_hash": "sha256:e4f7e66696315484e3b1818ee04af7f8c946c8a491452a585090cb84f0ee4ec3",
-    "input_set_hash": "sha256:397f687a113b6af5e252c51dbc3f90bfc7ab1e12f3b0c51f08ac65ad7da768e4"
+    "source_set_hash": "sha256:78d559847878846174e3a5f39de3236900f05bf95144390add9bf79870c310de",
+    "input_set_hash": "sha256:8834e5c6fe240f25fd761e6a229e52bff5139f97a788ad8fa0ca8a8127c89017"
   },
   "analysis_identity": {
-    "id": "sha256:3d1036a4089f66ad7fa347ef68c245a45d1e0e9033afc29d848070d962edf831",
+    "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:d7c5a0373b849391748e11dc4ff25a7035017608dbc42c938d6f051e39d72c5a",
+    "config_closure_hash": "sha256:d7a2f9de9588d08ba52ff587013c2c82e694ac782a88a8ea2bbbfe87bde6fb6c",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -98,9 +98,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 68,
+    "tests": 63,
     "colocated_tests": 0,
-    "external_tests": 68,
+    "external_tests": 63,
     "execution_status": "passed",
     "execution_scope": "suite",
     "coverage_status": "not_collected",
@@ -151,10 +151,7 @@
         "src/data/animalAbilityAssets.ts",
         "src/data/genericAnimalAbilityAssets.ts",
         "src/data/animalAssets.ts",
-        "src/data/animalFoodAssets.ts",
-        "src/data/animalHabitatAssets.ts",
-        "src/data/animalKnowledge.ts",
-        "src/data/animalLocationAssets.ts"
+        "src/data/animalKnowledge.ts"
       ],
       "source_associations": [
         {
@@ -183,28 +180,40 @@
           "confidence": "high"
         },
         {
-          "file": "src/data/animalFoodAssets.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/data/animalHabitatAssets.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
           "file": "src/data/animalKnowledge.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/data/animalLocationAssets.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 41,
+      "assertions": 20,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/AppMenu.test.tsx",
+      "name": "AppMenu.test.tsx",
+      "path": "tests/component/AppMenu.test.tsx",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/components/AppMenu.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/AppMenu.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 19,
       "skipped": 0,
       "todo": 0
     },
@@ -258,7 +267,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 15,
+      "assertions": 14,
       "skipped": 0,
       "todo": 0
     },
@@ -334,93 +343,6 @@
       "todo": 0
     },
     {
-      "id": "test:tests/component/DinosaurTester.test.tsx",
-      "name": "DinosaurTester.test.tsx",
-      "path": "tests/component/DinosaurTester.test.tsx",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [
-        "src/components/AnimalTester.tsx",
-        "src/data/dinosaurKnowledge.ts",
-        "src/contexts/ThemeContext.tsx",
-        "src/data/dinosaurAbilityAssets.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/components/AnimalTester.tsx",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/data/dinosaurKnowledge.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/contexts/ThemeContext.tsx",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/data/dinosaurAbilityAssets.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "assertions": 25,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:tests/component/DragScrollRegion.test.tsx",
-      "name": "DragScrollRegion.test.tsx",
-      "path": "tests/component/DragScrollRegion.test.tsx",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [
-        "src/components/ui/DragScrollRegion.tsx",
-        "src/contexts/ThemeContext.tsx"
-      ],
-      "source_associations": [
-        {
-          "file": "src/components/ui/DragScrollRegion.tsx",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/contexts/ThemeContext.tsx",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "assertions": 4,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:tests/component/InsectTester.test.tsx",
-      "name": "InsectTester.test.tsx",
-      "path": "tests/component/InsectTester.test.tsx",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [
-        "src/data/insectKnowledge.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/data/insectKnowledge.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "assertions": 12,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
       "id": "test:tests/component/LargeNumbersTester.test.tsx",
       "name": "LargeNumbersTester.test.tsx",
       "path": "tests/component/LargeNumbersTester.test.tsx",
@@ -443,7 +365,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 22,
+      "assertions": 11,
       "skipped": 0,
       "todo": 0
     },
@@ -465,6 +387,33 @@
         },
         {
           "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 11,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/ManageChildrenPage.test.tsx",
+      "name": "ManageChildrenPage.test.tsx",
+      "path": "tests/component/ManageChildrenPage.test.tsx",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/pages/ManageChildrenPage.tsx",
+        "src/ui/themeAssets.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/pages/ManageChildrenPage.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/themeAssets.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -497,7 +446,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 10,
+      "assertions": 6,
       "skipped": 0,
       "todo": 0
     },
@@ -580,7 +529,8 @@
       "locality": "external",
       "source_mapping": [
         "src/pages/RewardsPage.tsx",
-        "src/contexts/ThemeContext.tsx"
+        "src/contexts/ThemeContext.tsx",
+        "src/ui/themeAssets.ts"
       ],
       "source_associations": [
         {
@@ -592,10 +542,15 @@
           "file": "src/contexts/ThemeContext.tsx",
           "kind": "direct-import",
           "confidence": "high"
+        },
+        {
+          "file": "src/ui/themeAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 4,
+      "assertions": 14,
       "skipped": 0,
       "todo": 0
     },
@@ -646,7 +601,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 33,
+      "assertions": 26,
       "skipped": 0,
       "todo": 0
     },
@@ -668,27 +623,6 @@
       ],
       "coverage_status": "not_collected",
       "assertions": 2,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:tests/component/SolarSystem3DManager.test.ts",
-      "name": "SolarSystem3DManager.test.ts",
-      "path": "tests/component/SolarSystem3DManager.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [
-        "src/features/dayNightExplorer/SolarSystem3DManager.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "assertions": 5,
       "skipped": 0,
       "todo": 0
     },
@@ -721,34 +655,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 20,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:tests/component/StarInfoBox.test.tsx",
-      "name": "StarInfoBox.test.tsx",
-      "path": "tests/component/StarInfoBox.test.tsx",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [
-        "src/components/ui/StarInfoBox.tsx",
-        "src/contexts/ThemeContext.tsx"
-      ],
-      "source_associations": [
-        {
-          "file": "src/components/ui/StarInfoBox.tsx",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/contexts/ThemeContext.tsx",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "assertions": 7,
+      "assertions": 21,
       "skipped": 0,
       "todo": 0
     },
@@ -792,18 +699,12 @@
       "locality": "external",
       "source_mapping": [
         "src/components/AnimalTester.tsx",
-        "src/data/creatureCollections/availability.ts",
         "src/contexts/ThemeContext.tsx",
         "src/data/teeniepingKnowledge.ts"
       ],
       "source_associations": [
         {
           "file": "src/components/AnimalTester.tsx",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/data/creatureCollections/availability.ts",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -819,7 +720,69 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 18,
+      "assertions": 12,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/TimeExplorerReset.test.tsx",
+      "name": "TimeExplorerReset.test.tsx",
+      "path": "tests/component/TimeExplorerReset.test.tsx",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/contexts/SelectedDateProvider.tsx",
+        "src/contexts/SelectedDateContext.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+        "src/lib/calendarSchedule.ts",
+        "src/lib/solar.ts",
+        "src/features/dayNightExplorer/timeExplorerStorage.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/contexts/SelectedDateProvider.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/SelectedDateContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/calendarSchedule.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/solar.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/features/dayNightExplorer/timeExplorerStorage.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 19,
       "skipped": 0,
       "todo": 0
     },
@@ -851,7 +814,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 39,
+      "assertions": 64,
       "skipped": 0,
       "todo": 0
     },
@@ -863,11 +826,7 @@
       "locality": "external",
       "source_mapping": [
         "src/components/AnimalTester.tsx",
-        "src/contexts/ThemeContext.tsx",
-        "src/data/animalKnowledge.ts",
-        "src/data/insectKnowledge.ts",
-        "src/data/creatureCollections/insectCollectionNames.ts",
-        "src/data/creaturePhotos.ts"
+        "src/contexts/ThemeContext.tsx"
       ],
       "source_associations": [
         {
@@ -879,30 +838,10 @@
           "file": "src/contexts/ThemeContext.tsx",
           "kind": "direct-import",
           "confidence": "high"
-        },
-        {
-          "file": "src/data/animalKnowledge.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/data/insectKnowledge.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/data/creatureCollections/insectCollectionNames.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/data/creaturePhotos.ts",
-          "kind": "direct-import",
-          "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 11,
+      "assertions": 6,
       "skipped": 0,
       "todo": 0
     },
@@ -1070,7 +1009,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 14,
+      "assertions": 15,
       "skipped": 0,
       "todo": 0
     },
@@ -1084,6 +1023,7 @@
         "src/contexts/ThemeProvider.tsx",
         "src/contexts/ThemeContext.tsx",
         "src/contexts/ActiveChildProvider.tsx",
+        "src/contexts/ActiveChildContext.tsx",
         "src/data/useChildren.ts"
       ],
       "source_associations": [
@@ -1103,13 +1043,18 @@
           "confidence": "high"
         },
         {
+          "file": "src/contexts/ActiveChildContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
           "file": "src/data/useChildren.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 9,
+      "assertions": 10,
       "skipped": 0,
       "todo": 0
     },
@@ -1148,7 +1093,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 16,
+      "assertions": 8,
       "skipped": 0,
       "todo": 0
     },
@@ -1237,8 +1182,7 @@
       "locality": "external",
       "source_mapping": [
         "src/data/useChoreActivityActions.ts",
-        "src/lib/starActions.ts",
-        "src/lib/celebrate.ts"
+        "src/lib/starActions.ts"
       ],
       "source_associations": [
         {
@@ -1252,18 +1196,13 @@
           "confidence": "high"
         },
         {
-          "file": "src/lib/celebrate.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
           "file": "src/data/types.ts",
           "kind": "type-only-import",
           "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 14,
+      "assertions": 3,
       "skipped": 0,
       "todo": 0
     },
@@ -1391,19 +1330,6 @@
       "todo": 0
     },
     {
-      "id": "test:tests/e2e/example.spec.ts",
-      "name": "example.spec.ts",
-      "path": "tests/e2e/example.spec.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [],
-      "source_associations": [],
-      "coverage_status": "not_collected",
-      "assertions": 3,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
       "id": "test:tests/e2e/offline.spec.ts",
       "name": "offline.spec.ts",
       "path": "tests/e2e/offline.spec.ts",
@@ -1485,7 +1411,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 18,
+      "assertions": 19,
       "skipped": 0,
       "todo": 0
     },
@@ -1510,9 +1436,7 @@
       "locality": "external",
       "source_mapping": [
         "src/lib/calendarSchedule.ts",
-        "src/lib/today.ts",
-        "src/contexts/ThemeContext.tsx",
-        "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts"
+        "src/lib/today.ts"
       ],
       "source_associations": [
         {
@@ -1524,20 +1448,10 @@
           "file": "src/lib/today.ts",
           "kind": "direct-import",
           "confidence": "high"
-        },
-        {
-          "file": "src/contexts/ThemeContext.tsx",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
-          "kind": "direct-import",
-          "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 26,
+      "assertions": 18,
       "skipped": 0,
       "todo": 0
     },
@@ -1550,28 +1464,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 15,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:tests/unit/earthTextureWorker.test.ts",
-      "name": "earthTextureWorker.test.ts",
-      "path": "tests/unit/earthTextureWorker.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [
-        "src/features/dayNightExplorer/earthTexture.worker.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "assertions": 1,
+      "assertions": 10,
       "skipped": 0,
       "todo": 0
     },
@@ -1604,7 +1497,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 8,
+      "assertions": 2,
       "skipped": 0,
       "todo": 0
     },
@@ -1631,7 +1524,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 10,
+      "assertions": 8,
       "skipped": 0,
       "todo": 0
     },
@@ -1678,27 +1571,6 @@
       "todo": 0
     },
     {
-      "id": "test:tests/unit/lib/imageLoading.test.ts",
-      "name": "imageLoading.test.ts",
-      "path": "tests/unit/lib/imageLoading.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [
-        "src/lib/imageLoading.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/lib/imageLoading.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "assertions": 1,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
       "id": "test:tests/unit/lib/solar.test.ts",
       "name": "solar.test.ts",
       "path": "tests/unit/lib/solar.test.ts",
@@ -1737,6 +1609,27 @@
       ],
       "coverage_status": "not_collected",
       "assertions": 8,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/unit/lib/worldTopology.test.ts",
+      "name": "worldTopology.test.ts",
+      "path": "tests/unit/lib/worldTopology.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/features/dayNightExplorer/worldTopology.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/features/dayNightExplorer/worldTopology.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 4,
       "skipped": 0,
       "todo": 0
     },
@@ -1933,7 +1826,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 12,
+      "assertions": 7,
       "skipped": 0,
       "todo": 0
     },
@@ -1946,7 +1839,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 3,
+      "assertions": 1,
       "skipped": 0,
       "todo": 0
     },
@@ -1979,20 +1872,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 27,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:tests/unit/schoolEventCatalog.test.ts",
-      "name": "schoolEventCatalog.test.ts",
-      "path": "tests/unit/schoolEventCatalog.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [],
-      "source_associations": [],
-      "coverage_status": "not_collected",
-      "assertions": 6,
+      "assertions": 21,
       "skipped": 0,
       "todo": 0
     },
@@ -2039,23 +1919,17 @@
       "todo": 0
     },
     {
-      "id": "test:tests/unit/weatherConditions.test.ts",
-      "name": "weatherConditions.test.ts",
-      "path": "tests/unit/weatherConditions.test.ts",
+      "id": "test:tests/unit/timeExplorerStorage.test.ts",
+      "name": "timeExplorerStorage.test.ts",
+      "path": "tests/unit/timeExplorerStorage.test.ts",
       "framework": "vitest",
       "locality": "external",
       "source_mapping": [
-        "src/lib/weather/weatherConditions.ts",
-        "src/lib/weather/weatherVisuals.ts"
+        "src/features/dayNightExplorer/timeExplorerStorage.ts"
       ],
       "source_associations": [
         {
-          "file": "src/lib/weather/weatherConditions.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/lib/weather/weatherVisuals.ts",
+          "file": "src/features/dayNightExplorer/timeExplorerStorage.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -2109,7 +1983,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 12,
+      "assertions": 8,
       "skipped": 0,
       "todo": 0
     }

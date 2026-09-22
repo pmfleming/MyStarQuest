@@ -1,0 +1,443 @@
+{
+  "date": "2026-09-22",
+  "analyzer": {
+    "version": "0.3.0",
+    "commit": "c9e853ffe256cd04c5e6b0e2383615882d3056ae"
+  },
+  "methodology": "Fresh working-tree baseline, including previous user edits. Same Lens revision, configuration, dependencies and Git history. Complexity and effort sum callables; source lines sum file signals; locality and leverage sum risk scores (lower is better). No new exclusions or suppressions. Physical source/test/script line deltas omit unchanged artwork folders.",
+  "frontend": {
+    "before": {
+      "source_lines": 30809,
+      "cognitive_complexity": 1529,
+      "cyclomatic_complexity": 2165,
+      "halstead_effort": 10142737,
+      "clone_groups": 0,
+      "locality_risk": 11188,
+      "leverage_risk": 362,
+      "lint_blockers": 1
+    },
+    "after": {
+      "source_lines": 30611,
+      "cognitive_complexity": 1467,
+      "cyclomatic_complexity": 2099,
+      "halstead_effort": 9960537,
+      "clone_groups": 0,
+      "locality_risk": 11103,
+      "leverage_risk": 284,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": -198,
+      "cognitive_complexity": -62,
+      "cyclomatic_complexity": -66,
+      "halstead_effort": -182200,
+      "clone_groups": 0,
+      "locality_risk": -85,
+      "leverage_risk": -78,
+      "lint_blockers": -1
+    },
+    "analysis_identity": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
+    "source_hash_before": "sha256:716e4786e900d72feb81e62e30f9c488168e5c718afe1b3747757ff887320e7b",
+    "source_hash_after": "sha256:51bf66a336858b92ef21d775ea4cfba53132d3a36ffd64d126d6292a8e5e4d13",
+    "correctness": {
+      "tests": 73,
+      "colocated_tests": 0,
+      "external_tests": 73,
+      "execution_status": "passed",
+      "execution_scope": "suite",
+      "coverage_status": "not_collected",
+      "blocking_findings": 0
+    },
+    "summaries": {
+      "clones": {
+        "clone_groups": 0,
+        "jscpd_clone_groups": 0,
+        "heuristic_clone_groups": 0,
+        "ast_clone_groups": 0,
+        "source_clone_groups": 0,
+        "test_clone_groups": 0,
+        "duplication_records": 0,
+        "high_duplication_records": 0,
+        "clone_pressure_records": 0,
+        "same_purpose_records": 0
+      },
+      "dependency_health": {
+        "internal_edges": 1090,
+        "external_edges": 176,
+        "cycles": 0,
+        "heuristic_cycles": 0,
+        "dependency_cruiser_cycles": 0,
+        "deep_relative_imports": 158,
+        "barrel_modules": 1,
+        "layer_violations": 34,
+        "unsupported_patterns": 0,
+        "workspaces": 1,
+        "cross_workspace_edges": 0,
+        "incomplete_workspace_projects": 0
+      },
+      "react_health": {
+        "components": 125,
+        "records": 135,
+        "hook_lint_findings": 0,
+        "a11y_findings": 9,
+        "a11y_tool_findings": 9,
+        "a11y_heuristic_findings": 0,
+        "high_risk_components": 28
+      },
+      "cleanup": {
+        "records": 57,
+        "unused_files": 5,
+        "unused_exports": 18,
+        "unused_dependencies": 0,
+        "unused_dev_dependencies": 1,
+        "unlisted_dependencies": 5,
+        "type_only_production_dependencies": 0,
+        "test_only_production_dependencies": 0,
+        "duplicate_exports": 0,
+        "entrypoint_files": 2,
+        "knip_findings": 57,
+        "tool_confirmed": 11,
+        "tool_disagreed": 2,
+        "tool_not_comparable": 3,
+        "tool_excluded": 0
+      },
+      "lint_health": {
+        "records": 0,
+        "blocking_findings": 0,
+        "warning_findings": 0
+      }
+    }
+  },
+  "backend": {
+    "before": {
+      "source_lines": 536,
+      "cognitive_complexity": 65,
+      "cyclomatic_complexity": 78,
+      "halstead_effort": 160536,
+      "clone_groups": 0,
+      "locality_risk": 49,
+      "leverage_risk": 12,
+      "lint_blockers": 0
+    },
+    "after": {
+      "source_lines": 536,
+      "cognitive_complexity": 65,
+      "cyclomatic_complexity": 78,
+      "halstead_effort": 160536,
+      "clone_groups": 0,
+      "locality_risk": 49,
+      "leverage_risk": 12,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": 0,
+      "cognitive_complexity": 0,
+      "cyclomatic_complexity": 0,
+      "halstead_effort": 0,
+      "clone_groups": 0,
+      "locality_risk": 0,
+      "leverage_risk": 0,
+      "lint_blockers": 0
+    },
+    "analysis_identity": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
+    "source_hash_before": "sha256:57bbe008e7a167dcb9726b1aa58dbe41bda0c61dfcd2dc8936be5d4ac2f91b1f",
+    "source_hash_after": "sha256:57bbe008e7a167dcb9726b1aa58dbe41bda0c61dfcd2dc8936be5d4ac2f91b1f",
+    "correctness": {
+      "tests": 21,
+      "colocated_tests": 0,
+      "external_tests": 21,
+      "execution_status": "unknown",
+      "execution_scope": "suite",
+      "coverage_status": "not_collected",
+      "blocking_findings": 0
+    },
+    "summaries": {
+      "clones": {
+        "clone_groups": 0,
+        "jscpd_clone_groups": 0,
+        "heuristic_clone_groups": 0,
+        "ast_clone_groups": 0,
+        "source_clone_groups": 0,
+        "test_clone_groups": 0,
+        "duplication_records": 0,
+        "high_duplication_records": 0,
+        "clone_pressure_records": 0,
+        "same_purpose_records": 0
+      },
+      "dependency_health": {
+        "internal_edges": 2,
+        "external_edges": 6,
+        "cycles": 0,
+        "heuristic_cycles": 0,
+        "dependency_cruiser_cycles": 0,
+        "deep_relative_imports": 0,
+        "barrel_modules": 0,
+        "layer_violations": 0,
+        "unsupported_patterns": 0,
+        "workspaces": 1,
+        "cross_workspace_edges": 0,
+        "incomplete_workspace_projects": 0
+      },
+      "react_health": {
+        "components": 0,
+        "records": 0,
+        "hook_lint_findings": 0,
+        "a11y_findings": 0,
+        "a11y_tool_findings": 0,
+        "a11y_heuristic_findings": 0,
+        "high_risk_components": 0
+      },
+      "cleanup": {
+        "records": 4,
+        "unused_files": 0,
+        "unused_exports": 1,
+        "unused_dependencies": 0,
+        "unused_dev_dependencies": 0,
+        "unlisted_dependencies": 0,
+        "type_only_production_dependencies": 0,
+        "test_only_production_dependencies": 0,
+        "duplicate_exports": 0,
+        "entrypoint_files": 3,
+        "knip_findings": 4,
+        "tool_confirmed": 0,
+        "tool_disagreed": 2,
+        "tool_not_comparable": 0,
+        "tool_excluded": 0
+      },
+      "lint_health": {
+        "records": 0,
+        "blocking_findings": 0,
+        "warning_findings": 0
+      }
+    }
+  },
+  "combined": {
+    "before": {
+      "source_lines": 31345,
+      "cognitive_complexity": 1594,
+      "cyclomatic_complexity": 2243,
+      "halstead_effort": 10303273,
+      "clone_groups": 0,
+      "locality_risk": 11237,
+      "leverage_risk": 374,
+      "lint_blockers": 1
+    },
+    "after": {
+      "source_lines": 31147,
+      "cognitive_complexity": 1532,
+      "cyclomatic_complexity": 2177,
+      "halstead_effort": 10121073,
+      "clone_groups": 0,
+      "locality_risk": 11152,
+      "leverage_risk": 296,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": -198,
+      "cognitive_complexity": -62,
+      "cyclomatic_complexity": -66,
+      "halstead_effort": -182200,
+      "clone_groups": 0,
+      "locality_risk": -85,
+      "leverage_risk": -78,
+      "lint_blockers": -1
+    }
+  },
+  "physicalLines": {
+    "src": {
+      "before": 30438,
+      "after": 30240,
+      "delta": -198
+    },
+    "functions/src": {
+      "before": 533,
+      "after": 533,
+      "delta": 0
+    },
+    "tests": {
+      "before": 7588,
+      "after": 7734,
+      "delta": 146
+    },
+    "scripts": {
+      "before": 728,
+      "after": 728,
+      "delta": 0
+    }
+  },
+  "hotspotChanges": [
+    {
+      "project": "frontend",
+      "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+      "before": {
+        "cognitive": 3,
+        "cyclomatic": 8,
+        "effort": 372836.51
+      },
+      "after": {
+        "cognitive": 3,
+        "cyclomatic": 8,
+        "effort": 324253.71
+      }
+    },
+    {
+      "project": "frontend",
+      "file": "src/components/animalTester/useAnimalSession.ts",
+      "before": {
+        "cognitive": 17,
+        "cyclomatic": 25,
+        "effort": 541322.12
+      },
+      "after": {
+        "cognitive": 17,
+        "cyclomatic": 26,
+        "effort": 448922.09
+      }
+    },
+    {
+      "project": "frontend",
+      "file": "src/features/dayNightExplorer/worldTopology.ts",
+      "before": {
+        "cognitive": 45,
+        "cyclomatic": 58,
+        "effort": 49077.619999999995
+      },
+      "after": {
+        "cognitive": 4,
+        "cyclomatic": 10,
+        "effort": 24035.43
+      }
+    },
+    {
+      "project": "frontend",
+      "file": "src/components/ui/ActionButton.tsx",
+      "before": {
+        "cognitive": 5,
+        "cyclomatic": 5,
+        "effort": 5848.2
+      },
+      "after": {
+        "cognitive": 2,
+        "cyclomatic": 3,
+        "effort": 4732.97
+      }
+    },
+    {
+      "project": "frontend",
+      "file": "src/contexts/ActiveChildProvider.tsx",
+      "before": {
+        "cognitive": 13,
+        "cyclomatic": 14,
+        "effort": 14498.14
+      },
+      "after": {
+        "cognitive": 6,
+        "cyclomatic": 9,
+        "effort": 13961.79
+      }
+    },
+    {
+      "project": "frontend",
+      "file": "src/features/dayNightExplorer/dayNightExplorerBackdrop.ts",
+      "before": {
+        "cognitive": 14,
+        "cyclomatic": 18,
+        "effort": 80369.18000000001
+      },
+      "after": {
+        "cognitive": 14,
+        "cyclomatic": 18,
+        "effort": 79512.55
+      }
+    },
+    {
+      "project": "frontend",
+      "file": "src/lib/schoolCalendarData.ts",
+      "before": {
+        "cognitive": 19,
+        "cyclomatic": 25,
+        "effort": 32568.489999999998
+      },
+      "after": {
+        "cognitive": 11,
+        "cyclomatic": 17,
+        "effort": 24135.3
+      }
+    },
+    {
+      "project": "frontend",
+      "file": "src/lib/schoolCalendarStore.ts",
+      "before": {
+        "cognitive": 17,
+        "cyclomatic": 24,
+        "effort": 380797.46
+      },
+      "after": {
+        "cognitive": 17,
+        "cyclomatic": 25,
+        "effort": 383869.79000000004
+      }
+    },
+    {
+      "project": "frontend",
+      "file": "src/components/ui/TopIconButton.tsx",
+      "before": {
+        "cognitive": 2,
+        "cyclomatic": 3,
+        "effort": 6043.91
+      },
+      "after": null
+    },
+    {
+      "project": "frontend",
+      "file": "src/tokens/index.ts",
+      "before": {
+        "cognitive": 1,
+        "cyclomatic": 5,
+        "effort": 7927.88
+      },
+      "after": {
+        "cognitive": 0,
+        "cyclomatic": 3,
+        "effort": 5665.36
+      }
+    }
+  ],
+  "audit": {
+    "verdict": "warn",
+    "complete": true,
+    "incomplete_reasons": [],
+    "gate": "all",
+    "base": null,
+    "changed_files": 0,
+    "changed_hunks": 0,
+    "base_snapshot_available": false,
+    "base_snapshot_compatible": null,
+    "findings": 2513,
+    "active_findings": 48,
+    "introduced_findings": 2513,
+    "inherited_findings": 0,
+    "high_risk_findings": 301,
+    "blocking_findings": 0,
+    "warning_findings": 48,
+    "baseline_suppressed": 0,
+    "config_suppressed": 0,
+    "stale_suppressions": 0
+  },
+  "topologyVerification": [
+    {
+      "name": "before",
+      "averageMs": 6.02955,
+      "hash": "bc527f03aa61ccd07d2eb38a0ba9d8f6f7a6aaeb11c04f9b01706d9ddf10cd37",
+      "land": 1,
+      "countries": 242
+    },
+    {
+      "name": "after",
+      "averageMs": 12.725710000000003,
+      "hash": "bc527f03aa61ccd07d2eb38a0ba9d8f6f7a6aaeb11c04f9b01706d9ddf10cd37",
+      "land": 1,
+      "countries": 242
+    }
+  ]
+}

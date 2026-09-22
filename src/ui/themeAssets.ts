@@ -15,6 +15,7 @@ import gettingDressed from '../assets/themes/princess/getting-dressed-quickly.pn
 import dinnerOverview from '../assets/themes/princess/dinner-overview.webp'
 import waterToiletOverview from '../assets/themes/princess/water-toilet-check-overview.webp'
 import mathsCounter from '../assets/themes/princess/maths-counter.svg'
+import nowIcon from '../assets/themes/princess/now-character.png'
 
 const princessAssets = {
   background: princess.princessBackground,
@@ -29,6 +30,7 @@ const princessAssets = {
   editIcon: princess.princessEditIcon,
   deleteIcon: princess.princessDeleteIcon,
   resetIcon: princess.princessResetIcon,
+  nowIcon,
   confirmExitImage: princess.princessQuizIncorrectImage,
   continueActivityImage: princess.princessQuizCorrectImage,
   saveIcon: princess.princessSaveIcon,
@@ -102,6 +104,7 @@ const teenieRoles = {
   editIcon: 'edit.webp',
   deleteIcon: 'delete.webp',
   resetIcon: 'reset.svg',
+  nowIcon: 'now-character.png',
   confirmExitImage: '@nono',
   continueActivityImage: '@okeydokey',
   saveIcon: 'save-character.png',

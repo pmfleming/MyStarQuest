@@ -44,9 +44,10 @@ export function createSchoolCalendarStore(native = nativeSchoolCalendar) {
     const currentGeneration = generation
     const request = new AbortController()
     controller = request
-    let onAbort: () => void
+    const onAbort = () => rejectAbort(new Error('Calendar request interrupted'))
+    let rejectAbort: (reason: Error) => void
     const aborted = new Promise<never>((_resolve, reject) => {
-      onAbort = () => reject(new Error('Calendar request interrupted'))
+      rejectAbort = reject
       request.signal.addEventListener('abort', onAbort, { once: true })
     })
     const timeout = setTimeout(() => request.abort(), native ? 35_000 : 15_000)
@@ -63,7 +64,7 @@ export function createSchoolCalendarStore(native = nativeSchoolCalendar) {
           state.publish({ ...state.getSnapshot(), loadError: true })
       } finally {
         clearTimeout(timeout)
-        request.signal.removeEventListener('abort', onAbort!)
+        request.signal.removeEventListener('abort', onAbort)
         if (generation === currentGeneration) {
           controller = undefined
           pending = undefined

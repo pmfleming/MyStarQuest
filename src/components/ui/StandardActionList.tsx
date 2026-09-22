@@ -104,7 +104,8 @@ const ActionCard = <T,>({
   const { cardRef, isExiting, runWithExit } = useCardExitAnimation()
   const itemLabel = getItemLabel?.(item)
   const utility = resolveUtilityState(item, utilityAction, theme, itemLabel)
-  const confirmingReset = resetRequested && !utility.exits && !utility.hidden
+  // Every delete and reset uses the same inline confirmation controls.
+  const confirmingReset = resetRequested && !utility.hidden
 
   const itemKey = getKey ? getKey(item) : `${index}`
   const isInlineEditing = editingId !== undefined && editingId === itemKey
@@ -177,11 +178,10 @@ const ActionCard = <T,>({
       onPrimary={handlePrimaryAction}
       onEdit={handleEditAction}
       editAriaLabel={itemLabel ? `Edit ${itemLabel}` : 'Edit item'}
-      onUtility={() => {
-        if (utility.exits) void handleUtilityAction()
-        else setResetRequested(true)
-      }}
+      onUtility={() => setResetRequested(true)}
       confirmingReset={confirmingReset}
+      confirmAriaLabel={utility.exits ? 'Yes, delete' : 'Yes, reset'}
+      cancelAriaLabel={utility.exits ? 'No, keep' : 'No, keep progress'}
       onConfirmReset={() => {
         setResetRequested(false)
         void handleUtilityAction()

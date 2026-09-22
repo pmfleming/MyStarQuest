@@ -3,7 +3,7 @@
   "task_id": "quality.dependency_health",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-21T12:43:59.745Z",
+    "measured_at": "2026-09-22T13:20:28.461Z",
     "source_type": "static",
-    "source_set_hash": "sha256:e4f7e66696315484e3b1818ee04af7f8c946c8a491452a585090cb84f0ee4ec3",
-    "input_set_hash": "sha256:85e96a4dbabc1ee4c9c514622dabd17782229478bf38019f8b7c8fd7d3931acf"
+    "source_set_hash": "sha256:78d559847878846174e3a5f39de3236900f05bf95144390add9bf79870c310de",
+    "input_set_hash": "sha256:5365ca693028a2dac3b7923bdb9b352b68f8072d51c1fa4727cdb018fc9668e7"
   },
   "analysis_identity": {
-    "id": "sha256:3d1036a4089f66ad7fa347ef68c245a45d1e0e9033afc29d848070d962edf831",
+    "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:d7c5a0373b849391748e11dc4ff25a7035017608dbc42c938d6f051e39d72c5a",
+    "config_closure_hash": "sha256:d7a2f9de9588d08ba52ff587013c2c82e694ac782a88a8ea2bbbfe87bde6fb6c",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -99,14 +99,14 @@
     "stale_input": []
   },
   "summary": {
-    "internal_edges": 1070,
-    "external_edges": 173,
-    "cycles": 1,
-    "heuristic_cycles": 1,
+    "internal_edges": 1090,
+    "external_edges": 176,
+    "cycles": 0,
+    "heuristic_cycles": 0,
     "dependency_cruiser_cycles": 0,
-    "deep_relative_imports": 159,
+    "deep_relative_imports": 158,
     "barrel_modules": 1,
-    "layer_violations": 31,
+    "layer_violations": 34,
     "unsupported_patterns": 0,
     "workspaces": 1,
     "cross_workspace_edges": 0,
@@ -121,63 +121,6 @@
     }
   },
   "records": [
-    {
-      "id": "cycle:1",
-      "kind": "import_cycle",
-      "severity": "medium",
-      "score": 54,
-      "files": [
-        "src/data/additionalAnimalKnowledge",
-        "src/data/animalKnowledge",
-        "src/data/additionalAnimalKnowledge"
-      ],
-      "evidence": "src/data/additionalAnimalKnowledge -> src/data/animalKnowledge -> src/data/additionalAnimalKnowledge",
-      "rule_id": "ts-react-quality-lens/import_cycle",
-      "evidence_kind": "heuristic",
-      "disposition": "warn",
-      "finding_confidence": "medium",
-      "message": "src/data/additionalAnimalKnowledge -> src/data/animalKnowledge -> src/data/additionalAnimalKnowledge",
-      "reason_code": "ts-react-quality-lens/import_cycle",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 30,
-      "related_locations": [
-        {
-          "file": "src/data/additionalAnimalKnowledge",
-          "start_line": 1,
-          "role": "related"
-        },
-        {
-          "file": "src/data/animalKnowledge",
-          "start_line": 1,
-          "role": "related"
-        },
-        {
-          "file": "src/data/additionalAnimalKnowledge",
-          "start_line": 1,
-          "role": "related"
-        }
-      ],
-      "fix_group_id": "cycle:1",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
-          "fix": "repair-dependency-edge"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this import_cycle finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cycle:1",
-            "kind": "import_cycle",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
     {
       "id": "deep-import:src/assets/chores/assets:1",
       "kind": "deep_relative_import",
@@ -1339,12 +1282,12 @@
       ]
     },
     {
-      "id": "deep-import:src/components/ui/ActionButton:4",
+      "id": "deep-import:src/components/ui/ActionButton:3",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/ui/ActionButton",
-      "line": 4,
+      "line": 3,
       "specifier": "../../contexts/ThemeContext",
       "evidence": "import type { Theme } from '../../contexts/ThemeContext'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -1370,7 +1313,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/ui/ActionButton:4",
+            "id": "deep-import:src/components/ui/ActionButton:3",
             "kind": "deep_relative_import",
             "file": "src/components/ui/ActionButton",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1379,12 +1322,12 @@
       ]
     },
     {
-      "id": "deep-import:src/components/ui/ActionButton:5",
+      "id": "deep-import:src/components/ui/ActionButton:4",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/ui/ActionButton",
-      "line": 5,
+      "line": 4,
       "specifier": "../../tokens",
       "evidence": "import { getActionButtonStyle, uiTokens } from '../../tokens'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -1410,7 +1353,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/ui/ActionButton:5",
+            "id": "deep-import:src/components/ui/ActionButton:4",
             "kind": "deep_relative_import",
             "file": "src/components/ui/ActionButton",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3939,86 +3882,6 @@
       ]
     },
     {
-      "id": "deep-import:src/components/ui/TopIconButton:4",
-      "kind": "deep_relative_import",
-      "severity": "medium",
-      "score": 35,
-      "file": "src/components/ui/TopIconButton",
-      "line": 4,
-      "specifier": "../../contexts/ThemeContext",
-      "evidence": "import type { Theme } from '../../contexts/ThemeContext'",
-      "rule_id": "ts-react-quality-lens/deep_relative_import",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "import type { Theme } from '../../contexts/ThemeContext'",
-      "reason_code": "ts-react-quality-lens/deep_relative_import",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
-          "fix": "repair-dependency-edge"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "deep-import:src/components/ui/TopIconButton:4",
-            "kind": "deep_relative_import",
-            "file": "src/components/ui/TopIconButton",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "deep-import:src/components/ui/TopIconButton:5",
-      "kind": "deep_relative_import",
-      "severity": "medium",
-      "score": 35,
-      "file": "src/components/ui/TopIconButton",
-      "line": 5,
-      "specifier": "../../tokens",
-      "evidence": "import { getTopIconStyle } from '../../tokens'",
-      "rule_id": "ts-react-quality-lens/deep_relative_import",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "import { getTopIconStyle } from '../../tokens'",
-      "reason_code": "ts-react-quality-lens/deep_relative_import",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
-          "fix": "repair-dependency-edge"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "deep-import:src/components/ui/TopIconButton:5",
-            "kind": "deep_relative_import",
-            "file": "src/components/ui/TopIconButton",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "deep-import:src/components/ui/standardActionCardAnimations:2",
       "kind": "deep_relative_import",
       "severity": "medium",
@@ -4371,46 +4234,6 @@
           "config_key": "suppressions",
           "value": {
             "id": "deep-import:src/components/weather/WeatherControls:12",
-            "kind": "deep_relative_import",
-            "file": "src/components/weather/WeatherControls",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "deep-import:src/components/weather/WeatherControls:13",
-      "kind": "deep_relative_import",
-      "severity": "medium",
-      "score": 35,
-      "file": "src/components/weather/WeatherControls",
-      "line": 13,
-      "specifier": "../../ui/themeAssets",
-      "evidence": "import { getThemeAsset } from '../../ui/themeAssets'",
-      "rule_id": "ts-react-quality-lens/deep_relative_import",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "import { getThemeAsset } from '../../ui/themeAssets'",
-      "reason_code": "ts-react-quality-lens/deep_relative_import",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
-          "fix": "repair-dependency-edge"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "deep-import:src/components/weather/WeatherControls:13",
             "kind": "deep_relative_import",
             "file": "src/components/weather/WeatherControls",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6139,6 +5962,46 @@
       ]
     },
     {
+      "id": "deep-import:src/features/dayNightExplorer/timeExplorerStorage:2",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/features/dayNightExplorer/timeExplorerStorage",
+      "line": 2,
+      "specifier": "../../lib/today",
+      "evidence": "import { buildDateKey, parseDateKey } from '../../lib/today'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { buildDateKey, parseDateKey } from '../../lib/today'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/features/dayNightExplorer/timeExplorerStorage:2",
+            "kind": "deep_relative_import",
+            "file": "src/features/dayNightExplorer/timeExplorerStorage",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:2",
       "kind": "deep_relative_import",
       "severity": "medium",
@@ -6265,13 +6128,13 @@
       "score": 35,
       "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
       "line": 8,
-      "specifier": "../../lib/seasons",
-      "evidence": "import { getSeason } from '../../lib/seasons'",
+      "specifier": "../../lib/today",
+      "evidence": "import { buildDateKey, getTodayDescriptor } from '../../lib/today'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
       "evidence_kind": "heuristic",
       "disposition": "review",
       "finding_confidence": "medium",
-      "message": "import { getSeason } from '../../lib/seasons'",
+      "message": "import { buildDateKey, getTodayDescriptor } from '../../lib/today'",
       "reason_code": "ts-react-quality-lens/deep_relative_import",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -6299,12 +6162,52 @@
       ]
     },
     {
-      "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:32",
+      "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:13",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
-      "line": 32,
+      "line": 13,
+      "specifier": "../../lib/seasons",
+      "evidence": "import { getSeason } from '../../lib/seasons'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { getSeason } from '../../lib/seasons'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:13",
+            "kind": "deep_relative_import",
+            "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:37",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
+      "line": 37,
       "specifier": "../../hooks/useCalendarSchedule",
       "evidence": "import { useCalendarSchedule } from '../../hooks/useCalendarSchedule'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -6330,7 +6233,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:32",
+            "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:37",
             "kind": "deep_relative_import",
             "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6339,12 +6242,12 @@
       ]
     },
     {
-      "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:33",
+      "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:38",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
-      "line": 33,
+      "line": 38,
       "specifier": "../../hooks/useSchoolCalendar",
       "evidence": "import { useSchoolCalendar } from '../../hooks/useSchoolCalendar'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -6370,7 +6273,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:33",
+            "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:38",
             "kind": "deep_relative_import",
             "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6379,12 +6282,12 @@
       ]
     },
     {
-      "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:34",
+      "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:39",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
-      "line": 34,
+      "line": 39,
       "specifier": "../../lib/calendarSchedule",
       "evidence": "import { getAgendaForDate } from '../../lib/calendarSchedule'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -6410,7 +6313,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:34",
+            "id": "deep-import:src/features/dayNightExplorer/useDayNightExplorerModel:39",
             "kind": "deep_relative_import",
             "file": "src/features/dayNightExplorer/useDayNightExplorerModel",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6459,12 +6362,12 @@
       ]
     },
     {
-      "id": "deep-import:src/lib/schoolCalendarData:8",
+      "id": "deep-import:src/lib/schoolCalendarData:3",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/lib/schoolCalendarData",
-      "line": 8,
+      "line": 3,
       "specifier": "../../functions/src/schoolEventCatalog",
       "evidence": "import { classifySchoolEvent } from '../../functions/src/schoolEventCatalog'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -6490,7 +6393,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/lib/schoolCalendarData:8",
+            "id": "deep-import:src/lib/schoolCalendarData:3",
             "kind": "deep_relative_import",
             "file": "src/lib/schoolCalendarData",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6781,6 +6684,49 @@
             "id": "layer:src/App:14:src/routes/RoutePreloader",
             "kind": "layer_violation",
             "file": "src/App",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "layer:src/components/TimeExplorerControls:8:src/features/dayNightExplorer/timeExplorerStorage",
+      "kind": "layer_violation",
+      "severity": "high",
+      "score": 75,
+      "file": "src/components/TimeExplorerControls",
+      "line": 8,
+      "target": "src/features/dayNightExplorer/timeExplorerStorage",
+      "from_layer": "ui",
+      "to_layer": "feature",
+      "specifier": "../features/dayNightExplorer/timeExplorerStorage",
+      "evidence": "ui imports upward into feature: ../features/dayNightExplorer/timeExplorerStorage",
+      "rule_id": "ts-react-quality-lens/layer_violation",
+      "evidence_kind": "heuristic",
+      "disposition": "warn",
+      "finding_confidence": "medium",
+      "message": "ui imports upward into feature: ../features/dayNightExplorer/timeExplorerStorage",
+      "reason_code": "ts-react-quality-lens/layer_violation",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "layer:src/components/TimeExplorerControls:8:src/features/dayNightExplorer/timeExplorerStorage",
+            "kind": "layer_violation",
+            "file": "src/components/TimeExplorerControls",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -7168,6 +7114,92 @@
             "id": "layer:src/hooks/useRewardCelebration:3:src/components/RewardCelebration",
             "kind": "layer_violation",
             "file": "src/hooks/useRewardCelebration",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "layer:src/hooks/useWeatherExploration:11:src/features/dayNightExplorer/timeExplorerStorage",
+      "kind": "layer_violation",
+      "severity": "high",
+      "score": 75,
+      "file": "src/hooks/useWeatherExploration",
+      "line": 11,
+      "target": "src/features/dayNightExplorer/timeExplorerStorage",
+      "from_layer": "hook",
+      "to_layer": "feature",
+      "specifier": "../features/dayNightExplorer/timeExplorerStorage",
+      "evidence": "hook imports upward into feature: ../features/dayNightExplorer/timeExplorerStorage",
+      "rule_id": "ts-react-quality-lens/layer_violation",
+      "evidence_kind": "heuristic",
+      "disposition": "warn",
+      "finding_confidence": "medium",
+      "message": "hook imports upward into feature: ../features/dayNightExplorer/timeExplorerStorage",
+      "reason_code": "ts-react-quality-lens/layer_violation",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "layer:src/hooks/useWeatherExploration:11:src/features/dayNightExplorer/timeExplorerStorage",
+            "kind": "layer_violation",
+            "file": "src/hooks/useWeatherExploration",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "layer:src/hooks/useWeatherExploration:16:src/features/dayNightExplorer/dayNightExplorerOptions",
+      "kind": "layer_violation",
+      "severity": "high",
+      "score": 75,
+      "file": "src/hooks/useWeatherExploration",
+      "line": 16,
+      "target": "src/features/dayNightExplorer/dayNightExplorerOptions",
+      "from_layer": "hook",
+      "to_layer": "feature",
+      "specifier": "../features/dayNightExplorer/dayNightExplorerOptions",
+      "evidence": "hook imports upward into feature: ../features/dayNightExplorer/dayNightExplorerOptions",
+      "rule_id": "ts-react-quality-lens/layer_violation",
+      "evidence_kind": "heuristic",
+      "disposition": "warn",
+      "finding_confidence": "medium",
+      "message": "hook imports upward into feature: ../features/dayNightExplorer/dayNightExplorerOptions",
+      "reason_code": "ts-react-quality-lens/layer_violation",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "layer:src/hooks/useWeatherExploration:16:src/features/dayNightExplorer/dayNightExplorerOptions",
+            "kind": "layer_violation",
+            "file": "src/hooks/useWeatherExploration",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -7974,6 +8006,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/components/AppMenu",
+        "file": "src/components/AppMenu.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/components/ArithmeticTester",
         "file": "src/components/ArithmeticTester.tsx",
         "layer": "ui",
@@ -8060,6 +8098,12 @@
       {
         "id": "src/components/TabContent",
         "file": "src/components/TabContent.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/components/TimeExplorerControls",
+        "file": "src/components/TimeExplorerControls.tsx",
         "layer": "ui",
         "workspace_id": "mystarquest"
       },
@@ -8310,12 +8354,6 @@
         "workspace_id": "mystarquest"
       },
       {
-        "id": "src/components/ui/TopIconButton",
-        "file": "src/components/ui/TopIconButton.tsx",
-        "layer": "ui",
-        "workspace_id": "mystarquest"
-      },
-      {
         "id": "src/components/ui/actionButtonState",
         "file": "src/components/ui/actionButtonState.ts",
         "layer": "ui",
@@ -8468,6 +8506,12 @@
       {
         "id": "src/data/animalKnowledge",
         "file": "src/data/animalKnowledge.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/data/animalKnowledgeTypes",
+        "file": "src/data/animalKnowledgeTypes.ts",
         "layer": "core",
         "workspace_id": "mystarquest"
       },
@@ -8726,6 +8770,12 @@
       {
         "id": "src/features/dayNightExplorer/solarSystemGeometry",
         "file": "src/features/dayNightExplorer/solarSystemGeometry.ts",
+        "layer": "feature",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/features/dayNightExplorer/timeExplorerStorage",
+        "file": "src/features/dayNightExplorer/timeExplorerStorage.ts",
         "layer": "feature",
         "workspace_id": "mystarquest"
       },
@@ -9162,12 +9212,6 @@
         "workspace_id": "mystarquest"
       },
       {
-        "id": "src/pages/dashboardChoreUi",
-        "file": "src/pages/dashboardChoreUi.tsx",
-        "layer": "route",
-        "workspace_id": "mystarquest"
-      },
-      {
         "id": "src/routes/AnimatedTabLayout",
         "file": "src/routes/AnimatedTabLayout.tsx",
         "layer": "route",
@@ -9371,7 +9415,7 @@
         "tsconfigs": [
           "tsconfig.app.json"
         ],
-        "source_files": 242,
+        "source_files": 244,
         "project_loaded": true,
         "project_reason": null
       }
@@ -10457,6 +10501,136 @@
         "to_workspace": null,
         "workspace_dependency": false,
         "line": 1
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "react-dom",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "react-router-dom",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "src/auth/AuthContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "src/contexts/ActiveChildContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "src/contexts/ThemeContext",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "src/data/useChores",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 7
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "src/data/types",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 8
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "src/hooks/useAsyncAction",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 9
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "src/ui/themeAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 10
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "src/ui/themeActionAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 11
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "src/components/ui/AsyncButton",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 12
+      },
+      {
+        "from": "src/components/AppMenu",
+        "to": "src/components/AppMenu.css",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 13
       },
       {
         "from": "src/components/ArithmeticTester",
@@ -11649,6 +11823,96 @@
         "line": 5
       },
       {
+        "from": "src/components/TabContent",
+        "to": "src/components/AppMenu",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
+        "from": "src/components/TimeExplorerControls",
+        "to": "src/contexts/ThemeContext",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/TimeExplorerControls",
+        "to": "src/components/ui/AsyncButton",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/components/TimeExplorerControls",
+        "to": "src/assets/cities/earth.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/components/TimeExplorerControls",
+        "to": "src/assets/themes/teenie/clock-character.png",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/components/TimeExplorerControls",
+        "to": "src/assets/themes/teenie/weather-character.png",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/components/TimeExplorerControls",
+        "to": "src/assets/themes/teenie/globe-character.png",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
+        "from": "src/components/TimeExplorerControls",
+        "to": "src/ui/themeAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 7
+      },
+      {
+        "from": "src/components/TimeExplorerControls",
+        "to": "src/features/dayNightExplorer/timeExplorerStorage",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 8
+      },
+      {
         "from": "src/components/WaterToiletMonitor",
         "to": "src/components/ui/AsyncButton",
         "kind": "relative",
@@ -12270,23 +12534,13 @@
       },
       {
         "from": "src/components/ui/ActionButton",
-        "to": "react-router-dom",
-        "kind": "external",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": null,
-        "workspace_dependency": false,
-        "line": 3
-      },
-      {
-        "from": "src/components/ui/ActionButton",
         "to": "src/contexts/ThemeContext",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 3
       },
       {
         "from": "src/components/ui/ActionButton",
@@ -12296,7 +12550,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 5
+        "line": 4
       },
       {
         "from": "src/components/ui/ActionButton",
@@ -12306,7 +12560,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 6
+        "line": 5
       },
       {
         "from": "src/components/ui/ActionTextInput",
@@ -13699,56 +13953,6 @@
         "line": 4
       },
       {
-        "from": "src/components/ui/TopIconButton",
-        "to": "src/components/ui/AsyncButton",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 1
-      },
-      {
-        "from": "src/components/ui/TopIconButton",
-        "to": "react",
-        "kind": "external",
-        "import_kind": "type",
-        "from_workspace": "mystarquest",
-        "to_workspace": null,
-        "workspace_dependency": false,
-        "line": 2
-      },
-      {
-        "from": "src/components/ui/TopIconButton",
-        "to": "react-router-dom",
-        "kind": "external",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": null,
-        "workspace_dependency": false,
-        "line": 3
-      },
-      {
-        "from": "src/components/ui/TopIconButton",
-        "to": "src/contexts/ThemeContext",
-        "kind": "relative",
-        "import_kind": "type",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 4
-      },
-      {
-        "from": "src/components/ui/TopIconButton",
-        "to": "src/tokens/index",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 5
-      },
-      {
         "from": "src/components/ui/standardActionCardAnimations",
         "to": "react",
         "kind": "external",
@@ -13937,26 +14141,6 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 12
-      },
-      {
-        "from": "src/components/weather/WeatherControls",
-        "to": "src/ui/themeAssets",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 13
-      },
-      {
-        "from": "src/components/weather/WeatherControls",
-        "to": "src/components/ui/IconActionControls",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 14
       },
       {
         "from": "src/components/weather/WeatherMagic",
@@ -14240,17 +14424,17 @@
       },
       {
         "from": "src/contexts/ActiveChildProvider",
-        "to": "src/auth/AuthContext",
-        "kind": "relative",
+        "to": "zod",
+        "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
+        "to_workspace": null,
         "workspace_dependency": false,
         "line": 2
       },
       {
         "from": "src/contexts/ActiveChildProvider",
-        "to": "src/contexts/ThemeContext",
+        "to": "src/auth/AuthContext",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -14260,13 +14444,23 @@
       },
       {
         "from": "src/contexts/ActiveChildProvider",
-        "to": "src/contexts/ActiveChildContext",
+        "to": "src/contexts/ThemeContext",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 4
+      },
+      {
+        "from": "src/contexts/ActiveChildProvider",
+        "to": "src/contexts/ActiveChildContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
       },
       {
         "from": "src/contexts/SelectedDateContext",
@@ -14730,7 +14924,7 @@
       },
       {
         "from": "src/data/additionalAnimalKnowledge",
-        "to": "src/data/animalKnowledge",
+        "to": "src/data/animalKnowledgeTypes",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
@@ -15140,7 +15334,7 @@
       },
       {
         "from": "src/data/animalKnowledge",
-        "to": "src/data/animalFoodAssets",
+        "to": "src/data/animalKnowledgeTypes",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
@@ -15150,7 +15344,7 @@
       },
       {
         "from": "src/data/animalKnowledge",
-        "to": "src/data/animalHabitatAssets",
+        "to": "src/data/animalFoodAssets",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
@@ -15160,7 +15354,7 @@
       },
       {
         "from": "src/data/animalKnowledge",
-        "to": "src/data/animalLocationAssets",
+        "to": "src/data/animalHabitatAssets",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
@@ -15170,13 +15364,53 @@
       },
       {
         "from": "src/data/animalKnowledge",
+        "to": "src/data/animalLocationAssets",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/data/animalKnowledge",
         "to": "src/data/additionalAnimalKnowledge",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 5
+      },
+      {
+        "from": "src/data/animalKnowledgeTypes",
+        "to": "src/data/animalFoodAssets",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/data/animalKnowledgeTypes",
+        "to": "src/data/animalHabitatAssets",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/data/animalKnowledgeTypes",
+        "to": "src/data/animalLocationAssets",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
       },
       {
         "from": "src/data/animalLocationAssets",
@@ -15610,7 +15844,7 @@
       },
       {
         "from": "src/data/creatureCollections/types",
-        "to": "src/data/animalKnowledge",
+        "to": "src/data/animalKnowledgeTypes",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
@@ -17339,6 +17573,26 @@
         "line": 3
       },
       {
+        "from": "src/features/dayNightExplorer/timeExplorerStorage",
+        "to": "zod",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/features/dayNightExplorer/timeExplorerStorage",
+        "to": "src/lib/today",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
         "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
         "to": "react",
         "kind": "external",
@@ -17380,7 +17634,7 @@
       },
       {
         "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
-        "to": "src/lib/seasons",
+        "to": "src/lib/today",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -17390,7 +17644,7 @@
       },
       {
         "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
-        "to": "src/features/dayNightExplorer/dayNightExplorerCalendar",
+        "to": "src/features/dayNightExplorer/timeExplorerStorage",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -17400,7 +17654,17 @@
       },
       {
         "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
-        "to": "src/features/dayNightExplorer/dayNightExplorerBackdrop",
+        "to": "src/lib/seasons",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 13
+      },
+      {
+        "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
+        "to": "src/features/dayNightExplorer/dayNightExplorerCalendar",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -17410,13 +17674,23 @@
       },
       {
         "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
+        "to": "src/features/dayNightExplorer/dayNightExplorerBackdrop",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 19
+      },
+      {
+        "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
         "to": "src/features/dayNightExplorer/dayNightExplorerMath",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 20
+        "line": 25
       },
       {
         "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
@@ -17426,7 +17700,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 21
+        "line": 26
       },
       {
         "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
@@ -17436,7 +17710,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 29
+        "line": 34
       },
       {
         "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
@@ -17446,7 +17720,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 30
+        "line": 35
       },
       {
         "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
@@ -17456,7 +17730,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 31
+        "line": 36
       },
       {
         "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
@@ -17466,7 +17740,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 32
+        "line": 37
       },
       {
         "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
@@ -17476,7 +17750,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 33
+        "line": 38
       },
       {
         "from": "src/features/dayNightExplorer/useDayNightExplorerModel",
@@ -17486,7 +17760,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 34
+        "line": 39
       },
       {
         "from": "src/features/dayNightExplorer/useExplorerClock",
@@ -17566,7 +17840,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 30
+        "line": 33
       },
       {
         "from": "src/features/dayNightExplorer/worldMapCanvas",
@@ -17575,6 +17849,16 @@
         "import_kind": "type",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/features/dayNightExplorer/worldTopology",
+        "to": "zod/mini",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
         "workspace_dependency": false,
         "line": 1
       },
@@ -18039,6 +18323,26 @@
         "line": 6
       },
       {
+        "from": "src/hooks/useWeatherExploration",
+        "to": "src/features/dayNightExplorer/timeExplorerStorage",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 11
+      },
+      {
+        "from": "src/hooks/useWeatherExploration",
+        "to": "src/features/dayNightExplorer/dayNightExplorerOptions",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 16
+      },
+      {
         "from": "src/lib/calendarSchedule",
         "to": "zod",
         "kind": "external",
@@ -18176,7 +18480,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 8
+        "line": 3
       },
       {
         "from": "src/lib/schoolCalendarNative",
@@ -19160,7 +19464,7 @@
       },
       {
         "from": "src/pages/DashboardPage",
-        "to": "src/auth/AuthContext",
+        "to": "src/contexts/ActiveChildContext",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19170,7 +19474,7 @@
       },
       {
         "from": "src/pages/DashboardPage",
-        "to": "src/contexts/ActiveChildContext",
+        "to": "src/contexts/ThemeContext",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19180,7 +19484,7 @@
       },
       {
         "from": "src/pages/DashboardPage",
-        "to": "src/contexts/ThemeContext",
+        "to": "src/components/TabContent",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19190,7 +19494,7 @@
       },
       {
         "from": "src/pages/DashboardPage",
-        "to": "src/components/TabContent",
+        "to": "src/components/ui/StandardActionList",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19200,7 +19504,7 @@
       },
       {
         "from": "src/pages/DashboardPage",
-        "to": "src/components/ui/StandardActionList",
+        "to": "src/components/ui/StarInfoBox",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19210,7 +19514,7 @@
       },
       {
         "from": "src/pages/DashboardPage",
-        "to": "src/components/ui/StarInfoBox",
+        "to": "src/ui/listDescriptorTypes",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19220,7 +19524,7 @@
       },
       {
         "from": "src/pages/DashboardPage",
-        "to": "src/ui/listDescriptorTypes",
+        "to": "src/ui/unifiedChoreDescriptors",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19230,23 +19534,13 @@
       },
       {
         "from": "src/pages/DashboardPage",
-        "to": "src/ui/unifiedChoreDescriptors",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 10
-      },
-      {
-        "from": "src/pages/DashboardPage",
         "to": "src/ui/unifiedChoreState",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 13
       },
       {
         "from": "src/pages/DashboardPage",
@@ -19256,7 +19550,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 14
       },
       {
         "from": "src/pages/DashboardPage",
@@ -19266,7 +19560,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 16
+        "line": 15
       },
       {
         "from": "src/pages/DashboardPage",
@@ -19276,7 +19570,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 17
+        "line": 16
       },
       {
         "from": "src/pages/DashboardPage",
@@ -19286,7 +19580,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 18
+        "line": 17
       },
       {
         "from": "src/pages/DashboardPage",
@@ -19296,7 +19590,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 19
+        "line": 18
       },
       {
         "from": "src/pages/DashboardPage",
@@ -19306,7 +19600,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 26
+        "line": 25
       },
       {
         "from": "src/pages/DashboardPage",
@@ -19316,7 +19610,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 27
+        "line": 26
       },
       {
         "from": "src/pages/DashboardPage",
@@ -19326,17 +19620,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 28
-      },
-      {
-        "from": "src/pages/DashboardPage",
-        "to": "src/pages/dashboardChoreUi",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 29
+        "line": 27
       },
       {
         "from": "src/pages/DashboardPage",
@@ -19346,7 +19630,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 30
+        "line": 28
       },
       {
         "from": "src/pages/DashboardPage",
@@ -19356,7 +19640,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 31
+        "line": 29
       },
       {
         "from": "src/pages/DashboardPage",
@@ -19366,7 +19650,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 32
+        "line": 30
       },
       {
         "from": "src/pages/LoginPage",
@@ -20010,7 +20294,7 @@
       },
       {
         "from": "src/pages/TimeExplorerPage",
-        "to": "src/components/ui/TopIconButton",
+        "to": "src/components/TimeExplorerControls",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20020,7 +20304,7 @@
       },
       {
         "from": "src/pages/TimeExplorerPage",
-        "to": "src/tokens/index",
+        "to": "src/features/dayNightExplorer/timeExplorerStorage",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20030,57 +20314,17 @@
       },
       {
         "from": "src/pages/TimeExplorerPage",
-        "to": "src/ui/themeAssets",
+        "to": "src/components/ui/ResourceLoadingIcon",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 6
-      },
-      {
-        "from": "src/pages/TimeExplorerPage",
-        "to": "src/features/dayNightExplorer/SpinningPlanet",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 7
-      },
-      {
-        "from": "src/pages/TimeExplorerPage",
-        "to": "src/features/dayNightExplorer/Clock",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 8
-      },
-      {
-        "from": "src/pages/TimeExplorerPage",
-        "to": "src/features/dayNightExplorer/useDayNightExplorerModel",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 9
-      },
-      {
-        "from": "src/pages/TimeExplorerPage",
-        "to": "src/features/dayNightExplorer/dayNightExplorer.css",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": null,
         "workspace_dependency": false,
         "line": 10
       },
       {
         "from": "src/pages/TimeExplorerPage",
-        "to": "src/hooks/useCurrentWeather",
+        "to": "src/tokens/index",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20090,7 +20334,7 @@
       },
       {
         "from": "src/pages/TimeExplorerPage",
-        "to": "src/hooks/useWeatherExploration",
+        "to": "src/ui/themeAssets",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20100,13 +20344,73 @@
       },
       {
         "from": "src/pages/TimeExplorerPage",
+        "to": "src/features/dayNightExplorer/SpinningPlanet",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 13
+      },
+      {
+        "from": "src/pages/TimeExplorerPage",
+        "to": "src/features/dayNightExplorer/Clock",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 14
+      },
+      {
+        "from": "src/pages/TimeExplorerPage",
+        "to": "src/features/dayNightExplorer/useDayNightExplorerModel",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 15
+      },
+      {
+        "from": "src/pages/TimeExplorerPage",
+        "to": "src/features/dayNightExplorer/dayNightExplorer.css",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 16
+      },
+      {
+        "from": "src/pages/TimeExplorerPage",
+        "to": "src/hooks/useCurrentWeather",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 17
+      },
+      {
+        "from": "src/pages/TimeExplorerPage",
+        "to": "src/hooks/useWeatherExploration",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 18
+      },
+      {
+        "from": "src/pages/TimeExplorerPage",
         "to": "src/lib/weather/weatherConditions",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 16
+        "line": 22
       },
       {
         "from": "src/pages/TimeExplorerPage",
@@ -20116,7 +20420,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 20
+        "line": 26
       },
       {
         "from": "src/pages/TimeExplorerPage",
@@ -20126,47 +20430,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 21
-      },
-      {
-        "from": "src/pages/dashboardChoreUi",
-        "to": "src/contexts/ThemeContext",
-        "kind": "relative",
-        "import_kind": "type",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 1
-      },
-      {
-        "from": "src/pages/dashboardChoreUi",
-        "to": "src/components/ui/TopIconButton",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 2
-      },
-      {
-        "from": "src/pages/dashboardChoreUi",
-        "to": "src/ui/themeAssets",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 3
-      },
-      {
-        "from": "src/pages/dashboardChoreUi",
-        "to": "src/ui/themeActionAssets",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 4
+        "line": 27
       },
       {
         "from": "src/routes/AnimatedTabLayout",
@@ -21117,6 +21381,16 @@
         "to_workspace": null,
         "workspace_dependency": false,
         "line": 17
+      },
+      {
+        "from": "src/ui/themeAssets",
+        "to": "src/assets/themes/princess/now-character.png",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 18
       },
       {
         "from": "src/ui/themeOptions",

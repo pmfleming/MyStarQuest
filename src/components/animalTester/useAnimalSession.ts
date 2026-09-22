@@ -49,65 +49,27 @@ const EMPTY_ROUND: RoundState = {
   isGenericLearnAbilityShown: false,
 }
 
-export function useAnimalSession({
-  theme,
-  totalProblems,
-  isRunning,
-  isCompleted = false,
-  isFailed = false,
-  onComplete,
-  onExit,
-  onFail,
-  failureModeEnabled = true,
-}: ActivityChoreProps) {
-  const {
-    complete,
-    fail,
-    feedback: persistence,
-  } = useActivityPersistence({ onComplete, onFail })
-  const [mode, setMode] = useState<AnimalMode>('learn')
-  const [difficulty, setDifficulty] = useState<AnimalDifficulty>('easy')
+// Catalog loading, order and answer choices stay independent of round feedback.
+function useAnimalCatalog(
+  mode: AnimalMode,
+  totalProblems: number,
+  animalIndex: number,
+  onReset: () => void
+) {
   const [animalOrder, setAnimalOrder] = useState(() =>
     shuffle(animalCollection.catalog)
   )
-  const [results, setResults] = useState<ActivityResult[]>([])
-  const [round, setRound] = useState(EMPTY_ROUND)
-  const { animalIndex, leavingChoice, dismissedChoices, answeredCorrectly } =
-    round
-  const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  const resetPlayState = useCallback((catalog: CatalogAnimal[]) => {
-    if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
-    setAnimalOrder(shuffle(catalog))
-    setResults([])
-    setRound(EMPTY_ROUND)
-  }, [])
-  const moveAnimal = useCallback(
-    (delta: number) => {
-      setRound((previous) => ({
-        ...EMPTY_ROUND,
-        animalIndex: Math.max(0, previous.animalIndex + delta),
-        isGenericLearnAbilityShown:
-          mode === 'learn' && previous.isGenericLearnAbilityShown,
-      }))
+  const resetCatalog = useCallback(
+    (catalog: CatalogAnimal[]) => {
+      setAnimalOrder(shuffle(catalog))
+      onReset()
     },
-    [mode]
+    [onReset]
   )
   const {
-    collection,
-    collectionError,
-    isCollectionLoading,
     data: { catalog, getTeachingFacts },
-    changeCollection: selectCollection,
-  } = useCreatureCollection(resetPlayState)
-  const isSetup = !isRunning && !isCompleted
-  const { isSuccessState, isFinished } = getActivityOutcome({
-    isCompleted,
-    isFailed,
-    failureModeEnabled,
-    results,
-  })
-
+    ...collection
+  } = useCreatureCollection(resetCatalog)
   const itemLimit = Math.min(
     Math.max(totalProblems, MIN_PROBLEMS),
     MAX_PROBLEMS,
@@ -131,6 +93,97 @@ export function useAnimalSession({
     return indexes
   }, [catalog])
 
+  const answerChoices = useMemo(() => {
+    if (!animal) return []
+    const alternatives = shuffle(
+      catalog.filter(
+        (candidate) =>
+          candidate.name !== animal.name &&
+          !(
+            animal.kind === 'teenieping' &&
+            candidate.kind === 'teenieping' &&
+            candidate.identity === animal.identity
+          )
+      )
+    ).slice(0, 2)
+    return shuffle([animal, ...alternatives])
+  }, [animal, catalog])
+
+  return {
+    ...collection,
+    catalog,
+    getTeachingFacts,
+    animal,
+    nextAnimal,
+    isLastAnimal,
+    letterIndexes,
+    answerChoices,
+    resetCatalog,
+  }
+}
+
+export function useAnimalSession({
+  theme,
+  totalProblems,
+  isRunning,
+  isCompleted = false,
+  isFailed = false,
+  onComplete,
+  onExit,
+  onFail,
+  failureModeEnabled = true,
+}: ActivityChoreProps) {
+  const {
+    complete,
+    fail,
+    feedback: persistence,
+  } = useActivityPersistence({ onComplete, onFail })
+  const [mode, setMode] = useState<AnimalMode>('learn')
+  const [difficulty, setDifficulty] = useState<AnimalDifficulty>('easy')
+  const [results, setResults] = useState<ActivityResult[]>([])
+  const [round, setRound] = useState(EMPTY_ROUND)
+  const { animalIndex, leavingChoice, dismissedChoices, answeredCorrectly } =
+    round
+  const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const resetPlayState = useCallback(() => {
+    if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
+    setResults([])
+    setRound(EMPTY_ROUND)
+  }, [])
+  const moveAnimal = useCallback(
+    (delta: number) => {
+      setRound((previous) => ({
+        ...EMPTY_ROUND,
+        animalIndex: Math.max(0, previous.animalIndex + delta),
+        isGenericLearnAbilityShown:
+          mode === 'learn' && previous.isGenericLearnAbilityShown,
+      }))
+    },
+    [mode]
+  )
+  const {
+    collection,
+    collectionError,
+    isCollectionLoading,
+    catalog,
+    getTeachingFacts,
+    animal,
+    nextAnimal,
+    isLastAnimal,
+    letterIndexes,
+    answerChoices,
+    resetCatalog,
+    changeCollection: selectCollection,
+  } = useAnimalCatalog(mode, totalProblems, animalIndex, resetPlayState)
+  const isSetup = !isRunning && !isCompleted
+  const { isSuccessState, isFinished } = getActivityOutcome({
+    isCompleted,
+    isFailed,
+    failureModeEnabled,
+    results,
+  })
+
   const selectLetter = (letter: string) => {
     if (mode !== 'learn' || !isRunning || isFinished) return
     const index = letterIndexes.get(letter)
@@ -152,22 +205,6 @@ export function useAnimalSession({
     }
   }, [getTeachingFacts, isFinished, isRunning, nextAnimal, theme.id])
 
-  const answerChoices = useMemo(() => {
-    if (!animal) return []
-    const alternatives = shuffle(
-      catalog.filter(
-        (candidate) =>
-          candidate.name !== animal.name &&
-          !(
-            animal.kind === 'teenieping' &&
-            candidate.kind === 'teenieping' &&
-            candidate.identity === animal.identity
-          )
-      )
-    ).slice(0, 2)
-    return shuffle([animal, ...alternatives])
-  }, [animal, catalog])
-
   const collectionLocked = isRunning && mode !== 'learn'
   const changeCollection = (next: CreatureCollection) => {
     if (!collectionLocked || next === collection) selectCollection(next)
@@ -175,10 +212,10 @@ export function useAnimalSession({
 
   useEffect(() => {
     if (!isRunning && !isCompleted) {
-      const frame = requestAnimationFrame(() => resetPlayState(catalog))
+      const frame = requestAnimationFrame(() => resetCatalog(catalog))
       return () => cancelAnimationFrame(frame)
     }
-  }, [catalog, isCompleted, isRunning, resetPlayState])
+  }, [catalog, isCompleted, isRunning, resetCatalog])
 
   const finishAnimal = () => {
     setResults((previous) => [...previous, 'correct'])

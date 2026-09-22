@@ -27,9 +27,8 @@ export const timeToMinutes = (time: string) => {
   const [hours = 0, minutes = 0] = time.split(':').map(Number)
   return hours * 60 + minutes
 }
-export const minutesToTime = (minutes: number) =>
+const minutesToTime = (minutes: number) =>
   `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`
-
 const eventSchema = z
   .object({
     id: z.string().trim().min(1),

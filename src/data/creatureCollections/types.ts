@@ -1,4 +1,4 @@
-import type { AnimalFact, AnimalKnowledge } from '../animalKnowledge'
+import type { AnimalFact, AnimalKnowledge } from '../animalKnowledgeTypes'
 import type { InsectKnowledge } from '../insectKnowledge'
 import type { TeeniepingKnowledge } from '../teeniepingKnowledge'
 import type { DinosaurKnowledge } from '../dinosaurKnowledge'

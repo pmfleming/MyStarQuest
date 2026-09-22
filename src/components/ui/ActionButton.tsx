@@ -1,12 +1,10 @@
 import { AsyncButton } from './AsyncButton'
 import type { CSSProperties, ReactNode } from 'react'
-import { Link } from 'react-router-dom'
 import type { Theme } from '../../contexts/ThemeContext'
 import { getActionButtonStyle, uiTokens } from '../../tokens'
 import { ActionArtwork } from './ActionArtwork'
 
 interface ActionButtonProps {
-  to?: string
   label: string
   icon: ReactNode
   theme: Theme
@@ -21,7 +19,6 @@ interface ActionButtonProps {
 }
 
 const ActionButton = ({
-  to,
   label,
   icon,
   theme,
@@ -34,10 +31,10 @@ const ActionButton = ({
   styleOverride,
   className = '',
 }: ActionButtonProps) => {
-  const buttonStyle = {
+  const buttonStyle: CSSProperties = {
     ...getActionButtonStyle(theme, color),
     ...styleOverride,
-    position: 'relative' as const,
+    position: 'relative',
     overflow: 'hidden',
   }
   const defaultContent = (
@@ -70,26 +67,6 @@ const ActionButton = ({
       )}
     </>
   )
-
-  if (to) {
-    return (
-      <Link
-        to={to}
-        className="group no-underline"
-        style={{ textDecoration: 'none' }}
-      >
-        <AsyncButton
-          type="button"
-          aria-label={label}
-          className={`group ${className}`.trim()}
-          style={buttonStyle}
-          aria-pressed={ariaPressed}
-        >
-          {content ? <ActionArtwork>{content}</ActionArtwork> : defaultContent}
-        </AsyncButton>
-      </Link>
-    )
-  }
 
   return (
     <AsyncButton

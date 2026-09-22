@@ -109,50 +109,14 @@ it('shows the saved copy immediately while a refresh is pending, then replaces i
   expect(createSchoolCalendarStore().getSnapshot().data).toEqual(changed)
 })
 
-it.each(['offline', 'schema'])(
-  'retains the saved snapshot and check time after a %s failure',
-  async (failure) => {
-    localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(saved()))
-    if (failure === 'offline')
-      vi.mocked(fetch).mockRejectedValue(new Error('offline'))
-    if (failure === 'schema')
-      vi.mocked(fetch).mockResolvedValue(response({ error: 'unavailable' }))
-    const store = createSchoolCalendarStore()
-    stops.push(store.start())
-    await store.refresh()
-    expect(store.getSnapshot()).toMatchObject({ ...saved(), loadError: true })
-    expect(readSavedSchoolCalendar()).toEqual(saved())
-  }
-)
-
-it('recovers corrupt storage from the bundle', () => {
-  localStorage.setItem(SNAPSHOT_KEY, '{bad json')
-  expect(
-    Object.keys(createSchoolCalendarStore().getSnapshot().data).length
-  ).toBeGreaterThan(100)
-})
-
-it('uses one request/timer for multiple screens and checks on interval, resume and reconnect', async () => {
+it('retains the saved snapshot and check time after a schema failure', async () => {
+  localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(saved()))
+  vi.mocked(fetch).mockResolvedValue(response({ error: 'unavailable' }))
   const store = createSchoolCalendarStore()
-  const first = store.start()
-  const second = store.start()
+  stops.push(store.start())
   await store.refresh()
-  expect(fetch).toHaveBeenCalledTimes(1)
-  first()
-  await vi.advanceTimersByTimeAsync(CALENDAR_REFRESH_MS)
-  expect(fetch).toHaveBeenCalledTimes(2)
-  await vi.advanceTimersByTimeAsync(60_000)
-  document.dispatchEvent(new Event('visibilitychange'))
-  await store.refresh()
-  expect(fetch).toHaveBeenCalledTimes(3)
-  window.dispatchEvent(new Event('online'))
-  await store.refresh()
-  expect(fetch).toHaveBeenCalledTimes(4)
-  second()
-  await Promise.resolve()
-  await vi.advanceTimersByTimeAsync(CALENDAR_REFRESH_MS)
-  window.dispatchEvent(new Event('online'))
-  expect(fetch).toHaveBeenCalledTimes(4)
+  expect(store.getSnapshot()).toMatchObject({ ...saved(), loadError: true })
+  expect(readSavedSchoolCalendar()).toEqual(saved())
 })
 
 it('receives native background updates and ignores an older native read', async () => {

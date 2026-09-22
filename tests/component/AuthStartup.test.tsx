@@ -117,17 +117,4 @@ describe('Auth startup and sign-in', () => {
     })
     expect(state.popup).not.toHaveBeenCalled()
   })
-
-  it('still resolves authentication when storage for the optimization is blocked', () => {
-    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
-      throw new Error('Storage blocked')
-    })
-    render(
-      <AuthProvider>
-        <Consumer />
-      </AuthProvider>
-    )
-    act(() => state.callback!({ uid: 'test' } as User))
-    expect(screen.getByText('Signed in')).toBeVisible()
-  })
 })

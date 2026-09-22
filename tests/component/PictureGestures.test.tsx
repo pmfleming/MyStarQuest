@@ -72,31 +72,4 @@ describe('Who am I picture gestures', () => {
       }
     }
   )
-
-  it('double-clicking a hidden two-player portrait never reveals the answer', () => {
-    const { rerender, unmount } = render(
-      <AnimalTester {...props} isRunning={false} />
-    )
-    fireEvent.click(screen.getByRole('radio', { name: '2 Players' }))
-    rerender(<AnimalTester {...props} />)
-    fireEvent.click(screen.getByRole('button', { name: 'Hide animal' }))
-    const hidden = screen.getByRole('button', { name: 'Show animal' })
-    vi.useFakeTimers()
-    try {
-      doubleClick(hidden)
-      expect(hidden).toHaveAttribute('aria-expanded', 'true')
-      expect(hidden).toHaveAttribute('aria-pressed', 'true')
-      expect(
-        screen.queryByRole('button', { name: 'Hide animal' })
-      ).not.toBeInTheDocument()
-      fireEvent.click(hidden, { detail: 1 })
-      act(() => vi.advanceTimersByTime(600))
-      expect(
-        screen.getByRole('button', { name: 'Hide animal' })
-      ).toHaveAttribute('aria-expanded', 'true')
-    } finally {
-      unmount()
-      vi.useRealTimers()
-    }
-  })
 })

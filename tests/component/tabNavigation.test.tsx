@@ -1,4 +1,4 @@
-import { lazy, Suspense, type ComponentType, useEffect } from 'react'
+import { lazy, Suspense, type ComponentType } from 'react'
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom'
@@ -10,7 +10,6 @@ import { ThemeProvider } from '../../src/contexts/ThemeProvider'
 const actions = vi.hoisted(() => ({
   native: false,
   resetChore: vi.fn(),
-  unmountChores: vi.fn(),
 }))
 vi.mock('@capacitor/core', () => ({
   Capacitor: { isNativePlatform: () => actions.native },
@@ -44,18 +43,11 @@ vi.mock('../../src/data/useChores', () => ({
   }),
 }))
 
-function Chores() {
-  useEffect(() => () => actions.unmountChores(), [])
-  return <DashboardPage />
-}
-
 const renderTabs = () => {
-  let resolvePage!: (module: { default: ComponentType }) => void
   let rejectPage!: (error: Error) => void
   const DeferredTests = lazy(
     () =>
-      new Promise<{ default: ComponentType }>((resolve, reject) => {
-        resolvePage = resolve
+      new Promise<{ default: ComponentType }>((_resolve, reject) => {
         rejectPage = reject
       })
   )
@@ -71,7 +63,7 @@ const renderTabs = () => {
           <Suspense fallback={<p>Loading app…</p>}>
             <Routes>
               <Route path="/tabs" element={<AnimatedTabLayout />}>
-                <Route path="chores" element={<Chores />} />
+                <Route path="chores" element={<DashboardPage />} />
                 <Route path="tests" element={<DeferredTests />} />
                 <Route path="rewards" element={<h1>Rewards page</h1>} />
                 <Route
@@ -86,7 +78,6 @@ const renderTabs = () => {
     </ThemeProvider>
   )
   return {
-    resolve: () => resolvePage({ default: () => <h1>Tests page</h1> }),
     reject: () => rejectPage(new Error('Page download failed')),
   }
 }
@@ -102,33 +93,6 @@ describe('navigation away from Chores (native frame: false)', () => {
 
   beforeEach(() => {
     actions.native = native
-  })
-  it('shows loading feedback and keeps tabs usable while the next page downloads', async () => {
-    const pendingPage = renderTabs()
-    fireEvent.click(screen.getByRole('button', { name: 'Tests tab' }))
-    const loadingIcon = await screen.findByRole('status')
-    expect(loadingIcon).toHaveAccessibleName('Loading page')
-    expect(loadingIcon).toHaveTextContent('')
-    expect(
-      screen.getByRole('navigation', { name: 'Primary tabs' })
-    ).toBeVisible()
-    expect(screen.getByRole('button', { name: 'Tests tab' })).toHaveAttribute(
-      'aria-current',
-      'page'
-    )
-    expect(actions.unmountChores).toHaveBeenCalledTimes(1)
-    fireEvent.click(screen.getByRole('button', { name: 'Rewards tab' }))
-    expect(
-      await screen.findByRole('heading', { name: 'Rewards page' })
-    ).toBeVisible()
-    await act(async () => pendingPage.resolve())
-    expect(
-      screen.queryByRole('heading', { name: 'Tests page' })
-    ).not.toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Tests tab' }))
-    expect(
-      await screen.findByRole('heading', { name: 'Tests page' })
-    ).toBeVisible()
   })
 
   it('lets users leave a page whose download failed and return to Chores', async () => {

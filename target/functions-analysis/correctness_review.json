@@ -1,6 +1,6 @@
 {
   "schema_version": "0.3.0",
-  "task_id": "correctness.catalog",
+  "task_id": "correctness.all",
   "project": {
     "name": "MyStarQuest Functions",
     "root": "C:\\Code\\MyStarQuest\\functions",
@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure all --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-21T12:24:36.917Z",
+    "measured_at": "2026-09-22T12:52:58.599Z",
     "source_type": "static",
-    "source_set_hash": "sha256:5d3a9e334ee05d729f06380b2eae985532db039464a4bcda1b0fa986362ee97a",
-    "input_set_hash": "sha256:b29ea3d824d8191181a92ee6290a6a3eb159929dea60580498e0a3df0bb228de"
+    "source_set_hash": "sha256:57bbe008e7a167dcb9726b1aa58dbe41bda0c61dfcd2dc8936be5d4ac2f91b1f",
+    "input_set_hash": "sha256:d3e970060dec38ae7e108bf107c72974d13d344a3ccdce93f96b64ae99632661"
   },
   "analysis_identity": {
     "id": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
@@ -65,7 +65,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "test_command_configured": false,
     "complete": true,
@@ -93,33 +93,20 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 23,
+    "tests": 21,
     "colocated_tests": 0,
-    "external_tests": 23,
-    "execution_status": "not_run",
+    "external_tests": 21,
+    "execution_status": "unknown",
     "execution_scope": "suite",
     "coverage_status": "not_collected",
     "blocking_findings": 0
   },
   "execution": {
-    "status": "not_run",
-    "command": null
+    "status": "unknown",
+    "reason": "No test command configured."
   },
   "records": [],
   "tests": [
-    {
-      "id": "test:../tests/unit/afterFirstPaint.test.ts",
-      "name": "afterFirstPaint.test.ts",
-      "path": "../tests/unit/afterFirstPaint.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [],
-      "source_associations": [],
-      "coverage_status": "not_collected",
-      "assertions": 7,
-      "skipped": 0,
-      "todo": 0
-    },
     {
       "id": "test:../tests/unit/calendarSchedule.test.ts",
       "name": "calendarSchedule.test.ts",
@@ -129,7 +116,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 38,
+      "assertions": 26,
       "skipped": 0,
       "todo": 0
     },
@@ -163,20 +150,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 2,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:../tests/unit/firebaseInitialization.test.ts",
-      "name": "firebaseInitialization.test.ts",
-      "path": "../tests/unit/firebaseInitialization.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [],
-      "source_associations": [],
-      "coverage_status": "not_collected",
-      "assertions": 2,
+      "assertions": 1,
       "skipped": 0,
       "todo": 0
     },
@@ -189,7 +163,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 12,
+      "assertions": 8,
       "skipped": 0,
       "todo": 0
     },
@@ -241,7 +215,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 15,
+      "assertions": 14,
       "skipped": 0,
       "todo": 0
     },
@@ -249,12 +223,12 @@
       "id": "test:../tests/unit/offlineSync.test.ts",
       "name": "offlineSync.test.ts",
       "path": "../tests/unit/offlineSync.test.ts",
-      "framework": "vitest",
+      "framework": "unknown",
       "locality": "external",
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 18,
+      "assertions": 11,
       "skipped": 0,
       "todo": 0
     },
@@ -280,7 +254,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 6,
+      "assertions": 5,
       "skipped": 0,
       "todo": 0
     },
@@ -302,19 +276,6 @@
       ],
       "coverage_status": "not_collected",
       "assertions": 12,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:../tests/unit/schoolCalendarData.test.ts",
-      "name": "schoolCalendarData.test.ts",
-      "path": "../tests/unit/schoolCalendarData.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [],
-      "source_associations": [],
-      "coverage_status": "not_collected",
-      "assertions": 15,
       "skipped": 0,
       "todo": 0
     },
@@ -348,7 +309,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 29,
+      "assertions": 27,
       "skipped": 0,
       "todo": 0
     },
@@ -396,6 +357,19 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "assertions": 16,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/timeExplorerStorage.test.ts",
+      "name": "timeExplorerStorage.test.ts",
+      "path": "../tests/unit/timeExplorerStorage.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 5,
       "skipped": 0,
       "todo": 0
     },

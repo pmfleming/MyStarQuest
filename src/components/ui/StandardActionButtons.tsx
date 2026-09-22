@@ -147,8 +147,15 @@ type StandardActionButtonsProps<T> = {
   pendingAction: 'primary' | 'edit' | 'utility' | null
   errorId?: string
   confirmingReset: boolean
+  confirmAriaLabel?: string
+  cancelAriaLabel?: string
   onConfirmReset: () => void
   onCancelReset: () => void
+}
+
+type UtilityChoice = Omit<UtilityButtonProps, 'style'> & {
+  key: string
+  variant: ActionVariant
 }
 
 export const StandardActionButtons = <T,>({
@@ -172,6 +179,8 @@ export const StandardActionButtons = <T,>({
   pendingAction,
   errorId,
   confirmingReset,
+  confirmAriaLabel = 'Yes, reset',
+  cancelAriaLabel = 'No, keep progress',
   onConfirmReset,
   onCancelReset,
 }: StandardActionButtonsProps<T>) => {
@@ -219,11 +228,11 @@ export const StandardActionButtons = <T,>({
   ]
     .filter(Boolean)
     .join(' ')
-  const utilityButtons = state.confirm
+  const utilityButtons: UtilityChoice[] = state.confirm
     ? [
         {
           key: 'confirm',
-          ariaLabel: 'Yes, reset',
+          ariaLabel: confirmAriaLabel,
           icon: (
             <img
               src={getThemeAsset(theme.id, 'confirmExitImage')}
@@ -233,11 +242,11 @@ export const StandardActionButtons = <T,>({
           ),
           onClick: onConfirmReset,
           disabled: state.utilityDisabled,
-          variant: 'neutral' as const,
+          variant: 'neutral',
         },
         {
           key: 'cancel',
-          ariaLabel: 'No, keep progress',
+          ariaLabel: cancelAriaLabel,
           icon: (
             <img
               src={getThemeAsset(theme.id, 'continueActivityImage')}
@@ -247,7 +256,7 @@ export const StandardActionButtons = <T,>({
           ),
           onClick: onCancelReset,
           disabled: state.cancelDisabled,
-          variant: 'neutral' as const,
+          variant: 'neutral',
         },
       ]
     : [

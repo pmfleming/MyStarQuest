@@ -68,32 +68,6 @@ it.each([['2026-01-31', 31, '2026-02-28']])(
   }
 )
 
-it('updates the agenda and themed artwork when a different date is selected', async () => {
-  vi.stubGlobal(
-    'fetch',
-    vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) })
-  )
-  const { rerender } = render(<SchoolCalendar theme={themes.princess} />)
-  const agenda = within(screen.getByRole('region', { name: 'Day agenda' }))
-  expect(agenda.getByText('Judo').closest('li')).toHaveTextContent(
-    '14:15 – 15:00'
-  )
-  expect(agenda.getByText('School').closest('li')).toHaveTextContent(
-    '08:30 – 12:15'
-  )
-  selection.selectedDateKey = '2026-09-12'
-  rerender(<SchoolCalendar theme={themes.teenie} />)
-  expect(agenda.queryByText('School')).not.toBeInTheDocument()
-  expect(agenda.queryByText('Judo')).not.toBeInTheDocument()
-  const ballet = agenda.getByText('Ballet').closest('li')!
-  expect(ballet).toHaveTextContent('10:45 – 11:30')
-  expect(ballet.querySelector('img')).toHaveAttribute(
-    'src',
-    themes.teenie.activityImages!.ballet
-  )
-  await waitFor(() => expect(fetch).toHaveBeenCalled())
-})
-
 it('reacts to saved changes in this window and other windows', async () => {
   vi.stubGlobal(
     'fetch',

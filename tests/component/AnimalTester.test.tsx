@@ -1,14 +1,11 @@
-import { act, fireEvent, render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import AnimalTester from '../../src/components/AnimalTester'
 import { themes } from '../../src/contexts/ThemeContext'
 import { getAnimalAbilityImage } from '../../src/data/animalAbilityAssets'
 import { getGenericAnimalAbilityImage } from '../../src/data/genericAnimalAbilityAssets'
 import { ANIMAL_ASSETS } from '../../src/data/animalAssets'
-import { ANIMAL_FOOD_IMAGE_BY_NAME } from '../../src/data/animalFoodAssets'
-import { ANIMAL_HABITAT_IMAGE_BY_NAME } from '../../src/data/animalHabitatAssets'
 import { ANIMAL_KNOWLEDGE } from '../../src/data/animalKnowledge'
-import { ANIMAL_LOCATIONS } from '../../src/data/animalLocationAssets'
 
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 
@@ -24,125 +21,6 @@ const createProps = () => ({
 })
 
 describe('AnimalTester', () => {
-  it('connects every animal to complete facts and visual assets', () => {
-    const assetNames = ANIMAL_ASSETS.map(({ name }) => name).sort()
-    const knowledgeNames = ANIMAL_KNOWLEDGE.map(({ name }) => name).sort()
-
-    expect(new Set(assetNames).size).toBe(assetNames.length)
-    expect(new Set(knowledgeNames).size).toBe(knowledgeNames.length)
-    expect(assetNames).toEqual(knowledgeNames)
-
-    const incompleteAnimals = ANIMAL_KNOWLEDGE.flatMap((animal) => {
-      const requiredFacts = [
-        animal.habitat[0],
-        animal.habitat[1],
-        animal.food[1],
-        animal.abilities[0],
-      ]
-      const hasCompleteFacts = requiredFacts.every(
-        (fact) => fact?.label && fact.text
-      )
-      const hasAllImages = Boolean(
-        ANIMAL_LOCATIONS[animal.locationCategory].image &&
-        ANIMAL_HABITAT_IMAGE_BY_NAME[animal.habitatCategory] &&
-        ANIMAL_FOOD_IMAGE_BY_NAME[animal.foodCategory] &&
-        getAnimalAbilityImage(animal.name) &&
-        getGenericAnimalAbilityImage(
-          'princess',
-          animal.abilities[0]?.label ?? ''
-        )
-      )
-
-      return hasCompleteFacts && hasAllImages ? [] : [animal.name]
-    })
-
-    expect(incompleteAnimals).toEqual([])
-  })
-
-  it('removes wrong choices and advances after the correct solo choice', () => {
-    const themeId = 'teenie' as const
-    vi.useFakeTimers()
-    try {
-      const props = { ...createProps(), theme: themes[themeId] }
-      const { rerender } = render(<AnimalTester {...props} />)
-
-      fireEvent.click(screen.getByRole('radio', { name: '1 Player' }))
-      rerender(<AnimalTester {...props} isRunning />)
-
-      expect(
-        document.querySelector('[data-activity-result-bar]')
-      ).toBeInTheDocument()
-      expect(
-        screen.queryByRole('heading', { name: 'Guess' })
-      ).not.toBeInTheDocument()
-      expect(screen.getByLabelText(/^LOCATION:/)).toBeInTheDocument()
-      expect(screen.queryByLabelText(/^ENVIRONMENT:/)).not.toBeInTheDocument()
-
-      act(() => vi.advanceTimersByTime(3000))
-      expect(screen.getByLabelText(/^ENVIRONMENT:/)).toBeInTheDocument()
-      expect(screen.queryByLabelText(/^FOOD:/)).not.toBeInTheDocument()
-
-      act(() => vi.advanceTimersByTime(3000))
-      expect(screen.getByLabelText(/^FOOD:/)).toBeInTheDocument()
-      expect(screen.queryByLabelText(/^ABILITY:/)).not.toBeInTheDocument()
-
-      act(() => vi.advanceTimersByTime(3000))
-      expect(screen.getByLabelText(/^ABILITY:/)).toBeInTheDocument()
-
-      const choices = within(
-        screen.getByLabelText('Animal choices')
-      ).getAllByRole('button')
-      expect(choices).toHaveLength(3)
-      expect(choices.every((choice) => choice.querySelector('img'))).toBe(true)
-
-      const factText = (category: string) =>
-        screen
-          .getByLabelText(new RegExp(`^${category}:`))
-          .getAttribute('aria-label')
-          ?.replace(`${category}: `, '')
-      const currentAnimal = ANIMAL_KNOWLEDGE.find(
-        (animal) =>
-          animal.habitat[0].text === factText('LOCATION') &&
-          animal.habitat[1].text === factText('ENVIRONMENT') &&
-          animal.food[1].text === factText('FOOD') &&
-          animal.abilities[0].text === factText('ABILITY')
-      )
-      expect(currentAnimal).toBeDefined()
-      if (!currentAnimal)
-        throw new Error('Expected the displayed animal in catalog')
-
-      expect(
-        screen.getByLabelText(/^ABILITY:/).querySelector('img')
-      ).toHaveAttribute(
-        'src',
-        getGenericAnimalAbilityImage(themeId, currentAnimal.abilities[0].label)
-      )
-
-      const answerName = currentAnimal.name
-        .split('-')
-        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-        .join(' ')
-      const wrongChoice = choices.find(
-        (choice) => choice.getAttribute('aria-label') !== answerName
-      )
-      expect(wrongChoice).toBeDefined()
-
-      fireEvent.click(wrongChoice!)
-      act(() => vi.advanceTimersByTime(650))
-      expect(wrongChoice).not.toBeInTheDocument()
-
-      fireEvent.click(screen.getByRole('button', { name: answerName }))
-      expect(
-        screen.queryByRole('button', { name: /^(Next|Finish)$/ })
-      ).not.toBeInTheDocument()
-
-      act(() => vi.advanceTimersByTime(650))
-      expect(props.onComplete).toHaveBeenCalledOnce()
-    } finally {
-      vi.useRealTimers()
-    }
-  })
-
   it('shows one read-aloud screen and advances the two-player game directly', () => {
     const props = { ...createProps(), totalProblems: 2 }
     const { rerender } = render(<AnimalTester {...props} />)

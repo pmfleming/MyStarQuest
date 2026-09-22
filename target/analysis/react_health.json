@@ -3,7 +3,7 @@
   "task_id": "quality.react_health",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Users\\Paul_\\AppData\\Local\\Temp\\mystarquest-quality-szEX4y\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-21T12:45:40.443Z",
+    "measured_at": "2026-09-22T13:21:47.846Z",
     "source_type": "static",
-    "source_set_hash": "sha256:e4f7e66696315484e3b1818ee04af7f8c946c8a491452a585090cb84f0ee4ec3",
-    "input_set_hash": "sha256:0a92310d59289ba0a799a1a117cf93756a789311e3d4f90a8d26e2bfa31bf469"
+    "source_set_hash": "sha256:78d559847878846174e3a5f39de3236900f05bf95144390add9bf79870c310de",
+    "input_set_hash": "sha256:869e3e9bf8bfb25e1f251de8d02edda2f470bb23aeb6728076eeb4aacd2159aa"
   },
   "analysis_identity": {
-    "id": "sha256:3d1036a4089f66ad7fa347ef68c245a45d1e0e9033afc29d848070d962edf831",
+    "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:d7c5a0373b849391748e11dc4ff25a7035017608dbc42c938d6f051e39d72c5a",
+    "config_closure_hash": "sha256:d7a2f9de9588d08ba52ff587013c2c82e694ac782a88a8ea2bbbfe87bde6fb6c",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -108,13 +108,13 @@
     "stale_input": []
   },
   "summary": {
-    "components": 122,
-    "records": 131,
+    "components": 125,
+    "records": 135,
     "hook_lint_findings": 0,
-    "a11y_findings": 8,
-    "a11y_tool_findings": 8,
+    "a11y_findings": 9,
+    "a11y_tool_findings": 9,
     "a11y_heuristic_findings": 0,
-    "high_risk_components": 27
+    "high_risk_components": 28
   },
   "framework": {
     "framework": "vite",
@@ -150,10 +150,6 @@
       {
         "kind": "next_pages_route",
         "file": "src/pages/TimeExplorerPage.tsx"
-      },
-      {
-        "kind": "next_pages_route",
-        "file": "src/pages/dashboardChoreUi.tsx"
       },
       {
         "kind": "remix_route",
@@ -635,6 +631,161 @@
             "id": "component:src/components/AppDeviceFrame:AppDeviceFrame",
             "kind": "component",
             "file": "src/components/AppDeviceFrame.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/AppMenu:OtherTabResetButton",
+      "module_id": "src/components/AppMenu",
+      "file": "src/components/AppMenu.tsx",
+      "name": "OtherTabResetButton",
+      "line": 29,
+      "score": 13,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/AppMenu:OtherTabResetButton",
+            "kind": "component",
+            "file": "src/components/AppMenu.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/AppMenu:ResetButton",
+      "module_id": "src/components/AppMenu",
+      "file": "src/components/AppMenu.tsx",
+      "name": "ResetButton",
+      "line": 48,
+      "score": 10,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/AppMenu:ResetButton",
+            "kind": "component",
+            "file": "src/components/AppMenu.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/AppMenu:MenuSheet",
+      "module_id": "src/components/AppMenu",
+      "file": "src/components/AppMenu.tsx",
+      "name": "MenuSheet",
+      "line": 72,
+      "score": 125,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 165
+        },
+        {
+          "kind": "many_hooks",
+          "value": 6
+        }
+      ],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/AppMenu:MenuSheet",
+            "kind": "component",
+            "file": "src/components/AppMenu.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/AppMenu:AppMenu",
+      "module_id": "src/components/AppMenu",
+      "file": "src/components/AppMenu.tsx",
+      "name": "AppMenu",
+      "line": 243,
+      "score": 69,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/AppMenu:AppMenu",
+            "kind": "component",
+            "file": "src/components/AppMenu.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1423,7 +1574,7 @@
       "module_id": "src/components/TabContent",
       "file": "src/components/TabContent.tsx",
       "name": "TabContent",
-      "line": 14,
+      "line": 15,
       "score": 14,
       "risk": "low",
       "signals": [],
@@ -1448,6 +1599,46 @@
             "id": "component:src/components/TabContent:TabContent",
             "kind": "component",
             "file": "src/components/TabContent.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/TimeExplorerControls:TimeExplorerControls",
+      "module_id": "src/components/TimeExplorerControls",
+      "file": "src/components/TimeExplorerControls.tsx",
+      "name": "TimeExplorerControls",
+      "line": 32,
+      "score": 38,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 129
+        }
+      ],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/TimeExplorerControls:TimeExplorerControls",
+            "kind": "component",
+            "file": "src/components/TimeExplorerControls.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1683,9 +1874,9 @@
       "module_id": "src/components/ui/ActionButton",
       "file": "src/components/ui/ActionButton.tsx",
       "name": "ActionButton",
-      "line": 23,
-      "score": 36,
-      "risk": "medium",
+      "line": 21,
+      "score": 25,
+      "risk": "low",
       "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
@@ -3149,7 +3340,7 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "StandardActionButtons",
-      "line": 154,
+      "line": 161,
       "score": 122,
       "risk": "high",
       "signals": [
@@ -3667,46 +3858,11 @@
       ]
     },
     {
-      "id": "component:src/components/ui/TopIconButton:TopIconButton",
-      "module_id": "src/components/ui/TopIconButton",
-      "file": "src/components/ui/TopIconButton.tsx",
-      "name": "TopIconButton",
-      "line": 17,
-      "score": 7,
-      "risk": "low",
-      "signals": [],
-      "kind": "component",
-      "rule_id": "ts-react-quality-lens/component",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "component",
-      "reason_code": "ts-react-quality-lens/component",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "component:src/components/ui/TopIconButton:TopIconButton",
-            "kind": "component",
-            "file": "src/components/ui/TopIconButton.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "component:src/components/weather/WeatherControls:CycleControl",
       "module_id": "src/components/weather/WeatherControls",
       "file": "src/components/weather/WeatherControls.tsx",
       "name": "CycleControl",
-      "line": 26,
+      "line": 24,
       "score": 14,
       "risk": "low",
       "signals": [],
@@ -3741,7 +3897,7 @@
       "module_id": "src/components/weather/WeatherControls",
       "file": "src/components/weather/WeatherControls.tsx",
       "name": "StepControl",
-      "line": 61,
+      "line": 59,
       "score": 24,
       "risk": "low",
       "signals": [],
@@ -3776,8 +3932,8 @@
       "module_id": "src/components/weather/WeatherControls",
       "file": "src/components/weather/WeatherControls.tsx",
       "name": "WeatherControls",
-      "line": 110,
-      "score": 31,
+      "line": 108,
+      "score": 29,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -4107,7 +4263,7 @@
       "module_id": "src/contexts/ActiveChildProvider",
       "file": "src/contexts/ActiveChildProvider.tsx",
       "name": "ActiveChildProvider",
-      "line": 45,
+      "line": 39,
       "score": 11,
       "risk": "low",
       "signals": [],
@@ -4142,7 +4298,7 @@
       "module_id": "src/contexts/ActiveChildProvider",
       "file": "src/contexts/ActiveChildProvider.tsx",
       "name": "ActiveChildStateProvider",
-      "line": 62,
+      "line": 56,
       "score": 83,
       "risk": "high",
       "signals": [
@@ -4385,21 +4541,17 @@
       "module_id": "src/pages/DashboardPage",
       "file": "src/pages/DashboardPage.tsx",
       "name": "DashboardPage",
-      "line": 60,
-      "score": 283,
+      "line": 58,
+      "score": 248,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 309
+          "value": 287
         },
         {
           "kind": "many_hooks",
-          "value": 19
-        },
-        {
-          "kind": "render_branch_complexity",
-          "value": 5
+          "value": 16
         }
       ],
       "kind": "component",
@@ -4486,7 +4638,7 @@
       "file": "src/pages/ManageChildrenPage.tsx",
       "name": "ManageChildrenPage",
       "line": 11,
-      "score": 51,
+      "score": 49,
       "risk": "medium",
       "signals": [],
       "kind": "component",
@@ -4651,10 +4803,15 @@
       "module_id": "src/pages/TimeExplorerPage",
       "file": "src/pages/TimeExplorerPage.tsx",
       "name": "TimeExplorerPage",
-      "line": 32,
-      "score": 80,
+      "line": 29,
+      "score": 107,
       "risk": "high",
-      "signals": [],
+      "signals": [
+        {
+          "kind": "many_hooks",
+          "value": 6
+        }
+      ],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
       "evidence_kind": "heuristic",
@@ -4682,41 +4839,6 @@
             "id": "component:src/pages/TimeExplorerPage:TimeExplorerPage",
             "kind": "component",
             "file": "src/pages/TimeExplorerPage.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "component:src/pages/dashboardChoreUi:DashboardHeaderActions",
-      "module_id": "src/pages/dashboardChoreUi",
-      "file": "src/pages/dashboardChoreUi.tsx",
-      "name": "DashboardHeaderActions",
-      "line": 28,
-      "score": 28,
-      "risk": "low",
-      "signals": [],
-      "kind": "component",
-      "rule_id": "ts-react-quality-lens/component",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "component",
-      "reason_code": "ts-react-quality-lens/component",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "component:src/pages/dashboardChoreUi:DashboardHeaderActions",
-            "kind": "component",
-            "file": "src/pages/dashboardChoreUi.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -4822,6 +4944,53 @@
             "id": "component:src/routes/ProtectedRoute:ProtectedRoute",
             "kind": "component",
             "file": "src/routes/ProtectedRoute.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "eslint-plugin-jsx-a11y:190b1dd9:1",
+      "rule_id": "jsx-a11y/no-noninteractive-element-interactions",
+      "kind": "a11y_no_noninteractive_element_interactions",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/AppMenu",
+      "file": "src/components/AppMenu.tsx",
+      "line": 121,
+      "column": 5,
+      "end_line": 168,
+      "end_column": 6,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "Non-interactive elements should not be assigned mouse or keyboard event listeners.",
+      "signals": [
+        {
+          "kind": "a11y_no_noninteractive_element_interactions",
+          "message": "Non-interactive elements should not be assigned mouse or keyboard event listeners."
+        }
+      ],
+      "fingerprint": "190b1dd9",
+      "occurrence": 1,
+      "reason_code": "jsx-a11y/no-noninteractive-element-interactions",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_no_noninteractive_element_interactions finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "eslint-plugin-jsx-a11y:190b1dd9:1",
+            "kind": "a11y_no_noninteractive_element_interactions",
+            "file": "src/components/AppMenu.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

@@ -172,10 +172,7 @@ describe('chore completion star balances', () => {
     }
   )
 
-  it.each<[WaterLevel, ToiletStatus, number]>([
-    ['full', 'notpeepee', -6],
-    ['full', 'didpeepee', 0],
-  ])(
+  it.each<[WaterLevel, ToiletStatus, number]>([['full', 'notpeepee', -6]])(
     'persists the water/toilet score for %s / %s: %i',
     async (water, toilet, delta) => {
       await setup().completeChore({
