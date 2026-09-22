@@ -23,13 +23,19 @@ const initial = { earthRotationDeg: 10 } as SolarSystemSceneState
 let frames: Map<number, FrameRequestCallback>
 let frameId: number
 
-function Harness({ state = initial }: { state?: SolarSystemSceneState }) {
+function Harness({
+  state = initial,
+  enabled = true,
+}: {
+  state?: SolarSystemSceneState
+  enabled?: boolean
+}) {
   const { canvasRef, globeReady, globeFailed, updateSceneState, retryGlobe } =
-    useSolarSystem3D(state)
+    useSolarSystem3D(state, enabled)
   return (
     <>
       <span>Clock available</span>
-      <canvas ref={canvasRef} />
+      {enabled && <canvas ref={canvasRef} />}
       <output>
         {globeReady ? 'Ready' : globeFailed ? 'Failed' : 'Loading'}
       </output>
@@ -62,6 +68,49 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllGlobals())
 
 describe('deferred globe lifecycle', () => {
+  it('disposes when hidden and initializes a fresh canvas with current state when shown again', async () => {
+    const { rerender, unmount } = render(<Harness enabled={false} />)
+    nextFrame()
+    nextFrame()
+    await act(() => vi.dynamicImportSettled())
+    expect(scene.construct).not.toHaveBeenCalled()
+
+    rerender(<Harness />)
+    nextFrame()
+    nextFrame()
+    await act(() => vi.dynamicImportSettled())
+    expect(screen.getByText('Ready')).toBeVisible()
+    const firstCanvas = scene.construct.mock.calls[0][0]
+    rerender(<Harness enabled={false} />)
+    expect(scene.dispose).toHaveBeenCalledOnce()
+    expect(screen.queryByText('Ready')).not.toBeInTheDocument()
+
+    const updated = { ...initial, earthRotationDeg: 50 }
+    rerender(<Harness state={updated} />)
+    nextFrame()
+    nextFrame()
+    await act(() => vi.dynamicImportSettled())
+    expect(scene.construct).toHaveBeenCalledTimes(2)
+    expect(scene.construct.mock.calls[1][0]).not.toBe(firstCanvas)
+    expect(scene.construct).toHaveBeenLastCalledWith(
+      expect.any(HTMLCanvasElement),
+      updated
+    )
+    expect(screen.getByText('Ready')).toBeVisible()
+    unmount()
+    expect(scene.dispose).toHaveBeenCalledTimes(2)
+  })
+
+  it('cancels pending initialization when toggled off', async () => {
+    const { rerender } = render(<Harness />)
+    nextFrame()
+    nextFrame()
+    rerender(<Harness enabled={false} />)
+    await act(() => vi.dynamicImportSettled())
+    expect(scene.construct).not.toHaveBeenCalled()
+    expect(frames.size).toBe(0)
+  })
+
   it('paints the shell first, initializes with the latest drag state, and disposes once', async () => {
     const { rerender, unmount } = render(
       <StrictMode>

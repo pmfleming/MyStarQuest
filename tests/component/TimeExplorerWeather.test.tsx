@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { EXPLORER_CITY_OPTIONS } from '../../src/features/dayNightExplorer/dayNightExplorerOptions'
 import type { WeatherSnapshot } from '../../src/lib/weather/weatherStore'
@@ -9,6 +9,7 @@ const state = vi.hoisted(() => ({
   selectedDate: new Date(2026, 8, 13),
   weather: null as WeatherSnapshot | null,
   retry: vi.fn(),
+  resetToNow: vi.fn(),
 }))
 vi.mock('../../src/contexts/SelectedDateContext', () => ({
   useSelectedDate: () => ({ selectedDate: state.selectedDate }),
@@ -38,7 +39,7 @@ vi.mock('../../src/components/TabContent', () => ({
   ),
 }))
 vi.mock('../../src/features/dayNightExplorer/SpinningPlanet', () => ({
-  default: () => <div>Globe</div>,
+  default: () => <div>Learning globe</div>,
 }))
 vi.mock('../../src/features/dayNightExplorer/Clock', () => ({
   default: () => <div>Learning clock</div>,
@@ -48,6 +49,7 @@ vi.mock('../../src/components/SchoolCalendar', () => ({
 }))
 vi.mock('../../src/features/dayNightExplorer/useDayNightExplorerModel', () => ({
   default: () => ({
+    resetToNow: state.resetToNow,
     weatherCity: EXPLORER_CITY_OPTIONS[state.cityIndex],
     planet: {},
     clock: {},
@@ -64,6 +66,7 @@ beforeEach(() => {
   state.themeId = 'princess'
   state.selectedDate = new Date(2026, 8, 13)
   state.retry.mockClear()
+  state.resetToNow.mockClear()
   const now = Date.parse('2026-09-13T12:00:00Z')
   state.weather = {
     now,
@@ -179,10 +182,19 @@ describe('Time Explorer weather panel', () => {
         expect.stringContaining('/teenie/seasons/winter-daytime.webp')
       )
     }
+    fireEvent.click(screen.getByRole('button', { name: /Show weather:/ }))
     clickOption('Show calendar')
     await openWeather()
     expect(screen.getByLabelText('Wind value')).toHaveTextContent('45 km/h')
-    clickOption('Reset to current')
+    expect(
+      within(screen.getByRole('region', { name: /Weather in/ })).queryByRole(
+        'button',
+        { name: /Reset/ }
+      )
+    ).not.toBeInTheDocument()
+    clickOption('Reset all to now')
+    expect(state.resetToNow).toHaveBeenCalledOnce()
+    expect(state.retry).toHaveBeenCalledOnce()
     expect(screen.getByLabelText('Temperature value')).toHaveTextContent('22°C')
     expect(screen.getByLabelText('Wind value')).toHaveTextContent('25 km/h')
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
@@ -213,7 +225,7 @@ describe('Time Explorer weather panel', () => {
     rerender(<TimeExplorerPage />)
     expect(screen.getByLabelText('Temperature value')).toHaveTextContent('16°C')
     expect(
-      screen.getByRole('button', { name: 'Reset to current' })
+      screen.getByRole('button', { name: 'Reset all to now' })
     ).toBeVisible()
 
     // Exploration started while the next city's data is loading wins over its response.
@@ -235,5 +247,113 @@ describe('Time Explorer weather panel', () => {
     expect(
       screen.getByRole('img', { name: /Your weather/ })
     ).toHaveAccessibleName(/light cardigan and leggings/)
+  })
+})
+
+describe('Time Explorer view toggles', () => {
+  it('resets hidden weather without changing the selected views', async () => {
+    render(<TimeExplorerPage />)
+    await openWeather()
+    clickOption('Increase temperature', 5)
+    fireEvent.click(screen.getByRole('button', { name: /Show weather:/ }))
+    clickOption('Show calendar')
+    await screen.findByText('Learning calendar')
+    clickOption('Reset all to now')
+    expect(state.resetToNow).toHaveBeenCalledOnce()
+    expect(state.retry).toHaveBeenCalledOnce()
+    expect(screen.getByRole('button', { name: 'Show clock' })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    )
+    expect(
+      screen.getByRole('button', { name: 'Show calendar' })
+    ).toHaveAttribute('aria-pressed', 'true')
+    expect(
+      screen.queryByRole('region', { name: /Weather in/ })
+    ).not.toBeInTheDocument()
+    await openWeather()
+    expect(screen.getByLabelText('Temperature value')).toHaveTextContent('16°C')
+  })
+
+  const viewButtons = () =>
+    within(screen.getByRole('group', { name: 'Time Explorer views' }))
+  const toggle = (name: string) =>
+    fireEvent.click(
+      viewButtons().getByRole('button', { name: new RegExp(`Show ${name}`) })
+    )
+  const content = {
+    clock: () => screen.queryByText('Learning clock'),
+    calendar: () => screen.queryByText('Learning calendar'),
+    weather: () => screen.queryByRole('region', { name: /Weather in/ }),
+    globe: () => screen.queryByText('Learning globe'),
+  }
+
+  it('starts with Clock and Globe on and lets every view be turned off', () => {
+    render(<TimeExplorerPage />)
+    expect(viewButtons().getAllByRole('button')).toHaveLength(4)
+    expect(
+      viewButtons().getAllByRole('button', { pressed: true })
+    ).toHaveLength(2)
+    expect(content.clock()).toBeVisible()
+    expect(content.globe()).toBeVisible()
+    toggle('clock')
+    toggle('globe')
+    expect(
+      viewButtons().getAllByRole('button', { pressed: false })
+    ).toHaveLength(4)
+    Object.values(content).forEach((query) =>
+      expect(query()).not.toBeInTheDocument()
+    )
+  })
+
+  it.each([
+    ['clock', 'calendar'],
+    ['clock', 'weather'],
+    ['clock', 'globe'],
+    ['calendar', 'weather'],
+    ['calendar', 'globe'],
+    ['weather', 'globe'],
+  ] as const)('shows %s and %s together', async (first, second) => {
+    render(<TimeExplorerPage />)
+    toggle('clock')
+    toggle('globe')
+    toggle(first)
+    toggle(second)
+    if (first === 'calendar' || second === 'calendar')
+      await screen.findByText('Learning calendar')
+    if (first === 'weather' || second === 'weather')
+      await screen.findByRole('region', { name: /Weather in/ })
+    expect(
+      viewButtons().getAllByRole('button', { pressed: true })
+    ).toHaveLength(2)
+    Object.entries(content).forEach(([name, query]) => {
+      if (name === first || name === second) expect(query()).toBeVisible()
+      else expect(query()).not.toBeInTheDocument()
+    })
+    toggle(first)
+    expect(content[first]()).not.toBeInTheDocument()
+    expect(content[second]()).toBeVisible()
+  })
+
+  it('replaces the longest-active view when a third is selected', async () => {
+    render(<TimeExplorerPage />)
+    toggle('calendar')
+    await screen.findByText('Learning calendar')
+    expect(content.globe()).not.toBeInTheDocument()
+    expect(content.clock()).toBeVisible()
+    toggle('weather')
+    await screen.findByRole('region', { name: /Weather in/ })
+    expect(content.clock()).not.toBeInTheDocument()
+    expect(content.calendar()).toBeVisible()
+    expect(
+      viewButtons().getAllByRole('button', { pressed: true })
+    ).toHaveLength(2)
+    toggle('globe')
+    expect(content.calendar()).not.toBeInTheDocument()
+    expect(content.globe()).toBeVisible()
+    expect(content.weather()).toBeVisible()
+    expect(
+      viewButtons().getAllByRole('button', { pressed: true })
+    ).toHaveLength(2)
   })
 })

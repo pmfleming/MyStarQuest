@@ -5,6 +5,7 @@ import {
 } from '../../contexts/SelectedDateContext'
 import type { Theme } from '../../contexts/ThemeContext'
 import { getSunPosition } from '../../lib/solar'
+import { getTodayDescriptor } from '../../lib/today'
 import { getSeason } from '../../lib/seasons'
 import {
   buildExplorerInstant,
@@ -34,6 +35,7 @@ import { useSchoolCalendar } from '../../hooks/useSchoolCalendar'
 import { getAgendaForDate } from '../../lib/calendarSchedule'
 
 type UseDayNightExplorerModelResult = {
+  resetToNow: () => void
   weatherCity: ReturnType<typeof getExplorerCityOption>
   planet: {
     globeReady: boolean
@@ -65,9 +67,10 @@ const getEarthRotationDeg = (minutes: number, seconds: number) => {
 }
 
 export default function useDayNightExplorerModel(
-  theme: Theme
+  theme: Theme,
+  globeVisible = true
 ): UseDayNightExplorerModelResult {
-  const { selectedDate } = useSelectedDate()
+  const { selectedDate, setSelectedDateKey } = useSelectedDate()
   const schedule = useCalendarSchedule()
   const { events: holidays } = useSchoolCalendar()
   const agenda = useMemo(
@@ -101,6 +104,13 @@ export default function useDayNightExplorerModel(
     ),
   })
   const syncClockTime = clock.syncClockTime
+  const resetToNow = useCallback(() => {
+    const now = new Date()
+    setSelectedDateKey(
+      getTodayDescriptor(now, calculationLocation.timeZone).dateKey
+    )
+    syncClockTime(getClockTimeForInstant(now, calculationLocation))
+  }, [calculationLocation, setSelectedDateKey, syncClockTime])
 
   const currentInstant = useMemo(
     () =>
@@ -138,7 +148,7 @@ export default function useDayNightExplorerModel(
   )
 
   const { canvasRef, globeReady, globeFailed, retryGlobe, updateSceneState } =
-    useSolarSystem3D(planetSceneState)
+    useSolarSystem3D(planetSceneState, globeVisible)
 
   // Direct visual updates during dragging (bypassing React re-renders)
   const updateEphemeralScene = useCallback(
@@ -233,6 +243,7 @@ export default function useDayNightExplorerModel(
   )
 
   return {
+    resetToNow,
     weatherCity: calculationCity,
     planet: {
       globeReady,

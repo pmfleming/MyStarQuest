@@ -3,7 +3,10 @@ import type SolarSystem3DManager from './SolarSystem3DManager'
 import type { SolarSystemSceneState } from './SolarSystem3DManager'
 import { markStartup } from '../../lib/startupPerformance'
 
-const useSolarSystem3D = (sceneState: SolarSystemSceneState) => {
+const useSolarSystem3D = (
+  sceneState: SolarSystemSceneState,
+  enabled = true
+) => {
   const [globeReady, setGlobeReady] = useState(false)
   const [globeFailed, setGlobeFailed] = useState(false)
   const [attempt, setAttempt] = useState(0)
@@ -17,7 +20,7 @@ const useSolarSystem3D = (sceneState: SolarSystemSceneState) => {
   }, [sceneState])
 
   useEffect(() => {
-    if (!canvasRef.current) {
+    if (!enabled || !canvasRef.current) {
       return
     }
 
@@ -51,8 +54,10 @@ const useSolarSystem3D = (sceneState: SolarSystemSceneState) => {
       cancelAnimationFrame(frame)
       manager?.dispose()
       if (managerRef.current === manager) managerRef.current = null
+      setGlobeReady(false)
+      setGlobeFailed(false)
     }
-  }, [attempt])
+  }, [attempt, enabled])
 
   const updateSceneState = useCallback(
     (nextSceneState: SolarSystemSceneState) => {
