@@ -1,4 +1,4 @@
-import { memo, type RefObject } from 'react'
+import { memo, type CSSProperties, type RefObject } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
 import { explorerUi } from './dayNightExplorer.constants.ts'
@@ -44,28 +44,33 @@ const SpinningPlanet = memo(
         <div className="dne-globe-container">
           <div
             className="dne-glass-nav dne-glass-nav--overlay"
-            style={{
-              background: `${theme.colors.surface}99`,
-              border: `2px solid ${theme.colors.accent}44`,
-              borderRadius: uiTokens.listItemRadius,
-            }}
+            role="group"
+            aria-label="Globe views"
+            style={
+              {
+                '--dne-nav-accent': theme.colors.accent,
+                background: `${theme.colors.accent}14`,
+                border: `1px solid ${theme.colors.accent}33`,
+                borderRadius: uiTokens.listItemRadius,
+              } as CSSProperties
+            }
           >
             <div className="dne-glass-nav__stack">
               {options.map((option) => {
                 const isActive = option.id === activeFocusId
+                const isViewToggle =
+                  option.id === 'sun' || option.id === 'earth'
 
                 return (
                   <button
                     key={option.id}
                     type="button"
                     className="dne-glass-nav__button"
+                    data-highlighted={isActive || isViewToggle}
                     aria-label={`Show ${option.label} view`}
+                    title={option.label}
                     aria-pressed={isActive}
                     onClick={() => onSelect(option.id)}
-                    style={{
-                      opacity: isActive ? 1 : 0.6,
-                      transform: isActive ? 'scale(1.15)' : 'scale(1)',
-                    }}
                   >
                     <img
                       src={option.icon}
@@ -75,9 +80,6 @@ const SpinningPlanet = memo(
                         width: `${explorerUi.locationButtonSize}px`,
                         height: `${explorerUi.locationButtonSize}px`,
                         objectFit: 'contain',
-                        filter: isActive
-                          ? 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25))'
-                          : 'none',
                       }}
                     />
                   </button>
@@ -102,11 +104,12 @@ const SpinningPlanet = memo(
           >
             <canvas
               className="dne-planet-canvas"
+              data-no-drag-scroll="true"
+              aria-label="3D Earth. In the Sun view, drag Earth around its orbit to change the calendar date."
               ref={canvasRef}
               width={explorerUi.globeCanvasSize}
               height={explorerUi.globeCanvasSize}
               style={{
-                cursor: 'default',
                 pointerEvents: 'auto',
               }}
             />

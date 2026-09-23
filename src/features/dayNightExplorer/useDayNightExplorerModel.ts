@@ -15,6 +15,8 @@ import {
   buildExplorerInstant,
   getClockTimeForInstant,
   getInitialExplorerClockTime,
+  getYearProgress,
+  getDateAtOrbitProgress,
 } from './dayNightExplorerCalendar'
 import {
   getExplorerBackgroundBlend,
@@ -51,16 +53,6 @@ type UseDayNightExplorerModelResult = {
     onSelect: (focusId: ExplorerFocusId) => void
   }
   clock: ClockViewModel
-}
-
-const getYearProgress = (date: Date) => {
-  const yearStart = new Date(date.getFullYear(), 0, 1)
-  const nextYearStart = new Date(date.getFullYear() + 1, 0, 1)
-
-  return (
-    (date.getTime() - yearStart.getTime()) /
-    (nextYearStart.getTime() - yearStart.getTime())
-  )
 }
 
 const getEarthRotationDeg = (minutes: number, seconds: number) => {
@@ -166,6 +158,7 @@ export default function useDayNightExplorerModel(
       displayMode,
       earthRotationDeg: getEarthRotationDeg(minutes, seconds),
       earthOrbitProgress: getYearProgress(selectedDate),
+      orbitYear: selectedDate.getFullYear(),
       activeFocusId,
       cityOptions: EXPLORER_CITY_OPTIONS,
       sunPosition: getSunPosition(
@@ -191,8 +184,14 @@ export default function useDayNightExplorerModel(
     [buildSceneState, clock.minutes, clock.seconds]
   )
 
+  const handleOrbitChange = useCallback(
+    (year: number, progress: number) => {
+      setSelectedDateKey(buildDateKey(getDateAtOrbitProgress(year, progress)))
+    },
+    [setSelectedDateKey]
+  )
   const { canvasRef, globeReady, globeFailed, retryGlobe, updateSceneState } =
-    useSolarSystem3D(planetSceneState, globeVisible)
+    useSolarSystem3D(planetSceneState, globeVisible, handleOrbitChange)
 
   useEffect(() => {
     onUpdateRef.current = (minutes, seconds) =>

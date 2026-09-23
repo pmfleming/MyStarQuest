@@ -13,6 +13,7 @@ export const getTaskTypeIcon = (
     watertoiletcheck: assets.flaskFullImage,
     math: assets.mathsIcon,
     'large-numbers': assets.mathsIcon,
+    fractions: assets.mathsIcon,
     'positional-notation': assets.mathsIcon,
     alphabet: assets.mathsIcon,
     spelling: assets.mathsIcon,

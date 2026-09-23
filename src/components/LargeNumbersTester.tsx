@@ -125,9 +125,7 @@ const getAdjustedOnesState = (
   return { ones: regroupedOnes % 10, onesTens: Math.floor(regroupedOnes / 10) }
 }
 
-export type LargeNumbersTesterProps = ActivityChoreProps
-
-const LargeNumbersTester = (props: LargeNumbersTesterProps) => {
+const LargeNumbersTester = (props: ActivityChoreProps) => {
   const { theme, isRunning } = props
   const [operationMode, setOperationMode] = useState<OperationMode>('addition')
   const [difficulty, setDifficulty] = useState<MathDifficulty>('hard')

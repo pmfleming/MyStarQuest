@@ -80,23 +80,71 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 8px 0;
   gap: 8px;
-  padding-left: 2px;
 }
 
 .dne-glass-nav__button {
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
   background: transparent;
   border: none;
+  border-radius: 16px;
   cursor: pointer;
   padding: 0;
+  transition: background-color 200ms ease;
+}
+
+.dne-glass-nav__button img {
+  display: block;
+  opacity: 0.7;
+  transform: scale(0.86);
   transition:
     transform 200ms ease,
+    filter 200ms ease,
     opacity 200ms ease;
+}
+
+.dne-glass-nav__button[data-highlighted='true'] {
+  z-index: 1;
+  background: radial-gradient(
+    ellipse,
+    color-mix(in srgb, var(--dne-nav-accent) 38%, transparent),
+    transparent 72%
+  );
+}
+
+.dne-glass-nav__button[data-highlighted='true'] img {
+  opacity: 1;
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 6px rgb(255 255 255 / 55%));
+}
+
+@media (hover: hover) {
+  .dne-glass-nav__button:hover img {
+    opacity: 1;
+  }
+}
+
+.dne-glass-nav__button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dne-glass-nav__button,
+  .dne-glass-nav__button img {
+    transition: none;
+  }
 }
 
 @media (max-width: 480px) {
   .dne-glass-nav__stack {
-    padding-left: 4px;
     gap: 4px;
   }
 }

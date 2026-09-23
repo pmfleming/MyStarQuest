@@ -23,7 +23,7 @@ export type WeatherVisuals = {
   thunder: boolean
 }
 
-export const EMPTY_WEATHER_VISUALS: WeatherVisuals = {
+const EMPTY_WEATHER_VISUALS: WeatherVisuals = {
   available: false,
   temperature: null,
   precipitation: 'none',

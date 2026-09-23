@@ -76,28 +76,28 @@ function generateAlphabetProblem(): {
 /*  Component                                                          */
 /* ------------------------------------------------------------------ */
 
-export type AlphabetTesterProps = ActivityChoreProps
+const EMPTY_PROBLEM: ReturnType<typeof generateAlphabetProblem> = {
+  letter: '',
+  image: '',
+  choices: [],
+}
 
-const AlphabetTester = ({
-  theme,
-  totalProblems,
-  starReward,
-  isRunning,
-  isEditable = true,
-  isCompleted = false,
-  isFailed = false,
-  onAdjustProblems,
-  onStarsChange,
-  onComplete,
-  onFail,
-  completionImage,
-  failureImage,
-  failureModeEnabled = true,
-}: AlphabetTesterProps) => {
+const AlphabetTester = (props: ActivityChoreProps) => {
+  const {
+    theme,
+    totalProblems,
+    isRunning,
+    isCompleted = false,
+    isFailed = false,
+    onComplete,
+    onFail,
+    failureModeEnabled = true,
+  } = props
   const [letterCase, setLetterCase] = useState<LetterCase>('lower')
-  const [currentTarget, setCurrentTarget] = useState('')
-  const [currentImage, setCurrentImage] = useState('')
-  const [currentChoices, setCurrentChoices] = useState<string[]>([])
+  const [
+    { letter: currentTarget, image: currentImage, choices: currentChoices },
+    setProblem,
+  ] = useState(EMPTY_PROBLEM)
   const { isSeen, markSeen, clearHistory } = useProblemHistory([letterCase])
   const [wrongChoice, setWrongChoice] = useState<string | null>(null)
   const queuedProblem = useRef<ReturnType<
@@ -114,9 +114,7 @@ const AlphabetTester = ({
       isSeen(problem.letter)
     )
     markSeen(p.letter)
-    setCurrentTarget(p.letter)
-    setCurrentImage(p.image)
-    setCurrentChoices(p.choices)
+    setProblem(p)
     setWrongChoice(null)
 
     const next = pickUnseenProblem(
@@ -129,9 +127,7 @@ const AlphabetTester = ({
 
   const resetProblem = useCallback(() => {
     clearHistory()
-    setCurrentTarget('')
-    setCurrentImage('')
-    setCurrentChoices([])
+    setProblem(EMPTY_PROBLEM)
     setWrongChoice(null)
     queuedProblem.current = null
   }, [clearHistory])
@@ -174,21 +170,17 @@ const AlphabetTester = ({
       persistence={persistence}
       isFinished={isFinished}
       isSuccessState={isSuccessState}
-      completionImage={completionImage}
-      failureImage={failureImage}
+      completionImage={props.completionImage}
+      failureImage={props.failureImage}
       successAlt="Great job!"
       failureAlt="Keep trying!"
       className="flex w-full flex-col items-center"
     >
       <ActivitySetupControls
+        {...props}
         isSetup={isSetup}
-        theme={theme}
-        totalProblems={totalProblems}
         min={MIN_PROBLEMS}
         max={MAX_PROBLEMS}
-        onAdjustProblems={onAdjustProblems}
-        starReward={starReward}
-        onStarsChange={onStarsChange}
         previousAriaLabel="Fewer problems"
         nextAriaLabel="More problems"
         beforeProblemControl={
@@ -198,7 +190,6 @@ const AlphabetTester = ({
             onChange={setLetterCase}
           />
         }
-        isEditable={isEditable}
         starMax={10}
       />
 

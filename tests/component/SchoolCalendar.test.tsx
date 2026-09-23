@@ -77,9 +77,9 @@ it('reacts to saved changes in this window and other windows', async () => {
   const edited = structuredClone(DEFAULT_CALENDAR_SCHEDULE)
   edited.events.find(({ id }) => id === 'judo')!.start = '14:30'
   act(() => saveCalendarSchedule(edited))
-  expect(screen.getByText('Judo').closest('li')).toHaveTextContent(
-    '14:30 – 15:00'
-  )
+  const judo = within(screen.getByText('Judo').closest('li')!)
+  expect(judo.getByLabelText('From 14:30')).toBeVisible()
+  expect(judo.getByLabelText('To 15:00')).toBeVisible()
   act(() => {
     localStorage.setItem(
       CALENDAR_SCHEDULE_STORAGE_KEY,
@@ -93,7 +93,7 @@ it('reacts to saved changes in this window and other windows', async () => {
   await waitFor(() => expect(fetch).toHaveBeenCalled())
 })
 
-it.each(['princess'] as const)(
+it.each(['princess', 'teenie'] as const)(
   'shows short English school activities with %s artwork without removing school',
   async (themeId) => {
     selection.selectedDateKey = '2026-09-23'
@@ -134,9 +134,12 @@ it.each(['princess'] as const)(
       expect(details.getByText('School Photos')).toBeInTheDocument()
     )
     expect(details.queryByText('Schoolfotograaf')).not.toBeInTheDocument()
-    expect(details.getByText('Sibling Photos').closest('li')).toHaveTextContent(
-      '12:30 – 16:00'
-    )
+    const siblings = within(details.getByText('Sibling Photos').closest('li')!)
+    expect(siblings.getByLabelText('From 12:30')).toBeVisible()
+    expect(siblings.getByLabelText('To 16:00')).toBeVisible()
+    const allDay = details.getByText('School Photos').closest('li')!
+    expect(within(allDay).getByText('All day')).toBeVisible()
+    expect(allDay.querySelector('time')).toBeNull()
     expect(
       details.getByText('Sibling Photos').closest('li')!.querySelector('img')
     ).toHaveAttribute('src', getSchoolEventImage(themeId, 'sibling-photo'))
@@ -181,12 +184,15 @@ it('keeps school in the morning on an early finish and labels the partial day of
   await waitFor(() =>
     expect(details.getByText('Noon Finish')).toBeInTheDocument()
   )
-  expect(details.getByText(/Early finish/)).toHaveTextContent('12:00')
-  expect(
+  expect(details.getByText('Early finish')).toBeVisible()
+  expect(details.getByLabelText('At 12:00')).toBeVisible()
+  const school = within(
     within(screen.getByRole('region', { name: 'Day agenda' }))
       .getByText('School')
-      .closest('li')
-  ).toHaveTextContent('08:30 – 12:00')
+      .closest('li')!
+  )
+  expect(school.getByLabelText('From 08:30')).toBeVisible()
+  expect(school.getByLabelText('To 12:00')).toBeVisible()
 })
 
 it.each(['teenie'] as const)(

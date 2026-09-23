@@ -1,0 +1,189 @@
+.fractions-activity {
+  color: var(--fraction-ink);
+}
+.fraction-target,
+.fraction-answer {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 18px;
+  padding: 16px;
+  background: var(--fraction-tint);
+}
+.fraction-target {
+  position: relative;
+  border: 2px solid transparent;
+  padding-top: 48px;
+}
+.fraction-demonstration,
+.fraction-answer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.fraction-answer {
+  background: var(--fraction-paper);
+  border: 2px dashed var(--fraction-colour);
+}
+.fraction-symbol {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-size: 38px;
+  font-weight: 900;
+  line-height: 1.15;
+  text-align: center;
+  min-width: 44px;
+}
+.fraction-numerator {
+  color: var(--fraction-colour);
+  padding: 0 6px 4px;
+}
+.fraction-denominator {
+  border-top: 3px solid var(--fraction-ink);
+  padding: 4px 6px 0;
+}
+.fraction-bar {
+  width: 100%;
+  height: 72px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  box-sizing: border-box;
+  border: 3px solid var(--fraction-ink);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--fraction-paper);
+}
+.fraction-piece {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--fraction-ink);
+}
+.fraction-piece + .fraction-piece {
+  border-left: 3px solid var(--fraction-ink);
+}
+button.fraction-piece {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.fraction-fill {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--fraction-colour);
+  color: var(--fraction-paper);
+  font-family: sans-serif;
+  font-size: 24px;
+}
+.fraction-replay {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: var(--fraction-colour);
+  background: var(--fraction-paper);
+  cursor: pointer;
+}
+.fraction-down {
+  color: var(--fraction-colour);
+  flex-shrink: 0;
+}
+.fraction-choices {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+.fraction-choice {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 0;
+  border: 3px solid var(--fraction-ink);
+  border-radius: 16px;
+  background: var(--fraction-paper);
+  color: var(--fraction-ink);
+  cursor: pointer;
+}
+.fraction-choice[aria-pressed='true'] {
+  border-color: var(--fraction-colour);
+  background: var(--fraction-tint);
+  box-shadow: inset 0 -5px var(--fraction-colour);
+}
+.fractions-activity button:focus-visible {
+  outline: 3px solid var(--fraction-ink);
+  outline-offset: 3px;
+}
+.fractions-activity .fraction-piece:focus-visible {
+  outline-offset: -6px;
+  z-index: 1;
+  outline-color: var(--fraction-colour);
+}
+.fractions-activity .fraction-piece[aria-pressed='true']:focus-visible {
+  outline-color: var(--fraction-paper);
+}
+.fractions-activity button:disabled {
+  cursor: default;
+}
+.fraction-demo .fraction-piece + .fraction-piece {
+  animation: fraction-divide 0.8s 0.6s both;
+}
+.fraction-demo .fraction-fill {
+  animation: fraction-colour-in 0.7s 1.5s both;
+}
+.fraction-demo-symbol {
+  animation: fraction-symbol-in 0.4s 2.2s both;
+}
+@keyframes fraction-divide {
+  from {
+    border-left-color: transparent;
+  }
+  to {
+    border-left-color: var(--fraction-ink);
+  }
+}
+@keyframes fraction-colour-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fraction-symbol-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fraction-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fractions-activity *,
+  .fractions-activity *::before,
+  .fractions-activity *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

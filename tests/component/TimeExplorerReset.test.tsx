@@ -16,6 +16,7 @@ const scene = vi.hoisted(() => ({
   canvasRef: { current: null },
   retry: vi.fn(),
   holidays: {},
+  onOrbitChange: null as null | ((year: number, progress: number) => void),
 }))
 
 vi.mock('../../src/hooks/useSchoolCalendar', () => ({
@@ -25,7 +26,12 @@ vi.mock('../../src/hooks/useCalendarSchedule', () => ({
   useCalendarSchedule: () => DEFAULT_CALENDAR_SCHEDULE,
 }))
 vi.mock('../../src/features/dayNightExplorer/useSolarSystem3D', () => ({
-  default: (state: SolarSystemSceneState, enabled: boolean) => {
+  default: (
+    state: SolarSystemSceneState,
+    enabled: boolean,
+    onOrbitChange: (year: number, progress: number) => void
+  ) => {
+    scene.onOrbitChange = onOrbitChange
     scene.render(state, enabled)
     return {
       canvasRef: scene.canvasRef,
@@ -46,6 +52,31 @@ beforeEach(() => {
 afterEach(() => vi.useRealTimers())
 
 describe('shared explorer reset', () => {
+  it('updates and persists the shared calendar date from orbit dragging without changing the clock or city', () => {
+    const { result } = renderHook(
+      () => ({
+        explorer: useDayNightExplorerModel(themes.teenie),
+        date: useSelectedDate(),
+      }),
+      { wrapper: SelectedDateProvider }
+    )
+    act(() => result.current.explorer.planet.onSelect('sun'))
+    const before = result.current.explorer.clock
+    act(() => scene.onOrbitChange!(2026, 3 / 12))
+    expect(result.current.date.selectedDateKey).toBe('2026-04-01')
+    expect(readTimeExplorerState().exploration?.dateKey).toBe('2026-04-01')
+    expect(result.current.explorer.clock).toMatchObject({
+      hoursLabel: before.hoursLabel,
+      minutesLabel: before.minutesLabel,
+      seconds: before.seconds,
+    })
+    expect(result.current.explorer.weatherCity.id).toBe('amsterdam')
+    act(() => scene.onOrbitChange!(2026, 1))
+    expect(result.current.date.selectedDateKey).toBe('2027-01-01')
+    act(() => scene.onOrbitChange!(2026, -1 / 12))
+    expect(result.current.date.selectedDateKey).toBe('2025-12-01')
+  })
+
   it('keeps the exact instant when changing city across midnight between React clock snapshots', () => {
     const { result } = renderHook(
       () => ({
@@ -164,11 +195,8 @@ describe('shared explorer reset', () => {
         sunPosition: getSunPosition(new Date(instant)),
       })
       expect(scene.render).toHaveBeenLastCalledWith(expectedScene, false)
-      const yearStart = new Date(2026, 0, 1)
-      const yearEnd = new Date(2027, 0, 1)
       expect(scene.render.mock.lastCall![0].earthOrbitProgress).toBe(
-        (result.current.date.selectedDate.getTime() - yearStart.getTime()) /
-          (yearEnd.getTime() - yearStart.getTime())
+        (8 + 22 / 30) / 12
       )
       rerender({ visible: true })
       expect(scene.render).toHaveBeenLastCalledWith(expectedScene, true)

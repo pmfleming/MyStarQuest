@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "Full frontend audit via Lens runAudit API, base empty, gate all",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-22T13:21:36.666Z",
+    "measured_at": "2026-09-23T15:26:09.588Z",
     "source_type": "static",
-    "source_set_hash": "sha256:78d559847878846174e3a5f39de3236900f05bf95144390add9bf79870c310de",
-    "input_set_hash": "sha256:8834e5c6fe240f25fd761e6a229e52bff5139f97a788ad8fa0ca8a8127c89017"
+    "source_set_hash": "sha256:166f0751ad0af60bf6a28c6086cc43ffcb418a543232af1c115a66d1313e76ef",
+    "input_set_hash": "sha256:9699b98f6a6f9c7acd951d6c90288a8b6904ebbf7441950e63ad315a91d33370"
   },
   "analysis_identity": {
     "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
@@ -65,7 +65,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "test_command_configured": true,
     "complete": true,
@@ -98,9 +98,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 63,
+    "tests": 71,
     "colocated_tests": 0,
-    "external_tests": 63,
+    "external_tests": 71,
     "execution_status": "passed",
     "execution_scope": "suite",
     "coverage_status": "not_collected",
@@ -339,6 +339,80 @@
       ],
       "coverage_status": "not_collected",
       "assertions": 8,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/DragScrollRegion.test.tsx",
+      "name": "DragScrollRegion.test.tsx",
+      "path": "tests/component/DragScrollRegion.test.tsx",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/components/ui/DragScrollRegion.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/DragScrollRegion.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 12,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/ExpandableAgendaItem.test.tsx",
+      "name": "ExpandableAgendaItem.test.tsx",
+      "path": "tests/component/ExpandableAgendaItem.test.tsx",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/components/ExpandableAgendaItem.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ExpandableAgendaItem.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 14,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/FractionsTester.test.tsx",
+      "name": "FractionsTester.test.tsx",
+      "path": "tests/component/FractionsTester.test.tsx",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/components/FractionsTester.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/FractionsTester.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/components/ui/ActivityControls.tsx",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 24,
       "skipped": 0,
       "todo": 0
     },
@@ -601,7 +675,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 26,
+      "assertions": 32,
       "skipped": 0,
       "todo": 0
     },
@@ -623,6 +697,33 @@
       ],
       "coverage_status": "not_collected",
       "assertions": 2,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/SchoolEvents.test.tsx",
+      "name": "SchoolEvents.test.tsx",
+      "path": "tests/component/SchoolEvents.test.tsx",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/components/SchoolEvents.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/SchoolEvents.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 7,
       "skipped": 0,
       "todo": 0
     },
@@ -782,7 +883,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 19,
+      "assertions": 25,
       "skipped": 0,
       "todo": 0
     },
@@ -1009,7 +1110,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 15,
+      "assertions": 16,
       "skipped": 0,
       "todo": 0
     },
@@ -1330,6 +1431,19 @@
       "todo": 0
     },
     {
+      "id": "test:tests/e2e/fractions.spec.ts",
+      "name": "fractions.spec.ts",
+      "path": "tests/e2e/fractions.spec.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 10,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
       "id": "test:tests/e2e/offline.spec.ts",
       "name": "offline.spec.ts",
       "path": "tests/e2e/offline.spec.ts",
@@ -1352,6 +1466,74 @@
       ],
       "coverage_status": "not_collected",
       "assertions": 22,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/fixtures/fractions.tsx",
+      "name": "fractions.tsx",
+      "path": "tests/fixtures/fractions.tsx",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/components/ui/StandardActionList.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/data/taskDocuments.ts",
+        "src/data/dailyTaskState.ts",
+        "src/hooks/useTaskActivityState.ts",
+        "src/hooks/useTestCheckTriggers.ts",
+        "src/ui/listDescriptorTypes.ts",
+        "src/ui/unifiedChoreDescriptors.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/taskDocuments.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/hooks/useTaskActivityState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/hooks/useTestCheckTriggers.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/listDescriptorTypes.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 0,
       "skipped": 0,
       "todo": 0
     },
@@ -1509,11 +1691,29 @@
       "locality": "external",
       "source_mapping": [
         "src/data/types.ts",
+        "src/data/taskDocuments.ts",
+        "src/data/dailyTaskState.ts",
+        "src/data/taskLimits.ts",
         "src/lib/choreParser.ts"
       ],
       "source_associations": [
         {
           "file": "src/data/types.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/taskDocuments.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/taskLimits.ts",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -1524,7 +1724,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 8,
+      "assertions": 15,
       "skipped": 0,
       "todo": 0
     },
@@ -1567,6 +1767,39 @@
       ],
       "coverage_status": "not_collected",
       "assertions": 8,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/unit/lib/orbitCalendar.test.ts",
+      "name": "orbitCalendar.test.ts",
+      "path": "tests/unit/lib/orbitCalendar.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+        "src/features/dayNightExplorer/solarSystemGeometry.ts",
+        "src/lib/today.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/features/dayNightExplorer/solarSystemGeometry.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/today.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 10,
       "skipped": 0,
       "todo": 0
     },
@@ -1818,6 +2051,27 @@
       "todo": 0
     },
     {
+      "id": "test:tests/unit/routeModules.test.ts",
+      "name": "routeModules.test.ts",
+      "path": "tests/unit/routeModules.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/routes/routeModules.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/routes/routeModules.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 3,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
       "id": "test:tests/unit/schoolCalendar.test.ts",
       "name": "schoolCalendar.test.ts",
       "path": "tests/unit/schoolCalendar.test.ts",
@@ -1983,7 +2237,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 8,
+      "assertions": 11,
       "skipped": 0,
       "todo": 0
     }

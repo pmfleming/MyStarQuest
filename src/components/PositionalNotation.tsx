@@ -28,9 +28,7 @@ const POSITIONAL_NOTATION_DIFFICULTIES: CrownDifficultyOption<PositionalNotation
 const getTotal = ({ hundreds, tens, ones }: PlaceValues) =>
   hundreds * 100 + tens * 10 + ones
 
-export type PositionalNotationProps = ActivityChoreProps
-
-const PositionalNotation = (props: PositionalNotationProps) => {
+const PositionalNotation = (props: ActivityChoreProps) => {
   const { theme, isRunning, totalProblems } = props
   const [difficulty, setDifficulty] =
     useState<PositionalNotationDifficulty>('one-crown')

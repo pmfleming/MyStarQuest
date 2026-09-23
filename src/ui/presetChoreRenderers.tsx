@@ -2,6 +2,7 @@ import { type ComponentType, Suspense } from 'react'
 import {
   ArithmeticTester,
   LargeNumbersTester,
+  FractionsTester,
   AlphabetTester,
   AnimalTester,
   DinnerCountdown,
@@ -21,6 +22,7 @@ const createRenderer =
 export const renderDinnerChore = createRenderer(DinnerCountdown)
 export const renderArithmeticChore = createRenderer(ArithmeticTester)
 export const renderLargeNumbersChore = createRenderer(LargeNumbersTester)
+export const renderFractionsChore = createRenderer(FractionsTester)
 export const renderPositionalNotationChore = createRenderer(PositionalNotation)
 export const renderAlphabetChore = createRenderer(AlphabetTester)
 export const renderSpellingChore = createRenderer(SpellingTester)

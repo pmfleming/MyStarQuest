@@ -94,6 +94,7 @@ type ActivityType =
   | 'watertoiletcheck'
   | 'math'
   | 'large-numbers'
+  | 'fractions'
   | 'positional-notation'
   | 'alphabet'
   | 'spelling'
@@ -102,6 +103,7 @@ type ActivityType =
 const ACTIVITY_TYPE_PRIORITY: ActivityType[] = [
   'positional-notation',
   'large-numbers',
+  'fractions',
   'math',
   'alphabet',
   'spelling',

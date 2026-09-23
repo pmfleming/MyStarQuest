@@ -419,9 +419,7 @@ const AnimalPlayContent = ({
   )
 }
 
-export type AnimalTesterProps = ActivityChoreProps
-
-const AnimalTester = (props: AnimalTesterProps) => {
+const AnimalTester = (props: ActivityChoreProps) => {
   const {
     theme,
     totalProblems,

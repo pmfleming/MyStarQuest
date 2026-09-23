@@ -71,5 +71,3 @@ export const getInsectBearAbilityImage = (theme: ThemeId, ability: string) =>
           getGenericAnimalAbilityImage(theme, ability)),
     `${ability} theme mascot`
   )
-
-export { INSECT_COLLECTION_NAMES } from './creatureCollections/insectCollectionNames'

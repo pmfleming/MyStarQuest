@@ -4,6 +4,7 @@ import {
   DEFAULT_ALPHABET_PROBLEMS,
   DEFAULT_ANIMALS_PROBLEMS,
   DEFAULT_LARGE_NUMBERS_PROBLEMS,
+  DEFAULT_FRACTIONS_PROBLEMS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
   DEFAULT_SPELLING_PROBLEMS,
@@ -19,6 +20,7 @@ import {
   renderAnimalsChore,
   renderArithmeticChore,
   renderLargeNumbersChore,
+  renderFractionsChore,
   renderPositionalNotationChore,
   renderSpellingChore,
 } from './presetChoreRenderers'
@@ -32,6 +34,11 @@ type ActivityRenderer = (props: ActivityChoreProps) => ReactNode
 
 // Each activity keeps its field names, defaults, and renderer together.
 const testActivities = {
+  fractions: {
+    problemField: 'fractionsTotalProblems',
+    defaultProblems: DEFAULT_FRACTIONS_PROBLEMS,
+    render: renderFractionsChore,
+  },
   math: {
     problemField: 'mathTotalProblems',
     defaultProblems: DEFAULT_MATH_PROBLEMS,

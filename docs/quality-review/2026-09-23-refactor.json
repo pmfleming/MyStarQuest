@@ -1,0 +1,479 @@
+{
+  "date": "2026-09-23",
+  "tool": {
+    "repository": "https://github.com/pmfleming/ts-react-quality-lens",
+    "version": "0.3.0",
+    "revision": "c9e853ffe256cd04c5e6b0e2383615882d3056ae",
+    "risk_model": "v3"
+  },
+  "project_head": "c99d9fd01553fe7fa5a7417096dafd6c879ef2e9",
+  "methodology": "Fresh current-working-tree baseline, including pre-existing uncommitted work; identical Lens version and project configurations. Complexity/effort sum callable records; source lines sum file records; locality/leverage sum risk scores (lower is better). These aggregates are comparison aids, not official global Lens scores, measured runtime performance, or predicted developer hours.",
+  "scopes": {
+    "frontend": {
+      "before": {
+        "source_lines": 31431,
+        "cognitive_complexity": 1511,
+        "cyclomatic_complexity": 2155,
+        "halstead_effort": 10258558,
+        "clone_groups": 1,
+        "locality_risk": 11466,
+        "leverage_risk": 404,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 31302,
+        "cognitive_complexity": 1500,
+        "cyclomatic_complexity": 2131,
+        "halstead_effort": 10092095,
+        "clone_groups": 0,
+        "locality_risk": 11450,
+        "leverage_risk": 332,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": -129,
+        "cognitive_complexity": -11,
+        "cyclomatic_complexity": -24,
+        "halstead_effort": -166463,
+        "clone_groups": -1,
+        "locality_risk": -16,
+        "leverage_risk": -72,
+        "lint_blockers": 0
+      },
+      "audit": {
+        "verdict": "warn",
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": "",
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 2514,
+        "active_findings": 48,
+        "introduced_findings": 2514,
+        "inherited_findings": 0,
+        "high_risk_findings": 304,
+        "blocking_findings": 0,
+        "warning_findings": 48,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      },
+      "tests": {
+        "tests": 71,
+        "colocated_tests": 0,
+        "external_tests": 71,
+        "execution_status": "passed",
+        "execution_scope": "suite",
+        "coverage_status": "not_collected",
+        "blocking_findings": 0
+      }
+    },
+    "functions": {
+      "before": {
+        "source_lines": 538,
+        "cognitive_complexity": 65,
+        "cyclomatic_complexity": 78,
+        "halstead_effort": 160536,
+        "clone_groups": 0,
+        "locality_risk": 67,
+        "leverage_risk": 12,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 538,
+        "cognitive_complexity": 65,
+        "cyclomatic_complexity": 78,
+        "halstead_effort": 160536,
+        "clone_groups": 0,
+        "locality_risk": 67,
+        "leverage_risk": 12,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": 0,
+        "cognitive_complexity": 0,
+        "cyclomatic_complexity": 0,
+        "halstead_effort": 0,
+        "clone_groups": 0,
+        "locality_risk": 0,
+        "leverage_risk": 0,
+        "lint_blockers": 0
+      },
+      "audit": {
+        "verdict": "pass",
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": "",
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 40,
+        "active_findings": 0,
+        "introduced_findings": 40,
+        "inherited_findings": 0,
+        "high_risk_findings": 4,
+        "blocking_findings": 0,
+        "warning_findings": 0,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      },
+      "tests": {
+        "tests": 19,
+        "colocated_tests": 0,
+        "external_tests": 19,
+        "execution_status": "not_run",
+        "execution_scope": "suite",
+        "coverage_status": "not_collected",
+        "blocking_findings": 0
+      }
+    }
+  },
+  "combined": {
+    "before": {
+      "source_lines": 31969,
+      "cognitive_complexity": 1576,
+      "cyclomatic_complexity": 2233,
+      "halstead_effort": 10419094,
+      "clone_groups": 1,
+      "locality_risk": 11533,
+      "leverage_risk": 416,
+      "lint_blockers": 0
+    },
+    "after": {
+      "source_lines": 31840,
+      "cognitive_complexity": 1565,
+      "cyclomatic_complexity": 2209,
+      "halstead_effort": 10252631,
+      "clone_groups": 0,
+      "locality_risk": 11517,
+      "leverage_risk": 344,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": -129,
+      "cognitive_complexity": -11,
+      "cyclomatic_complexity": -24,
+      "halstead_effort": -166463,
+      "clone_groups": -1,
+      "locality_risk": -16,
+      "leverage_risk": -72,
+      "lint_blockers": 0
+    }
+  },
+  "physical_line_delta": {
+    "production": -130,
+    "tests": 124,
+    "total": -6
+  },
+  "sourceChanges": [
+    {
+      "file": "src/components/AlphabetTester.tsx",
+      "before": {
+        "sha256": "4c098bf0c1a832acdeacdf2a30486a8e55d828603028891e7601448801f6171f",
+        "lines": 296
+      },
+      "after": {
+        "sha256": "d79a02f984d67642f809fb2ec8c04a9951b1f0b0108948dfd731ae640babe01d",
+        "lines": 287
+      },
+      "delta": -9
+    },
+    {
+      "file": "src/components/AnimalTester.tsx",
+      "before": {
+        "sha256": "c6ed1cfc8e3f616bc5e94b9dd7d6f2c963e1765ad6cbbf19b7d578a6a8f3185b",
+        "lines": 596
+      },
+      "after": {
+        "sha256": "bdca6054e812290f1ceeb8bc2a293b70d527463bfc3f8b52ef066c08acf6da7f",
+        "lines": 594
+      },
+      "delta": -2
+    },
+    {
+      "file": "src/components/DayAgenda.tsx",
+      "before": {
+        "sha256": "757305951011bbc09ff8a731a5158a893b573ef7ac118836321009afc8afe7a0",
+        "lines": 68
+      },
+      "after": {
+        "sha256": "8d1a05860d4f57448158daa805bdc2fc421ecad41d308a62a654750cdacfe51d",
+        "lines": 30
+      },
+      "delta": -38
+    },
+    {
+      "file": "src/components/LargeNumbersTester.tsx",
+      "before": {
+        "sha256": "72fb79bec7f7a3d71ee5b6da16dc88632395e1d217a6e9351323d1ea467fba75",
+        "lines": 525
+      },
+      "after": {
+        "sha256": "85c769e2fc9a3bcdde1567d98d2eb1c11e901c292d7bb130d91e6d6f70291078",
+        "lines": 523
+      },
+      "delta": -2
+    },
+    {
+      "file": "src/components/PageShell.tsx",
+      "before": {
+        "sha256": "b1e22c33073a2bccc30b722d2e43494af2bf8d4496518da8ec902e5748c611e3",
+        "lines": 135
+      },
+      "after": {
+        "sha256": "ad23c0abd898fb60b13d198f49f6d0fbc8bc17d45a82d30212c233963380c359",
+        "lines": 134
+      },
+      "delta": -1
+    },
+    {
+      "file": "src/components/PositionalNotation.tsx",
+      "before": {
+        "sha256": "c5648349ddb773df7917cf3205a40cf1dccdee1f5c8961cdef8a4da5643896a9",
+        "lines": 133
+      },
+      "after": {
+        "sha256": "119fbb018d3b44d50511b01c477f997aaa5bdb7e4be52cf5acbf1df6538c364d",
+        "lines": 131
+      },
+      "delta": -2
+    },
+    {
+      "file": "src/components/SchoolEvents.tsx",
+      "before": {
+        "sha256": "2db1468f6769294d12a8bde7315efeab0444eb2e0306fbedb7d0e2245a1952a4",
+        "lines": 163
+      },
+      "after": {
+        "sha256": "6667c15793fa86a7333e90cd6899bb85a5915aa5a7eb35d1f78844fa3e6b5c19",
+        "lines": 74
+      },
+      "delta": -89
+    },
+    {
+      "file": "src/components/SpellingTester.tsx",
+      "before": {
+        "sha256": "e560ad7fe5cc40987af32c4364dcab233bd9d39a4063f53ce124479ac6d3844d",
+        "lines": 569
+      },
+      "after": {
+        "sha256": "1358bfa71f04ddd0171f137c9d75c5cd395c885458738b0c4f684211b0c5998d",
+        "lines": 567
+      },
+      "delta": -2
+    },
+    {
+      "file": "src/components/TabContent.tsx",
+      "before": {
+        "sha256": "72a5ef33a32d8e041ca825ca8006cbf7c2f79a8ac57de4e60dc7eedad45f5b0a",
+        "lines": 51
+      },
+      "after": {
+        "sha256": "9272cecc0f88e0d0d404b5e38417fe62f1c7124d9bf37ecbcf1b6ed2cb5625eb",
+        "lines": 50
+      },
+      "delta": -1
+    },
+    {
+      "file": "src/components/ui/DragScrollRegion.tsx",
+      "before": {
+        "sha256": "00cb14787d42114f29cb18ad90a3a22f8091685a7617eaf7991fa6ddd97930a7",
+        "lines": 220
+      },
+      "after": {
+        "sha256": "1aae7885db61d99b20e29bd53ccd6a54322c3f92976f4f8d3809645d4bde4608",
+        "lines": 191
+      },
+      "delta": -29
+    },
+    {
+      "file": "src/components/ui/StandardActionList.tsx",
+      "before": {
+        "sha256": "668a96ea076f92124cc7092bfc9a984b41745c23ae289764c9a3453dbc2681e3",
+        "lines": 415
+      },
+      "after": {
+        "sha256": "1ec53e11f5e0f8ae1292af2e1afad8a2e64b6ea0b7dfc6dd0e48f0bc64113224",
+        "lines": 415
+      },
+      "delta": 0
+    },
+    {
+      "file": "src/data/insectKnowledge.ts",
+      "before": {
+        "sha256": "fd23423efd19b00e4afaeb409296c4e76173e62f504b1b159ac84c87074bcb87",
+        "lines": 75
+      },
+      "after": {
+        "sha256": "6b1edf56e90e445107d493cd1816241103c4cd813afbd7dbee68e926a684c6ca",
+        "lines": 73
+      },
+      "delta": -2
+    },
+    {
+      "file": "src/data/taskDocuments.ts",
+      "before": {
+        "sha256": "321e64fc833700ceea28754b49eea2eecaf1b753686d753138b197a04aed36f2",
+        "lines": 208
+      },
+      "after": {
+        "sha256": "9e7fa0a525c0229767d22224a1c17470a44ab76a5bf4aed7fee22ce07b0c7dd2",
+        "lines": 181
+      },
+      "delta": -27
+    },
+    {
+      "file": "src/data/teeniepingKnowledge.ts",
+      "before": {
+        "sha256": "63ca5e3741318a39abfb498e4a1387fbbac7626d3d66283865a1b1a763e4950a",
+        "lines": 53
+      },
+      "after": {
+        "sha256": "d6a5fe0351c1cd4d2aaecae7b69f6418ccd3b70dc5522859147553b73951dc11",
+        "lines": 47
+      },
+      "delta": -6
+    },
+    {
+      "file": "src/data/types.ts",
+      "before": {
+        "sha256": "e5d9bad520560ead33efd940fdff7b3296f4ad49f9eff800dad925915267e6a4",
+        "lines": 502
+      },
+      "after": {
+        "sha256": "5026ae2abab30df72fcc256c690b657cdfe620884edc9db379c244063bb947ff",
+        "lines": 450
+      },
+      "delta": -52
+    },
+    {
+      "file": "src/hooks/useCoalescedDocumentUpdates.ts",
+      "before": {
+        "sha256": "2b2aac537b0591d555f93c9fa19cb0eddfb9aee3c5944541a31854d625f4337b",
+        "lines": 131
+      },
+      "after": {
+        "sha256": "b2f6a12e09b7e6097ec1b7bf6868b2adb17cba336a3a97d28ddc35204a7fe243",
+        "lines": 131
+      },
+      "delta": 0
+    },
+    {
+      "file": "src/lib/schoolCalendarData.ts",
+      "before": {
+        "sha256": "151338853645787be0afd4b4b6c2bdaa86adbcbecf6295f922d6f71dc52d5f60",
+        "lines": 132
+      },
+      "after": {
+        "sha256": "80319755052f66c2bfd7e3fbc3102cdbcac06930bbedc3823116ea2257cb9dde",
+        "lines": 130
+      },
+      "delta": -2
+    },
+    {
+      "file": "src/lib/solar.ts",
+      "before": {
+        "sha256": "93a032c3e28df167121600f19f0d6980441abf26aefdc4729837b0f1f1b18325",
+        "lines": 320
+      },
+      "after": {
+        "sha256": "ff5d521f41b8b555605d5c7cf5cef5cc49a1deb5eb3594d96bc8fd7a1c392cda",
+        "lines": 320
+      },
+      "delta": 0
+    },
+    {
+      "file": "src/lib/weather/weatherStore.ts",
+      "before": {
+        "sha256": "8d6a529e90faacd771171e2ddd31fd4ba5250630a886254360b915a2e36d3d3b",
+        "lines": 175
+      },
+      "after": {
+        "sha256": "a3f45f20c43bcbb2ee0b72a1917b4b3e025c8002bb9faf3ecf5c775c07d47a51",
+        "lines": 180
+      },
+      "delta": 5
+    },
+    {
+      "file": "src/lib/weather/weatherVisuals.ts",
+      "before": {
+        "sha256": "6914911f509f28a1dc444e350c79a6fe9760a550136ee119ecab81f392d3b83a",
+        "lines": 123
+      },
+      "after": {
+        "sha256": "3b6d7f53c799f07c34a8216207c986ecacf753e91309fa63c8bbde9c72c178fa",
+        "lines": 123
+      },
+      "delta": 0
+    },
+    {
+      "file": "src/routes/routeModules.ts",
+      "before": {
+        "sha256": "1323101863adcdebb5e7c3acf8742ccf5c6de27a88a31865b69f1d1a5b81c7af",
+        "lines": 32
+      },
+      "after": {
+        "sha256": "34e4286f102b2574d72ba7300d04c76eee0caaabec7a0fb7d0aab6fb736718b4",
+        "lines": 28
+      },
+      "delta": -4
+    },
+    {
+      "file": "src/ui/choreModeDefinitions.ts",
+      "before": {
+        "sha256": "5d13d6b439a14a7f71097a9067baafbe463585701e2ed9d3bf1b7eda70d3f1ce",
+        "lines": 63
+      },
+      "after": {
+        "sha256": "d2332f31faf2b2474c6bcf22a9198548729a685a1fc71ac13ee0bd25156406cc",
+        "lines": 55
+      },
+      "delta": -8
+    },
+    {
+      "file": "tests/unit/weatherStore.test.ts",
+      "before": {
+        "sha256": "21c0b21a649b5bea3558629aebb49642d6571eb90b4de9c77f11c490a6663bf9",
+        "lines": 95
+      },
+      "after": {
+        "sha256": "f13fba794db18ed60e71273c569c108b803c5c1158e9ff7a34a33d04ab0695c3",
+        "lines": 116
+      },
+      "delta": 21
+    },
+    {
+      "file": "src/components/AgendaList.tsx",
+      "before": null,
+      "after": {
+        "sha256": "85be0c0959d42e02fb24d51403232e6296b8b16a6777ab777ce12c7258b0310b",
+        "lines": 141
+      },
+      "delta": 141
+    },
+    {
+      "file": "tests/component/DragScrollRegion.test.tsx",
+      "before": null,
+      "after": {
+        "sha256": "6e794681fd625c007411e5e23c6eb9935dfcb607cf484c0c7ab8774c2de2dbe2",
+        "lines": 77
+      },
+      "delta": 77
+    },
+    {
+      "file": "tests/unit/routeModules.test.ts",
+      "before": null,
+      "after": {
+        "sha256": "fc4b2efff70189be349c39787803268c3e229c1327286698d172e5033abe3674",
+        "lines": 26
+      },
+      "delta": 26
+    }
+  ]
+}

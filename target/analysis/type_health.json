@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "Full frontend audit via Lens runAudit API, base empty, gate all",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-22T13:20:12.622Z",
+    "measured_at": "2026-09-23T15:24:41.843Z",
     "source_type": "static",
-    "source_set_hash": "sha256:78d559847878846174e3a5f39de3236900f05bf95144390add9bf79870c310de",
-    "input_set_hash": "sha256:dcc3bef81180ba89766fbbbb4900bcba8680bf66a3aef8985251c184b8af6411"
+    "source_set_hash": "sha256:166f0751ad0af60bf6a28c6086cc43ffcb418a543232af1c115a66d1313e76ef",
+    "input_set_hash": "sha256:bc984781aad96cfa0a2a3a5a4f2fcf6d043b1cfda4cafd4aa43848c6406749a2"
   },
   "analysis_identity": {
     "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
@@ -65,7 +65,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "complete": true,
     "partial": false,
@@ -96,13 +96,13 @@
     "stale_input": []
   },
   "summary": {
-    "records": 553,
-    "high_risk_records": 30,
+    "records": 554,
+    "high_risk_records": 28,
     "wide_types": 19,
     "compiler_diagnostics": 0,
-    "type_coverage_percent": 99.65,
-    "typed_symbols": 21976,
-    "untyped_symbols": 78
+    "type_coverage_percent": 99.64,
+    "typed_symbols": 22504,
+    "untyped_symbols": 81
   },
   "compiler_options": {
     "strict": true,
@@ -128,14 +128,14 @@
   "diagnostics": [],
   "type_coverage": {
     "summary": {
-      "files": 244,
-      "analyzed_symbols": 22054,
-      "typed_symbols": 21976,
+      "files": 249,
+      "analyzed_symbols": 22585,
+      "typed_symbols": 22504,
       "explicit_any": 0,
       "inferred_any": 13,
-      "error_types": 65,
-      "unknown": 160,
-      "type_coverage_percent": 99.65
+      "error_types": 68,
+      "unknown": 163,
+      "type_coverage_percent": 99.64
     },
     "files": [
       {
@@ -550,8 +550,8 @@
       },
       {
         "file": "src/components/ui/DragScrollRegion.tsx",
-        "analyzed_symbols": 176,
-        "typed_symbols": 176,
+        "analyzed_symbols": 150,
+        "typed_symbols": 150,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -570,8 +570,8 @@
       },
       {
         "file": "src/components/PageShell.tsx",
-        "analyzed_symbols": 102,
-        "typed_symbols": 102,
+        "analyzed_symbols": 101,
+        "typed_symbols": 101,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -680,13 +680,13 @@
       },
       {
         "file": "src/data/types.ts",
-        "analyzed_symbols": 301,
-        "typed_symbols": 293,
+        "analyzed_symbols": 287,
+        "typed_symbols": 279,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 8,
         "unknown": 2,
-        "type_coverage_percent": 97.34
+        "type_coverage_percent": 97.21
       },
       {
         "file": "src/offline/importWebProgress.ts",
@@ -760,8 +760,8 @@
       },
       {
         "file": "src/lib/choreParser.ts",
-        "analyzed_symbols": 117,
-        "typed_symbols": 117,
+        "analyzed_symbols": 119,
+        "typed_symbols": 119,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -770,8 +770,8 @@
       },
       {
         "file": "src/data/taskDocuments.ts",
-        "analyzed_symbols": 89,
-        "typed_symbols": 89,
+        "analyzed_symbols": 84,
+        "typed_symbols": 84,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -790,8 +790,8 @@
       },
       {
         "file": "src/data/dailyTaskState.ts",
-        "analyzed_symbols": 295,
-        "typed_symbols": 295,
+        "analyzed_symbols": 296,
+        "typed_symbols": 296,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -890,8 +890,8 @@
       },
       {
         "file": "src/components/TabContent.tsx",
-        "analyzed_symbols": 20,
-        "typed_symbols": 20,
+        "analyzed_symbols": 19,
+        "typed_symbols": 19,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -1020,8 +1020,8 @@
       },
       {
         "file": "src/components/ui/StandardActionList.tsx",
-        "analyzed_symbols": 322,
-        "typed_symbols": 321,
+        "analyzed_symbols": 319,
+        "typed_symbols": 318,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 1,
@@ -1070,8 +1070,8 @@
       },
       {
         "file": "src/ui/taskTypeIcons.ts",
-        "analyzed_symbols": 18,
-        "typed_symbols": 18,
+        "analyzed_symbols": 19,
+        "typed_symbols": 19,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -1329,6 +1329,26 @@
         "type_coverage_percent": 98.78
       },
       {
+        "file": "src/lib/fractionProblems.ts",
+        "analyzed_symbols": 29,
+        "typed_symbols": 29,
+        "explicit_any": 0,
+        "inferred_any": 0,
+        "error_types": 0,
+        "unknown": 0,
+        "type_coverage_percent": 100
+      },
+      {
+        "file": "src/components/FractionsTester.tsx",
+        "analyzed_symbols": 210,
+        "typed_symbols": 210,
+        "explicit_any": 0,
+        "inferred_any": 0,
+        "error_types": 0,
+        "unknown": 2,
+        "type_coverage_percent": 100
+      },
+      {
         "file": "src/lib/imageLoading.ts",
         "analyzed_symbols": 42,
         "typed_symbols": 42,
@@ -1350,13 +1370,13 @@
       },
       {
         "file": "src/components/AlphabetTester.tsx",
-        "analyzed_symbols": 252,
-        "typed_symbols": 252,
+        "analyzed_symbols": 239,
+        "typed_symbols": 236,
         "explicit_any": 0,
         "inferred_any": 0,
-        "error_types": 0,
+        "error_types": 3,
         "unknown": 0,
-        "type_coverage_percent": 100
+        "type_coverage_percent": 98.74
       },
       {
         "file": "src/components/animalTester/usePictureGestures.ts",
@@ -1490,8 +1510,8 @@
       },
       {
         "file": "src/data/teeniepingKnowledge.ts",
-        "analyzed_symbols": 34,
-        "typed_symbols": 34,
+        "analyzed_symbols": 25,
+        "typed_symbols": 25,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -1760,8 +1780,8 @@
       },
       {
         "file": "src/components/activities/LazyActivities.tsx",
-        "analyzed_symbols": 16,
-        "typed_symbols": 16,
+        "analyzed_symbols": 18,
+        "typed_symbols": 18,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -1770,8 +1790,8 @@
       },
       {
         "file": "src/ui/presetChoreRenderers.tsx",
-        "analyzed_symbols": 28,
-        "typed_symbols": 28,
+        "analyzed_symbols": 31,
+        "typed_symbols": 31,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -1800,8 +1820,8 @@
       },
       {
         "file": "src/ui/unifiedTestRenderer.tsx",
-        "analyzed_symbols": 94,
-        "typed_symbols": 94,
+        "analyzed_symbols": 96,
+        "typed_symbols": 96,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -2110,8 +2130,8 @@
       },
       {
         "file": "src/features/dayNightExplorer/SpinningPlanet.tsx",
-        "analyzed_symbols": 53,
-        "typed_symbols": 53,
+        "analyzed_symbols": 57,
+        "typed_symbols": 57,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -2150,8 +2170,8 @@
       },
       {
         "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
-        "analyzed_symbols": 21,
-        "typed_symbols": 21,
+        "analyzed_symbols": 59,
+        "typed_symbols": 59,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -2230,8 +2250,8 @@
       },
       {
         "file": "src/features/dayNightExplorer/solarSystemGeometry.ts",
-        "analyzed_symbols": 86,
-        "typed_symbols": 86,
+        "analyzed_symbols": 105,
+        "typed_symbols": 105,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -2240,8 +2260,8 @@
       },
       {
         "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
-        "analyzed_symbols": 513,
-        "typed_symbols": 513,
+        "analyzed_symbols": 609,
+        "typed_symbols": 609,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -2250,13 +2270,13 @@
       },
       {
         "file": "src/features/dayNightExplorer/useSolarSystem3D.ts",
-        "analyzed_symbols": 82,
-        "typed_symbols": 81,
+        "analyzed_symbols": 97,
+        "typed_symbols": 96,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 1,
         "unknown": 2,
-        "type_coverage_percent": 98.78
+        "type_coverage_percent": 98.97
       },
       {
         "file": "src/hooks/useCalendarSchedule.ts",
@@ -2330,8 +2350,8 @@
       },
       {
         "file": "src/lib/weather/weatherStore.ts",
-        "analyzed_symbols": 221,
-        "typed_symbols": 221,
+        "analyzed_symbols": 232,
+        "typed_symbols": 232,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -2439,9 +2459,39 @@
         "type_coverage_percent": 100
       },
       {
+        "file": "src/components/AgendaTime.tsx",
+        "analyzed_symbols": 59,
+        "typed_symbols": 59,
+        "explicit_any": 0,
+        "inferred_any": 0,
+        "error_types": 0,
+        "unknown": 1,
+        "type_coverage_percent": 100
+      },
+      {
+        "file": "src/components/ExpandableAgendaItem.tsx",
+        "analyzed_symbols": 59,
+        "typed_symbols": 59,
+        "explicit_any": 0,
+        "inferred_any": 0,
+        "error_types": 0,
+        "unknown": 0,
+        "type_coverage_percent": 100
+      },
+      {
+        "file": "src/components/AgendaList.tsx",
+        "analyzed_symbols": 67,
+        "typed_symbols": 67,
+        "explicit_any": 0,
+        "inferred_any": 0,
+        "error_types": 0,
+        "unknown": 0,
+        "type_coverage_percent": 100
+      },
+      {
         "file": "src/components/DayAgenda.tsx",
-        "analyzed_symbols": 22,
-        "typed_symbols": 22,
+        "analyzed_symbols": 19,
+        "typed_symbols": 19,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -2460,8 +2510,8 @@
       },
       {
         "file": "src/components/SchoolEvents.tsx",
-        "analyzed_symbols": 75,
-        "typed_symbols": 75,
+        "analyzed_symbols": 65,
+        "typed_symbols": 65,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -2470,8 +2520,8 @@
       },
       {
         "file": "src/components/SchoolCalendar.tsx",
-        "analyzed_symbols": 245,
-        "typed_symbols": 245,
+        "analyzed_symbols": 241,
+        "typed_symbols": 241,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -2520,8 +2570,8 @@
       },
       {
         "file": "src/routes/routeModules.ts",
-        "analyzed_symbols": 9,
-        "typed_symbols": 9,
+        "analyzed_symbols": 11,
+        "typed_symbols": 11,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -4712,27 +4762,77 @@
       ]
     },
     {
-      "id": "type:src/components/AlphabetTester:AlphabetTesterProps:79",
-      "module_id": "src/components/AlphabetTester",
-      "file": "src/components/AlphabetTester.tsx",
-      "name": "AlphabetTesterProps",
+      "id": "type:src/components/AgendaList:AgendaTiming:7",
+      "module_id": "src/components/AgendaList",
+      "file": "src/components/AgendaList.tsx",
+      "name": "AgendaTiming",
       "kind": "type",
       "exported": true,
-      "line": 79,
-      "score": 0,
+      "line": 7,
+      "score": 31,
       "risk": "low",
       "signals": [],
       "source": "structural-type-scan",
       "typed_info": {
-        "name": "AlphabetTesterProps",
+        "name": "AgendaTiming",
         "kind": "TypeAliasDeclaration",
-        "line": 79,
+        "line": 7,
         "type": "any",
         "exported": true
       },
       "metrics": {
         "field_count": 0,
-        "optional_count": 0,
+        "optional_count": 2,
+        "union_members": 5,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/components/AgendaList:AgendaTiming:7",
+            "kind": "type",
+            "file": "src/components/AgendaList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/components/AgendaList:AgendaEntry:18",
+      "module_id": "src/components/AgendaList",
+      "file": "src/components/AgendaList.tsx",
+      "name": "AgendaEntry",
+      "kind": "type",
+      "exported": false,
+      "line": 18,
+      "score": 30,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "AgendaEntry",
+        "kind": "TypeAliasDeclaration",
+        "line": 18,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 6,
+        "optional_count": 2,
         "union_members": 0,
         "generic_params": 0
       },
@@ -4753,9 +4853,89 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/components/AlphabetTester:AlphabetTesterProps:79",
+            "id": "type:src/components/AgendaList:AgendaEntry:18",
             "kind": "type",
-            "file": "src/components/AlphabetTester.tsx",
+            "file": "src/components/AgendaList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/components/AgendaList:AgendaList:60",
+      "module_id": "src/components/AgendaList",
+      "file": "src/components/AgendaList.tsx",
+      "name": "AgendaList",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 60,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "({ theme, entries, label, ordered, emptyText, }: { theme: Theme; entries: AgendaEntry[]; label: string; ordered?: boolean | undefined; emptyText?: string | undefined; }) => Element"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/components/AgendaList:AgendaList:60",
+            "kind": "FunctionDeclaration",
+            "file": "src/components/AgendaList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/components/AgendaTime:AgendaTime:14",
+      "module_id": "src/components/AgendaTime",
+      "file": "src/components/AgendaTime.tsx",
+      "name": "AgendaTime",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 14,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "({ value, label, dateLabel, }: { value: string; label: \"At\" | \"From\" | \"To\"; dateLabel?: string | undefined; }) => Element"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/components/AgendaTime:AgendaTime:14",
+            "kind": "FunctionDeclaration",
+            "file": "src/components/AgendaTime.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -4849,56 +5029,6 @@
           "config_key": "suppressions",
           "value": {
             "id": "type:src/components/AnimalTester:AnimalPlayContentProps:249",
-            "kind": "type",
-            "file": "src/components/AnimalTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/components/AnimalTester:AnimalTesterProps:422",
-      "module_id": "src/components/AnimalTester",
-      "file": "src/components/AnimalTester.tsx",
-      "name": "AnimalTesterProps",
-      "kind": "type",
-      "exported": true,
-      "line": 422,
-      "score": 0,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "AnimalTesterProps",
-        "kind": "TypeAliasDeclaration",
-        "line": 422,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 0,
-        "union_members": 0,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/components/AnimalTester:AnimalTesterProps:422",
             "kind": "type",
             "file": "src/components/AnimalTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5952,6 +6082,86 @@
       ]
     },
     {
+      "id": "typed-symbol:src/components/ExpandableAgendaItem:ExpandableAgendaItem:9",
+      "module_id": "src/components/ExpandableAgendaItem",
+      "file": "src/components/ExpandableAgendaItem.tsx",
+      "name": "ExpandableAgendaItem",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 9,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "({ children, className, style, }: { children: ReactNode; className?: string | undefined; style?: CSSProperties | undefined; }) => Element"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/components/ExpandableAgendaItem:ExpandableAgendaItem:9",
+            "kind": "FunctionDeclaration",
+            "file": "src/components/ExpandableAgendaItem.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/components/FractionsTester:FractionsTester:58",
+      "module_id": "src/components/FractionsTester",
+      "file": "src/components/FractionsTester.tsx",
+      "name": "FractionsTester",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 58,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(props: ActivityChoreProps) => Element"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/components/FractionsTester:FractionsTester:58",
+            "kind": "FunctionDeclaration",
+            "file": "src/components/FractionsTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "type:src/components/LargeNumbersTester:LargeNumbersProblem:47",
       "module_id": "src/components/LargeNumbersTester",
       "file": "src/components/LargeNumbersTester.tsx",
@@ -6094,56 +6304,6 @@
           "config_key": "suppressions",
           "value": {
             "id": "type:src/components/LargeNumbersTester:OnesAnswerState:68",
-            "kind": "type",
-            "file": "src/components/LargeNumbersTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/components/LargeNumbersTester:LargeNumbersTesterProps:128",
-      "module_id": "src/components/LargeNumbersTester",
-      "file": "src/components/LargeNumbersTester.tsx",
-      "name": "LargeNumbersTesterProps",
-      "kind": "type",
-      "exported": true,
-      "line": 128,
-      "score": 0,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "LargeNumbersTesterProps",
-        "kind": "TypeAliasDeclaration",
-        "line": 128,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 0,
-        "union_members": 0,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/components/LargeNumbersTester:LargeNumbersTesterProps:128",
             "kind": "type",
             "file": "src/components/LargeNumbersTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6482,56 +6642,6 @@
       ]
     },
     {
-      "id": "type:src/components/PositionalNotation:PositionalNotationProps:31",
-      "module_id": "src/components/PositionalNotation",
-      "file": "src/components/PositionalNotation.tsx",
-      "name": "PositionalNotationProps",
-      "kind": "type",
-      "exported": true,
-      "line": 31,
-      "score": 0,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "PositionalNotationProps",
-        "kind": "TypeAliasDeclaration",
-        "line": 31,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 0,
-        "union_members": 0,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/components/PositionalNotation:PositionalNotationProps:31",
-            "kind": "type",
-            "file": "src/components/PositionalNotation.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "typed-export:src/components/PositionalNotation:default",
       "module_id": "src/components/PositionalNotation",
       "file": "src/components/PositionalNotation.tsx",
@@ -6847,19 +6957,19 @@
       ]
     },
     {
-      "id": "typed-symbol:src/components/SchoolEvents:SchoolEvents:37",
+      "id": "typed-symbol:src/components/SchoolEvents:SchoolEvents:47",
       "module_id": "src/components/SchoolEvents",
       "file": "src/components/SchoolEvents.tsx",
       "name": "SchoolEvents",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 37,
+      "line": 47,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
       "signals": [],
       "metrics": {
-        "inferred_type": "({ day, dateKey, theme, isSchool, }: { day?: { isNonSchoolDay: boolean; summaries?: string[] | undefined; hasAllDayEvent?: boolean | undefined; events?: { id: string; summary: string; allDay: boolean; start: string; end: string; }[] | undefined; } | undefined; dateKey: string; theme: Theme; isSchool: boolean; }) => ..."
+        "inferred_type": "({ day, theme, }: { day?: { isNonSchoolDay: boolean; summaries?: string[] | undefined; hasAllDayEvent?: boolean | undefined; events?: { id: string; summary: string; allDay: boolean; start: string; end: string; }[] | undefined; } | undefined; theme: Theme; }) => Element"
       },
       "rule_id": "typescript-compiler-api/FunctionDeclaration",
       "evidence_kind": "tool-rule",
@@ -6878,7 +6988,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/components/SchoolEvents:SchoolEvents:37",
+            "id": "typed-symbol:src/components/SchoolEvents:SchoolEvents:47",
             "kind": "FunctionDeclaration",
             "file": "src/components/SchoolEvents.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7037,63 +7147,13 @@
       ]
     },
     {
-      "id": "type:src/components/SpellingTester:SpellingTesterProps:130",
-      "module_id": "src/components/SpellingTester",
-      "file": "src/components/SpellingTester.tsx",
-      "name": "SpellingTesterProps",
-      "kind": "type",
-      "exported": true,
-      "line": 130,
-      "score": 0,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "SpellingTesterProps",
-        "kind": "TypeAliasDeclaration",
-        "line": 130,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 0,
-        "union_members": 0,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/components/SpellingTester:SpellingTesterProps:130",
-            "kind": "type",
-            "file": "src/components/SpellingTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/components/SpellingTester:SpellingTheme:132",
+      "id": "type:src/components/SpellingTester:SpellingTheme:130",
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingTheme",
       "kind": "type",
       "exported": false,
-      "line": 132,
+      "line": 130,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -7101,7 +7161,7 @@
       "typed_info": {
         "name": "SpellingTheme",
         "kind": "TypeAliasDeclaration",
-        "line": 132,
+        "line": 130,
         "type": "any",
         "exported": false
       },
@@ -7128,7 +7188,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/components/SpellingTester:SpellingTheme:132",
+            "id": "type:src/components/SpellingTester:SpellingTheme:130",
             "kind": "type",
             "file": "src/components/SpellingTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7137,13 +7197,13 @@
       ]
     },
     {
-      "id": "type:src/components/SpellingTester:SpellingPictureProps:172",
+      "id": "type:src/components/SpellingTester:SpellingPictureProps:170",
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingPictureProps",
       "kind": "type",
       "exported": false,
-      "line": 172,
+      "line": 170,
       "score": 8,
       "risk": "low",
       "signals": [],
@@ -7151,7 +7211,7 @@
       "typed_info": {
         "name": "SpellingPictureProps",
         "kind": "TypeAliasDeclaration",
-        "line": 172,
+        "line": 170,
         "type": "any",
         "exported": false
       },
@@ -7178,7 +7238,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/components/SpellingTester:SpellingPictureProps:172",
+            "id": "type:src/components/SpellingTester:SpellingPictureProps:170",
             "kind": "type",
             "file": "src/components/SpellingTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7187,13 +7247,13 @@
       ]
     },
     {
-      "id": "type:src/components/SpellingTester:SpellingWordTilesProps:199",
+      "id": "type:src/components/SpellingTester:SpellingWordTilesProps:197",
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingWordTilesProps",
       "kind": "type",
       "exported": false,
-      "line": 199,
+      "line": 197,
       "score": 20,
       "risk": "low",
       "signals": [],
@@ -7201,7 +7261,7 @@
       "typed_info": {
         "name": "SpellingWordTilesProps",
         "kind": "TypeAliasDeclaration",
-        "line": 199,
+        "line": 197,
         "type": "any",
         "exported": false
       },
@@ -7228,7 +7288,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/components/SpellingTester:SpellingWordTilesProps:199",
+            "id": "type:src/components/SpellingTester:SpellingWordTilesProps:197",
             "kind": "type",
             "file": "src/components/SpellingTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7237,13 +7297,13 @@
       ]
     },
     {
-      "id": "type:src/components/SpellingTester:SpellingChoiceButtonsProps:256",
+      "id": "type:src/components/SpellingTester:SpellingChoiceButtonsProps:254",
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingChoiceButtonsProps",
       "kind": "type",
       "exported": false,
-      "line": 256,
+      "line": 254,
       "score": 16,
       "risk": "low",
       "signals": [],
@@ -7251,7 +7311,7 @@
       "typed_info": {
         "name": "SpellingChoiceButtonsProps",
         "kind": "TypeAliasDeclaration",
-        "line": 256,
+        "line": 254,
         "type": "any",
         "exported": false
       },
@@ -7278,7 +7338,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/components/SpellingTester:SpellingChoiceButtonsProps:256",
+            "id": "type:src/components/SpellingTester:SpellingChoiceButtonsProps:254",
             "kind": "type",
             "file": "src/components/SpellingTester.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -9758,15 +9818,15 @@
       ]
     },
     {
-      "id": "type:src/components/ui/DragScrollRegion:DragScrollRegionProps:12",
+      "id": "type:src/components/ui/DragScrollRegion:DragScrollRegionProps:10",
       "module_id": "src/components/ui/DragScrollRegion",
       "file": "src/components/ui/DragScrollRegion.tsx",
       "name": "DragScrollRegionProps",
       "kind": "type",
       "exported": false,
-      "line": 12,
-      "score": 73,
-      "risk": "high",
+      "line": 10,
+      "score": 69,
+      "risk": "medium",
       "signals": [
         {
           "kind": "many_optional_fields",
@@ -9777,12 +9837,12 @@
       "typed_info": {
         "name": "DragScrollRegionProps",
         "kind": "TypeAliasDeclaration",
-        "line": 12,
+        "line": 10,
         "type": "any",
         "exported": false
       },
       "metrics": {
-        "field_count": 8,
+        "field_count": 7,
         "optional_count": 6,
         "union_members": 3,
         "generic_params": 0
@@ -9799,18 +9859,12 @@
       "estimated_effort": 15,
       "actions": [
         {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
           "type": "add-to-config",
           "auto_fixable": true,
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/components/ui/DragScrollRegion:DragScrollRegionProps:12",
+            "id": "type:src/components/ui/DragScrollRegion:DragScrollRegionProps:10",
             "kind": "type",
             "file": "src/components/ui/DragScrollRegion.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -9819,13 +9873,13 @@
       ]
     },
     {
-      "id": "type:src/components/ui/DragScrollRegion:DragState:23",
+      "id": "type:src/components/ui/DragScrollRegion:DragState:20",
       "module_id": "src/components/ui/DragScrollRegion",
       "file": "src/components/ui/DragScrollRegion.tsx",
       "name": "DragState",
       "kind": "type",
       "exported": false,
-      "line": 23,
+      "line": 20,
       "score": 12,
       "risk": "low",
       "signals": [],
@@ -9833,7 +9887,7 @@
       "typed_info": {
         "name": "DragState",
         "kind": "TypeAliasDeclaration",
-        "line": 23,
+        "line": 20,
         "type": "any",
         "exported": false
       },
@@ -9860,7 +9914,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/components/ui/DragScrollRegion:DragState:23",
+            "id": "type:src/components/ui/DragScrollRegion:DragState:20",
             "kind": "type",
             "file": "src/components/ui/DragScrollRegion.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -11855,13 +11909,13 @@
       ]
     },
     {
-      "id": "type:src/components/ui/StandardActionList:ActionCardProps:66",
+      "id": "type:src/components/ui/StandardActionList:ActionCardProps:64",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ActionCardProps",
       "kind": "type",
       "exported": false,
-      "line": 66,
+      "line": 64,
       "score": 8,
       "risk": "low",
       "signals": [],
@@ -11869,7 +11923,7 @@
       "typed_info": {
         "name": "ActionCardProps",
         "kind": "TypeAliasDeclaration",
-        "line": 66,
+        "line": 64,
         "type": "any",
         "exported": false
       },
@@ -11896,7 +11950,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/components/ui/StandardActionList:ActionCardProps:66",
+            "id": "type:src/components/ui/StandardActionList:ActionCardProps:64",
             "kind": "type",
             "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -11905,13 +11959,13 @@
       ]
     },
     {
-      "id": "type:src/components/ui/StandardActionList:ListFooterProps:261",
+      "id": "type:src/components/ui/StandardActionList:ListFooterProps:259",
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListFooterProps",
       "kind": "type",
       "exported": false,
-      "line": 261,
+      "line": 259,
       "score": 41,
       "risk": "medium",
       "signals": [],
@@ -11919,7 +11973,7 @@
       "typed_info": {
         "name": "ListFooterProps",
         "kind": "TypeAliasDeclaration",
-        "line": 261,
+        "line": 259,
         "type": "any",
         "exported": false
       },
@@ -11946,7 +12000,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/components/ui/StandardActionList:ListFooterProps:261",
+            "id": "type:src/components/ui/StandardActionList:ListFooterProps:259",
             "kind": "type",
             "file": "src/components/ui/StandardActionList.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15123,7 +15177,7 @@
       "source": "typescript-compiler-api",
       "signals": [],
       "metrics": {
-        "inferred_type": "{ (task: ChoreRecord, state?: TaskEphemeralState | undefined): ChoreWithEphemeral; (task: TaskRecord, state?: TaskEphemeralState | undefined): TaskWithEphemeral; }"
+        "inferred_type": "{ (task: ChoreRecord, state?: TaskEphemeralState | undefined): ChoreRecord; (task: TaskRecord, state?: TaskEphemeralState | undefined): TaskWithEphemeral; }"
       },
       "rule_id": "typescript-compiler-api/FunctionDeclaration",
       "evidence_kind": "tool-rule",
@@ -15163,7 +15217,7 @@
       "source": "typescript-compiler-api",
       "signals": [],
       "metrics": {
-        "inferred_type": "{ (task: ChoreRecord, state?: TaskEphemeralState | undefined): ChoreWithEphemeral; (task: TaskRecord, state?: TaskEphemeralState | undefined): TaskWithEphemeral; }"
+        "inferred_type": "{ (task: ChoreRecord, state?: TaskEphemeralState | undefined): ChoreRecord; (task: TaskRecord, state?: TaskEphemeralState | undefined): TaskWithEphemeral; }"
       },
       "rule_id": "typescript-compiler-api/FunctionDeclaration",
       "evidence_kind": "tool-rule",
@@ -15203,7 +15257,7 @@
       "source": "typescript-compiler-api",
       "signals": [],
       "metrics": {
-        "inferred_type": "{ (task: ChoreRecord, state?: TaskEphemeralState | undefined): ChoreWithEphemeral; (task: TaskRecord, state?: TaskEphemeralState | undefined): TaskWithEphemeral; }"
+        "inferred_type": "{ (task: ChoreRecord, state?: TaskEphemeralState | undefined): ChoreRecord; (task: TaskRecord, state?: TaskEphemeralState | undefined): TaskWithEphemeral; }"
       },
       "rule_id": "typescript-compiler-api/FunctionDeclaration",
       "evidence_kind": "tool-rule",
@@ -15497,71 +15551,26 @@
       ]
     },
     {
-      "id": "typed-export:src/data/insectKnowledge:INSECT_COLLECTION_NAMES",
-      "module_id": "src/data/insectKnowledge",
-      "file": "src/data/insectKnowledge.ts",
-      "name": "INSECT_COLLECTION_NAMES",
-      "kind": "export",
-      "exported": true,
-      "line": null,
-      "score": 55,
-      "risk": "medium",
-      "source": "typescript-compiler-api",
-      "signals": [
-        {
-          "kind": "weak_export_type",
-          "value": "any"
-        }
-      ],
-      "metrics": {
-        "inferred_type": "any"
-      },
-      "rule_id": "typescript-compiler-api/export",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "export",
-      "reason_code": "typescript-compiler-api/export",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "typed-export:src/data/insectKnowledge:INSECT_COLLECTION_NAMES",
-            "kind": "export",
-            "file": "src/data/insectKnowledge.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/data/taskDocuments:TaskTemplate:27",
+      "id": "type:src/data/taskDocuments:TaskTemplate:29",
       "module_id": "src/data/taskDocuments",
       "file": "src/data/taskDocuments.ts",
       "name": "TaskTemplate",
       "kind": "type",
       "exported": false,
-      "line": 27,
-      "score": 19,
+      "line": 29,
+      "score": 15,
       "risk": "low",
       "signals": [],
       "source": "structural-type-scan",
       "typed_info": {
         "name": "TaskTemplate",
         "kind": "TypeAliasDeclaration",
-        "line": 27,
+        "line": 29,
         "type": "any",
         "exported": false
       },
       "metrics": {
-        "field_count": 4,
+        "field_count": 3,
         "optional_count": 1,
         "union_members": 0,
         "generic_params": 0
@@ -15583,7 +15592,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/taskDocuments:TaskTemplate:27",
+            "id": "type:src/data/taskDocuments:TaskTemplate:29",
             "kind": "type",
             "file": "src/data/taskDocuments.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15592,13 +15601,13 @@
       ]
     },
     {
-      "id": "type:src/data/taskDocuments:ChoreDocumentSettings:137",
+      "id": "type:src/data/taskDocuments:ChoreDocumentSettings:125",
       "module_id": "src/data/taskDocuments",
       "file": "src/data/taskDocuments.ts",
       "name": "ChoreDocumentSettings",
       "kind": "type",
       "exported": true,
-      "line": 137,
+      "line": 125,
       "score": 30,
       "risk": "low",
       "signals": [],
@@ -15606,7 +15615,7 @@
       "typed_info": {
         "name": "ChoreDocumentSettings",
         "kind": "TypeAliasDeclaration",
-        "line": 137,
+        "line": 125,
         "type": "any",
         "exported": true
       },
@@ -15633,7 +15642,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/taskDocuments:ChoreDocumentSettings:137",
+            "id": "type:src/data/taskDocuments:ChoreDocumentSettings:125",
             "kind": "type",
             "file": "src/data/taskDocuments.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15692,13 +15701,13 @@
       ]
     },
     {
-      "id": "type:src/data/teeniepingKnowledge:TeeniepingKnowledge:31",
+      "id": "type:src/data/teeniepingKnowledge:TeeniepingKnowledge:25",
       "module_id": "src/data/teeniepingKnowledge",
       "file": "src/data/teeniepingKnowledge.ts",
       "name": "TeeniepingKnowledge",
       "kind": "type",
       "exported": true,
-      "line": 31,
+      "line": 25,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -15706,7 +15715,7 @@
       "typed_info": {
         "name": "TeeniepingKnowledge",
         "kind": "TypeAliasDeclaration",
-        "line": 31,
+        "line": 25,
         "type": "any",
         "exported": true
       },
@@ -15733,7 +15742,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/teeniepingKnowledge:TeeniepingKnowledge:31",
+            "id": "type:src/data/teeniepingKnowledge:TeeniepingKnowledge:25",
             "kind": "type",
             "file": "src/data/teeniepingKnowledge.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15742,13 +15751,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:TaskType:28",
+      "id": "type:src/data/types:TaskType:24",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "TaskType",
       "kind": "type",
       "exported": true,
-      "line": 28,
+      "line": 24,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -15756,7 +15765,7 @@
       "typed_info": {
         "name": "TaskType",
         "kind": "TypeAliasDeclaration",
-        "line": 28,
+        "line": 24,
         "type": "any",
         "exported": true
       },
@@ -15783,7 +15792,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:TaskType:28",
+            "id": "type:src/data/types:TaskType:24",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15792,13 +15801,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:TestType:29",
+      "id": "type:src/data/types:TestType:25",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "TestType",
       "kind": "type",
       "exported": true,
-      "line": 29,
+      "line": 25,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -15806,7 +15815,7 @@
       "typed_info": {
         "name": "TestType",
         "kind": "TypeAliasDeclaration",
-        "line": 29,
+        "line": 25,
         "type": "any",
         "exported": true
       },
@@ -15833,7 +15842,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:TestType:29",
+            "id": "type:src/data/types:TestType:25",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15842,13 +15851,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:ChoreType:30",
+      "id": "type:src/data/types:ChoreType:26",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "ChoreType",
       "kind": "type",
       "exported": true,
-      "line": 30,
+      "line": 26,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -15856,7 +15865,7 @@
       "typed_info": {
         "name": "ChoreType",
         "kind": "TypeAliasDeclaration",
-        "line": 30,
+        "line": 26,
         "type": "any",
         "exported": true
       },
@@ -15883,7 +15892,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:ChoreType:30",
+            "id": "type:src/data/types:ChoreType:26",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15892,13 +15901,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:WaterLevel:32",
+      "id": "type:src/data/types:WaterLevel:28",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "WaterLevel",
       "kind": "type",
       "exported": true,
-      "line": 32,
+      "line": 28,
       "score": 20,
       "risk": "low",
       "signals": [],
@@ -15906,7 +15915,7 @@
       "typed_info": {
         "name": "WaterLevel",
         "kind": "TypeAliasDeclaration",
-        "line": 32,
+        "line": 28,
         "type": "any",
         "exported": true
       },
@@ -15933,7 +15942,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:WaterLevel:32",
+            "id": "type:src/data/types:WaterLevel:28",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15942,13 +15951,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:ToiletStatus:34",
+      "id": "type:src/data/types:ToiletStatus:30",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "ToiletStatus",
       "kind": "type",
       "exported": true,
-      "line": 34,
+      "line": 30,
       "score": 10,
       "risk": "low",
       "signals": [],
@@ -15956,7 +15965,7 @@
       "typed_info": {
         "name": "ToiletStatus",
         "kind": "TypeAliasDeclaration",
-        "line": 34,
+        "line": 30,
         "type": "any",
         "exported": true
       },
@@ -15983,7 +15992,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:ToiletStatus:34",
+            "id": "type:src/data/types:ToiletStatus:30",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15992,13 +16001,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:TaskOutcome:35",
+      "id": "type:src/data/types:TaskOutcome:31",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "TaskOutcome",
       "kind": "type",
       "exported": true,
-      "line": 35,
+      "line": 31,
       "score": 10,
       "risk": "low",
       "signals": [],
@@ -16006,7 +16015,7 @@
       "typed_info": {
         "name": "TaskOutcome",
         "kind": "TypeAliasDeclaration",
-        "line": 35,
+        "line": 31,
         "type": "any",
         "exported": true
       },
@@ -16033,7 +16042,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:TaskOutcome:35",
+            "id": "type:src/data/types:TaskOutcome:31",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16042,13 +16051,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:TaskBase:140",
+      "id": "type:src/data/types:TaskBase:139",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "TaskBase",
       "kind": "type",
       "exported": false,
-      "line": 140,
+      "line": 139,
       "score": 95,
       "risk": "high",
       "signals": [
@@ -16061,7 +16070,7 @@
       "typed_info": {
         "name": "TaskBase",
         "kind": "TypeAliasDeclaration",
-        "line": 140,
+        "line": 139,
         "type": "any",
         "exported": false
       },
@@ -16094,7 +16103,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:TaskBase:140",
+            "id": "type:src/data/types:TaskBase:139",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16103,13 +16112,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:StandardTaskState:156",
+      "id": "type:src/data/types:StandardTaskState:155",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "StandardTaskState",
       "kind": "type",
-      "exported": true,
-      "line": 156,
+      "exported": false,
+      "line": 155,
       "score": 17,
       "risk": "low",
       "signals": [],
@@ -16117,9 +16126,9 @@
       "typed_info": {
         "name": "StandardTaskState",
         "kind": "TypeAliasDeclaration",
-        "line": 156,
+        "line": 155,
         "type": "any",
-        "exported": true
+        "exported": false
       },
       "metrics": {
         "field_count": 1,
@@ -16144,7 +16153,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:StandardTaskState:156",
+            "id": "type:src/data/types:StandardTaskState:155",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16153,13 +16162,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:EatingTaskState:159",
+      "id": "type:src/data/types:EatingTaskState:158",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "EatingTaskState",
       "kind": "type",
-      "exported": true,
-      "line": 159,
+      "exported": false,
+      "line": 158,
       "score": 48,
       "risk": "medium",
       "signals": [],
@@ -16167,9 +16176,9 @@
       "typed_info": {
         "name": "EatingTaskState",
         "kind": "TypeAliasDeclaration",
-        "line": 159,
+        "line": 158,
         "type": "any",
-        "exported": true
+        "exported": false
       },
       "metrics": {
         "field_count": 4,
@@ -16194,7 +16203,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:EatingTaskState:159",
+            "id": "type:src/data/types:EatingTaskState:158",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16203,13 +16212,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:WaterToiletTaskState:165",
+      "id": "type:src/data/types:WaterToiletTaskState:164",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "WaterToiletTaskState",
       "kind": "type",
-      "exported": true,
-      "line": 165,
+      "exported": false,
+      "line": 164,
       "score": 31,
       "risk": "low",
       "signals": [],
@@ -16217,9 +16226,9 @@
       "typed_info": {
         "name": "WaterToiletTaskState",
         "kind": "TypeAliasDeclaration",
-        "line": 165,
+        "line": 164,
         "type": "any",
-        "exported": true
+        "exported": false
       },
       "metrics": {
         "field_count": 3,
@@ -16244,7 +16253,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:WaterToiletTaskState:165",
+            "id": "type:src/data/types:WaterToiletTaskState:164",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16253,13 +16262,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:StandardTask:171",
+      "id": "type:src/data/types:StandardTask:170",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "StandardTask",
       "kind": "type",
-      "exported": true,
-      "line": 171,
+      "exported": false,
+      "line": 170,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -16267,9 +16276,9 @@
       "typed_info": {
         "name": "StandardTask",
         "kind": "TypeAliasDeclaration",
-        "line": 171,
+        "line": 170,
         "type": "any",
-        "exported": true
+        "exported": false
       },
       "metrics": {
         "field_count": 0,
@@ -16294,7 +16303,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:StandardTask:171",
+            "id": "type:src/data/types:StandardTask:170",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16303,13 +16312,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:EatingTask:173",
+      "id": "type:src/data/types:EatingTask:171",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "EatingTask",
       "kind": "type",
-      "exported": true,
-      "line": 173,
+      "exported": false,
+      "line": 171,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -16317,9 +16326,9 @@
       "typed_info": {
         "name": "EatingTask",
         "kind": "TypeAliasDeclaration",
-        "line": 173,
+        "line": 171,
         "type": "any",
-        "exported": true
+        "exported": false
       },
       "metrics": {
         "field_count": 0,
@@ -16344,7 +16353,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:EatingTask:173",
+            "id": "type:src/data/types:EatingTask:171",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16353,13 +16362,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:MathDifficulty:179",
+      "id": "type:src/data/types:MathDifficulty:177",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "MathDifficulty",
       "kind": "type",
       "exported": true,
-      "line": 179,
+      "line": 177,
       "score": 10,
       "risk": "low",
       "signals": [],
@@ -16367,7 +16376,7 @@
       "typed_info": {
         "name": "MathDifficulty",
         "kind": "TypeAliasDeclaration",
-        "line": 179,
+        "line": 177,
         "type": "any",
         "exported": true
       },
@@ -16394,7 +16403,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:MathDifficulty:179",
+            "id": "type:src/data/types:MathDifficulty:177",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16403,13 +16412,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:MathTask:181",
+      "id": "type:src/data/types:MathTask:179",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "MathTask",
       "kind": "type",
-      "exported": true,
-      "line": 181,
+      "exported": false,
+      "line": 179,
       "score": 3,
       "risk": "low",
       "signals": [],
@@ -16417,9 +16426,9 @@
       "typed_info": {
         "name": "MathTask",
         "kind": "TypeAliasDeclaration",
-        "line": 181,
+        "line": 179,
         "type": "any",
-        "exported": true
+        "exported": false
       },
       "metrics": {
         "field_count": 0,
@@ -16444,7 +16453,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:MathTask:181",
+            "id": "type:src/data/types:MathTask:179",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16453,13 +16462,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:LargeNumbersTask:186",
+      "id": "type:src/data/types:LargeNumbersTask:184",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "LargeNumbersTask",
       "kind": "type",
-      "exported": true,
-      "line": 186,
+      "exported": false,
+      "line": 184,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -16467,9 +16476,9 @@
       "typed_info": {
         "name": "LargeNumbersTask",
         "kind": "TypeAliasDeclaration",
-        "line": 186,
+        "line": 184,
         "type": "any",
-        "exported": true
+        "exported": false
       },
       "metrics": {
         "field_count": 0,
@@ -16494,7 +16503,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:LargeNumbersTask:186",
+            "id": "type:src/data/types:LargeNumbersTask:184",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16503,13 +16512,63 @@
       ]
     },
     {
-      "id": "type:src/data/types:PositionalNotationTask:190",
+      "id": "type:src/data/types:FractionsTask:188",
+      "module_id": "src/data/types",
+      "file": "src/data/types.ts",
+      "name": "FractionsTask",
+      "kind": "type",
+      "exported": false,
+      "line": 188,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "FractionsTask",
+        "kind": "TypeAliasDeclaration",
+        "line": 188,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/data/types:FractionsTask:188",
+            "kind": "type",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/data/types:PositionalNotationTask:192",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "PositionalNotationTask",
       "kind": "type",
-      "exported": true,
-      "line": 190,
+      "exported": false,
+      "line": 192,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -16517,9 +16576,9 @@
       "typed_info": {
         "name": "PositionalNotationTask",
         "kind": "TypeAliasDeclaration",
-        "line": 190,
+        "line": 192,
         "type": "any",
-        "exported": true
+        "exported": false
       },
       "metrics": {
         "field_count": 0,
@@ -16544,7 +16603,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:PositionalNotationTask:190",
+            "id": "type:src/data/types:PositionalNotationTask:192",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16553,13 +16612,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:AlphabetTask:194",
+      "id": "type:src/data/types:AlphabetTask:196",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "AlphabetTask",
       "kind": "type",
-      "exported": true,
-      "line": 194,
+      "exported": false,
+      "line": 196,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -16567,9 +16626,9 @@
       "typed_info": {
         "name": "AlphabetTask",
         "kind": "TypeAliasDeclaration",
-        "line": 194,
+        "line": 196,
         "type": "any",
-        "exported": true
+        "exported": false
       },
       "metrics": {
         "field_count": 0,
@@ -16594,7 +16653,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:AlphabetTask:194",
+            "id": "type:src/data/types:AlphabetTask:196",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16603,13 +16662,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:SpellingTask:198",
+      "id": "type:src/data/types:SpellingTask:200",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "SpellingTask",
       "kind": "type",
-      "exported": true,
-      "line": 198,
+      "exported": false,
+      "line": 200,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -16617,9 +16676,9 @@
       "typed_info": {
         "name": "SpellingTask",
         "kind": "TypeAliasDeclaration",
-        "line": 198,
+        "line": 200,
         "type": "any",
-        "exported": true
+        "exported": false
       },
       "metrics": {
         "field_count": 0,
@@ -16644,7 +16703,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:SpellingTask:198",
+            "id": "type:src/data/types:SpellingTask:200",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16653,13 +16712,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:AnimalsTask:202",
+      "id": "type:src/data/types:AnimalsTask:204",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "AnimalsTask",
       "kind": "type",
-      "exported": true,
-      "line": 202,
+      "exported": false,
+      "line": 204,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -16667,9 +16726,9 @@
       "typed_info": {
         "name": "AnimalsTask",
         "kind": "TypeAliasDeclaration",
-        "line": 202,
+        "line": 204,
         "type": "any",
-        "exported": true
+        "exported": false
       },
       "metrics": {
         "field_count": 0,
@@ -16694,7 +16753,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:AnimalsTask:202",
+            "id": "type:src/data/types:AnimalsTask:204",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16703,13 +16762,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:WaterToiletTask:206",
+      "id": "type:src/data/types:WaterToiletTask:208",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "WaterToiletTask",
       "kind": "type",
       "exported": true,
-      "line": 206,
+      "line": 208,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -16717,7 +16776,7 @@
       "typed_info": {
         "name": "WaterToiletTask",
         "kind": "TypeAliasDeclaration",
-        "line": 206,
+        "line": 208,
         "type": "any",
         "exported": true
       },
@@ -16744,7 +16803,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:WaterToiletTask:206",
+            "id": "type:src/data/types:WaterToiletTask:208",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16753,33 +16812,33 @@
       ]
     },
     {
-      "id": "type:src/data/types:TaskRecord:211",
+      "id": "type:src/data/types:TaskRecord:213",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "TaskRecord",
       "kind": "type",
       "exported": true,
-      "line": 211,
-      "score": 53,
+      "line": 213,
+      "score": 58,
       "risk": "medium",
       "signals": [
         {
           "kind": "large_union",
-          "value": 9
+          "value": 10
         }
       ],
       "source": "structural-type-scan",
       "typed_info": {
         "name": "TaskRecord",
         "kind": "TypeAliasDeclaration",
-        "line": 211,
+        "line": 213,
         "type": "any",
         "exported": true
       },
       "metrics": {
         "field_count": 0,
         "optional_count": 0,
-        "union_members": 9,
+        "union_members": 10,
         "generic_params": 0
       },
       "rule_id": "structural-type-scan/type",
@@ -16799,7 +16858,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:TaskRecord:211",
+            "id": "type:src/data/types:TaskRecord:213",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16808,13 +16867,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:ChoreRecord:222",
+      "id": "type:src/data/types:ChoreRecord:225",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "ChoreRecord",
       "kind": "type",
       "exported": true,
-      "line": 222,
+      "line": 225,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -16822,7 +16881,7 @@
       "typed_info": {
         "name": "ChoreRecord",
         "kind": "TypeAliasDeclaration",
-        "line": 222,
+        "line": 225,
         "type": "any",
         "exported": true
       },
@@ -16849,7 +16908,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:ChoreRecord:222",
+            "id": "type:src/data/types:ChoreRecord:225",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16858,13 +16917,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:TestRecord:224",
+      "id": "type:src/data/types:TestRecord:227",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "TestRecord",
       "kind": "type",
       "exported": true,
-      "line": 224,
+      "line": 227,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -16872,7 +16931,7 @@
       "typed_info": {
         "name": "TestRecord",
         "kind": "TypeAliasDeclaration",
-        "line": 224,
+        "line": 227,
         "type": "any",
         "exported": true
       },
@@ -16899,7 +16958,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:TestRecord:224",
+            "id": "type:src/data/types:TestRecord:227",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -16908,86 +16967,121 @@
       ]
     },
     {
-      "id": "type:src/data/types:TaskEphemeralState:228",
+      "id": "type:src/data/types:TestStatePrefixes:230",
+      "module_id": "src/data/types",
+      "file": "src/data/types.ts",
+      "name": "TestStatePrefixes",
+      "kind": "type",
+      "exported": false,
+      "line": 230,
+      "score": 28,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "TestStatePrefixes",
+        "kind": "TypeAliasDeclaration",
+        "line": 230,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 7,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/data/types:TestStatePrefixes:230",
+            "kind": "type",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/data/types:TestState:239",
+      "module_id": "src/data/types",
+      "file": "src/data/types.ts",
+      "name": "TestState",
+      "kind": "type",
+      "exported": false,
+      "line": 239,
+      "score": 28,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "TestState",
+        "kind": "TypeAliasDeclaration",
+        "line": 239,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 4,
+        "generic_params": 1
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/data/types:TestState:239",
+            "kind": "type",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/data/types:TaskEphemeralState:244",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "TaskEphemeralState",
       "kind": "type",
       "exported": true,
-      "line": 228,
-      "score": 202,
-      "risk": "high",
-      "signals": [
-        {
-          "kind": "large_union",
-          "value": 30
-        },
-        {
-          "kind": "many_optional_fields",
-          "value": 12
-        }
-      ],
+      "line": 244,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
       "source": "structural-type-scan",
       "typed_info": {
         "name": "TaskEphemeralState",
         "kind": "TypeAliasDeclaration",
-        "line": 228,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 12,
-        "union_members": 30,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/data/types:TaskEphemeralState:228",
-            "kind": "type",
-            "file": "src/data/types.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/data/types:EatingTaskWithEphemeral:247",
-      "module_id": "src/data/types",
-      "file": "src/data/types.ts",
-      "name": "EatingTaskWithEphemeral",
-      "kind": "type",
-      "exported": true,
-      "line": 247,
-      "score": 0,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "EatingTaskWithEphemeral",
-        "kind": "TypeAliasDeclaration",
-        "line": 247,
+        "line": 244,
         "type": "any",
         "exported": true
       },
@@ -17014,7 +17108,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:EatingTaskWithEphemeral:247",
+            "id": "type:src/data/types:TaskEphemeralState:244",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17023,418 +17117,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:MathTaskWithEphemeral:248",
-      "module_id": "src/data/types",
-      "file": "src/data/types.ts",
-      "name": "MathTaskWithEphemeral",
-      "kind": "type",
-      "exported": true,
-      "line": 248,
-      "score": 26,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "MathTaskWithEphemeral",
-        "kind": "TypeAliasDeclaration",
-        "line": 248,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 2,
-        "union_members": 4,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/data/types:MathTaskWithEphemeral:248",
-            "kind": "type",
-            "file": "src/data/types.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/data/types:LargeNumbersTaskWithEphemeral:252",
-      "module_id": "src/data/types",
-      "file": "src/data/types.ts",
-      "name": "LargeNumbersTaskWithEphemeral",
-      "kind": "type",
-      "exported": true,
-      "line": 252,
-      "score": 26,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "LargeNumbersTaskWithEphemeral",
-        "kind": "TypeAliasDeclaration",
-        "line": 252,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 2,
-        "union_members": 4,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/data/types:LargeNumbersTaskWithEphemeral:252",
-            "kind": "type",
-            "file": "src/data/types.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/data/types:PVTaskWithEphemeral:256",
-      "module_id": "src/data/types",
-      "file": "src/data/types.ts",
-      "name": "PVTaskWithEphemeral",
-      "kind": "type",
-      "exported": true,
-      "line": 256,
-      "score": 26,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "PVTaskWithEphemeral",
-        "kind": "TypeAliasDeclaration",
-        "line": 256,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 2,
-        "union_members": 4,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/data/types:PVTaskWithEphemeral:256",
-            "kind": "type",
-            "file": "src/data/types.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/data/types:AlphabetTaskWithEphemeral:260",
-      "module_id": "src/data/types",
-      "file": "src/data/types.ts",
-      "name": "AlphabetTaskWithEphemeral",
-      "kind": "type",
-      "exported": true,
-      "line": 260,
-      "score": 26,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "AlphabetTaskWithEphemeral",
-        "kind": "TypeAliasDeclaration",
-        "line": 260,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 2,
-        "union_members": 4,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/data/types:AlphabetTaskWithEphemeral:260",
-            "kind": "type",
-            "file": "src/data/types.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/data/types:SpellingTaskWithEphemeral:264",
-      "module_id": "src/data/types",
-      "file": "src/data/types.ts",
-      "name": "SpellingTaskWithEphemeral",
-      "kind": "type",
-      "exported": true,
-      "line": 264,
-      "score": 26,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "SpellingTaskWithEphemeral",
-        "kind": "TypeAliasDeclaration",
-        "line": 264,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 2,
-        "union_members": 4,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/data/types:SpellingTaskWithEphemeral:264",
-            "kind": "type",
-            "file": "src/data/types.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/data/types:AnimalsTaskWithEphemeral:268",
-      "module_id": "src/data/types",
-      "file": "src/data/types.ts",
-      "name": "AnimalsTaskWithEphemeral",
-      "kind": "type",
-      "exported": true,
-      "line": 268,
-      "score": 26,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "AnimalsTaskWithEphemeral",
-        "kind": "TypeAliasDeclaration",
-        "line": 268,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 2,
-        "union_members": 4,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/data/types:AnimalsTaskWithEphemeral:268",
-            "kind": "type",
-            "file": "src/data/types.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/data/types:TaskWithEphemeral:272",
-      "module_id": "src/data/types",
-      "file": "src/data/types.ts",
-      "name": "TaskWithEphemeral",
-      "kind": "type",
-      "exported": true,
-      "line": 272,
-      "score": 53,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "large_union",
-          "value": 9
-        }
-      ],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "TaskWithEphemeral",
-        "kind": "TypeAliasDeclaration",
-        "line": 272,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 0,
-        "union_members": 9,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/data/types:TaskWithEphemeral:272",
-            "kind": "type",
-            "file": "src/data/types.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/data/types:ChoreWithEphemeral:283",
-      "module_id": "src/data/types",
-      "file": "src/data/types.ts",
-      "name": "ChoreWithEphemeral",
-      "kind": "type",
-      "exported": true,
-      "line": 283,
-      "score": 0,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "ChoreWithEphemeral",
-        "kind": "TypeAliasDeclaration",
-        "line": 283,
-        "type": "any",
-        "exported": true
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 0,
-        "union_members": 0,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/data/types:ChoreWithEphemeral:283",
-            "kind": "type",
-            "file": "src/data/types.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/data/types:TestWithEphemeral:288",
+      "id": "type:src/data/types:TestWithEphemeral:248",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "TestWithEphemeral",
       "kind": "type",
       "exported": true,
-      "line": 288,
+      "line": 248,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -17442,7 +17131,7 @@
       "typed_info": {
         "name": "TestWithEphemeral",
         "kind": "TypeAliasDeclaration",
-        "line": 288,
+        "line": 248,
         "type": "any",
         "exported": true
       },
@@ -17469,7 +17158,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:TestWithEphemeral:288",
+            "id": "type:src/data/types:TestWithEphemeral:248",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17478,13 +17167,163 @@
       ]
     },
     {
-      "id": "type:src/data/types:TaskUpdatableFields:318",
+      "id": "type:src/data/types:EatingTaskWithEphemeral:252",
+      "module_id": "src/data/types",
+      "file": "src/data/types.ts",
+      "name": "EatingTaskWithEphemeral",
+      "kind": "type",
+      "exported": true,
+      "line": 252,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "EatingTaskWithEphemeral",
+        "kind": "TypeAliasDeclaration",
+        "line": 252,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/data/types:EatingTaskWithEphemeral:252",
+            "kind": "type",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/data/types:ChoreWithEphemeral:253",
+      "module_id": "src/data/types",
+      "file": "src/data/types.ts",
+      "name": "ChoreWithEphemeral",
+      "kind": "type",
+      "exported": true,
+      "line": 253,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ChoreWithEphemeral",
+        "kind": "TypeAliasDeclaration",
+        "line": 253,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/data/types:ChoreWithEphemeral:253",
+            "kind": "type",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/data/types:TaskWithEphemeral:254",
+      "module_id": "src/data/types",
+      "file": "src/data/types.ts",
+      "name": "TaskWithEphemeral",
+      "kind": "type",
+      "exported": true,
+      "line": 254,
+      "score": 10,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "TaskWithEphemeral",
+        "kind": "TypeAliasDeclaration",
+        "line": 254,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 2,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/data/types:TaskWithEphemeral:254",
+            "kind": "type",
+            "file": "src/data/types.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/data/types:TaskUpdatableFields:281",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "TaskUpdatableFields",
       "kind": "type",
       "exported": true,
-      "line": 318,
+      "line": 281,
       "score": 68,
       "risk": "medium",
       "signals": [
@@ -17497,7 +17336,7 @@
       "typed_info": {
         "name": "TaskUpdatableFields",
         "kind": "TypeAliasDeclaration",
-        "line": 318,
+        "line": 281,
         "type": "any",
         "exported": true
       },
@@ -17524,7 +17363,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:TaskUpdatableFields:318",
+            "id": "type:src/data/types:TaskUpdatableFields:281",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17533,13 +17372,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:ChildProfile:448",
+      "id": "type:src/data/types:ChildProfile:416",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "ChildProfile",
       "kind": "type",
       "exported": true,
-      "line": 448,
+      "line": 416,
       "score": 34,
       "risk": "low",
       "signals": [],
@@ -17547,7 +17386,7 @@
       "typed_info": {
         "name": "ChildProfile",
         "kind": "TypeAliasDeclaration",
-        "line": 448,
+        "line": 416,
         "type": "any",
         "exported": true
       },
@@ -17574,7 +17413,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:ChildProfile:448",
+            "id": "type:src/data/types:ChildProfile:416",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17583,13 +17422,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:ChildUpdatableFields:458",
+      "id": "type:src/data/types:ChildUpdatableFields:426",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "ChildUpdatableFields",
       "kind": "type",
       "exported": true,
-      "line": 458,
+      "line": 426,
       "score": 25,
       "risk": "low",
       "signals": [],
@@ -17597,7 +17436,7 @@
       "typed_info": {
         "name": "ChildUpdatableFields",
         "kind": "TypeAliasDeclaration",
-        "line": 458,
+        "line": 426,
         "type": "any",
         "exported": true
       },
@@ -17624,7 +17463,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:ChildUpdatableFields:458",
+            "id": "type:src/data/types:ChildUpdatableFields:426",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17633,13 +17472,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:RewardRecord:471",
+      "id": "type:src/data/types:RewardRecord:439",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "RewardRecord",
       "kind": "type",
       "exported": true,
-      "line": 471,
+      "line": 439,
       "score": 30,
       "risk": "low",
       "signals": [],
@@ -17647,7 +17486,7 @@
       "typed_info": {
         "name": "RewardRecord",
         "kind": "TypeAliasDeclaration",
-        "line": 471,
+        "line": 439,
         "type": "any",
         "exported": true
       },
@@ -17674,7 +17513,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:RewardRecord:471",
+            "id": "type:src/data/types:RewardRecord:439",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17683,13 +17522,13 @@
       ]
     },
     {
-      "id": "type:src/data/types:RewardUpdatableFields:480",
+      "id": "type:src/data/types:RewardUpdatableFields:448",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "RewardUpdatableFields",
       "kind": "type",
       "exported": true,
-      "line": 480,
+      "line": 448,
       "score": 20,
       "risk": "low",
       "signals": [],
@@ -17697,7 +17536,7 @@
       "typed_info": {
         "name": "RewardUpdatableFields",
         "kind": "TypeAliasDeclaration",
-        "line": 480,
+        "line": 448,
         "type": "any",
         "exported": true
       },
@@ -17724,7 +17563,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/data/types:RewardUpdatableFields:480",
+            "id": "type:src/data/types:RewardUpdatableFields:448",
             "kind": "type",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17733,13 +17572,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/data/types:isChoreRecord:296",
+      "id": "typed-symbol:src/data/types:isChoreRecord:259",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "isChoreRecord",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 296,
+      "line": 259,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -17764,7 +17603,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/data/types:isChoreRecord:296",
+            "id": "typed-symbol:src/data/types:isChoreRecord:259",
             "kind": "FunctionDeclaration",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17773,13 +17612,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/data/types:isTestRecord:300",
+      "id": "typed-symbol:src/data/types:isTestRecord:263",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "isTestRecord",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 300,
+      "line": 263,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -17804,7 +17643,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/data/types:isTestRecord:300",
+            "id": "typed-symbol:src/data/types:isTestRecord:263",
             "kind": "FunctionDeclaration",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17813,19 +17652,19 @@
       ]
     },
     {
-      "id": "typed-symbol:src/data/types:isChoreWithEphemeral:304",
+      "id": "typed-symbol:src/data/types:isChoreWithEphemeral:267",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "isChoreWithEphemeral",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 304,
+      "line": 267,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
       "signals": [],
       "metrics": {
-        "inferred_type": "(item: TaskWithEphemeral) => item is ChoreWithEphemeral"
+        "inferred_type": "(item: TaskWithEphemeral) => item is ChoreRecord"
       },
       "rule_id": "typescript-compiler-api/FunctionDeclaration",
       "evidence_kind": "tool-rule",
@@ -17844,7 +17683,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/data/types:isChoreWithEphemeral:304",
+            "id": "typed-symbol:src/data/types:isChoreWithEphemeral:267",
             "kind": "FunctionDeclaration",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17853,13 +17692,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/data/types:isTestWithEphemeral:310",
+      "id": "typed-symbol:src/data/types:isTestWithEphemeral:273",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "isTestWithEphemeral",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 310,
+      "line": 273,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -17884,7 +17723,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/data/types:isTestWithEphemeral:310",
+            "id": "typed-symbol:src/data/types:isTestWithEphemeral:273",
             "kind": "FunctionDeclaration",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17893,13 +17732,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/data/types:isEatingTask:372",
+      "id": "typed-symbol:src/data/types:isEatingTask:338",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "isEatingTask",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 372,
+      "line": 338,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -17924,7 +17763,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/data/types:isEatingTask:372",
+            "id": "typed-symbol:src/data/types:isEatingTask:338",
             "kind": "FunctionDeclaration",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -17933,13 +17772,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/data/types:isWaterToiletTask:378",
+      "id": "typed-symbol:src/data/types:isWaterToiletTask:344",
       "module_id": "src/data/types",
       "file": "src/data/types.ts",
       "name": "isWaterToiletTask",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 378,
+      "line": 344,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -17964,7 +17803,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/data/types:isWaterToiletTask:378",
+            "id": "typed-symbol:src/data/types:isWaterToiletTask:344",
             "kind": "FunctionDeclaration",
             "file": "src/data/types.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -18798,13 +18637,13 @@
       ]
     },
     {
-      "id": "type:src/features/dayNightExplorer/SolarSystem3DManager:CityVisual:64",
+      "id": "type:src/features/dayNightExplorer/SolarSystem3DManager:CityVisual:66",
       "module_id": "src/features/dayNightExplorer/SolarSystem3DManager",
       "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
       "name": "CityVisual",
       "kind": "type",
       "exported": false,
-      "line": 64,
+      "line": 66,
       "score": 28,
       "risk": "low",
       "signals": [],
@@ -18812,7 +18651,7 @@
       "typed_info": {
         "name": "CityVisual",
         "kind": "TypeAliasDeclaration",
-        "line": 64,
+        "line": 66,
         "type": "any",
         "exported": false
       },
@@ -18839,7 +18678,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/features/dayNightExplorer/SolarSystem3DManager:CityVisual:64",
+            "id": "type:src/features/dayNightExplorer/SolarSystem3DManager:CityVisual:66",
             "kind": "type",
             "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -18848,26 +18687,26 @@
       ]
     },
     {
-      "id": "type:src/features/dayNightExplorer/SolarSystem3DManager:SolarSystemSceneState:74",
+      "id": "type:src/features/dayNightExplorer/SolarSystem3DManager:SolarSystemSceneState:76",
       "module_id": "src/features/dayNightExplorer/SolarSystem3DManager",
       "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
       "name": "SolarSystemSceneState",
       "kind": "type",
       "exported": true,
-      "line": 74,
-      "score": 28,
+      "line": 76,
+      "score": 32,
       "risk": "low",
       "signals": [],
       "source": "structural-type-scan",
       "typed_info": {
         "name": "SolarSystemSceneState",
         "kind": "TypeAliasDeclaration",
-        "line": 74,
+        "line": 76,
         "type": "any",
         "exported": true
       },
       "metrics": {
-        "field_count": 7,
+        "field_count": 8,
         "optional_count": 0,
         "union_members": 0,
         "generic_params": 0
@@ -18889,7 +18728,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/features/dayNightExplorer/SolarSystem3DManager:SolarSystemSceneState:74",
+            "id": "type:src/features/dayNightExplorer/SolarSystem3DManager:SolarSystemSceneState:76",
             "kind": "type",
             "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -18898,37 +18737,37 @@
       ]
     },
     {
-      "id": "type:src/features/dayNightExplorer/SolarSystem3DManager:SolarSystem3DManager:84",
+      "id": "type:src/features/dayNightExplorer/SolarSystem3DManager:SolarSystem3DManager:87",
       "module_id": "src/features/dayNightExplorer/SolarSystem3DManager",
       "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
       "name": "SolarSystem3DManager",
       "kind": "class",
       "exported": true,
-      "line": 84,
-      "score": 228,
+      "line": 87,
+      "score": 288,
       "risk": "high",
       "signals": [
         {
           "kind": "wide_surface",
-          "value": 43
+          "value": 54
         },
         {
           "kind": "large_union",
-          "value": 8
+          "value": 10
         }
       ],
       "source": "structural-type-scan",
       "typed_info": {
         "name": "SolarSystem3DManager",
         "kind": "ClassDeclaration",
-        "line": 84,
+        "line": 87,
         "type": "typeof SolarSystem3DManager",
         "exported": true
       },
       "metrics": {
-        "field_count": 43,
-        "optional_count": 0,
-        "union_members": 8,
+        "field_count": 54,
+        "optional_count": 2,
+        "union_members": 10,
         "generic_params": 0
       },
       "rule_id": "structural-type-scan/class",
@@ -18954,7 +18793,7 @@
           "description": "Keep this class finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/features/dayNightExplorer/SolarSystem3DManager:SolarSystem3DManager:84",
+            "id": "type:src/features/dayNightExplorer/SolarSystem3DManager:SolarSystem3DManager:87",
             "kind": "class",
             "file": "src/features/dayNightExplorer/SolarSystem3DManager.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -19888,13 +19727,13 @@
       ]
     },
     {
-      "id": "type:src/features/dayNightExplorer/useDayNightExplorerModel:UseDayNightExplorerModelResult:41",
+      "id": "type:src/features/dayNightExplorer/useDayNightExplorerModel:UseDayNightExplorerModelResult:43",
       "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
       "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
       "name": "UseDayNightExplorerModelResult",
       "kind": "type",
       "exported": false,
-      "line": 41,
+      "line": 43,
       "score": 16,
       "risk": "low",
       "signals": [],
@@ -19902,7 +19741,7 @@
       "typed_info": {
         "name": "UseDayNightExplorerModelResult",
         "kind": "TypeAliasDeclaration",
-        "line": 41,
+        "line": 43,
         "type": "any",
         "exported": false
       },
@@ -19929,7 +19768,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/features/dayNightExplorer/useDayNightExplorerModel:UseDayNightExplorerModelResult:41",
+            "id": "type:src/features/dayNightExplorer/useDayNightExplorerModel:UseDayNightExplorerModelResult:43",
             "kind": "type",
             "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -19938,13 +19777,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/features/dayNightExplorer/useDayNightExplorerModel:useDayNightExplorerModel:73",
+      "id": "typed-symbol:src/features/dayNightExplorer/useDayNightExplorerModel:useDayNightExplorerModel:65",
       "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
       "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
       "name": "useDayNightExplorerModel",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 73,
+      "line": 65,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -19969,7 +19808,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/features/dayNightExplorer/useDayNightExplorerModel:useDayNightExplorerModel:73",
+            "id": "typed-symbol:src/features/dayNightExplorer/useDayNightExplorerModel:useDayNightExplorerModel:65",
             "kind": "FunctionDeclaration",
             "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -22375,13 +22214,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/lib/choreParser:parseChoreSnapshot:124",
+      "id": "typed-symbol:src/lib/choreParser:parseChoreSnapshot:126",
       "module_id": "src/lib/choreParser",
       "file": "src/lib/choreParser.ts",
       "name": "parseChoreSnapshot",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 124,
+      "line": 126,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -22406,7 +22245,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/lib/choreParser:parseChoreSnapshot:124",
+            "id": "typed-symbol:src/lib/choreParser:parseChoreSnapshot:126",
             "kind": "FunctionDeclaration",
             "file": "src/lib/choreParser.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -22415,13 +22254,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/lib/choreParser:parseTestSnapshot:132",
+      "id": "typed-symbol:src/lib/choreParser:parseTestSnapshot:134",
       "module_id": "src/lib/choreParser",
       "file": "src/lib/choreParser.ts",
       "name": "parseTestSnapshot",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 132,
+      "line": 134,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -22446,9 +22285,199 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/lib/choreParser:parseTestSnapshot:132",
+            "id": "typed-symbol:src/lib/choreParser:parseTestSnapshot:134",
             "kind": "FunctionDeclaration",
             "file": "src/lib/choreParser.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/lib/fractionProblems:Fraction:1",
+      "module_id": "src/lib/fractionProblems",
+      "file": "src/lib/fractionProblems.ts",
+      "name": "Fraction",
+      "kind": "type",
+      "exported": true,
+      "line": 1,
+      "score": 18,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "Fraction",
+        "kind": "TypeAliasDeclaration",
+        "line": 1,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 2,
+        "optional_count": 0,
+        "union_members": 2,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/lib/fractionProblems:Fraction:1",
+            "kind": "type",
+            "file": "src/lib/fractionProblems.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/lib/fractionProblems:FractionProblem:2",
+      "module_id": "src/lib/fractionProblems",
+      "file": "src/lib/fractionProblems.ts",
+      "name": "FractionProblem",
+      "kind": "type",
+      "exported": true,
+      "line": 2,
+      "score": 15,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "FractionProblem",
+        "kind": "TypeAliasDeclaration",
+        "line": 2,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 3,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/lib/fractionProblems:FractionProblem:2",
+            "kind": "type",
+            "file": "src/lib/fractionProblems.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/lib/fractionProblems:FractionDifficulty:5",
+      "module_id": "src/lib/fractionProblems",
+      "file": "src/lib/fractionProblems.ts",
+      "name": "FractionDifficulty",
+      "kind": "type",
+      "exported": true,
+      "line": 5,
+      "score": 10,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "FractionDifficulty",
+        "kind": "TypeAliasDeclaration",
+        "line": 5,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 2,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/lib/fractionProblems:FractionDifficulty:5",
+            "kind": "type",
+            "file": "src/lib/fractionProblems.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/lib/fractionProblems:getFractionProblem:22",
+      "module_id": "src/lib/fractionProblems",
+      "file": "src/lib/fractionProblems.ts",
+      "name": "getFractionProblem",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 22,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(index: number, difficulty: FractionDifficulty) => FractionProblem"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/lib/fractionProblems:getFractionProblem:22",
+            "kind": "FunctionDeclaration",
+            "file": "src/lib/fractionProblems.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -22945,13 +22974,13 @@
       ]
     },
     {
-      "id": "type:src/lib/schoolCalendarData:SchoolCalendarSnapshot:71",
+      "id": "type:src/lib/schoolCalendarData:SchoolCalendarSnapshot:69",
       "module_id": "src/lib/schoolCalendarData",
       "file": "src/lib/schoolCalendarData.ts",
       "name": "SchoolCalendarSnapshot",
       "kind": "type",
       "exported": true,
-      "line": 71,
+      "line": 69,
       "score": 8,
       "risk": "low",
       "signals": [],
@@ -22959,7 +22988,7 @@
       "typed_info": {
         "name": "SchoolCalendarSnapshot",
         "kind": "TypeAliasDeclaration",
-        "line": 71,
+        "line": 69,
         "type": "any",
         "exported": true
       },
@@ -22986,7 +23015,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/lib/schoolCalendarData:SchoolCalendarSnapshot:71",
+            "id": "type:src/lib/schoolCalendarData:SchoolCalendarSnapshot:69",
             "kind": "type",
             "file": "src/lib/schoolCalendarData.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -22995,13 +23024,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/lib/schoolCalendarData:fetchSchoolCalendar:122",
+      "id": "typed-symbol:src/lib/schoolCalendarData:fetchSchoolCalendar:120",
       "module_id": "src/lib/schoolCalendarData",
       "file": "src/lib/schoolCalendarData.ts",
       "name": "fetchSchoolCalendar",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 122,
+      "line": 120,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -23026,7 +23055,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/lib/schoolCalendarData:fetchSchoolCalendar:122",
+            "id": "typed-symbol:src/lib/schoolCalendarData:fetchSchoolCalendar:120",
             "kind": "FunctionDeclaration",
             "file": "src/lib/schoolCalendarData.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -24836,13 +24865,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/lib/weather/weatherStore:subscribeWeather:137",
+      "id": "typed-symbol:src/lib/weather/weatherStore:subscribeWeather:160",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "name": "subscribeWeather",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 137,
+      "line": 160,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -24867,7 +24896,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/lib/weather/weatherStore:subscribeWeather:137",
+            "id": "typed-symbol:src/lib/weather/weatherStore:subscribeWeather:160",
             "kind": "FunctionDeclaration",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -27386,13 +27415,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/routes/routeModules:getRouteModule:10",
+      "id": "typed-symbol:src/routes/routeModules:getRouteModule:25",
       "module_id": "src/routes/routeModules",
       "file": "src/routes/routeModules.ts",
       "name": "getRouteModule",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 10,
+      "line": 25,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -27417,7 +27446,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/routes/routeModules:getRouteModule:10",
+            "id": "typed-symbol:src/routes/routeModules:getRouteModule:25",
             "kind": "FunctionDeclaration",
             "file": "src/routes/routeModules.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -27426,13 +27455,13 @@
       ]
     },
     {
-      "id": "type:src/ui/choreModeDefinitions:ChoreStage:1",
+      "id": "type:src/ui/choreModeDefinitions:ChoreStage:3",
       "module_id": "src/ui/choreModeDefinitions",
       "file": "src/ui/choreModeDefinitions.ts",
       "name": "ChoreStage",
       "kind": "type",
       "exported": true,
-      "line": 1,
+      "line": 3,
       "score": 15,
       "risk": "low",
       "signals": [],
@@ -27440,7 +27469,7 @@
       "typed_info": {
         "name": "ChoreStage",
         "kind": "TypeAliasDeclaration",
-        "line": 1,
+        "line": 3,
         "type": "any",
         "exported": true
       },
@@ -27467,7 +27496,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/ui/choreModeDefinitions:ChoreStage:1",
+            "id": "type:src/ui/choreModeDefinitions:ChoreStage:3",
             "kind": "type",
             "file": "src/ui/choreModeDefinitions.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -27476,33 +27505,28 @@
       ]
     },
     {
-      "id": "type:src/ui/choreModeDefinitions:ChoreModeType:3",
+      "id": "type:src/ui/choreModeDefinitions:ChoreModeType:5",
       "module_id": "src/ui/choreModeDefinitions",
       "file": "src/ui/choreModeDefinitions.ts",
       "name": "ChoreModeType",
       "kind": "type",
       "exported": true,
-      "line": 3,
-      "score": 53,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "large_union",
-          "value": 9
-        }
-      ],
+      "line": 5,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
       "source": "structural-type-scan",
       "typed_info": {
         "name": "ChoreModeType",
         "kind": "TypeAliasDeclaration",
-        "line": 3,
+        "line": 5,
         "type": "any",
         "exported": true
       },
       "metrics": {
         "field_count": 0,
         "optional_count": 0,
-        "union_members": 9,
+        "union_members": 0,
         "generic_params": 0
       },
       "rule_id": "structural-type-scan/type",
@@ -27522,7 +27546,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/ui/choreModeDefinitions:ChoreModeType:3",
+            "id": "type:src/ui/choreModeDefinitions:ChoreModeType:5",
             "kind": "type",
             "file": "src/ui/choreModeDefinitions.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -28210,12 +28234,12 @@
       "kind": "type",
       "exported": false,
       "line": 39,
-      "score": 81,
+      "score": 86,
       "risk": "high",
       "signals": [
         {
           "kind": "large_union",
-          "value": 13
+          "value": 14
         }
       ],
       "source": "structural-type-scan",
@@ -28229,7 +28253,7 @@
       "metrics": {
         "field_count": 0,
         "optional_count": 0,
-        "union_members": 13,
+        "union_members": 14,
         "generic_params": 1
       },
       "rule_id": "structural-type-scan/type",
@@ -28264,13 +28288,13 @@
       ]
     },
     {
-      "id": "type:src/ui/presetChoreActions:PresetUtilityActionConfig:55",
+      "id": "type:src/ui/presetChoreActions:PresetUtilityActionConfig:56",
       "module_id": "src/ui/presetChoreActions",
       "file": "src/ui/presetChoreActions.tsx",
       "name": "PresetUtilityActionConfig",
       "kind": "type",
       "exported": false,
-      "line": 55,
+      "line": 56,
       "score": 48,
       "risk": "medium",
       "signals": [],
@@ -28278,7 +28302,7 @@
       "typed_info": {
         "name": "PresetUtilityActionConfig",
         "kind": "TypeAliasDeclaration",
-        "line": 55,
+        "line": 56,
         "type": "any",
         "exported": false
       },
@@ -28305,7 +28329,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/ui/presetChoreActions:PresetUtilityActionConfig:55",
+            "id": "type:src/ui/presetChoreActions:PresetUtilityActionConfig:56",
             "kind": "type",
             "file": "src/ui/presetChoreActions.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -28314,13 +28338,13 @@
       ]
     },
     {
-      "id": "type:src/ui/presetChoreActions:StagedPrimaryActionConfig:63",
+      "id": "type:src/ui/presetChoreActions:StagedPrimaryActionConfig:64",
       "module_id": "src/ui/presetChoreActions",
       "file": "src/ui/presetChoreActions.tsx",
       "name": "StagedPrimaryActionConfig",
       "kind": "type",
       "exported": false,
-      "line": 63,
+      "line": 64,
       "score": 38,
       "risk": "medium",
       "signals": [],
@@ -28328,7 +28352,7 @@
       "typed_info": {
         "name": "StagedPrimaryActionConfig",
         "kind": "TypeAliasDeclaration",
-        "line": 63,
+        "line": 64,
         "type": "any",
         "exported": false
       },
@@ -28355,7 +28379,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/ui/presetChoreActions:StagedPrimaryActionConfig:63",
+            "id": "type:src/ui/presetChoreActions:StagedPrimaryActionConfig:64",
             "kind": "type",
             "file": "src/ui/presetChoreActions.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -29023,110 +29047,10 @@
       ]
     },
     {
-      "id": "type:src/ui/unifiedTestRenderer:TestTaskItem:29",
+      "id": "type:src/ui/unifiedTestRenderer:TestTaskItem:31",
       "module_id": "src/ui/unifiedTestRenderer",
       "file": "src/ui/unifiedTestRenderer.tsx",
       "name": "TestTaskItem",
-      "kind": "type",
-      "exported": false,
-      "line": 29,
-      "score": 0,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "TestTaskItem",
-        "kind": "TypeAliasDeclaration",
-        "line": 29,
-        "type": "any",
-        "exported": false
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 0,
-        "union_members": 0,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/ui/unifiedTestRenderer:TestTaskItem:29",
-            "kind": "type",
-            "file": "src/ui/unifiedTestRenderer.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/ui/unifiedTestRenderer:ProblemField:30",
-      "module_id": "src/ui/unifiedTestRenderer",
-      "file": "src/ui/unifiedTestRenderer.tsx",
-      "name": "ProblemField",
-      "kind": "type",
-      "exported": false,
-      "line": 30,
-      "score": 0,
-      "risk": "low",
-      "signals": [],
-      "source": "structural-type-scan",
-      "typed_info": {
-        "name": "ProblemField",
-        "kind": "TypeAliasDeclaration",
-        "line": 30,
-        "type": "any",
-        "exported": false
-      },
-      "metrics": {
-        "field_count": 0,
-        "optional_count": 0,
-        "union_members": 0,
-        "generic_params": 0
-      },
-      "rule_id": "structural-type-scan/type",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "message": "type",
-      "reason_code": "structural-type-scan/type",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "type:src/ui/unifiedTestRenderer:ProblemField:30",
-            "kind": "type",
-            "file": "src/ui/unifiedTestRenderer.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "type:src/ui/unifiedTestRenderer:ActivityRenderer:31",
-      "module_id": "src/ui/unifiedTestRenderer",
-      "file": "src/ui/unifiedTestRenderer.tsx",
-      "name": "ActivityRenderer",
       "kind": "type",
       "exported": false,
       "line": 31,
@@ -29135,7 +29059,7 @@
       "signals": [],
       "source": "structural-type-scan",
       "typed_info": {
-        "name": "ActivityRenderer",
+        "name": "TestTaskItem",
         "kind": "TypeAliasDeclaration",
         "line": 31,
         "type": "any",
@@ -29164,7 +29088,107 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/ui/unifiedTestRenderer:ActivityRenderer:31",
+            "id": "type:src/ui/unifiedTestRenderer:TestTaskItem:31",
+            "kind": "type",
+            "file": "src/ui/unifiedTestRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/ui/unifiedTestRenderer:ProblemField:32",
+      "module_id": "src/ui/unifiedTestRenderer",
+      "file": "src/ui/unifiedTestRenderer.tsx",
+      "name": "ProblemField",
+      "kind": "type",
+      "exported": false,
+      "line": 32,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ProblemField",
+        "kind": "TypeAliasDeclaration",
+        "line": 32,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/ui/unifiedTestRenderer:ProblemField:32",
+            "kind": "type",
+            "file": "src/ui/unifiedTestRenderer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/ui/unifiedTestRenderer:ActivityRenderer:33",
+      "module_id": "src/ui/unifiedTestRenderer",
+      "file": "src/ui/unifiedTestRenderer.tsx",
+      "name": "ActivityRenderer",
+      "kind": "type",
+      "exported": false,
+      "line": 33,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ActivityRenderer",
+        "kind": "TypeAliasDeclaration",
+        "line": 33,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/ui/unifiedTestRenderer:ActivityRenderer:33",
             "kind": "type",
             "file": "src/ui/unifiedTestRenderer.tsx",
             "reason": "Intentional finding; document the project-specific reason."

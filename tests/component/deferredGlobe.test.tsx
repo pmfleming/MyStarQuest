@@ -90,7 +90,8 @@ describe('deferred globe lifecycle', () => {
     expect(scene.construct.mock.calls[1][0]).not.toBe(firstCanvas)
     expect(scene.construct).toHaveBeenLastCalledWith(
       expect.any(HTMLCanvasElement),
-      updated
+      updated,
+      expect.any(Function)
     )
     expect(screen.getByText('Ready')).toBeVisible()
     unmount()

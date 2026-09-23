@@ -33,6 +33,27 @@ afterEach(async () => {
 })
 
 describe('weather cache and subscriptions', () => {
+  it('shares listeners across subscribers and survives immediate resubscription', async () => {
+    const fetch = vi.fn().mockResolvedValue(response())
+    vi.stubGlobal('fetch', fetch)
+    const first = store.subscribeWeather(amsterdam, vi.fn())
+    const second = store.subscribeWeather(amsterdam, vi.fn())
+    await vi.advanceTimersByTimeAsync(0)
+    first()
+    second()
+    const resumed = store.subscribeWeather(amsterdam, vi.fn())
+    await vi.advanceTimersByTimeAsync(0)
+    expect(fetch).toHaveBeenCalledTimes(1)
+    window.dispatchEvent(new Event('online'))
+    await vi.advanceTimersByTimeAsync(0)
+    expect(fetch).toHaveBeenCalledTimes(2)
+    resumed()
+    await vi.advanceTimersByTimeAsync(0)
+    window.dispatchEvent(new Event('online'))
+    await vi.advanceTimersByTimeAsync(60_000)
+    expect(fetch).toHaveBeenCalledTimes(2)
+  })
+
   it('keeps city responses separate and cancels abandoned requests', async () => {
     let resolveAmsterdam!: (value: unknown) => void
     const fetch = vi

@@ -42,6 +42,7 @@ type ActivityPrimaryActionConfig<T> = SharedPrimaryActionBase & {
     | 'eating'
     | 'math'
     | 'large-numbers'
+    | 'fractions'
     | 'positional-notation'
     | 'alphabet'
     | 'spelling'

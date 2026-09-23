@@ -1,15 +1,8 @@
+import type { TaskType } from '../data/types'
+
 export type ChoreStage = 'setup' | 'activity' | 'completed'
 
-export type ChoreModeType =
-  | 'standard'
-  | 'eating'
-  | 'math'
-  | 'large-numbers'
-  | 'positional-notation'
-  | 'alphabet'
-  | 'spelling'
-  | 'animals'
-  | 'watertoiletcheck'
+export type ChoreModeType = TaskType
 
 const hidePrimaryButtonInChore: Record<
   Exclude<ChoreModeType, 'standard'>,
@@ -18,6 +11,7 @@ const hidePrimaryButtonInChore: Record<
   eating: false,
   math: false,
   'large-numbers': false,
+  fractions: false,
   'positional-notation': false,
   alphabet: true,
   spelling: true,

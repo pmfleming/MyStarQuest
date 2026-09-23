@@ -36,6 +36,20 @@ export const buildOrbitLine = (orbitX: number, orbitY: number) => {
   return new THREE.BufferGeometry().setFromPoints(points)
 }
 
+export const getOrbitProgress = (
+  x: number,
+  y: number,
+  orbitX: number,
+  orbitY: number
+) => {
+  const progress =
+    (Math.PI / 2 - Math.atan2(y / orbitY, x / orbitX)) / (2 * Math.PI)
+  return ((progress % 1) + 1) % 1
+}
+
+export const getOrbitProgressDelta = (previous: number, next: number) =>
+  ((next - previous + 1.5) % 1) - 0.5
+
 export const getCenteredLongitude = (
   activeFocusId: ExplorerFocusId,
   cityOptions: ExplorerCityOption[],

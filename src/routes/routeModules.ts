@@ -7,26 +7,22 @@ export const routeModules = {
   protectedData: () => import('./ProtectedDataRoute'),
 }
 
+const routeNames = new Map<string, keyof typeof routeModules>([
+  ['/', 'chores'],
+  ['/tabs', 'chores'],
+  ['/today', 'chores'],
+  ['/tabs/dashboard', 'chores'],
+  ['/tabs/chores', 'chores'],
+  ['/settings/manage-chores', 'chores'],
+  ['/tabs/tests', 'tests'],
+  ['/settings/manage-tests', 'tests'],
+  ['/tabs/rewards', 'rewards'],
+  ['/settings/manage-rewards', 'rewards'],
+  ['/tabs/time-explorer', 'timeExplorer'],
+  ['/settings/manage-children', 'manageChildren'],
+])
+
 export function getRouteModule(pathname: string) {
-  switch (pathname.replace(/\/$/, '') || '/') {
-    case '/':
-    case '/tabs':
-    case '/today':
-    case '/tabs/dashboard':
-    case '/tabs/chores':
-    case '/settings/manage-chores':
-      return routeModules.chores
-    case '/tabs/tests':
-    case '/settings/manage-tests':
-      return routeModules.tests
-    case '/tabs/rewards':
-    case '/settings/manage-rewards':
-      return routeModules.rewards
-    case '/tabs/time-explorer':
-      return routeModules.timeExplorer
-    case '/settings/manage-children':
-      return routeModules.manageChildren
-    default:
-      return null
-  }
+  const name = routeNames.get(pathname.replace(/\/$/, '') || '/')
+  return name ? routeModules[name] : null
 }

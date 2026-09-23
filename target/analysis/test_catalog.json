@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "Full frontend audit via Lens runAudit API, base empty, gate all",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-22T13:21:36.901Z",
+    "measured_at": "2026-09-23T15:26:09.776Z",
     "source_type": "static",
-    "source_set_hash": "sha256:78d559847878846174e3a5f39de3236900f05bf95144390add9bf79870c310de",
-    "input_set_hash": "sha256:a4c4ac0e9555e1f46ff9ce49708c34bca6af0cd7fee539bb0f33fbac59a4014c"
+    "source_set_hash": "sha256:166f0751ad0af60bf6a28c6086cc43ffcb418a543232af1c115a66d1313e76ef",
+    "input_set_hash": "sha256:fdf2390cd5afcd069fb5280fd5c2c89244beccc77693050faeb6eeb9eb3a9bb1"
   },
   "analysis_identity": {
     "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
@@ -65,7 +65,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "complete": true,
     "partial": false,
@@ -96,9 +96,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 63,
+    "tests": 71,
     "colocated_tests": 0,
-    "external_tests": 63,
+    "external_tests": 71,
     "execution_status": "passed",
     "execution_scope": "suite",
     "coverage_status": "not_collected"
@@ -318,6 +318,77 @@
       "source_associations": [
         {
           "file": "src/hooks/useDinnerCountdownState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/DragScrollRegion.test.tsx",
+      "name": "DragScrollRegion.test.tsx",
+      "path": "tests/component/DragScrollRegion.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/ui/DragScrollRegion.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/DragScrollRegion.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/ExpandableAgendaItem.test.tsx",
+      "name": "ExpandableAgendaItem.test.tsx",
+      "path": "tests/component/ExpandableAgendaItem.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/ExpandableAgendaItem.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ExpandableAgendaItem.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/FractionsTester.test.tsx",
+      "name": "FractionsTester.test.tsx",
+      "path": "tests/component/FractionsTester.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/FractionsTester.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/FractionsTester.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/components/ui/ActivityControls.tsx",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -593,6 +664,32 @@
       "source_associations": [
         {
           "file": "src/components/SchoolCalendarSync.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/SchoolEvents.test.tsx",
+      "name": "SchoolEvents.test.tsx",
+      "path": "tests/component/SchoolEvents.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/SchoolEvents.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/SchoolEvents.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -1287,6 +1384,18 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/e2e/fractions.spec.ts",
+      "name": "fractions.spec.ts",
+      "path": "tests/e2e/fractions.spec.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/e2e/offline.spec.ts",
       "name": "offline.spec.ts",
       "path": "tests/e2e/offline.spec.ts",
@@ -1303,6 +1412,73 @@
         {
           "file": "src/offline/model.ts",
           "kind": "type-only-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/fixtures/fractions.tsx",
+      "name": "fractions.tsx",
+      "path": "tests/fixtures/fractions.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/ui/StandardActionList.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/data/taskDocuments.ts",
+        "src/data/dailyTaskState.ts",
+        "src/hooks/useTaskActivityState.ts",
+        "src/hooks/useTestCheckTriggers.ts",
+        "src/ui/listDescriptorTypes.ts",
+        "src/ui/unifiedChoreDescriptors.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/StandardActionList.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/taskDocuments.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/hooks/useTaskActivityState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/hooks/useTestCheckTriggers.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/listDescriptorTypes.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/ui/unifiedChoreDescriptors.tsx",
+          "kind": "direct-import",
           "confidence": "high"
         }
       ],
@@ -1458,11 +1634,29 @@
       "framework": "vitest",
       "source_mapping": [
         "src/data/types.ts",
+        "src/data/taskDocuments.ts",
+        "src/data/dailyTaskState.ts",
+        "src/data/taskLimits.ts",
         "src/lib/choreParser.ts"
       ],
       "source_associations": [
         {
           "file": "src/data/types.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/taskDocuments.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/dailyTaskState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/taskLimits.ts",
           "kind": "direct-import",
           "confidence": "high"
         },
@@ -1508,6 +1702,38 @@
       "source_associations": [
         {
           "file": "src/features/dayNightExplorer/earthTextureCache.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/lib/orbitCalendar.test.ts",
+      "name": "orbitCalendar.test.ts",
+      "path": "tests/unit/lib/orbitCalendar.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+        "src/features/dayNightExplorer/solarSystemGeometry.ts",
+        "src/lib/today.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/features/dayNightExplorer/dayNightExplorerCalendar.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/features/dayNightExplorer/solarSystemGeometry.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/today.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -1745,6 +1971,26 @@
       "source_associations": [
         {
           "file": "src/lib/optimisticState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/routeModules.test.ts",
+      "name": "routeModules.test.ts",
+      "path": "tests/unit/routeModules.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/routes/routeModules.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/routes/routeModules.ts",
           "kind": "direct-import",
           "confidence": "high"
         }

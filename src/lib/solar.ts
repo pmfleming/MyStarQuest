@@ -43,7 +43,7 @@ export type SolarTimes = {
   phaseAtMinutes: (minutes: number) => SolarPhase
 }
 
-export const getDayOfYear = (date: Date) => {
+const getDayOfYear = (date: Date) => {
   const year = date.getFullYear()
   const startOfYearUtc = Date.UTC(year, 0, 0)
   const currentDayUtc = Date.UTC(
@@ -149,7 +149,7 @@ const getSolarDeclinationRadians = (date: Date) => {
   )
 }
 
-export const getSolarDeclinationDegrees = (date: Date) =>
+const getSolarDeclinationDegrees = (date: Date) =>
   toDegrees(getSolarDeclinationRadians(date))
 
 const normalizeMinutes = (minutes: number) => ((minutes % 1440) + 1440) % 1440

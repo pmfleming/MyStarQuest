@@ -127,8 +127,6 @@ const getAnimalLetters = (animal: SpellingAnimal, letterCase: LetterCase) =>
     : animal.name.toLowerCase()
   ).split('')
 
-export type SpellingTesterProps = ActivityChoreProps
-
 type SpellingTheme = ActivityChoreProps['theme']
 
 const updateChoiceState = (
@@ -300,7 +298,7 @@ const SpellingTester = ({
   completionImage,
   failureImage,
   failureModeEnabled = true,
-}: SpellingTesterProps) => {
+}: ActivityChoreProps) => {
   const {
     complete,
     fail,

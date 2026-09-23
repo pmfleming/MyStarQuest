@@ -37,7 +37,6 @@ const TabContent = ({
       }}
     >
       <DragScrollRegion
-        theme={theme}
         className="min-h-0 flex-1"
         topNavPadding={!!title}
         bottomNavPadding

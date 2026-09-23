@@ -9,13 +9,9 @@ import {
   MIN_TASK_VALUE,
 } from './taskLimits'
 
-export const taskValueSchema = z
-  .number()
-  .int()
-  .min(MIN_TASK_VALUE)
-  .max(MAX_TASK_VALUE)
+const taskValueSchema = z.number().int().min(MIN_TASK_VALUE).max(MAX_TASK_VALUE)
 
-export const dinnerSliceCountSchema = z
+const dinnerSliceCountSchema = z
   .number()
   .int()
   .min(MIN_DINNER_SLICES)
@@ -39,6 +35,7 @@ export const taskTypeSchema = z.enum([
   'eating',
   'math',
   'large-numbers',
+  'fractions',
   'positional-notation',
   'alphabet',
   'spelling',
@@ -49,6 +46,7 @@ export const taskTypeSchema = z.enum([
 const testTypeSchema = z.enum([
   'math',
   'large-numbers',
+  'fractions',
   'positional-notation',
   'alphabet',
   'spelling',
@@ -65,7 +63,7 @@ const toiletStatusSchema = z.enum(['notpeepee', 'didpeepee'])
 const mathDifficultySchema = z.enum(['easy', 'hard'])
 const taskOutcomeSchema = z.enum(['success', 'failure'])
 
-export const firestoreTimestampLikeSchema = z
+const firestoreTimestampLikeSchema = z
   .custom<{ toDate?: () => Date }>(
     (value) =>
       value !== null &&
@@ -117,6 +115,7 @@ export const taskSnapshotDataSchema = z
     mathTotalProblems: taskSnapshotValue(5),
     mathDifficulty: mathDifficultySchema.catch('easy'),
     largeNumbersTotalProblems: taskSnapshotValue(5),
+    fractionsTotalProblems: taskSnapshotValue(5),
     pvTotalProblems: taskSnapshotValue(5),
     alphabetTotalProblems: taskSnapshotValue(5),
     spellingTotalProblems: taskSnapshotValue(5),
@@ -153,24 +152,23 @@ type TaskBase = {
   lastAttemptOutcome?: TaskOutcome | null
 }
 
-export type StandardTaskState = {
+type StandardTaskState = {
   manageCompletedAt?: number | null
 }
-export type EatingTaskState = {
+type EatingTaskState = {
   manageDinnerRemainingSeconds?: number
   manageDinnerBitesLeft?: number
   manageDinnerTimerStartedAt?: number | null
   manageDinnerCompletedAt?: number | null
 }
-export type WaterToiletTaskState = {
+type WaterToiletTaskState = {
   manageWaterLevel?: WaterLevel
   manageToiletStatus?: ToiletStatus
   manageWaterToiletCompletedAt?: number | null
 }
 
-export type StandardTask = TaskBase &
-  StandardTaskState & { taskType: 'standard' }
-export type EatingTask = TaskBase &
+type StandardTask = TaskBase & StandardTaskState & { taskType: 'standard' }
+type EatingTask = TaskBase &
   EatingTaskState & {
     taskType: 'eating'
     dinnerDurationSeconds: number
@@ -178,28 +176,32 @@ export type EatingTask = TaskBase &
   }
 export type MathDifficulty = 'easy' | 'hard'
 
-export type MathTask = TaskBase & {
+type MathTask = TaskBase & {
   taskType: 'math'
   mathTotalProblems: number
   mathDifficulty?: MathDifficulty
 }
-export type LargeNumbersTask = TaskBase & {
+type LargeNumbersTask = TaskBase & {
   taskType: 'large-numbers'
   largeNumbersTotalProblems: number
 }
-export type PositionalNotationTask = TaskBase & {
+type FractionsTask = TaskBase & {
+  taskType: 'fractions'
+  fractionsTotalProblems: number
+}
+type PositionalNotationTask = TaskBase & {
   taskType: 'positional-notation'
   pvTotalProblems: number
 }
-export type AlphabetTask = TaskBase & {
+type AlphabetTask = TaskBase & {
   taskType: 'alphabet'
   alphabetTotalProblems: number
 }
-export type SpellingTask = TaskBase & {
+type SpellingTask = TaskBase & {
   taskType: 'spelling'
   spellingTotalProblems: number
 }
-export type AnimalsTask = TaskBase & {
+type AnimalsTask = TaskBase & {
   taskType: 'animals'
   animalsTotalProblems: number
 }
@@ -213,6 +215,7 @@ export type TaskRecord =
   | EatingTask
   | MathTask
   | LargeNumbersTask
+  | FractionsTask
   | PositionalNotationTask
   | AlphabetTask
   | SpellingTask
@@ -223,72 +226,32 @@ export type ChoreRecord = Extract<TaskRecord, { taskType: ChoreType }>
 
 export type TestRecord = Extract<TaskRecord, { taskType: TestType }>
 
-// ── TaskEphemeralState: flat bag for in-memory storage ──
+// Quiz variants share a state shape while preserving their stored field names.
+type TestStatePrefixes = {
+  math: 'Math'
+  'large-numbers': 'LargeNumbers'
+  fractions: 'Fractions'
+  'positional-notation': 'PV'
+  alphabet: 'Alphabet'
+  spelling: 'Spelling'
+  animals: 'Animals'
+}
+type TestState<Prefix extends string> = {
+  [Field in `manage${Prefix}CompletedAt`]?: number | null
+} & { [Field in `manage${Prefix}LastOutcome`]?: TaskOutcome | null }
 
+// Flat bag for in-memory storage; the discriminated union below restricts each task.
 export type TaskEphemeralState = StandardTaskState &
   EatingTaskState &
-  WaterToiletTaskState & {
-    manageMathCompletedAt?: number | null
-    manageMathLastOutcome?: 'success' | 'failure' | null
-    manageLargeNumbersCompletedAt?: number | null
-    manageLargeNumbersLastOutcome?: 'success' | 'failure' | null
-    managePVCompletedAt?: number | null
-    managePVLastOutcome?: 'success' | 'failure' | null
-    manageAlphabetCompletedAt?: number | null
-    manageAlphabetLastOutcome?: 'success' | 'failure' | null
-    manageSpellingCompletedAt?: number | null
-    manageSpellingLastOutcome?: 'success' | 'failure' | null
-    manageAnimalsCompletedAt?: number | null
-    manageAnimalsLastOutcome?: 'success' | 'failure' | null
-  }
-
-// ── TaskWithEphemeral: discriminated union pairing each variant with its ephemeral fields ──
-
+  WaterToiletTaskState &
+  TestState<TestStatePrefixes[TestType]>
+export type TestWithEphemeral = {
+  [Type in TestType]: Extract<TestRecord, { taskType: Type }> &
+    TestState<TestStatePrefixes[Type]>
+}[TestType]
 export type EatingTaskWithEphemeral = EatingTask
-export type MathTaskWithEphemeral = MathTask & {
-  manageMathCompletedAt?: number | null
-  manageMathLastOutcome?: TaskOutcome | null
-}
-export type LargeNumbersTaskWithEphemeral = LargeNumbersTask & {
-  manageLargeNumbersCompletedAt?: number | null
-  manageLargeNumbersLastOutcome?: TaskOutcome | null
-}
-export type PVTaskWithEphemeral = PositionalNotationTask & {
-  managePVCompletedAt?: number | null
-  managePVLastOutcome?: TaskOutcome | null
-}
-export type AlphabetTaskWithEphemeral = AlphabetTask & {
-  manageAlphabetCompletedAt?: number | null
-  manageAlphabetLastOutcome?: TaskOutcome | null
-}
-export type SpellingTaskWithEphemeral = SpellingTask & {
-  manageSpellingCompletedAt?: number | null
-  manageSpellingLastOutcome?: TaskOutcome | null
-}
-export type AnimalsTaskWithEphemeral = AnimalsTask & {
-  manageAnimalsCompletedAt?: number | null
-  manageAnimalsLastOutcome?: TaskOutcome | null
-}
-export type TaskWithEphemeral =
-  | StandardTask
-  | EatingTaskWithEphemeral
-  | MathTaskWithEphemeral
-  | LargeNumbersTaskWithEphemeral
-  | PVTaskWithEphemeral
-  | AlphabetTaskWithEphemeral
-  | SpellingTaskWithEphemeral
-  | AnimalsTaskWithEphemeral
-  | WaterToiletTask
-
-export type ChoreWithEphemeral = Extract<
-  TaskWithEphemeral,
-  { taskType: ChoreType }
->
-
-export type TestWithEphemeral = Extract<
-  TaskWithEphemeral,
-  { taskType: TestType }
->
+export type ChoreWithEphemeral = ChoreRecord
+export type TaskWithEphemeral = ChoreWithEphemeral | TestWithEphemeral
 
 const isChoreType = (type: TaskType): type is ChoreType =>
   type === 'standard' || type === 'eating' || type === 'watertoiletcheck'
@@ -327,6 +290,7 @@ export type TaskUpdatableFields = Partial<{
   mathTotalProblems: number
   mathDifficulty: MathDifficulty
   largeNumbersTotalProblems: number
+  fractionsTotalProblems: number
   pvTotalProblems: number
   alphabetTotalProblems: number
   spellingTotalProblems: number
@@ -353,6 +317,8 @@ export const DEFAULT_MATH_PROBLEMS = 5
 export const DEFAULT_MATH_STARS = 3
 export const DEFAULT_LARGE_NUMBERS_PROBLEMS = 5
 export const DEFAULT_LARGE_NUMBERS_STARS = 3
+export const DEFAULT_FRACTIONS_PROBLEMS = 5
+export const DEFAULT_FRACTIONS_STARS = 3
 export const DEFAULT_PV_PROBLEMS = 5
 export const DEFAULT_PV_STARS = 3
 export const DEFAULT_ALPHABET_PROBLEMS = 5
@@ -400,6 +366,7 @@ export const manageCompletedAtFieldByType = {
   eating: 'manageDinnerCompletedAt',
   math: 'manageMathCompletedAt',
   'large-numbers': 'manageLargeNumbersCompletedAt',
+  fractions: 'manageFractionsCompletedAt',
   'positional-notation': 'managePVCompletedAt',
   alphabet: 'manageAlphabetCompletedAt',
   spelling: 'manageSpellingCompletedAt',
@@ -415,6 +382,7 @@ export const manageCompletedAtFieldByType = {
 export const manageOutcomeFieldByType = {
   math: 'manageMathLastOutcome',
   'large-numbers': 'manageLargeNumbersLastOutcome',
+  fractions: 'manageFractionsLastOutcome',
   alphabet: 'manageAlphabetLastOutcome',
   spelling: 'manageSpellingLastOutcome',
   animals: 'manageAnimalsLastOutcome',

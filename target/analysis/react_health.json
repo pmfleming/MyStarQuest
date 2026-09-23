@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "Full frontend audit via Lens runAudit API, base empty, gate all",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-22T13:21:47.846Z",
+    "measured_at": "2026-09-23T15:26:19.793Z",
     "source_type": "static",
-    "source_set_hash": "sha256:78d559847878846174e3a5f39de3236900f05bf95144390add9bf79870c310de",
-    "input_set_hash": "sha256:869e3e9bf8bfb25e1f251de8d02edda2f470bb23aeb6728076eeb4aacd2159aa"
+    "source_set_hash": "sha256:166f0751ad0af60bf6a28c6086cc43ffcb418a543232af1c115a66d1313e76ef",
+    "input_set_hash": "sha256:311d7ba168136361458e9b4233cea708e6eb04cf7977586fa6f1dad736b4826c"
   },
   "analysis_identity": {
     "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
@@ -65,7 +65,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "eslint_react_hooks_available": true,
     "eslint_react_hooks_ran": true,
@@ -108,13 +108,13 @@
     "stale_input": []
   },
   "summary": {
-    "components": 125,
-    "records": 135,
+    "components": 132,
+    "records": 142,
     "hook_lint_findings": 0,
     "a11y_findings": 9,
     "a11y_tool_findings": 9,
     "a11y_heuristic_findings": 0,
-    "high_risk_components": 28
+    "high_risk_components": 30
   },
   "framework": {
     "framework": "vite",
@@ -291,21 +291,137 @@
       ]
     },
     {
+      "id": "component:src/components/AgendaList:AllDayIndicator",
+      "module_id": "src/components/AgendaList",
+      "file": "src/components/AgendaList.tsx",
+      "name": "AllDayIndicator",
+      "line": 27,
+      "score": 6,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/AgendaList:AllDayIndicator",
+            "kind": "component",
+            "file": "src/components/AgendaList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/AgendaList:AgendaList",
+      "module_id": "src/components/AgendaList",
+      "file": "src/components/AgendaList.tsx",
+      "name": "AgendaList",
+      "line": 60,
+      "score": 78,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "render_branch_complexity",
+          "value": 10
+        }
+      ],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/AgendaList:AgendaList",
+            "kind": "component",
+            "file": "src/components/AgendaList.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/AgendaTime:AgendaTime",
+      "module_id": "src/components/AgendaTime",
+      "file": "src/components/AgendaTime.tsx",
+      "name": "AgendaTime",
+      "line": 14,
+      "score": 28,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/AgendaTime:AgendaTime",
+            "kind": "component",
+            "file": "src/components/AgendaTime.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/AlphabetTester:AlphabetTester",
       "module_id": "src/components/AlphabetTester",
       "file": "src/components/AlphabetTester.tsx",
       "name": "AlphabetTester",
-      "line": 81,
-      "score": 142,
+      "line": 85,
+      "score": 126,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 199
+          "value": 201
         },
         {
           "kind": "many_hooks",
-          "value": 10
+          "value": 8
         }
       ],
       "kind": "component",
@@ -560,7 +676,7 @@
       "module_id": "src/components/AnimalTester",
       "file": "src/components/AnimalTester.tsx",
       "name": "AnimalTester",
-      "line": 424,
+      "line": 422,
       "score": 83,
       "risk": "high",
       "signals": [
@@ -886,7 +1002,7 @@
       "file": "src/components/DayAgenda.tsx",
       "name": "DayAgenda",
       "line": 5,
-      "score": 30,
+      "score": 5,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -1078,11 +1194,170 @@
       ]
     },
     {
+      "id": "component:src/components/ExpandableAgendaItem:ExpandableAgendaItem",
+      "module_id": "src/components/ExpandableAgendaItem",
+      "file": "src/components/ExpandableAgendaItem.tsx",
+      "name": "ExpandableAgendaItem",
+      "line": 9,
+      "score": 52,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ExpandableAgendaItem:ExpandableAgendaItem",
+            "kind": "component",
+            "file": "src/components/ExpandableAgendaItem.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/FractionsTester:FractionSymbol",
+      "module_id": "src/components/FractionsTester",
+      "file": "src/components/FractionsTester.tsx",
+      "name": "FractionSymbol",
+      "line": 17,
+      "score": 4,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/FractionsTester:FractionSymbol",
+            "kind": "component",
+            "file": "src/components/FractionsTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/FractionsTester:ExampleBar",
+      "module_id": "src/components/FractionsTester",
+      "file": "src/components/FractionsTester.tsx",
+      "name": "ExampleBar",
+      "line": 34,
+      "score": 11,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/FractionsTester:ExampleBar",
+            "kind": "component",
+            "file": "src/components/FractionsTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/FractionsTester:FractionsTester",
+      "module_id": "src/components/FractionsTester",
+      "file": "src/components/FractionsTester.tsx",
+      "name": "FractionsTester",
+      "line": 58,
+      "score": 206,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 248
+        },
+        {
+          "kind": "many_hooks",
+          "value": 12
+        },
+        {
+          "kind": "render_branch_complexity",
+          "value": 6
+        }
+      ],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/FractionsTester:FractionsTester",
+            "kind": "component",
+            "file": "src/components/FractionsTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/LargeNumbersTester:LargeNumbersTester",
       "module_id": "src/components/LargeNumbersTester",
       "file": "src/components/LargeNumbersTester.tsx",
       "name": "LargeNumbersTester",
-      "line": 130,
+      "line": 128,
       "score": 177,
       "risk": "high",
       "signals": [
@@ -1203,7 +1478,7 @@
       "file": "src/components/PageShell.tsx",
       "name": "PageShell",
       "line": 34,
-      "score": 73,
+      "score": 72,
       "risk": "high",
       "signals": [],
       "kind": "component",
@@ -1243,7 +1518,7 @@
       "module_id": "src/components/PositionalNotation",
       "file": "src/components/PositionalNotation.tsx",
       "name": "PositionalNotation",
-      "line": 33,
+      "line": 31,
       "score": 103,
       "risk": "high",
       "signals": [
@@ -1331,12 +1606,12 @@
       "file": "src/components/SchoolCalendar.tsx",
       "name": "SchoolCalendar",
       "line": 49,
-      "score": 164,
+      "score": 163,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 279
+          "value": 274
         },
         {
           "kind": "many_hooks",
@@ -1380,8 +1655,8 @@
       "module_id": "src/components/SchoolEvents",
       "file": "src/components/SchoolEvents.tsx",
       "name": "SchoolEvents",
-      "line": 37,
-      "score": 32,
+      "line": 47,
+      "score": 6,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -1415,7 +1690,7 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingPicture",
-      "line": 177,
+      "line": 175,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -1450,7 +1725,7 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingWordTiles",
-      "line": 207,
+      "line": 205,
       "score": 17,
       "risk": "low",
       "signals": [],
@@ -1485,7 +1760,7 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingChoiceButtons",
-      "line": 263,
+      "line": 261,
       "score": 11,
       "risk": "low",
       "signals": [],
@@ -1520,7 +1795,7 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingTester",
-      "line": 288,
+      "line": 286,
       "score": 276,
       "risk": "high",
       "signals": [
@@ -1575,7 +1850,7 @@
       "file": "src/components/TabContent.tsx",
       "name": "TabContent",
       "line": 15,
-      "score": 14,
+      "score": 13,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -2515,17 +2790,13 @@
       "module_id": "src/components/ui/DragScrollRegion",
       "file": "src/components/ui/DragScrollRegion.tsx",
       "name": "DragScrollRegion",
-      "line": 33,
-      "score": 141,
+      "line": 30,
+      "score": 82,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 178
-        },
-        {
-          "kind": "many_hooks",
-          "value": 9
+          "value": 152
         }
       ],
       "kind": "component",
@@ -3390,7 +3661,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ActionCard",
-      "line": 76,
+      "line": 74,
       "score": 113,
       "risk": "high",
       "signals": [
@@ -3436,7 +3707,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListMessage",
-      "line": 243,
+      "line": 241,
       "score": 3,
       "risk": "low",
       "signals": [],
@@ -3471,9 +3742,9 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListFooter",
-      "line": 271,
-      "score": 35,
-      "risk": "low",
+      "line": 269,
+      "score": 41,
+      "risk": "medium",
       "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
@@ -5091,6 +5362,53 @@
       ]
     },
     {
+      "id": "eslint-plugin-jsx-a11y:204a3e20:1",
+      "rule_id": "jsx-a11y/role-supports-aria-props",
+      "kind": "a11y_role_supports_aria_props",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/ExpandableAgendaItem",
+      "file": "src/components/ExpandableAgendaItem.tsx",
+      "line": 62,
+      "column": 7,
+      "end_line": 75,
+      "end_column": 8,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "The attribute aria-description is not supported by the role button.",
+      "signals": [
+        {
+          "kind": "a11y_role_supports_aria_props",
+          "message": "The attribute aria-description is not supported by the role button."
+        }
+      ],
+      "fingerprint": "204a3e20",
+      "occurrence": 1,
+      "reason_code": "jsx-a11y/role-supports-aria-props",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_role_supports_aria_props finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "eslint-plugin-jsx-a11y:204a3e20:1",
+            "kind": "a11y_role_supports_aria_props",
+            "file": "src/components/ExpandableAgendaItem.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "eslint-plugin-jsx-a11y:dff40131:1",
       "rule_id": "jsx-a11y/role-supports-aria-props",
       "kind": "a11y_role_supports_aria_props",
@@ -5273,53 +5591,6 @@
             "id": "eslint-plugin-jsx-a11y:232c9c14:1",
             "kind": "a11y_role_supports_aria_props",
             "file": "src/components/animalTester/PicturePortrait.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "eslint-plugin-jsx-a11y:f37d6a32:1",
-      "rule_id": "jsx-a11y/no-static-element-interactions",
-      "kind": "a11y_no_static_element_interactions",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/ui/DragScrollRegion",
-      "file": "src/components/ui/DragScrollRegion.tsx",
-      "line": 189,
-      "column": 7,
-      "end_line": 213,
-      "end_column": 8,
-      "score": 60,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "eslint-plugin-jsx-a11y",
-      "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element.",
-      "signals": [
-        {
-          "kind": "a11y_no_static_element_interactions",
-          "message": "Avoid non-native interactive elements. If using native HTML is not possible, add an appropriate role and support for tabbing, mouse, keyboard, and touch inputs to an interactive content element."
-        }
-      ],
-      "fingerprint": "f37d6a32",
-      "occurrence": 1,
-      "reason_code": "jsx-a11y/no-static-element-interactions",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this a11y_no_static_element_interactions finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "eslint-plugin-jsx-a11y:f37d6a32:1",
-            "kind": "a11y_no_static_element_interactions",
-            "file": "src/components/ui/DragScrollRegion.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

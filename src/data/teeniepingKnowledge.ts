@@ -15,12 +15,6 @@ const images = import.meta.glob<string>('../assets/teenie/**/*.webp', {
   query: '?url',
 })
 
-export const TEENIEPING_ART_COMPLETE = profiles.every((profile) =>
-  TEENIEPING_CLUE_CATEGORIES.every((category) =>
-    Boolean(images[`../assets/teenie/${category}/${profile.id}.webp`])
-  )
-)
-
 const requiredImage = createAssetResolver(
   images,
   '../assets/teenie/',

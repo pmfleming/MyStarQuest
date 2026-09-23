@@ -5,7 +5,7 @@ import {
   settleOptimisticPatch,
 } from '../lib/optimisticState'
 
-export const DEFAULT_UPDATE_COALESCE_MS = 140
+const DEFAULT_UPDATE_COALESCE_MS = 140
 
 type Identifiable = { id: string }
 type FieldPatch = object

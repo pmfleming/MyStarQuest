@@ -1,6 +1,6 @@
 import type { Theme } from '../contexts/ThemeContext'
 import type { AgendaItem } from '../lib/calendarSchedule'
-import './DayAgenda.css'
+import AgendaList from './AgendaList'
 
 export default function DayAgenda({
   theme,
@@ -10,50 +10,21 @@ export default function DayAgenda({
   agenda: AgendaItem[]
 }) {
   return (
-    <section
-      className="day-agenda"
-      aria-label="Day agenda"
-      style={{ color: theme.colors.text }}
-    >
-      {agenda.length === 0 ? (
-        <p>No plans.</p>
-      ) : (
-        <ol className="day-agenda__list">
-          {agenda.map((event) => (
-            <li
-              key={`${event.id}-${event.start}`}
-              className="day-agenda__item"
-              style={{
-                background:
-                  event.kind === 'activity'
-                    ? `${theme.colors.accent}30`
-                    : `${theme.colors.primary}08`,
-                borderColor: `${theme.colors.accent}70`,
-              }}
-            >
-              {theme.activityImages && (
-                <img
-                  className="day-agenda__image"
-                  src={theme.activityImages[event.activity]}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                />
-              )}
-              <div className="day-agenda__details">
-                <span className="day-agenda__title">
-                  {event.title === 'Going to school'
-                    ? 'To School'
-                    : event.title}
-                </span>
-                <span className="day-agenda__time">
-                  <time>{event.start}</time> – <time>{event.end}</time>
-                </span>
-              </div>
-            </li>
-          ))}
-        </ol>
-      )}
-    </section>
+    <AgendaList
+      theme={theme}
+      label="Day agenda"
+      ordered
+      emptyText="No plans."
+      entries={agenda.map((event) => ({
+        id: `${event.id}-${event.start}`,
+        title: event.title === 'Going to school' ? 'To School' : event.title,
+        image: theme.activityImages?.[event.activity],
+        timing: { kind: 'range', start: event.start, end: event.end },
+        background:
+          event.kind === 'activity'
+            ? `${theme.colors.accent}30`
+            : `${theme.colors.primary}08`,
+      }))}
+    />
   )
 }

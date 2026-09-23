@@ -1,0 +1,2279 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "audit",
+  "project": {
+    "name": "MyStarQuest Functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
+    "framework": "unknown",
+    "package_manager": "npm",
+    "test_runner": "unknown"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "Full functions audit via Lens runAudit API, base empty, gate all",
+    "host": "Ghost_S1",
+    "measured_at": "2026-09-23T15:19:48.819Z",
+    "source_type": "static",
+    "source_set_hash": "sha256:23d7090a1a0ddbf6994958e36549f02bb8c2a14e86821736d9477e0ff79944ab",
+    "input_set_hash": "sha256:6bc7479160bb8bf03bc6a450484d0713e0682b32cbca6b069c97bc5178621827"
+  },
+  "analysis_identity": {
+    "id": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.2",
+    "config_closure_hash": "sha256:fe76dc1fb798a0c99a28d2daa8df175eb094329f7c66f01ff62dbac496f31cdb",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
+      "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "react": "recommended-v2",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": true,
+    "framework_detected": false,
+    "test_runner_detected": false,
+    "git_history_available": false,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": true,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": false,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "hit",
+    "unsupported_pattern": [],
+    "confidence_scope": "changed_code_audit",
+    "changed_files_available": false,
+    "audit_base": "",
+    "base_snapshot_available": false,
+    "base_snapshot_compatible": null,
+    "complete": true,
+    "partial": false,
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "package_manager_detected",
+      "excludes_applied",
+      "type_information_available",
+      "dependencies_installed",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "workspace_projects_complete",
+      "analysis_cache_enabled"
+    ],
+    "missing_input": [],
+    "stale_input": []
+  },
+  "summary": {
+    "verdict": "pass",
+    "complete": true,
+    "incomplete_reasons": [],
+    "gate": "all",
+    "base": "",
+    "changed_files": 0,
+    "changed_hunks": 0,
+    "base_snapshot_available": false,
+    "base_snapshot_compatible": null,
+    "findings": 40,
+    "active_findings": 0,
+    "introduced_findings": 40,
+    "inherited_findings": 0,
+    "high_risk_findings": 4,
+    "blocking_findings": 0,
+    "warning_findings": 0,
+    "baseline_suppressed": 0,
+    "config_suppressed": 0,
+    "stale_suppressions": 0
+  },
+  "findings": [
+    {
+      "id": "file:src/index",
+      "kind": "file",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "line": 1,
+      "score": 166,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 326
+        },
+        {
+          "kind": "branch_count",
+          "value": 28
+        },
+        {
+          "kind": "import_count",
+          "value": 6
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/index",
+            "kind": "file",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/schoolEventCatalog.ts:classifySchoolEvent:36",
+      "kind": "function",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "name": "classifySchoolEvent",
+      "line": 36,
+      "score": 129,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 16
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 15
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 65490.46
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 62
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/schoolEventCatalog.ts:classifySchoolEvent:36",
+            "kind": "function",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/schoolCalendar.ts:buildSchoolCalendar:78",
+      "kind": "function",
+      "module_id": "src/schoolCalendar",
+      "file": "src/schoolCalendar.ts",
+      "name": "buildSchoolCalendar",
+      "line": 78,
+      "score": 74,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 8
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 9
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 31323.63
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 2
+        },
+        {
+          "kind": "line_count",
+          "value": 25
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/schoolCalendar.ts:buildSchoolCalendar:78",
+            "kind": "function",
+            "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/schoolCalendar",
+      "kind": "file",
+      "module_id": "src/schoolCalendar",
+      "file": "src/schoolCalendar.ts",
+      "line": 1,
+      "score": 72,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 114
+        },
+        {
+          "kind": "branch_count",
+          "value": 17
+        },
+        {
+          "kind": "import_count",
+          "value": 2
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/schoolCalendar",
+            "kind": "file",
+            "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:assertCallableChild:240",
+      "kind": "function",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "assertCallableChild",
+      "line": 240,
+      "score": 63,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 8
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 7
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 7276.19
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 20
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/index.ts:assertCallableChild:240",
+            "kind": "function",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/schoolEventCatalog",
+      "kind": "file",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "line": 1,
+      "score": 61,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 98
+        },
+        {
+          "kind": "branch_count",
+          "value": 16
+        },
+        {
+          "kind": "import_count",
+          "value": 0
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "file",
+      "reason_code": "ts-react-quality-lens/file",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/schoolEventCatalog",
+            "kind": "file",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/schoolCalendar.ts:appendOccurrence:44",
+      "kind": "function",
+      "module_id": "src/schoolCalendar",
+      "file": "src/schoolCalendar.ts",
+      "name": "appendOccurrence",
+      "line": 44,
+      "score": 60,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 7
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 6
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 4653.16
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 28
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/schoolCalendar.ts:appendOccurrence:44",
+            "kind": "function",
+            "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:isScheduledForDay:64",
+      "kind": "function",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "isScheduledForDay",
+      "line": 64,
+      "score": 51,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 6
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 6
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 6006.03
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 16
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/index.ts:isScheduledForDay:64",
+            "kind": "function",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:getDailyActivityResetPatch:214",
+      "kind": "function",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "getDailyActivityResetPatch",
+      "line": 214,
+      "score": 47,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 5
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 4
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 4237.49
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 25
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/index.ts:getDailyActivityResetPatch:214",
+            "kind": "function",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:resetChildChores:146",
+      "kind": "function",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "resetChildChores",
+      "line": 146,
+      "score": 40,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 3
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 3
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 20965.88
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 2
+        },
+        {
+          "kind": "line_count",
+          "value": 20
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/index.ts:resetChildChores:146",
+            "kind": "function",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/schoolCalendar.ts:appendDay:24",
+      "kind": "function",
+      "module_id": "src/schoolCalendar",
+      "file": "src/schoolCalendar.ts",
+      "name": "appendDay",
+      "line": 24,
+      "score": 35,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 4
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 3
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 674.22
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 14
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/schoolCalendar.ts:appendDay:24",
+            "kind": "function",
+            "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:getActivityType:114",
+      "kind": "function",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "getActivityType",
+      "line": 114,
+      "score": 29,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 4
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 3
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 2693.67
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 10
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/index.ts:getActivityType:114",
+            "kind": "function",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:getLocalizedDateInfo:33",
+      "kind": "function",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "getLocalizedDateInfo",
+      "line": 33,
+      "score": 29,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 3
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 2
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 12632.96
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 23
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/index.ts:getLocalizedDateInfo:33",
+            "kind": "function",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:isLegacyDayNight:128",
+      "kind": "function",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "isLegacyDayNight",
+      "line": 128,
+      "score": 26,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 4
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 3
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 218.72
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 4
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/index.ts:isLegacyDayNight:128",
+            "kind": "function",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/schoolCalendar.ts:fetchSchoolCalendarText:108",
+      "kind": "function",
+      "module_id": "src/schoolCalendar",
+      "file": "src/schoolCalendar.ts",
+      "name": "fetchSchoolCalendarText",
+      "line": 108,
+      "score": 21,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 2
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 1
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 1541.53
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 6
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/schoolCalendar.ts:fetchSchoolCalendarText:108",
+            "kind": "function",
+            "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:isChoreType:125",
+      "kind": "function",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "isChoreType",
+      "line": 125,
+      "score": 18,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 3
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 2
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 42.65
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/index.ts:isChoreType:125",
+            "kind": "function",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/schoolEventCatalog.ts:dayOff:43",
+      "kind": "function",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "name": "dayOff",
+      "line": 43,
+      "score": 15,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 2
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 1
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 426.29
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 6
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/schoolEventCatalog.ts:dayOff:43",
+            "kind": "function",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:getTemplateDocs:134",
+      "kind": "function",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "getTemplateDocs",
+      "line": 134,
+      "score": 11,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 263.72
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 11
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/index.ts:getTemplateDocs:134",
+            "kind": "function",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:resetTodayActivities:203",
+      "kind": "function",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "resetTodayActivities",
+      "line": 203,
+      "score": 11,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 1954.85
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 10
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/index.ts:resetTodayActivities:203",
+            "kind": "function",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/schoolEventCatalog.ts:activity:39",
+      "kind": "function",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "name": "activity",
+      "line": 39,
+      "score": 7,
+      "risk": "low",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 134.92
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "function",
+      "reason_code": "ts-react-quality-lens/function",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/schoolEventCatalog.ts:activity:39",
+            "kind": "function",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/schoolEventCatalog:type_assertion:2:125",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 2,
+      "evidence": "[ 'first-day', 'parent-meeting', 'start-meeting', 'school-trip', 'school-photo', 'sibling-photo', 'international-meeting",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "[ 'first-day', 'parent-meeting', 'start-meeting', 'school-trip', 'school-photo', 'sibling-photo', 'international-meeting",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/schoolEventCatalog:type_assertion:2:125",
+            "kind": "type_assertion",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "type:src/index:CurrentDayType:20",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "CurrentDayType",
+      "kind": "type",
+      "exported": false,
+      "line": 20,
+      "score": 10,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "CurrentDayType",
+        "kind": "TypeAliasDeclaration",
+        "line": 20,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 2,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/index:CurrentDayType:20",
+            "kind": "type",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/index:ScheduledTaskData:22",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "ScheduledTaskData",
+      "kind": "type",
+      "exported": false,
+      "line": 22,
+      "score": 21,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ScheduledTaskData",
+        "kind": "TypeAliasDeclaration",
+        "line": 22,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 3,
+        "optional_count": 3,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/index:ScheduledTaskData:22",
+            "kind": "type",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/index:ActivityType:91",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "ActivityType",
+      "kind": "type",
+      "exported": false,
+      "line": 91,
+      "score": 53,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "large_union",
+          "value": 9
+        }
+      ],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ActivityType",
+        "kind": "TypeAliasDeclaration",
+        "line": 91,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 9,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/index:ActivityType:91",
+            "kind": "type",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-symbol:src/index:events:290",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "events",
+      "kind": "VariableDeclaration",
+      "exported": false,
+      "line": 290,
+      "score": 45,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_inferred_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/VariableDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "VariableDeclaration",
+      "reason_code": "typescript-compiler-api/VariableDeclaration",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/index:events:290",
+            "kind": "VariableDeclaration",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/schoolCalendar:CalendarDay:4",
+      "module_id": "src/schoolCalendar",
+      "file": "src/schoolCalendar.ts",
+      "name": "CalendarDay",
+      "kind": "type",
+      "exported": false,
+      "line": 4,
+      "score": 16,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "CalendarDay",
+        "kind": "TypeAliasDeclaration",
+        "line": 4,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 4,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/schoolCalendar:CalendarDay:4",
+            "kind": "type",
+            "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-symbol:src/schoolCalendar:fetchSchoolCalendarText:108",
+      "module_id": "src/schoolCalendar",
+      "file": "src/schoolCalendar.ts",
+      "name": "fetchSchoolCalendarText",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 108,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(url: string) => Promise<string>"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/schoolCalendar:fetchSchoolCalendarText:108",
+            "kind": "FunctionDeclaration",
+            "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/schoolEventCatalog:SchoolEventArtwork:26",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "name": "SchoolEventArtwork",
+      "kind": "type",
+      "exported": true,
+      "line": 26,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SchoolEventArtwork",
+        "kind": "TypeAliasDeclaration",
+        "line": 26,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/schoolEventCatalog:SchoolEventArtwork:26",
+            "kind": "type",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/schoolEventCatalog:SchoolEventKind:27",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "name": "SchoolEventKind",
+      "kind": "type",
+      "exported": true,
+      "line": 27,
+      "score": 15,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SchoolEventKind",
+        "kind": "TypeAliasDeclaration",
+        "line": 27,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 3,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/schoolEventCatalog:SchoolEventKind:27",
+            "kind": "type",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/schoolEventCatalog:SchoolEventDetails:28",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "name": "SchoolEventDetails",
+      "kind": "type",
+      "exported": true,
+      "line": 28,
+      "score": 26,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SchoolEventDetails",
+        "kind": "TypeAliasDeclaration",
+        "line": 28,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 5,
+        "optional_count": 2,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/schoolEventCatalog:SchoolEventDetails:28",
+            "kind": "type",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/index",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "score": 34,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 14,
+        "contributors": 1
+      },
+      "defect_commits": 1,
+      "cochange_partners": [
+        {
+          "file": "src/schoolCalendar.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/schoolEventCatalog.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "defect_keyword_commits",
+          "value": 1
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 2
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/index",
+            "kind": "locality",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/schoolCalendar",
+      "module_id": "src/schoolCalendar",
+      "file": "src/schoolCalendar.ts",
+      "score": 10,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 2,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/schoolEventCatalog.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "cochange_ripple",
+          "value": 2
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/schoolCalendar",
+            "kind": "locality",
+            "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/schoolEventCatalog",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "score": 23,
+      "risk": "low",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/schoolCalendar.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "locality",
+      "reason_code": "ts-react-quality-lens/locality",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/schoolEventCatalog",
+            "kind": "locality",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/index",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 8,
+      "inbound_reach": 0,
+      "public_surface": 4,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "leaf",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/index",
+            "kind": "leverage",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/schoolCalendar",
+      "module_id": "src/schoolCalendar",
+      "file": "src/schoolCalendar.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 14,
+      "inbound_reach": 1,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/schoolCalendar",
+            "kind": "leverage",
+            "file": "src/schoolCalendar.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/schoolEventCatalog",
+      "module_id": "src/schoolEventCatalog",
+      "file": "src/schoolEventCatalog.ts",
+      "score": 12,
+      "risk": "low",
+      "leverage_score": 20,
+      "inbound_reach": 1,
+      "public_surface": 5,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "weak_public_surface",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/schoolEventCatalog",
+            "kind": "leverage",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "knip:binaries:package.json:firebase:0",
+      "rule_id": "knip/binaries",
+      "kind": "unlisted_binary",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "project",
+      "file": "package.json",
+      "name": "firebase",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unlisted binary: firebase.",
+      "issue_type": "binaries",
+      "signals": [
+        {
+          "kind": "knip_binaries",
+          "value": "firebase"
+        }
+      ],
+      "reason_code": "knip/binaries",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_binary finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:binaries:package.json:firebase:0",
+            "kind": "unlisted_binary",
+            "file": "package.json",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:exports:src/schoolEventCatalog.ts:schoolEventArtworks:2",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/schoolEventCatalog.ts",
+      "name": "schoolEventArtworks",
+      "line": 2,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: schoolEventArtworks.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "schoolEventArtworks"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:src/schoolEventCatalog.ts:schoolEventArtworks:2",
+            "kind": "unused_export",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:types:src/schoolEventCatalog.ts:SchoolEventArtwork:26",
+      "rule_id": "knip/types",
+      "kind": "unused_type",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/schoolEventCatalog.ts",
+      "name": "SchoolEventArtwork",
+      "line": 26,
+      "column": 13,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused type: SchoolEventArtwork.",
+      "issue_type": "types",
+      "signals": [
+        {
+          "kind": "knip_types",
+          "value": "SchoolEventArtwork"
+        }
+      ],
+      "reason_code": "knip/types",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:types:src/schoolEventCatalog.ts:SchoolEventArtwork:26",
+            "kind": "unused_type",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:types:src/schoolEventCatalog.ts:SchoolEventKind:27",
+      "rule_id": "knip/types",
+      "kind": "unused_type",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/schoolEventCatalog.ts",
+      "name": "SchoolEventKind",
+      "line": 27,
+      "column": 13,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused type: SchoolEventKind.",
+      "issue_type": "types",
+      "signals": [
+        {
+          "kind": "knip_types",
+          "value": "SchoolEventKind"
+        }
+      ],
+      "reason_code": "knip/types",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:types:src/schoolEventCatalog.ts:SchoolEventKind:27",
+            "kind": "unused_type",
+            "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    }
+  ]
+}

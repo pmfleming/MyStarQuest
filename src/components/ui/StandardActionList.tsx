@@ -57,9 +57,7 @@ const resolveUtilityState = <T,>(
         : 'Delete',
     disabled: action?.disabled?.(item) ?? false,
     exits,
-    icon: action
-      ? resolveActionValue(action.icon ?? defaultIcon, item) || defaultIcon
-      : defaultIcon,
+    icon: resolveActionValue(action?.icon ?? defaultIcon, item) || defaultIcon,
   }
 }
 
@@ -289,10 +287,12 @@ const ListFooter = ({
     await runAction('Add', 'add', onAdd)
   }
 
-  if (inlineNewRow && !frameInlineNewRow) return inlineNewRow
-  if (inlineNewRow) {
-    return <CardShell theme={theme} variant="editing" body={inlineNewRow} />
-  }
+  if (inlineNewRow)
+    return frameInlineNewRow ? (
+      <CardShell theme={theme} variant="editing" body={inlineNewRow} />
+    ) : (
+      inlineNewRow
+    )
   if (hideAdd) return null
 
   return (

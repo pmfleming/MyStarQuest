@@ -25,7 +25,7 @@ type Entry = {
   snapshot: WeatherSnapshot
   listeners: Set<() => void>
   controller?: AbortController
-  interval?: ReturnType<typeof setInterval>
+  stop?: () => void
   lastAttempt: number | null
   lastDate: string
 }
@@ -101,6 +101,10 @@ async function refresh(entry: Entry, force = false) {
     return
   if (!force && usable && !stale) return
 
+  return requestWeather(entry, now)
+}
+
+async function requestWeather(entry: Entry, now: number) {
   const controller = new AbortController()
   entry.controller = controller
   entry.lastAttempt = now
@@ -134,35 +138,36 @@ async function refresh(entry: Entry, force = false) {
 export const getWeatherSnapshot = (city: WeatherCity) => entryFor(city).snapshot
 export const retryWeather = (city: WeatherCity) => refresh(entryFor(city), true)
 
-export function subscribeWeather(city: WeatherCity, listener: () => void) {
-  const entry = entryFor(city)
-  entry.listeners.add(listener)
+function watchWeather(entry: Entry) {
+  const lifecycle = new AbortController()
+  const { signal } = lifecycle
   const onVisible = () => {
     if (!document.hidden) void refresh(entry)
   }
-  const onOnline = () => {
-    void refresh(entry, true)
+  document.addEventListener('visibilitychange', onVisible, { signal })
+  const onOnline = () => void refresh(entry, true)
+  const onOffline = () => void refresh(entry)
+  window.addEventListener('online', onOnline, { signal })
+  window.addEventListener('offline', onOffline, { signal })
+  const interval = setInterval(onVisible, 60_000)
+  void refresh(entry)
+  return () => {
+    lifecycle.abort()
+    clearInterval(interval)
   }
-  const onOffline = () => {
-    void refresh(entry)
-  }
-  if (entry.listeners.size === 1 && entry.interval === undefined) {
-    void refresh(entry)
-    entry.interval = setInterval(onVisible, 60_000)
-  }
-  document.addEventListener('visibilitychange', onVisible)
-  window.addEventListener('online', onOnline)
-  window.addEventListener('offline', onOffline)
+}
+
+export function subscribeWeather(city: WeatherCity, listener: () => void) {
+  const entry = entryFor(city)
+  entry.listeners.add(listener)
+  entry.stop ??= watchWeather(entry)
   return () => {
     entry.listeners.delete(listener)
-    document.removeEventListener('visibilitychange', onVisible)
-    window.removeEventListener('online', onOnline)
-    window.removeEventListener('offline', onOffline)
     // StrictMode re-subscribes in the same turn; retain that in-flight request.
     queueMicrotask(() => {
       if (entry.listeners.size) return
-      clearInterval(entry.interval)
-      entry.interval = undefined
+      entry.stop?.()
+      entry.stop = undefined
       const controller = entry.controller
       entry.controller = undefined
       controller?.abort()

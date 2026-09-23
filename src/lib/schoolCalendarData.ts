@@ -47,9 +47,7 @@ export const getSchoolReleaseTime = (day?: SchoolCalendarDay) =>
     .filter((time) => time !== undefined)
     .sort()[0]
 
-export const normalizeCalendar = (
-  data: SchoolCalendarData
-): SchoolCalendarData =>
+const normalizeCalendar = (data: SchoolCalendarData): SchoolCalendarData =>
   Object.fromEntries(
     Object.entries(data).map(([date, day]) => {
       // Repair the old service's all-day = holiday rule while it is still deployed.

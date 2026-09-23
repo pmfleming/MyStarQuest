@@ -5,7 +5,8 @@ import { markStartup } from '../../lib/startupPerformance'
 
 const useSolarSystem3D = (
   sceneState: SolarSystemSceneState,
-  enabled = true
+  enabled = true,
+  onOrbitChange?: (year: number, progress: number) => void
 ) => {
   const [globeReady, setGlobeReady] = useState(false)
   const [globeFailed, setGlobeFailed] = useState(false)
@@ -13,6 +14,11 @@ const useSolarSystem3D = (
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const managerRef = useRef<SolarSystem3DManager>(null)
   const latestSceneStateRef = useRef(sceneState)
+  const onOrbitChangeRef = useRef(onOrbitChange)
+
+  useEffect(() => {
+    onOrbitChangeRef.current = onOrbitChange
+  }, [onOrbitChange])
 
   useEffect(() => {
     latestSceneStateRef.current = sceneState
@@ -35,7 +41,8 @@ const useSolarSystem3D = (
             if (cancelled || !canvasRef.current) return
             manager = new Manager(
               canvasRef.current,
-              latestSceneStateRef.current
+              latestSceneStateRef.current,
+              (year, progress) => onOrbitChangeRef.current?.(year, progress)
             )
             managerRef.current = manager
             markStartup('globe-scene-ready')

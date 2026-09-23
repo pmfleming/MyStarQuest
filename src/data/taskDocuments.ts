@@ -9,6 +9,8 @@ import {
   DEFAULT_DINNER_STARS,
   DEFAULT_LARGE_NUMBERS_PROBLEMS,
   DEFAULT_LARGE_NUMBERS_STARS,
+  DEFAULT_FRACTIONS_PROBLEMS,
+  DEFAULT_FRACTIONS_STARS,
   DEFAULT_MATH_PROBLEMS,
   DEFAULT_MATH_STARS,
   DEFAULT_PV_PROBLEMS,
@@ -26,12 +28,11 @@ import { validateTaskFields } from './taskLimits'
 
 type TaskTemplate = {
   title: string
-  category: string
+  category?: string
   starValue: number
-  extras?: Record<string, unknown>
 }
 
-const CHORE_TEMPLATES: Record<ChoreType, TaskTemplate> = {
+const CHORE_TEMPLATES = {
   standard: {
     title: 'New Chore',
     category: '',
@@ -41,80 +42,69 @@ const CHORE_TEMPLATES: Record<ChoreType, TaskTemplate> = {
     title: 'Dinner',
     category: 'eating',
     starValue: DEFAULT_DINNER_STARS,
-    extras: {
-      dinnerDurationSeconds: DEFAULT_DINNER_DURATION_SECONDS,
-      dinnerTotalBites: DEFAULT_DINNER_BITES,
-    },
+    dinnerDurationSeconds: DEFAULT_DINNER_DURATION_SECONDS,
+    dinnerTotalBites: DEFAULT_DINNER_BITES,
   },
   watertoiletcheck: {
     title: 'Water & Toilet Check',
     category: 'watertoiletcheck',
     starValue: DEFAULT_WATER_TOILET_STARS,
   },
-}
+} satisfies Record<
+  ChoreType,
+  TaskTemplate &
+    Partial<{ dinnerDurationSeconds: number; dinnerTotalBites: number }>
+>
 
 const TEST_TEMPLATES = {
+  fractions: {
+    title: 'Fractions',
+    starValue: DEFAULT_FRACTIONS_STARS,
+    taskType: 'fractions',
+    fractionsTotalProblems: DEFAULT_FRACTIONS_PROBLEMS,
+  },
   math: {
     title: 'Arithmetic',
-    category: 'math',
     starValue: DEFAULT_MATH_STARS,
-    extras: {
-      taskType: 'math',
-      mathTotalProblems: DEFAULT_MATH_PROBLEMS,
-      mathDifficulty: 'easy',
-    },
+    taskType: 'math',
+    mathTotalProblems: DEFAULT_MATH_PROBLEMS,
+    mathDifficulty: 'easy',
   },
   'large-numbers': {
     title: 'Large Numbers',
-    category: 'large-numbers',
     starValue: DEFAULT_LARGE_NUMBERS_STARS,
-    extras: {
-      taskType: 'large-numbers',
-      largeNumbersTotalProblems: DEFAULT_LARGE_NUMBERS_PROBLEMS,
-    },
+    taskType: 'large-numbers',
+    largeNumbersTotalProblems: DEFAULT_LARGE_NUMBERS_PROBLEMS,
   },
   'positional-notation': {
     title: 'Positional Notation',
-    category: 'positional-notation',
     starValue: DEFAULT_PV_STARS,
-    extras: {
-      taskType: 'positional-notation',
-      pvTotalProblems: DEFAULT_PV_PROBLEMS,
-    },
+    taskType: 'positional-notation',
+    pvTotalProblems: DEFAULT_PV_PROBLEMS,
   },
   alphabet: {
     title: 'Alphabet Match',
-    category: 'alphabet',
     starValue: DEFAULT_ALPHABET_STARS,
-    extras: {
-      taskType: 'alphabet',
-      alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
-    },
+    taskType: 'alphabet',
+    alphabetTotalProblems: DEFAULT_ALPHABET_PROBLEMS,
   },
   spelling: {
     title: 'Spelling',
-    category: 'spelling',
     starValue: DEFAULT_SPELLING_STARS,
-    extras: {
-      taskType: 'spelling',
-      spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
-    },
+    taskType: 'spelling',
+    spellingTotalProblems: DEFAULT_SPELLING_PROBLEMS,
   },
   animals: {
     title: 'Who am I?',
-    category: 'animals',
     starValue: DEFAULT_ANIMALS_STARS,
-    extras: {
-      taskType: 'animals',
-      animalsTotalProblems: DEFAULT_ANIMALS_PROBLEMS,
-    },
+    taskType: 'animals',
+    animalsTotalProblems: DEFAULT_ANIMALS_PROBLEMS,
   },
 } satisfies {
-  [Type in TestType]: TaskTemplate & {
-    extras: Omit<Extract<TestRecord, { taskType: Type }>, keyof TestRecord> & {
+  [Type in TestType]: TaskTemplate &
+    Omit<Extract<TestRecord, { taskType: Type }>, keyof TestRecord> & {
       taskType: Type
     }
-  }
 }
 
 const buildBaseTaskDocument = (
@@ -122,16 +112,14 @@ const buildBaseTaskDocument = (
   taskType: ChoreType | TestType,
   template: TaskTemplate
 ) => ({
-  title: template.title,
+  category: taskType,
+  ...template,
   childId,
-  category: template.category,
   taskType,
   schoolDayEnabled: true,
   nonSchoolDayEnabled: true,
-  starValue: template.starValue,
   isRepeating: true,
   createdAt: serverTimestamp(),
-  ...template.extras,
 })
 
 export type ChoreDocumentSettings = Partial<
@@ -158,10 +146,7 @@ export const buildChoreDocument = (
   const document = {
     ...buildBaseTaskDocument(childId, choreType, CHORE_TEMPLATES[choreType]),
     choreType,
-    nonSchoolDayEnabled:
-      choreType === 'watertoiletcheck'
-        ? false
-        : (CHORE_TEMPLATES[choreType].extras?.nonSchoolDayEnabled ?? true),
+    nonSchoolDayEnabled: choreType !== 'watertoiletcheck',
     ...settings,
   }
   validateTaskFields(document)
@@ -178,11 +163,10 @@ const buildDefaultTest = (
   testType: TestType,
   index: number
 ): TestRecord => {
-  const { extras, ...definition } = TEST_TEMPLATES[testType]
   return {
     id: `default-${testType}-${childId}`,
-    ...definition,
-    ...extras,
+    ...TEST_TEMPLATES[testType],
+    category: testType,
     childId,
     schoolDayEnabled: true,
     nonSchoolDayEnabled: true,

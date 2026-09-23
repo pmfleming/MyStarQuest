@@ -3,14 +3,11 @@ import {
   useRef,
   useState,
   type CSSProperties,
-  type MouseEvent as ReactMouseEvent,
   type ReactNode,
 } from 'react'
-import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
 
 type DragScrollRegionProps = {
-  theme: Theme
   children: ReactNode
   className?: string
   contentClassName?: string
@@ -40,142 +37,118 @@ const DragScrollRegion = ({
   topNavPadding = false,
 }: DragScrollRegionProps) => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
-  const dragStateRef = useRef<DragState | null>(null)
-  const suppressClickRef = useRef(false)
-  const dragCleanupRef = useRef<(() => void) | null>(null)
-  const suppressClickTimerRef = useRef<number | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [canScroll, setCanScroll] = useState(false)
-
   const ComponentTag = as
 
   useEffect(() => {
-    const scrollElement = scrollRef.current
-    if (!scrollElement) return
+    const element = scrollRef.current
+    if (!element) return
+    const lifetime = new AbortController()
+    const { signal } = lifetime
+    let gesture: AbortController | undefined
+    let suppressClick = false
+    let clickTimer: ReturnType<typeof setTimeout> | undefined
 
-    const updateScrollState = () => {
-      const nextCanScroll =
-        scrollElement.scrollHeight > scrollElement.clientHeight + 1
-      setCanScroll(nextCanScroll)
-    }
-
-    updateScrollState()
-
+    const updateScrollState = () =>
+      setCanScroll(element.scrollHeight > element.clientHeight + 1)
     const resizeObserver = new ResizeObserver(updateScrollState)
-    resizeObserver.observe(scrollElement)
-
-    for (const child of Array.from(scrollElement.children)) {
+    resizeObserver.observe(element)
+    Array.from(element.children).forEach((child) =>
       resizeObserver.observe(child)
-    }
-
-    scrollElement.addEventListener('scroll', updateScrollState, {
+    )
+    updateScrollState()
+    element.addEventListener('scroll', updateScrollState, {
       passive: true,
+      signal,
     })
-    window.addEventListener('resize', updateScrollState)
 
-    return () => {
-      resizeObserver.disconnect()
-      scrollElement.removeEventListener('scroll', updateScrollState)
-      window.removeEventListener('resize', updateScrollState)
+    const stopDragging = () => {
+      gesture?.abort()
+      gesture = undefined
+      setIsDragging(false)
     }
-  }, [])
-
-  useEffect(() => {
-    return () => {
-      dragCleanupRef.current?.()
-      if (suppressClickTimerRef.current !== null) {
-        window.clearTimeout(suppressClickTimerRef.current)
+    const startDragging = (event: MouseEvent) => {
+      if (
+        event.button !== 0 ||
+        element.scrollHeight <= element.clientHeight + 1
+      )
+        return
+      if (
+        event.target instanceof Element &&
+        event.target.closest(INTERACTIVE_SELECTOR)
+      )
+        return
+      stopDragging()
+      clearTimeout(clickTimer)
+      suppressClick = false
+      const drag: DragState = {
+        startY: event.clientY,
+        startScrollTop: element.scrollTop,
+        hasMoved: false,
       }
-      document.body.style.removeProperty('user-select')
+      gesture = new AbortController()
+      const { signal } = gesture
+      const previousSelect = document.body.style.userSelect
+      document.body.style.userSelect = 'none'
+      signal.addEventListener(
+        'abort',
+        () => {
+          document.body.style.userSelect = previousSelect
+        },
+        { once: true }
+      )
+      window.addEventListener(
+        'mousemove',
+        (move) => {
+          const delta = move.clientY - drag.startY
+          if (!drag.hasMoved && Math.abs(delta) >= DRAG_THRESHOLD_PX) {
+            drag.hasMoved = true
+            suppressClick = true
+            setIsDragging(true)
+          }
+          if (!drag.hasMoved) return
+          move.preventDefault()
+          element.scrollTop = drag.startScrollTop - delta * 1.5
+        },
+        { signal }
+      )
+      window.addEventListener(
+        'mouseup',
+        () => {
+          stopDragging()
+          clickTimer = setTimeout(() => {
+            suppressClick = false
+          }, 0)
+        },
+        { signal }
+      )
+      window.addEventListener(
+        'blur',
+        () => {
+          stopDragging()
+          suppressClick = false
+        },
+        { signal }
+      )
+    }
+    element.addEventListener('mousedown', startDragging, { signal })
+    element.addEventListener(
+      'click',
+      (event) => {
+        if (!suppressClick) return
+        event.preventDefault()
+        event.stopPropagation()
+      },
+      { capture: true, signal }
+    )
+    return () => {
+      lifetime.abort()
+      gesture?.abort()
+      clearTimeout(clickTimer)
+      resizeObserver.disconnect()
     }
   }, [])
-
-  const stopDragging = () => {
-    dragStateRef.current = null
-    setIsDragging(false)
-    document.body.style.removeProperty('user-select')
-    dragCleanupRef.current?.()
-  }
-
-  const handleWindowMouseMove = (event: MouseEvent) => {
-    const scrollElement = scrollRef.current
-    const dragState = dragStateRef.current
-
-    if (!scrollElement || !dragState) return
-
-    const deltaY = event.clientY - dragState.startY
-
-    if (!dragState.hasMoved && Math.abs(deltaY) >= DRAG_THRESHOLD_PX) {
-      dragState.hasMoved = true
-      suppressClickRef.current = true
-      setIsDragging(true)
-    }
-
-    if (!dragState.hasMoved) return
-
-    event.preventDefault()
-    scrollElement.scrollTop = dragState.startScrollTop - deltaY * 1.5
-  }
-
-  const handleWindowMouseUp = () => {
-    stopDragging()
-    suppressClickTimerRef.current = window.setTimeout(() => {
-      suppressClickTimerRef.current = null
-      suppressClickRef.current = false
-    }, 0)
-  }
-
-  const handleWindowBlur = () => {
-    stopDragging()
-    suppressClickRef.current = false
-  }
-
-  const handleMouseDown = (event: ReactMouseEvent<HTMLDivElement>) => {
-    if (event.button !== 0) return
-    if (!canScroll) return
-
-    const target = event.target
-    if (target instanceof Element && target.closest(INTERACTIVE_SELECTOR)) {
-      return
-    }
-
-    const scrollElement = scrollRef.current
-    if (!scrollElement) return
-
-    dragCleanupRef.current?.()
-    if (suppressClickTimerRef.current !== null) {
-      window.clearTimeout(suppressClickTimerRef.current)
-      suppressClickTimerRef.current = null
-    }
-    suppressClickRef.current = false
-    dragStateRef.current = {
-      startY: event.clientY,
-      startScrollTop: scrollElement.scrollTop,
-      hasMoved: false,
-    }
-
-    document.body.style.userSelect = 'none'
-    window.addEventListener('mousemove', handleWindowMouseMove)
-    window.addEventListener('mouseup', handleWindowMouseUp)
-    window.addEventListener('blur', handleWindowBlur)
-    // Capture the registered handlers so navigation can remove them even if
-    // the drag caused a render or never received its mouseup event.
-    dragCleanupRef.current = () => {
-      window.removeEventListener('mousemove', handleWindowMouseMove)
-      window.removeEventListener('mouseup', handleWindowMouseUp)
-      window.removeEventListener('blur', handleWindowBlur)
-      dragStateRef.current = null
-      dragCleanupRef.current = null
-      document.body.style.removeProperty('user-select')
-    }
-  }
-
-  const handleClickCapture = (event: ReactMouseEvent<HTMLDivElement>) => {
-    if (!suppressClickRef.current) return
-
-    event.preventDefault()
-    event.stopPropagation()
-  }
 
   const outerClasses = [
     'relative flex flex-col overflow-hidden',
@@ -208,8 +181,6 @@ const DragScrollRegion = ({
             : undefined,
           ...contentStyle,
         }}
-        onMouseDown={handleMouseDown}
-        onClickCapture={handleClickCapture}
       >
         {children}
       </div>

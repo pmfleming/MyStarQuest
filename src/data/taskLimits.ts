@@ -52,6 +52,7 @@ const LIMITED_TASK_FIELDS = new Set([
   'starValue',
   'mathTotalProblems',
   'largeNumbersTotalProblems',
+  'fractionsTotalProblems',
   'pvTotalProblems',
   'alphabetTotalProblems',
   'spellingTotalProblems',

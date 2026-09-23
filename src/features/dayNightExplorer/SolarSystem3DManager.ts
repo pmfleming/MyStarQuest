@@ -17,6 +17,8 @@ import {
   buildOrbitLine,
   getCenteredLongitude,
   getEarthViewRotationY,
+  getOrbitProgress,
+  getOrbitProgressDelta,
   latLonToVector,
   lerpAngle,
 } from './solarSystemGeometry'
@@ -75,6 +77,7 @@ export type SolarSystemSceneState = {
   displayMode: ExplorerDisplayMode
   earthRotationDeg: number
   earthOrbitProgress: number
+  orbitYear: number
   activeFocusId: ExplorerFocusId
   cityOptions: ExplorerCityOption[]
   sunPosition: SunPosition
@@ -128,8 +131,24 @@ export default class SolarSystem3DManager {
   private earthTexture: THREE.Texture | null = null
   private monthLabelTextures: THREE.CanvasTexture[] = []
   private cityVisuals: CityVisual[] = []
+  private readonly raycaster = new THREE.Raycaster()
+  private readonly pointer = new THREE.Vector2()
+  private readonly orbitPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0)
+  private readonly orbitPointer = new THREE.Vector3()
+  private readonly onOrbitChange?: (year: number, progress: number) => void
+  private orbitDrag: {
+    pointerId: number
+    year: number
+    progress: number
+    previousPointerProgress: number
+  } | null = null
 
-  constructor(canvas: HTMLCanvasElement, initialState: SolarSystemSceneState) {
+  constructor(
+    canvas: HTMLCanvasElement,
+    initialState: SolarSystemSceneState,
+    onOrbitChange?: (year: number, progress: number) => void
+  ) {
+    this.onOrbitChange = onOrbitChange
     this.sceneState = initialState
     this.scene = new THREE.Scene()
     this.scene.background = new THREE.Color('#06111f')
@@ -218,6 +237,14 @@ export default class SolarSystem3DManager {
     this.rebuildCityMarkers(initialState)
     this.initEarthTexture()
 
+    canvas.addEventListener('pointerdown', this.handlePointerDown)
+    canvas.addEventListener('pointermove', this.handlePointerMove)
+    canvas.addEventListener('pointerup', this.handlePointerUp)
+    canvas.addEventListener('pointercancel', this.handlePointerCancel)
+    canvas.addEventListener('lostpointercapture', this.handlePointerCancel)
+    window.addEventListener('blur', this.finishOrbitDrag)
+    this.syncPointerStyle()
+
     document.addEventListener('visibilitychange', this.handleVisibilityChange)
     window.addEventListener('resize', this.handleResize)
     if ('ResizeObserver' in window) {
@@ -246,12 +273,24 @@ export default class SolarSystem3DManager {
       this.rebuildMonthLabels(nextState.monthLabelFontFamily)
     }
     this.sceneState = nextState
+    if (nextState.displayMode !== 'solar-focus') this.finishOrbitDrag()
+    this.syncPointerStyle()
     this.syncCityVisualState(nextState)
   }
 
   dispose() {
     if (this.disposed) return
     this.disposed = true
+    this.finishOrbitDrag()
+    const canvas = this.renderer.domElement
+    canvas.removeEventListener('pointerdown', this.handlePointerDown)
+    canvas.removeEventListener('pointermove', this.handlePointerMove)
+    canvas.removeEventListener('pointerup', this.handlePointerUp)
+    canvas.removeEventListener('pointercancel', this.handlePointerCancel)
+    canvas.removeEventListener('lostpointercapture', this.handlePointerCancel)
+    window.removeEventListener('blur', this.finishOrbitDrag)
+    canvas.style.removeProperty('touch-action')
+    canvas.style.removeProperty('cursor')
     document.removeEventListener(
       'visibilitychange',
       this.handleVisibilityChange
@@ -296,12 +335,117 @@ export default class SolarSystem3DManager {
 
   private readonly handleVisibilityChange = () => {
     this.isDocumentVisible = document.visibilityState !== 'hidden'
+    if (!this.isDocumentVisible) this.finishOrbitDrag()
     this.layoutDirty = true
     this.updateAnimationState()
   }
 
   private readonly handleResize = () => {
     this.layoutDirty = true
+  }
+
+  private syncPointerStyle() {
+    const canvas = this.renderer.domElement
+    canvas.style.touchAction =
+      this.sceneState.displayMode === 'solar-focus' ? 'none' : 'auto'
+    canvas.style.cursor = this.orbitDrag ? 'grabbing' : 'default'
+  }
+
+  private setPointerRay(event: PointerEvent) {
+    const rect = this.renderer.domElement.getBoundingClientRect()
+    if (!rect.width || !rect.height) return false
+    this.pointer.set(
+      ((event.clientX - rect.left) / rect.width) * 2 - 1,
+      1 - ((event.clientY - rect.top) / rect.height) * 2
+    )
+    this.camera.updateMatrixWorld()
+    this.earthMesh.updateWorldMatrix(true, false)
+    this.raycaster.setFromCamera(this.pointer, this.camera)
+    return true
+  }
+
+  private readPointerProgress() {
+    if (
+      !this.raycaster.ray.intersectPlane(this.orbitPlane, this.orbitPointer)
+    ) {
+      return null
+    }
+    const { x, y } = this.orbitPointer
+    // Ignore the Sun's center, where tiny pointer changes flip the orbit angle.
+    if (Math.hypot(x / EARTH_ORBIT_X, y / EARTH_ORBIT_Y) < 0.15) return null
+    return getOrbitProgress(x, y, EARTH_ORBIT_X, EARTH_ORBIT_Y)
+  }
+
+  private readonly handlePointerDown = (event: PointerEvent) => {
+    if (
+      this.orbitDrag ||
+      event.button !== 0 ||
+      !event.isPrimary ||
+      this.sceneState.displayMode !== 'solar-focus' ||
+      !this.onOrbitChange ||
+      !this.setPointerRay(event) ||
+      !this.raycaster.intersectObject(this.earthMesh, false).length
+    )
+      return
+    const progress = this.readPointerProgress()
+    if (progress === null) return
+    event.preventDefault()
+    this.orbitDrag = {
+      pointerId: event.pointerId,
+      year: this.sceneState.orbitYear,
+      progress: this.sceneState.earthOrbitProgress,
+      previousPointerProgress: progress,
+    }
+    this.renderer.domElement.setPointerCapture(event.pointerId)
+    this.syncPointerStyle()
+  }
+
+  private readonly handlePointerMove = (event: PointerEvent) => {
+    if (
+      this.sceneState.displayMode !== 'solar-focus' ||
+      !this.setPointerRay(event)
+    )
+      return
+    const drag = this.orbitDrag
+    if (!drag) {
+      this.renderer.domElement.style.cursor = this.raycaster.intersectObject(
+        this.earthMesh,
+        false
+      ).length
+        ? 'grab'
+        : 'default'
+      return
+    }
+    if (event.pointerId !== drag.pointerId) return
+    const progress = this.readPointerProgress()
+    if (progress === null) return
+    event.preventDefault()
+    drag.progress += getOrbitProgressDelta(
+      drag.previousPointerProgress,
+      progress
+    )
+    drag.previousPointerProgress = progress
+    this.onOrbitChange?.(drag.year, drag.progress)
+  }
+
+  private readonly handlePointerUp = (event: PointerEvent) => {
+    if (event.pointerId !== this.orbitDrag?.pointerId) return
+    this.handlePointerMove(event)
+    this.finishOrbitDrag()
+  }
+
+  private readonly handlePointerCancel = (event: PointerEvent) => {
+    if (event.pointerId === this.orbitDrag?.pointerId) this.finishOrbitDrag()
+  }
+
+  private readonly finishOrbitDrag = () => {
+    const drag = this.orbitDrag
+    this.orbitDrag = null
+    const canvas = this.renderer.domElement
+    if (drag && canvas.hasPointerCapture(drag.pointerId)) {
+      canvas.releasePointerCapture(drag.pointerId)
+    }
+    this.syncPointerStyle()
   }
 
   private shouldAnimate() {
@@ -323,7 +467,9 @@ export default class SolarSystem3DManager {
   }
 
   private applySceneState(state: SolarSystemSceneState) {
-    const earthOrbitAngle = Math.PI / 2 - state.earthOrbitProgress * Math.PI * 2
+    const earthOrbitAngle =
+      Math.PI / 2 -
+      (this.orbitDrag?.progress ?? state.earthOrbitProgress) * Math.PI * 2
 
     if (state.displayMode === 'earth-focus') {
       this.earthPosition.set(0, 0, 0)

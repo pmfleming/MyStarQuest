@@ -315,12 +315,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           )
         })}
       </div>
-      <SchoolEvents
-        day={events[selectedDateKey]}
-        dateKey={selectedDateKey}
-        theme={theme}
-        isSchool={isSchoolDate(selectedDate, events)}
-      />
+      <SchoolEvents day={events[selectedDateKey]} theme={theme} />
       <DayAgenda theme={theme} agenda={agenda} />
     </section>
   )
