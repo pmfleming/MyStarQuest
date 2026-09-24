@@ -21,6 +21,8 @@ export default function AgendaTime({
   dateLabel?: string
 }) {
   const minutes = timeToMinutes(value)
+  const hours = Math.floor(minutes / 60) % 24
+  const displayTime = `${hours % 12 || 12}:${String(minutes % 60).padStart(2, '0')} ${hours < 12 ? 'AM' : 'PM'}`
 
   return (
     <div className="day-agenda__time">
@@ -51,33 +53,37 @@ export default function AgendaTime({
           ))}
         </g>
         <g strokeLinecap="round">
-          <line
-            x1="64"
-            y1="48"
-            x2="64"
-            y2="28"
-            stroke="#3174d3"
-            strokeWidth="5"
-            transform={`rotate(${(minutes % 720) / 2} 64 48)`}
-          />
-          <line
-            x1="64"
-            y1="48"
-            x2="64"
-            y2="20"
-            stroke="#2d640b"
-            strokeWidth="3"
-            transform={`rotate(${(minutes % 60) * 6} 64 48)`}
-          />
+          <g color="#3174d3" transform={`rotate(${(minutes % 720) / 2} 64 48)`}>
+            <line
+              x1="64"
+              y1="48"
+              x2="64"
+              y2="34"
+              stroke="currentColor"
+              strokeWidth="5"
+            />
+            <path d="M58 35 L64 28 L70 35 Z" fill="currentColor" />
+          </g>
+          <g color="#2d640b" transform={`rotate(${(minutes % 60) * 6} 64 48)`}>
+            <line
+              x1="64"
+              y1="48"
+              x2="64"
+              y2="26"
+              stroke="currentColor"
+              strokeWidth="3"
+            />
+            <path d="M59 27 L64 20 L69 27 Z" fill="currentColor" />
+          </g>
         </g>
         <circle cx="64" cy="48" r="3.5" fill="currentColor" />
       </svg>
       <time
         className="day-agenda__digital"
         dateTime={value === '24:00' ? '00:00' : value}
-        aria-label={`${label} ${dateLabel ? `${dateLabel}, ` : ''}${value}${value === '24:00' ? ', end of day' : ''}`}
+        aria-label={`${label} ${dateLabel ? `${dateLabel}, ` : ''}${displayTime}${value === '24:00' ? ', end of day' : ''}`}
       >
-        {value}
+        {displayTime}
       </time>
       {dateLabel && <span className="day-agenda__time-label">{dateLabel}</span>}
     </div>

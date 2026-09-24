@@ -57,6 +57,14 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
+.day-agenda__item--single-time .day-agenda__details {
+  grid-column: 2 / -1;
+}
+
+.day-agenda__item--single-time .day-agenda__image {
+  left: 66%;
+}
+
 .day-agenda__all-day-label {
   font-size: 0.9rem;
   font-weight: 800;
@@ -88,16 +96,22 @@
   position: relative;
   z-index: 1;
   border-radius: 5px;
-  background: color-mix(in srgb, var(--agenda-surface) 90%, transparent);
+  background: color-mix(in srgb, var(--agenda-surface) 50%, transparent);
   padding-inline: 3px;
 }
 
 .day-agenda__title {
+  width: 100%;
+  box-sizing: border-box;
   font-size: 0.85rem;
   font-family: var(--agenda-heading-font);
   font-weight: 800;
   line-height: 1.2;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+}
+
+.day-agenda__title > span {
+  display: inline-block;
 }
 
 .day-agenda__time {

@@ -22,8 +22,8 @@ describe('school event timing', () => {
         }}
       />
     )
-    expect(screen.getByLabelText('From 23 Sept, 22:30')).toBeVisible()
-    expect(screen.getByLabelText('To 24 Sept, 08:00')).toBeVisible()
+    expect(screen.getByLabelText('From 23 Sept, 10:30 PM')).toBeVisible()
+    expect(screen.getByLabelText('To 24 Sept, 8:00 AM')).toBeVisible()
   })
 
   it('uses one clock for a single instant', () => {
@@ -44,7 +44,7 @@ describe('school event timing', () => {
         }}
       />
     )
-    expect(screen.getByLabelText('At 14:00')).toBeVisible()
+    expect(screen.getByLabelText('At 2:00 PM')).toBeVisible()
     expect(
       screen.getByText('School Reports').closest('li')!.querySelectorAll('time')
     ).toHaveLength(1)

@@ -14,6 +14,9 @@ import { useCalendarSchedule } from '../hooks/useCalendarSchedule'
 import { getAgendaForDate, isSchoolDate } from '../lib/calendarSchedule'
 import DayAgenda from './DayAgenda'
 import SchoolEvents from './SchoolEvents'
+import TheatreEvents from './TheatreEvents'
+import { getTheatreEvents } from '../lib/theatreEvents'
+import { getTheatreEventImage } from '../ui/theatreEventAssets'
 import { getSchoolEvents } from '../lib/schoolCalendarData'
 import { getSchoolEventImage } from '../ui/schoolEventAssets'
 import { uiTokens } from '../tokens'
@@ -209,15 +212,21 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           const isToday = dateKey === todayDateKey
           const isSelected = dateKey === selectedDateKey
           const schoolEvents = getSchoolEvents(events[dateKey])
+          const theatreEvents = getTheatreEvents(dateKey)
           const illustrated = schoolEvents.find(({ artwork }) => artwork)
+          const theatreIllustration = theatreEvents[0]
+          const hasIllustration = !!illustrated || !!theatreIllustration
           const icon = illustrated?.artwork
             ? getSchoolEventImage(theme.id, illustrated.artwork)
-            : isSchool
-              ? schoolIcon
-              : nonSchoolIcon
+            : theatreIllustration
+              ? getTheatreEventImage(theatreIllustration.id)
+              : isSchool
+                ? schoolIcon
+                : nonSchoolIcon
           const description = [
             isSchool ? 'School day' : 'Day off',
             ...schoolEvents.map(({ titleEn }) => titleEn),
+            ...theatreEvents.map(({ title }) => title),
           ].join(' · ')
           const highlight = isSelected
             ? { color: theme.colors.accent, glow: `${theme.colors.accent}44` }
@@ -253,7 +262,11 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
             >
               <img
                 src={icon}
-                alt={illustrated?.titleEn ?? (isSchool ? 'School' : 'Home')}
+                alt={
+                  illustrated?.titleEn ??
+                  theatreIllustration?.title ??
+                  (isSchool ? 'School' : 'Home')
+                }
                 loading="lazy"
                 decoding="async"
                 style={{
@@ -263,7 +276,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                   height: '100%',
                   objectFit: 'contain',
                   padding: '10%',
-                  opacity: illustrated ? 1 : 0.75,
+                  opacity: hasIllustration ? 1 : 0.75,
                 }}
               />
               <span
@@ -271,10 +284,10 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                   position: 'absolute',
                   inset: 0,
                   display: 'flex',
-                  alignItems: illustrated ? 'flex-start' : 'center',
-                  justifyContent: illustrated ? 'flex-start' : 'center',
-                  padding: illustrated ? '2px' : undefined,
-                  fontSize: illustrated ? '0.85rem' : '1.2rem',
+                  alignItems: hasIllustration ? 'flex-start' : 'center',
+                  justifyContent: hasIllustration ? 'flex-start' : 'center',
+                  padding: hasIllustration ? '2px' : undefined,
+                  fontSize: hasIllustration ? '0.85rem' : '1.2rem',
                   fontWeight: 900,
                   lineHeight: 1,
                   color: theme.colors.text,
@@ -283,7 +296,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
               >
                 {day}
               </span>
-              {schoolEvents.length > 1 && (
+              {schoolEvents.length + theatreEvents.length > 1 && (
                 <span
                   aria-hidden="true"
                   style={{
@@ -316,6 +329,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
         })}
       </div>
       <SchoolEvents day={events[selectedDateKey]} theme={theme} />
+      <TheatreEvents dateKey={selectedDateKey} theme={theme} />
       <DayAgenda theme={theme} agenda={agenda} />
     </section>
   )

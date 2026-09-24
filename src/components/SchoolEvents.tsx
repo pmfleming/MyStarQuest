@@ -61,11 +61,7 @@ export default function SchoolEvents({
         image: event.artwork
           ? getSchoolEventImage(theme.id, event.artwork)
           : undefined,
-        subtitle: {
-          activity: undefined,
-          'day-off': 'Day off',
-          'early-finish': 'Early finish',
-        }[event.kind],
+        subtitle: event.kind === 'early-finish' ? 'Early finish' : undefined,
         timing: eventTiming(event),
         background: `${theme.colors.accent}20`,
       }))}

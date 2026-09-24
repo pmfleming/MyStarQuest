@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import AgendaTime from './AgendaTime'
+import AgendaTitle from './AgendaTitle'
 import ExpandableAgendaItem from './ExpandableAgendaItem'
 import './DayAgenda.css'
 
@@ -20,6 +21,7 @@ type AgendaEntry = {
   title: string
   image?: string
   subtitle?: string
+  details?: string[]
   timing: AgendaTiming
   background: string
 }
@@ -88,52 +90,63 @@ export default function AgendaList({
         emptyText && <p>{emptyText}</p>
       ) : (
         <List className="day-agenda__list">
-          {entries.map(({ id, title, image, subtitle, timing, background }) => (
-            <ExpandableAgendaItem
-              key={id}
-              className={`day-agenda__item ${timingClasses[timing.kind]}`}
-              style={{ background, borderColor: `${theme.colors.accent}70` }}
-            >
-              {timing.kind === 'all-day' && <AllDayIndicator />}
-              {timing.kind === 'single' && (
-                <AgendaTime value={timing.time} label="At" />
-              )}
-              {timing.kind === 'range' && (
-                <AgendaTime
-                  value={timing.start}
-                  label="From"
-                  dateLabel={timing.startDate}
-                />
-              )}
-              <div className="day-agenda__details">
-                {image && (
-                  <img
-                    className="day-agenda__image"
-                    src={image}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
+          {entries.map(
+            ({ id, title, image, subtitle, details, timing, background }) => (
+              <ExpandableAgendaItem
+                key={id}
+                className={`day-agenda__item ${timingClasses[timing.kind]}`}
+                style={{ background, borderColor: `${theme.colors.accent}70` }}
+              >
+                {timing.kind === 'all-day' && <AllDayIndicator />}
+                {timing.kind === 'single' && (
+                  <AgendaTime value={timing.time} label="At" />
+                )}
+                {timing.kind === 'range' && (
+                  <AgendaTime
+                    value={timing.start}
+                    label="From"
+                    dateLabel={timing.startDate}
                   />
                 )}
-                <span className="day-agenda__title">{title}</span>
-                {subtitle && (
-                  <span className="day-agenda__subtitle">{subtitle}</span>
+                <div className="day-agenda__details">
+                  {image && (
+                    <img
+                      className="day-agenda__image"
+                      src={image}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
+                  <AgendaTitle title={title} />
+                  {subtitle && (
+                    <span className="day-agenda__subtitle">{subtitle}</span>
+                  )}
+                  {details && (
+                    <span className="day-agenda__extra">
+                      {details.map((detail) => (
+                        <span key={detail} className="day-agenda__subtitle">
+                          {detail}
+                        </span>
+                      ))}
+                    </span>
+                  )}
+                  {timing.kind === 'unknown' && (
+                    <span className="day-agenda__subtitle">
+                      Time not provided
+                    </span>
+                  )}
+                </div>
+                {timing.kind === 'range' && (
+                  <AgendaTime
+                    value={timing.end}
+                    label="To"
+                    dateLabel={timing.endDate}
+                  />
                 )}
-                {timing.kind === 'unknown' && (
-                  <span className="day-agenda__subtitle">
-                    Time not provided
-                  </span>
-                )}
-              </div>
-              {timing.kind === 'range' && (
-                <AgendaTime
-                  value={timing.end}
-                  label="To"
-                  dateLabel={timing.endDate}
-                />
-              )}
-            </ExpandableAgendaItem>
-          ))}
+              </ExpandableAgendaItem>
+            )
+          )}
         </List>
       )}
     </section>

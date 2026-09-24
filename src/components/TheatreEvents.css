@@ -1,0 +1,23 @@
+.theatre-events .day-agenda__details {
+  grid-column: 2;
+}
+
+.theatre-events .day-agenda__image {
+  left: 50%;
+}
+
+.theatre-events .day-agenda__extra {
+  display: none;
+}
+
+.theatre-events [data-expanded='true'] .day-agenda__extra {
+  width: 200%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 3px;
+  padding: 4px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--agenda-surface) 94%, transparent);
+}
