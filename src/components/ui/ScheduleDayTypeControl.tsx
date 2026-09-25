@@ -1,7 +1,7 @@
 import { getThemeAsset } from '../../ui/themeAssets'
 import { getNonSchoolDayImages } from '../../ui/seasonAssets'
 import type { Theme } from '../../contexts/ThemeContext'
-import type { TaskRecord, TaskUpdatableFields } from '../../data/types'
+import type { TaskRecord } from '../../data/types'
 import { getSeasonForDate } from '../../lib/today'
 import { uiTokens } from '../../tokens'
 import { IconChoiceButton } from './IconActionControls'
@@ -14,7 +14,10 @@ type SchedulableTask = Pick<
 type ScheduleDayTypeControlProps = {
   theme: Theme
   task: SchedulableTask
-  onUpdate: (taskId: string, field: TaskUpdatableFields) => void
+  onUpdate: (
+    taskId: string,
+    field: Partial<Omit<SchedulableTask, 'id'>>
+  ) => void
 }
 
 const ScheduleDayTypeControl = ({

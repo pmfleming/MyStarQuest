@@ -1,16 +1,14 @@
-## TypeScript quality gate
+# Deep quality review — 25 September 2026
 
-Mode: **all blockers (configuration changed)**. Verdict: **warn**.
-
-| Metric | Committed baseline | Current | Change |
+| Metric | Before | After | Change |
 | --- | ---: | ---: | ---: |
-| source_lines | 30611 | 31302 | 691 |
-| cognitive_complexity | 1467 | 1500 | 33 |
-| cyclomatic_complexity | 2099 | 2131 | 32 |
-| halstead_effort | 9960537 | 10092095 | 131558 |
+| source_lines | 32,339 | 32,096 | -243 |
+| cognitive_complexity | 1,565 | 1,530 | -35 |
+| cyclomatic_complexity | 2,229 | 2,195 | -34 |
+| halstead_effort | 10,443,796 | 10,211,071 | -232,725 |
 | clone_groups | 0 | 0 | 0 |
-| locality_risk | 11409 | 11450 | 41 |
-| leverage_risk | 284 | 332 | 48 |
+| locality_risk | 12,078 | 12,078 | 0 |
+| leverage_risk | 284 | 248 | -36 |
 | lint_blockers | 0 | 0 | 0 |
 
-Baseline uses committed Lens artifacts at the merge base; current uses this run. Complexity/effort sum callables; lines sum files; locality/leverage sum risk scores (lower is better). Aggregates are comparison aids, not additional Lens scores.
+Fresh working-tree baseline captured before this deep review, preserving earlier user changes. Identical Lens version, source roots, policies and exclusions before/after. Complexity and effort sum callables, source lines sum Lens file records, locality/leverage sum module risk scores (lower is better). These aggregates are comparison aids, not official global Lens scores. Physical line deltas separately include additions/deletions across src, functions/src, tests and scripts; documentation and generated artifacts are excluded. No tests were added or removed.

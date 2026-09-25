@@ -1,0 +1,1467 @@
+{
+  "date": "2026-09-25",
+  "counting": "Registered expanded cases; each browser scenario once regardless of browser project. Includes Node and Android unit/device tests; excludes fixtures and setup.",
+  "baseline": 180,
+  "target": 121,
+  "final": 121,
+  "removed": 59,
+  "retainedPercent": 67.22222222222223,
+  "reductionPercent": 32.77777777777778,
+  "suites": [
+    {
+      "name": "Vitest",
+      "before": 167,
+      "after": 109
+    },
+    {
+      "name": "Browser scenarios",
+      "before": 6,
+      "after": 5
+    },
+    {
+      "name": "Node tooling",
+      "before": 2,
+      "after": 2
+    },
+    {
+      "name": "Android unit",
+      "before": 3,
+      "after": 3
+    },
+    {
+      "name": "Android device",
+      "before": 2,
+      "after": 2
+    }
+  ],
+  "integrity": {
+    "survivorsAreBaselineSubset": true,
+    "survivingCallbacksUnchanged": true,
+    "skippedOrTodoCases": 0,
+    "runnerConfigurationChanged": false,
+    "productionCodeChanged": false
+  },
+  "testSource": {
+    "beforeFiles": 73,
+    "afterFiles": 64,
+    "beforeLines": 7251,
+    "afterLines": 5561,
+    "files": [
+      {
+        "file": "tests/component/AlphabetTester.test.tsx",
+        "beforeLines": 81,
+        "afterLines": 55
+      },
+      {
+        "file": "tests/component/androidOffline.test.tsx",
+        "beforeLines": 239,
+        "afterLines": 199
+      },
+      {
+        "file": "tests/component/animalSession.test.tsx",
+        "beforeLines": 38,
+        "afterLines": 38
+      },
+      {
+        "file": "tests/component/AnimalTester.test.tsx",
+        "beforeLines": 114,
+        "afterLines": 0
+      },
+      {
+        "file": "tests/component/AppMenu.test.tsx",
+        "beforeLines": 195,
+        "afterLines": 155
+      },
+      {
+        "file": "tests/component/AsyncActions.test.tsx",
+        "beforeLines": 41,
+        "afterLines": 41
+      },
+      {
+        "file": "tests/component/AuthStartup.test.tsx",
+        "beforeLines": 120,
+        "afterLines": 120
+      },
+      {
+        "file": "tests/component/choreStarAwards.test.tsx",
+        "beforeLines": 229,
+        "afterLines": 210
+      },
+      {
+        "file": "tests/component/CreatureCollectionLoading.test.tsx",
+        "beforeLines": 89,
+        "afterLines": 89
+      },
+      {
+        "file": "tests/component/dayNightPerformance.test.tsx",
+        "beforeLines": 46,
+        "afterLines": 0
+      },
+      {
+        "file": "tests/component/deferredGlobe.test.tsx",
+        "beforeLines": 130,
+        "afterLines": 121
+      },
+      {
+        "file": "tests/component/DinnerCountdown.test.tsx",
+        "beforeLines": 44,
+        "afterLines": 0
+      },
+      {
+        "file": "tests/component/DragScrollRegion.test.tsx",
+        "beforeLines": 77,
+        "afterLines": 62
+      },
+      {
+        "file": "tests/component/ExpandableAgendaItem.test.tsx",
+        "beforeLines": 77,
+        "afterLines": 28
+      },
+      {
+        "file": "tests/component/FractionsTester.test.tsx",
+        "beforeLines": 170,
+        "afterLines": 126
+      },
+      {
+        "file": "tests/component/LargeNumbersTester.test.tsx",
+        "beforeLines": 56,
+        "afterLines": 56
+      },
+      {
+        "file": "tests/component/LearningNavigation.test.tsx",
+        "beforeLines": 53,
+        "afterLines": 53
+      },
+      {
+        "file": "tests/component/ManageChildrenPage.test.tsx",
+        "beforeLines": 93,
+        "afterLines": 93
+      },
+      {
+        "file": "tests/component/PictureGestures.test.tsx",
+        "beforeLines": 75,
+        "afterLines": 0
+      },
+      {
+        "file": "tests/component/profileSync.test.tsx",
+        "beforeLines": 125,
+        "afterLines": 97
+      },
+      {
+        "file": "tests/component/RewardAvailableSummary.test.tsx",
+        "beforeLines": 63,
+        "afterLines": 63
+      },
+      {
+        "file": "tests/component/RewardCreationFlow.test.tsx",
+        "beforeLines": 79,
+        "afterLines": 79
+      },
+      {
+        "file": "tests/component/RewardsPage.test.tsx",
+        "beforeLines": 98,
+        "afterLines": 61
+      },
+      {
+        "file": "tests/component/SchoolCalendar.test.tsx",
+        "beforeLines": 254,
+        "afterLines": 166
+      },
+      {
+        "file": "tests/component/SchoolCalendarSync.test.tsx",
+        "beforeLines": 41,
+        "afterLines": 41
+      },
+      {
+        "file": "tests/component/SchoolEvents.test.tsx",
+        "beforeLines": 72,
+        "afterLines": 0
+      },
+      {
+        "file": "tests/component/StandardActionList.test.tsx",
+        "beforeLines": 133,
+        "afterLines": 133
+      },
+      {
+        "file": "tests/component/tabNavigation.test.tsx",
+        "beforeLines": 145,
+        "afterLines": 145
+      },
+      {
+        "file": "tests/component/TaskCelebration.test.tsx",
+        "beforeLines": 174,
+        "afterLines": 151
+      },
+      {
+        "file": "tests/component/TeeniepingTester.test.tsx",
+        "beforeLines": 81,
+        "afterLines": 81
+      },
+      {
+        "file": "tests/component/testActivityReset.test.tsx",
+        "beforeLines": 64,
+        "afterLines": 64
+      },
+      {
+        "file": "tests/component/TheatreEvents.test.tsx",
+        "beforeLines": 131,
+        "afterLines": 84
+      },
+      {
+        "file": "tests/component/TimeExplorerReset.test.tsx",
+        "beforeLines": 205,
+        "afterLines": 129
+      },
+      {
+        "file": "tests/component/TimeExplorerWeather.test.tsx",
+        "beforeLines": 346,
+        "afterLines": 252
+      },
+      {
+        "file": "tests/component/TrainingPhotos.test.tsx",
+        "beforeLines": 36,
+        "afterLines": 36
+      },
+      {
+        "file": "tests/component/ui/unifiedChoreDescriptors.test.tsx",
+        "beforeLines": 91,
+        "afterLines": 0
+      },
+      {
+        "file": "tests/component/useChoreActivityActions.test.tsx",
+        "beforeLines": 66,
+        "afterLines": 66
+      },
+      {
+        "file": "tests/component/useChoresReset.test.tsx",
+        "beforeLines": 171,
+        "afterLines": 0
+      },
+      {
+        "file": "tests/component/useCoalescedDocumentUpdates.test.tsx",
+        "beforeLines": 43,
+        "afterLines": 43
+      },
+      {
+        "file": "tests/component/useTestsReset.test.tsx",
+        "beforeLines": 140,
+        "afterLines": 140
+      },
+      {
+        "file": "tests/e2e/fractions.spec.ts",
+        "beforeLines": 71,
+        "afterLines": 71
+      },
+      {
+        "file": "tests/e2e/offline.spec.ts",
+        "beforeLines": 109,
+        "afterLines": 109
+      },
+      {
+        "file": "tests/offline-browser/shell.spec.ts",
+        "beforeLines": 161,
+        "afterLines": 161
+      },
+      {
+        "file": "tests/unit/artworkSelection.test.ts",
+        "beforeLines": 34,
+        "afterLines": 13
+      },
+      {
+        "file": "tests/unit/calendarSchedule.test.ts",
+        "beforeLines": 105,
+        "afterLines": 50
+      },
+      {
+        "file": "tests/unit/dailyChoreFunctions.test.ts",
+        "beforeLines": 132,
+        "afterLines": 132
+      },
+      {
+        "file": "tests/unit/importWebProgress.test.ts",
+        "beforeLines": 36,
+        "afterLines": 36
+      },
+      {
+        "file": "tests/unit/lib/choreParser.test.ts",
+        "beforeLines": 88,
+        "afterLines": 44
+      },
+      {
+        "file": "tests/unit/lib/disposeSceneObject.test.ts",
+        "beforeLines": 50,
+        "afterLines": 0
+      },
+      {
+        "file": "tests/unit/lib/earthTextureCache.test.ts",
+        "beforeLines": 71,
+        "afterLines": 58
+      },
+      {
+        "file": "tests/unit/lib/orbitCalendar.test.ts",
+        "beforeLines": 59,
+        "afterLines": 40
+      },
+      {
+        "file": "tests/unit/lib/solar.test.ts",
+        "beforeLines": 118,
+        "afterLines": 58
+      },
+      {
+        "file": "tests/unit/lib/today.test.ts",
+        "beforeLines": 25,
+        "afterLines": 25
+      },
+      {
+        "file": "tests/unit/lib/worldTopology.test.ts",
+        "beforeLines": 82,
+        "afterLines": 73
+      },
+      {
+        "file": "tests/unit/offlineFirebaseTransport.test.ts",
+        "beforeLines": 30,
+        "afterLines": 30
+      },
+      {
+        "file": "tests/unit/offlineRecovery.test.ts",
+        "beforeLines": 88,
+        "afterLines": 62
+      },
+      {
+        "file": "tests/unit/offlineRuntime.test.ts",
+        "beforeLines": 61,
+        "afterLines": 61
+      },
+      {
+        "file": "tests/unit/offlineStore.test.ts",
+        "beforeLines": 110,
+        "afterLines": 110
+      },
+      {
+        "file": "tests/unit/offlineSync.test.ts",
+        "beforeLines": 130,
+        "afterLines": 130
+      },
+      {
+        "file": "tests/unit/offlineWorker.test.ts",
+        "beforeLines": 144,
+        "afterLines": 131
+      },
+      {
+        "file": "tests/unit/optimisticState.test.ts",
+        "beforeLines": 40,
+        "afterLines": 40
+      },
+      {
+        "file": "tests/unit/routeModules.test.ts",
+        "beforeLines": 26,
+        "afterLines": 0
+      },
+      {
+        "file": "tests/unit/schoolCalendar.test.ts",
+        "beforeLines": 105,
+        "afterLines": 105
+      },
+      {
+        "file": "tests/unit/schoolCalendarEndpoint.test.ts",
+        "beforeLines": 36,
+        "afterLines": 36
+      },
+      {
+        "file": "tests/unit/schoolCalendarStore.test.ts",
+        "beforeLines": 182,
+        "afterLines": 144
+      },
+      {
+        "file": "tests/unit/starActions.test.ts",
+        "beforeLines": 203,
+        "afterLines": 203
+      },
+      {
+        "file": "tests/unit/taskLimits.test.ts",
+        "beforeLines": 37,
+        "afterLines": 37
+      },
+      {
+        "file": "tests/unit/timeExplorerStorage.test.ts",
+        "beforeLines": 57,
+        "afterLines": 23
+      },
+      {
+        "file": "tests/unit/weatherData.test.ts",
+        "beforeLines": 85,
+        "afterLines": 85
+      },
+      {
+        "file": "tests/unit/weatherStore.test.ts",
+        "beforeLines": 116,
+        "afterLines": 82
+      },
+      {
+        "file": "scripts/quality-summary.test.mjs",
+        "beforeLines": 51,
+        "afterLines": 51
+      },
+      {
+        "file": "android/app/src/test/java/com/mystarquest/app/SchoolCalendarJsonTest.java",
+        "beforeLines": 38,
+        "afterLines": 38
+      },
+      {
+        "file": "android/app/src/androidTest/java/com/mystarquest/app/SchoolCalendarOfflineTest.java",
+        "beforeLines": 46,
+        "afterLines": 46
+      }
+    ]
+  },
+  "removedCases": [
+    {
+      "name": "shows short English school activities with princess artwork without removing school",
+      "file": "tests/component/SchoolCalendar.test.tsx",
+      "rationale": "Duplicate theme variant.",
+      "retainedProtection": [
+        {
+          "name": "shows short English school activities with teenie artwork without removing school",
+          "file": "tests/component/SchoolCalendar.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "keeps school in the morning on an early finish and labels the partial day off",
+      "file": "tests/component/SchoolCalendar.test.tsx",
+      "rationale": "Repeats early-finish scheduling at the rendering layer.",
+      "retainedProtection": [
+        {
+          "name": "weekly calendar > shortens a custom school day at noon and moves the journey home, retaining lessons",
+          "file": "tests/unit/calendarSchedule.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "illustrates training and breaks in teenie while keeping them days off",
+      "file": "tests/component/SchoolCalendar.test.tsx",
+      "rationale": "Fixed holiday artwork catalogue and repeated day-off rendering.",
+      "retainedProtection": [
+        {
+          "name": "shows short English school activities with teenie artwork without removing school",
+          "file": "tests/component/SchoolCalendar.test.tsx"
+        },
+        {
+          "name": "school calendar event expansion > normalizes known titles without closing school for unknown or inherited names",
+          "file": "tests/unit/schoolCalendar.test.ts"
+        },
+        {
+          "name": "school calendar event expansion > uses the same exclusive date range for initial and recurring events",
+          "file": "tests/unit/schoolCalendar.test.ts"
+        },
+        {
+          "name": "school calendar event expansion > respects floating all-day ends across the autumn DST transition",
+          "file": "tests/unit/schoolCalendar.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "Time Explorer weather panel > restores panels and custom weather after reopening in princess",
+      "file": "tests/component/TimeExplorerWeather.test.tsx",
+      "rationale": "Long repeat of preference persistence and weather reset journeys.",
+      "retainedProtection": [
+        {
+          "name": "Time Explorer weather panel > adapts precipitation to temperature, preserves intensity and wind, and resets to live weather",
+          "file": "tests/component/TimeExplorerWeather.test.tsx"
+        },
+        {
+          "name": "shared explorer reset > restores date, exact clock time, city and globe mode across sessions, including after reset",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        },
+        {
+          "name": "Time Explorer saved state > remains usable when browser storage is blocked or full",
+          "file": "tests/unit/timeExplorerStorage.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "Time Explorer view toggles > starts with Clock and Globe on and lets every view be turned off",
+      "file": "tests/component/TimeExplorerWeather.test.tsx",
+      "rationale": "Default view inventory constrains presentation choices.",
+      "retainedProtection": [
+        {
+          "name": "Time Explorer weather panel > adapts precipitation to temperature, preserves intensity and wind, and resets to live weather",
+          "file": "tests/component/TimeExplorerWeather.test.tsx"
+        },
+        {
+          "name": "deferred globe lifecycle > disposes when hidden and initializes a fresh canvas with current state when shown again",
+          "file": "tests/component/deferredGlobe.test.tsx"
+        },
+        {
+          "name": "shared explorer reset > restores date, exact clock time, city and globe mode across sessions, including after reset",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "includes all 21 dated performances without turning them into weekly or annual repeats",
+      "file": "tests/component/TheatreEvents.test.tsx",
+      "rationale": "Locks a dated content inventory to 21 performances.",
+      "retainedProtection": [
+        {
+          "name": "shows both opening-day performances, start times and the outdoor venue in teenie",
+          "file": "tests/component/TheatreEvents.test.tsx"
+        },
+        {
+          "name": "keeps theatre activities across school-feed replacement without closing school",
+          "file": "tests/component/TheatreEvents.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "shows both opening-day performances, start times and the outdoor venue in princess",
+      "file": "tests/component/TheatreEvents.test.tsx",
+      "rationale": "Duplicate theme variant.",
+      "retainedProtection": [
+        {
+          "name": "shows both opening-day performances, start times and the outdoor venue in teenie",
+          "file": "tests/component/TheatreEvents.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "preserves local afternoon times after the October daylight-saving change",
+      "file": "tests/component/TheatreEvents.test.tsx",
+      "rationale": "Literal afternoon-label check repeats time formatting.",
+      "retainedProtection": [
+        {
+          "name": "shows both opening-day performances, start times and the outdoor venue in teenie",
+          "file": "tests/component/TheatreEvents.test.tsx"
+        },
+        {
+          "name": "solar helpers > converts location dates and clocks correctly across DST and cities",
+          "file": "tests/unit/lib/solar.test.ts"
+        },
+        {
+          "name": "school calendar event expansion > respects floating all-day ends across the autumn DST transition",
+          "file": "tests/unit/schoolCalendar.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "shared app menu > opens the existing child manager",
+      "file": "tests/component/AppMenu.test.tsx",
+      "rationale": "Single static menu-to-route wiring check.",
+      "retainedProtection": [
+        {
+          "name": "navigation away from Chores (native frame: false) > navigates in the native frame while a reset saves and supports rapid switches and Back",
+          "file": "tests/component/tabNavigation.test.tsx"
+        },
+        {
+          "name": "child deletion confirmation > uses the shared princess confirmation buttons and deletes only after Yes",
+          "file": "tests/component/ManageChildrenPage.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "shared app menu > uses the dashboard reset callback and blocks duplicate actions while saving",
+      "file": "tests/component/AppMenu.test.tsx",
+      "rationale": "Repeated shared async-action pending/success contract plus subscription-count assertion.",
+      "retainedProtection": [
+        {
+          "name": "shared app menu > resets both meals and other chores from other tabs",
+          "file": "tests/component/AppMenu.test.tsx"
+        },
+        {
+          "name": "shared app menu > keeps reset failures visible in the menu and allows a retry",
+          "file": "tests/component/AppMenu.test.tsx"
+        },
+        {
+          "name": "StandardActionList card contract > asks before resetting, allows cancellation, and exposes pending state after Yes",
+          "file": "tests/component/StandardActionList.test.tsx"
+        },
+        {
+          "name": "RewardCreationFlow > keeps the draft after a rejected save and blocks duplicate actions until retry",
+          "file": "tests/component/RewardCreationFlow.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "shared app menu > disables reset without a selected child",
+      "file": "tests/component/AppMenu.test.tsx",
+      "rationale": "Single disabled-prop assertion for an empty selection.",
+      "retainedProtection": [
+        {
+          "name": "reward availability > allows purchases only with enough stars, a selected child, and no pending redemption",
+          "file": "tests/component/RewardAvailableSummary.test.tsx"
+        },
+        {
+          "name": "rejects unauthenticated, malformed and foreign-child requests before writes",
+          "file": "tests/unit/dailyChoreFunctions.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "advances after feedback and completes only after the last correct answer",
+      "file": "tests/component/AlphabetTester.test.tsx",
+      "rationale": "Shared challenge completion sequence repeats the full browser learning journey.",
+      "retainedProtection": [
+        {
+          "name": "ignores clicks during feedback and fails after three mistakes",
+          "file": "tests/component/AlphabetTester.test.tsx"
+        },
+        {
+          "name": "reset an active test > cancels a queued result when reset is pressed during answer feedback",
+          "file": "tests/component/testActivityReset.test.tsx"
+        },
+        {
+          "name": "retries a failed automatic outcome save without replaying the final puzzle",
+          "file": "tests/component/AsyncActions.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "allows unlimited retries when failure mode is disabled",
+      "file": "tests/component/AlphabetTester.test.tsx",
+      "rationale": "Shared unlimited-retry behavior is covered by the richer fractions hint journey.",
+      "retainedProtection": [
+        {
+          "name": "ignores clicks during feedback and fails after three mistakes",
+          "file": "tests/component/AlphabetTester.test.tsx"
+        },
+        {
+          "name": "preserves answers, supplies a visual hint after two misses on that question, and allows unlimited retries",
+          "file": "tests/component/FractionsTester.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "Who am I picture gestures > Dinosaurs: a double-click zooms without switching, a single-click switches when available",
+      "file": "tests/component/PictureGestures.test.tsx",
+      "rationale": "Narrow picture click/double-click presentation contract.",
+      "retainedProtection": [
+        {
+          "name": "Teenieping collection > excludes alternate forms from distractors and reveals appearance last",
+          "file": "tests/component/TeeniepingTester.test.tsx"
+        },
+        {
+          "name": "Who am I training photos > supports keyboard toggling and falls back to the drawing on loading errors",
+          "file": "tests/component/TrainingPhotos.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "teaches the five-step sequence, accepts any matching pieces, and completes only after five answers",
+      "file": "tests/component/FractionsTester.test.tsx",
+      "rationale": "Full five-answer fractions success journey repeats the retained browser scenario.",
+      "retainedProtection": [
+        {
+          "name": "preserves answers, supplies a visual hint after two misses on that question, and allows unlimited retries",
+          "file": "tests/component/FractionsTester.test.tsx"
+        },
+        {
+          "name": "offers picture-to-symbol recognition and clears the choice and hints when restarted",
+          "file": "tests/component/FractionsTester.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "releases a failed completion so it can be retried",
+      "file": "tests/component/TaskCelebration.test.tsx",
+      "rationale": "Repeated shared-card failed-action/retry presentation; retain completion race protection and failed-save retry.",
+      "retainedProtection": [
+        {
+          "name": "retains a removed chore through completion and prevents duplicate clicks",
+          "file": "tests/component/TaskCelebration.test.tsx"
+        },
+        {
+          "name": "discards a pending celebration after switching children, including switching back",
+          "file": "tests/component/TaskCelebration.test.tsx"
+        },
+        {
+          "name": "StandardActionList card contract > keeps the card visible and reports a failed deletion",
+          "file": "tests/component/StandardActionList.test.tsx"
+        },
+        {
+          "name": "surfaces a failed purchase on its card and lets the user retry",
+          "file": "tests/component/RewardsPage.test.tsx"
+        },
+        {
+          "name": "retries a failed automatic outcome save without replaying the final puzzle",
+          "file": "tests/component/AsyncActions.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "confirms reward deletion with the shared teenie Yes/No buttons",
+      "file": "tests/component/RewardsPage.test.tsx",
+      "rationale": "Repeated themed confirmation protocol already exercised on shared cards and child deletion.",
+      "retainedProtection": [
+        {
+          "name": "child deletion confirmation > uses the shared princess confirmation buttons and deletes only after Yes",
+          "file": "tests/component/ManageChildrenPage.test.tsx"
+        },
+        {
+          "name": "StandardActionList card contract > asks before resetting, allows cancellation, and exposes pending state after Yes",
+          "file": "tests/component/StandardActionList.test.tsx"
+        },
+        {
+          "name": "StandardActionList card contract > keeps the card visible and reports a failed deletion",
+          "file": "tests/component/StandardActionList.test.tsx"
+        },
+        {
+          "name": "surfaces a failed purchase on its card and lets the user retry",
+          "file": "tests/component/RewardsPage.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "AnimalTester > shows one read-aloud screen and advances the two-player game directly",
+      "file": "tests/component/AnimalTester.test.tsx",
+      "rationale": "Large read-aloud layout/artwork inventory and two-player presentation contract.",
+      "retainedProtection": [
+        {
+          "name": "Teenieping collection > excludes alternate forms from distractors and reveals appearance last",
+          "file": "tests/component/TeeniepingTester.test.tsx"
+        },
+        {
+          "name": "loads on selection and ignores a late response for an older selection",
+          "file": "tests/component/CreatureCollectionLoading.test.tsx"
+        },
+        {
+          "name": "lets a failed collection retry without awarding or finishing a game",
+          "file": "tests/component/CreatureCollectionLoading.test.tsx"
+        },
+        {
+          "name": "cancels a pending animal completion on reset and on unmount",
+          "file": "tests/component/animalSession.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "'Water and toilet' reset > resets saved progress and accepts a later completion",
+      "file": "tests/component/useChoresReset.test.tsx",
+      "rationale": "Mock-heavy reset patch choreography duplicates reset persistence and rollback contracts.",
+      "retainedProtection": [
+        {
+          "name": "Android offline data hooks > completes, reloads, resets and repeats a chore without Firebase",
+          "file": "tests/component/androidOffline.test.tsx"
+        },
+        {
+          "name": "test reset persistence > restores a failure result when reset fails and permits retry",
+          "file": "tests/component/useTestsReset.test.tsx"
+        },
+        {
+          "name": "only reconciles complete acknowledgements, retaining missing and partially acknowledged items",
+          "file": "tests/unit/optimisticState.test.ts"
+        },
+        {
+          "name": "restores prior values only for fields belonging to the failed write",
+          "file": "tests/unit/optimisticState.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "Android offline data hooks > persists default-test completion and reset locally",
+      "file": "tests/component/androidOffline.test.tsx",
+      "rationale": "Default-test disk persistence repeats generic durable actions and test transaction coverage.",
+      "retainedProtection": [
+        {
+          "name": "Android offline data hooks > keeps test creation and award atomic on disk failure (existing: false)",
+          "file": "tests/component/androidOffline.test.tsx"
+        },
+        {
+          "name": "Android offline data hooks > completes, reloads, resets and repeats a chore without Firebase",
+          "file": "tests/component/androidOffline.test.tsx"
+        },
+        {
+          "name": "test completion star awards > awards math again after a same-day reset and deduplicates completion callbacks",
+          "file": "tests/unit/starActions.test.ts"
+        },
+        {
+          "name": "test completion star awards > creates a built-in test and awards its first completion only once",
+          "file": "tests/unit/starActions.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "createUnifiedChoreDescriptor > uses the chore picture to start and finish Water/Toilet in 'teenie'",
+      "file": "tests/component/ui/unifiedChoreDescriptors.test.tsx",
+      "rationale": "Descriptor internals and matching image sources constrain implementation shape.",
+      "retainedProtection": [
+        {
+          "name": "StandardActionList card contract > asks before resetting, allows cancellation, and exposes pending state after Yes",
+          "file": "tests/component/StandardActionList.test.tsx"
+        },
+        {
+          "name": "chore completion star balances > awards exactly 12 stars for all chores (repeating: false)",
+          "file": "tests/component/choreStarAwards.test.tsx"
+        },
+        {
+          "name": "chore completion star balances > clamps a water/toilet deduction to the available stars",
+          "file": "tests/component/choreStarAwards.test.tsx"
+        },
+        {
+          "name": "chore completion star balances > rejects another child’s chore without changing either balance",
+          "file": "tests/component/choreStarAwards.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "restores valid selection fields and safely ignores malformed storage: {\"id\":\"child\",\"themeId\":42}",
+      "file": "tests/component/profileSync.test.tsx",
+      "rationale": "Narrow cached-profile field fallback; prioritize live reconciliation and rejected edits.",
+      "retainedProtection": [
+        {
+          "name": "reconciles a cached theme with remote profile changes and rolls back a rejected edit",
+          "file": "tests/component/profileSync.test.tsx"
+        },
+        {
+          "name": "Auth startup and sign-in > restores a session without starting sign-in and clears the preload hint on sign-out",
+          "file": "tests/component/AuthStartup.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "restores valid selection fields and safely ignores malformed storage: broken JSON",
+      "file": "tests/component/profileSync.test.tsx",
+      "rationale": "Repetitive malformed-JSON preference fallback.",
+      "retainedProtection": [
+        {
+          "name": "reconciles a cached theme with remote profile changes and rolls back a rejected edit",
+          "file": "tests/component/profileSync.test.tsx"
+        },
+        {
+          "name": "Auth startup and sign-in > restores a session without starting sign-in and clears the preload hint on sign-out",
+          "file": "tests/component/AuthStartup.test.tsx"
+        },
+        {
+          "name": "Time Explorer saved state > remains usable when browser storage is blocked or full",
+          "file": "tests/unit/timeExplorerStorage.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "school event timing > keeps the dates on timed events spanning midnight",
+      "file": "tests/component/SchoolEvents.test.tsx",
+      "rationale": "Narrow overnight display-label variation; retain event expansion and timezone contracts.",
+      "retainedProtection": [
+        {
+          "name": "shows short English school activities with teenie artwork without removing school",
+          "file": "tests/component/SchoolCalendar.test.tsx"
+        },
+        {
+          "name": "solar helpers > converts location dates and clocks correctly across DST and cities",
+          "file": "tests/unit/lib/solar.test.ts"
+        },
+        {
+          "name": "school calendar event expansion > uses the same exclusive date range for initial and recurring events",
+          "file": "tests/unit/schoolCalendar.test.ts"
+        },
+        {
+          "name": "school calendar event expansion > merges overlapping summaries and all-day flags, including zero-duration events",
+          "file": "tests/unit/schoolCalendar.test.ts"
+        },
+        {
+          "name": "school calendar event expansion > respects floating all-day ends across the autumn DST transition",
+          "file": "tests/unit/schoolCalendar.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "school event timing > uses one clock for a single instant",
+      "file": "tests/component/SchoolEvents.test.tsx",
+      "rationale": "Single-clock markup cardinality constrains presentation.",
+      "retainedProtection": [
+        {
+          "name": "shows short English school activities with teenie artwork without removing school",
+          "file": "tests/component/SchoolCalendar.test.tsx"
+        },
+        {
+          "name": "shows both opening-day performances, start times and the outdoor venue in teenie",
+          "file": "tests/component/TheatreEvents.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "school event timing > does not invent an all-day duration for legacy activities with missing times",
+      "file": "tests/component/SchoolEvents.test.tsx",
+      "rationale": "Legacy missing-time display compatibility only.",
+      "retainedProtection": [
+        {
+          "name": "shows short English school activities with teenie artwork without removing school",
+          "file": "tests/component/SchoolCalendar.test.tsx"
+        },
+        {
+          "name": "school calendar event expansion > normalizes known titles without closing school for unknown or inherited names",
+          "file": "tests/unit/schoolCalendar.test.ts"
+        },
+        {
+          "name": "school calendar event expansion > merges overlapping summaries and all-day flags, including zero-duration events",
+          "file": "tests/unit/schoolCalendar.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "expandable agenda rows > expands to three times the measured height and collapses on double click or outside interaction",
+      "file": "tests/component/ExpandableAgendaItem.test.tsx",
+      "rationale": "Locks measured row height to exactly three times its fixture.",
+      "retainedProtection": [
+        {
+          "name": "expandable agenda rows > supports keyboard expansion, Escape, and focus moving off the row",
+          "file": "tests/component/ExpandableAgendaItem.test.tsx"
+        },
+        {
+          "name": "shows both opening-day performances, start times and the outdoor venue in teenie",
+          "file": "tests/component/TheatreEvents.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "expandable agenda rows > collapses the previous row even when another list is clicked",
+      "file": "tests/component/ExpandableAgendaItem.test.tsx",
+      "rationale": "Repeated row-collapse interaction at a second list boundary.",
+      "retainedProtection": [
+        {
+          "name": "expandable agenda rows > supports keyboard expansion, Escape, and focus moving off the row",
+          "file": "tests/component/ExpandableAgendaItem.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "deferred globe lifecycle > never creates WebGL after leaving while the module is loading",
+      "file": "tests/component/deferredGlobe.test.tsx",
+      "rationale": "Narrow deferred-loader construction count; retain full hide/show/dispose lifecycle.",
+      "retainedProtection": [
+        {
+          "name": "deferred globe lifecycle > disposes when hidden and initializes a fresh canvas with current state when shown again",
+          "file": "tests/component/deferredGlobe.test.tsx"
+        },
+        {
+          "name": "deferred globe lifecycle > allows a failed renderer to retry without blocking the clock",
+          "file": "tests/component/deferredGlobe.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "weather cache and subscriptions > shares listeners across subscribers and survives immediate resubscription",
+      "file": "tests/unit/weatherStore.test.ts",
+      "rationale": "Subscription and fetch call counts constrain cache implementation.",
+      "retainedProtection": [
+        {
+          "name": "weather cache and subscriptions > keeps city responses separate and cancels abandoned requests",
+          "file": "tests/unit/weatherStore.test.ts"
+        },
+        {
+          "name": "weather cache and subscriptions > retains a labeled stale result on failure, supports retry and expires it",
+          "file": "tests/unit/weatherStore.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "weather cache and subscriptions > refreshes at local midnight even when the cache is less than 15 minutes old",
+      "file": "tests/unit/weatherStore.test.ts",
+      "rationale": "Exact refresh cadence at midnight is lower-value than stale-data rejection/retry.",
+      "retainedProtection": [
+        {
+          "name": "weather cache and subscriptions > retains a labeled stale result on failure, supports retry and expires it",
+          "file": "tests/unit/weatherStore.test.ts"
+        },
+        {
+          "name": "weather data > rejects yesterday, overly old and future observations",
+          "file": "tests/unit/weatherData.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "restores selection and stops listeners after blur or unmount during a drag",
+      "file": "tests/component/DragScrollRegion.test.tsx",
+      "rationale": "Internal listener/selection cleanup after interrupted scrolling.",
+      "retainedProtection": [
+        {
+          "name": "uses a movement threshold, suppresses the drag click, then permits normal clicks",
+          "file": "tests/component/DragScrollRegion.test.tsx"
+        },
+        {
+          "name": "leaves controls, the globe, right clicks and non-scrollable content alone",
+          "file": "tests/component/DragScrollRegion.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "shared explorer reset > updates and persists the shared calendar date from orbit dragging without changing the clock or city",
+      "file": "tests/component/TimeExplorerReset.test.tsx",
+      "rationale": "Hook-level orbit/date persistence overlaps exhaustive orbit mapping and session restore.",
+      "retainedProtection": [
+        {
+          "name": "shared explorer reset > restores date, exact clock time, city and globe mode across sessions, including after reset",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        },
+        {
+          "name": "Earth orbit calendar > round trips every day in 2024, including leap days and DST",
+          "file": "tests/unit/lib/orbitCalendar.test.ts"
+        },
+        {
+          "name": "Earth orbit calendar > moves continuously across the year boundary in either direction",
+          "file": "tests/unit/lib/orbitCalendar.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "shared explorer reset > resets date, clock, and hidden globe to now in taipei",
+      "file": "tests/component/TimeExplorerReset.test.tsx",
+      "rationale": "Hidden-globe reset repeats reset restoration plus hide/show freshness.",
+      "retainedProtection": [
+        {
+          "name": "deferred globe lifecycle > disposes when hidden and initializes a fresh canvas with current state when shown again",
+          "file": "tests/component/deferredGlobe.test.tsx"
+        },
+        {
+          "name": "shared explorer reset > keeps the exact instant when changing city across midnight between React clock snapshots",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        },
+        {
+          "name": "shared explorer reset > restores date, exact clock time, city and globe mode across sessions, including after reset",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "still serves online files if cache storage becomes unavailable",
+      "file": "tests/unit/offlineWorker.test.ts",
+      "rationale": "Secondary service-worker cache-unavailable fallback; retain failed install and real offline shell tests.",
+      "retainedProtection": [
+        {
+          "name": "discards a failed installation without removing the working version",
+          "file": "tests/unit/offlineWorker.test.ts"
+        },
+        {
+          "name": "rejects hosting HTML fallbacks for missing scripts",
+          "file": "tests/unit/offlineWorker.test.ts"
+        },
+        {
+          "name": "serves the installed shell and code offline, without intercepting auth, APIs or mutations",
+          "file": "tests/unit/offlineWorker.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "chore completion star balances > persists the water/toilet score for full / notpeepee: -6",
+      "file": "tests/component/choreStarAwards.test.tsx",
+      "rationale": "Second negative water-score transaction; retain capped deduction and positive multi-chore accounting.",
+      "retainedProtection": [
+        {
+          "name": "chore completion star balances > awards exactly 12 stars for all chores (repeating: false)",
+          "file": "tests/component/choreStarAwards.test.tsx"
+        },
+        {
+          "name": "chore completion star balances > clamps a water/toilet deduction to the available stars",
+          "file": "tests/component/choreStarAwards.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "day/night clock and timer cleanup > commits the final pointer position even before its animation frame runs",
+      "file": "tests/component/dayNightPerformance.test.tsx",
+      "rationale": "Narrow animation-frame scheduling implementation contract.",
+      "retainedProtection": [
+        {
+          "name": "shared explorer reset > keeps the exact instant when changing city across midnight between React clock snapshots",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        },
+        {
+          "name": "shared explorer reset > restores date, exact clock time, city and globe mode across sessions, including after reset",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        },
+        {
+          "name": "Earth orbit calendar > round trips every day in 2024, including leap days and DST",
+          "file": "tests/unit/lib/orbitCalendar.test.ts"
+        },
+        {
+          "name": "Earth orbit calendar > moves continuously across the year boundary in either direction",
+          "file": "tests/unit/lib/orbitCalendar.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "Earth texture session cache > terminates a stalled worker before trying the fallback",
+      "file": "tests/unit/lib/earthTextureCache.test.ts",
+      "rationale": "Second worker termination/fallback path; retain failed-load retry and renderer recovery.",
+      "retainedProtection": [
+        {
+          "name": "Earth texture session cache > terminates a failed worker and allows a later visit to retry a failed load",
+          "file": "tests/unit/lib/earthTextureCache.test.ts"
+        },
+        {
+          "name": "deferred globe lifecycle > allows a failed renderer to retry without blocking the clock",
+          "file": "tests/component/deferredGlobe.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "DinnerCountdown > records expiry once and accepts a reset without writing expiry again",
+      "file": "tests/component/DinnerCountdown.test.tsx",
+      "rationale": "Countdown hook callback choreography duplicates dinner timeout/reset safeguards.",
+      "retainedProtection": [
+        {
+          "name": "chore completion star balances > awards no stars when dinner times out before completion",
+          "file": "tests/component/choreStarAwards.test.tsx"
+        },
+        {
+          "name": "chore completion persistence > does not complete dinner after a reset during the final bite animation",
+          "file": "tests/component/useChoreActivityActions.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "solar helpers > returns ordered solar phases and expanded twilight windows",
+      "file": "tests/unit/lib/solar.test.ts",
+      "rationale": "Relative ordering of derived phase values; prioritize timezone and persisted clock behavior.",
+      "retainedProtection": [
+        {
+          "name": "solar helpers > converts location dates and clocks correctly across DST and cities",
+          "file": "tests/unit/lib/solar.test.ts"
+        },
+        {
+          "name": "shared explorer reset > keeps the exact instant when changing city across midnight between React clock snapshots",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        },
+        {
+          "name": "shared explorer reset > restores date, exact clock time, city and globe mode across sessions, including after reset",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "solar helpers > tracks subsolar latitude and longitude over place and time",
+      "file": "tests/unit/lib/solar.test.ts",
+      "rationale": "Low-level visual sun-position tolerances constrain rendering mathematics.",
+      "retainedProtection": [
+        {
+          "name": "solar helpers > converts location dates and clocks correctly across DST and cities",
+          "file": "tests/unit/lib/solar.test.ts"
+        },
+        {
+          "name": "shared explorer reset > keeps the exact instant when changing city across midnight between React clock snapshots",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        },
+        {
+          "name": "shared explorer reset > restores date, exact clock time, city and globe mode across sessions, including after reset",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "has a bundled calendar on a first-ever offline launch",
+      "file": "tests/unit/schoolCalendarStore.test.ts",
+      "rationale": "Bundled calendar fixture inventory repeats packaged Android offline coverage.",
+      "retainedProtection": [
+        {
+          "name": "shows the saved copy immediately while a refresh is pending, then replaces it including deletions",
+          "file": "tests/unit/schoolCalendarStore.test.ts"
+        },
+        {
+          "name": "retains the saved snapshot and check time after a schema failure",
+          "file": "tests/unit/schoolCalendarStore.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "keeps fresh data in memory even when local storage cannot be written",
+      "file": "tests/unit/schoolCalendarStore.test.ts",
+      "rationale": "Secondary in-memory-only calendar storage fallback.",
+      "retainedProtection": [
+        {
+          "name": "shows the saved copy immediately while a refresh is pending, then replaces it including deletions",
+          "file": "tests/unit/schoolCalendarStore.test.ts"
+        },
+        {
+          "name": "retains the saved snapshot and check time after a schema failure",
+          "file": "tests/unit/schoolCalendarStore.test.ts"
+        },
+        {
+          "name": "receives native background updates and ignores an older native read",
+          "file": "tests/unit/schoolCalendarStore.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "aborts a stalled web request and permits another update",
+      "file": "tests/unit/schoolCalendarStore.test.ts",
+      "rationale": "Repeated timeout/retry plumbing; retain body-stall endpoint and native late-response regression.",
+      "retainedProtection": [
+        {
+          "name": "releases a stalled native refresh and accepts a later retry without late overwrite",
+          "file": "tests/unit/schoolCalendarStore.test.ts"
+        },
+        {
+          "name": "times out when headers arrive but the calendar body stalls",
+          "file": "tests/unit/schoolCalendarEndpoint.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "Earth orbit calendar > round trips every day in 2026, including leap days and DST",
+      "file": "tests/unit/lib/orbitCalendar.test.ts",
+      "rationale": "Duplicate exhaustive year sweep; leap-year sweep includes ordinary dates and DST.",
+      "retainedProtection": [
+        {
+          "name": "Earth orbit calendar > round trips every day in 2024, including leap days and DST",
+          "file": "tests/unit/lib/orbitCalendar.test.ts"
+        },
+        {
+          "name": "Earth orbit calendar > moves continuously across the year boundary in either direction",
+          "file": "tests/unit/lib/orbitCalendar.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "Earth orbit calendar > aligns the twelve month labels with the first of each month",
+      "file": "tests/unit/lib/orbitCalendar.test.ts",
+      "rationale": "Exact ellipse geometry and month label coordinates constrain implementation.",
+      "retainedProtection": [
+        {
+          "name": "Earth orbit calendar > round trips every day in 2024, including leap days and DST",
+          "file": "tests/unit/lib/orbitCalendar.test.ts"
+        },
+        {
+          "name": "Earth orbit calendar > moves continuously across the year boundary in either direction",
+          "file": "tests/unit/lib/orbitCalendar.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "leaves offline changes durable without retrying the network, then reconnects",
+      "file": "tests/unit/offlineRecovery.test.ts",
+      "rationale": "Basic offline/reconnect path duplicates durable browser recovery.",
+      "retainedProtection": [
+        {
+          "name": "recovers a stalled send with the same operation ID and ignores the late response",
+          "file": "tests/unit/offlineRecovery.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "does not replay a receipt already acknowledged by another tab over newer data",
+      "file": "tests/unit/offlineRecovery.test.ts",
+      "rationale": "Repeated acknowledgement after newer deletion is already asserted by the late-response scenario.",
+      "retainedProtection": [
+        {
+          "name": "recovers a stalled send with the same operation ID and ignores the late response",
+          "file": "tests/unit/offlineRecovery.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "weekly calendar > resolves each default day without gaps, overlaps, or mutations",
+      "file": "tests/unit/calendarSchedule.test.ts",
+      "rationale": "Default schedule inventory sweep; retain custom early-finish and live edit integration.",
+      "retainedProtection": [
+        {
+          "name": "weekly calendar > shortens a custom school day at noon and moves the journey home, retaining lessons",
+          "file": "tests/unit/calendarSchedule.test.ts"
+        },
+        {
+          "name": "reacts to saved changes in this window and other windows",
+          "file": "tests/component/SchoolCalendar.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "schedule storage contract > preserves bad data and falls back safely: {broken",
+      "file": "tests/unit/calendarSchedule.test.ts",
+      "rationale": "Repeated malformed-JSON preference fallback.",
+      "retainedProtection": [
+        {
+          "name": "reacts to saved changes in this window and other windows",
+          "file": "tests/component/SchoolCalendar.test.tsx"
+        },
+        {
+          "name": "schedule storage contract > rejects invalid editor input {\"start\":\"23:00\",\"end\":\"07:00\"} before saving",
+          "file": "tests/unit/calendarSchedule.test.ts"
+        },
+        {
+          "name": "Time Explorer saved state > remains usable when browser storage is blocked or full",
+          "file": "tests/unit/timeExplorerStorage.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "schedule storage contract > can read defaults with blocked storage and does not silently swallow save failure",
+      "file": "tests/unit/calendarSchedule.test.ts",
+      "rationale": "Narrow editor-storage failure policy; prioritize persisted changes and invalid input.",
+      "retainedProtection": [
+        {
+          "name": "reacts to saved changes in this window and other windows",
+          "file": "tests/component/SchoolCalendar.test.tsx"
+        },
+        {
+          "name": "schedule storage contract > rejects invalid editor input {\"start\":\"23:00\",\"end\":\"07:00\"} before saving",
+          "file": "tests/unit/calendarSchedule.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "stored document contracts > includes fractions by default and round-trips its settings, completion, and reset",
+      "file": "tests/unit/lib/choreParser.test.ts",
+      "rationale": "Default fractions inventory and internal document/patch round trip.",
+      "retainedProtection": [
+        {
+          "name": "stored document contracts > rejects invalid documents",
+          "file": "tests/unit/lib/choreParser.test.ts"
+        },
+        {
+          "name": "stored document contracts > keeps stored star balances and reward costs finite",
+          "file": "tests/unit/lib/choreParser.test.ts"
+        },
+        {
+          "name": "test completion star awards > awards math again after a same-day reset and deduplicates completion callbacks",
+          "file": "tests/unit/starActions.test.ts"
+        },
+        {
+          "name": "test completion star awards > creates a built-in test and awards its first completion only once",
+          "file": "tests/unit/starActions.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "Time Explorer saved state > uses defaults for damaged storage: {bad json",
+      "file": "tests/unit/timeExplorerStorage.test.ts",
+      "rationale": "Repeated malformed-JSON preference fallback.",
+      "retainedProtection": [
+        {
+          "name": "shared explorer reset > restores date, exact clock time, city and globe mode across sessions, including after reset",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        },
+        {
+          "name": "Time Explorer saved state > remains usable when browser storage is blocked or full",
+          "file": "tests/unit/timeExplorerStorage.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "Time Explorer saved state > rejects invalid settings without losing valid fields",
+      "file": "tests/unit/timeExplorerStorage.test.ts",
+      "rationale": "Detailed preference field sanitization ties tests to the stored settings shape.",
+      "retainedProtection": [
+        {
+          "name": "shared explorer reset > restores date, exact clock time, city and globe mode across sessions, including after reset",
+          "file": "tests/component/TimeExplorerReset.test.tsx"
+        },
+        {
+          "name": "Time Explorer saved state > remains usable when browser storage is blocked or full",
+          "file": "tests/unit/timeExplorerStorage.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "world topology decoding > rejects malformed external topology: {\"transform\":{\"scale\":[2,3],\"translate\":[10,20]},\"arcs\":[[[0,0],[1,0]],[[1,0],[0,1]],[[0,0],[1,1]]],\"objects\":{\"land\":{\"type\":\"GeometryCollection\",\"geometries\":[{\"type\":\"Polygon\",\"arcs\":[[0.5]]}]},\"countries\":{\"type\":\"GeometryCollection\",\"geometries\":[{\"type\":\"MultiPolygon\",\"arcs\":[[[0,1,-3]],[[-1]]]}]}}}",
+      "file": "tests/unit/lib/worldTopology.test.ts",
+      "rationale": "Second malformed-topology variant; retain invalid numeric input and complete decoder contract.",
+      "retainedProtection": [
+        {
+          "name": "world topology decoding > decodes delta coordinates, joins shared endpoints and reverses negative arcs without mutating input",
+          "file": "tests/unit/lib/worldTopology.test.ts"
+        },
+        {
+          "name": "world topology decoding > rejects malformed external topology: {\"transform\":{\"scale\":[2,3],\"translate\":[10,20]},\"arcs\":[[[null,0]]],\"objects\":{\"land\":{\"type\":\"GeometryCollection\",\"geometries\":[{\"type\":\"Polygon\",\"arcs\":[[0,1,-3]]}]},\"countries\":{\"type\":\"GeometryCollection\",\"geometries\":[{\"type\":\"MultiPolygon\",\"arcs\":[[[0,1,-3]],[[-1]]]}]}}}",
+          "file": "tests/unit/lib/worldTopology.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "releases owned resources for meshes, starfields, ticks and labels exactly once",
+      "file": "tests/unit/lib/disposeSceneObject.test.ts",
+      "rationale": "Three.js resource-shape and exact disposal-call inventory.",
+      "retainedProtection": [
+        {
+          "name": "deferred globe lifecycle > disposes when hidden and initializes a fresh canvas with current state when shown again",
+          "file": "tests/component/deferredGlobe.test.tsx"
+        },
+        {
+          "name": "Earth texture session cache > terminates a failed worker and allows a later visit to retry a failed load",
+          "file": "tests/unit/lib/earthTextureCache.test.ts"
+        }
+      ]
+    },
+    {
+      "name": "keeps themed choices and legacy reward keys resolvable, rejecting inherited object names",
+      "file": "tests/unit/artworkSelection.test.ts",
+      "rationale": "Mostly themed asset enumeration and legacy reward alias compatibility.",
+      "retainedProtection": [
+        {
+          "name": "matches whole spelling names only for LEGO Pokémon, including spelling’s corrected Growlithe name",
+          "file": "tests/unit/artworkSelection.test.ts"
+        },
+        {
+          "name": "shows short English school activities with teenie artwork without removing school",
+          "file": "tests/component/SchoolCalendar.test.tsx"
+        },
+        {
+          "name": "shows both opening-day performances, start times and the outdoor venue in teenie",
+          "file": "tests/component/TheatreEvents.test.tsx"
+        }
+      ]
+    },
+    {
+      "name": "preserves canonical routes, legacy aliases and trailing slashes",
+      "file": "tests/unit/routeModules.test.ts",
+      "rationale": "Canonical/legacy route table inventory; retain user navigation behavior.",
+      "retainedProtection": [
+        {
+          "name": "navigation away from Chores (native frame: false) > lets users leave a page whose download failed and return to Chores",
+          "file": "tests/component/tabNavigation.test.tsx"
+        },
+        {
+          "name": "navigation away from Chores (native frame: false) > navigates in the native frame while a reset saves and supports rapid switches and Back",
+          "file": "tests/component/tabNavigation.test.tsx"
+        }
+      ]
+    },
+    {
+      "file": "tests/e2e/fractions.spec.ts",
+      "name": "fractions fits a small phone and completes through the shared controls (princess)",
+      "rationale": "Duplicate themed browser run; retain the teenie small-phone five-question completion journey across all browser engines.",
+      "retainedProtection": [
+        {
+          "file": "tests/e2e/fractions.spec.ts",
+          "name": "fractions fits a small phone and completes through the shared controls (teenie)"
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "vitest": {
+      "passed": 109,
+      "skipped": 0
+    },
+    "node": {
+      "passed": 2
+    },
+    "browsers": {
+      "startTime": "2026-09-25T19:25:06.471Z",
+      "duration": 83084.869,
+      "expected": 9,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "productionOfflineBrowser": {
+      "startTime": "2026-09-25T19:26:56.330Z",
+      "duration": 15710.34,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "androidUnit": {
+      "passed": 3,
+      "rerun": true
+    },
+    "androidDevice": {
+      "count": 2,
+      "compiled": true,
+      "executed": false,
+      "reason": "No connected device or emulator"
+    },
+    "lint": "passed",
+    "formatting": "passed",
+    "productionBuild": "passed",
+    "diffCheck": "passed"
+  }
+}

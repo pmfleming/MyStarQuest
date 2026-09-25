@@ -52,7 +52,6 @@ const TestsPage = () => {
   const descriptor = celebration.decorate(
     createUnifiedChoreDescriptor({
       theme,
-      mode: 'today',
       onUpdateTaskField: updateTestField,
       onUpdateEphemeral: updateEphemeral,
       ...createTestActivityBindings({

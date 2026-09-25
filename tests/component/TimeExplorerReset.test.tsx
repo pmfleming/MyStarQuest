@@ -1,14 +1,13 @@
-import { act, renderHook } from '@testing-library/react'
+import { act, fireEvent, renderHook } from '@testing-library/react'
 import { StrictMode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { SelectedDateProvider } from '../../src/contexts/SelectedDateProvider'
 import { useSelectedDate } from '../../src/contexts/SelectedDateContext'
+import { SelectedDateProvider } from '../../src/contexts/SelectedDateProvider'
 import { themes } from '../../src/contexts/ThemeContext'
-import useDayNightExplorerModel from '../../src/features/dayNightExplorer/useDayNightExplorerModel'
-import { DEFAULT_CALENDAR_SCHEDULE } from '../../src/lib/calendarSchedule'
-import { getSunPosition } from '../../src/lib/solar'
 import type { SolarSystemSceneState } from '../../src/features/dayNightExplorer/SolarSystem3DManager'
 import { readTimeExplorerState } from '../../src/features/dayNightExplorer/timeExplorerStorage'
+import useDayNightExplorerModel from '../../src/features/dayNightExplorer/useDayNightExplorerModel'
+import { DEFAULT_CALENDAR_SCHEDULE } from '../../src/lib/calendarSchedule'
 
 const scene = vi.hoisted(() => ({
   render: vi.fn(),
@@ -18,6 +17,12 @@ const scene = vi.hoisted(() => ({
   holidays: {},
   onOrbitChange: null as null | ((year: number, progress: number) => void),
 }))
+
+const locate = vi.fn()
+const atCity = (latitude: number, longitude: number) =>
+  locate.mockImplementation((success: PositionCallback) =>
+    success({ coords: { latitude, longitude } } as GeolocationPosition)
+  )
 
 vi.mock('../../src/hooks/useSchoolCalendar', () => ({
   useSchoolCalendar: () => ({ events: scene.holidays }),
@@ -48,36 +53,19 @@ beforeEach(() => {
   vi.useFakeTimers()
   vi.setSystemTime(new Date('2026-09-22T12:34:56Z'))
   vi.clearAllMocks()
+  Object.defineProperty(navigator, 'geolocation', {
+    configurable: true,
+    value: { getCurrentPosition: locate },
+  })
+  atCity(52.3676, 4.9041)
 })
-afterEach(() => vi.useRealTimers())
+afterEach(() => {
+  vi.useRealTimers()
+  Reflect.deleteProperty(navigator, 'geolocation')
+})
 
 describe('shared explorer reset', () => {
-  it('updates and persists the shared calendar date from orbit dragging without changing the clock or city', () => {
-    const { result } = renderHook(
-      () => ({
-        explorer: useDayNightExplorerModel(themes.teenie),
-        date: useSelectedDate(),
-      }),
-      { wrapper: SelectedDateProvider }
-    )
-    act(() => result.current.explorer.planet.onSelect('sun'))
-    const before = result.current.explorer.clock
-    act(() => scene.onOrbitChange!(2026, 3 / 12))
-    expect(result.current.date.selectedDateKey).toBe('2026-04-01')
-    expect(readTimeExplorerState().exploration?.dateKey).toBe('2026-04-01')
-    expect(result.current.explorer.clock).toMatchObject({
-      hoursLabel: before.hoursLabel,
-      minutesLabel: before.minutesLabel,
-      seconds: before.seconds,
-    })
-    expect(result.current.explorer.weatherCity.id).toBe('amsterdam')
-    act(() => scene.onOrbitChange!(2026, 1))
-    expect(result.current.date.selectedDateKey).toBe('2027-01-01')
-    act(() => scene.onOrbitChange!(2026, -1 / 12))
-    expect(result.current.date.selectedDateKey).toBe('2025-12-01')
-  })
-
-  it('keeps the exact instant when changing city across midnight between React clock snapshots', () => {
+  it('keeps the exact instant when changing city across midnight between React clock snapshots', async () => {
     const { result } = renderHook(
       () => ({
         explorer: useDayNightExplorerModel(themes.princess),
@@ -85,6 +73,7 @@ describe('shared explorer reset', () => {
       }),
       { wrapper: SelectedDateProvider }
     )
+    await act(async () => {})
     act(() => result.current.explorer.clock.onAdjust(480))
     act(() => vi.advanceTimersByTime(2000))
     const before = scene.update.mock.lastCall![0].sunPosition
@@ -99,7 +88,7 @@ describe('shared explorer reset', () => {
     expect(scene.render.mock.lastCall![0].sunPosition).toEqual(before)
   })
 
-  it('restores date, exact clock time, city and globe mode across sessions, including after reset', () => {
+  it('restores date, exact clock time, city and globe mode across sessions, including after reset', async () => {
     const useExplorer = () => ({
       explorer: useDayNightExplorerModel(themes.teenie, true),
       date: useSelectedDate(),
@@ -110,6 +99,7 @@ describe('shared explorer reset', () => {
       </StrictMode>
     )
     const first = renderHook(useExplorer, { wrapper })
+    await act(async () => {})
     act(() => first.result.current.explorer.planet.onSelect('sun'))
     act(() => first.result.current.explorer.planet.onSelect('taipei'))
     act(() => {
@@ -120,7 +110,7 @@ describe('shared explorer reset', () => {
     act(() => window.dispatchEvent(new Event('pagehide')))
     expect(readTimeExplorerState().exploration?.seconds).toBe(58)
     first.unmount()
-    vi.setSystemTime(new Date('2026-10-15T01:02:03Z'))
+    vi.setSystemTime(new Date('2026-09-22T13:02:03Z'))
 
     const second = renderHook(useExplorer, { wrapper })
     expect(second.result.current.date.selectedDateKey).toBe('2025-02-14')
@@ -142,64 +132,98 @@ describe('shared explorer reset', () => {
     second.unmount()
 
     const third = renderHook(useExplorer, { wrapper })
-    expect(third.result.current.date.selectedDateKey).toBe('2026-10-15')
+    expect(third.result.current.date.selectedDateKey).toBe('2026-09-22')
     expect(third.result.current.explorer.clock).toMatchObject({
       hoursLabel: '09',
       minutesLabel: '02',
       seconds: 3,
-      ampm: 'AM',
+      ampm: 'PM',
     })
     expect(third.result.current.explorer.weatherCity.id).toBe('taipei')
     third.unmount()
   })
 
-  it.each([
-    [
-      'taipei',
-      '2026-09-22T23:34:56Z',
-      '2026-09-23',
-      '07',
-      '34',
-      'AM',
-      7 * 60 + 34,
-    ],
-  ] as const)(
-    'resets date, clock, and hidden globe to now in %s',
-    (city, instant, dateKey, hours, minutes, ampm, totalMinutes) => {
-      const { result, rerender } = renderHook(
-        ({ visible }) => ({
-          explorer: useDayNightExplorerModel(themes.princess, visible),
-          date: useSelectedDate(),
-        }),
-        { wrapper: SelectedDateProvider, initialProps: { visible: false } }
-      )
-      act(() => result.current.explorer.planet.onSelect(city))
-      act(() => {
-        result.current.date.setSelectedDateKey('2025-01-10')
-        result.current.explorer.clock.onAdjust(180)
-      })
-      vi.setSystemTime(new Date(instant))
-      act(() => result.current.explorer.resetToNow())
+  it('resets at the nightly boundary and catches up after suspension or reopening', async () => {
+    vi.setSystemTime(new Date('2026-09-22T23:04:59Z'))
+    const useExplorer = () => ({
+      explorer: useDayNightExplorerModel(themes.teenie, false),
+      date: useSelectedDate(),
+    })
+    const wrapper = SelectedDateProvider
+    const first = renderHook(useExplorer, { wrapper })
+    await act(async () => {})
+    act(() => first.result.current.explorer.planet.onSelect('taipei'))
+    act(() => {
+      first.result.current.date.setSelectedDateKey('2025-02-14')
+      first.result.current.explorer.clock.onAdjust(-180)
+    })
+    expect(first.result.current.date.selectedDateKey).toBe('2025-02-14')
+    atCity(25.03, 121.56)
+    await act(() => vi.advanceTimersByTimeAsync(1000))
+    expect(first.result.current.date.selectedDateKey).toBe('2026-09-23')
+    expect(first.result.current.explorer.clock).toMatchObject({
+      hoursLabel: '07',
+      minutesLabel: '05',
+      seconds: 0,
+      ampm: 'AM',
+    })
+    act(() => {
+      first.result.current.date.setSelectedDateKey('2025-02-14')
+      first.result.current.explorer.clock.onAdjust(60)
+    })
+    // No timer ticks while suspended; resuming after DST uses London 00:05.
+    vi.setSystemTime(new Date('2026-10-26T00:06:17Z'))
+    atCity(53.35, -6.26)
+    await act(async () => document.dispatchEvent(new Event('visibilitychange')))
+    expect(first.result.current.date.selectedDateKey).toBe('2026-10-26')
+    expect(first.result.current.explorer.clock).toMatchObject({
+      hoursLabel: '12',
+      minutesLabel: '06',
+      seconds: 17,
+      ampm: 'AM',
+    })
+    expect(first.result.current.explorer.weatherCity.id).toBe('dublin')
+    first.unmount()
+    vi.setSystemTime(new Date('2026-10-27T00:09:22Z'))
+    atCity(40.71, -74.01)
+    expect(readTimeExplorerState().exploration).toBeNull()
+    const reopened = renderHook(useExplorer, { wrapper })
+    await act(async () => {})
+    expect(reopened.result.current.date.selectedDateKey).toBe('2026-10-27')
+    expect(reopened.result.current.explorer.clock).toMatchObject({
+      hoursLabel: '01',
+      minutesLabel: '09',
+      seconds: 22,
+      ampm: 'AM',
+    })
+    expect(reopened.result.current.explorer.weatherCity.id).toBe('amsterdam')
+    reopened.unmount()
+  })
 
-      expect(result.current.date.selectedDateKey).toBe(dateKey)
-      expect(result.current.explorer.clock).toMatchObject({
-        hoursLabel: hours,
-        minutesLabel: minutes,
-        seconds: 56,
-        ampm,
-      })
-      expect(result.current.explorer.weatherCity.id).toBe(city)
-      const expectedScene = expect.objectContaining({
-        activeFocusId: city,
-        earthRotationDeg: ((totalMinutes + 56 / 60) / 1440) * 360,
-        sunPosition: getSunPosition(new Date(instant)),
-      })
-      expect(scene.render).toHaveBeenLastCalledWith(expectedScene, false)
-      expect(scene.render.mock.lastCall![0].earthOrbitProgress).toBe(
-        (8 + 22 / 30) / 12
-      )
-      rerender({ visible: true })
-      expect(scene.render).toHaveBeenLastCalledWith(expectedScene, true)
-    }
-  )
+  it('ignores a late location fix after the user starts a new exploration', async () => {
+    let finish!: PositionCallback
+    locate.mockImplementation((success: PositionCallback) => {
+      finish = success
+    })
+    const { result, unmount } = renderHook(
+      () => ({
+        explorer: useDayNightExplorerModel(themes.princess),
+        date: useSelectedDate(),
+      }),
+      { wrapper: SelectedDateProvider }
+    )
+    fireEvent.pointerDown(document.body)
+    act(() => {
+      result.current.explorer.planet.onSelect('taipei')
+      result.current.date.setSelectedDateKey('2025-02-14')
+    })
+    await act(async () =>
+      finish({
+        coords: { latitude: 53.35, longitude: -6.26 },
+      } as GeolocationPosition)
+    )
+    expect(result.current.explorer.weatherCity.id).toBe('taipei')
+    expect(result.current.date.selectedDateKey).toBe('2025-02-14')
+    unmount()
+  })
 })

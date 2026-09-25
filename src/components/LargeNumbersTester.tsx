@@ -1,4 +1,5 @@
 import {
+  Fragment,
   useCallback,
   useState,
   type CSSProperties,
@@ -413,39 +414,36 @@ const LargeNumbersTester = (props: ActivityChoreProps) => {
             }}
           >
             <div style={placeGridStyle}>
-              <div />
-              <div />
-              <div style={digitCellStyle(`${theme.colors.secondary}24`)}>
-                {firstDigits.tens}
-              </div>
-              <div />
-              <div style={digitCellStyle(`${theme.colors.primary}24`)}>
-                {firstDigits.ones}
-              </div>
+              {[
+                { digits: firstDigits, symbol: '' },
+                { digits: secondDigits, symbol: operation === '+' ? '+' : '−' },
+              ].map(({ digits, symbol }, index) => (
+                <Fragment key={index}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontFamily: theme.fonts.heading,
+                      fontSize: 52,
+                      fontWeight: 900,
+                      lineHeight: 1,
+                      color: theme.colors.primary,
+                    }}
+                  >
+                    {symbol}
+                  </div>
 
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontFamily: theme.fonts.heading,
-                  fontSize: 52,
-                  fontWeight: 900,
-                  lineHeight: 1,
-                  color: theme.colors.primary,
-                }}
-              >
-                {operation === '+' ? '+' : '−'}
-              </div>
-              <div />
-              <div style={digitCellStyle(`${theme.colors.secondary}24`)}>
-                {secondDigits.tens}
-              </div>
-              <div />
-              <div style={digitCellStyle(`${theme.colors.primary}24`)}>
-                {secondDigits.ones}
-              </div>
-
+                  <div />
+                  <div style={digitCellStyle(`${theme.colors.secondary}24`)}>
+                    {digits.tens}
+                  </div>
+                  <div />
+                  <div style={digitCellStyle(`${theme.colors.primary}24`)}>
+                    {digits.ones}
+                  </div>
+                </Fragment>
+              ))}
               <div />
               <div />
               <div style={digitCellStyle(`${theme.colors.secondary}14`)}>

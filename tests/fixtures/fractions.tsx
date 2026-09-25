@@ -24,7 +24,6 @@ export default function Fixture() {
   const triggers = useTestCheckTriggers()
   const descriptor = createUnifiedChoreDescriptor({
     theme,
-    mode: 'today',
     activeIds: activity.activeIds,
     checkTriggers: triggers.checkTriggers,
     onCheck: triggers.onCheck,

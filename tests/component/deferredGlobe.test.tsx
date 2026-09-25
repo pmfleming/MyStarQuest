@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
-import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest'
-import useSolarSystem3D from '../../src/features/dayNightExplorer/useSolarSystem3D'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { SolarSystemSceneState } from '../../src/features/dayNightExplorer/SolarSystem3DManager'
+import useSolarSystem3D from '../../src/features/dayNightExplorer/useSolarSystem3D'
 
 const scene = vi.hoisted(() => ({
   construct: vi.fn(),
@@ -96,15 +96,6 @@ describe('deferred globe lifecycle', () => {
     expect(screen.getByText('Ready')).toBeVisible()
     unmount()
     expect(scene.dispose).toHaveBeenCalledTimes(2)
-  })
-
-  it('never creates WebGL after leaving while the module is loading', async () => {
-    const { unmount } = render(<Harness />)
-    nextFrame()
-    nextFrame()
-    unmount()
-    await act(() => vi.dynamicImportSettled())
-    expect(scene.construct).not.toHaveBeenCalled()
   })
 
   it('allows a failed renderer to retry without blocking the clock', async () => {

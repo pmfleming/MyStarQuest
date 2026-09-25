@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "Full frontend audit via Lens runAudit API, base empty, gate all",
+    "command": "whole-project quality review 2026-09-25",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-23T15:26:22.697Z",
+    "measured_at": "2026-09-25T21:32:12.852Z",
     "source_type": "static",
-    "source_set_hash": "sha256:166f0751ad0af60bf6a28c6086cc43ffcb418a543232af1c115a66d1313e76ef",
-    "input_set_hash": "sha256:2c72236df5b129ead249f21ed78ee1e1159ae580c29de17e022a07ddd63e0fdb"
+    "source_set_hash": "sha256:9d1f380645a25c1c546c4790325f269708def79511c7af1e77e55611949c74fb",
+    "input_set_hash": "sha256:d66ab4f76c13b0aba77112be463589f5edfea44475ff99f9b82db10431b9bb0a"
   },
   "analysis_identity": {
     "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
@@ -65,7 +65,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "hit",
+    "analysis_cache_status": "miss",
     "unsupported_pattern": [],
     "knip_available": true,
     "knip_ran": true,
@@ -113,8 +113,8 @@
     "duplicate_exports": 0,
     "entrypoint_files": 2,
     "knip_findings": 28,
-    "tool_confirmed": 3,
-    "tool_disagreed": 3,
+    "tool_confirmed": 4,
+    "tool_disagreed": 2,
     "tool_not_comparable": 3,
     "tool_excluded": 0
   },
@@ -175,54 +175,6 @@
             "id": "cleanup:unused-file:src/features/dayNightExplorer/earthTexture.worker",
             "kind": "unused_file",
             "file": "src/features/dayNightExplorer/earthTexture.worker.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/assets/chores/assets:ChoreImageKey",
-      "kind": "unused_export",
-      "file": "src/assets/chores/assets.ts",
-      "line": 8,
-      "name": "ChoreImageKey",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "ChoreImageKey"
-        }
-      ],
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "low",
-      "source": "ts-react-quality-lens-cleanup",
-      "tool_validation": "disagreed",
-      "validation_scope": "knip/unused_export",
-      "rule_id": "ts-react-quality-lens-cleanup/unused_export",
-      "message": "unused export",
-      "reason_code": "ts-react-quality-lens-cleanup/unused_export",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "disagreed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/assets/chores/assets:ChoreImageKey",
-            "kind": "unused_export",
-            "file": "src/assets/chores/assets.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -412,6 +364,55 @@
     }
   ],
   "records": [
+    {
+      "id": "cleanup:unused-export:src/features/dayNightExplorer/timeExplorerStorage:TIME_EXPLORER_STORAGE_KEY",
+      "kind": "unused_export",
+      "file": "src/features/dayNightExplorer/timeExplorerStorage.ts",
+      "line": 5,
+      "name": "TIME_EXPLORER_STORAGE_KEY",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "TIME_EXPLORER_STORAGE_KEY"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/features/dayNightExplorer/timeExplorerStorage.ts:TIME_EXPLORER_STORAGE_KEY:5",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/features/dayNightExplorer/timeExplorerStorage:TIME_EXPLORER_STORAGE_KEY",
+            "kind": "unused_export",
+            "file": "src/features/dayNightExplorer/timeExplorerStorage.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
     {
       "id": "cleanup:unused-export:src/lib/weather/weatherData:WEATHER_MAX_AGE_MS",
       "kind": "unused_export",
@@ -1506,55 +1507,6 @@
             "id": "knip:types:functions/src/schoolEventCatalog.ts:SchoolEventKind:27",
             "kind": "unused_type",
             "file": "functions/src/schoolEventCatalog.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "knip:exports:src/lib/weather/weatherConditions.ts:WEATHER_LABELS:2",
-      "rule_id": "knip/exports",
-      "kind": "unused_export",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "scope": "file",
-      "file": "src/lib/weather/weatherConditions.ts",
-      "name": "WEATHER_LABELS",
-      "line": 2,
-      "column": 14,
-      "score": 50,
-      "risk": "medium",
-      "source": "knip",
-      "message": "Knip reported unused export: WEATHER_LABELS.",
-      "issue_type": "exports",
-      "signals": [
-        {
-          "kind": "knip_exports",
-          "value": "WEATHER_LABELS"
-        }
-      ],
-      "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "knip:exports:src/lib/weather/weatherConditions.ts:WEATHER_LABELS:2",
-            "kind": "unused_export",
-            "file": "src/lib/weather/weatherConditions.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

@@ -58,44 +58,6 @@ export const mergeMissingTitleDrafts = <T extends DraftableItem>(
   return next
 }
 
-const useTitleDraftBackfill = <T extends DraftableItem>(
-  items: T[],
-  setDrafts: Dispatch<SetStateAction<Record<string, string>>>
-) => {
-  useEffect(() => {
-    setDrafts((prev) => mergeMissingTitleDrafts(prev, items))
-  }, [items, setDrafts])
-}
-
-export const useCollectionTitleDrafts = <T extends DraftableItem>(
-  items: T[],
-  onCommit: (id: string, title: string) => void,
-  maxLength = 80
-) => {
-  const [drafts, setDrafts] = useState<Record<string, string>>({})
-  useTitleDraftBackfill(items, setDrafts)
-
-  const setDraft = (id: string, value: string) =>
-    setDraftValue(setDrafts, id, value)
-  const removeDraft = (id: string) =>
-    setDrafts((previous) => {
-      if (!(id in previous)) return previous
-      const next = { ...previous }
-      delete next[id]
-      return next
-    })
-  const commitDraft = (id: string, value: string) =>
-    commitBoundedDraft(
-      value,
-      maxLength,
-      items.find((item) => item.id === id)?.title,
-      (title) => onCommit(id, title),
-      (title) => setDraft(id, title)
-    )
-
-  return { drafts, setDraft, removeDraft, commitDraft }
-}
-
 export const filterActiveChildItems = <T extends ChildTaskItem>(
   items: T[],
   activeChildId: string | null

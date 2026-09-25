@@ -1,70 +1,91 @@
 import type { Theme } from '../contexts/ThemeContext'
 import { AsyncButton } from './ui/AsyncButton'
 import globeIcon from '../assets/cities/earth.svg'
-import teenieClockIcon from '../assets/themes/teenie/clock-character.png'
-import teenieWeatherIcon from '../assets/themes/teenie/weather-character.png'
+import TimeExplorerClockIcon, {
+  type HeaderClock,
+} from './TimeExplorerClockIcon'
 import teenieGlobeIcon from '../assets/themes/teenie/globe-character.png'
-import { getThemeAsset, hasIllustratedTheme } from '../ui/themeAssets'
+import { getThemeAsset } from '../ui/themeAssets'
 import type { ExplorerPanel } from '../features/dayNightExplorer/timeExplorerStorage'
+import TimeExplorerCalendarIcon from './TimeExplorerCalendarIcon'
+import type { ExplorerCityOption } from '../features/dayNightExplorer/dayNightExplorerOptions'
+import TimeExplorerWeatherIcon from './TimeExplorerWeatherIcon'
+import {
+  WEATHER_LABELS,
+  type WeatherScene,
+} from '../lib/weather/weatherConditions'
 type HeaderIconKind = 'clock' | 'calendar' | 'thermometer' | 'globe'
-
-const TEENIE_HEADER_ICONS = {
-  clock: teenieClockIcon,
-  thermometer: teenieWeatherIcon,
-  globe: teenieGlobeIcon,
-}
-
-const DEFAULT_HEADER_ICONS = {
-  clock: '🕒',
-  calendar: '📅',
-  thermometer: '🌡️',
-  globe: '🌍',
-} satisfies Record<HeaderIconKind, string>
 
 type Props = {
   theme: Theme
+  clock: HeaderClock
+  selectedDate: Date
+  currentCity: Pick<ExplorerCityOption, 'label' | 'icon'>
   activePanels: ExplorerPanel[]
   weatherLabel: string
+  weatherScene: WeatherScene
   togglePanel: (panel: ExplorerPanel) => void
   resetToNow: () => void | Promise<void>
 }
 
 export default function TimeExplorerControls({
   theme,
+  clock,
+  selectedDate,
+  currentCity,
   activePanels,
   weatherLabel,
+  weatherScene,
   togglePanel,
   resetToNow,
 }: Props) {
+  const dateLabel = `${selectedDate.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()} ${selectedDate.getDate()}`
+  const descriptions: Partial<Record<ExplorerPanel, string>> = {
+    clock: `${clock.hoursLabel}:${clock.minutesLabel} ${clock.ampm}`,
+    calendar: dateLabel,
+    globe: `Selected city: ${currentCity.label}`,
+    weather: `Current weather: ${WEATHER_LABELS[weatherScene]}`,
+  }
   const renderIcon = (kind: HeaderIconKind) => {
-    if (hasIllustratedTheme(theme.id)) {
-      const src =
-        theme.id === 'teenie' && kind !== 'calendar'
-          ? TEENIE_HEADER_ICONS[kind]
-          : kind === 'globe'
-            ? globeIcon
-            : getThemeAsset(theme.id, `${kind}Icon`)
+    if (kind === 'clock') {
       return (
-        <img
-          src={src}
-          alt=""
-          aria-hidden="true"
-          className="h-14 w-14 max-w-full object-contain"
+        <TimeExplorerClockIcon
+          clock={clock}
+          illustrated={theme.id === 'teenie'}
         />
       )
     }
-
-    return (
-      <span
-        aria-hidden="true"
-        style={{
-          fontSize: 'clamp(2.5rem, 15cqi, 3.5rem)',
-          lineHeight: 1,
-        }}
-      >
-        {DEFAULT_HEADER_ICONS[kind]}
-      </span>
-    )
+    if (kind === 'calendar') {
+      return (
+        <TimeExplorerCalendarIcon
+          dateLabel={dateLabel}
+          illustrated={theme.id === 'teenie'}
+        />
+      )
+    }
+    if (kind === 'globe') {
+      return (
+        <span className="relative block h-16 w-16 max-w-full shrink-0">
+          <img
+            src={theme.id === 'teenie' ? teenieGlobeIcon : globeIcon}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-contain"
+          />
+          <img
+            src={currentCity.icon}
+            alt=""
+            aria-hidden="true"
+            className="absolute -right-0.5 -bottom-0.5 h-5 w-5 object-contain"
+            style={{
+              filter:
+                'drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white) drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white)',
+            }}
+          />
+        </span>
+      )
+    }
+    return <TimeExplorerWeatherIcon themeId={theme.id} scene={weatherScene} />
   }
 
   return (
@@ -116,7 +137,12 @@ export default function TimeExplorerControls({
             key={option.value}
             type="button"
             aria-label={option.ariaLabel}
-            title={option.label}
+            title={
+              descriptions[option.value]
+                ? `${option.label}: ${descriptions[option.value]}`
+                : option.label
+            }
+            aria-description={descriptions[option.value]}
             aria-pressed={activePanels.includes(option.value)}
             onClick={() => togglePanel(option.value)}
             className="flex min-w-0 items-center justify-center rounded-2xl p-0.5 transition active:scale-95"

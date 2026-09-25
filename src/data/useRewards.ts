@@ -1,25 +1,15 @@
 // ── Real-time rewards subscription + all reward mutations ──
 
 import { useCallback } from 'react'
-import { deleteDoc, doc } from 'firebase/firestore'
-import { db } from '../firebaseDb'
-import { isOfflineEnabled } from '../offline/platform'
-import { saveDocument } from '../offline/actions'
 import { useChildren } from './useChildren'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { redeemReward } from '../lib/starActions'
-import {
-  rewardSnapshotDataSchema,
-  type RewardRecord,
-  type RewardUpdatableFields,
-} from './types'
-import { useCollectionTitleDrafts } from './dailyTaskState'
+import { rewardSnapshotDataSchema, type RewardRecord } from './types'
 import { useUserCollection } from './useUserCollection'
-import { useOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
 import {
   createUserDocument,
-  useUserDocumentUpdates,
+  deleteUserDocument,
 } from './useUserDocumentUpdates'
 
 export type RewardDocumentSettings = {
@@ -57,40 +47,13 @@ export function useRewards() {
     }
   }, [])
 
-  const {
-    overrides: optimisticFields,
-    queueUpdate: queueRewardField,
-    cancelUpdate: cancelRewardFieldUpdate,
-    reconcile: reconcileRewardFields,
-  } = useUserDocumentUpdates<RewardUpdatableFields>({
-    userId: user?.uid,
-    collectionName: 'rewards',
-    errorMessage: 'Failed to update reward',
-  })
-
-  const rawRewards = useUserCollection({
+  const rewards = useUserCollection({
     userId: user?.uid,
     collectionName: 'rewards',
     orderByField: 'createdAt',
     errorMessage: 'Failed to subscribe to rewards',
     mapDocument: mapRewardDocument,
   })
-
-  const rewards = useOptimisticItems(
-    rawRewards,
-    optimisticFields,
-    reconcileRewardFields
-  )
-
-  const updateRewardField = queueRewardField
-  const {
-    drafts: titleDrafts,
-    setDraft: setTitleDraft,
-    removeDraft: removeTitleDraft,
-    commitDraft: commitTitle,
-  } = useCollectionTitleDrafts(rawRewards, (rewardId, title) =>
-    updateRewardField(rewardId, { title })
-  )
 
   // ── Create ──
   const createStandardReward = async (
@@ -126,20 +89,12 @@ export function useRewards() {
   // ── Delete ──
   const deleteReward = async (id: string) => {
     if (!user) return
-    cancelRewardFieldUpdate(id)
-    if (isOfflineEnabled())
-      await saveDocument(user.uid, 'rewards', id, 'delete')
-    else await deleteDoc(doc(db, 'users', user.uid, 'rewards', id))
-    removeTitleDraft(id)
+    await deleteUserDocument(user.uid, 'rewards', id)
   }
 
   return {
     rewards,
     activeChildStars: user && activeChildId ? activeChildStars : 0,
-    titleDrafts,
-    setTitleDraft,
-    commitTitle,
-    updateRewardField,
     createStandardReward,
     giveReward,
     deleteReward,

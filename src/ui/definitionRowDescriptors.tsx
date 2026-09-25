@@ -1,4 +1,4 @@
-import { getThemeAsset } from './themeAssets'
+import { getThemeAsset, hasIllustratedTheme } from './themeAssets'
 import type { ReactNode } from 'react'
 import Carousel from '../components/ui/Carousel'
 import ActionTextInput from '../components/ui/ActionTextInput'
@@ -8,7 +8,7 @@ import SegmentedChoiceControl, {
   type SegmentedChoiceOption,
 } from '../components/ui/SegmentedChoiceControl'
 import { getStandardActionHeadingStyle } from '../components/ui/standardActionStyles'
-import { getRewardImage } from '../assets/rewards/assets'
+import { getRewardImage, getRewardOverlayImage } from '../assets/rewards/assets'
 import type { ThemeId } from './themeOptions'
 import type { Theme } from '../contexts/ThemeContext'
 import type { ChildProfile, RewardRecord } from '../data/types'
@@ -78,6 +78,7 @@ const renderRewardAvailableSummary = (reward: RewardRecord, theme: Theme) => {
       <ImageStarFrame
         theme={theme}
         image={image}
+        overlayImage={getRewardOverlayImage(reward.title, reward.imageKey)}
         imageAlt={`${reward.title} reward`}
         starCount={reward.costStars}
       />
@@ -159,30 +160,26 @@ export const createChildDefinitionListRowDescriptor = (
   getPrimaryAction: (child) => ({
     label: 'Select',
     ariaLabel: `Select ${child.displayName}`,
-    icon:
-      deps.theme.id === 'princess' || deps.theme.id === 'teenie' ? (
-        <img
-          src={
-            deps.activeChildId === child.id
-              ? getThemeAsset(deps.theme.id, 'activeIcon')
-              : getThemeAsset(deps.theme.id, 'selectIcon')
-          }
-          alt=""
-          aria-hidden="true"
-          decoding="async"
-          className="h-6 w-6 object-contain"
-        />
-      ) : deps.activeChildId === child.id ? (
-        '✅'
-      ) : (
-        '⭐'
-      ),
+    icon: hasIllustratedTheme(deps.theme.id) ? (
+      <img
+        src={
+          deps.activeChildId === child.id
+            ? getThemeAsset(deps.theme.id, 'activeIcon')
+            : getThemeAsset(deps.theme.id, 'selectIcon')
+        }
+        alt=""
+        aria-hidden="true"
+        decoding="async"
+        className="h-6 w-6 object-contain"
+      />
+    ) : deps.activeChildId === child.id ? (
+      '✅'
+    ) : (
+      '⭐'
+    ),
     showLabel: false,
     disabled: deps.activeChildId === child.id,
-    variant:
-      deps.theme.id === 'princess' || deps.theme.id === 'teenie'
-        ? 'neutral'
-        : 'primary',
+    variant: hasIllustratedTheme(deps.theme.id) ? 'neutral' : 'primary',
     onClick: (item) => deps.selectChild(item.id),
   }),
 })

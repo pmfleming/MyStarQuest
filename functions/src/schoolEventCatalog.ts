@@ -33,65 +33,59 @@ export type SchoolEventDetails = {
   releaseTime?: string
 }
 
+type EventRule = [
+  pattern: RegExp,
+  titleEn: string,
+  artwork?: SchoolEventArtwork,
+  kind?: SchoolEventKind,
+  releaseTime?: string,
+]
+
+// First match wins; keep broad patterns after any more specific variants.
+const eventRules: EventRule[] = [
+  [
+    /^alle leerlingen (?:om )?12:00 uur vrij$/,
+    'Noon Finish',
+    'early-finish',
+    'early-finish',
+    '12:00',
+  ],
+  [/^studiedag\b/, 'Teacher Training', 'teacher-training', 'day-off'],
+  [/^zomervakantie$/, 'Summer Break', 'summer-break', 'day-off'],
+  [/^herfstvakantie$/, 'Autumn Break', 'autumn-break', 'day-off'],
+  [/^kerstvakantie$/, 'Christmas Break', 'christmas-break', 'day-off'],
+  [/^voorjaarsvakantie$/, 'Spring Break', 'spring-break', 'day-off'],
+  [/^meivakantie$/, 'May Break', 'may-break', 'day-off'],
+  [/^goede vrijdag$/, 'Good Friday', 'good-friday', 'day-off'],
+  [/^tweede paasdag$/, 'Easter Monday', 'easter-monday', 'day-off'],
+  [/^tweede pinksterdag$/, 'Whit Monday', 'whit-monday', 'day-off'],
+  [/^holiday$/, 'Holiday', undefined, 'day-off'],
+  [/^eerste schooldag$/, 'School Starts', 'first-day'],
+  [/internationale ouders/, 'Parent Welcome', 'international-meeting'],
+  [/^informatie\s?bijeenkomst groep 1-2$/, 'Parent Meeting', 'parent-meeting'],
+  [/^1-2a startgesprekken \(met kind\)$/, 'Start Meeting', 'start-meeting'],
+  [/^schoolreis\b/, 'School Trip', 'school-trip'],
+  [/^schoolfotograaf broertjes\/zusjes$/, 'Sibling Photos', 'sibling-photo'],
+  [/^schoolfotograaf$/, 'School Photos', 'school-photo'],
+  [/^kerstviering\b/, 'Christmas Party', 'christmas'],
+  [/^rapporten mee naar huis$/, 'School Reports', 'reports'],
+  [/^koningsspelen$/, 'King’s Games', 'kings-games'],
+  [/^eindfeest$/, 'School Party', 'end-party'],
+  [/^mr vergadering$/, 'Council Meeting', 'council-meeting'],
+]
+
 export const classifySchoolEvent = (summary: string): SchoolEventDetails => {
   const titleNl = summary.trim()
   const text = titleNl.toLocaleLowerCase('nl').replace(/\s+/g, ' ')
-  const activity = (
-    titleEn: string,
-    artwork: SchoolEventArtwork
-  ): SchoolEventDetails => ({ titleNl, titleEn, kind: 'activity', artwork })
-  const dayOff = (
-    titleEn: string,
-    artwork?: SchoolEventArtwork
-  ): SchoolEventDetails => ({
+  const rule = eventRules.find(([pattern]) => pattern.test(text))
+  // Unknown events remain visible; an all-day flag alone never closes school.
+  if (!rule) return { titleNl, titleEn: 'School Event', kind: 'activity' }
+  const [, titleEn, artwork, kind = 'activity', releaseTime] = rule
+  return {
     titleNl,
     titleEn,
-    kind: 'day-off',
+    kind,
     ...(artwork ? { artwork } : {}),
-  })
-
-  if (/^alle leerlingen (?:om )?12:00 uur vrij$/.test(text))
-    return {
-      titleNl,
-      titleEn: 'Noon Finish',
-      kind: 'early-finish',
-      artwork: 'early-finish',
-      releaseTime: '12:00',
-    }
-  if (/^studiedag\b/.test(text))
-    return dayOff('Teacher Training', 'teacher-training')
-  const holidays: Record<string, [string, SchoolEventArtwork?]> = {
-    zomervakantie: ['Summer Break', 'summer-break'],
-    herfstvakantie: ['Autumn Break', 'autumn-break'],
-    kerstvakantie: ['Christmas Break', 'christmas-break'],
-    voorjaarsvakantie: ['Spring Break', 'spring-break'],
-    meivakantie: ['May Break', 'may-break'],
-    'goede vrijdag': ['Good Friday', 'good-friday'],
-    'tweede paasdag': ['Easter Monday', 'easter-monday'],
-    'tweede pinksterdag': ['Whit Monday', 'whit-monday'],
-    holiday: ['Holiday'],
+    ...(releaseTime ? { releaseTime } : {}),
   }
-  if (holidays[text]) return dayOff(...holidays[text])
-  if (text === 'eerste schooldag') return activity('School Starts', 'first-day')
-  if (text.includes('internationale ouders'))
-    return activity('Parent Welcome', 'international-meeting')
-  if (/^informatie\s?bijeenkomst groep 1-2$/.test(text))
-    return activity('Parent Meeting', 'parent-meeting')
-  if (text === '1-2a startgesprekken (met kind)')
-    return activity('Start Meeting', 'start-meeting')
-  if (/^schoolreis\b/.test(text)) return activity('School Trip', 'school-trip')
-  if (text === 'schoolfotograaf broertjes/zusjes')
-    return activity('Sibling Photos', 'sibling-photo')
-  if (text === 'schoolfotograaf')
-    return activity('School Photos', 'school-photo')
-  if (/^kerstviering\b/.test(text))
-    return activity('Christmas Party', 'christmas')
-  if (text === 'rapporten mee naar huis')
-    return activity('School Reports', 'reports')
-  if (text === 'koningsspelen') return activity('King’s Games', 'kings-games')
-  if (text === 'eindfeest') return activity('School Party', 'end-party')
-  if (text === 'mr vergadering')
-    return activity('Council Meeting', 'council-meeting')
-  // Unknown events remain visible; an all-day flag alone never means school is closed.
-  return { titleNl, titleEn: 'School Event', kind: 'activity' }
 }

@@ -55,7 +55,7 @@ function AllDayIndicator() {
 const timingClasses: Record<AgendaTiming['kind'], string> = {
   range: '',
   single: 'day-agenda__item--single-time',
-  'all-day': 'day-agenda__item--single-time',
+  'all-day': 'day-agenda__item--all-day',
   unknown: 'day-agenda__item--no-time',
 }
 
@@ -73,18 +73,17 @@ export default function AgendaList({
   emptyText?: string
 }) {
   const List = ordered ? 'ol' : 'ul'
+  const style: CSSProperties & Record<`--agenda-${string}`, string> = {
+    color: theme.colors.text,
+    '--agenda-surface': theme.colors.surface,
+    '--agenda-accent': theme.colors.accent,
+    '--agenda-heading-font': theme.fonts.heading,
+  }
   return (
     <section
       className={entries.length || emptyText ? 'day-agenda' : undefined}
       aria-label={label}
-      style={
-        {
-          color: theme.colors.text,
-          '--agenda-surface': theme.colors.surface,
-          '--agenda-accent': theme.colors.accent,
-          '--agenda-heading-font': theme.fonts.heading,
-        } as CSSProperties
-      }
+      style={style}
     >
       {entries.length === 0 ? (
         emptyText && <p>{emptyText}</p>

@@ -7,6 +7,7 @@ import {
 import { useRequiredContext } from '../hooks/useRequiredContext'
 
 export type SelectedDateContextValue = {
+  nightlyResetKey: string
   selectedDateKey: string
   selectedDate: Date
   setSelectedDateKey: (dateKey: string) => void

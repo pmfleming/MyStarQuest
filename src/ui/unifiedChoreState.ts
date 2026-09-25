@@ -14,7 +14,7 @@ import {
   getNextWaterLevel,
 } from '../lib/choreLogic'
 import type { ChoreStage } from './choreModeDefinitions'
-import { getThemeAsset } from './themeAssets'
+import { getThemeAsset, hasIllustratedTheme } from './themeAssets'
 import type {
   ThemedAsset,
   UnifiedChoreDeps,
@@ -33,9 +33,7 @@ const getDinnerState = (item: UnifiedChoreItem) => {
 
 export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
   const themedAsset = (asset?: string): ThemedAsset =>
-    deps.theme.id === 'princess' || deps.theme.id === 'teenie'
-      ? asset
-      : undefined
+    hasIllustratedTheme(deps.theme.id) ? asset : undefined
   const testOutcomeImages = () => ({
     completionImage: themedAsset(
       getThemeAsset(deps.theme.id, 'quizCorrectImage')

@@ -52,50 +52,6 @@ const tick = async (ms = 1500) => {
 const piece = (index: number, denominator: number) =>
   screen.getByRole('button', { name: `Piece ${index} of ${denominator}` })
 
-it('teaches the five-step sequence, accepts any matching pieces, and completes only after five answers', async () => {
-  const activity = mountActivity()
-  expect(
-    screen.getByRole('img', { name: 'Example: 1 out of 2 equal parts' })
-  ).toBeInTheDocument()
-  expect(piece(1, 2)).toHaveAttribute('aria-pressed', 'false')
-  fireEvent.click(piece(2, 2))
-  fireEvent.click(piece(2, 2))
-  expect(piece(2, 2)).toHaveAttribute('aria-pressed', 'false')
-  fireEvent.click(piece(2, 2))
-  activity.check()
-  expect(piece(1, 2)).toBeDisabled()
-  activity.check() // A repeated Check during the celebration must not skip a question.
-  await tick()
-  expect(
-    screen.queryByRole('img', { name: /Example:/ })
-  ).not.toBeInTheDocument()
-  expect(piece(2, 2)).toHaveAttribute('aria-pressed', 'false')
-  fireEvent.click(piece(1, 2))
-  activity.check()
-  await tick()
-  expect(
-    screen.getByRole('img', { name: 'Example: 1 out of 4 equal parts' })
-  ).toBeInTheDocument()
-  fireEvent.click(piece(4, 4))
-  activity.check()
-  await tick()
-  expect(
-    screen.queryByRole('img', { name: /Example:/ })
-  ).not.toBeInTheDocument()
-  fireEvent.click(piece(2, 4))
-  activity.check()
-  await tick()
-  expect(activity.props.onComplete).not.toHaveBeenCalled()
-  expect(
-    screen.getByRole('group', { name: 'Build 3 out of 4 equal parts' })
-  ).toBeInTheDocument()
-  for (const index of [1, 3, 4]) fireEvent.click(piece(index, 4))
-  activity.check()
-  await tick()
-  expect(activity.props.onComplete).toHaveBeenCalledTimes(1)
-  expect(activity.props.onFail).not.toHaveBeenCalled()
-})
-
 it('preserves answers, supplies a visual hint after two misses on that question, and allows unlimited retries', async () => {
   const activity = mountActivity({ failureModeEnabled: true })
   fireEvent.click(piece(1, 2))

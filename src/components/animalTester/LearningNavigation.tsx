@@ -13,6 +13,12 @@ import type { ActivityChoreProps } from '../ui/ActivityControls'
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 const VISIBLE_LETTERS = 8
+const keyboardTargets = new Map<string, (index: number) => number>([
+  ['Home', () => 0],
+  ['End', () => ALPHABET.length - 1],
+  ['ArrowLeft', (index) => Math.max(0, index - 1)],
+  ['ArrowRight', (index) => Math.min(ALPHABET.length - 1, index + 1)],
+])
 const clampStart = (index: number) =>
   Math.max(0, Math.min(ALPHABET.length - VISIBLE_LETTERS, index))
 
@@ -120,22 +126,15 @@ export default function LearningNavigation({
   }, [isOpen, start])
 
   const browseWithKeyboard = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return
+    const targetForKey = keyboardTargets.get(event.key)
+    if (!targetForKey) return
     event.preventDefault()
     const focused =
       event.target instanceof HTMLElement
         ? event.target.dataset.letter
         : undefined
     const index = ALPHABET.indexOf(focused ?? currentLetter)
-    const target =
-      event.key === 'Home'
-        ? 0
-        : event.key === 'End'
-          ? ALPHABET.length - 1
-          : Math.max(
-              0,
-              Math.min(25, index + (event.key === 'ArrowRight' ? 1 : -1))
-            )
+    const target = targetForKey(index)
     const letter = ALPHABET.charAt(target)
     if (target < start || target >= start + VISIBLE_LETTERS) {
       focusLetter.current = letter
@@ -149,22 +148,22 @@ export default function LearningNavigation({
     }
   }
 
+  const style: CSSProperties & Record<`--animal-nav-${string}`, string> = {
+    '--animal-nav-primary': theme.colors.primary,
+    '--animal-nav-accent': theme.colors.accent,
+    '--animal-nav-surface': theme.colors.surface,
+    '--animal-nav-text': theme.colors.text,
+    '--animal-nav-height': `${uiTokens.listActionHeight}px`,
+    '--animal-nav-gap': `${uiTokens.actionRowGap}px`,
+    fontFamily: theme.fonts.heading,
+  }
+
   return (
     <div
       ref={navigation}
       className="activity-inline-action-row animal-learning-navigation"
       data-expanded={isOpen}
-      style={
-        {
-          '--animal-nav-primary': theme.colors.primary,
-          '--animal-nav-accent': theme.colors.accent,
-          '--animal-nav-surface': theme.colors.surface,
-          '--animal-nav-text': theme.colors.text,
-          '--animal-nav-height': `${uiTokens.listActionHeight}px`,
-          '--animal-nav-gap': `${uiTokens.actionRowGap}px`,
-          fontFamily: theme.fonts.heading,
-        } as CSSProperties
-      }
+      style={style}
       onBlur={(event) => {
         if (
           isOpen &&

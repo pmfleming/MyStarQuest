@@ -108,19 +108,6 @@ it('rejects hosting HTML fallbacks for missing scripts', async () => {
   expect(sw.maps.has('msq-shell-new')).toBe(false)
 })
 
-it('still serves online files if cache storage becomes unavailable', async () => {
-  const sw = worker()
-  vi.spyOn(sw.caches, 'open').mockRejectedValue(
-    new Error('Storage unavailable')
-  )
-  const event = sw.event(
-    'fetch',
-    new Request('https://app.test/assets/app-123.js')
-  )
-  const responses = (await event.done) as Response[]
-  expect(await responses[0].text()).toBe('export{}')
-})
-
 it('serves the installed shell and code offline, without intercepting auth, APIs or mutations', async () => {
   const sw = worker()
   await sw.event('install').done

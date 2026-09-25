@@ -201,7 +201,6 @@ const DashboardPage = () => {
 
   const unifiedChoreDeps: UnifiedChoreDeps = {
     theme,
-    mode: 'today',
     onUpdateEphemeral: updateEphemeral,
     onDeleteTask: handleDeleteChore,
     onEnterChore: (item) =>

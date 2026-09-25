@@ -3,10 +3,12 @@ import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
 import StarDisplay from './StarDisplay'
 import { ImageLoadingContext } from './ImageLoadingContext'
+import ImageWithOverlay from './ImageWithOverlay'
 
 type ImageStarFrameProps = {
   theme: Theme
   image?: string
+  overlayImage?: string
   imageAlt: string
   starCount: number
   loading?: 'eager' | 'lazy'
@@ -16,6 +18,7 @@ type ImageStarFrameProps = {
 const ImageStarFrame = ({
   theme,
   image,
+  overlayImage,
   imageAlt,
   starCount,
   loading,
@@ -59,8 +62,9 @@ const ImageStarFrame = ({
               overflow: 'visible',
             }}
           >
-            <img
+            <ImageWithOverlay
               src={image}
+              overlayImage={overlayImage}
               alt={imageAlt}
               loading={loading ?? defaultLoading}
               fetchPriority={fetchPriority}

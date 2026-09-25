@@ -84,7 +84,8 @@ const MenuSheet = ({
   >()
 
   useEffect(() => {
-    const dialog = dialogRef.current!
+    const dialog = dialogRef.current
+    if (!dialog) return
     dialog.showModal()
     return () => dialog.close()
   }, [])

@@ -35,7 +35,6 @@ type ChoreDraft = {
 type ChoreTypeOption = {
   type: ChoreType
   label: string
-  icon: string
   defaultDraft: ChoreDraft
 }
 
@@ -56,47 +55,39 @@ const DRAFT_DINNER_MAX_MINUTES = 30
 const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value))
 
+const defaultDraft: ChoreDraft = {
+  title: 'New Chore',
+  schoolDayEnabled: true,
+  nonSchoolDayEnabled: true,
+  starValue: 1,
+  imageKey: '',
+  dinnerDurationMinutes: DEFAULT_DINNER_DURATION_SECONDS / 60,
+  dinnerTotalBites: DEFAULT_DINNER_BITES,
+}
+
 const typeOptions = [
   {
     type: 'standard',
     label: 'Standard Chore',
-    icon: getTaskTypeIcon('standard'),
-    defaultDraft: {
-      title: 'New Chore',
-      schoolDayEnabled: true,
-      nonSchoolDayEnabled: true,
-      starValue: 1,
-      imageKey: '',
-      dinnerDurationMinutes: DEFAULT_DINNER_DURATION_SECONDS / 60,
-      dinnerTotalBites: DEFAULT_DINNER_BITES,
-    },
+    defaultDraft,
   },
   {
     type: 'eating',
     label: 'Dinner',
-    icon: getTaskTypeIcon('eating'),
     defaultDraft: {
+      ...defaultDraft,
       title: 'Dinner',
-      schoolDayEnabled: true,
-      nonSchoolDayEnabled: true,
       starValue: DEFAULT_DINNER_STARS,
-      imageKey: '',
-      dinnerDurationMinutes: DEFAULT_DINNER_DURATION_SECONDS / 60,
-      dinnerTotalBites: DEFAULT_DINNER_BITES,
     },
   },
   {
     type: 'watertoiletcheck',
     label: 'Water & Toilet Check',
-    icon: getTaskTypeIcon('watertoiletcheck'),
     defaultDraft: {
+      ...defaultDraft,
       title: 'Water & Toilet Check',
-      schoolDayEnabled: true,
       nonSchoolDayEnabled: false,
       starValue: DEFAULT_WATER_TOILET_STARS,
-      imageKey: '',
-      dinnerDurationMinutes: DEFAULT_DINNER_DURATION_SECONDS / 60,
-      dinnerTotalBites: DEFAULT_DINNER_BITES,
     },
   },
 ] satisfies readonly ChoreTypeOption[]
@@ -228,42 +219,20 @@ const ChoreCreationFlow = ({
         />
       )}
 
-      <div
-        className="flex flex-col"
-        style={{ gap: `${uiTokens.controlRowGap}px` }}
-      >
-        <ScheduleDayTypeControl
-          theme={theme}
-          task={draftScheduleTask}
-          onUpdate={(_, field) => {
-            const patch: Partial<ChoreDraft> = {}
+      <ScheduleDayTypeControl
+        theme={theme}
+        task={draftScheduleTask}
+        onUpdate={(_, field) => updateDraft(field)}
+      />
 
-            if (typeof field.schoolDayEnabled === 'boolean') {
-              patch.schoolDayEnabled = field.schoolDayEnabled
-            }
-
-            if (typeof field.nonSchoolDayEnabled === 'boolean') {
-              patch.nonSchoolDayEnabled = field.nonSchoolDayEnabled
-            }
-
-            updateDraft(patch)
-          }}
-        />
-      </div>
-
-      <div
-        className="flex flex-col"
-        style={{ gap: `${uiTokens.controlRowGap}px` }}
-      >
-        <StarDisplay
-          theme={theme}
-          count={draft.starValue}
-          editable
-          min={1}
-          max={9}
-          onChange={(starValue) => updateDraft({ starValue })}
-        />
-      </div>
+      <StarDisplay
+        theme={theme}
+        count={draft.starValue}
+        editable
+        min={1}
+        max={9}
+        onChange={(starValue) => updateDraft({ starValue })}
+      />
 
       {selectedType === 'eating' && (
         <>

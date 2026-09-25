@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { useTheme } from '../contexts/ThemeContext'
+import { useSelectedDate } from '../contexts/SelectedDateContext'
 import TabContent from '../components/TabContent'
 import TimeExplorerControls from '../components/TimeExplorerControls'
 import {
@@ -21,6 +22,7 @@ import {
 } from '../hooks/useWeatherExploration'
 import {
   getWeatherDescription,
+  getWeatherScene,
   formatTemperature,
 } from '../lib/weather/weatherConditions'
 const WeatherPanel = lazy(() => import('../components/weather/WeatherPanel'))
@@ -28,6 +30,7 @@ const SchoolCalendar = lazy(() => import('../components/SchoolCalendar'))
 
 const TimeExplorerPage = () => {
   const { theme } = useTheme()
+  const { selectedDate } = useSelectedDate()
   const [activePanels, setActivePanels] = useState<ExplorerPanel[]>(
     () => readTimeExplorerState().activePanels
   )
@@ -67,8 +70,14 @@ const TimeExplorerPage = () => {
       >
         <TimeExplorerControls
           theme={theme}
+          clock={explorer.clock}
+          selectedDate={selectedDate}
+          currentCity={explorer.weatherCity}
           activePanels={activePanels}
           weatherLabel={weatherLabel}
+          weatherScene={
+            weather.data ? getWeatherScene(weather.data) : 'unavailable'
+          }
           togglePanel={togglePanel}
           resetToNow={resetToNow}
         />

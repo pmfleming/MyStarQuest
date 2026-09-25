@@ -6,6 +6,7 @@ import {
   getFractionProblem,
   type Fraction,
   type FractionDifficulty,
+  type FractionProblem,
 } from '../lib/fractionProblems'
 import type { ActivityChoreProps } from './ui/ActivityControls'
 import CrownDifficultyControl from './ui/CrownDifficultyControl'
@@ -55,23 +56,115 @@ function ExampleBar({
   )
 }
 
+type FractionAnswer = {
+  selected: number[]
+  choice: Fraction | null
+  replay: number
+  missesBeforeProblem: number
+}
+const EMPTY_ANSWER: FractionAnswer = {
+  selected: [],
+  choice: null,
+  replay: 0,
+  missesBeforeProblem: 0,
+}
+
+function FractionResponse({
+  problem,
+  problemIndex,
+  answer: { selected, choice },
+  isCorrect,
+  isWrong,
+  updateAnswer,
+}: {
+  problem: FractionProblem
+  problemIndex: number
+  answer: FractionAnswer
+  isCorrect: boolean
+  isWrong: boolean
+  updateAnswer: (patch: Partial<FractionAnswer>) => void
+}) {
+  const recognising = problem.mode === 'recognise'
+  return (
+    <div
+      className={recognising ? 'fraction-choices' : 'fraction-answer'}
+      style={{ animation: isWrong ? 'fractions-shake 0.5s ease' : undefined }}
+      role="group"
+      aria-label={
+        recognising ? 'Choose the matching fraction' : 'Your fraction'
+      }
+    >
+      {recognising ? (
+        <>
+          {FRACTION_CHOICES.map((fraction) => (
+            <button
+              type="button"
+              key={`${fraction.numerator}/${fraction.denominator}`}
+              className="fraction-choice"
+              aria-label={fractionLabel(fraction)}
+              aria-pressed={choice === fraction}
+              disabled={isCorrect}
+              onClick={() => updateAnswer({ choice: fraction })}
+            >
+              <FractionSymbol {...fraction} />
+            </button>
+          ))}
+        </>
+      ) : (
+        <>
+          <div
+            className="fraction-bar"
+            role="group"
+            aria-label={`${problem.denominator} equal pieces; tap to colour`}
+          >
+            {Array.from({ length: problem.denominator }, (_, index) => (
+              <button
+                type="button"
+                className="fraction-piece"
+                key={`${problemIndex}-${index}`}
+                aria-label={`Piece ${index + 1} of ${problem.denominator}`}
+                aria-pressed={selected.includes(index)}
+                disabled={isCorrect}
+                onClick={() =>
+                  updateAnswer({
+                    selected: selected.includes(index)
+                      ? selected.filter((piece) => piece !== index)
+                      : [...selected, index],
+                  })
+                }
+              >
+                {selected.includes(index) && (
+                  <span className="fraction-fill">
+                    <span aria-hidden="true">✓</span>
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+          <div aria-live="polite" aria-atomic="true">
+            <FractionSymbol
+              numerator={selected.length}
+              denominator={problem.denominator}
+            />
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
 export default function FractionsTester(props: ActivityChoreProps) {
   const { theme, isRunning } = props
   const [difficulty, setDifficulty] = useState<FractionDifficulty>('guided')
   const [started, setStarted] = useState(false)
-  const [selected, setSelected] = useState<number[]>([])
-  const [choice, setChoice] = useState<Fraction | null>(null)
-  const [replay, setReplay] = useState(0)
-  const [hintRequested, setHintRequested] = useState(false)
-  const [missesBeforeProblem, setMissesBeforeProblem] = useState(0)
+  const [answer, setAnswer] = useState(EMPTY_ANSWER)
+  const { selected, choice, replay, missesBeforeProblem } = answer
+  const updateAnswer = (patch: Partial<FractionAnswer>) =>
+    setAnswer((current) => ({ ...current, ...patch }))
 
   const resetProblem = useCallback(() => {
     setStarted(false)
-    setSelected([])
-    setChoice(null)
-    setReplay(0)
-    setHintRequested(false)
-    setMissesBeforeProblem(0)
+    setAnswer(EMPTY_ANSWER)
   }, [])
   const start = useCallback(() => setStarted(true), [])
   const challenge = useActivityChallenge({
@@ -97,7 +190,7 @@ export default function FractionsTester(props: ActivityChoreProps) {
   } = challenge
   const problem = getFractionProblem(problemIndex, difficulty)
   const recognising = problem.mode === 'recognise'
-  const showHint = hintRequested || retryCount - missesBeforeProblem >= 2
+  const showHint = replay > 0 || retryCount - missesBeforeProblem >= 2
   const showExample = problem.mode === 'copy' || recognising || showHint
   const showSymbol = !recognising || showHint
   const correct = recognising
@@ -107,11 +200,7 @@ export default function FractionsTester(props: ActivityChoreProps) {
     : selected.length === problem.numerator
 
   const advance = useCallback(() => {
-    setSelected([])
-    setChoice(null)
-    setReplay(0)
-    setHintRequested(false)
-    setMissesBeforeProblem(retryCount)
+    setAnswer({ ...EMPTY_ANSWER, missesBeforeProblem: retryCount })
     resetFeedback()
   }, [retryCount, resetFeedback])
 
@@ -120,17 +209,16 @@ export default function FractionsTester(props: ActivityChoreProps) {
   }, [consumeCheckTrigger, correct, advance])
 
   const replayExample = () => {
-    setHintRequested(true)
-    setReplay((value) => value + 1)
+    updateAnswer({ replay: replay + 1 })
   }
-  const style = {
+  const style: CSSProperties & Record<`--fraction-${string}`, string> = {
     '--fraction-ink': theme.colors.text,
     '--fraction-colour': theme.colors.primary,
     '--fraction-paper': theme.colors.surface,
     '--fraction-tint': `${theme.colors.primary}12`,
     fontFamily: theme.fonts.heading,
     width: '100%',
-  } as CSSProperties
+  }
 
   return (
     <div className="fractions-activity" style={style}>
@@ -221,75 +309,14 @@ export default function FractionsTester(props: ActivityChoreProps) {
             >
               <path d="M12 3v16m-6-6 6 6 6-6" />
             </svg>
-            {recognising ? (
-              <div
-                className="fraction-choices"
-                style={{
-                  animation: isWrong ? 'fractions-shake 0.5s ease' : undefined,
-                }}
-                role="group"
-                aria-label="Choose the matching fraction"
-              >
-                {FRACTION_CHOICES.map((fraction) => (
-                  <button
-                    type="button"
-                    key={`${fraction.numerator}/${fraction.denominator}`}
-                    className="fraction-choice"
-                    aria-label={fractionLabel(fraction)}
-                    aria-pressed={choice === fraction}
-                    disabled={isCorrect}
-                    onClick={() => setChoice(fraction)}
-                  >
-                    <FractionSymbol {...fraction} />
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <div
-                className="fraction-answer"
-                style={{
-                  animation: isWrong ? 'fractions-shake 0.5s ease' : undefined,
-                }}
-                role="group"
-                aria-label="Your fraction"
-              >
-                <div
-                  className="fraction-bar"
-                  role="group"
-                  aria-label={`${problem.denominator} equal pieces; tap to colour`}
-                >
-                  {Array.from({ length: problem.denominator }, (_, index) => (
-                    <button
-                      type="button"
-                      className="fraction-piece"
-                      key={`${problemIndex}-${index}`}
-                      aria-label={`Piece ${index + 1} of ${problem.denominator}`}
-                      aria-pressed={selected.includes(index)}
-                      disabled={isCorrect}
-                      onClick={() =>
-                        setSelected((current) =>
-                          current.includes(index)
-                            ? current.filter((piece) => piece !== index)
-                            : [...current, index]
-                        )
-                      }
-                    >
-                      {selected.includes(index) && (
-                        <span className="fraction-fill">
-                          <span aria-hidden="true">✓</span>
-                        </span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-                <div aria-live="polite" aria-atomic="true">
-                  <FractionSymbol
-                    numerator={selected.length}
-                    denominator={problem.denominator}
-                  />
-                </div>
-              </div>
-            )}
+            <FractionResponse
+              problem={problem}
+              problemIndex={problemIndex}
+              answer={answer}
+              isCorrect={isCorrect}
+              isWrong={isWrong}
+              updateAnswer={updateAnswer}
+            />
             <span className="fraction-sr-only" role="status">
               {isCorrect
                 ? 'Correct!'

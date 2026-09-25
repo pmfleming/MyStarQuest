@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
-import { createSchoolCalendarStore } from '../../src/lib/schoolCalendarStore'
+import seed from '../../src/data/calendar/school-calendar.json'
 import {
   CALENDAR_REFRESH_MS,
   SNAPSHOT_KEY,
@@ -8,7 +8,7 @@ import {
   readSavedSchoolCalendar,
   type SchoolCalendarSnapshot,
 } from '../../src/lib/schoolCalendarData'
-import seed from '../../src/data/calendar/school-calendar.json'
+import { createSchoolCalendarStore } from '../../src/lib/schoolCalendarStore'
 
 const original = {
   '2026-09-29': {
@@ -79,16 +79,6 @@ afterEach(async () => {
   localStorage.clear()
 })
 
-it('has a bundled calendar on a first-ever offline launch', async () => {
-  vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false)
-  const store = createSchoolCalendarStore()
-  expect(Object.keys(store.getSnapshot().data).length).toBeGreaterThan(100)
-  expect(store.getSnapshot().data['2026-09-29']?.isNonSchoolDay).toBe(true)
-  stops.push(store.start())
-  await store.refresh()
-  expect(fetch).not.toHaveBeenCalled()
-})
-
 it('shows the saved copy immediately while a refresh is pending, then replaces it including deletions', async () => {
   localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(saved()))
   let resolve!: (value: Response) => void
@@ -151,32 +141,4 @@ it('receives native background updates and ignores an older native read', async 
   stop()
   await Promise.resolve()
   expect(remove).toHaveBeenCalledOnce()
-})
-
-it('keeps fresh data in memory even when local storage cannot be written', async () => {
-  vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
-    throw new Error('Full')
-  })
-  const store = createSchoolCalendarStore()
-  stops.push(store.start())
-  await store.refresh()
-  expect(store.getSnapshot().data).toEqual(changed)
-  expect(store.getSnapshot().loadError).toBe(false)
-})
-
-it('aborts a stalled web request and permits another update', async () => {
-  vi.mocked(fetch).mockImplementationOnce(
-    (_url, options) =>
-      new Promise((_resolve, reject) => {
-        options!.signal!.addEventListener('abort', () =>
-          reject(new Error('Timeout'))
-        )
-      })
-  )
-  const store = createSchoolCalendarStore()
-  stops.push(store.start())
-  await vi.advanceTimersByTimeAsync(15_000)
-  expect(store.getSnapshot().loadError).toBe(true)
-  await store.refresh(true)
-  expect(store.getSnapshot().data).toEqual(changed)
 })

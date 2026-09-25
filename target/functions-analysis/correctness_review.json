@@ -1,6 +1,6 @@
 {
   "schema_version": "0.3.0",
-  "task_id": "correctness.catalog",
+  "task_id": "correctness.all",
   "project": {
     "name": "MyStarQuest Functions",
     "root": "C:\\Code\\MyStarQuest\\functions",
@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "whole-project quality review 2026-09-25",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-23T15:20:59.124Z",
+    "measured_at": "2026-09-25T21:26:02.654Z",
     "source_type": "static",
-    "source_set_hash": "sha256:23d7090a1a0ddbf6994958e36549f02bb8c2a14e86821736d9477e0ff79944ab",
-    "input_set_hash": "sha256:12009171ee97fec05b0b4d97d04d703209c541222d4812854c5dc3cd75ad5201"
+    "source_set_hash": "sha256:6fa989a03f9f72080bc788467e83f0a42dbd8865d2ce10a296a9ed68a0bc3f27",
+    "input_set_hash": "sha256:cde47da5210eb476fd37c0195f5b340ba57f529c54ef17a04c98832eaec7c859"
   },
   "analysis_identity": {
     "id": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
@@ -65,7 +65,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "hit",
+    "analysis_cache_status": "miss",
     "unsupported_pattern": [],
     "test_command_configured": false,
     "complete": true,
@@ -93,30 +93,56 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 19,
+    "tests": 20,
     "colocated_tests": 0,
-    "external_tests": 19,
-    "execution_status": "not_run",
+    "external_tests": 20,
+    "execution_status": "unknown",
     "execution_scope": "suite",
     "coverage_status": "not_collected",
     "blocking_findings": 0
   },
   "execution": {
-    "status": "not_run",
-    "command": null
+    "status": "unknown",
+    "reason": "No test command configured."
   },
   "records": [],
   "tests": [
     {
+      "id": "test:../tests/unit/artworkSelection.test.ts",
+      "name": "artworkSelection.test.ts",
+      "path": "../tests/unit/artworkSelection.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 4,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
       "id": "test:../tests/unit/calendarSchedule.test.ts",
       "name": "calendarSchedule.test.ts",
       "path": "../tests/unit/calendarSchedule.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 6,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/currentExplorerCity.test.ts",
+      "name": "currentExplorerCity.test.ts",
+      "path": "../tests/unit/currentExplorerCity.test.ts",
       "framework": "vitest",
       "locality": "external",
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 18,
+      "assertions": 6,
       "skipped": 0,
       "todo": 0
     },
@@ -176,7 +202,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 10,
+      "assertions": 5,
       "skipped": 0,
       "todo": 0
     },
@@ -228,7 +254,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 9,
+      "assertions": 8,
       "skipped": 0,
       "todo": 0
     },
@@ -246,36 +272,29 @@
       "todo": 0
     },
     {
-      "id": "test:../tests/unit/routeModules.test.ts",
-      "name": "routeModules.test.ts",
-      "path": "../tests/unit/routeModules.test.ts",
-      "framework": "unknown",
-      "locality": "external",
-      "source_mapping": [],
-      "source_associations": [],
-      "coverage_status": "not_collected",
-      "assertions": 3,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
       "id": "test:../tests/unit/schoolCalendar.test.ts",
       "name": "schoolCalendar.test.ts",
       "path": "../tests/unit/schoolCalendar.test.ts",
       "framework": "vitest",
       "locality": "external",
       "source_mapping": [
-        "src/schoolCalendar.ts"
+        "src/schoolCalendar.ts",
+        "src/schoolEventCatalog.ts"
       ],
       "source_associations": [
         {
           "file": "src/schoolCalendar.ts",
           "kind": "direct-import",
           "confidence": "high"
+        },
+        {
+          "file": "src/schoolEventCatalog.ts",
+          "kind": "direct-import",
+          "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 7,
+      "assertions": 10,
       "skipped": 0,
       "todo": 0
     },
@@ -309,7 +328,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 21,
+      "assertions": 14,
       "skipped": 0,
       "todo": 0
     },
@@ -348,7 +367,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 4,
+      "assertions": 2,
       "skipped": 0,
       "todo": 0
     },
@@ -374,7 +393,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 11,
+      "assertions": 6,
       "skipped": 0,
       "todo": 0
     }

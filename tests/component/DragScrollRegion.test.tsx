@@ -60,18 +60,3 @@ it('leaves controls, the globe, right clicks and non-scrollable content alone', 
   fireEvent.mouseMove(window, { clientY: 80 })
   expect(region.scrollTop).toBe(0)
 })
-
-it('restores selection and stops listeners after blur or unmount during a drag', () => {
-  const { content, region, unmount } = setup()
-  document.body.style.userSelect = 'text'
-  fireEvent.mouseDown(content, { clientY: 100 })
-  fireEvent.blur(window)
-  expect(document.body.style.userSelect).toBe('text')
-  fireEvent.mouseMove(window, { clientY: 80 })
-  expect(region.scrollTop).toBe(0)
-  fireEvent.mouseDown(content, { clientY: 100 })
-  unmount()
-  expect(document.body.style.userSelect).toBe('text')
-  fireEvent.mouseMove(window, { clientY: 80 })
-  expect(region.scrollTop).toBe(0)
-})

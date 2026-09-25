@@ -4,8 +4,10 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import animalsSetIcon from '../assets/global/cat-camel-cow.webp'
 import teenieSetIcon from '../assets/global/teenieping.webp'
 import pokemonSetIcon from '../assets/pokemon/pikachu.png'
-import { ANIMAL_ASSETS } from '../data/animalAssets'
-import { createAssetCatalog } from '../data/assetCatalog'
+import {
+  SPELLING_WORD_SETS,
+  type SpellingWordSetId,
+} from '../data/spellingAssets'
 import {
   getActivityMistakeUpdate,
   getActivityOutcome,
@@ -40,34 +42,10 @@ type SpellingAnimal = {
   image: string
 }
 
-type SpellingWordSetId = 'teenie' | 'animals' | 'pokemon'
-
 type LetterChoice = {
   id: string
   letter: string
   state: 'idle' | 'correct' | 'leaving'
-}
-
-const TEENIE_ASSET_MODULES = import.meta.glob<string>(
-  '../assets/teenie/*.{png,jpg,jpeg,webp,svg}',
-  { eager: true, import: 'default' }
-)
-
-const POKEMON_ASSET_MODULES = import.meta.glob<string>(
-  '../assets/pokemon/*.{png,jpg,jpeg,webp,svg}',
-  { eager: true, import: 'default' }
-)
-
-const SPELLING_TEENIE = createAssetCatalog(TEENIE_ASSET_MODULES).assets
-const SPELLING_ANIMALS = ANIMAL_ASSETS
-const SPELLING_POKEMON = createAssetCatalog(POKEMON_ASSET_MODULES, (name) =>
-  name.replace(/^grrowlithe$/i, 'growlithe')
-).assets
-
-const SPELLING_WORD_SETS: Record<SpellingWordSetId, SpellingAnimal[]> = {
-  teenie: SPELLING_TEENIE,
-  animals: SPELLING_ANIMALS,
-  pokemon: SPELLING_POKEMON,
 }
 
 const SPELLING_SET_OPTIONS: {
@@ -129,6 +107,19 @@ const getAnimalLetters = (animal: SpellingAnimal, letterCase: LetterCase) =>
 
 type SpellingTheme = ActivityChoreProps['theme']
 
+const choiceFeedback = {
+  correct: {
+    background: '#4ADE80',
+    shadow: '#16A34A',
+    animation: 'spelling-pop 0.32s ease both',
+  },
+  leaving: {
+    background: '#F87171',
+    shadow: '#DC2626',
+    animation: 'spelling-fly-away 0.65s ease-in forwards',
+  },
+}
+
 const updateChoiceState = (
   choices: LetterChoice[],
   choiceId: string,
@@ -140,29 +131,19 @@ const getChoiceButtonStyle = (
   theme: SpellingTheme
 ): CSSProperties => {
   const isIdle = choice.state === 'idle'
-  const stateColor =
-    choice.state === 'correct'
-      ? { background: '#4ADE80', shadow: '#16A34A' }
-      : choice.state === 'leaving'
-        ? { background: '#F87171', shadow: '#DC2626' }
-        : null
+  const feedback = choice.state === 'idle' ? null : choiceFeedback[choice.state]
 
   return {
     maxWidth: 92,
-    background: stateColor?.background ?? theme.colors.surface,
+    background: feedback?.background ?? theme.colors.surface,
     borderRadius: 24,
     border: `4px solid ${isIdle ? theme.colors.accent : 'transparent'}`,
     color: isIdle ? theme.colors.primary : 'white',
     fontFamily: theme.fonts.heading,
     fontSize: '2.1rem',
     fontWeight: 900,
-    boxShadow: `0 6px 0 ${stateColor?.shadow ?? theme.colors.accent + '88'}`,
-    animation:
-      choice.state === 'leaving'
-        ? 'spelling-fly-away 0.65s ease-in forwards'
-        : choice.state === 'correct'
-          ? 'spelling-pop 0.32s ease both'
-          : undefined,
+    boxShadow: `0 6px 0 ${feedback?.shadow ?? theme.colors.accent + '88'}`,
+    animation: feedback?.animation,
     cursor: isIdle ? 'pointer' : 'default',
   }
 }

@@ -1,5 +1,6 @@
 .theatre-events .day-agenda__details {
   grid-column: 2;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .theatre-events .day-agenda__image {
@@ -10,8 +11,24 @@
   display: none;
 }
 
+.theatre-events [data-expanded='true'] .day-agenda__content {
+  grid-template-rows: minmax(min-content, 1fr) auto;
+}
+
+.theatre-events [data-expanded='true'] .day-agenda__details {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.theatre-events [data-expanded='true'] .day-agenda__title {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .theatre-events [data-expanded='true'] .day-agenda__extra {
-  width: 200%;
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
   box-sizing: border-box;
   position: relative;
   z-index: 1;

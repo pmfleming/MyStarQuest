@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   serverTimestamp,
   updateDoc,
@@ -12,6 +13,16 @@ import { saveDocument } from '../offline/actions'
 import { offlineRuntime } from '../offline/runtime'
 import type { CollectionName, LocalDocument } from '../offline/model'
 import { useCoalescedDocumentUpdates } from '../hooks/useCoalescedDocumentUpdates'
+
+export async function deleteUserDocument(
+  userId: string,
+  collectionName: CollectionName,
+  id: string
+) {
+  if (isOfflineEnabled())
+    await saveDocument(userId, collectionName, id, 'delete')
+  else await deleteDoc(doc(db, 'users', userId, collectionName, id))
+}
 
 export async function createUserDocument(
   userId: string,

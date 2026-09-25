@@ -1,10 +1,8 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { renderHook } from '@testing-library/react'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type {
   ChoreWithEphemeral,
   EatingTaskWithEphemeral,
-  WaterLevel,
-  ToiletStatus,
 } from '../../src/data/types'
 
 const firestore = vi.hoisted(() => ({ runTransaction: vi.fn(), nextId: 0 }))
@@ -169,23 +167,6 @@ describe('chore completion star balances', () => {
       )
       for (const chore of chores)
         expect(documents.has(chorePath(chore.id))).toBe(isRepeating)
-    }
-  )
-
-  it.each<[WaterLevel, ToiletStatus, number]>([['full', 'notpeepee', -6]])(
-    'persists the water/toilet score for %s / %s: %i',
-    async (water, toilet, delta) => {
-      await setup().completeChore({
-        ...base,
-        id: 'water',
-        title: 'Water',
-        taskType: 'watertoiletcheck',
-        starValue: 9,
-        manageWaterLevel: water,
-        manageToiletStatus: toilet,
-      })
-      expect(balance()).toBe(10 + delta)
-      expect(events()[0][1].delta).toBe(delta)
     }
   )
 

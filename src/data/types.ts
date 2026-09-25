@@ -444,7 +444,3 @@ export type RewardRecord = {
   imageKey?: string
   createdAt?: Date
 }
-
-export type RewardUpdatableFields = Partial<
-  Pick<RewardRecord, 'title' | 'costStars' | 'isRepeating' | 'imageKey'>
->

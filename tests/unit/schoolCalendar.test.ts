@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { buildSchoolCalendar } from '../../functions/src/schoolCalendar'
+import { classifySchoolEvent } from '../../functions/src/schoolEventCatalog'
 
 type Event = Extract<
   Parameters<typeof buildSchoolCalendar>[0][string],
@@ -17,6 +18,30 @@ const makeEvent = (patch: Partial<Event> = {}): Event => ({
 })
 
 describe('school calendar event expansion', () => {
+  it('normalizes known titles without closing school for unknown or inherited names', () => {
+    expect(
+      classifySchoolEvent('  ALLE leerlingen  om 12:00 uur vrij  ')
+    ).toMatchObject({
+      kind: 'early-finish',
+      releaseTime: '12:00',
+      artwork: 'early-finish',
+    })
+    expect(classifySchoolEvent('Studiedag extra')).toMatchObject({
+      kind: 'day-off',
+    })
+    for (const summary of [
+      'constructor',
+      '__proto__',
+      'Holiday extra',
+      'Studiedagen',
+    ])
+      expect(classifySchoolEvent(summary)).toEqual({
+        titleNl: summary,
+        titleEn: 'School Event',
+        kind: 'activity',
+      })
+  })
+
   it('uses the same exclusive date range for initial and recurring events', () => {
     const now = new Date('2026-09-01T12:00:00Z')
     const between = vi.fn(() => [new Date('2026-09-14T22:00:00Z')])

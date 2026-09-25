@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import RewardCelebration from '../components/RewardCelebration'
+import { getRewardImage, getRewardOverlayImage } from '../assets/rewards/assets'
 import { useRewardCelebration } from '../hooks/useRewardCelebration'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -39,15 +40,6 @@ const RewardsPage = () => {
     handleGiveReward,
   } = useRewardCelebration({ activeChildId, rewards, giveReward })
 
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteReward(id)
-    } catch (error) {
-      console.error('Failed to delete reward', error)
-      throw error
-    }
-  }
-
   const handleCreateReward = async (settings: RewardDocumentSettings) => {
     if (isCreatingReward) return
 
@@ -75,8 +67,8 @@ const RewardsPage = () => {
   )
   const visibleRewards: RewardRecord[] = [...rewards]
   if (
-    retainedReward?.childId === activeChildId &&
     retainedReward &&
+    retainedReward.childId === activeChildId &&
     !visibleRewards.some((item) => item.id === retainedReward.reward.id)
   ) {
     visibleRewards.splice(
@@ -128,6 +120,11 @@ const RewardsPage = () => {
                 {celebrating && activeCelebration && (
                   <RewardCelebration
                     reward={activeCelebration}
+                    imageSrc={getRewardImage(activeCelebration.imageKey)}
+                    overlayImage={getRewardOverlayImage(
+                      activeCelebration.title,
+                      activeCelebration.imageKey
+                    )}
                     theme={theme}
                     onComplete={finishCelebration}
                   />
@@ -142,10 +139,10 @@ const RewardsPage = () => {
             disabled: (reward) =>
               retainedReward?.childId === activeChildId &&
               retainedReward?.reward.id === reward.id,
-            onClick: (reward) => handleDelete(reward.id),
+            onClick: (reward) => deleteReward(reward.id),
           }}
           hideEdit
-          onDelete={(reward) => handleDelete(reward.id)}
+          onDelete={(reward) => deleteReward(reward.id)}
           addLabel="New Reward"
           onAdd={() => setShowAddReward(true)}
           addDisabled={isCreatingReward}

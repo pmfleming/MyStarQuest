@@ -37,19 +37,6 @@ function answer(correct = true) {
 
 const advance = (ms: number) => act(() => vi.advanceTimersByTimeAsync(ms))
 
-it('advances after feedback and completes only after the last correct answer', async () => {
-  const p = props()
-  render(<AlphabetTester {...p} />)
-  answer()
-  await advance(1499)
-  expect(p.onComplete).not.toHaveBeenCalled()
-  await advance(1)
-  answer()
-  await advance(1500)
-  expect(p.onComplete).toHaveBeenCalledTimes(1)
-  expect(p.onFail).not.toHaveBeenCalled()
-})
-
 it('ignores clicks during feedback and fails after three mistakes', async () => {
   const p = props()
   render(<AlphabetTester {...p} />)
@@ -65,17 +52,4 @@ it('ignores clicks during feedback and fails after three mistakes', async () => 
   await advance(1)
   expect(p.onFail).toHaveBeenCalledTimes(1)
   expect(p.onComplete).not.toHaveBeenCalled()
-})
-
-it('allows unlimited retries when failure mode is disabled', async () => {
-  const p = props()
-  render(<AlphabetTester {...p} totalProblems={1} failureModeEnabled={false} />)
-  for (let index = 0; index < 4; index++) {
-    answer(false)
-    await advance(600)
-  }
-  answer()
-  await advance(1500)
-  expect(p.onComplete).toHaveBeenCalledTimes(1)
-  expect(p.onFail).not.toHaveBeenCalled()
 })

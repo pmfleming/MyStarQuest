@@ -1,62 +1,30 @@
-import { getThemeAsset } from '../../ui/themeAssets'
+import { getThemeAsset, type ThemeAssetRole } from '../../ui/themeAssets'
 import type { ThemeId } from '../../ui/themeOptions'
-import bravePrincessImage from '../themes/princess/brave-princess.png'
-import gettingDressedQuicklyImage from '../themes/princess/getting-dressed-quickly.png'
-import tidyingUpImage from '../themes/princess/tidying-up.webp'
-import writingImage from '../themes/princess/writing.svg'
 
-export type ChoreImageKey =
-  'tidyingUp' | 'writing' | 'bravePrincess' | 'gettingDressedQuickly'
+type ChoreArtwork = { id: string; label: string; role?: ThemeAssetRole }
 
-const choreImages: Record<ChoreImageKey, string> = {
-  tidyingUp: tidyingUpImage,
-  writing: writingImage,
-  bravePrincess: bravePrincessImage,
-  gettingDressedQuickly: gettingDressedQuicklyImage,
-}
-
-type ChoreImageOption = {
-  id: '' | ChoreImageKey
-  label: string
-  image?: string
-}
-
-const choreImageOptions: ChoreImageOption[] = [
+const choreArtworks: ChoreArtwork[] = [
   { id: '', label: 'No image' },
-  { id: 'tidyingUp', label: 'Tidying up', image: tidyingUpImage },
-  { id: 'writing', label: 'Writing', image: writingImage },
-  { id: 'bravePrincess', label: 'Brave princess', image: bravePrincessImage },
+  { id: 'tidyingUp', label: 'Tidying up', role: 'tidyingUp' },
+  { id: 'writing', label: 'Writing', role: 'writing' },
+  { id: 'bravePrincess', label: 'Brave princess', role: 'brave' },
   {
     id: 'gettingDressedQuickly',
     label: 'Getting dressed quickly',
-    image: gettingDressedQuicklyImage,
+    role: 'gettingDressed',
   },
 ]
+const choreRoles = new Map(choreArtworks.map(({ id, role }) => [id, role]))
 
-const isChoreImageKey = (imageKey: string): imageKey is ChoreImageKey =>
-  imageKey in choreImages
-
-export const getChoreImage = (
-  imageKey?: string,
-  themeId: ThemeId = 'princess'
-) => {
-  if (!imageKey) return undefined
-  if (!isChoreImageKey(imageKey)) return undefined
-  const roles = {
-    tidyingUp: 'tidyingUp',
-    writing: 'writing',
-    bravePrincess: 'brave',
-    gettingDressedQuickly: 'gettingDressed',
-  } as const
-  return getThemeAsset(themeId, roles[imageKey])
+export const getChoreImage = (imageKey = '', themeId: ThemeId = 'princess') => {
+  const role = choreRoles.get(imageKey)
+  return role ? getThemeAsset(themeId, role) : undefined
 }
 
 export const getChoreImageOptions = (themeId: ThemeId) =>
-  choreImageOptions.map((option) => ({
-    ...option,
+  choreArtworks.map(({ id, label }) => ({
+    id,
     label:
-      themeId === 'teenie' && option.id === 'bravePrincess'
-        ? 'Being brave'
-        : option.label,
-    image: getChoreImage(option.id, themeId),
+      themeId === 'teenie' && id === 'bravePrincess' ? 'Being brave' : label,
+    image: getChoreImage(id, themeId),
   }))

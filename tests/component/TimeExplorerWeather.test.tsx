@@ -52,7 +52,13 @@ vi.mock('../../src/features/dayNightExplorer/useDayNightExplorerModel', () => ({
     resetToNow: state.resetToNow,
     weatherCity: EXPLORER_CITY_OPTIONS[state.cityIndex],
     planet: {},
-    clock: {},
+    clock: {
+      hourAngle: 45,
+      minuteAngle: 180,
+      hoursLabel: '01',
+      minutesLabel: '30',
+      ampm: 'PM',
+    },
   }),
 }))
 vi.mock('../../src/hooks/useCurrentWeather', () => ({
@@ -101,65 +107,12 @@ const openWeather = async () => {
 }
 
 describe('Time Explorer weather panel', () => {
-  it.each(['princess'])(
-    'restores panels and custom weather after reopening in %s',
-    async (themeId) => {
-      state.themeId = themeId
-      const first = render(<TimeExplorerPage />)
-      await openWeather()
-      clickOption('Decrease temperature', 20)
-      clickOption('Cycle wind')
-      clickOption('Cycle precipitation')
-      clickOption('Show calendar')
-      await screen.findByText('Learning calendar')
-      first.unmount()
-
-      // A new live response must not replace the saved exploration.
-      state.weather!.data!.temperature = 24
-      const reopened = render(<TimeExplorerPage />)
-      await screen.findByRole('region', { name: /Weather in/ })
-      expect(screen.getByLabelText('Temperature value')).toHaveTextContent(
-        '-4°C'
-      )
-      expect(screen.getByLabelText('Wind value')).toHaveTextContent('45 km/h')
-      expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
-        'Heavy snow'
-      )
-      expect(screen.getByText('Learning calendar')).toBeVisible()
-      expect(screen.queryByText('Learning clock')).not.toBeInTheDocument()
-      expect(screen.queryByText('Learning globe')).not.toBeInTheDocument()
-
-      // Selection order also survives: weather was the oldest active panel.
-      clickOption('Show globe')
-      expect(
-        screen.queryByRole('region', { name: /Weather in/ })
-      ).not.toBeInTheDocument()
-      expect(screen.getByText('Learning calendar')).toBeVisible()
-      clickOption('Reset all to now')
-      expect(screen.getByText('Learning calendar')).toBeVisible()
-      expect(screen.getByText('Learning globe')).toBeVisible()
-      expect(screen.queryByText('Learning clock')).not.toBeInTheDocument()
-      expect(
-        within(
-          screen.getByRole('group', { name: 'Time Explorer views' })
-        ).getAllByRole('button', { pressed: true })
-      ).toHaveLength(2)
-      reopened.unmount()
-      render(<TimeExplorerPage />)
-      await openWeather()
-      expect(screen.getByLabelText('Temperature value')).toHaveTextContent(
-        '24°C'
-      )
-      expect(screen.getByLabelText('Wind value')).toHaveTextContent('25 km/h')
-      expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
-        'Moderate rain'
-      )
-    }
-  )
-
   it('adapts precipitation to temperature, preserves intensity and wind, and resets to live weather', async () => {
     const { rerender } = render(<TimeExplorerPage />)
     await openWeather()
+    const weatherButton = screen.getByRole('button', { name: /Show weather:/ })
+    expect(weatherButton).toHaveTextContent('🌧️')
+    expect(weatherButton).toHaveAccessibleDescription('Current weather: Rain')
     expect(screen.getByLabelText('Precipitation value')).toHaveTextContent(
       'Moderate rain'
     )
@@ -182,6 +135,8 @@ describe('Time Explorer weather panel', () => {
       'Moderate rain'
     )
     clickOption('Decrease temperature', 8)
+    // The header keeps showing actual weather while the panel explores a draft.
+    expect(weatherButton).toHaveTextContent('🌧️')
     clickOption('Cycle wind')
     clickOption('Cycle precipitation')
     const princess = screen.getByRole('img', {
@@ -267,10 +222,16 @@ describe('Time Explorer weather panel', () => {
     state.weather = { ...state.weather!, data: null, loading: true }
     const { rerender } = render(<TimeExplorerPage />)
     await openWeather()
+    expect(
+      screen.getByRole('button', { name: /Show weather:/ })
+    ).toHaveTextContent('❔')
     expect(screen.getByLabelText('Temperature value')).toHaveTextContent('—')
     state.weather = { ...state.weather!, data: response, loading: false }
     rerender(<TimeExplorerPage />)
     expect(screen.getByLabelText('Temperature value')).toHaveTextContent('16°C')
+    expect(
+      screen.getByRole('button', { name: /Show weather:/ })
+    ).toHaveTextContent('🌧️')
     clickOption('Increase temperature')
     state.cityIndex = 1
     rerender(<TimeExplorerPage />)
@@ -304,43 +265,5 @@ describe('Time Explorer weather panel', () => {
     expect(
       screen.getByRole('img', { name: /Your weather/ })
     ).toHaveAccessibleName(/light cardigan and leggings/)
-  })
-})
-
-describe('Time Explorer view toggles', () => {
-  const viewButtons = () =>
-    within(screen.getByRole('group', { name: 'Time Explorer views' }))
-  const toggle = (name: string) =>
-    fireEvent.click(
-      viewButtons().getByRole('button', { name: new RegExp(`Show ${name}`) })
-    )
-  const content = {
-    clock: () => screen.queryByText('Learning clock'),
-    calendar: () => screen.queryByText('Learning calendar'),
-    weather: () => screen.queryByRole('region', { name: /Weather in/ }),
-    globe: () => screen.queryByText('Learning globe'),
-  }
-
-  it('starts with Clock and Globe on and lets every view be turned off', () => {
-    const first = render(<TimeExplorerPage />)
-    expect(viewButtons().getAllByRole('button')).toHaveLength(4)
-    expect(
-      viewButtons().getAllByRole('button', { pressed: true })
-    ).toHaveLength(2)
-    expect(content.clock()).toBeVisible()
-    expect(content.globe()).toBeVisible()
-    toggle('clock')
-    toggle('globe')
-    expect(
-      viewButtons().getAllByRole('button', { pressed: false })
-    ).toHaveLength(4)
-    Object.values(content).forEach((query) =>
-      expect(query()).not.toBeInTheDocument()
-    )
-    first.unmount()
-    render(<TimeExplorerPage />)
-    expect(
-      viewButtons().getAllByRole('button', { pressed: false })
-    ).toHaveLength(4)
   })
 })

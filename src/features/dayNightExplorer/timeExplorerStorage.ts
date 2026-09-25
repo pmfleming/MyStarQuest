@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { buildDateKey, parseDateKey } from '../../lib/today'
+import { getNightlyResetKey } from '../../lib/nightlyReset'
 
 export const TIME_EXPLORER_STORAGE_KEY = 'msq.timeExplorer.v1'
 
@@ -34,6 +35,7 @@ const weatherDraftSchema = z.object({
 })
 
 const stateSchema = z.object({
+  explorationResetKey: z.string().catch(''),
   activePanels: z
     .array(panelSchema)
     .max(2)
@@ -74,9 +76,13 @@ type ExplorerState = z.infer<typeof stateSchema>
 
 export function readTimeExplorerState(): ExplorerState {
   try {
-    return stateSchema.parse(
+    const state = stateSchema.parse(
       JSON.parse(localStorage.getItem(TIME_EXPLORER_STORAGE_KEY) ?? '{}')
     )
+    if (state.explorationResetKey !== getNightlyResetKey()) {
+      state.exploration = null
+    }
+    return state
   } catch {
     return stateSchema.parse({})
   }
@@ -85,7 +91,13 @@ export function readTimeExplorerState(): ExplorerState {
 // Each part of the explorer saves only its own fields, retaining the others.
 export function saveTimeExplorerState(patch: Partial<ExplorerState>) {
   try {
-    const state = stateSchema.parse({ ...readTimeExplorerState(), ...patch })
+    const state = stateSchema.parse({
+      ...readTimeExplorerState(),
+      ...(patch.exploration !== undefined && {
+        explorationResetKey: getNightlyResetKey(),
+      }),
+      ...patch,
+    })
     localStorage.setItem(TIME_EXPLORER_STORAGE_KEY, JSON.stringify(state))
   } catch {
     // Storage may be disabled or full; exploration must remain usable.

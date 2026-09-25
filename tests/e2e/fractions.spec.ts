@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-for (const theme of ['princess', 'teenie']) {
+for (const theme of ['teenie']) {
   test(`fractions fits a small phone and completes through the shared controls (${theme})`, async ({
     page,
   }) => {

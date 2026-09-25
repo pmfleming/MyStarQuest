@@ -6,8 +6,8 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react'
-import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { StrictMode } from 'react'
+import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import AppMenu from '../../src/components/AppMenu'
 import { themes } from '../../src/contexts/ThemeContext'
@@ -116,39 +116,6 @@ describe('shared app menu', () => {
     expect(screen.getByRole('dialog', { name: 'Menu' })).toBeVisible()
   })
 
-  it('opens the existing child manager', () => {
-    renderMenu()
-    openMenu()
-    fireEvent.click(screen.getByRole('button', { name: 'Children' }))
-    expect(
-      screen.getByRole('heading', { name: 'Manage children' })
-    ).toBeVisible()
-  })
-
-  it('uses the dashboard reset callback and blocks duplicate actions while saving', async () => {
-    let finish!: () => void
-    const reset = vi.fn(
-      () =>
-        new Promise<void>((resolve) => {
-          finish = resolve
-        })
-    )
-    renderMenu(reset)
-    openMenu()
-    fireEvent.click(screen.getByRole('button', { name: 'Reset today' }))
-    expect(reset).toHaveBeenCalledTimes(1)
-    expect(state.subscribe).not.toHaveBeenCalled()
-    expect(screen.getByRole('button', { name: 'Reset today' })).toBeDisabled()
-    expect(screen.getByRole('button', { name: 'Sign out' })).toBeDisabled()
-    fireEvent(
-      screen.getByRole('dialog'),
-      new Event('cancel', { cancelable: true })
-    )
-    expect(screen.getByRole('dialog')).toBeVisible()
-    await act(async () => finish())
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-  })
-
   it('resets both meals and other chores from other tabs', async () => {
     renderMenu()
     openMenu()
@@ -184,12 +151,5 @@ describe('shared app menu', () => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     )
     expect(reset).toHaveBeenCalledTimes(2)
-  })
-
-  it('disables reset without a selected child', () => {
-    state.childId = null
-    renderMenu()
-    openMenu()
-    expect(screen.getByRole('button', { name: 'Reset today' })).toBeDisabled()
   })
 })

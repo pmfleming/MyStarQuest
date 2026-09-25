@@ -8,10 +8,6 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { deleteDoc, doc } from 'firebase/firestore'
-import { db } from '../firebaseDb'
-import { isOfflineEnabled } from '../offline/platform'
-import { saveDocument } from '../offline/actions'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { THEME_ID_LOOKUP, isThemeId, type ThemeId } from '../ui/themeOptions'
@@ -29,6 +25,7 @@ import { useUserCollection } from './useUserCollection'
 import { useOptimisticItems } from '../hooks/useCoalescedDocumentUpdates'
 import {
   createUserDocument,
+  deleteUserDocument,
   useUserDocumentUpdates,
 } from './useUserDocumentUpdates'
 import { useRequiredContext } from '../hooks/useRequiredContext'
@@ -146,9 +143,7 @@ const useChildrenState = () => {
   const deleteChild = async (id: string) => {
     if (!user) return
     cancelChildFieldUpdate(id)
-    if (isOfflineEnabled())
-      await saveDocument(user.uid, 'children', id, 'delete')
-    else await deleteDoc(doc(db, 'users', user.uid, 'children', id))
+    await deleteUserDocument(user.uid, 'children', id)
     if (id === activeChildId) clearActiveChild()
   }
 

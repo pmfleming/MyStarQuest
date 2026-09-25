@@ -1,0 +1,241 @@
+{
+  "lens": {
+    "version": "0.3.0",
+    "commit": "c9e853ffe256cd04c5e6b0e2383615882d3056ae",
+    "verified_main": "2026-09-25"
+  },
+  "methodology": "Fresh working-tree baseline including pre-existing reward-overlay edits. Same Lens/config/source roots before and after; callable complexity and effort sums, file source-line sums, module risk-score sums. Lower risk is better; these are comparison aids, not official global scores. Physical code lines include tests and exclude documentation/generated artifacts.",
+  "scopes": {
+    "frontend": {
+      "before": {
+        "source_lines": 31529,
+        "cognitive_complexity": 1511,
+        "cyclomatic_complexity": 2149,
+        "halstead_effort": 10123508,
+        "clone_groups": 0,
+        "locality_risk": 11652,
+        "leverage_risk": 332,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 31470,
+        "cognitive_complexity": 1501,
+        "cyclomatic_complexity": 2142,
+        "halstead_effort": 10053650,
+        "clone_groups": 0,
+        "locality_risk": 11616,
+        "leverage_risk": 272,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": -59,
+        "cognitive_complexity": -10,
+        "cyclomatic_complexity": -7,
+        "halstead_effort": -69858,
+        "clone_groups": 0,
+        "locality_risk": -36,
+        "leverage_risk": -60,
+        "lint_blockers": 0
+      },
+      "audit": {
+        "verdict": "warn",
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": "",
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 2543,
+        "active_findings": 48,
+        "introduced_findings": 2543,
+        "inherited_findings": 0,
+        "high_risk_findings": 304,
+        "blocking_findings": 0,
+        "warning_findings": 48,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      }
+    },
+    "functions": {
+      "before": {
+        "source_lines": 538,
+        "cognitive_complexity": 65,
+        "cyclomatic_complexity": 78,
+        "halstead_effort": 160536,
+        "clone_groups": 0,
+        "locality_risk": 67,
+        "leverage_risk": 12,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 532,
+        "cognitive_complexity": 52,
+        "cyclomatic_complexity": 63,
+        "halstead_effort": 105435,
+        "clone_groups": 0,
+        "locality_risk": 49,
+        "leverage_risk": 12,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": -6,
+        "cognitive_complexity": -13,
+        "cyclomatic_complexity": -15,
+        "halstead_effort": -55101,
+        "clone_groups": 0,
+        "locality_risk": -18,
+        "leverage_risk": 0,
+        "lint_blockers": 0
+      },
+      "audit": {
+        "verdict": "pass",
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": "",
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 39,
+        "active_findings": 0,
+        "introduced_findings": 39,
+        "inherited_findings": 0,
+        "high_risk_findings": 3,
+        "blocking_findings": 0,
+        "warning_findings": 0,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      }
+    }
+  },
+  "before": {
+    "source_lines": 32067,
+    "cognitive_complexity": 1576,
+    "cyclomatic_complexity": 2227,
+    "halstead_effort": 10284044,
+    "clone_groups": 0,
+    "locality_risk": 11719,
+    "leverage_risk": 344,
+    "lint_blockers": 0
+  },
+  "after": {
+    "source_lines": 32002,
+    "cognitive_complexity": 1553,
+    "cyclomatic_complexity": 2205,
+    "halstead_effort": 10159085,
+    "clone_groups": 0,
+    "locality_risk": 11665,
+    "leverage_risk": 284,
+    "lint_blockers": 0
+  },
+  "delta": {
+    "source_lines": -65,
+    "cognitive_complexity": -23,
+    "cyclomatic_complexity": -22,
+    "halstead_effort": -124959,
+    "clone_groups": 0,
+    "locality_risk": -54,
+    "leverage_risk": -60,
+    "lint_blockers": 0
+  },
+  "physical_code": {
+    "production_delta": -65,
+    "test_delta": 59,
+    "total_delta": -6
+  },
+  "codeChanges": [
+    {
+      "file": "src/components/FractionsTester.tsx",
+      "before": 305,
+      "after": 332,
+      "delta": 27,
+      "before_sha256": "e40c985844828de6b6e2479793bee964d2936a7480f5aaa03200c7de82f15b0e",
+      "after_sha256": "c89ec31c803fbb07041020d5fd10411520806201d2faf7d44c70b8e6ef9e7a4c"
+    },
+    {
+      "file": "src/components/LargeNumbersTester.tsx",
+      "before": 523,
+      "after": 521,
+      "delta": -2,
+      "before_sha256": "85c769e2fc9a3bcdde1567d98d2eb1c11e901c292d7bb130d91e6d6f70291078",
+      "after_sha256": "8cd3346c59641d7d1899bcd399763038a5f2761be7b46f485b394a961b9ca4bc"
+    },
+    {
+      "file": "src/components/RewardCelebration.tsx",
+      "before": 155,
+      "after": 159,
+      "delta": 4,
+      "before_sha256": "0e1cd4567d030343316749e008d117ea2af6f609a906159239bc606cfd079729",
+      "after_sha256": "443748c6acff6c8e7c7509a223e253a37523f539fa678fd70eaa077bc32329d9"
+    },
+    {
+      "file": "src/pages/ChoreCreationFlow.tsx",
+      "before": 324,
+      "after": 293,
+      "delta": -31,
+      "before_sha256": "e1af30a4c5d8b0962233c63a3856d3baa8198f2f06957affd08ef4b1d5e7798b",
+      "after_sha256": "7ebd40794cfa89ddfb4b5caed91d0ceafe7903511fb265723f14f3038453c75f"
+    },
+    {
+      "file": "src/pages/RewardsPage.tsx",
+      "before": 176,
+      "after": 167,
+      "delta": -9,
+      "before_sha256": "b5acf79acdeba6e46de90762cab0a8fa646907885e7c7edc0e44a63dccc240c8",
+      "after_sha256": "85450fde99a7bdb9b47cbbe369c3a5b25cb8d7dea0d89c554596458d49a14e4c"
+    },
+    {
+      "file": "src/assets/chores/assets.ts",
+      "before": 62,
+      "after": 30,
+      "delta": -32,
+      "before_sha256": "9312d5835cec7ada2eb8f4c166132c31a6f963c2e20598c4baaecacf50563339",
+      "after_sha256": "9011593003fc75a50dede3d23e54d91c10ac1e25c7e0e33d77df5b042c16c487"
+    },
+    {
+      "file": "src/assets/rewards/assets.ts",
+      "before": 48,
+      "after": 29,
+      "delta": -19,
+      "before_sha256": "e1b332bfda6161ca49d941369856d9a01dd204250e9b07e726f806cf8fdc6331",
+      "after_sha256": "904cff0855765aab0bd6cae64202890f427815771684fffa6de81e10b25fdd6b"
+    },
+    {
+      "file": "src/components/ui/ScheduleDayTypeControl.tsx",
+      "before": 61,
+      "after": 64,
+      "delta": 3,
+      "before_sha256": "ecf84da087644ece05ea7174e8d2642b34529ae69a9a5505b308e760417a0f52",
+      "after_sha256": "50c4c3e6a0a4db3a86119306d08e1e3bfd6af3ed48f0a4725ad00f205c65544c"
+    },
+    {
+      "file": "functions/src/schoolEventCatalog.ts",
+      "before": 97,
+      "after": 91,
+      "delta": -6,
+      "before_sha256": "f149407732817750379a761077a4886e9b91a9240cab65f56ec4f29a38878ab2",
+      "after_sha256": "863655f4f02e4740a8495ee02b4c048e2eaa8ecdf6b08b830ced4c8eeaf7b05a"
+    },
+    {
+      "file": "tests/unit/artworkSelection.test.ts",
+      "before": 0,
+      "after": 34,
+      "delta": 34,
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after_sha256": "d67f63628cb1d3b34f6e72cca50c2db44d73857e81cdc51afc499b932b2ceb94"
+    },
+    {
+      "file": "tests/unit/schoolCalendar.test.ts",
+      "before": 80,
+      "after": 105,
+      "delta": 25,
+      "before_sha256": "edbff5d4683e8e6a2994a204f66f1965228c9cad75be769a72cc6a643a6fc4f2",
+      "after_sha256": "759cf0ca6be352d939132adafff531492c45c4e93af36cf4359dcf442d538fde"
+    }
+  ]
+}

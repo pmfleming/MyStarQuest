@@ -90,9 +90,9 @@ export const buildSchoolCalendar = (
     if (!event || event.type !== 'VEVENT' || !event.start) continue
     const start = new Date(event.start)
     const end = new Date(event.end ?? event.start)
-    appendOccurrence(calendar, event, start, end)
     const duration = end.getTime() - start.getTime()
-    for (const occurrence of event.rrule?.between(now, nextYear) ?? []) {
+    const occurrences = [start, ...(event.rrule?.between(now, nextYear) ?? [])]
+    for (const occurrence of occurrences) {
       appendOccurrence(
         calendar,
         event,

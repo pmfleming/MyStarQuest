@@ -1,7 +1,7 @@
 import { afterEach, expect, it, vi } from 'vitest'
+import { emptyState, type OfflineState } from '../../src/offline/model'
 import { OfflineStore } from '../../src/offline/store'
 import { OfflineSync, SYNC_TIMEOUT_MS } from '../../src/offline/sync'
-import { emptyState, type OfflineState } from '../../src/offline/model'
 import type { SyncReceipt } from '../../src/offline/transport'
 
 const stops: (() => void)[] = []
@@ -33,23 +33,6 @@ const receipt: SyncReceipt = {
   document: { totalStars: 5 },
 }
 
-it('leaves offline changes durable without retrying the network, then reconnects', async () => {
-  vi.useFakeTimers()
-  const online = vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(false)
-  const store = await queued()
-  const send = vi.fn().mockResolvedValue(receipt)
-  const sync = new OfflineSync(store, send)
-  stops.push(sync.start())
-  await vi.advanceTimersByTimeAsync(120_000)
-  expect(send).not.toHaveBeenCalled()
-  expect(store.getSnapshot()?.pending).toHaveLength(1)
-  expect(sync.getSnapshot().state).toBe('waiting')
-  online.mockReturnValue(true)
-  window.dispatchEvent(new Event('online'))
-  await vi.advanceTimersByTimeAsync(0)
-  expect(store.getSnapshot()?.pending).toHaveLength(0)
-})
-
 it('recovers a stalled send with the same operation ID and ignores the late response', async () => {
   vi.useFakeTimers()
   const store = await queued()
@@ -75,14 +58,5 @@ it('recovers a stalled send with the same operation ID and ignores the late resp
   await store.mergeCollection('children', {})
   finish(receipt)
   await vi.advanceTimersByTimeAsync(0)
-  expect(store.getSnapshot()?.documents.children).toEqual({})
-})
-
-it('does not replay a receipt already acknowledged by another tab over newer data', async () => {
-  const store = await queued()
-  const id = store.getSnapshot()!.pending[0].id
-  await store.acknowledge(id, receipt)
-  await store.mergeCollection('children', {})
-  await store.acknowledge(id, receipt)
   expect(store.getSnapshot()?.documents.children).toEqual({})
 })

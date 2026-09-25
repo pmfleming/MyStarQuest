@@ -11,12 +11,12 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "whole-project quality review 2026-09-25",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-23T15:20:59.277Z",
+    "measured_at": "2026-09-25T21:26:02.797Z",
     "source_type": "static",
-    "source_set_hash": "sha256:23d7090a1a0ddbf6994958e36549f02bb8c2a14e86821736d9477e0ff79944ab",
-    "input_set_hash": "sha256:12009171ee97fec05b0b4d97d04d703209c541222d4812854c5dc3cd75ad5201"
+    "source_set_hash": "sha256:6fa989a03f9f72080bc788467e83f0a42dbd8865d2ce10a296a9ed68a0bc3f27",
+    "input_set_hash": "sha256:4ca36a32e469cfe4cd52137618e79ac58df8a49dc7cafe70230ef3a919d23035"
   },
   "analysis_identity": {
     "id": "sha256:8ac7933b76bf242a71d3db46b443856b25bb6aacb99279ea744bf06c74d56992",
@@ -65,7 +65,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "hit",
+    "analysis_cache_status": "miss",
     "unsupported_pattern": [],
     "complete": true,
     "partial": false,
@@ -92,24 +92,48 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 19,
+    "tests": 20,
     "colocated_tests": 0,
-    "external_tests": 19,
-    "execution_status": "not_run",
+    "external_tests": 20,
+    "execution_status": "unknown",
     "execution_scope": "suite",
     "coverage_status": "not_collected"
   },
   "tests": [
     {
+      "id": "test:../tests/unit/artworkSelection.test.ts",
+      "name": "artworkSelection.test.ts",
+      "path": "../tests/unit/artworkSelection.test.ts",
+      "framework": "unknown",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "unknown",
+      "command_hint": null
+    },
+    {
       "id": "test:../tests/unit/calendarSchedule.test.ts",
       "name": "calendarSchedule.test.ts",
       "path": "../tests/unit/calendarSchedule.test.ts",
+      "framework": "unknown",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "unknown",
+      "command_hint": null
+    },
+    {
+      "id": "test:../tests/unit/currentExplorerCity.test.ts",
+      "name": "currentExplorerCity.test.ts",
+      "path": "../tests/unit/currentExplorerCity.test.ts",
       "framework": "vitest",
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -129,7 +153,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -141,7 +165,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -153,7 +177,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -165,7 +189,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -177,7 +201,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -189,7 +213,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -201,7 +225,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -213,7 +237,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -225,19 +249,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
-      "command_hint": null
-    },
-    {
-      "id": "test:../tests/unit/routeModules.test.ts",
-      "name": "routeModules.test.ts",
-      "path": "../tests/unit/routeModules.test.ts",
-      "framework": "unknown",
-      "source_mapping": [],
-      "source_associations": [],
-      "coverage_status": "not_collected",
-      "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -246,18 +258,24 @@
       "path": "../tests/unit/schoolCalendar.test.ts",
       "framework": "vitest",
       "source_mapping": [
-        "src/schoolCalendar.ts"
+        "src/schoolCalendar.ts",
+        "src/schoolEventCatalog.ts"
       ],
       "source_associations": [
         {
           "file": "src/schoolCalendar.ts",
           "kind": "direct-import",
           "confidence": "high"
+        },
+        {
+          "file": "src/schoolEventCatalog.ts",
+          "kind": "direct-import",
+          "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -277,7 +295,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -289,7 +307,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -301,7 +319,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -313,7 +331,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -325,7 +343,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -337,7 +355,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     },
     {
@@ -349,7 +367,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "not_run",
+      "suite_status": "unknown",
       "command_hint": null
     }
   ]

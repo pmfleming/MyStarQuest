@@ -1,4 +1,4 @@
-import { getThemeAsset } from './themeAssets'
+import { getThemeAsset, hasIllustratedTheme } from './themeAssets'
 import { getChoreImage } from '../assets/chores/assets'
 import { getPresetChoreOverviewImage } from './choreOverviewAssets'
 import { getTaskTypeIcon } from './taskTypeIcons'
@@ -25,14 +25,12 @@ export type { UnifiedChoreDeps } from './unifiedChoreDescriptorTypes'
 export function createUnifiedChoreDescriptor(
   deps: UnifiedChoreDeps
 ): ListRowDescriptor<UnifiedChoreItem> {
-  const isManage = deps.mode === 'manage'
   const state = createUnifiedChoreState(deps)
 
   return {
     renderHeader: (item) => renderUnifiedChoreHeader(deps, state, item),
     renderItem: (item) => renderUnifiedChoreItem(deps, state, item),
     getStarCount: (item) => {
-      if (isManage) return undefined
       const stage = state.getStage(item)
       if (isInChoreStage(stage)) return undefined
       const type = item.taskType
@@ -174,10 +172,7 @@ const eatingActionIcon = (
   isFinished: boolean
 ) => {
   if (isFinished) return getThemeAsset(deps.theme.id, 'plateImage')
-  if (
-    (deps.theme.id === 'princess' || deps.theme.id === 'teenie') &&
-    isActive
-  ) {
+  if (hasIllustratedTheme(deps.theme.id) && isActive) {
     return deps.activeMealIcon ?? getThemeAsset(deps.theme.id, 'biteIcon')
   }
   return getPresetChoreOverviewImage('eating', deps.theme.id)

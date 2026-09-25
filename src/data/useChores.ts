@@ -1,13 +1,7 @@
 // ── Chores subscription + mutations ──
 
 import { useMemo } from 'react'
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  updateDoc,
-} from 'firebase/firestore'
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebaseDb'
 import { isOfflineEnabled } from '../offline/platform'
 import { saveActivityPatch, saveDocument } from '../offline/actions'
@@ -26,6 +20,7 @@ import {
 } from './types'
 import { validateTaskFields } from './taskLimits'
 import { useChildTaskCollection } from './useChildTaskCollection'
+import { deleteUserDocument } from './useUserDocumentUpdates'
 
 export function useChores() {
   const {
@@ -158,9 +153,7 @@ export function useChores() {
 
   const deleteTask = async (taskId: string) => {
     if (!user) return
-    if (isOfflineEnabled())
-      await saveDocument(user.uid, 'chores', taskId, 'delete')
-    else await deleteDoc(doc(db, 'users', user.uid, 'chores', taskId))
+    await deleteUserDocument(user.uid, 'chores', taskId)
 
     setEphemeral((prev) => {
       const next = { ...prev }

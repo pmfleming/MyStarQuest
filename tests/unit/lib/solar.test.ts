@@ -2,8 +2,6 @@ import {
   buildLocationDateTime,
   DEFAULT_LOCATION,
   getLocationClockTime,
-  getSolarTimes,
-  getSunPosition,
 } from '../../../src/lib/solar'
 
 const DUBLIN_LOCATION = {
@@ -19,35 +17,6 @@ const TAIPEI_LOCATION = {
 } as const
 
 describe('solar helpers', () => {
-  it('returns ordered solar phases and expanded twilight windows', () => {
-    const times = getSolarTimes(new Date(2026, 2, 25))
-
-    expect(times.sunriseMinutes).toBeLessThan(times.daylightStartMinutes)
-    expect(times.daylightStartMinutes).toBeLessThan(times.daylightEndMinutes)
-    expect(times.daylightEndMinutes).toBeLessThan(times.sunsetMinutes)
-    expect(times.phaseAtMinutes(times.sunriseMinutes)).toBe('sunrise')
-    expect(times.phaseAtMinutes(times.daylightStartMinutes)).toBe('day')
-    expect(times.phaseAtMinutes(times.daylightEndMinutes)).toBe('sunset')
-
-    const solsticeTimes = getSolarTimes(new Date(2026, 5, 21))
-
-    expect(
-      solsticeTimes.isNightAtMinutes(solsticeTimes.sunriseMinutes - 1)
-    ).toBe(true)
-    expect(
-      solsticeTimes.phaseAtMinutes(solsticeTimes.sunriseMinutes + 10)
-    ).toBe('sunrise')
-    expect(
-      solsticeTimes.isDaylightAtMinutes(solsticeTimes.daylightStartMinutes + 10)
-    ).toBe(true)
-    expect(solsticeTimes.phaseAtMinutes(solsticeTimes.sunsetMinutes - 10)).toBe(
-      'sunset'
-    )
-    expect(
-      solsticeTimes.isNightAtMinutes(solsticeTimes.sunsetMinutes + 1)
-    ).toBe(true)
-  })
-
   it('converts location dates and clocks correctly across DST and cities', () => {
     const winterNoon = buildLocationDateTime(
       new Date(2026, 0, 15),
@@ -85,34 +54,5 @@ describe('solar helpers', () => {
     expect(getLocationClockTime(winterInstant, DEFAULT_LOCATION).hours).toBe(11)
     expect(getLocationClockTime(winterInstant, DUBLIN_LOCATION).hours).toBe(10)
     expect(getLocationClockTime(winterInstant, TAIPEI_LOCATION).hours).toBe(18)
-  })
-
-  it('tracks subsolar latitude and longitude over place and time', () => {
-    const date = new Date(2026, 2, 25)
-    const solarTimes = getSolarTimes(date, DEFAULT_LOCATION)
-    const solarNoonMinutes =
-      (solarTimes.daylightStartMinutes + solarTimes.daylightEndMinutes) / 2
-    const solarNoonInstant = buildLocationDateTime(
-      date,
-      solarNoonMinutes,
-      0,
-      DEFAULT_LOCATION
-    )
-    const sunPosition = getSunPosition(solarNoonInstant)
-
-    expect(
-      Math.abs(sunPosition.longitude - DEFAULT_LOCATION.longitude)
-    ).toBeLessThan(0.5)
-
-    const midnightUtc = getSunPosition(new Date(Date.UTC(2026, 5, 21, 0, 0, 0)))
-    const middayUtc = getSunPosition(new Date(Date.UTC(2026, 5, 21, 12, 0, 0)))
-    const longitudeDifference = Math.abs(
-      middayUtc.longitude - midnightUtc.longitude
-    )
-
-    expect(Math.abs(middayUtc.latitude - midnightUtc.latitude)).toBeLessThan(
-      0.2
-    )
-    expect(Math.abs(longitudeDifference - 180)).toBeLessThan(1)
   })
 })

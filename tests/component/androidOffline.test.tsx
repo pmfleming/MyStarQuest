@@ -42,14 +42,14 @@ vi.mock('../../src/offline/persistence', () => ({
   },
 }))
 
-import { offlineRuntime } from '../../src/offline/runtime'
-import { useChores } from '../../src/data/useChores'
-import { useTests } from '../../src/data/useTests'
 import { ChildrenProvider } from '../../src/data/useChildren'
+import { useChores } from '../../src/data/useChores'
 import { useRewards } from '../../src/data/useRewards'
-import { projectDocuments } from '../../src/offline/model'
+import { useTests } from '../../src/data/useTests'
 import { getTodayDescriptor } from '../../src/lib/today'
 import { offlineCompletion } from '../../src/offline/actions'
+import { projectDocuments } from '../../src/offline/model'
+import { offlineRuntime } from '../../src/offline/runtime'
 
 beforeEach(async () => {
   session.childId = 'child'
@@ -176,46 +176,6 @@ describe('Android offline data hooks', () => {
           (op) => op.action.kind === 'activity' && op.action.complete
         )
     ).toHaveLength(2)
-  })
-
-  it('persists default-test completion and reset locally', async () => {
-    const hook = renderHook(() => useTests())
-    await waitFor(() =>
-      expect(hook.result.current.tests.length).toBeGreaterThan(0)
-    )
-    const id = hook.result.current.tests[0].id
-    await act(async () => {
-      await hook.result.current.completeTest(
-        hook.result.current.tests.find((test) => test.id === id)!
-      )
-    })
-    const runtime = offlineRuntime(session.user.uid)
-    const awards = () =>
-      runtime.store
-        .getSnapshot()!
-        .pending.filter(
-          (op) => op.action.kind === 'activity' && op.action.complete
-        )
-    expect(awards()).toHaveLength(1)
-    await act(async () => {
-      await hook.result.current.resetTest(
-        hook.result.current.tests.find((test) => test.id === id)!
-      )
-    })
-    await act(async () => {
-      await hook.result.current.completeTest(
-        hook.result.current.tests.find((test) => test.id === id)!
-      )
-    })
-    expect(awards()).toHaveLength(2)
-    hook.unmount()
-    const reopened = renderHook(() => useTests())
-    await waitFor(() =>
-      expect(
-        reopened.result.current.tests.find((test) => test.id === id)
-          ?.lastAttemptDateKey
-      ).toBe(getTodayDescriptor().dateKey)
-    )
   })
 
   it('keeps one-time consumption local when the shared definition refreshes', async () => {

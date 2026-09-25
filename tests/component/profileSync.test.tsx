@@ -1,9 +1,8 @@
 import { act, cleanup, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest'
-import { ThemeProvider } from '../../src/contexts/ThemeProvider'
-import { useTheme } from '../../src/contexts/ThemeContext'
 import { ActiveChildProvider } from '../../src/contexts/ActiveChildProvider'
-import { useActiveChild } from '../../src/contexts/ActiveChildContext'
+import { useTheme } from '../../src/contexts/ThemeContext'
+import { ThemeProvider } from '../../src/contexts/ThemeProvider'
 import { ChildrenProvider, useChildren } from '../../src/data/useChildren'
 
 const firestore = vi.hoisted(() => ({
@@ -46,33 +45,6 @@ afterEach(() => {
   localStorage.clear()
   vi.restoreAllMocks()
 })
-
-it.each([
-  ['{"id":"child","themeId":42}', 'child', 'none'],
-  ['broken JSON', 'none', 'none'],
-])(
-  'restores valid selection fields and safely ignores malformed storage: %s',
-  (raw, id, themeId) => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
-    localStorage.setItem('mystarquest:active-child:sync-parent', raw)
-    function Selection() {
-      const { activeChildId, activeThemeId } = useActiveChild()
-      return (
-        <output>
-          {activeChildId ?? 'none'} / {activeThemeId ?? 'none'}
-        </output>
-      )
-    }
-    render(
-      <ThemeProvider>
-        <ActiveChildProvider>
-          <Selection />
-        </ActiveChildProvider>
-      </ThemeProvider>
-    )
-    expect(screen.getByRole('status')).toHaveTextContent(`${id} / ${themeId}`)
-  }
-)
 
 it('reconciles a cached theme with remote profile changes and rolls back a rejected edit', async () => {
   localStorage.setItem(

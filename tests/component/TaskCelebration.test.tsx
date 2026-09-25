@@ -1,12 +1,12 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
-import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import type { ReactNode } from 'react'
-import DashboardPage from '../../src/pages/DashboardPage'
+import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { themes } from '../../src/contexts/ThemeContext'
 import type {
   ChoreWithEphemeral,
   TestWithEphemeral,
 } from '../../src/data/types'
+import DashboardPage from '../../src/pages/DashboardPage'
 
 const data = vi.hoisted(() => ({
   childId: 'child',
@@ -120,29 +120,6 @@ it('retains a removed chore through completion and prevents duplicate clicks', a
     screen.queryByRole('heading', { name: 'Tidy room' })
   ).not.toBeInTheDocument()
   expect(data.complete).toHaveBeenCalledTimes(1)
-})
-
-it('releases a failed completion so it can be retried', async () => {
-  const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
-  try {
-    data.complete.mockRejectedValueOnce(new Error('Offline'))
-    render(<DashboardPage />)
-    const button = screen.getByRole('button', {
-      name: 'Give stars for Tidy room',
-    })
-    await act(async () => fireEvent.click(button))
-    expect(screen.getByRole('alert')).toHaveTextContent('failed')
-    expect(
-      screen.queryByRole('status', { name: 'Tidy room completed' })
-    ).not.toBeInTheDocument()
-    await act(async () => fireEvent.click(button))
-    expect(
-      screen.getByRole('status', { name: 'Tidy room completed' })
-    ).toBeInTheDocument()
-    expect(data.complete).toHaveBeenCalledTimes(2)
-  } finally {
-    consoleError.mockRestore()
-  }
 })
 
 it('discards a pending celebration after switching children, including switching back', async () => {

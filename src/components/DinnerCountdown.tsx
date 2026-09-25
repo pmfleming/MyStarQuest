@@ -597,9 +597,9 @@ export interface DinnerCountdownProps {
   isTimerRunning: boolean
   /** Optional plate background image URL (themed) */
   plateImage?: string
-  onAdjustTime: (delta: number) => void | Promise<void>
-  onAdjustBites: (delta: number) => void | Promise<void>
-  onStarsChange: (value: number) => void | Promise<void>
+  onAdjustTime?: (delta: number) => void | Promise<void>
+  onAdjustBites?: (delta: number) => void | Promise<void>
+  onStarsChange?: (value: number) => void | Promise<void>
   /** Triggered when the timer runs out */
   onExpire?: () => void | Promise<void>
   /** Optional image to show when all bites are eaten (themed) */
@@ -633,9 +633,9 @@ const DinnerCountdown = ({
   starReward,
   isTimerRunning,
   plateImage,
-  onAdjustTime,
-  onAdjustBites,
-  onStarsChange,
+  onAdjustTime = () => {},
+  onAdjustBites = () => {},
+  onStarsChange = () => {},
   onExpire,
   completionImage,
   isCompleted = false,

@@ -3,25 +3,9 @@ import japanesePikachuImage from './pikachu-japanese-cards.svg'
 import legoPokemonImage from './lego-pokemon.png'
 import yoshiEggImage from './YoshiEgg.webp'
 import teeniepingImage from './teenieping.webp'
+import { getSpellingImage } from '../../data/spellingAssets'
 
-export type RewardImageKey =
-  'yoshiEgg' | 'teenieping' | 'pikachu' | 'pikachuJapanese' | 'legoPokemon'
-
-const rewardImages: Record<RewardImageKey, string> = {
-  pikachu: pikachuImage,
-  pikachuJapanese: japanesePikachuImage,
-  legoPokemon: legoPokemonImage,
-  teenieping: teeniepingImage,
-  yoshiEgg: yoshiEggImage,
-}
-
-export type RewardImageOption = {
-  id: '' | RewardImageKey
-  label: string
-  image?: string
-}
-
-export const rewardImageOptions: RewardImageOption[] = [
+export const rewardImageOptions = [
   { id: '', label: 'No image' },
   { id: 'teenieping', label: 'Teenieping', image: teeniepingImage },
   { id: 'yoshiEgg', label: 'Hatchin Yoshi', image: yoshiEggImage },
@@ -34,11 +18,12 @@ export const rewardImageOptions: RewardImageOption[] = [
   { id: 'legoPokemon', label: 'LEGO Pokémon', image: legoPokemonImage },
 ]
 
-const isRewardImageKey = (imageKey: string): imageKey is RewardImageKey =>
-  imageKey in rewardImages
+const rewardImages = new Map(
+  rewardImageOptions.map(({ id, image }) => [id, image])
+)
+rewardImages.set('pinkPrincess', teeniepingImage)
 
-export const getRewardImage = (imageKey?: string) => {
-  if (!imageKey) return undefined
-  if (imageKey === 'pinkPrincess') return teeniepingImage
-  return isRewardImageKey(imageKey) ? rewardImages[imageKey] : undefined
-}
+export const getRewardImage = (imageKey = '') => rewardImages.get(imageKey)
+
+export const getRewardOverlayImage = (title: string, imageKey?: string) =>
+  imageKey === 'legoPokemon' ? getSpellingImage(title) : undefined

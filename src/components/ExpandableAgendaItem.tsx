@@ -57,7 +57,7 @@ export default function ExpandableAgendaItem({
       ref={itemRef}
       className={className}
       data-expanded={expanded}
-      style={{ ...style, height: expandedHeight ?? undefined }}
+      style={{ ...style, minHeight: expandedHeight ?? undefined }}
     >
       <div
         className="day-agenda__content"

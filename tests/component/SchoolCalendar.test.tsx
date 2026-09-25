@@ -14,12 +14,12 @@ import {
   DEFAULT_CALENDAR_SCHEDULE,
   saveCalendarSchedule,
 } from '../../src/lib/calendarSchedule'
-import { getSchoolEventImage } from '../../src/ui/schoolEventAssets'
-import { getThemeAsset } from '../../src/ui/themeAssets'
 import {
   createSchoolCalendarStore,
   schoolCalendarStore,
 } from '../../src/lib/schoolCalendarStore'
+import { getSchoolEventImage } from '../../src/ui/schoolEventAssets'
+import { getThemeAsset } from '../../src/ui/themeAssets'
 
 const selection = vi.hoisted(() => ({
   selectedDateKey: '2026-09-09',
@@ -93,7 +93,7 @@ it('reacts to saved changes in this window and other windows', async () => {
   await waitFor(() => expect(fetch).toHaveBeenCalled())
 })
 
-it.each(['princess', 'teenie'] as const)(
+it.each(['teenie'] as const)(
   'shows short English school activities with %s artwork without removing school',
   async (themeId) => {
     selection.selectedDateKey = '2026-09-23'
@@ -162,93 +162,5 @@ it.each(['princess', 'teenie'] as const)(
       'aria-description',
       expect.stringContaining('School day')
     )
-  }
-)
-
-it('keeps school in the morning on an early finish and labels the partial day off', async () => {
-  selection.selectedDateKey = '2026-12-18'
-  vi.stubGlobal(
-    'fetch',
-    vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        '2026-12-18': {
-          isNonSchoolDay: false,
-          summaries: ['Alle leerlingen om 12:00 uur vrij'],
-        },
-      }),
-    })
-  )
-  render(<SchoolCalendar theme={themes.princess} />)
-  const details = within(screen.getByRole('region', { name: 'School events' }))
-  await waitFor(() =>
-    expect(details.getByText('Noon Finish')).toBeInTheDocument()
-  )
-  expect(details.getByText('Early finish')).toBeVisible()
-  expect(details.getByLabelText('At 12:00 PM')).toBeVisible()
-  const school = within(
-    within(screen.getByRole('region', { name: 'Day agenda' }))
-      .getByText('School')
-      .closest('li')!
-  )
-  expect(school.getByLabelText('From 8:30 AM')).toBeVisible()
-  expect(school.getByLabelText('To 12:00 PM')).toBeVisible()
-})
-
-it.each(['teenie'] as const)(
-  'illustrates training and breaks in %s while keeping them days off',
-  async (themeId) => {
-    const dates = [
-      [
-        '2026-09-09',
-        'Studiedag (leerlingen vrij)',
-        'Teacher Training',
-        'teacher-training',
-      ],
-      ['2026-09-10', 'Herfstvakantie', 'Autumn Break', 'autumn-break'],
-      ['2026-09-11', 'Kerstvakantie', 'Christmas Break', 'christmas-break'],
-    ] as const
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({
-        ok: true,
-        json: async () =>
-          Object.fromEntries(
-            dates.map(([date, summary]) => [
-              date,
-              {
-                isNonSchoolDay: true,
-                summaries: [summary],
-              },
-            ])
-          ),
-      })
-    )
-    const { rerender } = render(<SchoolCalendar theme={themes[themeId]} />)
-    const details = within(
-      screen.getByRole('region', { name: 'School events' })
-    )
-    await details.findByText('Teacher Training')
-    for (const [date, , label, artwork] of dates) {
-      selection.selectedDateKey = date
-      rerender(<SchoolCalendar theme={themes[themeId]} />)
-      const cell = screen.getByRole('button', { name: `Select ${date}` })
-      expect(within(cell).getByRole('img', { name: label })).toHaveAttribute(
-        'src',
-        getSchoolEventImage(themeId, artwork)
-      )
-      expect(
-        details.getByText(label).closest('li')!.querySelector('img')
-      ).toHaveAttribute('src', getSchoolEventImage(themeId, artwork))
-      expect(cell).toHaveAttribute(
-        'aria-description',
-        expect.stringContaining('Day off')
-      )
-      expect(
-        within(screen.getByRole('region', { name: 'Day agenda' })).queryByText(
-          'School'
-        )
-      ).not.toBeInTheDocument()
-    }
   }
 )

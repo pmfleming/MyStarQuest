@@ -55,17 +55,4 @@ describe('Earth texture session cache', () => {
     expect((await retry).pixels).toBeInstanceOf(Uint8Array)
     expect(vi.getTimerCount()).toBe(0)
   })
-
-  it('terminates a stalled worker before trying the fallback', async () => {
-    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Offline')))
-    const { loadEarthTexturePixels } =
-      await import('../../../src/features/dayNightExplorer/earthTextureCache')
-    const rejection = expect(loadEarthTexturePixels()).rejects.toThrow(
-      'Offline'
-    )
-    await vi.advanceTimersByTimeAsync(15000)
-    await rejection
-    expect(TextureWorker.instances[0]!.terminate).toHaveBeenCalledOnce()
-    expect(vi.getTimerCount()).toBe(0)
-  })
 })

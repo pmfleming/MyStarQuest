@@ -35,6 +35,7 @@ import {
 } from './dayNightExplorerOptions'
 import type { ClockViewModel } from './Clock'
 import useExplorerClock from './useExplorerClock'
+import { getCurrentExplorerCity } from './currentExplorerCity'
 import useSolarSystem3D from './useSolarSystem3D'
 import { useCalendarSchedule } from '../../hooks/useCalendarSchedule'
 import { useSchoolCalendar } from '../../hooks/useSchoolCalendar'
@@ -66,7 +67,8 @@ export default function useDayNightExplorerModel(
   theme: Theme,
   globeVisible = true
 ): UseDayNightExplorerModelResult {
-  const { selectedDate, setSelectedDateKey } = useSelectedDate()
+  const { selectedDate, setSelectedDateKey, nightlyResetKey } =
+    useSelectedDate()
   const schedule = useCalendarSchedule()
   const { events: holidays } = useSchoolCalendar()
   const agenda = useMemo(
@@ -75,7 +77,17 @@ export default function useDayNightExplorerModel(
   )
   const season = getSeason(selectedDate)
   const [savedState] = useState(readTimeExplorerState)
-  const pendingDateRestore = useRef(savedState.exploration?.dateKey)
+  const [locationResetKey, setLocationResetKey] = useState(
+    savedState.exploration ? nightlyResetKey : ''
+  )
+  const pendingDateRestore = useRef<string | undefined>(
+    savedState.exploration?.dateKey ??
+      getTodayDescriptor(
+        new Date(),
+        getExplorerCityOption(savedState.activeCalculationCityId).location
+          .timeZone
+      ).dateKey
+  )
   const [displayMode, setDisplayMode] = useState<ExplorerDisplayMode>(
     savedState.displayMode
   )
@@ -108,6 +120,41 @@ export default function useDayNightExplorerModel(
     ),
   })
   const getClockTime = clock.getClockTime
+  const syncClockTime = clock.syncClockTime
+  const resetToNow = useCallback(() => {
+    const now = new Date()
+    setSelectedDateKey(
+      getTodayDescriptor(now, calculationLocation.timeZone).dateKey
+    )
+    syncClockTime(getClockTimeForInstant(now, calculationLocation))
+  }, [calculationLocation, setSelectedDateKey, syncClockTime])
+  useEffect(() => {
+    if (locationResetKey === nightlyResetKey) return
+    let active = true
+    const cancel = () => {
+      active = false
+      setLocationResetKey(nightlyResetKey)
+    }
+    void getCurrentExplorerCity().then((cityId) => {
+      if (!active) return
+      const now = new Date()
+      const { location } = getExplorerCityOption(cityId)
+      pendingDateRestore.current = undefined
+      setActiveCalculationCityId(cityId)
+      setActiveFocusId(cityId)
+      setSelectedDateKey(getTodayDescriptor(now, location.timeZone).dateKey)
+      syncClockTime(getClockTimeForInstant(now, location))
+      setLocationResetKey(nightlyResetKey)
+    })
+    // A late location fix must not undo a new exploration chosen by the user.
+    document.addEventListener('pointerdown', cancel, { once: true })
+    document.addEventListener('keydown', cancel, { once: true })
+    return () => {
+      active = false
+      document.removeEventListener('pointerdown', cancel)
+      document.removeEventListener('keydown', cancel)
+    }
+  }, [nightlyResetKey, locationResetKey, setSelectedDateKey, syncClockTime])
   const dateKey = buildDateKey(selectedDate)
   useEffect(() => {
     if (pendingDateRestore.current && pendingDateRestore.current !== dateKey) {
@@ -120,6 +167,7 @@ export default function useDayNightExplorerModel(
         displayMode,
         activeFocusId,
         activeCalculationCityId,
+        explorationResetKey: locationResetKey,
         exploration: { dateKey, ...getClockTime() },
       })
     save()
@@ -141,16 +189,9 @@ export default function useDayNightExplorerModel(
     clock.minutes,
     clock.seconds,
     getClockTime,
+    locationResetKey,
     setSelectedDateKey,
   ])
-  const syncClockTime = clock.syncClockTime
-  const resetToNow = useCallback(() => {
-    const now = new Date()
-    setSelectedDateKey(
-      getTodayDescriptor(now, calculationLocation.timeZone).dateKey
-    )
-    syncClockTime(getClockTimeForInstant(now, calculationLocation))
-  }, [calculationLocation, setSelectedDateKey, syncClockTime])
 
   // React snapshots and smooth hand dragging use the same scene projection.
   const buildSceneState = useCallback(
