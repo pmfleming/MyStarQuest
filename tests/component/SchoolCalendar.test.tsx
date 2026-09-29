@@ -145,7 +145,7 @@ it.each(['teenie'] as const)(
     ).toHaveAttribute('src', getSchoolEventImage(themeId, 'sibling-photo'))
     expect(
       within(screen.getByRole('region', { name: 'Day agenda' })).getByText(
-        'School'
+        'Table work'
       )
     ).toBeInTheDocument()
     const cell = screen.getByRole('button', { name: 'Select 2026-09-23' })
@@ -162,5 +162,35 @@ it.each(['teenie'] as const)(
       'aria-description',
       expect.stringContaining('School day')
     )
+  }
+)
+
+it.each(['princess', 'teenie'] as const)(
+  'renders each classroom activity with %s artwork and times',
+  async (themeId) => {
+    selection.selectedDateKey = '2026-09-28'
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) })
+    )
+    render(<SchoolCalendar theme={themes[themeId]} />)
+    const agenda = within(screen.getByRole('region', { name: 'Day agenda' }))
+    for (const [title, activity, start] of [
+      ['Table work', 'tableWork', '08:30'],
+      ['Fruit snack', 'fruitSnack', '10:30'],
+      ['Lunch', 'schoolLunch', '12:15'],
+      ['Going home', 'goingHome', '14:45'],
+    ] as const) {
+      const row = agenda.getByText(title).closest('li')!
+      expect(row.querySelector('img')).toHaveAttribute(
+        'src',
+        themes[themeId].activityImages![activity]
+      )
+      expect(row.querySelector('time')).toHaveAttribute('datetime', start)
+    }
+    expect(agenda.getAllByText('Circle time')).toHaveLength(2)
+    expect(agenda.getAllByText('Play outside')).toHaveLength(2)
+    expect(agenda.getAllByText('Choice time')).toHaveLength(2)
+    await waitFor(() => expect(fetch).toHaveBeenCalled())
   }
 )

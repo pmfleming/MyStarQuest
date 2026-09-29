@@ -10,6 +10,13 @@ export const calendarActivitySchema = z.enum([
   'washingTeeth',
   'commute',
   'schooltime',
+  'tableWork',
+  'circleTime',
+  'outdoorPlay',
+  'fruitSnack',
+  'choiceTime',
+  'schoolLunch',
+  'goingHome',
   'playing',
   'cooking',
   'eatingDinner',
@@ -45,7 +52,19 @@ const eventSchema = z
         'Duplicate weekday'
       ),
     schoolDaysOnly: z.boolean(),
+    schoolDayPlan: z.literal('classroom').optional(),
   })
+  .refine(
+    (event) =>
+      !event.schoolDayPlan ||
+      (event.activity === 'schooltime' &&
+        event.kind === 'school' &&
+        event.schoolDaysOnly),
+    {
+      message: 'A classroom plan requires a school-day schooltime event',
+      path: ['schoolDayPlan'],
+    }
+  )
   .refine((event) => timeToMinutes(event.start) < timeToMinutes(event.end), {
     message: 'End must be after start; split overnight events at midnight',
     path: ['end'],
@@ -100,6 +119,72 @@ export const isSchoolDate = (date: Date, holidays: SchoolCalendarData) =>
 
 const priority = { routine: 0, school: 1, activity: 2 }
 
+const morningActivities = [
+  ['tableWork', 'Table work'],
+  ['circleTime', 'Circle time'],
+  ['outdoorPlay', 'Play outside'],
+  ['fruitSnack', 'Fruit snack'],
+  ['choiceTime', 'Choice time'],
+  ['outdoorPlay', 'Play outside'],
+] as const
+const afternoonActivities = [
+  ['schoolLunch', 'Lunch'],
+  ['circleTime', 'Circle time'],
+  ['choiceTime', 'Choice time'],
+] as const
+
+// Divide each side of lunch as evenly as quarter-hour slots allow. Round shared
+// boundaries so adjacent activities stay contiguous, preserving fixed endpoints.
+const expandSchoolDay = (event: AgendaItem): AgendaItem[] => {
+  if (!event.schoolDayPlan) return [event]
+  const lunchMinute = timeToMinutes('12:15')
+  const split = (
+    start: number,
+    end: number,
+    activities: readonly (readonly [CalendarActivity, string])[],
+    phase: string
+  ): AgendaItem[] => {
+    if (end <= start) return []
+    const boundary = (index: number) => {
+      if (index === 0) return start
+      if (index === activities.length) return end
+      const ideal = start + ((end - start) * index) / activities.length
+      return Math.max(start, Math.min(end, Math.round(ideal / 15) * 15))
+    }
+    return activities.flatMap(([activity, title], index) => {
+      const startMinute = boundary(index)
+      const endMinute = boundary(index + 1)
+      if (startMinute === endMinute) return []
+      return [
+        {
+          ...event,
+          id: `${event.id}-${phase}-${index + 1}`,
+          activity,
+          title,
+          start: minutesToTime(startMinute),
+          end: minutesToTime(endMinute),
+          startMinute,
+          endMinute,
+        },
+      ]
+    })
+  }
+  return [
+    ...split(
+      event.startMinute,
+      Math.min(event.endMinute, lunchMinute),
+      morningActivities,
+      'morning'
+    ),
+    ...split(
+      Math.max(event.startMinute, lunchMinute),
+      event.endMinute,
+      afternoonActivities,
+      'afternoon'
+    ),
+  ]
+}
+
 // Resolve recurring events into one timeline. Lessons replace routine time, and
 // school replaces free play. Equal-priority conflicts prefer the later JSON entry.
 export const getAgendaForDate = (
@@ -137,7 +222,10 @@ export const getAgendaForDate = (
       ) {
         if (event.activity === 'schooltime')
           endMinute = Math.min(endMinute, releaseMinute)
-        if (event.activity === 'commute' && startMinute >= regularSchoolEnd) {
+        if (
+          (event.activity === 'commute' || event.activity === 'goingHome') &&
+          startMinute >= regularSchoolEnd
+        ) {
           const shift = regularSchoolEnd - releaseMinute
           startMinute -= shift
           endMinute -= shift
@@ -146,6 +234,7 @@ export const getAgendaForDate = (
       return { ...event, startMinute, endMinute }
     })
     .filter((event) => event.endMinute > event.startMinute)
+    .flatMap(expandSchoolDay)
   const boundaries = [
     ...new Set(events.flatMap((event) => [event.startMinute, event.endMinute])),
   ].sort((a, b) => a - b)

@@ -15,6 +15,13 @@ import balletImg from '../assets/themes/princess/agenda/ballet.webp'
 import swimmingImg from '../assets/themes/princess/agenda/swimming.webp'
 import judoImg from '../assets/themes/princess/agenda/judo.webp'
 import pianoImg from '../assets/themes/princess/agenda/piano.webp'
+import tableWorkImg from '../assets/themes/princess/agenda/table-work.webp'
+import circleTimeImg from '../assets/themes/princess/agenda/circle-time.webp'
+import outdoorPlayImg from '../assets/themes/princess/agenda/outdoor-play.webp'
+import fruitSnackImg from '../assets/themes/princess/agenda/fruit-snack.webp'
+import choiceTimeImg from '../assets/themes/princess/agenda/choice-time.webp'
+import schoolLunchImg from '../assets/themes/princess/agenda/school-lunch.webp'
+import goingHomeImg from '../assets/themes/princess/agenda/going-home.webp'
 import type { CalendarActivity } from '../lib/calendarSchedule'
 import springSunriseImg from '../assets/themes/princess/seasons/spring-sunrise.webp'
 import springDaytimeImg from '../assets/themes/princess/seasons/spring-daytime.webp'
@@ -131,6 +138,13 @@ export const themes: Record<ThemeId, Theme> = {
       eatingBreakfast: eatingBreakfastImg,
       commute: commuteImg,
       schooltime: schooltimeImg,
+      tableWork: tableWorkImg,
+      circleTime: circleTimeImg,
+      outdoorPlay: outdoorPlayImg,
+      fruitSnack: fruitSnackImg,
+      choiceTime: choiceTimeImg,
+      schoolLunch: schoolLunchImg,
+      goingHome: goingHomeImg,
       playing: playingImg,
       eatingDinner: eatingDinnerImg,
       computergames: computergamesImg,

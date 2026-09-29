@@ -74,7 +74,7 @@ it('keeps theatre activities across school-feed replacement without closing scho
   expect(screen.getByText('Meneer B en de grote Bubbelshow')).toBeVisible()
   expect(
     within(screen.getByRole('region', { name: 'Day agenda' })).getByText(
-      'School'
+      'Table work'
     )
   ).toBeVisible()
   state.events = {}
