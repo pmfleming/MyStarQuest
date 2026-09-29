@@ -1,3 +1,4 @@
+import { ActionImage } from './ActionArtwork'
 import { useEffect, useState, type ReactNode, type CSSProperties } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
@@ -157,15 +158,7 @@ const ActionCard = <T,>({
         activityActionImage
           ? {
               ...primaryAction,
-              icon: (
-                <img
-                  src={activityActionImage}
-                  alt=""
-                  aria-hidden="true"
-                  decoding="async"
-                  className="h-6 w-6 object-contain"
-                />
-              ),
+              icon: <ActionImage src={activityActionImage} />,
             }
           : primaryAction
       }

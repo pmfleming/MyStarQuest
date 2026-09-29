@@ -1,15 +1,4 @@
-import { type ComponentType, Suspense } from 'react'
-import {
-  ArithmeticTester,
-  LargeNumbersTester,
-  FractionsTester,
-  AlphabetTester,
-  AnimalTester,
-  DinnerCountdown,
-  PositionalNotation,
-  WaterToiletMonitor,
-  SpellingTester,
-} from '../components/activities/LazyActivities'
+import { type ComponentType, lazy, Suspense } from 'react'
 
 const createRenderer =
   <Props extends object>(Component: ComponentType<Props>) =>
@@ -19,12 +8,30 @@ const createRenderer =
     </Suspense>
   )
 
-export const renderDinnerChore = createRenderer(DinnerCountdown)
-export const renderArithmeticChore = createRenderer(ArithmeticTester)
-export const renderLargeNumbersChore = createRenderer(LargeNumbersTester)
-export const renderFractionsChore = createRenderer(FractionsTester)
-export const renderPositionalNotationChore = createRenderer(PositionalNotation)
-export const renderAlphabetChore = createRenderer(AlphabetTester)
-export const renderSpellingChore = createRenderer(SpellingTester)
-export const renderAnimalsChore = createRenderer(AnimalTester)
-export const renderWaterToiletChore = createRenderer(WaterToiletMonitor)
+export const renderDinnerChore = createRenderer(
+  lazy(() => import('../components/DinnerCountdown'))
+)
+export const renderArithmeticChore = createRenderer(
+  lazy(() => import('../components/ArithmeticTester'))
+)
+export const renderLargeNumbersChore = createRenderer(
+  lazy(() => import('../components/LargeNumbersTester'))
+)
+export const renderFractionsChore = createRenderer(
+  lazy(() => import('../components/FractionsTester'))
+)
+export const renderPositionalNotationChore = createRenderer(
+  lazy(() => import('../components/PositionalNotation'))
+)
+export const renderAlphabetChore = createRenderer(
+  lazy(() => import('../components/AlphabetTester'))
+)
+export const renderSpellingChore = createRenderer(
+  lazy(() => import('../components/SpellingTester'))
+)
+export const renderAnimalsChore = createRenderer(
+  lazy(() => import('../components/AnimalTester'))
+)
+export const renderWaterToiletChore = createRenderer(
+  lazy(() => import('../components/WaterToiletMonitor'))
+)

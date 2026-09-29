@@ -26,7 +26,7 @@ export const useDinnerCountdownState = ({
 }: UseDinnerCountdownStateArgs) => {
   const { runAction, ...persistence } = useAsyncAction<'expire'>()
   const expirationAttempted = useRef(false)
-  const [now, setNow] = useState(() => Date.now())
+  const now = useDinnerClock(isTimerRunning, biteCooldownEndsAt)
   const [animSlice, setAnimSlice] = useState<number | null>(null)
   const [biteVis, setBiteVis] = useState(false)
   const prevBites = useRef(bitesLeft)
@@ -48,29 +48,6 @@ export const useDinnerCountdownState = ({
   const isFinished = isSuccess || isTimeout
   const isSetup = !isTimerRunning && !isFinished && !isCoolingDown
   const secRot = getSecondHandRotation(isTimerRunning, liveRemaining)
-
-  useEffect(() => {
-    const needsTick =
-      isTimerRunning || (biteCooldownEndsAt && biteCooldownEndsAt > Date.now())
-    if (!needsTick) return
-
-    let interval: number | undefined
-    const updateTimer = () => {
-      if (interval !== undefined) window.clearInterval(interval)
-      interval = undefined
-      if (!document.hidden) {
-        setNow(Date.now())
-        interval = window.setInterval(() => setNow(Date.now()), 250)
-      }
-    }
-
-    updateTimer()
-    document.addEventListener('visibilitychange', updateTimer)
-    return () => {
-      if (interval !== undefined) window.clearInterval(interval)
-      document.removeEventListener('visibilitychange', updateTimer)
-    }
-  }, [isTimerRunning, biteCooldownEndsAt])
 
   useEffect(() => {
     if (isSuccess) celebrateSuccess()
@@ -122,4 +99,36 @@ const getSecondHandRotation = (
   if (!isTimerRunning || liveRemaining <= 0) return 0
   const seconds = liveRemaining % 60 || 60
   return ((Math.ceil(seconds / 2) * 2) / 60) * 180
+}
+
+// Own the visibility listener and timer together so both always stop on cleanup.
+function useDinnerClock(
+  isTimerRunning: boolean,
+  biteCooldownEndsAt?: number | null
+) {
+  const [now, setNow] = useState(() => Date.now())
+  useEffect(() => {
+    const needsTick =
+      isTimerRunning || (biteCooldownEndsAt && biteCooldownEndsAt > Date.now())
+    if (!needsTick) return
+
+    let interval: number | undefined
+    const updateTimer = () => {
+      if (interval !== undefined) window.clearInterval(interval)
+      interval = undefined
+      if (!document.hidden) {
+        setNow(Date.now())
+        interval = window.setInterval(() => setNow(Date.now()), 250)
+      }
+    }
+
+    updateTimer()
+    document.addEventListener('visibilitychange', updateTimer)
+    return () => {
+      if (interval !== undefined) window.clearInterval(interval)
+      document.removeEventListener('visibilitychange', updateTimer)
+    }
+  }, [isTimerRunning, biteCooldownEndsAt])
+
+  return now
 }

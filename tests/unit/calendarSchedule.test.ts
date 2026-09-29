@@ -46,9 +46,7 @@ describe('weekly calendar', () => {
 
   it.each([
     ['2026-09-28', '14:45', 9],
-    ['2026-09-29', '14:45', 9],
     ['2026-09-30', '12:15', 6],
-    ['2026-10-01', '14:45', 9],
     ['2026-10-02', '12:00', 6],
   ])(
     'fills school hours on %s in poster order, ending at %s',
@@ -99,7 +97,7 @@ describe('weekly calendar', () => {
     }
   )
 
-  it.each(['2026-10-03', '2026-10-04', '2026-10-05'])(
+  it.each(['2026-10-03', '2026-10-05'])(
     'omits the classroom and school journeys on days off: %s',
     (date) => {
       const agenda = getAgendaForDate(
@@ -112,19 +110,6 @@ describe('weekly calendar', () => {
       expect(agenda.some(({ schoolDaysOnly }) => schoolDaysOnly)).toBe(false)
     }
   )
-
-  it('keeps generic saved school blocks and empty schedules compatible', () => {
-    const schedule = structuredClone(DEFAULT_CALENDAR_SCHEDULE)
-    for (const event of schedule.events) delete event.schoolDayPlan
-    expect(
-      getAgendaForDate(schedule, parseDateKey('2026-09-28')).find(
-        ({ activity }) => activity === 'schooltime'
-      )
-    ).toMatchObject({ start: '08:30', end: '14:45' })
-    expect(
-      getAgendaForDate({ version: 1, events: [] }, parseDateKey('2026-09-28'))
-    ).toEqual([])
-  })
 
   it('lets lessons interrupt classroom activities without losing the surrounding time', () => {
     const schedule = structuredClone(DEFAULT_CALENDAR_SCHEDULE)

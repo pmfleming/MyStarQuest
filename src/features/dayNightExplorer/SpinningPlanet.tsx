@@ -29,6 +29,12 @@ const SpinningPlanet = memo(
     activeFocusId,
     onSelect,
   }: SpinningPlanetProps) => {
+    const navigationStyle: CSSProperties & { '--dne-nav-accent': string } = {
+      '--dne-nav-accent': theme.colors.accent,
+      background: `${theme.colors.accent}14`,
+      border: `1px solid ${theme.colors.accent}33`,
+      borderRadius: uiTokens.listItemRadius,
+    }
     return (
       <div
         className="dne-planet-card"
@@ -46,14 +52,7 @@ const SpinningPlanet = memo(
             className="dne-glass-nav dne-glass-nav--overlay"
             role="group"
             aria-label="Globe views"
-            style={
-              {
-                '--dne-nav-accent': theme.colors.accent,
-                background: `${theme.colors.accent}14`,
-                border: `1px solid ${theme.colors.accent}33`,
-                borderRadius: uiTokens.listItemRadius,
-              } as CSSProperties
-            }
+            style={navigationStyle}
           >
             <div className="dne-glass-nav__stack">
               {options.map((option) => {

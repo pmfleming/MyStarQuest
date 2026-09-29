@@ -68,7 +68,7 @@ beforeEach(() => {
 afterEach(() => vi.restoreAllMocks())
 
 describe('Auth startup and sign-in', () => {
-  it('restores a session without starting sign-in and clears the preload hint on sign-out', () => {
+  it('restores and signs out a web session, then permits popup retry after cancellation', async () => {
     const { unmount } = render(
       <AuthProvider>
         <Consumer />
@@ -82,25 +82,17 @@ describe('Auth startup and sign-in', () => {
     expect(state.nativeSignIn).not.toHaveBeenCalled()
     act(() => state.callback!(null))
     expect(hasSessionPreloadHint()).toBe(false)
-    unmount()
-    expect(state.unsubscribe).toHaveBeenCalledOnce()
-  })
-
-  it('passes the resolver only to requested web popup sign-in and propagates cancellation', async () => {
-    render(
-      <AuthProvider>
-        <Consumer />
-      </AuthProvider>
-    )
+    state.popup.mockRejectedValueOnce(new Error('Popup cancelled'))
+    await expect(context.loginWithGoogle()).rejects.toThrow('Popup cancelled')
     await act(() => context.loginWithGoogle())
-    expect(state.popup).toHaveBeenCalledWith(
+    expect(state.popup).toHaveBeenLastCalledWith(
       state.auth,
       expect.any(Object),
       state.resolver
     )
     expect(state.nativeSignIn).not.toHaveBeenCalled()
-    state.popup.mockRejectedValueOnce(new Error('Popup cancelled'))
-    await expect(context.loginWithGoogle()).rejects.toThrow('Popup cancelled')
+    unmount()
+    expect(state.unsubscribe).toHaveBeenCalledOnce()
   })
 
   it('retains native credential sign-in without a browser popup', async () => {

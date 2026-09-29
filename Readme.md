@@ -51,10 +51,15 @@ public/prototypes/                Earlier visual and interaction prototypes
 
 ## Getting Started
 
+Use Node **24.21.0 LTS** (also pinned in `.nvmrc`) and npm **12.1.0**.
+With nvm, run `nvm install && nvm use`, then `npm install --global npm@12.1.0`.
+Nix users can use `npx --yes npm@12.1.0` in place of `npm` to use the pinned
+package manager without changing the read-only Nix installation.
+
 Install dependencies:
 
 ```bash
-npm install
+npm ci
 ```
 
 Create a local Firebase environment file:
@@ -80,11 +85,27 @@ Build for production:
 npm run build
 ```
 
+Both the web app and Firebase Functions use Microsoft's TypeScript aliases:
+`@typescript/native` provides TypeScript **7.0.2** and the `tsc` command;
+`typescript` points to the **6.0.2 compatibility package**, which supplies the
+TS6 compiler API for ESLint and analysis tools (currently **6.0.3** in the
+lockfiles). `tsc6` remains available for comparing diagnostics. Keep both aliases
+when updating dependencies so `tsc` continues to select the native compiler.
+
 Sync the web build into the Android project:
 
 ```bash
 npm run cap:build
 ```
+
+Android uses Gradle **9.8.0**, Android Gradle Plugin **9.4.1**, SDK **37.2**
+(target API **37**), and Build Tools **37.0.0**. Install SDK platforms **37.0**
+and **37.2** for the app and Capacitor libraries. The Gradle wrapper downloads
+the pinned distribution and provisions a Java **25 LTS** build JVM; Capacitor
+keeps the generated Java bytecode target at 21.
+
+See the [dependency upgrade notes](docs/dependency-upgrade-2026-09-29.md) for
+compatibility pins and validation results.
 
 ## Quality Checks
 

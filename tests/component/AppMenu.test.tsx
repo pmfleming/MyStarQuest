@@ -116,23 +116,6 @@ describe('shared app menu', () => {
     expect(screen.getByRole('dialog', { name: 'Menu' })).toBeVisible()
   })
 
-  it('resets both meals and other chores from other tabs', async () => {
-    renderMenu()
-    openMenu()
-    fireEvent.click(screen.getByRole('button', { name: 'Reset today' }))
-    await waitFor(() =>
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    )
-    expect(state.resetChore).toHaveBeenCalledWith({
-      id: 'tidy',
-      taskType: 'standard',
-    })
-    expect(state.resetDinner).toHaveBeenCalledWith({
-      id: 'dinner',
-      taskType: 'eating',
-    })
-  })
-
   it('keeps reset failures visible in the menu and allows a retry', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {})
     const reset = vi

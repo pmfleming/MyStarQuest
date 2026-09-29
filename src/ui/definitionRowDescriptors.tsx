@@ -1,3 +1,4 @@
+import { ActionImage } from '../components/ui/ActionArtwork'
 import { getThemeAsset, hasIllustratedTheme } from './themeAssets'
 import type { ReactNode } from 'react'
 import Carousel from '../components/ui/Carousel'
@@ -161,16 +162,12 @@ export const createChildDefinitionListRowDescriptor = (
     label: 'Select',
     ariaLabel: `Select ${child.displayName}`,
     icon: hasIllustratedTheme(deps.theme.id) ? (
-      <img
+      <ActionImage
         src={
           deps.activeChildId === child.id
             ? getThemeAsset(deps.theme.id, 'activeIcon')
             : getThemeAsset(deps.theme.id, 'selectIcon')
         }
-        alt=""
-        aria-hidden="true"
-        decoding="async"
-        className="h-6 w-6 object-contain"
       />
     ) : deps.activeChildId === child.id ? (
       '✅'
@@ -205,13 +202,7 @@ export const createRewardDefinitionListRowDescriptor = (
       label: 'Buy reward',
       ariaLabel: `Buy ${reward.title}`,
       icon: hasEnoughStars ? (
-        <img
-          src={getThemeAsset(deps.theme.id, 'buyRewardIcon')}
-          alt=""
-          aria-hidden="true"
-          decoding="async"
-          className="h-6 w-6 object-contain"
-        />
+        <ActionImage src={getThemeAsset(deps.theme.id, 'buyRewardIcon')} />
       ) : (
         <img
           src={getThemeAsset(deps.theme.id, 'lockedRewardIcon')}

@@ -46,7 +46,11 @@ function taskVariant(taskType: TaskType, data: TaskData) {
     case 'alphabet':
       return { taskType, alphabetTotalProblems: data.alphabetTotalProblems }
     case 'fractions':
-      return { taskType, fractionsTotalProblems: data.fractionsTotalProblems }
+      return {
+        taskType,
+        fractionsTotalProblems: data.fractionsTotalProblems,
+        fractionsMaxDenominator: data.fractionsMaxDenominator,
+      }
     case 'spelling':
       return { taskType, spellingTotalProblems: data.spellingTotalProblems }
     case 'animals':

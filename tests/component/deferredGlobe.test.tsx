@@ -64,46 +64,12 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllGlobals())
 
 describe('deferred globe lifecycle', () => {
-  it('disposes when hidden and initializes a fresh canvas with current state when shown again', async () => {
-    const { rerender, unmount } = render(<Harness enabled={false} />)
-    nextFrame()
-    nextFrame()
-    await act(() => vi.dynamicImportSettled())
-    expect(scene.construct).not.toHaveBeenCalled()
-
-    rerender(<Harness />)
-    nextFrame()
-    nextFrame()
-    await act(() => vi.dynamicImportSettled())
-    expect(screen.getByText('Ready')).toBeVisible()
-    const firstCanvas = scene.construct.mock.calls[0][0]
-    rerender(<Harness enabled={false} />)
-    expect(scene.dispose).toHaveBeenCalledOnce()
-    expect(screen.queryByText('Ready')).not.toBeInTheDocument()
-
-    const updated = { ...initial, earthRotationDeg: 50 }
-    rerender(<Harness state={updated} />)
-    nextFrame()
-    nextFrame()
-    await act(() => vi.dynamicImportSettled())
-    expect(scene.construct).toHaveBeenCalledTimes(2)
-    expect(scene.construct.mock.calls[1][0]).not.toBe(firstCanvas)
-    expect(scene.construct).toHaveBeenLastCalledWith(
-      expect.any(HTMLCanvasElement),
-      updated,
-      expect.any(Function)
-    )
-    expect(screen.getByText('Ready')).toBeVisible()
-    unmount()
-    expect(scene.dispose).toHaveBeenCalledTimes(2)
-  })
-
-  it('allows a failed renderer to retry without blocking the clock', async () => {
+  it('recovers a failed renderer and restores the current scene after hiding it', async () => {
     const log = vi.spyOn(console, 'error').mockImplementation(() => {})
     scene.construct.mockImplementationOnce(() => {
       throw new Error('WebGL unavailable')
     })
-    const { unmount } = render(<Harness />)
+    const { rerender, unmount } = render(<Harness />)
     nextFrame()
     nextFrame()
     await act(() => vi.dynamicImportSettled())
@@ -115,7 +81,21 @@ describe('deferred globe lifecycle', () => {
     await act(() => vi.dynamicImportSettled())
     expect(screen.getByText('Ready')).toBeVisible()
     expect(screen.queryByText('Failed')).not.toBeInTheDocument()
+    rerender(<Harness enabled={false} />)
+    expect(scene.dispose).toHaveBeenCalledOnce()
+    const updated = { ...initial, earthRotationDeg: 50 }
+    rerender(<Harness state={updated} />)
+    nextFrame()
+    nextFrame()
+    await act(() => vi.dynamicImportSettled())
+    expect(screen.getByText('Ready')).toBeVisible()
+    expect(scene.construct).toHaveBeenLastCalledWith(
+      expect.any(HTMLCanvasElement),
+      updated,
+      expect.any(Function)
+    )
     unmount()
+    expect(scene.dispose).toHaveBeenCalledTimes(2)
     log.mockRestore()
   })
 })

@@ -1,3 +1,4 @@
+import { ActionImage } from '../components/ui/ActionArtwork'
 import { getThemeAsset, hasIllustratedTheme } from './themeAssets'
 import { getChoreImage } from '../assets/chores/assets'
 import { getPresetChoreOverviewImage } from './choreOverviewAssets'
@@ -55,17 +56,13 @@ export function createUnifiedChoreDescriptor(
           label: 'Give stars',
           ariaLabel: `Give stars for ${item.title}`,
           icon: (
-            <img
+            <ActionImage
               src={
                 isItemCompleted
                   ? getThemeAsset(deps.theme.id, 'activeIcon')
                   : (getChoreImage(item.imageKey, deps.theme.id) ??
                     getThemeAsset(deps.theme.id, 'giveStarIcon'))
               }
-              alt=""
-              aria-hidden="true"
-              decoding="async"
-              className="h-6 w-6 object-contain"
             />
           ),
           disabled: isItemCompleted,
@@ -85,12 +82,8 @@ export function createUnifiedChoreDescriptor(
           choreType: type,
           stage,
           icon: (
-            <img
+            <ActionImage
               src={getPresetChoreOverviewImage(type, deps.theme.id)}
-              alt=""
-              aria-hidden="true"
-              decoding="async"
-              className="h-6 w-6 object-contain"
             />
           ),
           onReset: (selected) => deps.onReset?.(selected),
@@ -103,15 +96,7 @@ export function createUnifiedChoreDescriptor(
       const action = createPresetTestPrimaryAction<UnifiedChoreItem>({
         choreType: type,
         stage,
-        icon: (
-          <img
-            src={getTaskTypeIcon(type, deps.theme.id)}
-            alt=""
-            aria-hidden="true"
-            decoding="async"
-            className="h-6 w-6 object-contain"
-          />
-        ),
+        icon: <ActionImage src={getTaskTypeIcon(type, deps.theme.id)} />,
         onReset: (selected) => deps.onReset?.(selected),
         onCheck: (selected) => deps.onCheck?.(type, selected.id),
         onStart: (selected) => enterOrComplete(deps, selected),
@@ -149,15 +134,7 @@ const createEatingPrimaryAction = (
   const action = createPresetDinnerPrimaryAction<UnifiedChoreItem>({
     stage,
     isTimerRunning: isActive,
-    icon: (
-      <img
-        src={eatingActionIcon(deps, isActive, isFinished)}
-        alt=""
-        aria-hidden="true"
-        decoding="async"
-        className="h-6 w-6 object-contain"
-      />
-    ),
+    icon: <ActionImage src={eatingActionIcon(deps, isActive, isFinished)} />,
     disabled: isActive && isCoolingDown,
     onReset: (selected) => deps.onReset?.(selected),
     onBite: (selected) => deps.onApplyBite?.(selected),

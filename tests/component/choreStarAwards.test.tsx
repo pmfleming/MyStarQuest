@@ -146,6 +146,14 @@ describe('chore completion star balances', () => {
       for (const chore of chores)
         documents.set(chorePath(chore.id), { ...chore, isRepeating })
       const actions = setup()
+      const teeth = storedChore('teeth')
+      documents.set(chorePath('teeth'), { ...teeth, childId: 'sibling' })
+      await expect(actions.completeChore(storedChore('teeth'))).rejects.toThrow(
+        'does not belong'
+      )
+      expect(balance()).toBe(10)
+      expect(events()).toHaveLength(0)
+      documents.set(chorePath('teeth'), teeth)
       await actions.completeChore(storedChore('teeth'))
       expect(balance()).toBe(12)
       await actions.completeChore(storedChore('tidy'))
@@ -185,26 +193,23 @@ describe('chore completion star balances', () => {
     expect(events()[0][1].delta).toBe(-2)
   })
 
-  it('awards no stars when dinner times out before completion', async () => {
+  it('awards no stars after a reset during the final bite or after dinner expires', async () => {
     const actions = setup()
+    const dinner = {
+      ...storedChore('dinner'),
+      manageDinnerBitesLeft: 1,
+    } as EatingTaskWithEphemeral
+    const pendingBite = actions.applyBite(dinner)
+    await actions.resetDinner(dinner)
+    await vi.advanceTimersByTimeAsync(850)
+    await expect(pendingBite).resolves.toBe(false)
+    expect(balance()).toBe(10)
+    expect(events()).toHaveLength(0)
     await actions.startDinnerTimer(storedChore('dinner'))
     await vi.advanceTimersByTimeAsync(600_000)
     await actions.expireDinnerTimer(storedChore('dinner'))
     await expect(actions.applyBite(storedChore('dinner'))).resolves.toBe(false)
     expect(balance()).toBe(10)
-    expect(events()).toHaveLength(0)
-  })
-
-  it('rejects another child’s chore without changing either balance', async () => {
-    documents.set(chorePath('teeth'), {
-      ...storedChore('teeth'),
-      childId: 'sibling',
-    })
-    await expect(setup().completeChore(storedChore('teeth'))).rejects.toThrow(
-      'does not belong'
-    )
-    expect(balance()).toBe(10)
-    expect(documents.get('users/parent/children/sibling')?.totalStars).toBe(50)
     expect(events()).toHaveLength(0)
   })
 })

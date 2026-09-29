@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "whole-project quality review 2026-09-25",
+    "command": "test reduction 2026-09-29",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-25T21:31:58.888Z",
+    "measured_at": "2026-09-29T11:07:17.255Z",
     "source_type": "static",
-    "source_set_hash": "sha256:9d1f380645a25c1c546c4790325f269708def79511c7af1e77e55611949c74fb",
-    "input_set_hash": "sha256:3b5f90b7db8bf91d9fd25807a5903956c9fbe100bc77e98e366992fa6f2ad6db"
+    "source_set_hash": "sha256:03e3712de41a0aed5a0899ac4bf9479f579449c3ea287d5c70d0a5734c67aa29",
+    "input_set_hash": "sha256:d81b4878c90a89ca7177b65a2911fb7a845c31f6414b5278cab8504de3b360f2"
   },
   "analysis_identity": {
-    "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
+    "id": "sha256:c01ef00e1d4e74cb78394240ad1df6e7fbab196cf307e324a0a5b17242a2fc63",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:d7a2f9de9588d08ba52ff587013c2c82e694ac782a88a8ea2bbbfe87bde6fb6c",
+    "config_closure_hash": "sha256:04fcdc06781e8e27ef9f0de267bf3e4be1e49764cd133006d8c504b5e7fa4b2f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -96,9 +96,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 65,
+    "tests": 62,
     "colocated_tests": 0,
-    "external_tests": 65,
+    "external_tests": 62,
     "execution_status": "passed",
     "execution_scope": "suite",
     "coverage_status": "not_collected"
@@ -128,7 +128,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/AppMenu.test.tsx",
@@ -154,7 +154,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/AsyncActions.test.tsx",
@@ -174,7 +174,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/AuthStartup.test.tsx",
@@ -206,7 +206,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/CreatureCollectionLoading.test.tsx",
@@ -255,7 +255,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/DragScrollRegion.test.tsx",
@@ -275,7 +275,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/ExpandableAgendaItem.test.tsx",
@@ -295,7 +295,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/FractionsTester.test.tsx",
@@ -313,11 +313,6 @@
           "confidence": "high"
         },
         {
-          "file": "src/components/ui/ActivityControls.tsx",
-          "kind": "type-only-import",
-          "confidence": "high"
-        },
-        {
           "file": "src/contexts/ThemeContext.tsx",
           "kind": "direct-import",
           "confidence": "high"
@@ -326,7 +321,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/LargeNumbersTester.test.tsx",
@@ -352,7 +347,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/LearningNavigation.test.tsx",
@@ -378,7 +373,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/ManageChildrenPage.test.tsx",
@@ -404,7 +399,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/RewardAvailableSummary.test.tsx",
@@ -447,7 +442,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/RewardCreationFlow.test.tsx",
@@ -473,7 +468,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/RewardsPage.test.tsx",
@@ -499,7 +494,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/SchoolCalendar.test.tsx",
@@ -549,7 +544,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/SchoolCalendarSync.test.tsx",
@@ -569,7 +564,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/StandardActionList.test.tsx",
@@ -578,8 +573,7 @@
       "framework": "vitest",
       "source_mapping": [
         "src/components/ui/StandardActionList.tsx",
-        "src/contexts/ThemeContext.tsx",
-        "src/ui/themeAssets.ts"
+        "src/contexts/ThemeContext.tsx"
       ],
       "source_associations": [
         {
@@ -591,17 +585,12 @@
           "file": "src/contexts/ThemeContext.tsx",
           "kind": "direct-import",
           "confidence": "high"
-        },
-        {
-          "file": "src/ui/themeAssets.ts",
-          "kind": "direct-import",
-          "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/TaskCelebration.test.tsx",
@@ -632,7 +621,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/TeeniepingTester.test.tsx",
@@ -664,7 +653,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/TheatreEvents.test.tsx",
@@ -673,8 +662,7 @@
       "framework": "vitest",
       "source_mapping": [
         "src/components/SchoolCalendar.tsx",
-        "src/contexts/ThemeContext.tsx",
-        "src/lib/theatreEvents.ts"
+        "src/contexts/ThemeContext.tsx"
       ],
       "source_associations": [
         {
@@ -691,17 +679,12 @@
           "file": "src/lib/schoolCalendarData.ts",
           "kind": "type-only-import",
           "confidence": "high"
-        },
-        {
-          "file": "src/lib/theatreEvents.ts",
-          "kind": "direct-import",
-          "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/TimeExplorerReset.test.tsx",
@@ -756,7 +739,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/TimeExplorerWeather.test.tsx",
@@ -787,7 +770,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/TrainingPhotos.test.tsx",
@@ -813,7 +796,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/androidOffline.test.tsx",
@@ -880,7 +863,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/animalSession.test.tsx",
@@ -906,7 +889,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/choreStarAwards.test.tsx",
@@ -931,7 +914,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/deferredGlobe.test.tsx",
@@ -956,7 +939,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/profileSync.test.tsx",
@@ -994,7 +977,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/tabNavigation.test.tsx",
@@ -1032,7 +1015,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/testActivityReset.test.tsx",
@@ -1076,38 +1059,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
-    },
-    {
-      "id": "test:tests/component/useChoreActivityActions.test.tsx",
-      "name": "useChoreActivityActions.test.tsx",
-      "path": "tests/component/useChoreActivityActions.test.tsx",
-      "framework": "vitest",
-      "source_mapping": [
-        "src/data/useChoreActivityActions.ts",
-        "src/lib/starActions.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/data/useChoreActivityActions.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/lib/starActions.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/data/types.ts",
-          "kind": "type-only-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "status": "not_run",
-      "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/useCoalescedDocumentUpdates.test.tsx",
@@ -1127,7 +1079,27 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
+    },
+    {
+      "id": "test:tests/component/useDinnerCountdownState.test.tsx",
+      "name": "useDinnerCountdownState.test.tsx",
+      "path": "tests/component/useDinnerCountdownState.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/hooks/useDinnerCountdownState.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/hooks/useDinnerCountdownState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/component/useTestsReset.test.tsx",
@@ -1177,7 +1149,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/e2e/fractions.spec.ts",
@@ -1189,7 +1161,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/e2e/offline.spec.ts",
@@ -1214,7 +1186,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/fixtures/fractions.tsx",
@@ -1281,7 +1253,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/fixtures/offline.ts",
@@ -1319,7 +1291,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/offline-browser/shell.spec.ts",
@@ -1339,7 +1311,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/setup/vitest.setup.ts",
@@ -1351,27 +1323,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
-    },
-    {
-      "id": "test:tests/unit/artworkSelection.test.ts",
-      "name": "artworkSelection.test.ts",
-      "path": "tests/unit/artworkSelection.test.ts",
-      "framework": "vitest",
-      "source_mapping": [
-        "src/assets/rewards/assets.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/assets/rewards/assets.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "status": "not_run",
-      "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/calendarSchedule.test.ts",
@@ -1397,7 +1349,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/currentExplorerCity.test.ts",
@@ -1417,7 +1369,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/dailyChoreFunctions.test.ts",
@@ -1429,7 +1381,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/importWebProgress.test.ts",
@@ -1461,7 +1413,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/lib/choreParser.test.ts",
@@ -1487,7 +1439,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/lib/earthTextureCache.test.ts",
@@ -1507,7 +1459,27 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
+    },
+    {
+      "id": "test:tests/unit/lib/fractionProblems.test.ts",
+      "name": "fractionProblems.test.ts",
+      "path": "tests/unit/lib/fractionProblems.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/lib/fractionProblems.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/lib/fractionProblems.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/lib/orbitCalendar.test.ts",
@@ -1539,47 +1511,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
-    },
-    {
-      "id": "test:tests/unit/lib/solar.test.ts",
-      "name": "solar.test.ts",
-      "path": "tests/unit/lib/solar.test.ts",
-      "framework": "vitest",
-      "source_mapping": [
-        "src/lib/solar.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/lib/solar.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "status": "not_run",
-      "suite_status": "passed",
-      "command_hint": "npm run test"
-    },
-    {
-      "id": "test:tests/unit/lib/today.test.ts",
-      "name": "today.test.ts",
-      "path": "tests/unit/lib/today.test.ts",
-      "framework": "vitest",
-      "source_mapping": [
-        "src/lib/today.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/lib/today.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "status": "not_run",
-      "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/lib/worldTopology.test.ts",
@@ -1599,7 +1531,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/offlineFirebaseTransport.test.ts",
@@ -1619,7 +1551,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/offlineRecovery.test.ts",
@@ -1656,7 +1588,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/offlineRuntime.test.ts",
@@ -1681,7 +1613,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/offlineStore.test.ts",
@@ -1718,7 +1650,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/offlineSync.test.ts",
@@ -1744,7 +1676,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/offlineWorker.test.ts",
@@ -1756,27 +1688,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
-    },
-    {
-      "id": "test:tests/unit/optimisticState.test.ts",
-      "name": "optimisticState.test.ts",
-      "path": "tests/unit/optimisticState.test.ts",
-      "framework": "vitest",
-      "source_mapping": [
-        "src/lib/optimisticState.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/lib/optimisticState.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "status": "not_run",
-      "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/schoolCalendar.test.ts",
@@ -1788,7 +1700,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/schoolCalendarEndpoint.test.ts",
@@ -1800,7 +1712,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/schoolCalendarStore.test.ts",
@@ -1832,7 +1744,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/starActions.test.ts",
@@ -1852,7 +1764,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/taskLimits.test.ts",
@@ -1872,7 +1784,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/timeExplorerStorage.test.ts",
@@ -1892,7 +1804,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/weatherData.test.ts",
@@ -1912,7 +1824,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     },
     {
       "id": "test:tests/unit/weatherStore.test.ts",
@@ -1938,7 +1850,7 @@
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
-      "command_hint": "npm run test"
+      "command_hint": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
     }
   ]
 }

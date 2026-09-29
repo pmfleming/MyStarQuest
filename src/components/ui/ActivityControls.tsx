@@ -227,12 +227,13 @@ export const ActivitySetupControls = ({
       {beforeProblemControl && isEditable && beforeProblemControl}
       {problemControl}
 
-      <StarRewardControl
+      <StarDisplay
         theme={theme}
-        starReward={starReward}
-        onStarsChange={onStarsChange}
-        max={starMax}
-        isEditable={isEditable}
+        count={starReward}
+        onChange={onStarsChange}
+        min={1}
+        max={starMax ?? 9}
+        editable={isEditable}
       />
     </div>
   )
@@ -352,42 +353,5 @@ const ProblemCountControl = ({
         )}
       </div>
     </div>
-  </div>
-)
-
-type StarRewardControlProps = {
-  theme: Theme
-  starReward: number
-  onStarsChange: (value: number) => void | Promise<void>
-  max?: number
-  style?: CSSProperties
-  isEditable?: boolean
-}
-
-export const StarRewardControl = ({
-  theme,
-  starReward,
-  onStarsChange,
-  max = 9,
-  style,
-  isEditable = true,
-}: StarRewardControlProps) => (
-  <div
-    className="flex flex-col items-center"
-    style={{
-      gap: 0,
-      width: CONTROL_ROW_WIDTH,
-      maxWidth: '100%',
-      ...style,
-    }}
-  >
-    <StarDisplay
-      theme={theme}
-      count={starReward}
-      editable={isEditable}
-      onChange={onStarsChange}
-      min={1}
-      max={max}
-    />
   </div>
 )

@@ -34,16 +34,22 @@ const deferred = () => {
 
 beforeEach(() => loadCollection.mockReset())
 
-it('loads on selection and ignores a late response for an older selection', async () => {
+it('retries a failed collection and ignores its late response after another selection', async () => {
   const insectRequest = deferred()
   const teenieRequest = deferred()
   loadCollection
+    .mockRejectedValueOnce(new Error('Offline'))
     .mockReturnValueOnce(insectRequest.promise)
     .mockReturnValueOnce(teenieRequest.promise)
-  render(<AnimalTester {...props()} />)
+  const p = props()
+  render(<AnimalTester {...p} />)
   expect(screen.getByAltText('Alpaca')).toBeInTheDocument()
   expect(loadCollection).not.toHaveBeenCalled()
-  fireEvent.click(screen.getByRole('radio', { name: 'Insects' }))
+  await act(async () =>
+    fireEvent.click(screen.getByRole('radio', { name: 'Insects' }))
+  )
+  expect(screen.getByRole('alert')).toHaveTextContent('Please try again')
+  fireEvent.click(screen.getByRole('button', { name: 'Try again' }))
   expect(screen.getByRole('status')).toHaveAccessibleName('Loading Insects')
   expect(screen.getByRole('status')).toHaveTextContent('')
   expect(screen.getByRole('radio', { name: 'Insects' })).toHaveAttribute(
@@ -64,26 +70,9 @@ it('loads on selection and ignores a late response for an older selection', asyn
   })
   expect(screen.getByAltText('Artping')).toBeInTheDocument()
   expect(screen.queryByRole('status')).not.toBeInTheDocument()
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  expect(p.onComplete).not.toHaveBeenCalled()
   expect(
     screen.getByRole('radio', { name: 'Teeniepings' })
   ).not.toHaveAttribute('aria-busy')
-})
-
-it('lets a failed collection retry without awarding or finishing a game', async () => {
-  loadCollection
-    .mockRejectedValueOnce(new Error('Offline'))
-    .mockResolvedValueOnce(insects)
-  const p = props()
-  render(<AnimalTester {...p} />)
-  await act(async () => {
-    fireEvent.click(screen.getByRole('radio', { name: 'Insects' }))
-  })
-  expect(screen.getByRole('alert')).toHaveTextContent('Please try again')
-  await act(async () => {
-    fireEvent.click(screen.getByRole('button', { name: 'Try again' }))
-  })
-  expect(screen.getByAltText('Ant')).toBeInTheDocument()
-  expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-  expect(loadCollection).toHaveBeenCalledTimes(2)
-  expect(p.onComplete).not.toHaveBeenCalled()
 })

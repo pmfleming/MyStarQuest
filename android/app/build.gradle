@@ -3,7 +3,12 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     namespace = "com.mystarquest.app"
-    compileSdk = rootProject.ext.compileSdkVersion
+    compileSdk {
+        version = release(rootProject.ext.compileSdkVersion) {
+            minorApiLevel = 2
+        }
+    }
+    buildToolsVersion = '37.0.0'
     sourceSets {
         // Share the exact offline seed with the web app; no separate native copy to drift.
         main.assets.srcDir '../../src/data/calendar'
@@ -48,15 +53,18 @@ dependencies {
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
     implementation project(':capacitor-android')
-    implementation 'androidx.work:work-runtime:2.11.2'
+    implementation 'androidx.work:work-runtime:2.12.0'
     
     // Firebase BoM and Google Sign-In dependencies
-    implementation platform('com.google.firebase:firebase-bom:34.11.0')
+    implementation platform('com.google.firebase:firebase-bom:34.19.0')
     implementation 'com.google.firebase:firebase-auth'
-    implementation 'com.google.android.gms:play-services-auth:21.5.1'
+    // Capacitor Firebase Authentication 8 uses GoogleSignIn, removed in 22.x.
+    implementation("com.google.android.gms:play-services-auth:$playServicesAuthVersion") {
+        version { strictly rootProject.ext.playServicesAuthVersion }
+    }
 
     testImplementation "junit:junit:$junitVersion"
-    testImplementation 'org.json:json:20250517'
+    testImplementation 'org.json:json:20260814'
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')

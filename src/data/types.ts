@@ -116,6 +116,7 @@ export const taskSnapshotDataSchema = z
     mathDifficulty: mathDifficultySchema.catch('easy'),
     largeNumbersTotalProblems: taskSnapshotValue(5),
     fractionsTotalProblems: taskSnapshotValue(5),
+    fractionsMaxDenominator: z.number().int().min(2).max(9).catch(4),
     pvTotalProblems: taskSnapshotValue(5),
     alphabetTotalProblems: taskSnapshotValue(5),
     spellingTotalProblems: taskSnapshotValue(5),
@@ -188,6 +189,7 @@ type LargeNumbersTask = TaskBase & {
 type FractionsTask = TaskBase & {
   taskType: 'fractions'
   fractionsTotalProblems: number
+  fractionsMaxDenominator?: number
 }
 type PositionalNotationTask = TaskBase & {
   taskType: 'positional-notation'
@@ -291,6 +293,7 @@ export type TaskUpdatableFields = Partial<{
   mathDifficulty: MathDifficulty
   largeNumbersTotalProblems: number
   fractionsTotalProblems: number
+  fractionsMaxDenominator: number
   pvTotalProblems: number
   alphabetTotalProblems: number
   spellingTotalProblems: number

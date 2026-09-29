@@ -14,16 +14,41 @@
   border: 2px solid transparent;
   padding-top: 48px;
 }
-.fraction-demonstration,
-.fraction-answer {
+.fraction-demonstration {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 18px;
 }
+.fraction-demonstration > .fraction-food-scene {
+  order: -1;
+  min-width: 0;
+}
+.fraction-demonstration > :not(.fraction-food-scene) {
+  flex-shrink: 0;
+}
 .fraction-answer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
   background: var(--fraction-paper);
   border: 2px dashed var(--fraction-colour);
+}
+.fraction-answer > .fraction-food-scene {
+  display: contents;
+}
+.fraction-answer .fraction-food-illustration {
+  grid-column: 1;
+  grid-row: 1;
+}
+.fraction-answer > [aria-live] {
+  grid-column: 2;
+  grid-row: 1;
+}
+.fraction-answer .fraction-piece-shortcuts {
+  grid-column: 1 / -1;
+  padding-top: 0;
 }
 .fraction-symbol {
   display: inline-flex;
@@ -43,43 +68,91 @@
   border-top: 3px solid var(--fraction-ink);
   padding: 4px 6px 0;
 }
-.fraction-bar {
+.fraction-limit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 700;
   width: 100%;
-  height: 72px;
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 1fr);
-  box-sizing: border-box;
-  border: 3px solid var(--fraction-ink);
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--fraction-paper);
 }
-.fraction-piece {
+.fraction-food-scene {
   position: relative;
-  flex: 1;
-  min-width: 0;
+  width: 100%;
+}
+.fraction-food-illustration {
+  position: relative;
+  aspect-ratio: 1;
+}
+.fraction-food-character {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+.fraction-food-crop {
+  width: min(100%, 130px);
+  overflow: hidden;
+  border-radius: 50%;
+}
+.fraction-food-crop .fraction-food-character {
+  position: absolute;
+}
+.fraction-food-pieces {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--fraction-ink);
+}
+.fraction-food-piece {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   border: 0;
   padding: 0;
-  background: transparent;
-  color: var(--fraction-ink);
+  background: rgb(255 255 255 / 78%);
+  color: #fff;
 }
-.fraction-piece + .fraction-piece {
-  border-left: 3px solid var(--fraction-ink);
-}
-button.fraction-piece {
+button.fraction-food-piece {
   cursor: pointer;
   touch-action: manipulation;
 }
-.fraction-fill {
+.fraction-food-piece.is-selected {
+  background: transparent;
+}
+.fraction-food-cuts {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  stroke: var(--fraction-ink);
+  stroke-width: 1.4;
+}
+.fraction-food-piece:focus-visible {
+  background: color-mix(in srgb, var(--fraction-colour) 55%, transparent);
+}
+.fraction-piece-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  padding-top: 12px;
+}
+.fraction-piece-shortcuts button {
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--fraction-colour);
+  border-radius: 12px;
+  background: var(--fraction-paper);
+  color: var(--fraction-ink);
+  font: 700 18px/1 sans-serif;
+}
+.fraction-piece-shortcuts button[aria-pressed='true'] {
   background: var(--fraction-colour);
   color: var(--fraction-paper);
-  font-family: sans-serif;
-  font-size: 24px;
 }
 .fraction-replay {
   position: absolute;
@@ -123,33 +196,14 @@ button.fraction-piece {
   outline: 3px solid var(--fraction-ink);
   outline-offset: 3px;
 }
-.fractions-activity .fraction-piece:focus-visible {
-  outline-offset: -6px;
-  z-index: 1;
-  outline-color: var(--fraction-colour);
-}
-.fractions-activity .fraction-piece[aria-pressed='true']:focus-visible {
-  outline-color: var(--fraction-paper);
-}
 .fractions-activity button:disabled {
   cursor: default;
 }
-.fraction-demo .fraction-piece + .fraction-piece {
-  animation: fraction-divide 0.8s 0.6s both;
-}
-.fraction-demo .fraction-fill {
-  animation: fraction-colour-in 0.7s 1.5s both;
+.fraction-demo .fraction-food-cuts {
+  animation: fraction-colour-in 0.8s 0.6s both;
 }
 .fraction-demo-symbol {
   animation: fraction-symbol-in 0.4s 2.2s both;
-}
-@keyframes fraction-divide {
-  from {
-    border-left-color: transparent;
-  }
-  to {
-    border-left-color: var(--fraction-ink);
-  }
 }
 @keyframes fraction-colour-in {
   from {

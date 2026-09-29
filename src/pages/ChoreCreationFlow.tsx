@@ -242,7 +242,6 @@ const ChoreCreationFlow = ({
             remaining: draftDinnerDurationSeconds,
             totalBites: draft.dinnerTotalBites,
             bitesLeft: draft.dinnerTotalBites,
-            starReward: draft.starValue,
             isTimerRunning: false,
             plateImage: getThemeAsset(theme.id, 'plateImage'),
             onAdjustTime: (delta) =>
@@ -259,8 +258,6 @@ const ChoreCreationFlow = ({
                   draft.dinnerTotalBites + delta
                 ),
               }),
-            onStarsChange: (starValue) => updateDraft({ starValue }),
-            showStarReward: false,
           })}
         </>
       )}

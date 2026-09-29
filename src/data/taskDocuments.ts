@@ -62,6 +62,7 @@ const TEST_TEMPLATES = {
     starValue: DEFAULT_FRACTIONS_STARS,
     taskType: 'fractions',
     fractionsTotalProblems: DEFAULT_FRACTIONS_PROBLEMS,
+    fractionsMaxDenominator: 4,
   },
   math: {
     title: 'Arithmetic',

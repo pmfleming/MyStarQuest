@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "whole-project quality review 2026-09-25",
+    "command": "test reduction 2026-09-29",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-25T21:31:59.873Z",
+    "measured_at": "2026-09-29T11:07:18.297Z",
     "source_type": "static",
-    "source_set_hash": "sha256:9d1f380645a25c1c546c4790325f269708def79511c7af1e77e55611949c74fb",
-    "input_set_hash": "sha256:98fa3649a77082890afa913df5b842007d18617ad4cf525a19cfb958f6291469"
+    "source_set_hash": "sha256:03e3712de41a0aed5a0899ac4bf9479f579449c3ea287d5c70d0a5734c67aa29",
+    "input_set_hash": "sha256:31fe27ca6ac66f43c89f13280eca1fffd9fc268a7ff4ab68b4e252b59f618415"
   },
   "analysis_identity": {
-    "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
+    "id": "sha256:c01ef00e1d4e74cb78394240ad1df6e7fbab196cf307e324a0a5b17242a2fc63",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:d7a2f9de9588d08ba52ff587013c2c82e694ac782a88a8ea2bbbfe87bde6fb6c",
+    "config_closure_hash": "sha256:04fcdc06781e8e27ef9f0de267bf3e4be1e49764cd133006d8c504b5e7fa4b2f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -896,14 +896,53 @@
       ]
     },
     {
-      "id": "leverage:src/components/FractionsTester",
-      "module_id": "src/components/FractionsTester",
-      "file": "src/components/FractionsTester.tsx",
+      "id": "leverage:src/components/FractionFood",
+      "module_id": "src/components/FractionFood",
+      "file": "src/components/FractionFood.tsx",
       "score": 0,
       "risk": "low",
       "leverage_score": 12,
       "inbound_reach": 1,
       "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/FractionFood",
+            "kind": "leverage",
+            "file": "src/components/FractionFood.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/FractionsTester",
+      "module_id": "src/components/FractionsTester",
+      "file": "src/components/FractionsTester.tsx",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 14,
+      "inbound_reach": 1,
+      "public_surface": 2,
       "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "local_dependency",
@@ -1055,20 +1094,15 @@
       "id": "leverage:src/components/PageShell",
       "module_id": "src/components/PageShell",
       "file": "src/components/PageShell.tsx",
-      "score": 12,
+      "score": 0,
       "risk": "low",
       "leverage_score": 22,
       "inbound_reach": 2,
       "public_surface": 1,
-      "weak_surface": 1,
+      "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "local_dependency",
-      "signals": [
-        {
-          "kind": "weak_public_surface",
-          "value": 1
-        }
-      ],
+      "signals": [],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "evidence_kind": "heuristic",
@@ -1613,45 +1647,6 @@
       ]
     },
     {
-      "id": "leverage:src/components/activities/LazyActivities",
-      "module_id": "src/components/activities/LazyActivities",
-      "file": "src/components/activities/LazyActivities.tsx",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 28,
-      "inbound_reach": 1,
-      "public_surface": 9,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/components/activities/LazyActivities",
-            "kind": "leverage",
-            "file": "src/components/activities/LazyActivities.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "leverage:src/components/animalTester/LearningNavigation",
       "module_id": "src/components/animalTester/LearningNavigation",
       "file": "src/components/animalTester/LearningNavigation.tsx",
@@ -1935,16 +1930,16 @@
       "file": "src/components/ui/ActionArtwork.tsx",
       "score": 0,
       "risk": "low",
-      "leverage_score": 42,
-      "inbound_reach": 4,
-      "public_surface": 1,
+      "leverage_score": 74,
+      "inbound_reach": 7,
+      "public_surface": 2,
       "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "shared_hub",
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 4
+          "value": 7
         }
       ],
       "kind": "leverage",
@@ -2102,15 +2097,15 @@
       "score": 0,
       "risk": "low",
       "leverage_score": 100,
-      "inbound_reach": 14,
-      "public_surface": 5,
+      "inbound_reach": 13,
+      "public_surface": 4,
       "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "shared_hub",
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 14
+          "value": 13
         }
       ],
       "kind": "leverage",
@@ -3165,8 +3160,8 @@
       "file": "src/components/ui/StarDisplay.tsx",
       "score": 0,
       "risk": "low",
-      "leverage_score": 72,
-      "inbound_reach": 7,
+      "leverage_score": 82,
+      "inbound_reach": 8,
       "public_surface": 1,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -3174,7 +3169,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 7
+          "value": 8
         }
       ],
       "kind": "leverage",
@@ -5696,20 +5691,15 @@
       "id": "leverage:src/features/dayNightExplorer/SpinningPlanet",
       "module_id": "src/features/dayNightExplorer/SpinningPlanet",
       "file": "src/features/dayNightExplorer/SpinningPlanet.tsx",
-      "score": 12,
+      "score": 0,
       "risk": "low",
       "leverage_score": 12,
       "inbound_reach": 1,
       "public_surface": 1,
-      "weak_surface": 1,
+      "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "local_dependency",
-      "signals": [
-        {
-          "kind": "weak_public_surface",
-          "value": 1
-        }
-      ],
+      "signals": [],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "evidence_kind": "heuristic",
@@ -7267,18 +7257,22 @@
       "id": "leverage:src/lib/calendarSchedule",
       "module_id": "src/lib/calendarSchedule",
       "file": "src/lib/calendarSchedule.ts",
-      "score": 0,
-      "risk": "low",
+      "score": 44,
+      "risk": "medium",
       "leverage_score": 100,
       "inbound_reach": 7,
       "public_surface": 15,
-      "weak_surface": 0,
+      "weak_surface": 2,
       "dead_export_surface": 0,
       "classification": "shared_hub",
       "signals": [
         {
           "kind": "broad_inbound_reach",
           "value": 7
+        },
+        {
+          "kind": "weak_public_surface",
+          "value": 2
         }
       ],
       "kind": "leverage",
@@ -7445,9 +7439,9 @@
       "file": "src/lib/fractionProblems.ts",
       "score": 12,
       "risk": "low",
-      "leverage_score": 22,
+      "leverage_score": 28,
       "inbound_reach": 1,
-      "public_surface": 6,
+      "public_surface": 9,
       "weak_surface": 1,
       "dead_export_surface": 0,
       "classification": "local_dependency",
@@ -9776,6 +9770,45 @@
       ]
     },
     {
+      "id": "leverage:src/ui/fractionFoodAssets",
+      "module_id": "src/ui/fractionFoodAssets",
+      "file": "src/ui/fractionFoodAssets.ts",
+      "score": 0,
+      "risk": "low",
+      "leverage_score": 24,
+      "inbound_reach": 2,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "leverage",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/fractionFoodAssets",
+            "kind": "leverage",
+            "file": "src/ui/fractionFoodAssets.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "leverage:src/ui/listDescriptorTypes",
       "module_id": "src/ui/listDescriptorTypes",
       "file": "src/ui/listDescriptorTypes.ts",
@@ -10187,7 +10220,7 @@
       "score": 0,
       "risk": "low",
       "leverage_score": 100,
-      "inbound_reach": 34,
+      "inbound_reach": 35,
       "public_surface": 7,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -10195,7 +10228,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 34
+          "value": 35
         }
       ],
       "kind": "leverage",
@@ -10231,7 +10264,7 @@
       "score": 0,
       "risk": "low",
       "leverage_score": 100,
-      "inbound_reach": 22,
+      "inbound_reach": 23,
       "public_surface": 4,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -10239,7 +10272,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 22
+          "value": 23
         }
       ],
       "kind": "leverage",
@@ -10385,45 +10418,6 @@
             "id": "leverage:src/ui/unifiedChoreItemRenderer",
             "kind": "leverage",
             "file": "src/ui/unifiedChoreItemRenderer.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "leverage:src/ui/unifiedChoreRenderUtils",
-      "module_id": "src/ui/unifiedChoreRenderUtils",
-      "file": "src/ui/unifiedChoreRenderUtils.ts",
-      "score": 0,
-      "risk": "low",
-      "leverage_score": 12,
-      "inbound_reach": 1,
-      "public_surface": 1,
-      "weak_surface": 0,
-      "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
-      "kind": "leverage",
-      "rule_id": "ts-react-quality-lens/leverage",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "leverage",
-      "reason_code": "ts-react-quality-lens/leverage",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "leverage:src/ui/unifiedChoreRenderUtils",
-            "kind": "leverage",
-            "file": "src/ui/unifiedChoreRenderUtils.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "whole-project quality review 2026-09-25",
+    "command": "test reduction 2026-09-29",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-25T21:31:58.686Z",
+    "measured_at": "2026-09-29T11:07:17.058Z",
     "source_type": "static",
-    "source_set_hash": "sha256:9d1f380645a25c1c546c4790325f269708def79511c7af1e77e55611949c74fb",
-    "input_set_hash": "sha256:ba71d323ed5f190b01bcf4ab1c5b1805e9aa1878a6da9b1691ed99aff9d51140"
+    "source_set_hash": "sha256:03e3712de41a0aed5a0899ac4bf9479f579449c3ea287d5c70d0a5734c67aa29",
+    "input_set_hash": "sha256:ebb2751530d7743c3ef66f48267a9ad91c05f102dda5d6a58e46e07a43a8041f"
   },
   "analysis_identity": {
-    "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
+    "id": "sha256:c01ef00e1d4e74cb78394240ad1df6e7fbab196cf307e324a0a5b17242a2fc63",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:d7a2f9de9588d08ba52ff587013c2c82e694ac782a88a8ea2bbbfe87bde6fb6c",
+    "config_closure_hash": "sha256:04fcdc06781e8e27ef9f0de267bf3e4be1e49764cd133006d8c504b5e7fa4b2f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -98,9 +98,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 65,
+    "tests": 62,
     "colocated_tests": 0,
-    "external_tests": 65,
+    "external_tests": 62,
     "execution_status": "passed",
     "execution_scope": "suite",
     "coverage_status": "not_collected",
@@ -108,7 +108,7 @@
   },
   "execution": {
     "status": "passed",
-    "command": "npm run test"
+    "command": "npm run test -- --reporter=json --outputFile=output/test-reduction/vitest-run-after.json"
   },
   "records": [],
   "tests": [
@@ -162,7 +162,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 11,
+      "assertions": 8,
       "skipped": 0,
       "todo": 0
     },
@@ -266,7 +266,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 16,
+      "assertions": 14,
       "skipped": 0,
       "todo": 0
     },
@@ -287,7 +287,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 8,
+      "assertions": 6,
       "skipped": 0,
       "todo": 0
     },
@@ -329,18 +329,13 @@
           "confidence": "high"
         },
         {
-          "file": "src/components/ui/ActivityControls.tsx",
-          "kind": "type-only-import",
-          "confidence": "high"
-        },
-        {
           "file": "src/contexts/ThemeContext.tsx",
           "kind": "direct-import",
           "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 12,
+      "assertions": 20,
       "skipped": 0,
       "todo": 0
     },
@@ -570,7 +565,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 22,
+      "assertions": 23,
       "skipped": 0,
       "todo": 0
     },
@@ -603,8 +598,7 @@
       "locality": "external",
       "source_mapping": [
         "src/components/ui/StandardActionList.tsx",
-        "src/contexts/ThemeContext.tsx",
-        "src/ui/themeAssets.ts"
+        "src/contexts/ThemeContext.tsx"
       ],
       "source_associations": [
         {
@@ -616,15 +610,10 @@
           "file": "src/contexts/ThemeContext.tsx",
           "kind": "direct-import",
           "confidence": "high"
-        },
-        {
-          "file": "src/ui/themeAssets.ts",
-          "kind": "direct-import",
-          "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 21,
+      "assertions": 5,
       "skipped": 0,
       "todo": 0
     },
@@ -656,7 +645,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 7,
+      "assertions": 2,
       "skipped": 0,
       "todo": 0
     },
@@ -701,8 +690,7 @@
       "locality": "external",
       "source_mapping": [
         "src/components/SchoolCalendar.tsx",
-        "src/contexts/ThemeContext.tsx",
-        "src/lib/theatreEvents.ts"
+        "src/contexts/ThemeContext.tsx"
       ],
       "source_associations": [
         {
@@ -719,15 +707,10 @@
           "file": "src/lib/schoolCalendarData.ts",
           "kind": "type-only-import",
           "confidence": "high"
-        },
-        {
-          "file": "src/lib/theatreEvents.ts",
-          "kind": "direct-import",
-          "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 15,
+      "assertions": 5,
       "skipped": 0,
       "todo": 0
     },
@@ -963,7 +946,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 19,
+      "assertions": 21,
       "skipped": 0,
       "todo": 0
     },
@@ -989,7 +972,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 15,
+      "assertions": 10,
       "skipped": 0,
       "todo": 0
     },
@@ -1117,38 +1100,6 @@
       "todo": 0
     },
     {
-      "id": "test:tests/component/useChoreActivityActions.test.tsx",
-      "name": "useChoreActivityActions.test.tsx",
-      "path": "tests/component/useChoreActivityActions.test.tsx",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [
-        "src/data/useChoreActivityActions.ts",
-        "src/lib/starActions.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/data/useChoreActivityActions.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/lib/starActions.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        },
-        {
-          "file": "src/data/types.ts",
-          "kind": "type-only-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "assertions": 3,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
       "id": "test:tests/component/useCoalescedDocumentUpdates.test.tsx",
       "name": "useCoalescedDocumentUpdates.test.tsx",
       "path": "tests/component/useCoalescedDocumentUpdates.test.tsx",
@@ -1166,6 +1117,27 @@
       ],
       "coverage_status": "not_collected",
       "assertions": 6,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:tests/component/useDinnerCountdownState.test.tsx",
+      "name": "useDinnerCountdownState.test.tsx",
+      "path": "tests/component/useDinnerCountdownState.test.tsx",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/hooks/useDinnerCountdownState.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/hooks/useDinnerCountdownState.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 7,
       "skipped": 0,
       "todo": 0
     },
@@ -1229,7 +1201,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 10,
+      "assertions": 16,
       "skipped": 0,
       "todo": 0
     },
@@ -1401,27 +1373,6 @@
       "todo": 0
     },
     {
-      "id": "test:tests/unit/artworkSelection.test.ts",
-      "name": "artworkSelection.test.ts",
-      "path": "tests/unit/artworkSelection.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [
-        "src/assets/rewards/assets.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/assets/rewards/assets.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "assertions": 4,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
       "id": "test:tests/unit/calendarSchedule.test.ts",
       "name": "calendarSchedule.test.ts",
       "path": "tests/unit/calendarSchedule.test.ts",
@@ -1444,7 +1395,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 6,
+      "assertions": 25,
       "skipped": 0,
       "todo": 0
     },
@@ -1465,7 +1416,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 6,
+      "assertions": 1,
       "skipped": 0,
       "todo": 0
     },
@@ -1564,6 +1515,27 @@
       "todo": 0
     },
     {
+      "id": "test:tests/unit/lib/fractionProblems.test.ts",
+      "name": "fractionProblems.test.ts",
+      "path": "tests/unit/lib/fractionProblems.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [
+        "src/lib/fractionProblems.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/lib/fractionProblems.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 12,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
       "id": "test:tests/unit/lib/orbitCalendar.test.ts",
       "name": "orbitCalendar.test.ts",
       "path": "tests/unit/lib/orbitCalendar.test.ts",
@@ -1585,48 +1557,6 @@
           "kind": "direct-import",
           "confidence": "high"
         },
-        {
-          "file": "src/lib/today.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "assertions": 8,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:tests/unit/lib/solar.test.ts",
-      "name": "solar.test.ts",
-      "path": "tests/unit/lib/solar.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [
-        "src/lib/solar.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/lib/solar.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "assertions": 12,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:tests/unit/lib/today.test.ts",
-      "name": "today.test.ts",
-      "path": "tests/unit/lib/today.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [
-        "src/lib/today.ts"
-      ],
-      "source_associations": [
         {
           "file": "src/lib/today.ts",
           "kind": "direct-import",
@@ -1778,7 +1708,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 14,
+      "assertions": 7,
       "skipped": 0,
       "todo": 0
     },
@@ -1818,28 +1748,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 8,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:tests/unit/optimisticState.test.ts",
-      "name": "optimisticState.test.ts",
-      "path": "tests/unit/optimisticState.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [
-        "src/lib/optimisticState.ts"
-      ],
-      "source_associations": [
-        {
-          "file": "src/lib/optimisticState.ts",
-          "kind": "direct-import",
-          "confidence": "high"
-        }
-      ],
-      "coverage_status": "not_collected",
-      "assertions": 5,
+      "assertions": 6,
       "skipped": 0,
       "todo": 0
     },
@@ -1852,7 +1761,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 10,
+      "assertions": 6,
       "skipped": 0,
       "todo": 0
     },
@@ -1898,7 +1807,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 14,
+      "assertions": 13,
       "skipped": 0,
       "todo": 0
     },
@@ -1940,7 +1849,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 16,
+      "assertions": 3,
       "skipped": 0,
       "todo": 0
     },
@@ -1982,7 +1891,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 8,
+      "assertions": 5,
       "skipped": 0,
       "todo": 0
     },

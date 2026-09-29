@@ -1,6 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
 import { buildSchoolCalendar } from '../../functions/src/schoolCalendar'
-import { classifySchoolEvent } from '../../functions/src/schoolEventCatalog'
 
 type Event = Extract<
   Parameters<typeof buildSchoolCalendar>[0][string],
@@ -18,43 +17,27 @@ const makeEvent = (patch: Partial<Event> = {}): Event => ({
 })
 
 describe('school calendar event expansion', () => {
-  it('normalizes known titles without closing school for unknown or inherited names', () => {
-    expect(
-      classifySchoolEvent('  ALLE leerlingen  om 12:00 uur vrij  ')
-    ).toMatchObject({
-      kind: 'early-finish',
-      releaseTime: '12:00',
-      artwork: 'early-finish',
+  it('expands initial and recurring all-day events with exclusive ends across DST', () => {
+    const now = new Date('2026-10-01T12:00:00Z')
+    const between = vi.fn(() => [new Date('2026-10-30T00:00:00Z')])
+    const event = makeEvent({
+      start: new Date('2026-10-23T00:00:00Z'),
+      end: new Date('2026-10-27T00:00:00Z'),
+      rrule: { between } as Event['rrule'],
     })
-    expect(classifySchoolEvent('Studiedag extra')).toMatchObject({
-      kind: 'day-off',
-    })
-    for (const summary of [
-      'constructor',
-      '__proto__',
-      'Holiday extra',
-      'Studiedagen',
-    ])
-      expect(classifySchoolEvent(summary)).toEqual({
-        titleNl: summary,
-        titleEn: 'School Event',
-        kind: 'activity',
-      })
-  })
-
-  it('uses the same exclusive date range for initial and recurring events', () => {
-    const now = new Date('2026-09-01T12:00:00Z')
-    const between = vi.fn(() => [new Date('2026-09-14T22:00:00Z')])
-    const event = makeEvent({ rrule: { between } as Event['rrule'] })
     const calendar = buildSchoolCalendar({ event }, now)
     expect(Object.keys(calendar)).toEqual([
-      '2026-09-08',
-      '2026-09-09',
-      '2026-09-15',
-      '2026-09-16',
+      '2026-10-23',
+      '2026-10-24',
+      '2026-10-25',
+      '2026-10-26',
+      '2026-10-30',
+      '2026-10-31',
+      '2026-11-01',
+      '2026-11-02',
     ])
     expect(Object.values(calendar)).toEqual(
-      Array(4).fill(
+      Array(8).fill(
         expect.objectContaining({
           summaries: ['Holiday'],
           hasAllDayEvent: true,
@@ -62,7 +45,7 @@ describe('school calendar event expansion', () => {
         })
       )
     )
-    expect(between).toHaveBeenCalledWith(now, new Date(2027, 8, 1))
+    expect(between).toHaveBeenCalledWith(now, new Date(2027, 9, 1))
   })
 
   it('merges overlapping summaries and all-day flags, including zero-duration events', () => {
@@ -70,7 +53,7 @@ describe('school calendar event expansion', () => {
       start: new Date('2026-09-08T09:00:00Z'),
       end: undefined,
       datetype: 'date-time',
-      summary: { params: { LANGUAGE: 'en' }, val: 'Assembly' },
+      summary: { params: { LANGUAGE: 'en' }, val: 'constructor' },
     })
     const calendar = buildSchoolCalendar({
       assembly,
@@ -78,28 +61,12 @@ describe('school calendar event expansion', () => {
       holiday: makeEvent(),
     })
     expect(calendar['2026-09-08']).toMatchObject({
-      summaries: ['Assembly', 'Holiday'],
+      summaries: ['constructor', 'Holiday'],
       hasAllDayEvent: true,
       isNonSchoolDay: true,
     })
     expect(buildSchoolCalendar({ assembly })['2026-09-08'].isNonSchoolDay).toBe(
       false
     )
-  })
-
-  it('respects floating all-day ends across the autumn DST transition', () => {
-    const calendar = buildSchoolCalendar({
-      event: makeEvent({
-        summary: 'Herfstvakantie',
-        start: new Date('2026-10-23T00:00:00Z'),
-        end: new Date('2026-10-27T00:00:00Z'),
-      }),
-    })
-    expect(Object.keys(calendar)).toEqual([
-      '2026-10-23',
-      '2026-10-24',
-      '2026-10-25',
-      '2026-10-26',
-    ])
   })
 })

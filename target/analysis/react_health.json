@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "whole-project quality review 2026-09-25",
+    "command": "test reduction 2026-09-29",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-25T21:32:09.829Z",
+    "measured_at": "2026-09-29T11:07:27.238Z",
     "source_type": "static",
-    "source_set_hash": "sha256:9d1f380645a25c1c546c4790325f269708def79511c7af1e77e55611949c74fb",
-    "input_set_hash": "sha256:983e03a486d4ab1a42a2670aa49e54d6124cd548ddd88f0d3c22fde460c0f67a"
+    "source_set_hash": "sha256:03e3712de41a0aed5a0899ac4bf9479f579449c3ea287d5c70d0a5734c67aa29",
+    "input_set_hash": "sha256:66b79fe388adc2759e5fac2685190f4803a2b47389aba2406c192ad15f4dc345"
   },
   "analysis_identity": {
-    "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
+    "id": "sha256:c01ef00e1d4e74cb78394240ad1df6e7fbab196cf307e324a0a5b17242a2fc63",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:d7a2f9de9588d08ba52ff587013c2c82e694ac782a88a8ea2bbbfe87bde6fb6c",
+    "config_closure_hash": "sha256:04fcdc06781e8e27ef9f0de267bf3e4be1e49764cd133006d8c504b5e7fa4b2f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -108,13 +108,13 @@
     "stale_input": []
   },
   "summary": {
-    "components": 139,
-    "records": 150,
+    "components": 140,
+    "records": 149,
     "hook_lint_findings": 0,
-    "a11y_findings": 10,
-    "a11y_tool_findings": 10,
+    "a11y_findings": 8,
+    "a11y_tool_findings": 8,
     "a11y_heuristic_findings": 0,
-    "high_risk_components": 30
+    "high_risk_components": 28
   },
   "framework": {
     "framework": "vite",
@@ -1071,7 +1071,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "CountdownVisualRow",
-      "line": 95,
+      "line": 94,
       "score": 4,
       "risk": "low",
       "signals": [],
@@ -1106,7 +1106,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "CountdownStepperControl",
-      "line": 122,
+      "line": 121,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -1141,7 +1141,7 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "CountdownClockDisplay",
-      "line": 163,
+      "line": 162,
       "score": 71,
       "risk": "high",
       "signals": [
@@ -1187,13 +1187,13 @@
       "module_id": "src/components/DinnerCountdown",
       "file": "src/components/DinnerCountdown.tsx",
       "name": "DinnerCountdown",
-      "line": 627,
-      "score": 71,
-      "risk": "high",
+      "line": 614,
+      "score": 63,
+      "risk": "medium",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 148
+          "value": 139
         }
       ],
       "kind": "component",
@@ -1208,12 +1208,6 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -1264,11 +1258,51 @@
       ]
     },
     {
+      "id": "component:src/components/FractionFood:FractionFood",
+      "module_id": "src/components/FractionFood",
+      "file": "src/components/FractionFood.tsx",
+      "name": "FractionFood",
+      "line": 36,
+      "score": 54,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "render_branch_complexity",
+          "value": 5
+        }
+      ],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/FractionFood:FractionFood",
+            "kind": "component",
+            "file": "src/components/FractionFood.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/FractionsTester:FractionSymbol",
       "module_id": "src/components/FractionsTester",
       "file": "src/components/FractionsTester.tsx",
       "name": "FractionSymbol",
-      "line": 18,
+      "line": 27,
       "score": 4,
       "risk": "low",
       "signals": [],
@@ -1299,48 +1333,13 @@
       ]
     },
     {
-      "id": "component:src/components/FractionsTester:ExampleBar",
-      "module_id": "src/components/FractionsTester",
-      "file": "src/components/FractionsTester.tsx",
-      "name": "ExampleBar",
-      "line": 35,
-      "score": 11,
-      "risk": "low",
-      "signals": [],
-      "kind": "component",
-      "rule_id": "ts-react-quality-lens/component",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "component",
-      "reason_code": "ts-react-quality-lens/component",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "component:src/components/FractionsTester:ExampleBar",
-            "kind": "component",
-            "file": "src/components/FractionsTester.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "component:src/components/FractionsTester:FractionResponse",
       "module_id": "src/components/FractionsTester",
       "file": "src/components/FractionsTester.tsx",
       "name": "FractionResponse",
-      "line": 72,
-      "score": 35,
-      "risk": "medium",
+      "line": 57,
+      "score": 26,
+      "risk": "low",
       "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
@@ -1369,21 +1368,56 @@
       ]
     },
     {
+      "id": "component:src/components/FractionsTester:FractionExample",
+      "module_id": "src/components/FractionsTester",
+      "file": "src/components/FractionsTester.tsx",
+      "name": "FractionExample",
+      "line": 133,
+      "score": 27,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/FractionsTester:FractionExample",
+            "kind": "component",
+            "file": "src/components/FractionsTester.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/FractionsTester:FractionsTester",
       "module_id": "src/components/FractionsTester",
       "file": "src/components/FractionsTester.tsx",
       "name": "FractionsTester",
-      "line": 156,
-      "score": 138,
+      "line": 213,
+      "score": 141,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 177
+          "value": 173
         },
         {
           "kind": "many_hooks",
-          "value": 8
+          "value": 10
         }
       ],
       "kind": "component",
@@ -2310,11 +2344,46 @@
       ]
     },
     {
+      "id": "component:src/components/ui/ActionArtwork:ActionImage",
+      "module_id": "src/components/ui/ActionArtwork",
+      "file": "src/components/ui/ActionArtwork.tsx",
+      "name": "ActionImage",
+      "line": 5,
+      "score": 2,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/ActionArtwork:ActionImage",
+            "kind": "component",
+            "file": "src/components/ui/ActionArtwork.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/ui/ActionArtwork:ActionArtwork",
       "module_id": "src/components/ui/ActionArtwork",
       "file": "src/components/ui/ActionArtwork.tsx",
       "name": "ActionArtwork",
-      "line": 5,
+      "line": 15,
       "score": 3,
       "risk": "low",
       "signals": [],
@@ -2559,7 +2628,7 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ActivityPlayArea",
-      "line": 255,
+      "line": 256,
       "score": 12,
       "risk": "low",
       "signals": [],
@@ -2594,7 +2663,7 @@
       "module_id": "src/components/ui/ActivityControls",
       "file": "src/components/ui/ActivityControls.tsx",
       "name": "ProblemCountControl",
-      "line": 303,
+      "line": 304,
       "score": 23,
       "risk": "low",
       "signals": [],
@@ -2617,41 +2686,6 @@
           "config_key": "suppressions",
           "value": {
             "id": "component:src/components/ui/ActivityControls:ProblemCountControl",
-            "kind": "component",
-            "file": "src/components/ui/ActivityControls.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "component:src/components/ui/ActivityControls:StarRewardControl",
-      "module_id": "src/components/ui/ActivityControls",
-      "file": "src/components/ui/ActivityControls.tsx",
-      "name": "StarRewardControl",
-      "line": 367,
-      "score": 5,
-      "risk": "low",
-      "signals": [],
-      "kind": "component",
-      "rule_id": "ts-react-quality-lens/component",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "component",
-      "reason_code": "ts-react-quality-lens/component",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "component:src/components/ui/ActivityControls:StarRewardControl",
             "kind": "component",
             "file": "src/components/ui/ActivityControls.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3896,13 +3930,13 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ActionCard",
-      "line": 74,
-      "score": 113,
+      "line": 75,
+      "score": 111,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 146
+          "value": 138
         }
       ],
       "kind": "component",
@@ -3942,7 +3976,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListMessage",
-      "line": 241,
+      "line": 234,
       "score": 3,
       "risk": "low",
       "signals": [],
@@ -3977,7 +4011,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListFooter",
-      "line": 269,
+      "line": 262,
       "score": 41,
       "risk": "medium",
       "signals": [],
@@ -4012,7 +4046,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "StandardActionList",
-      "line": 339,
+      "line": 332,
       "score": 47,
       "risk": "medium",
       "signals": [],
@@ -4047,7 +4081,7 @@
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "StarIcon",
-      "line": 70,
+      "line": 89,
       "score": 7,
       "risk": "low",
       "signals": [],
@@ -4082,9 +4116,9 @@
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "FieldVariant",
-      "line": 109,
-      "score": 73,
-      "risk": "high",
+      "line": 158,
+      "score": 34,
+      "risk": "low",
       "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
@@ -4098,12 +4132,6 @@
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
       "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -4123,8 +4151,8 @@
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "CompactCountVariant",
-      "line": 215,
-      "score": 10,
+      "line": 221,
+      "score": 6,
       "risk": "low",
       "signals": [],
       "kind": "component",
@@ -4158,7 +4186,7 @@
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "StarStepper",
-      "line": 302,
+      "line": 262,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -4193,8 +4221,8 @@
       "module_id": "src/components/ui/StarDisplay",
       "file": "src/components/ui/StarDisplay.tsx",
       "name": "StarDisplay",
-      "line": 328,
-      "score": 36,
+      "line": 288,
+      "score": 39,
       "risk": "medium",
       "signals": [],
       "kind": "component",
@@ -5013,12 +5041,12 @@
       "file": "src/pages/ChoreCreationFlow.tsx",
       "name": "ChoreCreationFlow",
       "line": 115,
-      "score": 71,
+      "score": 70,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 171
+          "value": 168
         }
       ],
       "kind": "component",
@@ -5514,101 +5542,7 @@
       ]
     },
     {
-      "id": "eslint-plugin-jsx-a11y:91f2858:1",
-      "rule_id": "jsx-a11y/click-events-have-key-events",
-      "kind": "a11y_click_events_have_key_events",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/DinnerCountdown",
-      "file": "src/components/DinnerCountdown.tsx",
-      "line": 566,
-      "column": 17,
-      "end_line": 577,
-      "end_column": 19,
-      "score": 60,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "eslint-plugin-jsx-a11y",
-      "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener.",
-      "signals": [
-        {
-          "kind": "a11y_click_events_have_key_events",
-          "message": "Visible, non-interactive elements with click handlers must have at least one keyboard listener."
-        }
-      ],
-      "fingerprint": "91f2858",
-      "occurrence": 1,
-      "reason_code": "jsx-a11y/click-events-have-key-events",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this a11y_click_events_have_key_events finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "eslint-plugin-jsx-a11y:91f2858:1",
-            "kind": "a11y_click_events_have_key_events",
-            "file": "src/components/DinnerCountdown.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "eslint-plugin-jsx-a11y:3b0098fb:1",
-      "rule_id": "jsx-a11y/no-noninteractive-element-interactions",
-      "kind": "a11y_no_noninteractive_element_interactions",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/DinnerCountdown",
-      "file": "src/components/DinnerCountdown.tsx",
-      "line": 566,
-      "column": 17,
-      "end_line": 577,
-      "end_column": 19,
-      "score": 60,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "eslint-plugin-jsx-a11y",
-      "message": "Non-interactive elements should not be assigned mouse or keyboard event listeners.",
-      "signals": [
-        {
-          "kind": "a11y_no_noninteractive_element_interactions",
-          "message": "Non-interactive elements should not be assigned mouse or keyboard event listeners."
-        }
-      ],
-      "fingerprint": "3b0098fb",
-      "occurrence": 1,
-      "reason_code": "jsx-a11y/no-noninteractive-element-interactions",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this a11y_no_noninteractive_element_interactions finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "eslint-plugin-jsx-a11y:3b0098fb:1",
-            "kind": "a11y_no_noninteractive_element_interactions",
-            "file": "src/components/DinnerCountdown.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "eslint-plugin-jsx-a11y:204a3e20:1",
+      "id": "eslint-plugin-jsx-a11y:9fd4b312:1",
       "rule_id": "jsx-a11y/role-supports-aria-props",
       "kind": "a11y_role_supports_aria_props",
       "evidence_kind": "tool-rule",
@@ -5632,7 +5566,7 @@
           "message": "The attribute aria-description is not supported by the role button."
         }
       ],
-      "fingerprint": "204a3e20",
+      "fingerprint": "9fd4b312",
       "occurrence": 1,
       "reason_code": "jsx-a11y/role-supports-aria-props",
       "workspace_id": "mystarquest",
@@ -5646,7 +5580,7 @@
           "description": "Keep this a11y_role_supports_aria_props finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "eslint-plugin-jsx-a11y:204a3e20:1",
+            "id": "eslint-plugin-jsx-a11y:9fd4b312:1",
             "kind": "a11y_role_supports_aria_props",
             "file": "src/components/ExpandableAgendaItem.tsx",
             "reason": "Intentional finding; document the project-specific reason."

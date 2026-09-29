@@ -30,7 +30,6 @@ export const renderEatingContent = (
     remaining: getManageDinnerRemaining(item),
     totalBites: item.dinnerTotalBites ?? DEFAULT_DINNER_BITES,
     bitesLeft: getManageDinnerBitesLeft(item),
-    starReward: item.starValue,
     isTimerRunning: isActive,
     timerStartedAt: item.manageDinnerTimerStartedAt,
     plateImage: state.themedAsset(getThemeAsset(deps.theme.id, 'plateImage')),
@@ -42,6 +41,5 @@ export const renderEatingContent = (
     biteCooldownEndsAt: deps.biteCooldownEndsAt,
     biteIcon: state.themedAsset(deps.activeMealIcon),
     showSetupControls: false,
-    showStarReward: false,
   })
 }

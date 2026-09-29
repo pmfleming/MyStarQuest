@@ -146,7 +146,7 @@ describe('test completion star awards', () => {
     })
   })
 
-  it('awards math again after a same-day reset and deduplicates completion callbacks', async () => {
+  it('deduplicates attempts while allowing a same-day reset and the next day’s attempt', async () => {
     const taskType = 'math' as const
 
     documents.set(taskPath, { childId: 'child', taskType })
@@ -173,18 +173,17 @@ describe('test completion star awards', () => {
     expect(documents.get(childPath)?.totalStars).toBe(16)
     expect(events()).toHaveLength(2)
     expect(events()[0]).toEqual(firstEvent)
-  })
 
-  it('allows the next day’s test attempt without an explicit reset', async () => {
-    documents.set(taskPath, {
-      childId: 'child',
-      taskType: 'math',
-      lastAttemptedAt: 1000,
-      lastAttemptDateKey: '2026-09-12',
-      lastAttemptOutcome: 'success',
-    })
-    expect((await completeTaskAndAwardStars(options)).appliedDelta).toBe(3)
-    expect(documents.get(childPath)?.totalStars).toBe(13)
+    const nextDay = {
+      ...options,
+      dateKey: '2026-09-14',
+      updates: {
+        ...options.updates,
+        lastAttemptDateKey: '2026-09-14',
+      },
+    }
+    expect((await completeTaskAndAwardStars(nextDay)).appliedDelta).toBe(3)
+    expect(documents.get(childPath)?.totalStars).toBe(19)
   })
 
   it('creates a built-in test and awards its first completion only once', async () => {

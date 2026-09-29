@@ -27,8 +27,11 @@ const saved = (): SchoolCalendarSnapshot => ({
   checkedAt: seed.checkedAt + 1000,
 })
 
-it('releases a stalled native refresh and accepts a later retry without late overwrite', async () => {
+it('recovers a stalled native refresh, ignores older results and accepts background updates', async () => {
   let finish!: (value: SchoolCalendarSnapshot) => void
+  let finishRead!: (value: SchoolCalendarSnapshot) => void
+  let deliver!: (value: SchoolCalendarSnapshot) => void
+  const remove = vi.fn()
   const refresh = vi
     .fn()
     .mockImplementationOnce(
@@ -40,9 +43,16 @@ it('releases a stalled native refresh and accepts a later retry without late ove
     .mockResolvedValue({ data: changed, checkedAt: Date.now() })
   const store = createSchoolCalendarStore({
     refresh,
-    read: async () => saved(),
-    subscribe: async () => () => {},
+    read: () =>
+      new Promise((resolve) => {
+        finishRead = resolve
+      }),
+    subscribe: async (listener) => {
+      deliver = listener
+      return remove
+    },
   })
+  const stop = store.start()
   const pending = store.refresh(true)
   await vi.advanceTimersByTimeAsync(35_000)
   await pending
@@ -50,8 +60,16 @@ it('releases a stalled native refresh and accepts a later retry without late ove
   await store.refresh(true)
   expect(store.getSnapshot().data).toEqual(changed)
   finish(saved())
+  finishRead(saved())
   await Promise.resolve()
   expect(store.getSnapshot().data).toEqual(changed)
+  deliver({ data: original, checkedAt: Date.now() + 1000 })
+  expect(store.getSnapshot().data).toEqual(original)
+  expect(readSavedSchoolCalendar()?.data).toEqual(original)
+  expect(fetch).not.toHaveBeenCalled()
+  stop()
+  await Promise.resolve()
+  expect(remove).toHaveBeenCalledOnce()
 })
 
 beforeEach(() => {
@@ -79,7 +97,7 @@ afterEach(async () => {
   localStorage.clear()
 })
 
-it('shows the saved copy immediately while a refresh is pending, then replaces it including deletions', async () => {
+it('shows saved data during refresh, persists deletions and survives an invalid response', async () => {
   localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(saved()))
   let resolve!: (value: Response) => void
   vi.mocked(fetch).mockImplementation(
@@ -97,48 +115,9 @@ it('shows the saved copy immediately while a refresh is pending, then replaces i
   expect(readSavedSchoolCalendar()?.data).toEqual(changed)
   // A new process/store reads the durable replacement, not the removed date.
   expect(createSchoolCalendarStore().getSnapshot().data).toEqual(changed)
-})
-
-it('retains the saved snapshot and check time after a schema failure', async () => {
-  localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(saved()))
+  const accepted = readSavedSchoolCalendar()
   vi.mocked(fetch).mockResolvedValue(response({ error: 'unavailable' }))
-  const store = createSchoolCalendarStore()
-  stops.push(store.start())
-  await store.refresh()
-  expect(store.getSnapshot()).toMatchObject({ ...saved(), loadError: true })
-  expect(readSavedSchoolCalendar()).toEqual(saved())
-})
-
-it('receives native background updates and ignores an older native read', async () => {
-  let deliver!: (value: SchoolCalendarSnapshot) => void
-  let finishRead!: (value: SchoolCalendarSnapshot) => void
-  const remove = vi.fn()
-  const native = {
-    read: vi.fn(
-      () =>
-        new Promise<SchoolCalendarSnapshot>((resolve) => {
-          finishRead = resolve
-        })
-    ),
-    refresh: vi
-      .fn()
-      .mockResolvedValue({ data: changed, checkedAt: Date.now() }),
-    subscribe: vi.fn(async (listener: typeof deliver) => {
-      deliver = listener
-      return remove
-    }),
-  }
-  const store = createSchoolCalendarStore(native)
-  const stop = store.start()
-  await store.refresh()
-  finishRead(saved())
-  await Promise.resolve()
-  expect(store.getSnapshot().data).toEqual(changed)
-  deliver({ data: original, checkedAt: Date.now() + 1000 })
-  expect(store.getSnapshot().data).toEqual(original)
-  expect(readSavedSchoolCalendar()?.data).toEqual(original)
-  expect(fetch).not.toHaveBeenCalled()
-  stop()
-  await Promise.resolve()
-  expect(remove).toHaveBeenCalledOnce()
+  await store.refresh(true)
+  expect(store.getSnapshot()).toMatchObject({ ...accepted, loadError: true })
+  expect(readSavedSchoolCalendar()).toEqual(accepted)
 })

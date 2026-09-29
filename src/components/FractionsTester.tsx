@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState, type CSSProperties } from 'react'
 import { useActivityChallenge } from '../hooks/useActivityChallenge'
 import {
-  FRACTION_CHOICES,
+  DEFAULT_FRACTION_MAX,
+  normalizeFractionMax,
+  getFractionChoices,
   fractionLabel,
   getFractionProblem,
   type Fraction,
@@ -9,10 +11,17 @@ import {
   type FractionProblem,
 } from '../lib/fractionProblems'
 import type { ActivityChoreProps } from './ui/ActivityControls'
+import StarDisplay from './ui/StarDisplay'
+import { getThemeAsset } from '../ui/themeAssets'
 import CrownDifficultyControl from './ui/CrownDifficultyControl'
 import MathActivityShell from './ui/MathActivityShell'
 import MathActivityPlayArea from './ui/MathActivityPlayArea'
 import { getActivityFeedbackAnimationStyles } from './ui/activityAnimationStyles'
+import FractionFood from './FractionFood'
+import {
+  getFractionFood,
+  type FractionFoodAsset,
+} from '../ui/fractionFoodAssets'
 import './FractionsTester.css'
 
 function FractionSymbol({ numerator, denominator }: Fraction) {
@@ -32,30 +41,6 @@ function FractionSymbol({ numerator, denominator }: Fraction) {
   )
 }
 
-function ExampleBar({
-  numerator,
-  denominator,
-  animate,
-}: Fraction & { animate: boolean }) {
-  return (
-    <div
-      className={`fraction-bar fraction-example ${animate ? 'fraction-demo' : ''}`}
-      role="img"
-      aria-label={`Example: ${fractionLabel({ numerator, denominator })}`}
-    >
-      {Array.from({ length: denominator }, (_, index) => (
-        <span className="fraction-piece" key={index}>
-          {index < numerator && (
-            <span className="fraction-fill">
-              <span>✓</span>
-            </span>
-          )}
-        </span>
-      ))}
-    </div>
-  )
-}
-
 type FractionAnswer = {
   selected: number[]
   choice: Fraction | null
@@ -72,6 +57,8 @@ const EMPTY_ANSWER: FractionAnswer = {
 function FractionResponse({
   problem,
   problemIndex,
+  food,
+  choices,
   answer: { selected, choice },
   isCorrect,
   isWrong,
@@ -79,6 +66,8 @@ function FractionResponse({
 }: {
   problem: FractionProblem
   problemIndex: number
+  food: FractionFoodAsset
+  choices: Fraction[]
   answer: FractionAnswer
   isCorrect: boolean
   isWrong: boolean
@@ -96,13 +85,16 @@ function FractionResponse({
     >
       {recognising ? (
         <>
-          {FRACTION_CHOICES.map((fraction) => (
+          {choices.map((fraction) => (
             <button
               type="button"
               key={`${fraction.numerator}/${fraction.denominator}`}
               className="fraction-choice"
               aria-label={fractionLabel(fraction)}
-              aria-pressed={choice === fraction}
+              aria-pressed={
+                choice?.numerator === fraction.numerator &&
+                choice?.denominator === fraction.denominator
+              }
               disabled={isCorrect}
               onClick={() => updateAnswer({ choice: fraction })}
             >
@@ -112,35 +104,20 @@ function FractionResponse({
         </>
       ) : (
         <>
-          <div
-            className="fraction-bar"
-            role="group"
-            aria-label={`${problem.denominator} equal pieces; tap to colour`}
-          >
-            {Array.from({ length: problem.denominator }, (_, index) => (
-              <button
-                type="button"
-                className="fraction-piece"
-                key={`${problemIndex}-${index}`}
-                aria-label={`Piece ${index + 1} of ${problem.denominator}`}
-                aria-pressed={selected.includes(index)}
-                disabled={isCorrect}
-                onClick={() =>
-                  updateAnswer({
-                    selected: selected.includes(index)
-                      ? selected.filter((piece) => piece !== index)
-                      : [...selected, index],
-                  })
-                }
-              >
-                {selected.includes(index) && (
-                  <span className="fraction-fill">
-                    <span aria-hidden="true">✓</span>
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
+          <FractionFood
+            key={problemIndex}
+            asset={food}
+            denominator={problem.denominator}
+            selected={selected}
+            disabled={isCorrect}
+            onToggle={(index) =>
+              updateAnswer({
+                selected: selected.includes(index)
+                  ? selected.filter((piece) => piece !== index)
+                  : [...selected, index],
+              })
+            }
+          />
           <div aria-live="polite" aria-atomic="true">
             <FractionSymbol
               numerator={selected.length}
@@ -153,8 +130,96 @@ function FractionResponse({
   )
 }
 
-export default function FractionsTester(props: ActivityChoreProps) {
+function FractionExample({
+  problem,
+  food,
+  showHint,
+  animationKey,
+  disabled,
+  onReplay,
+}: {
+  problem: FractionProblem
+  food: FractionFoodAsset
+  showHint: boolean
+  animationKey: string
+  disabled: boolean
+  onReplay: () => void
+}) {
+  const recognising = problem.mode === 'recognise'
+  const showExample = problem.mode === 'copy' || recognising || showHint
+  const showSymbol = !recognising || showHint
+  return (
+    <div
+      className="fraction-target"
+      role="group"
+      aria-label={
+        recognising
+          ? 'Match the shaded fraction'
+          : `Build ${fractionLabel(problem)}`
+      }
+    >
+      <button
+        type="button"
+        className="fraction-replay"
+        onClick={onReplay}
+        disabled={disabled}
+        aria-label="Replay fraction example"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          aria-hidden="true"
+        >
+          <path d="M4 10a8 8 0 1 1 1 8M4 4v6h6" />
+        </svg>
+      </button>
+      <div className="fraction-demonstration" key={animationKey}>
+        {showSymbol && (
+          <div
+            className={
+              showExample && !recognising ? 'fraction-demo-symbol' : ''
+            }
+          >
+            <FractionSymbol {...problem} />
+          </div>
+        )}
+        {showExample && (
+          <FractionFood
+            asset={food}
+            denominator={problem.denominator}
+            selected={Array.from(
+              { length: problem.numerator },
+              (_, index) => index
+            )}
+            foodOnly={!recognising}
+            animate={!recognising || showHint}
+            label={`Example: ${fractionLabel(problem)}`}
+          />
+        )}
+      </div>
+    </div>
+  )
+}
+
+export type FractionsTesterProps = ActivityChoreProps & {
+  maxDenominator?: number
+  onMaxDenominatorChange?: (value: number) => void | Promise<void>
+}
+
+export default function FractionsTester(props: FractionsTesterProps) {
   const { theme, isRunning } = props
+  const [localMaximum, setLocalMaximum] = useState(DEFAULT_FRACTION_MAX)
+  const maximum = normalizeFractionMax(props.maxDenominator ?? localMaximum)
+  const changeMaximum = (next: number) => {
+    const value = normalizeFractionMax(next)
+    if (props.onMaxDenominatorChange) return props.onMaxDenominatorChange(value)
+    setLocalMaximum(value)
+  }
+  const [roundMaximum, setRoundMaximum] = useState(maximum)
   const [difficulty, setDifficulty] = useState<FractionDifficulty>('guided')
   const [started, setStarted] = useState(false)
   const [answer, setAnswer] = useState(EMPTY_ANSWER)
@@ -166,7 +231,10 @@ export default function FractionsTester(props: ActivityChoreProps) {
     setStarted(false)
     setAnswer(EMPTY_ANSWER)
   }, [])
-  const start = useCallback(() => setStarted(true), [])
+  const start = useCallback(() => {
+    setRoundMaximum(maximum)
+    setStarted(true)
+  }, [maximum])
   const challenge = useActivityChallenge({
     ...props,
     // This is a teaching activity: mistakes always lead to another attempt.
@@ -188,11 +256,10 @@ export default function FractionsTester(props: ActivityChoreProps) {
     consumeCheckTrigger,
     resetFeedback,
   } = challenge
-  const problem = getFractionProblem(problemIndex, difficulty)
+  const problem = getFractionProblem(problemIndex, difficulty, roundMaximum)
   const recognising = problem.mode === 'recognise'
+  const food = getFractionFood(theme.id, problemIndex, recognising)
   const showHint = replay > 0 || retryCount - missesBeforeProblem >= 2
-  const showExample = problem.mode === 'copy' || recognising || showHint
-  const showSymbol = !recognising || showHint
   const correct = recognising
     ? choice !== null &&
       choice.numerator * problem.denominator ===
@@ -208,9 +275,6 @@ export default function FractionsTester(props: ActivityChoreProps) {
     consumeCheckTrigger(correct, advance)
   }, [consumeCheckTrigger, correct, advance])
 
-  const replayExample = () => {
-    updateAnswer({ replay: replay + 1 })
-  }
   const style: CSSProperties & Record<`--fraction-${string}`, string> = {
     '--fraction-ink': theme.colors.text,
     '--fraction-colour': theme.colors.primary,
@@ -230,16 +294,41 @@ export default function FractionsTester(props: ActivityChoreProps) {
         isSetup={isSetup}
         animationStyles={getActivityFeedbackAnimationStyles('fractions')}
         difficultyControl={
-          <CrownDifficultyControl
-            theme={theme}
-            value={difficulty}
-            options={[
-              { value: 'guided', label: 'Build fractions', crowns: 1 },
-              { value: 'recognise', label: 'Recognise fractions', crowns: 2 },
-            ]}
-            onChange={setDifficulty}
-            ariaLabel="Fraction activity"
-          />
+          <>
+            <CrownDifficultyControl
+              theme={theme}
+              value={difficulty}
+              options={[
+                { value: 'guided', label: 'Build fractions', crowns: 1 },
+                { value: 'recognise', label: 'Recognise fractions', crowns: 2 },
+                {
+                  value: 'advanced',
+                  label: 'Fractions with several pieces',
+                  crowns: 3,
+                },
+              ]}
+              onChange={setDifficulty}
+              ariaLabel="Fraction activity"
+            />
+            <div
+              className="fraction-limit"
+              role="group"
+              aria-label="Maximum denominator"
+            >
+              <StarDisplay
+                theme={theme}
+                count={maximum}
+                iconSrc={getThemeAsset(theme.id, 'difficultyIcon')}
+                valueLabel={`Maximum denominator: ${maximum}`}
+                decreaseLabel="Decrease maximum denominator"
+                increaseLabel="Increase maximum denominator"
+                editable={props.isEditable !== false}
+                onChange={changeMaximum}
+                min={2}
+                max={9}
+              />
+            </div>
+          </>
         }
       >
         {isRunning && (
@@ -251,52 +340,14 @@ export default function FractionsTester(props: ActivityChoreProps) {
             isWrong={false}
             retryCount={retryCount}
           >
-            <div
-              className="fraction-target"
-              role="group"
-              aria-label={
-                recognising
-                  ? 'Match the shaded fraction'
-                  : `Build ${fractionLabel(problem)}`
-              }
-            >
-              <button
-                type="button"
-                className="fraction-replay"
-                onClick={replayExample}
-                disabled={isCorrect}
-                aria-label="Replay fraction example"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  aria-hidden="true"
-                >
-                  <path d="M4 10a8 8 0 1 1 1 8M4 4v6h6" />
-                </svg>
-              </button>
-              <div
-                className="fraction-demonstration"
-                key={`${problemIndex}-${replay}-${showHint}`}
-              >
-                {showSymbol && (
-                  <div
-                    className={
-                      showExample && !recognising ? 'fraction-demo-symbol' : ''
-                    }
-                  >
-                    <FractionSymbol {...problem} />
-                  </div>
-                )}
-                {showExample && (
-                  <ExampleBar {...problem} animate={!recognising || showHint} />
-                )}
-              </div>
-            </div>
+            <FractionExample
+              problem={problem}
+              food={food}
+              showHint={showHint}
+              animationKey={`${problemIndex}-${replay}-${showHint}`}
+              disabled={isCorrect}
+              onReplay={() => updateAnswer({ replay: replay + 1 })}
+            />
             <svg
               className="fraction-down"
               viewBox="0 0 24 24"
@@ -312,6 +363,8 @@ export default function FractionsTester(props: ActivityChoreProps) {
             <FractionResponse
               problem={problem}
               problemIndex={problemIndex}
+              food={food}
+              choices={getFractionChoices(problem, roundMaximum)}
               answer={answer}
               isCorrect={isCorrect}
               isWrong={isWrong}

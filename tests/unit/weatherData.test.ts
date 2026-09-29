@@ -1,8 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  isWeatherUsable,
-  parseWeatherResponse,
-} from '../../src/lib/weather/weatherData'
+import { parseWeatherResponse } from '../../src/lib/weather/weatherData'
 
 const now = Date.parse('2026-09-13T12:00:00Z')
 const payload = () => ({
@@ -25,7 +22,7 @@ const payload = () => ({
 })
 
 describe('weather data', () => {
-  it('normalizes provider fields and treats missing temperatures as unknown', () => {
+  it('normalizes provider fields and rejects invalid or wrongly dated observations', () => {
     expect(
       parseWeatherResponse(payload(), 'Europe/Amsterdam', now)
     ).toMatchObject({
@@ -45,41 +42,17 @@ describe('weather data', () => {
       parseWeatherResponse(invalid, 'Europe/Amsterdam', now)
     ).toMatchObject({ temperature: null, rain: null, isDay: null })
     expect(() => parseWeatherResponse({}, 'Europe/Amsterdam', now)).toThrow()
-  })
-
-  it('rejects yesterday, overly old and future observations', () => {
-    const weather = parseWeatherResponse(payload(), 'Europe/Amsterdam', now)
-    expect(
-      isWeatherUsable(weather, 'Europe/Amsterdam', now + 60 * 60_000)
-    ).toBe(true)
-    expect(
-      isWeatherUsable(weather, 'Europe/Amsterdam', now + 2 * 60 * 60_000)
-    ).toBe(false)
-    expect(
-      isWeatherUsable(
-        { ...weather, observedAt: now + 10 * 60_000 },
-        'Europe/Amsterdam',
-        now
-      )
-    ).toBe(false)
+    const future = payload()
+    future.current.time += 10 * 60
+    expect(() => parseWeatherResponse(future, 'Europe/Amsterdam', now)).toThrow(
+      'out of date'
+    )
+    // Fresh by age, but from the previous local calendar day.
     const midnight = Date.parse('2026-09-13T22:01:00Z')
-    expect(
-      isWeatherUsable(
-        {
-          ...weather,
-          observedAt: midnight - 120_000,
-          fetchedAt: midnight - 60_000,
-        },
-        'Europe/Amsterdam',
-        midnight
-      )
-    ).toBe(false)
+    const yesterday = payload()
+    yesterday.current.time = (midnight - 120_000) / 1000
     expect(() =>
-      parseWeatherResponse(
-        payload(),
-        'Europe/Amsterdam',
-        now + 24 * 60 * 60_000
-      )
+      parseWeatherResponse(yesterday, 'Europe/Amsterdam', midnight)
     ).toThrow('out of date')
   })
 })

@@ -189,6 +189,7 @@ This section defines domain limits displayed and edited by cards. These are data
 | Value                             | Minimum | Maximum | Stored fields                                                                                                                                 |
 | --------------------------------- | ------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | Stars assigned to a chore or test |       1 |       9 | `starValue`                                                                                                                                   |
+| Fractions maximum denominator     |       2 |       9 | `fractionsMaxDenominator`                                                                                                                     |
 | Dinner plate slices               |       1 |      20 | `dinnerTotalBites`                                                                                                                            |
 | Test activity items               |       1 |       9 | `mathTotalProblems`, `largeNumbersTotalProblems`, `pvTotalProblems`, `alphabetTotalProblems`, `spellingTotalProblems`, `animalsTotalProblems` |
 
@@ -201,6 +202,16 @@ An activity item means one configured unit the child completes inside an activit
 - Before enforcement is released, existing persisted out-of-range values must be migrated with `min(maximum, max(1, round(value)))`, where maximum is 9 for stars/tests and 20 for dinner slices; missing or non-finite values become 1. The migration must be explicit and testable, not a silent write during ordinary reads.
 - The limits apply equally to create and edit flows and to every theme.
 - Cards displaying these values must show the actual numeric value without abbreviation or reliance on imagery alone.
+
+### Fractions
+
+- Level one teaches building unit fractions; level two recognises unit fractions. Level three recognises fractions with numerators from 2 to one less than the denominator. A maximum denominator of 2 keeps all levels on 1/2.
+
+- The maximum denominator reuses the editable `StarDisplay` counting control, bounded from 2 through 9, with its icon replaced by a crown or royal Teenieping symbol. Its label and numeric value remain available to screen readers. It defaults to 4 for new and existing activities.
+- Save the selected denominator with the activity. Every puzzle and answer option must remain within that limit. A running round keeps its starting limit until reset.
+- Use Yumyumping with pizza, Sweetping with strawberry cake and Tangyping with citrus tart in the Teenieping theme; use corresponding princess illustrations in the Princess theme.
+- Render equal interactive slices over each food. Provide numbered 44px controls when there are more than four slices, while keeping direct slice tapping and keyboard access.
+- Artwork sources and exact generation prompts are recorded in `docs/assets/fractions-food-artwork.json`.
 
 ## 11. Edit and Delete Utilities
 

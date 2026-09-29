@@ -6,7 +6,6 @@ import StepperButton from './ui/StepperButton'
 import { getStepperEdgePositionStyle } from './ui/stepperLayout'
 import { uiTokens } from '../tokens'
 import { useDinnerCountdownState } from '../hooks/useDinnerCountdownState'
-import { StarRewardControl } from './ui/ActivityControls'
 import { MAX_DINNER_SLICES, MIN_DINNER_SLICES } from '../data/taskLimits'
 import MealPlateReveal from './MealPlateReveal'
 import { getThemeAsset, hasIllustratedTheme } from '../ui/themeAssets'
@@ -361,7 +360,6 @@ type CountdownPlateDisplayOptions = {
   liveCooldown: number
   totalCooldownSeconds: number
   biteIcon?: string
-  onBiteIconClick?: () => void
 }
 
 const renderCountdownPlateDisplay = ({
@@ -375,7 +373,6 @@ const renderCountdownPlateDisplay = ({
   liveCooldown,
   totalCooldownSeconds,
   biteIcon,
-  onBiteIconClick,
 }: CountdownPlateDisplayOptions) => (
   <div style={{ position: 'relative', width: '100%' }}>
     <svg
@@ -450,10 +447,8 @@ const renderCountdownPlateDisplay = ({
                         PLATE_RADIUS
                       )}
                       fill="none"
-                      stroke={
-                        theme.id === 'teenie' ? '#C997DD' : theme.colors.primary
-                      }
-                      strokeWidth={theme.id === 'teenie' ? 1.25 : 4}
+                      stroke={theme.colors.primary}
+                      strokeWidth={4}
                     />
                   </>
                 ) : (
@@ -567,12 +562,10 @@ const renderCountdownPlateDisplay = ({
                   src={biteIcon}
                   alt="Chewing..."
                   className="animate-bounce"
-                  onClick={onBiteIconClick}
                   style={{
                     width: 64,
                     height: 64,
                     objectFit: 'contain',
-                    cursor: onBiteIconClick ? 'pointer' : 'default',
                   }}
                 />
               )}
@@ -593,13 +586,11 @@ export interface DinnerCountdownProps {
   remaining: number
   totalBites: number
   bitesLeft: number
-  starReward: number
   isTimerRunning: boolean
   /** Optional plate background image URL (themed) */
   plateImage?: string
   onAdjustTime?: (delta: number) => void | Promise<void>
   onAdjustBites?: (delta: number) => void | Promise<void>
-  onStarsChange?: (value: number) => void | Promise<void>
   /** Triggered when the timer runs out */
   onExpire?: () => void | Promise<void>
   /** Optional image to show when all bites are eaten (themed) */
@@ -616,12 +607,8 @@ export interface DinnerCountdownProps {
   timerStartedAt?: number | null
   /** Icon shown during bite cooldown (themed) */
   biteIcon?: string
-  /** Optional test hook to cycle cooldown icon while visible */
-  onBiteIconClick?: () => void
   /** Hide the +/- setup controls around the timer and plate */
   showSetupControls?: boolean
-  /** Hide the editable star reward block */
-  showStarReward?: boolean
 }
 
 const DinnerCountdown = ({
@@ -630,12 +617,10 @@ const DinnerCountdown = ({
   remaining,
   totalBites,
   bitesLeft,
-  starReward,
   isTimerRunning,
   plateImage,
   onAdjustTime = () => {},
   onAdjustBites = () => {},
-  onStarsChange = () => {},
   onExpire,
   completionImage,
   isCompleted = false,
@@ -644,9 +629,7 @@ const DinnerCountdown = ({
   biteCooldownEndsAt,
   timerStartedAt,
   biteIcon,
-  onBiteIconClick,
   showSetupControls = true,
-  showStarReward = true,
 }: DinnerCountdownProps) => {
   const {
     animSlice,
@@ -769,7 +752,6 @@ const DinnerCountdown = ({
               liveCooldown,
               totalCooldownSeconds,
               biteIcon,
-              onBiteIconClick,
             })}
 
             <CountdownStepperControl
@@ -782,14 +764,6 @@ const DinnerCountdown = ({
               isSetup={isSetup}
             />
           </CountdownVisualRow>
-
-          {showStarReward && isSetup && (
-            <StarRewardControl
-              theme={theme}
-              starReward={starReward}
-              onStarsChange={onStarsChange}
-            />
-          )}
         </>
       )}
     </div>

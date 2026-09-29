@@ -26,7 +26,6 @@ import {
 } from './presetChoreRenderers'
 import type { UnifiedChoreDeps } from './unifiedChoreDescriptorTypes'
 import type { UnifiedChoreState } from './unifiedChoreState'
-import { clamp } from './unifiedChoreRenderUtils'
 
 type TestTaskItem = Extract<TaskWithEphemeral, { taskType: TestType }>
 type ProblemField = Extract<keyof TaskUpdatableFields, `${string}TotalProblems`>
@@ -94,18 +93,9 @@ export const renderTestContent = (
     fields[activity.problemField] ?? activity.defaultProblems
   const failureModeEnabled = deps.testFailureModeEnabled !== false
   const outcomeImages = state.testOutcomeImages()
-  const render =
-    item.taskType === 'math'
-      ? (props: ActivityChoreProps) =>
-          renderArithmeticChore({
-            ...props,
-            difficulty: item.mathDifficulty ?? 'easy',
-            onDifficultyChange: (difficulty) =>
-              deps.onUpdateTaskField?.(item.id, { mathDifficulty: difficulty }),
-          })
-      : activity.render
-
-  return render({
+  const update = (patch: TaskUpdatableFields) =>
+    deps.onUpdateTaskField?.(item.id, patch)
+  const props: ActivityChoreProps = {
     theme: deps.theme,
     totalProblems,
     starReward: item.starValue,
@@ -117,16 +107,32 @@ export const renderTestContent = (
       ephemeral[manageOutcomeFieldByType[type]] === 'failure',
     failureModeEnabled,
     onAdjustProblems: (delta) =>
-      deps.onUpdateTaskField?.(item.id, {
-        [activity.problemField]: clamp(totalProblems + delta, 1, 9),
+      update({
+        [activity.problemField]: Math.max(
+          1,
+          Math.min(9, totalProblems + delta)
+        ),
       }),
-    onStarsChange: (starValue) =>
-      deps.onUpdateTaskField?.(item.id, { starValue }),
+    onStarsChange: (starValue) => update({ starValue }),
     onExit: deps.onExitActivity,
     onComplete: () => deps.onComplete?.(item),
     onFail: failureModeEnabled ? () => deps.onFail?.(item) : undefined,
     checkTrigger: deps.checkTriggers[type]?.[item.id] ?? 0,
     completionImage: outcomeImages.completionImage,
     failureImage: failureModeEnabled ? outcomeImages.failureImage : undefined,
-  })
+  }
+  if (item.taskType === 'math')
+    return renderArithmeticChore({
+      ...props,
+      difficulty: item.mathDifficulty ?? 'easy',
+      onDifficultyChange: (mathDifficulty) => update({ mathDifficulty }),
+    })
+  if (item.taskType === 'fractions')
+    return renderFractionsChore({
+      ...props,
+      maxDenominator: item.fractionsMaxDenominator ?? 4,
+      onMaxDenominatorChange: (fractionsMaxDenominator) =>
+        update({ fractionsMaxDenominator }),
+    })
+  return activity.render(props)
 }

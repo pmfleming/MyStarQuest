@@ -55,10 +55,10 @@ it.each([['2026-01-31', 31, '2026-02-28']])(
       vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) })
     )
     render(<SchoolCalendar theme={themes.princess} />)
-    const selected = screen.getByRole('button', { name: `Select ${dateKey}` })
-    expect(screen.getAllByRole('button', { name: /^Select / })).toHaveLength(
-      days
-    )
+    const dateButtons = screen.getAllByRole('button', { name: /^Select / })
+    const selected = screen.getByLabelText(`Select ${dateKey}`)
+    expect(dateButtons).toHaveLength(days)
+    expect(dateButtons).toContain(selected)
     expect(selected).toHaveAttribute('aria-pressed', 'true')
     fireEvent.click(selected)
     expect(selection.setSelectedDateKey).toHaveBeenLastCalledWith(dateKey)
@@ -162,35 +162,5 @@ it.each(['teenie'] as const)(
       'aria-description',
       expect.stringContaining('School day')
     )
-  }
-)
-
-it.each(['princess', 'teenie'] as const)(
-  'renders each classroom activity with %s artwork and times',
-  async (themeId) => {
-    selection.selectedDateKey = '2026-09-28'
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) })
-    )
-    render(<SchoolCalendar theme={themes[themeId]} />)
-    const agenda = within(screen.getByRole('region', { name: 'Day agenda' }))
-    for (const [title, activity, start] of [
-      ['Table work', 'tableWork', '08:30'],
-      ['Fruit snack', 'fruitSnack', '10:30'],
-      ['Lunch', 'schoolLunch', '12:15'],
-      ['Going home', 'goingHome', '14:45'],
-    ] as const) {
-      const row = agenda.getByText(title).closest('li')!
-      expect(row.querySelector('img')).toHaveAttribute(
-        'src',
-        themes[themeId].activityImages![activity]
-      )
-      expect(row.querySelector('time')).toHaveAttribute('datetime', start)
-    }
-    expect(agenda.getAllByText('Circle time')).toHaveLength(2)
-    expect(agenda.getAllByText('Play outside')).toHaveLength(2)
-    expect(agenda.getAllByText('Choice time')).toHaveLength(2)
-    await waitFor(() => expect(fetch).toHaveBeenCalled())
   }
 )

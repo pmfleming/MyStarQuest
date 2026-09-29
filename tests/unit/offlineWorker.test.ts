@@ -91,20 +91,13 @@ function worker() {
   return { maps, fetch, event, caches }
 }
 
-it('discards a failed installation without removing the working version', async () => {
-  const sw = worker()
-  sw.fetch.mockRejectedValueOnce(new Error('Disconnected'))
-  await expect(sw.event('install').done).rejects.toThrow('Disconnected')
-  expect(sw.maps.has('msq-shell-old')).toBe(true)
-  expect(sw.maps.has('msq-shell-new')).toBe(false)
-})
-
-it('rejects hosting HTML fallbacks for missing scripts', async () => {
+it('rejects a broken deployment without removing the working offline version', async () => {
   const sw = worker()
   sw.fetch.mockResolvedValue(
     new Response('<html/>', { headers: { 'Content-Type': 'text/html' } })
   )
   await expect(sw.event('install').done).rejects.toThrow('Unexpected HTML')
+  expect(sw.maps.has('msq-shell-old')).toBe(true)
   expect(sw.maps.has('msq-shell-new')).toBe(false)
 })
 

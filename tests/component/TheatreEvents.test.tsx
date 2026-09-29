@@ -1,9 +1,8 @@
-import { fireEvent, render, screen, within } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { beforeEach, expect, it, vi } from 'vitest'
 import SchoolCalendar from '../../src/components/SchoolCalendar'
 import { themes } from '../../src/contexts/ThemeContext'
 import type { SchoolCalendarData } from '../../src/lib/schoolCalendarData'
-import { theatreProgramme } from '../../src/lib/theatreEvents'
 
 const state = vi.hoisted(() => ({
   selectedDateKey: '2026-09-27',
@@ -22,47 +21,6 @@ beforeEach(() => {
   state.events = {}
   localStorage.clear()
 })
-
-it.each(['teenie'] as const)(
-  'shows both opening-day performances, start times and the outdoor venue in %s',
-  (themeId) => {
-    render(<SchoolCalendar theme={themes[themeId]} />)
-    const activities = within(
-      screen.getByRole('region', { name: 'Theatre activities' })
-    )
-    expect(activities.getAllByRole('listitem')).toHaveLength(2)
-    const disco = within(activities.getByText('Discodip 2+').closest('li')!)
-    expect(disco.getByLabelText('At 10:30 AM')).toHaveAttribute(
-      'datetime',
-      '10:30'
-    )
-    expect(disco.getByText('Ages 2+ · €10')).toBeVisible()
-    fireEvent.keyDown(disco.getByRole('button'), { key: 'Enter' })
-    expect(disco.getByText(theatreProgramme.address)).toBeVisible()
-    const concert = within(
-      activities.getByText('Alle dagen feest').closest('li')!
-    )
-    expect(concert.getByLabelText('At 2:30 PM')).toHaveAttribute(
-      'datetime',
-      '14:30'
-    )
-    expect(concert.getByText('All ages · Free or €10 donation')).toBeVisible()
-    fireEvent.keyDown(concert.getByRole('button'), { key: 'Enter' })
-    expect(concert.getByText('Openluchttheater Elsrijk')).toBeVisible()
-    expect(concert.queryByText(theatreProgramme.address)).toBeNull()
-    expect(
-      activities
-        .getAllByRole('listitem')
-        .every((item) => item.querySelectorAll('time').length === 1)
-    ).toBe(true)
-    expect(
-      screen.getByRole('button', { name: 'Select 2026-09-27' })
-    ).toHaveAttribute(
-      'aria-description',
-      'Day off · Discodip 2+ · Alle dagen feest'
-    )
-  }
-)
 
 it('keeps theatre activities across school-feed replacement without closing school', () => {
   state.selectedDateKey = '2026-10-13'

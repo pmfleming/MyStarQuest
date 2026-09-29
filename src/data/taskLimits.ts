@@ -48,25 +48,25 @@ export const assertDinnerSliceCount = (value: unknown, fieldName: string) =>
 export const clampDinnerSliceCount = (value: number) =>
   clampInteger(value, MIN_DINNER_SLICES, MAX_DINNER_SLICES)
 
-const LIMITED_TASK_FIELDS = new Set([
-  'starValue',
-  'mathTotalProblems',
-  'largeNumbersTotalProblems',
-  'fractionsTotalProblems',
-  'pvTotalProblems',
-  'alphabetTotalProblems',
-  'spellingTotalProblems',
-  'animalsTotalProblems',
+const TASK_BOUNDS: readonly [number, number] = [MIN_TASK_VALUE, MAX_TASK_VALUE]
+const LIMITED_TASK_FIELDS = new Map<string, readonly [number, number]>([
+  ['starValue', TASK_BOUNDS],
+  ['mathTotalProblems', TASK_BOUNDS],
+  ['largeNumbersTotalProblems', TASK_BOUNDS],
+  ['fractionsTotalProblems', TASK_BOUNDS],
+  ['pvTotalProblems', TASK_BOUNDS],
+  ['alphabetTotalProblems', TASK_BOUNDS],
+  ['spellingTotalProblems', TASK_BOUNDS],
+  ['animalsTotalProblems', TASK_BOUNDS],
+  ['fractionsMaxDenominator', [2, 9]],
+  ['dinnerTotalBites', [MIN_DINNER_SLICES, MAX_DINNER_SLICES]],
 ])
 
 export const validateTaskFields = (fields: Record<string, unknown>) => {
   for (const [fieldName, value] of Object.entries(fields)) {
-    if (fieldName === 'dinnerTotalBites' && value !== undefined) {
-      assertDinnerSliceCount(value, fieldName)
-      continue
-    }
-    if (LIMITED_TASK_FIELDS.has(fieldName) && value !== undefined) {
-      assertTaskValue(value, fieldName)
+    const bounds = LIMITED_TASK_FIELDS.get(fieldName)
+    if (value !== undefined && bounds) {
+      assertBoundedInteger(value, fieldName, ...bounds)
     }
   }
 }

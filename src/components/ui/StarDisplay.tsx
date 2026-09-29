@@ -27,6 +27,10 @@ const injectStarDisplayStyles = () => {
 
 type StarDisplayProps = {
   count: number
+  iconSrc?: string
+  valueLabel?: string
+  decreaseLabel?: string
+  increaseLabel?: string
   animate?: boolean
   style?: CSSProperties
   className?: string
@@ -38,23 +42,38 @@ type StarDisplayProps = {
   theme?: Theme
 }
 
-const CONTROL_ROW_WIDTH = uiTokens.controlRowWidth
-
-type DensityClass = 'low' | 'medium'
-
-const getDensityClass = (count: number): DensityClass => {
-  if (count > 24) return 'medium'
-  return 'low'
+const COUNT_SURFACE_STYLE: CSSProperties = {
+  background: '#f1f5f9',
+  borderRadius: uiTokens.surfaceRadius,
+  padding: 12,
+  minHeight: uiTokens.listActionHeight,
+  border: '2px dashed #cbd5e1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 8,
 }
 
 const DENSITY_SIZES = {
   low: { width: 32, gap: 8 },
   medium: { width: 20, gap: 4 },
-} satisfies Record<DensityClass, { width: number; gap: number }>
+}
+
+const EMPTY_STAR_CONTENT = (
+  <span
+    style={{
+      opacity: 0.5,
+      fontStyle: 'italic',
+      color: '#64748b',
+      fontSize: '0.9rem',
+    }}
+  >
+    No stars yet...
+  </span>
+)
 
 type StarIconProps = {
   size: number
-  scale?: number
   rotation?: number
   animationDelay?: number
   animate?: boolean
@@ -69,7 +88,6 @@ type StarIconStyle = CSSProperties & {
 
 const StarIcon = ({
   size,
-  scale = 1,
   rotation = 0,
   animationDelay = 0,
   animate = true,
@@ -77,11 +95,10 @@ const StarIcon = ({
   style,
   className,
 }: StarIconProps) => {
-  const finalSize = size * scale
-
   const starStyle: StarIconStyle = {
-    width: finalSize,
-    height: finalSize,
+    width: size,
+    height: size,
+    objectFit: 'contain',
     flexShrink: 0,
     filter: 'drop-shadow(0 2px 0 rgba(0,0,0,0.1))',
     '--star-rot': `${rotation}deg`,
@@ -106,18 +123,7 @@ const StarIcon = ({
   )
 }
 
-const FieldVariant = ({
-  count,
-  animate = true,
-  emptyContent,
-  style,
-  className,
-}: StarDisplayProps) => {
-  const displayMagnitude = Math.abs(count)
-  const densityClass = getDensityClass(displayMagnitude)
-  const { width, gap } = DENSITY_SIZES[densityClass]
-  const assetUrl = count < 0 ? starNegativeSvgUrl : starSvgUrl
-
+function useAnimatedCount(displayMagnitude: number, animate: boolean) {
   // Track previous count for animation direction
   const [prevCount, setPrevCount] = useState(displayMagnitude)
   const [animatingOut, setAnimatingOut] = useState<number[]>([])
@@ -146,99 +152,88 @@ const FieldVariant = ({
     }
   }, [displayMagnitude, prevCount, animate])
 
+  return { displayCount: Math.max(displayMagnitude, prevCount), animatingOut }
+}
+
+const FieldVariant = ({
+  count,
+  iconSrc,
+  valueLabel,
+  animate = true,
+  emptyContent = EMPTY_STAR_CONTENT,
+  style,
+  className,
+}: StarDisplayProps) => {
+  const displayMagnitude = Math.abs(count)
+  const densityClass = displayMagnitude > 24 ? 'medium' : 'low'
+  const { width, gap } = DENSITY_SIZES[densityClass]
+  const assetUrl = iconSrc ?? (count < 0 ? starNegativeSvgUrl : starSvgUrl)
+
+  const { displayCount, animatingOut } = useAnimatedCount(
+    displayMagnitude,
+    animate
+  )
+
   const containerStyle: CSSProperties = {
-    background: '#f1f5f9',
-    borderRadius: `${uiTokens.surfaceRadius}px`,
-    padding: '12px',
-    minHeight: `${uiTokens.listActionHeight}px`,
-    border: '2px dashed #cbd5e1',
-    display: 'flex',
+    ...COUNT_SURFACE_STYLE,
     flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: `${gap}px`,
+    gap,
     ...style,
   }
 
-  if (displayMagnitude === 0 && animatingOut.length === 0) {
-    return (
-      <div style={containerStyle} className={className}>
-        {emptyContent !== undefined ? (
-          emptyContent
-        ) : (
-          <span
-            style={{
-              opacity: 0.5,
-              fontStyle: 'italic',
-              color: '#64748b',
-              fontSize: '0.9rem',
-            }}
-          >
-            No stars yet...
-          </span>
-        )}
-      </div>
-    )
-  }
-
-  const displayCount = Math.max(displayMagnitude, prevCount)
   const stars = Array.from({ length: displayCount })
 
   return (
-    <div style={containerStyle} className={className}>
-      {stars.map((_, i) => {
-        const rot = ((i * 33) % 40) - 20
-        const isExiting = animatingOut.includes(i)
+    <div
+      style={containerStyle}
+      className={className}
+      role={valueLabel ? 'img' : undefined}
+      aria-label={valueLabel}
+    >
+      {displayMagnitude === 0 && animatingOut.length === 0
+        ? emptyContent
+        : stars.map((_, i) => {
+            const rot = ((i * 33) % 40) - 20
+            const isExiting = animatingOut.includes(i)
 
-        return (
-          <StarIcon
-            key={i}
-            size={width}
-            assetUrl={assetUrl}
-            rotation={rot}
-            animationDelay={animate && !isExiting ? i * 0.03 : 0}
-            animate={animate && !isExiting}
-            style={
-              isExiting
-                ? {
-                    animation: 'star-pop-out 0.3s ease-out forwards',
-                  }
-                : undefined
-            }
-          />
-        )
-      })}
+            return (
+              <StarIcon
+                key={i}
+                size={width}
+                assetUrl={assetUrl}
+                rotation={rot}
+                animationDelay={animate && !isExiting ? i * 0.03 : 0}
+                animate={animate && !isExiting}
+                style={
+                  isExiting
+                    ? {
+                        animation: 'star-pop-out 0.3s ease-out forwards',
+                      }
+                    : undefined
+                }
+              />
+            )
+          })}
     </div>
   )
 }
 
 const CompactCountVariant = ({
   count,
+  iconSrc,
+  valueLabel,
   style,
   className,
   theme,
 }: StarDisplayProps) => {
-  const assetUrl = count < 0 ? starNegativeSvgUrl : starSvgUrl
-
-  const containerStyle: CSSProperties = {
-    background: '#f1f5f9',
-    borderRadius: `${uiTokens.surfaceRadius}px`,
-    padding: '12px',
-    minHeight: `${uiTokens.listActionHeight}px`,
-    border: '2px dashed #cbd5e1',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '8px',
-    ...style,
-  }
+  const assetUrl = iconSrc ?? (count < 0 ? starNegativeSvgUrl : starSvgUrl)
 
   return (
     <div
-      style={containerStyle}
+      style={{ ...COUNT_SURFACE_STYLE, ...style }}
       className={className}
       role="img"
-      aria-label={`${count} stars`}
+      aria-label={valueLabel ?? `${count} stars`}
     >
       <span
         style={{
@@ -253,41 +248,6 @@ const CompactCountVariant = ({
       </span>
       <StarIcon size={38} assetUrl={assetUrl} animate={false} />
     </div>
-  )
-}
-
-const shouldUseCompactValue = (count: number) => Math.abs(count) > 10
-
-const renderEditableValue = ({
-  count,
-  animate,
-  theme,
-  className,
-}: {
-  count: number
-  animate: boolean
-  theme: Theme
-  className?: string
-}) => {
-  const valueStyle: CSSProperties = {
-    width: '100%',
-    boxSizing: 'border-box',
-  }
-
-  return shouldUseCompactValue(count) ? (
-    <CompactCountVariant
-      count={count}
-      theme={theme}
-      className={className}
-      style={valueStyle}
-    />
-  ) : (
-    <FieldVariant
-      count={count}
-      animate={animate}
-      className={className}
-      style={valueStyle}
-    />
   )
 }
 
@@ -325,21 +285,24 @@ const StarStepper = ({
   </div>
 )
 
-const StarDisplay = ({
-  count,
-  animate = true,
-  style,
-  className,
-  emptyContent,
-  editable = false,
-  onChange,
-  min = 1,
-  max,
-  theme,
-}: StarDisplayProps) => {
+const StarDisplay = (props: StarDisplayProps) => {
+  const {
+    count,
+    decreaseLabel = 'Decrease star value',
+    increaseLabel = 'Increase star value',
+    style,
+    className,
+    editable = false,
+    onChange,
+    min = 1,
+    max,
+    theme,
+  } = props
   useEffect(() => {
     injectStarDisplayStyles()
   }, [])
+
+  if (!editable || !theme) return <FieldVariant {...props} />
 
   const handleDecrement = () => {
     if (onChange && count > min) return onChange(count - 1)
@@ -350,52 +313,53 @@ const StarDisplay = ({
       return onChange(count + 1)
   }
 
-  if (editable && theme) {
-    return (
-      <div
-        style={{
-          position: 'relative',
-          width: `${CONTROL_ROW_WIDTH}px`,
-          maxWidth: '100%',
-          overflow: 'visible',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          ...style,
-        }}
-        className={className}
-      >
-        <StarStepper
-          theme={theme}
-          direction="prev"
-          onClick={handleDecrement}
-          disabled={count <= min}
-          ariaLabel="Decrease star value"
-        />
-
-        <div style={{ width: '100%', minWidth: 0 }}>
-          {renderEditableValue({ count, animate, theme })}
-        </div>
-
-        <StarStepper
-          theme={theme}
-          direction="next"
-          onClick={handleIncrement}
-          disabled={max !== undefined && count >= max}
-          ariaLabel="Increase star value"
-        />
-      </div>
-    )
-  }
+  const compact = Math.abs(count) > 10
+  const Value = compact ? CompactCountVariant : FieldVariant
+  const value = (
+    <Value
+      {...props}
+      emptyContent={undefined}
+      className={undefined}
+      style={{
+        width: '100%',
+        boxSizing: 'border-box',
+        padding: compact ? 12 : `12px ${uiTokens.listUtilityActionWidth + 8}px`,
+      }}
+    />
+  )
 
   return (
-    <FieldVariant
-      count={count}
-      animate={animate}
-      emptyContent={emptyContent}
-      style={style}
+    <div
+      style={{
+        position: 'relative',
+        width: `${uiTokens.controlRowWidth}px`,
+        maxWidth: '100%',
+        overflow: 'visible',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...style,
+      }}
       className={className}
-    />
+    >
+      <StarStepper
+        theme={theme}
+        direction="prev"
+        onClick={handleDecrement}
+        disabled={count <= min}
+        ariaLabel={decreaseLabel}
+      />
+
+      <div style={{ width: '100%', minWidth: 0 }}>{value}</div>
+
+      <StarStepper
+        theme={theme}
+        direction="next"
+        onClick={handleIncrement}
+        disabled={max !== undefined && count >= max}
+        ariaLabel={increaseLabel}
+      />
+    </div>
   )
 }
 

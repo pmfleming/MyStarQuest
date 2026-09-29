@@ -11,18 +11,18 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "whole-project quality review 2026-09-25",
+    "command": "test reduction 2026-09-29",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-25T21:30:47.258Z",
+    "measured_at": "2026-09-29T11:06:23.408Z",
     "source_type": "static",
-    "source_set_hash": "sha256:9d1f380645a25c1c546c4790325f269708def79511c7af1e77e55611949c74fb",
-    "input_set_hash": "sha256:0655640eb4f00210fa0b2815eab591edb89105523b6754e27561f1935d762ccc"
+    "source_set_hash": "sha256:03e3712de41a0aed5a0899ac4bf9479f579449c3ea287d5c70d0a5734c67aa29",
+    "input_set_hash": "sha256:5b7e4e76084e15c3ad10d97f310c1e27fcf08affbd4236d7ea1a8f105f7248d8"
   },
   "analysis_identity": {
-    "id": "sha256:3eeba884171c5dfe97962802dc1842d8dea67259312f4500b85869139aa14221",
+    "id": "sha256:c01ef00e1d4e74cb78394240ad1df6e7fbab196cf307e324a0a5b17242a2fc63",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:d7a2f9de9588d08ba52ff587013c2c82e694ac782a88a8ea2bbbfe87bde6fb6c",
+    "config_closure_hash": "sha256:04fcdc06781e8e27ef9f0de267bf3e4be1e49764cd133006d8c504b5e7fa4b2f",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -99,7 +99,7 @@
     "stale_input": []
   },
   "summary": {
-    "internal_edges": 1118,
+    "internal_edges": 1137,
     "external_edges": 178,
     "cycles": 0,
     "heuristic_cycles": 0,
@@ -3402,12 +3402,12 @@
       ]
     },
     {
-      "id": "deep-import:src/components/ui/StandardActionList:2",
+      "id": "deep-import:src/components/ui/StandardActionList:3",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/ui/StandardActionList",
-      "line": 2,
+      "line": 3,
       "specifier": "../../contexts/ThemeContext",
       "evidence": "import type { Theme } from '../../contexts/ThemeContext'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -3415,46 +3415,6 @@
       "disposition": "review",
       "finding_confidence": "medium",
       "message": "import type { Theme } from '../../contexts/ThemeContext'",
-      "reason_code": "ts-react-quality-lens/deep_relative_import",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
-          "fix": "repair-dependency-edge"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "deep-import:src/components/ui/StandardActionList:2",
-            "kind": "deep_relative_import",
-            "file": "src/components/ui/StandardActionList",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "deep-import:src/components/ui/StandardActionList:3",
-      "kind": "deep_relative_import",
-      "severity": "medium",
-      "score": 35,
-      "file": "src/components/ui/StandardActionList",
-      "line": 3,
-      "specifier": "../../tokens",
-      "evidence": "import { uiTokens } from '../../tokens'",
-      "rule_id": "ts-react-quality-lens/deep_relative_import",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "import { uiTokens } from '../../tokens'",
       "reason_code": "ts-react-quality-lens/deep_relative_import",
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
@@ -3482,12 +3442,52 @@
       ]
     },
     {
-      "id": "deep-import:src/components/ui/StandardActionList:12",
+      "id": "deep-import:src/components/ui/StandardActionList:4",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/ui/StandardActionList",
-      "line": 12,
+      "line": 4,
+      "specifier": "../../tokens",
+      "evidence": "import { uiTokens } from '../../tokens'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { uiTokens } from '../../tokens'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/ui/StandardActionList:4",
+            "kind": "deep_relative_import",
+            "file": "src/components/ui/StandardActionList",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/ui/StandardActionList:13",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/ui/StandardActionList",
+      "line": 13,
       "specifier": "../../hooks/useAsyncAction",
       "evidence": "import { useAsyncAction } from '../../hooks/useAsyncAction'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -3513,7 +3513,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/ui/StandardActionList:12",
+            "id": "deep-import:src/components/ui/StandardActionList:13",
             "kind": "deep_relative_import",
             "file": "src/components/ui/StandardActionList",
             "reason": "Intentional finding; document the project-specific reason."
@@ -8186,6 +8186,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/components/FractionFood",
+        "file": "src/components/FractionFood.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/components/FractionsTester",
         "file": "src/components/FractionsTester.tsx",
         "layer": "ui",
@@ -8290,12 +8296,6 @@
       {
         "id": "src/components/WaterToiletMonitor",
         "file": "src/components/WaterToiletMonitor.tsx",
-        "layer": "ui",
-        "workspace_id": "mystarquest"
-      },
-      {
-        "id": "src/components/activities/LazyActivities",
-        "file": "src/components/activities/LazyActivities.tsx",
         "layer": "ui",
         "workspace_id": "mystarquest"
       },
@@ -9494,6 +9494,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/ui/fractionFoodAssets",
+        "file": "src/ui/fractionFoodAssets.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/ui/listDescriptorTypes",
         "file": "src/ui/listDescriptorTypes.ts",
         "layer": "core",
@@ -9581,12 +9587,6 @@
         "id": "src/ui/unifiedChoreItemRenderer",
         "file": "src/ui/unifiedChoreItemRenderer.tsx",
         "layer": "ui",
-        "workspace_id": "mystarquest"
-      },
-      {
-        "id": "src/ui/unifiedChoreRenderUtils",
-        "file": "src/ui/unifiedChoreRenderUtils.ts",
-        "layer": "core",
         "workspace_id": "mystarquest"
       },
       {
@@ -11206,7 +11206,7 @@
       },
       {
         "from": "src/components/DinnerCountdown",
-        "to": "src/components/ui/ActivityControls",
+        "to": "src/data/taskLimits",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -11216,7 +11216,7 @@
       },
       {
         "from": "src/components/DinnerCountdown",
-        "to": "src/data/taskLimits",
+        "to": "src/components/MealPlateReveal",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -11226,23 +11226,13 @@
       },
       {
         "from": "src/components/DinnerCountdown",
-        "to": "src/components/MealPlateReveal",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 11
-      },
-      {
-        "from": "src/components/DinnerCountdown",
         "to": "src/ui/themeAssets",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 11
       },
       {
         "from": "src/components/ExpandableAgendaItem",
@@ -11253,6 +11243,26 @@
         "to_workspace": null,
         "workspace_dependency": false,
         "line": 1
+      },
+      {
+        "from": "src/components/FractionFood",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/FractionFood",
+        "to": "src/ui/fractionFoodAssets",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
       },
       {
         "from": "src/components/FractionsTester",
@@ -11292,31 +11302,11 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 11
-      },
-      {
-        "from": "src/components/FractionsTester",
-        "to": "src/components/ui/CrownDifficultyControl",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 12
-      },
-      {
-        "from": "src/components/FractionsTester",
-        "to": "src/components/ui/MathActivityShell",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
         "line": 13
       },
       {
         "from": "src/components/FractionsTester",
-        "to": "src/components/ui/MathActivityPlayArea",
+        "to": "src/components/ui/StarDisplay",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -11326,7 +11316,7 @@
       },
       {
         "from": "src/components/FractionsTester",
-        "to": "src/components/ui/activityAnimationStyles",
+        "to": "src/ui/themeAssets",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -11336,13 +11326,73 @@
       },
       {
         "from": "src/components/FractionsTester",
+        "to": "src/components/ui/CrownDifficultyControl",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 16
+      },
+      {
+        "from": "src/components/FractionsTester",
+        "to": "src/components/ui/MathActivityShell",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 17
+      },
+      {
+        "from": "src/components/FractionsTester",
+        "to": "src/components/ui/MathActivityPlayArea",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 18
+      },
+      {
+        "from": "src/components/FractionsTester",
+        "to": "src/components/ui/activityAnimationStyles",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 19
+      },
+      {
+        "from": "src/components/FractionsTester",
+        "to": "src/components/FractionFood",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 20
+      },
+      {
+        "from": "src/components/FractionsTester",
+        "to": "src/ui/fractionFoodAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 21
+      },
+      {
+        "from": "src/components/FractionsTester",
         "to": "src/components/FractionsTester.css",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 16
+        "line": 25
       },
       {
         "from": "src/components/LargeNumbersTester",
@@ -12553,106 +12603,6 @@
         "to_workspace": null,
         "workspace_dependency": false,
         "line": 14
-      },
-      {
-        "from": "src/components/activities/LazyActivities",
-        "to": "react",
-        "kind": "external",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": null,
-        "workspace_dependency": false,
-        "line": 1
-      },
-      {
-        "from": "src/components/activities/LazyActivities",
-        "to": "src/components/ArithmeticTester",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 4
-      },
-      {
-        "from": "src/components/activities/LazyActivities",
-        "to": "src/components/LargeNumbersTester",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 5
-      },
-      {
-        "from": "src/components/activities/LazyActivities",
-        "to": "src/components/FractionsTester",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 6
-      },
-      {
-        "from": "src/components/activities/LazyActivities",
-        "to": "src/components/AlphabetTester",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 7
-      },
-      {
-        "from": "src/components/activities/LazyActivities",
-        "to": "src/components/AnimalTester",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 8
-      },
-      {
-        "from": "src/components/activities/LazyActivities",
-        "to": "src/components/DinnerCountdown",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 9
-      },
-      {
-        "from": "src/components/activities/LazyActivities",
-        "to": "src/components/PositionalNotation",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 10
-      },
-      {
-        "from": "src/components/activities/LazyActivities",
-        "to": "src/components/WaterToiletMonitor",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 11
-      },
-      {
-        "from": "src/components/activities/LazyActivities",
-        "to": "src/components/SpellingTester",
-        "kind": "relative",
-        "import_kind": "dynamic",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 12
       },
       {
         "from": "src/components/animalTester/LearningNavigation",
@@ -14266,13 +14216,23 @@
       },
       {
         "from": "src/components/ui/StandardActionList",
+        "to": "src/components/ui/ActionArtwork",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/ui/StandardActionList",
         "to": "react",
         "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 1
+        "line": 2
       },
       {
         "from": "src/components/ui/StandardActionList",
@@ -14282,7 +14242,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 2
+        "line": 3
       },
       {
         "from": "src/components/ui/StandardActionList",
@@ -14292,7 +14252,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 3
+        "line": 4
       },
       {
         "from": "src/components/ui/StandardActionList",
@@ -14302,7 +14262,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 5
       },
       {
         "from": "src/components/ui/StandardActionList",
@@ -14312,7 +14272,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 5
+        "line": 6
       },
       {
         "from": "src/components/ui/StandardActionList",
@@ -14322,7 +14282,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 9
+        "line": 10
       },
       {
         "from": "src/components/ui/StandardActionList",
@@ -14332,7 +14292,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 10
+        "line": 11
       },
       {
         "from": "src/components/ui/StandardActionList",
@@ -14342,7 +14302,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 11
+        "line": 12
       },
       {
         "from": "src/components/ui/StandardActionList",
@@ -14352,7 +14312,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 13
       },
       {
         "from": "src/components/ui/StandardActionList",
@@ -14362,7 +14322,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 14
       },
       {
         "from": "src/components/ui/StandardActionList",
@@ -14372,7 +14332,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 18
+        "line": 19
       },
       {
         "from": "src/components/ui/StandardActionList",
@@ -14382,7 +14342,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 24
+        "line": 25
       },
       {
         "from": "src/components/ui/StandardActionList",
@@ -14392,7 +14352,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 28
+        "line": 29
       },
       {
         "from": "src/components/ui/StarDisplay",
@@ -15296,17 +15256,17 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/lib/calendarSchedule",
+        "to": "src/assets/themes/princess/agenda/table-work.webp",
         "kind": "relative",
-        "import_kind": "type",
+        "import_kind": "static",
         "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
+        "to_workspace": null,
         "workspace_dependency": false,
         "line": 18
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/spring-sunrise.webp",
+        "to": "src/assets/themes/princess/agenda/circle-time.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15316,7 +15276,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/spring-daytime.webp",
+        "to": "src/assets/themes/princess/agenda/outdoor-play.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15326,7 +15286,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/spring-sunset.webp",
+        "to": "src/assets/themes/princess/agenda/fruit-snack.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15336,7 +15296,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/spring-night.webp",
+        "to": "src/assets/themes/princess/agenda/choice-time.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15346,7 +15306,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/summer-sunrise.webp",
+        "to": "src/assets/themes/princess/agenda/school-lunch.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15356,7 +15316,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/summer-daytime.webp",
+        "to": "src/assets/themes/princess/agenda/going-home.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15366,17 +15326,17 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/summer-sunset.webp",
+        "to": "src/lib/calendarSchedule",
         "kind": "relative",
-        "import_kind": "static",
+        "import_kind": "type",
         "from_workspace": "mystarquest",
-        "to_workspace": null,
+        "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 25
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/summer-night.webp",
+        "to": "src/assets/themes/princess/seasons/spring-sunrise.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15386,7 +15346,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/autumn-sunrise.webp",
+        "to": "src/assets/themes/princess/seasons/spring-daytime.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15396,7 +15356,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/autumn-daytime.webp",
+        "to": "src/assets/themes/princess/seasons/spring-sunset.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15406,7 +15366,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/autumn-sunset.webp",
+        "to": "src/assets/themes/princess/seasons/spring-night.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15416,7 +15376,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/autumn-night.webp",
+        "to": "src/assets/themes/princess/seasons/summer-sunrise.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15426,7 +15386,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/winter-sunrise.webp",
+        "to": "src/assets/themes/princess/seasons/summer-daytime.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15436,7 +15396,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/winter-daytime.webp",
+        "to": "src/assets/themes/princess/seasons/summer-sunset.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15446,7 +15406,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/winter-sunset.webp",
+        "to": "src/assets/themes/princess/seasons/summer-night.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15456,7 +15416,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/themes/princess/seasons/winter-night.webp",
+        "to": "src/assets/themes/princess/seasons/autumn-sunrise.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15466,7 +15426,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/fonts/Nunito/Nunito-VariableFont_wght.woff2",
+        "to": "src/assets/themes/princess/seasons/autumn-daytime.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15476,7 +15436,7 @@
       },
       {
         "from": "src/contexts/ThemeContext",
-        "to": "src/assets/fonts/Merienda/Merienda-VariableFont_wght.woff2",
+        "to": "src/assets/themes/princess/seasons/autumn-sunset.webp",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -15486,13 +15446,83 @@
       },
       {
         "from": "src/contexts/ThemeContext",
+        "to": "src/assets/themes/princess/seasons/autumn-night.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 37
+      },
+      {
+        "from": "src/contexts/ThemeContext",
+        "to": "src/assets/themes/princess/seasons/winter-sunrise.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 38
+      },
+      {
+        "from": "src/contexts/ThemeContext",
+        "to": "src/assets/themes/princess/seasons/winter-daytime.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 39
+      },
+      {
+        "from": "src/contexts/ThemeContext",
+        "to": "src/assets/themes/princess/seasons/winter-sunset.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 40
+      },
+      {
+        "from": "src/contexts/ThemeContext",
+        "to": "src/assets/themes/princess/seasons/winter-night.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 41
+      },
+      {
+        "from": "src/contexts/ThemeContext",
+        "to": "src/assets/fonts/Nunito/Nunito-VariableFont_wght.woff2",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 42
+      },
+      {
+        "from": "src/contexts/ThemeContext",
+        "to": "src/assets/fonts/Merienda/Merienda-VariableFont_wght.woff2",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 43
+      },
+      {
+        "from": "src/contexts/ThemeContext",
         "to": "src/lib/seasons",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 37
+        "line": 44
       },
       {
         "from": "src/contexts/ThemeProvider",
@@ -21386,7 +21416,7 @@
       },
       {
         "from": "src/ui/definitionRowDescriptors",
-        "to": "src/ui/themeAssets",
+        "to": "src/components/ui/ActionArtwork",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -21396,13 +21426,23 @@
       },
       {
         "from": "src/ui/definitionRowDescriptors",
+        "to": "src/ui/themeAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/ui/definitionRowDescriptors",
         "to": "react",
         "kind": "external",
         "import_kind": "type",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 2
+        "line": 3
       },
       {
         "from": "src/ui/definitionRowDescriptors",
@@ -21412,7 +21452,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 3
+        "line": 4
       },
       {
         "from": "src/ui/definitionRowDescriptors",
@@ -21422,7 +21462,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 5
       },
       {
         "from": "src/ui/definitionRowDescriptors",
@@ -21432,7 +21472,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 5
+        "line": 6
       },
       {
         "from": "src/ui/definitionRowDescriptors",
@@ -21442,7 +21482,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 6
+        "line": 7
       },
       {
         "from": "src/ui/definitionRowDescriptors",
@@ -21452,7 +21492,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 7
+        "line": 8
       },
       {
         "from": "src/ui/definitionRowDescriptors",
@@ -21462,7 +21502,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 10
+        "line": 11
       },
       {
         "from": "src/ui/definitionRowDescriptors",
@@ -21472,7 +21512,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 11
+        "line": 12
       },
       {
         "from": "src/ui/definitionRowDescriptors",
@@ -21482,7 +21522,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 13
       },
       {
         "from": "src/ui/definitionRowDescriptors",
@@ -21492,7 +21532,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 14
       },
       {
         "from": "src/ui/definitionRowDescriptors",
@@ -21502,7 +21542,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 15
       },
       {
         "from": "src/ui/definitionRowDescriptors",
@@ -21512,7 +21552,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 16
       },
       {
         "from": "src/ui/definitionRowDescriptors",
@@ -21522,7 +21562,77 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 16
+        "line": 17
+      },
+      {
+        "from": "src/ui/fractionFoodAssets",
+        "to": "src/ui/themeOptions",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/ui/fractionFoodAssets",
+        "to": "src/assets/themes/teenie/fractions/pizza.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/ui/fractionFoodAssets",
+        "to": "src/assets/themes/teenie/fractions/cake.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/ui/fractionFoodAssets",
+        "to": "src/assets/themes/teenie/fractions/tart.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/ui/fractionFoodAssets",
+        "to": "src/assets/themes/princess/fractions/pizza.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/ui/fractionFoodAssets",
+        "to": "src/assets/themes/princess/fractions/cake.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
+        "from": "src/ui/fractionFoodAssets",
+        "to": "src/assets/themes/princess/fractions/tart.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 7
       },
       {
         "from": "src/ui/listDescriptorTypes",
@@ -21586,13 +21696,93 @@
       },
       {
         "from": "src/ui/presetChoreRenderers",
-        "to": "src/components/activities/LazyActivities",
+        "to": "src/components/DinnerCountdown",
         "kind": "relative",
-        "import_kind": "static",
+        "import_kind": "dynamic",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 2
+        "line": 12
+      },
+      {
+        "from": "src/ui/presetChoreRenderers",
+        "to": "src/components/ArithmeticTester",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 15
+      },
+      {
+        "from": "src/ui/presetChoreRenderers",
+        "to": "src/components/LargeNumbersTester",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 18
+      },
+      {
+        "from": "src/ui/presetChoreRenderers",
+        "to": "src/components/FractionsTester",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 21
+      },
+      {
+        "from": "src/ui/presetChoreRenderers",
+        "to": "src/components/PositionalNotation",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 24
+      },
+      {
+        "from": "src/ui/presetChoreRenderers",
+        "to": "src/components/AlphabetTester",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 27
+      },
+      {
+        "from": "src/ui/presetChoreRenderers",
+        "to": "src/components/SpellingTester",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 30
+      },
+      {
+        "from": "src/ui/presetChoreRenderers",
+        "to": "src/components/AnimalTester",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 33
+      },
+      {
+        "from": "src/ui/presetChoreRenderers",
+        "to": "src/components/WaterToiletMonitor",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 36
       },
       {
         "from": "src/ui/schoolEventAssets",
@@ -22036,7 +22226,7 @@
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
-        "to": "src/ui/themeAssets",
+        "to": "src/components/ui/ActionArtwork",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -22046,7 +22236,7 @@
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
-        "to": "src/assets/chores/assets",
+        "to": "src/ui/themeAssets",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -22056,7 +22246,7 @@
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
-        "to": "src/ui/choreOverviewAssets",
+        "to": "src/assets/chores/assets",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -22066,7 +22256,7 @@
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
-        "to": "src/ui/taskTypeIcons",
+        "to": "src/ui/choreOverviewAssets",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -22076,7 +22266,7 @@
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
-        "to": "src/ui/choreModeDefinitions",
+        "to": "src/ui/taskTypeIcons",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -22086,13 +22276,23 @@
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
+        "to": "src/ui/choreModeDefinitions",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
+        "from": "src/ui/unifiedChoreDescriptors",
         "to": "src/ui/listDescriptorTypes",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 6
+        "line": 7
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
@@ -22102,7 +22302,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 7
+        "line": 8
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
@@ -22112,7 +22312,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 14
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
@@ -22122,7 +22322,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 15
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
@@ -22132,7 +22332,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 18
+        "line": 19
       },
       {
         "from": "src/ui/unifiedChoreDescriptors",
@@ -22142,7 +22342,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 23
+        "line": 24
       },
       {
         "from": "src/ui/unifiedChoreItemRenderer",
@@ -22453,16 +22653,6 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 28
-      },
-      {
-        "from": "src/ui/unifiedTestRenderer",
-        "to": "src/ui/unifiedChoreRenderUtils",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 29
       },
       {
         "from": "src/ui/unifiedWaterToiletRenderer",

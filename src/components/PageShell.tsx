@@ -66,7 +66,7 @@ const PageShell = ({
     touchStartRef.current = null
 
     const touch = event.changedTouches[0]
-    if (!start || !touch) return
+    if (!start || !touch || !activeTabId) return
 
     const deltaX = touch.clientX - start.x
     const deltaY = touch.clientY - start.y
@@ -74,7 +74,7 @@ const PageShell = ({
     if (Math.abs(deltaY) > SWIPE_VERTICAL_TOLERANCE_PX) return
     if (Math.abs(deltaX) < SWIPE_THRESHOLD_PX) return
 
-    const nextPath = getAdjacentTabPath(activeTabId!, deltaX < 0 ? 1 : -1)
+    const nextPath = getAdjacentTabPath(activeTabId, deltaX < 0 ? 1 : -1)
     if (nextPath) {
       void navigation.runAction('Open tab', 'navigate', () =>
         navigate(nextPath)

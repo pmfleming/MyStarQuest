@@ -6,6 +6,14 @@ import { offlinePlugin } from './scripts/offlinePlugin.ts'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss(), offlinePlugin()],
+  optimizeDeps: {
+    entries: ['index.html', 'tests/fixtures/*.html'],
+  },
+  server: {
+    watch: {
+      ignored: ['**/android/**', '**/tmp/**', '**/output/**', '**/target/**'],
+    },
+  },
   build: {
     rolldownOptions: {
       output: {

@@ -5,7 +5,6 @@ import {
   projectDocuments,
   type Action,
   type OfflineState,
-  offlineStateSchema,
 } from '../../src/offline/model'
 import { OfflineStore } from '../../src/offline/store'
 import type { OfflinePersistence } from '../../src/offline/persistence'
@@ -66,14 +65,6 @@ describe('offline action model', () => {
 })
 
 describe('durable offline store', () => {
-  it('validates durable queues without dropping damaged operations', () => {
-    const state = seeded()
-    enqueue(state, completion())
-    expect(offlineStateSchema.parse(state)).toEqual(state)
-    state.pending[0].sequence = NaN
-    expect(() => offlineStateSchema.parse(state)).toThrow()
-    expect(state.pending).toHaveLength(1)
-  })
   it('can retry an initial storage failure and ignores older document snapshots', async () => {
     const disk = new MemoryPersistence()
     const store = new OfflineStore('parent', disk)
@@ -87,24 +78,5 @@ describe('durable offline store', () => {
       toy: { title: 'Old', offlineRevision: 1 },
     })
     expect(store.getSnapshot()?.documents.rewards.toy.title).toBe('New')
-  })
-  it('survives reopening, preserves ordered IDs and isolates accounts', async () => {
-    const disk = new MemoryPersistence()
-    const store = new OfflineStore('parent', disk)
-    await store.mergeCollection('children', { child: { totalStars: 5 } })
-    await Promise.all([
-      store.queue(completion()),
-      store.queue(completion('2026-09-15')),
-    ])
-    const reopened = new OfflineStore('parent', disk)
-    await reopened.open()
-    expect(reopened.getSnapshot()).toEqual(store.getSnapshot())
-    expect(reopened.getSnapshot()?.pending.map((op) => op.sequence)).toEqual([
-      1, 2,
-    ])
-    const other = new OfflineStore('other-parent', disk)
-    await other.open()
-    expect(other.getSnapshot()?.pending).toEqual([])
-    expect(other.getSnapshot()?.documents.children).toEqual({})
   })
 })

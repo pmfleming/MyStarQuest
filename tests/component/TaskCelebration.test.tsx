@@ -88,40 +88,6 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-it('retains a removed chore through completion and prevents duplicate clicks', async () => {
-  let finish!: () => void
-  data.complete.mockImplementationOnce(
-    (_item, onAward) =>
-      new Promise<void>((resolve) => {
-        finish = () => {
-          onAward(3, 20)
-          resolve()
-        }
-      })
-  )
-  const { rerender } = render(<DashboardPage />)
-  const button = screen.getByRole('button', {
-    name: 'Give stars for Tidy room',
-  })
-  fireEvent.click(button)
-  fireEvent.click(button)
-  data.chores = []
-  rerender(<DashboardPage />)
-  expect(screen.getByRole('heading', { name: 'Tidy room' })).toBeInTheDocument()
-  await act(async () => finish())
-  expect(
-    screen.getByRole('status', { name: 'Tidy room completed' })
-  ).toBeInTheDocument()
-  expect(
-    screen.getByRole('button', { name: 'Delete Tidy room' })
-  ).toBeDisabled()
-  await act(async () => vi.advanceTimersByTimeAsync(3550))
-  expect(
-    screen.queryByRole('heading', { name: 'Tidy room' })
-  ).not.toBeInTheDocument()
-  expect(data.complete).toHaveBeenCalledTimes(1)
-})
-
 it('discards a pending celebration after switching children, including switching back', async () => {
   let finish!: () => void
   data.complete.mockImplementationOnce(

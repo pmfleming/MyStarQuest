@@ -1,14 +1,8 @@
-import {
-  act,
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  within,
-} from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
-import FractionsTester from '../../src/components/FractionsTester'
-import type { ActivityChoreProps } from '../../src/components/ui/ActivityControls'
+import FractionsTester, {
+  type FractionsTesterProps,
+} from '../../src/components/FractionsTester'
 import { themes } from '../../src/contexts/ThemeContext'
 
 vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
@@ -19,8 +13,8 @@ afterEach(() => {
   vi.useRealTimers()
 })
 
-function mountActivity(overrides: Partial<ActivityChoreProps> = {}) {
-  let props: ActivityChoreProps = {
+function mountActivity(overrides: Partial<FractionsTesterProps> = {}) {
+  let props: FractionsTesterProps = {
     theme: themes.princess,
     totalProblems: 5,
     starReward: 3,
@@ -33,7 +27,7 @@ function mountActivity(overrides: Partial<ActivityChoreProps> = {}) {
     ...overrides,
   }
   const view = render(<FractionsTester {...props} />)
-  const update = (patch: Partial<ActivityChoreProps>) => {
+  const update = (patch: Partial<FractionsTesterProps>) => {
     props = { ...props, ...patch }
     view.rerender(<FractionsTester {...props} />)
   }
@@ -93,25 +87,77 @@ it('preserves answers, supplies a visual hint after two misses on that question,
   expect(piece(1, 4)).toHaveAttribute('aria-pressed', 'false')
 })
 
-it('offers picture-to-symbol recognition and clears the choice and hints when restarted', async () => {
-  const activity = mountActivity({ isRunning: false, totalProblems: 1 })
-  await tick(20)
-  fireEvent.click(screen.getByRole('radio', { name: 'Recognise fractions' }))
-  activity.update({ isRunning: true })
+it('saves the chosen limit and applies it when starting a round', async () => {
+  let finishSave!: () => void
+  const onMaxDenominatorChange = vi.fn(
+    () =>
+      new Promise<void>((resolve) => {
+        finishSave = resolve
+      })
+  )
+  const activity = mountActivity({
+    isRunning: false,
+    maxDenominator: 8,
+    onMaxDenominatorChange,
+  })
+  const increase = screen.getByRole('button', {
+    name: 'Increase maximum denominator',
+  })
+  fireEvent.click(increase)
+  fireEvent.click(increase)
+  expect(onMaxDenominatorChange).toHaveBeenCalledExactlyOnceWith(9)
+  expect(increase).toBeDisabled()
+  await act(async () => finishSave())
+  activity.update({ maxDenominator: 9 })
   expect(
-    screen.queryByRole('group', { name: 'Your fraction' })
+    screen.getByRole('button', { name: 'Increase maximum denominator' })
+  ).toBeDisabled()
+  activity.update({ isRunning: true })
+  for (let question = 0; question < 2; question++) {
+    fireEvent.click(piece(1, 2))
+    activity.check()
+    await tick()
+  }
+  expect(piece(9, 9)).toBeInTheDocument()
+  // Updates received during play apply to the next round, not the current puzzle.
+  activity.update({ maxDenominator: 2 })
+  expect(piece(9, 9)).toBeInTheDocument()
+  activity.update({ isRunning: false })
+  await tick(20)
+  expect(
+    screen.getByRole('button', { name: 'Decrease maximum denominator' })
+  ).toBeDisabled()
+  activity.update({ isRunning: true })
+  expect(piece(2, 2)).toBeInTheDocument()
+  expect(
+    screen.queryByRole('button', { name: 'Piece 3 of 9' })
   ).not.toBeInTheDocument()
-  const choices = screen.getByRole('group', {
-    name: 'Choose the matching fraction',
+})
+
+it('rejects a wrong picture-to-symbol answer, accepts several pieces at level three and resets the choice', async () => {
+  const activity = mountActivity({
+    isRunning: false,
+    totalProblems: 1,
+    maxDenominator: 9,
   })
   fireEvent.click(
-    within(choices).getByRole('button', { name: '1 out of 4 equal parts' })
+    screen.getByRole('radio', { name: 'Fractions with several pieces' })
   )
+  activity.update({ isRunning: true })
+  expect(
+    screen.getByRole('img', { name: 'Example: 2 out of 9 equal parts' })
+  ).toBeInTheDocument()
+  const wrong = screen
+    .getAllByRole('button', { name: /out of .* equal parts/ })
+    .find(
+      (button) => button.getAttribute('aria-label') !== '2 out of 9 equal parts'
+    )!
+  fireEvent.click(wrong)
   activity.check()
   await tick(600)
   expect(activity.props.onComplete).not.toHaveBeenCalled()
   fireEvent.click(
-    within(choices).getByRole('button', { name: '1 out of 2 equal parts' })
+    screen.getByRole('button', { name: '2 out of 9 equal parts' })
   )
   activity.check()
   await tick()
@@ -120,7 +166,7 @@ it('offers picture-to-symbol recognition and clears the choice and hints when re
   await tick(20)
   activity.update({ isRunning: true })
   expect(
-    screen.getByRole('button', { name: '1 out of 2 equal parts' })
+    screen.getByRole('button', { name: '2 out of 9 equal parts' })
   ).toHaveAttribute('aria-pressed', 'false')
   expect(screen.queryByRole('img', { name: 'Correct' })).not.toBeInTheDocument()
 })

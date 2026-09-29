@@ -20,9 +20,25 @@
       devShells = forAllSystems (system:
         let
           pkgs = pkgsFor system;
+          nodejs = pkgs.nodejs_24.overrideAttrs (_: {
+            version = "24.21.0";
+            src = pkgs.fetchurl {
+              url = "https://nodejs.org/dist/v24.21.0/node-v24.21.0.tar.xz";
+              sha256 = "a6f54defb6fd7c84f41dba13d61e78e9b4e0961712cf61f29715c05f5ced94fc";
+            };
+          });
+          sdkRepo = builtins.fromJSON (builtins.readFile "${nixpkgs}/pkgs/development/mobile/androidenv/repo.json");
           android = pkgs.androidenv.composeAndroidPackages {
-            platformVersions = [ "36" ];
-            buildToolsVersions = [ "36.0.0" ];
+            # Add Google's stable 37.2 package until the Nix catalogue includes it.
+            repo = sdkRepo // {
+              packages = sdkRepo.packages // {
+                platforms = sdkRepo.packages.platforms // {
+                  "37.2" = builtins.fromJSON (builtins.readFile ./android/sdk-platform-37.2.json);
+                };
+              };
+            };
+            platformVersions = [ "37.0" "37.2" ];
+            buildToolsVersions = [ "37.0.0" ];
             includeEmulator = false;
             includeSystemImages = false;
             includeSources = false;
@@ -32,9 +48,9 @@
         in {
           default = pkgs.mkShell {
             packages = with pkgs; [
-              nodejs_22
+              nodejs
               firebase-tools
-              jdk21
+              jdk25
               gradle_9
               git
               android.androidsdk
@@ -43,8 +59,8 @@
 
             ANDROID_HOME = androidSdkRoot;
             ANDROID_SDK_ROOT = androidSdkRoot;
-            JAVA_HOME = pkgs.jdk21.home;
-            GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdkRoot}/build-tools/36.0.0/aapt2";
+            JAVA_HOME = pkgs.jdk25.home;
+            GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdkRoot}/build-tools/37.0.0/aapt2";
             shellHook = ''
               export PATH="$ANDROID_SDK_ROOT/platform-tools:$PATH"
               echo "MyStarQuest dev shell"
