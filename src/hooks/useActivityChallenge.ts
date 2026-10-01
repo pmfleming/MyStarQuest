@@ -6,8 +6,6 @@ import {
   type ActivityResult,
 } from '../lib/activityOutcome'
 
-import { celebrateSuccess } from '../lib/celebrate'
-
 export type ActivityFeedback = 'idle' | 'correct' | 'wrong'
 
 export type UseActivityChallengeArgs = {
@@ -80,7 +78,6 @@ export const useActivityChallenge = ({
 
       if (isAnswerCorrect) {
         setFeedback('correct')
-        celebrateSuccess()
         historyTimer.current = setTimeout(() => {
           historyTimer.current = undefined
           setResultHistory((prev) => [...prev, 'correct'])

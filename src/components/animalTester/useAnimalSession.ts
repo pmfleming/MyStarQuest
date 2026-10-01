@@ -10,7 +10,6 @@ import {
   getActivityOutcome,
   type ActivityResult,
 } from '../../lib/activityOutcome'
-import { celebrateSuccess } from '../../lib/celebrate'
 import { preloadImage } from '../../lib/imageLoading'
 import type { ActivityChoreProps } from '../ui/ActivityControls'
 import { useCreatureCollection } from './useCreatureCollection'
@@ -266,7 +265,6 @@ export function useAnimalSession({
 
     if (choice.name === animal.name) {
       setRound((previous) => ({ ...previous, answeredCorrectly: true }))
-      celebrateSuccess()
       feedbackTimer.current = setTimeout(finishAnimal, CHOICE_ANIMATION_MS)
       return
     }

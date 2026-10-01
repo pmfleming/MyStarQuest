@@ -1,4 +1,10 @@
-import { act, fireEvent, render, screen } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  renderHook,
+  screen,
+} from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { themes } from '../../src/contexts/ThemeContext'
@@ -6,7 +12,11 @@ import type {
   ChoreWithEphemeral,
   TestWithEphemeral,
 } from '../../src/data/types'
+import { useTaskCelebration } from '../../src/hooks/useTaskCelebration'
+import { celebrateSuccess } from '../../src/lib/celebrate'
 import DashboardPage from '../../src/pages/DashboardPage'
+
+vi.mock('../../src/lib/celebrate', () => ({ celebrateSuccess: vi.fn() }))
 
 const data = vi.hoisted(() => ({
   childId: 'child',
@@ -54,6 +64,7 @@ vi.mock('../../src/components/ArithmeticTester', () => ({
 
 beforeEach(() => {
   vi.useFakeTimers()
+  vi.mocked(celebrateSuccess).mockClear()
   data.childId = 'child'
   data.themeId = 'princess'
   data.chores = [
@@ -114,4 +125,66 @@ it('discards a pending celebration after switching children, including switching
   expect(
     screen.getByRole('button', { name: 'Give stars for Tidy room' })
   ).toBeEnabled()
+})
+
+it('celebrates a test once, only after its successful completion is saved', async () => {
+  const item = data.tests[0]!
+  const { result } = renderHook(() =>
+    useTaskCelebration({
+      activeChildId: 'child',
+      dateKey: '2026-10-01',
+      totalStars: 10,
+      items: data.tests,
+    })
+  )
+  let save!: () => void
+  const action = vi.fn(
+    (onAward: (delta: number) => void) =>
+      new Promise<void>((resolve) => {
+        save = () => {
+          onAward(3)
+          resolve()
+        }
+      })
+  )
+  let pending!: Promise<void>
+  act(() => {
+    pending = result.current.run(item, data.tests, action)
+  })
+  expect(celebrateSuccess).not.toHaveBeenCalled()
+  await act(async () => {
+    await result.current.run(item, data.tests, action)
+  })
+  expect(action).toHaveBeenCalledTimes(1)
+  await act(async () => {
+    save()
+    await pending
+  })
+  expect(celebrateSuccess).toHaveBeenCalledTimes(1)
+})
+
+it('does not celebrate unsaved or already awarded test completions', async () => {
+  const item = data.tests[0]!
+  const { result } = renderHook(() =>
+    useTaskCelebration({
+      activeChildId: 'child',
+      dateKey: '2026-10-01',
+      totalStars: 10,
+      items: data.tests,
+    })
+  )
+  await act(async () => {
+    await expect(
+      result.current.run(item, data.tests, async () => {
+        throw new Error('Save failed')
+      })
+    ).rejects.toThrow('Save failed')
+  })
+  expect(celebrateSuccess).not.toHaveBeenCalled()
+  await act(async () => {
+    await result.current.run(item, data.tests, async (onAward) => {
+      onAward(0)
+    })
+  })
+  expect(celebrateSuccess).not.toHaveBeenCalled()
 })

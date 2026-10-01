@@ -11,7 +11,7 @@ const hidePrimaryButtonInChore: Record<
   eating: false,
   math: false,
   'large-numbers': false,
-  fractions: false,
+  fractions: true,
   'positional-notation': false,
   alphabet: true,
   spelling: true,

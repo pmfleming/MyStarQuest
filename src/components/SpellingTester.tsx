@@ -14,7 +14,6 @@ import {
   getVisibleActivityResults,
   type ActivityResult,
 } from '../lib/activityOutcome'
-import { celebrateSuccess } from '../lib/celebrate'
 import { preloadImage } from '../lib/imageLoading'
 import { useProblemHistory } from '../lib/useProblemHistory'
 import { getThemeAsset } from '../ui/themeAssets'
@@ -429,7 +428,6 @@ const SpellingTester = ({
 
         if (nextSpelledCount >= animalLetters.length) {
           setResultHistory((previous) => [...previous, 'correct'])
-          celebrateSuccess()
 
           feedbackTimer.current = setTimeout(() => {
             if (problemIndex + 1 >= totalProblems) {

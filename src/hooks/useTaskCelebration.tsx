@@ -3,7 +3,12 @@ import RewardCelebration, {
   type RewardCelebrationDetails,
 } from '../components/RewardCelebration'
 import type { Theme } from '../contexts/ThemeContext'
-import { getManageTaskCompletedAt, type TaskWithEphemeral } from '../data/types'
+import {
+  getManageTaskCompletedAt,
+  isTestType,
+  type TaskWithEphemeral,
+} from '../data/types'
+import { celebrateSuccess } from '../lib/celebrate'
 import type { ListRowDescriptor } from '../ui/listDescriptorTypes'
 import { getTaskSuccessImage } from '../ui/taskSuccessImage'
 import { uiTokens } from '../tokens'
@@ -106,6 +111,7 @@ export function useTaskCelebration<T extends TaskWithEphemeral>({
         finish()
         return
       }
+      if (isTestType(item.taskType)) celebrateSuccess()
       setEntries((previous) => ({
         ...previous,
         [item.id]: {
