@@ -311,24 +311,31 @@ const useExplorerClock = ({
     }
   }, [applyHandTransforms, commitExplorerTime, getAngle, isDragging])
 
+  const formattedTime = formatTime(minutes)
   return {
     minutes,
     seconds: snapshotSeconds,
-    isDragging,
-    handTransition: isDragging ? 'none' : DEFAULT_HAND_TRANSITION,
-    ...getClockAngles(minutes, snapshotSeconds),
-    svgRef,
-    hourHandRef,
-    minuteHandRef,
-    secondHandRef,
-    digitalHourRef,
-    digitalMinuteRef,
-    digitalSecondRef,
-    digitalAmpmRef,
-    handlePointerDown,
-    adjustMinutes,
     syncClockTime,
     getClockTime,
+    view: {
+      seconds: snapshotSeconds,
+      isDragging,
+      handTransition: isDragging ? 'none' : DEFAULT_HAND_TRANSITION,
+      ...getClockAngles(minutes, snapshotSeconds),
+      hoursLabel: formattedTime.h,
+      minutesLabel: formattedTime.m,
+      ampm: formattedTime.ampm,
+      svgRef,
+      hourHandRef,
+      minuteHandRef,
+      secondHandRef,
+      digitalHourRef,
+      digitalMinuteRef,
+      digitalSecondRef,
+      digitalAmpmRef,
+      onPointerDown: handlePointerDown,
+      onAdjust: adjustMinutes,
+    },
   }
 }
 

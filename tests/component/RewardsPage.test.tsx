@@ -7,11 +7,13 @@ import RewardsPage from '../../src/pages/RewardsPage'
 const giveReward = vi.hoisted(() => vi.fn())
 const deleteReward = vi.hoisted(() => vi.fn())
 const rewardData = vi.hoisted(() => ({
+  childId: null as string | null,
+  stars: 2,
   themeId: 'princess' as 'princess' | 'teenie',
   rewards: [{ id: 'reward', title: 'Play', costStars: 3, isRepeating: true }],
 }))
 vi.mock('../../src/contexts/ActiveChildContext', () => ({
-  useActiveChild: () => ({ activeChildId: 'child' }),
+  useActiveChild: () => ({ activeChildId: rewardData.childId }),
 }))
 vi.mock('../../src/contexts/ThemeContext', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../../src/contexts/ThemeContext')>()),
@@ -23,7 +25,7 @@ vi.mock('../../src/components/TabContent', () => ({
 vi.mock('../../src/data/useRewards', () => ({
   useRewards: () => ({
     rewards: rewardData.rewards,
-    activeChildStars: 5,
+    activeChildStars: rewardData.stars,
     giveReward,
     createStandardReward: vi.fn(),
     deleteReward,
@@ -31,6 +33,8 @@ vi.mock('../../src/data/useRewards', () => ({
 }))
 beforeEach(() => {
   rewardData.themeId = 'princess'
+  rewardData.childId = null
+  rewardData.stars = 2
   deleteReward.mockReset().mockResolvedValue(undefined)
   rewardData.rewards = [
     { id: 'reward', title: 'Play', costStars: 3, isRepeating: true },
@@ -44,13 +48,28 @@ afterEach(() => {
   vi.useRealTimers()
 })
 
-it('surfaces a failed purchase on its card and lets the user retry', async () => {
+it('requires a child and sufficient stars, blocks duplicate purchases and permits retry', async () => {
   vi.spyOn(console, 'error').mockImplementation(() => {})
   giveReward
     .mockRejectedValueOnce(new Error('Offline'))
     .mockResolvedValueOnce({ title: 'Play', starsBefore: 5, starsAfter: 2 })
-  render(<RewardsPage />)
-  fireEvent.click(screen.getByRole('button', { name: 'Buy Play' }))
+  const { rerender } = render(<RewardsPage />)
+  const buy = () => screen.getByRole('button', { name: 'Buy Play' })
+  expect(buy()).toBeDisabled()
+  rewardData.stars = 5
+  rerender(<RewardsPage />)
+  expect(buy()).toBeDisabled()
+  rewardData.childId = 'child'
+  rewardData.stars = 2
+  rerender(<RewardsPage />)
+  expect(buy()).toBeDisabled()
+  rewardData.stars = 3
+  rerender(<RewardsPage />)
+  expect(buy()).toBeEnabled()
+  fireEvent.click(buy())
+  expect(buy()).toBeDisabled()
+  fireEvent.click(buy())
+  expect(giveReward).toHaveBeenCalledTimes(1)
   expect(await screen.findByRole('alert')).toHaveTextContent('failed')
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   fireEvent.click(screen.getByRole('button', { name: 'Buy Play' }))

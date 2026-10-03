@@ -55,7 +55,9 @@ beforeEach(() => {
   Object.defineProperty(HTMLDialogElement.prototype, 'close', {
     configurable: true,
     value: function (this: HTMLDialogElement) {
+      if (!this.open) return
       this.removeAttribute('open')
+      queueMicrotask(() => this.dispatchEvent(new Event('close')))
     },
   })
 })
@@ -68,62 +70,40 @@ afterEach(() => {
 
 const renderMenu = (onResetToday?: () => Promise<void>) =>
   render(
-    <MemoryRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <AppMenu theme={themes.princess} onResetToday={onResetToday} />
-          }
-        />
-        <Route
-          path="/settings/manage-children"
-          element={<h1>Manage children</h1>}
-        />
-      </Routes>
-    </MemoryRouter>
+    <StrictMode>
+      <MemoryRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <AppMenu theme={themes.princess} onResetToday={onResetToday} />
+            }
+          />
+          <Route
+            path="/settings/manage-children"
+            element={<h1>Manage children</h1>}
+          />
+        </Routes>
+      </MemoryRouter>
+    </StrictMode>
   )
 const openMenu = () =>
   fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
 
 describe('shared app menu', () => {
-  it('stays open after StrictMode replays the dialog effect and still handles a real close', async () => {
-    vi.spyOn(HTMLDialogElement.prototype, 'close').mockImplementation(
-      function () {
-        if (!this.open) return
-        this.removeAttribute('open')
-        // Native close events are queued, so an effect can reopen the dialog first.
-        queueMicrotask(() => this.dispatchEvent(new Event('close')))
-      }
-    )
-    render(
-      <StrictMode>
-        <MemoryRouter>
-          <AppMenu theme={themes.princess} onResetToday={async () => {}} />
-        </MemoryRouter>
-      </StrictMode>
-    )
-    await act(async () => openMenu())
-    const dialog = screen.getByRole('dialog', { name: 'Menu' })
-    expect(dialog).toBeVisible()
-    expect(screen.getByRole('button', { name: 'Open menu' })).toHaveAttribute(
-      'aria-expanded',
-      'true'
-    )
-    await act(async () => (dialog as HTMLDialogElement).close())
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    await act(async () => openMenu())
-    expect(screen.getByRole('dialog', { name: 'Menu' })).toBeVisible()
-  })
-
-  it('keeps reset failures visible in the menu and allows a retry', async () => {
+  it('survives StrictMode dialog replay and keeps failed resets available for retry', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {})
     const reset = vi
       .fn()
       .mockRejectedValueOnce(new Error('Offline'))
       .mockResolvedValue(undefined)
     renderMenu(reset)
-    openMenu()
+    await act(async () => openMenu())
+    const dialog = screen.getByRole('dialog', { name: 'Menu' })
+    expect(dialog).toBeVisible()
+    await act(async () => (dialog as HTMLDialogElement).close())
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    await act(async () => openMenu())
     fireEvent.click(screen.getByRole('button', { name: 'Reset today' }))
     expect(await screen.findByRole('alert')).toHaveTextContent(
       'Reset today failed'

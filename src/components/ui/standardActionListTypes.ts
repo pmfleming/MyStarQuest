@@ -3,32 +3,36 @@ import type { Theme } from '../../contexts/ThemeContext'
 
 export type ActionVariant = 'primary' | 'neutral' | 'danger'
 
-export type ActionConfig<T> = {
-  label: string | ((item: T) => string)
+export type ResolvedListAction<T> = {
+  label: string
   onClick: (item: T) => void | Promise<void>
-  icon?: ReactNode | ((item: T) => ReactNode)
-  ariaLabel?: string | ((item: T) => string)
-  disabled?: (item: T) => boolean
-  hideButton?: boolean | ((item: T) => boolean)
-  variant?: ActionVariant | ((item: T) => ActionVariant)
-  showLabel?: boolean | ((item: T) => boolean)
+  icon?: ReactNode
+  ariaLabel?: string
+  disabled?: boolean
+  hideButton?: boolean
+  variant?: ActionVariant
 }
 
-export type UtilityActionConfig<T> = ActionConfig<T> & {
-  exits?: boolean | ((item: T) => boolean)
+export type ResolvedListUtilityAction<T> = ResolvedListAction<T> & {
+  exits?: boolean
 }
 
-export type ActionCardContentProps<T> = {
-  theme: Theme
+export type ListRowDescriptor<T> = {
   renderHeader?: (item: T) => ReactNode
   renderItem: (item: T) => ReactNode
-  primaryAction: ActionConfig<T>
+  getPrimaryAction: (item: T) => ResolvedListAction<T>
+  // Omit the getter for default deletion; return undefined to hide this row's utility.
+  getUtilityAction?: (item: T) => ResolvedListUtilityAction<T> | undefined
+  getStarCount?: (item: T) => number | undefined
+  isHighlighted?: (item: T) => boolean
+}
+
+export type ActionCardContentProps<T> = ListRowDescriptor<T> & {
+  theme: Theme
   onEdit?: (item: T) => void | Promise<void>
   onDelete: (item: T) => void | Promise<void>
-  utilityAction?: UtilityActionConfig<T>
   getKey?: (item: T) => string
   getItemLabel?: (item: T) => string
-  getStarCount?: (item: T) => number | undefined
   hideEdit?: boolean | ((item: T) => boolean)
   editingId?: string
   renderInlineEdit?: (item: T) => ReactNode
@@ -41,12 +45,9 @@ export type StandardActionListProps<T> = ActionCardContentProps<T> & {
   addDisabled?: boolean
   isLoading?: boolean
   emptyState?: ReactNode
-  isHighlighted?: (item: T) => boolean
   inlineNewRow?: ReactNode
   frameInlineNewRow?: boolean
   hideAdd?: boolean
 }
 
-export type ActionStyleResolver<T> = (
-  variant?: ActionConfig<T>['variant']
-) => CSSProperties
+export type ActionStyleResolver = (variant?: ActionVariant) => CSSProperties

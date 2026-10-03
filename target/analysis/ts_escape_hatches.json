@@ -11,18 +11,31 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "test reduction 2026-09-29",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-29T11:06:11.138Z",
+    "measured_at": "2026-10-03T08:06:38.356Z",
     "source_type": "static",
-    "source_set_hash": "sha256:03e3712de41a0aed5a0899ac4bf9479f579449c3ea287d5c70d0a5734c67aa29",
-    "input_set_hash": "sha256:d271a36e5611cc114e5641f4e9991c1b157f9206320d129a156e01f7ca7d6f68"
+    "compilers": {
+      "analysis": {
+        "engine": "typescript-compiler-api",
+        "package": "typescript",
+        "version": "6.0.3"
+      },
+      "native": {
+        "package": "@typescript/native",
+        "version": "7.0.2",
+        "role": "lens-build-tool",
+        "analysis_executed": false
+      }
+    },
+    "source_set_hash": "sha256:f2b8aa91bd5c4513b36e6b86ef3d0b674e0c15a92fd57dc9a73ece60718a4c0d",
+    "input_set_hash": "sha256:9101fec59e3259da39513639bf8a701563c5c48f2ae92f1e9a49083fec057ed2"
   },
   "analysis_identity": {
-    "id": "sha256:c01ef00e1d4e74cb78394240ad1df6e7fbab196cf307e324a0a5b17242a2fc63",
+    "id": "sha256:7f4813f88245d9f5bfe70a595c6378aa5c2c4044fc42cdbd706916a8b31573f7",
     "schema_version": "0.3.0",
-    "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:04fcdc06781e8e27ef9f0de267bf3e4be1e49764cd133006d8c504b5e7fa4b2f",
+    "compiler_api_version": "6.0.3",
+    "config_closure_hash": "sha256:c1ead9cbb255724aea9854a6a4b54ce213be9c318f6f8fae7b4cbe175f5afc3c",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -32,11 +45,15 @@
       "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "typed_lint_projects": "project-service-auto-v1",
       "react": "recommended-v2",
+      "react_support": "declared-range-capabilities-v1",
+      "react_classification": "correctness-optimization-v1",
       "accessibility": "jsx-a11y-recommended-v1",
       "cleanup": "knip-normalized-v1"
     },
     "integration_versions": {
+      "typescript_native": "7.0.2",
       "typescript_eslint": "8.67.0",
       "react_hooks": "7.1.1",
       "jsx_a11y": "6.10.2",
@@ -96,13 +113,13 @@
     "stale_input": []
   },
   "summary": {
-    "records": 115,
+    "records": 114,
     "files_with_escape_hatches": 46,
     "by_kind": {
       "browser_global": 90,
       "type_assertion": 14,
       "direct_dom_mutation": 3,
-      "non_null_assertion": 4,
+      "non_null_assertion": 3,
       "module_level_mutable_state": 4
     }
   },
@@ -121,10 +138,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.getItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -154,10 +171,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.setItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -187,10 +204,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.removeItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -220,10 +237,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -253,10 +270,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -286,10 +303,10 @@
       "finding_confidence": "medium",
       "message": "window.location",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -319,10 +336,10 @@
       "finding_confidence": "medium",
       "message": "window.matchMedia",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -352,10 +369,10 @@
       "finding_confidence": "medium",
       "message": "[ { value: 'clock', label: 'Clock', icon: 'clock', ariaLabel: 'Show clock', }, { value: 'calendar', label: 'Calendar', i",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -372,7 +389,7 @@
       ]
     },
     {
-      "id": "escape:src/components/animalTester/LearningNavigation:type_assertion:177:5270",
+      "id": "escape:src/components/animalTester/LearningNavigation:type_assertion:177:5313",
       "module_id": "src/components/animalTester/LearningNavigation",
       "file": "src/components/animalTester/LearningNavigation.tsx",
       "kind": "type_assertion",
@@ -385,10 +402,10 @@
       "finding_confidence": "medium",
       "message": "['previous', 'next'] as const",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -396,7 +413,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/components/animalTester/LearningNavigation:type_assertion:177:5270",
+            "id": "escape:src/components/animalTester/LearningNavigation:type_assertion:177:5313",
             "kind": "type_assertion",
             "file": "src/components/animalTester/LearningNavigation.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -418,10 +435,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -451,10 +468,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -484,10 +501,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -510,17 +527,17 @@
       "kind": "type_assertion",
       "severity": "medium",
       "line": 30,
-      "evidence": "{ hundreds: { label: 'Hundreds', factor: 100 }, tens: { label: 'Tens', factor: 10 }, ones: { label: 'Ones', factor: 1 },",
+      "evidence": "{ hundreds: { label: 'Hundreds', factor: 100, color: 'accent', width: 30, fontSize: '1rem', valueWidth: undefined, minVa",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
       "disposition": "review",
       "finding_confidence": "medium",
-      "message": "{ hundreds: { label: 'Hundreds', factor: 100 }, tens: { label: 'Tens', factor: 10 }, ones: { label: 'Ones', factor: 1 },",
+      "message": "{ hundreds: { label: 'Hundreds', factor: 100, color: 'accent', width: 30, fontSize: '1rem', valueWidth: undefined, minVa",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -550,10 +567,10 @@
       "finding_confidence": "medium",
       "message": "window.matchMedia",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -583,10 +600,10 @@
       "finding_confidence": "medium",
       "message": "document.getElementById(STAR_DISPLAY_STYLES_ID)",
       "reason_code": "ts-react-quality-lens/direct_dom_mutation",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -616,10 +633,10 @@
       "finding_confidence": "medium",
       "message": "window.matchMedia",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -649,10 +666,10 @@
       "finding_confidence": "medium",
       "message": "window.matchMedia",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -682,10 +699,10 @@
       "finding_confidence": "medium",
       "message": "window.clearTimeout",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -715,10 +732,10 @@
       "finding_confidence": "medium",
       "message": "window.setTimeout",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -748,10 +765,10 @@
       "finding_confidence": "medium",
       "message": "document.getElementById(STYLES_ID)",
       "reason_code": "ts-react-quality-lens/direct_dom_mutation",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -781,10 +798,10 @@
       "finding_confidence": "medium",
       "message": "weatherCharacterAnchors[themeId][cell]!",
       "reason_code": "ts-react-quality-lens/non_null_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -814,10 +831,10 @@
       "finding_confidence": "medium",
       "message": "window.localStorage",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -847,10 +864,10 @@
       "finding_confidence": "medium",
       "message": "window.localStorage",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -880,10 +897,10 @@
       "finding_confidence": "medium",
       "message": "window.localStorage",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -913,10 +930,10 @@
       "finding_confidence": "medium",
       "message": "window.clearTimeout",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -946,10 +963,10 @@
       "finding_confidence": "medium",
       "message": "window.setTimeout",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -979,10 +996,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1012,10 +1029,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1045,10 +1062,10 @@
       "finding_confidence": "medium",
       "message": "window.clearTimeout",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1078,10 +1095,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1111,10 +1128,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1144,10 +1161,10 @@
       "finding_confidence": "medium",
       "message": "{ Africa: { label: 'Africa', image: africaImage }, 'South America': { label: 'South America', image: southAmericaImage }",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1177,10 +1194,10 @@
       "finding_confidence": "medium",
       "message": "'animal' as const",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1210,10 +1227,10 @@
       "finding_confidence": "medium",
       "message": "'insect' as const",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1243,10 +1260,10 @@
       "finding_confidence": "medium",
       "message": "[ 'looks', 'prop', 'theme', 'magic', ] as const",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1276,10 +1293,10 @@
       "finding_confidence": "medium",
       "message": "window.devicePixelRatio",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1309,10 +1326,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1342,10 +1359,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1375,10 +1392,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1408,10 +1425,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1441,10 +1458,10 @@
       "finding_confidence": "medium",
       "message": "window.devicePixelRatio",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1474,10 +1491,10 @@
       "finding_confidence": "medium",
       "message": "window.requestAnimationFrame",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1507,10 +1524,10 @@
       "finding_confidence": "medium",
       "message": "window.requestAnimationFrame",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1540,10 +1557,10 @@
       "finding_confidence": "medium",
       "message": "window.devicePixelRatio",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1573,10 +1590,10 @@
       "finding_confidence": "medium",
       "message": "window.clearTimeout",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1606,10 +1623,10 @@
       "finding_confidence": "medium",
       "message": "window.setTimeout",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1639,10 +1656,10 @@
       "finding_confidence": "medium",
       "message": "let pixelsPromise: Promise<CachedEarthTexture> | undefined",
       "reason_code": "ts-react-quality-lens/module_level_mutable_state",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1672,10 +1689,10 @@
       "finding_confidence": "medium",
       "message": "window.requestIdleCallback",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1705,10 +1722,10 @@
       "finding_confidence": "medium",
       "message": "window.requestIdleCallback",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1738,10 +1755,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.getItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1771,10 +1788,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.setItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1791,12 +1808,12 @@
       ]
     },
     {
-      "id": "escape:src/features/dayNightExplorer/useDayNightExplorerModel:browser_global:177:6159",
+      "id": "escape:src/features/dayNightExplorer/useDayNightExplorerModel:browser_global:176:6107",
       "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
       "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 177,
+      "line": 176,
       "evidence": "window.addEventListener",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -1804,10 +1821,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1815,7 +1832,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/features/dayNightExplorer/useDayNightExplorerModel:browser_global:177:6159",
+            "id": "escape:src/features/dayNightExplorer/useDayNightExplorerModel:browser_global:176:6107",
             "kind": "browser_global",
             "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1824,12 +1841,12 @@
       ]
     },
     {
-      "id": "escape:src/features/dayNightExplorer/useDayNightExplorerModel:browser_global:181:6309",
+      "id": "escape:src/features/dayNightExplorer/useDayNightExplorerModel:browser_global:180:6257",
       "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
       "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
       "kind": "browser_global",
       "severity": "low",
-      "line": 181,
+      "line": 180,
       "evidence": "window.removeEventListener",
       "rule_id": "ts-react-quality-lens/browser_global",
       "evidence_kind": "heuristic",
@@ -1837,10 +1854,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1848,7 +1865,7 @@
           "description": "Keep this browser_global finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/features/dayNightExplorer/useDayNightExplorerModel:browser_global:181:6309",
+            "id": "escape:src/features/dayNightExplorer/useDayNightExplorerModel:browser_global:180:6257",
             "kind": "browser_global",
             "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1870,10 +1887,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1903,10 +1920,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1936,10 +1953,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -1969,10 +1986,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2002,10 +2019,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2035,10 +2052,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2068,10 +2085,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2101,10 +2118,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2134,10 +2151,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2167,10 +2184,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2200,10 +2217,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2233,10 +2250,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2266,10 +2283,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2299,10 +2316,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2332,10 +2349,10 @@
       "finding_confidence": "medium",
       "message": "window.screen",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2365,10 +2382,10 @@
       "finding_confidence": "medium",
       "message": "window.screen",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2398,10 +2415,10 @@
       "finding_confidence": "medium",
       "message": "window.visualViewport",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2431,10 +2448,10 @@
       "finding_confidence": "medium",
       "message": "window.innerHeight",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2464,10 +2481,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2497,10 +2514,10 @@
       "finding_confidence": "medium",
       "message": "window.visualViewport",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2530,10 +2547,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2563,10 +2580,10 @@
       "finding_confidence": "medium",
       "message": "window.visualViewport",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2596,10 +2613,10 @@
       "finding_confidence": "medium",
       "message": "window.clearInterval",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2629,10 +2646,10 @@
       "finding_confidence": "medium",
       "message": "window.setInterval",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2662,10 +2679,10 @@
       "finding_confidence": "medium",
       "message": "window.clearInterval",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2695,10 +2712,10 @@
       "finding_confidence": "medium",
       "message": "window.requestIdleCallback",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2728,10 +2745,10 @@
       "finding_confidence": "medium",
       "message": "window.requestIdleCallback",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2761,10 +2778,10 @@
       "finding_confidence": "medium",
       "message": "window.cancelIdleCallback",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2794,10 +2811,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.getItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2827,10 +2844,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.setItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2860,10 +2877,10 @@
       "finding_confidence": "medium",
       "message": "window.dispatchEvent",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2893,10 +2910,10 @@
       "finding_confidence": "medium",
       "message": "[ ['tableWork', 'Table work'], ['circleTime', 'Circle time'], ['outdoorPlay', 'Play outside'], ['fruitSnack', 'Fruit sna",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2926,10 +2943,10 @@
       "finding_confidence": "medium",
       "message": "[ ['schoolLunch', 'Lunch'], ['circleTime', 'Circle time'], ['choiceTime', 'Choice time'], ] as const",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2959,10 +2976,10 @@
       "finding_confidence": "medium",
       "message": "[ 'manageCompletedAt', 'manageDinnerRemainingSeconds', 'manageDinnerBitesLeft', 'manageDinnerTimerStartedAt', 'manageDin",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -2973,39 +2990,6 @@
             "id": "escape:src/lib/choreParser:type_assertion:66:2041",
             "kind": "type_assertion",
             "file": "src/lib/choreParser.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/lib/fractionProblems:type_assertion:22:901",
-      "module_id": "src/lib/fractionProblems",
-      "file": "src/lib/fractionProblems.ts",
-      "kind": "type_assertion",
-      "severity": "medium",
-      "line": 22,
-      "evidence": "[ { numerator: 1, denominator: 4 }, { numerator: 1, denominator: 2 }, { numerator: 3, denominator: 4 }, ] as const",
-      "rule_id": "ts-react-quality-lens/type_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "[ { numerator: 1, denominator: 4 }, { numerator: 1, denominator: 2 }, { numerator: 3, denominator: 4 }, ] as const",
-      "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/lib/fractionProblems:type_assertion:22:901",
-            "kind": "type_assertion",
-            "file": "src/lib/fractionProblems.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3025,10 +3009,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3058,10 +3042,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.getItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3091,10 +3075,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.getItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3124,10 +3108,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.getItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3157,10 +3141,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.setItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3190,10 +3174,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3223,10 +3207,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3256,10 +3240,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.getItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3289,10 +3273,10 @@
       "finding_confidence": "medium",
       "message": "localStorage.setItem",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3322,10 +3306,10 @@
       "finding_confidence": "medium",
       "message": "{ 0: ['sunny', 'none', 0], 1: ['sunny', 'none', 0], 2: ['partly-cloudy', 'none', 0], 3: ['overcast', 'none', 0], 45: ['f",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3355,10 +3339,10 @@
       "finding_confidence": "medium",
       "message": "{ sunny: 'Sunny', 'partly-cloudy': 'Partly cloudy', overcast: 'Cloudy', drizzle: 'Drizzle', rain: 'Rain', 'heavy-rain': ",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3388,10 +3372,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3421,10 +3405,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3454,10 +3438,10 @@
       "finding_confidence": "medium",
       "message": "[ [ 'an expedition parka, mittens and snow boots', 'a waterproof expedition parka, mittens and snow boots', ], [ 'a down",
       "reason_code": "ts-react-quality-lens/type_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3487,10 +3471,10 @@
       "finding_confidence": "medium",
       "message": "outfits[band]!",
       "reason_code": "ts-react-quality-lens/non_null_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3507,40 +3491,7 @@
       ]
     },
     {
-      "id": "escape:src/main:non_null_assertion:9:284",
-      "module_id": "src/main",
-      "file": "src/main.tsx",
-      "kind": "non_null_assertion",
-      "severity": "medium",
-      "line": 9,
-      "evidence": "document.getElementById('root')!",
-      "rule_id": "ts-react-quality-lens/non_null_assertion",
-      "evidence_kind": "heuristic",
-      "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "document.getElementById('root')!",
-      "reason_code": "ts-react-quality-lens/non_null_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "escape:src/main:non_null_assertion:9:284",
-            "kind": "non_null_assertion",
-            "file": "src/main.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "escape:src/main:direct_dom_mutation:9:284",
+      "id": "escape:src/main:direct_dom_mutation:9:286",
       "module_id": "src/main",
       "file": "src/main.tsx",
       "kind": "direct_dom_mutation",
@@ -3553,10 +3504,10 @@
       "finding_confidence": "medium",
       "message": "document.getElementById('root')",
       "reason_code": "ts-react-quality-lens/direct_dom_mutation",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3564,7 +3515,7 @@
           "description": "Keep this direct_dom_mutation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/main:direct_dom_mutation:9:284",
+            "id": "escape:src/main:direct_dom_mutation:9:286",
             "kind": "direct_dom_mutation",
             "file": "src/main.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3586,10 +3537,10 @@
       "finding_confidence": "medium",
       "message": "window.location",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3619,10 +3570,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3652,10 +3603,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3685,10 +3636,10 @@
       "finding_confidence": "medium",
       "message": "this.getSnapshot()!",
       "reason_code": "ts-react-quality-lens/non_null_assertion",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3718,10 +3669,10 @@
       "finding_confidence": "medium",
       "message": "window.addEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3751,10 +3702,10 @@
       "finding_confidence": "medium",
       "message": "window.removeEventListener",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3765,6 +3716,39 @@
             "id": "escape:src/offline/sync:browser_global:61:1801",
             "kind": "browser_global",
             "file": "src/offline/sync.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/routes/AnimatedTabLayout:type_assertion:55:2228",
+      "module_id": "src/routes/AnimatedTabLayout",
+      "file": "src/routes/AnimatedTabLayout.tsx",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 55,
+      "evidence": "['chores', 'tests'] as const",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "['chores', 'tests'] as const",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/routes/AnimatedTabLayout:type_assertion:55:2228",
+            "kind": "type_assertion",
+            "file": "src/routes/AnimatedTabLayout.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3784,10 +3768,10 @@
       "finding_confidence": "medium",
       "message": "window.location",
       "reason_code": "ts-react-quality-lens/browser_global",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3817,10 +3801,10 @@
       "finding_confidence": "medium",
       "message": "let teenieAssets: ThemeAssets | undefined",
       "reason_code": "ts-react-quality-lens/module_level_mutable_state",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3850,10 +3834,10 @@
       "finding_confidence": "medium",
       "message": "let activities: ReturnType<typeof createTeenieActivities> | undefined",
       "reason_code": "ts-react-quality-lens/module_level_mutable_state",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",
@@ -3883,10 +3867,10 @@
       "finding_confidence": "medium",
       "message": "let backgrounds: ReturnType<typeof createTeenieBackgrounds> | undefined",
       "reason_code": "ts-react-quality-lens/module_level_mutable_state",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "unresolved",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "add-to-config",

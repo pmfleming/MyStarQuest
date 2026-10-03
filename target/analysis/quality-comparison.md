@@ -1,62 +1,16 @@
-# Project quality review and refactor — 29 September 2026
+## TypeScript quality gate
 
-Used the latest main of [ts-react-quality-lens](https://github.com/pmfleming/ts-react-quality-lens/tree/c9e853ffe256cd04c5e6b0e2383615882d3056ae), version **0.3.0**, commit **c9e853ffe256cd04c5e6b0e2383615882d3056ae**. Fetched and rebuilt the tool, then verified the upstream SHA again after refactoring. The existing CI pin already matches.
+Mode: **new blockers**. Verdict: **warn**.
 
-The comparison starts from a fresh snapshot of the working tree, including the earlier school-calendar and fractions work. It does not count those earlier changes as refactoring gains. Frontend and Firebase Functions received separate full-scope audits. Manual review covered the highest complexity functions, shared controls, activity rendering, validation, offline persistence, weather/calendar lifecycle code, and the Android calendar repository and bridge.
+| Metric | Committed baseline | Current | Change |
+| --- | ---: | ---: | ---: |
+| source_lines | 31873 | 31782 | -91 |
+| cognitive_complexity | 1507 | 1483 | -24 |
+| cyclomatic_complexity | 2172 | 2148 | -24 |
+| halstead_effort | 10285069 | 9759668 | -525401 |
+| clone_groups | 0 | 0 | 0 |
+| locality_risk | 12152 | 12257 | 105 |
+| leverage_risk | 256 | 244 | -12 |
+| lint_blockers | 0 | 0 | 0 |
 
-## Measured results
-
-The table combines frontend and Functions. Functions source and its measurements are unchanged.
-
-| Measure                         |     Before |      After |  Change |
-| ------------------------------- | ---------: | ---------: | ------: |
-| Production TypeScript/TSX lines |     32,558 |     32,405 |    -153 |
-| Cognitive complexity            |      1,568 |      1,559 |      -9 |
-| Cyclomatic complexity           |      2,238 |      2,235 |      -3 |
-| Halstead effort                 | 10,425,764 | 10,389,640 | -36,124 |
-| Detected clone groups           |          1 |          0 |      -1 |
-| Locality risk                   |     12,192 |     12,130 |     -62 |
-| Leverage risk                   |        292 |        268 |     -24 |
-
-Physical counting across production code, CSS, tests and scripts finds **12 fewer lines overall**: **153 production lines removed**, offset by **141 regression-test lines added**. Documentation, generated reports and binary artwork are excluded. Five test cases were added; none were removed, skipped or weakened.
-
-The final frontend audit is **warn**, complete, with **0 blockers and 49 warnings** (baseline: zero blockers, 51 warnings). Functions passes with zero blockers or warnings. No rules, thresholds, exclusions, configuration or suppressions changed.
-
-## Changes and reasons
-
-1. **Shared counter:** combined the repeated display surfaces and empty-state markup, removed unused icon scaling, and gave animation state a local hook. Read-only, negative, compact and themed counts still use the same control. Tests cover limits, duplicate clicks during asynchronous saves, empty content and removal animations.
-2. **Activity rendering:** created common activity properties once and kept maths/fractions settings as small specializations. This removes the detected clone. Lazy imports now sit with their renderer factories, removing a single-consumer module. A one-use clamp module was also removed; its exact numeric behavior remains at the call site.
-3. **Artwork reuse:** seven identical action-image instances now share one component beside the existing action-artwork wrapper. Chore, child, reward and activity cards retain their existing image attributes and sizing.
-4. **Fractions:** separated example presentation from round state and feedback. The main component's cognitive complexity falls from 17 to 8. Slice overlays, dividers and shortcuts now share a slice list and circular geometry. The numerator remains beside the image; artwork has no internal numbers or tick marks. Difficulty and denominator behavior are preserved.
-5. **Validation and types:** one bounds table now drives task-field validation, replacing three branch paths. Tests cover every limited field, invalid inputs, undefined values and unrelated property names. Swipe navigation checks its optional active tab; globe CSS custom properties use a checked type instead of an assertion. Those two assertion removals lower leverage risk.
-6. **Dinner:** separated timer/visibility cleanup from game state, with a test for hidden-tab catch-up, single expiry persistence and cleanup. Both callers disabled the dinner reward panel, so its unused props and markup were removed. The existing creation form still owns reward editing. Its now single-use reward wrapper was inlined into activity setup. Removed an unused prototype click callback and unreachable Teenieping styling inside the non-illustrated theme branch. Removing the click callback resolves two accessibility findings.
-7. **Calendar test performance:** reused the visible day-button query and explicitly checked that the selected element belongs to it. This avoids a second costly role query across every date while retaining the role, count, selection and month-clamping checks.
-
-## Review conclusions and remaining work
-
-- **The improvements are incremental.** The remaining highest cognitive hotspot is ActionCard (20), followed by the offline boundary (15), weather selection and offline enqueue/projection (14). Their confirmation, retry, ordering and failure behavior remains explicit. More extensive changes deserve their own behavioral design and validation.
-- **Not every measurement falls.** High-risk React components fall from 30 to 28, but Lens hotspot records rise from 155 to 156. Extracting FractionExample creates another individually scored function, and StarDisplay's consolidated render function crosses the hotspot threshold. StarDisplay's aggregate cognitive/cyclomatic complexity each drop by three, while its estimated effort rises by about 34,682; larger savings elsewhere produce the overall effort reduction. These tradeoffs remain visible in the artifacts.
-- **Locality has several inputs.** Module removal reduces indirection; the new counter and timer regression tests also add direct test associations. Lens additionally weights deep imports, churn and co-change history, so the score is not a pure measure of architecture. Test associations do not prove branch coverage.
-- **Offline and calendar contracts were retained.** Persist-before-publish ordering, queued mutation serialization, replay identity, calendar date boundaries and weather expiry/cancellation are important behavior. The Android repository still coalesces refreshes under a lock, bounds network reads and saves before returning. Android code was inspected but not changed or device-tested in this review.
-- **Cleanup output needs context.** HTML-loaded fixtures, command-line artwork/migration scripts and Firebase deployment exports remain in use. Functions dependencies belong to their separate package; root cleanup findings do not establish that they are missing. The pre-commit hook uses lint-staged. These were not deleted or suppressed to improve a score.
-- **Some warnings are heuristic.** Layer classifications and wide React prop surfaces require project context. Lens also counts const assertions as type assertions; useful literal typing was retained. The remaining accessibility findings include aria-description warnings and noninteractive gesture surfaces and should be assessed individually.
-- **Dependency structure remains mixed.** There are still no detected cycles, but 36 layer warnings and 159 deep relative imports remain. Internal links are unchanged at 1,137; external links fall from 179 to 178. Local consolidation improves ownership without reorganizing the entire application.
-- **These are static estimates.** Halstead effort is not measured developer time or runtime performance. Runtime-profiler and coverage inputs are not configured. Existing production chunk-size warnings remain.
-
-## Validation
-
-- Full frontend Lens audit and configured Vitest suite: pass, 144 cases across 62 test files.
-- Full Functions Lens audit and Functions TypeScript build: pass.
-- Root ESLint, Prettier, TypeScript/production build and git diff whitespace check: pass.
-- Fractions browser tests: 18/18 pass, covering Chromium, Firefox and WebKit, both themes, 320px layouts, touch/keyboard input, ninths and level-three numerators. The active Teenieping view was also inspected after images decoded.
-- Quality-summary tooling tests: 2/2 pass.
-
-During the first concurrent validation attempt, one calendar test hit its existing five-second limit and two Chromium cases timed out waiting for lazy content. All browser cases passed when run sequentially. The calendar timeout also reproduced alone: temporary timing probes found about 3.4 seconds spent in its repeated date-button queries. After removing the duplicate query, all five calendar cases passed. A serial full-suite attempt exceeded Lens's fixed 120-second command deadline; the final audit used the configured two Vitest workers. Assertions and timeout limits were retained. Initial failure evidence is retained with the review artifacts.
-
-## Reproducibility
-
-Both measurements use the same Lens SHA and configuration, an empty base, and gate all. Complexity/effort sum callable records; source lines sum file records; locality/leverage sum module risk scores, where lower is better. These totals are comparison aids, not additional official Lens scores.
-
-See [the machine-readable comparison](2026-09-29-refactor.json) for scope totals, source hashes and physical line deltas. The original and final artifacts are retained under output/quality-review-2026-09-29; final reports are also in target/analysis and target/functions-analysis. Local helper scripts are tmp/run-quality-review.mjs and tmp/compare-quality-review.mjs. Baseline snapshots are immutable in output/quality-review-2026-09-29/source-before.
-
-Reproduce validation with npm test, npm run lint, npm run format:check, npm run build, npm run build --prefix functions, and node --test scripts/quality-summary.test.mjs. Browser validation used npx playwright test tests/e2e/fractions.spec.ts --config=tmp/playwright-fractions.config.ts --workers=1 --reporter=line against the existing Vite server on port 4175.
+Baseline uses committed Lens artifacts at the merge base; current uses this run. Complexity/effort sum callables; lines sum files; locality/leverage sum risk scores (lower is better). Aggregates are comparison aids, not additional Lens scores.

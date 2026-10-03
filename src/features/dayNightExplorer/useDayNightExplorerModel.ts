@@ -24,7 +24,6 @@ import {
   getImageForTime,
   resolveBackgroundImage,
 } from './dayNightExplorerBackdrop'
-import { formatTime } from './dayNightExplorerMath'
 import {
   EXPLORER_FOCUS_OPTIONS,
   EXPLORER_CITY_OPTIONS,
@@ -284,7 +283,6 @@ export default function useDayNightExplorerModel(
     return EXPLORER_FOCUS_OPTIONS.filter((option) => option.id !== hiddenId)
   }, [displayMode])
 
-  const formattedTime = formatTime(clock.minutes)
   const activityImage = getImageForTime(
     clock.minutes,
     theme.activityImages,
@@ -318,30 +316,12 @@ export default function useDayNightExplorerModel(
       onSelect: handleFocusSelection,
     },
     clock: {
+      ...clock.view,
       activityImage,
       explorerBackdropColor: getExplorerBackdropColor(explorerBackgroundBlend),
       explorerBaseBackgroundImage,
       explorerOverlayBackgroundImage,
       overlayOpacity: explorerBackgroundBlend.overlayOpacity,
-      isDragging: clock.isDragging,
-      handTransition: clock.handTransition,
-      hourAngle: clock.hourAngle,
-      minuteAngle: clock.minuteAngle,
-      secondAngle: clock.secondAngle,
-      hoursLabel: formattedTime.h,
-      minutesLabel: formattedTime.m,
-      seconds: clock.seconds,
-      ampm: formattedTime.ampm,
-      svgRef: clock.svgRef,
-      hourHandRef: clock.hourHandRef,
-      minuteHandRef: clock.minuteHandRef,
-      secondHandRef: clock.secondHandRef,
-      digitalHourRef: clock.digitalHourRef,
-      digitalMinuteRef: clock.digitalMinuteRef,
-      digitalSecondRef: clock.digitalSecondRef,
-      digitalAmpmRef: clock.digitalAmpmRef,
-      onPointerDown: clock.handlePointerDown,
-      onAdjust: clock.adjustMinutes,
     },
   }
 }

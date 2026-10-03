@@ -14,7 +14,7 @@ import type { ThemeId } from './themeOptions'
 import type { Theme } from '../contexts/ThemeContext'
 import type { ChildProfile, RewardRecord } from '../data/types'
 import { uiTokens } from '../tokens'
-import type { ListRowDescriptor } from './listDescriptorTypes'
+import type { ListRowDescriptor } from '../components/ui/standardActionListTypes'
 
 type ThemeOption = {
   id: ThemeId
@@ -64,7 +64,7 @@ type RewardDefinitionDescriptorDeps = {
 }
 
 const renderRewardAvailableSummary = (reward: RewardRecord, theme: Theme) => {
-  const image = getRewardImage(reward.imageKey)
+  const image = getRewardImage(reward.imageKey, theme.id)
 
   return (
     <div
@@ -174,7 +174,7 @@ export const createChildDefinitionListRowDescriptor = (
     ) : (
       '⭐'
     ),
-    showLabel: false,
+
     disabled: deps.activeChildId === child.id,
     variant: hasIllustratedTheme(deps.theme.id) ? 'neutral' : 'primary',
     onClick: (item) => deps.selectChild(item.id),
@@ -221,7 +221,7 @@ export const createRewardDefinitionListRowDescriptor = (
       ),
       disabled: deps.isRedeeming || !deps.activeChildId || !hasEnoughStars,
       variant: 'primary',
-      showLabel: false,
+
       onClick: (item) => deps.handleGiveReward(item),
     }
   },

@@ -1,4 +1,12 @@
-import { useEffect, useId, useRef, useState, type CSSProperties } from 'react'
+import {
+  useContext,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react'
+import { ResetChoresContext } from '../contexts/ActivityTabContext'
 import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
@@ -27,12 +35,14 @@ type ResetButtonProps = {
 
 // Only subscribe to chores on other tabs while the menu is open.
 const OtherTabResetButton = (props: ResetButtonProps) => {
+  const resetChores = useContext(ResetChoresContext)
   const { todos, resetDinner, resetChore } = useChores()
   return (
     <ResetButton
       {...props}
       disabled={props.disabled || todos.length === 0}
       onReset={async () => {
+        if (resetChores?.current) return resetChores.current()
         const results = await Promise.allSettled(
           todos.map((chore) =>
             isEatingTask(chore) ? resetDinner(chore) : resetChore(chore)

@@ -11,18 +11,31 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "whole-project quality review 2026-09-29",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-29T10:46:20.850Z",
+    "measured_at": "2026-10-03T07:42:37.048Z",
     "source_type": "static",
-    "source_set_hash": "sha256:b5b2b8b2d531dca3b7353db1e9225e22b30951a5c33636d31c27314442ad4996",
-    "input_set_hash": "sha256:5c39170ca7a3de761805de9fea935b7dc6feed98e6854c7a8266f14cb6cb0287"
+    "compilers": {
+      "analysis": {
+        "engine": "typescript-compiler-api",
+        "package": "typescript",
+        "version": "6.0.3"
+      },
+      "native": {
+        "package": "@typescript/native",
+        "version": "7.0.2",
+        "role": "lens-build-tool",
+        "analysis_executed": false
+      }
+    },
+    "source_set_hash": "sha256:4bcab8946a00e040ab228502e6ce1a5ffead3c3241a21410ec26e9c393fda157",
+    "input_set_hash": "sha256:5ef0a68d8e122e84af3ed41f3cd8cad55a79c3df6dd7715d1cb52c8d459ae7ed"
   },
   "analysis_identity": {
-    "id": "sha256:df2d6bd0c94f97fea0ff73af82a44a21f7494db5fe61a3d8452194b4104daf9c",
+    "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
     "schema_version": "0.3.0",
-    "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:417a6a1424e228ce6f6dbd3c5a83e81baa81fbc7ff0385951e6b0585d40c2e84",
+    "compiler_api_version": "6.0.3",
+    "config_closure_hash": "sha256:486dafcf509a697b064343b75c95780c40ceca85d99dd614d84b28a06662a638",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -32,11 +45,15 @@
       "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "typed_lint_projects": "project-service-auto-v1",
       "react": "recommended-v2",
+      "react_support": "declared-range-capabilities-v1",
+      "react_classification": "correctness-optimization-v1",
       "accessibility": "jsx-a11y-recommended-v1",
       "cleanup": "knip-normalized-v1"
     },
     "integration_versions": {
+      "typescript_native": "7.0.2",
       "typescript_eslint": "8.67.0",
       "react_hooks": "7.1.1",
       "jsx_a11y": "6.10.2",
@@ -65,7 +82,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "jscpd_available": true,
     "jscpd_ran": true,
@@ -113,7 +130,7 @@
       "ran": true,
       "reason": null,
       "statistics": {
-        "detectionDate": "2026-09-29T10:46:20.672Z",
+        "detectionDate": "2026-10-03T07:42:36.820Z",
         "formats": {
           "typescript": {
             "sources": {

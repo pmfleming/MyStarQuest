@@ -20,7 +20,7 @@ export const renderEatingContent = (
   item: UnifiedChoreItem
 ) => {
   if (!isEatingTask(item)) return null
-  const isActive = deps.activeIds.eating === item.id
+  const isActive = deps.activeIds.has(item.id)
   const isCompleted = Boolean(item.manageDinnerCompletedAt)
   if (!isActive && !isCompleted) return null
 
@@ -38,7 +38,7 @@ export const renderEatingContent = (
     ...state.testOutcomeImages(),
     completionImage: getTaskSuccessImage(item, deps.theme),
     biteCooldownSeconds: deps.biteCooldownSeconds,
-    biteCooldownEndsAt: deps.biteCooldownEndsAt,
+    biteCooldownEndsAt: deps.biteCooldowns?.[item.id],
     biteIcon: state.themedAsset(deps.activeMealIcon),
     showSetupControls: false,
   })

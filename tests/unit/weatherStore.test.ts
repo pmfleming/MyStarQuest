@@ -33,7 +33,7 @@ afterEach(async () => {
 })
 
 describe('weather cache and subscriptions', () => {
-  it('keeps city responses separate and cancels abandoned requests', async () => {
+  it('isolates city requests and recovers stale data before it expires', async () => {
     let resolveAmsterdam!: (value: unknown) => void
     const fetch = vi
       .fn()
@@ -54,29 +54,20 @@ describe('weather cache and subscriptions', () => {
     await vi.advanceTimersByTimeAsync(0)
     expect(store.getWeatherSnapshot(dublin).data?.temperature).toBe(10)
     expect(store.getWeatherSnapshot(amsterdam).data).toBeNull()
-  })
-
-  it('retains a labeled stale result on failure, supports retry and expires it', async () => {
-    const fetch = vi
-      .fn()
-      .mockResolvedValueOnce(response())
-      .mockRejectedValue(new Error('offline'))
-    vi.stubGlobal('fetch', fetch)
-    cleanup.push(store.subscribeWeather(amsterdam, vi.fn()))
-    await vi.advanceTimersByTimeAsync(0)
+    fetch.mockRejectedValue(new Error('offline'))
     await vi.advanceTimersByTimeAsync(15 * 60_000)
-    expect(store.getWeatherSnapshot(amsterdam)).toMatchObject({
+    expect(store.getWeatherSnapshot(dublin)).toMatchObject({
       stale: true,
       error: 'Could not update the weather.',
     })
     fetch.mockResolvedValueOnce(response(20))
-    await store.retryWeather(amsterdam)
-    expect(store.getWeatherSnapshot(amsterdam)).toMatchObject({
+    await store.retryWeather(dublin)
+    expect(store.getWeatherSnapshot(dublin)).toMatchObject({
       stale: false,
       error: null,
       data: { temperature: 20 },
     })
     await vi.advanceTimersByTimeAsync(2 * 60 * 60_000)
-    expect(store.getWeatherSnapshot(amsterdam).data).toBeNull()
+    expect(store.getWeatherSnapshot(dublin).data).toBeNull()
   })
 })

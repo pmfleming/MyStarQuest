@@ -12,7 +12,7 @@ import {
 import type {
   ResolvedListAction,
   ResolvedListUtilityAction,
-} from './listDescriptorTypes'
+} from '../components/ui/standardActionListTypes'
 
 type PresetChoreType = Exclude<ChoreModeType, 'standard'>
 
@@ -84,7 +84,7 @@ const createStagedPrimaryAction = <T,>({
   disabled,
   hideButton,
   variant: 'primary',
-  showLabel: false,
+
   onClick: (item) => {
     if (isFinalChoreStage(stage)) return onFinal(item)
     return stage === 'activity' ? onActivity(item) : onSetup(item)

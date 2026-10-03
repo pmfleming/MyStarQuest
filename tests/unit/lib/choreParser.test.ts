@@ -9,7 +9,7 @@ import {
 } from '../../../src/lib/choreParser'
 
 describe('stored document contracts', () => {
-  it('rejects invalid documents', () => {
+  it('rejects invalid stored documents and normalizes non-finite balances', () => {
     const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     try {
       expect(parseChoreSnapshot('bad', null as never)).toBeNull()
@@ -29,9 +29,7 @@ describe('stored document contracts', () => {
     } finally {
       warning.mockRestore()
     }
-  })
 
-  it('keeps stored star balances and reward costs finite', () => {
     expect(childSnapshotDataSchema.parse({ totalStars: 7 }).totalStars).toBe(7)
     expect(childSnapshotDataSchema.parse({ totalStars: NaN }).totalStars).toBe(
       0

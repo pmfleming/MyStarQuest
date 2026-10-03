@@ -28,17 +28,40 @@ const MAX_DIGIT = 9
 const STEPPER_HEIGHT = 44
 
 const PLACE_VALUE_DETAILS = {
-  hundreds: { label: 'Hundreds', factor: 100 },
-  tens: { label: 'Tens', factor: 10 },
-  ones: { label: 'Ones', factor: 1 },
+  hundreds: {
+    label: 'Hundreds',
+    factor: 100,
+    color: 'accent',
+    width: 30,
+    fontSize: '1rem',
+    valueWidth: undefined,
+    minValueWidth: 34,
+    gap: 2,
+    padding: undefined,
+  },
+  tens: {
+    label: 'Tens',
+    factor: 10,
+    color: 'secondary',
+    width: 40,
+    fontSize: '1.2rem',
+    valueWidth: 42,
+    minValueWidth: undefined,
+    gap: 4,
+    padding: undefined,
+  },
+  ones: {
+    label: 'Ones',
+    factor: 1,
+    color: 'primary',
+    width: 30,
+    fontSize: '1rem',
+    valueWidth: 24,
+    minValueWidth: undefined,
+    gap: 2,
+    padding: 4,
+  },
 } as const
-
-const getPlaceColor = (theme: Theme, kind: PlaceValueKind) =>
-  kind === 'hundreds'
-    ? theme.colors.accent
-    : kind === 'tens'
-      ? theme.colors.secondary
-      : theme.colors.primary
 
 const CounterCollection = ({
   kind,
@@ -142,24 +165,6 @@ const getCounterLayout = (
   }
 }
 
-const getStepperStyle = (
-  kind: PlaceValueKind,
-  compact: boolean,
-  width: number
-): CSSProperties => ({
-  width,
-  minWidth: width,
-  height: STEPPER_HEIGHT,
-  fontSize: compact ? '0.9rem' : kind === 'tens' ? '1.2rem' : '1rem',
-  flexShrink: 0,
-})
-
-const getDisplayedValueWidth = (kind: PlaceValueKind) => {
-  if (kind === 'tens') return 42
-  if (kind === 'ones') return 24
-  return undefined
-}
-
 const PlaceValueColumn = ({
   kind,
   value,
@@ -178,9 +183,8 @@ const PlaceValueColumn = ({
   onChange: (value: number) => void
 }) => {
   const details = PLACE_VALUE_DETAILS[kind]
-  const color = getPlaceColor(theme, kind)
-  const stepperWidth = compact ? 28 : kind === 'tens' ? 40 : 30
-  const stepperStyle = getStepperStyle(kind, compact, stepperWidth)
+  const color = theme.colors[details.color]
+  const stepperWidth = compact ? 28 : details.width
   const unitLabel = details.label.toLowerCase().slice(0, -1)
 
   return (
@@ -223,20 +227,26 @@ const PlaceValueColumn = ({
           disabled: value === max,
           ariaLabel: `Add ${unitLabel}`,
         }}
-        buttonStyle={stepperStyle}
+        buttonStyle={{
+          width: stepperWidth,
+          minWidth: stepperWidth,
+          height: STEPPER_HEIGHT,
+          fontSize: compact ? '0.9rem' : details.fontSize,
+          flexShrink: 0,
+        }}
         style={{
-          gap: kind === 'tens' ? 4 : 2,
+          gap: details.gap,
           marginBottom: 8,
           width: '100%',
-          paddingInline: kind === 'ones' ? 4 : undefined,
+          paddingInline: details.padding,
           boxSizing: 'border-box',
         }}
         valueStyle={{
           fontSize: compact ? 19 : 24,
           fontWeight: 'bold',
           color,
-          minWidth: kind === 'hundreds' ? 34 : undefined,
-          width: getDisplayedValueWidth(kind),
+          minWidth: details.minValueWidth,
+          width: details.valueWidth,
           flexShrink: 0,
         }}
       />

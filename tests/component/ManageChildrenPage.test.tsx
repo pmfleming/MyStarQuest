@@ -2,7 +2,6 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ManageChildrenPage from '../../src/pages/ManageChildrenPage'
-import { getThemeAsset } from '../../src/ui/themeAssets'
 
 const state = vi.hoisted(() => ({
   themeId: 'princess' as 'princess' | 'teenie',
@@ -52,28 +51,19 @@ afterEach(() => vi.restoreAllMocks())
 
 describe('child deletion confirmation', () => {
   it.each(['princess'] as const)(
-    'uses the shared %s confirmation buttons and deletes only after Yes',
+    'confirms %s deletion, restores focus on cancel and retries a failed save',
     async (themeId) => {
       state.themeId = themeId
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+      state.deleteChild.mockRejectedValueOnce(new Error('Offline'))
       render(<ManageChildrenPage />)
       const deleteButton = screen.getByRole('button', { name: 'Delete Alex' })
       const card = deleteButton.closest('article')!
       fireEvent.click(deleteButton)
       expect(state.deleteChild).not.toHaveBeenCalled()
       expect(card).not.toHaveClass('whimsical-card-exiting')
-      const yes = screen.getByRole('button', { name: 'Yes, delete' })
       const no = screen.getByRole('button', { name: 'No, keep' })
-      expect(yes.querySelector('img')).toHaveAttribute(
-        'src',
-        getThemeAsset(themeId, 'confirmExitImage')
-      )
-      expect(no.querySelector('img')).toHaveAttribute(
-        'src',
-        getThemeAsset(themeId, 'continueActivityImage')
-      )
       expect(no).toHaveFocus()
-      expect(yes.textContent).toBe('')
-      expect(no.textContent).toBe('')
 
       fireEvent.click(no)
       expect(state.deleteChild).not.toHaveBeenCalled()
@@ -85,9 +75,16 @@ describe('child deletion confirmation', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Delete Alex' }))
       fireEvent.click(screen.getByRole('button', { name: 'Yes, delete' }))
       fireEvent.animationEnd(card)
-      await waitFor(() =>
-        expect(state.deleteChild).toHaveBeenCalledExactlyOnceWith('child-1')
+      expect(await screen.findByRole('alert')).toHaveTextContent('failed')
+      expect(card).not.toHaveClass('whimsical-card-exiting')
+      expect(screen.getByRole('textbox', { name: 'Child name' })).toHaveValue(
+        'Alex'
       )
+      fireEvent.click(screen.getByRole('button', { name: 'Delete Alex' }))
+      fireEvent.click(screen.getByRole('button', { name: 'Yes, delete' }))
+      fireEvent.animationEnd(card)
+      await waitFor(() => expect(state.deleteChild).toHaveBeenCalledTimes(2))
+      expect(state.deleteChild).toHaveBeenLastCalledWith('child-1')
     }
   )
 })

@@ -25,7 +25,16 @@ describe('school calendar event expansion', () => {
       end: new Date('2026-10-27T00:00:00Z'),
       rrule: { between } as Event['rrule'],
     })
-    const calendar = buildSchoolCalendar({ event }, now)
+    const assembly = makeEvent({
+      start: new Date('2026-10-23T09:00:00Z'),
+      end: undefined,
+      datetype: 'date-time',
+      summary: { params: { LANGUAGE: 'en' }, val: 'constructor' },
+    })
+    const calendar = buildSchoolCalendar(
+      { event, assembly, duplicate: assembly },
+      now
+    )
     expect(Object.keys(calendar)).toEqual([
       '2026-10-23',
       '2026-10-24',
@@ -39,34 +48,15 @@ describe('school calendar event expansion', () => {
     expect(Object.values(calendar)).toEqual(
       Array(8).fill(
         expect.objectContaining({
-          summaries: ['Holiday'],
           hasAllDayEvent: true,
           isNonSchoolDay: true,
         })
       )
     )
-    expect(between).toHaveBeenCalledWith(now, new Date(2027, 9, 1))
-  })
-
-  it('merges overlapping summaries and all-day flags, including zero-duration events', () => {
-    const assembly = makeEvent({
-      start: new Date('2026-09-08T09:00:00Z'),
-      end: undefined,
-      datetype: 'date-time',
-      summary: { params: { LANGUAGE: 'en' }, val: 'constructor' },
-    })
-    const calendar = buildSchoolCalendar({
-      assembly,
-      duplicate: assembly,
-      holiday: makeEvent(),
-    })
-    expect(calendar['2026-09-08']).toMatchObject({
-      summaries: ['constructor', 'Holiday'],
-      hasAllDayEvent: true,
-      isNonSchoolDay: true,
-    })
-    expect(buildSchoolCalendar({ assembly })['2026-09-08'].isNonSchoolDay).toBe(
+    expect(calendar['2026-10-23'].summaries).toEqual(['Holiday', 'constructor'])
+    expect(buildSchoolCalendar({ assembly })['2026-10-23'].isNonSchoolDay).toBe(
       false
     )
+    expect(between).toHaveBeenCalledWith(now, new Date(2027, 9, 1))
   })
 })

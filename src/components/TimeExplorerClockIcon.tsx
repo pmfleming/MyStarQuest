@@ -1,9 +1,13 @@
 import type { ClockViewModel } from '../features/dayNightExplorer/Clock'
-import teenieClockIcon from '../assets/themes/teenie/clock-character.png'
 
 export type HeaderClock = Pick<
   ClockViewModel,
-  'hourAngle' | 'minuteAngle' | 'hoursLabel' | 'minutesLabel' | 'ampm'
+  | 'activityImage'
+  | 'hourAngle'
+  | 'minuteAngle'
+  | 'hoursLabel'
+  | 'minutesLabel'
+  | 'ampm'
 >
 
 export default function TimeExplorerClockIcon({
@@ -13,21 +17,17 @@ export default function TimeExplorerClockIcon({
   clock: HeaderClock
   illustrated: boolean
 }) {
+  const activityImage = illustrated ? clock.activityImage : null
   return (
     <svg
-      // Align the held clock's center at 75% of the icon height.
-      viewBox={illustrated ? '0 57.5 1254 1254' : '-115 -115 230 230'}
+      // Keep the clock centered at 75% of the activity artwork's height.
+      viewBox={activityImage ? '0 0 256 256' : '-115 -115 230 230'}
       aria-hidden="true"
       className="h-16 w-16 max-w-full shrink-0 overflow-visible"
     >
-      {illustrated && (
-        <image href={teenieClockIcon} width="1254" height="1254" />
-      )}
-      {/* Match the perspective of the clock held in the character artwork. */}
+      {activityImage && <image href={activityImage} width="256" height="256" />}
       <g
-        transform={
-          illustrated ? 'translate(670 998) scale(2.54 2.24)' : undefined
-        }
+        transform={activityImage ? 'translate(128 192) scale(0.52)' : undefined}
       >
         <circle r="100" fill="#fffaf0" stroke="#d59b22" strokeWidth="5" />
         {Array.from({ length: 12 }, (_, hour) => (

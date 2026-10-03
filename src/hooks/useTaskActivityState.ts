@@ -1,18 +1,34 @@
 import { useCallback, useState } from 'react'
 import type { TaskType } from '../data/types'
 
-export const useTaskActivityState = () => {
-  const [activeIds, setActiveIds] = useState<
-    Partial<Record<TaskType, string | null>>
-  >({})
+export const useTaskActivityState = (scope = '') => {
+  const [state, setState] = useState({ scope, activeIds: new Set<string>() })
+  if (state.scope !== scope) {
+    setState({ scope, activeIds: new Set<string>() })
+  }
 
-  const clearActiveActivities = useCallback(() => setActiveIds({}), [])
+  const clearActiveActivities = useCallback(() => {
+    setState((previous) => ({ ...previous, activeIds: new Set<string>() }))
+  }, [])
   const enterActivity = useCallback((type: TaskType, id: string) => {
-    setActiveIds(type === 'standard' ? {} : { [type]: id })
+    if (type === 'standard') return
+    setState((previous) => ({
+      ...previous,
+      activeIds: new Set(previous.activeIds).add(id),
+    }))
   }, [])
-  const setActiveDinnerId = useCallback((id: string | null) => {
-    setActiveIds((previous) => ({ ...previous, eating: id }))
+  const exitActivity = useCallback((id: string) => {
+    setState((previous) => {
+      const activeIds = new Set(previous.activeIds)
+      activeIds.delete(id)
+      return { ...previous, activeIds }
+    })
   }, [])
 
-  return { activeIds, setActiveDinnerId, clearActiveActivities, enterActivity }
+  return {
+    activeIds: state.activeIds,
+    exitActivity,
+    clearActiveActivities,
+    enterActivity,
+  }
 }

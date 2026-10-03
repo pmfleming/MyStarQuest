@@ -17,48 +17,55 @@ import {
   StandardActionButtons,
 } from './StandardActionButtons'
 import {
-  resolveActionBoolean,
-  resolveActionText,
-  resolveActionValue,
-  resolveActionVariant,
-} from './standardActionConfig'
-import {
   injectStandardActionStyles,
   useCardExitAnimation,
 } from './standardActionCardAnimations'
 import type {
-  ActionConfig,
+  ActionVariant,
   ActionCardContentProps,
   ActionStyleResolver,
   StandardActionListProps,
-  UtilityActionConfig,
+  ResolvedListUtilityAction,
 } from './standardActionListTypes'
 
 const resolveUtilityState = <T,>(
   item: T,
-  utilityAction: UtilityActionConfig<T> | undefined,
+  getAction: ActionCardContentProps<T>['getUtilityAction'],
+  onDelete: ActionCardContentProps<T>['onDelete'],
   theme: Theme,
   itemLabel?: string
 ) => {
-  const hidden = resolveActionBoolean(utilityAction?.hideButton, item)
-  const action = hidden ? undefined : utilityAction
-  const exits = action ? resolveActionBoolean(action.exits, item) : true
-  const defaultIcon = (
-    <DefaultActionIcon theme={theme} type={exits ? 'delete' : 'reset'} />
-  )
-
+  const action = getAction
+    ? getAction(item)
+    : {
+        label: itemLabel ? `Delete ${itemLabel}` : 'Delete',
+        exits: true,
+        onClick: onDelete,
+      }
+  const {
+    label = 'Delete',
+    ariaLabel = label,
+    variant = 'danger',
+    disabled = false,
+    exits = false,
+    hideButton = !action,
+    onClick = onDelete,
+    icon,
+  }: Partial<ResolvedListUtilityAction<T>> = action ?? {}
+  const name = exits ? 'Delete' : 'Reset'
   return {
-    action,
-    hidden,
-    variant: resolveActionVariant(action?.variant, item, 'danger'),
-    ariaLabel: action
-      ? resolveActionText(action.ariaLabel ?? action.label, item)
-      : itemLabel
-        ? `Delete ${itemLabel}`
-        : 'Delete',
-    disabled: action?.disabled?.(item) ?? false,
+    onClick,
+    hidden: hideButton,
+    variant,
+    ariaLabel,
+    disabled,
     exits,
-    icon: resolveActionValue(action?.icon ?? defaultIcon, item) || defaultIcon,
+    name,
+    confirmLabel: exits ? 'Yes, delete' : 'Yes, reset',
+    cancelLabel: exits ? 'No, keep' : 'No, keep progress',
+    icon: icon || (
+      <DefaultActionIcon theme={theme} type={exits ? 'delete' : 'reset'} />
+    ),
   }
 }
 
@@ -66,8 +73,7 @@ type ActionCardProps<T> = ActionCardContentProps<T> & {
   item: T
   index: number
   isItemHighlighted: boolean
-  primaryDisabled: boolean
-  getActionStyle: ActionStyleResolver<T>
+  getActionStyle: ActionStyleResolver
   actionBaseStyle: CSSProperties
 }
 
@@ -79,11 +85,10 @@ const ActionCard = <T,>({
   isItemHighlighted,
   renderHeader,
   renderItem,
-  primaryAction,
-  primaryDisabled,
+  getPrimaryAction,
   onEdit,
   onDelete,
-  utilityAction,
+  getUtilityAction,
   getActionStyle,
   actionBaseStyle,
   getKey,
@@ -102,12 +107,19 @@ const ActionCard = <T,>({
   >()
   const { cardRef, isExiting, runWithExit } = useCardExitAnimation()
   const itemLabel = getItemLabel?.(item)
-  const utility = resolveUtilityState(item, utilityAction, theme, itemLabel)
+  const primaryAction = getPrimaryAction(item)
+  const utility = resolveUtilityState(
+    item,
+    getUtilityAction,
+    onDelete,
+    theme,
+    itemLabel
+  )
   // Every delete and reset uses the same inline confirmation controls.
   const confirmingReset = resetRequested && !utility.hidden
 
   const itemKey = getKey ? getKey(item) : `${index}`
-  const isInlineEditing = editingId !== undefined && editingId === itemKey
+  const isInlineEditing = editingId === itemKey
   const errorId = `card-action-error-${itemKey.replace(/[^a-zA-Z0-9_-]/g, '-')}`
 
   const handlePrimaryAction = async () => {
@@ -122,9 +134,7 @@ const ActionCard = <T,>({
 
   const handleUtilityAction = async () => {
     await runWithExit(utility.exits, () =>
-      runAction(utility.exits ? 'Delete' : 'Reset', 'utility', () =>
-        (utility.action?.onClick ?? onDelete)(item)
-      )
+      runAction(utility.name, 'utility', () => utility.onClick(item))
     )
   }
 
@@ -134,8 +144,9 @@ const ActionCard = <T,>({
   }, [cardRef, isInlineEditing])
 
   const starCount = getStarCount?.(item)
-  const hidePrimaryButton = resolveActionBoolean(primaryAction.hideButton, item)
-  const hideEditButton = resolveActionBoolean(hideEdit, item)
+  const hidePrimaryButton = Boolean(primaryAction.hideButton)
+  const hideEditButton =
+    typeof hideEdit === 'function' ? hideEdit(item) : Boolean(hideEdit)
 
   if (isInlineEditing && renderInlineEdit) {
     return (
@@ -152,7 +163,6 @@ const ActionCard = <T,>({
 
   const footer = (
     <StandardActionButtons
-      item={item}
       theme={theme}
       primaryAction={
         activityActionImage
@@ -162,7 +172,7 @@ const ActionCard = <T,>({
             }
           : primaryAction
       }
-      primaryDisabled={primaryDisabled}
+      primaryDisabled={Boolean(primaryAction.disabled)}
       hidePrimary={hidePrimaryButton}
       hideEdit={hideEditButton}
       hideUtility={utility.hidden}
@@ -171,8 +181,8 @@ const ActionCard = <T,>({
       editAriaLabel={itemLabel ? `Edit ${itemLabel}` : 'Edit item'}
       onUtility={() => setResetRequested(true)}
       confirmingReset={confirmingReset}
-      confirmAriaLabel={utility.exits ? 'Yes, delete' : 'Yes, reset'}
-      cancelAriaLabel={utility.exits ? 'No, keep' : 'No, keep progress'}
+      confirmAriaLabel={utility.confirmLabel}
+      cancelAriaLabel={utility.cancelLabel}
       onConfirmReset={() => {
         setResetRequested(false)
         void handleUtilityAction()
@@ -210,7 +220,7 @@ const ActionCard = <T,>({
         </ImageLoadingContext>
       }
       status={
-        starCount !== undefined || actionError ? (
+        (starCount !== undefined || Boolean(actionError)) && (
           <>
             {starCount !== undefined && <StarDisplay count={starCount} />}
             {actionError && (
@@ -223,7 +233,7 @@ const ActionCard = <T,>({
               </p>
             )}
           </>
-        ) : undefined
+        )
       }
       footer={footer}
       ariaBusy={pendingAction !== null}
@@ -332,7 +342,7 @@ const ListFooter = ({
 const StandardActionList = <T,>({
   theme,
   items,
-  primaryAction,
+  getPrimaryAction,
   addLabel,
   onAdd,
   addDisabled = false,
@@ -351,13 +361,8 @@ const StandardActionList = <T,>({
 
   const actionBaseStyle = getStandardActionBaseStyle(theme)
 
-  const getActionStyle = (
-    variant?: ActionConfig<T>['variant']
-  ): CSSProperties =>
-    getStandardActionVariantStyle(
-      theme,
-      typeof variant === 'function' ? 'primary' : variant
-    )
+  const getActionStyle = (variant?: ActionVariant) =>
+    getStandardActionVariantStyle(theme, variant)
 
   if (isLoading) {
     return (
@@ -385,8 +390,7 @@ const StandardActionList = <T,>({
                 index={index}
                 theme={theme}
                 isItemHighlighted={isHighlighted?.(item) ?? false}
-                primaryAction={primaryAction}
-                primaryDisabled={primaryAction.disabled?.(item) ?? false}
+                getPrimaryAction={getPrimaryAction}
                 getActionStyle={getActionStyle}
                 actionBaseStyle={actionBaseStyle}
               />

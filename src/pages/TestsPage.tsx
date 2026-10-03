@@ -5,7 +5,6 @@ import TabContent from '../components/TabContent'
 import StandardActionList from '../components/ui/StandardActionList'
 import ResourceLoadingIcon from '../components/ui/ResourceLoadingIcon'
 import { getTabIcon } from '../lib/tabNavigation'
-import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { createUnifiedChoreDescriptor } from '../ui/unifiedChoreDescriptors'
 import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 import { useTests } from '../data/useTests'
@@ -31,7 +30,8 @@ const TestsPage = () => {
     resetTest,
   } = useTests()
 
-  const activity = useTaskActivityState()
+  const activityScope = `${activeChildId}:${todayInfo.dateKey}`
+  const activity = useTaskActivityState(activityScope)
   const activeChild = children.find((child) => child.id === activeChildId)
   const celebration = useTaskCelebration({
     items: tests,
@@ -40,14 +40,12 @@ const TestsPage = () => {
     totalStars: activeChild?.totalStars ?? 0,
   })
   const testFailureModeEnabled = activeChild?.testFailureModeEnabled ?? true
-  const clearActivityIds = activity.clearActiveActivities
   const triggers = useTestCheckTriggers()
   const clearCheckTriggers = triggers.clearCheckTriggers
 
   useEffect(() => {
-    clearActivityIds()
     clearCheckTriggers()
-  }, [activeChildId, clearActivityIds, clearCheckTriggers, todayInfo.dateKey])
+  }, [activeChildId, clearCheckTriggers, todayInfo.dateKey])
 
   const descriptor = celebration.decorate(
     createUnifiedChoreDescriptor({
@@ -96,11 +94,12 @@ const TestsPage = () => {
           </div>
         ) : (
           <StandardActionList
+            key={activityScope}
             theme={theme}
             items={celebration.retainItems(visibleTests)}
             getKey={(test) => test.id}
             getItemLabel={(test) => test.title}
-            {...toStandardActionListDescriptor(descriptor)}
+            {...descriptor}
             getStarCount={() => undefined}
             hideEdit
             onDelete={() => undefined}

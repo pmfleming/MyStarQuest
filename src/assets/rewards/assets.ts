@@ -3,9 +3,12 @@ import japanesePikachuImage from './pikachu-japanese-cards.svg'
 import legoPokemonImage from './lego-pokemon.png'
 import yoshiEggImage from './YoshiEgg.webp'
 import teeniepingImage from './teenieping.webp'
+import clawGameTeenieImage from './claw-game-teenie.png'
+import clawGamePrincessImage from './claw-game-princess.png'
 import { getSpellingImage } from '../../data/spellingAssets'
+import type { ThemeId } from '../../ui/themeOptions'
 
-export const rewardImageOptions = [
+const rewardImageOptions = [
   { id: '', label: 'No image' },
   { id: 'teenieping', label: 'Teenieping', image: teeniepingImage },
   { id: 'yoshiEgg', label: 'Hatchin Yoshi', image: yoshiEggImage },
@@ -16,6 +19,7 @@ export const rewardImageOptions = [
     image: japanesePikachuImage,
   },
   { id: 'legoPokemon', label: 'LEGO Pokémon', image: legoPokemonImage },
+  { id: 'clawGame', label: 'Claw game', image: clawGamePrincessImage },
 ]
 
 const rewardImages = new Map(
@@ -23,7 +27,18 @@ const rewardImages = new Map(
 )
 rewardImages.set('pinkPrincess', teeniepingImage)
 
-export const getRewardImage = (imageKey = '') => rewardImages.get(imageKey)
+export const getRewardImage = (imageKey = '', themeId: ThemeId = 'princess') =>
+  imageKey === 'clawGame'
+    ? themeId === 'teenie'
+      ? clawGameTeenieImage
+      : clawGamePrincessImage
+    : rewardImages.get(imageKey)
+
+export const getRewardImageOptions = (themeId: ThemeId) =>
+  rewardImageOptions.map((option) => ({
+    ...option,
+    image: getRewardImage(option.id, themeId),
+  }))
 
 export const getRewardOverlayImage = (title: string, imageKey?: string) =>
   imageKey === 'legoPokemon' ? getSpellingImage(title) : undefined

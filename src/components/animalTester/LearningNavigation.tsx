@@ -90,7 +90,7 @@ export default function LearningNavigation({
         close(false)
     }
     const escape = (event: globalThis.KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' && !navigation.current?.closest('[inert]')) {
         event.preventDefault()
         close()
       }

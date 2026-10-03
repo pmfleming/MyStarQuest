@@ -58,6 +58,8 @@ const credit: Action = {
 describe('offline Firebase transaction protocol', () => {
   it('counts different devices separately and retries the same action exactly once', async () => {
     const cloud = server()
+    const sharedTask = { title: 'Tidy', manageCompletedAt: null }
+    cloud.documents.set('users/parent/chores/tidy', sharedTask)
     const a = operation(credit),
       b = operation(credit)
     const first = await cloud.run(a)
@@ -69,6 +71,15 @@ describe('offline Firebase transaction protocol', () => {
     expect(
       [...cloud.documents.keys()].filter((key) => key.includes('/starEvents/'))
     ).toHaveLength(2)
+    expect(cloud.documents.get('users/parent/chores/tidy')).toEqual(sharedTask)
+    expect(
+      [...cloud.documents.keys()].filter((key) =>
+        key.includes('/deviceActivities/')
+      )
+    ).toEqual([
+      expect.stringContaining('2026-09-14'),
+      expect.stringContaining('2026-09-14'),
+    ])
   })
   it('honours offline reward prices, floors each debit, and adds later earnings normally', async () => {
     const cloud = server()
@@ -92,23 +103,6 @@ describe('offline Firebase transaction protocol', () => {
     expect(
       cloud.documents.get(`users/parent/redemptions/${buy.id}`)?.chargedStars
     ).toBe(5)
-  })
-  it('does not overwrite shared tasks or another day when an old completion arrives', async () => {
-    const cloud = server()
-    cloud.documents.set('users/parent/chores/tidy', {
-      title: 'Tidy',
-      manageCompletedAt: null,
-    })
-    await cloud.run(operation(credit))
-    expect(cloud.documents.get('users/parent/chores/tidy')).toEqual({
-      title: 'Tidy',
-      manageCompletedAt: null,
-    })
-    expect(
-      [...cloud.documents.keys()].filter((key) =>
-        key.includes('/deviceActivities/')
-      )[0]
-    ).toContain('2026-09-14')
   })
   it('preserves conflicts instead of silently recreating a deleted child or definition', async () => {
     const cloud = server()

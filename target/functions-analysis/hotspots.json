@@ -11,18 +11,31 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "whole-project quality review 2026-09-29",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-29T10:46:20.102Z",
+    "measured_at": "2026-10-03T07:42:36.202Z",
     "source_type": "static",
-    "source_set_hash": "sha256:b5b2b8b2d531dca3b7353db1e9225e22b30951a5c33636d31c27314442ad4996",
-    "input_set_hash": "sha256:a25b7fd549c4298d17820440cbc7a2a52e7f01a4fc5cc49d30e261595bf08145"
+    "compilers": {
+      "analysis": {
+        "engine": "typescript-compiler-api",
+        "package": "typescript",
+        "version": "6.0.3"
+      },
+      "native": {
+        "package": "@typescript/native",
+        "version": "7.0.2",
+        "role": "lens-build-tool",
+        "analysis_executed": false
+      }
+    },
+    "source_set_hash": "sha256:4bcab8946a00e040ab228502e6ce1a5ffead3c3241a21410ec26e9c393fda157",
+    "input_set_hash": "sha256:c9f3050c8e2e640ddd1b72ec594a581a3811b7af43f003263df62694b80169c0"
   },
   "analysis_identity": {
-    "id": "sha256:df2d6bd0c94f97fea0ff73af82a44a21f7494db5fe61a3d8452194b4104daf9c",
+    "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
     "schema_version": "0.3.0",
-    "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:417a6a1424e228ce6f6dbd3c5a83e81baa81fbc7ff0385951e6b0585d40c2e84",
+    "compiler_api_version": "6.0.3",
+    "config_closure_hash": "sha256:486dafcf509a697b064343b75c95780c40ceca85d99dd614d84b28a06662a638",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -32,11 +45,15 @@
       "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "typed_lint_projects": "project-service-auto-v1",
       "react": "recommended-v2",
+      "react_support": "declared-range-capabilities-v1",
+      "react_classification": "correctness-optimization-v1",
       "accessibility": "jsx-a11y-recommended-v1",
       "cleanup": "knip-normalized-v1"
     },
     "integration_versions": {
+      "typescript_native": "7.0.2",
       "typescript_eslint": "8.67.0",
       "react_hooks": "7.1.1",
       "jsx_a11y": "6.10.2",
@@ -65,7 +82,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "complete": true,
     "partial": false,
@@ -94,7 +111,26 @@
   "summary": {
     "source_files": 3,
     "records": 18,
-    "high_risk_records": 3
+    "high_risk_records": 3,
+    "source_lines": 532,
+    "functions": 15,
+    "function_metrics": {
+      "cyclomatic_complexity": {
+        "total": 63,
+        "max": 8,
+        "mean": 4.2
+      },
+      "cognitive_complexity": {
+        "total": 52,
+        "max": 9,
+        "mean": 3.47
+      },
+      "halstead_effort": {
+        "total": 104571.25,
+        "max": 30460.36,
+        "mean": 6971.42
+      }
+    }
   },
   "records": [
     {
@@ -105,6 +141,8 @@
       "line": 1,
       "score": 166,
       "risk": "high",
+      "evidence_kind": "metric",
+      "message": "src/index.ts: 326 lines, 28 branches, 6 imports.",
       "signals": [
         {
           "kind": "line_count",
@@ -120,15 +158,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -159,6 +195,8 @@
       "line": 78,
       "score": 74,
       "risk": "high",
+      "evidence_kind": "metric",
+      "message": "buildSchoolCalendar: cyclomatic 8, cognitive 9, nesting 2, Halstead effort 30460.36, 25 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -182,15 +220,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -220,6 +256,8 @@
       "line": 1,
       "score": 72,
       "risk": "high",
+      "evidence_kind": "metric",
+      "message": "src/schoolCalendar.ts: 114 lines, 17 branches, 2 imports.",
       "signals": [
         {
           "kind": "line_count",
@@ -235,15 +273,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "fix",
@@ -274,6 +310,8 @@
       "line": 240,
       "score": 63,
       "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "assertCallableChild: cyclomatic 8, cognitive 7, nesting 1, Halstead effort 7276.19, 20 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -297,15 +335,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -330,6 +366,8 @@
       "line": 44,
       "score": 60,
       "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "appendOccurrence: cyclomatic 7, cognitive 6, nesting 1, Halstead effort 4653.16, 28 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -353,15 +391,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -386,6 +422,8 @@
       "line": 64,
       "score": 51,
       "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "isScheduledForDay: cyclomatic 6, cognitive 6, nesting 1, Halstead effort 6006.03, 16 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -409,15 +447,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -442,6 +478,8 @@
       "line": 214,
       "score": 47,
       "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "getDailyActivityResetPatch: cyclomatic 5, cognitive 4, nesting 1, Halstead effort 4237.49, 25 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -465,15 +503,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -498,6 +534,8 @@
       "line": 146,
       "score": 40,
       "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "resetChildChores: cyclomatic 3, cognitive 3, nesting 2, Halstead effort 20965.88, 20 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -521,15 +559,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -554,6 +590,8 @@
       "line": 77,
       "score": 37,
       "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "classifySchoolEvent: cyclomatic 4, cognitive 3, nesting 1, Halstead effort 10949.82, 15 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -577,15 +615,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -610,6 +646,8 @@
       "line": 24,
       "score": 35,
       "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "appendDay: cyclomatic 4, cognitive 3, nesting 1, Halstead effort 674.22, 14 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -633,15 +671,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -665,6 +701,8 @@
       "line": 1,
       "score": 34,
       "risk": "low",
+      "evidence_kind": "metric",
+      "message": "src/schoolEventCatalog.ts: 92 lines, 3 branches, 0 imports.",
       "signals": [
         {
           "kind": "line_count",
@@ -680,15 +718,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/file",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "file",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -713,6 +749,8 @@
       "line": 114,
       "score": 29,
       "risk": "low",
+      "evidence_kind": "metric",
+      "message": "getActivityType: cyclomatic 4, cognitive 3, nesting 0, Halstead effort 2693.67, 10 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -736,15 +774,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -769,6 +805,8 @@
       "line": 33,
       "score": 29,
       "risk": "low",
+      "evidence_kind": "metric",
+      "message": "getLocalizedDateInfo: cyclomatic 3, cognitive 2, nesting 0, Halstead effort 12632.96, 23 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -792,15 +830,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -825,6 +861,8 @@
       "line": 128,
       "score": 26,
       "risk": "low",
+      "evidence_kind": "metric",
+      "message": "isLegacyDayNight: cyclomatic 4, cognitive 3, nesting 0, Halstead effort 218.72, 4 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -848,15 +886,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -881,6 +917,8 @@
       "line": 108,
       "score": 21,
       "risk": "low",
+      "evidence_kind": "metric",
+      "message": "fetchSchoolCalendarText: cyclomatic 2, cognitive 1, nesting 1, Halstead effort 1541.53, 6 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -904,15 +942,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -937,6 +973,8 @@
       "line": 125,
       "score": 18,
       "risk": "low",
+      "evidence_kind": "metric",
+      "message": "isChoreType: cyclomatic 3, cognitive 2, nesting 0, Halstead effort 42.65, 1 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -960,15 +998,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -993,6 +1029,8 @@
       "line": 134,
       "score": 11,
       "risk": "low",
+      "evidence_kind": "metric",
+      "message": "getTemplateDocs: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 263.72, 11 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -1016,15 +1054,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",
@@ -1049,6 +1085,8 @@
       "line": 203,
       "score": 11,
       "risk": "low",
+      "evidence_kind": "metric",
+      "message": "resetTodayActivities: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 1954.85, 10 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -1072,15 +1110,13 @@
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
-      "evidence_kind": "heuristic",
       "disposition": "review",
-      "finding_confidence": "medium",
-      "message": "function",
+      "finding_confidence": "high",
       "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
-      "semantic_decision": "unresolved",
-      "estimated_effort": 15,
       "actions": [
         {
           "type": "add-to-config",

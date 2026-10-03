@@ -7,6 +7,7 @@ import { themes } from '../../src/contexts/ThemeContext'
 import type { SolarSystemSceneState } from '../../src/features/dayNightExplorer/SolarSystem3DManager'
 import { readTimeExplorerState } from '../../src/features/dayNightExplorer/timeExplorerStorage'
 import useDayNightExplorerModel from '../../src/features/dayNightExplorer/useDayNightExplorerModel'
+import { getCurrentExplorerCity } from '../../src/features/dayNightExplorer/currentExplorerCity'
 import { DEFAULT_CALENDAR_SCHEDULE } from '../../src/lib/calendarSchedule'
 
 const scene = vi.hoisted(() => ({
@@ -60,34 +61,12 @@ beforeEach(() => {
   atCity(52.3676, 4.9041)
 })
 afterEach(() => {
+  vi.restoreAllMocks()
   vi.useRealTimers()
   Reflect.deleteProperty(navigator, 'geolocation')
 })
 
 describe('shared explorer reset', () => {
-  it('keeps the exact instant when changing city across midnight between React clock snapshots', async () => {
-    const { result } = renderHook(
-      () => ({
-        explorer: useDayNightExplorerModel(themes.princess),
-        date: useSelectedDate(),
-      }),
-      { wrapper: SelectedDateProvider }
-    )
-    await act(async () => {})
-    act(() => result.current.explorer.clock.onAdjust(480))
-    act(() => vi.advanceTimersByTime(2000))
-    const before = scene.update.mock.lastCall![0].sunPosition
-    act(() => result.current.explorer.planet.onSelect('taipei'))
-    expect(result.current.date.selectedDateKey).toBe('2026-09-23')
-    expect(result.current.explorer.clock).toMatchObject({
-      hoursLabel: '04',
-      minutesLabel: '34',
-      seconds: 58,
-      ampm: 'AM',
-    })
-    expect(scene.render.mock.lastCall![0].sunPosition).toEqual(before)
-  })
-
   it('restores date, exact clock time, city and globe mode across sessions, including after reset', async () => {
     const useExplorer = () => ({
       explorer: useDayNightExplorerModel(themes.teenie, true),
@@ -100,13 +79,25 @@ describe('shared explorer reset', () => {
     )
     const first = renderHook(useExplorer, { wrapper })
     await act(async () => {})
+    act(() => first.result.current.explorer.clock.onAdjust(480))
+    act(() => vi.advanceTimersByTime(2000))
+    const before = scene.update.mock.lastCall![0].sunPosition
+    act(() => first.result.current.explorer.planet.onSelect('taipei'))
+    expect(first.result.current.date.selectedDateKey).toBe('2026-09-23')
+    expect(first.result.current.explorer.clock).toMatchObject({
+      hoursLabel: '04',
+      minutesLabel: '34',
+      seconds: 58,
+      ampm: 'AM',
+    })
+    expect(scene.render.mock.lastCall![0].sunPosition).toEqual(before)
+    act(() => first.result.current.explorer.clock.onAdjust(-480))
     act(() => first.result.current.explorer.planet.onSelect('sun'))
     act(() => first.result.current.explorer.planet.onSelect('taipei'))
     act(() => {
       first.result.current.date.setSelectedDateKey('2025-02-14')
       first.result.current.explorer.clock.onAdjust(-180)
     })
-    act(() => vi.advanceTimersByTime(2000))
     act(() => window.dispatchEvent(new Event('pagehide')))
     expect(readTimeExplorerState().exploration?.seconds).toBe(58)
     first.unmount()
@@ -141,6 +132,18 @@ describe('shared explorer reset', () => {
     })
     expect(third.result.current.explorer.weatherCity.id).toBe('taipei')
     third.unmount()
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('blocked')
+    })
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('full')
+    })
+    const blocked = renderHook(useExplorer, { wrapper })
+    await act(async () => {})
+    expect(blocked.result.current.explorer.weatherCity.id).toBe('amsterdam')
+    act(() => blocked.result.current.explorer.clock.onAdjust(60))
+    act(() => window.dispatchEvent(new Event('pagehide')))
+    blocked.unmount()
   })
 
   it('resets at the nightly boundary and catches up after suspension or reopening', async () => {
@@ -205,6 +208,9 @@ describe('shared explorer reset', () => {
     locate.mockImplementation((success: PositionCallback) => {
       finish = success
     })
+    const pendingLocation = getCurrentExplorerCity()
+    await vi.advanceTimersByTimeAsync(10_000)
+    expect(await pendingLocation).toBe('amsterdam')
     const { result, unmount } = renderHook(
       () => ({
         explorer: useDayNightExplorerModel(themes.princess),

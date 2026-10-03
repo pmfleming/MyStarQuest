@@ -1,10 +1,5 @@
-import {
-  memo,
-  useMemo,
-  type CSSProperties,
-  type PointerEvent as ReactPointerEvent,
-  type RefObject,
-} from 'react'
+import type useExplorerClock from './useExplorerClock'
+import { memo, useMemo, type CSSProperties, type RefObject } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
 import hourHandSvg from '../../assets/clock/hourhand.svg'
@@ -31,34 +26,12 @@ type HandConfig = {
   hitEndY: number
 }
 
-export type ClockViewModel = {
+export type ClockViewModel = ReturnType<typeof useExplorerClock>['view'] & {
   activityImage: string | null
   explorerBackdropColor: string
   explorerBaseBackgroundImage: string | null
   explorerOverlayBackgroundImage: string | null
   overlayOpacity: number
-  isDragging: boolean
-  handTransition: string
-  hourAngle: number
-  minuteAngle: number
-  secondAngle: number
-  hoursLabel: string
-  minutesLabel: string
-  seconds: number
-  ampm: string
-  svgRef: RefObject<SVGSVGElement | null>
-  hourHandRef: RefObject<SVGGElement | null>
-  minuteHandRef: RefObject<SVGGElement | null>
-  secondHandRef: RefObject<SVGGElement | null>
-  digitalHourRef: RefObject<HTMLSpanElement | null>
-  digitalMinuteRef: RefObject<HTMLSpanElement | null>
-  digitalSecondRef: RefObject<HTMLSpanElement | null>
-  digitalAmpmRef: RefObject<HTMLSpanElement | null>
-  onPointerDown: (
-    event: ReactPointerEvent<SVGGElement>,
-    hand: ClockHandId
-  ) => void
-  onAdjust: (delta: number) => void
 }
 
 type ClockProps = {

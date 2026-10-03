@@ -6,7 +6,7 @@ import ImageOptionCarousel from '../components/ui/ImageOptionCarousel'
 import RepeatControl from '../components/ui/RepeatControl'
 import StarDisplay from '../components/ui/StarDisplay'
 import { IconActionRow } from '../components/ui/IconActionControls'
-import { rewardImageOptions } from '../assets/rewards/assets'
+import { getRewardImageOptions } from '../assets/rewards/assets'
 import { uiTokens } from '../tokens'
 import type { RewardDocumentSettings } from '../data/useRewards'
 
@@ -78,7 +78,7 @@ const RewardCreationFlow = ({
 
       <ImageOptionCarousel
         theme={theme}
-        options={rewardImageOptions}
+        options={getRewardImageOptions(theme.id)}
         title="Reward image"
         selectedId={draft.imageKey}
         onChange={(imageKey) => updateDraft({ imageKey })}

@@ -44,9 +44,8 @@ export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
   })
 
   const hasActiveDinnerCooldown = (item: UnifiedChoreItem) =>
-    deps.activeIds.eating === item.id &&
-    typeof deps.biteCooldownEndsAt === 'number' &&
-    deps.biteCooldownEndsAt > Date.now()
+    deps.activeIds.has(item.id) &&
+    (deps.biteCooldowns?.[item.id] ?? 0) > Date.now()
 
   const isCompleted = (item: UnifiedChoreItem) =>
     Boolean(getManageTaskCompletedAt(item))
@@ -97,7 +96,7 @@ const hasExpiredDinnerTimer = ({
 }
 
 const isActiveItem = (deps: UnifiedChoreDeps, id: string) =>
-  Object.values(deps.activeIds).includes(id)
+  deps.activeIds.has(id)
 
 const getTaskWaterToiletRenderState = (
   deps: UnifiedChoreDeps,

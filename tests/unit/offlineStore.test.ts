@@ -52,10 +52,6 @@ describe('offline action model', () => {
     ).toBeNull()
     expect(state.pending).toHaveLength(1)
     expect(projectDocuments(state, 'children').child.totalStars).toBe(8)
-  })
-  it('does not double-project a server snapshot that already includes a pending action', () => {
-    const state = seeded()
-    enqueue(state, completion())
     state.documents.children.child = {
       totalStars: 8,
       offlineDeviceSequences: { [state.deviceId]: 1 },

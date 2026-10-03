@@ -7,7 +7,6 @@ import { manageTestOutcomePatch } from '../../src/data/dailyTaskState'
 import type { TestWithEphemeral } from '../../src/data/types'
 import { useTaskActivityState } from '../../src/hooks/useTaskActivityState'
 import { useTestCheckTriggers } from '../../src/hooks/useTestCheckTriggers'
-import { toStandardActionListDescriptor } from '../../src/ui/listDescriptorTypes'
 import { createUnifiedChoreDescriptor } from '../../src/ui/unifiedChoreDescriptors'
 import '../../src/index.css'
 
@@ -61,7 +60,7 @@ export default function Fixture() {
         items={[test]}
         getKey={(item) => item.id}
         getItemLabel={(item) => item.title}
-        {...toStandardActionListDescriptor(descriptor)}
+        {...descriptor}
         hideEdit
         hideAdd
         onDelete={() => undefined}

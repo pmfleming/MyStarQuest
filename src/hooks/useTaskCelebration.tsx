@@ -9,7 +9,7 @@ import {
   type TaskWithEphemeral,
 } from '../data/types'
 import { celebrateSuccess } from '../lib/celebrate'
-import type { ListRowDescriptor } from '../ui/listDescriptorTypes'
+import type { ListRowDescriptor } from '../components/ui/standardActionListTypes'
 import { getTaskSuccessImage } from '../ui/taskSuccessImage'
 import { uiTokens } from '../tokens'
 
@@ -169,15 +169,11 @@ export function useTaskCelebration<T extends TaskWithEphemeral>({
       activeEntry(item)?.details ? null : descriptor.renderHeader?.(item),
     getPrimaryAction: (item) => {
       const action = descriptor.getPrimaryAction(item)
-      return activeEntry(item)?.details
-        ? {
-            ...action,
-            hideButton: true,
-            disabled: isBusy(item) || action.disabled,
-          }
-        : isBusy(item)
-          ? { ...action, disabled: true }
-          : action
+      return {
+        ...action,
+        hideButton: Boolean(activeEntry(item)?.details) || action.hideButton,
+        disabled: isBusy(item) || action.disabled,
+      }
     },
     getUtilityAction: (item) => {
       const action = descriptor.getUtilityAction?.(item)

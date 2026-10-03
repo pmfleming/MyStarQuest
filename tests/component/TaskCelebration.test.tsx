@@ -127,7 +127,7 @@ it('discards a pending celebration after switching children, including switching
   ).toBeEnabled()
 })
 
-it('celebrates a test once, only after its successful completion is saved', async () => {
+it('retries failed or unawarded completions and celebrates a saved result only once', async () => {
   const item = data.tests[0]!
   const { result } = renderHook(() =>
     useTaskCelebration({
@@ -137,6 +137,20 @@ it('celebrates a test once, only after its successful completion is saved', asyn
       items: data.tests,
     })
   )
+  await act(async () => {
+    await expect(
+      result.current.run(item, data.tests, async () => {
+        throw new Error('Save failed')
+      })
+    ).rejects.toThrow('Save failed')
+  })
+  expect(celebrateSuccess).not.toHaveBeenCalled()
+  await act(async () => {
+    await result.current.run(item, data.tests, async (onAward) => {
+      onAward(0)
+    })
+  })
+  expect(celebrateSuccess).not.toHaveBeenCalled()
   let save!: () => void
   const action = vi.fn(
     (onAward: (delta: number) => void) =>
@@ -161,30 +175,4 @@ it('celebrates a test once, only after its successful completion is saved', asyn
     await pending
   })
   expect(celebrateSuccess).toHaveBeenCalledTimes(1)
-})
-
-it('does not celebrate unsaved or already awarded test completions', async () => {
-  const item = data.tests[0]!
-  const { result } = renderHook(() =>
-    useTaskCelebration({
-      activeChildId: 'child',
-      dateKey: '2026-10-01',
-      totalStars: 10,
-      items: data.tests,
-    })
-  )
-  await act(async () => {
-    await expect(
-      result.current.run(item, data.tests, async () => {
-        throw new Error('Save failed')
-      })
-    ).rejects.toThrow('Save failed')
-  })
-  expect(celebrateSuccess).not.toHaveBeenCalled()
-  await act(async () => {
-    await result.current.run(item, data.tests, async (onAward) => {
-      onAward(0)
-    })
-  })
-  expect(celebrateSuccess).not.toHaveBeenCalled()
 })

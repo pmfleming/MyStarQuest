@@ -128,27 +128,24 @@ function projectOperation(
   operation: PendingAction
 ) {
   const { action } = operation
-  if (action.kind === 'document') {
-    if (action.collection !== collection) return
-    if (
-      collection === 'children' &&
-      reflectedByChild(documents[action.entityId], operation)
-    )
-      return
-    if (action.mode === 'delete') delete documents[action.entityId]
-    else
-      documents[action.entityId] = {
-        ...(action.mode === 'patch' ? documents[action.entityId] : {}),
-        ...action.data,
+  const targetCollection =
+    action.kind === 'document' ? action.collection : 'children'
+  if (collection !== targetCollection) return
+  const id = action.kind === 'document' ? action.entityId : action.childId
+  const current = documents[id]
+  if (collection === 'children' && reflectedByChild(current, operation)) return
+
+  if (action.kind !== 'document') {
+    if (current)
+      documents[id] = {
+        ...current,
+        totalStars: clampStars(starBalance(current) + starDelta(action)),
       }
-    return
-  }
-  if (collection !== 'children') return
-  const child = documents[action.childId]
-  if (child && !reflectedByChild(child, operation))
-    documents[action.childId] = {
-      ...child,
-      totalStars: clampStars(starBalance(child) + starDelta(action)),
+  } else if (action.mode === 'delete') delete documents[id]
+  else
+    documents[id] = {
+      ...(action.mode === 'patch' ? current : {}),
+      ...action.data,
     }
 }
 

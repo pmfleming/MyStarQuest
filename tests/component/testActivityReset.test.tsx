@@ -19,6 +19,7 @@ describe('reset an active test', () => {
     const onComplete = vi.fn()
     const onStart = vi.fn()
     const onReset = vi.fn()
+    const otherComplete = vi.fn()
     let resolveWrite: () => void
     const resetTest = () =>
       new Promise<void>((resolve) => {
@@ -35,26 +36,37 @@ describe('reset an active test', () => {
         failTest: vi.fn(),
       })
       const challenge = useActivityChallenge({
-        isRunning: activity.activeIds.math === test.id,
+        isRunning: activity.activeIds.has(test.id),
         totalProblems: 1,
         canStart: true,
         onStart,
         onReset,
         onComplete,
       })
-      return { activity, bindings, challenge }
+      const otherChallenge = useActivityChallenge({
+        isRunning: activity.activeIds.has('other-math'),
+        totalProblems: 1,
+        canStart: true,
+        onStart,
+        onReset,
+        onComplete: otherComplete,
+      })
+      return { activity, bindings, challenge, otherChallenge }
     })
     act(() => result.current.bindings.onEnterChore(test))
     act(() => result.current.challenge.submitAnswer(true, vi.fn()))
+    act(() => result.current.activity.enterActivity('math', 'other-math'))
+    act(() => result.current.otherChallenge.submitAnswer(true, vi.fn()))
     let pending: Promise<void>
     act(() => {
       pending = result.current.bindings.onReset(test)
     })
-    expect(result.current.activity.activeIds).toEqual({})
+    expect(result.current.activity.activeIds).toEqual(new Set(['other-math']))
     await act(async () => {
       await vi.advanceTimersByTimeAsync(1600)
     })
     expect(onComplete).not.toHaveBeenCalled()
+    expect(otherComplete).toHaveBeenCalledTimes(1)
     expect(result.current.challenge.resultHistory).toEqual([])
     await act(async () => {
       resolveWrite()

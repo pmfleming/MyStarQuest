@@ -15,15 +15,10 @@ import { uiTokens } from '../../tokens'
 import { ActionArtwork } from './ActionArtwork'
 import { getThemeAsset } from '../../ui/themeAssets'
 import type {
-  ActionConfig,
+  ResolvedListAction,
   ActionStyleResolver,
   ActionVariant,
 } from './standardActionListTypes'
-import {
-  resolveActionText,
-  resolveActionValue,
-  resolveActionVariant,
-} from './standardActionConfig'
 
 export const DefaultActionIcon = ({
   theme,
@@ -127,9 +122,8 @@ const UtilityButton = ({
 )
 
 type StandardActionButtonsProps<T> = {
-  item: T
   theme: Theme
-  primaryAction: ActionConfig<T>
+  primaryAction: ResolvedListAction<T>
   primaryDisabled: boolean
   hidePrimary: boolean
   hideEdit: boolean
@@ -143,7 +137,7 @@ type StandardActionButtonsProps<T> = {
   utilityDisabled: boolean
   utilityVariant: ActionVariant
   actionBaseStyle: CSSProperties
-  getActionStyle: ActionStyleResolver<T>
+  getActionStyle: ActionStyleResolver
   pendingAction: 'primary' | 'edit' | 'utility' | null
   errorId?: string
   confirmingReset: boolean
@@ -159,7 +153,6 @@ type UtilityChoice = Omit<UtilityButtonProps, 'style'> & {
 }
 
 export const StandardActionButtons = <T,>({
-  item,
   theme,
   primaryAction,
   primaryDisabled,
@@ -206,11 +199,6 @@ export const StandardActionButtons = <T,>({
     minWidth: `${uiTokens.listUtilityActionWidth}px`,
     padding: 0,
   }
-  const primaryVariant = resolveActionVariant(
-    primaryAction.variant,
-    item,
-    'primary'
-  )
   const state = getActionButtonState({
     hidePrimary,
     hideEdit,
@@ -293,15 +281,12 @@ export const StandardActionButtons = <T,>({
           }}
           disabled={state.primaryDisabled}
           className="whimsical-btn disabled:opacity-60"
-          aria-label={resolveActionText(
-            primaryAction.ariaLabel ?? primaryAction.label,
-            item
-          )}
+          aria-label={primaryAction.ariaLabel ?? primaryAction.label}
           aria-busy={pendingAction === 'primary' || undefined}
           aria-describedby={errorId}
           style={{
             ...actionBaseStyle,
-            ...getActionStyle(primaryVariant),
+            ...getActionStyle(primaryAction.variant ?? 'primary'),
             position: 'relative',
             overflow: 'hidden',
             width: '100%',
@@ -314,9 +299,7 @@ export const StandardActionButtons = <T,>({
           {pendingAction === 'primary' ? (
             <ActionSpinner />
           ) : (
-            <ActionArtwork>
-              {resolveActionValue(primaryAction.icon ?? '⭐', item)}
-            </ActionArtwork>
+            <ActionArtwork>{primaryAction.icon ?? '⭐'}</ActionArtwork>
           )}
         </button>
       )}
@@ -336,11 +319,11 @@ export const StandardActionButtons = <T,>({
           <UtilityButton
             key={key}
             buttonRef={
-              key === 'cancel'
-                ? cancelButton
-                : key === 'utility'
-                  ? resetButton
+              state.confirm
+                ? key === 'cancel'
+                  ? cancelButton
                   : undefined
+                : resetButton
             }
             {...button}
             style={{ ...utilityStyle, ...getActionStyle(variant) }}

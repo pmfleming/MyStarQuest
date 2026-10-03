@@ -26,14 +26,14 @@ export const createTestActivityBindings = ({
       activity.enterActivity(item.taskType, item.id)
     }
   },
-  onExitActivity: activity.clearActiveActivities,
+  onExitActivity: (item: UnifiedChoreItem) => activity.exitActivity(item.id),
   onComplete: (item: UnifiedChoreItem) =>
     isTestWithEphemeral(item) ? completeTest(item) : undefined,
   onFail: (item: UnifiedChoreItem) =>
     isTestWithEphemeral(item) ? failTest(item) : undefined,
   onReset: async (item: UnifiedChoreItem) => {
     if (!isTestWithEphemeral(item)) return
-    activity.clearActiveActivities()
+    activity.exitActivity(item.id)
     await resetTest(item)
   },
   activeIds: activity.activeIds,

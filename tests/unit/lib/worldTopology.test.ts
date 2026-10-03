@@ -60,14 +60,9 @@ describe('world topology decoding', () => {
       },
     ])
     expect(source).toEqual(before)
+    source.arcs = [[[Infinity, 0]]]
+    expect(() => parseWorldFeatureCollections(source)).toThrow(
+      'Invalid TopoJSON world data'
+    )
   })
-
-  it.each([{ ...topology(), arcs: [[[Infinity, 0]]] }])(
-    'rejects malformed external topology: %j',
-    (source) => {
-      expect(() => parseWorldFeatureCollections(source)).toThrow(
-        'Invalid TopoJSON world data'
-      )
-    }
-  )
 })

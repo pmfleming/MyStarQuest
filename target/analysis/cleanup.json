@@ -11,18 +11,31 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "test reduction 2026-09-29",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-29T11:07:30.188Z",
+    "measured_at": "2026-10-03T08:08:07.768Z",
     "source_type": "static",
-    "source_set_hash": "sha256:03e3712de41a0aed5a0899ac4bf9479f579449c3ea287d5c70d0a5734c67aa29",
-    "input_set_hash": "sha256:d7f0ca8ad78515db284e20cc675917c3fcb9ccbd7cea529155aa11afa56e377b"
+    "compilers": {
+      "analysis": {
+        "engine": "typescript-compiler-api",
+        "package": "typescript",
+        "version": "6.0.3"
+      },
+      "native": {
+        "package": "@typescript/native",
+        "version": "7.0.2",
+        "role": "lens-build-tool",
+        "analysis_executed": false
+      }
+    },
+    "source_set_hash": "sha256:f2b8aa91bd5c4513b36e6b86ef3d0b674e0c15a92fd57dc9a73ece60718a4c0d",
+    "input_set_hash": "sha256:d68bb46183fd0bd4851153206481d804ecb7db8979fa229aed02cf2954e4bdac"
   },
   "analysis_identity": {
-    "id": "sha256:c01ef00e1d4e74cb78394240ad1df6e7fbab196cf307e324a0a5b17242a2fc63",
+    "id": "sha256:7f4813f88245d9f5bfe70a595c6378aa5c2c4044fc42cdbd706916a8b31573f7",
     "schema_version": "0.3.0",
-    "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:04fcdc06781e8e27ef9f0de267bf3e4be1e49764cd133006d8c504b5e7fa4b2f",
+    "compiler_api_version": "6.0.3",
+    "config_closure_hash": "sha256:c1ead9cbb255724aea9854a6a4b54ce213be9c318f6f8fae7b4cbe175f5afc3c",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -32,11 +45,15 @@
       "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "typed_lint_projects": "project-service-auto-v1",
       "react": "recommended-v2",
+      "react_support": "declared-range-capabilities-v1",
+      "react_classification": "correctness-optimization-v1",
       "accessibility": "jsx-a11y-recommended-v1",
       "cleanup": "knip-normalized-v1"
     },
     "integration_versions": {
+      "typescript_native": "7.0.2",
       "typescript_eslint": "8.67.0",
       "react_hooks": "7.1.1",
       "jsx_a11y": "6.10.2",
@@ -113,7 +130,7 @@
     "duplicate_exports": 0,
     "entrypoint_files": 2,
     "knip_findings": 38,
-    "tool_confirmed": 14,
+    "tool_confirmed": 13,
     "tool_disagreed": 2,
     "tool_not_comparable": 3,
     "tool_excluded": 0
@@ -155,10 +172,10 @@
       "rule_id": "ts-react-quality-lens-cleanup/unused_file",
       "message": "unused file",
       "reason_code": "ts-react-quality-lens-cleanup/unused_file",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "disagreed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -184,7 +201,7 @@
       "id": "cleanup:unused-export:src/hooks/useActivityChallenge:ActivityFeedback",
       "kind": "unused_export",
       "file": "src/hooks/useActivityChallenge.ts",
-      "line": 11,
+      "line": 9,
       "name": "ActivityFeedback",
       "score": 45,
       "risk": "medium",
@@ -203,10 +220,10 @@
       "rule_id": "ts-react-quality-lens-cleanup/unused_export",
       "message": "unused export",
       "reason_code": "ts-react-quality-lens-cleanup/unused_export",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "disagreed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -388,10 +405,10 @@
       "validation_scope": "knip/unused_export",
       "message": "unused export",
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -437,10 +454,10 @@
       "validation_scope": "knip/unused_export",
       "message": "unused export",
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -486,10 +503,10 @@
       "validation_scope": "knip/unused_export",
       "message": "unused export",
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -535,10 +552,10 @@
       "validation_scope": "knip/unused_export",
       "message": "unused export",
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -584,10 +601,10 @@
       "validation_scope": "knip/unused_export",
       "message": "unused export",
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -633,10 +650,10 @@
       "validation_scope": "knip/unused_export",
       "message": "unused export",
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -682,10 +699,10 @@
       "validation_scope": "knip/unused_export",
       "message": "unused export",
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -702,55 +719,6 @@
             "id": "cleanup:unused-export:src/features/dayNightExplorer/timeExplorerStorage:TIME_EXPLORER_STORAGE_KEY",
             "kind": "unused_export",
             "file": "src/features/dayNightExplorer/timeExplorerStorage.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/lib/fractionProblems:FRACTION_CHOICES",
-      "kind": "unused_export",
-      "file": "src/lib/fractionProblems.ts",
-      "line": 22,
-      "name": "FRACTION_CHOICES",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "FRACTION_CHOICES"
-        }
-      ],
-      "rule_id": "knip/exports",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "source": "knip",
-      "upstream_finding_id": "knip:exports:src/lib/fractionProblems.ts:FRACTION_CHOICES:22",
-      "tool_validation": "confirmed",
-      "validation_scope": "knip/unused_export",
-      "message": "unused export",
-      "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/lib/fractionProblems:FRACTION_CHOICES",
-            "kind": "unused_export",
-            "file": "src/lib/fractionProblems.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -780,10 +748,10 @@
       "validation_scope": "knip/unused_export",
       "message": "unused export",
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -829,10 +797,10 @@
       "validation_scope": "knip/unused_export",
       "message": "unused export",
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -878,10 +846,10 @@
       "validation_scope": "knip/unused_export",
       "message": "unused export",
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1058,10 +1026,10 @@
         }
       ],
       "reason_code": "knip/files",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1103,10 +1071,10 @@
         }
       ],
       "reason_code": "knip/files",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1148,10 +1116,10 @@
         }
       ],
       "reason_code": "knip/files",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1193,10 +1161,10 @@
         }
       ],
       "reason_code": "knip/files",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1238,10 +1206,10 @@
         }
       ],
       "reason_code": "knip/files",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1283,10 +1251,10 @@
         }
       ],
       "reason_code": "knip/files",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1332,10 +1300,10 @@
         }
       ],
       "reason_code": "knip/unlisted",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1381,10 +1349,10 @@
         }
       ],
       "reason_code": "knip/unlisted",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1430,10 +1398,10 @@
         }
       ],
       "reason_code": "knip/unlisted",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1479,10 +1447,10 @@
         }
       ],
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1528,10 +1496,10 @@
         }
       ],
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1577,10 +1545,10 @@
         }
       ],
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1626,10 +1594,10 @@
         }
       ],
       "reason_code": "knip/unlisted",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1675,10 +1643,10 @@
         }
       ],
       "reason_code": "knip/unlisted",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1724,10 +1692,10 @@
         }
       ],
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1773,10 +1741,10 @@
         }
       ],
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1791,6 +1759,55 @@
           "config_key": "suppressions",
           "value": {
             "id": "knip:exports:src/lib/calendarSchedule.ts:calendarActivitySchema:7",
+            "kind": "unused_export",
+            "file": "src/lib/calendarSchedule.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:src/lib/calendarSchedule.ts:calendarScheduleSchema:73",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/lib/calendarSchedule.ts",
+      "name": "calendarScheduleSchema",
+      "line": 73,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: calendarScheduleSchema.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "calendarScheduleSchema"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:src/lib/calendarSchedule.ts:calendarScheduleSchema:73",
             "kind": "unused_export",
             "file": "src/lib/calendarSchedule.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1822,10 +1839,10 @@
         }
       ],
       "reason_code": "knip/types",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1871,10 +1888,10 @@
         }
       ],
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1920,10 +1937,10 @@
         }
       ],
       "reason_code": "knip/exports",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -1969,10 +1986,10 @@
         }
       ],
       "reason_code": "knip/types",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -2018,10 +2035,10 @@
         }
       ],
       "reason_code": "knip/types",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -2067,10 +2084,10 @@
         }
       ],
       "reason_code": "knip/types",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -2116,10 +2133,10 @@
         }
       ],
       "reason_code": "knip/types",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",
@@ -2165,10 +2182,10 @@
         }
       ],
       "reason_code": "knip/types",
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
       "actions": [
         {
           "type": "fix",

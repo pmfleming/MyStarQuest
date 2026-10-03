@@ -8,7 +8,6 @@ import TabContent from '../components/TabContent'
 import StandardActionList from '../components/ui/StandardActionList'
 import { getSurfaceWidthConstraints } from '../tokens'
 import { createRewardDefinitionListRowDescriptor } from '../ui/definitionRowDescriptors'
-import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { useRewards } from '../data/useRewards'
 import RewardCreationFlow from './RewardCreationFlow'
 import InlineNotice from '../components/ui/InlineNotice'
@@ -56,15 +55,13 @@ const RewardsPage = () => {
     }
   }
 
-  const rewardListDescriptor = toStandardActionListDescriptor(
-    createRewardDefinitionListRowDescriptor({
-      theme,
-      activeChildId,
-      activeChildStars,
-      isRedeeming: isRedeeming || celebration?.childId === activeChildId,
-      handleGiveReward,
-    })
-  )
+  const rewardListDescriptor = createRewardDefinitionListRowDescriptor({
+    theme,
+    activeChildId,
+    activeChildStars,
+    isRedeeming: isRedeeming || celebration?.childId === activeChildId,
+    handleGiveReward,
+  })
   const visibleRewards: RewardRecord[] = [...rewards]
   if (
     retainedReward &&
@@ -120,7 +117,10 @@ const RewardsPage = () => {
                 {celebrating && activeCelebration && (
                   <RewardCelebration
                     reward={activeCelebration}
-                    imageSrc={getRewardImage(activeCelebration.imageKey)}
+                    imageSrc={getRewardImage(
+                      activeCelebration.imageKey,
+                      theme.id
+                    )}
                     overlayImage={getRewardOverlayImage(
                       activeCelebration.title,
                       activeCelebration.imageKey
@@ -132,15 +132,15 @@ const RewardsPage = () => {
               </div>
             )
           }}
-          utilityAction={{
+          getUtilityAction={(reward) => ({
             label: 'Delete',
-            ariaLabel: (reward) => `Delete ${reward.title}`,
+            ariaLabel: `Delete ${reward.title}`,
             exits: true,
-            disabled: (reward) =>
+            disabled:
               retainedReward?.childId === activeChildId &&
               retainedReward?.reward.id === reward.id,
             onClick: (reward) => deleteReward(reward.id),
-          }}
+          })}
           hideEdit
           onDelete={(reward) => deleteReward(reward.id)}
           addLabel="New Reward"

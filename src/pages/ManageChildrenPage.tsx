@@ -5,7 +5,6 @@ import PageShell from '../components/PageShell'
 import StandardActionList from '../components/ui/StandardActionList'
 import { getSurfaceWidthConstraints } from '../tokens'
 import { createChildDefinitionListRowDescriptor } from '../ui/definitionRowDescriptors'
-import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import { useChildren } from '../data/useChildren'
 
 const ManageChildrenPage = () => {
@@ -38,20 +37,18 @@ const ManageChildrenPage = () => {
     ),
   }))
 
-  const childListDescriptor = toStandardActionListDescriptor(
-    createChildDefinitionListRowDescriptor({
-      theme,
-      activeChildId,
-      themeOptions,
-      carouselItems,
-      nameDrafts,
-      setNameDraft,
-      commitDisplayName,
-      updateChildField,
-      changeTheme,
-      selectChild,
-    })
-  )
+  const childListDescriptor = createChildDefinitionListRowDescriptor({
+    theme,
+    activeChildId,
+    themeOptions,
+    carouselItems,
+    nameDrafts,
+    setNameDraft,
+    commitDisplayName,
+    updateChildField,
+    changeTheme,
+    selectChild,
+  })
 
   return (
     <PageShell theme={theme} activeTabId="chores" title="Children">

@@ -36,7 +36,7 @@ export const renderWaterToiletContent = (
     )
   }
 
-  if (deps.activeIds.watertoiletcheck !== item.id) return null
+  if (!deps.activeIds.has(item.id)) return null
 
   return renderWaterToiletChore({
     theme: deps.theme,

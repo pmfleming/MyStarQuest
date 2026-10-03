@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react'
+import { useContext, type ReactNode } from 'react'
+import { ActivityTabVisibleContext } from '../contexts/ActivityTabContext'
 import type { Theme } from '../contexts/ThemeContext'
 import { uiTokens } from '../tokens'
 import DragScrollRegion from './ui/DragScrollRegion'
@@ -17,34 +18,43 @@ const TabContent = ({
   title,
   onResetToday,
   children,
-}: TabContentProps) => (
-  <div className="relative flex h-full flex-col overflow-hidden">
-    {title && (
-      <PageHeader
-        theme={theme}
-        title={title}
-        right={<AppMenu theme={theme} onResetToday={onResetToday} />}
-        fontFamily={theme.fonts.heading}
-      />
-    )}
-    <div
-      className="flex min-h-0 flex-1 flex-col overflow-hidden"
-      style={{
-        paddingLeft: '0px',
-        paddingRight: '0px',
-        paddingTop: '0px',
-        paddingBottom: `${uiTokens.pagePaddingBottom}px`,
-      }}
-    >
-      <DragScrollRegion
-        className="min-h-0 flex-1"
-        topNavPadding={!!title}
-        bottomNavPadding
+}: TabContentProps) => {
+  const isVisible = useContext(ActivityTabVisibleContext)
+  return (
+    <div className="relative flex h-full flex-col overflow-hidden">
+      {title && (
+        <PageHeader
+          theme={theme}
+          title={title}
+          right={
+            <AppMenu
+              key={String(isVisible)}
+              theme={theme}
+              onResetToday={onResetToday}
+            />
+          }
+          fontFamily={theme.fonts.heading}
+        />
+      )}
+      <div
+        className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        style={{
+          paddingLeft: '0px',
+          paddingRight: '0px',
+          paddingTop: '0px',
+          paddingBottom: `${uiTokens.pagePaddingBottom}px`,
+        }}
       >
-        {children}
-      </DragScrollRegion>
+        <DragScrollRegion
+          className="min-h-0 flex-1"
+          topNavPadding={!!title}
+          bottomNavPadding
+        >
+          {children}
+        </DragScrollRegion>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default TabContent

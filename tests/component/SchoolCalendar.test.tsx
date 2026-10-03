@@ -68,31 +68,6 @@ it.each([['2026-01-31', 31, '2026-02-28']])(
   }
 )
 
-it('reacts to saved changes in this window and other windows', async () => {
-  vi.stubGlobal(
-    'fetch',
-    vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) })
-  )
-  render(<SchoolCalendar theme={themes.princess} />)
-  const edited = structuredClone(DEFAULT_CALENDAR_SCHEDULE)
-  edited.events.find(({ id }) => id === 'judo')!.start = '14:30'
-  act(() => saveCalendarSchedule(edited))
-  const judo = within(screen.getByText('Judo').closest('li')!)
-  expect(judo.getByLabelText('From 2:30 PM')).toBeVisible()
-  expect(judo.getByLabelText('To 3:00 PM')).toBeVisible()
-  act(() => {
-    localStorage.setItem(
-      CALENDAR_SCHEDULE_STORAGE_KEY,
-      JSON.stringify({ version: 1, events: [] })
-    )
-    window.dispatchEvent(
-      new StorageEvent('storage', { key: CALENDAR_SCHEDULE_STORAGE_KEY })
-    )
-  })
-  expect(screen.getByText('No plans.')).toBeInTheDocument()
-  await waitFor(() => expect(fetch).toHaveBeenCalled())
-})
-
 it.each(['teenie'] as const)(
   'shows short English school activities with %s artwork without removing school',
   async (themeId) => {
@@ -162,5 +137,33 @@ it.each(['teenie'] as const)(
       'aria-description',
       expect.stringContaining('School day')
     )
+    const row = screen.getByText('Table work').closest('[role="button"]')!
+    fireEvent.keyDown(row, { key: 'Enter' })
+    expect(row).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(row).toHaveAttribute('aria-expanded', 'false')
+    fireEvent.keyDown(row, { key: ' ' })
+    fireEvent.focusIn(cell)
+    expect(row).toHaveAttribute('aria-expanded', 'false')
+    const invalid = structuredClone(DEFAULT_CALENDAR_SCHEDULE)
+    Object.assign(invalid.events[0], { start: '23:00', end: '07:00' })
+    expect(() => saveCalendarSchedule(invalid)).toThrow()
+    expect(localStorage.getItem(CALENDAR_SCHEDULE_STORAGE_KEY)).toBeNull()
+    const edited = structuredClone(DEFAULT_CALENDAR_SCHEDULE)
+    edited.events.find(({ id }) => id === 'judo')!.start = '14:30'
+    act(() => saveCalendarSchedule(edited))
+    const judo = within(screen.getByText('Judo').closest('li')!)
+    expect(judo.getByLabelText('From 2:30 PM')).toBeVisible()
+    expect(judo.getByLabelText('To 3:00 PM')).toBeVisible()
+    act(() => {
+      localStorage.setItem(
+        CALENDAR_SCHEDULE_STORAGE_KEY,
+        JSON.stringify({ version: 1, events: [] })
+      )
+      window.dispatchEvent(
+        new StorageEvent('storage', { key: CALENDAR_SCHEDULE_STORAGE_KEY })
+      )
+    })
+    expect(screen.queryByText('Judo')).not.toBeInTheDocument()
   }
 )

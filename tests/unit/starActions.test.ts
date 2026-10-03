@@ -147,14 +147,17 @@ describe('test completion star awards', () => {
   })
 
   it('deduplicates attempts while allowing a same-day reset and the next day’s attempt', async () => {
-    const taskType = 'math' as const
-
-    documents.set(taskPath, { childId: 'child', taskType })
-    const complete = () => completeTaskAndAwardStars(options)
+    const complete = () =>
+      completeTaskAndAwardStars({
+        ...options,
+        initialTaskData: { childId: 'child', taskType: 'math' },
+      })
     const [first, duplicate] = await Promise.all([complete(), complete()])
     expect(first.appliedDelta).toBe(3)
     expect(duplicate).toEqual({ appliedDelta: 0, wasAlreadyAwarded: true })
     expect(documents.get(childPath)?.totalStars).toBe(13)
+    expect(events()).toHaveLength(1)
+    expect(documents.get(taskPath)).toMatchObject(options.updates)
     const firstEvent = events()[0]
 
     // These are the persisted fields cleared by resetTest.
@@ -184,19 +187,5 @@ describe('test completion star awards', () => {
     }
     expect((await completeTaskAndAwardStars(nextDay)).appliedDelta).toBe(3)
     expect(documents.get(childPath)?.totalStars).toBe(19)
-  })
-
-  it('creates a built-in test and awards its first completion only once', async () => {
-    const request = {
-      ...options,
-      initialTaskData: { childId: 'child', taskType: 'math' },
-    }
-    const results = await Promise.all([
-      completeTaskAndAwardStars(request),
-      completeTaskAndAwardStars(request),
-    ])
-    expect(results.map((result) => result.appliedDelta)).toEqual([3, 0])
-    expect(events()).toHaveLength(1)
-    expect(documents.get(taskPath)).toMatchObject(options.updates)
   })
 })

@@ -1,0 +1,359 @@
+{
+  "lens": {
+    "version": "0.3.0",
+    "commit": "233239b623b67df9c772d7ac3602740fb9de3f12",
+    "verified_main": "2026-10-03"
+  },
+  "methodology": "Fresh working-tree baseline including prior changes. Same Lens revision and unchanged measurement config for both runs, gate all with empty base. Complexity/effort sum callable signals; lines sum file signals; locality/leverage sum module risk scores (lower is better). Aggregates are comparison aids, not official global Lens scores. Physical counts include CSS/tests/scripts/Java; reports and artwork excluded.",
+  "scopes": {
+    "frontend": {
+      "before": {
+        "source_lines": 31952,
+        "cognitive_complexity": 1506,
+        "cyclomatic_complexity": 2175,
+        "halstead_effort": 9944432,
+        "clone_groups": 0,
+        "locality_risk": 12250,
+        "leverage_risk": 256,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 31782,
+        "cognitive_complexity": 1483,
+        "cyclomatic_complexity": 2148,
+        "halstead_effort": 9759668,
+        "clone_groups": 0,
+        "locality_risk": 12203,
+        "leverage_risk": 244,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": -170,
+        "cognitive_complexity": -23,
+        "cyclomatic_complexity": -27,
+        "halstead_effort": -184764,
+        "clone_groups": 0,
+        "locality_risk": -47,
+        "leverage_risk": -12,
+        "lint_blockers": 0
+      },
+      "audit": {
+        "verdict": "warn",
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": "",
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 2590,
+        "active_findings": 48,
+        "introduced_findings": 2590,
+        "inherited_findings": 0,
+        "high_risk_findings": 305,
+        "blocking_findings": 0,
+        "warning_findings": 48,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      }
+    },
+    "functions": {
+      "before": {
+        "source_lines": 532,
+        "cognitive_complexity": 52,
+        "cyclomatic_complexity": 63,
+        "halstead_effort": 104571,
+        "clone_groups": 0,
+        "locality_risk": 74,
+        "leverage_risk": 12,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 532,
+        "cognitive_complexity": 52,
+        "cyclomatic_complexity": 63,
+        "halstead_effort": 104571,
+        "clone_groups": 0,
+        "locality_risk": 74,
+        "leverage_risk": 12,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": 0,
+        "cognitive_complexity": 0,
+        "cyclomatic_complexity": 0,
+        "halstead_effort": 0,
+        "clone_groups": 0,
+        "locality_risk": 0,
+        "leverage_risk": 0,
+        "lint_blockers": 0
+      },
+      "audit": {
+        "verdict": "pass",
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": "",
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 39,
+        "active_findings": 0,
+        "introduced_findings": 39,
+        "inherited_findings": 0,
+        "high_risk_findings": 3,
+        "blocking_findings": 0,
+        "warning_findings": 0,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      }
+    }
+  },
+  "totals": {
+    "before": {
+      "source_lines": 32484,
+      "cognitive_complexity": 1558,
+      "cyclomatic_complexity": 2238,
+      "halstead_effort": 10049003,
+      "clone_groups": 0,
+      "locality_risk": 12324,
+      "leverage_risk": 268,
+      "lint_blockers": 0
+    },
+    "after": {
+      "source_lines": 32314,
+      "cognitive_complexity": 1535,
+      "cyclomatic_complexity": 2211,
+      "halstead_effort": 9864239,
+      "clone_groups": 0,
+      "locality_risk": 12277,
+      "leverage_risk": 256,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": -170,
+      "cognitive_complexity": -23,
+      "cyclomatic_complexity": -27,
+      "halstead_effort": -184764,
+      "clone_groups": 0,
+      "locality_risk": -47,
+      "leverage_risk": -12,
+      "lint_blockers": 0
+    }
+  },
+  "physical_lines": {
+    "src/": {
+      "before": 33719,
+      "after": 33549,
+      "delta": -170
+    },
+    "functions/src/": {
+      "before": 532,
+      "after": 532,
+      "delta": 0
+    },
+    "tests/": {
+      "before": 5956,
+      "after": 5997,
+      "delta": 41
+    },
+    "scripts/": {
+      "before": 736,
+      "after": 736,
+      "delta": 0
+    },
+    "android/app/src/": {
+      "before": 378,
+      "after": 378,
+      "delta": 0
+    }
+  },
+  "physical_total_delta": -129,
+  "changed_files": [
+    {
+      "file": "src/components/ui/PositionalNotationPlayArea.tsx",
+      "before_sha256": "ac6724e474b2bdabff1059f9daf13b2ce9890c085e9d45aee0213efcb956845c",
+      "after_sha256": "6dea73b95544a2852a0cb0b5ddaba346e80789aea20b19fd72698a381e9b3441",
+      "before_lines": 384,
+      "after_lines": 394,
+      "delta": 10
+    },
+    {
+      "file": "src/components/ui/StandardActionButtons.tsx",
+      "before_sha256": "b912afc60baa2c42492c5508c0ac3baed224436ca15bf0a7c4de45c25442fd05",
+      "after_sha256": "39181bf30ce0dae0a2530379504b985e1d9f0b8a4fa67361840fd7501c3bd02f",
+      "before_lines": 352,
+      "after_lines": 335,
+      "delta": -17
+    },
+    {
+      "file": "src/components/ui/StandardActionList.tsx",
+      "before_sha256": "8bdf6386a6ae0824cc43fb028b9550e54a2c20f81db37ae2aa3eb9212bcb7ac0",
+      "after_sha256": "8cfc403ac5420623b8f7bd3955c4a0e3c1f2f58281ad3b4e81090d2dba7a9427",
+      "before_lines": 409,
+      "after_lines": 413,
+      "delta": 4
+    },
+    {
+      "file": "src/components/ui/standardActionConfig.ts",
+      "before_sha256": "1bc66b4310d2eb0274efe6660c01de8e8b0a36ad4973ff4e695782b6f4168c25",
+      "after_sha256": null,
+      "before_lines": 26,
+      "after_lines": 0,
+      "delta": -26
+    },
+    {
+      "file": "src/components/ui/standardActionListTypes.ts",
+      "before_sha256": "faf00e9c43c80f007474fd37b57345c8850f2796c820539531fad52037a7a9ee",
+      "after_sha256": "2ac9aa0ca696ab0436e51bed720beb7a4f333acba7a0c7984aaf4b84c0a4cda0",
+      "before_lines": 53,
+      "after_lines": 54,
+      "delta": 1
+    },
+    {
+      "file": "src/features/dayNightExplorer/Clock.tsx",
+      "before_sha256": "a0d08ef3428b7d90408eaf5abebe4a69123e9cca453c71076b9d50b06d6405a0",
+      "after_sha256": "3d70d89e8b11f695b71037f1ddbd29604ae93df821da976a0d3f213e54ac4deb",
+      "before_lines": 501,
+      "after_lines": 474,
+      "delta": -27
+    },
+    {
+      "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+      "before_sha256": "b5ba8841d09a1dc99262ebc4954a1ef2cb10934fe3ed224f72c4c03a3993d5b8",
+      "after_sha256": "c05b5b6dfad561108f678b67578f18d22a25f63b8145416e6438a9be336a9878",
+      "before_lines": 348,
+      "after_lines": 328,
+      "delta": -20
+    },
+    {
+      "file": "src/features/dayNightExplorer/useExplorerClock.ts",
+      "before_sha256": "7540b8065a9c65891b0d367a2bcf4fb0c7a9a52d86249dfc8e2147d622719916",
+      "after_sha256": "99f6c1a61a19c666fbd2c6018f5d31f52805b3b4905564446d7c2ac7171e3829",
+      "before_lines": 336,
+      "after_lines": 343,
+      "delta": 7
+    },
+    {
+      "file": "src/hooks/useTaskCelebration.tsx",
+      "before_sha256": "a2bb5e926e5fadc66dbc5f859e7c00540f4391469a52b6d13559ad2b0efb6a79",
+      "after_sha256": "9a6405559a42f752df2b01c52863042f103e657cff2ea822b39399dc73f762fb",
+      "before_lines": 219,
+      "after_lines": 215,
+      "delta": -4
+    },
+    {
+      "file": "src/main.tsx",
+      "before_sha256": "776bcf8400ed1eedda9fd6596421660219c017a3992fd06822e41d2a5450654f",
+      "after_sha256": "85a9fa59a2a39a3404b6b2bb5778bfc60259390b5ccad26711219021cd02e29d",
+      "before_lines": 15,
+      "after_lines": 17,
+      "delta": 2
+    },
+    {
+      "file": "src/offline/model.ts",
+      "before_sha256": "26c447bdbcc389adf8898dc7629c0125c9d5237d968cc015686132e888a2eb64",
+      "after_sha256": "9efbd49939dbec2d641f38b6a1cf49b6d1e4527769f8ff291d151d0ca1195728",
+      "before_lines": 201,
+      "after_lines": 198,
+      "delta": -3
+    },
+    {
+      "file": "src/pages/DashboardPage.tsx",
+      "before_sha256": "4fed42d38b0969c2b115550c3c27af9d46a8da00312b586c632f4d7b3e6cb7cd",
+      "after_sha256": "90e4d98f1e598445fbbfcc6016781fabaf161a6e345908a9e8383c8e625919a5",
+      "before_lines": 368,
+      "after_lines": 367,
+      "delta": -1
+    },
+    {
+      "file": "src/pages/ManageChildrenPage.tsx",
+      "before_sha256": "175cc916ee1cbed1c81ced9c5a4eacd3dbf63a7a136f162478c4c729b1f675f9",
+      "after_sha256": "c3cc9f97ff58c3ed3678b03a969106fe5f733753853652cf39a0b79ae8100eec",
+      "before_lines": 88,
+      "after_lines": 85,
+      "delta": -3
+    },
+    {
+      "file": "src/pages/RewardsPage.tsx",
+      "before_sha256": "ac71909aa2f6109a43e39e91c3b30577d0cea9294941cfc18e8c558cc64f91b8",
+      "after_sha256": "6a7844ca43829fe24d3d56bfc507546c8d03280d67b68ef1eed7adbfe6a7830b",
+      "before_lines": 177,
+      "after_lines": 174,
+      "delta": -3
+    },
+    {
+      "file": "src/pages/TestsPage.tsx",
+      "before_sha256": "4f73b17a941c3ad8c69460a1ee6262a1e82242270796fd941a580138f1b41c48",
+      "after_sha256": "7b309f55bd287e44eba4bd9b4d8b4031d0d7c9b7d4c9947b9ed29de2b880c6e5",
+      "before_lines": 127,
+      "after_lines": 126,
+      "delta": -1
+    },
+    {
+      "file": "src/ui/definitionRowDescriptors.tsx",
+      "before_sha256": "236f511682fa7815e1bcc4ef22cbd08b1f79651724716b95cebb11b2e165a3cc",
+      "after_sha256": "cdb93c66e20e9f027e5ac40e9c404443bfdafad5d057a362ed5d0179d240df07",
+      "before_lines": 229,
+      "after_lines": 229,
+      "delta": 0
+    },
+    {
+      "file": "src/ui/listDescriptorTypes.ts",
+      "before_sha256": "9c126caf861f428e10f98003109eaa77d7825e934b508ba19ecc7c694f60944f",
+      "after_sha256": null,
+      "before_lines": 89,
+      "after_lines": 0,
+      "delta": -89
+    },
+    {
+      "file": "src/ui/presetChoreActions.tsx",
+      "before_sha256": "9874b51b799e743839793c96af4e819e866efc621f7ec49b96542eebdf139c03",
+      "after_sha256": "d2b8277561440548f441c41705ac6f936cc4cf57ba718d953080f37ec6dc2394",
+      "before_lines": 174,
+      "after_lines": 174,
+      "delta": 0
+    },
+    {
+      "file": "src/ui/unifiedChoreDescriptors.tsx",
+      "before_sha256": "e596798a7f783a00e80535fff6d6e20be62c56ad9effcaa0b36c113c18797e25",
+      "after_sha256": "09c9bcf0df9bcc629fa4e7341ee8845caa9c2f5796edd090427a4d9e306f4fd8",
+      "before_lines": 160,
+      "after_lines": 160,
+      "delta": 0
+    },
+    {
+      "file": "tests/component/RewardAvailableSummary.test.tsx",
+      "before_sha256": "213a64187296a35d8aa2db785c8fdbefe017917282494e31c7652f771807154b",
+      "after_sha256": "b83a7dcfe443939aab0e16d2bcb52a814682ba588e4464a84ac12f1e9a6a31b5",
+      "before_lines": 64,
+      "after_lines": 61,
+      "delta": -3
+    },
+    {
+      "file": "tests/component/StandardActionList.test.tsx",
+      "before_sha256": "95407a7a3733b41afc7a1e13edbaffbae476a3cdd3880fe41c25124c8682cd40",
+      "after_sha256": "8d7ad55b44d4553c5ed1c1d70ddbdc9d9c9fe3a7894fc3d750de90dd0a363b9f",
+      "before_lines": 65,
+      "after_lines": 110,
+      "delta": 45
+    },
+    {
+      "file": "tests/fixtures/fractions.tsx",
+      "before_sha256": "8adbfc407ae9bfc7c3166d84bffee98dccc84f6a5ad12da21eb5bbb8f7942ea8",
+      "after_sha256": "0fce7375c8a7920917582fafce0bcc22a4e11c0d9b5b4dacec2da48caede477b",
+      "before_lines": 79,
+      "after_lines": 78,
+      "delta": -1
+    }
+  ],
+  "test_execution": {
+    "status": "passed",
+    "command": "npm run test"
+  },
+  "artifact_directory": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-03"
+}

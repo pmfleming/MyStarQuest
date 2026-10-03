@@ -100,7 +100,7 @@ export const renderTestContent = (
     totalProblems,
     starReward: item.starValue,
     isEditable: Boolean(deps.onUpdateTaskField),
-    isRunning: deps.activeIds[type] === item.id,
+    isRunning: deps.activeIds.has(item.id),
     isCompleted: state.isCompleted(item),
     isFailed:
       failureModeEnabled &&
@@ -114,7 +114,7 @@ export const renderTestContent = (
         ),
       }),
     onStarsChange: (starValue) => update({ starValue }),
-    onExit: deps.onExitActivity,
+    onExit: deps.onExitActivity ? () => deps.onExitActivity?.(item) : undefined,
     onComplete: () => deps.onComplete?.(item),
     onFail: failureModeEnabled ? () => deps.onFail?.(item) : undefined,
     checkTrigger: deps.checkTriggers[type]?.[item.id] ?? 0,

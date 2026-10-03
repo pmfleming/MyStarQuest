@@ -71,7 +71,7 @@ beforeEach(async () => {
     },
   })
   await store.mergeCollection('rewards', {
-    toy: { title: 'Toy', costStars: 3, isRepeating: true },
+    toy: { title: 'Toy', costStars: 3, isRepeating: false },
   })
 })
 
@@ -88,29 +88,19 @@ describe('Android offline data hooks', () => {
       await hook.result.current.giveReward(hook.result.current.rewards[0])
     })
     expect(hook.result.current.activeChildStars).toBe(2)
+    expect(hook.result.current.rewards).toHaveLength(0)
+    await act(async () => {
+      await runtime.store.mergeCollection('rewards', {
+        toy: { title: 'Toy', costStars: 3, isRepeating: false },
+      })
+    })
+    expect(hook.result.current.rewards).toHaveLength(0)
     session.childId = 'sibling'
     hook.rerender()
     expect(hook.result.current.activeChildStars).toBe(12)
     session.childId = 'missing'
     hook.rerender()
     expect(hook.result.current.activeChildStars).toBe(0)
-  })
-
-  it('rejects a stale completion for another child without saving anything', async () => {
-    const store = offlineRuntime(session.user.uid).store,
-      before = store.getSnapshot()
-    await expect(
-      offlineCompletion({
-        userId: session.user.uid,
-        childId: 'other',
-        taskId: 'tidy',
-        taskCollection: 'chores',
-        dateKey: getTodayDescriptor().dateKey,
-        delta: 3,
-        updates: {},
-      })
-    ).rejects.toThrow('selected child')
-    expect(store.getSnapshot()).toBe(before)
   })
   it.each([false])(
     'keeps test creation and award atomic on disk failure (existing: %s)',
@@ -138,6 +128,20 @@ describe('Android offline data hooks', () => {
   )
 
   it('completes, reloads, resets and repeats a chore without Firebase', async () => {
+    const store = offlineRuntime(session.user.uid).store,
+      before = store.getSnapshot()
+    await expect(
+      offlineCompletion({
+        userId: session.user.uid,
+        childId: 'other',
+        taskId: 'tidy',
+        taskCollection: 'chores',
+        dateKey: getTodayDescriptor().dateKey,
+        delta: 3,
+        updates: {},
+      })
+    ).rejects.toThrow('selected child')
+    expect(store.getSnapshot()).toBe(before)
     const hook = renderHook(() => useChores())
     await waitFor(() => expect(hook.result.current.chores).toHaveLength(1))
     await act(async () => {
@@ -176,24 +180,5 @@ describe('Android offline data hooks', () => {
           (op) => op.action.kind === 'activity' && op.action.complete
         )
     ).toHaveLength(2)
-  })
-
-  it('keeps one-time consumption local when the shared definition refreshes', async () => {
-    const runtime = offlineRuntime(session.user.uid)
-    await runtime.store.mergeCollection('rewards', {
-      toy: { title: 'Toy', costStars: 3, isRepeating: false },
-    })
-    const hook = renderHook(() => useRewards(), { wrapper: ChildrenProvider })
-    await waitFor(() => expect(hook.result.current.rewards).toHaveLength(1))
-    await act(async () => {
-      await hook.result.current.giveReward(hook.result.current.rewards[0])
-    })
-    expect(hook.result.current.rewards).toHaveLength(0)
-    await act(async () => {
-      await runtime.store.mergeCollection('rewards', {
-        toy: { title: 'Toy', costStars: 3, isRepeating: false },
-      })
-    })
-    expect(hook.result.current.rewards).toHaveLength(0)
   })
 })

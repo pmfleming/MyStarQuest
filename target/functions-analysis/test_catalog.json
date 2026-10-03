@@ -11,18 +11,31 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "whole-project quality review 2026-09-29",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-09-29T10:46:25.053Z",
+    "measured_at": "2026-10-03T07:42:42.955Z",
     "source_type": "static",
-    "source_set_hash": "sha256:b5b2b8b2d531dca3b7353db1e9225e22b30951a5c33636d31c27314442ad4996",
-    "input_set_hash": "sha256:1f51ae23c4dbfa946dad6783c167021f450fd096edac1399b1080320487bbbcd"
+    "compilers": {
+      "analysis": {
+        "engine": "typescript-compiler-api",
+        "package": "typescript",
+        "version": "6.0.3"
+      },
+      "native": {
+        "package": "@typescript/native",
+        "version": "7.0.2",
+        "role": "lens-build-tool",
+        "analysis_executed": false
+      }
+    },
+    "source_set_hash": "sha256:4bcab8946a00e040ab228502e6ce1a5ffead3c3241a21410ec26e9c393fda157",
+    "input_set_hash": "sha256:7468faa2f0549a40d15968c0d35097dcc276d3c3162f61b7255bed304657ed5c"
   },
   "analysis_identity": {
-    "id": "sha256:df2d6bd0c94f97fea0ff73af82a44a21f7494db5fe61a3d8452194b4104daf9c",
+    "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
     "schema_version": "0.3.0",
-    "compiler_api_version": "6.0.2",
-    "config_closure_hash": "sha256:417a6a1424e228ce6f6dbd3c5a83e81baa81fbc7ff0385951e6b0585d40c2e84",
+    "compiler_api_version": "6.0.3",
+    "config_closure_hash": "sha256:486dafcf509a697b064343b75c95780c40ceca85d99dd614d84b28a06662a638",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -32,11 +45,15 @@
       "file_discovery": "project-relative-test-paths-v2",
       "architecture": "risk-model-v3",
       "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "typed_lint_projects": "project-service-auto-v1",
       "react": "recommended-v2",
+      "react_support": "declared-range-capabilities-v1",
+      "react_classification": "correctness-optimization-v1",
       "accessibility": "jsx-a11y-recommended-v1",
       "cleanup": "knip-normalized-v1"
     },
     "integration_versions": {
+      "typescript_native": "7.0.2",
       "typescript_eslint": "8.67.0",
       "react_hooks": "7.1.1",
       "jsx_a11y": "6.10.2",
@@ -65,7 +82,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "complete": true,
     "partial": false,
@@ -92,26 +109,14 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 20,
+    "tests": 18,
     "colocated_tests": 0,
-    "external_tests": 20,
-    "execution_status": "unknown",
+    "external_tests": 18,
+    "execution_status": "not_run",
     "execution_scope": "suite",
     "coverage_status": "not_collected"
   },
   "tests": [
-    {
-      "id": "test:../tests/unit/artworkSelection.test.ts",
-      "name": "artworkSelection.test.ts",
-      "path": "../tests/unit/artworkSelection.test.ts",
-      "framework": "unknown",
-      "source_mapping": [],
-      "source_associations": [],
-      "coverage_status": "not_collected",
-      "status": "not_run",
-      "suite_status": "unknown",
-      "command_hint": null
-    },
     {
       "id": "test:../tests/unit/calendarSchedule.test.ts",
       "name": "calendarSchedule.test.ts",
@@ -121,7 +126,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -133,7 +138,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -153,7 +158,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -165,7 +170,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -177,7 +182,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -189,7 +194,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -201,7 +206,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -213,7 +218,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -225,7 +230,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -237,19 +242,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
-      "command_hint": null
-    },
-    {
-      "id": "test:../tests/unit/optimisticState.test.ts",
-      "name": "optimisticState.test.ts",
-      "path": "../tests/unit/optimisticState.test.ts",
-      "framework": "unknown",
-      "source_mapping": [],
-      "source_associations": [],
-      "coverage_status": "not_collected",
-      "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -258,24 +251,18 @@
       "path": "../tests/unit/schoolCalendar.test.ts",
       "framework": "vitest",
       "source_mapping": [
-        "src/schoolCalendar.ts",
-        "src/schoolEventCatalog.ts"
+        "src/schoolCalendar.ts"
       ],
       "source_associations": [
         {
           "file": "src/schoolCalendar.ts",
           "kind": "direct-import",
           "confidence": "high"
-        },
-        {
-          "file": "src/schoolEventCatalog.ts",
-          "kind": "direct-import",
-          "confidence": "high"
         }
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -295,7 +282,7 @@
       ],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -307,7 +294,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -319,7 +306,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -331,7 +318,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -343,7 +330,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -355,7 +342,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     },
     {
@@ -367,7 +354,7 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
-      "suite_status": "unknown",
+      "suite_status": "not_run",
       "command_hint": null
     }
   ]

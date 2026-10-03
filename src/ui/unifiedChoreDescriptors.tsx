@@ -4,7 +4,7 @@ import { getChoreImage } from '../assets/chores/assets'
 import { getPresetChoreOverviewImage } from './choreOverviewAssets'
 import { getTaskTypeIcon } from './taskTypeIcons'
 import { isInChoreStage, shouldUseResetUtility } from './choreModeDefinitions'
-import type { ListRowDescriptor } from './listDescriptorTypes'
+import type { ListRowDescriptor } from '../components/ui/standardActionListTypes'
 import {
   createPresetActivityPrimaryAction,
   createPresetDinnerPrimaryAction,
@@ -68,7 +68,7 @@ export function createUnifiedChoreDescriptor(
           disabled: isItemCompleted,
           hideButton: isItemCompleted,
           variant: 'primary',
-          showLabel: false,
+
           onClick: (selected) => deps.onComplete?.(selected),
         }
       }
@@ -125,11 +125,9 @@ const createEatingPrimaryAction = (
   item: UnifiedChoreItem,
   stage: ReturnType<ReturnType<typeof createUnifiedChoreState>['getStage']>
 ) => {
-  const isActive = deps.activeIds.eating === item.id
+  const isActive = deps.activeIds.has(item.id)
   const isFinished = stage === 'completed'
-  const isCoolingDown =
-    typeof deps.biteCooldownEndsAt === 'number' &&
-    deps.biteCooldownEndsAt > Date.now()
+  const isCoolingDown = (deps.biteCooldowns?.[item.id] ?? 0) > Date.now()
 
   const action = createPresetDinnerPrimaryAction<UnifiedChoreItem>({
     stage,

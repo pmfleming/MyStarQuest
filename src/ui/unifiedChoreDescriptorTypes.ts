@@ -1,6 +1,5 @@
 import type {
   TaskEphemeralState,
-  TaskType,
   TestType,
   TaskUpdatableFields,
   TaskWithEphemeral,
@@ -19,18 +18,18 @@ export type UnifiedChoreDeps = {
   ) => MaybePromise
   onDeleteTask?: (id: string) => MaybePromise
   onEnterChore?: (item: UnifiedChoreItem) => MaybePromise
-  onExitActivity?: () => void
+  onExitActivity?: (item: UnifiedChoreItem) => void
   onComplete?: (item: UnifiedChoreItem) => MaybePromise
   onFail?: (item: UnifiedChoreItem) => MaybePromise
   onReset?: (item: UnifiedChoreItem) => MaybePromise
-  onStartDinner?: (item: UnifiedChoreItem | null) => MaybePromise
+  onStartDinner?: (item: UnifiedChoreItem) => MaybePromise
   onApplyBite?: (item: UnifiedChoreItem) => MaybePromise
   onExpireDinner?: (item: UnifiedChoreItem) => MaybePromise
-  activeIds: Partial<Record<TaskType, string | null>>
+  activeIds: ReadonlySet<string>
   checkTriggers: Partial<Record<TestType, Record<string, number>>>
   onCheck?: (type: TestType, id: string) => void
   biteCooldownSeconds: number
-  biteCooldownEndsAt?: number | null
+  biteCooldowns?: Readonly<Record<string, number>>
   activeMealIcon?: string
   testFailureModeEnabled?: boolean
   hideDeleteUtility?: boolean

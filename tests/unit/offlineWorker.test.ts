@@ -91,18 +91,17 @@ function worker() {
   return { maps, fetch, event, caches }
 }
 
-it('rejects a broken deployment without removing the working offline version', async () => {
+it('preserves the working cache after a broken deployment, then installs and serves a valid release safely', async () => {
   const sw = worker()
+  const validFetch = sw.fetch.getMockImplementation()!
   sw.fetch.mockResolvedValue(
     new Response('<html/>', { headers: { 'Content-Type': 'text/html' } })
   )
   await expect(sw.event('install').done).rejects.toThrow('Unexpected HTML')
   expect(sw.maps.has('msq-shell-old')).toBe(true)
   expect(sw.maps.has('msq-shell-new')).toBe(false)
-})
 
-it('serves the installed shell and code offline, without intercepting auth, APIs or mutations', async () => {
-  const sw = worker()
+  sw.fetch.mockImplementation(validFetch)
   await sw.event('install').done
   await sw.event('activate').done
   expect(sw.maps.has('msq-shell-old')).toBe(false)

@@ -1,11 +1,11 @@
 import { getThemeAsset } from '../ui/themeAssets'
-import { useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
+import { ResetChoresContext } from '../contexts/ActivityTabContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import StandardActionList from '../components/ui/StandardActionList'
 import StarInfoBox from '../components/ui/StarInfoBox'
-import { toStandardActionListDescriptor } from '../ui/listDescriptorTypes'
 import {
   createUnifiedChoreDescriptor,
   type UnifiedChoreDeps,
@@ -56,6 +56,7 @@ const runDashboardAction = async (
 }
 
 const DashboardPage = () => {
+  const resetChoresRef = useContext(ResetChoresContext)
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
   const { children } = useChildren()
@@ -95,11 +96,9 @@ const DashboardPage = () => {
   )
   const [isCreatingChore, setIsCreatingChore] = useState(false)
   const [createChoreError, setCreateChoreError] = useState<string | null>(null)
-  const activity = useTaskActivityState()
-  const clearActivityIds = activity.clearActiveActivities
-  const [biteCooldownEndsAt, setBiteCooldownEndsAt] = useState<number | null>(
-    null
-  )
+  const activityScope = `${activeChildId}:${todayInfo.dateKey}`
+  const activity = useTaskActivityState(activityScope)
+  const [biteCooldowns, setBiteCooldowns] = useState<Record<string, number>>({})
 
   const { clearCheckTriggers, ...testCheckTriggers } = useTestCheckTriggers()
 
@@ -107,28 +106,44 @@ const DashboardPage = () => {
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
-      clearActivityIds()
-      setBiteCooldownEndsAt(null)
+      setBiteCooldowns({})
       clearCheckTriggers()
     })
     return () => cancelAnimationFrame(frame)
-  }, [activeChildId, clearActivityIds, clearCheckTriggers, todayInfo.dateKey])
+  }, [activeChildId, clearCheckTriggers, todayInfo.dateKey])
 
   useEffect(() => {
-    if (!biteCooldownEndsAt) return
-    const remaining = biteCooldownEndsAt - Date.now()
+    const deadlines = Object.values(biteCooldowns)
+    if (!deadlines.length) return
+    const remaining = Math.min(...deadlines) - Date.now()
     const timer = setTimeout(
-      () => setBiteCooldownEndsAt(null),
+      () =>
+        setBiteCooldowns((previous) =>
+          Object.fromEntries(
+            Object.entries(previous).filter(
+              ([, deadline]) => deadline > Date.now()
+            )
+          )
+        ),
       Math.max(0, remaining)
     )
     return () => clearTimeout(timer)
-  }, [biteCooldownEndsAt])
+  }, [biteCooldowns])
 
   const biteCooldownSeconds = BITE_COOLDOWN_SECONDS
 
   const clearActiveActivities = () => {
     activity.clearActiveActivities()
-    setBiteCooldownEndsAt(null)
+    setBiteCooldowns({})
+  }
+
+  const exitActivity = (id: string) => {
+    activity.exitActivity(id)
+    setBiteCooldowns((previous) => {
+      const next = { ...previous }
+      delete next[id]
+      return next
+    })
   }
 
   const handleCreateChore = async (
@@ -161,6 +176,14 @@ const DashboardPage = () => {
     const failure = results.find((result) => result.status === 'rejected')
     if (failure) throw failure.reason
   }
+
+  useEffect(() => {
+    if (!resetChoresRef) return
+    resetChoresRef.current = handleResetToday
+    return () => {
+      resetChoresRef.current = null
+    }
+  })
 
   const handleUpdateChore = async (
     choreId: string,
@@ -197,6 +220,7 @@ const DashboardPage = () => {
       setEditingChoreId(null)
     }
     await deleteTask(choreId)
+    exitActivity(choreId)
   }
 
   const unifiedChoreDeps: UnifiedChoreDeps = {
@@ -207,7 +231,7 @@ const DashboardPage = () => {
       withTaskItem(item, (task) =>
         activity.enterActivity(task.taskType, task.id)
       ),
-    onExitActivity: activity.clearActiveActivities,
+    onExitActivity: (item) => exitActivity(item.id),
     onComplete: (item) =>
       withTaskItem(item, (task) =>
         celebration.run(task, todayChores, (onAward) =>
@@ -217,26 +241,22 @@ const DashboardPage = () => {
     onFail: (item) => withTaskItem(item, failChore),
     onReset: (item) =>
       withTaskItem(item, async (task) => {
-        clearActiveActivities()
+        exitActivity(task.id)
         await resetTodayChore(task)
       }),
-    onStartDinner: (item) => {
-      if (!item) {
-        activity.setActiveDinnerId(null)
-        setBiteCooldownEndsAt(null)
-        return
-      }
-      return withTaskItem(item, (task) => {
+    onStartDinner: (item) =>
+      withTaskItem(item, (task) => {
         if (!isEatingTask(task)) return
-        clearActiveActivities()
         activity.enterActivity('eating', task.id)
         return startDinnerTimer(task)
-      })
-    },
+      }),
     onApplyBite: (item) =>
       withTaskItem(item, async (task) => {
-        if (biteCooldownEndsAt && Date.now() < biteCooldownEndsAt) return
-        setBiteCooldownEndsAt(Date.now() + biteCooldownSeconds * 1000)
+        if (Date.now() < (biteCooldowns[task.id] ?? 0)) return
+        setBiteCooldowns((previous) => ({
+          ...previous,
+          [task.id]: Date.now() + biteCooldownSeconds * 1000,
+        }))
         await celebration.run(task, todayChores, (onAward) =>
           applyBite(task, onAward)
         )
@@ -245,7 +265,7 @@ const DashboardPage = () => {
     activeIds: activity.activeIds,
     ...testCheckTriggers,
     biteCooldownSeconds,
-    biteCooldownEndsAt,
+    biteCooldowns,
     activeMealIcon,
   }
 
@@ -301,11 +321,12 @@ const DashboardPage = () => {
           </div>
         ) : (
           <StandardActionList<ChoreWithEphemeral>
+            key={activityScope}
             theme={theme}
             items={celebration.retainItems(todayChores)}
             getKey={(chore) => chore.id}
             getItemLabel={(chore) => chore.title}
-            {...toStandardActionListDescriptor(descriptor)}
+            {...descriptor}
             editingId={editingChoreId ?? undefined}
             renderInlineEdit={renderTodayChoreEdit}
             onEdit={handleEditChore}
